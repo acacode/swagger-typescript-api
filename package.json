@@ -1,0 +1,19 @@
+{
+  "name": "swagger-typescript-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "commander": "^4.1.0",
+    "swagger-parser": "^8.0.4",
+    "typescript": "^3.7.4"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  }
+}
