@@ -58,6 +58,7 @@ ${SchemasTypes}
 export type ApiParams = Omit<RequestInit, "body" | "method">
 
 type ApiConfig<SecurityDataType> = {
+  baseUrl?: string,
   securityWorker?: (securityData: SecurityDataType) => ApiParams
 }
 
@@ -141,11 +142,9 @@ ${Types}
 
 export class Api<SecurityDataType> {
   ${ApiProperties}
-  
-  constructor({ securityWorker }: ApiConfig<SecurityDataType>) {
-    if (securityWorker) {
-      this.securityWorker = securityWorker;
-    }
+  constructor({ securityWorker, baseUrl }: ApiConfig<SecurityDataType> = {}) {
+    this.baseUrl = baseUrl || this.baseUrl;
+    this.securityWorker = securityWorker || this.securityWorker;
   }
   public setSecurityData = (data: SecurityDataType) => {
     this.securityData = data
