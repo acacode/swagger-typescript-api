@@ -55,9 +55,9 @@ export class Api{{apiConfig.generic}} {
     }
   }
   
-  public request = <T = any>(path: string, method: string, params: ApiParams = {}, body?: any, isSecure?: boolean): Promise<T> =>
+  public request = <T = any>(path: string, method: string, params: ApiParams = {}, body?: any, {{#hasSecurityRoutes}}isSecure?: boolean{{/hasSecurityRoutes}}): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
-      ...this.mergeRequestOptions(params, isSecure && this.securityWorker(this.securityData)),
+      ...this.mergeRequestOptions(params{{#hasSecurityRoutes}}, isSecure && this.securityWorker(this.securityData){{/hasSecurityRoutes}}),
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(response => response.json())

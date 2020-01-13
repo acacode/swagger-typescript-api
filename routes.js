@@ -1,11 +1,14 @@
 const _ = require("lodash");
-const { getType } = require("./modelTypes")
-// TODO: if false remove security middleware
+const { getType, parseSchema, inlineFormatters } = require("./schema")
 
-const getTypeFromRequestInfo = requestInfo => {
-  const schema = _.get(requestInfo, 'content["application/json"].schema')
+const getTypeFromRequestInfo = (requestInfo, parsedSchemas) => {
+  const schema = _.get(requestInfo, 'content["application/json"].schema');
+
   if (schema) {
-    return getType(_.get(schema, 'additionalProperties', schema));
+    const extractedSchema = _.get(schema, 'additionalProperties', schema);
+    const { content } = parseSchema(extractedSchema, 'none')
+    const foundSchema = _.find(parsedSchemas, parsedSchema => parsedSchema.content === content)
+    return foundSchema ? foundSchema.name : content;
   }
 
   return 'any';
@@ -15,14 +18,12 @@ const findSuccessResponse = (responses) => {
   return _.find(responses, (v, status) => +status >= 200 && +status < 300)
 }
 
-const createQueryInlineType = (queryParams) => {
+const createQueryInlineType = (queryParams) => {}
 
-}
 
-const parseRoutes = (routes) =>
+const parseRoutes = (routes, parsedSchemas) =>
   Object.entries(routes)
     .reduce((routes, [route, requestInfoByMethodsMap]) => {
-
       return [
       ...routes,
       ..._.map(requestInfoByMethodsMap, ({
@@ -58,11 +59,11 @@ const parseRoutes = (routes) =>
           const args = [
             ...(pathParams.map(param => ({
               name: param.name,
-              type: getType(param.schema) 
+              type: parseSchema(param.schema, null, inlineFormatters).content
             }))),
             requestBody && {
               name: 'data',
-              type: getTypeFromRequestInfo(requestBody),
+              type: getTypeFromRequestInfo(requestBody, parsedSchemas),
             },
           ].filter(Boolean)
 
@@ -82,12 +83,48 @@ const parseRoutes = (routes) =>
             args,
             method: _.upperCase(method),
             path: route.replace(/{/g, '${'),
-            returnType: getTypeFromRequestInfo(findSuccessResponse(responses)) || 'any',
+            returnType: getTypeFromRequestInfo(findSuccessResponse(responses), parsedSchemas) || 'any',
             bodyArg: requestBody ? 'data' : 'null'
           }})
       ]
     }, [])
 
+
+const groupRoutes = routes => {
+  return _.reduce(routes.reduce((modules, route) => {
+    
+    if (route.moduleName) {
+      if (!modules[route.moduleName]) {
+        modules[route.moduleName] = []
+      }
+      
+      modules[route.moduleName].push(route)
+    } else {
+      modules.$outOfModule.push(route)
+    }
+
+    return modules
+  }, {
+    $outOfModule: []
+  }), (shuffle, packRoutes, moduleName) => {
+
+
+    if (moduleName === "$outOfModule") {
+      shuffle['outOfModule'] = packRoutes
+    } else {
+      if (!shuffle.combined) shuffle.combined = []
+
+      shuffle.combined.push({
+        moduleName,
+        routes: packRoutes,
+      })
+    }
+
+    return shuffle;
+  }, {})
+}
+
 module.exports = {
   parseRoutes,
+  groupRoutes,
 }
