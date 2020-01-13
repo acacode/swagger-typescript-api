@@ -19,8 +19,12 @@ const specificObjectTypes = {
   }
 }
 
+const fixedDataTypes = {
+  "integer": "number",
+}
+
 const getType = (property) => {
-  const func = specificObjectTypes[property.type] || (() => property.type)
+  const func = specificObjectTypes[property.type] || (() => fixedDataTypes[property.type] || property.type)
   return property["$ref"] ? getTypeNameFromRef(property["$ref"]) : func(property)
 }
 
@@ -30,18 +34,19 @@ const getObjectTypeProps = (properties) => {
   }).join('')
 }
 
-const parseSchema = ({ properties, type, enum: _enum }, typeName) => {
+const parseSchema = ({ properties, type, enum: _enum, ...commonData }, typeName) => {
 
   const typeContent =
     _enum ? getEnumTypeProps(_enum) :
-    properties ? getObjectTypeProps(properties) : type
+    properties ? getObjectTypeProps(properties) : getType({ ...commonData, type})
   const getTypeData = {
     ['enum']: `enum ${typeName} {\r\n${typeContent} \r\n }`,
-    ['type']: `type ${typeName} = {\r\n${typeContent}}`
+    ['type']: `type ${typeName} = {\r\n${typeContent}}`,
+    ['primitive']: `type ${typeName} = ${typeContent}`
   }
 
 
-  return `export ${getTypeData[_enum ? 'enum' : 'type']}\n`
+  return `export ${getTypeData[_enum ? 'enum' : properties ? 'type' : 'primitive']}\n`
 }
 
 
@@ -95,6 +100,9 @@ const findSuccessResponse = (responses) => {
   return _.find(responses, (v, status) => +status >= 200 && +status < 300)
 }
 
+// TODO: if false remove security middleware
+let someRouteIsSecure = false
+
 const routesByTags = Object.entries(paths)
   .reduce((routes, [route, requestInfoByMethodsMap]) => {
 
@@ -107,8 +115,13 @@ const routesByTags = Object.entries(paths)
       tags,
       responses,
     }, method) => {
-        const hasSecurity = !!security.length
+        const hasSecurity = security && security.length
         const hasParameters = parameters && parameters.length;
+
+        if (hasSecurity) {
+          someRouteIsSecure = hasSecurity
+        }
+
         const args = [
           ...(hasParameters ? parameters.map(param => param.in === 'path' && `${param.name}: ${param.schema.type}`) : []),
           requestBody ? `data: ${getTypeFromRequestInfo(requestBody)}` : '',
