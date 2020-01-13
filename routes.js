@@ -6,13 +6,18 @@ const { getType } = require("./modelTypes")
 const getTypeFromRequestInfo = requestInfo => {
   const schema = _.get(requestInfo, 'content["application/json"].schema')
   if (schema) {
-    return getType(schema);
+    return getType(_.get(schema, 'additionalProperties', schema));
   }
 
   return 'any';
 }
+
 const findSuccessResponse = (responses) => {
   return _.find(responses, (v, status) => +status >= 200 && +status < 300)
+}
+
+const createQueryInlineType = (queryParams) => {
+
 }
 
 const parseRoutes = (routes) =>
@@ -26,11 +31,14 @@ const parseRoutes = (routes) =>
         requestBody,
         security,
         parameters,
+        summary,
+        description,
         tags,
         responses,
       }, method) => {
           const hasSecurity = !!(security && security.length);
-          const pathParams = _.filter(parameters, parameter => parameter.in === 'path')
+          const pathParams = _.filter(parameters, parameter => parameter.in === 'path');
+          const moduleName = _.camelCase(route.split('/').filter(Boolean)[0])
 
           /*
           TODO:
@@ -62,10 +70,12 @@ const parseRoutes = (routes) =>
           const comments = [
             tags && tags.length && `@tags ${tags.join(', ')}`,
             `@name ${operationId}`,
+            (summary || description) && `@description ${_.replace(summary || description, /\n/g, '')}`,
             hasSecurity && `@security true`
           ].filter(Boolean);
 
           return {
+            moduleName,
             security: hasSecurity,
             name: _.camelCase(operationId),
             comments,
@@ -73,7 +83,7 @@ const parseRoutes = (routes) =>
             method: _.upperCase(method),
             path: route.replace(/{/g, '${'),
             returnType: getTypeFromRequestInfo(findSuccessResponse(responses)) || 'any',
-            bodyArg: requestBody ? 'JSON.stringify(data)' : 'null'
+            bodyArg: requestBody ? 'data' : 'null'
           }})
       ]
     }, [])

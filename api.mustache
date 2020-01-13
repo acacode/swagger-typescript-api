@@ -54,8 +54,17 @@ export class Api{{& apiConfig.generic}} {
       }
     }
   }
+  
+  public request = <T = any>(path: string, method: string, body: any, params: ApiParams = {}, isSecure?: boolean): Promise<T> =>
+    fetch(`${this.baseUrl}${path}`, {
+      ...this.mergeRequestOptions(params, isSecure && this.securityWorker(this.securityData)),
+      method,
+      body: body ? JSON.stringify(body) : null,
+    }).then(response => response.json())
 
 {{#routes}}
+
+  {{#outOfModule}}
 
 
   /**
@@ -63,12 +72,25 @@ export class Api{{& apiConfig.generic}} {
    * {{.}}
   {{/comments}}
    */
-  {{name}} = ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{& type}}, {{/args}}params: ApiParams = {}): Promise<{{returnType}}> =>
-    fetch(`${this.baseUrl}{{& path}}`, {
-      ...this.mergeRequestOptions(params{{#security}}, this.securityWorker(this.securityData){{/security}}),
-      method: "{{method}}",
-      body: {{bodyArg}},
-    }).then(response => response.json())
+  {{name}} = ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{& type}}, {{/args}}params: ApiParams = {}) =>
+    this.request<{{returnType}}>({{& path}}, "{{method}}", {{#bodyArg}}{{.}},{{/bodyArg}} params{{#security}}, true{{/security}})
+  {{/outOfModule}}
+
+  {{#combined}}
+    {{moduleName}} = {
+      {{#routes}}
+
+
+        /**
+        {{#comments}}
+        * {{.}}
+        {{/comments}}
+        */
+        {{name}}: ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{& type}}, {{/args}}params: ApiParams = {}) =>
+          this.request<{{returnType}}>(`{{& path}}`, "{{method}}", {{#bodyArg}}{{.}},{{/bodyArg}} params{{#security}}, true{{/security}}),
+      {{/routes}}
+    }
+  {{/combined}}
 {{/routes}}
 
 }

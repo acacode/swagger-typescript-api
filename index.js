@@ -16,7 +16,37 @@ const configuration = {
   apiConfig,
   modelTypes: _.map(components && components.schemas, parseSchema),
   hasSecurityRoutes,
-  routes
+  routes: _.reduce(routes.reduce((modules, route) => {
+    
+    if (route.moduleName) {
+      if (!modules[route.moduleName]) {
+        modules[route.moduleName] = []
+      }
+      
+      modules[route.moduleName].push(route)
+    } else {
+      modules.$outOfModule.push(route)
+    }
+
+    return modules
+  }, {
+    $outOfModule: []
+  }), (shuffle, packRoutes, moduleName) => {
+
+
+    if (moduleName === "$outOfModule") {
+      shuffle['outOfModule'] = packRoutes
+    } else {
+      if (!shuffle.combined) shuffle.combined = []
+
+      shuffle.combined.push({
+        moduleName,
+        routes: packRoutes,
+      })
+    }
+
+    return shuffle;
+  }, {})
 }
 
 const sourceFile = mustache.render(apiTemplate, configuration)

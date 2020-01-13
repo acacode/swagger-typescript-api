@@ -105,134 +105,111 @@ export class Api<SecurityDataType> {
       }
     }
   }
-
-
-
-  /**
-   * @tags Auth
-   * @name Login
-   */
-  login = (data: AuthUser, params: ApiParams = {}): Promise<string> =>
-    fetch(`${this.baseUrl}/auth`, {
-      ...this.mergeRequestOptions(params),
-      method: "POST",
-      body: JSON.stringify(data),
+  
+  public request = <T = any>(path: string, method: string, body: any, params: ApiParams = {}, isSecure?: boolean): Promise<T> =>
+    fetch(`${this.baseUrl}${path}`, {
+      ...this.mergeRequestOptions(params, isSecure && this.securityWorker(this.securityData)),
+      method,
+      body: body ? JSON.stringify(body) : null,
     }).then(response => response.json())
 
 
-  /**
-   * @tags Auth
-   * @name Refresh
-   * @security true
-   */
-  refresh = (params: ApiParams = {}): Promise<string> =>
-    fetch(`${this.baseUrl}/auth/refresh`, {
-      ...this.mergeRequestOptions(params, this.securityWorker(this.securityData)),
-      method: "POST",
-      body: null,
-    }).then(response => response.json())
+
+    auth = {
 
 
-  /**
-   * @tags Jobs
-   * @name GetJob
-   * @security true
-   */
-  getJob = (id: string, params: ApiParams = {}): Promise<Job> =>
-    fetch(`${this.baseUrl}/jobs/${id}`, {
-      ...this.mergeRequestOptions(params, this.securityWorker(this.securityData)),
-      method: "GET",
-      body: null,
-    }).then(response => response.json())
+        /**
+        * @tags Auth
+        * @name Login
+        */
+        login: (data: AuthUser, params: ApiParams = {}) =>
+          this.request<string>(`/auth`, "POST", data, params),
 
 
-  /**
-   * @tags Jobs
-   * @name AddJob
-   * @security true
-   */
-  addJob = (data: NewJob, params: ApiParams = {}): Promise<string> =>
-    fetch(`${this.baseUrl}/jobs`, {
-      ...this.mergeRequestOptions(params, this.securityWorker(this.securityData)),
-      method: "POST",
-      body: JSON.stringify(data),
-    }).then(response => response.json())
+        /**
+        * @tags Auth
+        * @name Refresh
+        * @security true
+        */
+        refresh: (params: ApiParams = {}) =>
+          this.request<string>(`/auth/refresh`, "POST", null, params, true),
+    }
+    jobs = {
 
 
-  /**
-   * @tags Projects
-   * @name GetProjects
-   */
-  getProjects = (params: ApiParams = {}): Promise<Project[]> =>
-    fetch(`${this.baseUrl}/projects`, {
-      ...this.mergeRequestOptions(params),
-      method: "GET",
-      body: null,
-    }).then(response => response.json())
+        /**
+        * @tags Jobs
+        * @name GetJob
+        * @security true
+        */
+        getJob: (id: string, params: ApiParams = {}) =>
+          this.request<Job>(`/jobs/${id}`, "GET", null, params, true),
 
 
-  /**
-   * @tags Projects
-   * @name AddProjects
-   * @security true
-   */
-  addProjects = (data: NewProject, params: ApiParams = {}): Promise<string> =>
-    fetch(`${this.baseUrl}/projects`, {
-      ...this.mergeRequestOptions(params, this.securityWorker(this.securityData)),
-      method: "POST",
-      body: JSON.stringify(data),
-    }).then(response => response.json())
+        /**
+        * @tags Jobs
+        * @name AddJob
+        * @security true
+        */
+        addJob: (data: NewJob, params: ApiParams = {}) =>
+          this.request<string>(`/jobs`, "POST", data, params, true),
+    }
+    projects = {
 
 
-  /**
-   * @tags Users
-   * @name GetUsers
-   * @security true
-   */
-  getUsers = (params: ApiParams = {}): Promise<User[]> =>
-    fetch(`${this.baseUrl}/users`, {
-      ...this.mergeRequestOptions(params, this.securityWorker(this.securityData)),
-      method: "GET",
-      body: null,
-    }).then(response => response.json())
+        /**
+        * @tags Projects
+        * @name GetProjects
+        */
+        getProjects: (params: ApiParams = {}) =>
+          this.request<Project[]>(`/projects`, "GET", null, params),
 
 
-  /**
-   * @tags Users
-   * @name AddUser
-   * @security true
-   */
-  addUser = (data: AuthUser, params: ApiParams = {}): Promise<User> =>
-    fetch(`${this.baseUrl}/users`, {
-      ...this.mergeRequestOptions(params, this.securityWorker(this.securityData)),
-      method: "POST",
-      body: JSON.stringify(data),
-    }).then(response => response.json())
+        /**
+        * @tags Projects
+        * @name AddProjects
+        * @security true
+        */
+        addProjects: (data: NewProject, params: ApiParams = {}) =>
+          this.request<string>(`/projects`, "POST", data, params, true),
+    }
+    users = {
 
 
-  /**
-   * @tags Users
-   * @name DeleteUser
-   * @security true
-   */
-  deleteUser = (id: string, params: ApiParams = {}): Promise<any> =>
-    fetch(`${this.baseUrl}/users/${id}`, {
-      ...this.mergeRequestOptions(params, this.securityWorker(this.securityData)),
-      method: "DELETE",
-      body: null,
-    }).then(response => response.json())
+        /**
+        * @tags Users
+        * @name GetUsers
+        * @security true
+        */
+        getUsers: (params: ApiParams = {}) =>
+          this.request<User[]>(`/users`, "GET", null, params, true),
 
 
-  /**
-   * @tags Users
-   * @name UpdateUser
-   * @security true
-   */
-  updateUser = (id: string, data: UserUpdate, params: ApiParams = {}): Promise<User> =>
-    fetch(`${this.baseUrl}/users/${id}`, {
-      ...this.mergeRequestOptions(params, this.securityWorker(this.securityData)),
-      method: "PATCH",
-      body: JSON.stringify(data),
-    }).then(response => response.json())
+        /**
+        * @tags Users
+        * @name AddUser
+        * @security true
+        */
+        addUser: (data: AuthUser, params: ApiParams = {}) =>
+          this.request<User>(`/users`, "POST", data, params, true),
+
+
+        /**
+        * @tags Users
+        * @name DeleteUser
+        * @security true
+        */
+        deleteUser: (id: string, params: ApiParams = {}) =>
+          this.request<any>(`/users/${id}`, "DELETE", null, params, true),
+
+
+        /**
+        * @tags Users
+        * @name UpdateUser
+        * @security true
+        */
+        updateUser: (id: string, data: UserUpdate, params: ApiParams = {}) =>
+          this.request<User>(`/users/${id}`, "PATCH", data, params, true),
+    }
 
 }
