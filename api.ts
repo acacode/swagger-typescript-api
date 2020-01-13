@@ -106,7 +106,7 @@ export class Api<SecurityDataType> {
     }
   }
   
-  public request = <T = any>(path: string, method: string, body: any, params: ApiParams = {}, isSecure?: boolean): Promise<T> =>
+  public request = <T = any>(path: string, method: string, params: ApiParams = {}, body?: any, isSecure?: boolean): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       ...this.mergeRequestOptions(params, isSecure && this.securityWorker(this.securityData)),
       method,
@@ -123,7 +123,7 @@ export class Api<SecurityDataType> {
         * @name Login
         */
         login: (data: AuthUser, params: ApiParams = {}) =>
-          this.request<string>(`/auth`, "POST", data, params),
+          this.request<string>(`/auth`, "POST", params, data),
 
 
         /**
@@ -132,7 +132,7 @@ export class Api<SecurityDataType> {
         * @security true
         */
         refresh: (params: ApiParams = {}) =>
-          this.request<string>(`/auth/refresh`, "POST", null, params, true),
+          this.request<string>(`/auth/refresh`, "POST", params, null, true),
     }
     jobs = {
 
@@ -143,7 +143,7 @@ export class Api<SecurityDataType> {
         * @security true
         */
         getJob: (id: string, params: ApiParams = {}) =>
-          this.request<Job>(`/jobs/${id}`, "GET", null, params, true),
+          this.request<Job>(`/jobs/${id}`, "GET", params, null, true),
 
 
         /**
@@ -152,7 +152,7 @@ export class Api<SecurityDataType> {
         * @security true
         */
         addJob: (data: NewJob, params: ApiParams = {}) =>
-          this.request<string>(`/jobs`, "POST", data, params, true),
+          this.request<string>(`/jobs`, "POST", params, data, true),
     }
     projects = {
 
@@ -162,7 +162,7 @@ export class Api<SecurityDataType> {
         * @name GetProjects
         */
         getProjects: (params: ApiParams = {}) =>
-          this.request<Project[]>(`/projects`, "GET", null, params),
+          this.request<Project[]>(`/projects`, "GET", params, null),
 
 
         /**
@@ -171,7 +171,7 @@ export class Api<SecurityDataType> {
         * @security true
         */
         addProjects: (data: NewProject, params: ApiParams = {}) =>
-          this.request<string>(`/projects`, "POST", data, params, true),
+          this.request<string>(`/projects`, "POST", params, data, true),
     }
     users = {
 
@@ -182,7 +182,7 @@ export class Api<SecurityDataType> {
         * @security true
         */
         getUsers: (params: ApiParams = {}) =>
-          this.request<User[]>(`/users`, "GET", null, params, true),
+          this.request<User[]>(`/users`, "GET", params, null, true),
 
 
         /**
@@ -191,7 +191,7 @@ export class Api<SecurityDataType> {
         * @security true
         */
         addUser: (data: AuthUser, params: ApiParams = {}) =>
-          this.request<User>(`/users`, "POST", data, params, true),
+          this.request<User>(`/users`, "POST", params, data, true),
 
 
         /**
@@ -200,7 +200,7 @@ export class Api<SecurityDataType> {
         * @security true
         */
         deleteUser: (id: string, params: ApiParams = {}) =>
-          this.request<any>(`/users/${id}`, "DELETE", null, params, true),
+          this.request<any>(`/users/${id}`, "DELETE", params, null, true),
 
 
         /**
@@ -209,7 +209,7 @@ export class Api<SecurityDataType> {
         * @security true
         */
         updateUser: (id: string, data: UserUpdate, params: ApiParams = {}) =>
-          this.request<User>(`/users/${id}`, "PATCH", data, params, true),
+          this.request<User>(`/users/${id}`, "PATCH", params, data, true),
     }
 
 }

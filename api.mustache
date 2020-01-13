@@ -55,7 +55,7 @@ export class Api{{& apiConfig.generic}} {
     }
   }
   
-  public request = <T = any>(path: string, method: string, body: any, params: ApiParams = {}, isSecure?: boolean): Promise<T> =>
+  public request = <T = any>(path: string, method: string, params: ApiParams = {}, body?: any, isSecure?: boolean): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       ...this.mergeRequestOptions(params, isSecure && this.securityWorker(this.securityData)),
       method,
@@ -73,7 +73,7 @@ export class Api{{& apiConfig.generic}} {
   {{/comments}}
    */
   {{name}} = ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{& type}}, {{/args}}params: ApiParams = {}) =>
-    this.request<{{returnType}}>({{& path}}, "{{method}}", {{#bodyArg}}{{.}},{{/bodyArg}} params{{#security}}, true{{/security}})
+    this.request<{{returnType}}>(`{{& path}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}})
   {{/outOfModule}}
 
   {{#combined}}
@@ -87,7 +87,7 @@ export class Api{{& apiConfig.generic}} {
         {{/comments}}
         */
         {{name}}: ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{& type}}, {{/args}}params: ApiParams = {}) =>
-          this.request<{{returnType}}>(`{{& path}}`, "{{method}}", {{#bodyArg}}{{.}},{{/bodyArg}} params{{#security}}, true{{/security}}),
+          this.request<{{returnType}}>(`{{& path}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
       {{/routes}}
     }
   {{/combined}}
