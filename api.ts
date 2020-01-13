@@ -121,6 +121,7 @@ export class Api<SecurityDataType> {
         /**
         * @tags Auth
         * @name Login
+        * @request POST:/auth
         */
         login: (data: AuthUser, params: ApiParams = {}) =>
           this.request<string>(`/auth`, "POST", params, data),
@@ -129,6 +130,7 @@ export class Api<SecurityDataType> {
         /**
         * @tags Auth
         * @name Refresh
+        * @request POST:/auth/refresh
         * @security true
         */
         refresh: (params: ApiParams = {}) =>
@@ -140,6 +142,7 @@ export class Api<SecurityDataType> {
         /**
         * @tags Jobs
         * @name GetJob
+        * @request GET:/jobs/{id}
         * @security true
         */
         getJob: (id: string, params: ApiParams = {}) =>
@@ -149,6 +152,7 @@ export class Api<SecurityDataType> {
         /**
         * @tags Jobs
         * @name AddJob
+        * @request POST:/jobs
         * @security true
         */
         addJob: (data: NewJob, params: ApiParams = {}) =>
@@ -160,6 +164,7 @@ export class Api<SecurityDataType> {
         /**
         * @tags Projects
         * @name GetProjects
+        * @request GET:/projects
         */
         getProjects: (params: ApiParams = {}) =>
           this.request<Project[]>(`/projects`, "GET", params, null),
@@ -168,6 +173,7 @@ export class Api<SecurityDataType> {
         /**
         * @tags Projects
         * @name AddProjects
+        * @request POST:/projects
         * @security true
         */
         addProjects: (data: NewProject, params: ApiParams = {}) =>
@@ -179,6 +185,7 @@ export class Api<SecurityDataType> {
         /**
         * @tags Users
         * @name GetUsers
+        * @request GET:/users
         * @security true
         */
         getUsers: (params: ApiParams = {}) =>
@@ -188,6 +195,7 @@ export class Api<SecurityDataType> {
         /**
         * @tags Users
         * @name AddUser
+        * @request POST:/users
         * @security true
         */
         addUser: (data: AuthUser, params: ApiParams = {}) =>
@@ -197,6 +205,7 @@ export class Api<SecurityDataType> {
         /**
         * @tags Users
         * @name DeleteUser
+        * @request DELETE:/users/{id}
         * @security true
         */
         deleteUser: (id: string, params: ApiParams = {}) =>
@@ -206,6 +215,7 @@ export class Api<SecurityDataType> {
         /**
         * @tags Users
         * @name UpdateUser
+        * @request PATCH:/users/{id}
         * @security true
         */
         updateUser: (id: string, data: UserUpdate, params: ApiParams = {}) =>

@@ -2,7 +2,6 @@ const _ = require("lodash");
 const { getType } = require("./modelTypes")
 // TODO: if false remove security middleware
 
-
 const getTypeFromRequestInfo = requestInfo => {
   const schema = _.get(requestInfo, 'content["application/json"].schema')
   if (schema) {
@@ -71,6 +70,7 @@ const parseRoutes = (routes) =>
             tags && tags.length && `@tags ${tags.join(', ')}`,
             `@name ${operationId}`,
             (summary || description) && `@description ${_.replace(summary || description, /\n/g, '')}`,
+            `@request ${_.upperCase(method)}:${route}`,
             hasSecurity && `@security true`
           ].filter(Boolean);
 

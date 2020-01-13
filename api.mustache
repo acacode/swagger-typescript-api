@@ -1,25 +1,25 @@
 {{#modelTypes}}
-export {{typeIdentifier}} {{name}} {{& content}}
+export {{typeIdentifier}} {{name}} {{content}}
 {{/modelTypes}}
 
 export type ApiParams = Omit<RequestInit, "body" | "method">
 
-type ApiConfig{{& apiConfig.generic}} = {
+type ApiConfig{{apiConfig.generic}} = {
 {{#apiConfig.props}}
-  {{name}}{{#optional}}?{{/optional}}: {{& type}},
+  {{name}}{{#optional}}?{{/optional}}: {{type}},
 {{/apiConfig.props}}
 }
 
 
 
-export class Api{{& apiConfig.generic}} {
+export class Api{{apiConfig.generic}} {
   
-  public baseUrl = "{{& apiConfig.baseUrl}}";
-  public title = "{{& apiConfig.title}}";
-  public version = "{{& apiConfig.version}}";
+  public baseUrl = "{{apiConfig.baseUrl}}";
+  public title = "{{apiConfig.title}}";
+  public version = "{{apiConfig.version}}";
   
   {{#hasSecurityRoutes}}private securityData: SecurityDataType;{{/hasSecurityRoutes}}
-  {{#hasSecurityRoutes}}private securityWorker: ApiConfig{{& apiConfig.generic}}["securityWorker"] = (() => {}) as any{{/hasSecurityRoutes}}
+  {{#hasSecurityRoutes}}private securityWorker: ApiConfig{{apiConfig.generic}}["securityWorker"] = (() => {}) as any{{/hasSecurityRoutes}}
   
   private defaultRequestParams: ApiParams = {
     credentials: 'same-origin',
@@ -30,7 +30,7 @@ export class Api{{& apiConfig.generic}} {
     referrerPolicy: 'no-referrer',
   }
 
-  constructor({ {{#apiConfig.props}}{{name}},{{/apiConfig.props}} }: ApiConfig{{& apiConfig.generic}} = {}) {
+  constructor({ {{#apiConfig.props}}{{name}},{{/apiConfig.props}} }: ApiConfig{{apiConfig.generic}} = {}) {
   {{#apiConfig.props}}
     this.{{name}} = {{name}} || this.{{name}};
   {{/apiConfig.props}}
@@ -72,8 +72,8 @@ export class Api{{& apiConfig.generic}} {
    * {{.}}
   {{/comments}}
    */
-  {{name}} = ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{& type}}, {{/args}}params: ApiParams = {}) =>
-    this.request<{{returnType}}>(`{{& path}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}})
+  {{name}} = ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params: ApiParams = {}) =>
+    this.request<{{returnType}}>(`{{path}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}})
   {{/outOfModule}}
 
   {{#combined}}
@@ -86,8 +86,8 @@ export class Api{{& apiConfig.generic}} {
         * {{.}}
         {{/comments}}
         */
-        {{name}}: ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{& type}}, {{/args}}params: ApiParams = {}) =>
-          this.request<{{returnType}}>(`{{& path}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
+        {{name}}: ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params: ApiParams = {}) =>
+          this.request<{{returnType}}>(`{{path}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
       {{/routes}}
     }
   {{/combined}}

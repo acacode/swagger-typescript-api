@@ -6,6 +6,10 @@ const { parseSchema } = require('./modelTypes')
 const { parseRoutes } = require('./routes')
 const { createApiConfig } = require('./apiConfig');
 
+mustache.escape = function (value){
+    return value;
+};
+
 const apiTemplate = fs.readFileSync('api.mustache', { encoding: 'UTF-8' })
 
 const routes = parseRoutes(paths);
