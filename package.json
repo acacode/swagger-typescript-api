@@ -9,11 +9,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/lodash": "^4.14.149",
+    "@types/mustache": "^3.2.0",
     "commander": "^4.1.0",
     "swagger-parser": "^8.0.4",
     "typescript": "^3.7.4"
   },
   "dependencies": {
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "mustache": "^3.2.1"
   }
 }

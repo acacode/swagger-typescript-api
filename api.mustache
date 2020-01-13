@@ -1,0 +1,74 @@
+{{#modelTypes}}
+export {{typeIdentifier}} {{name}} {{& content}}
+{{/modelTypes}}
+
+export type ApiParams = Omit<RequestInit, "body" | "method">
+
+type ApiConfig{{& apiConfig.generic}} = {
+{{#apiConfig.props}}
+  {{name}}{{#optional}}?{{/optional}}: {{& type}},
+{{/apiConfig.props}}
+}
+
+
+
+export class Api{{& apiConfig.generic}} {
+  
+  public baseUrl = "{{& apiConfig.baseUrl}}";
+  public title = "{{& apiConfig.title}}";
+  public version = "{{& apiConfig.version}}";
+  
+  {{#hasSecurityRoutes}}private securityData: SecurityDataType;{{/hasSecurityRoutes}}
+  {{#hasSecurityRoutes}}private securityWorker: ApiConfig{{& apiConfig.generic}}["securityWorker"] = (() => {}) as any{{/hasSecurityRoutes}}
+  
+  private defaultRequestParams: ApiParams = {
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  }
+
+  constructor({ {{#apiConfig.props}}{{name}},{{/apiConfig.props}} }: ApiConfig{{& apiConfig.generic}} = {}) {
+  {{#apiConfig.props}}
+    this.{{name}} = {{name}} || this.{{name}};
+  {{/apiConfig.props}}
+  }
+
+  {{#hasSecurityRoutes}}
+  public setSecurityData = (data: SecurityDataType) => {
+    this.securityData = data
+  }
+  {{/hasSecurityRoutes}}
+
+  private mergeRequestOptions(params: ApiParams{{#hasSecurityRoutes}}, securityParams?: ApiParams{{/hasSecurityRoutes}}): ApiParams {
+    return {
+      ...this.defaultRequestParams,
+      ...params,
+      {{#hasSecurityRoutes}}...(securityParams || {}),{{/hasSecurityRoutes}}
+      headers: {
+        ...(this.defaultRequestParams.headers || {}),
+        ...(params.headers || {}),
+        {{#hasSecurityRoutes}}...((securityParams && securityParams.headers) || {}){{/hasSecurityRoutes}}
+      }
+    }
+  }
+
+{{#routes}}
+
+
+  /**
+  {{#comments}}
+   * {{.}}
+  {{/comments}}
+   */
+  {{name}} = ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{& type}}, {{/args}}params: ApiParams = {}): Promise<{{returnType}}> =>
+    fetch(`${this.baseUrl}{{& path}}`, {
+      ...this.mergeRequestOptions(params{{#security}}, this.securityWorker(this.securityData){{/security}}),
+      method: "{{method}}",
+      body: {{bodyArg}},
+    }).then(response => response.json())
+{{/routes}}
+
+}
