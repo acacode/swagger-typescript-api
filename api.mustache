@@ -42,6 +42,19 @@ export class Api{{apiConfig.generic}} {
   }
   {{/hasSecurityRoutes}}
 
+  {{#hasQueryRoutes}}
+  private addQueryParams(query: object): string {
+    const keys = Object.keys(query);
+    return keys.length ? (
+      '?' +
+      keys.reduce(function(paramsArray, param) {
+        paramsArray.push(param + '=' + encodeURIComponent(query[param]))
+        return paramsArray
+      }, []).join('&')
+    ) : ''
+  }
+  {{/hasQueryRoutes}}
+
   private mergeRequestOptions(params: ApiParams{{#hasSecurityRoutes}}, securityParams?: ApiParams{{/hasSecurityRoutes}}): ApiParams {
     return {
       ...this.defaultRequestParams,
@@ -73,7 +86,7 @@ export class Api{{apiConfig.generic}} {
   {{/comments}}
    */
   {{name}} = ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params: ApiParams = {}) =>
-    this.request<{{returnType}}>(`{{path}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}})
+    this.request<{{returnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}})
   {{/outOfModule}}
 
   {{#combined}}
@@ -87,7 +100,7 @@ export class Api{{apiConfig.generic}} {
         {{/comments}}
         */
         {{name}}: ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params: ApiParams = {}) =>
-          this.request<{{returnType}}>(`{{path}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
+          this.request<{{returnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
       {{/routes}}
     }
   {{/combined}}

@@ -74,6 +74,17 @@ export class Api<SecurityDataType> {
     this.securityData = data
   }
 
+  private addQueryParams(query: object): string {
+    const keys = Object.keys(query);
+    return keys.length ? (
+      '?' +
+      keys.reduce(function(paramsArray, param) {
+        paramsArray.push(param + '=' + encodeURIComponent(query[param]))
+        return paramsArray
+      }, []).join('&')
+    ) : ''
+  }
+
   private mergeRequestOptions(params: ApiParams, securityParams?: ApiParams): ApiParams {
     return {
       ...this.defaultRequestParams,
@@ -172,8 +183,8 @@ export class Api<SecurityDataType> {
         * @request GET:/pet/findByStatus
         * @security true
         */
-        findPetsByStatus: (params: ApiParams = {}) =>
-          this.request<Pet[]>(`/pet/findByStatus`, "GET", params, null, true),
+        findPetsByStatus: (query: { status: Array<"available" | "pending" | "sold">, }, params: ApiParams = {}) =>
+          this.request<Pet[]>(`/pet/findByStatus${this.addQueryParams(query)}`, "GET", params, null, true),
 
 
         /**
@@ -183,8 +194,8 @@ export class Api<SecurityDataType> {
         * @request GET:/pet/findByTags
         * @security true
         */
-        findPetsByTags: (params: ApiParams = {}) =>
-          this.request<Pet[]>(`/pet/findByTags`, "GET", params, null, true),
+        findPetsByTags: (query: { tags: string[], }, params: ApiParams = {}) =>
+          this.request<Pet[]>(`/pet/findByTags${this.addQueryParams(query)}`, "GET", params, null, true),
     }
     store = {
 
@@ -268,8 +279,8 @@ export class Api<SecurityDataType> {
         * @description Logs user into the system
         * @request GET:/user/login
         */
-        loginUser: (params: ApiParams = {}) =>
-          this.request<string>(`/user/login`, "GET", params, null),
+        loginUser: (query: { username: string, password: string, }, params: ApiParams = {}) =>
+          this.request<string>(`/user/login${this.addQueryParams(query)}`, "GET", params, null),
 
 
         /**

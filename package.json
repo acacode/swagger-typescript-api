@@ -18,6 +18,8 @@
   "dependencies": {
     "lodash": "^4.17.15",
     "mustache": "^3.2.1",
-    "number-to-words": "^1.2.4"
+    "number-to-words": "^1.2.4",
+    "swagger2openapi": "^5.3.2",
+    "yamljs": "^0.3.0"
   }
 }

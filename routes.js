@@ -56,11 +56,25 @@ const parseRoutes = (routes, parsedSchemas) =>
           */
           const queryParams = _.filter(parameters, parameter => parameter.in === 'query')
 
+          const queryObjectSchema = queryParams.length && queryParams.reduce((objectSchema, queryPartSchema) => {
+            if (queryPartSchema.schema && queryPartSchema.name) {
+              objectSchema.properties[queryPartSchema.name] = queryPartSchema.schema
+            }
+            return objectSchema;
+          }, {
+            properties: {},
+            type: 'object',
+          })
+
           const args = [
             ...(pathParams.map(param => ({
               name: param.name,
               type: parseSchema(param.schema, null, inlineFormatters).content
             }))),
+            queryParams.length && {
+              name: 'query',
+              type: parseSchema(queryObjectSchema, null, inlineFormatters).content,
+            },
             requestBody && {
               name: 'data',
               type: getTypeFromRequestInfo(requestBody, parsedSchemas),
@@ -78,6 +92,7 @@ const parseRoutes = (routes, parsedSchemas) =>
           return {
             moduleName,
             security: hasSecurity,
+            hasQuery: !!queryParams.length,
             name: _.camelCase(operationId),
             comments,
             args,
