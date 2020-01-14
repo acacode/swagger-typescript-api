@@ -2,6 +2,8 @@
 Generate api via swagger scheme.  
 Supports OA 3.0, 2.0, JSON, yaml  
 
+Any questions you can ask [here](https://github.com/acacode/swagger-typescript-api/issues)
+
 ## 📄 Usage  
 
 ```sh
