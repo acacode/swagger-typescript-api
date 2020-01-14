@@ -1,3 +1,6 @@
+/* tslint:disable */
+/* eslint-disable */
+
 {{#modelTypes}}
 export {{typeIdentifier}} {{name}} {{content}}
 {{/modelTypes}}
@@ -18,7 +21,7 @@ export class Api{{apiConfig.generic}} {
   public title = "{{apiConfig.title}}";
   public version = "{{apiConfig.version}}";
   
-  {{#hasSecurityRoutes}}private securityData: SecurityDataType;{{/hasSecurityRoutes}}
+  {{#hasSecurityRoutes}}private securityData: SecurityDataType = (null as any);{{/hasSecurityRoutes}}
   {{#hasSecurityRoutes}}private securityWorker: ApiConfig{{apiConfig.generic}}["securityWorker"] = (() => {}) as any{{/hasSecurityRoutes}}
   
   private baseApiParams: ApiParams = {
@@ -70,6 +73,7 @@ export class Api{{apiConfig.generic}} {
   
   public request = <T = any>(path: string, method: string, params: ApiParams = {}, body?: any, {{#hasSecurityRoutes}}isSecure?: boolean{{/hasSecurityRoutes}}): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
+      // @ts-ignore
       ...this.mergeRequestOptions(params{{#hasSecurityRoutes}}, isSecure && this.securityWorker(this.securityData){{/hasSecurityRoutes}}),
       method,
       body: body ? JSON.stringify(body) : null,
