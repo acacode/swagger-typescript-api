@@ -1,6 +1,13 @@
+#!/usr/bin/env node
+
+// Copyright (c) 2019-present acacode
+// Node module: swagger-typescript-api
+// This file is licensed under the MIT License.
+// License text available at https://opensource.org/licenses/MIT
+
 const program = require('commander');
 const { resolve } = require('path');
-const { generate } = require('./src');
+const { generateApi } = require('./src');
 const { version } = require('./package.json');
 
 program
@@ -13,9 +20,9 @@ program.parse(process.argv);
 
 const { path, output, name } = program;
 
-generate({
+generateApi({
   name,
-  rawInput: path,
+  url: path,
   input: resolve(process.cwd(), path),
   output: resolve(process.cwd(), output || '.', `./${name}`)
 })
