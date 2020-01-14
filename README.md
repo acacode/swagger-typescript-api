@@ -49,7 +49,6 @@ Input swagger scheme - [file](https://github.com/acacode/swagger-typescript-api/
 Output typescript api - [file](https://github.com/acacode/swagger-typescript-api/blob/master/api.ts)  
 
 ![](./assets/auth-example.gif)  
-![](./assets/create-api-1.gif)  
 ![](./assets/typings1.gif)  
 
 
