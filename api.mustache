@@ -21,7 +21,7 @@ export class Api{{apiConfig.generic}} {
   {{#hasSecurityRoutes}}private securityData: SecurityDataType;{{/hasSecurityRoutes}}
   {{#hasSecurityRoutes}}private securityWorker: ApiConfig{{apiConfig.generic}}["securityWorker"] = (() => {}) as any{{/hasSecurityRoutes}}
   
-  private defaultRequestParams: ApiParams = {
+  private baseApiParams: ApiParams = {
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json'
@@ -57,11 +57,11 @@ export class Api{{apiConfig.generic}} {
 
   private mergeRequestOptions(params: ApiParams{{#hasSecurityRoutes}}, securityParams?: ApiParams{{/hasSecurityRoutes}}): ApiParams {
     return {
-      ...this.defaultRequestParams,
+      ...this.baseApiParams,
       ...params,
       {{#hasSecurityRoutes}}...(securityParams || {}),{{/hasSecurityRoutes}}
       headers: {
-        ...(this.defaultRequestParams.headers || {}),
+        ...(this.baseApiParams.headers || {}),
         ...(params.headers || {}),
         {{#hasSecurityRoutes}}...((securityParams && securityParams.headers) || {}){{/hasSecurityRoutes}}
       }

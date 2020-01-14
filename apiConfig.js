@@ -12,6 +12,11 @@ const createApiConfig = ({ info, servers, }, hasSecurityRoutes) => {
         optional: true,
         type: 'string'
       },
+      {
+        name: 'baseApiParams',
+        optional: true,
+        type: 'ApiParams'
+      },
       hasSecurityRoutes && {
         name: 'securityWorker',
         optional: true,

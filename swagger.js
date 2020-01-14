@@ -1,4 +1,5 @@
 const path = require('path');
+const _ = require('lodash');
 const fs = require("fs");
 const yaml = require('yamljs');
 const converter = require('swagger2openapi');
@@ -18,8 +19,11 @@ const getSwaggerObject = pathToSwagger => new Promise((resolve) => {
 
   if (!(parsed.openapi)) {
     converter.convertObj(parsed, { warnOnly: true }, function(err, options){
-      if (err) throw new Error(err)
-      resolve(options.openapi)
+      const swaggerSchema = _.get(err, 'options.openapi', _.get(options, 'openapi'))
+
+      if (!swaggerSchema && err) throw new Error(err)
+      // console.log('err',options)
+      resolve(swaggerSchema)
     });
   } else {
     resolve(parsed)

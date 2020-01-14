@@ -28,5 +28,7 @@ getSwaggerObject('./swagger.json').then(({ info, paths, servers, components }) =
 
   const sourceFile = mustache.render(apiTemplate, configuration)
   fs.writeFile("api.ts", sourceFile, _.noop)
+}).catch(e =>{
+  throw new Error('Swagger schema parse error!\r\n ' + e)
 });
 

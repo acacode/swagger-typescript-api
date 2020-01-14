@@ -1,47 +1,67 @@
-export interface Category {
-  id: number,
-  name: string,
+export interface AuthUser {
+  username: string,
+  password: string,
 }
-export interface Pet {
-  id: number,
-  category: Category,
-  name: string,
-  photoUrls: string[],
-  tags: Tag[],
-  status: "available" | "pending" | "sold",
+export enum Kind {
+  COMPANY = "COMPANY",
+  PERSONAL = "PERSONAL",
+  FREELANCE = "FREELANCE",
+  OPEN_SOURCE = "OPEN_SOURCE" 
+ }
+export interface Job {
+  id: string,
+  kind: Kind,
+  name?: string,
+  link?: string,
+  github?: string,
+  npm?: string,
+  isTool?: boolean,
+  address?: string,
 }
-export interface Tag {
-  id: number,
-  name: string,
+export interface NewJob {
+  kind: Kind,
+  name?: string,
+  link?: string,
+  github?: string,
+  npm?: string,
+  isTool?: boolean,
+  address?: string,
 }
-export interface ApiResponse {
-  code: number,
-  type: string,
-  message: string,
+export interface Project {
+  id: string,
+  year: number,
+  description: string,
+  job?: Job,
+  name?: string,
+  notImportant?: boolean,
+  prefix?: string,
+  tags: string[],
+  teamSize?: string,
 }
-export interface Order {
-  id: number,
-  petId: number,
-  quantity: number,
-  shipDate: string,
-  status: "placed" | "approved" | "delivered",
-  complete: boolean,
+export interface NewProject {
+  year: number,
+  description: string,
+  name?: string,
+  notImportant?: boolean,
+  prefix?: string,
+  tags: string[],
+  teamSize?: string,
+  job: string,
 }
 export interface User {
-  id: number,
+  id: string,
   username: string,
-  firstName: string,
-  lastName: string,
-  email: string,
-  password: string,
-  phone: string,
-  userStatus: number,
+}
+export interface UserUpdate {
+  id?: string,
+  username?: string,
 }
 
 export type ApiParams = Omit<RequestInit, "body" | "method">
 
 type ApiConfig<SecurityDataType> = {
   baseUrl?: string,
+  baseApiParams?: ApiParams,
   securityWorker?: (securityData: SecurityDataType) => ApiParams,
 }
 
@@ -49,14 +69,14 @@ type ApiConfig<SecurityDataType> = {
 
 export class Api<SecurityDataType> {
   
-  public baseUrl = "https://petstore.swagger.io/v2";
-  public title = "Swagger Petstore";
-  public version = "1.0.3";
+  public baseUrl = "https://localhost:3000/api/v1";
+  public title = "ts-mongodb-server";
+  public version = "1.0.0";
   
   private securityData: SecurityDataType;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
   
-  private defaultRequestParams: ApiParams = {
+  private baseApiParams: ApiParams = {
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json'
@@ -65,8 +85,9 @@ export class Api<SecurityDataType> {
     referrerPolicy: 'no-referrer',
   }
 
-  constructor({ baseUrl,securityWorker, }: ApiConfig<SecurityDataType> = {}) {
+  constructor({ baseUrl,baseApiParams,securityWorker, }: ApiConfig<SecurityDataType> = {}) {
     this.baseUrl = baseUrl || this.baseUrl;
+    this.baseApiParams = baseApiParams || this.baseApiParams;
     this.securityWorker = securityWorker || this.securityWorker;
   }
 
@@ -74,24 +95,14 @@ export class Api<SecurityDataType> {
     this.securityData = data
   }
 
-  private addQueryParams(query: object): string {
-    const keys = Object.keys(query);
-    return keys.length ? (
-      '?' +
-      keys.reduce(function(paramsArray, param) {
-        paramsArray.push(param + '=' + encodeURIComponent(query[param]))
-        return paramsArray
-      }, []).join('&')
-    ) : ''
-  }
 
   private mergeRequestOptions(params: ApiParams, securityParams?: ApiParams): ApiParams {
     return {
-      ...this.defaultRequestParams,
+      ...this.baseApiParams,
       ...params,
       ...(securityParams || {}),
       headers: {
-        ...(this.defaultRequestParams.headers || {}),
+        ...(this.baseApiParams.headers || {}),
         ...(params.headers || {}),
         ...((securityParams && securityParams.headers) || {})
       }
@@ -107,220 +118,111 @@ export class Api<SecurityDataType> {
 
 
 
-    pet = {
+    auth = {
 
 
         /**
-        * @tags pet
-        * @name getPetById
-        * @description Find pet by ID
-        * @request GET:/pet/{petId}
-        * @security true
+        * @tags Auth
+        * @name Login
+        * @request POST:/auth
         */
-        getPetById: (petId: number, params: ApiParams = {}) =>
-          this.request<Pet>(`/pet/${petId}`, "GET", params, null, true),
+        login: (data: AuthUser, params: ApiParams = {}) =>
+          this.request<string>(`/auth`, "POST", params, data),
 
 
         /**
-        * @tags pet
-        * @name updatePetWithForm
-        * @description Updates a pet in the store with form data
-        * @request POST:/pet/{petId}
+        * @tags Auth
+        * @name Refresh
+        * @request POST:/auth/refresh
         * @security true
         */
-        updatePetWithForm: (petId: number, data: any, params: ApiParams = {}) =>
-          this.request<any>(`/pet/${petId}`, "POST", params, data, true),
-
-
-        /**
-        * @tags pet
-        * @name deletePet
-        * @description Deletes a pet
-        * @request DELETE:/pet/{petId}
-        * @security true
-        */
-        deletePet: (petId: number, params: ApiParams = {}) =>
-          this.request<any>(`/pet/${petId}`, "DELETE", params, null, true),
-
-
-        /**
-        * @tags pet
-        * @name uploadFile
-        * @description uploads an image
-        * @request POST:/pet/{petId}/uploadImage
-        * @security true
-        */
-        uploadFile: (petId: number, data: any, params: ApiParams = {}) =>
-          this.request<ApiResponse>(`/pet/${petId}/uploadImage`, "POST", params, data, true),
-
-
-        /**
-        * @tags pet
-        * @name addPet
-        * @description Add a new pet to the store
-        * @request POST:/pet
-        * @security true
-        */
-        addPet: (data: any, params: ApiParams = {}) =>
-          this.request<any>(`/pet`, "POST", params, data, true),
-
-
-        /**
-        * @tags pet
-        * @name updatePet
-        * @description Update an existing pet
-        * @request PUT:/pet
-        * @security true
-        */
-        updatePet: (data: any, params: ApiParams = {}) =>
-          this.request<any>(`/pet`, "PUT", params, data, true),
-
-
-        /**
-        * @tags pet
-        * @name findPetsByStatus
-        * @description Finds Pets by status
-        * @request GET:/pet/findByStatus
-        * @security true
-        */
-        findPetsByStatus: (query: { status: Array<"available" | "pending" | "sold">, }, params: ApiParams = {}) =>
-          this.request<Pet[]>(`/pet/findByStatus${this.addQueryParams(query)}`, "GET", params, null, true),
-
-
-        /**
-        * @tags pet
-        * @name findPetsByTags
-        * @description Finds Pets by tags
-        * @request GET:/pet/findByTags
-        * @security true
-        */
-        findPetsByTags: (query: { tags: string[], }, params: ApiParams = {}) =>
-          this.request<Pet[]>(`/pet/findByTags${this.addQueryParams(query)}`, "GET", params, null, true),
+        refresh: (params: ApiParams = {}) =>
+          this.request<string>(`/auth/refresh`, "POST", params, null, true),
     }
-    store = {
+    jobs = {
 
 
         /**
-        * @tags store
-        * @name getInventory
-        * @description Returns pet inventories by status
-        * @request GET:/store/inventory
+        * @tags Jobs
+        * @name GetJob
+        * @request GET:/jobs/{id}
         * @security true
         */
-        getInventory: (params: ApiParams = {}) =>
-          this.request<number>(`/store/inventory`, "GET", params, null, true),
+        getJob: (id: string, params: ApiParams = {}) =>
+          this.request<Job>(`/jobs/${id}`, "GET", params, null, true),
 
 
         /**
-        * @tags store
-        * @name getOrderById
-        * @description Find purchase order by ID
-        * @request GET:/store/order/{orderId}
+        * @tags Jobs
+        * @name AddJob
+        * @request POST:/jobs
+        * @security true
         */
-        getOrderById: (orderId: number, params: ApiParams = {}) =>
-          this.request<Order>(`/store/order/${orderId}`, "GET", params, null),
-
-
-        /**
-        * @tags store
-        * @name deleteOrder
-        * @description Delete purchase order by ID
-        * @request DELETE:/store/order/{orderId}
-        */
-        deleteOrder: (orderId: number, params: ApiParams = {}) =>
-          this.request<any>(`/store/order/${orderId}`, "DELETE", params, null),
-
-
-        /**
-        * @tags store
-        * @name placeOrder
-        * @description Place an order for a pet
-        * @request POST:/store/order
-        */
-        placeOrder: (data: Order, params: ApiParams = {}) =>
-          this.request<Order>(`/store/order`, "POST", params, data),
+        addJob: (data: NewJob, params: ApiParams = {}) =>
+          this.request<string>(`/jobs`, "POST", params, data, true),
     }
-    user = {
+    projects = {
 
 
         /**
-        * @tags user
-        * @name getUserByName
-        * @description Get user by user name
-        * @request GET:/user/{username}
+        * @tags Projects
+        * @name GetProjects
+        * @request GET:/projects
         */
-        getUserByName: (username: string, params: ApiParams = {}) =>
-          this.request<User>(`/user/${username}`, "GET", params, null),
+        getProjects: (params: ApiParams = {}) =>
+          this.request<Project[]>(`/projects`, "GET", params, null),
 
 
         /**
-        * @tags user
-        * @name updateUser
-        * @description Updated user
-        * @request PUT:/user/{username}
+        * @tags Projects
+        * @name AddProjects
+        * @request POST:/projects
+        * @security true
         */
-        updateUser: (username: string, data: User, params: ApiParams = {}) =>
-          this.request<any>(`/user/${username}`, "PUT", params, data),
+        addProjects: (data: NewProject, params: ApiParams = {}) =>
+          this.request<string>(`/projects`, "POST", params, data, true),
+    }
+    users = {
 
 
         /**
-        * @tags user
-        * @name deleteUser
-        * @description Delete user
-        * @request DELETE:/user/{username}
+        * @tags Users
+        * @name GetUsers
+        * @request GET:/users
+        * @security true
         */
-        deleteUser: (username: string, params: ApiParams = {}) =>
-          this.request<any>(`/user/${username}`, "DELETE", params, null),
+        getUsers: (params: ApiParams = {}) =>
+          this.request<User[]>(`/users`, "GET", params, null, true),
 
 
         /**
-        * @tags user
-        * @name loginUser
-        * @description Logs user into the system
-        * @request GET:/user/login
+        * @tags Users
+        * @name AddUser
+        * @request POST:/users
+        * @security true
         */
-        loginUser: (query: { username: string, password: string, }, params: ApiParams = {}) =>
-          this.request<string>(`/user/login${this.addQueryParams(query)}`, "GET", params, null),
+        addUser: (data: AuthUser, params: ApiParams = {}) =>
+          this.request<User>(`/users`, "POST", params, data, true),
 
 
         /**
-        * @tags user
-        * @name logoutUser
-        * @description Logs out current logged in user session
-        * @request GET:/user/logout
+        * @tags Users
+        * @name DeleteUser
+        * @request DELETE:/users/{id}
+        * @security true
         */
-        logoutUser: (params: ApiParams = {}) =>
-          this.request<any>(`/user/logout`, "GET", params, null),
+        deleteUser: (id: string, params: ApiParams = {}) =>
+          this.request<any>(`/users/${id}`, "DELETE", params, null, true),
 
 
         /**
-        * @tags user
-        * @name createUser
-        * @description Create user
-        * @request POST:/user
+        * @tags Users
+        * @name UpdateUser
+        * @request PATCH:/users/{id}
+        * @security true
         */
-        createUser: (data: User, params: ApiParams = {}) =>
-          this.request<any>(`/user`, "POST", params, data),
-
-
-        /**
-        * @tags user
-        * @name createUsersWithArrayInput
-        * @description Creates list of users with given input array
-        * @request POST:/user/createWithArray
-        */
-        createUsersWithArrayInput: (data: any, params: ApiParams = {}) =>
-          this.request<any>(`/user/createWithArray`, "POST", params, data),
-
-
-        /**
-        * @tags user
-        * @name createUsersWithListInput
-        * @description Creates list of users with given input array
-        * @request POST:/user/createWithList
-        */
-        createUsersWithListInput: (data: any, params: ApiParams = {}) =>
-          this.request<any>(`/user/createWithList`, "POST", params, data),
+        updateUser: (id: string, data: UserUpdate, params: ApiParams = {}) =>
+          this.request<User>(`/users/${id}`, "PATCH", params, data, true),
     }
 
 }
