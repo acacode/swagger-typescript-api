@@ -5,7 +5,7 @@ const yaml = require('yamljs');
 const converter = require('swagger2openapi');
 
 const getSwaggerFile = pathToSwagger => {
-  const file = fs.readFileSync(path.resolve(__dirname, pathToSwagger), { encoding: 'UTF-8' })
+  const file = fs.readFileSync(pathToSwagger, { encoding: 'UTF-8' })
   
   try {
     return JSON.parse(file);

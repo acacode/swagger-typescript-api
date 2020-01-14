@@ -2,12 +2,11 @@
   "name": "swagger-typescript-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node index.js -p ./swagger.json -o ."
   },
-  "author": "",
-  "license": "ISC",
+  "author": "acacode",
+  "license": "MIT",
   "devDependencies": {
     "@types/lodash": "^4.14.149",
     "@types/mustache": "^3.2.0",
@@ -21,5 +20,20 @@
     "number-to-words": "^1.2.4",
     "swagger2openapi": "^5.3.2",
     "yamljs": "^0.3.0"
-  }
+  },
+  "main": "index.js",
+  "bin": {
+    "swagger-typescript-api": "index.js",
+    "sta": "index.js"
+  },
+  "keywords": [
+    "swagger",
+    "typescript",
+    "api",
+    "http"
+  ],
+  "bugs": {
+    "url": "https://github.com/acacode/swagger-typescript-api/issues"
+  },
+  "homepage": "https://github.com/acacode/swagger-typescript-api"
 }
