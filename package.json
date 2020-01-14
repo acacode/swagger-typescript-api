@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "node index.js -p ./swagger.json -o ."
+    "test": "node index.js -p http://localhost:8080/api/v1/swagger.json -o ."
   },
   "author": "acacode",
   "license": "MIT",

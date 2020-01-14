@@ -69,7 +69,7 @@ type ApiConfig<SecurityDataType> = {
 
 export class Api<SecurityDataType> {
   
-  public baseUrl = "https://localhost:3000/api/v1";
+  public baseUrl = "http://localhost:8080/api/v1";
   public title = "ts-mongodb-server";
   public version = "1.0.0";
   

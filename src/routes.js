@@ -102,9 +102,7 @@ const parseRoutes = (routes, parsedSchemas) =>
 
 
 const groupRoutes = routes => {
-  const duplicates = {
-
-  }
+  const duplicates = {}
   return _.reduce(routes.reduce((modules, route) => {
     
     if (route.moduleName) {
@@ -117,9 +115,8 @@ const groupRoutes = routes => {
         duplicates[route.moduleName][route.name] = 1;
       } else {
         console.warn(
-          `Confict methods!!!\r\n` +
-          `Module "${route.moduleName}" already have method "${route.name}()"\r\n` +
-          `Current method has been renamed to "${route.name + (duplicates[route.moduleName][route.name] + 1)}()" to solve conflict names.\r\n`
+          `🥵  Module "${route.moduleName}" already have method "${route.name}()"\r\n` +
+          `🥵  This method has been renamed to "${route.name + (duplicates[route.moduleName][route.name] + 1)}()" to solve conflict names.`
         )
         route.comments.push(`@originalName ${route.name}`)
         route.comments.push(`@duplicate true`)

@@ -11,8 +11,10 @@ const { getSwaggerObject } = require('./swagger');
 mustache.escape = value => value
 
 module.exports = {
-  generate: ({ input, output }) => {
-    getSwaggerObject(input).then(({ info, paths, servers, components }) => {
+  generate: ({ input, output, rawInput }) => {
+    getSwaggerObject(input, rawInput).then(({ info, paths, servers, components }) => {
+      console.log('☄️  start generating your typescript api')
+
       const apiTemplate = fs.readFileSync(path.resolve(__dirname, './templates/api.mustache'), { encoding: 'UTF-8' })
     
       const parsedSchemas = _.map(components && components.schemas, parseSchema)
@@ -31,8 +33,8 @@ module.exports = {
     
       const sourceFile = mustache.render(apiTemplate, configuration)
 
-      console.log('output', output)
       fs.writeFile(output, sourceFile, _.noop)
+      console.log(`✔️  your typescript api file created in "${output}"`)
     }).catch(e =>{
       throw new Error('Swagger schema parse error!\r\n ' + e)
     })

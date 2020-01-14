@@ -15,6 +15,7 @@ const { path, output, name } = program;
 
 generate({
   name,
+  rawInput: path,
   input: resolve(process.cwd(), path),
   output: resolve(process.cwd(), output || '.', `./${name}`)
 })
