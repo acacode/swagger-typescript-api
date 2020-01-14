@@ -1,3 +1,6 @@
+/* tslint:disable */
+/* eslint-disable */
+
 export interface AuthUser {
   username: string,
   password: string,
@@ -73,7 +76,7 @@ export class Api<SecurityDataType> {
   public title = "ts-mongodb-server";
   public version = "1.0.0";
   
-  private securityData: SecurityDataType;
+  private securityData: SecurityDataType = (null as any);
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
   
   private baseApiParams: ApiParams = {
@@ -111,6 +114,7 @@ export class Api<SecurityDataType> {
   
   public request = <T = any>(path: string, method: string, params: ApiParams = {}, body?: any, isSecure?: boolean): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
+      // @ts-ignore
       ...this.mergeRequestOptions(params, isSecure && this.securityWorker(this.securityData)),
       method,
       body: body ? JSON.stringify(body) : null,
