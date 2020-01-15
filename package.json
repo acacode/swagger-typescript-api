@@ -31,6 +31,11 @@
     "api",
     "http"
   ],
+  "files": [
+    "src",
+    "index.js",
+    "LICENSE"
+  ],
   "bugs": {
     "url": "https://github.com/acacode/swagger-typescript-api/issues"
   },
