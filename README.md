@@ -50,9 +50,9 @@ Output typescript api - [file](https://github.com/acacode/swagger-typescript-api
 
 
 ## 🚀 How it looks
-![](./assets/npx.gif)  
-![](./assets/auth-example.gif)  
-![](./assets/typings1.gif)  
+![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/npx.gif)  
+![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/auth-example.gif)  
+![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/typings1.gif)  
 
 
 ## 📝 License  
