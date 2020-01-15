@@ -48,6 +48,9 @@ generateApi({
 Input swagger scheme - [file](https://github.com/acacode/swagger-typescript-api/blob/master/swagger.json)  
 Output typescript api - [file](https://github.com/acacode/swagger-typescript-api/blob/master/api.ts)  
 
+
+## 🚀 How it looks
+![](./assets/npx.gif)  
 ![](./assets/auth-example.gif)  
 ![](./assets/typings1.gif)  
 
