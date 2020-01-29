@@ -4,11 +4,12 @@ const contentKeyword = '__CONTENT__'
 const contentWrapersByType = {
   'enum': `{\r\n${contentKeyword} \r\n }`,
   'interface': `{\r\n${contentKeyword}}`,
-  'type': ` = ${contentKeyword}`,
+  'type': `= ${contentKeyword}`,
 }
 
 const extraContentFormatters = {
   'enum': content => _.map(content, ({ key, value }) => `  ${key} = ${value}`).join(',\n'),
+  'intEnum': content => _.map(content, ({ value }) => value).join(' | '),
   'object': content => _.map(content, contentPart => `  ${contentPart}\n`).join('')
 }
 

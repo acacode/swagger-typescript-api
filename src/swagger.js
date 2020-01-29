@@ -15,7 +15,7 @@ const parseSwaggerFile = (file) => {
 }
 
 const getSwaggerFile = (pathToSwagger, urlToSwagger) => new Promise((resolve) => {
-  if (fs.existsSync(pathToSwagger)){
+  if (pathToSwagger && fs.existsSync(pathToSwagger)){
     console.log(`✨  try to get swagger by path "${pathToSwagger}"`)
     const file = fs.readFileSync(pathToSwagger, { encoding: 'UTF-8' })
     resolve(file)

@@ -35,9 +35,9 @@ module.exports = {
 
       if (output) {
         fs.writeFile(output, sourceFile, _.noop)
-        resolve(sourceFile);
       }
       console.log(`✔️  your typescript api file created in "${output}"`)
+      resolve(sourceFile);
     }).catch(e =>{
       reject(e);
       throw new Error('Swagger schema parse error!\r\n ' + e)
