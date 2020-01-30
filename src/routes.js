@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const { getType, parseSchema, inlineFormatters } = require("./schema")
+const { parseSchema, inlineFormatters } = require("./schema")
 
 const getTypeFromRequestInfo = (requestInfo, parsedSchemas) => {
   const schema = _.get(requestInfo, 'content["application/json"].schema');
@@ -18,8 +18,15 @@ const findSuccessResponse = (responses) => {
   return _.find(responses, (v, status) => +status >= 200 && +status < 300)
 }
 
-const createQueryInlineType = (queryParams) => {}
+const getRouteName = (operationId, method, route, moduleName) => {
+  if (operationId) return operationId;
+  if (route === '/') return `${_.lowerCase(method)}Root`;
 
+  const routeParts = _.replace(route, /\{(\w){1,}\}/g, '').split('/').filter(Boolean);
+
+  // create route name via method and route
+  return _.camelCase(_.lowerCase(method) + '_' + (moduleName ? routeParts.splice(1) : routeParts).join('_')) || 'index'
+}
 
 const parseRoutes = (routes, parsedSchemas) =>
   Object.entries(routes)
@@ -52,6 +59,8 @@ const parseRoutes = (routes, parsedSchemas) =>
           const queryParams = _.filter(parameters, parameter => parameter.in === 'query');
           const moduleName = _.camelCase(route.split('/').filter(Boolean)[0]);
 
+          const routeName = getRouteName(operationId, method, route, moduleName);
+          
           const queryObjectSchema = queryParams.length && queryParams.reduce((objectSchema, queryPartSchema) => {
             if (queryPartSchema.schema && queryPartSchema.name) {
               objectSchema.properties[queryPartSchema.name] = queryPartSchema.schema
@@ -60,7 +69,7 @@ const parseRoutes = (routes, parsedSchemas) =>
           }, {
             properties: {},
             type: 'object',
-          })
+          });
 
           const args = [
             ...(pathParams.map(param => ({
@@ -79,7 +88,7 @@ const parseRoutes = (routes, parsedSchemas) =>
 
           const comments = [
             tags && tags.length && `@tags ${tags.join(', ')}`,
-            `@name ${operationId}`,
+            `@name ${routeName}`,
             (summary || description) && `@description ${_.replace(summary || description, /\n/g, '')}`,
             `@request ${_.upperCase(method)}:${route}`,
             hasSecurity && `@security true`
@@ -89,7 +98,7 @@ const parseRoutes = (routes, parsedSchemas) =>
             moduleName,
             security: hasSecurity,
             hasQuery: !!queryParams.length,
-            name: _.camelCase(operationId),
+            name: _.camelCase(routeName),
             comments,
             args,
             method: _.upperCase(method),

@@ -2,6 +2,7 @@ const _ = require('lodash');
 const https = require('http');
 const fs = require("fs");
 const yaml = require('yamljs');
+const axios = require("axios");
 const converter = require('swagger2openapi');
 
 const parseSwaggerFile = (file) => {
@@ -21,21 +22,7 @@ const getSwaggerFile = (pathToSwagger, urlToSwagger) => new Promise((resolve) =>
     resolve(file)
   } else {
     console.log(`✨  try to get swagger by url "${urlToSwagger}"`)
-    const req = https.request(urlToSwagger, res => {
-      let jsonString = ''
-      res.on('data', d => {
-        jsonString+=d.toString();
-      })
-      res.on("close", () => {
-        resolve(jsonString)
-      })
-    })
-  
-    req.on('error', error => {
-      throw new Error(error)
-    })
-  
-    req.end()
+    axios.get(urlToSwagger).then(res => resolve(res.data))
   }
 })
 

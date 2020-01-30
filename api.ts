@@ -21,7 +21,7 @@ export interface Job {
   isTool?: boolean,
   address?: string,
 }
-export interface NewJob {
+export interface JobUpdate {
   kind: Kind,
   name?: string,
   link?: string,
@@ -34,21 +34,32 @@ export interface Project {
   id: string,
   year: number,
   description: string,
-  job?: Job,
+  job: Job,
   name?: string,
   notImportant?: boolean,
   prefix?: string,
   tags: string[],
-  teamSize?: string,
+  teamSize: string,
 }
-export interface NewProject {
+export interface ProjectUpdate {
   year: number,
   description: string,
   name?: string,
   notImportant?: boolean,
   prefix?: string,
   tags: string[],
-  teamSize?: string,
+  teamSize: string,
+  job: string,
+}
+export interface UpdatedProject {
+  id: string,
+  year: number,
+  description: string,
+  name?: string,
+  notImportant?: boolean,
+  prefix?: string,
+  tags: string[],
+  teamSize: string,
   job: string,
 }
 export interface User {
@@ -72,9 +83,9 @@ type ApiConfig<SecurityDataType> = {
 
 export class Api<SecurityDataType> {
   
-  public baseUrl = "https://localhost:3000/api/v1";
-  public title = "ts-mongodb-server";
-  public version = "1.0.0";
+  public baseUrl = "http://localhost:8080/api/v1";
+  public title = "";
+  public version = "";
   
   private securityData: SecurityDataType = (null as any);
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
@@ -122,111 +133,131 @@ export class Api<SecurityDataType> {
 
 
 
-    auth = {
+  auth = {
 
 
-        /**
-        * @tags Auth
-        * @name Login
-        * @request POST:/auth
-        */
-        login: (data: AuthUser, params: ApiParams = {}) =>
-          this.request<string>(`/auth`, "POST", params, data),
+    /**
+    * @tags Auth
+    * @name Login
+    * @request POST:/auth
+    */
+    login: (data: AuthUser, params: ApiParams = {}) =>
+      this.request<string>(`/auth`, "POST", params, data),
 
 
-        /**
-        * @tags Auth
-        * @name Refresh
-        * @request POST:/auth/refresh
-        * @security true
-        */
-        refresh: (params: ApiParams = {}) =>
-          this.request<string>(`/auth/refresh`, "POST", params, null, true),
-    }
-    jobs = {
+    /**
+    * @tags Auth
+    * @name Refresh
+    * @request POST:/auth/refresh
+    * @security true
+    */
+    refresh: (params: ApiParams = {}) =>
+      this.request<string>(`/auth/refresh`, "POST", params, null, true),
+  }
+  jobs = {
 
 
-        /**
-        * @tags Jobs
-        * @name GetJob
-        * @request GET:/jobs/{id}
-        * @security true
-        */
-        getJob: (id: string, params: ApiParams = {}) =>
-          this.request<Job>(`/jobs/${id}`, "GET", params, null, true),
+    /**
+    * @tags Jobs
+    * @name GetJobs
+    * @request GET:/jobs
+    * @security true
+    */
+    getJobs: (params: ApiParams = {}) =>
+      this.request<Job[]>(`/jobs`, "GET", params, null, true),
 
 
-        /**
-        * @tags Jobs
-        * @name AddJob
-        * @request POST:/jobs
-        * @security true
-        */
-        addJob: (data: NewJob, params: ApiParams = {}) =>
-          this.request<string>(`/jobs`, "POST", params, data, true),
-    }
-    projects = {
+    /**
+    * @tags Jobs
+    * @name AddJob
+    * @request POST:/jobs
+    * @security true
+    */
+    addJob: (data: JobUpdate, params: ApiParams = {}) =>
+      this.request<string>(`/jobs`, "POST", params, data, true),
 
 
-        /**
-        * @tags Projects
-        * @name GetProjects
-        * @request GET:/projects
-        */
-        getProjects: (params: ApiParams = {}) =>
-          this.request<Project[]>(`/projects`, "GET", params, null),
+    /**
+    * @tags Jobs
+    * @name GetJob
+    * @request GET:/jobs/{id}
+    * @security true
+    */
+    getJob: (id: string, params: ApiParams = {}) =>
+      this.request<Job>(`/jobs/${id}`, "GET", params, null, true),
+  }
+  projects = {
 
 
-        /**
-        * @tags Projects
-        * @name AddProjects
-        * @request POST:/projects
-        * @security true
-        */
-        addProjects: (data: NewProject, params: ApiParams = {}) =>
-          this.request<string>(`/projects`, "POST", params, data, true),
-    }
-    users = {
+    /**
+    * @tags Projects
+    * @name GetProjects
+    * @request GET:/projects
+    */
+    getProjects: (params: ApiParams = {}) =>
+      this.request<Project[]>(`/projects`, "GET", params, null),
 
 
-        /**
-        * @tags Users
-        * @name GetUsers
-        * @request GET:/users
-        * @security true
-        */
-        getUsers: (params: ApiParams = {}) =>
-          this.request<User[]>(`/users`, "GET", params, null, true),
+    /**
+    * @tags Projects
+    * @name AddProjects
+    * @request POST:/projects
+    * @security true
+    */
+    addProjects: (data: ProjectUpdate, params: ApiParams = {}) =>
+      this.request<string>(`/projects`, "POST", params, data, true),
 
 
-        /**
-        * @tags Users
-        * @name AddUser
-        * @request POST:/users
-        * @security true
-        */
-        addUser: (data: AuthUser, params: ApiParams = {}) =>
-          this.request<User>(`/users`, "POST", params, data, true),
+    /**
+    * @tags Projects
+    * @name UpdateProject
+    * @request PATCH:/projects/{id}
+    * @security true
+    */
+    updateProject: (id: string, data: ProjectUpdate, params: ApiParams = {}) =>
+      this.request<UpdatedProject>(`/projects/${id}`, "PATCH", params, data, true),
+  }
+  users = {
 
 
-        /**
-        * @tags Users
-        * @name DeleteUser
-        * @request DELETE:/users/{id}
-        * @security true
-        */
-        deleteUser: (id: string, params: ApiParams = {}) =>
-          this.request<any>(`/users/${id}`, "DELETE", params, null, true),
+    /**
+    * @tags Users
+    * @name GetUsers
+    * @request GET:/users
+    * @security true
+    */
+    getUsers: (params: ApiParams = {}) =>
+      this.request<User[]>(`/users`, "GET", params, null, true),
 
 
-        /**
-        * @tags Users
-        * @name UpdateUser
-        * @request PATCH:/users/{id}
-        * @security true
-        */
-        updateUser: (id: string, data: UserUpdate, params: ApiParams = {}) =>
-          this.request<User>(`/users/${id}`, "PATCH", params, data, true),
-    }
+    /**
+    * @tags Users
+    * @name AddUser
+    * @request POST:/users
+    * @security true
+    */
+    addUser: (data: AuthUser, params: ApiParams = {}) =>
+      this.request<User>(`/users`, "POST", params, data, true),
+
+
+    /**
+    * @tags Users
+    * @name DeleteUser
+    * @request DELETE:/users/{id}
+    * @security true
+    */
+    deleteUser: (id: string, params: ApiParams = {}) =>
+      this.request<any>(`/users/${id}`, "DELETE", params, null, true),
+
+
+    /**
+    * @tags Users
+    * @name UpdateUser
+    * @request PATCH:/users/{id}
+    * @security true
+    */
+    updateUser: (id: string, data: UserUpdate, params: ApiParams = {}) =>
+      this.request<User>(`/users/${id}`, "PATCH", params, data, true),
+  }
 
 }

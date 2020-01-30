@@ -94,19 +94,19 @@ export class Api{{apiConfig.generic}} {
   {{/outOfModule}}
 
   {{#combined}}
-    {{moduleName}} = {
-      {{#routes}}
+  {{moduleName}} = {
+    {{#routes}}
 
 
-        /**
-        {{#comments}}
-        * {{.}}
-        {{/comments}}
-        */
-        {{name}}: ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params: ApiParams = {}) =>
-          this.request<{{returnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
-      {{/routes}}
-    }
+    /**
+    {{#comments}}
+    * {{.}}
+    {{/comments}}
+    */
+    {{name}}: ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params: ApiParams = {}) =>
+      this.request<{{returnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
+    {{/routes}}
+  }
   {{/combined}}
 {{/routes}}
 

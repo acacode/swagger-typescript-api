@@ -1,585 +1,707 @@
 {
 	"components": {
-		"examples": {},
-		"headers": {},
-		"parameters": {},
-		"requestBodies": {},
-		"responses": {},
-		"schemas": {
-			"AuthUser": {
-				"properties": {
-					"username": {
-						"type": "string"
+			"examples": {},
+			"headers": {},
+			"parameters": {},
+			"requestBodies": {},
+			"responses": {},
+			"schemas": {
+					"AuthUser": {
+							"properties": {
+									"username": {
+											"type": "string"
+									},
+									"password": {
+											"type": "string"
+									}
+							},
+							"required": [
+									"username",
+									"password"
+							],
+							"type": "object",
+							"additionalProperties": false
 					},
-					"password": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"username",
-					"password"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Kind": {
-				"enum": [
-					"COMPANY",
-					"PERSONAL",
-					"FREELANCE",
-					"OPEN_SOURCE"
-				],
-				"type": "string"
-			},
-			"Job": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"kind": {
-						"$ref": "#/components/schemas/Kind"
-					},
-					"name": {
-						"type": "string",
-						"nullable": true
-					},
-					"link": {
-						"type": "string",
-						"nullable": true
-					},
-					"github": {
-						"type": "string",
-						"nullable": true
-					},
-					"npm": {
-						"type": "string",
-						"nullable": true
-					},
-					"isTool": {
-						"type": "boolean",
-						"nullable": true
-					},
-					"address": {
-						"type": "string",
-						"nullable": true
-					}
-				},
-				"required": [
-					"id",
-					"kind"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"NewJob": {
-				"properties": {
-					"kind": {
-						"$ref": "#/components/schemas/Kind"
-					},
-					"name": {
-						"type": "string",
-						"nullable": true
-					},
-					"link": {
-						"type": "string",
-						"nullable": true
-					},
-					"github": {
-						"type": "string",
-						"nullable": true
-					},
-					"npm": {
-						"type": "string",
-						"nullable": true
-					},
-					"isTool": {
-						"type": "boolean",
-						"nullable": true
-					},
-					"address": {
-						"type": "string",
-						"nullable": true
-					}
-				},
-				"required": [
-					"kind"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Project": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"year": {
-						"type": "number",
-						"format": "double"
-					},
-					"description": {
-						"type": "string"
-					},
-					"job": {
-						"$ref": "#/components/schemas/Job",
-						"nullable": true
-					},
-					"name": {
-						"type": "string",
-						"nullable": true
-					},
-					"notImportant": {
-						"type": "boolean",
-						"nullable": true
-					},
-					"prefix": {
-						"type": "string",
-						"nullable": true
-					},
-					"tags": {
-						"items": {
+					"Kind": {
+							"enum": [
+									"COMPANY",
+									"PERSONAL",
+									"FREELANCE",
+									"OPEN_SOURCE"
+							],
 							"type": "string"
-						},
-						"type": "array"
 					},
-					"teamSize": {
-						"type": "string",
-						"nullable": true
+					"Job": {
+							"properties": {
+									"id": {
+											"type": "string"
+									},
+									"kind": {
+											"$ref": "#/components/schemas/Kind"
+									},
+									"name": {
+											"type": "string",
+											"nullable": true
+									},
+									"link": {
+											"type": "string",
+											"nullable": true
+									},
+									"github": {
+											"type": "string",
+											"nullable": true
+									},
+									"npm": {
+											"type": "string",
+											"nullable": true
+									},
+									"isTool": {
+											"type": "boolean",
+											"nullable": true
+									},
+									"address": {
+											"type": "string",
+											"nullable": true
+									}
+							},
+							"required": [
+									"id",
+									"kind"
+							],
+							"type": "object",
+							"additionalProperties": false
+					},
+					"JobUpdate": {
+							"properties": {
+									"kind": {
+											"$ref": "#/components/schemas/Kind"
+									},
+									"name": {
+											"type": "string",
+											"nullable": true
+									},
+									"link": {
+											"type": "string",
+											"nullable": true
+									},
+									"github": {
+											"type": "string",
+											"nullable": true
+									},
+									"npm": {
+											"type": "string",
+											"nullable": true
+									},
+									"isTool": {
+											"type": "boolean",
+											"nullable": true
+									},
+									"address": {
+											"type": "string",
+											"nullable": true
+									}
+							},
+							"required": [
+									"kind"
+							],
+							"type": "object",
+							"additionalProperties": false
+					},
+					"Project": {
+							"properties": {
+									"id": {
+											"type": "string"
+									},
+									"year": {
+											"type": "number",
+											"format": "double"
+									},
+									"description": {
+											"type": "string"
+									},
+									"job": {
+											"$ref": "#/components/schemas/Job"
+									},
+									"name": {
+											"type": "string",
+											"nullable": true
+									},
+									"notImportant": {
+											"type": "boolean",
+											"nullable": true
+									},
+									"prefix": {
+											"type": "string",
+											"nullable": true
+									},
+									"tags": {
+											"items": {
+													"type": "string"
+											},
+											"type": "array"
+									},
+									"teamSize": {
+											"type": "string"
+									}
+							},
+							"required": [
+									"id",
+									"year",
+									"description",
+									"job",
+									"tags",
+									"teamSize"
+							],
+							"type": "object",
+							"additionalProperties": false
+					},
+					"ProjectUpdate": {
+							"properties": {
+									"year": {
+											"type": "number",
+											"format": "double"
+									},
+									"description": {
+											"type": "string"
+									},
+									"name": {
+											"type": "string",
+											"nullable": true
+									},
+									"notImportant": {
+											"type": "boolean",
+											"nullable": true
+									},
+									"prefix": {
+											"type": "string",
+											"nullable": true
+									},
+									"tags": {
+											"items": {
+													"type": "string"
+											},
+											"type": "array"
+									},
+									"teamSize": {
+											"type": "string"
+									},
+									"job": {
+											"type": "string"
+									}
+							},
+							"required": [
+									"year",
+									"description",
+									"tags",
+									"teamSize",
+									"job"
+							],
+							"type": "object",
+							"additionalProperties": false
+					},
+					"UpdatedProject": {
+							"properties": {
+									"id": {
+											"type": "string"
+									},
+									"year": {
+											"type": "number",
+											"format": "double"
+									},
+									"description": {
+											"type": "string"
+									},
+									"name": {
+											"type": "string",
+											"nullable": true
+									},
+									"notImportant": {
+											"type": "boolean",
+											"nullable": true
+									},
+									"prefix": {
+											"type": "string",
+											"nullable": true
+									},
+									"tags": {
+											"items": {
+													"type": "string"
+											},
+											"type": "array"
+									},
+									"teamSize": {
+											"type": "string"
+									},
+									"job": {
+											"type": "string"
+									}
+							},
+							"required": [
+									"id",
+									"year",
+									"description",
+									"tags",
+									"teamSize",
+									"job"
+							],
+							"type": "object",
+							"additionalProperties": false
+					},
+					"User": {
+							"properties": {
+									"id": {
+											"type": "string"
+									},
+									"username": {
+											"type": "string"
+									}
+							},
+							"required": [
+									"id",
+									"username"
+							],
+							"type": "object",
+							"additionalProperties": false
+					},
+					"UserUpdate": {
+							"properties": {
+									"id": {
+											"type": "string",
+											"nullable": true
+									},
+									"username": {
+											"type": "string",
+											"nullable": true
+									}
+							},
+							"type": "object",
+							"additionalProperties": false
 					}
-				},
-				"required": [
-					"id",
-					"year",
-					"description",
-					"tags"
-				],
-				"type": "object",
-				"additionalProperties": false
 			},
-			"NewProject": {
-				"properties": {
-					"year": {
-						"type": "number",
-						"format": "double"
-					},
-					"description": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string",
-						"nullable": true
-					},
-					"notImportant": {
-						"type": "boolean",
-						"nullable": true
-					},
-					"prefix": {
-						"type": "string",
-						"nullable": true
-					},
-					"tags": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
-					"teamSize": {
-						"type": "string",
-						"nullable": true
-					},
-					"job": {
-						"type": "string"
+			"securitySchemes": {
+					"JWT": {
+							"description": "",
+							"type": "apiKey",
+							"name": "Authorization",
+							"in": "header"
 					}
-				},
-				"required": [
-					"year",
-					"description",
-					"tags",
-					"job"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"User": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"username": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"id",
-					"username"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"UserUpdate": {
-				"properties": {
-					"id": {
-						"type": "string",
-						"nullable": true
-					},
-					"username": {
-						"type": "string",
-						"nullable": true
-					}
-				},
-				"type": "object",
-				"additionalProperties": false
 			}
-		},
-		"securitySchemes": {}
 	},
 	"info": {
-		"title": "ts-mongodb-server",
-		"version": "1.0.0",
-		"license": {
-			"name": "ISC"
-		}
+			"title": ""
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/auth": {
-			"post": {
-				"operationId": "Login",
-				"responses": {
-					"200": {
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								}
+			"/auth": {
+					"post": {
+							"operationId": "Login",
+							"responses": {
+									"200": {
+											"content": {
+													"application/json": {
+															"schema": {
+																	"type": "string"
+															}
+													}
+											},
+											"description": "Authorize and returns jwt token"
+									}
+							},
+							"tags": [
+									"Auth"
+							],
+							"security": [],
+							"parameters": [],
+							"requestBody": {
+									"content": {
+											"application/json": {
+													"schema": {
+															"$ref": "#/components/schemas/AuthUser"
+													}
+											}
+									}
 							}
-						},
-						"description": "Authorize and returns jwt token"
 					}
-				},
-				"tags": [
-					"Auth"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/AuthUser"
-							}
-						}
+			},
+			"/auth/refresh": {
+					"post": {
+							"operationId": "Refresh",
+							"responses": {
+									"200": {
+											"content": {
+													"application/json": {
+															"schema": {
+																	"type": "string"
+															}
+													}
+											},
+											"description": "utilized current token and returns new token"
+									}
+							},
+							"tags": [
+									"Auth"
+							],
+							"security": [
+									{
+											"jwt": []
+									}
+							],
+							"parameters": [
+									{
+											"in": "header",
+											"name": "Authorization",
+											"required": true,
+											"schema": {
+													"type": "string"
+											}
+									}
+							]
 					}
-				}
-			}
-		},
-		"/auth/refresh": {
-			"post": {
-				"operationId": "Refresh",
-				"responses": {
-					"200": {
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						},
-						"description": "utilized current token and returns new token"
-					}
-				},
-				"tags": [
-					"Auth"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "Authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
-		"/jobs/{id}": {
-			"get": {
-				"operationId": "GetJob",
-				"responses": {
-					"200": {
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Job"
-								}
-							}
-						},
-						"description": "job found"
+			},
+			"/jobs": {
+					"get": {
+							"operationId": "GetJobs",
+							"responses": {
+									"200": {
+											"content": {
+													"application/json": {
+															"schema": {
+																	"items": {
+																			"$ref": "#/components/schemas/Job"
+																	},
+																	"type": "array"
+															}
+													}
+											},
+											"description": "jobs found"
+									}
+							},
+							"tags": [
+									"Jobs"
+							],
+							"security": [
+									{
+											"jwt": []
+									}
+							],
+							"parameters": []
 					},
-					"404": {
-						"content": {
-							"application/json": {}
-						},
-						"description": "job not found"
-					}
-				},
-				"tags": [
-					"Jobs"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
-		"/jobs": {
-			"post": {
-				"operationId": "AddJob",
-				"responses": {
-					"200": {
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								}
+					"post": {
+							"operationId": "AddJob",
+							"responses": {
+									"200": {
+											"content": {
+													"application/json": {
+															"schema": {
+																	"type": "string"
+															}
+													}
+											},
+											"description": "Ok"
+									}
+							},
+							"tags": [
+									"Jobs"
+							],
+							"security": [
+									{
+											"jwt": []
+									}
+							],
+							"parameters": [],
+							"requestBody": {
+									"content": {
+											"application/json": {
+													"schema": {
+															"$ref": "#/components/schemas/JobUpdate"
+													}
+											}
+									}
 							}
-						},
-						"description": "Ok"
 					}
-				},
-				"tags": [
-					"Jobs"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/NewJob"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/projects": {
-			"get": {
-				"operationId": "GetProjects",
-				"responses": {
-					"200": {
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/Project"
+			},
+			"/jobs/{id}": {
+					"get": {
+							"operationId": "GetJob",
+							"responses": {
+									"200": {
+											"content": {
+													"application/json": {
+															"schema": {
+																	"$ref": "#/components/schemas/Job"
+															}
+													}
+											},
+											"description": "job found"
 									},
-									"type": "array"
-								}
-							}
-						},
-						"description": "Ok"
+									"404": {
+											"content": {
+													"application/json": {}
+											},
+											"description": "job not found"
+									}
+							},
+							"tags": [
+									"Jobs"
+							],
+							"security": [
+									{
+											"jwt": []
+									}
+							],
+							"parameters": [
+									{
+											"in": "path",
+											"name": "id",
+											"required": true,
+											"schema": {
+													"type": "string"
+											}
+									}
+							]
 					}
-				},
-				"tags": [
-					"Projects"
-				],
-				"security": [],
-				"parameters": []
 			},
-			"post": {
-				"operationId": "AddProjects",
-				"responses": {
-					"200": {
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								}
+			"/projects": {
+					"get": {
+							"operationId": "GetProjects",
+							"responses": {
+									"200": {
+											"content": {
+													"application/json": {
+															"schema": {
+																	"items": {
+																			"$ref": "#/components/schemas/Project"
+																	},
+																	"type": "array"
+															}
+													}
+											},
+											"description": "Ok"
+									}
+							},
+							"tags": [
+									"Projects"
+							],
+							"security": [],
+							"parameters": []
+					},
+					"post": {
+							"operationId": "AddProjects",
+							"responses": {
+									"200": {
+											"content": {
+													"application/json": {
+															"schema": {
+																	"type": "string"
+															}
+													}
+											},
+											"description": "Ok"
+									}
+							},
+							"tags": [
+									"Projects"
+							],
+							"security": [
+									{
+											"jwt": []
+									}
+							],
+							"parameters": [],
+							"requestBody": {
+									"content": {
+											"application/json": {
+													"schema": {
+															"$ref": "#/components/schemas/ProjectUpdate"
+													}
+											}
+									}
 							}
-						},
-						"description": "Ok"
 					}
-				},
-				"tags": [
-					"Projects"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/NewProject"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/users": {
-			"get": {
-				"operationId": "GetUsers",
-				"responses": {
-					"200": {
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/User"
-									},
-									"type": "array"
-								}
-							}
-						},
-						"description": "Ok"
-					}
-				},
-				"tags": [
-					"Users"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": []
 			},
-			"post": {
-				"operationId": "AddUser",
-				"responses": {
-					"200": {
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/User"
-								}
+			"/projects/{id}": {
+					"patch": {
+							"operationId": "UpdateProject",
+							"responses": {
+									"200": {
+											"content": {
+													"application/json": {
+															"schema": {
+																	"$ref": "#/components/schemas/UpdatedProject"
+															}
+													}
+											},
+											"description": "Ok"
+									}
+							},
+							"tags": [
+									"Projects"
+							],
+							"security": [
+									{
+											"jwt": []
+									}
+							],
+							"parameters": [
+									{
+											"in": "path",
+											"name": "id",
+											"required": true,
+											"schema": {
+													"type": "string"
+											}
+									}
+							],
+							"requestBody": {
+									"content": {
+											"application/json": {
+													"schema": {
+															"$ref": "#/components/schemas/ProjectUpdate"
+													}
+											}
+									}
 							}
-						},
-						"description": "Ok"
 					}
-				},
-				"tags": [
-					"Users"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/AuthUser"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/users/{id}": {
-			"delete": {
-				"operationId": "DeleteUser",
-				"responses": {
-					"204": {
-						"content": {
-							"application/json": {}
-						},
-						"description": "No content"
-					}
-				},
-				"tags": [
-					"Users"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
 			},
-			"patch": {
-				"operationId": "UpdateUser",
-				"responses": {
-					"200": {
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/User"
-								}
+			"/users": {
+					"get": {
+							"operationId": "GetUsers",
+							"responses": {
+									"200": {
+											"content": {
+													"application/json": {
+															"schema": {
+																	"items": {
+																			"$ref": "#/components/schemas/User"
+																	},
+																	"type": "array"
+															}
+													}
+											},
+											"description": "Ok"
+									}
+							},
+							"tags": [
+									"Users"
+							],
+							"security": [
+									{
+											"jwt": []
+									}
+							],
+							"parameters": []
+					},
+					"post": {
+							"operationId": "AddUser",
+							"responses": {
+									"200": {
+											"content": {
+													"application/json": {
+															"schema": {
+																	"$ref": "#/components/schemas/User"
+															}
+													}
+											},
+											"description": "Ok"
+									}
+							},
+							"tags": [
+									"Users"
+							],
+							"security": [
+									{
+											"jwt": []
+									}
+							],
+							"parameters": [],
+							"requestBody": {
+									"content": {
+											"application/json": {
+													"schema": {
+															"$ref": "#/components/schemas/AuthUser"
+													}
+											}
+									}
 							}
-						},
-						"description": "Ok"
 					}
-				},
-				"tags": [
-					"Users"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/UserUpdate"
+			},
+			"/users/{id}": {
+					"delete": {
+							"operationId": "DeleteUser",
+							"responses": {
+									"204": {
+											"content": {
+													"application/json": {}
+											},
+											"description": "No content"
+									}
+							},
+							"tags": [
+									"Users"
+							],
+							"security": [
+									{
+											"jwt": []
+									}
+							],
+							"parameters": [
+									{
+											"in": "path",
+											"name": "id",
+											"required": true,
+											"schema": {
+													"type": "string"
+											}
+									}
+							]
+					},
+					"patch": {
+							"operationId": "UpdateUser",
+							"responses": {
+									"200": {
+											"content": {
+													"application/json": {
+															"schema": {
+																	"$ref": "#/components/schemas/User"
+															}
+													}
+											},
+											"description": "Ok"
+									}
+							},
+							"tags": [
+									"Users"
+							],
+							"security": [
+									{
+											"jwt": []
+									}
+							],
+							"parameters": [
+									{
+											"in": "path",
+											"name": "id",
+											"required": true,
+											"schema": {
+													"type": "string"
+											}
+									}
+							],
+							"requestBody": {
+									"content": {
+											"application/json": {
+													"schema": {
+															"$ref": "#/components/schemas/UserUpdate"
+													}
+											}
+									}
 							}
-						}
 					}
-				}
 			}
-		}
 	},
 	"servers": [
-		{
-			"url": "https://localhost:3000/api/v1"
-		}
+			{
+					"url": "http://localhost:8080/api/v1"
+			}
 	]
 }

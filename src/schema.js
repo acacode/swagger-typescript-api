@@ -1,7 +1,4 @@
 const _ = require("lodash");
-var numberToWords = require('number-to-words');
-
-const jsTypes = ['number', 'string', 'object', 'boolean']
 
 const inlineFormatters = {
   'object': (parsedSchema) => {
