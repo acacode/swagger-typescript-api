@@ -1,13 +1,14 @@
 const _ = require('lodash');
 
-const contentKeyword = '__CONTENT__'
-const contentWrapersByType = {
-  'enum': `{\r\n${contentKeyword} \r\n }`,
-  'interface': `{\r\n${contentKeyword}}`,
-  'type': `= ${contentKeyword}`,
+const CONTENT_KEYWORD = '__CONTENT__';
+
+const contentWrapersByTypeIdentifier = {
+  'enum': `{\r\n${CONTENT_KEYWORD} \r\n }`,
+  'interface': `{\r\n${CONTENT_KEYWORD}}`,
+  'type': `= ${CONTENT_KEYWORD}`,
 }
 
-const extraContentFormatters = {
+const extraContentFormattersByType = {
   'enum': content => _.map(content, ({ key, value }) => `  ${key} = ${value}`).join(',\n'),
   'intEnum': content => _.map(content, ({ value }) => value).join(' | '),
   'object': content => _.map(content, contentPart => `  ${contentPart}\n`).join('')
@@ -15,17 +16,17 @@ const extraContentFormatters = {
 
 // { typeIdentifier, name, content, type }
 const getModelType = ({ typeIdentifier, name, content, type }) => {
-  if (!contentWrapersByType[typeIdentifier]) {
+  if (!contentWrapersByTypeIdentifier[typeIdentifier]) {
     throw new Error(`${typeIdentifier} - type identifier is unknown for this utility`)
   }
 
-  const resultContent = extraContentFormatters[type] ? extraContentFormatters[type](content) : content;
+  const resultContent = extraContentFormattersByType[type] ? extraContentFormattersByType[type](content) : content;
 
   return {
     typeIdentifier,
     name,
     rawContent: resultContent,
-    content: _.replace(contentWrapersByType[typeIdentifier], contentKeyword, resultContent)
+    content: _.replace(contentWrapersByTypeIdentifier[typeIdentifier], CONTENT_KEYWORD, resultContent)
   }
 }
 

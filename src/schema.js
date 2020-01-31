@@ -4,7 +4,8 @@ const inlineFormatters = {
   'object': (parsedSchema) => {
     return {
       ...parsedSchema,
-      content: `{ ${parsedSchema.content.join(' ')} }`
+      typeIdentifier: parsedSchema.content.length ? parsedSchema.typeIdentifier : 'type',
+      content: parsedSchema.content.length ? `{ ${parsedSchema.content.join(' ')} }` : 'object'
     }
   },
   'enum': (parsedSchema) => {

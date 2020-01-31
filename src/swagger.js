@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const https = require('http');
 const fs = require("fs");
 const yaml = require('yamljs');
 const axios = require("axios");
