@@ -1,3 +1,4 @@
+![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/swagger-typescript-api-logo.png)
 # swagger-typescript-api  
 Generate api via swagger scheme.  
 Supports OA 3.0, 2.0, JSON, yaml  
