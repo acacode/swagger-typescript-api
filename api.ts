@@ -1,6 +1,13 @@
 /* tslint:disable */
 /* eslint-disable */
 
+/*
+  * THIS FILE WAS GENERATE BY SWAGGER-TYPESCRIPT-API
+  * 
+  * AUTHOR: acacode
+  * SOURCE: https://github.com/acacode/swagger-typescript-api
+*/
+
 export interface AuthUser {
   username: string,
   password: string,

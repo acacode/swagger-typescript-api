@@ -3,7 +3,8 @@
   "version": "1.0.6",
   "description": "Create typescript api module from swagger schema",
   "scripts": {
-    "test": "node index.js -p swagger.json"
+    "test:cli": "node index.js -p swagger.json",
+    "test:module": "node index.js -p swagger.json"
   },
   "author": "acacode",
   "license": "MIT",

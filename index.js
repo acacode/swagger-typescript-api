@@ -4,6 +4,7 @@
 // Node module: swagger-typescript-api
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
+// Repository https://github.com/acacode/swagger-typescript-api
 
 const program = require('commander');
 const { resolve } = require('path');
