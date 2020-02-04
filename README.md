@@ -1,18 +1,19 @@
 # swagger-typescript-api  
 
-<img src="https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/swagger-typescript-api-logo1.png" align="right"
+<img src="https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/swagger-typescript-api-logo1.png" align="left"
      title="swagger-typescript-api logo by js2me" width="93" height="180">
 
 Generate api via swagger scheme.  
 Supports OA 3.0, 2.0, JSON, yaml  
-Generated api module use [Fetch Api](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to make requests.
+Generated api module use [Fetch Api](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to make requests.  
+
+<br>
+<br>
+<br>
 
 Any questions you can ask [here](https://github.com/acacode/swagger-typescript-api/issues)  
   
-<br>
-<br>
-<br>
-  
+<br>  
 
 ## 📄 Usage  
 
