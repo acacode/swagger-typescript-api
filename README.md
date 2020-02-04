@@ -16,7 +16,7 @@ Any questions you can ask [here](https://github.com/acacode/swagger-typescript-a
 
 ## 📄 Usage  
 
-```properties
+```shell
 Usage: sta [options]
 Usage: swagger-typescript-api [options]
 
