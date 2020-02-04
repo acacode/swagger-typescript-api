@@ -9,7 +9,6 @@ Generated api module use [Fetch Api](https://developer.mozilla.org/en-US/docs/We
 
 <br>
 <br>
-<br>
 
 Any questions you can ask [here](https://github.com/acacode/swagger-typescript-api/issues)  
   
