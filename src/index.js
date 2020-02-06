@@ -33,10 +33,10 @@ module.exports = {
     
       const sourceFile = mustache.render(apiTemplate, configuration)
 
-      if (output) {
+      if (output && fs.existsSync(output)) {
         fs.writeFile(output, sourceFile, _.noop)
+        console.log(`✔️  your typescript api file created in "${output}"`)
       }
-      console.log(`✔️  your typescript api file created in "${output}"`)
       resolve(sourceFile);
     }).catch(e =>{
       reject(e);

@@ -1,20 +1,5 @@
 const _ = require("lodash");
-
-const inlineFormatters = {
-  'object': (parsedSchema) => {
-    return {
-      ...parsedSchema,
-      typeIdentifier: parsedSchema.content.length ? parsedSchema.typeIdentifier : 'type',
-      content: parsedSchema.content.length ? `{ ${parsedSchema.content.join(' ')} }` : 'object'
-    }
-  },
-  'enum': (parsedSchema) => {
-    return {
-      ...parsedSchema,
-      content: _.map(parsedSchema.content, ({ value }) => `${value}`).join(' | ')
-    }
-  }
-}
+const { inlineExtraFormatters } = require("./typeFormatters");
 
 const findSchemaType = schema => {
   if (schema.enum) return 'enum';
@@ -31,7 +16,7 @@ const getTypeAlias = type => typeAliases[type] || type || 'any'
 
 const specificObjectTypes = {
   'array': ({ items }) => {
-    const { content, type } = parseSchema(items, null, inlineFormatters)
+    const { content, type } = parseSchema(items, null, inlineExtraFormatters)
     return type === 'primitive' ? `${content}[]` : `Array<${content}>`
   }
 }
@@ -42,12 +27,15 @@ const getType = (property) => {
 }
 const getObjectTypeContent = (properties) => {
   return _.map(properties, (property, name) => {
-    return `${name}${property.nullable ? '?' : ''}: ${parseSchema(property, null, inlineFormatters).content},`
+    return {
+      description: property.description,
+      field: `${name}${property.nullable ? '?' : ''}: ${parseSchema(property, null, inlineExtraFormatters).content},`,
+    }
   })
 }
 
 
-const complexTypeGetter = (schema) => parseSchema(schema, null, inlineFormatters).content
+const complexTypeGetter = (schema) => parseSchema(schema, null, inlineExtraFormatters).content
 const complexSchemaParsers = {
   'oneOf': (schema) => {
     // T1 | T2
@@ -84,6 +72,7 @@ const schemaParsers = {
       type: isIntegerEnum ? "intEnum" : 'enum',
       typeIdentifier: isIntegerEnum ? 'type' : 'enum',
       name: typeName,
+      description: schema.description,
       content: _.map(schema.enum, key => ({
         key,
         type,
@@ -92,11 +81,11 @@ const schemaParsers = {
     }
   },
   'object': (schema, typeName) => {
-
     return {
       type: 'object',
       typeIdentifier: 'interface',
       name: typeName,
+      description: schema.description,
       content: getObjectTypeContent(schema.properties)
     }
   },
@@ -106,6 +95,7 @@ const schemaParsers = {
       type: 'type',
       typeIdentifier: 'type',
       name: typeName,
+      description: schema.description,
       content: complexSchemaParsers[complexType](schema),
     }
   },
@@ -114,6 +104,7 @@ const schemaParsers = {
       type: 'primitive',
       typeIdentifier: 'type',
       name: typeName,
+      description: schema.description,
       content: getType(schema),
     }
   }
@@ -127,7 +118,6 @@ const parseSchema = (schema, typeName, formattersMap) => {
 }
 
 module.exports = {
-  inlineFormatters,
   parseSchema,
   getType,
 }

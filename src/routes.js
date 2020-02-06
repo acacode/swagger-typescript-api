@@ -1,13 +1,14 @@
 const _ = require("lodash");
-const { parseSchema, inlineFormatters } = require("./schema")
+const { parseSchema } = require("./schema");
+const { inlineExtraFormatters } = require("./typeFormatters");
 
 const getTypeFromRequestInfo = (requestInfo, parsedSchemas) => {
   const schema = _.get(requestInfo, 'content["application/json"].schema');
 
   if (schema) {
     const extractedSchema = _.get(schema, 'additionalProperties', schema);
-    const { content } = parseSchema(extractedSchema, 'none', inlineFormatters)
-    const foundSchema = _.find(parsedSchemas, parsedSchema => parsedSchema.content === content)
+    const { content } = parseSchema(extractedSchema, 'none', inlineExtraFormatters);
+    const foundSchema = _.find(parsedSchemas, parsedSchema => _.isEqual(parsedSchema.content, content))
     return foundSchema ? foundSchema.name : content;
   }
 
@@ -74,11 +75,11 @@ const parseRoutes = (routes, parsedSchemas) =>
           const args = [
             ...(pathParams.map(param => ({
               name: param.name,
-              type: parseSchema(param.schema, null, inlineFormatters).content
+              type: parseSchema(param.schema, null, inlineExtraFormatters).content
             }))),
             queryParams.length && {
               name: 'query',
-              type: parseSchema(queryObjectSchema, null, inlineFormatters).content,
+              type: parseSchema(queryObjectSchema, null, inlineExtraFormatters).content,
             },
             requestBody && {
               name: 'data',
