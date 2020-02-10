@@ -2,22 +2,27 @@
 /* eslint-disable */
 
 /*
-* THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API
-* 
-* AUTHOR: acacode
-* SOURCE: https://github.com/acacode/swagger-typescript-api
+* ---------------------------------------------------------------
+* ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+* ##                                                           ##
+* ## AUTHOR: acacode                                           ##
+* ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+* ---------------------------------------------------------------
 */
+
 
 export interface AuthUser {
   username: string,
   password: string,
 }
+
 export enum Kind {
   COMPANY = "COMPANY",
   PERSONAL = "PERSONAL",
   FREELANCE = "FREELANCE",
   OPEN_SOURCE = "OPEN_SOURCE" 
  }
+
 export interface Job {
   id: string,
   kind: Kind,
@@ -28,6 +33,7 @@ export interface Job {
   isTool?: boolean,
   address?: string,
 }
+
 export interface JobUpdate {
   kind: Kind,
   name?: string,
@@ -37,6 +43,7 @@ export interface JobUpdate {
   isTool?: boolean,
   address?: string,
 }
+
 export interface Project {
   id: string,
   year: number,
@@ -48,6 +55,7 @@ export interface Project {
   tags: string[],
   teamSize: string,
 }
+
 export interface ProjectUpdate {
   year: number,
   description: string,
@@ -58,6 +66,7 @@ export interface ProjectUpdate {
   teamSize: string,
   job: string,
 }
+
 export interface UpdatedProject {
   id: string,
   year: number,
@@ -69,10 +78,12 @@ export interface UpdatedProject {
   teamSize: string,
   job: string,
 }
+
 export interface User {
   id: string,
   username: string,
 }
+
 export interface UserUpdate {
   id?: string,
   username?: string,
@@ -130,13 +141,22 @@ export class Api<SecurityDataType> {
     }
   }
   
+  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+    response.json()
+      .then(data => data)
+      .catch(e => response.text);
+  
   public request = <T = any>(path: string, method: string, params: ApiParams = {}, body?: any, isSecure?: boolean): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, isSecure && this.securityWorker(this.securityData)),
       method,
       body: body ? JSON.stringify(body) : null,
-    }).then(response => response.json())
+    }).then(async response => {
+      const data = await this.safeParseResponse<T>(response);
+      if (!response.ok) throw data
+      return data
+    })
 
 
 

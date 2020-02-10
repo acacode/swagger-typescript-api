@@ -18,7 +18,7 @@
     "commander": "^4.1.0",
     "lodash": "^4.17.15",
     "mustache": "^3.2.1",
-    "swagger2openapi": "^5.3.2",
+    "swagger2openapi": "^5.3.3",
     "yamljs": "^0.3.0"
   },
   "main": "src/index.js",
