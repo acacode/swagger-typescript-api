@@ -2,10 +2,12 @@
 /* eslint-disable */
 
 /*
-* THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API
-* 
-* AUTHOR: acacode
-* SOURCE: https://github.com/acacode/swagger-typescript-api
+* ---------------------------------------------------------------
+* ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+* ##                                                           ##
+* ## AUTHOR: acacode                                           ##
+* ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+* ---------------------------------------------------------------
 */
 
 {{#modelTypes}}
@@ -84,13 +86,22 @@ export class Api{{apiConfig.generic}} {
     }
   }
   
+  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+    response.json()
+      .then(data => data)
+      .catch(e => response.text);
+  
   public request = <T = any>(path: string, method: string, params: ApiParams = {}, body?: any, {{#hasSecurityRoutes}}isSecure?: boolean{{/hasSecurityRoutes}}): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params{{#hasSecurityRoutes}}, isSecure && this.securityWorker(this.securityData){{/hasSecurityRoutes}}),
       method,
       body: body ? JSON.stringify(body) : null,
-    }).then(response => response.json())
+    }).then(async response => {
+      const data = await this.safeParseResponse<T>(response);
+      if (!response.ok) throw data
+      return data
+    })
 
 {{#routes}}
 
