@@ -10,7 +10,7 @@ Generated api module use [**Fetch Api**](https://developer.mozilla.org/en-US/doc
 <br>
 <br>
 
-Any questions you can ask [**here**](https://github.com/acacode/swagger-typescript-api/issues)  
+Any questions you can ask [**here**](https://github.com/acacode/swagger-typescript-api/issues) or in [**our slack**](https://join.slack.com/t/acacode/shared_invite/enQtOTQ5ODgyODQzMzYwLWYxOGI1MzQ3Yzg1ZWI5ZTI5NzNiZjExZTE5OWI1YjQ4NjBiNTk4NWVlNjM5YmU1ZWI2ZDkyMzZkZGIxNjA5NTQ)
   
 <br>  
 
