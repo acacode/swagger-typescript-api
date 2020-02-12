@@ -12,16 +12,16 @@
 
 
 export interface Pet {
-  id?: number;
-  name?: string;
+  id: number;
+  name: string;
   tag?: string;
 }
 
 export type Pets = Pet[]
 
 export interface Error {
-  code?: number;
-  message?: string;
+  code: number;
+  message: string;
 }
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {

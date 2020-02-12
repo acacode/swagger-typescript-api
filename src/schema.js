@@ -37,6 +37,7 @@ const getObjectTypeContent = (properties) => {
 
 
 const complexTypeGetter = ({description, ...schema}) => parseSchema(schema, null, inlineExtraFormatters).content
+
 const complexSchemaParsers = {
   'oneOf': (schema) => {
     // T1 | T2
@@ -83,6 +84,14 @@ const schemaParsers = {
     }
   },
   'object': (schema, typeName) => {
+    if (_.isArray(schema.required) && schema.properties) {
+      schema.required.forEach(requiredFieldName => {
+        if (schema.properties[requiredFieldName]) {
+          schema.properties[requiredFieldName].required = true
+        }
+      })
+    }
+
     return {
       type: 'object',
       typeIdentifier: 'interface',

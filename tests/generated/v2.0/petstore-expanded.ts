@@ -11,16 +11,16 @@
 */
 
 
-export type Pet = NewPet & { id?: number }
+export type Pet = NewPet & { id: number }
 
 export interface NewPet {
-  name?: string;
+  name: string;
   tag?: string;
 }
 
 export interface Error {
-  code?: number;
-  message?: string;
+  code: number;
+  message: string;
 }
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {

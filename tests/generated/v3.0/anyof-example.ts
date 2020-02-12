@@ -12,12 +12,12 @@
 
 
 export interface PetByAge {
-  age?: number;
+  age: number;
   nickname?: string;
 }
 
 export interface PetByType {
-  pet_type?: "Cat" | "Dog";
+  pet_type: "Cat" | "Dog";
   hunts?: boolean;
 }
 
