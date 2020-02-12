@@ -12,16 +12,16 @@
 
 
 export interface Pet {
-  id: number,
-  name: string,
-  tag: string,
+  id: number;
+  name: string;
+  tag: string;
 }
 
 export type Pets = Pet[]
 
 export interface Error {
-  code: number,
-  message: string,
+  code: number;
+  message: string;
 }
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
@@ -122,7 +122,7 @@ export class Api<SecurityDataType> {
     * @description List all pets
     * @request GET:/pets
     */
-    listPets: (query: { limit: number, }, params?: RequestParams) =>
+    listPets: (query: { limit: number }, params?: RequestParams) =>
       this.request<Pets>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
 
 

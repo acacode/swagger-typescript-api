@@ -5,7 +5,7 @@ const formatters = {
   'intEnum': content => _.map(content, ({ value }) => value).join(' | '),
   'object': content => _.map(content, part => {
     const extraSpace = '  '
-    const result = `${extraSpace}${part.field}\n`;
+    const result = `${extraSpace}${part.field};\n`;
 
     if (part.description) {
       return [
@@ -23,7 +23,7 @@ const inlineExtraFormatters = {
     return {
       ...parsedSchema,
       typeIdentifier: parsedSchema.content.length ? parsedSchema.typeIdentifier : 'type',
-      content: parsedSchema.content.length ? `{ ${parsedSchema.content.map(part => part.field).join(' ')} }` : 'object'
+      content: parsedSchema.content.length ? `{ ${parsedSchema.content.map(part => part.field).join(', ')} }` : 'object'
     }
   },
   'enum': (parsedSchema) => {

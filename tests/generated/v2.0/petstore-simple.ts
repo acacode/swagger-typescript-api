@@ -11,16 +11,16 @@
 */
 
 
-export type Pet = NewPet & { id: number, }
+export type Pet = NewPet & { id: number }
 
 export interface NewPet {
-  name: string,
-  tag: string,
+  name: string;
+  tag: string;
 }
 
 export interface ErrorModel {
-  code: number,
-  message: string,
+  code: number;
+  message: string;
 }
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
@@ -120,7 +120,7 @@ export class Api<SecurityDataType> {
     * @description Returns all pets from the system that the user has access to
     * @request GET:/pets
     */
-    findPets: (query: { tags: string[], limit: number, }, params?: RequestParams) =>
+    findPets: (query: { tags: string[], limit: number }, params?: RequestParams) =>
       this.request<Pet[]>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
 
 

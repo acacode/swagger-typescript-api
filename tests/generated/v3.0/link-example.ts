@@ -12,20 +12,20 @@
 
 
 export interface user {
-  username: string,
-  uuid: string,
+  username: string;
+  uuid: string;
 }
 
 export interface repository {
-  slug: string,
-  owner: user,
+  slug: string;
+  owner: user;
 }
 
 export interface pullrequest {
-  id: number,
-  title: string,
-  repository: repository,
-  author: user,
+  id: number;
+  title: string;
+  repository: repository;
+  author: user;
 }
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
@@ -148,7 +148,7 @@ export class Api<SecurityDataType> {
     * @name getPullRequestsByRepository
     * @request GET:/2.0/repositories/{username}/{slug}/pullrequests
     */
-    getPullRequestsByRepository: (username: string, slug: string, query: { state: "open" | "merged" | "declined", }, params?: RequestParams) =>
+    getPullRequestsByRepository: (username: string, slug: string, query: { state: "open" | "merged" | "declined" }, params?: RequestParams) =>
       this.request<pullrequest[]>(`/2.0/repositories/${username}/${slug}/pullrequests${this.addQueryParams(query)}`, "GET", params, null),
 
 

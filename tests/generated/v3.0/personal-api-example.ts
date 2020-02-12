@@ -12,8 +12,8 @@
 
 
 export interface AuthUser {
-  username: string,
-  password: string,
+  username: string;
+  password: string;
 }
 
 export enum Kind {
@@ -24,69 +24,80 @@ export enum Kind {
  }
 
 export interface Job {
-  id: string,
-  kind: Kind,
-  name?: string,
-  link?: string,
-  github?: string,
-  npm?: string,
-  isTool?: boolean,
-  address?: string,
+  id: string;
+  kind: Kind;
+  name?: string;
+  link?: string;
+  github?: string;
+  npm?: string;
+  isTool?: boolean;
+  address?: string;
 }
 
 export interface JobUpdate {
-  kind: Kind,
-  name?: string,
-  link?: string,
-  github?: string,
-  npm?: string,
-  isTool?: boolean,
-  address?: string,
+  kind: Kind;
+  name?: string;
+  link?: string;
+  github?: string;
+  npm?: string;
+  isTool?: boolean;
+  address?: string;
+}
+
+export interface UpdatedJob {
+  id: string;
+  kind: Kind;
+  name?: string;
+  link?: string;
+  github?: string;
+  npm?: string;
+  isTool?: boolean;
+  address?: string;
 }
 
 export interface Project {
-  id: string,
-  year: number,
-  description: string,
-  job: Job,
-  name?: string,
-  notImportant?: boolean,
-  prefix?: string,
-  tags: string[],
-  teamSize: string,
+  id: string;
+  year: number;
+  description: string;
+  job: Job;
+  name?: string;
+  notImportant?: boolean;
+  prefix?: string;
+  tags: string[];
+  teamSize: string;
 }
 
 export interface ProjectUpdate {
-  year: number,
-  description: string,
-  name?: string,
-  notImportant?: boolean,
-  prefix?: string,
-  tags: string[],
-  teamSize: string,
-  job: string,
+  year: number;
+  description: string;
+  name?: string;
+  notImportant?: boolean;
+  prefix?: string;
+  tags: string[];
+  teamSize: string;
+  job: string;
 }
 
 export interface UpdatedProject {
-  id: string,
-  year: number,
-  description: string,
-  name?: string,
-  notImportant?: boolean,
-  prefix?: string,
-  tags: string[],
-  teamSize: string,
-  job: string,
+  id: string;
+  year: number;
+  description: string;
+  name?: string;
+  notImportant?: boolean;
+  prefix?: string;
+  tags: string[];
+  teamSize: string;
+  job: string;
 }
 
 export interface User {
-  id: string,
-  username: string,
+  id: string;
+  username: string;
 }
 
 export interface UserUpdate {
-  id?: string,
-  username?: string,
+  id?: string;
+  username?: string;
 }
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
@@ -220,6 +231,16 @@ export class Api<SecurityDataType> {
     */
     getJob: (id: string, params?: RequestParams) =>
       this.request<Job>(`/jobs/${id}`, "GET", params, null, true),
+
+
+    /**
+    * @tags Jobs
+    * @name UpdateJob
+    * @request PATCH:/jobs/{id}
+    * @security true
+    */
+    updateJob: (id: string, data: JobUpdate, params?: RequestParams) =>
+      this.request<UpdatedJob>(`/jobs/${id}`, "PATCH", params, data, true),
   }
   projects = {
 

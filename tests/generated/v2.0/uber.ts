@@ -14,92 +14,92 @@
 export interface Product {
   
   /** Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles. */
-  product_id: string,
+  product_id: string;
   
   /** Description of product. */
-  description: string,
+  description: string;
   
   /** Display name of product. */
-  display_name: string,
+  display_name: string;
   
   /** Capacity of product. For example, 4 people. */
-  capacity: number,
+  capacity: number;
   
   /** Image URL representing the product. */
-  image: string,
+  image: string;
 }
 
 export interface ProductList {
   
   /** Contains the list of products */
-  products: Product[],
+  products: Product[];
 }
 
 export interface PriceEstimate {
   
   /** Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles */
-  product_id: string,
+  product_id: string;
   
   /** [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code. */
-  currency_code: string,
+  currency_code: string;
   
   /** Display name of product. */
-  display_name: string,
+  display_name: string;
   
   /** Formatted string of estimate in local currency of the start location. Estimate could be a range, a single number (flat rate) or "Metered" for TAXI. */
-  estimate: string,
+  estimate: string;
   
   /** Lower bound of the estimated price. */
-  low_estimate: number,
+  low_estimate: number;
   
   /** Upper bound of the estimated price. */
-  high_estimate: number,
+  high_estimate: number;
   
   /** Expected surge multiplier. Surge is active if surge_multiplier is greater than 1. Price estimate already factors in the surge multiplier. */
-  surge_multiplier: number,
+  surge_multiplier: number;
 }
 
 export interface Profile {
   
   /** First name of the Uber user. */
-  first_name: string,
+  first_name: string;
   
   /** Last name of the Uber user. */
-  last_name: string,
+  last_name: string;
   
   /** Email address of the Uber user */
-  email: string,
+  email: string;
   
   /** Image URL of the Uber user. */
-  picture: string,
+  picture: string;
   
   /** Promo code of the Uber user. */
-  promo_code: string,
+  promo_code: string;
 }
 
 export interface Activity {
   
   /** Unique identifier for the activity */
-  uuid: string,
+  uuid: string;
 }
 
 export interface Activities {
   
   /** Position in pagination. */
-  offset: number,
+  offset: number;
   
   /** Number of items to retrieve (100 max). */
-  limit: number,
+  limit: number;
   
   /** Total number of items available. */
-  count: number,
-  history: Activity[],
+  count: number;
+  history: Activity[];
 }
 
 export interface Error {
-  code: number,
-  message: string,
-  fields: string,
+  code: number;
+  message: string;
+  fields: string;
 }
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
@@ -201,7 +201,7 @@ export class Api<SecurityDataType> {
     * @request GET:/products
     * @security true
     */
-    get: (query: { latitude: number, longitude: number, }, params?: RequestParams) =>
+    get: (query: { latitude: number, longitude: number }, params?: RequestParams) =>
       this.request<Product[]>(`/products${this.addQueryParams(query)}`, "GET", params, null, true),
   }
   estimates = {
@@ -213,7 +213,7 @@ export class Api<SecurityDataType> {
     * @description Price Estimates
     * @request GET:/estimates/price
     */
-    getPrice: (query: { start_latitude: number, start_longitude: number, end_latitude: number, end_longitude: number, }, params?: RequestParams) =>
+    getPrice: (query: { start_latitude: number, start_longitude: number, end_latitude: number, end_longitude: number }, params?: RequestParams) =>
       this.request<PriceEstimate[]>(`/estimates/price${this.addQueryParams(query)}`, "GET", params, null),
 
 
@@ -223,7 +223,7 @@ export class Api<SecurityDataType> {
     * @description Time Estimates
     * @request GET:/estimates/time
     */
-    getTime: (query: { start_latitude: number, start_longitude: number, customer_uuid: string, product_id: string, }, params?: RequestParams) =>
+    getTime: (query: { start_latitude: number, start_longitude: number, customer_uuid: string, product_id: string }, params?: RequestParams) =>
       this.request<Product[]>(`/estimates/time${this.addQueryParams(query)}`, "GET", params, null),
   }
   me = {
@@ -247,7 +247,7 @@ export class Api<SecurityDataType> {
     * @description User Activity
     * @request GET:/history
     */
-    get: (query: { offset: number, limit: number, }, params?: RequestParams) =>
+    get: (query: { offset: number, limit: number }, params?: RequestParams) =>
       this.request<Activities>(`/history${this.addQueryParams(query)}`, "GET", params, null),
   }
 

@@ -29,7 +29,7 @@ const getObjectTypeContent = (properties) => {
   return _.map(properties, (property, name) => {
     return {
       description: property.description,
-      field: `${name}${property.nullable ? '?' : ''}: ${parseSchema(property, null, inlineExtraFormatters).content},`,
+      field: `${name}${property.nullable ? '?' : ''}: ${parseSchema(property, null, inlineExtraFormatters).content}`,
     }
   })
 }
