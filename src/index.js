@@ -37,6 +37,7 @@ module.exports = {
         fs.writeFileSync(path.resolve(__dirname, output, `./${name}`), sourceFile, _.noop)
         console.log(`✔️  your typescript api file created in "${output}"`)
       }
+
       resolve(sourceFile);
     }).catch(e =>{
       reject(e);

@@ -46,6 +46,7 @@ const parseRoutes = (routes, parsedSchemas) =>
 
           return acc;
         }, {})
+
       return [
       ...routes,
       ..._.map(requestInfoByMethodsMap, (requestInfo, method) => {

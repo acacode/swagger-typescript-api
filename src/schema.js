@@ -40,7 +40,7 @@ const complexTypeGetter = ({description, ...schema}) => parseSchema(schema, null
 const complexSchemaParsers = {
   'oneOf': (schema) => {
     // T1 | T2
-    const combined = _.map(schema.allOf, complexTypeGetter);
+    const combined = _.map(schema.oneOf, complexTypeGetter);
     return combined.join(' | ');
   },
   'allOf': (schema) => {
@@ -50,7 +50,7 @@ const complexSchemaParsers = {
   },
   'anyOf': (schema) => {
     // T1 | T2 | (T1 & T2)
-    const combined = _.map(schema.allOf, complexTypeGetter);
+    const combined = _.map(schema.anyOf, complexTypeGetter);
     return `${combined.join(' | ')}` + (combined.length > 1 ? ` | (${combined.join(' & ')})` : '');
   },
   // TODO
