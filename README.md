@@ -53,16 +53,16 @@ generateApi({
 
 ## 🚀 Examples  
 
-`sta -p ./swagger.json`  
-
-Input swagger scheme - [file](https://github.com/acacode/swagger-typescript-api/blob/master/swagger.json)  
-Output typescript api - [file](https://github.com/acacode/swagger-typescript-api/blob/master/api.ts)  
-
+All examples you can find [here](https://github.com/acacode/swagger-typescript-api/tree/master/tests)  
 
 ## 🚀 How it looks
+
 ![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/npx.gif)  
+
 ![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/auth-example.gif)  
+
 ![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/typings1.gif)  
+
 
 
 ## 📝 License  
