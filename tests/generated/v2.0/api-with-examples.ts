@@ -10,36 +10,27 @@
 * ---------------------------------------------------------------
 */
 
-{{#modelTypes}}
-
-{{#description}}
-/**
-* {{.}}
-*/
-{{/description}}
-export {{typeIdentifier}} {{name}} {{content}}
-{{/modelTypes}}
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 }
 
-type ApiConfig{{apiConfig.generic}} = {
-{{#apiConfig.props}}
-  {{name}}{{#optional}}?{{/optional}}: {{type}},
-{{/apiConfig.props}}
+type ApiConfig<SecurityDataType> = {
+  baseUrl?: string,
+  baseApiParams?: RequestParams,
+  securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
 
 
-export class Api{{apiConfig.generic}} {
+export class Api<SecurityDataType> {
   
-  public baseUrl = "{{apiConfig.baseUrl}}";
-  public title = "{{apiConfig.title}}";
-  public version = "{{apiConfig.version}}";
+  public baseUrl = "";
+  public title = "Simple API overview";
+  public version = "v2";
 
   private securityData: SecurityDataType = (null as any);
-  private securityWorker: ApiConfig{{apiConfig.generic}}["securityWorker"] = (() => {}) as any
+  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
   
   private baseApiParams: RequestParams = {
     credentials: 'same-origin',
@@ -50,28 +41,16 @@ export class Api{{apiConfig.generic}} {
     referrerPolicy: 'no-referrer',
   }
 
-  constructor({ {{#apiConfig.props}}{{name}},{{/apiConfig.props}} }: ApiConfig{{apiConfig.generic}} = {}) {
-  {{#apiConfig.props}}
-    this.{{name}} = {{name}} || this.{{name}};
-  {{/apiConfig.props}}
+  constructor({ baseUrl,baseApiParams,securityWorker, }: ApiConfig<SecurityDataType> = {}) {
+    this.baseUrl = baseUrl || this.baseUrl;
+    this.baseApiParams = baseApiParams || this.baseApiParams;
+    this.securityWorker = securityWorker || this.securityWorker;
   }
 
   public setSecurityData = (data: SecurityDataType) => {
     this.securityData = data
   }
 
-  {{#hasQueryRoutes}}
-  private addQueryParams(query: object): string {
-    const keys = Object.keys(query);
-    return keys.length ? (
-      '?' +
-      keys.reduce((paramsArray, param) => [
-        ...paramsArray,
-        param + '=' + encodeURIComponent(query[param])
-      ], []).join('&')
-    ) : ''
-  }
-  {{/hasQueryRoutes}}
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
@@ -109,35 +88,27 @@ export class Api{{apiConfig.generic}} {
       return data
     })
 
-{{#routes}}
 
-  {{#outOfModule}}
 
 
   /**
-  {{#comments}}
-   * {{.}}
-  {{/comments}}
+   * @name listVersionsv2
+   * @description List API versions
+   * @request GET:/
    */
-  {{name}} = ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params?: RequestParams) =>
-    this.request<{{returnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}})
-  {{/outOfModule}}
+  listVersionsv2 = (params?: RequestParams) =>
+    this.request<any>(`/`, "GET", params, null)
 
-  {{#combined}}
-  {{moduleName}} = {
-    {{#routes}}
+  v2 = {
 
 
     /**
-    {{#comments}}
-    * {{.}}
-    {{/comments}}
+    * @name getVersionDetailsv2
+    * @description Show API version details
+    * @request GET:/v2
     */
-    {{name}}: ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params?: RequestParams) =>
-      this.request<{{returnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
-    {{/routes}}
+    getVersionDetailsv2: (params?: RequestParams) =>
+      this.request<any>(`/v2`, "GET", params, null),
   }
-  {{/combined}}
-{{/routes}}
 
 }

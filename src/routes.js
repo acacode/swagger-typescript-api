@@ -2,8 +2,9 @@ const _ = require("lodash");
 const { parseSchema } = require("./schema");
 const { inlineExtraFormatters } = require("./typeFormatters");
 
-const getTypeFromRequestInfo = (requestInfo, parsedSchemas) => {
-  const schema = _.get(requestInfo, 'content["application/json"].schema');
+const getTypeFromRequestInfo = (requestInfo, parsedSchemas, contentType) => {
+  // TODO: make more flexible pick schema without content type
+  const schema = _.get(requestInfo, `content["${contentType}"].schema`);
 
   if (schema) {
     const extractedSchema = _.get(schema, 'additionalProperties', schema);
@@ -16,7 +17,7 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas) => {
 }
 
 const findSuccessResponse = (responses) => {
-  return _.find(responses, (v, status) => +status >= 200 && +status < 300)
+  return _.find(responses, (v, status) => status === 'default' || (+status >= 200 && +status < 300))
 }
 
 const getRouteName = (operationId, method, route, moduleName) => {
@@ -33,6 +34,8 @@ const parseRoutes = (routes, parsedSchemas) =>
   Object.entries(routes)
     .reduce((routes, [route, requestInfoByMethodsMap]) => {
       parameters = _.get(requestInfoByMethodsMap, 'parameters');
+
+      // TODO: refactor that hell
       requestInfoByMethodsMap = _.reduce(
         _.omit(requestInfoByMethodsMap, "parameters"),
         (acc, requestInfo, method) => {
@@ -45,16 +48,17 @@ const parseRoutes = (routes, parsedSchemas) =>
         }, {})
       return [
       ...routes,
-      ..._.map(requestInfoByMethodsMap, ({
-        operationId,
-        requestBody,
-        security,
-        parameters,
-        summary,
-        description,
-        tags,
-        responses,
-      }, method) => {
+      ..._.map(requestInfoByMethodsMap, (requestInfo, method) => {
+          const {
+            operationId,
+            requestBody,
+            security,
+            parameters,
+            summary,
+            description,
+            tags,
+            responses,
+          } = requestInfo;
           const hasSecurity = !!(security && security.length);
           const pathParams = _.filter(parameters, parameter => parameter.in === 'path');
           const queryParams = _.filter(parameters, parameter => parameter.in === 'query');
@@ -72,6 +76,8 @@ const parseRoutes = (routes, parsedSchemas) =>
             type: 'object',
           });
 
+          const bodyParamName = requestInfo.requestBodyName || (requestBody && requestBody.name) || "data";
+
           const args = [
             ...(pathParams.map(param => ({
               name: param.name,
@@ -82,17 +88,40 @@ const parseRoutes = (routes, parsedSchemas) =>
               type: parseSchema(queryObjectSchema, null, inlineExtraFormatters).content,
             },
             requestBody && {
-              name: 'data',
-              type: getTypeFromRequestInfo(requestBody, parsedSchemas),
+              name: bodyParamName,
+              type: getTypeFromRequestInfo(requestBody, parsedSchemas, "application/json"),
             },
           ].filter(Boolean)
+
+          // TODO: get args for formData
+          // "name": "file",
+          // "in": "formData",
+
+
+          // const responsesInfos = _.reduce(responses, (acc, response, status) => {
+
+          //   const type = getTypeFromRequestInfo(response, parsedSchemas, 'application/json');
+
+          //   if (type) {
+          //     acc.push(`@response`)
+          //     acc.push(`  status: ${status === 'default' ? 200 : status}`)
+          //     acc.push(`  type: ${type}`)
+          //     if (response.description) {
+          //       acc.push(`  description: ${response.description}`)
+          //     }
+          //   }
+
+          //   return acc;
+          // }, [' '])
 
           const comments = [
             tags && tags.length && `@tags ${tags.join(', ')}`,
             `@name ${routeName}`,
             (summary || description) && `@description ${_.replace(summary || description, /\n/g, '')}`,
             `@request ${_.upperCase(method)}:${route}`,
-            hasSecurity && `@security true`
+            // requestBody && requestBody.description && `@body ${requestBody.description}`,
+            hasSecurity && `@security true`,
+            // ...responsesInfos,
           ].filter(Boolean);
 
           return {
@@ -104,8 +133,8 @@ const parseRoutes = (routes, parsedSchemas) =>
             args,
             method: _.upperCase(method),
             path: route.replace(/{/g, '${'),
-            returnType: getTypeFromRequestInfo(findSuccessResponse(responses), parsedSchemas) || 'any',
-            bodyArg: requestBody ? 'data' : 'null'
+            returnType: getTypeFromRequestInfo(findSuccessResponse(responses), parsedSchemas, 'application/json') || 'any',
+            bodyArg: requestBody ? bodyParamName : 'null'
           }})
       ]
     }, [])

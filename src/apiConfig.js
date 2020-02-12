@@ -1,8 +1,8 @@
-const createApiConfig = ({ info, servers, }, hasSecurityRoutes) => {
+const createApiConfig = ({ info, servers, }) => {
   const server = (servers && servers[0]) || { url: '' }
 
   const generic = [
-    hasSecurityRoutes && 'SecurityDataType'
+    'SecurityDataType'
   ].filter(Boolean).join(', ')
 
   return {
@@ -15,12 +15,12 @@ const createApiConfig = ({ info, servers, }, hasSecurityRoutes) => {
       {
         name: 'baseApiParams',
         optional: true,
-        type: 'ApiParams'
+        type: 'RequestParams'
       },
-      hasSecurityRoutes && {
+      {
         name: 'securityWorker',
         optional: true,
-        type: '(securityData: SecurityDataType) => ApiParams'
+        type: '(securityData: SecurityDataType) => RequestParams'
       }
     ].filter(Boolean),
     generic: generic && `<${generic}>`,

@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const fs = require("fs");
-const yaml = require('yamljs');
+const yaml = require('js-yaml');
 const axios = require("axios");
 const converter = require('swagger2openapi');
 
@@ -10,7 +10,7 @@ const parseSwaggerFile = (file) => {
   try {
     return JSON.parse(file);
   } catch (e) {
-    return yaml.parse(file)
+    return yaml.safeLoad(file)
   }
 }
 
@@ -30,7 +30,7 @@ const getSwaggerObject = (pathToSwagger, urlToSwagger) =>
     getSwaggerFile(pathToSwagger, urlToSwagger).then(file => {
       const swaggerSchema = parseSwaggerFile(file);
       if (!(swaggerSchema.openapi)) {
-        converter.convertObj(swaggerSchema, { warnOnly: true }, function(err, options){
+        converter.convertObj(swaggerSchema, { warnOnly: true, refSiblings: 'preserve', rbname: "requestBodyName" }, function(err, options){
           const swaggerSchema = _.get(err, 'options.openapi', _.get(options, 'openapi'))
 
           if (!swaggerSchema && err) throw new Error(err)

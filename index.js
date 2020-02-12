@@ -25,5 +25,5 @@ generateApi({
   name,
   url: path,
   input: resolve(process.cwd(), path),
-  output: resolve(process.cwd(), output || '.', `./${name}`)
+  output: resolve(process.cwd(), output || '.')
 })

@@ -10,36 +10,27 @@
 * ---------------------------------------------------------------
 */
 
-{{#modelTypes}}
-
-{{#description}}
-/**
-* {{.}}
-*/
-{{/description}}
-export {{typeIdentifier}} {{name}} {{content}}
-{{/modelTypes}}
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 }
 
-type ApiConfig{{apiConfig.generic}} = {
-{{#apiConfig.props}}
-  {{name}}{{#optional}}?{{/optional}}: {{type}},
-{{/apiConfig.props}}
+type ApiConfig<SecurityDataType> = {
+  baseUrl?: string,
+  baseApiParams?: RequestParams,
+  securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
 
 
-export class Api{{apiConfig.generic}} {
+export class Api<SecurityDataType> {
   
-  public baseUrl = "{{apiConfig.baseUrl}}";
-  public title = "{{apiConfig.title}}";
-  public version = "{{apiConfig.version}}";
+  public baseUrl = "";
+  public title = "Callback Example";
+  public version = "1.0.0";
 
   private securityData: SecurityDataType = (null as any);
-  private securityWorker: ApiConfig{{apiConfig.generic}}["securityWorker"] = (() => {}) as any
+  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
   
   private baseApiParams: RequestParams = {
     credentials: 'same-origin',
@@ -50,17 +41,16 @@ export class Api{{apiConfig.generic}} {
     referrerPolicy: 'no-referrer',
   }
 
-  constructor({ {{#apiConfig.props}}{{name}},{{/apiConfig.props}} }: ApiConfig{{apiConfig.generic}} = {}) {
-  {{#apiConfig.props}}
-    this.{{name}} = {{name}} || this.{{name}};
-  {{/apiConfig.props}}
+  constructor({ baseUrl,baseApiParams,securityWorker, }: ApiConfig<SecurityDataType> = {}) {
+    this.baseUrl = baseUrl || this.baseUrl;
+    this.baseApiParams = baseApiParams || this.baseApiParams;
+    this.securityWorker = securityWorker || this.securityWorker;
   }
 
   public setSecurityData = (data: SecurityDataType) => {
     this.securityData = data
   }
 
-  {{#hasQueryRoutes}}
   private addQueryParams(query: object): string {
     const keys = Object.keys(query);
     return keys.length ? (
@@ -71,7 +61,6 @@ export class Api{{apiConfig.generic}} {
       ], []).join('&')
     ) : ''
   }
-  {{/hasQueryRoutes}}
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
@@ -109,35 +98,18 @@ export class Api{{apiConfig.generic}} {
       return data
     })
 
-{{#routes}}
-
-  {{#outOfModule}}
 
 
-  /**
-  {{#comments}}
-   * {{.}}
-  {{/comments}}
-   */
-  {{name}} = ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params?: RequestParams) =>
-    this.request<{{returnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}})
-  {{/outOfModule}}
-
-  {{#combined}}
-  {{moduleName}} = {
-    {{#routes}}
+  streams = {
 
 
     /**
-    {{#comments}}
-    * {{.}}
-    {{/comments}}
+    * @name post
+    * @description subscribes a client to receive out-of-band data
+    * @request POST:/streams
     */
-    {{name}}: ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params?: RequestParams) =>
-      this.request<{{returnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
-    {{/routes}}
+    post: (query: { callbackUrl: string, }, params?: RequestParams) =>
+      this.request<{ subscriptionId: string, }>(`/streams${this.addQueryParams(query)}`, "POST", params, null),
   }
-  {{/combined}}
-{{/routes}}
 
 }

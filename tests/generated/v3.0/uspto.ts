@@ -10,36 +10,32 @@
 * ---------------------------------------------------------------
 */
 
-{{#modelTypes}}
 
-{{#description}}
-/**
-* {{.}}
-*/
-{{/description}}
-export {{typeIdentifier}} {{name}} {{content}}
-{{/modelTypes}}
+export interface dataSetList {
+  total: number,
+  apis: Array<{ apiKey: string, apiVersionNumber: string, apiUrl: string, apiDocumentationUrl: string, }>,
+}
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 }
 
-type ApiConfig{{apiConfig.generic}} = {
-{{#apiConfig.props}}
-  {{name}}{{#optional}}?{{/optional}}: {{type}},
-{{/apiConfig.props}}
+type ApiConfig<SecurityDataType> = {
+  baseUrl?: string,
+  baseApiParams?: RequestParams,
+  securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
 
 
-export class Api{{apiConfig.generic}} {
+export class Api<SecurityDataType> {
   
-  public baseUrl = "{{apiConfig.baseUrl}}";
-  public title = "{{apiConfig.title}}";
-  public version = "{{apiConfig.version}}";
+  public baseUrl = "{scheme}://developer.uspto.gov/ds-api";
+  public title = "USPTO Data Set API";
+  public version = "1.0.0";
 
   private securityData: SecurityDataType = (null as any);
-  private securityWorker: ApiConfig{{apiConfig.generic}}["securityWorker"] = (() => {}) as any
+  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
   
   private baseApiParams: RequestParams = {
     credentials: 'same-origin',
@@ -50,28 +46,16 @@ export class Api{{apiConfig.generic}} {
     referrerPolicy: 'no-referrer',
   }
 
-  constructor({ {{#apiConfig.props}}{{name}},{{/apiConfig.props}} }: ApiConfig{{apiConfig.generic}} = {}) {
-  {{#apiConfig.props}}
-    this.{{name}} = {{name}} || this.{{name}};
-  {{/apiConfig.props}}
+  constructor({ baseUrl,baseApiParams,securityWorker, }: ApiConfig<SecurityDataType> = {}) {
+    this.baseUrl = baseUrl || this.baseUrl;
+    this.baseApiParams = baseApiParams || this.baseApiParams;
+    this.securityWorker = securityWorker || this.securityWorker;
   }
 
   public setSecurityData = (data: SecurityDataType) => {
     this.securityData = data
   }
 
-  {{#hasQueryRoutes}}
-  private addQueryParams(query: object): string {
-    const keys = Object.keys(query);
-    return keys.length ? (
-      '?' +
-      keys.reduce((paramsArray, param) => [
-        ...paramsArray,
-        param + '=' + encodeURIComponent(query[param])
-      ], []).join('&')
-    ) : ''
-  }
-  {{/hasQueryRoutes}}
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
@@ -109,35 +93,39 @@ export class Api{{apiConfig.generic}} {
       return data
     })
 
-{{#routes}}
 
-  {{#outOfModule}}
 
 
   /**
-  {{#comments}}
-   * {{.}}
-  {{/comments}}
+   * @tags metadata
+   * @name list-data-sets
+   * @description List available data sets
+   * @request GET:/
    */
-  {{name}} = ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params?: RequestParams) =>
-    this.request<{{returnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}})
-  {{/outOfModule}}
+  listDataSets = (params?: RequestParams) =>
+    this.request<dataSetList>(`/`, "GET", params, null)
 
-  {{#combined}}
-  {{moduleName}} = {
-    {{#routes}}
+  dataset = {
 
 
     /**
-    {{#comments}}
-    * {{.}}
-    {{/comments}}
+    * @tags metadata
+    * @name list-searchable-fields
+    * @description Provides the general information about the API and the list of fields that can be used to query the dataset.
+    * @request GET:/{dataset}/{version}/fields
     */
-    {{name}}: ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params?: RequestParams) =>
-      this.request<{{returnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
-    {{/routes}}
+    listSearchableFields: (dataset: string, version: string, params?: RequestParams) =>
+      this.request<string>(`/${dataset}/${version}/fields`, "GET", params, null),
+
+
+    /**
+    * @tags search
+    * @name perform-search
+    * @description Provides search capability for the data set with the given search criteria.
+    * @request POST:/{dataset}/{version}/records
+    */
+    performSearch: (version: string, dataset: string, data: any, params?: RequestParams) =>
+      this.request<object[]>(`/${dataset}/${version}/records`, "POST", params, data),
   }
-  {{/combined}}
-{{/routes}}
 
 }

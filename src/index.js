@@ -11,7 +11,7 @@ const { getSwaggerObject } = require('./swagger');
 mustache.escape = value => value
 
 module.exports = {
-  generateApi: ({ input, output, url }) => new Promise((resolve, reject) => {
+  generateApi: ({ input, output, url, name }) => new Promise((resolve, reject) => {
     getSwaggerObject(input, url).then(({ info, paths, servers, components }) => {
       console.log('☄️  start generating your typescript api')
 
@@ -34,7 +34,7 @@ module.exports = {
       const sourceFile = mustache.render(apiTemplate, configuration)
 
       if (output && fs.existsSync(output)) {
-        fs.writeFile(output, sourceFile, _.noop)
+        fs.writeFileSync(path.resolve(__dirname, output, `./${name}`), sourceFile, _.noop)
         console.log(`✔️  your typescript api file created in "${output}"`)
       }
       resolve(sourceFile);

@@ -3,8 +3,8 @@
   "version": "1.1.0",
   "description": "Create typescript api module from swagger schema",
   "scripts": {
-    "test:cli": "node index.js -p swagger.json",
-    "test:module": "node index.js -p swagger.json"
+    "cli": "node index.js -p ./tests/schemas/v3.0/personal-api-example.json -o ./tests/generated/v3.0/ -n personal-api-example.ts",
+    "generate": "node tests/generate.js"
   },
   "author": "acacode",
   "license": "MIT",
@@ -16,10 +16,10 @@
   "dependencies": {
     "axios": "^0.19.2",
     "commander": "^4.1.0",
+    "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
     "mustache": "^3.2.1",
-    "swagger2openapi": "^5.3.3",
-    "yamljs": "^0.3.0"
+    "swagger2openapi": "^5.3.3"
   },
   "main": "src/index.js",
   "bin": {

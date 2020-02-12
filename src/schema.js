@@ -35,7 +35,7 @@ const getObjectTypeContent = (properties) => {
 }
 
 
-const complexTypeGetter = (schema) => parseSchema(schema, null, inlineExtraFormatters).content
+const complexTypeGetter = ({description, ...schema}) => parseSchema(schema, null, inlineExtraFormatters).content
 const complexSchemaParsers = {
   'oneOf': (schema) => {
     // T1 | T2
@@ -44,6 +44,7 @@ const complexSchemaParsers = {
   },
   'allOf': (schema) => {
     // T1 & T2
+    // const { description, }
     return _.map(schema.allOf, complexTypeGetter).join(' & ')
   },
   'anyOf': (schema) => {

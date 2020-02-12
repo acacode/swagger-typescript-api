@@ -10,36 +10,39 @@
 * ---------------------------------------------------------------
 */
 
-{{#modelTypes}}
 
-{{#description}}
-/**
-* {{.}}
-*/
-{{/description}}
-export {{typeIdentifier}} {{name}} {{content}}
-{{/modelTypes}}
+export type Pet = NewPet & { id: number, }
+
+export interface NewPet {
+  name: string,
+  tag: string,
+}
+
+export interface ErrorModel {
+  code: number,
+  message: string,
+}
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 }
 
-type ApiConfig{{apiConfig.generic}} = {
-{{#apiConfig.props}}
-  {{name}}{{#optional}}?{{/optional}}: {{type}},
-{{/apiConfig.props}}
+type ApiConfig<SecurityDataType> = {
+  baseUrl?: string,
+  baseApiParams?: RequestParams,
+  securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
 
 
-export class Api{{apiConfig.generic}} {
+export class Api<SecurityDataType> {
   
-  public baseUrl = "{{apiConfig.baseUrl}}";
-  public title = "{{apiConfig.title}}";
-  public version = "{{apiConfig.version}}";
+  public baseUrl = "http://petstore.swagger.io/api";
+  public title = "Swagger Petstore";
+  public version = "1.0.0";
 
   private securityData: SecurityDataType = (null as any);
-  private securityWorker: ApiConfig{{apiConfig.generic}}["securityWorker"] = (() => {}) as any
+  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
   
   private baseApiParams: RequestParams = {
     credentials: 'same-origin',
@@ -50,17 +53,16 @@ export class Api{{apiConfig.generic}} {
     referrerPolicy: 'no-referrer',
   }
 
-  constructor({ {{#apiConfig.props}}{{name}},{{/apiConfig.props}} }: ApiConfig{{apiConfig.generic}} = {}) {
-  {{#apiConfig.props}}
-    this.{{name}} = {{name}} || this.{{name}};
-  {{/apiConfig.props}}
+  constructor({ baseUrl,baseApiParams,securityWorker, }: ApiConfig<SecurityDataType> = {}) {
+    this.baseUrl = baseUrl || this.baseUrl;
+    this.baseApiParams = baseApiParams || this.baseApiParams;
+    this.securityWorker = securityWorker || this.securityWorker;
   }
 
   public setSecurityData = (data: SecurityDataType) => {
     this.securityData = data
   }
 
-  {{#hasQueryRoutes}}
   private addQueryParams(query: object): string {
     const keys = Object.keys(query);
     return keys.length ? (
@@ -71,7 +73,6 @@ export class Api{{apiConfig.generic}} {
       ], []).join('&')
     ) : ''
   }
-  {{/hasQueryRoutes}}
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
@@ -109,35 +110,45 @@ export class Api{{apiConfig.generic}} {
       return data
     })
 
-{{#routes}}
-
-  {{#outOfModule}}
 
 
-  /**
-  {{#comments}}
-   * {{.}}
-  {{/comments}}
-   */
-  {{name}} = ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params?: RequestParams) =>
-    this.request<{{returnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}})
-  {{/outOfModule}}
-
-  {{#combined}}
-  {{moduleName}} = {
-    {{#routes}}
+  pets = {
 
 
     /**
-    {{#comments}}
-    * {{.}}
-    {{/comments}}
+    * @name findPets
+    * @description Returns all pets from the system that the user has access to
+    * @request GET:/pets
     */
-    {{name}}: ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params?: RequestParams) =>
-      this.request<{{returnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
-    {{/routes}}
+    findPets: (query: { tags: string[], limit: number, }, params?: RequestParams) =>
+      this.request<Pet[]>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
+
+
+    /**
+    * @name addPet
+    * @description Creates a new pet in the store.  Duplicates are allowed
+    * @request POST:/pets
+    */
+    addPet: (pet: NewPet, params?: RequestParams) =>
+      this.request<Pet>(`/pets`, "POST", params, pet),
+
+
+    /**
+    * @name findPetById
+    * @description Returns a user based on a single ID, if the user does not have access to the pet
+    * @request GET:/pets/{id}
+    */
+    findPetById: (id: number, params?: RequestParams) =>
+      this.request<Pet>(`/pets/${id}`, "GET", params, null),
+
+
+    /**
+    * @name deletePet
+    * @description deletes a single pet based on the ID supplied
+    * @request DELETE:/pets/{id}
+    */
+    deletePet: (id: number, params?: RequestParams) =>
+      this.request<any>(`/pets/${id}`, "DELETE", params, null),
   }
-  {{/combined}}
-{{/routes}}
 
 }
