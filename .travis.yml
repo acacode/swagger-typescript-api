@@ -1,0 +1,31 @@
+
+language: node_js
+node_js:
+  - "node"
+
+cache:
+  directories:
+    - "node_modules"
+
+before_install:
+  - export PACKAGE_VERSION=$(node -p "require('./package.json').version")
+  - export NPM_REMOTE_VERSION=$(npm view swagger-typescript-api version)
+  - export PACKAGE_NAME=$(node -p "require('./package.json').name")
+  - export BRANCH_IS_TAG=$(node -p "/^([0-9].[0-9].[0-9]+((-(alpha|beta))|))$/.test('${TRAVIS_BRANCH}')")
+  - export GIT_LOG="$(git log --pretty=format:"* %s (%h)")"
+  - export PROJECT_NAME="acacode/swagger-typescript-api"
+
+install:
+  - npm ci
+
+jobs:
+  include:
+    - stage: generate&validate
+      script:
+        - npm run generate
+        - npm run validate
+
+# notifications:
+#   slack:
+#     rooms:
+#       secure: TODOKEY
