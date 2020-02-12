@@ -66,16 +66,13 @@ const parseRoutes = (routes, parsedSchemas) =>
 
           const routeName = getRouteName(operationId, method, route, moduleName);
           
-          const queryObjectSchema = queryParams.length && queryParams.reduce((objectSchema, queryPartSchema) => {
-            if (queryPartSchema.schema && queryPartSchema.name) {
-              objectSchema.properties[queryPartSchema.name] = _.merge(
-                queryPartSchema.schema,
-                {
-                  required: !!queryPartSchema.required
-                })
+          const queryObjectSchema = queryParams.length && queryParams.reduce((objectSchema, queryPartSchema) => ({
+            ...objectSchema,
+            properties: {
+              ...objectSchema.properties,
+              [queryPartSchema.name]: _.merge(_.omit(queryPartSchema, "in", "schema"), queryPartSchema.schema)
             }
-            return objectSchema;
-          }, {
+          }), {
             properties: {},
             type: 'object',
           });
