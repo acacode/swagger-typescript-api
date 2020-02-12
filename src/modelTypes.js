@@ -6,7 +6,7 @@ const CONTENT_KEYWORD = '__CONTENT__';
 const contentWrapersByTypeIdentifier = {
   'enum': `{\r\n${CONTENT_KEYWORD} \r\n }`,
   'interface': `{\r\n${CONTENT_KEYWORD}}`,
-  'type': `= ${CONTENT_KEYWORD}`,
+  'type': `: ${CONTENT_KEYWORD}`,
 }
 
 // { typeIdentifier, name, content, type }
