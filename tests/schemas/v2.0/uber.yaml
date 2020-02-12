@@ -72,7 +72,8 @@ paths:
         - name: end_latitude
           in: query
           description: Latitude component of end location.
-          required: true
+          # TODO: it is not existed
+          required: false
           type: number
           format: double
         - name: end_longitude

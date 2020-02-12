@@ -27,9 +27,10 @@ const getType = (property) => {
 }
 const getObjectTypeContent = (properties) => {
   return _.map(properties, (property, name) => {
+    const isRequired = typeof property.nullable === "undefined" ? property.required : !property.nullable
     return {
       description: property.description,
-      field: `${name}${property.nullable ? '?' : ''}: ${parseSchema(property, null, inlineExtraFormatters).content}`,
+      field: `${name}${isRequired ? '' : '?'}: ${parseSchema(property, null, inlineExtraFormatters).content}`,
     }
   })
 }

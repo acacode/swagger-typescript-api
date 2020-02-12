@@ -30,7 +30,11 @@ const getSwaggerObject = (pathToSwagger, urlToSwagger) =>
     getSwaggerFile(pathToSwagger, urlToSwagger).then(file => {
       const swaggerSchema = parseSwaggerFile(file);
       if (!(swaggerSchema.openapi)) {
-        converter.convertObj(swaggerSchema, { warnOnly: true, refSiblings: 'preserve', rbname: "requestBodyName" }, function(err, options){
+        converter.convertObj(swaggerSchema, {
+          warnOnly: true,
+          refSiblings: 'preserve',
+          rbname: "requestBodyName",
+        }, function(err, options){
           const swaggerSchema = _.get(err, 'options.openapi', _.get(options, 'openapi'))
 
           if (!swaggerSchema && err) throw new Error(err)

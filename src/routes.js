@@ -68,7 +68,11 @@ const parseRoutes = (routes, parsedSchemas) =>
           
           const queryObjectSchema = queryParams.length && queryParams.reduce((objectSchema, queryPartSchema) => {
             if (queryPartSchema.schema && queryPartSchema.name) {
-              objectSchema.properties[queryPartSchema.name] = queryPartSchema.schema
+              objectSchema.properties[queryPartSchema.name] = _.merge(
+                queryPartSchema.schema,
+                {
+                  required: !!queryPartSchema.required
+                })
             }
             return objectSchema;
           }, {
@@ -117,7 +121,7 @@ const parseRoutes = (routes, parsedSchemas) =>
           const comments = [
             tags && tags.length && `@tags ${tags.join(', ')}`,
             `@name ${routeName}`,
-            (summary || description) && `@description ${_.replace(summary || description, /\n/g, '')}`,
+            (description || summary) && `@description ${_.replace(summary || description, /\n/g, '')}`,
             `@request ${_.upperCase(method)}:${route}`,
             // requestBody && requestBody.description && `@body ${requestBody.description}`,
             hasSecurity && `@security true`,
