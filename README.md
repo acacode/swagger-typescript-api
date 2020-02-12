@@ -41,10 +41,22 @@ You can use this package from nodejs:
 ```js
 const { generateApi } = require('swagger-typescript-api');
 
+// example with url  
 generateApi({
-  name,
-  url: 'http://api.com/swagger.json',
-  input: resolve(process.cwd(), './foo/swagger.json')
+  name: "MySuperbApi.ts", // name of output typescript file
+  url: 'http://api.com/swagger.json', // url where located swagger schema
+})
+  .then(sourceFile => {
+    fs.writeFile(path, sourceFile)
+  })
+  .catch(e => {
+    console.error(e)
+  })
+
+// example with local file  
+generateApi({
+  name: "ApiModule.ts", // name of output typescript file
+  input: resolve(process.cwd(), './foo/swagger.json') // path to swagger schema
 })
   .then(sourceFile => {
     fs.writeFile(path, sourceFile)

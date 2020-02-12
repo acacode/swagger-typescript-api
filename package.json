@@ -37,6 +37,7 @@
     "index.js",
     "LICENSE"
   ],
+  "typings": "./index.d.ts",
   "bugs": {
     "url": "https://github.com/acacode/swagger-typescript-api/issues"
   },
