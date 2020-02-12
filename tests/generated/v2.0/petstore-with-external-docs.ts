@@ -117,8 +117,8 @@ export class Api<SecurityDataType> {
 
     /**
     * @name findPets
-    * @description Returns all pets from the system that the user has access to
     * @request GET:/pets
+    * @description Returns all pets from the system that the user has access to
     */
     findPets: (query: { tags?: string[], limit?: number }, params?: RequestParams) =>
       this.request<Pet[]>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
@@ -126,8 +126,8 @@ export class Api<SecurityDataType> {
 
     /**
     * @name addPet
-    * @description Creates a new pet in the store.  Duplicates are allowed
     * @request POST:/pets
+    * @description Creates a new pet in the store.  Duplicates are allowed
     */
     addPet: (pet: NewPet, params?: RequestParams) =>
       this.request<Pet>(`/pets`, "POST", params, pet),
@@ -135,8 +135,8 @@ export class Api<SecurityDataType> {
 
     /**
     * @name findPetById
-    * @description Returns a user based on a single ID, if the user does not have access to the pet
     * @request GET:/pets/{id}
+    * @description Returns a user based on a single ID, if the user does not have access to the pet
     */
     findPetById: (id: number, params?: RequestParams) =>
       this.request<Pet>(`/pets/${id}`, "GET", params, null),
@@ -144,8 +144,8 @@ export class Api<SecurityDataType> {
 
     /**
     * @name deletePet
-    * @description deletes a single pet based on the ID supplied
     * @request DELETE:/pets/{id}
+    * @description deletes a single pet based on the ID supplied
     */
     deletePet: (id: number, params?: RequestParams) =>
       this.request<any>(`/pets/${id}`, "DELETE", params, null),

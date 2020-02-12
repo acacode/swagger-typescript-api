@@ -1,6 +1,9 @@
 const _ = require("lodash");
 const { inlineExtraFormatters } = require("./typeFormatters");
 
+const jsTypes = ['number', 'boolean', 'string', 'object'];
+const jsEmptyTypes = ['null', 'undefined'];
+
 const findSchemaType = schema => {
   if (schema.enum) return 'enum';
   if (schema.properties) return 'object';
@@ -46,7 +49,6 @@ const complexSchemaParsers = {
   },
   'allOf': (schema) => {
     // T1 & T2
-    // const { description, }
     return _.map(schema.allOf, complexTypeGetter).join(' & ')
   },
   'anyOf': (schema) => {
@@ -55,16 +57,18 @@ const complexSchemaParsers = {
     return `${combined.join(' | ')}` + (combined.length > 1 ? ` | (${combined.join(' & ')})` : '');
   },
   // TODO
-  // 'not': (schema) => {
-  //   // TODO
-  // }
+  'not': (schema) => {
+    // TODO
+  }
 }
 
 const getComplexType = (schema) => {
   if (schema.oneOf) return 'oneOf';
   if (schema.allOf) return 'allOf';
   if (schema.anyOf) return 'anyOf';
-  // if (schema.not) return 'not';
+  if (schema.not) return 'not';
+
+  throw new Error("Uknown complex type")
 }
 
 const schemaParsers = {
@@ -102,6 +106,7 @@ const schemaParsers = {
   },
   'complex': (schema, typeName) => {
     const complexType = getComplexType(schema);
+
     return {
       type: 'type',
       typeIdentifier: 'type',

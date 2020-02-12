@@ -105,8 +105,8 @@ export class Api<SecurityDataType> {
 
     /**
     * @name post
-    * @description subscribes a client to receive out-of-band data
     * @request POST:/streams
+    * @description subscribes a client to receive out-of-band data
     */
     post: (query: { callbackUrl: string }, params?: RequestParams) =>
       this.request<{ subscriptionId: string }>(`/streams${this.addQueryParams(query)}`, "POST", params, null),

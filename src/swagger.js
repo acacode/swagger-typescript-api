@@ -36,8 +36,9 @@ const getSwaggerObject = (pathToSwagger, urlToSwagger) =>
           rbname: "requestBodyName",
         }, function(err, options){
           const swaggerSchema = _.get(err, 'options.openapi', _.get(options, 'openapi'))
-
-          if (!swaggerSchema && err) throw new Error(err)
+          if (!swaggerSchema && err) {
+            throw new Error(err)
+          }
           resolve(swaggerSchema)
         });
       } else {

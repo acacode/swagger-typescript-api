@@ -195,7 +195,7 @@ export class Api<SecurityDataType> {
     * @tags Auth
     * @name Refresh
     * @request POST:/auth/refresh
-    * @security true
+    * @secure
     */
     refresh: (params?: RequestParams) =>
       this.request<string>(`/auth/refresh`, "POST", params, null, true),
@@ -207,7 +207,7 @@ export class Api<SecurityDataType> {
     * @tags Jobs
     * @name GetJobs
     * @request GET:/jobs
-    * @security true
+    * @secure
     */
     getJobs: (params?: RequestParams) =>
       this.request<Job[]>(`/jobs`, "GET", params, null, true),
@@ -217,7 +217,7 @@ export class Api<SecurityDataType> {
     * @tags Jobs
     * @name AddJob
     * @request POST:/jobs
-    * @security true
+    * @secure
     */
     addJob: (data: JobUpdate, params?: RequestParams) =>
       this.request<string>(`/jobs`, "POST", params, data, true),
@@ -227,7 +227,7 @@ export class Api<SecurityDataType> {
     * @tags Jobs
     * @name GetJob
     * @request GET:/jobs/{id}
-    * @security true
+    * @secure
     */
     getJob: (id: string, params?: RequestParams) =>
       this.request<Job>(`/jobs/${id}`, "GET", params, null, true),
@@ -237,7 +237,7 @@ export class Api<SecurityDataType> {
     * @tags Jobs
     * @name UpdateJob
     * @request PATCH:/jobs/{id}
-    * @security true
+    * @secure
     */
     updateJob: (id: string, data: JobUpdate, params?: RequestParams) =>
       this.request<UpdatedJob>(`/jobs/${id}`, "PATCH", params, data, true),
@@ -258,7 +258,7 @@ export class Api<SecurityDataType> {
     * @tags Projects
     * @name AddProjects
     * @request POST:/projects
-    * @security true
+    * @secure
     */
     addProjects: (data: ProjectUpdate, params?: RequestParams) =>
       this.request<string>(`/projects`, "POST", params, data, true),
@@ -268,7 +268,7 @@ export class Api<SecurityDataType> {
     * @tags Projects
     * @name UpdateProject
     * @request PATCH:/projects/{id}
-    * @security true
+    * @secure
     */
     updateProject: (id: string, data: ProjectUpdate, params?: RequestParams) =>
       this.request<UpdatedProject>(`/projects/${id}`, "PATCH", params, data, true),
@@ -280,7 +280,7 @@ export class Api<SecurityDataType> {
     * @tags Users
     * @name GetUsers
     * @request GET:/users
-    * @security true
+    * @secure
     */
     getUsers: (params?: RequestParams) =>
       this.request<User[]>(`/users`, "GET", params, null, true),
@@ -290,7 +290,7 @@ export class Api<SecurityDataType> {
     * @tags Users
     * @name AddUser
     * @request POST:/users
-    * @security true
+    * @secure
     */
     addUser: (data: AuthUser, params?: RequestParams) =>
       this.request<User>(`/users`, "POST", params, data, true),
@@ -300,7 +300,7 @@ export class Api<SecurityDataType> {
     * @tags Users
     * @name DeleteUser
     * @request DELETE:/users/{id}
-    * @security true
+    * @secure
     */
     deleteUser: (id: string, params?: RequestParams) =>
       this.request<any>(`/users/${id}`, "DELETE", params, null, true),
@@ -310,7 +310,7 @@ export class Api<SecurityDataType> {
     * @tags Users
     * @name UpdateUser
     * @request PATCH:/users/{id}
-    * @security true
+    * @secure
     */
     updateUser: (id: string, data: UserUpdate, params?: RequestParams) =>
       this.request<User>(`/users/${id}`, "PATCH", params, data, true),

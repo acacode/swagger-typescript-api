@@ -93,8 +93,9 @@ export class Api<SecurityDataType> {
 
   /**
    * @name listVersionsv2
-   * @description List API versions
+   * @summary List API versions
    * @request GET:/
+   * @description multiple line 1. multiple line 2. multiple line 3. 
    */
   listVersionsv2 = (params?: RequestParams) =>
     this.request<any>(`/`, "GET", params, null)
@@ -104,7 +105,7 @@ export class Api<SecurityDataType> {
 
     /**
     * @name getVersionDetailsv2
-    * @description Show API version details
+    * @summary Show API version details
     * @request GET:/v2
     */
     getVersionDetailsv2: (params?: RequestParams) =>

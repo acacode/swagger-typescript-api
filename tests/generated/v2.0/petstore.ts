@@ -119,7 +119,7 @@ export class Api<SecurityDataType> {
     /**
     * @tags pets
     * @name listPets
-    * @description List all pets
+    * @summary List all pets
     * @request GET:/pets
     */
     listPets: (query: { limit?: number }, params?: RequestParams) =>
@@ -129,7 +129,7 @@ export class Api<SecurityDataType> {
     /**
     * @tags pets
     * @name createPets
-    * @description Create a pet
+    * @summary Create a pet
     * @request POST:/pets
     */
     createPets: (params?: RequestParams) =>
@@ -139,7 +139,7 @@ export class Api<SecurityDataType> {
     /**
     * @tags pets
     * @name showPetById
-    * @description Info for a specific pet
+    * @summary Info for a specific pet
     * @request GET:/pets/{petId}
     */
     showPetById: (petId: string, params?: RequestParams) =>

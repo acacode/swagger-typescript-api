@@ -1,0 +1,27 @@
+openapi: "3.0.0"
+info:
+  title: Empty schema example
+  version: 1.0.0
+components:
+  schemas:
+    BasicErrorModel:
+      type: object
+      required:
+        - message
+        - code
+      properties:
+        message:
+          type: string
+        code:
+          type: integer
+          minimum: 100
+          maximum: 600
+    ExtendedErrorModel:
+      allOf:     # Combines the BasicErrorModel and the inline model
+        - $ref: '#/components/schemas/BasicErrorModel'
+        - type: object
+          required:
+            - rootCause
+          properties:
+            rootCause:
+              type: string

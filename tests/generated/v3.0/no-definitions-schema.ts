@@ -11,6 +11,13 @@
 */
 
 
+export interface BasicErrorModel {
+  message: string;
+  code: number;
+}
+
+export type ExtendedErrorModel = BasicErrorModel & { rootCause: string }
+
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 }
@@ -26,8 +33,8 @@ type ApiConfig<SecurityDataType> = {
 export class Api<SecurityDataType> {
   
   public baseUrl = "";
-  public title = "Simple API overview";
-  public version = "2.0.0";
+  public title = "Empty schema example";
+  public version = "1.0.0";
 
   private securityData: SecurityDataType = (null as any);
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
@@ -90,25 +97,5 @@ export class Api<SecurityDataType> {
 
 
 
-
-  /**
-   * @name listVersionsv2
-   * @summary List API versions
-   * @request GET:/
-   */
-  listVersionsv2 = (params?: RequestParams) =>
-    this.request<any>(`/`, "GET", params, null)
-
-  v2 = {
-
-
-    /**
-    * @name getVersionDetailsv2
-    * @summary Show API version details
-    * @request GET:/v2
-    */
-    getVersionDetailsv2: (params?: RequestParams) =>
-      this.request<any>(`/v2`, "GET", params, null),
-  }
 
 }

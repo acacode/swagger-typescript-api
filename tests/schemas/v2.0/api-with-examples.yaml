@@ -7,12 +7,17 @@ paths:
     get:
       operationId: listVersionsv2
       summary: List API versions
+      description: |
+        multiple line 1
+        multiple line 2
+        multiple line 3
       produces:
       - application/json
       responses:
         "200":
           description: |-
             200 300 response
+            400 500 bad response
           examples:
             application/json: |-
               {

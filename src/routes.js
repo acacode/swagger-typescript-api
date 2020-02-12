@@ -31,7 +31,7 @@ const getRouteName = (operationId, method, route, moduleName) => {
 }
 
 const parseRoutes = (routes, parsedSchemas) =>
-  Object.entries(routes)
+  _.entries(routes)
     .reduce((routes, [route, requestInfoByMethodsMap]) => {
       parameters = _.get(requestInfoByMethodsMap, 'parameters');
 
@@ -119,11 +119,11 @@ const parseRoutes = (routes, parsedSchemas) =>
           const comments = [
             tags && tags.length && `@tags ${tags.join(', ')}`,
             `@name ${routeName}`,
-            (description || summary) && `@description ${_.replace(summary || description, /\n/g, '')}`,
+            summary && `@summary ${summary}`,
             `@request ${_.upperCase(method)}:${route}`,
             // requestBody && requestBody.description && `@body ${requestBody.description}`,
-            hasSecurity && `@security true`,
-            // ...responsesInfos,
+            hasSecurity && `@secure`,
+            description && `@description ${_.replace(description, /\n/g, '. ')}`,
           ].filter(Boolean);
 
           return {
