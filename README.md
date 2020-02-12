@@ -46,24 +46,16 @@ generateApi({
   name: "MySuperbApi.ts", // name of output typescript file
   url: 'http://api.com/swagger.json', // url where located swagger schema
 })
-  .then(sourceFile => {
-    fs.writeFile(path, sourceFile)
-  })
-  .catch(e => {
-    console.error(e)
-  })
+  .then(sourceFile => fs.writeFile(path, sourceFile))
+  .catch(e => console.error(e))
 
 // example with local file  
 generateApi({
   name: "ApiModule.ts", // name of output typescript file
   input: resolve(process.cwd(), './foo/swagger.json') // path to swagger schema
 })
-  .then(sourceFile => {
-    fs.writeFile(path, sourceFile)
-  })
-  .catch(e => {
-    console.error(e)
-  })
+  .then(sourceFile => fs.writeFile(path, sourceFile))
+  .catch(e => console.error(e))
 
 ```
 
