@@ -5,12 +5,12 @@
 
 Generate api via swagger scheme.  
 Supports OA 3.0, 2.0, JSON, yaml  
-Generated api module use [Fetch Api](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to make requests.  
+Generated api module use [**Fetch Api**](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to make requests.  
 
 <br>
 <br>
 
-Any questions you can ask [here](https://github.com/acacode/swagger-typescript-api/issues)  
+Any questions you can ask [**here**](https://github.com/acacode/swagger-typescript-api/issues)  
   
 <br>  
 
@@ -53,7 +53,7 @@ generateApi({
 
 ## 🚀 Examples  
 
-All examples you can find [here](https://github.com/acacode/swagger-typescript-api/tree/master/tests)  
+All examples you can find [**here**](https://github.com/acacode/swagger-typescript-api/tree/master/tests)  
 
 ## 🚀 How it looks
 
