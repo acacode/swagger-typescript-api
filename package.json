@@ -12,7 +12,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/lodash": "^4.14.149",
-    "@types/mustache": "^3.2.0",
+    "@types/mustache": "^4.0.0",
     "typescript": "^3.7.4"
   },
   "dependencies": {
@@ -20,7 +20,7 @@
     "commander": "^4.1.0",
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
-    "mustache": "^3.2.1",
+    "mustache": "^4.0.0",
     "swagger2openapi": "^5.3.3"
   },
   "main": "src/index.js",
