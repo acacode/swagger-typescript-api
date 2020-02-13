@@ -42,6 +42,7 @@
   "files": [
     "src",
     "index.js",
+    "index.d.ts",
     "LICENSE"
   ],
   "typings": "./index.d.ts",
