@@ -1,5 +1,7 @@
 # swagger-typescript-api  
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/acacode/swagger-typescript-api.svg)](https://greenkeeper.io/)
+
 <img src="https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/swagger-typescript-api-logo1.png" align="left"
      title="swagger-typescript-api logo by js2me" width="93" height="180">
 
