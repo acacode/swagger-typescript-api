@@ -14,7 +14,7 @@ Any questions you can ask [**here**](https://github.com/acacode/swagger-typescri
   
 <br>  
 
-## 🚀 Examples  
+## 👀 Examples  
 
 All examples you can find [**here**](https://github.com/acacode/swagger-typescript-api/tree/master/tests)  
 
