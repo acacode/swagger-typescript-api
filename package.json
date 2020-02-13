@@ -33,6 +33,10 @@
     "swagger",
     "typescript",
     "api",
+    "openapi",
+    "rest",
+    "codegen",
+    "generation",
     "http"
   ],
   "files": [
