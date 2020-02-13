@@ -28,7 +28,7 @@ Usage: swagger-typescript-api [options]
 
 Options:
   -v, --version          output the current version
-  -p, --path <path>      path to swagger scheme
+  -p, --path <path>      path/url to swagger scheme
   -o, --output <output>  output path of typescript api file (default: ".")
   -n, --name <name>      name of output typescript api file (default: "api.ts")
   -h, --help             output usage information
