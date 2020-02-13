@@ -13,7 +13,8 @@ const { version } = require('./package.json');
 
 program
   .version(version, '-v, --version', 'output the current version')
-  .requiredOption('-p, --path <path>', 'path to swagger scheme')
+  .description("Generate api via swagger scheme.\nSupports OA 3.0, 2.0, JSON, yaml.")
+  .requiredOption('-p, --path <path>', 'path/url to swagger scheme')
   .option('-o, --output <output>', 'output path of typescript api file', '.')
   .option('-n, --name <name>', 'name of output typescript api file', 'api.ts');
  

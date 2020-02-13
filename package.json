@@ -4,6 +4,7 @@
   "description": "Create typescript api module from swagger schema",
   "scripts": {
     "cli": "node index.js -p ./tests/schemas/v3.0/personal-api-example.json -o ./tests/generated/v3.0/ -n personal-api-example.ts",
+    "cli:help": "node index.js -h",
     "generate": "node tests/generate.js",
     "generate:debug": "node --nolazy --inspect-brk=9229 tests/generate.js",
     "validate": "node tests/validate.js"
