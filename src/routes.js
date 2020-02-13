@@ -112,7 +112,6 @@ const parseRoutes = (routes, parsedSchemas) =>
           //       acc.push(`  description: ${response.description}`)
           //     }
           //   }
-
           //   return acc;
           // }, [' '])
 
