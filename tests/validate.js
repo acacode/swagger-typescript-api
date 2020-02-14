@@ -13,6 +13,7 @@ const v3ApiPaths = createGeneratedApiInfos(path.resolve(__dirname, "./generated/
   ...v2ApiPaths,
   ...v3ApiPaths,
 ].forEach(path => {
+  process.stdout.write(`validating ${path}: `)
   var program = tsc.createProgram([path], {
     noEmitOnError: true,
     noImplicitAny: false,
@@ -32,7 +33,10 @@ const v3ApiPaths = createGeneratedApiInfos(path.resolve(__dirname, "./generated/
       console.log(`${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`);
   });
 
+  process.stdout.write(`errors ${emitResult.diagnostics.length}\r\n`)
   if (emitResult.diagnostics.length){
     process.exit(1)
   }
 })
+
+console.log('everything is good:)')
