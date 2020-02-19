@@ -1,3 +1,6 @@
+# 1.2.6  
+Fixes: create api without `-o` option (use default `./` output)  
+
 # 1.2.5  
 Features: better naming of routes without `operationId`  
 ![route naming](./assets/changelog_assets/1.2.5_route_naming.jpg)  
