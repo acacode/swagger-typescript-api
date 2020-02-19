@@ -1,8 +1,9 @@
 # swagger-typescript-api  
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/acacode/swagger-typescript-api.svg)](https://greenkeeper.io/)
+[![NPM badge](https://img.shields.io/npm/v/swagger-typescript-api.svg)](https://www.npmjs.com/package/swagger-typescript-api)
 
-<img src="https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/swagger-typescript-api-logo1.png" align="left"
+<img src="https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/swagger-typescript-api-logo.png" align="left"
      title="swagger-typescript-api logo by js2me" width="93" height="180">
 
 Generate api via swagger scheme.  
@@ -15,6 +16,8 @@ Generated api module use [**Fetch Api**](https://developer.mozilla.org/en-US/doc
 Any questions you can ask [**here**](https://github.com/acacode/swagger-typescript-api/issues) or in [**our slack**](https://join.slack.com/t/acacode/shared_invite/enQtOTQ5ODgyODQzMzYwLWYxOGI1MzQ3Yzg1ZWI5ZTI5NzNiZjExZTE5OWI1YjQ4NjBiNTk4NWVlNjM5YmU1ZWI2ZDkyMzZkZGIxNjA5NTQ)
   
 <br>  
+
+![](./assets/components-converter-example.jpg)  
 
 ## 👀 Examples  
 

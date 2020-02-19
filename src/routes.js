@@ -1,6 +1,15 @@
 const _ = require("lodash");
 const { parseSchema } = require("./schema");
+const { checkAndRenameModelName } = require("./modelNames");
 const { inlineExtraFormatters } = require("./typeFormatters");
+
+const methodAliases = {
+  get: (pathName, hasPathInserts) => _.camelCase(`${pathName}_${hasPathInserts ? 'detail': 'list'}`),
+  post: (pathName, hasPathInserts) => _.camelCase(`${pathName}_create`),
+  put: (pathName, hasPathInserts) => _.camelCase(`${pathName}_update`),
+  patch: (pathName, hasPathInserts) => _.camelCase(`${pathName}_partial_update`),
+  delete: (pathName, hasPathInserts) => _.camelCase(`${pathName}_delete`)
+}
 
 const getTypeFromRequestInfo = (requestInfo, parsedSchemas, contentType) => {
   // TODO: make more flexible pick schema without content type
@@ -10,7 +19,8 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, contentType) => {
     const extractedSchema = _.get(schema, 'additionalProperties', schema);
     const { content } = parseSchema(extractedSchema, 'none', inlineExtraFormatters);
     const foundSchema = _.find(parsedSchemas, parsedSchema => _.isEqual(parsedSchema.content, content))
-    return foundSchema ? foundSchema.name : content;
+
+    return foundSchema ? foundSchema.name : checkAndRenameModelName(content);
   }
 
   return 'any';
@@ -20,14 +30,17 @@ const findSuccessResponse = (responses) => {
   return _.find(responses, (v, status) => status === 'default' || (+status >= 200 && +status < 300))
 }
 
+const createCustomOperationId = (method, route, moduleName) => {
+  const hasPathInserts = /\{(\w){1,}\}/g.test(route);
+  const splitedRouteBySlash = _.replace(route, /\{(\w){1,}\}/g, '').split('/').filter(Boolean);
+  const routeParts = (splitedRouteBySlash.length > 1 ? splitedRouteBySlash.splice(1) : splitedRouteBySlash).join('_');
+  return routeParts.length > 3 && methodAliases[method] ? methodAliases[method](routeParts, hasPathInserts) : _.camelCase(_.lowerCase(method) + '_' + ([moduleName]).join('_')) || 'index'
+}
+
 const getRouteName = (operationId, method, route, moduleName) => {
   if (operationId) return operationId;
   if (route === '/') return `${_.lowerCase(method)}Root`;
-
-  const routeParts = _.replace(route, /\{(\w){1,}\}/g, '').split('/').filter(Boolean);
-
-  // create route name via method and route
-  return _.camelCase(_.lowerCase(method) + '_' + (moduleName ? routeParts.splice(1) : routeParts).join('_')) || 'index'
+  return createCustomOperationId(method, route, moduleName);
 }
 
 const parseRoutes = (routes, parsedSchemas) =>
@@ -159,7 +172,7 @@ const groupRoutes = routes => {
           `🥵  This method has been renamed to "${route.name + (duplicates[route.moduleName][route.name] + 1)}()" to solve conflict names.`
         )
         route.comments.push(`@originalName ${route.name}`)
-        route.comments.push(`@duplicate true`)
+        route.comments.push(`@duplicate`)
         route.name += ++duplicates[route.moduleName][route.name];
       }
       
@@ -171,21 +184,37 @@ const groupRoutes = routes => {
     return modules
   }, {
     $outOfModule: []
-  }), (shuffle, packRoutes, moduleName) => {
+  }), (acc, packRoutes, moduleName) => {
 
+    // if (moduleName === "$outOfModule") {
+    //   acc.outOfModule.push(...routes)
+    // } else {
+    //   if (routes.length === 1) {
+    //     const route = routes[0]
+    //     acc.outOfModule.push({
+    //       ...route,
+    //       name: route.name === _.lowerCase(route.name) ? moduleName : route.name,
+    //     })
+    //   } else {
+    //     acc.combined.push({
+    //       moduleName,
+    //       routes: routes,
+    //     })
+    //   }
+    // }
 
     if (moduleName === "$outOfModule") {
-      shuffle['outOfModule'] = packRoutes
+      acc.outOfModule = packRoutes
     } else {
-      if (!shuffle.combined) shuffle.combined = []
+      if (!acc.combined) acc.combined = []
 
-      shuffle.combined.push({
+      acc.combined.push({
         moduleName,
         routes: packRoutes,
       })
     }
 
-    return shuffle;
+    return acc;
   }, {})
 }
 
