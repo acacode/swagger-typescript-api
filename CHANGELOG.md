@@ -2,7 +2,7 @@
 Features: better naming of routes without `operationId`  
 ![route naming](./assets/changelog_assets/1.2.5_route_naming.jpg)  
 Changes: rename `@security true` -> `@secure`, `@duplicate true` -> `@duplicate`  
-Fixes: Support tsoa 3.x usage with complex types  
+Fixes: Support generated swagger schemes from tsoa 3.x with complex types (Omit, Pick, etc)  
 
 # 1.2.4  
 Features: add .d.ts file into npm package  
