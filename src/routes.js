@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const { parseSchema } = require("./schema");
+const { checkAndRenameModelName } = require("./modelNames");
 const { inlineExtraFormatters } = require("./typeFormatters");
 
 const methodAliases = {
@@ -18,7 +19,8 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, contentType) => {
     const extractedSchema = _.get(schema, 'additionalProperties', schema);
     const { content } = parseSchema(extractedSchema, 'none', inlineExtraFormatters);
     const foundSchema = _.find(parsedSchemas, parsedSchema => _.isEqual(parsedSchema.content, content))
-    return foundSchema ? foundSchema.name : content;
+
+    return foundSchema ? foundSchema.name : checkAndRenameModelName(content);
   }
 
   return 'any';

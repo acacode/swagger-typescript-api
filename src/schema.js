@@ -15,7 +15,7 @@ const findSchemaType = schema => {
 const typeAliases = {
   "integer": "number",
 }
-const getTypeAlias = type => typeAliases[type] || type || 'any'
+const getPrimitiveType = type => typeAliases[type] || type || 'any'
 
 const specificObjectTypes = {
   'array': ({ items }) => {
@@ -25,7 +25,7 @@ const specificObjectTypes = {
 }
 const getRefType = (ref) => _.last(_.split(ref, '/'))
 const getType = (property) => {
-  const func = specificObjectTypes[property.type] || (() => getTypeAlias(property.type))
+  const func = specificObjectTypes[property.type] || (() => getPrimitiveType(property.type))
   return property["$ref"] ? getRefType(property["$ref"]) : func(property)
 }
 const getObjectTypeContent = (properties) => {
@@ -73,7 +73,7 @@ const getComplexType = (schema) => {
 
 const schemaParsers = {
   'enum': (schema, typeName) => {
-    const type = getTypeAlias(schema.type);
+    const type = getPrimitiveType(schema.type);
     const isIntegerEnum = type === "number";
     return {
       type: isIntegerEnum ? "intEnum" : 'enum',
@@ -136,4 +136,5 @@ const parseSchema = (schema, typeName, formattersMap) => {
 module.exports = {
   parseSchema,
   getType,
+  getPrimitiveType,
 }

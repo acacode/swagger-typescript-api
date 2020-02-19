@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const { checkAndRenameModelName } = require("./modelNames");
 
 const formatters = {
   'enum': content => _.map(content, ({ key, value }) => `  ${key} = ${value}`).join(',\n'),
@@ -15,7 +16,19 @@ const formatters = {
     }
 
     return result;
-  }).join('')
+  }).join(''),
+  'type': content => {
+    if (content.includes(' & ')) {
+      return content.split(' & ').map(checkAndRenameModelName).join(' & ')
+    }
+
+    if (content.includes(' | ')) {
+      return content.split(' | ').map(checkAndRenameModelName).join(' | ')
+    }
+
+    return content
+  },
+  'primitive': content =>checkAndRenameModelName(content),
 }
 
 const inlineExtraFormatters = {
