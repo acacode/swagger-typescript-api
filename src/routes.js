@@ -18,9 +18,12 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, contentType) => {
   if (schema) {
     const extractedSchema = _.get(schema, 'additionalProperties', schema);
     const { content } = parseSchema(extractedSchema, 'none', inlineExtraFormatters);
-    const foundSchema = _.find(parsedSchemas, parsedSchema => _.isEqual(parsedSchema.content, content))
+    const foundedSchemaByName = _.find(parsedSchemas, parsedSchema => parsedSchema.name === content)
+    const foundSchemaByContent = _.find(parsedSchemas, parsedSchema => _.isEqual(parsedSchema.content, content))
 
-    return foundSchema ? foundSchema.name : checkAndRenameModelName(content);
+    const foundSchema = foundedSchemaByName || foundSchemaByContent
+
+    return checkAndRenameModelName(foundSchema ? foundSchema.name : content);
   }
 
   return 'any';
