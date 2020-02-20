@@ -78,6 +78,16 @@ export class Api<SecurityDataType> {
     this.securityData = data
   }
 
+  private addQueryParams(query: object): string {
+    const keys = Object.keys(query);
+    return keys.length ? (
+      '?' +
+      keys.reduce((paramsArray, param) => [
+        ...paramsArray,
+        param + '=' + encodeURIComponent(query[param])
+      ], []).join('&')
+    ) : ''
+  }
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
@@ -126,8 +136,8 @@ export class Api<SecurityDataType> {
     * @request POST:/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates
     * @description Creates a TDE certificate for a given server.
     */
-    managedInstanceTdeCertificatesCreate: (parameters: TdeCertificate, params?: RequestParams) =>
-      this.request<any>(`/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Sql/managedInstances/${managedInstanceName}/tdeCertificates`, "POST", params, parameters),
+    managedInstanceTdeCertificatesCreate: (resourceGroupName: string, managedInstanceName: string, subscriptionId: string, query: { "api-version": string }, parameters: TdeCertificate, params?: RequestParams) =>
+      this.request<any>(`/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Sql/managedInstances/${managedInstanceName}/tdeCertificates${this.addQueryParams(query)}`, "POST", params, parameters),
   }
 
 }

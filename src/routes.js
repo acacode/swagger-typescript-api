@@ -1,5 +1,6 @@
 const _ = require("lodash");
-const { parseSchema } = require("./schema");
+const { collect } = require("./utils");
+const { parseSchema, getRefType } = require("./schema");
 const { checkAndRenameModelName } = require("./modelNames");
 const { inlineExtraFormatters } = require("./typeFormatters");
 
@@ -46,9 +47,10 @@ const getRouteName = (operationId, method, route, moduleName) => {
   return createCustomOperationId(method, route, moduleName);
 }
 
-const parseRoutes = (routes, parsedSchemas) =>
+const parseRoutes = (routes, parsedSchemas, components) =>
   _.entries(routes)
     .reduce((routes, [route, requestInfoByMethodsMap]) => {
+      const globalParametersMap = _.get(components, "parameters", {});
       parameters = _.get(requestInfoByMethodsMap, 'parameters');
 
       // TODO: refactor that hell
@@ -77,13 +79,25 @@ const parseRoutes = (routes, parsedSchemas) =>
             responses,
           } = requestInfo;
           const hasSecurity = !!(security && security.length);
-          const pathParams = _.filter(parameters, parameter => parameter.in === 'path');
-          const queryParams = _.filter(parameters, parameter => parameter.in === 'query');
+          const pathParams = collect(parameters, parameter => {
+            if (parameter.in === 'path') return parameter;
+            
+            const refTypeName = getRefType(parameter);
+            const globalParam = refTypeName && globalParametersMap[refTypeName]
+            return globalParam && globalParametersMap[refTypeName].in === "path" && globalParam
+          })
+          const queryParams = collect(parameters, parameter => {
+            if (parameter.in === 'query') return parameter;
+            
+            const refTypeName = getRefType(parameter);
+            const globalParam = refTypeName && globalParametersMap[refTypeName]
+            return globalParam && globalParametersMap[refTypeName].in === "query" && globalParam;
+          })
           const moduleName = _.camelCase(route.split('/').filter(Boolean)[0]);
 
           const routeName = getRouteName(operationId, method, route, moduleName);
-          
-          const queryObjectSchema = queryParams.length && queryParams.reduce((objectSchema, queryPartSchema) => ({
+
+          const queryObjectSchema = _.reduce(queryParams, (objectSchema, queryPartSchema) => ({
             ...objectSchema,
             properties: {
               ...objectSchema.properties,

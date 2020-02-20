@@ -17,8 +17,8 @@ module.exports = {
 
       const apiTemplate = fs.readFileSync(path.resolve(__dirname, './templates/api.mustache'), { encoding: 'UTF-8' })
     
-      const parsedSchemas = _.map(components && components.schemas, parseSchema)
-      const routes = parseRoutes(paths, parsedSchemas);
+      const parsedSchemas = _.map(_.get(components, "schemas"), parseSchema)
+      const routes = parseRoutes(paths, parsedSchemas, components);
       const hasSecurityRoutes = routes.some(route => route.security);
       const hasQueryRoutes = routes.some(route => route.hasQuery);
       const apiConfig = createApiConfig({ info, servers }, hasSecurityRoutes);

@@ -280,6 +280,16 @@ export class Api<SecurityDataType> {
     this.securityData = data
   }
 
+  private addQueryParams(query: object): string {
+    const keys = Object.keys(query);
+    return keys.length ? (
+      '?' +
+      keys.reduce((paramsArray, param) => [
+        ...paramsArray,
+        param + '=' + encodeURIComponent(query[param])
+      ], []).join('&')
+    ) : ''
+  }
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
@@ -329,8 +339,8 @@ export class Api<SecurityDataType> {
     * @request GET:/gifs
     * @description A multiget version of the get GIF by ID endpoint.. 
     */
-    getGifsById: (params?: RequestParams) =>
-      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>(`/gifs`, "GET", params, null),
+    getGifsById: (query: { ids?: string }, params?: RequestParams) =>
+      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>(`/gifs${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -340,8 +350,8 @@ export class Api<SecurityDataType> {
     * @request GET:/gifs/random
     * @description Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.. 
     */
-    randomGif: (params?: RequestParams) =>
-      this.request<{ data?: Gif, meta?: Meta }>(`/gifs/random`, "GET", params, null),
+    randomGif: (query: { tag?: string, rating?: string }, params?: RequestParams) =>
+      this.request<{ data?: Gif, meta?: Meta }>(`/gifs/random${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -351,8 +361,8 @@ export class Api<SecurityDataType> {
     * @request GET:/gifs/search
     * @description Search all GIPHY GIFs for a word or phrase. Punctuation will be stripped and ignored.  Use a plus or url encode for phrases. Example paul+rudd, ryan+gosling or american+psycho.. 
     */
-    searchGifs: (params?: RequestParams) =>
-      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>(`/gifs/search`, "GET", params, null),
+    searchGifs: (query: { q: string, limit?: number, offset?: number, rating?: string, lang?: string }, params?: RequestParams) =>
+      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>(`/gifs/search${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -362,8 +372,8 @@ export class Api<SecurityDataType> {
     * @request GET:/gifs/translate
     * @description The translate API draws on search, but uses the GIPHY `special sauce` to handle translating from one vocabulary to another. In this case, words and phrases to GIF. 
     */
-    translateGif: (params?: RequestParams) =>
-      this.request<{ data?: Gif, meta?: Meta }>(`/gifs/translate`, "GET", params, null),
+    translateGif: (query: { s: string }, params?: RequestParams) =>
+      this.request<{ data?: Gif, meta?: Meta }>(`/gifs/translate${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -373,8 +383,8 @@ export class Api<SecurityDataType> {
     * @request GET:/gifs/trending
     * @description Fetch GIFs currently trending online. Hand curated by the GIPHY editorial team.  The data returned mirrors the GIFs showcased on the GIPHY homepage. Returns 25 results by default.. 
     */
-    trendingGifs: (params?: RequestParams) =>
-      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>(`/gifs/trending`, "GET", params, null),
+    trendingGifs: (query: { limit?: number, offset?: number, rating?: string }, params?: RequestParams) =>
+      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>(`/gifs/trending${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -384,7 +394,7 @@ export class Api<SecurityDataType> {
     * @request GET:/gifs/{gifId}
     * @description Returns a GIF given that GIF's unique ID. 
     */
-    getGifById: (params?: RequestParams) =>
+    getGifById: (gifId: number, params?: RequestParams) =>
       this.request<{ data?: Gif, meta?: Meta }>(`/gifs/${gifId}`, "GET", params, null),
   }
   stickers = {
@@ -397,8 +407,8 @@ export class Api<SecurityDataType> {
     * @request GET:/stickers/random
     * @description Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.. 
     */
-    randomSticker: (params?: RequestParams) =>
-      this.request<{ data?: Gif, meta?: Meta }>(`/stickers/random`, "GET", params, null),
+    randomSticker: (query: { tag?: string, rating?: string }, params?: RequestParams) =>
+      this.request<{ data?: Gif, meta?: Meta }>(`/stickers/random${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -408,8 +418,8 @@ export class Api<SecurityDataType> {
     * @request GET:/stickers/search
     * @description Replicates the functionality and requirements of the classic GIPHY search, but returns animated stickers rather than GIFs.. 
     */
-    searchStickers: (params?: RequestParams) =>
-      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>(`/stickers/search`, "GET", params, null),
+    searchStickers: (query: { q: string, limit?: number, offset?: number, rating?: string, lang?: string }, params?: RequestParams) =>
+      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>(`/stickers/search${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -419,8 +429,8 @@ export class Api<SecurityDataType> {
     * @request GET:/stickers/translate
     * @description The translate API draws on search, but uses the GIPHY `special sauce` to handle translating from one vocabulary to another. In this case, words and phrases to GIFs.. 
     */
-    translateSticker: (params?: RequestParams) =>
-      this.request<{ data?: Gif, meta?: Meta }>(`/stickers/translate`, "GET", params, null),
+    translateSticker: (query: { s: string }, params?: RequestParams) =>
+      this.request<{ data?: Gif, meta?: Meta }>(`/stickers/translate${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -430,8 +440,8 @@ export class Api<SecurityDataType> {
     * @request GET:/stickers/trending
     * @description Fetch Stickers currently trending online. Hand curated by the GIPHY editorial team. Returns 25 results by default.. 
     */
-    trendingStickers: (params?: RequestParams) =>
-      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>(`/stickers/trending`, "GET", params, null),
+    trendingStickers: (query: { limit?: number, offset?: number, rating?: string }, params?: RequestParams) =>
+      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>(`/stickers/trending${this.addQueryParams(query)}`, "GET", params, null),
   }
 
 }

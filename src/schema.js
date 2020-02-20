@@ -24,10 +24,15 @@ const specificObjectTypes = {
     return type === 'primitive' ? `${content}[]` : `Array<${content}>`
   }
 }
-const getRefType = (ref) => _.last(_.split(ref, '/'))
+
+const getRefType = (property) => {
+  if (!property["$ref"]) return null;
+  return _.last(_.split(property["$ref"], '/'));
+}
+
 const getType = (property) => {
   const func = specificObjectTypes[property.type] || (() => getPrimitiveType(property.type))
-  return property["$ref"] ? getRefType(property["$ref"]) : func(property)
+  return getRefType(property) || func(property)
 }
 const getObjectTypeContent = (properties) => {
   return _.map(properties, (property, name) => {
@@ -137,5 +142,6 @@ const parseSchema = (schema, typeName, formattersMap) => {
 module.exports = {
   parseSchema,
   getType,
+  getRefType,
   getPrimitiveType,
 }
