@@ -11,31 +11,6 @@
 */
 
 
-export type Pet = NewPet & { id: number }
-
-/**
-* Description of Test type
-*/
-export type Test = NewPet
-
-export interface Test2 {
-  
-  /**
-  * Field description
-  */
-  data?: NewPet;
-}
-
-export interface NewPet {
-  name: string;
-  tag?: string;
-}
-
-export interface ErrorModel {
-  code: number;
-  message: string;
-}
-
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 }
@@ -50,8 +25,8 @@ type ApiConfig<SecurityDataType> = {
 
 export class Api<SecurityDataType> {
   
-  public baseUrl = "http://petstore.swagger.io/api";
-  public title = "Swagger Petstore";
+  public baseUrl = "https://virtserver.swaggerhub.com/sdfsdfsffs/sdfff/1.0.0";
+  public title = "Sample Application Flow OAuth2 Project";
   public version = "1.0.0";
 
   private securityData: SecurityDataType = (null as any);
@@ -76,16 +51,6 @@ export class Api<SecurityDataType> {
     this.securityData = data
   }
 
-  private addQueryParams(query: object): string {
-    const keys = Object.keys(query);
-    return keys.length ? (
-      '?' +
-      keys.reduce((paramsArray, param) => [
-        ...paramsArray,
-        param + '=' + encodeURIComponent(query[param])
-      ], []).join('&')
-    ) : ''
-  }
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
@@ -125,43 +90,29 @@ export class Api<SecurityDataType> {
 
 
 
-  pets = {
+  example = {
 
 
     /**
-    * @name findPets
-    * @request GET:/pets
-    * @description Returns all pets from the system that the user has access to
+    * @name exampleList
+    * @summary Server example operation
+    * @request GET:/example
+    * @description This is an example operation to show how security is applied to the call.
     */
-    findPets: (query: { tags?: string[], limit?: number }, params?: RequestParams) =>
-      this.request<Pet[]>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
+    exampleList: (params?: RequestParams) =>
+      this.request<any>(`/example`, "GET", params, null),
+  }
+  ping = {
 
 
     /**
-    * @name addPet
-    * @request POST:/pets
-    * @description Creates a new pet in the store.  Duplicates are allowed
+    * @name pingList
+    * @summary Server heartbeat operation
+    * @request GET:/ping
+    * @description This operation shows how to override the global security defined above, as we want to open it up for all users.
     */
-    addPet: (pet: NewPet, params?: RequestParams) =>
-      this.request<Pet>(`/pets`, "POST", params, pet),
-
-
-    /**
-    * @name findPetById
-    * @request GET:/pets/{id}
-    * @description Returns a user based on a single ID, if the user does not have access to the pet
-    */
-    findPetById: (id: number, params?: RequestParams) =>
-      this.request<Pet>(`/pets/${id}`, "GET", params, null),
-
-
-    /**
-    * @name deletePet
-    * @request DELETE:/pets/{id}
-    * @description deletes a single pet based on the ID supplied
-    */
-    deletePet: (id: number, params?: RequestParams) =>
-      this.request<any>(`/pets/${id}`, "DELETE", params, null),
+    pingList: (params?: RequestParams) =>
+      this.request<any>(`/ping`, "GET", params, null),
   }
 
 }

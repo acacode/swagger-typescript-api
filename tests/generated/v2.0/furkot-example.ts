@@ -11,29 +11,75 @@
 */
 
 
-export type Pet = NewPet & { id: number }
-
-/**
-* Description of Test type
-*/
-export type Test = NewPet
-
-export interface Test2 {
+export interface Step {
   
   /**
-  * Field description
+  * address of the stop
   */
-  data?: NewPet;
+  address?: string;
+  
+  /**
+  * arrival at the stop in its local timezone as YYYY-MM-DDThh:mm
+  */
+  arrival?: string;
+  
+  /**
+  * geographical coordinates of the stop
+  */
+  coordinates?: { lat?: number, lon?: number };
+  
+  /**
+  * departure from the stop in its local timezone as YYYY-MM-DDThh:mm
+  */
+  departure?: string;
+  
+  /**
+  * name of the stop
+  */
+  name?: string;
+  
+  /**
+  * number of nights
+  */
+  nights?: number;
+  
+  /**
+  * route leading to the stop
+  */
+  route?: { distance?: number, duration?: number, mode?: "car" | "motorcycle" | "bicycle" | "walk" | "other", polyline?: string };
+  
+  /**
+  * url of the page with more information about the stop
+  */
+  url?: string;
 }
 
-export interface NewPet {
-  name: string;
-  tag?: string;
-}
-
-export interface ErrorModel {
-  code: number;
-  message: string;
+export interface Trip {
+  
+  /**
+  * begin of the trip in its local timezone as YYYY-MM-DDThh:mm
+  */
+  begin?: string;
+  
+  /**
+  * description of the trip (truncated to 200 characters)
+  */
+  description?: string;
+  
+  /**
+  * end of the trip in its local timezone as YYYY-MM-DDThh:mm
+  */
+  end?: string;
+  
+  /**
+  * Unique ID of the trip
+  */
+  id?: string;
+  
+  /**
+  * name of the trip
+  */
+  name?: string;
 }
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
@@ -50,8 +96,8 @@ type ApiConfig<SecurityDataType> = {
 
 export class Api<SecurityDataType> {
   
-  public baseUrl = "http://petstore.swagger.io/api";
-  public title = "Swagger Petstore";
+  public baseUrl = "https://trips.furkot.com/pub/api";
+  public title = "Furkot Trips";
   public version = "1.0.0";
 
   private securityData: SecurityDataType = (null as any);
@@ -76,16 +122,6 @@ export class Api<SecurityDataType> {
     this.securityData = data
   }
 
-  private addQueryParams(query: object): string {
-    const keys = Object.keys(query);
-    return keys.length ? (
-      '?' +
-      keys.reduce((paramsArray, param) => [
-        ...paramsArray,
-        param + '=' + encodeURIComponent(query[param])
-      ], []).join('&')
-    ) : ''
-  }
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
@@ -125,43 +161,25 @@ export class Api<SecurityDataType> {
 
 
 
-  pets = {
+  trip = {
 
 
     /**
-    * @name findPets
-    * @request GET:/pets
-    * @description Returns all pets from the system that the user has access to
+    * @name tripList
+    * @request GET:/trip
+    * @description list user's trips
     */
-    findPets: (query: { tags?: string[], limit?: number }, params?: RequestParams) =>
-      this.request<Pet[]>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
+    tripList: (params?: RequestParams) =>
+      this.request<Trip[]>(`/trip`, "GET", params, null),
 
 
     /**
-    * @name addPet
-    * @request POST:/pets
-    * @description Creates a new pet in the store.  Duplicates are allowed
+    * @name stopDetail
+    * @request GET:/trip/{trip_id}/stop
+    * @description list stops for a trip identified by {trip_id}
     */
-    addPet: (pet: NewPet, params?: RequestParams) =>
-      this.request<Pet>(`/pets`, "POST", params, pet),
-
-
-    /**
-    * @name findPetById
-    * @request GET:/pets/{id}
-    * @description Returns a user based on a single ID, if the user does not have access to the pet
-    */
-    findPetById: (id: number, params?: RequestParams) =>
-      this.request<Pet>(`/pets/${id}`, "GET", params, null),
-
-
-    /**
-    * @name deletePet
-    * @request DELETE:/pets/{id}
-    * @description deletes a single pet based on the ID supplied
-    */
-    deletePet: (id: number, params?: RequestParams) =>
-      this.request<any>(`/pets/${id}`, "DELETE", params, null),
+    stopDetail: (trip_id: string, params?: RequestParams) =>
+      this.request<Step[]>(`/trip/${trip_id}/stop`, "GET", params, null),
   }
 
 }

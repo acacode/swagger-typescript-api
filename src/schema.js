@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const { inlineExtraFormatters } = require("./typeFormatters");
+const { isValidName } = require("./modelNames")
 
 const jsTypes = ['number', 'boolean', 'string', 'object'];
 const jsEmptyTypes = ['null', 'undefined'];
@@ -33,7 +34,7 @@ const getObjectTypeContent = (properties) => {
     const isRequired = typeof property.nullable === "undefined" ? property.required : !property.nullable
     return {
       description: property.description,
-      field: `${name}${isRequired ? '' : '?'}: ${parseSchema(property, null, inlineExtraFormatters).content}`,
+      field: `${isValidName(name) ? name : `"${name}"`}${isRequired ? '' : '?'}: ${parseSchema(property, null, inlineExtraFormatters).content}`,
     }
   })
 }
