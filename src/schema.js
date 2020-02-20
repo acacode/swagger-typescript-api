@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const { inlineExtraFormatters } = require("./typeFormatters");
+const { isValidName } = require("./modelNames")
 
 const jsTypes = ['number', 'boolean', 'string', 'object'];
 const jsEmptyTypes = ['null', 'undefined'];
@@ -23,17 +24,22 @@ const specificObjectTypes = {
     return type === 'primitive' ? `${content}[]` : `Array<${content}>`
   }
 }
-const getRefType = (ref) => _.last(_.split(ref, '/'))
+
+const getRefType = (property) => {
+  if (!property["$ref"]) return null;
+  return _.last(_.split(property["$ref"], '/'));
+}
+
 const getType = (property) => {
   const func = specificObjectTypes[property.type] || (() => getPrimitiveType(property.type))
-  return property["$ref"] ? getRefType(property["$ref"]) : func(property)
+  return getRefType(property) || func(property)
 }
 const getObjectTypeContent = (properties) => {
   return _.map(properties, (property, name) => {
     const isRequired = typeof property.nullable === "undefined" ? property.required : !property.nullable
     return {
       description: property.description,
-      field: `${name}${isRequired ? '' : '?'}: ${parseSchema(property, null, inlineExtraFormatters).content}`,
+      field: `${isValidName(name) ? name : `"${name}"`}${isRequired ? '' : '?'}: ${parseSchema(property, null, inlineExtraFormatters).content}`,
     }
   })
 }
@@ -136,5 +142,6 @@ const parseSchema = (schema, typeName, formattersMap) => {
 module.exports = {
   parseSchema,
   getType,
+  getRefType,
   getPrimitiveType,
 }

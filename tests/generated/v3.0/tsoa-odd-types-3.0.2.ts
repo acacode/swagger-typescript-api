@@ -422,7 +422,7 @@ export class Api<SecurityDataType> {
     * @secure
     */
     getJob: (id: string, params?: RequestParams) =>
-      this.request<UpdatedJob>(`/jobs/${id}`, "GET", params, null, true),
+      this.request<Job>(`/jobs/${id}`, "GET", params, null, true),
 
 
     /**

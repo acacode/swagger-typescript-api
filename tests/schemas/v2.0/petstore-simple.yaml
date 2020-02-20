@@ -134,6 +134,15 @@
             id: 
               type: "integer"
               format: "int64"
+    Test: 
+      $ref: "#/definitions/NewPet"
+      description: Description of Test type
+    Test2: 
+      type: "object"
+      properties: 
+        data: 
+          $ref: "#/definitions/NewPet"
+          description: Field description
     NewPet: 
       type: "object"
       required: 

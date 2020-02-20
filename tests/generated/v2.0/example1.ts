@@ -11,29 +11,31 @@
 */
 
 
-export type Pet = NewPet & { id: number }
-
 /**
-* Description of Test type
+* A TDE certificate that can be uploaded into a server.
 */
-export type Test = NewPet
-
-export interface Test2 {
+export interface TdeCertificate {
   
   /**
-  * Field description
+  * Resource properties.
   */
-  data?: NewPet;
+  properties?: TdeCertificateProperties;
 }
 
-export interface NewPet {
-  name: string;
-  tag?: string;
-}
-
-export interface ErrorModel {
-  code: number;
-  message: string;
+/**
+* Properties of a TDE certificate.
+*/
+export interface TdeCertificateProperties {
+  
+  /**
+  * The certificate password.
+  */
+  certPassword?: string;
+  
+  /**
+  * The base64 encoded certificate private blob.
+  */
+  privateBlob: string;
 }
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
@@ -47,58 +49,12 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
-export namespace pets {
-
-  /**
-  * @name findPets
-  * @request GET:/pets
-  * @description Returns all pets from the system that the user has access to
-  */
-  export namespace FindPets {
-    export type RequestQuery = { tags?: string[], limit?: number };
-    export type RequestBody = never;
-    export type ResponseBody = Pet[];
-  }
-
-  /**
-  * @name addPet
-  * @request POST:/pets
-  * @description Creates a new pet in the store.  Duplicates are allowed
-  */
-  export namespace AddPet {
-    export type RequestQuery = {};
-    export type RequestBody = NewPet;
-    export type ResponseBody = Pet;
-  }
-
-  /**
-  * @name findPetById
-  * @request GET:/pets/{id}
-  * @description Returns a user based on a single ID, if the user does not have access to the pet
-  */
-  export namespace FindPetById {
-    export type RequestQuery = {};
-    export type RequestBody = never;
-    export type ResponseBody = Pet;
-  }
-
-  /**
-  * @name deletePet
-  * @request DELETE:/pets/{id}
-  * @description deletes a single pet based on the ID supplied
-  */
-  export namespace DeletePet {
-    export type RequestQuery = {};
-    export type RequestBody = never;
-    export type ResponseBody = any;
-  }
-}
 
 export class Api<SecurityDataType> {
   
-  public baseUrl = "http://petstore.swagger.io/api";
-  public title = "Swagger Petstore";
-  public version = "1.0.0";
+  public baseUrl = "https://management.azure.com";
+  public title = "SqlManagementClient";
+  public version = "2017-10-01-preview";
 
   private securityData: SecurityDataType = (null as any);
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
@@ -171,43 +127,17 @@ export class Api<SecurityDataType> {
 
 
 
-  pets = {
+  subscriptions = {
 
 
     /**
-    * @name findPets
-    * @request GET:/pets
-    * @description Returns all pets from the system that the user has access to
+    * @tags ManagedInstanceTdeCertificates
+    * @name ManagedInstanceTdeCertificates_Create
+    * @request POST:/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates
+    * @description Creates a TDE certificate for a given server.
     */
-    findPets: (query: { tags?: string[], limit?: number }, params?: RequestParams) =>
-      this.request<Pet[]>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
-
-
-    /**
-    * @name addPet
-    * @request POST:/pets
-    * @description Creates a new pet in the store.  Duplicates are allowed
-    */
-    addPet: (pet: NewPet, params?: RequestParams) =>
-      this.request<Pet>(`/pets`, "POST", params, pet),
-
-
-    /**
-    * @name findPetById
-    * @request GET:/pets/{id}
-    * @description Returns a user based on a single ID, if the user does not have access to the pet
-    */
-    findPetById: (id: number, params?: RequestParams) =>
-      this.request<Pet>(`/pets/${id}`, "GET", params, null),
-
-
-    /**
-    * @name deletePet
-    * @request DELETE:/pets/{id}
-    * @description deletes a single pet based on the ID supplied
-    */
-    deletePet: (id: number, params?: RequestParams) =>
-      this.request<any>(`/pets/${id}`, "DELETE", params, null),
+    managedInstanceTdeCertificatesCreate: (resourceGroupName: string, managedInstanceName: string, subscriptionId: string, query: { "api-version": string }, parameters: TdeCertificate, params?: RequestParams) =>
+      this.request<any>(`/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Sql/managedInstances/${managedInstanceName}/tdeCertificates${this.addQueryParams(query)}`, "POST", params, parameters),
   }
 
 }
