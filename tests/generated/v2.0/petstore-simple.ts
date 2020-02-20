@@ -48,6 +48,7 @@ type ApiConfig<SecurityDataType> = {
 
 
 
+/** A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification */
 export class Api<SecurityDataType> {
   
   public baseUrl = "http://petstore.swagger.io/api";

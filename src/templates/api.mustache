@@ -32,6 +32,9 @@ type ApiConfig{{apiConfig.generic}} = {
 
 
 
+{{#apiConfig.description}}
+/** {{.}} */
+{{/apiConfig.description}}
 export class Api{{apiConfig.generic}} {
   
   public baseUrl = "{{apiConfig.baseUrl}}";

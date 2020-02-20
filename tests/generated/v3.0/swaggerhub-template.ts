@@ -23,6 +23,7 @@ type ApiConfig<SecurityDataType> = {
 
 
 
+/** This is an example of using OAuth2 Application Flow in a specification to describe security to your API. */
 export class Api<SecurityDataType> {
   
   public baseUrl = "https://virtserver.swaggerhub.com/sdfsdfsffs/sdfff/1.0.0";
