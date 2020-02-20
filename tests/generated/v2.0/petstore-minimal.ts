@@ -28,6 +28,19 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
+export namespace pets {
+
+  /**
+  * @name petsList
+  * @request GET:/pets
+  * @description Returns all pets from the system that the user has access to
+  */
+  export namespace PetsList {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = Pet[];
+  }
+}
 
 export class Api<SecurityDataType> {
   

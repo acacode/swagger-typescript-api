@@ -109,6 +109,270 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
+export namespace pet {
+
+  /**
+  * @tags pet
+  * @name addPet
+  * @summary Add a new pet to the store
+  * @request POST:/pet
+  * @secure
+  */
+  export namespace AddPet {
+    export type RequestQuery = {};
+    export type RequestBody = any;
+    export type ResponseBody = any;
+  }
+
+  /**
+  * @tags pet
+  * @name updatePet
+  * @summary Update an existing pet
+  * @request PUT:/pet
+  * @secure
+  */
+  export namespace UpdatePet {
+    export type RequestQuery = {};
+    export type RequestBody = any;
+    export type ResponseBody = any;
+  }
+
+  /**
+  * @tags pet
+  * @name findPetsByStatus
+  * @summary Finds Pets by status
+  * @request GET:/pet/findByStatus
+  * @secure
+  * @description Multiple status values can be provided with comma separated strings
+  */
+  export namespace FindPetsByStatus {
+    export type RequestQuery = { status: Array<"available" | "pending" | "sold"> };
+    export type RequestBody = never;
+    export type ResponseBody = Pet[];
+  }
+
+  /**
+  * @tags pet
+  * @name findPetsByTags
+  * @summary Finds Pets by tags
+  * @request GET:/pet/findByTags
+  * @secure
+  * @description Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+  */
+  export namespace FindPetsByTags {
+    export type RequestQuery = { tags: string[] };
+    export type RequestBody = never;
+    export type ResponseBody = Pet[];
+  }
+
+  /**
+  * @tags pet
+  * @name getPetById
+  * @summary Find pet by ID
+  * @request GET:/pet/{petId}
+  * @secure
+  * @description Returns a single pet
+  */
+  export namespace GetPetById {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = Pet;
+  }
+
+  /**
+  * @tags pet
+  * @name updatePetWithForm
+  * @summary Updates a pet in the store with form data
+  * @request POST:/pet/{petId}
+  * @secure
+  */
+  export namespace UpdatePetWithForm {
+    export type RequestQuery = {};
+    export type RequestBody = any;
+    export type ResponseBody = any;
+  }
+
+  /**
+  * @tags pet
+  * @name deletePet
+  * @summary Deletes a pet
+  * @request DELETE:/pet/{petId}
+  * @secure
+  */
+  export namespace DeletePet {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = any;
+  }
+
+  /**
+  * @tags pet
+  * @name uploadFile
+  * @summary uploads an image
+  * @request POST:/pet/{petId}/uploadImage
+  * @secure
+  */
+  export namespace UploadFile {
+    export type RequestQuery = {};
+    export type RequestBody = any;
+    export type ResponseBody = ApiResponse;
+  }
+}
+export namespace store {
+
+  /**
+  * @tags store
+  * @name getInventory
+  * @summary Returns pet inventories by status
+  * @request GET:/store/inventory
+  * @secure
+  * @description Returns a map of status codes to quantities
+  */
+  export namespace GetInventory {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = number;
+  }
+
+  /**
+  * @tags store
+  * @name placeOrder
+  * @summary Place an order for a pet
+  * @request POST:/store/order
+  */
+  export namespace PlaceOrder {
+    export type RequestQuery = {};
+    export type RequestBody = Order;
+    export type ResponseBody = Order;
+  }
+
+  /**
+  * @tags store
+  * @name getOrderById
+  * @summary Find purchase order by ID
+  * @request GET:/store/order/{orderId}
+  * @description For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+  */
+  export namespace GetOrderById {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = Order;
+  }
+
+  /**
+  * @tags store
+  * @name deleteOrder
+  * @summary Delete purchase order by ID
+  * @request DELETE:/store/order/{orderId}
+  * @description For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+  */
+  export namespace DeleteOrder {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = any;
+  }
+}
+export namespace user {
+
+  /**
+  * @tags user
+  * @name createUser
+  * @summary Create user
+  * @request POST:/user
+  * @description This can only be done by the logged in user.
+  */
+  export namespace CreateUser {
+    export type RequestQuery = {};
+    export type RequestBody = User;
+    export type ResponseBody = any;
+  }
+
+  /**
+  * @tags user
+  * @name createUsersWithArrayInput
+  * @summary Creates list of users with given input array
+  * @request POST:/user/createWithArray
+  */
+  export namespace CreateUsersWithArrayInput {
+    export type RequestQuery = {};
+    export type RequestBody = any;
+    export type ResponseBody = any;
+  }
+
+  /**
+  * @tags user
+  * @name createUsersWithListInput
+  * @summary Creates list of users with given input array
+  * @request POST:/user/createWithList
+  */
+  export namespace CreateUsersWithListInput {
+    export type RequestQuery = {};
+    export type RequestBody = any;
+    export type ResponseBody = any;
+  }
+
+  /**
+  * @tags user
+  * @name loginUser
+  * @summary Logs user into the system
+  * @request GET:/user/login
+  */
+  export namespace LoginUser {
+    export type RequestQuery = { username: string, password: string };
+    export type RequestBody = never;
+    export type ResponseBody = Currency;
+  }
+
+  /**
+  * @tags user
+  * @name logoutUser
+  * @summary Logs out current logged in user session
+  * @request GET:/user/logout
+  */
+  export namespace LogoutUser {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = any;
+  }
+
+  /**
+  * @tags user
+  * @name getUserByName
+  * @summary Get user by user name
+  * @request GET:/user/{username}
+  */
+  export namespace GetUserByName {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = User;
+  }
+
+  /**
+  * @tags user
+  * @name updateUser
+  * @summary Updated user
+  * @request PUT:/user/{username}
+  * @description This can only be done by the logged in user.
+  */
+  export namespace UpdateUser {
+    export type RequestQuery = {};
+    export type RequestBody = User;
+    export type ResponseBody = any;
+  }
+
+  /**
+  * @tags user
+  * @name deleteUser
+  * @summary Delete user
+  * @request DELETE:/user/{username}
+  * @description This can only be done by the logged in user.
+  */
+  export namespace DeleteUser {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = any;
+  }
+}
 
 export class Api<SecurityDataType> {
   
