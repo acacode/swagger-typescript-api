@@ -40,8 +40,8 @@ type ApiConfig{{apiConfig.generic}} = {
 {{/comments}}
 */
 export namespace {{pascalName}} {
-  export type RequestQuery = {{#queryType}}{{.}}{{/queryType}};
-  export type RequestBody = {{#bodyType}}{{.}}{{/bodyType}};
+  export type RequestQuery = {{queryType}};
+  export type RequestBody = {{bodyType}};
   export type ResponseBody = {{returnType}};
 }
 {{/routes}}
@@ -57,8 +57,8 @@ export namespace {{moduleName}} {
   {{/comments}}
   */
   export namespace {{pascalName}} {
-    export type RequestQuery = {{#queryType}}{{.}}{{/queryType}};
-    export type RequestBody = {{#bodyType}}{{.}}{{/bodyType}};
+    export type RequestQuery = {{queryType}};
+    export type RequestBody = {{bodyType}};
     export type ResponseBody = {{returnType}};
   }
   {{/routes}}
