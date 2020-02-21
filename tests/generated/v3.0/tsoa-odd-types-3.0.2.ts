@@ -129,6 +129,180 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
+export namespace auth {
+
+  /**
+  * @tags Auth
+  * @name Login
+  * @request POST:/auth
+  */
+  export namespace Login {
+    export type RequestQuery = {};
+    export type RequestBody = AuthUser;
+    export type ResponseBody = string;
+  }
+
+  /**
+  * @tags Auth
+  * @name Refresh
+  * @request POST:/auth/refresh
+  * @secure
+  */
+  export namespace Refresh {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = string;
+  }
+}
+export namespace jobs {
+
+  /**
+  * @tags Jobs
+  * @name GetJobs
+  * @request GET:/jobs
+  * @secure
+  */
+  export namespace GetJobs {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = Job[];
+  }
+
+  /**
+  * @tags Jobs
+  * @name AddJob
+  * @request POST:/jobs
+  * @secure
+  */
+  export namespace AddJob {
+    export type RequestQuery = {};
+    export type RequestBody = Pick_Job_github;
+    export type ResponseBody = string;
+  }
+
+  /**
+  * @tags Jobs
+  * @name GetJob
+  * @request GET:/jobs/{id}
+  * @secure
+  */
+  export namespace GetJob {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = Job;
+  }
+
+  /**
+  * @tags Jobs
+  * @name UpdateJob
+  * @request PATCH:/jobs/{id}
+  * @secure
+  */
+  export namespace UpdateJob {
+    export type RequestQuery = {};
+    export type RequestBody = JobUpdate;
+    export type ResponseBody = UpdatedJob;
+  }
+
+  /**
+  * @tags Jobs
+  * @name DeleteJob
+  * @request DELETE:/jobs/{id}
+  * @secure
+  */
+  export namespace DeleteJob {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = any;
+  }
+}
+export namespace projects {
+
+  /**
+  * @tags Projects
+  * @name GetProjects
+  * @request GET:/projects
+  */
+  export namespace GetProjects {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = Project[];
+  }
+
+  /**
+  * @tags Projects
+  * @name AddProjects
+  * @request POST:/projects
+  * @secure
+  */
+  export namespace AddProjects {
+    export type RequestQuery = {};
+    export type RequestBody = ProjectUpdate;
+    export type ResponseBody = string;
+  }
+
+  /**
+  * @tags Projects
+  * @name UpdateProject
+  * @request PATCH:/projects/{id}
+  * @secure
+  */
+  export namespace UpdateProject {
+    export type RequestQuery = {};
+    export type RequestBody = ProjectUpdate;
+    export type ResponseBody = UpdatedProject;
+  }
+}
+export namespace users {
+
+  /**
+  * @tags Users
+  * @name GetUsers
+  * @request GET:/users
+  * @secure
+  */
+  export namespace GetUsers {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = User[];
+  }
+
+  /**
+  * @tags Users
+  * @name AddUser
+  * @request POST:/users
+  * @secure
+  */
+  export namespace AddUser {
+    export type RequestQuery = {};
+    export type RequestBody = AuthUser;
+    export type ResponseBody = User;
+  }
+
+  /**
+  * @tags Users
+  * @name DeleteUser
+  * @request DELETE:/users/{id}
+  * @secure
+  */
+  export namespace DeleteUser {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = any;
+  }
+
+  /**
+  * @tags Users
+  * @name UpdateUser
+  * @request PATCH:/users/{id}
+  * @secure
+  */
+  export namespace UpdateUser {
+    export type RequestQuery = {};
+    export type RequestBody = UserUpdate;
+    export type ResponseBody = User;
+  }
+}
 
 export class Api<SecurityDataType> {
   

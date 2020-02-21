@@ -96,6 +96,7 @@ const parseRoutes = (routes, parsedSchemas, components) =>
           const moduleName = _.camelCase(route.split('/').filter(Boolean)[0]);
 
           const routeName = getRouteName(operationId, method, route, moduleName);
+          const name = _.camelCase(routeName);
 
           const queryObjectSchema = _.reduce(queryParams, (objectSchema, queryPartSchema) => ({
             ...objectSchema,
@@ -110,18 +111,26 @@ const parseRoutes = (routes, parsedSchemas, components) =>
 
           const bodyParamName = requestInfo.requestBodyName || (requestBody && requestBody.name) || "data";
 
+          const queryType = queryParams.length
+            ? parseSchema(queryObjectSchema, null, inlineExtraFormatters).content
+            : null;
+
+          const bodyType = requestBody
+            ? getTypeFromRequestInfo(requestBody, parsedSchemas, "application/json")
+            : null;
+
           const args = [
             ...(pathParams.map(param => ({
               name: param.name,
               type: parseSchema(param.schema, null, inlineExtraFormatters).content
             }))),
-            queryParams.length && {
+            queryType && {
               name: 'query',
-              type: parseSchema(queryObjectSchema, null, inlineExtraFormatters).content,
+              type: queryType,
             },
-            requestBody && {
+            bodyType && {
               name: bodyParamName,
-              type: getTypeFromRequestInfo(requestBody, parsedSchemas, "application/json"),
+              type: bodyType,
             },
           ].filter(Boolean)
 
@@ -156,10 +165,13 @@ const parseRoutes = (routes, parsedSchemas, components) =>
           ].filter(Boolean);
 
           return {
-            moduleName,
+            moduleName: _.replace(moduleName, /^(\d)/, 'v$1'),
             security: hasSecurity,
             hasQuery: !!queryParams.length,
-            name: _.camelCase(routeName),
+            queryType: queryType || '{}',
+            bodyType: bodyType || 'never',
+            name,
+            pascalName: _.upperFirst(name),
             comments,
             args,
             method: _.upperCase(method),
@@ -190,9 +202,11 @@ const groupRoutes = routes => {
         )
         route.comments.push(`@originalName ${route.name}`)
         route.comments.push(`@duplicate`)
-        route.name += ++duplicates[route.moduleName][route.name];
+        const duplicateNumber = ++duplicates[route.moduleName][route.name]
+        route.name += duplicateNumber;
+        route.pascalName += duplicateNumber;
       }
-      
+
       modules[route.moduleName].push(route)
     } else {
       modules.$outOfModule.push(route)

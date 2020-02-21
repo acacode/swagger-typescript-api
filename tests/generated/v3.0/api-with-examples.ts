@@ -22,6 +22,30 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
+/**
+* @name listVersionsv2
+* @summary List API versions
+* @request GET:/
+*/
+export namespace ListVersionsv2 {
+  export type RequestQuery = {};
+  export type RequestBody = never;
+  export type ResponseBody = any;
+}
+
+export namespace v2 {
+
+  /**
+  * @name getVersionDetailsv2
+  * @summary Show API version details
+  * @request GET:/v2
+  */
+  export namespace GetVersionDetailsv2 {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = any;
+  }
+}
 
 export class Api<SecurityDataType> {
   

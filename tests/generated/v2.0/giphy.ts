@@ -251,6 +251,140 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
+export namespace gifs {
+
+  /**
+  * @tags gifs
+  * @name getGifsById
+  * @summary Get GIFs by ID
+  * @request GET:/gifs
+  * @description A multiget version of the get GIF by ID endpoint.. 
+  */
+  export namespace GetGifsById {
+    export type RequestQuery = { ids?: string };
+    export type RequestBody = never;
+    export type ResponseBody = { data?: Gif[], meta?: Meta, pagination?: Pagination };
+  }
+
+  /**
+  * @tags gifs
+  * @name randomGif
+  * @summary Random GIF
+  * @request GET:/gifs/random
+  * @description Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.. 
+  */
+  export namespace RandomGif {
+    export type RequestQuery = { tag?: string, rating?: string };
+    export type RequestBody = never;
+    export type ResponseBody = { data?: Gif, meta?: Meta };
+  }
+
+  /**
+  * @tags gifs
+  * @name searchGifs
+  * @summary Search GIFs
+  * @request GET:/gifs/search
+  * @description Search all GIPHY GIFs for a word or phrase. Punctuation will be stripped and ignored.  Use a plus or url encode for phrases. Example paul+rudd, ryan+gosling or american+psycho.. 
+  */
+  export namespace SearchGifs {
+    export type RequestQuery = { q: string, limit?: number, offset?: number, rating?: string, lang?: string };
+    export type RequestBody = never;
+    export type ResponseBody = { data?: Gif[], meta?: Meta, pagination?: Pagination };
+  }
+
+  /**
+  * @tags gifs
+  * @name translateGif
+  * @summary Translate phrase to GIF
+  * @request GET:/gifs/translate
+  * @description The translate API draws on search, but uses the GIPHY `special sauce` to handle translating from one vocabulary to another. In this case, words and phrases to GIF. 
+  */
+  export namespace TranslateGif {
+    export type RequestQuery = { s: string };
+    export type RequestBody = never;
+    export type ResponseBody = { data?: Gif, meta?: Meta };
+  }
+
+  /**
+  * @tags gifs
+  * @name trendingGifs
+  * @summary Trending GIFs
+  * @request GET:/gifs/trending
+  * @description Fetch GIFs currently trending online. Hand curated by the GIPHY editorial team.  The data returned mirrors the GIFs showcased on the GIPHY homepage. Returns 25 results by default.. 
+  */
+  export namespace TrendingGifs {
+    export type RequestQuery = { limit?: number, offset?: number, rating?: string };
+    export type RequestBody = never;
+    export type ResponseBody = { data?: Gif[], meta?: Meta, pagination?: Pagination };
+  }
+
+  /**
+  * @tags gifs
+  * @name getGifById
+  * @summary Get GIF by Id
+  * @request GET:/gifs/{gifId}
+  * @description Returns a GIF given that GIF's unique ID. 
+  */
+  export namespace GetGifById {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = { data?: Gif, meta?: Meta };
+  }
+}
+export namespace stickers {
+
+  /**
+  * @tags stickers
+  * @name randomSticker
+  * @summary Random Sticker
+  * @request GET:/stickers/random
+  * @description Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.. 
+  */
+  export namespace RandomSticker {
+    export type RequestQuery = { tag?: string, rating?: string };
+    export type RequestBody = never;
+    export type ResponseBody = { data?: Gif, meta?: Meta };
+  }
+
+  /**
+  * @tags stickers
+  * @name searchStickers
+  * @summary Search Stickers
+  * @request GET:/stickers/search
+  * @description Replicates the functionality and requirements of the classic GIPHY search, but returns animated stickers rather than GIFs.. 
+  */
+  export namespace SearchStickers {
+    export type RequestQuery = { q: string, limit?: number, offset?: number, rating?: string, lang?: string };
+    export type RequestBody = never;
+    export type ResponseBody = { data?: Gif[], meta?: Meta, pagination?: Pagination };
+  }
+
+  /**
+  * @tags stickers
+  * @name translateSticker
+  * @summary Translate phrase to Sticker
+  * @request GET:/stickers/translate
+  * @description The translate API draws on search, but uses the GIPHY `special sauce` to handle translating from one vocabulary to another. In this case, words and phrases to GIFs.. 
+  */
+  export namespace TranslateSticker {
+    export type RequestQuery = { s: string };
+    export type RequestBody = never;
+    export type ResponseBody = { data?: Gif, meta?: Meta };
+  }
+
+  /**
+  * @tags stickers
+  * @name trendingStickers
+  * @summary Trending Stickers
+  * @request GET:/stickers/trending
+  * @description Fetch Stickers currently trending online. Hand curated by the GIPHY editorial team. Returns 25 results by default.. 
+  */
+  export namespace TrendingStickers {
+    export type RequestQuery = { limit?: number, offset?: number, rating?: string };
+    export type RequestBody = never;
+    export type ResponseBody = { data?: Gif[], meta?: Meta, pagination?: Pagination };
+  }
+}
 
 /** Giphy API */
 export class Api<SecurityDataType> {

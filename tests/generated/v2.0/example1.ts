@@ -49,6 +49,20 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
+export namespace subscriptions {
+
+  /**
+  * @tags ManagedInstanceTdeCertificates
+  * @name ManagedInstanceTdeCertificates_Create
+  * @request POST:/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates
+  * @description Creates a TDE certificate for a given server.
+  */
+  export namespace ManagedInstanceTdeCertificatesCreate {
+    export type RequestQuery = { "api-version": string };
+    export type RequestBody = TdeCertificate;
+    export type ResponseBody = any;
+  }
+}
 
 /** The Azure SQL Database management API provides a RESTful set of web APIs that interact with Azure SQL Database services to manage your databases. The API enables users to create, retrieve, update, and delete databases, servers, and other entities. */
 export class Api<SecurityDataType> {

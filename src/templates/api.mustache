@@ -30,7 +30,41 @@ type ApiConfig{{apiConfig.generic}} = {
 {{/apiConfig.props}}
 }
 
+{{#routes}}
+{{#outOfModule}}
+{{#routes}}
 
+/**
+{{#comments}}
+* {{.}}
+{{/comments}}
+*/
+export namespace {{pascalName}} {
+  export type RequestQuery = {{queryType}};
+  export type RequestBody = {{bodyType}};
+  export type ResponseBody = {{returnType}};
+}
+{{/routes}}
+{{/outOfModule}}
+
+{{#combined}}
+export namespace {{moduleName}} {
+  {{#routes}}
+
+  /**
+  {{#comments}}
+  * {{.}}
+  {{/comments}}
+  */
+  export namespace {{pascalName}} {
+    export type RequestQuery = {{queryType}};
+    export type RequestBody = {{bodyType}};
+    export type ResponseBody = {{returnType}};
+  }
+  {{/routes}}
+}
+{{/combined}}
+{{/routes}}
 
 {{#apiConfig.description}}
 /** {{.}} */

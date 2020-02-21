@@ -32,6 +32,18 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
+export namespace pets {
+
+  /**
+  * @name petsPartialUpdate
+  * @request PATCH:/pets
+  */
+  export namespace PetsPartialUpdate {
+    export type RequestQuery = {};
+    export type RequestBody = PetByAge | PetByType | (PetByAge & PetByType);
+    export type ResponseBody = any;
+  }
+}
 
 export class Api<SecurityDataType> {
   

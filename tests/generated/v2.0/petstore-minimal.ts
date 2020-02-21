@@ -28,6 +28,19 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
+export namespace pets {
+
+  /**
+  * @name petsList
+  * @request GET:/pets
+  * @description Returns all pets from the system that the user has access to
+  */
+  export namespace PetsList {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = Pet[];
+  }
+}
 
 /** A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification */
 export class Api<SecurityDataType> {

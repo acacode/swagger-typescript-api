@@ -30,6 +30,18 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
+export namespace pets {
+
+  /**
+  * @name petsPartialUpdate
+  * @request PATCH:/pets
+  */
+  export namespace PetsPartialUpdate {
+    export type RequestQuery = {};
+    export type RequestBody = Cat | Dog;
+    export type ResponseBody = any;
+  }
+}
 
 export class Api<SecurityDataType> {
   
