@@ -386,6 +386,7 @@ export namespace stickers {
   }
 }
 
+/** Giphy API */
 export class Api<SecurityDataType> {
   
   public baseUrl = "https://api.giphy.com/v1";

@@ -81,6 +81,7 @@ export namespace pets {
   }
 }
 
+/** A sample API that uses a petstore as an example to demonstrate features in the OpenAPI 3.0 specification */
 export class Api<SecurityDataType> {
   
   public baseUrl = "http://petstore.swagger.io/api";

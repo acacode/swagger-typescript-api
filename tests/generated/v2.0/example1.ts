@@ -64,6 +64,7 @@ export namespace subscriptions {
   }
 }
 
+/** The Azure SQL Database management API provides a RESTful set of web APIs that interact with Azure SQL Database services to manage your databases. The API enables users to create, retrieve, update, and delete databases, servers, and other entities. */
 export class Api<SecurityDataType> {
   
   public baseUrl = "https://management.azure.com";

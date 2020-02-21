@@ -66,6 +66,9 @@ export namespace {{moduleName}} {
 {{/combined}}
 {{/routes}}
 
+{{#apiConfig.description}}
+/** {{.}} */
+{{/apiConfig.description}}
 export class Api{{apiConfig.generic}} {
   
   public baseUrl = "{{apiConfig.baseUrl}}";

@@ -232,6 +232,7 @@ export namespace history {
   }
 }
 
+/** Move your app forward with the Uber API */
 export class Api<SecurityDataType> {
   
   public baseUrl = "https://api.uber.com/v1";
