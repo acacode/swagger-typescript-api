@@ -95,6 +95,180 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
+export namespace key {
+
+  /**
+  * @tags key, delete
+  * @name key_revoke_nosecret
+  * @request DELETE:/key
+  * @description Revoke an Authentiq ID using email & phone.. . If called with `email` and `phone` only, a verification code . will be sent by email. Do a second call adding `code` to . complete the revocation.. 
+  */
+  export namespace KeyRevokeNosecret {
+    export type RequestQuery = { email: string, phone: string, code?: string };
+    export type RequestBody = never;
+    export type ResponseBody = { status?: string };
+  }
+
+  /**
+  * @tags key, post
+  * @name key_register
+  * @request POST:/key
+  * @description Register a new ID `JWT(sub, devtoken)`. . v5: `JWT(sub, pk, devtoken, ...)`. . See: https://github.com/skion/authentiq/wiki/JWT-Examples. 
+  */
+  export namespace KeyRegister {
+    export type RequestQuery = {};
+    export type RequestBody = any;
+    export type ResponseBody = { secret?: string, status?: string };
+  }
+
+  /**
+  * @tags key, delete
+  * @name key_revoke
+  * @request DELETE:/key/{PK}
+  * @description Revoke an Identity (Key) with a revocation secret
+  */
+  export namespace KeyRevoke {
+    export type RequestQuery = { secret: string };
+    export type RequestBody = never;
+    export type ResponseBody = { status?: string };
+  }
+
+  /**
+  * @tags key, get
+  * @name getKey
+  * @request GET:/key/{PK}
+  * @description Get public details of an Authentiq ID.. 
+  */
+  export namespace GetKey {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = { since?: string, status?: string, sub?: string };
+  }
+
+  /**
+  * @tags key, head
+  * @name headKey
+  * @request HEAD:/key/{PK}
+  * @description HEAD info on Authentiq ID. 
+  */
+  export namespace HeadKey {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = any;
+  }
+
+  /**
+  * @tags key, post
+  * @name key_update
+  * @request POST:/key/{PK}
+  * @description update properties of an Authentiq ID.. (not operational in v4; use PUT for now). . v5: POST issuer-signed email & phone scopes in. a self-signed JWT. . See: https://github.com/skion/authentiq/wiki/JWT-Examples. 
+  */
+  export namespace KeyUpdate {
+    export type RequestQuery = {};
+    export type RequestBody = any;
+    export type ResponseBody = { status?: string };
+  }
+
+  /**
+  * @tags key, put
+  * @name key_bind
+  * @request PUT:/key/{PK}
+  * @description Update Authentiq ID by replacing the object.. . v4: `JWT(sub,email,phone)` to bind email/phone hash; . . v5: POST issuer-signed email & phone scopes. and PUT to update registration `JWT(sub, pk, devtoken, ...)`. . See: https://github.com/skion/authentiq/wiki/JWT-Examples. 
+  */
+  export namespace KeyBind {
+    export type RequestQuery = {};
+    export type RequestBody = any;
+    export type ResponseBody = { status?: string };
+  }
+}
+export namespace login {
+
+  /**
+  * @tags login, post
+  * @name push_login_request
+  * @request POST:/login
+  * @description push sign-in request. See: https://github.com/skion/authentiq/wiki/JWT-Examples. 
+  */
+  export namespace PushLoginRequest {
+    export type RequestQuery = { callback: string };
+    export type RequestBody = any;
+    export type ResponseBody = { status?: string };
+  }
+}
+export namespace scope {
+
+  /**
+  * @tags scope, post
+  * @name sign_request
+  * @request POST:/scope
+  * @description scope verification request. See: https://github.com/skion/authentiq/wiki/JWT-Examples. 
+  */
+  export namespace SignRequest {
+    export type RequestQuery = { test?: number };
+    export type RequestBody = any;
+    export type ResponseBody = { job?: string, status?: string };
+  }
+
+  /**
+  * @tags scope, delete
+  * @name sign_delete
+  * @request DELETE:/scope/{job}
+  * @description delete a verification job
+  */
+  export namespace SignDelete {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = { status?: string };
+  }
+
+  /**
+  * @tags scope, get
+  * @name sign_retrieve
+  * @request GET:/scope/{job}
+  * @description get the status / current content of a verification job
+  */
+  export namespace SignRetrieve {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = { exp?: number, field?: string, sub?: string };
+  }
+
+  /**
+  * @tags scope, head
+  * @name sign_retrieve_head
+  * @request HEAD:/scope/{job}
+  * @description HEAD to get the status of a verification job
+  */
+  export namespace SignRetrieveHead {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = any;
+  }
+
+  /**
+  * @tags scope, post
+  * @name sign_confirm
+  * @request POST:/scope/{job}
+  * @description this is a scope confirmation
+  */
+  export namespace SignConfirm {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = { status?: string };
+  }
+
+  /**
+  * @tags scope, put
+  * @name sign_update
+  * @request PUT:/scope/{job}
+  * @description authority updates a JWT with its signature. See: https://github.com/skion/authentiq/wiki/JWT-Examples. 
+  */
+  export namespace SignUpdate {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = any;
+  }
+}
 
 /** Strong authentication, without the passwords. */
 export class Api<SecurityDataType> {
