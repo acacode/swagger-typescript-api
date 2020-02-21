@@ -202,9 +202,11 @@ const groupRoutes = routes => {
         )
         route.comments.push(`@originalName ${route.name}`)
         route.comments.push(`@duplicate`)
-        route.name += ++duplicates[route.moduleName][route.name];
+        const duplicateNumber = ++duplicates[route.moduleName][route.name]
+        route.name += duplicateNumber;
+        route.pascalName += duplicateNumber;
       }
-      
+
       modules[route.moduleName].push(route)
     } else {
       modules.$outOfModule.push(route)
