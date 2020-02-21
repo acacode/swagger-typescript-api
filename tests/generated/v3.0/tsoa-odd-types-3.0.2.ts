@@ -189,7 +189,7 @@ export namespace jobs {
   export namespace GetJob {
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type ResponseBody = UpdatedJob;
+    export type ResponseBody = Job;
   }
 
   /**

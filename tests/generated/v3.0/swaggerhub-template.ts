@@ -22,6 +22,34 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
+export namespace example {
+
+  /**
+  * @name exampleList
+  * @summary Server example operation
+  * @request GET:/example
+  * @description This is an example operation to show how security is applied to the call.
+  */
+  export namespace ExampleList {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = any;
+  }
+}
+export namespace ping {
+
+  /**
+  * @name pingList
+  * @summary Server heartbeat operation
+  * @request GET:/ping
+  * @description This operation shows how to override the global security defined above, as we want to open it up for all users.
+  */
+  export namespace PingList {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = any;
+  }
+}
 
 export class Api<SecurityDataType> {
   

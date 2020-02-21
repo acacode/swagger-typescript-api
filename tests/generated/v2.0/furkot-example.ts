@@ -93,6 +93,30 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
+export namespace trip {
+
+  /**
+  * @name tripList
+  * @request GET:/trip
+  * @description list user's trips
+  */
+  export namespace TripList {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = Trip[];
+  }
+
+  /**
+  * @name stopDetail
+  * @request GET:/trip/{trip_id}/stop
+  * @description list stops for a trip identified by {trip_id}
+  */
+  export namespace StopDetail {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = Step[];
+  }
+}
 
 export class Api<SecurityDataType> {
   
