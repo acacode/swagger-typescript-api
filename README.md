@@ -76,7 +76,7 @@ generateApi({
 ## 🛠️ Contribution  
 
 You can manually check your changes at schemas in `tests` folder before create a PR.  
-To do that this project have scripts:  
+To do that have scripts:  
     - `npm run generate` - generate API modules from schemas in `tests` folder  
     - `npm run validate` - validate generated API modules via TypeScript  
 
