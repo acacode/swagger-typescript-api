@@ -47,6 +47,52 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
+export namespace pets {
+
+  /**
+  * @name findPets
+  * @request GET:/pets
+  * @description Returns all pets from the system that the user has access to
+  */
+  export namespace FindPets {
+    export type RequestQuery = { tags?: string[], limit?: number };
+    export type RequestBody = never;
+    export type ResponseBody = Pet[];
+  }
+
+  /**
+  * @name addPet
+  * @request POST:/pets
+  * @description Creates a new pet in the store.  Duplicates are allowed
+  */
+  export namespace AddPet {
+    export type RequestQuery = {};
+    export type RequestBody = NewPet;
+    export type ResponseBody = Pet;
+  }
+
+  /**
+  * @name findPetById
+  * @request GET:/pets/{id}
+  * @description Returns a user based on a single ID, if the user does not have access to the pet
+  */
+  export namespace FindPetById {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = Pet;
+  }
+
+  /**
+  * @name deletePet
+  * @request DELETE:/pets/{id}
+  * @description deletes a single pet based on the ID supplied
+  */
+  export namespace DeletePet {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = any;
+  }
+}
 
 export class Api<SecurityDataType> {
   

@@ -157,6 +157,80 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
+export namespace products {
+
+  /**
+  * @tags Products
+  * @name productsList
+  * @summary Product Types
+  * @request GET:/products
+  * @secure
+  * @description The Products endpoint returns information about the Uber products offered at a given location. The response includes the display name and other details about each product, and lists the products in the proper display order.
+  */
+  export namespace ProductsList {
+    export type RequestQuery = { latitude: number, longitude: number };
+    export type RequestBody = never;
+    export type ResponseBody = Product[];
+  }
+}
+export namespace estimates {
+
+  /**
+  * @tags Estimates
+  * @name priceList
+  * @summary Price Estimates
+  * @request GET:/estimates/price
+  * @description The Price Estimates endpoint returns an estimated price range for each product offered at a given location. The price estimate is provided as a formatted string with the full price range and the localized currency symbol.<br><br>The response also includes low and high estimates, and the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for situations requiring currency conversion. When surge is active for a particular product, its surge_multiplier will be greater than 1, but the price estimate already factors in this multiplier.
+  */
+  export namespace PriceList {
+    export type RequestQuery = { start_latitude: number, start_longitude: number, end_latitude?: number, end_longitude: number };
+    export type RequestBody = never;
+    export type ResponseBody = PriceEstimate[];
+  }
+
+  /**
+  * @tags Estimates
+  * @name timeList
+  * @summary Time Estimates
+  * @request GET:/estimates/time
+  * @description The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. We recommend that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.
+  */
+  export namespace TimeList {
+    export type RequestQuery = { start_latitude: number, start_longitude: number, customer_uuid?: string, product_id?: string };
+    export type RequestBody = never;
+    export type ResponseBody = Product[];
+  }
+}
+export namespace me {
+
+  /**
+  * @tags User
+  * @name getMe
+  * @summary User Profile
+  * @request GET:/me
+  * @description The User Profile endpoint returns information about the Uber user that has authorized with the application.
+  */
+  export namespace GetMe {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = Profile;
+  }
+}
+export namespace history {
+
+  /**
+  * @tags User
+  * @name historyList
+  * @summary User Activity
+  * @request GET:/history
+  * @description The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.
+  */
+  export namespace HistoryList {
+    export type RequestQuery = { offset?: number, limit?: number };
+    export type RequestBody = never;
+    export type ResponseBody = Activities;
+  }
+}
 
 export class Api<SecurityDataType> {
   

@@ -35,6 +35,44 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
+export namespace pets {
+
+  /**
+  * @tags pets
+  * @name listPets
+  * @summary List all pets
+  * @request GET:/pets
+  */
+  export namespace ListPets {
+    export type RequestQuery = { limit?: number };
+    export type RequestBody = never;
+    export type ResponseBody = Pets;
+  }
+
+  /**
+  * @tags pets
+  * @name createPets
+  * @summary Create a pet
+  * @request POST:/pets
+  */
+  export namespace CreatePets {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = any;
+  }
+
+  /**
+  * @tags pets
+  * @name showPetById
+  * @summary Info for a specific pet
+  * @request GET:/pets/{petId}
+  */
+  export namespace ShowPetById {
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type ResponseBody = Pets;
+  }
+}
 
 export class Api<SecurityDataType> {
   
