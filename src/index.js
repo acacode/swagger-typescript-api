@@ -11,12 +11,21 @@ const { getSwaggerObject } = require('./swagger');
 mustache.escape = value => value
 
 module.exports = {
-  generateApi: ({ input, output, url, name }) => new Promise((resolve, reject) => {
+  generateApi: ({
+    input,
+    output,
+    url,
+    name,
+    generateRouteTypes = true,
+    generateClient = true,
+  }) => new Promise((resolve, reject) => {
     getSwaggerObject(input, url).then(({ info, paths, servers, components }) => {
       console.log('☄️  start generating your typescript api')
 
-      const apiTemplate = fs.readFileSync(path.resolve(__dirname, './templates/api.mustache'), { encoding: 'UTF-8' })
-    
+      const apiTemplate = fs.readFileSync(path.resolve(__dirname, './templates/api.mustache'), 'utf-8');
+      const clientTemplate = fs.readFileSync(path.resolve(__dirname, './templates/client.mustache'), 'utf-8');
+      const routeTypesTemplate = fs.readFileSync(path.resolve(__dirname, './templates/route-types.mustache'), 'utf-8');
+
       const parsedSchemas = _.map(_.get(components, "schemas"), parseSchema)
       const routes = parseRoutes(paths, parsedSchemas, components);
       const hasSecurityRoutes = routes.some(route => route.security);
@@ -29,9 +38,13 @@ module.exports = {
         hasSecurityRoutes,
         hasQueryRoutes,
         routes: groupRoutes(routes),
-      }
+      };
     
-      const sourceFile = mustache.render(apiTemplate, configuration)
+      const sourceFile = [
+        mustache.render(apiTemplate, configuration),
+        generateRouteTypes ? mustache.render(routeTypesTemplate, configuration) : '',
+        generateClient ? mustache.render(clientTemplate, configuration) : '',
+      ].join('');
 
       if (output && fs.existsSync(output)) {
         fs.writeFileSync(path.resolve(__dirname, output, `./${name}`), sourceFile, _.noop)

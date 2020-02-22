@@ -17,17 +17,6 @@ export interface Pet {
   tag?: string;
 }
 
-export type RequestParams = Omit<RequestInit, "body" | "method"> & {
-  secure?: boolean;
-}
-
-type ApiConfig<SecurityDataType> = {
-  baseUrl?: string,
-  baseApiParams?: RequestParams,
-  securityWorker?: (securityData: SecurityDataType) => RequestParams,
-}
-
-
 export namespace pets {
 
   /**
@@ -40,6 +29,16 @@ export namespace pets {
     export type RequestBody = never;
     export type ResponseBody = Pet[];
   }
+}
+
+export type RequestParams = Omit<RequestInit, "body" | "method"> & {
+  secure?: boolean;
+}
+
+type ApiConfig<SecurityDataType> = {
+  baseUrl?: string,
+  baseApiParams?: RequestParams,
+  securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
 /** A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification */

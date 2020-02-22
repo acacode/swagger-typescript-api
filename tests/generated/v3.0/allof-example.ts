@@ -19,17 +19,6 @@ export type Dog = Pet & { bark?: boolean, breed?: "Dingo" | "Husky" | "Retriever
 
 export type Cat = Pet & { hunts?: boolean, age?: number }
 
-export type RequestParams = Omit<RequestInit, "body" | "method"> & {
-  secure?: boolean;
-}
-
-type ApiConfig<SecurityDataType> = {
-  baseUrl?: string,
-  baseApiParams?: RequestParams,
-  securityWorker?: (securityData: SecurityDataType) => RequestParams,
-}
-
-
 export namespace pets {
 
   /**
@@ -41,6 +30,16 @@ export namespace pets {
     export type RequestBody = Cat | Dog;
     export type ResponseBody = any;
   }
+}
+
+export type RequestParams = Omit<RequestInit, "body" | "method"> & {
+  secure?: boolean;
+}
+
+type ApiConfig<SecurityDataType> = {
+  baseUrl?: string,
+  baseApiParams?: RequestParams,
+  securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
 export class Api<SecurityDataType> {
