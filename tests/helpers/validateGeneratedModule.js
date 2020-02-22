@@ -4,18 +4,19 @@ const tsc = require("typescript");
 const compilerOptions = {
   noEmitOnError: true,
   noImplicitAny: false,
-  target: tsc.ScriptTarget.ES5, module: tsc.ModuleKind.CommonJS
+  target: tsc.ScriptTarget.ES2019,
+  module: tsc.ModuleKind.CommonJS
 }
 
-module.exports = (path) => {
-  process.stdout.write(`validating ${relative('', path)}: `)
+const getDiagnosticsFromPath = pathToFile =>
+  tsc.createProgram([pathToFile], compilerOptions).emit(void 0, void 0, void 0, true).diagnostics
 
-  var program = tsc.createProgram([path], compilerOptions);
-  var emitResult = program.emit(void 0, void 0, void 0, true)
+module.exports = ({ pathToFile }) => {
+  process.stdout.write(`validating ${relative('', pathToFile)}: `)
 
-  var allDiagnostics = emitResult.diagnostics;
+  const diagnostics = getDiagnosticsFromPath(pathToFile)
 
-  allDiagnostics.forEach(({
+  diagnostics.forEach(({
     messageText,
     file,
     start,
@@ -29,7 +30,7 @@ module.exports = (path) => {
       console.error(`${file.fileName} (${line + 1},${character + 1}): ${message}`);
   });
 
-  process.stdout.write(`errors ${allDiagnostics.length}\r\n`)
+  process.stdout.write(`errors ${diagnostics.length}\r\n`)
 
-  return allDiagnostics
+  return diagnostics
 }

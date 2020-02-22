@@ -4,8 +4,8 @@ Features:
     ![api description](./assets/changelog_assets/api-module-description.jpg)  
   - Generate API types declarations (CLI flag `--route-types`)  
   - Ability to not generate clint API class (CLI flag `--no-client`)  
-Internal:
-  - refactored generate and validate test scripts      
+Internal:  
+  - refactored `generate` and `validate` test scripts  
 
 # 1.2.6  
 Fixes: create api without `-o` option (use default `./` output)  

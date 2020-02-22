@@ -1,15 +1,15 @@
-const path = require("path");
-const createSchemasInfos = require("./utils/createSchemaInfos")
+const { resolve } = require("path");
+const createSchemasInfos = require("./helpers/createSchemaInfos")
 const { generateApi } = require('../src');
 
 const schemas = [
   ...createSchemasInfos({
-    absolutePathToSchemas: path.resolve(__dirname, "./schemas/v2.0"),
-    absoluteOutputPath: path.resolve(__dirname, "./generated/v2.0")
+    absolutePathToSchemas: resolve(__dirname, "./schemas/v2.0"),
+    absoluteOutputPath: resolve(__dirname, "./generated/v2.0")
   }),
   ...createSchemasInfos({
-    absolutePathToSchemas: path.resolve(__dirname, "./schemas/v3.0"),
-    absoluteOutputPath: path.resolve(__dirname, "./generated/v3.0")
+    absolutePathToSchemas: resolve(__dirname, "./schemas/v3.0"),
+    absoluteOutputPath: resolve(__dirname, "./generated/v3.0")
   }),
 ]
 
