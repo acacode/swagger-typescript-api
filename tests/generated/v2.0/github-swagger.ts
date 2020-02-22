@@ -984,17 +984,6 @@ export interface UserUpdate {
 
 export type users = user[]
 
-export type RequestParams = Omit<RequestInit, "body" | "method"> & {
-  secure?: boolean;
-}
-
-type ApiConfig<SecurityDataType> = {
-  baseUrl?: string,
-  baseApiParams?: RequestParams,
-  securityWorker?: (securityData: SecurityDataType) => RequestParams,
-}
-
-
 export namespace emojis {
 
   /**
@@ -3772,6 +3761,16 @@ export namespace users {
     export type RequestBody = never;
     export type ResponseBody = any;
   }
+}
+
+export type RequestParams = Omit<RequestInit, "body" | "method"> & {
+  secure?: boolean;
+}
+
+type ApiConfig<SecurityDataType> = {
+  baseUrl?: string,
+  baseApiParams?: RequestParams,
+  securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
 /** Powerful collaboration, code review, and code management for open source and private projects.

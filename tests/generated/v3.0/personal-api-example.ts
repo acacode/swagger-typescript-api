@@ -100,17 +100,6 @@ export interface UserUpdate {
   username?: string;
 }
 
-export type RequestParams = Omit<RequestInit, "body" | "method"> & {
-  secure?: boolean;
-}
-
-type ApiConfig<SecurityDataType> = {
-  baseUrl?: string,
-  baseApiParams?: RequestParams,
-  securityWorker?: (securityData: SecurityDataType) => RequestParams,
-}
-
-
 export namespace auth {
 
   /**
@@ -272,6 +261,16 @@ export namespace users {
     export type RequestBody = UserUpdate;
     export type ResponseBody = User;
   }
+}
+
+export type RequestParams = Omit<RequestInit, "body" | "method"> & {
+  secure?: boolean;
+}
+
+type ApiConfig<SecurityDataType> = {
+  baseUrl?: string,
+  baseApiParams?: RequestParams,
+  securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
 export class Api<SecurityDataType> {

@@ -146,17 +146,6 @@ export interface Error {
   fields?: string;
 }
 
-export type RequestParams = Omit<RequestInit, "body" | "method"> & {
-  secure?: boolean;
-}
-
-type ApiConfig<SecurityDataType> = {
-  baseUrl?: string,
-  baseApiParams?: RequestParams,
-  securityWorker?: (securityData: SecurityDataType) => RequestParams,
-}
-
-
 export namespace products {
 
   /**
@@ -230,6 +219,16 @@ export namespace history {
     export type RequestBody = never;
     export type ResponseBody = Activities;
   }
+}
+
+export type RequestParams = Omit<RequestInit, "body" | "method"> & {
+  secure?: boolean;
+}
+
+type ApiConfig<SecurityDataType> = {
+  baseUrl?: string,
+  baseApiParams?: RequestParams,
+  securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
 /** Move your app forward with the Uber API */

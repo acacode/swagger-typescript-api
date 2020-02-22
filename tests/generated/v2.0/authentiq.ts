@@ -84,17 +84,6 @@ export interface PushToken {
   sub: string;
 }
 
-export type RequestParams = Omit<RequestInit, "body" | "method"> & {
-  secure?: boolean;
-}
-
-type ApiConfig<SecurityDataType> = {
-  baseUrl?: string,
-  baseApiParams?: RequestParams,
-  securityWorker?: (securityData: SecurityDataType) => RequestParams,
-}
-
-
 export namespace key {
 
   /**
@@ -268,6 +257,16 @@ export namespace scope {
     export type RequestBody = never;
     export type ResponseBody = any;
   }
+}
+
+export type RequestParams = Omit<RequestInit, "body" | "method"> & {
+  secure?: boolean;
+}
+
+type ApiConfig<SecurityDataType> = {
+  baseUrl?: string,
+  baseApiParams?: RequestParams,
+  securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
 /** Strong authentication, without the passwords. */

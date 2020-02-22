@@ -1,48 +1,25 @@
-/* tslint:disable */
-/* eslint-disable */
-
-/*
-* ---------------------------------------------------------------
-* ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
-* ##                                                           ##
-* ## AUTHOR: acacode                                           ##
-* ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
-* ---------------------------------------------------------------
-*/
-
-
-export namespace streams {
-
-  /**
-  * @name streamsCreate
-  * @request POST:/streams
-  * @description subscribes a client to receive out-of-band data
-  */
-  export namespace StreamsCreate {
-    export type RequestQuery = { callbackUrl: string };
-    export type RequestBody = never;
-    export type ResponseBody = { subscriptionId: string };
-  }
-}
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 }
 
-type ApiConfig<SecurityDataType> = {
-  baseUrl?: string,
-  baseApiParams?: RequestParams,
-  securityWorker?: (securityData: SecurityDataType) => RequestParams,
+type ApiConfig{{apiConfig.generic}} = {
+{{#apiConfig.props}}
+  {{name}}{{#optional}}?{{/optional}}: {{type}},
+{{/apiConfig.props}}
 }
 
-export class Api<SecurityDataType> {
+{{#apiConfig.description}}
+/** {{.}} */
+{{/apiConfig.description}}
+export class Api{{apiConfig.generic}} {
   
-  public baseUrl = "";
-  public title = "Callback Example";
-  public version = "1.0.0";
+  public baseUrl = "{{apiConfig.baseUrl}}";
+  public title = "{{apiConfig.title}}";
+  public version = "{{apiConfig.version}}";
 
   private securityData: SecurityDataType = (null as any);
-  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
+  private securityWorker: ApiConfig{{apiConfig.generic}}["securityWorker"] = (() => {}) as any
   
   private baseApiParams: RequestParams = {
     credentials: 'same-origin',
@@ -53,16 +30,17 @@ export class Api<SecurityDataType> {
     referrerPolicy: 'no-referrer',
   }
 
-  constructor({ baseUrl,baseApiParams,securityWorker, }: ApiConfig<SecurityDataType> = {}) {
-    this.baseUrl = baseUrl || this.baseUrl;
-    this.baseApiParams = baseApiParams || this.baseApiParams;
-    this.securityWorker = securityWorker || this.securityWorker;
+  constructor({ {{#apiConfig.props}}{{name}},{{/apiConfig.props}} }: ApiConfig{{apiConfig.generic}} = {}) {
+  {{#apiConfig.props}}
+    this.{{name}} = {{name}} || this.{{name}};
+  {{/apiConfig.props}}
   }
 
   public setSecurityData = (data: SecurityDataType) => {
     this.securityData = data
   }
 
+  {{#hasQueryRoutes}}
   private addQueryParams(query: object): string {
     const keys = Object.keys(query);
     return keys.length ? (
@@ -73,6 +51,7 @@ export class Api<SecurityDataType> {
       ], []).join('&')
     ) : ''
   }
+  {{/hasQueryRoutes}}
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
@@ -110,18 +89,35 @@ export class Api<SecurityDataType> {
       return data
     })
 
+{{#routes}}
+
+  {{#outOfModule}}
 
 
-  streams = {
+  /**
+  {{#comments}}
+   * {{.}}
+  {{/comments}}
+   */
+  {{name}} = ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params?: RequestParams) =>
+    this.request<{{returnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}})
+  {{/outOfModule}}
+
+  {{#combined}}
+  {{moduleName}} = {
+    {{#routes}}
 
 
     /**
-    * @name streamsCreate
-    * @request POST:/streams
-    * @description subscribes a client to receive out-of-band data
+    {{#comments}}
+    * {{.}}
+    {{/comments}}
     */
-    streamsCreate: (query: { callbackUrl: string }, params?: RequestParams) =>
-      this.request<{ subscriptionId: string }>(`/streams${this.addQueryParams(query)}`, "POST", params, null),
+    {{name}}: ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params?: RequestParams) =>
+      this.request<{{returnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
+    {{/routes}}
   }
+  {{/combined}}
+{{/routes}}
 
 }

@@ -11,17 +11,6 @@
 */
 
 
-export type RequestParams = Omit<RequestInit, "body" | "method"> & {
-  secure?: boolean;
-}
-
-type ApiConfig<SecurityDataType> = {
-  baseUrl?: string,
-  baseApiParams?: RequestParams,
-  securityWorker?: (securityData: SecurityDataType) => RequestParams,
-}
-
-
 /**
 * @name listVersionsv2
 * @summary List API versions
@@ -45,6 +34,16 @@ export namespace v2 {
     export type RequestBody = never;
     export type ResponseBody = any;
   }
+}
+
+export type RequestParams = Omit<RequestInit, "body" | "method"> & {
+  secure?: boolean;
+}
+
+type ApiConfig<SecurityDataType> = {
+  baseUrl?: string,
+  baseApiParams?: RequestParams,
+  securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
 export class Api<SecurityDataType> {

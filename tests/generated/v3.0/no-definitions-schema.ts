@@ -18,6 +18,7 @@ export interface BasicErrorModel {
 
 export type ExtendedErrorModel = BasicErrorModel & { rootCause: string }
 
+
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 }
@@ -27,8 +28,6 @@ type ApiConfig<SecurityDataType> = {
   baseApiParams?: RequestParams,
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
-
-
 
 export class Api<SecurityDataType> {
   
