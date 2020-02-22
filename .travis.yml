@@ -22,8 +22,7 @@ jobs:
   include:
     - stage: generate&validate
       script:
-        - npm run generate
-        - npm run validate
+        - npm run test:all
 
 notifications:
   slack:
