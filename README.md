@@ -34,7 +34,7 @@ Options:
   -p, --path <path>      path/url to swagger scheme
   -o, --output <output>  output path of typescript api file (default: "./")
   -n, --name <name>      name of output typescript api file (default: "api.ts")
-  --no-route-types       do not generate type definitions for API routes
+  --route-types          generate type definitions for API routes (default: false)
   --no-client            do not generate an API class
   -h, --help             output usage information
 ```

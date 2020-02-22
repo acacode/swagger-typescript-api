@@ -17,8 +17,8 @@ program
   .requiredOption('-p, --path <path>', 'path/url to swagger scheme')
   .option('-o, --output <output>', 'output path of typescript api file', './')
   .option('-n, --name <name>', 'name of output typescript api file', 'api.ts')
-  .option('--no-route-types', 'do not generate type definitions for API routes')
-  .option('--no-client', 'do not generate an API class');
+  .option('--route-types', 'generate type definitions for API routes', false)
+  .option('--no-client', 'do not generate an API class', false);
  
 program.parse(process.argv);
 
