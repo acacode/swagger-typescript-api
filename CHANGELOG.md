@@ -5,6 +5,10 @@ Features:
   - Generate API types declarations (CLI flag `--route-types`)  
     ![route types](./assets/changelog_assets/route-types.jpg)  
   - Ability to not generate clint API class (CLI flag `--no-client`)  
+
+Fixes:  
+  - Improve response body type definition  
+
 Internal:  
   - refactored `generate` and `validate` test scripts  
 
