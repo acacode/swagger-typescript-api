@@ -17,20 +17,6 @@ export interface Pet {
   tag?: string;
 }
 
-export namespace pets {
-
-  /**
-  * @name petsList
-  * @request GET:/pets
-  * @description Returns all pets from the system that the user has access to
-  */
-  export namespace PetsList {
-    export type RequestQuery = {};
-    export type RequestBody = never;
-    export type ResponseBody = Pet[];
-  }
-}
-
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 }

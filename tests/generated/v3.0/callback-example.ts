@@ -11,20 +11,6 @@
 */
 
 
-export namespace streams {
-
-  /**
-  * @name streamsCreate
-  * @request POST:/streams
-  * @description subscribes a client to receive out-of-band data
-  */
-  export namespace StreamsCreate {
-    export type RequestQuery = { callbackUrl: string };
-    export type RequestBody = never;
-    export type ResponseBody = { subscriptionId: string };
-  }
-}
-
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 }

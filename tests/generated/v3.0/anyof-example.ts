@@ -21,19 +21,6 @@ export interface PetByType {
   hunts?: boolean;
 }
 
-export namespace pets {
-
-  /**
-  * @name petsPartialUpdate
-  * @request PATCH:/pets
-  */
-  export namespace PetsPartialUpdate {
-    export type RequestQuery = {};
-    export type RequestBody = PetByAge | PetByType | (PetByAge & PetByType);
-    export type ResponseBody = any;
-  }
-}
-
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 }

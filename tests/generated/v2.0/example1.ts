@@ -38,21 +38,6 @@ export interface TdeCertificateProperties {
   privateBlob: string;
 }
 
-export namespace subscriptions {
-
-  /**
-  * @tags ManagedInstanceTdeCertificates
-  * @name ManagedInstanceTdeCertificates_Create
-  * @request POST:/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates
-  * @description Creates a TDE certificate for a given server.
-  */
-  export namespace ManagedInstanceTdeCertificatesCreate {
-    export type RequestQuery = { "api-version": string };
-    export type RequestBody = TdeCertificate;
-    export type ResponseBody = any;
-  }
-}
-
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 }

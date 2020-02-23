@@ -22,5 +22,7 @@ schemas.forEach(({
     name: apiFileName,
     input: absolutePath,
     output: outputPath,
+    generateClient: true,
+    generateRouteTypes: false
   });
 })

@@ -18,7 +18,6 @@ export interface BasicErrorModel {
 
 export type ExtendedErrorModel = BasicErrorModel & { rootCause: string }
 
-
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 }

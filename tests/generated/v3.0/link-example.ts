@@ -28,69 +28,6 @@ export interface pullrequest {
   author?: user;
 }
 
-export namespace v20 {
-
-  /**
-  * @name getUserByName
-  * @request GET:/2.0/users/{username}
-  */
-  export namespace GetUserByName {
-    export type RequestQuery = {};
-    export type RequestBody = never;
-    export type ResponseBody = user;
-  }
-
-  /**
-  * @name getRepositoriesByOwner
-  * @request GET:/2.0/repositories/{username}
-  */
-  export namespace GetRepositoriesByOwner {
-    export type RequestQuery = {};
-    export type RequestBody = never;
-    export type ResponseBody = repository[];
-  }
-
-  /**
-  * @name getRepository
-  * @request GET:/2.0/repositories/{username}/{slug}
-  */
-  export namespace GetRepository {
-    export type RequestQuery = {};
-    export type RequestBody = never;
-    export type ResponseBody = repository;
-  }
-
-  /**
-  * @name getPullRequestsByRepository
-  * @request GET:/2.0/repositories/{username}/{slug}/pullrequests
-  */
-  export namespace GetPullRequestsByRepository {
-    export type RequestQuery = { state?: "open" | "merged" | "declined" };
-    export type RequestBody = never;
-    export type ResponseBody = pullrequest[];
-  }
-
-  /**
-  * @name getPullRequestsById
-  * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
-  */
-  export namespace GetPullRequestsById {
-    export type RequestQuery = {};
-    export type RequestBody = never;
-    export type ResponseBody = pullrequest;
-  }
-
-  /**
-  * @name mergePullRequest
-  * @request POST:/2.0/repositories/{username}/{slug}/pullrequests/{pid}/merge
-  */
-  export namespace MergePullRequest {
-    export type RequestQuery = {};
-    export type RequestBody = never;
-    export type ResponseBody = any;
-  }
-}
-
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 }

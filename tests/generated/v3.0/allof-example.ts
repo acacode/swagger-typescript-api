@@ -19,19 +19,6 @@ export type Dog = Pet & { bark?: boolean, breed?: "Dingo" | "Husky" | "Retriever
 
 export type Cat = Pet & { hunts?: boolean, age?: number }
 
-export namespace pets {
-
-  /**
-  * @name petsPartialUpdate
-  * @request PATCH:/pets
-  */
-  export namespace PetsPartialUpdate {
-    export type RequestQuery = {};
-    export type RequestBody = Cat | Dog;
-    export type ResponseBody = any;
-  }
-}
-
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 }
