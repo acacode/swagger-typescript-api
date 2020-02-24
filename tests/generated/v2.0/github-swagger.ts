@@ -1080,6 +1080,8 @@ export class Api<SecurityDataType> {
     * @name emojisList
     * @request GET:/emojis
     * @description Lists all the emojis available to use on GitHub.
+    * @returns {Promise<emojis>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     emojisList: (params?: RequestParams) =>
       this.request<emojis>(`/emojis`, "GET", params, null),
@@ -1091,6 +1093,8 @@ export class Api<SecurityDataType> {
     * @name eventsList
     * @request GET:/events
     * @description List public events.
+    * @returns {Promise<events>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     eventsList: (params?: RequestParams) =>
       this.request<events>(`/events`, "GET", params, null),
@@ -1102,6 +1106,8 @@ export class Api<SecurityDataType> {
     * @name feedsList
     * @request GET:/feeds
     * @description List Feeds.. GitHub provides several timeline resources in Atom format. The Feeds API.  lists all the feeds available to the authenticating user.. 
+    * @returns {Promise<feeds>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     feedsList: (params?: RequestParams) =>
       this.request<feeds>(`/feeds`, "GET", params, null),
@@ -1113,6 +1119,8 @@ export class Api<SecurityDataType> {
     * @name gistsList
     * @request GET:/gists
     * @description List the authenticated user's gists or if called anonymously, this will. return all public gists.. 
+    * @returns {Promise<gists>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gistsList: (query: { since?: string }, params?: RequestParams) =>
       this.request<gists>(`/gists${this.addQueryParams(query)}`, "GET", params, null),
@@ -1122,6 +1130,8 @@ export class Api<SecurityDataType> {
     * @name gistsCreate
     * @request POST:/gists
     * @description Create a gist.
+    * @returns {Promise<gist>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gistsCreate: (body: postGist, params?: RequestParams) =>
       this.request<gist>(`/gists`, "POST", params, body),
@@ -1131,6 +1141,8 @@ export class Api<SecurityDataType> {
     * @name publicList
     * @request GET:/gists/public
     * @description List all public gists.
+    * @returns {Promise<gists>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     publicList: (query: { since?: string }, params?: RequestParams) =>
       this.request<gists>(`/gists/public${this.addQueryParams(query)}`, "GET", params, null),
@@ -1140,6 +1152,8 @@ export class Api<SecurityDataType> {
     * @name starredList
     * @request GET:/gists/starred
     * @description List the authenticated user's starred gists.
+    * @returns {Promise<gists>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     starredList: (query: { since?: string }, params?: RequestParams) =>
       this.request<gists>(`/gists/starred${this.addQueryParams(query)}`, "GET", params, null),
@@ -1149,6 +1163,8 @@ export class Api<SecurityDataType> {
     * @name gistsDelete
     * @request DELETE:/gists/{id}
     * @description Delete a gist.
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gistsDelete: (id: number, params?: RequestParams) =>
       this.request<any>(`/gists/${id}`, "DELETE", params, null),
@@ -1158,6 +1174,8 @@ export class Api<SecurityDataType> {
     * @name gistsDetail
     * @request GET:/gists/{id}
     * @description Get a single gist.
+    * @returns {Promise<gist>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gistsDetail: (id: number, params?: RequestParams) =>
       this.request<gist>(`/gists/${id}`, "GET", params, null),
@@ -1167,6 +1185,8 @@ export class Api<SecurityDataType> {
     * @name gistsPartialUpdate
     * @request PATCH:/gists/{id}
     * @description Edit a gist.
+    * @returns {Promise<gist>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gistsPartialUpdate: (id: number, body: patchGist, params?: RequestParams) =>
       this.request<gist>(`/gists/${id}`, "PATCH", params, body),
@@ -1176,6 +1196,8 @@ export class Api<SecurityDataType> {
     * @name commentsDetail
     * @request GET:/gists/{id}/comments
     * @description List comments on a gist.
+    * @returns {Promise<comments>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     commentsDetail: (id: number, params?: RequestParams) =>
       this.request<comments>(`/gists/${id}/comments`, "GET", params, null),
@@ -1185,6 +1207,8 @@ export class Api<SecurityDataType> {
     * @name commentsCreate
     * @request POST:/gists/{id}/comments
     * @description Create a commen
+    * @returns {Promise<comment>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     commentsCreate: (id: number, body: commentBody, params?: RequestParams) =>
       this.request<comment>(`/gists/${id}/comments`, "POST", params, body),
@@ -1194,6 +1218,8 @@ export class Api<SecurityDataType> {
     * @name commentsDelete
     * @request DELETE:/gists/{id}/comments/{commentId}
     * @description Delete a comment.
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     commentsDelete: (id: number, commentId: number, params?: RequestParams) =>
       this.request<any>(`/gists/${id}/comments/${commentId}`, "DELETE", params, null),
@@ -1203,6 +1229,8 @@ export class Api<SecurityDataType> {
     * @name commentsDetail
     * @request GET:/gists/{id}/comments/{commentId}
     * @description Get a single comment.
+    * @returns {Promise<comment>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName commentsDetail
     * @duplicate
     */
@@ -1214,6 +1242,8 @@ export class Api<SecurityDataType> {
     * @name commentsPartialUpdate
     * @request PATCH:/gists/{id}/comments/{commentId}
     * @description Edit a comment.
+    * @returns {Promise<comment>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     commentsPartialUpdate: (id: number, commentId: number, body: comment, params?: RequestParams) =>
       this.request<comment>(`/gists/${id}/comments/${commentId}`, "PATCH", params, body),
@@ -1223,6 +1253,9 @@ export class Api<SecurityDataType> {
     * @name forksCreate
     * @request POST:/gists/{id}/forks
     * @description Fork a gist.
+    * @returns {Promise<any>} `204` Exists.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<any>} `404` Not exists.
     */
     forksCreate: (id: number, params?: RequestParams) =>
       this.request<any>(`/gists/${id}/forks`, "POST", params, null),
@@ -1232,6 +1265,8 @@ export class Api<SecurityDataType> {
     * @name starDelete
     * @request DELETE:/gists/{id}/star
     * @description Unstar a gist.
+    * @returns {Promise<any>} `204` Item removed.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     starDelete: (id: number, params?: RequestParams) =>
       this.request<any>(`/gists/${id}/star`, "DELETE", params, null),
@@ -1241,6 +1276,9 @@ export class Api<SecurityDataType> {
     * @name starDetail
     * @request GET:/gists/{id}/star
     * @description Check if a gist is starred.
+    * @returns {Promise<any>} `204` Exists.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<any>} `404` Not exists.
     */
     starDetail: (id: number, params?: RequestParams) =>
       this.request<any>(`/gists/${id}/star`, "GET", params, null),
@@ -1250,6 +1288,8 @@ export class Api<SecurityDataType> {
     * @name starUpdate
     * @request PUT:/gists/{id}/star
     * @description Star a gist.
+    * @returns {Promise<any>} `204` Starred.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     starUpdate: (id: number, params?: RequestParams) =>
       this.request<any>(`/gists/${id}/star`, "PUT", params, null),
@@ -1261,6 +1301,8 @@ export class Api<SecurityDataType> {
     * @name templatesList
     * @request GET:/gitignore/templates
     * @description Listing available templates.. List all templates available to pass as an option when creating a repository.. 
+    * @returns {Promise<gitignore>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     templatesList: (params?: RequestParams) =>
       this.request<gitignore>(`/gitignore/templates`, "GET", params, null),
@@ -1270,6 +1312,8 @@ export class Api<SecurityDataType> {
     * @name templatesDetail
     * @request GET:/gitignore/templates/{language}
     * @description Get a single template.
+    * @returns {Promise<GitignoreLang>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     templatesDetail: (language: string, params?: RequestParams) =>
       this.request<GitignoreLang>(`/gitignore/templates/${language}`, "GET", params, null),
@@ -1281,6 +1325,8 @@ export class Api<SecurityDataType> {
     * @name issuesList
     * @request GET:/issues
     * @description List issues.. List all issues across all the authenticated user's visible repositories.. 
+    * @returns {Promise<issues>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesList: (query: { filter: "assigned" | "created" | "mentioned" | "subscribed" | "all", state: "open" | "closed", labels: string, sort: "created" | "updated" | "comments", direction: "asc" | "desc", since?: string }, params?: RequestParams) =>
       this.request<issues>(`/issues${this.addQueryParams(query)}`, "GET", params, null),
@@ -1292,6 +1338,8 @@ export class Api<SecurityDataType> {
     * @name issuesSearchDetail
     * @request GET:/legacy/issues/search/{owner}/{repository}/{state}/{keyword}
     * @description Find issues by state and keyword.
+    * @returns {Promise<SearchIssuesByKeyword>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesSearchDetail: (keyword: string, state: "open" | "closed", owner: string, repository: string, params?: RequestParams) =>
       this.request<SearchIssuesByKeyword>(`/legacy/issues/search/${owner}/${repository}/${state}/${keyword}`, "GET", params, null),
@@ -1301,6 +1349,8 @@ export class Api<SecurityDataType> {
     * @name reposSearchDetail
     * @request GET:/legacy/repos/search/{keyword}
     * @description Find repositories by keyword. Note, this legacy method does not follow the v3 pagination pattern. This method returns up to 100 results per page and pages can be fetched using the start_page parameter.
+    * @returns {Promise<SearchRepositoriesByKeyword>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     reposSearchDetail: (keyword: string, query: { order?: "desc" | "asc", language?: string, start_page?: string, sort?: "updated" | "stars" | "forks" }, params?: RequestParams) =>
       this.request<SearchRepositoriesByKeyword>(`/legacy/repos/search/${keyword}${this.addQueryParams(query)}`, "GET", params, null),
@@ -1310,6 +1360,8 @@ export class Api<SecurityDataType> {
     * @name userEmailDetail
     * @request GET:/legacy/user/email/{email}
     * @description This API call is added for compatibility reasons only.
+    * @returns {Promise<SearchUserByEmail>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     userEmailDetail: (email: string, params?: RequestParams) =>
       this.request<SearchUserByEmail>(`/legacy/user/email/${email}`, "GET", params, null),
@@ -1319,6 +1371,8 @@ export class Api<SecurityDataType> {
     * @name userSearchDetail
     * @request GET:/legacy/user/search/{keyword}
     * @description Find users by keyword.
+    * @returns {Promise<SearchUsersByKeyword>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     userSearchDetail: (keyword: string, query: { order?: "desc" | "asc", start_page?: string, sort?: "updated" | "stars" | "forks" }, params?: RequestParams) =>
       this.request<SearchUsersByKeyword>(`/legacy/user/search/${keyword}${this.addQueryParams(query)}`, "GET", params, null),
@@ -1330,6 +1384,8 @@ export class Api<SecurityDataType> {
     * @name markdownCreate
     * @request POST:/markdown
     * @description Render an arbitrary Markdown document
+    * @returns {Promise<any>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     markdownCreate: (body: markdown, params?: RequestParams) =>
       this.request<any>(`/markdown`, "POST", params, body),
@@ -1339,6 +1395,8 @@ export class Api<SecurityDataType> {
     * @name postMarkdown
     * @request POST:/markdown/raw
     * @description Render a Markdown document in raw mode
+    * @returns {Promise<any>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     postMarkdown: (params?: RequestParams) =>
       this.request<any>(`/markdown/raw`, "POST", params, null),
@@ -1350,6 +1408,8 @@ export class Api<SecurityDataType> {
     * @name metaList
     * @request GET:/meta
     * @description This gives some information about GitHub.com, the service.
+    * @returns {Promise<meta>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     metaList: (params?: RequestParams) =>
       this.request<meta>(`/meta`, "GET", params, null),
@@ -1361,6 +1421,8 @@ export class Api<SecurityDataType> {
     * @name eventsDetail
     * @request GET:/networks/{owner}/{repo}/events
     * @description List public events for a network of repositories.
+    * @returns {Promise<events>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     eventsDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<events>(`/networks/${owner}/${repo}/events`, "GET", params, null),
@@ -1372,6 +1434,8 @@ export class Api<SecurityDataType> {
     * @name notificationsList
     * @request GET:/notifications
     * @description List your notifications.. List all notifications for the current user, grouped by repository.. 
+    * @returns {Promise<notifications>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     notificationsList: (query: { all?: boolean, participating?: boolean, since?: string }, params?: RequestParams) =>
       this.request<notifications>(`/notifications${this.addQueryParams(query)}`, "GET", params, null),
@@ -1381,6 +1445,8 @@ export class Api<SecurityDataType> {
     * @name notificationsUpdate
     * @request PUT:/notifications
     * @description Mark as read.. Marking a notification as "read" removes it from the default view on GitHub.com.. 
+    * @returns {Promise<any>} `205` Marked as read.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     notificationsUpdate: (body: notificationMarkRead, params?: RequestParams) =>
       this.request<any>(`/notifications`, "PUT", params, body),
@@ -1390,6 +1456,8 @@ export class Api<SecurityDataType> {
     * @name threadsDetail
     * @request GET:/notifications/threads/{id}
     * @description View a single thread.
+    * @returns {Promise<notifications>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     threadsDetail: (id: number, params?: RequestParams) =>
       this.request<notifications>(`/notifications/threads/${id}`, "GET", params, null),
@@ -1399,6 +1467,8 @@ export class Api<SecurityDataType> {
     * @name threadsPartialUpdate
     * @request PATCH:/notifications/threads/{id}
     * @description Mark a thread as read
+    * @returns {Promise<any>} `205` Thread marked as read.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     threadsPartialUpdate: (id: number, params?: RequestParams) =>
       this.request<any>(`/notifications/threads/${id}`, "PATCH", params, null),
@@ -1408,6 +1478,8 @@ export class Api<SecurityDataType> {
     * @name threadsSubscriptionDelete
     * @request DELETE:/notifications/threads/{id}/subscription
     * @description Delete a Thread Subscription.
+    * @returns {Promise<any>} `204` No Content. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     threadsSubscriptionDelete: (id: number, params?: RequestParams) =>
       this.request<any>(`/notifications/threads/${id}/subscription`, "DELETE", params, null),
@@ -1417,6 +1489,8 @@ export class Api<SecurityDataType> {
     * @name threadsSubscriptionDetail
     * @request GET:/notifications/threads/{id}/subscription
     * @description Get a Thread Subscription.
+    * @returns {Promise<subscription>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     threadsSubscriptionDetail: (id: number, params?: RequestParams) =>
       this.request<subscription>(`/notifications/threads/${id}/subscription`, "GET", params, null),
@@ -1426,6 +1500,8 @@ export class Api<SecurityDataType> {
     * @name threadsSubscriptionUpdate
     * @request PUT:/notifications/threads/{id}/subscription
     * @description Set a Thread Subscription.. This lets you subscribe to a thread, or ignore it. Subscribing to a thread. is unnecessary if the user is already subscribed to the repository. Ignoring. a thread will mute all future notifications (until you comment or get @mentioned).. 
+    * @returns {Promise<subscription>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     threadsSubscriptionUpdate: (id: number, body: putSubscription, params?: RequestParams) =>
       this.request<subscription>(`/notifications/threads/${id}/subscription`, "PUT", params, body),
@@ -1437,6 +1513,8 @@ export class Api<SecurityDataType> {
     * @name orgsDetail
     * @request GET:/orgs/{org}
     * @description Get an Organization.
+    * @returns {Promise<organization>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     orgsDetail: (org: string, params?: RequestParams) =>
       this.request<organization>(`/orgs/${org}`, "GET", params, null),
@@ -1446,6 +1524,8 @@ export class Api<SecurityDataType> {
     * @name orgsPartialUpdate
     * @request PATCH:/orgs/{org}
     * @description Edit an Organization.
+    * @returns {Promise<organization>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     orgsPartialUpdate: (org: string, body: patchOrg, params?: RequestParams) =>
       this.request<organization>(`/orgs/${org}`, "PATCH", params, body),
@@ -1455,6 +1535,8 @@ export class Api<SecurityDataType> {
     * @name eventsDetail
     * @request GET:/orgs/{org}/events
     * @description List public events for an organization.
+    * @returns {Promise<events>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     eventsDetail: (org: string, params?: RequestParams) =>
       this.request<events>(`/orgs/${org}/events`, "GET", params, null),
@@ -1464,6 +1546,8 @@ export class Api<SecurityDataType> {
     * @name issuesDetail
     * @request GET:/orgs/{org}/issues
     * @description List issues.. List all issues for a given organization for the authenticated user.. 
+    * @returns {Promise<issues>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesDetail: (org: string, query: { filter: "assigned" | "created" | "mentioned" | "subscribed" | "all", state: "open" | "closed", labels: string, sort: "created" | "updated" | "comments", direction: "asc" | "desc", since?: string }, params?: RequestParams) =>
       this.request<issues>(`/orgs/${org}/issues${this.addQueryParams(query)}`, "GET", params, null),
@@ -1473,6 +1557,9 @@ export class Api<SecurityDataType> {
     * @name membersDetail
     * @request GET:/orgs/{org}/members
     * @description Members list.. List all users who are members of an organization. A member is a user tha. belongs to at least 1 team in the organization. If the authenticated user. is also an owner of this organization then both concealed and public members. will be returned. If the requester is not an owner of the organization the. query will be redirected to the public members list.. 
+    * @returns {Promise<users>} `200` OK
+    * @returns {Promise<any>} `302` Response if requester is not an organization member.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     membersDetail: (org: string, params?: RequestParams) =>
       this.request<users>(`/orgs/${org}/members`, "GET", params, null),
@@ -1482,6 +1569,8 @@ export class Api<SecurityDataType> {
     * @name membersDelete
     * @request DELETE:/orgs/{org}/members/{username}
     * @description Remove a member.. Removing a user from this list will remove them from all teams and they. will no longer have any access to the organization's repositories.. 
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     membersDelete: (org: string, username: string, params?: RequestParams) =>
       this.request<any>(`/orgs/${org}/members/${username}`, "DELETE", params, null),
@@ -1491,6 +1580,10 @@ export class Api<SecurityDataType> {
     * @name membersDetail
     * @request GET:/orgs/{org}/members/{username}
     * @description Check if a user is, publicly or privately, a member of the organization.
+    * @returns {Promise<any>} `204` No content. Response if requester is an organization member and user is a member. 
+    * @returns {Promise<any>} `302` Found. Response if requester is not an organization member. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<any>} `404` Not Found.. a. Response if requester is an organization member and user is not a member. b. Response if requester is not an organization member and is inquiring about themselves. 
     * @originalName membersDetail
     * @duplicate
     */
@@ -1502,6 +1595,8 @@ export class Api<SecurityDataType> {
     * @name publicMembersDetail
     * @request GET:/orgs/{org}/public_members
     * @description Public members list.. Members of an organization can choose to have their membership publicized. or not.. 
+    * @returns {Promise<users>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     publicMembersDetail: (org: string, params?: RequestParams) =>
       this.request<users>(`/orgs/${org}/public_members`, "GET", params, null),
@@ -1511,6 +1606,8 @@ export class Api<SecurityDataType> {
     * @name publicMembersDelete
     * @request DELETE:/orgs/{org}/public_members/{username}
     * @description Conceal a user's membership.
+    * @returns {Promise<any>} `204` Concealed.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     publicMembersDelete: (org: string, username: string, params?: RequestParams) =>
       this.request<any>(`/orgs/${org}/public_members/${username}`, "DELETE", params, null),
@@ -1520,6 +1617,9 @@ export class Api<SecurityDataType> {
     * @name publicMembersDetail
     * @request GET:/orgs/{org}/public_members/{username}
     * @description Check public membership.
+    * @returns {Promise<any>} `204` User is a public member.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<any>} `404` User is not a public member.
     * @originalName publicMembersDetail
     * @duplicate
     */
@@ -1531,6 +1631,8 @@ export class Api<SecurityDataType> {
     * @name publicMembersUpdate
     * @request PUT:/orgs/{org}/public_members/{username}
     * @description Publicize a user's membership.
+    * @returns {Promise<any>} `204` Publicized.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     publicMembersUpdate: (org: string, username: string, params?: RequestParams) =>
       this.request<any>(`/orgs/${org}/public_members/${username}`, "PUT", params, null),
@@ -1540,6 +1642,8 @@ export class Api<SecurityDataType> {
     * @name reposDetail
     * @request GET:/orgs/{org}/repos
     * @description List repositories for the specified org.
+    * @returns {Promise<repos>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     reposDetail: (org: string, query: { type?: "all" | "public" | "private" | "forks" | "sources" | "member" }, params?: RequestParams) =>
       this.request<repos>(`/orgs/${org}/repos${this.addQueryParams(query)}`, "GET", params, null),
@@ -1549,6 +1653,8 @@ export class Api<SecurityDataType> {
     * @name reposCreate
     * @request POST:/orgs/{org}/repos
     * @description Create a new repository for the authenticated user. OAuth users must supply. repo scope.. 
+    * @returns {Promise<repos>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     reposCreate: (org: string, body: postRepo, params?: RequestParams) =>
       this.request<repos>(`/orgs/${org}/repos`, "POST", params, body),
@@ -1558,6 +1664,8 @@ export class Api<SecurityDataType> {
     * @name teamsDetail
     * @request GET:/orgs/{org}/teams
     * @description List teams.
+    * @returns {Promise<teams>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     teamsDetail: (org: string, params?: RequestParams) =>
       this.request<teams>(`/orgs/${org}/teams`, "GET", params, null),
@@ -1567,6 +1675,8 @@ export class Api<SecurityDataType> {
     * @name teamsCreate
     * @request POST:/orgs/{org}/teams
     * @description Create team.. In order to create a team, the authenticated user must be an owner of organization.. 
+    * @returns {Promise<team>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     teamsCreate: (org: string, body: orgTeamsPost, params?: RequestParams) =>
       this.request<team>(`/orgs/${org}/teams`, "POST", params, body),
@@ -1578,6 +1688,8 @@ export class Api<SecurityDataType> {
     * @name rateLimitList
     * @request GET:/rate_limit
     * @description Get your current rate limit status. Note: Accessing this endpoint does not count against your rate limit.. 
+    * @returns {Promise<rate_limit>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     rateLimitList: (params?: RequestParams) =>
       this.request<rate_limit>(`/rate_limit`, "GET", params, null),
@@ -1589,6 +1701,8 @@ export class Api<SecurityDataType> {
     * @name reposDelete
     * @request DELETE:/repos/{owner}/{repo}
     * @description Delete a Repository.. Deleting a repository requires admin access. If OAuth is used, the delete_repo. scope is required.. 
+    * @returns {Promise<any>} `204` Item removed.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     reposDelete: (owner: string, repo: string, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}`, "DELETE", params, null),
@@ -1598,6 +1712,8 @@ export class Api<SecurityDataType> {
     * @name reposDetail
     * @request GET:/repos/{owner}/{repo}
     * @description Get repository.
+    * @returns {Promise<repo>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     reposDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<repo>(`/repos/${owner}/${repo}`, "GET", params, null),
@@ -1607,6 +1723,8 @@ export class Api<SecurityDataType> {
     * @name reposPartialUpdate
     * @request PATCH:/repos/{owner}/{repo}
     * @description Edit repository.
+    * @returns {Promise<repo>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     reposPartialUpdate: (owner: string, repo: string, body: repoEdit, params?: RequestParams) =>
       this.request<repo>(`/repos/${owner}/${repo}`, "PATCH", params, body),
@@ -1616,6 +1734,8 @@ export class Api<SecurityDataType> {
     * @name assigneesDetail
     * @request GET:/repos/{owner}/{repo}/assignees
     * @description List assignees.. This call lists all the available assignees (owner + collaborators) to which. issues may be assigned.. 
+    * @returns {Promise<assignees>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     assigneesDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<assignees>(`/repos/${owner}/${repo}/assignees`, "GET", params, null),
@@ -1625,6 +1745,9 @@ export class Api<SecurityDataType> {
     * @name assigneesDetail
     * @request GET:/repos/{owner}/{repo}/assignees/{assignee}
     * @description Check assignee.. You may also check to see if a particular user is an assignee for a repository.. 
+    * @returns {Promise<any>} `204` User is an assignee.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<any>} `404` User isn't an assignee.
     * @originalName assigneesDetail
     * @duplicate
     */
@@ -1636,6 +1759,8 @@ export class Api<SecurityDataType> {
     * @name branchesDetail
     * @request GET:/repos/{owner}/{repo}/branches
     * @description Get list of branches
+    * @returns {Promise<branches>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     branchesDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<branches>(`/repos/${owner}/${repo}/branches`, "GET", params, null),
@@ -1645,6 +1770,8 @@ export class Api<SecurityDataType> {
     * @name branchesDetail
     * @request GET:/repos/{owner}/{repo}/branches/{branch}
     * @description Get Branch
+    * @returns {Promise<branch>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName branchesDetail
     * @duplicate
     */
@@ -1656,6 +1783,8 @@ export class Api<SecurityDataType> {
     * @name collaboratorsDetail
     * @request GET:/repos/{owner}/{repo}/collaborators
     * @description List.. When authenticating as an organization owner of an organization-owned. repository, all organization owners are included in the list of. collaborators. Otherwise, only users with access to the repository are. returned in the collaborators list.. 
+    * @returns {Promise<users>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     collaboratorsDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<users>(`/repos/${owner}/${repo}/collaborators`, "GET", params, null),
@@ -1665,6 +1794,8 @@ export class Api<SecurityDataType> {
     * @name collaboratorsDelete
     * @request DELETE:/repos/{owner}/{repo}/collaborators/{user}
     * @description Remove collaborator.
+    * @returns {Promise<any>} `204` Collaborator removed.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     collaboratorsDelete: (owner: string, repo: string, user: string, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/collaborators/${user}`, "DELETE", params, null),
@@ -1674,6 +1805,9 @@ export class Api<SecurityDataType> {
     * @name collaboratorsDetail
     * @request GET:/repos/{owner}/{repo}/collaborators/{user}
     * @description Check if user is a collaborator
+    * @returns {Promise<any>} `204` User is a collaborator.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<any>} `404` User is not a collaborator.
     * @originalName collaboratorsDetail
     * @duplicate
     */
@@ -1685,6 +1819,8 @@ export class Api<SecurityDataType> {
     * @name collaboratorsUpdate
     * @request PUT:/repos/{owner}/{repo}/collaborators/{user}
     * @description Add collaborator.
+    * @returns {Promise<any>} `204` Collaborator added.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     collaboratorsUpdate: (owner: string, repo: string, user: string, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/collaborators/${user}`, "PUT", params, null),
@@ -1694,6 +1830,8 @@ export class Api<SecurityDataType> {
     * @name commentsDetail
     * @request GET:/repos/{owner}/{repo}/comments
     * @description List commit comments for a repository.. Comments are ordered by ascending ID.. 
+    * @returns {Promise<repoComments>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     commentsDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<repoComments>(`/repos/${owner}/${repo}/comments`, "GET", params, null),
@@ -1703,6 +1841,8 @@ export class Api<SecurityDataType> {
     * @name commentsDelete
     * @request DELETE:/repos/{owner}/{repo}/comments/{commentId}
     * @description Delete a commit comment
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     commentsDelete: (owner: string, repo: string, commentId: number, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/comments/${commentId}`, "DELETE", params, null),
@@ -1712,6 +1852,8 @@ export class Api<SecurityDataType> {
     * @name commentsDetail
     * @request GET:/repos/{owner}/{repo}/comments/{commentId}
     * @description Get a single commit comment.
+    * @returns {Promise<commitComment>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName commentsDetail
     * @duplicate
     */
@@ -1723,6 +1865,8 @@ export class Api<SecurityDataType> {
     * @name commentsPartialUpdate
     * @request PATCH:/repos/{owner}/{repo}/comments/{commentId}
     * @description Update a commit comment.
+    * @returns {Promise<commitComment>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     commentsPartialUpdate: (owner: string, repo: string, commentId: number, body: commentBody, params?: RequestParams) =>
       this.request<commitComment>(`/repos/${owner}/${repo}/comments/${commentId}`, "PATCH", params, body),
@@ -1732,6 +1876,8 @@ export class Api<SecurityDataType> {
     * @name commitsDetail
     * @request GET:/repos/{owner}/{repo}/commits
     * @description List commits on a repository.
+    * @returns {Promise<commits>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     commitsDetail: (owner: string, repo: string, query: { since?: string, sha?: string, path?: string, author?: string, until?: string }, params?: RequestParams) =>
       this.request<commits>(`/repos/${owner}/${repo}/commits${this.addQueryParams(query)}`, "GET", params, null),
@@ -1741,6 +1887,8 @@ export class Api<SecurityDataType> {
     * @name commitsStatusDetail
     * @request GET:/repos/{owner}/{repo}/commits/{ref}/status
     * @description Get the combined Status for a specific Ref. The Combined status endpoint is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the blog post for full details.. To access this endpoint during the preview period, you must provide a custom media type in the Accept header:. application/vnd.github.she-hulk-preview+json. 
+    * @returns {Promise<refStatus>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     commitsStatusDetail: (owner: string, repo: string, ref: string, params?: RequestParams) =>
       this.request<refStatus>(`/repos/${owner}/${repo}/commits/${ref}/status`, "GET", params, null),
@@ -1750,6 +1898,8 @@ export class Api<SecurityDataType> {
     * @name commitsDetail
     * @request GET:/repos/{owner}/{repo}/commits/{shaCode}
     * @description Get a single commit.
+    * @returns {Promise<commit>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName commitsDetail
     * @duplicate
     */
@@ -1761,6 +1911,8 @@ export class Api<SecurityDataType> {
     * @name commitsCommentsDetail
     * @request GET:/repos/{owner}/{repo}/commits/{shaCode}/comments
     * @description List comments for a single commitList comments for a single commit.
+    * @returns {Promise<repoComments>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     commitsCommentsDetail: (owner: string, repo: string, shaCode: string, params?: RequestParams) =>
       this.request<repoComments>(`/repos/${owner}/${repo}/commits/${shaCode}/comments`, "GET", params, null),
@@ -1770,6 +1922,8 @@ export class Api<SecurityDataType> {
     * @name commitsCommentsCreate
     * @request POST:/repos/{owner}/{repo}/commits/{shaCode}/comments
     * @description Create a commit comment.
+    * @returns {Promise<commitComment>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     commitsCommentsCreate: (owner: string, repo: string, shaCode: string, body: commitCommentBody, params?: RequestParams) =>
       this.request<commitComment>(`/repos/${owner}/${repo}/commits/${shaCode}/comments`, "POST", params, body),
@@ -1779,6 +1933,8 @@ export class Api<SecurityDataType> {
     * @name compareDetail
     * @request GET:/repos/{owner}/{repo}/compare/{baseId}...{headId}
     * @description Compare two commits
+    * @returns {Promise<CompareCommits>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     compareDetail: (owner: string, repo: string, baseId: string, headId: string, params?: RequestParams) =>
       this.request<CompareCommits>(`/repos/${owner}/${repo}/compare/${baseId}...${headId}`, "GET", params, null),
@@ -1788,6 +1944,8 @@ export class Api<SecurityDataType> {
     * @name contentsDelete
     * @request DELETE:/repos/{owner}/{repo}/contents/{path}
     * @description Delete a file.. This method deletes a file in a repository.. 
+    * @returns {Promise<deleteFile>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     contentsDelete: (owner: string, repo: string, path: string, body: deleteFileBody, params?: RequestParams) =>
       this.request<deleteFile>(`/repos/${owner}/${repo}/contents/${path}`, "DELETE", params, body),
@@ -1797,6 +1955,8 @@ export class Api<SecurityDataType> {
     * @name contentsDetail
     * @request GET:/repos/{owner}/{repo}/contents/{path}
     * @description Get contents.. This method returns the contents of a file or directory in a repository.. Files and symlinks support a custom media type for getting the raw content.. Directories and submodules do not support custom media types.. Note: This API supports files up to 1 megabyte in size.. Here can be many outcomes. For details see "http://developer.github.com/v3/repos/contents/". 
+    * @returns {Promise<ContentsPath>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     contentsDetail: (owner: string, repo: string, path: string, query: { path?: string, ref?: string }, params?: RequestParams) =>
       this.request<ContentsPath>(`/repos/${owner}/${repo}/contents/${path}${this.addQueryParams(query)}`, "GET", params, null),
@@ -1806,6 +1966,8 @@ export class Api<SecurityDataType> {
     * @name contentsUpdate
     * @request PUT:/repos/{owner}/{repo}/contents/{path}
     * @description Create a file.
+    * @returns {Promise<createFile>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     contentsUpdate: (owner: string, repo: string, path: string, body: createFileBody, params?: RequestParams) =>
       this.request<createFile>(`/repos/${owner}/${repo}/contents/${path}`, "PUT", params, body),
@@ -1815,6 +1977,8 @@ export class Api<SecurityDataType> {
     * @name contributorsDetail
     * @request GET:/repos/{owner}/{repo}/contributors
     * @description Get list of contributors.
+    * @returns {Promise<users>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     contributorsDetail: (owner: string, repo: string, query: { anon: string }, params?: RequestParams) =>
       this.request<users>(`/repos/${owner}/${repo}/contributors${this.addQueryParams(query)}`, "GET", params, null),
@@ -1824,6 +1988,8 @@ export class Api<SecurityDataType> {
     * @name deploymentsDetail
     * @request GET:/repos/{owner}/{repo}/deployments
     * @description Users with pull access can view deployments for a repository
+    * @returns {Promise<RepoDeployments>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     deploymentsDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<RepoDeployments>(`/repos/${owner}/${repo}/deployments`, "GET", params, null),
@@ -1833,6 +1999,8 @@ export class Api<SecurityDataType> {
     * @name deploymentsCreate
     * @request POST:/repos/{owner}/{repo}/deployments
     * @description Users with push access can create a deployment for a given ref
+    * @returns {Promise<DeploymentResp>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     deploymentsCreate: (owner: string, repo: string, body: deployment, params?: RequestParams) =>
       this.request<DeploymentResp>(`/repos/${owner}/${repo}/deployments`, "POST", params, body),
@@ -1842,6 +2010,8 @@ export class Api<SecurityDataType> {
     * @name deploymentsStatusesDetail
     * @request GET:/repos/{owner}/{repo}/deployments/{id}/statuses
     * @description Users with pull access can view deployment statuses for a deployment
+    * @returns {Promise<DeploymentStatuses>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     deploymentsStatusesDetail: (owner: string, repo: string, id: number, params?: RequestParams) =>
       this.request<DeploymentStatuses>(`/repos/${owner}/${repo}/deployments/${id}/statuses`, "GET", params, null),
@@ -1851,6 +2021,8 @@ export class Api<SecurityDataType> {
     * @name deploymentsStatusesCreate
     * @request POST:/repos/{owner}/{repo}/deployments/{id}/statuses
     * @description Create a Deployment Status. Users with push access can create deployment statuses for a given deployment:. 
+    * @returns {Promise<any>} `201` ok
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     deploymentsStatusesCreate: (owner: string, repo: string, id: number, body: DeploymentStatusesCreate, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/deployments/${id}/statuses`, "POST", params, body),
@@ -1860,6 +2032,8 @@ export class Api<SecurityDataType> {
     * @name downloadsDetail
     * @request GET:/repos/{owner}/{repo}/downloads
     * @description Deprecated. List downloads for a repository.
+    * @returns {Promise<downloads>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     downloadsDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<downloads>(`/repos/${owner}/${repo}/downloads`, "GET", params, null),
@@ -1869,6 +2043,8 @@ export class Api<SecurityDataType> {
     * @name downloadsDelete
     * @request DELETE:/repos/{owner}/{repo}/downloads/{downloadId}
     * @description Deprecated. Delete a download.
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     downloadsDelete: (owner: string, repo: string, downloadId: number, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/downloads/${downloadId}`, "DELETE", params, null),
@@ -1878,6 +2054,8 @@ export class Api<SecurityDataType> {
     * @name downloadsDetail
     * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
     * @description Deprecated. Get a single download.
+    * @returns {Promise<download>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName downloadsDetail
     * @duplicate
     */
@@ -1889,6 +2067,8 @@ export class Api<SecurityDataType> {
     * @name eventsDetail
     * @request GET:/repos/{owner}/{repo}/events
     * @description Get list of repository events.
+    * @returns {Promise<events>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     eventsDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<events>(`/repos/${owner}/${repo}/events`, "GET", params, null),
@@ -1898,6 +2078,8 @@ export class Api<SecurityDataType> {
     * @name forksDetail
     * @request GET:/repos/{owner}/{repo}/forks
     * @description List forks.
+    * @returns {Promise<forks>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     forksDetail: (owner: string, repo: string, query: { sort?: "newes" | "oldes" | "watchers" }, params?: RequestParams) =>
       this.request<forks>(`/repos/${owner}/${repo}/forks${this.addQueryParams(query)}`, "GET", params, null),
@@ -1907,6 +2089,8 @@ export class Api<SecurityDataType> {
     * @name forksCreate
     * @request POST:/repos/{owner}/{repo}/forks
     * @description Create a fork.. Forking a Repository happens asynchronously. Therefore, you may have to wai. a short period before accessing the git objects. If this takes longer than 5. minutes, be sure to contact Support.. 
+    * @returns {Promise<repo>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     forksCreate: (owner: string, repo: string, body: forkBody, params?: RequestParams) =>
       this.request<repo>(`/repos/${owner}/${repo}/forks`, "POST", params, body),
@@ -1916,6 +2100,8 @@ export class Api<SecurityDataType> {
     * @name gitBlobsCreate
     * @request POST:/repos/{owner}/{repo}/git/blobs
     * @description Create a Blob.
+    * @returns {Promise<blobs>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gitBlobsCreate: (owner: string, repo: string, body: blob, params?: RequestParams) =>
       this.request<blobs>(`/repos/${owner}/${repo}/git/blobs`, "POST", params, body),
@@ -1925,6 +2111,8 @@ export class Api<SecurityDataType> {
     * @name gitBlobsDetail
     * @request GET:/repos/{owner}/{repo}/git/blobs/{shaCode}
     * @description Get a Blob.. Since blobs can be any arbitrary binary data, the input and responses for. the blob API takes an encoding parameter that can be either utf-8 or. base64. If your data cannot be losslessly sent as a UTF-8 string, you can. base64 encode it.. 
+    * @returns {Promise<blob>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gitBlobsDetail: (owner: string, repo: string, shaCode: string, params?: RequestParams) =>
       this.request<blob>(`/repos/${owner}/${repo}/git/blobs/${shaCode}`, "GET", params, null),
@@ -1934,6 +2122,8 @@ export class Api<SecurityDataType> {
     * @name gitCommitsCreate
     * @request POST:/repos/{owner}/{repo}/git/commits
     * @description Create a Commit.
+    * @returns {Promise<gitCommit>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gitCommitsCreate: (owner: string, repo: string, body: repoCommitBody, params?: RequestParams) =>
       this.request<gitCommit>(`/repos/${owner}/${repo}/git/commits`, "POST", params, body),
@@ -1943,6 +2133,8 @@ export class Api<SecurityDataType> {
     * @name gitCommitsDetail
     * @request GET:/repos/{owner}/{repo}/git/commits/{shaCode}
     * @description Get a Commit.
+    * @returns {Promise<repoCommit>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gitCommitsDetail: (owner: string, repo: string, shaCode: string, params?: RequestParams) =>
       this.request<repoCommit>(`/repos/${owner}/${repo}/git/commits/${shaCode}`, "GET", params, null),
@@ -1952,6 +2144,8 @@ export class Api<SecurityDataType> {
     * @name gitRefsDetail
     * @request GET:/repos/{owner}/{repo}/git/refs
     * @description Get all References
+    * @returns {Promise<refs>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gitRefsDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<refs>(`/repos/${owner}/${repo}/git/refs`, "GET", params, null),
@@ -1961,6 +2155,8 @@ export class Api<SecurityDataType> {
     * @name gitRefsCreate
     * @request POST:/repos/{owner}/{repo}/git/refs
     * @description Create a Reference
+    * @returns {Promise<headBranch>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gitRefsCreate: (owner: string, repo: string, body: refsBody, params?: RequestParams) =>
       this.request<headBranch>(`/repos/${owner}/${repo}/git/refs`, "POST", params, body),
@@ -1970,6 +2166,8 @@ export class Api<SecurityDataType> {
     * @name gitRefsDelete
     * @request DELETE:/repos/{owner}/{repo}/git/refs/{ref}
     * @description Delete a Reference. Example: Deleting a branch: DELETE /repos/octocat/Hello-World/git/refs/heads/feature-a. Example: Deleting a tag:        DELETE /repos/octocat/Hello-World/git/refs/tags/v1.0. 
+    * @returns {Promise<any>} `204` No Content
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gitRefsDelete: (owner: string, repo: string, ref: string, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/git/refs/${ref}`, "DELETE", params, null),
@@ -1979,6 +2177,8 @@ export class Api<SecurityDataType> {
     * @name gitRefsDetail
     * @request GET:/repos/{owner}/{repo}/git/refs/{ref}
     * @description Get a Reference
+    * @returns {Promise<headBranch>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName gitRefsDetail
     * @duplicate
     */
@@ -1990,6 +2190,8 @@ export class Api<SecurityDataType> {
     * @name gitRefsPartialUpdate
     * @request PATCH:/repos/{owner}/{repo}/git/refs/{ref}
     * @description Update a Reference
+    * @returns {Promise<headBranch>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gitRefsPartialUpdate: (owner: string, repo: string, ref: string, body: gitRefPatch, params?: RequestParams) =>
       this.request<headBranch>(`/repos/${owner}/${repo}/git/refs/${ref}`, "PATCH", params, body),
@@ -1999,6 +2201,8 @@ export class Api<SecurityDataType> {
     * @name gitTagsCreate
     * @request POST:/repos/{owner}/{repo}/git/tags
     * @description Create a Tag Object.. Note that creating a tag object does not create the reference that makes a. tag in Git. If you want to create an annotated tag in Git, you have to do. this call to create the tag object, and then create the refs/tags/[tag]. reference. If you want to create a lightweight tag, you only have to create. the tag reference - this call would be unnecessary.. 
+    * @returns {Promise<tag>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gitTagsCreate: (owner: string, repo: string, body: tagBody, params?: RequestParams) =>
       this.request<tag>(`/repos/${owner}/${repo}/git/tags`, "POST", params, body),
@@ -2008,6 +2212,8 @@ export class Api<SecurityDataType> {
     * @name gitTagsDetail
     * @request GET:/repos/{owner}/{repo}/git/tags/{shaCode}
     * @description Get a Tag.
+    * @returns {Promise<tag>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gitTagsDetail: (owner: string, repo: string, shaCode: string, params?: RequestParams) =>
       this.request<tag>(`/repos/${owner}/${repo}/git/tags/${shaCode}`, "GET", params, null),
@@ -2017,6 +2223,8 @@ export class Api<SecurityDataType> {
     * @name gitTreesCreate
     * @request POST:/repos/{owner}/{repo}/git/trees
     * @description Create a Tree.. The tree creation API will take nested entries as well. If both a tree and. a nested path modifying that tree are specified, it will overwrite the. contents of that tree with the new path contents and write a new tree out.. 
+    * @returns {Promise<trees>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gitTreesCreate: (owner: string, repo: string, body: tree, params?: RequestParams) =>
       this.request<trees>(`/repos/${owner}/${repo}/git/trees`, "POST", params, body),
@@ -2026,6 +2234,8 @@ export class Api<SecurityDataType> {
     * @name gitTreesDetail
     * @request GET:/repos/{owner}/{repo}/git/trees/{shaCode}
     * @description Get a Tree.
+    * @returns {Promise<tree>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gitTreesDetail: (owner: string, repo: string, shaCode: string, query: { recursive?: number }, params?: RequestParams) =>
       this.request<tree>(`/repos/${owner}/${repo}/git/trees/${shaCode}${this.addQueryParams(query)}`, "GET", params, null),
@@ -2035,6 +2245,8 @@ export class Api<SecurityDataType> {
     * @name hooksDetail
     * @request GET:/repos/{owner}/{repo}/hooks
     * @description Get list of hooks.
+    * @returns {Promise<hook>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     hooksDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<hook>(`/repos/${owner}/${repo}/hooks`, "GET", params, null),
@@ -2044,6 +2256,8 @@ export class Api<SecurityDataType> {
     * @name hooksCreate
     * @request POST:/repos/{owner}/{repo}/hooks
     * @description Create a hook.
+    * @returns {Promise<hook>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     hooksCreate: (owner: string, repo: string, body: hookBody, params?: RequestParams) =>
       this.request<hook>(`/repos/${owner}/${repo}/hooks`, "POST", params, body),
@@ -2053,6 +2267,8 @@ export class Api<SecurityDataType> {
     * @name hooksDelete
     * @request DELETE:/repos/{owner}/{repo}/hooks/{hookId}
     * @description Delete a hook.
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     hooksDelete: (owner: string, repo: string, hookId: number, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/hooks/${hookId}`, "DELETE", params, null),
@@ -2062,6 +2278,8 @@ export class Api<SecurityDataType> {
     * @name hooksDetail
     * @request GET:/repos/{owner}/{repo}/hooks/{hookId}
     * @description Get single hook.
+    * @returns {Promise<hook>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName hooksDetail
     * @duplicate
     */
@@ -2073,6 +2291,8 @@ export class Api<SecurityDataType> {
     * @name hooksPartialUpdate
     * @request PATCH:/repos/{owner}/{repo}/hooks/{hookId}
     * @description Edit a hook.
+    * @returns {Promise<hook>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     hooksPartialUpdate: (owner: string, repo: string, hookId: number, body: hookBody, params?: RequestParams) =>
       this.request<hook>(`/repos/${owner}/${repo}/hooks/${hookId}`, "PATCH", params, body),
@@ -2082,6 +2302,8 @@ export class Api<SecurityDataType> {
     * @name hooksTestsCreate
     * @request POST:/repos/{owner}/{repo}/hooks/{hookId}/tests
     * @description Test a push hook.. This will trigger the hook with the latest push to the current repository. if the hook is subscribed to push events. If the hook is not subscribed. to push events, the server will respond with 204 but no test POST will. be generated.. Note: Previously /repos/:owner/:repo/hooks/:id/tes. 
+    * @returns {Promise<any>} `204` Hook is triggered.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     hooksTestsCreate: (owner: string, repo: string, hookId: number, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/hooks/${hookId}/tests`, "POST", params, null),
@@ -2091,6 +2313,8 @@ export class Api<SecurityDataType> {
     * @name issuesDetail
     * @request GET:/repos/{owner}/{repo}/issues
     * @description List issues for a repository.
+    * @returns {Promise<issues>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesDetail: (owner: string, repo: string, query: { filter: "assigned" | "created" | "mentioned" | "subscribed" | "all", state: "open" | "closed", labels: string, sort: "created" | "updated" | "comments", direction: "asc" | "desc", since?: string }, params?: RequestParams) =>
       this.request<issues>(`/repos/${owner}/${repo}/issues${this.addQueryParams(query)}`, "GET", params, null),
@@ -2100,6 +2324,8 @@ export class Api<SecurityDataType> {
     * @name issuesCreate
     * @request POST:/repos/{owner}/{repo}/issues
     * @description Create an issue.. Any user with pull access to a repository can create an issue.. 
+    * @returns {Promise<issue>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesCreate: (owner: string, repo: string, body: issue, params?: RequestParams) =>
       this.request<issue>(`/repos/${owner}/${repo}/issues`, "POST", params, body),
@@ -2109,6 +2335,8 @@ export class Api<SecurityDataType> {
     * @name issuesCommentsDetail
     * @request GET:/repos/{owner}/{repo}/issues/comments
     * @description List comments in a repository.
+    * @returns {Promise<issuesComments>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesCommentsDetail: (owner: string, repo: string, query: { direction?: string, sort?: "created" | "updated", since?: string }, params?: RequestParams) =>
       this.request<issuesComments>(`/repos/${owner}/${repo}/issues/comments${this.addQueryParams(query)}`, "GET", params, null),
@@ -2118,6 +2346,8 @@ export class Api<SecurityDataType> {
     * @name issuesCommentsDelete
     * @request DELETE:/repos/{owner}/{repo}/issues/comments/{commentId}
     * @description Delete a comment.
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesCommentsDelete: (owner: string, repo: string, commentId: number, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/issues/comments/${commentId}`, "DELETE", params, null),
@@ -2127,6 +2357,8 @@ export class Api<SecurityDataType> {
     * @name issuesCommentsDetail
     * @request GET:/repos/{owner}/{repo}/issues/comments/{commentId}
     * @description Get a single comment.
+    * @returns {Promise<issuesComment>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName issuesCommentsDetail
     * @duplicate
     */
@@ -2138,6 +2370,8 @@ export class Api<SecurityDataType> {
     * @name issuesCommentsPartialUpdate
     * @request PATCH:/repos/{owner}/{repo}/issues/comments/{commentId}
     * @description Edit a comment.
+    * @returns {Promise<issuesComment>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesCommentsPartialUpdate: (owner: string, repo: string, commentId: number, body: commentBody, params?: RequestParams) =>
       this.request<issuesComment>(`/repos/${owner}/${repo}/issues/comments/${commentId}`, "PATCH", params, body),
@@ -2147,6 +2381,8 @@ export class Api<SecurityDataType> {
     * @name issuesEventsDetail
     * @request GET:/repos/{owner}/{repo}/issues/events
     * @description List issue events for a repository.
+    * @returns {Promise<issueEvents>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesEventsDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<issueEvents>(`/repos/${owner}/${repo}/issues/events`, "GET", params, null),
@@ -2156,6 +2392,8 @@ export class Api<SecurityDataType> {
     * @name issuesEventsDetail
     * @request GET:/repos/{owner}/{repo}/issues/events/{eventId}
     * @description Get a single event.
+    * @returns {Promise<issueEvent>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName issuesEventsDetail
     * @duplicate
     */
@@ -2167,6 +2405,8 @@ export class Api<SecurityDataType> {
     * @name issuesDetail
     * @request GET:/repos/{owner}/{repo}/issues/{number}
     * @description Get a single issue
+    * @returns {Promise<issue>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName issuesDetail
     * @duplicate
     */
@@ -2178,6 +2418,8 @@ export class Api<SecurityDataType> {
     * @name issuesPartialUpdate
     * @request PATCH:/repos/{owner}/{repo}/issues/{number}
     * @description Edit an issue.. Issue owners and users with push access can edit an issue.. 
+    * @returns {Promise<issue>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesPartialUpdate: (owner: string, repo: string, number: number, body: issue, params?: RequestParams) =>
       this.request<issue>(`/repos/${owner}/${repo}/issues/${number}`, "PATCH", params, body),
@@ -2187,6 +2429,8 @@ export class Api<SecurityDataType> {
     * @name issuesCommentsDetail
     * @request GET:/repos/{owner}/{repo}/issues/{number}/comments
     * @description List comments on an issue.
+    * @returns {Promise<issuesComments>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName issuesCommentsDetail
     * @duplicate
     */
@@ -2198,6 +2442,8 @@ export class Api<SecurityDataType> {
     * @name issuesCommentsCreate
     * @request POST:/repos/{owner}/{repo}/issues/{number}/comments
     * @description Create a comment.
+    * @returns {Promise<issuesComment>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesCommentsCreate: (owner: string, repo: string, number: number, body: commentBody, params?: RequestParams) =>
       this.request<issuesComment>(`/repos/${owner}/${repo}/issues/${number}/comments`, "POST", params, body),
@@ -2207,6 +2453,8 @@ export class Api<SecurityDataType> {
     * @name issuesEventsDetail
     * @request GET:/repos/{owner}/{repo}/issues/{number}/events
     * @description List events for an issue.
+    * @returns {Promise<issueEvents>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName issuesEventsDetail
     * @duplicate
     */
@@ -2218,6 +2466,8 @@ export class Api<SecurityDataType> {
     * @name issuesLabelsDelete
     * @request DELETE:/repos/{owner}/{repo}/issues/{number}/labels
     * @description Remove all labels from an issue.
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesLabelsDelete: (owner: string, repo: string, number: number, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/issues/${number}/labels`, "DELETE", params, null),
@@ -2227,6 +2477,8 @@ export class Api<SecurityDataType> {
     * @name issuesLabelsDetail
     * @request GET:/repos/{owner}/{repo}/issues/{number}/labels
     * @description List labels on an issue.
+    * @returns {Promise<labels>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesLabelsDetail: (owner: string, repo: string, number: number, params?: RequestParams) =>
       this.request<labels>(`/repos/${owner}/${repo}/issues/${number}/labels`, "GET", params, null),
@@ -2236,6 +2488,8 @@ export class Api<SecurityDataType> {
     * @name issuesLabelsCreate
     * @request POST:/repos/{owner}/{repo}/issues/{number}/labels
     * @description Add labels to an issue.
+    * @returns {Promise<label>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesLabelsCreate: (owner: string, repo: string, number: number, body: emailsPost, params?: RequestParams) =>
       this.request<label>(`/repos/${owner}/${repo}/issues/${number}/labels`, "POST", params, body),
@@ -2245,6 +2499,8 @@ export class Api<SecurityDataType> {
     * @name issuesLabelsUpdate
     * @request PUT:/repos/{owner}/{repo}/issues/{number}/labels
     * @description Replace all labels for an issue.. Sending an empty array ([]) will remove all Labels from the Issue.. 
+    * @returns {Promise<label>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesLabelsUpdate: (owner: string, repo: string, number: number, body: emailsPost, params?: RequestParams) =>
       this.request<label>(`/repos/${owner}/${repo}/issues/${number}/labels`, "PUT", params, body),
@@ -2254,6 +2510,8 @@ export class Api<SecurityDataType> {
     * @name issuesLabelsDelete
     * @request DELETE:/repos/{owner}/{repo}/issues/{number}/labels/{name}
     * @description Remove a label from an issue.
+    * @returns {Promise<any>} `204` Item removed.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName issuesLabelsDelete
     * @duplicate
     */
@@ -2265,6 +2523,8 @@ export class Api<SecurityDataType> {
     * @name keysDetail
     * @request GET:/repos/{owner}/{repo}/keys
     * @description Get list of keys.
+    * @returns {Promise<keys>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     keysDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<keys>(`/repos/${owner}/${repo}/keys`, "GET", params, null),
@@ -2274,6 +2534,8 @@ export class Api<SecurityDataType> {
     * @name keysCreate
     * @request POST:/repos/{owner}/{repo}/keys
     * @description Create a key.
+    * @returns {Promise<UserKeysKeyId>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     keysCreate: (owner: string, repo: string, body: UserKeysPost, params?: RequestParams) =>
       this.request<UserKeysKeyId>(`/repos/${owner}/${repo}/keys`, "POST", params, body),
@@ -2283,6 +2545,8 @@ export class Api<SecurityDataType> {
     * @name keysDelete
     * @request DELETE:/repos/{owner}/{repo}/keys/{keyId}
     * @description Delete a key.
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     keysDelete: (owner: string, repo: string, keyId: number, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/keys/${keyId}`, "DELETE", params, null),
@@ -2292,6 +2556,8 @@ export class Api<SecurityDataType> {
     * @name keysDetail
     * @request GET:/repos/{owner}/{repo}/keys/{keyId}
     * @description Get a key
+    * @returns {Promise<UserKeysKeyId>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName keysDetail
     * @duplicate
     */
@@ -2303,6 +2569,8 @@ export class Api<SecurityDataType> {
     * @name labelsDetail
     * @request GET:/repos/{owner}/{repo}/labels
     * @description List all labels for this repository.
+    * @returns {Promise<labels>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     labelsDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<labels>(`/repos/${owner}/${repo}/labels`, "GET", params, null),
@@ -2312,6 +2580,8 @@ export class Api<SecurityDataType> {
     * @name labelsCreate
     * @request POST:/repos/{owner}/{repo}/labels
     * @description Create a label.
+    * @returns {Promise<label>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     labelsCreate: (owner: string, repo: string, body: emailsPost, params?: RequestParams) =>
       this.request<label>(`/repos/${owner}/${repo}/labels`, "POST", params, body),
@@ -2321,6 +2591,8 @@ export class Api<SecurityDataType> {
     * @name labelsDelete
     * @request DELETE:/repos/{owner}/{repo}/labels/{name}
     * @description Delete a label.
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     labelsDelete: (owner: string, repo: string, name: string, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/labels/${name}`, "DELETE", params, null),
@@ -2330,6 +2602,8 @@ export class Api<SecurityDataType> {
     * @name labelsDetail
     * @request GET:/repos/{owner}/{repo}/labels/{name}
     * @description Get a single label.
+    * @returns {Promise<label>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName labelsDetail
     * @duplicate
     */
@@ -2341,6 +2615,8 @@ export class Api<SecurityDataType> {
     * @name labelsPartialUpdate
     * @request PATCH:/repos/{owner}/{repo}/labels/{name}
     * @description Update a label.
+    * @returns {Promise<label>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     labelsPartialUpdate: (owner: string, repo: string, name: string, body: emailsPost, params?: RequestParams) =>
       this.request<label>(`/repos/${owner}/${repo}/labels/${name}`, "PATCH", params, body),
@@ -2350,6 +2626,8 @@ export class Api<SecurityDataType> {
     * @name languagesDetail
     * @request GET:/repos/{owner}/{repo}/languages
     * @description List languages.. List languages for the specified repository. The value on the right of a. language is the number of bytes of code written in that language.. 
+    * @returns {Promise<languages>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     languagesDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<languages>(`/repos/${owner}/${repo}/languages`, "GET", params, null),
@@ -2359,6 +2637,11 @@ export class Api<SecurityDataType> {
     * @name mergesCreate
     * @request POST:/repos/{owner}/{repo}/merges
     * @description Perform a merge.
+    * @returns {Promise<mergesSuccessful>} `201` Successful Response (The resulting merge commit)
+    * @returns {Promise<any>} `204` No-op response (base already contains the head, nothing to merge)
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<mergesConflict>} `404` Missing base response or missing head response
+    * @returns {Promise<mergesConflict>} `409` Merge conflict response.
     */
     mergesCreate: (owner: string, repo: string, body: mergesBody, params?: RequestParams) =>
       this.request<mergesSuccessful>(`/repos/${owner}/${repo}/merges`, "POST", params, body),
@@ -2368,6 +2651,8 @@ export class Api<SecurityDataType> {
     * @name milestonesDetail
     * @request GET:/repos/{owner}/{repo}/milestones
     * @description List milestones for a repository.
+    * @returns {Promise<milestone>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     milestonesDetail: (owner: string, repo: string, query: { state?: "open" | "closed", direction?: string, sort?: "due_date" | "completeness" }, params?: RequestParams) =>
       this.request<milestone>(`/repos/${owner}/${repo}/milestones${this.addQueryParams(query)}`, "GET", params, null),
@@ -2377,6 +2662,8 @@ export class Api<SecurityDataType> {
     * @name milestonesCreate
     * @request POST:/repos/{owner}/{repo}/milestones
     * @description Create a milestone.
+    * @returns {Promise<milestone>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     milestonesCreate: (owner: string, repo: string, body: milestoneUpdate, params?: RequestParams) =>
       this.request<milestone>(`/repos/${owner}/${repo}/milestones`, "POST", params, body),
@@ -2386,6 +2673,8 @@ export class Api<SecurityDataType> {
     * @name milestonesDelete
     * @request DELETE:/repos/{owner}/{repo}/milestones/{number}
     * @description Delete a milestone.
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     milestonesDelete: (owner: string, repo: string, number: number, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/milestones/${number}`, "DELETE", params, null),
@@ -2395,6 +2684,8 @@ export class Api<SecurityDataType> {
     * @name milestonesDetail
     * @request GET:/repos/{owner}/{repo}/milestones/{number}
     * @description Get a single milestone.
+    * @returns {Promise<milestone>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName milestonesDetail
     * @duplicate
     */
@@ -2406,6 +2697,8 @@ export class Api<SecurityDataType> {
     * @name milestonesPartialUpdate
     * @request PATCH:/repos/{owner}/{repo}/milestones/{number}
     * @description Update a milestone.
+    * @returns {Promise<milestone>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     milestonesPartialUpdate: (owner: string, repo: string, number: number, body: milestoneUpdate, params?: RequestParams) =>
       this.request<milestone>(`/repos/${owner}/${repo}/milestones/${number}`, "PATCH", params, body),
@@ -2415,6 +2708,8 @@ export class Api<SecurityDataType> {
     * @name milestonesLabelsDetail
     * @request GET:/repos/{owner}/{repo}/milestones/{number}/labels
     * @description Get labels for every issue in a milestone.
+    * @returns {Promise<labels>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     milestonesLabelsDetail: (owner: string, repo: string, number: number, params?: RequestParams) =>
       this.request<labels>(`/repos/${owner}/${repo}/milestones/${number}/labels`, "GET", params, null),
@@ -2424,6 +2719,8 @@ export class Api<SecurityDataType> {
     * @name notificationsDetail
     * @request GET:/repos/{owner}/{repo}/notifications
     * @description List your notifications in a repository. List all notifications for the current user.. 
+    * @returns {Promise<notifications>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     notificationsDetail: (owner: string, repo: string, query: { all?: boolean, participating?: boolean, since?: string }, params?: RequestParams) =>
       this.request<notifications>(`/repos/${owner}/${repo}/notifications${this.addQueryParams(query)}`, "GET", params, null),
@@ -2433,6 +2730,8 @@ export class Api<SecurityDataType> {
     * @name notificationsUpdate
     * @request PUT:/repos/{owner}/{repo}/notifications
     * @description Mark notifications as read in a repository.. Marking all notifications in a repository as "read" removes them from the. default view on GitHub.com.. 
+    * @returns {Promise<any>} `205` Marked as read.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     notificationsUpdate: (owner: string, repo: string, body: notificationMarkRead, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/notifications`, "PUT", params, body),
@@ -2442,6 +2741,8 @@ export class Api<SecurityDataType> {
     * @name pullsDetail
     * @request GET:/repos/{owner}/{repo}/pulls
     * @description List pull requests.
+    * @returns {Promise<pulls>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     pullsDetail: (owner: string, repo: string, query: { state?: "open" | "closed", head?: string, base?: string }, params?: RequestParams) =>
       this.request<pulls>(`/repos/${owner}/${repo}/pulls${this.addQueryParams(query)}`, "GET", params, null),
@@ -2451,6 +2752,8 @@ export class Api<SecurityDataType> {
     * @name pullsCreate
     * @request POST:/repos/{owner}/{repo}/pulls
     * @description Create a pull request.
+    * @returns {Promise<pulls>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     pullsCreate: (owner: string, repo: string, body: pullsPost, params?: RequestParams) =>
       this.request<pulls>(`/repos/${owner}/${repo}/pulls`, "POST", params, body),
@@ -2460,6 +2763,8 @@ export class Api<SecurityDataType> {
     * @name pullsCommentsDetail
     * @request GET:/repos/{owner}/{repo}/pulls/comments
     * @description List comments in a repository.. By default, Review Comments are ordered by ascending ID.. 
+    * @returns {Promise<issuesComments>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     pullsCommentsDetail: (owner: string, repo: string, query: { direction?: string, sort?: "created" | "updated", since?: string }, params?: RequestParams) =>
       this.request<issuesComments>(`/repos/${owner}/${repo}/pulls/comments${this.addQueryParams(query)}`, "GET", params, null),
@@ -2469,6 +2774,8 @@ export class Api<SecurityDataType> {
     * @name pullsCommentsDelete
     * @request DELETE:/repos/{owner}/{repo}/pulls/comments/{commentId}
     * @description Delete a comment.
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     pullsCommentsDelete: (owner: string, repo: string, commentId: number, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/pulls/comments/${commentId}`, "DELETE", params, null),
@@ -2478,6 +2785,8 @@ export class Api<SecurityDataType> {
     * @name pullsCommentsDetail
     * @request GET:/repos/{owner}/{repo}/pulls/comments/{commentId}
     * @description Get a single comment.
+    * @returns {Promise<pullsComment>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName pullsCommentsDetail
     * @duplicate
     */
@@ -2489,6 +2798,8 @@ export class Api<SecurityDataType> {
     * @name pullsCommentsPartialUpdate
     * @request PATCH:/repos/{owner}/{repo}/pulls/comments/{commentId}
     * @description Edit a comment.
+    * @returns {Promise<pullsComment>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     pullsCommentsPartialUpdate: (owner: string, repo: string, commentId: number, body: commentBody, params?: RequestParams) =>
       this.request<pullsComment>(`/repos/${owner}/${repo}/pulls/comments/${commentId}`, "PATCH", params, body),
@@ -2498,6 +2809,8 @@ export class Api<SecurityDataType> {
     * @name pullsDetail
     * @request GET:/repos/{owner}/{repo}/pulls/{number}
     * @description Get a single pull request.
+    * @returns {Promise<pullRequest>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName pullsDetail
     * @duplicate
     */
@@ -2509,6 +2822,8 @@ export class Api<SecurityDataType> {
     * @name pullsPartialUpdate
     * @request PATCH:/repos/{owner}/{repo}/pulls/{number}
     * @description Update a pull request.
+    * @returns {Promise<repo>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     pullsPartialUpdate: (owner: string, repo: string, number: number, body: pullUpdate, params?: RequestParams) =>
       this.request<repo>(`/repos/${owner}/${repo}/pulls/${number}`, "PATCH", params, body),
@@ -2518,6 +2833,8 @@ export class Api<SecurityDataType> {
     * @name pullsCommentsDetail
     * @request GET:/repos/{owner}/{repo}/pulls/{number}/comments
     * @description List comments on a pull request.
+    * @returns {Promise<pullsComment>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName pullsCommentsDetail
     * @duplicate
     */
@@ -2529,6 +2846,8 @@ export class Api<SecurityDataType> {
     * @name pullsCommentsCreate
     * @request POST:/repos/{owner}/{repo}/pulls/{number}/comments
     * @description Create a comment..   #TODO Alternative input ( http://developer.github.com/v3/pulls/comments/ ).   description: |.     Alternative Input..     Instead of passing commit_id, path, and position you can reply to an.     existing Pull Request Comment like this:. .         body.            Required string.         in_reply_to.            Required number - Comment id to reply to.. 
+    * @returns {Promise<pullsComment>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     pullsCommentsCreate: (owner: string, repo: string, number: number, body: pullsCommentPost, params?: RequestParams) =>
       this.request<pullsComment>(`/repos/${owner}/${repo}/pulls/${number}/comments`, "POST", params, body),
@@ -2538,6 +2857,8 @@ export class Api<SecurityDataType> {
     * @name pullsCommitsDetail
     * @request GET:/repos/{owner}/{repo}/pulls/{number}/commits
     * @description List commits on a pull request.
+    * @returns {Promise<commits>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     pullsCommitsDetail: (owner: string, repo: string, number: number, params?: RequestParams) =>
       this.request<commits>(`/repos/${owner}/${repo}/pulls/${number}/commits`, "GET", params, null),
@@ -2547,6 +2868,8 @@ export class Api<SecurityDataType> {
     * @name pullsFilesDetail
     * @request GET:/repos/{owner}/{repo}/pulls/{number}/files
     * @description List pull requests files.
+    * @returns {Promise<pulls>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     pullsFilesDetail: (owner: string, repo: string, number: number, params?: RequestParams) =>
       this.request<pulls>(`/repos/${owner}/${repo}/pulls/${number}/files`, "GET", params, null),
@@ -2556,6 +2879,9 @@ export class Api<SecurityDataType> {
     * @name pullsMergeDetail
     * @request GET:/repos/{owner}/{repo}/pulls/{number}/merge
     * @description Get if a pull request has been merged.
+    * @returns {Promise<any>} `204` Pull request has been merged.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<any>} `404` Pull request has not been merged.
     */
     pullsMergeDetail: (owner: string, repo: string, number: number, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/pulls/${number}/merge`, "GET", params, null),
@@ -2565,6 +2891,9 @@ export class Api<SecurityDataType> {
     * @name pullsMergeUpdate
     * @request PUT:/repos/{owner}/{repo}/pulls/{number}/merge
     * @description Merge a pull request (Merge Button's)
+    * @returns {Promise<merge>} `200` Response if merge was successful.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<merge>} `405` Response if merge cannot be performed.
     */
     pullsMergeUpdate: (owner: string, repo: string, number: number, body: mergePullBody, params?: RequestParams) =>
       this.request<merge>(`/repos/${owner}/${repo}/pulls/${number}/merge`, "PUT", params, body),
@@ -2574,6 +2903,8 @@ export class Api<SecurityDataType> {
     * @name readmeDetail
     * @request GET:/repos/{owner}/{repo}/readme
     * @description Get the README.. This method returns the preferred README for a repository.. 
+    * @returns {Promise<ContentsPath>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     readmeDetail: (owner: string, repo: string, query: { ref?: string }, params?: RequestParams) =>
       this.request<ContentsPath>(`/repos/${owner}/${repo}/readme${this.addQueryParams(query)}`, "GET", params, null),
@@ -2583,6 +2914,8 @@ export class Api<SecurityDataType> {
     * @name releasesDetail
     * @request GET:/repos/{owner}/{repo}/releases
     * @description Users with push access to the repository will receive all releases (i.e., published releases and draft releases). Users with pull access will receive published releases only
+    * @returns {Promise<releases>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     releasesDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<releases>(`/repos/${owner}/${repo}/releases`, "GET", params, null),
@@ -2592,6 +2925,8 @@ export class Api<SecurityDataType> {
     * @name releasesCreate
     * @request POST:/repos/{owner}/{repo}/releases
     * @description Create a release. Users with push access to the repository can create a release.. 
+    * @returns {Promise<release>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     releasesCreate: (owner: string, repo: string, body: ReleaseCreate, params?: RequestParams) =>
       this.request<release>(`/repos/${owner}/${repo}/releases`, "POST", params, body),
@@ -2601,6 +2936,8 @@ export class Api<SecurityDataType> {
     * @name releasesAssetsDelete
     * @request DELETE:/repos/{owner}/{repo}/releases/assets/{id}
     * @description Delete a release asset
+    * @returns {Promise<any>} `204` No Content
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     releasesAssetsDelete: (owner: string, repo: string, id: string, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/releases/assets/${id}`, "DELETE", params, null),
@@ -2610,6 +2947,8 @@ export class Api<SecurityDataType> {
     * @name releasesAssetsDetail
     * @request GET:/repos/{owner}/{repo}/releases/assets/{id}
     * @description Get a single release asset
+    * @returns {Promise<asset>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     releasesAssetsDetail: (owner: string, repo: string, id: string, params?: RequestParams) =>
       this.request<asset>(`/repos/${owner}/${repo}/releases/assets/${id}`, "GET", params, null),
@@ -2619,6 +2958,8 @@ export class Api<SecurityDataType> {
     * @name releasesAssetsPartialUpdate
     * @request PATCH:/repos/{owner}/{repo}/releases/assets/{id}
     * @description Edit a release asset. Users with push access to the repository can edit a release asset.. 
+    * @returns {Promise<asset>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     releasesAssetsPartialUpdate: (owner: string, repo: string, id: string, body: assetPatch, params?: RequestParams) =>
       this.request<asset>(`/repos/${owner}/${repo}/releases/assets/${id}`, "PATCH", params, body),
@@ -2628,6 +2969,8 @@ export class Api<SecurityDataType> {
     * @name releasesDelete
     * @request DELETE:/repos/{owner}/{repo}/releases/{id}
     * @description Users with push access to the repository can delete a release.
+    * @returns {Promise<any>} `204` No Content
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     releasesDelete: (owner: string, repo: string, id: string, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/releases/${id}`, "DELETE", params, null),
@@ -2637,6 +2980,8 @@ export class Api<SecurityDataType> {
     * @name releasesDetail
     * @request GET:/repos/{owner}/{repo}/releases/{id}
     * @description Get a single release
+    * @returns {Promise<release>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName releasesDetail
     * @duplicate
     */
@@ -2648,6 +2993,8 @@ export class Api<SecurityDataType> {
     * @name releasesPartialUpdate
     * @request PATCH:/repos/{owner}/{repo}/releases/{id}
     * @description Users with push access to the repository can edit a release
+    * @returns {Promise<release>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     releasesPartialUpdate: (owner: string, repo: string, id: string, body: ReleaseCreate, params?: RequestParams) =>
       this.request<release>(`/repos/${owner}/${repo}/releases/${id}`, "PATCH", params, body),
@@ -2657,6 +3004,8 @@ export class Api<SecurityDataType> {
     * @name releasesAssetsDetail
     * @request GET:/repos/{owner}/{repo}/releases/{id}/assets
     * @description List assets for a release
+    * @returns {Promise<assets>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName releasesAssetsDetail
     * @duplicate
     */
@@ -2668,6 +3017,8 @@ export class Api<SecurityDataType> {
     * @name stargazersDetail
     * @request GET:/repos/{owner}/{repo}/stargazers
     * @description List Stargazers.
+    * @returns {Promise<users>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     stargazersDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<users>(`/repos/${owner}/${repo}/stargazers`, "GET", params, null),
@@ -2677,6 +3028,8 @@ export class Api<SecurityDataType> {
     * @name statsCodeFrequencyDetail
     * @request GET:/repos/{owner}/{repo}/stats/code_frequency
     * @description Get the number of additions and deletions per week.. Returns a weekly aggregate of the number of additions and deletions pushed. to a repository.. 
+    * @returns {Promise<codeFrequencyStats>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     statsCodeFrequencyDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<codeFrequencyStats>(`/repos/${owner}/${repo}/stats/code_frequency`, "GET", params, null),
@@ -2686,6 +3039,8 @@ export class Api<SecurityDataType> {
     * @name statsCommitActivityDetail
     * @request GET:/repos/{owner}/{repo}/stats/commit_activity
     * @description Get the last year of commit activity data.. Returns the last year of commit activity grouped by week. The days array. is a group of commits per day, starting on Sunday.. 
+    * @returns {Promise<commitActivityStats>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     statsCommitActivityDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<commitActivityStats>(`/repos/${owner}/${repo}/stats/commit_activity`, "GET", params, null),
@@ -2695,6 +3050,8 @@ export class Api<SecurityDataType> {
     * @name statsContributorsDetail
     * @request GET:/repos/{owner}/{repo}/stats/contributors
     * @description Get contributors list with additions, deletions, and commit counts.
+    * @returns {Promise<contributorsStats>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     statsContributorsDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<contributorsStats>(`/repos/${owner}/${repo}/stats/contributors`, "GET", params, null),
@@ -2704,6 +3061,8 @@ export class Api<SecurityDataType> {
     * @name statsParticipationDetail
     * @request GET:/repos/{owner}/{repo}/stats/participation
     * @description Get the weekly commit count for the repo owner and everyone else.
+    * @returns {Promise<participationStats>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     statsParticipationDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<participationStats>(`/repos/${owner}/${repo}/stats/participation`, "GET", params, null),
@@ -2713,6 +3072,8 @@ export class Api<SecurityDataType> {
     * @name statsPunchCardDetail
     * @request GET:/repos/{owner}/{repo}/stats/punch_card
     * @description Get the number of commits per hour in each day.. Each array contains the day number, hour number, and number of commits. 0-6 Sunday - Saturday. 0-23 Hour of day. Number of commits. . For example, [2, 14, 25] indicates that there were 25 total commits, during. the 2.00pm hour on Tuesdays. All times are based on the time zone of. individual commits.. 
+    * @returns {Promise<codeFrequencyStats>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     statsPunchCardDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<codeFrequencyStats>(`/repos/${owner}/${repo}/stats/punch_card`, "GET", params, null),
@@ -2722,6 +3083,8 @@ export class Api<SecurityDataType> {
     * @name statusesDetail
     * @request GET:/repos/{owner}/{repo}/statuses/{ref}
     * @description List Statuses for a specific Ref.
+    * @returns {Promise<ref>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     statusesDetail: (owner: string, repo: string, ref: string, params?: RequestParams) =>
       this.request<ref>(`/repos/${owner}/${repo}/statuses/${ref}`, "GET", params, null),
@@ -2731,6 +3094,8 @@ export class Api<SecurityDataType> {
     * @name statusesCreate
     * @request POST:/repos/{owner}/{repo}/statuses/{ref}
     * @description Create a Status.
+    * @returns {Promise<ref>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     statusesCreate: (owner: string, repo: string, ref: string, body: headBranch, params?: RequestParams) =>
       this.request<ref>(`/repos/${owner}/${repo}/statuses/${ref}`, "POST", params, body),
@@ -2740,6 +3105,8 @@ export class Api<SecurityDataType> {
     * @name subscribersDetail
     * @request GET:/repos/{owner}/{repo}/subscribers
     * @description List watchers.
+    * @returns {Promise<users>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     subscribersDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<users>(`/repos/${owner}/${repo}/subscribers`, "GET", params, null),
@@ -2749,6 +3116,8 @@ export class Api<SecurityDataType> {
     * @name subscriptionDelete
     * @request DELETE:/repos/{owner}/{repo}/subscription
     * @description Delete a Repository Subscription.
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     subscriptionDelete: (owner: string, repo: string, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/subscription`, "DELETE", params, null),
@@ -2758,6 +3127,8 @@ export class Api<SecurityDataType> {
     * @name subscriptionDetail
     * @request GET:/repos/{owner}/{repo}/subscription
     * @description Get a Repository Subscription.
+    * @returns {Promise<subscription>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     subscriptionDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<subscription>(`/repos/${owner}/${repo}/subscription`, "GET", params, null),
@@ -2767,6 +3138,8 @@ export class Api<SecurityDataType> {
     * @name subscriptionUpdate
     * @request PUT:/repos/{owner}/{repo}/subscription
     * @description Set a Repository Subscription
+    * @returns {Promise<subscription>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     subscriptionUpdate: (owner: string, repo: string, body: subscriptionBody, params?: RequestParams) =>
       this.request<subscription>(`/repos/${owner}/${repo}/subscription`, "PUT", params, body),
@@ -2776,6 +3149,8 @@ export class Api<SecurityDataType> {
     * @name tagsDetail
     * @request GET:/repos/{owner}/{repo}/tags
     * @description Get list of tags.
+    * @returns {Promise<tags>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     tagsDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<tags>(`/repos/${owner}/${repo}/tags`, "GET", params, null),
@@ -2785,6 +3160,8 @@ export class Api<SecurityDataType> {
     * @name teamsDetail
     * @request GET:/repos/{owner}/{repo}/teams
     * @description Get list of teams
+    * @returns {Promise<teams>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     teamsDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<teams>(`/repos/${owner}/${repo}/teams`, "GET", params, null),
@@ -2794,6 +3171,8 @@ export class Api<SecurityDataType> {
     * @name watchersDetail
     * @request GET:/repos/{owner}/{repo}/watchers
     * @description List Stargazers. New implementation.
+    * @returns {Promise<users>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     watchersDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<users>(`/repos/${owner}/${repo}/watchers`, "GET", params, null),
@@ -2803,6 +3182,8 @@ export class Api<SecurityDataType> {
     * @name reposDetail
     * @request GET:/repos/{owner}/{repo}/{archive_format}/{path}
     * @description Get archive link.. This method will return a 302 to a URL to download a tarball or zipball. archive for a repository. Please make sure your HTTP framework is. configured to follow redirects or you will need to use the Location header. to make a second GET request.. Note: For private repositories, these links are temporary and expire quickly.. 
+    * @returns {Promise<any>} `302` Found.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName reposDetail
     * @duplicate
     */
@@ -2816,6 +3197,8 @@ export class Api<SecurityDataType> {
     * @name repositoriesList
     * @request GET:/repositories
     * @description List all public repositories.. This provides a dump of every public repository, in the order that they. were created.. Note: Pagination is powered exclusively by the since parameter. is the. Link header to get the URL for the next page of repositories.. 
+    * @returns {Promise<repos>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     repositoriesList: (query: { since?: string }, params?: RequestParams) =>
       this.request<repos>(`/repositories${this.addQueryParams(query)}`, "GET", params, null),
@@ -2827,6 +3210,8 @@ export class Api<SecurityDataType> {
     * @name codeList
     * @request GET:/search/code
     * @description Search code.
+    * @returns {Promise<SearchCode>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     codeList: (query: { order?: "desc" | "asc", q: string, sort?: "indexed" }, params?: RequestParams) =>
       this.request<SearchCode>(`/search/code${this.addQueryParams(query)}`, "GET", params, null),
@@ -2836,6 +3221,8 @@ export class Api<SecurityDataType> {
     * @name issuesList
     * @request GET:/search/issues
     * @description Find issues by state and keyword. (This method returns up to 100 results per page.)
+    * @returns {Promise<SearchIssues>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesList: (query: { order?: "desc" | "asc", q: string, sort?: "updated" | "created" | "comments" }, params?: RequestParams) =>
       this.request<SearchIssues>(`/search/issues${this.addQueryParams(query)}`, "GET", params, null),
@@ -2845,6 +3232,8 @@ export class Api<SecurityDataType> {
     * @name repositoriesList
     * @request GET:/search/repositories
     * @description Search repositories.
+    * @returns {Promise<SearchRepositories>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     repositoriesList: (query: { order?: "desc" | "asc", q: string, sort?: "stars" | "forks" | "updated" }, params?: RequestParams) =>
       this.request<SearchRepositories>(`/search/repositories${this.addQueryParams(query)}`, "GET", params, null),
@@ -2854,6 +3243,8 @@ export class Api<SecurityDataType> {
     * @name usersList
     * @request GET:/search/users
     * @description Search users.
+    * @returns {Promise<SearchUsers>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     usersList: (query: { order?: "desc" | "asc", q: string, sort?: "followers" | "repositories" | "joined" }, params?: RequestParams) =>
       this.request<SearchUsers>(`/search/users${this.addQueryParams(query)}`, "GET", params, null),
@@ -2865,6 +3256,8 @@ export class Api<SecurityDataType> {
     * @name teamsDelete
     * @request DELETE:/teams/{teamId}
     * @description Delete team.. In order to delete a team, the authenticated user must be an owner of the. org that the team is associated with.. 
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     teamsDelete: (teamId: number, params?: RequestParams) =>
       this.request<any>(`/teams/${teamId}`, "DELETE", params, null),
@@ -2874,6 +3267,8 @@ export class Api<SecurityDataType> {
     * @name teamsDetail
     * @request GET:/teams/{teamId}
     * @description Get team.
+    * @returns {Promise<team>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     teamsDetail: (teamId: number, params?: RequestParams) =>
       this.request<team>(`/teams/${teamId}`, "GET", params, null),
@@ -2883,6 +3278,8 @@ export class Api<SecurityDataType> {
     * @name teamsPartialUpdate
     * @request PATCH:/teams/{teamId}
     * @description Edit team.. In order to edit a team, the authenticated user must be an owner of the org. that the team is associated with.. 
+    * @returns {Promise<team>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     teamsPartialUpdate: (teamId: number, body: editTeam, params?: RequestParams) =>
       this.request<team>(`/teams/${teamId}`, "PATCH", params, body),
@@ -2892,6 +3289,8 @@ export class Api<SecurityDataType> {
     * @name membersDetail
     * @request GET:/teams/{teamId}/members
     * @description List team members.. In order to list members in a team, the authenticated user must be a member. of the team.. 
+    * @returns {Promise<users>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     membersDetail: (teamId: number, params?: RequestParams) =>
       this.request<users>(`/teams/${teamId}/members`, "GET", params, null),
@@ -2901,6 +3300,8 @@ export class Api<SecurityDataType> {
     * @name membersDelete
     * @request DELETE:/teams/{teamId}/members/{username}
     * @description The "Remove team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Remove team membership API instead. It allows you to remove both active and pending memberships.. . Remove team member.. In order to remove a user from a team, the authenticated user must have 'admin'. permissions to the team or be an owner of the org that the team is associated. with.. NOTE This does not delete the user, it just remove them from the team.. 
+    * @returns {Promise<any>} `204` Team member removed.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     membersDelete: (teamId: number, username: string, params?: RequestParams) =>
       this.request<any>(`/teams/${teamId}/members/${username}`, "DELETE", params, null),
@@ -2910,6 +3311,9 @@ export class Api<SecurityDataType> {
     * @name membersDetail
     * @request GET:/teams/{teamId}/members/{username}
     * @description The "Get team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Get team membership API instead. It allows you to get both active and pending memberships.. . Get team member.. In order to get if a user is a member of a team, the authenticated user mus. be a member of the team.. 
+    * @returns {Promise<any>} `204` User is a member.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<any>} `404` User is not a member.
     * @originalName membersDetail
     * @duplicate
     */
@@ -2921,6 +3325,9 @@ export class Api<SecurityDataType> {
     * @name membersUpdate
     * @request PUT:/teams/{teamId}/members/{username}
     * @description The API (described below) is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Add team membership API instead. It allows you to invite new organization members to your teams.. . Add team member.. In order to add a user to a team, the authenticated user must have 'admin'. permissions to the team or be an owner of the org that the team is associated. with.. 
+    * @returns {Promise<any>} `204` Team member added.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<organizationAsTeamMember>} `422` If you attempt to add an organization to a team, you will get this.
     */
     membersUpdate: (teamId: number, username: string, params?: RequestParams) =>
       this.request<any>(`/teams/${teamId}/members/${username}`, "PUT", params, null),
@@ -2930,6 +3337,8 @@ export class Api<SecurityDataType> {
     * @name membershipsDelete
     * @request DELETE:/teams/{teamId}/memberships/{username}
     * @description Remove team membership.. In order to remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. NOTE: This does not delete the user, it just removes their membership from the team.. 
+    * @returns {Promise<any>} `204` Team member removed.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     membershipsDelete: (teamId: number, username: string, params?: RequestParams) =>
       this.request<any>(`/teams/${teamId}/memberships/${username}`, "DELETE", params, null),
@@ -2939,6 +3348,9 @@ export class Api<SecurityDataType> {
     * @name membershipsDetail
     * @request GET:/teams/{teamId}/memberships/{username}
     * @description Get team membership.. In order to get a user's membership with a team, the authenticated user must be a member of the team or an owner of the team's organization.. 
+    * @returns {Promise<teamMembership>} `200` User is a member.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<any>} `404` User has no membership with team
     */
     membershipsDetail: (teamId: number, username: string, params?: RequestParams) =>
       this.request<teamMembership>(`/teams/${teamId}/memberships/${username}`, "GET", params, null),
@@ -2948,6 +3360,9 @@ export class Api<SecurityDataType> {
     * @name membershipsUpdate
     * @request PUT:/teams/{teamId}/memberships/{username}
     * @description Add team membership.. In order to add a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with.. . If the user is already a part of the team's organization (meaning they're on at least one other team in the organization), this endpoint will add the user to the team.. . If the user is completely unaffiliated with the team's organization (meaning they're on none of the organization's teams), this endpoint will send an invitation to the user via email. This newly-created membership will be in the 'pending' state until the user accepts the invitation, at which point the membership will transition to the 'active' state and the user will be added as a member of the team.. 
+    * @returns {Promise<teamMembership>} `200` Team member added.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<organizationAsTeamMember>} `422` If you attempt to add an organization to a team, you will get this.
     */
     membershipsUpdate: (teamId: number, username: string, params?: RequestParams) =>
       this.request<teamMembership>(`/teams/${teamId}/memberships/${username}`, "PUT", params, null),
@@ -2957,6 +3372,8 @@ export class Api<SecurityDataType> {
     * @name reposDetail
     * @request GET:/teams/{teamId}/repos
     * @description List team repos
+    * @returns {Promise<teamRepos>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     reposDetail: (teamId: number, params?: RequestParams) =>
       this.request<teamRepos>(`/teams/${teamId}/repos`, "GET", params, null),
@@ -2966,6 +3383,8 @@ export class Api<SecurityDataType> {
     * @name reposDelete
     * @request DELETE:/teams/{teamId}/repos/{owner}/{repo}
     * @description In order to remove a repository from a team, the authenticated user must be an owner of the org that the team is associated with. NOTE: This does not delete the repository, it just removes it from the team.
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     reposDelete: (teamId: number, owner: string, repo: string, params?: RequestParams) =>
       this.request<any>(`/teams/${teamId}/repos/${owner}/${repo}`, "DELETE", params, null),
@@ -2975,6 +3394,7 @@ export class Api<SecurityDataType> {
     * @name reposDetail
     * @request GET:/teams/{teamId}/repos/{owner}/{repo}
     * @description Check if a team manages a repository
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     * @originalName reposDetail
     * @duplicate
     */
@@ -2986,6 +3406,7 @@ export class Api<SecurityDataType> {
     * @name reposUpdate
     * @request PUT:/teams/{teamId}/repos/{owner}/{repo}
     * @description In order to add a repository to a team, the authenticated user must be an owner of the org that the team is associated with. Also, the repository must be owned by the organization, or a direct fork of a repository owned by the organization.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     reposUpdate: (teamId: number, owner: string, repo: string, params?: RequestParams) =>
       this.request<any>(`/teams/${teamId}/repos/${owner}/${repo}`, "PUT", params, null),
@@ -2997,6 +3418,8 @@ export class Api<SecurityDataType> {
     * @name userList
     * @request GET:/user
     * @description Get the authenticated user.
+    * @returns {Promise<user>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     userList: (params?: RequestParams) =>
       this.request<user>(`/user`, "GET", params, null),
@@ -3006,6 +3429,8 @@ export class Api<SecurityDataType> {
     * @name userPartialUpdate
     * @request PATCH:/user
     * @description Update the authenticated user.
+    * @returns {Promise<user>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     userPartialUpdate: (body: UserUpdate, params?: RequestParams) =>
       this.request<user>(`/user`, "PATCH", params, body),
@@ -3015,6 +3440,8 @@ export class Api<SecurityDataType> {
     * @name emailsDelete
     * @request DELETE:/user/emails
     * @description Delete email address(es).. You can include a single email address or an array of addresses.. 
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     emailsDelete: (body: UserEmails, params?: RequestParams) =>
       this.request<any>(`/user/emails`, "DELETE", params, body),
@@ -3024,6 +3451,8 @@ export class Api<SecurityDataType> {
     * @name emailsList
     * @request GET:/user/emails
     * @description List email addresses for a user.. In the final version of the API, this method will return an array of hashes. with extended information for each email address indicating if the address. has been verified and if it's primary email address for GitHub.. Until API v3 is finalized, use the application/vnd.github.v3 media type to. get other response format.. 
+    * @returns {Promise<any>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     emailsList: (params?: RequestParams) =>
       this.request<any>(`/user/emails`, "GET", params, null),
@@ -3033,6 +3462,7 @@ export class Api<SecurityDataType> {
     * @name emailsCreate
     * @request POST:/user/emails
     * @description Add email address(es).. You can post a single email address or an array of addresses.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     emailsCreate: (body: emailsPost, params?: RequestParams) =>
       this.request<any>(`/user/emails`, "POST", params, body),
@@ -3042,6 +3472,8 @@ export class Api<SecurityDataType> {
     * @name followersList
     * @request GET:/user/followers
     * @description List the authenticated user's followers
+    * @returns {Promise<users>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     followersList: (params?: RequestParams) =>
       this.request<users>(`/user/followers`, "GET", params, null),
@@ -3051,6 +3483,8 @@ export class Api<SecurityDataType> {
     * @name followingList
     * @request GET:/user/following
     * @description List who the authenticated user is following.
+    * @returns {Promise<users>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     followingList: (params?: RequestParams) =>
       this.request<users>(`/user/following`, "GET", params, null),
@@ -3060,6 +3494,8 @@ export class Api<SecurityDataType> {
     * @name followingDelete
     * @request DELETE:/user/following/{username}
     * @description Unfollow a user.. Unfollowing a user requires the user to be logged in and authenticated with. basic auth or OAuth with the user:follow scope.. 
+    * @returns {Promise<any>} `204` User unfollowed.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     followingDelete: (username: string, params?: RequestParams) =>
       this.request<any>(`/user/following/${username}`, "DELETE", params, null),
@@ -3069,6 +3505,9 @@ export class Api<SecurityDataType> {
     * @name followingDetail
     * @request GET:/user/following/{username}
     * @description Check if you are following a user.
+    * @returns {Promise<any>} `204` Response if you are following this user.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<any>} `404` Response if you are not following this user.
     */
     followingDetail: (username: string, params?: RequestParams) =>
       this.request<any>(`/user/following/${username}`, "GET", params, null),
@@ -3078,6 +3517,8 @@ export class Api<SecurityDataType> {
     * @name followingUpdate
     * @request PUT:/user/following/{username}
     * @description Follow a user.. Following a user requires the user to be logged in and authenticated with. basic auth or OAuth with the user:follow scope.. 
+    * @returns {Promise<any>} `204` You are now following the user.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     followingUpdate: (username: string, params?: RequestParams) =>
       this.request<any>(`/user/following/${username}`, "PUT", params, null),
@@ -3087,6 +3528,8 @@ export class Api<SecurityDataType> {
     * @name issuesList
     * @request GET:/user/issues
     * @description List issues.. List all issues across owned and member repositories for the authenticated. user.. 
+    * @returns {Promise<issues>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     issuesList: (query: { filter: "assigned" | "created" | "mentioned" | "subscribed" | "all", state: "open" | "closed", labels: string, sort: "created" | "updated" | "comments", direction: "asc" | "desc", since?: string }, params?: RequestParams) =>
       this.request<issues>(`/user/issues${this.addQueryParams(query)}`, "GET", params, null),
@@ -3096,6 +3539,8 @@ export class Api<SecurityDataType> {
     * @name keysList
     * @request GET:/user/keys
     * @description List your public keys.. Lists the current user's keys. Management of public keys via the API requires. that you are authenticated through basic auth, or OAuth with the 'user', 'write:public_key' scopes.. 
+    * @returns {Promise<gitignore>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     keysList: (params?: RequestParams) =>
       this.request<gitignore>(`/user/keys`, "GET", params, null),
@@ -3105,6 +3550,8 @@ export class Api<SecurityDataType> {
     * @name keysCreate
     * @request POST:/user/keys
     * @description Create a public key.
+    * @returns {Promise<UserKeysKeyId>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     keysCreate: (body: UserKeysPost, params?: RequestParams) =>
       this.request<UserKeysKeyId>(`/user/keys`, "POST", params, body),
@@ -3114,6 +3561,8 @@ export class Api<SecurityDataType> {
     * @name keysDelete
     * @request DELETE:/user/keys/{keyId}
     * @description Delete a public key. Removes a public key. Requires that you are authenticated via Basic Auth or via OAuth with at least admin:public_key scope.
+    * @returns {Promise<any>} `204` No content.. 
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     keysDelete: (keyId: number, params?: RequestParams) =>
       this.request<any>(`/user/keys/${keyId}`, "DELETE", params, null),
@@ -3123,6 +3572,8 @@ export class Api<SecurityDataType> {
     * @name keysDetail
     * @request GET:/user/keys/{keyId}
     * @description Get a single public key.
+    * @returns {Promise<UserKeysKeyId>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     keysDetail: (keyId: number, params?: RequestParams) =>
       this.request<UserKeysKeyId>(`/user/keys/${keyId}`, "GET", params, null),
@@ -3132,6 +3583,8 @@ export class Api<SecurityDataType> {
     * @name orgsList
     * @request GET:/user/orgs
     * @description List public and private organizations for the authenticated user.
+    * @returns {Promise<gitignore>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     orgsList: (params?: RequestParams) =>
       this.request<gitignore>(`/user/orgs`, "GET", params, null),
@@ -3141,6 +3594,8 @@ export class Api<SecurityDataType> {
     * @name reposList
     * @request GET:/user/repos
     * @description List repositories for the authenticated user. Note that this does not include. repositories owned by organizations which the user can access. You can lis. user organizations and list organization repositories separately.. 
+    * @returns {Promise<repos>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     reposList: (query: { type?: "all" | "public" | "private" | "forks" | "sources" | "member" }, params?: RequestParams) =>
       this.request<repos>(`/user/repos${this.addQueryParams(query)}`, "GET", params, null),
@@ -3150,6 +3605,8 @@ export class Api<SecurityDataType> {
     * @name reposCreate
     * @request POST:/user/repos
     * @description Create a new repository for the authenticated user. OAuth users must supply. repo scope.. 
+    * @returns {Promise<repos>} `201` Created
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     reposCreate: (body: postRepo, params?: RequestParams) =>
       this.request<repos>(`/user/repos`, "POST", params, body),
@@ -3159,6 +3616,8 @@ export class Api<SecurityDataType> {
     * @name starredList
     * @request GET:/user/starred
     * @description List repositories being starred by the authenticated user.
+    * @returns {Promise<gitignore>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     starredList: (query: { direction?: string, sort?: "created" | "updated" }, params?: RequestParams) =>
       this.request<gitignore>(`/user/starred${this.addQueryParams(query)}`, "GET", params, null),
@@ -3168,6 +3627,8 @@ export class Api<SecurityDataType> {
     * @name starredDelete
     * @request DELETE:/user/starred/{owner}/{repo}
     * @description Unstar a repository
+    * @returns {Promise<any>} `204` Unstarred.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     starredDelete: (owner: string, repo: string, params?: RequestParams) =>
       this.request<any>(`/user/starred/${owner}/${repo}`, "DELETE", params, null),
@@ -3177,6 +3638,9 @@ export class Api<SecurityDataType> {
     * @name starredDetail
     * @request GET:/user/starred/{owner}/{repo}
     * @description Check if you are starring a repository.
+    * @returns {Promise<any>} `204` This repository is starred by you.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<any>} `404` This repository is not starred by you.
     */
     starredDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<any>(`/user/starred/${owner}/${repo}`, "GET", params, null),
@@ -3186,6 +3650,8 @@ export class Api<SecurityDataType> {
     * @name starredUpdate
     * @request PUT:/user/starred/{owner}/{repo}
     * @description Star a repository.
+    * @returns {Promise<any>} `204` Repository starred.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     starredUpdate: (owner: string, repo: string, params?: RequestParams) =>
       this.request<any>(`/user/starred/${owner}/${repo}`, "PUT", params, null),
@@ -3195,6 +3661,8 @@ export class Api<SecurityDataType> {
     * @name subscriptionsList
     * @request GET:/user/subscriptions
     * @description List repositories being watched by the authenticated user.
+    * @returns {Promise<repos>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     subscriptionsList: (params?: RequestParams) =>
       this.request<repos>(`/user/subscriptions`, "GET", params, null),
@@ -3204,6 +3672,8 @@ export class Api<SecurityDataType> {
     * @name subscriptionsDelete
     * @request DELETE:/user/subscriptions/{owner}/{repo}
     * @description Stop watching a repository
+    * @returns {Promise<any>} `204` Unwatched.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     subscriptionsDelete: (owner: string, repo: string, params?: RequestParams) =>
       this.request<any>(`/user/subscriptions/${owner}/${repo}`, "DELETE", params, null),
@@ -3213,6 +3683,9 @@ export class Api<SecurityDataType> {
     * @name subscriptionsDetail
     * @request GET:/user/subscriptions/{owner}/{repo}
     * @description Check if you are watching a repository.
+    * @returns {Promise<any>} `204` Repository is watched by you.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<any>} `404` Repository is not watched by you.
     */
     subscriptionsDetail: (owner: string, repo: string, params?: RequestParams) =>
       this.request<any>(`/user/subscriptions/${owner}/${repo}`, "GET", params, null),
@@ -3222,6 +3695,8 @@ export class Api<SecurityDataType> {
     * @name subscriptionsUpdate
     * @request PUT:/user/subscriptions/{owner}/{repo}
     * @description Watch a repository.
+    * @returns {Promise<any>} `204` Repository is watched.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     subscriptionsUpdate: (owner: string, repo: string, params?: RequestParams) =>
       this.request<any>(`/user/subscriptions/${owner}/${repo}`, "PUT", params, null),
@@ -3231,6 +3706,8 @@ export class Api<SecurityDataType> {
     * @name teamsList
     * @request GET:/user/teams
     * @description List all of the teams across all of the organizations to which the authenticated user belongs. This method requires user or repo scope when authenticating via OAuth.
+    * @returns {Promise<TeamsList>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     teamsList: (params?: RequestParams) =>
       this.request<TeamsList>(`/user/teams`, "GET", params, null),
@@ -3242,6 +3719,8 @@ export class Api<SecurityDataType> {
     * @name usersList
     * @request GET:/users
     * @description Get all users.. This provides a dump of every user, in the order that they signed up for GitHub.. Note: Pagination is powered exclusively by the since parameter. Use the Link. header to get the URL for the next page of users.. 
+    * @returns {Promise<users>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     usersList: (query: { since?: number }, params?: RequestParams) =>
       this.request<users>(`/users${this.addQueryParams(query)}`, "GET", params, null),
@@ -3251,6 +3730,8 @@ export class Api<SecurityDataType> {
     * @name usersDetail
     * @request GET:/users/{username}
     * @description Get a single user.
+    * @returns {Promise<user>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     usersDetail: (username: string, params?: RequestParams) =>
       this.request<user>(`/users/${username}`, "GET", params, null),
@@ -3260,6 +3741,7 @@ export class Api<SecurityDataType> {
     * @name eventsDetail
     * @request GET:/users/{username}/events
     * @description If you are authenticated as the given user, you will see your private events. Otherwise, you'll only see public events.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     eventsDetail: (username: string, params?: RequestParams) =>
       this.request<any>(`/users/${username}/events`, "GET", params, null),
@@ -3269,6 +3751,7 @@ export class Api<SecurityDataType> {
     * @name eventsOrgsDetail
     * @request GET:/users/{username}/events/orgs/{org}
     * @description This is the user's organization dashboard. You must be authenticated as the user to view this.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     eventsOrgsDetail: (username: string, org: string, params?: RequestParams) =>
       this.request<any>(`/users/${username}/events/orgs/${org}`, "GET", params, null),
@@ -3278,6 +3761,8 @@ export class Api<SecurityDataType> {
     * @name followersDetail
     * @request GET:/users/{username}/followers
     * @description List a user's followers
+    * @returns {Promise<users>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     followersDetail: (username: string, params?: RequestParams) =>
       this.request<users>(`/users/${username}/followers`, "GET", params, null),
@@ -3287,6 +3772,9 @@ export class Api<SecurityDataType> {
     * @name followingDetail
     * @request GET:/users/{username}/following/{targetUser}
     * @description Check if one user follows another.
+    * @returns {Promise<any>} `204` Response if user follows target user.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
+    * @returns {Promise<any>} `404` Response if user does not follow target user.
     */
     followingDetail: (username: string, targetUser: string, params?: RequestParams) =>
       this.request<any>(`/users/${username}/following/${targetUser}`, "GET", params, null),
@@ -3296,6 +3784,8 @@ export class Api<SecurityDataType> {
     * @name gistsDetail
     * @request GET:/users/{username}/gists
     * @description List a users gists.
+    * @returns {Promise<gists>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     gistsDetail: (username: string, query: { since?: string }, params?: RequestParams) =>
       this.request<gists>(`/users/${username}/gists${this.addQueryParams(query)}`, "GET", params, null),
@@ -3305,6 +3795,8 @@ export class Api<SecurityDataType> {
     * @name keysDetail
     * @request GET:/users/{username}/keys
     * @description List public keys for a user.. Lists the verified public keys for a user. This is accessible by anyone.. 
+    * @returns {Promise<gitignore>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     keysDetail: (username: string, params?: RequestParams) =>
       this.request<gitignore>(`/users/${username}/keys`, "GET", params, null),
@@ -3314,6 +3806,8 @@ export class Api<SecurityDataType> {
     * @name orgsDetail
     * @request GET:/users/{username}/orgs
     * @description List all public organizations for a user.
+    * @returns {Promise<gitignore>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     orgsDetail: (username: string, params?: RequestParams) =>
       this.request<gitignore>(`/users/${username}/orgs`, "GET", params, null),
@@ -3323,6 +3817,7 @@ export class Api<SecurityDataType> {
     * @name receivedEventsDetail
     * @request GET:/users/{username}/received_events
     * @description These are events that you'll only see public events.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     receivedEventsDetail: (username: string, params?: RequestParams) =>
       this.request<any>(`/users/${username}/received_events`, "GET", params, null),
@@ -3332,6 +3827,7 @@ export class Api<SecurityDataType> {
     * @name receivedEventsPublicDetail
     * @request GET:/users/{username}/received_events/public
     * @description List public events that a user has received
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     receivedEventsPublicDetail: (username: string, params?: RequestParams) =>
       this.request<any>(`/users/${username}/received_events/public`, "GET", params, null),
@@ -3341,6 +3837,8 @@ export class Api<SecurityDataType> {
     * @name reposDetail
     * @request GET:/users/{username}/repos
     * @description List public repositories for the specified user.
+    * @returns {Promise<repos>} `200` OK
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     reposDetail: (username: string, query: { type?: "all" | "public" | "private" | "forks" | "sources" | "member" }, params?: RequestParams) =>
       this.request<repos>(`/users/${username}/repos${this.addQueryParams(query)}`, "GET", params, null),
@@ -3350,6 +3848,7 @@ export class Api<SecurityDataType> {
     * @name starredDetail
     * @request GET:/users/{username}/starred
     * @description List repositories being starred by a user.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     starredDetail: (username: string, params?: RequestParams) =>
       this.request<any>(`/users/${username}/starred`, "GET", params, null),
@@ -3359,6 +3858,7 @@ export class Api<SecurityDataType> {
     * @name subscriptionsDetail
     * @request GET:/users/{username}/subscriptions
     * @description List repositories being watched by a user.
+    * @returns {Promise<any>} `403` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting. for details.. 
     */
     subscriptionsDetail: (username: string, params?: RequestParams) =>
       this.request<any>(`/users/${username}/subscriptions`, "GET", params, null),

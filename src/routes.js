@@ -3,6 +3,7 @@ const { collect } = require("./utils");
 const { parseSchema, getRefType } = require("./schema");
 const { checkAndRenameModelName } = require("./modelNames");
 const { inlineExtraFormatters } = require("./typeFormatters");
+const { prettifyDescription } = require("./common");
 
 const methodAliases = {
   get: (pathName, hasPathInserts) => _.camelCase(`${pathName}_${hasPathInserts ? 'detail': 'list'}`),
@@ -38,8 +39,20 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, content
   return 'any';
 }
 
+const getTypesFromResponses = (responses, parsedSchemas, operationId) =>
+  _.reduce(responses, (acc, response, status) => {
+    return [
+      ...acc,
+      {
+        type: getTypeFromRequestInfo(response, parsedSchemas, operationId, "application/json"),
+        description: prettifyDescription(response.description || "", true),
+        status: status === 'default' ? "default" : +status,
+      }
+    ];
+  }, [])
+
 const findSuccessResponse = (responses) => {
-  return _.find(responses, (v, status) => status === 'default' || (+status >= 200 && +status < 300))
+  return _.find(responses, (v, status) => (+status >= 200 && +status < 300))
 }
 
 const createCustomOperationId = (method, route, moduleName) => {
@@ -106,6 +119,8 @@ const parseRoutes = (routes, parsedSchemas, components) =>
           const routeName = getRouteName(operationId, method, route, moduleName);
           const name = _.camelCase(routeName);
 
+          const responsesTypes = getTypesFromResponses(responses, parsedSchemas, operationId);
+
           const queryObjectSchema = _.reduce(queryParams, (objectSchema, queryPartSchema) => ({
             ...objectSchema,
             properties: {
@@ -169,7 +184,8 @@ const parseRoutes = (routes, parsedSchemas, components) =>
             `@request ${_.upperCase(method)}:${route}`,
             // requestBody && requestBody.description && `@body ${requestBody.description}`,
             hasSecurity && `@secure`,
-            description && `@description ${_.replace(description, /\n/g, '. ')}`,
+            description && `@description ${prettifyDescription(description, true)}`,
+            ...(responsesTypes.length ? responsesTypes.map(response => `@returns {Promise<${response.type}>} \`${response.status}\` ${response.description}`) : [])
           ].filter(Boolean);
 
           return {
@@ -224,24 +240,6 @@ const groupRoutes = routes => {
   }, {
     $outOfModule: []
   }), (acc, packRoutes, moduleName) => {
-
-    // if (moduleName === "$outOfModule") {
-    //   acc.outOfModule.push(...routes)
-    // } else {
-    //   if (routes.length === 1) {
-    //     const route = routes[0]
-    //     acc.outOfModule.push({
-    //       ...route,
-    //       name: route.name === _.lowerCase(route.name) ? moduleName : route.name,
-    //     })
-    //   } else {
-    //     acc.combined.push({
-    //       moduleName,
-    //       routes: routes,
-    //     })
-    //   }
-    // }
-
     if (moduleName === "$outOfModule") {
       acc.outOfModule = packRoutes
     } else {
@@ -252,7 +250,6 @@ const groupRoutes = routes => {
         routes: packRoutes,
       })
     }
-
     return acc;
   }, {})
 }

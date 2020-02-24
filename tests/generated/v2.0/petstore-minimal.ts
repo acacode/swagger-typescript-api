@@ -102,6 +102,7 @@ export class Api<SecurityDataType> {
     * @name petsList
     * @request GET:/pets
     * @description Returns all pets from the system that the user has access to
+    * @returns {Promise<Pet[]>} `200` A list of pets.
     */
     petsList: (params?: RequestParams) =>
       this.request<Pet[]>(`/pets`, "GET", params, null),

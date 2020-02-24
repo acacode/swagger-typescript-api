@@ -119,6 +119,8 @@ export class Api<SecurityDataType> {
     * @name listPets
     * @summary List all pets
     * @request GET:/pets
+    * @returns {Promise<Pets>} `200` A paged array of pets
+    * @returns {Promise<Error>} `default` unexpected error
     */
     listPets: (query: { limit?: number }, params?: RequestParams) =>
       this.request<Pets>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
@@ -129,6 +131,8 @@ export class Api<SecurityDataType> {
     * @name createPets
     * @summary Create a pet
     * @request POST:/pets
+    * @returns {Promise<any>} `201` Null response
+    * @returns {Promise<Error>} `default` unexpected error
     */
     createPets: (params?: RequestParams) =>
       this.request<any>(`/pets`, "POST", params, null),
@@ -139,6 +143,8 @@ export class Api<SecurityDataType> {
     * @name showPetById
     * @summary Info for a specific pet
     * @request GET:/pets/{petId}
+    * @returns {Promise<Pets>} `200` Expected response to a valid request
+    * @returns {Promise<Error>} `default` unexpected error
     */
     showPetById: (petId: string, params?: RequestParams) =>
       this.request<Pets>(`/pets/${petId}`, "GET", params, null),

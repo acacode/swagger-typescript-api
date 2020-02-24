@@ -100,6 +100,7 @@ export class Api<SecurityDataType> {
    * @name list-data-sets
    * @summary List available data sets
    * @request GET:/
+   * @returns {Promise<dataSetList>} `200` Returns a list of data sets
    */
   listDataSets = (params?: RequestParams) =>
     this.request<dataSetList>(`/`, "GET", params, null)
@@ -113,6 +114,8 @@ export class Api<SecurityDataType> {
     * @summary Provides the general information about the API and the list of fields that can be used to query the dataset.
     * @request GET:/{dataset}/{version}/fields
     * @description This GET API returns the list of all the searchable field names that are in the oa_citations. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the syntax options shown below.
+    * @returns {Promise<string>} `200` The dataset API for the given version is found and it is accessible to consume.
+    * @returns {Promise<string>} `404` The combination of dataset name and version is not found in the system or it is not published yet to be consumed by public.
     */
     listSearchableFields: (dataset: string, version: string, params?: RequestParams) =>
       this.request<string>(`/${dataset}/${version}/fields`, "GET", params, null),
@@ -124,6 +127,8 @@ export class Api<SecurityDataType> {
     * @summary Provides search capability for the data set with the given search criteria.
     * @request POST:/{dataset}/{version}/records
     * @description This API is based on Solr/Lucense Search. The data is indexed using SOLR. This GET API returns the list of all the searchable field names that are in the Solr Index. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the Solr/Lucene Syntax. Please refer https://lucene.apache.org/core/3_6_2/queryparsersyntax.html#Overview for the query syntax. List of field names that are searchable can be determined using above GET api.
+    * @returns {Promise<object[]>} `200` successful operation
+    * @returns {Promise<any>} `404` No matching record found for the given criteria.
     */
     performSearch: (version: string, dataset: string, data: any, params?: RequestParams) =>
       this.request<object[]>(`/${dataset}/${version}/records`, "POST", params, data),

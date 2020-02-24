@@ -244,6 +244,8 @@ export class Api<SecurityDataType> {
     * @request GET:/products
     * @secure
     * @description The Products endpoint returns information about the Uber products offered at a given location. The response includes the display name and other details about each product, and lists the products in the proper display order.
+    * @returns {Promise<Product[]>} `200` An array of products
+    * @returns {Promise<Error>} `default` Unexpected error
     */
     productsList: (query: { latitude: number, longitude: number }, params?: RequestParams) =>
       this.request<Product[]>(`/products${this.addQueryParams(query)}`, "GET", params, null, true),
@@ -257,6 +259,8 @@ export class Api<SecurityDataType> {
     * @summary Price Estimates
     * @request GET:/estimates/price
     * @description The Price Estimates endpoint returns an estimated price range for each product offered at a given location. The price estimate is provided as a formatted string with the full price range and the localized currency symbol.<br><br>The response also includes low and high estimates, and the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for situations requiring currency conversion. When surge is active for a particular product, its surge_multiplier will be greater than 1, but the price estimate already factors in this multiplier.
+    * @returns {Promise<PriceEstimate[]>} `200` An array of price estimates by product
+    * @returns {Promise<Error>} `default` Unexpected error
     */
     priceList: (query: { start_latitude: number, start_longitude: number, end_latitude?: number, end_longitude: number }, params?: RequestParams) =>
       this.request<PriceEstimate[]>(`/estimates/price${this.addQueryParams(query)}`, "GET", params, null),
@@ -268,6 +272,8 @@ export class Api<SecurityDataType> {
     * @summary Time Estimates
     * @request GET:/estimates/time
     * @description The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. We recommend that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.
+    * @returns {Promise<Product[]>} `200` An array of products
+    * @returns {Promise<Error>} `default` Unexpected error
     */
     timeList: (query: { start_latitude: number, start_longitude: number, customer_uuid?: string, product_id?: string }, params?: RequestParams) =>
       this.request<Product[]>(`/estimates/time${this.addQueryParams(query)}`, "GET", params, null),
@@ -281,6 +287,8 @@ export class Api<SecurityDataType> {
     * @summary User Profile
     * @request GET:/me
     * @description The User Profile endpoint returns information about the Uber user that has authorized with the application.
+    * @returns {Promise<Profile>} `200` Profile information for a user
+    * @returns {Promise<Error>} `default` Unexpected error
     */
     getMe: (params?: RequestParams) =>
       this.request<Profile>(`/me`, "GET", params, null),
@@ -294,6 +302,8 @@ export class Api<SecurityDataType> {
     * @summary User Activity
     * @request GET:/history
     * @description The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.
+    * @returns {Promise<Activities>} `200` History information for the given user
+    * @returns {Promise<Error>} `default` Unexpected error
     */
     historyList: (query: { offset?: number, limit?: number }, params?: RequestParams) =>
       this.request<Activities>(`/history${this.addQueryParams(query)}`, "GET", params, null),

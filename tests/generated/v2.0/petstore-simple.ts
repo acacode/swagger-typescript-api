@@ -131,6 +131,8 @@ export class Api<SecurityDataType> {
     * @name findPets
     * @request GET:/pets
     * @description Returns all pets from the system that the user has access to
+    * @returns {Promise<Pet[]>} `200` pet response
+    * @returns {Promise<ErrorModel>} `default` unexpected error
     */
     findPets: (query: { tags?: string[], limit?: number }, params?: RequestParams) =>
       this.request<Pet[]>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
@@ -140,6 +142,8 @@ export class Api<SecurityDataType> {
     * @name addPet
     * @request POST:/pets
     * @description Creates a new pet in the store.  Duplicates are allowed
+    * @returns {Promise<Pet>} `200` pet response
+    * @returns {Promise<ErrorModel>} `default` unexpected error
     */
     addPet: (pet: NewPet, params?: RequestParams) =>
       this.request<Pet>(`/pets`, "POST", params, pet),
@@ -149,6 +153,8 @@ export class Api<SecurityDataType> {
     * @name findPetById
     * @request GET:/pets/{id}
     * @description Returns a user based on a single ID, if the user does not have access to the pet
+    * @returns {Promise<Pet>} `200` pet response
+    * @returns {Promise<ErrorModel>} `default` unexpected error
     */
     findPetById: (id: number, params?: RequestParams) =>
       this.request<Pet>(`/pets/${id}`, "GET", params, null),
@@ -158,6 +164,8 @@ export class Api<SecurityDataType> {
     * @name deletePet
     * @request DELETE:/pets/{id}
     * @description deletes a single pet based on the ID supplied
+    * @returns {Promise<any>} `204` pet deleted
+    * @returns {Promise<ErrorModel>} `default` unexpected error
     */
     deletePet: (id: number, params?: RequestParams) =>
       this.request<any>(`/pets/${id}`, "DELETE", params, null),

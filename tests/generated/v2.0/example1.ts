@@ -134,6 +134,9 @@ export class Api<SecurityDataType> {
     * @name ManagedInstanceTdeCertificates_Create
     * @request POST:/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates
     * @description Creates a TDE certificate for a given server.
+    * @returns {Promise<any>} `200` Successfully created the TDE certificate.
+    * @returns {Promise<any>} `202` Accepted
+    * @returns {Promise<any>} `default` *** Error Responses: ***. .  * 400 MissingPrivateBlob - The private blob is missing.. .  * 400 InvalidPrivateBlobOrPassword - Invalid private blob or password specified.. .  * 400 InvalidResourceRequestBody - The resource or resource properties in the request body is empty or invalid.. .  * 404 SubscriptionDoesNotHaveServer - The requested server was not found. .  * 404 ResourceNotFound - The requested resource was not found.
     */
     managedInstanceTdeCertificatesCreate: (resourceGroupName: string, managedInstanceName: string, subscriptionId: string, query: { "api-version": string }, parameters: TdeCertificate, params?: RequestParams) =>
       this.request<any>(`/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Sql/managedInstances/${managedInstanceName}/tdeCertificates${this.addQueryParams(query)}`, "POST", params, parameters),

@@ -170,6 +170,7 @@ export class Api<SecurityDataType> {
     * @name tripList
     * @request GET:/trip
     * @description list user's trips
+    * @returns {Promise<Trip[]>} `200` Successful response
     */
     tripList: (params?: RequestParams) =>
       this.request<Trip[]>(`/trip`, "GET", params, null),
@@ -179,6 +180,7 @@ export class Api<SecurityDataType> {
     * @name stopDetail
     * @request GET:/trip/{trip_id}/stop
     * @description list stops for a trip identified by {trip_id}
+    * @returns {Promise<Step[]>} `200` Successful response
     */
     stopDetail: (trip_id: string, params?: RequestParams) =>
       this.request<Step[]>(`/trip/${trip_id}/stop`, "GET", params, null),

@@ -203,6 +203,7 @@ export class Api<SecurityDataType> {
     * @summary Add a new pet to the store
     * @request POST:/pet
     * @secure
+    * @returns {Promise<any>} `405` Invalid input
     */
     addPet: (body: Pet, params?: RequestParams) =>
       this.request<any>(`/pet`, "POST", params, body, true),
@@ -214,6 +215,9 @@ export class Api<SecurityDataType> {
     * @summary Update an existing pet
     * @request PUT:/pet
     * @secure
+    * @returns {Promise<any>} `400` Invalid ID supplied
+    * @returns {Promise<any>} `404` Pet not found
+    * @returns {Promise<any>} `405` Validation exception
     */
     updatePet: (body: Pet, params?: RequestParams) =>
       this.request<any>(`/pet`, "PUT", params, body, true),
@@ -226,6 +230,8 @@ export class Api<SecurityDataType> {
     * @request GET:/pet/findByStatus
     * @secure
     * @description Multiple status values can be provided with comma separated strings
+    * @returns {Promise<Pet[]>} `200` successful operation
+    * @returns {Promise<any>} `400` Invalid status value
     */
     findPetsByStatus: (query: { status: Array<"available" | "pending" | "sold"> }, params?: RequestParams) =>
       this.request<Pet[]>(`/pet/findByStatus${this.addQueryParams(query)}`, "GET", params, null, true),
@@ -238,6 +244,8 @@ export class Api<SecurityDataType> {
     * @request GET:/pet/findByTags
     * @secure
     * @description Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+    * @returns {Promise<Pet[]>} `200` successful operation
+    * @returns {Promise<any>} `400` Invalid tag value
     */
     findPetsByTags: (query: { tags: string[] }, params?: RequestParams) =>
       this.request<Pet[]>(`/pet/findByTags${this.addQueryParams(query)}`, "GET", params, null, true),
@@ -250,6 +258,9 @@ export class Api<SecurityDataType> {
     * @request GET:/pet/{petId}
     * @secure
     * @description Returns a single pet
+    * @returns {Promise<Pet>} `200` successful operation
+    * @returns {Promise<any>} `400` Invalid ID supplied
+    * @returns {Promise<any>} `404` Pet not found
     */
     getPetById: (petId: number, params?: RequestParams) =>
       this.request<Pet>(`/pet/${petId}`, "GET", params, null, true),
@@ -261,6 +272,7 @@ export class Api<SecurityDataType> {
     * @summary Updates a pet in the store with form data
     * @request POST:/pet/{petId}
     * @secure
+    * @returns {Promise<any>} `405` Invalid input
     */
     updatePetWithForm: (petId: number, data: any, params?: RequestParams) =>
       this.request<any>(`/pet/${petId}`, "POST", params, data, true),
@@ -272,6 +284,7 @@ export class Api<SecurityDataType> {
     * @summary Deletes a pet
     * @request DELETE:/pet/{petId}
     * @secure
+    * @returns {Promise<any>} `400` Invalid pet value
     */
     deletePet: (petId: number, params?: RequestParams) =>
       this.request<any>(`/pet/${petId}`, "DELETE", params, null, true),
@@ -283,6 +296,7 @@ export class Api<SecurityDataType> {
     * @summary uploads an image
     * @request POST:/pet/{petId}/uploadImage
     * @secure
+    * @returns {Promise<ApiResponse>} `200` successful operation
     */
     uploadFile: (petId: number, data: any, params?: RequestParams) =>
       this.request<ApiResponse>(`/pet/${petId}/uploadImage`, "POST", params, data, true),
@@ -297,6 +311,7 @@ export class Api<SecurityDataType> {
     * @request GET:/store/inventory
     * @secure
     * @description Returns a map of status codes to quantities
+    * @returns {Promise<number>} `200` successful operation
     */
     getInventory: (params?: RequestParams) =>
       this.request<number>(`/store/inventory`, "GET", params, null, true),
@@ -307,6 +322,8 @@ export class Api<SecurityDataType> {
     * @name placeOrder
     * @summary Place an order for a pet
     * @request POST:/store/order
+    * @returns {Promise<Order>} `200` successful operation
+    * @returns {Promise<any>} `400` Invalid Order
     */
     placeOrder: (body: Order, params?: RequestParams) =>
       this.request<Order>(`/store/order`, "POST", params, body),
@@ -318,6 +335,9 @@ export class Api<SecurityDataType> {
     * @summary Find purchase order by ID
     * @request GET:/store/order/{orderId}
     * @description For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+    * @returns {Promise<Order>} `200` successful operation
+    * @returns {Promise<any>} `400` Invalid ID supplied
+    * @returns {Promise<any>} `404` Order not found
     */
     getOrderById: (orderId: number, params?: RequestParams) =>
       this.request<Order>(`/store/order/${orderId}`, "GET", params, null),
@@ -329,6 +349,8 @@ export class Api<SecurityDataType> {
     * @summary Delete purchase order by ID
     * @request DELETE:/store/order/{orderId}
     * @description For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+    * @returns {Promise<any>} `400` Invalid ID supplied
+    * @returns {Promise<any>} `404` Order not found
     */
     deleteOrder: (orderId: string, params?: RequestParams) =>
       this.request<any>(`/store/order/${orderId}`, "DELETE", params, null),
@@ -342,6 +364,7 @@ export class Api<SecurityDataType> {
     * @summary Create user
     * @request POST:/user
     * @description This can only be done by the logged in user.
+    * @returns {Promise<any>} `default` successful operation
     */
     createUser: (body: User, params?: RequestParams) =>
       this.request<any>(`/user`, "POST", params, body),
@@ -352,6 +375,7 @@ export class Api<SecurityDataType> {
     * @name createUsersWithArrayInput
     * @summary Creates list of users with given input array
     * @request POST:/user/createWithArray
+    * @returns {Promise<any>} `default` successful operation
     */
     createUsersWithArrayInput: (body: any, params?: RequestParams) =>
       this.request<any>(`/user/createWithArray`, "POST", params, body),
@@ -362,6 +386,7 @@ export class Api<SecurityDataType> {
     * @name createUsersWithListInput
     * @summary Creates list of users with given input array
     * @request POST:/user/createWithList
+    * @returns {Promise<any>} `default` successful operation
     */
     createUsersWithListInput: (body: any, params?: RequestParams) =>
       this.request<any>(`/user/createWithList`, "POST", params, body),
@@ -372,6 +397,8 @@ export class Api<SecurityDataType> {
     * @name loginUser
     * @summary Logs user into the system
     * @request GET:/user/login
+    * @returns {Promise<Currency>} `200` successful operation
+    * @returns {Promise<any>} `400` Invalid username/password supplied
     */
     loginUser: (query: { username: string, password: string }, params?: RequestParams) =>
       this.request<Currency>(`/user/login${this.addQueryParams(query)}`, "GET", params, null),
@@ -382,6 +409,7 @@ export class Api<SecurityDataType> {
     * @name logoutUser
     * @summary Logs out current logged in user session
     * @request GET:/user/logout
+    * @returns {Promise<any>} `default` successful operation
     */
     logoutUser: (params?: RequestParams) =>
       this.request<any>(`/user/logout`, "GET", params, null),
@@ -392,6 +420,9 @@ export class Api<SecurityDataType> {
     * @name getUserByName
     * @summary Get user by user name
     * @request GET:/user/{username}
+    * @returns {Promise<User>} `200` successful operation
+    * @returns {Promise<any>} `400` Invalid username supplied
+    * @returns {Promise<any>} `404` User not found
     */
     getUserByName: (username: string, params?: RequestParams) =>
       this.request<User>(`/user/${username}`, "GET", params, null),
@@ -403,6 +434,8 @@ export class Api<SecurityDataType> {
     * @summary Updated user
     * @request PUT:/user/{username}
     * @description This can only be done by the logged in user.
+    * @returns {Promise<any>} `400` Invalid user supplied
+    * @returns {Promise<any>} `404` User not found
     */
     updateUser: (username: string, body: User, params?: RequestParams) =>
       this.request<any>(`/user/${username}`, "PUT", params, body),
@@ -414,6 +447,8 @@ export class Api<SecurityDataType> {
     * @summary Delete user
     * @request DELETE:/user/{username}
     * @description This can only be done by the logged in user.
+    * @returns {Promise<any>} `400` Invalid username supplied
+    * @returns {Promise<any>} `404` User not found
     */
     deleteUser: (username: string, params?: RequestParams) =>
       this.request<any>(`/user/${username}`, "DELETE", params, null),

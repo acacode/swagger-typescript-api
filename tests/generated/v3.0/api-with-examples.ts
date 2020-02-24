@@ -93,6 +93,8 @@ export class Api<SecurityDataType> {
    * @name listVersionsv2
    * @summary List API versions
    * @request GET:/
+   * @returns {Promise<any>} `200` 200 response
+   * @returns {Promise<any>} `300` 300 response
    */
   listVersionsv2 = (params?: RequestParams) =>
     this.request<any>(`/`, "GET", params, null)
@@ -104,6 +106,8 @@ export class Api<SecurityDataType> {
     * @name getVersionDetailsv2
     * @summary Show API version details
     * @request GET:/v2
+    * @returns {Promise<any>} `200` 200 response
+    * @returns {Promise<any>} `203` 203 response
     */
     getVersionDetailsv2: (params?: RequestParams) =>
       this.request<any>(`/v2`, "GET", params, null),

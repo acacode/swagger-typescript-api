@@ -104,6 +104,7 @@ export class Api<SecurityDataType> {
     /**
     * @name petsPartialUpdate
     * @request PATCH:/pets
+    * @returns {Promise<any>} `200` Updated
     */
     petsPartialUpdate: (data: PetByAge | PetByType | (PetByAge & PetByType), params?: RequestParams) =>
       this.request<any>(`/pets`, "PATCH", params, data),

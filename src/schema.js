@@ -6,6 +6,8 @@ const jsTypes = ['number', 'boolean', 'string', 'object'];
 const jsEmptyTypes = ['null', 'undefined'];
 
 const findSchemaType = schema => {
+  if (!schema) return 'primitive'
+
   if (schema.enum) return 'enum';
   if (schema.properties) return 'object';
   if (schema.allOf || schema.oneOf || schema.anyOf || schema.not) {
@@ -16,7 +18,10 @@ const findSchemaType = schema => {
 const typeAliases = {
   "integer": "number",
 }
-const getPrimitiveType = type => typeAliases[type] || type || 'any'
+
+const DEFAULT_PRIMITIVE_TYPE = "any"
+
+const getPrimitiveType = type => typeAliases[type] || type || DEFAULT_PRIMITIVE_TYPE
 
 const specificObjectTypes = {
   'array': ({ items }) => {
@@ -31,6 +36,8 @@ const getRefType = (property) => {
 }
 
 const getType = (property) => {
+  if (!property) return DEFAULT_PRIMITIVE_TYPE;
+
   const func = specificObjectTypes[property.type] || (() => getPrimitiveType(property.type))
   return getRefType(property) || func(property)
 }
@@ -126,14 +133,24 @@ const schemaParsers = {
       type: 'primitive',
       typeIdentifier: 'type',
       name: typeName,
-      description: schema.description,
+      description: schema ? schema.description : "",
       content: getType(schema),
     }
   }
 }
 
-// { typeIdentifier, name, content }[]
+// { typeIdentifier, name, content }
 const parseSchema = (schema, typeName, formattersMap) => {
+  if (!schema) {
+    return {
+      type: 'primitive',
+      typeIdentifier: 'type',
+      name: typeName,
+      description: "",
+      content: DEFAULT_PRIMITIVE_TYPE,
+    }
+  }
+  
   const schemaType = findSchemaType(schema);
   const parsedSchema = schemaParsers[schemaType](schema, typeName);
   return (formattersMap && formattersMap[schemaType] && formattersMap[schemaType](parsedSchema)) || parsedSchema
@@ -144,4 +161,5 @@ module.exports = {
   getType,
   getRefType,
   getPrimitiveType,
+  DEFAULT_PRIMITIVE_TYPE,
 }

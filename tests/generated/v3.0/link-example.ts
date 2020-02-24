@@ -121,6 +121,7 @@ export class Api<SecurityDataType> {
     /**
     * @name getUserByName
     * @request GET:/2.0/users/{username}
+    * @returns {Promise<user>} `200` The User
     */
     getUserByName: (username: string, params?: RequestParams) =>
       this.request<user>(`/2.0/users/${username}`, "GET", params, null),
@@ -129,6 +130,7 @@ export class Api<SecurityDataType> {
     /**
     * @name getRepositoriesByOwner
     * @request GET:/2.0/repositories/{username}
+    * @returns {Promise<repository[]>} `200` repositories owned by the supplied user
     */
     getRepositoriesByOwner: (username: string, params?: RequestParams) =>
       this.request<repository[]>(`/2.0/repositories/${username}`, "GET", params, null),
@@ -137,6 +139,7 @@ export class Api<SecurityDataType> {
     /**
     * @name getRepository
     * @request GET:/2.0/repositories/{username}/{slug}
+    * @returns {Promise<repository>} `200` The repository
     */
     getRepository: (username: string, slug: string, params?: RequestParams) =>
       this.request<repository>(`/2.0/repositories/${username}/${slug}`, "GET", params, null),
@@ -145,6 +148,7 @@ export class Api<SecurityDataType> {
     /**
     * @name getPullRequestsByRepository
     * @request GET:/2.0/repositories/{username}/{slug}/pullrequests
+    * @returns {Promise<pullrequest[]>} `200` an array of pull request objects
     */
     getPullRequestsByRepository: (username: string, slug: string, query: { state?: "open" | "merged" | "declined" }, params?: RequestParams) =>
       this.request<pullrequest[]>(`/2.0/repositories/${username}/${slug}/pullrequests${this.addQueryParams(query)}`, "GET", params, null),
@@ -153,6 +157,7 @@ export class Api<SecurityDataType> {
     /**
     * @name getPullRequestsById
     * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
+    * @returns {Promise<pullrequest>} `200` a pull request object
     */
     getPullRequestsById: (username: string, slug: string, pid: string, params?: RequestParams) =>
       this.request<pullrequest>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}`, "GET", params, null),
@@ -161,6 +166,7 @@ export class Api<SecurityDataType> {
     /**
     * @name mergePullRequest
     * @request POST:/2.0/repositories/{username}/{slug}/pullrequests/{pid}/merge
+    * @returns {Promise<any>} `204` the PR was successfully merged
     */
     mergePullRequest: (username: string, slug: string, pid: string, params?: RequestParams) =>
       this.request<any>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}/merge`, "POST", params, null),
