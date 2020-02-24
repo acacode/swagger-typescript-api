@@ -1,3 +1,7 @@
+# next release  
+Breaking Changes:  
+  - Rename default typescript api file name (prev `api.ts`, now `Api.ts`)  
+
 # 1.3.0  
 Features:  
   - Api module description from schema info  

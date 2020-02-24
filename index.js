@@ -16,7 +16,7 @@ program
   .description("Generate api via swagger scheme.\nSupports OA 3.0, 2.0, JSON, yaml.")
   .requiredOption('-p, --path <path>', 'path/url to swagger scheme')
   .option('-o, --output <output>', 'output path of typescript api file', './')
-  .option('-n, --name <name>', 'name of output typescript api file', 'api.ts')
+  .option('-n, --name <name>', 'name of output typescript api file', 'Api.ts')
   .option('--route-types', 'generate type definitions for API routes', false)
   .option('--no-client', 'do not generate an API class', false);
  
