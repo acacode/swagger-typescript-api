@@ -1120,7 +1120,7 @@ export namespace gists {
   */
   export namespace CommentsCreate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = commentBody;
     export type ResponseBody = comment;
   }
 
@@ -1356,7 +1356,7 @@ export namespace notifications {
   */
   export namespace NotificationsUpdate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = notificationMarkRead;
     export type ResponseBody = any;
   }
 
@@ -1560,7 +1560,7 @@ export namespace orgs {
   */
   export namespace ReposCreate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = postRepo;
     export type ResponseBody = repos;
   }
 
@@ -1770,7 +1770,7 @@ export namespace repos {
   */
   export namespace CommentsPartialUpdate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = commentBody;
     export type ResponseBody = commitComment;
   }
 
@@ -2161,7 +2161,7 @@ export namespace repos {
   */
   export namespace HooksCreate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = hookBody;
     export type ResponseBody = hook;
   }
 
@@ -2196,7 +2196,7 @@ export namespace repos {
   */
   export namespace HooksPartialUpdate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = hookBody;
     export type ResponseBody = hook;
   }
 
@@ -2229,7 +2229,7 @@ export namespace repos {
   */
   export namespace IssuesCreate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = issue;
     export type ResponseBody = issue;
   }
 
@@ -2275,7 +2275,7 @@ export namespace repos {
   */
   export namespace IssuesCommentsPartialUpdate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = commentBody;
     export type ResponseBody = issuesComment;
   }
 
@@ -2323,7 +2323,7 @@ export namespace repos {
   */
   export namespace IssuesPartialUpdate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = issue;
     export type ResponseBody = issue;
   }
 
@@ -2347,7 +2347,7 @@ export namespace repos {
   */
   export namespace IssuesCommentsCreate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = commentBody;
     export type ResponseBody = issuesComment;
   }
 
@@ -2393,7 +2393,7 @@ export namespace repos {
   */
   export namespace IssuesLabelsCreate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = emailsPost;
     export type ResponseBody = label;
   }
 
@@ -2404,7 +2404,7 @@ export namespace repos {
   */
   export namespace IssuesLabelsUpdate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = emailsPost;
     export type ResponseBody = label;
   }
 
@@ -2439,7 +2439,7 @@ export namespace repos {
   */
   export namespace KeysCreate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = UserKeysPost;
     export type ResponseBody = UserKeysKeyId;
   }
 
@@ -2485,7 +2485,7 @@ export namespace repos {
   */
   export namespace LabelsCreate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = emailsPost;
     export type ResponseBody = label;
   }
 
@@ -2520,7 +2520,7 @@ export namespace repos {
   */
   export namespace LabelsPartialUpdate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = emailsPost;
     export type ResponseBody = label;
   }
 
@@ -2564,7 +2564,7 @@ export namespace repos {
   */
   export namespace MilestonesCreate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = milestoneUpdate;
     export type ResponseBody = milestone;
   }
 
@@ -2599,7 +2599,7 @@ export namespace repos {
   */
   export namespace MilestonesPartialUpdate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = milestoneUpdate;
     export type ResponseBody = milestone;
   }
 
@@ -2632,7 +2632,7 @@ export namespace repos {
   */
   export namespace NotificationsUpdate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = notificationMarkRead;
     export type ResponseBody = any;
   }
 
@@ -2700,7 +2700,7 @@ export namespace repos {
   */
   export namespace PullsCommentsPartialUpdate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = commentBody;
     export type ResponseBody = pullsComment;
   }
 
@@ -2825,7 +2825,7 @@ export namespace repos {
   */
   export namespace ReleasesCreate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = ReleaseCreate;
     export type ResponseBody = release;
   }
 
@@ -2893,7 +2893,7 @@ export namespace repos {
   */
   export namespace ReleasesPartialUpdate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = ReleaseCreate;
     export type ResponseBody = release;
   }
 
@@ -3360,7 +3360,7 @@ export namespace user {
   */
   export namespace EmailsCreate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = emailsPost;
     export type ResponseBody = any;
   }
 
@@ -3448,7 +3448,7 @@ export namespace user {
   */
   export namespace KeysCreate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = UserKeysPost;
     export type ResponseBody = UserKeysKeyId;
   }
 
@@ -3503,7 +3503,7 @@ export namespace user {
   */
   export namespace ReposCreate {
     export type RequestQuery = {};
-    export type RequestBody = any;
+    export type RequestBody = postRepo;
     export type ResponseBody = repos;
   }
 

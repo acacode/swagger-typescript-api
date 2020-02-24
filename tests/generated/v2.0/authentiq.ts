@@ -191,7 +191,7 @@ export class Api<SecurityDataType> {
     * @request POST:/key
     * @description Register a new ID `JWT(sub, devtoken)`. . v5: `JWT(sub, pk, devtoken, ...)`. . See: https://github.com/skion/authentiq/wiki/JWT-Examples. 
     */
-    keyRegister: (body: any, params?: RequestParams) =>
+    keyRegister: (body: AuthentiqID, params?: RequestParams) =>
       this.request<{ secret?: string, status?: string }>(`/key`, "POST", params, body),
 
 
@@ -231,7 +231,7 @@ export class Api<SecurityDataType> {
     * @request POST:/key/{PK}
     * @description update properties of an Authentiq ID.. (not operational in v4; use PUT for now). . v5: POST issuer-signed email & phone scopes in. a self-signed JWT. . See: https://github.com/skion/authentiq/wiki/JWT-Examples. 
     */
-    keyUpdate: (PK: string, body: any, params?: RequestParams) =>
+    keyUpdate: (PK: string, body: AuthentiqID, params?: RequestParams) =>
       this.request<{ status?: string }>(`/key/${PK}`, "POST", params, body),
 
 
@@ -241,7 +241,7 @@ export class Api<SecurityDataType> {
     * @request PUT:/key/{PK}
     * @description Update Authentiq ID by replacing the object.. . v4: `JWT(sub,email,phone)` to bind email/phone hash; . . v5: POST issuer-signed email & phone scopes. and PUT to update registration `JWT(sub, pk, devtoken, ...)`. . See: https://github.com/skion/authentiq/wiki/JWT-Examples. 
     */
-    keyBind: (PK: string, body: any, params?: RequestParams) =>
+    keyBind: (PK: string, body: AuthentiqID, params?: RequestParams) =>
       this.request<{ status?: string }>(`/key/${PK}`, "PUT", params, body),
   }
   login = {

@@ -26,7 +26,7 @@ const specificObjectTypes = {
 }
 
 const getRefType = (property) => {
-  if (!property["$ref"]) return null;
+  if (!property || !property["$ref"]) return null;
   return _.last(_.split(property["$ref"], '/'));
 }
 

@@ -1186,7 +1186,7 @@ export class Api<SecurityDataType> {
     * @request POST:/gists/{id}/comments
     * @description Create a commen
     */
-    commentsCreate: (id: number, body: any, params?: RequestParams) =>
+    commentsCreate: (id: number, body: commentBody, params?: RequestParams) =>
       this.request<comment>(`/gists/${id}/comments`, "POST", params, body),
 
 
@@ -1382,7 +1382,7 @@ export class Api<SecurityDataType> {
     * @request PUT:/notifications
     * @description Mark as read.. Marking a notification as "read" removes it from the default view on GitHub.com.. 
     */
-    notificationsUpdate: (body: any, params?: RequestParams) =>
+    notificationsUpdate: (body: notificationMarkRead, params?: RequestParams) =>
       this.request<any>(`/notifications`, "PUT", params, body),
 
 
@@ -1550,7 +1550,7 @@ export class Api<SecurityDataType> {
     * @request POST:/orgs/{org}/repos
     * @description Create a new repository for the authenticated user. OAuth users must supply. repo scope.. 
     */
-    reposCreate: (org: string, body: any, params?: RequestParams) =>
+    reposCreate: (org: string, body: postRepo, params?: RequestParams) =>
       this.request<repos>(`/orgs/${org}/repos`, "POST", params, body),
 
 
@@ -1724,7 +1724,7 @@ export class Api<SecurityDataType> {
     * @request PATCH:/repos/{owner}/{repo}/comments/{commentId}
     * @description Update a commit comment.
     */
-    commentsPartialUpdate: (owner: string, repo: string, commentId: number, body: any, params?: RequestParams) =>
+    commentsPartialUpdate: (owner: string, repo: string, commentId: number, body: commentBody, params?: RequestParams) =>
       this.request<commitComment>(`/repos/${owner}/${repo}/comments/${commentId}`, "PATCH", params, body),
 
 
@@ -2045,7 +2045,7 @@ export class Api<SecurityDataType> {
     * @request POST:/repos/{owner}/{repo}/hooks
     * @description Create a hook.
     */
-    hooksCreate: (owner: string, repo: string, body: any, params?: RequestParams) =>
+    hooksCreate: (owner: string, repo: string, body: hookBody, params?: RequestParams) =>
       this.request<hook>(`/repos/${owner}/${repo}/hooks`, "POST", params, body),
 
 
@@ -2074,7 +2074,7 @@ export class Api<SecurityDataType> {
     * @request PATCH:/repos/{owner}/{repo}/hooks/{hookId}
     * @description Edit a hook.
     */
-    hooksPartialUpdate: (owner: string, repo: string, hookId: number, body: any, params?: RequestParams) =>
+    hooksPartialUpdate: (owner: string, repo: string, hookId: number, body: hookBody, params?: RequestParams) =>
       this.request<hook>(`/repos/${owner}/${repo}/hooks/${hookId}`, "PATCH", params, body),
 
 
@@ -2101,7 +2101,7 @@ export class Api<SecurityDataType> {
     * @request POST:/repos/{owner}/{repo}/issues
     * @description Create an issue.. Any user with pull access to a repository can create an issue.. 
     */
-    issuesCreate: (owner: string, repo: string, body: any, params?: RequestParams) =>
+    issuesCreate: (owner: string, repo: string, body: issue, params?: RequestParams) =>
       this.request<issue>(`/repos/${owner}/${repo}/issues`, "POST", params, body),
 
 
@@ -2139,7 +2139,7 @@ export class Api<SecurityDataType> {
     * @request PATCH:/repos/{owner}/{repo}/issues/comments/{commentId}
     * @description Edit a comment.
     */
-    issuesCommentsPartialUpdate: (owner: string, repo: string, commentId: number, body: any, params?: RequestParams) =>
+    issuesCommentsPartialUpdate: (owner: string, repo: string, commentId: number, body: commentBody, params?: RequestParams) =>
       this.request<issuesComment>(`/repos/${owner}/${repo}/issues/comments/${commentId}`, "PATCH", params, body),
 
 
@@ -2179,7 +2179,7 @@ export class Api<SecurityDataType> {
     * @request PATCH:/repos/{owner}/{repo}/issues/{number}
     * @description Edit an issue.. Issue owners and users with push access can edit an issue.. 
     */
-    issuesPartialUpdate: (owner: string, repo: string, number: number, body: any, params?: RequestParams) =>
+    issuesPartialUpdate: (owner: string, repo: string, number: number, body: issue, params?: RequestParams) =>
       this.request<issue>(`/repos/${owner}/${repo}/issues/${number}`, "PATCH", params, body),
 
 
@@ -2199,7 +2199,7 @@ export class Api<SecurityDataType> {
     * @request POST:/repos/{owner}/{repo}/issues/{number}/comments
     * @description Create a comment.
     */
-    issuesCommentsCreate: (owner: string, repo: string, number: number, body: any, params?: RequestParams) =>
+    issuesCommentsCreate: (owner: string, repo: string, number: number, body: commentBody, params?: RequestParams) =>
       this.request<issuesComment>(`/repos/${owner}/${repo}/issues/${number}/comments`, "POST", params, body),
 
 
@@ -2237,7 +2237,7 @@ export class Api<SecurityDataType> {
     * @request POST:/repos/{owner}/{repo}/issues/{number}/labels
     * @description Add labels to an issue.
     */
-    issuesLabelsCreate: (owner: string, repo: string, number: number, body: any, params?: RequestParams) =>
+    issuesLabelsCreate: (owner: string, repo: string, number: number, body: emailsPost, params?: RequestParams) =>
       this.request<label>(`/repos/${owner}/${repo}/issues/${number}/labels`, "POST", params, body),
 
 
@@ -2246,7 +2246,7 @@ export class Api<SecurityDataType> {
     * @request PUT:/repos/{owner}/{repo}/issues/{number}/labels
     * @description Replace all labels for an issue.. Sending an empty array ([]) will remove all Labels from the Issue.. 
     */
-    issuesLabelsUpdate: (owner: string, repo: string, number: number, body: any, params?: RequestParams) =>
+    issuesLabelsUpdate: (owner: string, repo: string, number: number, body: emailsPost, params?: RequestParams) =>
       this.request<label>(`/repos/${owner}/${repo}/issues/${number}/labels`, "PUT", params, body),
 
 
@@ -2275,7 +2275,7 @@ export class Api<SecurityDataType> {
     * @request POST:/repos/{owner}/{repo}/keys
     * @description Create a key.
     */
-    keysCreate: (owner: string, repo: string, body: any, params?: RequestParams) =>
+    keysCreate: (owner: string, repo: string, body: UserKeysPost, params?: RequestParams) =>
       this.request<UserKeysKeyId>(`/repos/${owner}/${repo}/keys`, "POST", params, body),
 
 
@@ -2313,7 +2313,7 @@ export class Api<SecurityDataType> {
     * @request POST:/repos/{owner}/{repo}/labels
     * @description Create a label.
     */
-    labelsCreate: (owner: string, repo: string, body: any, params?: RequestParams) =>
+    labelsCreate: (owner: string, repo: string, body: emailsPost, params?: RequestParams) =>
       this.request<label>(`/repos/${owner}/${repo}/labels`, "POST", params, body),
 
 
@@ -2342,7 +2342,7 @@ export class Api<SecurityDataType> {
     * @request PATCH:/repos/{owner}/{repo}/labels/{name}
     * @description Update a label.
     */
-    labelsPartialUpdate: (owner: string, repo: string, name: string, body: any, params?: RequestParams) =>
+    labelsPartialUpdate: (owner: string, repo: string, name: string, body: emailsPost, params?: RequestParams) =>
       this.request<label>(`/repos/${owner}/${repo}/labels/${name}`, "PATCH", params, body),
 
 
@@ -2378,7 +2378,7 @@ export class Api<SecurityDataType> {
     * @request POST:/repos/{owner}/{repo}/milestones
     * @description Create a milestone.
     */
-    milestonesCreate: (owner: string, repo: string, body: any, params?: RequestParams) =>
+    milestonesCreate: (owner: string, repo: string, body: milestoneUpdate, params?: RequestParams) =>
       this.request<milestone>(`/repos/${owner}/${repo}/milestones`, "POST", params, body),
 
 
@@ -2407,7 +2407,7 @@ export class Api<SecurityDataType> {
     * @request PATCH:/repos/{owner}/{repo}/milestones/{number}
     * @description Update a milestone.
     */
-    milestonesPartialUpdate: (owner: string, repo: string, number: number, body: any, params?: RequestParams) =>
+    milestonesPartialUpdate: (owner: string, repo: string, number: number, body: milestoneUpdate, params?: RequestParams) =>
       this.request<milestone>(`/repos/${owner}/${repo}/milestones/${number}`, "PATCH", params, body),
 
 
@@ -2434,7 +2434,7 @@ export class Api<SecurityDataType> {
     * @request PUT:/repos/{owner}/{repo}/notifications
     * @description Mark notifications as read in a repository.. Marking all notifications in a repository as "read" removes them from the. default view on GitHub.com.. 
     */
-    notificationsUpdate: (owner: string, repo: string, body: any, params?: RequestParams) =>
+    notificationsUpdate: (owner: string, repo: string, body: notificationMarkRead, params?: RequestParams) =>
       this.request<any>(`/repos/${owner}/${repo}/notifications`, "PUT", params, body),
 
 
@@ -2490,7 +2490,7 @@ export class Api<SecurityDataType> {
     * @request PATCH:/repos/{owner}/{repo}/pulls/comments/{commentId}
     * @description Edit a comment.
     */
-    pullsCommentsPartialUpdate: (owner: string, repo: string, commentId: number, body: any, params?: RequestParams) =>
+    pullsCommentsPartialUpdate: (owner: string, repo: string, commentId: number, body: commentBody, params?: RequestParams) =>
       this.request<pullsComment>(`/repos/${owner}/${repo}/pulls/comments/${commentId}`, "PATCH", params, body),
 
 
@@ -2593,7 +2593,7 @@ export class Api<SecurityDataType> {
     * @request POST:/repos/{owner}/{repo}/releases
     * @description Create a release. Users with push access to the repository can create a release.. 
     */
-    releasesCreate: (owner: string, repo: string, body: any, params?: RequestParams) =>
+    releasesCreate: (owner: string, repo: string, body: ReleaseCreate, params?: RequestParams) =>
       this.request<release>(`/repos/${owner}/${repo}/releases`, "POST", params, body),
 
 
@@ -2649,7 +2649,7 @@ export class Api<SecurityDataType> {
     * @request PATCH:/repos/{owner}/{repo}/releases/{id}
     * @description Users with push access to the repository can edit a release
     */
-    releasesPartialUpdate: (owner: string, repo: string, id: string, body: any, params?: RequestParams) =>
+    releasesPartialUpdate: (owner: string, repo: string, id: string, body: ReleaseCreate, params?: RequestParams) =>
       this.request<release>(`/repos/${owner}/${repo}/releases/${id}`, "PATCH", params, body),
 
 
@@ -3034,7 +3034,7 @@ export class Api<SecurityDataType> {
     * @request POST:/user/emails
     * @description Add email address(es).. You can post a single email address or an array of addresses.. 
     */
-    emailsCreate: (body: any, params?: RequestParams) =>
+    emailsCreate: (body: emailsPost, params?: RequestParams) =>
       this.request<any>(`/user/emails`, "POST", params, body),
 
 
@@ -3106,7 +3106,7 @@ export class Api<SecurityDataType> {
     * @request POST:/user/keys
     * @description Create a public key.
     */
-    keysCreate: (body: any, params?: RequestParams) =>
+    keysCreate: (body: UserKeysPost, params?: RequestParams) =>
       this.request<UserKeysKeyId>(`/user/keys`, "POST", params, body),
 
 
@@ -3151,7 +3151,7 @@ export class Api<SecurityDataType> {
     * @request POST:/user/repos
     * @description Create a new repository for the authenticated user. OAuth users must supply. repo scope.. 
     */
-    reposCreate: (body: any, params?: RequestParams) =>
+    reposCreate: (body: postRepo, params?: RequestParams) =>
       this.request<repos>(`/user/repos`, "POST", params, body),
 
 

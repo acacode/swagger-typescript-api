@@ -204,7 +204,7 @@ export class Api<SecurityDataType> {
     * @request POST:/pet
     * @secure
     */
-    addPet: (body: any, params?: RequestParams) =>
+    addPet: (body: Pet, params?: RequestParams) =>
       this.request<any>(`/pet`, "POST", params, body, true),
 
 
@@ -215,7 +215,7 @@ export class Api<SecurityDataType> {
     * @request PUT:/pet
     * @secure
     */
-    updatePet: (body: any, params?: RequestParams) =>
+    updatePet: (body: Pet, params?: RequestParams) =>
       this.request<any>(`/pet`, "PUT", params, body, true),
 
 

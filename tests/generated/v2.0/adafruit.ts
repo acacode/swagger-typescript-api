@@ -458,7 +458,7 @@ export class Api<SecurityDataType> {
     * @summary Create a new Dashboard
     * @request POST:/{username}/dashboards
     */
-    createDashboard: (username: string, dashboard: any, params?: RequestParams) =>
+    createDashboard: (username: string, dashboard: Dashboard, params?: RequestParams) =>
       this.request<Dashboard>(`/${username}/dashboards`, "POST", params, dashboard),
 
 
@@ -479,7 +479,7 @@ export class Api<SecurityDataType> {
     * @summary Create a new Block
     * @request POST:/{username}/dashboards/{dashboard_id}/blocks
     */
-    createBlock: (username: string, dashboard_id: string, block: any, params?: RequestParams) =>
+    createBlock: (username: string, dashboard_id: string, block: Block, params?: RequestParams) =>
       this.request<Block>(`/${username}/dashboards/${dashboard_id}/blocks`, "POST", params, block),
 
 
@@ -580,7 +580,7 @@ export class Api<SecurityDataType> {
     * @summary Create a new Feed
     * @request POST:/{username}/feeds
     */
-    createFeed: (username: string, query: { group_key?: string }, feed: any, params?: RequestParams) =>
+    createFeed: (username: string, query: { group_key?: string }, feed: Feed, params?: RequestParams) =>
       this.request<Feed>(`/${username}/feeds${this.addQueryParams(query)}`, "POST", params, feed),
 
 
@@ -652,7 +652,7 @@ export class Api<SecurityDataType> {
     * @summary Create multiple new Data records
     * @request POST:/{username}/feeds/{feed_key}/data/batch
     */
-    batchCreateData: (username: string, feed_key: string, data: any, params?: RequestParams) =>
+    batchCreateData: (username: string, feed_key: string, data: Data, params?: RequestParams) =>
       this.request<DataResponse[]>(`/${username}/feeds/${feed_key}/data/batch`, "POST", params, data),
 
 
@@ -790,7 +790,7 @@ export class Api<SecurityDataType> {
     * @summary Create a new Group
     * @request POST:/{username}/groups
     */
-    createGroup: (username: string, group: any, params?: RequestParams) =>
+    createGroup: (username: string, group: Group, params?: RequestParams) =>
       this.request<Group>(`/${username}/groups`, "POST", params, group),
 
 
@@ -942,7 +942,7 @@ export class Api<SecurityDataType> {
     * @summary Create a new Token
     * @request POST:/{username}/tokens
     */
-    createToken: (username: string, token: any, params?: RequestParams) =>
+    createToken: (username: string, token: Token, params?: RequestParams) =>
       this.request<Token>(`/${username}/tokens`, "POST", params, token),
 
 
@@ -1003,7 +1003,7 @@ export class Api<SecurityDataType> {
     * @summary Create a new Trigger
     * @request POST:/{username}/triggers
     */
-    createTrigger: (username: string, trigger: any, params?: RequestParams) =>
+    createTrigger: (username: string, trigger: Trigger, params?: RequestParams) =>
       this.request<Trigger>(`/${username}/triggers`, "POST", params, trigger),
 
 
@@ -1064,7 +1064,7 @@ export class Api<SecurityDataType> {
     * @summary Create a new Permission
     * @request POST:/{username}/{type}/{type_id}/acl
     */
-    createPermission: (username: string, type: string, type_id: string, permission: any, params?: RequestParams) =>
+    createPermission: (username: string, type: string, type_id: string, permission: Permission, params?: RequestParams) =>
       this.request<Permission>(`/${username}/${type}/${type_id}/acl`, "POST", params, permission),
 
 

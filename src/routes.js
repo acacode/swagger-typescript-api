@@ -12,9 +12,10 @@ const methodAliases = {
   delete: (pathName, hasPathInserts) => _.camelCase(`${pathName}_delete`)
 }
 
-const getTypeFromRequestInfo = (requestInfo, parsedSchemas, contentType) => {
+const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, contentType) => {
   // TODO: make more flexible pick schema without content type
   const schema = _.get(requestInfo, `content["${contentType}"].schema`);
+  const refType = getRefType(requestInfo);
 
   if (schema) {
     const extractedSchema = _.get(schema, 'additionalProperties', schema);
@@ -25,6 +26,13 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, contentType) => {
     const foundSchema = foundedSchemaByName || foundSchemaByContent
 
     return checkAndRenameModelName(foundSchema ? foundSchema.name : content);
+  }
+  
+  if (refType) {
+    // TODO: its temp solution because sometimes `swagger2openapi` create refs as operationId + name    
+    const refTypeWithoutOpId = refType.replace(operationId, '');
+    const foundedSchemaByName = _.find(parsedSchemas, ({ name }) => name === refType || name === refTypeWithoutOpId)
+    return foundedSchemaByName && foundedSchemaByName.name ? checkAndRenameModelName(foundedSchemaByName.name) : 'any'
   }
 
   return 'any';
@@ -116,7 +124,7 @@ const parseRoutes = (routes, parsedSchemas, components) =>
             : null;
 
           const bodyType = requestBody
-            ? getTypeFromRequestInfo(requestBody, parsedSchemas, "application/json")
+            ? getTypeFromRequestInfo(requestBody, parsedSchemas, operationId, "application/json")
             : null;
 
           const args = [
@@ -176,7 +184,7 @@ const parseRoutes = (routes, parsedSchemas, components) =>
             args,
             method: _.upperCase(method),
             path: route.replace(/{/g, '${'),
-            returnType: getTypeFromRequestInfo(findSuccessResponse(responses), parsedSchemas, 'application/json') || 'any',
+            returnType: getTypeFromRequestInfo(findSuccessResponse(responses), parsedSchemas, operationId, 'application/json') || 'any',
             bodyArg: requestBody ? bodyParamName : 'null'
           }})
       ]
