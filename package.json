@@ -1,19 +1,24 @@
 {
   "name": "swagger-typescript-api",
-  "version": "1.2.5",
+  "version": "1.3.0",
   "description": "Create typescript api module from swagger schema",
   "scripts": {
     "cli": "node index.js -p ./tests/schemas/v3.0/personal-api-example.json -n swagger-test-cli.ts",
     "cli:help": "node index.js -h",
+    "test:all": "npm-run-all generate validate test:routeTypes test:noClient --continue-on-error",
     "generate": "node tests/generate.js",
     "generate:debug": "node --nolazy --inspect-brk=9229 tests/generate.js",
-    "validate": "node tests/validate.js"
+    "validate": "node tests/validate.js",
+    "validate:debug": "node --nolazy --inspect-brk=9229 tests/validate.js",
+    "test:routeTypes": "node tests/spec/routeTypes/test.js",
+    "test:noClient": "node tests/spec/noClient/test.js"
   },
   "author": "acacode",
   "license": "MIT",
   "devDependencies": {
     "@types/lodash": "^4.14.149",
     "@types/mustache": "^4.0.0",
+    "npm-run-all": "^4.1.5",
     "typescript": "^3.7.4"
   },
   "dependencies": {

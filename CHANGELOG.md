@@ -1,3 +1,17 @@
+# 1.3.0  
+Features:  
+  - Api module description from schema info  
+    ![api description](./assets/changelog_assets/api-module-description.jpg)  
+  - Generate API type declarations (CLI flag `--route-types`)  
+    ![route types](./assets/changelog_assets/route-types.jpg)  
+  - Ability to not generate clint API class (CLI flag `--no-client`)  
+
+Fixes:  
+  - Improve response body type definition  
+
+Internal:  
+  - refactored `generate` and `validate` test scripts  
+
 # 1.2.6  
 Fixes: create api without `-o` option (use default `./` output)  
 

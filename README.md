@@ -32,8 +32,10 @@ Usage: swagger-typescript-api [options]
 Options:
   -v, --version          output the current version
   -p, --path <path>      path/url to swagger scheme
-  -o, --output <output>  output path of typescript api file (default: ".")
+  -o, --output <output>  output path of typescript api file (default: "./")
   -n, --name <name>      name of output typescript api file (default: "api.ts")
+  --route-types          generate type definitions for API routes (default: false)
+  --no-client            do not generate an API class
   -h, --help             output usage information
 ```
 
@@ -64,7 +66,7 @@ generateApi({
 
 ```
 
-## 🚀 How it looks
+## 🚀 How it looks  
 
 ![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/npx.gif)  
 
@@ -73,6 +75,12 @@ generateApi({
 ![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/typings1.gif)  
 
 
+## 🛠️ Contribution  
+
+You can manually check your changes at schemas in `tests` folder before create a PR.  
+To do that have scripts:  
+    - `npm run generate` - generate API modules from schemas in `tests` folder  
+    - `npm run validate` - validate generated API modules via TypeScript  
 
 ## 📝 License  
 Licensed under the [MIT License](https://github.com/acacode/swagger-typescript-api/blob/master/LICENSE).

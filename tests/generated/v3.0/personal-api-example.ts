@@ -110,8 +110,6 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
-
-
 export class Api<SecurityDataType> {
   
   public baseUrl = "http://localhost:8080/api/v1";

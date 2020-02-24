@@ -128,8 +128,6 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
-
-
 export class Api<SecurityDataType> {
   
   public baseUrl = "http://localhost:8080/api/v1";
@@ -248,7 +246,7 @@ export class Api<SecurityDataType> {
     * @secure
     */
     getJob: (id: string, params?: RequestParams) =>
-      this.request<UpdatedJob>(`/jobs/${id}`, "GET", params, null, true),
+      this.request<Job>(`/jobs/${id}`, "GET", params, null, true),
 
 
     /**

@@ -9,3 +9,6 @@ As you see above here is two folders:
   1. [**`generated`**](./generated) -  
         - [**`v2.0`**](./generated/v2.0) - generated api modules for Swagger 2.0 schemas from above folder  
         - [**`v3.0`**](./generated/v3.0) - generated api modules for OA 3.0 schemas from above folder  
+
+
+Most schemas taken from [apis.guru](https://apis.guru/openapi-directory/) and [swagger.io github repo](https://swagger.io/)  

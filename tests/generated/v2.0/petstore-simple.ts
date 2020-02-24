@@ -13,6 +13,19 @@
 
 export type Pet = NewPet & { id: number }
 
+/**
+* Description of Test type
+*/
+export type Test = NewPet
+
+export interface Test2 {
+  
+  /**
+  * Field description
+  */
+  data?: NewPet;
+}
+
 export interface NewPet {
   name: string;
   tag?: string;
@@ -33,8 +46,7 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
-
-
+/** A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification */
 export class Api<SecurityDataType> {
   
   public baseUrl = "http://petstore.swagger.io/api";

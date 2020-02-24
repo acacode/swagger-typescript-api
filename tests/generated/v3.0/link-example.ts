@@ -38,8 +38,6 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
-
-
 export class Api<SecurityDataType> {
   
   public baseUrl = "";
@@ -117,7 +115,7 @@ export class Api<SecurityDataType> {
 
 
 
-  20 = {
+  v20 = {
 
 
     /**

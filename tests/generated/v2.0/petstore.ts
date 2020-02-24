@@ -34,8 +34,6 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
-
-
 export class Api<SecurityDataType> {
   
   public baseUrl = "http://petstore.swagger.io/v1";

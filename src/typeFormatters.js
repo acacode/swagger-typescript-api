@@ -8,14 +8,19 @@ const formatters = {
     const extraSpace = '  '
     const result = `${extraSpace}${part.field};\n`;
 
-    if (part.description) {
-      return [
-        '',
-        `/** ${part.description} */`,
-      ].map(comment => `${extraSpace}${comment}\n`).join('') + result;
-    }
+    const comments = [
+      part.title,
+      part.description
+    ].filter(Boolean)
 
-    return result;
+    const commonText = comments.length ? [
+      '',
+      '/**',
+      ...comments.reduce((acc, comment) => [...acc, ...comment.split(/\n/g).map(part => `* ${part}`)], []),
+      '*/'
+    ].map(part => `${extraSpace}${part}\n`).join('') : '';
+
+    return `${commonText}${result}`;
   }).join(''),
   'type': content => {
     if (content.includes(' & ')) {
@@ -28,7 +33,7 @@ const formatters = {
 
     return content
   },
-  'primitive': content =>checkAndRenameModelName(content),
+  'primitive': content => checkAndRenameModelName(content),
 }
 
 const inlineExtraFormatters = {
