@@ -21,6 +21,12 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
+/** Overrided Promise type. Needs for additional typings of `.catch` callback */
+type TPromise<ResolveType, RejectType = any> = {
+  then<TResult1 = ResolveType, TResult2 = never>(onfulfilled?: ((value: ResolveType) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: RejectType) => TResult2 | PromiseLike<TResult2>) | undefined | null): TPromise<TResult1 | TResult2, RejectType>;
+  catch<TResult = never>(onrejected?: ((reason: RejectType) => TResult | PromiseLike<TResult>) | undefined | null): TPromise<ResolveType | TResult, RejectType>;
+}
+
 export class Api<SecurityDataType> {
   
   public baseUrl = "";
@@ -63,25 +69,25 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): TPromise<T, E> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
     secureByDefault?: boolean,
-  ): Promise<T> =>
+  ): TPromise<T, E> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -93,12 +99,12 @@ export class Api<SecurityDataType> {
    * @name listVersionsv2
    * @summary List API versions
    * @request GET:/
-   * @description multiple line 1. multiple line 2. multiple line 3. 
-   * @returns {Promise<any>} `200` 200 300 response. 400 500 bad response
-   * @returns {Promise<any>} `300` 200 300 response
+   * @description multiple line 1 multiple line 2 multiple line 3
+   * @response `200` `any` 200 300 response 400 500 bad response
+   * @response `300` `any` 200 300 response
    */
   listVersionsv2 = (params?: RequestParams) =>
-    this.request<any>(`/`, "GET", params, null)
+    this.request<any, any>(`/`, "GET", params, null)
 
   v2 = {
 
@@ -107,11 +113,11 @@ export class Api<SecurityDataType> {
     * @name getVersionDetailsv2
     * @summary Show API version details
     * @request GET:/v2
-    * @returns {Promise<any>} `200` 200 203 response
-    * @returns {Promise<any>} `203` 200 203 response
+    * @response `200` `any` 200 203 response
+    * @response `203` `any` 200 203 response
     */
     getVersionDetailsv2: (params?: RequestParams) =>
-      this.request<any>(`/v2`, "GET", params, null),
+      this.request<any, any>(`/v2`, "GET", params, null),
   }
 
 }

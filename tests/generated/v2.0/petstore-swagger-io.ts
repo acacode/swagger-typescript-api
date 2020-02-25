@@ -11,9 +11,35 @@
 */
 
 
-/**
-* An order for a pets from the pet store
-*/
+export interface Category {
+  id?: number;
+  name?: string;
+}
+
+export interface Pet {
+  id?: number;
+  category?: Category;
+  name: string;
+  photoUrls: string[];
+  tags?: Tag[];
+  
+  /**
+  * pet status in the store
+  */
+  status?: "available" | "pending" | "sold";
+}
+
+export interface Tag {
+  id?: number;
+  name?: string;
+}
+
+export interface ApiResponse {
+  code?: number;
+  type?: string;
+  message?: string;
+}
+
 export interface Order {
   id?: number;
   petId?: number;
@@ -27,17 +53,6 @@ export interface Order {
   complete?: boolean;
 }
 
-/**
-* A category for a pet
-*/
-export interface Category {
-  id?: number;
-  name?: string;
-}
-
-/**
-* A User who is purchasing from the pet store
-*/
 export interface User {
   id?: number;
   username?: string;
@@ -52,58 +67,6 @@ export interface User {
   */
   userStatus?: number;
 }
-
-/**
-* A tag for a pet
-*/
-export interface Tag {
-  id?: number;
-  name?: string;
-}
-
-/**
-* A pet for sale in the pet store
-*/
-export interface Pet {
-  id?: number;
-  category?: Category;
-  name: string;
-  photoUrls: string[];
-  tags?: Tag[];
-  
-  /**
-  * pet status in the store
-  */
-  status?: "available" | "pending" | "sold";
-}
-
-/**
-* Describes the result of uploading an image resource
-*/
-export interface ApiResponse {
-  code?: number;
-  type?: string;
-  message?: string;
-}
-
-/**
-* some description
-
-*/
-export interface Amount {
-  
-  /**
-  * some description
-  */
-  value: number;
-  currency: Currency;
-}
-
-/**
-* some description
-
-*/
-export type Currency = string
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
@@ -124,9 +87,9 @@ type TPromise<ResolveType, RejectType = any> = {
 /** This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters. */
 export class Api<SecurityDataType> {
   
-  public baseUrl = "http://petstore.swagger.io/v2";
+  public baseUrl = "https://petstore.swagger.io/v2";
   public title = "Swagger Petstore";
-  public version = "1.0.0";
+  public version = "1.0.3";
 
   private securityData: SecurityDataType = (null as any);
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
@@ -204,6 +167,58 @@ export class Api<SecurityDataType> {
 
     /**
     * @tags pet
+    * @name getPetById
+    * @summary Find pet by ID
+    * @request GET:/pet/{petId}
+    * @secure
+    * @description Returns a single pet
+    * @response `200` `Pet` successful operation
+    * @response `400` `any` Invalid ID supplied
+    * @response `404` `any` Pet not found
+    */
+    getPetById: (petId: number, params?: RequestParams) =>
+      this.request<Pet, any>(`/pet/${petId}`, "GET", params, null, true),
+
+
+    /**
+    * @tags pet
+    * @name updatePetWithForm
+    * @summary Updates a pet in the store with form data
+    * @request POST:/pet/{petId}
+    * @secure
+    * @response `405` `any` Invalid input
+    */
+    updatePetWithForm: (petId: number, data: any, params?: RequestParams) =>
+      this.request<any, any>(`/pet/${petId}`, "POST", params, data, true),
+
+
+    /**
+    * @tags pet
+    * @name deletePet
+    * @summary Deletes a pet
+    * @request DELETE:/pet/{petId}
+    * @secure
+    * @response `400` `any` Invalid ID supplied
+    * @response `404` `any` Pet not found
+    */
+    deletePet: (petId: number, params?: RequestParams) =>
+      this.request<any, any>(`/pet/${petId}`, "DELETE", params, null, true),
+
+
+    /**
+    * @tags pet
+    * @name uploadFile
+    * @summary uploads an image
+    * @request POST:/pet/{petId}/uploadImage
+    * @secure
+    * @response `200` `ApiResponse` successful operation
+    */
+    uploadFile: (petId: number, data: any, params?: RequestParams) =>
+      this.request<ApiResponse, any>(`/pet/${petId}/uploadImage`, "POST", params, data, true),
+
+
+    /**
+    * @tags pet
     * @name addPet
     * @summary Add a new pet to the store
     * @request POST:/pet
@@ -254,57 +269,6 @@ export class Api<SecurityDataType> {
     */
     findPetsByTags: (query: { tags: string[] }, params?: RequestParams) =>
       this.request<Pet[], any>(`/pet/findByTags${this.addQueryParams(query)}`, "GET", params, null, true),
-
-
-    /**
-    * @tags pet
-    * @name getPetById
-    * @summary Find pet by ID
-    * @request GET:/pet/{petId}
-    * @secure
-    * @description Returns a single pet
-    * @response `200` `Pet` successful operation
-    * @response `400` `any` Invalid ID supplied
-    * @response `404` `any` Pet not found
-    */
-    getPetById: (petId: number, params?: RequestParams) =>
-      this.request<Pet, any>(`/pet/${petId}`, "GET", params, null, true),
-
-
-    /**
-    * @tags pet
-    * @name updatePetWithForm
-    * @summary Updates a pet in the store with form data
-    * @request POST:/pet/{petId}
-    * @secure
-    * @response `405` `any` Invalid input
-    */
-    updatePetWithForm: (petId: number, data: any, params?: RequestParams) =>
-      this.request<any, any>(`/pet/${petId}`, "POST", params, data, true),
-
-
-    /**
-    * @tags pet
-    * @name deletePet
-    * @summary Deletes a pet
-    * @request DELETE:/pet/{petId}
-    * @secure
-    * @response `400` `any` Invalid pet value
-    */
-    deletePet: (petId: number, params?: RequestParams) =>
-      this.request<any, any>(`/pet/${petId}`, "DELETE", params, null, true),
-
-
-    /**
-    * @tags pet
-    * @name uploadFile
-    * @summary uploads an image
-    * @request POST:/pet/{petId}/uploadImage
-    * @secure
-    * @response `200` `ApiResponse` successful operation
-    */
-    uploadFile: (petId: number, data: any, params?: RequestParams) =>
-      this.request<ApiResponse, any>(`/pet/${petId}/uploadImage`, "POST", params, data, true),
   }
   store = {
 
@@ -324,22 +288,10 @@ export class Api<SecurityDataType> {
 
     /**
     * @tags store
-    * @name placeOrder
-    * @summary Place an order for a pet
-    * @request POST:/store/order
-    * @response `200` `Order` successful operation
-    * @response `400` `any` Invalid Order
-    */
-    placeOrder: (body: Order, params?: RequestParams) =>
-      this.request<Order, any>(`/store/order`, "POST", params, body),
-
-
-    /**
-    * @tags store
     * @name getOrderById
     * @summary Find purchase order by ID
     * @request GET:/store/order/{orderId}
-    * @description For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+    * @description For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions
     * @response `200` `Order` successful operation
     * @response `400` `any` Invalid ID supplied
     * @response `404` `any` Order not found
@@ -353,71 +305,26 @@ export class Api<SecurityDataType> {
     * @name deleteOrder
     * @summary Delete purchase order by ID
     * @request DELETE:/store/order/{orderId}
-    * @description For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+    * @description For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors
     * @response `400` `any` Invalid ID supplied
     * @response `404` `any` Order not found
     */
-    deleteOrder: (orderId: string, params?: RequestParams) =>
+    deleteOrder: (orderId: number, params?: RequestParams) =>
       this.request<any, any>(`/store/order/${orderId}`, "DELETE", params, null),
+
+
+    /**
+    * @tags store
+    * @name placeOrder
+    * @summary Place an order for a pet
+    * @request POST:/store/order
+    * @response `200` `Order` successful operation
+    * @response `400` `any` Invalid Order
+    */
+    placeOrder: (body: Order, params?: RequestParams) =>
+      this.request<Order, any>(`/store/order`, "POST", params, body),
   }
   user = {
-
-
-    /**
-    * @tags user
-    * @name createUser
-    * @summary Create user
-    * @request POST:/user
-    * @description This can only be done by the logged in user.
-    * @response `default` `any` successful operation
-    */
-    createUser: (body: User, params?: RequestParams) =>
-      this.request<any, any>(`/user`, "POST", params, body),
-
-
-    /**
-    * @tags user
-    * @name createUsersWithArrayInput
-    * @summary Creates list of users with given input array
-    * @request POST:/user/createWithArray
-    * @response `default` `any` successful operation
-    */
-    createUsersWithArrayInput: (body: any, params?: RequestParams) =>
-      this.request<any, any>(`/user/createWithArray`, "POST", params, body),
-
-
-    /**
-    * @tags user
-    * @name createUsersWithListInput
-    * @summary Creates list of users with given input array
-    * @request POST:/user/createWithList
-    * @response `default` `any` successful operation
-    */
-    createUsersWithListInput: (body: any, params?: RequestParams) =>
-      this.request<any, any>(`/user/createWithList`, "POST", params, body),
-
-
-    /**
-    * @tags user
-    * @name loginUser
-    * @summary Logs user into the system
-    * @request GET:/user/login
-    * @response `200` `Currency` successful operation
-    * @response `400` `any` Invalid username/password supplied
-    */
-    loginUser: (query: { username: string, password: string }, params?: RequestParams) =>
-      this.request<Currency, any>(`/user/login${this.addQueryParams(query)}`, "GET", params, null),
-
-
-    /**
-    * @tags user
-    * @name logoutUser
-    * @summary Logs out current logged in user session
-    * @request GET:/user/logout
-    * @response `default` `any` successful operation
-    */
-    logoutUser: (params?: RequestParams) =>
-      this.request<any, any>(`/user/logout`, "GET", params, null),
 
 
     /**
@@ -457,6 +364,63 @@ export class Api<SecurityDataType> {
     */
     deleteUser: (username: string, params?: RequestParams) =>
       this.request<any, any>(`/user/${username}`, "DELETE", params, null),
+
+
+    /**
+    * @tags user
+    * @name loginUser
+    * @summary Logs user into the system
+    * @request GET:/user/login
+    * @response `200` `string` successful operation
+    * @response `400` `any` Invalid username/password supplied
+    */
+    loginUser: (query: { username: string, password: string }, params?: RequestParams) =>
+      this.request<string, any>(`/user/login${this.addQueryParams(query)}`, "GET", params, null),
+
+
+    /**
+    * @tags user
+    * @name logoutUser
+    * @summary Logs out current logged in user session
+    * @request GET:/user/logout
+    * @response `default` `any` successful operation
+    */
+    logoutUser: (params?: RequestParams) =>
+      this.request<any, any>(`/user/logout`, "GET", params, null),
+
+
+    /**
+    * @tags user
+    * @name createUser
+    * @summary Create user
+    * @request POST:/user
+    * @description This can only be done by the logged in user.
+    * @response `default` `any` successful operation
+    */
+    createUser: (body: User, params?: RequestParams) =>
+      this.request<any, any>(`/user`, "POST", params, body),
+
+
+    /**
+    * @tags user
+    * @name createUsersWithArrayInput
+    * @summary Creates list of users with given input array
+    * @request POST:/user/createWithArray
+    * @response `default` `any` successful operation
+    */
+    createUsersWithArrayInput: (body: any, params?: RequestParams) =>
+      this.request<any, any>(`/user/createWithArray`, "POST", params, body),
+
+
+    /**
+    * @tags user
+    * @name createUsersWithListInput
+    * @summary Creates list of users with given input array
+    * @request POST:/user/createWithList
+    * @response `default` `any` successful operation
+    */
+    createUsersWithListInput: (body: any, params?: RequestParams) =>
+      this.request<any, any>(`/user/createWithList`, "POST", params, body),
   }
 
 }

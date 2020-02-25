@@ -34,7 +34,7 @@ export interface Gif {
   embded_url?: string;
   
   /**
-  * An array of featured tags for this GIF (Note: Not available when using the Public Beta Key). 
+  * An array of featured tags for this GIF (Note: Not available when using the Public Beta Key)
   */
   featured_tags?: string[];
   
@@ -79,7 +79,7 @@ export interface Gif {
   source_tld?: string;
   
   /**
-  * An array of tags for this GIF (Note: Not available when using the Public Beta Key). 
+  * An array of tags for this GIF (Note: Not available when using the Public Beta Key)
   */
   tags?: string[];
   
@@ -248,6 +248,12 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
+/** Overrided Promise type. Needs for additional typings of `.catch` callback */
+type TPromise<ResolveType, RejectType = any> = {
+  then<TResult1 = ResolveType, TResult2 = never>(onfulfilled?: ((value: ResolveType) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: RejectType) => TResult2 | PromiseLike<TResult2>) | undefined | null): TPromise<TResult1 | TResult2, RejectType>;
+  catch<TResult = never>(onrejected?: ((reason: RejectType) => TResult | PromiseLike<TResult>) | undefined | null): TPromise<ResolveType | TResult, RejectType>;
+}
+
 /** Giphy API */
 export class Api<SecurityDataType> {
   
@@ -301,25 +307,25 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): TPromise<T, E> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
     secureByDefault?: boolean,
-  ): Promise<T> =>
+  ): TPromise<T, E> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -334,15 +340,15 @@ export class Api<SecurityDataType> {
     * @name getGifsById
     * @summary Get GIFs by ID
     * @request GET:/gifs
-    * @description A multiget version of the get GIF by ID endpoint.. 
-    * @returns {Promise<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>} `200` 
-    * @returns {Promise<any>} `400` 
-    * @returns {Promise<any>} `403` 
-    * @returns {Promise<any>} `404` 
-    * @returns {Promise<any>} `429` 
+    * @description A multiget version of the get GIF by ID endpoint.
+    * @response `200` `{ data?: Gif[], meta?: Meta, pagination?: Pagination }` 
+    * @response `400` `any` 
+    * @response `403` `any` 
+    * @response `404` `any` 
+    * @response `429` `any` 
     */
     getGifsById: (query: { ids?: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>(`/gifs${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }, any>(`/gifs${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -350,15 +356,15 @@ export class Api<SecurityDataType> {
     * @name randomGif
     * @summary Random GIF
     * @request GET:/gifs/random
-    * @description Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.. 
-    * @returns {Promise<{ data?: Gif, meta?: Meta }>} `200` 
-    * @returns {Promise<any>} `400` 
-    * @returns {Promise<any>} `403` 
-    * @returns {Promise<any>} `404` 
-    * @returns {Promise<any>} `429` 
+    * @description Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.
+    * @response `200` `{ data?: Gif, meta?: Meta }` 
+    * @response `400` `any` 
+    * @response `403` `any` 
+    * @response `404` `any` 
+    * @response `429` `any` 
     */
     randomGif: (query: { tag?: string, rating?: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif, meta?: Meta }>(`/gifs/random${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<{ data?: Gif, meta?: Meta }, any>(`/gifs/random${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -366,15 +372,15 @@ export class Api<SecurityDataType> {
     * @name searchGifs
     * @summary Search GIFs
     * @request GET:/gifs/search
-    * @description Search all GIPHY GIFs for a word or phrase. Punctuation will be stripped and ignored.  Use a plus or url encode for phrases. Example paul+rudd, ryan+gosling or american+psycho.. 
-    * @returns {Promise<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>} `200` Search results
-    * @returns {Promise<any>} `400` 
-    * @returns {Promise<any>} `403` 
-    * @returns {Promise<any>} `404` 
-    * @returns {Promise<any>} `429` 
+    * @description Search all GIPHY GIFs for a word or phrase. Punctuation will be stripped and ignored.  Use a plus or url encode for phrases. Example paul+rudd, ryan+gosling or american+psycho.
+    * @response `200` `{ data?: Gif[], meta?: Meta, pagination?: Pagination }` Search results
+    * @response `400` `any` 
+    * @response `403` `any` 
+    * @response `404` `any` 
+    * @response `429` `any` 
     */
     searchGifs: (query: { q: string, limit?: number, offset?: number, rating?: string, lang?: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>(`/gifs/search${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }, any>(`/gifs/search${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -382,15 +388,15 @@ export class Api<SecurityDataType> {
     * @name translateGif
     * @summary Translate phrase to GIF
     * @request GET:/gifs/translate
-    * @description The translate API draws on search, but uses the GIPHY `special sauce` to handle translating from one vocabulary to another. In this case, words and phrases to GIF. 
-    * @returns {Promise<{ data?: Gif, meta?: Meta }>} `200` 
-    * @returns {Promise<any>} `400` 
-    * @returns {Promise<any>} `403` 
-    * @returns {Promise<any>} `404` 
-    * @returns {Promise<any>} `429` 
+    * @description The translate API draws on search, but uses the GIPHY `special sauce` to handle translating from one vocabulary to another. In this case, words and phrases to GIF
+    * @response `200` `{ data?: Gif, meta?: Meta }` 
+    * @response `400` `any` 
+    * @response `403` `any` 
+    * @response `404` `any` 
+    * @response `429` `any` 
     */
     translateGif: (query: { s: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif, meta?: Meta }>(`/gifs/translate${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<{ data?: Gif, meta?: Meta }, any>(`/gifs/translate${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -398,15 +404,15 @@ export class Api<SecurityDataType> {
     * @name trendingGifs
     * @summary Trending GIFs
     * @request GET:/gifs/trending
-    * @description Fetch GIFs currently trending online. Hand curated by the GIPHY editorial team.  The data returned mirrors the GIFs showcased on the GIPHY homepage. Returns 25 results by default.. 
-    * @returns {Promise<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>} `200` 
-    * @returns {Promise<any>} `400` 
-    * @returns {Promise<any>} `403` 
-    * @returns {Promise<any>} `404` 
-    * @returns {Promise<any>} `429` 
+    * @description Fetch GIFs currently trending online. Hand curated by the GIPHY editorial team.  The data returned mirrors the GIFs showcased on the GIPHY homepage. Returns 25 results by default.
+    * @response `200` `{ data?: Gif[], meta?: Meta, pagination?: Pagination }` 
+    * @response `400` `any` 
+    * @response `403` `any` 
+    * @response `404` `any` 
+    * @response `429` `any` 
     */
     trendingGifs: (query: { limit?: number, offset?: number, rating?: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>(`/gifs/trending${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }, any>(`/gifs/trending${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -414,15 +420,15 @@ export class Api<SecurityDataType> {
     * @name getGifById
     * @summary Get GIF by Id
     * @request GET:/gifs/{gifId}
-    * @description Returns a GIF given that GIF's unique ID. 
-    * @returns {Promise<{ data?: Gif, meta?: Meta }>} `200` 
-    * @returns {Promise<any>} `400` 
-    * @returns {Promise<any>} `403` 
-    * @returns {Promise<any>} `404` 
-    * @returns {Promise<any>} `429` 
+    * @description Returns a GIF given that GIF's unique ID
+    * @response `200` `{ data?: Gif, meta?: Meta }` 
+    * @response `400` `any` 
+    * @response `403` `any` 
+    * @response `404` `any` 
+    * @response `429` `any` 
     */
     getGifById: (gifId: number, params?: RequestParams) =>
-      this.request<{ data?: Gif, meta?: Meta }>(`/gifs/${gifId}`, "GET", params, null),
+      this.request<{ data?: Gif, meta?: Meta }, any>(`/gifs/${gifId}`, "GET", params, null),
   }
   stickers = {
 
@@ -432,15 +438,15 @@ export class Api<SecurityDataType> {
     * @name randomSticker
     * @summary Random Sticker
     * @request GET:/stickers/random
-    * @description Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.. 
-    * @returns {Promise<{ data?: Gif, meta?: Meta }>} `200` 
-    * @returns {Promise<any>} `400` 
-    * @returns {Promise<any>} `403` 
-    * @returns {Promise<any>} `404` 
-    * @returns {Promise<any>} `429` 
+    * @description Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.
+    * @response `200` `{ data?: Gif, meta?: Meta }` 
+    * @response `400` `any` 
+    * @response `403` `any` 
+    * @response `404` `any` 
+    * @response `429` `any` 
     */
     randomSticker: (query: { tag?: string, rating?: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif, meta?: Meta }>(`/stickers/random${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<{ data?: Gif, meta?: Meta }, any>(`/stickers/random${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -448,15 +454,15 @@ export class Api<SecurityDataType> {
     * @name searchStickers
     * @summary Search Stickers
     * @request GET:/stickers/search
-    * @description Replicates the functionality and requirements of the classic GIPHY search, but returns animated stickers rather than GIFs.. 
-    * @returns {Promise<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>} `200` Search results
-    * @returns {Promise<any>} `400` 
-    * @returns {Promise<any>} `403` 
-    * @returns {Promise<any>} `404` 
-    * @returns {Promise<any>} `429` 
+    * @description Replicates the functionality and requirements of the classic GIPHY search, but returns animated stickers rather than GIFs.
+    * @response `200` `{ data?: Gif[], meta?: Meta, pagination?: Pagination }` Search results
+    * @response `400` `any` 
+    * @response `403` `any` 
+    * @response `404` `any` 
+    * @response `429` `any` 
     */
     searchStickers: (query: { q: string, limit?: number, offset?: number, rating?: string, lang?: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>(`/stickers/search${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }, any>(`/stickers/search${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -464,15 +470,15 @@ export class Api<SecurityDataType> {
     * @name translateSticker
     * @summary Translate phrase to Sticker
     * @request GET:/stickers/translate
-    * @description The translate API draws on search, but uses the GIPHY `special sauce` to handle translating from one vocabulary to another. In this case, words and phrases to GIFs.. 
-    * @returns {Promise<{ data?: Gif, meta?: Meta }>} `200` 
-    * @returns {Promise<any>} `400` 
-    * @returns {Promise<any>} `403` 
-    * @returns {Promise<any>} `404` 
-    * @returns {Promise<any>} `429` 
+    * @description The translate API draws on search, but uses the GIPHY `special sauce` to handle translating from one vocabulary to another. In this case, words and phrases to GIFs.
+    * @response `200` `{ data?: Gif, meta?: Meta }` 
+    * @response `400` `any` 
+    * @response `403` `any` 
+    * @response `404` `any` 
+    * @response `429` `any` 
     */
     translateSticker: (query: { s: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif, meta?: Meta }>(`/stickers/translate${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<{ data?: Gif, meta?: Meta }, any>(`/stickers/translate${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -480,15 +486,15 @@ export class Api<SecurityDataType> {
     * @name trendingStickers
     * @summary Trending Stickers
     * @request GET:/stickers/trending
-    * @description Fetch Stickers currently trending online. Hand curated by the GIPHY editorial team. Returns 25 results by default.. 
-    * @returns {Promise<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>} `200` 
-    * @returns {Promise<any>} `400` 
-    * @returns {Promise<any>} `403` 
-    * @returns {Promise<any>} `404` 
-    * @returns {Promise<any>} `429` 
+    * @description Fetch Stickers currently trending online. Hand curated by the GIPHY editorial team. Returns 25 results by default.
+    * @response `200` `{ data?: Gif[], meta?: Meta, pagination?: Pagination }` 
+    * @response `400` `any` 
+    * @response `403` `any` 
+    * @response `404` `any` 
+    * @response `429` `any` 
     */
     trendingStickers: (query: { limit?: number, offset?: number, rating?: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }>(`/stickers/trending${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<{ data?: Gif[], meta?: Meta, pagination?: Pagination }, any>(`/stickers/trending${this.addQueryParams(query)}`, "GET", params, null),
   }
 
 }

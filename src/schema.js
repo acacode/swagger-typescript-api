@@ -2,6 +2,7 @@ const _ = require("lodash");
 const { inlineExtraFormatters } = require("./typeFormatters");
 const { isValidName } = require("./modelNames")
 const { prettifyDescription } = require("./common");
+const { DEFAULT_PRIMITIVE_TYPE } = require("./constants");
 
 const jsTypes = ['number', 'boolean', 'string', 'object'];
 const jsEmptyTypes = ['null', 'undefined'];
@@ -19,8 +20,6 @@ const findSchemaType = schema => {
 const typeAliases = {
   "integer": "number",
 }
-
-const DEFAULT_PRIMITIVE_TYPE = "any"
 
 const getPrimitiveType = type => typeAliases[type] || type || DEFAULT_PRIMITIVE_TYPE
 

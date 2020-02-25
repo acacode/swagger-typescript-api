@@ -38,6 +38,12 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
+/** Overrided Promise type. Needs for additional typings of `.catch` callback */
+type TPromise<ResolveType, RejectType = any> = {
+  then<TResult1 = ResolveType, TResult2 = never>(onfulfilled?: ((value: ResolveType) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: RejectType) => TResult2 | PromiseLike<TResult2>) | undefined | null): TPromise<TResult1 | TResult2, RejectType>;
+  catch<TResult = never>(onrejected?: ((reason: RejectType) => TResult | PromiseLike<TResult>) | undefined | null): TPromise<ResolveType | TResult, RejectType>;
+}
+
 export class Api<SecurityDataType> {
   
   public baseUrl = "";
@@ -90,25 +96,25 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): TPromise<T, E> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
     secureByDefault?: boolean,
-  ): Promise<T> =>
+  ): TPromise<T, E> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -121,55 +127,55 @@ export class Api<SecurityDataType> {
     /**
     * @name getUserByName
     * @request GET:/2.0/users/{username}
-    * @returns {Promise<user>} `200` The User
+    * @response `200` `user` The User
     */
     getUserByName: (username: string, params?: RequestParams) =>
-      this.request<user>(`/2.0/users/${username}`, "GET", params, null),
+      this.request<user, any>(`/2.0/users/${username}`, "GET", params, null),
 
 
     /**
     * @name getRepositoriesByOwner
     * @request GET:/2.0/repositories/{username}
-    * @returns {Promise<repository[]>} `200` repositories owned by the supplied user
+    * @response `200` `repository[]` repositories owned by the supplied user
     */
     getRepositoriesByOwner: (username: string, params?: RequestParams) =>
-      this.request<repository[]>(`/2.0/repositories/${username}`, "GET", params, null),
+      this.request<repository[], any>(`/2.0/repositories/${username}`, "GET", params, null),
 
 
     /**
     * @name getRepository
     * @request GET:/2.0/repositories/{username}/{slug}
-    * @returns {Promise<repository>} `200` The repository
+    * @response `200` `repository` The repository
     */
     getRepository: (username: string, slug: string, params?: RequestParams) =>
-      this.request<repository>(`/2.0/repositories/${username}/${slug}`, "GET", params, null),
+      this.request<repository, any>(`/2.0/repositories/${username}/${slug}`, "GET", params, null),
 
 
     /**
     * @name getPullRequestsByRepository
     * @request GET:/2.0/repositories/{username}/{slug}/pullrequests
-    * @returns {Promise<pullrequest[]>} `200` an array of pull request objects
+    * @response `200` `pullrequest[]` an array of pull request objects
     */
     getPullRequestsByRepository: (username: string, slug: string, query: { state?: "open" | "merged" | "declined" }, params?: RequestParams) =>
-      this.request<pullrequest[]>(`/2.0/repositories/${username}/${slug}/pullrequests${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<pullrequest[], any>(`/2.0/repositories/${username}/${slug}/pullrequests${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
     * @name getPullRequestsById
     * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
-    * @returns {Promise<pullrequest>} `200` a pull request object
+    * @response `200` `pullrequest` a pull request object
     */
     getPullRequestsById: (username: string, slug: string, pid: string, params?: RequestParams) =>
-      this.request<pullrequest>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}`, "GET", params, null),
+      this.request<pullrequest, any>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}`, "GET", params, null),
 
 
     /**
     * @name mergePullRequest
     * @request POST:/2.0/repositories/{username}/{slug}/pullrequests/{pid}/merge
-    * @returns {Promise<any>} `204` the PR was successfully merged
+    * @response `204` `any` the PR was successfully merged
     */
     mergePullRequest: (username: string, slug: string, pid: string, params?: RequestParams) =>
-      this.request<any>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}/merge`, "POST", params, null),
+      this.request<any, any>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}/merge`, "POST", params, null),
   }
 
 }

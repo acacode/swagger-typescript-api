@@ -6,8 +6,12 @@ module.exports = {
 
     prettified = _.replace(prettified, /\*\//g, "*\/")
 
-    if (inline) {
-      prettified = _.replace(prettified, /\n/g, '. ')
+    if (inline && _.includes(prettified, '\n')) {
+      prettified = _(prettified).split(/\n/g)
+        .map(part => _.trim(part))
+        .compact()
+        .join(' ')
+        .valueOf()
     }
 
     return prettified;

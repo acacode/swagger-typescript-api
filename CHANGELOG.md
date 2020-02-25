@@ -3,6 +3,8 @@ Breaking Changes:
   - Rename default typescript api file name (prev `api.ts`, now `Api.ts`)  
 Features:  
   - Improve response body type definitions  
+  - Response declarations in request rescription  
+  - Types for bad responses  
 
 # 1.3.0  
 Features:  

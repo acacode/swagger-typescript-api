@@ -171,6 +171,12 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
+/** Overrided Promise type. Needs for additional typings of `.catch` callback */
+type TPromise<ResolveType, RejectType = any> = {
+  then<TResult1 = ResolveType, TResult2 = never>(onfulfilled?: ((value: ResolveType) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: RejectType) => TResult2 | PromiseLike<TResult2>) | undefined | null): TPromise<TResult1 | TResult2, RejectType>;
+  catch<TResult = never>(onrejected?: ((reason: RejectType) => TResult | PromiseLike<TResult>) | undefined | null): TPromise<ResolveType | TResult, RejectType>;
+}
+
 /** ### The Internet of Things for Everyone
 
 The Adafruit IO HTTP API provides access to your Adafruit IO data from any programming language or hardware environment that can speak HTTP. The easiest way to get started is with [an Adafruit IO learn guide](https://learn.adafruit.com/series/adafruit-io-basics) and [a simple Internet of Things capable device like the Feather Huzzah](https://www.adafruit.com/product/2821).
@@ -345,25 +351,25 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): TPromise<T, E> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
     secureByDefault?: boolean,
-  ): Promise<T> =>
+  ): TPromise<T, E> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -378,14 +384,14 @@ export class Api<SecurityDataType> {
     * @name currentUser
     * @summary Get information about the current user
     * @request GET:/user
-    * @returns {Promise<User>} `200` A User record
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `User` A User record
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     currentUser: (params?: RequestParams) =>
-      this.request<User>(`/user`, "GET", params, null),
+      this.request<User, any>(`/user`, "GET", params, null),
   }
   webhooks = {
 
@@ -395,14 +401,14 @@ export class Api<SecurityDataType> {
     * @name createWebhookFeedData
     * @summary Send data to a feed via webhook URL.
     * @request POST:/webhooks/feed/:token
-    * @returns {Promise<Data>} `200` New feed data record
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Data` New feed data record
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     createWebhookFeedData: (payload: { value?: string }, params?: RequestParams) =>
-      this.request<Data>(`/webhooks/feed/:token`, "POST", params, payload),
+      this.request<Data, any>(`/webhooks/feed/:token`, "POST", params, payload),
 
 
     /**
@@ -411,14 +417,14 @@ export class Api<SecurityDataType> {
     * @summary Send arbitrary data to a feed via webhook URL.
     * @request POST:/webhooks/feed/:token/raw
     * @description The raw data webhook receiver accepts POST requests and stores the raw request body on your feed. This is useful when you don't have control of the webhook sender. If feed history is turned on, payloads will be truncated at 1024 bytes. If feed history is turned off, payloads will be truncated at 100KB.
-    * @returns {Promise<Data>} `200` New feed data record
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Data` New feed data record
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     createRawWebhookFeedData: (params?: RequestParams) =>
-      this.request<Data>(`/webhooks/feed/:token/raw`, "POST", params, null),
+      this.request<Data, any>(`/webhooks/feed/:token/raw`, "POST", params, null),
   }
   username = {
 
@@ -429,14 +435,14 @@ export class Api<SecurityDataType> {
     * @summary All activities for current user
     * @request DELETE:/{username}/activities
     * @description Delete all your activities.
-    * @returns {Promise<any>} `200` Deleted activities successfully
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `any` Deleted activities successfully
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     destroyActivities: (username: string, params?: RequestParams) =>
-      this.request<any>(`/${username}/activities`, "DELETE", params, null),
+      this.request<any, any>(`/${username}/activities`, "DELETE", params, null),
 
 
     /**
@@ -445,14 +451,14 @@ export class Api<SecurityDataType> {
     * @summary All activities for current user
     * @request GET:/{username}/activities
     * @description The Activities endpoint returns information about the user's activities.
-    * @returns {Promise<Activity[]>} `200` An array of activities
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Activity[]` An array of activities
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     allActivities: (username: string, query: { start_time?: string, end_time?: string, limit?: number }, params?: RequestParams) =>
-      this.request<Activity[]>(`/${username}/activities${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<Activity[], any>(`/${username}/activities${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -461,14 +467,14 @@ export class Api<SecurityDataType> {
     * @summary Get activities by type for current user
     * @request GET:/{username}/activities/{type}
     * @description The Activities endpoint returns information about the user's activities.
-    * @returns {Promise<Activity[]>} `200` An array of activities
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Activity[]` An array of activities
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     getActivity: (username: string, type: string, query: { start_time?: string, end_time?: string, limit?: number }, params?: RequestParams) =>
-      this.request<Activity[]>(`/${username}/activities/${type}${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<Activity[], any>(`/${username}/activities/${type}${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -476,15 +482,15 @@ export class Api<SecurityDataType> {
     * @name allDashboards
     * @summary All dashboards for current user
     * @request GET:/{username}/dashboards
-    * @description The Dashboards endpoint returns information about the user's dashboards.. 
-    * @returns {Promise<Dashboard[]>} `200` An array of dashboards
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @description The Dashboards endpoint returns information about the user's dashboards.
+    * @response `200` `Dashboard[]` An array of dashboards
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     allDashboards: (username: string, params?: RequestParams) =>
-      this.request<Dashboard[]>(`/${username}/dashboards`, "GET", params, null),
+      this.request<Dashboard[], any>(`/${username}/dashboards`, "GET", params, null),
 
 
     /**
@@ -492,14 +498,14 @@ export class Api<SecurityDataType> {
     * @name createDashboard
     * @summary Create a new Dashboard
     * @request POST:/{username}/dashboards
-    * @returns {Promise<Dashboard>} `200` New Dashboard
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Dashboard` New Dashboard
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     createDashboard: (username: string, dashboard: Dashboard, params?: RequestParams) =>
-      this.request<Dashboard>(`/${username}/dashboards`, "POST", params, dashboard),
+      this.request<Dashboard, any>(`/${username}/dashboards`, "POST", params, dashboard),
 
 
     /**
@@ -507,15 +513,15 @@ export class Api<SecurityDataType> {
     * @name allBlocks
     * @summary All blocks for current user
     * @request GET:/{username}/dashboards/{dashboard_id}/blocks
-    * @description The Blocks endpoint returns information about the user's blocks.. 
-    * @returns {Promise<Block[]>} `200` An array of blocks
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @description The Blocks endpoint returns information about the user's blocks.
+    * @response `200` `Block[]` An array of blocks
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     allBlocks: (username: string, dashboard_id: string, params?: RequestParams) =>
-      this.request<Block[]>(`/${username}/dashboards/${dashboard_id}/blocks`, "GET", params, null),
+      this.request<Block[], any>(`/${username}/dashboards/${dashboard_id}/blocks`, "GET", params, null),
 
 
     /**
@@ -523,14 +529,14 @@ export class Api<SecurityDataType> {
     * @name createBlock
     * @summary Create a new Block
     * @request POST:/{username}/dashboards/{dashboard_id}/blocks
-    * @returns {Promise<Block>} `200` New Block
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Block` New Block
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     createBlock: (username: string, dashboard_id: string, block: Block, params?: RequestParams) =>
-      this.request<Block>(`/${username}/dashboards/${dashboard_id}/blocks`, "POST", params, block),
+      this.request<Block, any>(`/${username}/dashboards/${dashboard_id}/blocks`, "POST", params, block),
 
 
     /**
@@ -538,14 +544,14 @@ export class Api<SecurityDataType> {
     * @name destroyBlock
     * @summary Delete an existing Block
     * @request DELETE:/{username}/dashboards/{dashboard_id}/blocks/{id}
-    * @returns {Promise<string>} `200` Deleted Block successfully
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `string` Deleted Block successfully
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     destroyBlock: (username: string, dashboard_id: string, id: string, params?: RequestParams) =>
-      this.request<string>(`/${username}/dashboards/${dashboard_id}/blocks/${id}`, "DELETE", params, null),
+      this.request<string, any>(`/${username}/dashboards/${dashboard_id}/blocks/${id}`, "DELETE", params, null),
 
 
     /**
@@ -553,14 +559,14 @@ export class Api<SecurityDataType> {
     * @name getBlock
     * @summary Returns Block based on ID
     * @request GET:/{username}/dashboards/{dashboard_id}/blocks/{id}
-    * @returns {Promise<Block>} `200` Block response
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error"
+    * @response `200` `Block` Block response
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error"
     */
     getBlock: (username: string, dashboard_id: string, id: string, params?: RequestParams) =>
-      this.request<Block>(`/${username}/dashboards/${dashboard_id}/blocks/${id}`, "GET", params, null),
+      this.request<Block, any>(`/${username}/dashboards/${dashboard_id}/blocks/${id}`, "GET", params, null),
 
 
     /**
@@ -568,14 +574,14 @@ export class Api<SecurityDataType> {
     * @name updateBlock
     * @summary Update properties of an existing Block
     * @request PATCH:/{username}/dashboards/{dashboard_id}/blocks/{id}
-    * @returns {Promise<Block>} `200` Updated Block
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Block` Updated Block
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     updateBlock: (username: string, dashboard_id: string, id: string, block: any, params?: RequestParams) =>
-      this.request<Block>(`/${username}/dashboards/${dashboard_id}/blocks/${id}`, "PATCH", params, block),
+      this.request<Block, any>(`/${username}/dashboards/${dashboard_id}/blocks/${id}`, "PATCH", params, block),
 
 
     /**
@@ -583,14 +589,14 @@ export class Api<SecurityDataType> {
     * @name replaceBlock
     * @summary Replace an existing Block
     * @request PUT:/{username}/dashboards/{dashboard_id}/blocks/{id}
-    * @returns {Promise<Block>} `200` Updated block
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Block` Updated block
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     replaceBlock: (username: string, dashboard_id: string, id: string, block: any, params?: RequestParams) =>
-      this.request<Block>(`/${username}/dashboards/${dashboard_id}/blocks/${id}`, "PUT", params, block),
+      this.request<Block, any>(`/${username}/dashboards/${dashboard_id}/blocks/${id}`, "PUT", params, block),
 
 
     /**
@@ -598,14 +604,14 @@ export class Api<SecurityDataType> {
     * @name destroyDashboard
     * @summary Delete an existing Dashboard
     * @request DELETE:/{username}/dashboards/{id}
-    * @returns {Promise<string>} `200` Deleted Dashboard successfully
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `string` Deleted Dashboard successfully
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     destroyDashboard: (username: string, id: string, params?: RequestParams) =>
-      this.request<string>(`/${username}/dashboards/${id}`, "DELETE", params, null),
+      this.request<string, any>(`/${username}/dashboards/${id}`, "DELETE", params, null),
 
 
     /**
@@ -613,14 +619,14 @@ export class Api<SecurityDataType> {
     * @name getDashboard
     * @summary Returns Dashboard based on ID
     * @request GET:/{username}/dashboards/{id}
-    * @returns {Promise<Dashboard>} `200` Dashboard response
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error"
+    * @response `200` `Dashboard` Dashboard response
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error"
     */
     getDashboard: (username: string, id: string, params?: RequestParams) =>
-      this.request<Dashboard>(`/${username}/dashboards/${id}`, "GET", params, null),
+      this.request<Dashboard, any>(`/${username}/dashboards/${id}`, "GET", params, null),
 
 
     /**
@@ -628,14 +634,14 @@ export class Api<SecurityDataType> {
     * @name updateDashboard
     * @summary Update properties of an existing Dashboard
     * @request PATCH:/{username}/dashboards/{id}
-    * @returns {Promise<Dashboard>} `200` Updated Dashboard
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Dashboard` Updated Dashboard
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     updateDashboard: (username: string, id: string, dashboard: any, params?: RequestParams) =>
-      this.request<Dashboard>(`/${username}/dashboards/${id}`, "PATCH", params, dashboard),
+      this.request<Dashboard, any>(`/${username}/dashboards/${id}`, "PATCH", params, dashboard),
 
 
     /**
@@ -643,14 +649,14 @@ export class Api<SecurityDataType> {
     * @name replaceDashboard
     * @summary Replace an existing Dashboard
     * @request PUT:/{username}/dashboards/{id}
-    * @returns {Promise<Dashboard>} `200` Updated dashboard
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Dashboard` Updated dashboard
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     replaceDashboard: (username: string, id: string, dashboard: any, params?: RequestParams) =>
-      this.request<Dashboard>(`/${username}/dashboards/${id}`, "PUT", params, dashboard),
+      this.request<Dashboard, any>(`/${username}/dashboards/${id}`, "PUT", params, dashboard),
 
 
     /**
@@ -659,14 +665,14 @@ export class Api<SecurityDataType> {
     * @summary All feeds for current user
     * @request GET:/{username}/feeds
     * @description The Feeds endpoint returns information about the user's feeds. The response includes the latest value of each feed, and other metadata about each feed.
-    * @returns {Promise<Feed[]>} `200` An array of feeds
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Feed[]` An array of feeds
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     allFeeds: (username: string, params?: RequestParams) =>
-      this.request<Feed[]>(`/${username}/feeds`, "GET", params, null),
+      this.request<Feed[], any>(`/${username}/feeds`, "GET", params, null),
 
 
     /**
@@ -674,14 +680,14 @@ export class Api<SecurityDataType> {
     * @name createFeed
     * @summary Create a new Feed
     * @request POST:/{username}/feeds
-    * @returns {Promise<Feed>} `200` New feed
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Feed` New feed
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     createFeed: (username: string, query: { group_key?: string }, feed: Feed, params?: RequestParams) =>
-      this.request<Feed>(`/${username}/feeds${this.addQueryParams(query)}`, "POST", params, feed),
+      this.request<Feed, any>(`/${username}/feeds${this.addQueryParams(query)}`, "POST", params, feed),
 
 
     /**
@@ -689,14 +695,14 @@ export class Api<SecurityDataType> {
     * @name destroyFeed
     * @summary Delete an existing Feed
     * @request DELETE:/{username}/feeds/{feed_key}
-    * @returns {Promise<any>} `200` Deleted feed successfully
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `any` Deleted feed successfully
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     destroyFeed: (username: string, feed_key: string, params?: RequestParams) =>
-      this.request<any>(`/${username}/feeds/${feed_key}`, "DELETE", params, null),
+      this.request<any, any>(`/${username}/feeds/${feed_key}`, "DELETE", params, null),
 
 
     /**
@@ -705,14 +711,14 @@ export class Api<SecurityDataType> {
     * @summary Get feed by feed key
     * @request GET:/{username}/feeds/{feed_key}
     * @description Returns feed based on the feed key
-    * @returns {Promise<Feed>} `200` Feed response
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Feed` Feed response
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     getFeed: (username: string, feed_key: string, params?: RequestParams) =>
-      this.request<Feed>(`/${username}/feeds/${feed_key}`, "GET", params, null),
+      this.request<Feed, any>(`/${username}/feeds/${feed_key}`, "GET", params, null),
 
 
     /**
@@ -720,14 +726,14 @@ export class Api<SecurityDataType> {
     * @name updateFeed
     * @summary Update properties of an existing Feed
     * @request PATCH:/{username}/feeds/{feed_key}
-    * @returns {Promise<Feed>} `200` Updated feed
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Feed` Updated feed
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     updateFeed: (username: string, feed_key: string, feed: any, params?: RequestParams) =>
-      this.request<Feed>(`/${username}/feeds/${feed_key}`, "PATCH", params, feed),
+      this.request<Feed, any>(`/${username}/feeds/${feed_key}`, "PATCH", params, feed),
 
 
     /**
@@ -735,14 +741,14 @@ export class Api<SecurityDataType> {
     * @name replaceFeed
     * @summary Replace an existing Feed
     * @request PUT:/{username}/feeds/{feed_key}
-    * @returns {Promise<Feed>} `200` Updated feed
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Feed` Updated feed
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     replaceFeed: (username: string, feed_key: string, feed: any, params?: RequestParams) =>
-      this.request<Feed>(`/${username}/feeds/${feed_key}`, "PUT", params, feed),
+      this.request<Feed, any>(`/${username}/feeds/${feed_key}`, "PUT", params, feed),
 
 
     /**
@@ -750,14 +756,14 @@ export class Api<SecurityDataType> {
     * @name allData
     * @summary Get all data for the given feed
     * @request GET:/{username}/feeds/{feed_key}/data
-    * @returns {Promise<DataResponse[]>} `200` An array of data
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `DataResponse[]` An array of data
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     allData: (username: string, feed_key: string, query: { start_time?: string, end_time?: string, limit?: number, include?: string }, params?: RequestParams) =>
-      this.request<DataResponse[]>(`/${username}/feeds/${feed_key}/data${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<DataResponse[], any>(`/${username}/feeds/${feed_key}/data${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -765,15 +771,15 @@ export class Api<SecurityDataType> {
     * @name createData
     * @summary Create new Data
     * @request POST:/{username}/feeds/{feed_key}/data
-    * @description Create new data records on the given feed.. . **NOTE:** when feed history is on, data `value` size is limited to 1KB, when feed history is turned off data value size is limited to 100KB.
-    * @returns {Promise<Data>} `200` New data
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @description Create new data records on the given feed. **NOTE:** when feed history is on, data `value` size is limited to 1KB, when feed history is turned off data value size is limited to 100KB.
+    * @response `200` `Data` New data
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     createData: (username: string, feed_key: string, datum: any, params?: RequestParams) =>
-      this.request<Data>(`/${username}/feeds/${feed_key}/data`, "POST", params, datum),
+      this.request<Data, any>(`/${username}/feeds/${feed_key}/data`, "POST", params, datum),
 
 
     /**
@@ -781,14 +787,14 @@ export class Api<SecurityDataType> {
     * @name batchCreateData
     * @summary Create multiple new Data records
     * @request POST:/{username}/feeds/{feed_key}/data/batch
-    * @returns {Promise<DataResponse[]>} `200` New data
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `DataResponse[]` New data
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     batchCreateData: (username: string, feed_key: string, data: Data, params?: RequestParams) =>
-      this.request<DataResponse[]>(`/${username}/feeds/${feed_key}/data/batch`, "POST", params, data),
+      this.request<DataResponse[], any>(`/${username}/feeds/${feed_key}/data/batch`, "POST", params, data),
 
 
     /**
@@ -796,15 +802,15 @@ export class Api<SecurityDataType> {
     * @name chartData
     * @summary Chart data for current feed
     * @request GET:/{username}/feeds/{feed_key}/data/chart
-    * @description The Chart API is what we use on io.adafruit.com to populate charts over varying timespans with a consistent number of data points. The maximum number of points returned is 480. This API works by aggregating slices of time into a single value by averaging.. . All time-based parameters are optional, if none are given it will default to 1 hour at the finest-grained resolution possible.
-    * @returns {Promise<{ columns?: string[], data?: string[][], feed?: { id?: number, key?: string, name?: string }, parameters?: object }>} `200` A JSON record containing chart data and the parameters used to generate it.
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @description The Chart API is what we use on io.adafruit.com to populate charts over varying timespans with a consistent number of data points. The maximum number of points returned is 480. This API works by aggregating slices of time into a single value by averaging. All time-based parameters are optional, if none are given it will default to 1 hour at the finest-grained resolution possible.
+    * @response `200` `{ columns?: string[], data?: string[][], feed?: { id?: number, key?: string, name?: string }, parameters?: object }` A JSON record containing chart data and the parameters used to generate it.
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     chartData: (username: string, feed_key: string, query: { start_time?: string, end_time?: string, resolution?: number, hours?: number }, params?: RequestParams) =>
-      this.request<{ columns?: string[], data?: string[][], feed?: { id?: number, key?: string, name?: string }, parameters?: object }>(`/${username}/feeds/${feed_key}/data/chart${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<{ columns?: string[], data?: string[][], feed?: { id?: number, key?: string, name?: string }, parameters?: object }, any>(`/${username}/feeds/${feed_key}/data/chart${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -813,14 +819,14 @@ export class Api<SecurityDataType> {
     * @summary First Data in Queue
     * @request GET:/{username}/feeds/{feed_key}/data/first
     * @description Get the oldest data point in the feed. This request sets the queue pointer to the beginning of the feed.
-    * @returns {Promise<DataResponse>} `200` Data response
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `DataResponse` Data response
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     firstData: (username: string, feed_key: string, query: { include?: string }, params?: RequestParams) =>
-      this.request<DataResponse>(`/${username}/feeds/${feed_key}/data/first${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<DataResponse, any>(`/${username}/feeds/${feed_key}/data/first${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -829,14 +835,14 @@ export class Api<SecurityDataType> {
     * @summary Last Data in Queue
     * @request GET:/{username}/feeds/{feed_key}/data/last
     * @description Get the most recent data point in the feed. This request sets the queue pointer to the end of the feed.
-    * @returns {Promise<DataResponse>} `200` Data response
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `DataResponse` Data response
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     lastData: (username: string, feed_key: string, query: { include?: string }, params?: RequestParams) =>
-      this.request<DataResponse>(`/${username}/feeds/${feed_key}/data/last${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<DataResponse, any>(`/${username}/feeds/${feed_key}/data/last${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -845,14 +851,14 @@ export class Api<SecurityDataType> {
     * @summary Next Data in Queue
     * @request GET:/{username}/feeds/{feed_key}/data/next
     * @description Get the next newest data point in the feed. If queue processing hasn't been started, the first data point in the feed will be returned.
-    * @returns {Promise<DataResponse>} `200` Data response
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `DataResponse` Data response
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     nextData: (username: string, feed_key: string, query: { include?: string }, params?: RequestParams) =>
-      this.request<DataResponse>(`/${username}/feeds/${feed_key}/data/next${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<DataResponse, any>(`/${username}/feeds/${feed_key}/data/next${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -861,14 +867,14 @@ export class Api<SecurityDataType> {
     * @summary Previous Data in Queue
     * @request GET:/{username}/feeds/{feed_key}/data/previous
     * @description Get the previously processed data point in the feed. NOTE: this method doesn't move the processing queue pointer.
-    * @returns {Promise<DataResponse>} `200` Data response
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `DataResponse` Data response
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     previousData: (username: string, feed_key: string, query: { include?: string }, params?: RequestParams) =>
-      this.request<DataResponse>(`/${username}/feeds/${feed_key}/data/previous${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<DataResponse, any>(`/${username}/feeds/${feed_key}/data/previous${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -877,14 +883,14 @@ export class Api<SecurityDataType> {
     * @summary Last Data in MQTT CSV format
     * @request GET:/{username}/feeds/{feed_key}/data/retain
     * @description Get the most recent data point in the feed in an MQTT compatible CSV format: `value,lat,lon,ele`
-    * @returns {Promise<any>} `200` CSV string in `value,lat,lon,ele` format. The lat, lon, and ele values are left blank if they are not set.
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `any` CSV string in `value,lat,lon,ele` format. The lat, lon, and ele values are left blank if they are not set.
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     retainData: (username: string, feed_key: string, params?: RequestParams) =>
-      this.request<any>(`/${username}/feeds/${feed_key}/data/retain`, "GET", params, null),
+      this.request<any, any>(`/${username}/feeds/${feed_key}/data/retain`, "GET", params, null),
 
 
     /**
@@ -892,14 +898,14 @@ export class Api<SecurityDataType> {
     * @name destroyData
     * @summary Delete existing Data
     * @request DELETE:/{username}/feeds/{feed_key}/data/{id}
-    * @returns {Promise<string>} `200` Deleted Group successfully
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `string` Deleted Group successfully
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     destroyData: (username: string, feed_key: string, id: string, params?: RequestParams) =>
-      this.request<string>(`/${username}/feeds/${feed_key}/data/${id}`, "DELETE", params, null),
+      this.request<string, any>(`/${username}/feeds/${feed_key}/data/${id}`, "DELETE", params, null),
 
 
     /**
@@ -907,14 +913,14 @@ export class Api<SecurityDataType> {
     * @name getData
     * @summary Returns data based on feed key
     * @request GET:/{username}/feeds/{feed_key}/data/{id}
-    * @returns {Promise<DataResponse>} `200` Data response
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `DataResponse` Data response
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     getData: (username: string, feed_key: string, id: string, query: { include?: string }, params?: RequestParams) =>
-      this.request<DataResponse>(`/${username}/feeds/${feed_key}/data/${id}${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<DataResponse, any>(`/${username}/feeds/${feed_key}/data/${id}${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -922,14 +928,14 @@ export class Api<SecurityDataType> {
     * @name updateData
     * @summary Update properties of existing Data
     * @request PATCH:/{username}/feeds/{feed_key}/data/{id}
-    * @returns {Promise<DataResponse>} `200` Updated Data
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `DataResponse` Updated Data
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     updateData: (username: string, feed_key: string, id: string, datum: any, params?: RequestParams) =>
-      this.request<DataResponse>(`/${username}/feeds/${feed_key}/data/${id}`, "PATCH", params, datum),
+      this.request<DataResponse, any>(`/${username}/feeds/${feed_key}/data/${id}`, "PATCH", params, datum),
 
 
     /**
@@ -937,14 +943,14 @@ export class Api<SecurityDataType> {
     * @name replaceData
     * @summary Replace existing Data
     * @request PUT:/{username}/feeds/{feed_key}/data/{id}
-    * @returns {Promise<DataResponse>} `200` Updated Data
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `DataResponse` Updated Data
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     replaceData: (username: string, feed_key: string, id: string, datum: any, params?: RequestParams) =>
-      this.request<DataResponse>(`/${username}/feeds/${feed_key}/data/${id}`, "PUT", params, datum),
+      this.request<DataResponse, any>(`/${username}/feeds/${feed_key}/data/${id}`, "PUT", params, datum),
 
 
     /**
@@ -953,14 +959,14 @@ export class Api<SecurityDataType> {
     * @summary Get detailed feed by feed key
     * @request GET:/{username}/feeds/{feed_key}/details
     * @description Returns more detailed feed record based on the feed key
-    * @returns {Promise<Feed>} `200` Feed response
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Feed` Feed response
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     getFeedDetails: (username: string, feed_key: string, params?: RequestParams) =>
-      this.request<Feed>(`/${username}/feeds/${feed_key}/details`, "GET", params, null),
+      this.request<Feed, any>(`/${username}/feeds/${feed_key}/details`, "GET", params, null),
 
 
     /**
@@ -968,15 +974,15 @@ export class Api<SecurityDataType> {
     * @name allGroups
     * @summary All groups for current user
     * @request GET:/{username}/groups
-    * @description The Groups endpoint returns information about the user's groups. The response includes the latest value of each feed in the group, and other metadata about the group.. 
-    * @returns {Promise<Group[]>} `200` An array of groups
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @description The Groups endpoint returns information about the user's groups. The response includes the latest value of each feed in the group, and other metadata about the group.
+    * @response `200` `Group[]` An array of groups
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     allGroups: (username: string, params?: RequestParams) =>
-      this.request<Group[]>(`/${username}/groups`, "GET", params, null),
+      this.request<Group[], any>(`/${username}/groups`, "GET", params, null),
 
 
     /**
@@ -984,14 +990,14 @@ export class Api<SecurityDataType> {
     * @name createGroup
     * @summary Create a new Group
     * @request POST:/{username}/groups
-    * @returns {Promise<Group>} `200` New Group
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Group` New Group
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     createGroup: (username: string, group: Group, params?: RequestParams) =>
-      this.request<Group>(`/${username}/groups`, "POST", params, group),
+      this.request<Group, any>(`/${username}/groups`, "POST", params, group),
 
 
     /**
@@ -999,14 +1005,14 @@ export class Api<SecurityDataType> {
     * @name destroyGroup
     * @summary Delete an existing Group
     * @request DELETE:/{username}/groups/{group_key}
-    * @returns {Promise<string>} `200` Deleted Group successfully
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `string` Deleted Group successfully
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     destroyGroup: (username: string, group_key: string, params?: RequestParams) =>
-      this.request<string>(`/${username}/groups/${group_key}`, "DELETE", params, null),
+      this.request<string, any>(`/${username}/groups/${group_key}`, "DELETE", params, null),
 
 
     /**
@@ -1014,14 +1020,14 @@ export class Api<SecurityDataType> {
     * @name getGroup
     * @summary Returns Group based on ID
     * @request GET:/{username}/groups/{group_key}
-    * @returns {Promise<Group>} `200` Group response
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error"
+    * @response `200` `Group` Group response
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error"
     */
     getGroup: (username: string, group_key: string, params?: RequestParams) =>
-      this.request<Group>(`/${username}/groups/${group_key}`, "GET", params, null),
+      this.request<Group, any>(`/${username}/groups/${group_key}`, "GET", params, null),
 
 
     /**
@@ -1029,14 +1035,14 @@ export class Api<SecurityDataType> {
     * @name updateGroup
     * @summary Update properties of an existing Group
     * @request PATCH:/{username}/groups/{group_key}
-    * @returns {Promise<Group>} `200` Updated Group
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Group` Updated Group
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     updateGroup: (username: string, group_key: string, group: any, params?: RequestParams) =>
-      this.request<Group>(`/${username}/groups/${group_key}`, "PATCH", params, group),
+      this.request<Group, any>(`/${username}/groups/${group_key}`, "PATCH", params, group),
 
 
     /**
@@ -1044,14 +1050,14 @@ export class Api<SecurityDataType> {
     * @name replaceGroup
     * @summary Replace an existing Group
     * @request PUT:/{username}/groups/{group_key}
-    * @returns {Promise<Group>} `200` Updated group
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Group` Updated group
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     replaceGroup: (username: string, group_key: string, group: any, params?: RequestParams) =>
-      this.request<Group>(`/${username}/groups/${group_key}`, "PUT", params, group),
+      this.request<Group, any>(`/${username}/groups/${group_key}`, "PUT", params, group),
 
 
     /**
@@ -1059,14 +1065,14 @@ export class Api<SecurityDataType> {
     * @name addFeedToGroup
     * @summary Add an existing Feed to a Group
     * @request POST:/{username}/groups/{group_key}/add
-    * @returns {Promise<Group>} `200` Updated group
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Group` Updated group
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     addFeedToGroup: (group_key: string, username: string, query: { feed_key?: string }, params?: RequestParams) =>
-      this.request<Group>(`/${username}/groups/${group_key}/add${this.addQueryParams(query)}`, "POST", params, null),
+      this.request<Group, any>(`/${username}/groups/${group_key}/add${this.addQueryParams(query)}`, "POST", params, null),
 
 
     /**
@@ -1074,14 +1080,14 @@ export class Api<SecurityDataType> {
     * @name createGroupData
     * @summary Create new data for multiple feeds in a group
     * @request POST:/{username}/groups/{group_key}/data
-    * @returns {Promise<DataResponse[]>} `200` New data
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `DataResponse[]` New data
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     createGroupData: (username: string, group_key: string, group_feed_data: { created_at?: string, feeds: Array<{ key: string, value: string }>, location: { ele?: number, lat: number, lon: number } }, params?: RequestParams) =>
-      this.request<DataResponse[]>(`/${username}/groups/${group_key}/data`, "POST", params, group_feed_data),
+      this.request<DataResponse[], any>(`/${username}/groups/${group_key}/data`, "POST", params, group_feed_data),
 
 
     /**
@@ -1090,14 +1096,14 @@ export class Api<SecurityDataType> {
     * @summary All feeds for current user in a given group
     * @request GET:/{username}/groups/{group_key}/feeds
     * @description The Group Feeds endpoint returns information about the user's feeds. The response includes the latest value of each feed, and other metadata about each feed, but only for feeds within the given group.
-    * @returns {Promise<Feed[]>} `200` An array of feeds
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Feed[]` An array of feeds
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     allGroupFeeds: (group_key: string, username: string, params?: RequestParams) =>
-      this.request<Feed[]>(`/${username}/groups/${group_key}/feeds`, "GET", params, null),
+      this.request<Feed[], any>(`/${username}/groups/${group_key}/feeds`, "GET", params, null),
 
 
     /**
@@ -1105,14 +1111,14 @@ export class Api<SecurityDataType> {
     * @name createGroupFeed
     * @summary Create a new Feed in a Group
     * @request POST:/{username}/groups/{group_key}/feeds
-    * @returns {Promise<Feed>} `200` New feed
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Feed` New feed
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     createGroupFeed: (username: string, group_key: string, feed: any, params?: RequestParams) =>
-      this.request<Feed>(`/${username}/groups/${group_key}/feeds`, "POST", params, feed),
+      this.request<Feed, any>(`/${username}/groups/${group_key}/feeds`, "POST", params, feed),
 
 
     /**
@@ -1120,14 +1126,14 @@ export class Api<SecurityDataType> {
     * @name allGroupFeedData
     * @summary All data for current feed in a specific group
     * @request GET:/{username}/groups/{group_key}/feeds/{feed_key}/data
-    * @returns {Promise<DataResponse[]>} `200` An array of data
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `DataResponse[]` An array of data
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     allGroupFeedData: (username: string, group_key: string, feed_key: string, query: { start_time?: string, end_time?: string, limit?: number }, params?: RequestParams) =>
-      this.request<DataResponse[]>(`/${username}/groups/${group_key}/feeds/${feed_key}/data${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<DataResponse[], any>(`/${username}/groups/${group_key}/feeds/${feed_key}/data${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -1135,14 +1141,14 @@ export class Api<SecurityDataType> {
     * @name createGroupFeedData
     * @summary Create new Data in a feed belonging to a particular group
     * @request POST:/{username}/groups/{group_key}/feeds/{feed_key}/data
-    * @returns {Promise<DataResponse>} `200` New data
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `DataResponse` New data
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     createGroupFeedData: (username: string, group_key: string, feed_key: string, datum: any, params?: RequestParams) =>
-      this.request<DataResponse>(`/${username}/groups/${group_key}/feeds/${feed_key}/data`, "POST", params, datum),
+      this.request<DataResponse, any>(`/${username}/groups/${group_key}/feeds/${feed_key}/data`, "POST", params, datum),
 
 
     /**
@@ -1150,14 +1156,14 @@ export class Api<SecurityDataType> {
     * @name batchCreateGroupFeedData
     * @summary Create multiple new Data records in a feed belonging to a particular group
     * @request POST:/{username}/groups/{group_key}/feeds/{feed_key}/data/batch
-    * @returns {Promise<DataResponse[]>} `200` New data
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `DataResponse[]` New data
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     batchCreateGroupFeedData: (username: string, group_key: string, feed_key: string, data: any, params?: RequestParams) =>
-      this.request<DataResponse[]>(`/${username}/groups/${group_key}/feeds/${feed_key}/data/batch`, "POST", params, data),
+      this.request<DataResponse[], any>(`/${username}/groups/${group_key}/feeds/${feed_key}/data/batch`, "POST", params, data),
 
 
     /**
@@ -1165,14 +1171,14 @@ export class Api<SecurityDataType> {
     * @name removeFeedFromGroup
     * @summary Remove a Feed from a Group
     * @request POST:/{username}/groups/{group_key}/remove
-    * @returns {Promise<Group>} `200` Updated group
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Group` Updated group
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     removeFeedFromGroup: (group_key: string, username: string, query: { feed_key?: string }, params?: RequestParams) =>
-      this.request<Group>(`/${username}/groups/${group_key}/remove${this.addQueryParams(query)}`, "POST", params, null),
+      this.request<Group, any>(`/${username}/groups/${group_key}/remove${this.addQueryParams(query)}`, "POST", params, null),
 
 
     /**
@@ -1180,14 +1186,14 @@ export class Api<SecurityDataType> {
     * @name getCurrentUserThrottle
     * @summary Get the user's data rate limit and current activity level.
     * @request GET:/{username}/throttle
-    * @returns {Promise<{ active_data_rate?: number, data_rate_limit?: number }>} `200` Data rate limit and current actions.
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `{ active_data_rate?: number, data_rate_limit?: number }` Data rate limit and current actions.
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     getCurrentUserThrottle: (username: string, params?: RequestParams) =>
-      this.request<{ active_data_rate?: number, data_rate_limit?: number }>(`/${username}/throttle`, "GET", params, null),
+      this.request<{ active_data_rate?: number, data_rate_limit?: number }, any>(`/${username}/throttle`, "GET", params, null),
 
 
     /**
@@ -1195,15 +1201,15 @@ export class Api<SecurityDataType> {
     * @name allTokens
     * @summary All tokens for current user
     * @request GET:/{username}/tokens
-    * @description The Tokens endpoint returns information about the user's tokens.. 
-    * @returns {Promise<Token[]>} `200` An array of tokens
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @description The Tokens endpoint returns information about the user's tokens.
+    * @response `200` `Token[]` An array of tokens
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     allTokens: (username: string, params?: RequestParams) =>
-      this.request<Token[]>(`/${username}/tokens`, "GET", params, null),
+      this.request<Token[], any>(`/${username}/tokens`, "GET", params, null),
 
 
     /**
@@ -1211,14 +1217,14 @@ export class Api<SecurityDataType> {
     * @name createToken
     * @summary Create a new Token
     * @request POST:/{username}/tokens
-    * @returns {Promise<Token>} `200` New Token
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Token` New Token
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     createToken: (username: string, token: Token, params?: RequestParams) =>
-      this.request<Token>(`/${username}/tokens`, "POST", params, token),
+      this.request<Token, any>(`/${username}/tokens`, "POST", params, token),
 
 
     /**
@@ -1226,14 +1232,14 @@ export class Api<SecurityDataType> {
     * @name destroyToken
     * @summary Delete an existing Token
     * @request DELETE:/{username}/tokens/{id}
-    * @returns {Promise<string>} `200` Deleted Token successfully
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `string` Deleted Token successfully
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     destroyToken: (username: string, id: string, params?: RequestParams) =>
-      this.request<string>(`/${username}/tokens/${id}`, "DELETE", params, null),
+      this.request<string, any>(`/${username}/tokens/${id}`, "DELETE", params, null),
 
 
     /**
@@ -1241,14 +1247,14 @@ export class Api<SecurityDataType> {
     * @name getToken
     * @summary Returns Token based on ID
     * @request GET:/{username}/tokens/{id}
-    * @returns {Promise<Token>} `200` Token response
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error"
+    * @response `200` `Token` Token response
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error"
     */
     getToken: (username: string, id: string, params?: RequestParams) =>
-      this.request<Token>(`/${username}/tokens/${id}`, "GET", params, null),
+      this.request<Token, any>(`/${username}/tokens/${id}`, "GET", params, null),
 
 
     /**
@@ -1256,14 +1262,14 @@ export class Api<SecurityDataType> {
     * @name updateToken
     * @summary Update properties of an existing Token
     * @request PATCH:/{username}/tokens/{id}
-    * @returns {Promise<Token>} `200` Updated Token
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Token` Updated Token
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     updateToken: (username: string, id: string, token: any, params?: RequestParams) =>
-      this.request<Token>(`/${username}/tokens/${id}`, "PATCH", params, token),
+      this.request<Token, any>(`/${username}/tokens/${id}`, "PATCH", params, token),
 
 
     /**
@@ -1271,14 +1277,14 @@ export class Api<SecurityDataType> {
     * @name replaceToken
     * @summary Replace an existing Token
     * @request PUT:/{username}/tokens/{id}
-    * @returns {Promise<Token>} `200` Updated token
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Token` Updated token
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     replaceToken: (username: string, id: string, token: any, params?: RequestParams) =>
-      this.request<Token>(`/${username}/tokens/${id}`, "PUT", params, token),
+      this.request<Token, any>(`/${username}/tokens/${id}`, "PUT", params, token),
 
 
     /**
@@ -1286,15 +1292,15 @@ export class Api<SecurityDataType> {
     * @name allTriggers
     * @summary All triggers for current user
     * @request GET:/{username}/triggers
-    * @description The Triggers endpoint returns information about the user's triggers.. 
-    * @returns {Promise<Trigger[]>} `200` An array of triggers
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @description The Triggers endpoint returns information about the user's triggers.
+    * @response `200` `Trigger[]` An array of triggers
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     allTriggers: (username: string, params?: RequestParams) =>
-      this.request<Trigger[]>(`/${username}/triggers`, "GET", params, null),
+      this.request<Trigger[], any>(`/${username}/triggers`, "GET", params, null),
 
 
     /**
@@ -1302,14 +1308,14 @@ export class Api<SecurityDataType> {
     * @name createTrigger
     * @summary Create a new Trigger
     * @request POST:/{username}/triggers
-    * @returns {Promise<Trigger>} `200` New Trigger
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Trigger` New Trigger
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     createTrigger: (username: string, trigger: Trigger, params?: RequestParams) =>
-      this.request<Trigger>(`/${username}/triggers`, "POST", params, trigger),
+      this.request<Trigger, any>(`/${username}/triggers`, "POST", params, trigger),
 
 
     /**
@@ -1317,14 +1323,14 @@ export class Api<SecurityDataType> {
     * @name destroyTrigger
     * @summary Delete an existing Trigger
     * @request DELETE:/{username}/triggers/{id}
-    * @returns {Promise<string>} `200` Deleted Trigger successfully
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `string` Deleted Trigger successfully
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     destroyTrigger: (username: string, id: string, params?: RequestParams) =>
-      this.request<string>(`/${username}/triggers/${id}`, "DELETE", params, null),
+      this.request<string, any>(`/${username}/triggers/${id}`, "DELETE", params, null),
 
 
     /**
@@ -1332,14 +1338,14 @@ export class Api<SecurityDataType> {
     * @name getTrigger
     * @summary Returns Trigger based on ID
     * @request GET:/{username}/triggers/{id}
-    * @returns {Promise<Trigger>} `200` Trigger response
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error"
+    * @response `200` `Trigger` Trigger response
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error"
     */
     getTrigger: (username: string, id: string, params?: RequestParams) =>
-      this.request<Trigger>(`/${username}/triggers/${id}`, "GET", params, null),
+      this.request<Trigger, any>(`/${username}/triggers/${id}`, "GET", params, null),
 
 
     /**
@@ -1347,14 +1353,14 @@ export class Api<SecurityDataType> {
     * @name updateTrigger
     * @summary Update properties of an existing Trigger
     * @request PATCH:/{username}/triggers/{id}
-    * @returns {Promise<Trigger>} `200` Updated Trigger
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Trigger` Updated Trigger
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     updateTrigger: (username: string, id: string, trigger: any, params?: RequestParams) =>
-      this.request<Trigger>(`/${username}/triggers/${id}`, "PATCH", params, trigger),
+      this.request<Trigger, any>(`/${username}/triggers/${id}`, "PATCH", params, trigger),
 
 
     /**
@@ -1362,14 +1368,14 @@ export class Api<SecurityDataType> {
     * @name replaceTrigger
     * @summary Replace an existing Trigger
     * @request PUT:/{username}/triggers/{id}
-    * @returns {Promise<Trigger>} `200` Updated trigger
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Trigger` Updated trigger
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     replaceTrigger: (username: string, id: string, trigger: any, params?: RequestParams) =>
-      this.request<Trigger>(`/${username}/triggers/${id}`, "PUT", params, trigger),
+      this.request<Trigger, any>(`/${username}/triggers/${id}`, "PUT", params, trigger),
 
 
     /**
@@ -1377,15 +1383,15 @@ export class Api<SecurityDataType> {
     * @name allPermissions
     * @summary All permissions for current user and type
     * @request GET:/{username}/{type}/{type_id}/acl
-    * @description The Permissions endpoint returns information about the user's permissions.. 
-    * @returns {Promise<Permission[]>} `200` An array of permissions
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @description The Permissions endpoint returns information about the user's permissions.
+    * @response `200` `Permission[]` An array of permissions
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     allPermissions: (username: string, type: string, type_id: string, params?: RequestParams) =>
-      this.request<Permission[]>(`/${username}/${type}/${type_id}/acl`, "GET", params, null),
+      this.request<Permission[], any>(`/${username}/${type}/${type_id}/acl`, "GET", params, null),
 
 
     /**
@@ -1393,14 +1399,14 @@ export class Api<SecurityDataType> {
     * @name createPermission
     * @summary Create a new Permission
     * @request POST:/{username}/{type}/{type_id}/acl
-    * @returns {Promise<Permission>} `200` New Permission
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Permission` New Permission
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     createPermission: (username: string, type: string, type_id: string, permission: Permission, params?: RequestParams) =>
-      this.request<Permission>(`/${username}/${type}/${type_id}/acl`, "POST", params, permission),
+      this.request<Permission, any>(`/${username}/${type}/${type_id}/acl`, "POST", params, permission),
 
 
     /**
@@ -1408,14 +1414,14 @@ export class Api<SecurityDataType> {
     * @name destroyPermission
     * @summary Delete an existing Permission
     * @request DELETE:/{username}/{type}/{type_id}/acl/{id}
-    * @returns {Promise<string>} `200` Deleted Permission successfully
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `string` Deleted Permission successfully
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     destroyPermission: (username: string, type: string, type_id: string, id: string, params?: RequestParams) =>
-      this.request<string>(`/${username}/${type}/${type_id}/acl/${id}`, "DELETE", params, null),
+      this.request<string, any>(`/${username}/${type}/${type_id}/acl/${id}`, "DELETE", params, null),
 
 
     /**
@@ -1423,14 +1429,14 @@ export class Api<SecurityDataType> {
     * @name getPermission
     * @summary Returns Permission based on ID
     * @request GET:/{username}/{type}/{type_id}/acl/{id}
-    * @returns {Promise<Permission>} `200` Permission response
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error"
+    * @response `200` `Permission` Permission response
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error"
     */
     getPermission: (username: string, type: string, type_id: string, id: string, params?: RequestParams) =>
-      this.request<Permission>(`/${username}/${type}/${type_id}/acl/${id}`, "GET", params, null),
+      this.request<Permission, any>(`/${username}/${type}/${type_id}/acl/${id}`, "GET", params, null),
 
 
     /**
@@ -1438,14 +1444,14 @@ export class Api<SecurityDataType> {
     * @name updatePermission
     * @summary Update properties of an existing Permission
     * @request PATCH:/{username}/{type}/{type_id}/acl/{id}
-    * @returns {Promise<Permission>} `200` Updated Permission
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Permission` Updated Permission
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     updatePermission: (username: string, type: string, type_id: string, id: string, permission: any, params?: RequestParams) =>
-      this.request<Permission>(`/${username}/${type}/${type_id}/acl/${id}`, "PATCH", params, permission),
+      this.request<Permission, any>(`/${username}/${type}/${type_id}/acl/${id}`, "PATCH", params, permission),
 
 
     /**
@@ -1453,14 +1459,14 @@ export class Api<SecurityDataType> {
     * @name replacePermission
     * @summary Replace an existing Permission
     * @request PUT:/{username}/{type}/{type_id}/acl/{id}
-    * @returns {Promise<Permission>} `200` Updated permission
-    * @returns {Promise<any>} `401` Unauthorized
-    * @returns {Promise<any>} `403` Forbidden
-    * @returns {Promise<any>} `404` Not Found
-    * @returns {Promise<any>} `500` Server Error
+    * @response `200` `Permission` Updated permission
+    * @response `401` `any` Unauthorized
+    * @response `403` `any` Forbidden
+    * @response `404` `any` Not Found
+    * @response `500` `any` Server Error
     */
     replacePermission: (username: string, type: string, type_id: string, id: string, permission: any, params?: RequestParams) =>
-      this.request<Permission>(`/${username}/${type}/${type_id}/acl/${id}`, "PUT", params, permission),
+      this.request<Permission, any>(`/${username}/${type}/${type_id}/acl/${id}`, "PUT", params, permission),
   }
 
 }

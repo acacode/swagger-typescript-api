@@ -21,6 +21,12 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
+/** Overrided Promise type. Needs for additional typings of `.catch` callback */
+type TPromise<ResolveType, RejectType = any> = {
+  then<TResult1 = ResolveType, TResult2 = never>(onfulfilled?: ((value: ResolveType) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: RejectType) => TResult2 | PromiseLike<TResult2>) | undefined | null): TPromise<TResult1 | TResult2, RejectType>;
+  catch<TResult = never>(onrejected?: ((reason: RejectType) => TResult | PromiseLike<TResult>) | undefined | null): TPromise<ResolveType | TResult, RejectType>;
+}
+
 /** This is an example of using OAuth2 Application Flow in a specification to describe security to your API. */
 export class Api<SecurityDataType> {
   
@@ -64,25 +70,25 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): TPromise<T, E> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
     secureByDefault?: boolean,
-  ): Promise<T> =>
+  ): TPromise<T, E> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -97,10 +103,10 @@ export class Api<SecurityDataType> {
     * @summary Server example operation
     * @request GET:/example
     * @description This is an example operation to show how security is applied to the call.
-    * @returns {Promise<any>} `200` OK
+    * @response `200` `any` OK
     */
     exampleList: (params?: RequestParams) =>
-      this.request<any>(`/example`, "GET", params, null),
+      this.request<any, any>(`/example`, "GET", params, null),
   }
   ping = {
 
@@ -110,10 +116,10 @@ export class Api<SecurityDataType> {
     * @summary Server heartbeat operation
     * @request GET:/ping
     * @description This operation shows how to override the global security defined above, as we want to open it up for all users.
-    * @returns {Promise<any>} `200` OK
+    * @response `200` `any` OK
     */
     pingList: (params?: RequestParams) =>
-      this.request<any>(`/ping`, "GET", params, null),
+      this.request<any, any>(`/ping`, "GET", params, null),
   }
 
 }

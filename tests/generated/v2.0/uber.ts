@@ -156,6 +156,12 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
+/** Overrided Promise type. Needs for additional typings of `.catch` callback */
+type TPromise<ResolveType, RejectType = any> = {
+  then<TResult1 = ResolveType, TResult2 = never>(onfulfilled?: ((value: ResolveType) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: RejectType) => TResult2 | PromiseLike<TResult2>) | undefined | null): TPromise<TResult1 | TResult2, RejectType>;
+  catch<TResult = never>(onrejected?: ((reason: RejectType) => TResult | PromiseLike<TResult>) | undefined | null): TPromise<ResolveType | TResult, RejectType>;
+}
+
 /** Move your app forward with the Uber API */
 export class Api<SecurityDataType> {
   
@@ -209,25 +215,25 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): TPromise<T, E> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
     secureByDefault?: boolean,
-  ): Promise<T> =>
+  ): TPromise<T, E> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -244,11 +250,11 @@ export class Api<SecurityDataType> {
     * @request GET:/products
     * @secure
     * @description The Products endpoint returns information about the Uber products offered at a given location. The response includes the display name and other details about each product, and lists the products in the proper display order.
-    * @returns {Promise<Product[]>} `200` An array of products
-    * @returns {Promise<Error>} `default` Unexpected error
+    * @response `200` `Product[]` An array of products
+    * @response `default` `Error` Unexpected error
     */
     productsList: (query: { latitude: number, longitude: number }, params?: RequestParams) =>
-      this.request<Product[]>(`/products${this.addQueryParams(query)}`, "GET", params, null, true),
+      this.request<Product[], Error>(`/products${this.addQueryParams(query)}`, "GET", params, null, true),
   }
   estimates = {
 
@@ -259,11 +265,11 @@ export class Api<SecurityDataType> {
     * @summary Price Estimates
     * @request GET:/estimates/price
     * @description The Price Estimates endpoint returns an estimated price range for each product offered at a given location. The price estimate is provided as a formatted string with the full price range and the localized currency symbol.<br><br>The response also includes low and high estimates, and the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for situations requiring currency conversion. When surge is active for a particular product, its surge_multiplier will be greater than 1, but the price estimate already factors in this multiplier.
-    * @returns {Promise<PriceEstimate[]>} `200` An array of price estimates by product
-    * @returns {Promise<Error>} `default` Unexpected error
+    * @response `200` `PriceEstimate[]` An array of price estimates by product
+    * @response `default` `Error` Unexpected error
     */
     priceList: (query: { start_latitude: number, start_longitude: number, end_latitude?: number, end_longitude: number }, params?: RequestParams) =>
-      this.request<PriceEstimate[]>(`/estimates/price${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<PriceEstimate[], Error>(`/estimates/price${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -272,11 +278,11 @@ export class Api<SecurityDataType> {
     * @summary Time Estimates
     * @request GET:/estimates/time
     * @description The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. We recommend that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.
-    * @returns {Promise<Product[]>} `200` An array of products
-    * @returns {Promise<Error>} `default` Unexpected error
+    * @response `200` `Product[]` An array of products
+    * @response `default` `Error` Unexpected error
     */
     timeList: (query: { start_latitude: number, start_longitude: number, customer_uuid?: string, product_id?: string }, params?: RequestParams) =>
-      this.request<Product[]>(`/estimates/time${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<Product[], Error>(`/estimates/time${this.addQueryParams(query)}`, "GET", params, null),
   }
   me = {
 
@@ -287,11 +293,11 @@ export class Api<SecurityDataType> {
     * @summary User Profile
     * @request GET:/me
     * @description The User Profile endpoint returns information about the Uber user that has authorized with the application.
-    * @returns {Promise<Profile>} `200` Profile information for a user
-    * @returns {Promise<Error>} `default` Unexpected error
+    * @response `200` `Profile` Profile information for a user
+    * @response `default` `Error` Unexpected error
     */
     getMe: (params?: RequestParams) =>
-      this.request<Profile>(`/me`, "GET", params, null),
+      this.request<Profile, Error>(`/me`, "GET", params, null),
   }
   history = {
 
@@ -302,11 +308,11 @@ export class Api<SecurityDataType> {
     * @summary User Activity
     * @request GET:/history
     * @description The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.
-    * @returns {Promise<Activities>} `200` History information for the given user
-    * @returns {Promise<Error>} `default` Unexpected error
+    * @response `200` `Activities` History information for the given user
+    * @response `default` `Error` Unexpected error
     */
     historyList: (query: { offset?: number, limit?: number }, params?: RequestParams) =>
-      this.request<Activities>(`/history${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<Activities, Error>(`/history${this.addQueryParams(query)}`, "GET", params, null),
   }
 
 }

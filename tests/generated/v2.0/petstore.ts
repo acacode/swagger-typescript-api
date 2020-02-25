@@ -34,6 +34,12 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
+/** Overrided Promise type. Needs for additional typings of `.catch` callback */
+type TPromise<ResolveType, RejectType = any> = {
+  then<TResult1 = ResolveType, TResult2 = never>(onfulfilled?: ((value: ResolveType) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: RejectType) => TResult2 | PromiseLike<TResult2>) | undefined | null): TPromise<TResult1 | TResult2, RejectType>;
+  catch<TResult = never>(onrejected?: ((reason: RejectType) => TResult | PromiseLike<TResult>) | undefined | null): TPromise<ResolveType | TResult, RejectType>;
+}
+
 export class Api<SecurityDataType> {
   
   public baseUrl = "http://petstore.swagger.io/v1";
@@ -86,25 +92,25 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): TPromise<T, E> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
     secureByDefault?: boolean,
-  ): Promise<T> =>
+  ): TPromise<T, E> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -119,11 +125,11 @@ export class Api<SecurityDataType> {
     * @name listPets
     * @summary List all pets
     * @request GET:/pets
-    * @returns {Promise<Pets>} `200` A paged array of pets
-    * @returns {Promise<Error>} `default` unexpected error
+    * @response `200` `Pets` A paged array of pets
+    * @response `default` `Error` unexpected error
     */
     listPets: (query: { limit?: number }, params?: RequestParams) =>
-      this.request<Pets>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<Pets, Error>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
@@ -131,11 +137,11 @@ export class Api<SecurityDataType> {
     * @name createPets
     * @summary Create a pet
     * @request POST:/pets
-    * @returns {Promise<any>} `201` Null response
-    * @returns {Promise<Error>} `default` unexpected error
+    * @response `201` `any` Null response
+    * @response `default` `Error` unexpected error
     */
     createPets: (params?: RequestParams) =>
-      this.request<any>(`/pets`, "POST", params, null),
+      this.request<any, Error>(`/pets`, "POST", params, null),
 
 
     /**
@@ -143,11 +149,11 @@ export class Api<SecurityDataType> {
     * @name showPetById
     * @summary Info for a specific pet
     * @request GET:/pets/{petId}
-    * @returns {Promise<Pets>} `200` Expected response to a valid request
-    * @returns {Promise<Error>} `default` unexpected error
+    * @response `200` `Pets` Expected response to a valid request
+    * @response `default` `Error` unexpected error
     */
     showPetById: (petId: string, params?: RequestParams) =>
-      this.request<Pets>(`/pets/${petId}`, "GET", params, null),
+      this.request<Pets, Error>(`/pets/${petId}`, "GET", params, null),
   }
 
 }
