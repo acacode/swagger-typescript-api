@@ -34,8 +34,7 @@ export interface Gif {
   embded_url?: string;
   
   /**
-  * An array of featured tags for this GIF (Note: Not available when using the Public Beta Key)
-  * 
+  * An array of featured tags for this GIF (Note: Not available when using the Public Beta Key). 
   */
   featured_tags?: string[];
   
@@ -80,8 +79,7 @@ export interface Gif {
   source_tld?: string;
   
   /**
-  * An array of tags for this GIF (Note: Not available when using the Public Beta Key)
-  * 
+  * An array of tags for this GIF (Note: Not available when using the Public Beta Key). 
   */
   tags?: string[];
   

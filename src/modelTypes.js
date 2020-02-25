@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const { formatters } = require("./typeFormatters");
 const { checkAndRenameModelName } = require("./modelNames");
+const { prettifyDescription } = require("./common")
 
 const CONTENT_KEYWORD = '__CONTENT__';
 
@@ -23,7 +24,7 @@ const getModelType = ({ typeIdentifier, name: originalName, content, type, descr
     typeIdentifier,
     name,
     rawContent: resultContent,
-    description,
+    description: prettifyDescription(description),
     content: _.replace(contentWrapersByTypeIdentifier[typeIdentifier], CONTENT_KEYWORD, resultContent)
   }
 }

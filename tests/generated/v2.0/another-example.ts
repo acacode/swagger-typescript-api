@@ -93,8 +93,7 @@ export interface ApiResponse {
 export interface Amount {
   
   /**
-  * some description
-  * 
+  * some description. 
   */
   value: number;
   currency: Currency;

@@ -1,6 +1,7 @@
 const _ = require("lodash");
 const { inlineExtraFormatters } = require("./typeFormatters");
 const { isValidName } = require("./modelNames")
+const { prettifyDescription } = require("./common");
 
 const jsTypes = ['number', 'boolean', 'string', 'object'];
 const jsEmptyTypes = ['null', 'undefined'];
@@ -45,7 +46,7 @@ const getObjectTypeContent = (properties) => {
   return _.map(properties, (property, name) => {
     const isRequired = typeof property.nullable === "undefined" ? property.required : !property.nullable
     return {
-      description: property.description,
+      description: prettifyDescription(property.description, true),
       field: `${isValidName(name) ? name : `"${name}"`}${isRequired ? '' : '?'}: ${parseSchema(property, null, inlineExtraFormatters).content}`,
     }
   })
@@ -92,7 +93,7 @@ const schemaParsers = {
       type: isIntegerEnum ? "intEnum" : 'enum',
       typeIdentifier: isIntegerEnum ? 'type' : 'enum',
       name: typeName,
-      description: schema.description,
+      description: prettifyDescription(schema.description),
       content: _.map(schema.enum, key => ({
         key,
         type,
@@ -113,7 +114,7 @@ const schemaParsers = {
       type: 'object',
       typeIdentifier: 'interface',
       name: typeName,
-      description: schema.description,
+      description: prettifyDescription(schema.description),
       content: getObjectTypeContent(schema.properties)
     }
   },
@@ -124,7 +125,7 @@ const schemaParsers = {
       type: 'type',
       typeIdentifier: 'type',
       name: typeName,
-      description: schema.description,
+      description: prettifyDescription(schema.description),
       content: complexSchemaParsers[complexType](schema),
     }
   },
@@ -133,7 +134,7 @@ const schemaParsers = {
       type: 'primitive',
       typeIdentifier: 'type',
       name: typeName,
-      description: schema ? schema.description : "",
+      description: prettifyDescription(schema.description),
       content: getType(schema),
     }
   }
