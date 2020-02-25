@@ -10,6 +10,22 @@ interface BaseGenerateApiParams {
    * path to folder where will been located the created api module
    */
   output?: string;
+  
+  /**
+   * generate type definitions for API routes (default: false)
+   */
+  generateRouteTypes?: boolean;
+
+  /**
+   * do not generate an API class
+   */
+  generateClient?: boolean;
+
+  /**
+   * use "default" response status code as success response too.  
+   * Some swagger schemas have "default" response status code.
+   */
+  defaultResponseAsSuccess?: boolean;
 }
 
 interface LocalFileGenerateApiParams extends BaseGenerateApiParams {

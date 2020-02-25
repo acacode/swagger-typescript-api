@@ -6,9 +6,11 @@ const { inlineExtraFormatters } = require("./typeFormatters");
 const {
   DEFAULT_PRIMITIVE_TYPE,
   DEFAULT_BODY_ARG_NAME,
-  DEFAULT_CONTENT_TYPE
+  DEFAULT_CONTENT_TYPE,
+  SUCCESS_RESPONSE_STATUS_RANGE,
 } = require("./constants");
 const { prettifyDescription } = require("./common");
+const { config } = require("./config")
 
 const methodAliases = {
   get: (pathName, hasPathInserts) => _.camelCase(`${pathName}_${hasPathInserts ? 'detail': 'list'}`),
@@ -57,7 +59,7 @@ const getTypesFromResponses = (responses, parsedSchemas, operationId) =>
     ];
   }, [])
 
-const isSuccessResponseStatus = status => (+status >= 200 && +status < 300)
+const isSuccessResponseStatus = status => (config.defaultResponseAsSuccess && status === "default") || (+status >= SUCCESS_RESPONSE_STATUS_RANGE[0] && +status < SUCCESS_RESPONSE_STATUS_RANGE[1])
 
 const findBadResponses = responses =>
   _.filter(responses, (v, status) => !isSuccessResponseStatus(status))
@@ -89,7 +91,11 @@ const getRouteName = (operationId, method, route, moduleName) => {
   return createCustomOperationId(method, route, moduleName);
 }
 
-const parseRoutes = (routes, parsedSchemas, components) =>
+const parseRoutes = (
+  routes,
+  parsedSchemas,
+  components
+) =>
   _.entries(routes)
     .reduce((routes, [route, requestInfoByMethodsMap]) => {
       const globalParametersMap = _.get(components, "parameters", {});

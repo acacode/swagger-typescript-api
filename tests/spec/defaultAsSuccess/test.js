@@ -10,14 +10,14 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
     name: apiFileName,
     input: absolutePath,
     output: resolve(__dirname, './'),
-    generateClient: false,
+    defaultResponseAsSuccess: true,
   })
   .then(() => {
     const diagnostics = validateGeneratedModule({ pathToFile: resolve(__dirname, `./${apiFileName}`) })
     if (diagnostics.length) throw "Failed"
   })
   .catch(e => {
-    console.error("noClient option test failed.")
+    console.error("defaultAsSuccess option test failed.")
     throw e
   })
 })

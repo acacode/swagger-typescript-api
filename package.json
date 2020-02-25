@@ -3,15 +3,16 @@
   "version": "1.3.0",
   "description": "Create typescript api module from swagger schema",
   "scripts": {
-    "cli": "node index.js -p ./swagger-test-cli.json -n swagger-test-cli.ts",
+    "cli": "node index.js -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
     "cli:help": "node index.js -h",
-    "test:all": "npm-run-all generate validate test:routeTypes test:noClient --continue-on-error",
+    "test:all": "npm-run-all generate validate test:routeTypes test:noClient test:defaultAsSuccess --continue-on-error",
     "generate": "node tests/generate.js",
     "generate:debug": "node --nolazy --inspect-brk=9229 tests/generate.js",
     "validate": "node tests/validate.js",
     "validate:debug": "node --nolazy --inspect-brk=9229 tests/validate.js",
     "test:routeTypes": "node tests/spec/routeTypes/test.js",
-    "test:noClient": "node tests/spec/noClient/test.js"
+    "test:noClient": "node tests/spec/noClient/test.js",
+    "test:defaultAsSuccess": "node tests/spec/defaultAsSuccess/test.js"
   },
   "author": "acacode",
   "license": "MIT",

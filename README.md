@@ -30,13 +30,15 @@ Usage: sta [options]
 Usage: swagger-typescript-api [options]
 
 Options:
-  -v, --version          output the current version
-  -p, --path <path>      path/url to swagger scheme
-  -o, --output <output>  output path of typescript api file (default: "./")
-  -n, --name <name>      name of output typescript api file (default: "Api.ts")
-  --route-types          generate type definitions for API routes (default: false)
-  --no-client            do not generate an API class
-  -h, --help             output usage information
+  -v, --version             output the current version
+  -p, --path <path>         path/url to swagger scheme
+  -o, --output <output>     output path of typescript api file (default: "./")
+  -n, --name <name>         name of output typescript api file (default: "Api.ts")
+  -d, --default-as-success  use "default" response status code as success response too.
+                            some swagger schemas have "default" response status code. (default: false)
+  --route-types             generate type definitions for API routes (default: false)
+  --no-client               do not generate an API class
+  -h, --help                output usage information
 ```
 
 Also you can use `npx`:  

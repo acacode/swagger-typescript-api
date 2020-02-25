@@ -7,6 +7,7 @@ const { parseRoutes, groupRoutes } = require('./routes');
 const { createApiConfig } = require('./apiConfig');
 const { getModelType } = require('./modelTypes');
 const { getSwaggerObject } = require('./swagger');
+const { setConfig, config: defaults } = require("./config");
 
 mustache.escape = value => value
 
@@ -16,9 +17,15 @@ module.exports = {
     output,
     url,
     name,
-    generateRouteTypes = true,
-    generateClient = true,
+    defaultResponseAsSuccess = defaults.defaultResponseAsSuccess,
+    generateRouteTypes = defaults.generateRouteTypes,
+    generateClient = defaults.generateClient,
   }) => new Promise((resolve, reject) => {
+    setConfig({
+      defaultResponseAsSuccess,
+      generateRouteTypes,
+      generateClient,
+    })
     getSwaggerObject(input, url).then(({ info, paths, servers, components }) => {
       console.log('☄️  start generating your typescript api')
 

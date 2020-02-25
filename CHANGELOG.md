@@ -5,6 +5,7 @@ Features:
   - Improve response body type definitions  
   - Response declarations in request rescription  
   - Types for bad responses  
+  - `-d, --default-as-success` option. Allows to use "default" status codes as success response type  
 
 # 1.3.0  
 Features:  
