@@ -23,7 +23,7 @@ interface BaseGenerateApiParams {
 
   /**
    * use "default" response status code as success response too.  
-   * Some swagger schemas have "default" response status code.
+   * some swagger schemas use "default" response status code as success response type by default.
    */
   defaultResponseAsSuccess?: boolean;
 }

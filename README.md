@@ -35,7 +35,8 @@ Options:
   -o, --output <output>     output path of typescript api file (default: "./")
   -n, --name <name>         name of output typescript api file (default: "Api.ts")
   -d, --default-as-success  use "default" response status code as success response too.
-                            some swagger schemas have "default" response status code. (default: false)
+                            some swagger schemas use "default" response status code
+                            as success response type by default. (default: false)
   --route-types             generate type definitions for API routes (default: false)
   --no-client               do not generate an API class
   -h, --help                output usage information
