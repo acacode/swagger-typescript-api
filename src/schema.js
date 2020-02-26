@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const { inlineExtraFormatters } = require("./typeFormatters");
 const { isValidName } = require("./modelNames")
-const { prettifyDescription } = require("./common");
+const { formatDescription } = require("./common");
 const { DEFAULT_PRIMITIVE_TYPE } = require("./constants");
 
 const jsTypes = ['number', 'boolean', 'string', 'object'];
@@ -45,7 +45,7 @@ const getObjectTypeContent = (properties) => {
   return _.map(properties, (property, name) => {
     const isRequired = typeof property.nullable === "undefined" ? property.required : !property.nullable
     return {
-      description: prettifyDescription(property.description, true),
+      description: formatDescription(property.description, true),
       field: `${isValidName(name) ? name : `"${name}"`}${isRequired ? '' : '?'}: ${parseSchema(property, null, inlineExtraFormatters).content}`,
     }
   })
@@ -92,7 +92,7 @@ const schemaParsers = {
       type: isIntegerEnum ? "intEnum" : 'enum',
       typeIdentifier: isIntegerEnum ? 'type' : 'enum',
       name: typeName,
-      description: prettifyDescription(schema.description),
+      description: formatDescription(schema.description),
       content: _.map(schema.enum, key => ({
         key,
         type,
@@ -113,7 +113,7 @@ const schemaParsers = {
       type: 'object',
       typeIdentifier: 'interface',
       name: typeName,
-      description: prettifyDescription(schema.description),
+      description: formatDescription(schema.description),
       content: getObjectTypeContent(schema.properties)
     }
   },
@@ -124,7 +124,7 @@ const schemaParsers = {
       type: 'type',
       typeIdentifier: 'type',
       name: typeName,
-      description: prettifyDescription(schema.description),
+      description: formatDescription(schema.description),
       content: complexSchemaParsers[complexType](schema),
     }
   },
@@ -133,7 +133,7 @@ const schemaParsers = {
       type: 'primitive',
       typeIdentifier: 'type',
       name: typeName,
-      description: prettifyDescription(schema.description),
+      description: formatDescription(schema.description),
       content: getType(schema),
     }
   }

@@ -9,7 +9,7 @@ const {
   DEFAULT_CONTENT_TYPE,
   SUCCESS_RESPONSE_STATUS_RANGE,
 } = require("./constants");
-const { prettifyDescription } = require("./common");
+const { formatDescription } = require("./common");
 const { config } = require("./config")
 
 const methodAliases = {
@@ -52,7 +52,7 @@ const getTypesFromResponses = (responses, parsedSchemas, operationId) =>
       ...acc,
       {
         type: getTypeFromRequestInfo(response, parsedSchemas, operationId),
-        description: prettifyDescription(response.description || "", true),
+        description: formatDescription(response.description || "", true),
         status: status === 'default' ? "default" : +status,
         isSuccess: isSuccessResponseStatus(status),
       }
@@ -211,7 +211,7 @@ const parseRoutes = (
             `@request ${_.upperCase(method)}:${route}`,
             // requestBody && requestBody.description && `@body ${requestBody.description}`,
             hasSecurity && `@secure`,
-            description && `@description ${prettifyDescription(description, true)}`,
+            description && `@description ${formatDescription(description, true)}`,
             ...(responsesTypes.length ? responsesTypes.map(({ type, status, description, isSuccess }) =>
                 `@response \`${status}\` \`${type}\` ${description}`
               ) : [])

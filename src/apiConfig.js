@@ -1,4 +1,4 @@
-const { prettifyDescription } = require("./common");
+const { formatDescription } = require("./common");
 
 const createApiConfig = ({ info, servers, }) => {
   const server = (servers && servers[0]) || { url: '' }
@@ -29,7 +29,7 @@ const createApiConfig = ({ info, servers, }) => {
     baseUrl: server.url,
     title: info.title,
     version: info.version,
-    description: prettifyDescription(info.description),
+    description: formatDescription(info.description),
   }
 }
 

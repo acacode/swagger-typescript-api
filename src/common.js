@@ -1,7 +1,7 @@
 const _ = require("lodash");
 
 module.exports = {
-  prettifyDescription: (description, inline) => {
+  formatDescription: (description, inline) => {
     let prettified = description;
 
     prettified = _.replace(prettified, /\*\//g, "*\/")
