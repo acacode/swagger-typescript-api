@@ -7,7 +7,7 @@ const { parseRoutes, groupRoutes } = require('./routes');
 const { createApiConfig } = require('./apiConfig');
 const { getModelType } = require('./modelTypes');
 const { getSwaggerObject } = require('./swagger');
-const { setConfig, config: defaults } = require("./config");
+const { addToConfig, config: defaults } = require("./config");
 
 mustache.escape = value => value
 
@@ -21,7 +21,7 @@ module.exports = {
     generateRouteTypes = defaults.generateRouteTypes,
     generateClient = defaults.generateClient,
   }) => new Promise((resolve, reject) => {
-    setConfig({
+    addToConfig({
       defaultResponseAsSuccess,
       generateRouteTypes,
       generateClient,

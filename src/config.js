@@ -7,6 +7,6 @@ const config = {
 
 /** needs to use CLI config data everywhere in project */
 module.exports = {
-  setConfig: configParts => Object.assign(config, configParts),
+  addToConfig: configParts => Object.assign(config, configParts),
   config,
 }
