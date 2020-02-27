@@ -48,11 +48,6 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
-/** Overrided Promise type. Needs for additional typings of `.catch` callback */
-type TPromise<ResolveType, RejectType = any> = Omit<Promise<ResolveType>, "then" | "catch"> & {
-  then<TResult1 = ResolveType, TResult2 = never>(onfulfilled?: ((value: ResolveType) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: RejectType) => TResult2 | PromiseLike<TResult2>) | undefined | null): TPromise<TResult1 | TResult2, RejectType>;
-  catch<TResult = never>(onrejected?: ((reason: RejectType) => TResult | PromiseLike<TResult>) | undefined | null): TPromise<ResolveType | TResult, RejectType>;
-}
 
 /** The Azure SQL Database management API provides a RESTful set of web APIs that interact with Azure SQL Database services to manage your databases. The API enables users to create, retrieve, update, and delete databases, servers, and other entities. */
 export class Api<SecurityDataType> {
@@ -107,7 +102,7 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any, E = any>(response: Response): TPromise<T, E> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
@@ -118,7 +113,7 @@ export class Api<SecurityDataType> {
     { secure, ...params }: RequestParams = {},
     body?: any,
     secureByDefault?: boolean,
-  ): TPromise<T, E> =>
+  ): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
@@ -140,9 +135,6 @@ export class Api<SecurityDataType> {
     * @name ManagedInstanceTdeCertificates_Create
     * @request POST:/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates
     * @description Creates a TDE certificate for a given server.
-    * @response `200` `any` Successfully created the TDE certificate.
-    * @response `202` `any` Accepted
-    * @response `default` `any` *** Error Responses: *** * 400 MissingPrivateBlob - The private blob is missing. * 400 InvalidPrivateBlobOrPassword - Invalid private blob or password specified. * 400 InvalidResourceRequestBody - The resource or resource properties in the request body is empty or invalid. * 404 SubscriptionDoesNotHaveServer - The requested server was not found * 404 ResourceNotFound - The requested resource was not found.
     */
     managedInstanceTdeCertificatesCreate: (resourceGroupName: string, managedInstanceName: string, subscriptionId: string, query: { "api-version": string }, parameters: TdeCertificate, params?: RequestParams) =>
       this.request<any, any>(`/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Sql/managedInstances/${managedInstanceName}/tdeCertificates${this.addQueryParams(query)}`, "POST", params, parameters),

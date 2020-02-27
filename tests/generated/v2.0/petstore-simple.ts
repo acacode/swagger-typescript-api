@@ -46,11 +46,6 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
-/** Overrided Promise type. Needs for additional typings of `.catch` callback */
-type TPromise<ResolveType, RejectType = any> = Omit<Promise<ResolveType>, "then" | "catch"> & {
-  then<TResult1 = ResolveType, TResult2 = never>(onfulfilled?: ((value: ResolveType) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: RejectType) => TResult2 | PromiseLike<TResult2>) | undefined | null): TPromise<TResult1 | TResult2, RejectType>;
-  catch<TResult = never>(onrejected?: ((reason: RejectType) => TResult | PromiseLike<TResult>) | undefined | null): TPromise<ResolveType | TResult, RejectType>;
-}
 
 /** A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification */
 export class Api<SecurityDataType> {
@@ -105,7 +100,7 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any, E = any>(response: Response): TPromise<T, E> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
@@ -116,7 +111,7 @@ export class Api<SecurityDataType> {
     { secure, ...params }: RequestParams = {},
     body?: any,
     secureByDefault?: boolean,
-  ): TPromise<T, E> =>
+  ): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
@@ -137,8 +132,6 @@ export class Api<SecurityDataType> {
     * @name findPets
     * @request GET:/pets
     * @description Returns all pets from the system that the user has access to
-    * @response `200` `Pet[]` pet response
-    * @response `default` `ErrorModel` unexpected error
     */
     findPets: (query: { tags?: string[], limit?: number }, params?: RequestParams) =>
       this.request<Pet[], ErrorModel>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
@@ -148,8 +141,6 @@ export class Api<SecurityDataType> {
     * @name addPet
     * @request POST:/pets
     * @description Creates a new pet in the store.  Duplicates are allowed
-    * @response `200` `Pet` pet response
-    * @response `default` `ErrorModel` unexpected error
     */
     addPet: (pet: NewPet, params?: RequestParams) =>
       this.request<Pet, ErrorModel>(`/pets`, "POST", params, pet),
@@ -159,8 +150,6 @@ export class Api<SecurityDataType> {
     * @name findPetById
     * @request GET:/pets/{id}
     * @description Returns a user based on a single ID, if the user does not have access to the pet
-    * @response `200` `Pet` pet response
-    * @response `default` `ErrorModel` unexpected error
     */
     findPetById: (id: number, params?: RequestParams) =>
       this.request<Pet, ErrorModel>(`/pets/${id}`, "GET", params, null),
@@ -170,8 +159,6 @@ export class Api<SecurityDataType> {
     * @name deletePet
     * @request DELETE:/pets/{id}
     * @description deletes a single pet based on the ID supplied
-    * @response `204` `any` pet deleted
-    * @response `default` `ErrorModel` unexpected error
     */
     deletePet: (id: number, params?: RequestParams) =>
       this.request<any, ErrorModel>(`/pets/${id}`, "DELETE", params, null),

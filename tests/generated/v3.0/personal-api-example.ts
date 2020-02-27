@@ -110,11 +110,6 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
-/** Overrided Promise type. Needs for additional typings of `.catch` callback */
-type TPromise<ResolveType, RejectType = any> = Omit<Promise<ResolveType>, "then" | "catch"> & {
-  then<TResult1 = ResolveType, TResult2 = never>(onfulfilled?: ((value: ResolveType) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: RejectType) => TResult2 | PromiseLike<TResult2>) | undefined | null): TPromise<TResult1 | TResult2, RejectType>;
-  catch<TResult = never>(onrejected?: ((reason: RejectType) => TResult | PromiseLike<TResult>) | undefined | null): TPromise<ResolveType | TResult, RejectType>;
-}
 
 export class Api<SecurityDataType> {
   
@@ -158,7 +153,7 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any, E = any>(response: Response): TPromise<T, E> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
@@ -169,7 +164,7 @@ export class Api<SecurityDataType> {
     { secure, ...params }: RequestParams = {},
     body?: any,
     secureByDefault?: boolean,
-  ): TPromise<T, E> =>
+  ): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
@@ -190,7 +185,6 @@ export class Api<SecurityDataType> {
     * @tags Auth
     * @name Login
     * @request POST:/auth
-    * @response `200` `string` Authorize and returns jwt token
     */
     login: (data: AuthUser, params?: RequestParams) =>
       this.request<string, any>(`/auth`, "POST", params, data),
@@ -201,7 +195,6 @@ export class Api<SecurityDataType> {
     * @name Refresh
     * @request POST:/auth/refresh
     * @secure
-    * @response `200` `string` utilized current token and returns new token
     */
     refresh: (params?: RequestParams) =>
       this.request<string, any>(`/auth/refresh`, "POST", params, null, true),
@@ -214,7 +207,6 @@ export class Api<SecurityDataType> {
     * @name GetJobs
     * @request GET:/jobs
     * @secure
-    * @response `200` `Job[]` jobs found
     */
     getJobs: (params?: RequestParams) =>
       this.request<Job[], any>(`/jobs`, "GET", params, null, true),
@@ -225,7 +217,6 @@ export class Api<SecurityDataType> {
     * @name AddJob
     * @request POST:/jobs
     * @secure
-    * @response `200` `string` Ok
     */
     addJob: (data: JobUpdate, params?: RequestParams) =>
       this.request<string, any>(`/jobs`, "POST", params, data, true),
@@ -236,8 +227,6 @@ export class Api<SecurityDataType> {
     * @name GetJob
     * @request GET:/jobs/{id}
     * @secure
-    * @response `200` `Job` job found
-    * @response `404` `any` job not found
     */
     getJob: (id: string, params?: RequestParams) =>
       this.request<Job, any>(`/jobs/${id}`, "GET", params, null, true),
@@ -248,7 +237,6 @@ export class Api<SecurityDataType> {
     * @name UpdateJob
     * @request PATCH:/jobs/{id}
     * @secure
-    * @response `200` `UpdatedJob` Ok
     */
     updateJob: (id: string, data: JobUpdate, params?: RequestParams) =>
       this.request<UpdatedJob, any>(`/jobs/${id}`, "PATCH", params, data, true),
@@ -260,7 +248,6 @@ export class Api<SecurityDataType> {
     * @tags Projects
     * @name GetProjects
     * @request GET:/projects
-    * @response `200` `Project[]` Ok
     */
     getProjects: (params?: RequestParams) =>
       this.request<Project[], any>(`/projects`, "GET", params, null),
@@ -271,7 +258,6 @@ export class Api<SecurityDataType> {
     * @name AddProjects
     * @request POST:/projects
     * @secure
-    * @response `200` `string` Ok
     */
     addProjects: (data: ProjectUpdate, params?: RequestParams) =>
       this.request<string, any>(`/projects`, "POST", params, data, true),
@@ -282,7 +268,6 @@ export class Api<SecurityDataType> {
     * @name UpdateProject
     * @request PATCH:/projects/{id}
     * @secure
-    * @response `200` `UpdatedProject` Ok
     */
     updateProject: (id: string, data: ProjectUpdate, params?: RequestParams) =>
       this.request<UpdatedProject, any>(`/projects/${id}`, "PATCH", params, data, true),
@@ -295,7 +280,6 @@ export class Api<SecurityDataType> {
     * @name GetUsers
     * @request GET:/users
     * @secure
-    * @response `200` `User[]` Ok
     */
     getUsers: (params?: RequestParams) =>
       this.request<User[], any>(`/users`, "GET", params, null, true),
@@ -306,7 +290,6 @@ export class Api<SecurityDataType> {
     * @name AddUser
     * @request POST:/users
     * @secure
-    * @response `200` `User` Ok
     */
     addUser: (data: AuthUser, params?: RequestParams) =>
       this.request<User, any>(`/users`, "POST", params, data, true),
@@ -317,7 +300,6 @@ export class Api<SecurityDataType> {
     * @name DeleteUser
     * @request DELETE:/users/{id}
     * @secure
-    * @response `204` `any` No content
     */
     deleteUser: (id: string, params?: RequestParams) =>
       this.request<any, any>(`/users/${id}`, "DELETE", params, null, true),
@@ -328,7 +310,6 @@ export class Api<SecurityDataType> {
     * @name UpdateUser
     * @request PATCH:/users/{id}
     * @secure
-    * @response `200` `User` Ok
     */
     updateUser: (id: string, data: UserUpdate, params?: RequestParams) =>
       this.request<User, any>(`/users/${id}`, "PATCH", params, data, true),

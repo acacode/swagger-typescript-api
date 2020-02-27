@@ -5,6 +5,7 @@ const isValidName = name => /^([A-Za-z$_]{1,})$/g.test(name)
 const checkAndRenameModelName = name => {
 
   if (!isValidName(name)) {
+
     // specific replaces for TSOA 3.x
     if (name.includes('.'))
       name = name

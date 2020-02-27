@@ -29,11 +29,6 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
-/** Overrided Promise type. Needs for additional typings of `.catch` callback */
-type TPromise<ResolveType, RejectType = any> = Omit<Promise<ResolveType>, "then" | "catch"> & {
-  then<TResult1 = ResolveType, TResult2 = never>(onfulfilled?: ((value: ResolveType) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: RejectType) => TResult2 | PromiseLike<TResult2>) | undefined | null): TPromise<TResult1 | TResult2, RejectType>;
-  catch<TResult = never>(onrejected?: ((reason: RejectType) => TResult | PromiseLike<TResult>) | undefined | null): TPromise<ResolveType | TResult, RejectType>;
-}
 
 export class Api<SecurityDataType> {
   
@@ -77,7 +72,7 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any, E = any>(response: Response): TPromise<T, E> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
@@ -88,7 +83,7 @@ export class Api<SecurityDataType> {
     { secure, ...params }: RequestParams = {},
     body?: any,
     secureByDefault?: boolean,
-  ): TPromise<T, E> =>
+  ): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
@@ -108,7 +103,6 @@ export class Api<SecurityDataType> {
     /**
     * @name petsPartialUpdate
     * @request PATCH:/pets
-    * @response `200` `any` Updated
     */
     petsPartialUpdate: (data: Cat | Dog, params?: RequestParams) =>
       this.request<any, any>(`/pets`, "PATCH", params, data),

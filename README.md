@@ -37,6 +37,8 @@ Options:
   -d, --default-as-success  use "default" response status code as success response too.
                             some swagger schemas use "default" response status code
                             as success response type by default. (default: false)
+  -r, --responses           generate additional information about request responses  
+                            also add typings for bad responses  
   --route-types             generate type definitions for API routes (default: false)
   --no-client               do not generate an API class
   -h, --help                output usage information

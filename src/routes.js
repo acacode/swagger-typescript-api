@@ -228,7 +228,7 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
             // requestBody && requestBody.description && `@body ${requestBody.description}`,
             hasSecurity && `@secure`,
             description && `@description ${formatDescription(description, true)}`,
-            ...(responsesTypes.length ? responsesTypes.map(({ type, status, description, isSuccess }) =>
+            ...(config.generateResponses && responsesTypes.length ? responsesTypes.map(({ type, status, description, isSuccess }) =>
                 `@response \`${status}\` \`${type}\` ${description}`
               ) : [])
           ].filter(Boolean);

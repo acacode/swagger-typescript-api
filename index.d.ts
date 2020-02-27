@@ -1,5 +1,15 @@
 
-interface BaseGenerateApiParams {
+interface GenerateApiParams {
+
+  /**
+   * path to swagger schema
+   */
+  input: string;
+
+  /**
+   * url to swagger schema
+   */
+  url: string;
 
   /**
    * default 'api.ts'
@@ -26,23 +36,13 @@ interface BaseGenerateApiParams {
    * some swagger schemas use "default" response status code as success response type by default.
    */
   defaultResponseAsSuccess?: boolean;
-}
-
-interface LocalFileGenerateApiParams extends BaseGenerateApiParams {
 
   /**
-   * path to swagger schema
+   * generate additional information about request responses
+   * also add typings for bad responses
    */
-  input: string;
+  generateResponses?: boolean;
 }
 
-interface UrlGenerateApiParams extends BaseGenerateApiParams {
-
-  /**
-   * url to swagger schema
-   */
-  url: string;
-}
-
-export declare function generateApi(params: LocalFileGenerateApiParams): Promise<string>
-export declare function generateApi(params: UrlGenerateApiParams): Promise<string>
+export declare function generateApi(params: Omit<GenerateApiParams, "url">): Promise<string>
+export declare function generateApi(params: Omit<GenerateApiParams, "input">): Promise<string>

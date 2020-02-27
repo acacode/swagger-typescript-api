@@ -25,6 +25,7 @@ module.exports = {
     output,
     url,
     name,
+    generateResponses = defaults.generateResponses,
     defaultResponseAsSuccess = defaults.defaultResponseAsSuccess,
     generateRouteTypes = defaults.generateRouteTypes,
     generateClient = defaults.generateClient,
@@ -33,6 +34,7 @@ module.exports = {
       defaultResponseAsSuccess,
       generateRouteTypes,
       generateClient,
+      generateResponses,
     })
     getSwaggerObject(input, url).then(swaggerSchema => {
       console.log('☄️  start generating your typescript api')
@@ -59,6 +61,7 @@ module.exports = {
         modelTypes: _.map(schemasMap, getModelType),
         hasSecurityRoutes,
         hasQueryRoutes,
+        generateResponses,
         routes: groupRoutes(routes),
       };
     
