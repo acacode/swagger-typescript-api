@@ -1,0 +1,27 @@
+openapi: '3.0.0'
+
+info:
+  description: 'Description'
+  version: 'latest'
+  title: 'Title'
+
+paths:
+  '/api':
+    get:
+      operationId: getData
+      responses:
+        200:
+          $ref: '#/components/responses/default'
+
+components:
+  responses:
+    default:
+      description: OK
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              data: { type: string }
+  examples: |
+    Lorem ipsum de foo bar

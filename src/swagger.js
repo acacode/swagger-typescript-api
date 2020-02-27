@@ -1,8 +1,8 @@
 const _ = require('lodash');
-const fs = require("fs");
 const yaml = require('js-yaml');
 const axios = require("axios");
 const converter = require('swagger2openapi');
+const { pathIsExist, getFileContent } = require("./files");
 
 const parseSwaggerFile = (file) => {
   if (typeof file !== "string") return file;
@@ -15,10 +15,9 @@ const parseSwaggerFile = (file) => {
 }
 
 const getSwaggerFile = (pathToSwagger, urlToSwagger) => new Promise((resolve) => {
-  if (pathToSwagger && fs.existsSync(pathToSwagger)){
+  if (pathIsExist(pathToSwagger)){
     console.log(`✨  try to get swagger by path "${pathToSwagger}"`)
-    const file = fs.readFileSync(pathToSwagger, { encoding: 'UTF-8' })
-    resolve(file)
+    resolve(getFileContent(pathToSwagger))
   } else {
     console.log(`✨  try to get swagger by url "${urlToSwagger}"`)
     axios.get(urlToSwagger).then(res => resolve(res.data))
@@ -26,7 +25,7 @@ const getSwaggerFile = (pathToSwagger, urlToSwagger) => new Promise((resolve) =>
 })
 
 const getSwaggerObject = (pathToSwagger, urlToSwagger) =>
-  new Promise((resolve) =>
+  new Promise(resolve =>
     getSwaggerFile(pathToSwagger, urlToSwagger).then(file => {
       const swaggerSchema = parseSwaggerFile(file);
       if (!(swaggerSchema.openapi)) {
