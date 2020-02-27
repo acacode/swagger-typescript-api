@@ -94,6 +94,7 @@ export interface Amount {
   
   /**
   * some description
+  * 
   */
   value: number;
   currency: Currency;
@@ -279,7 +280,7 @@ export class Api<SecurityDataType> {
     * @secure
     * @response `405` `any` Invalid input
     */
-    updatePetWithForm: (petId: number, data: any, params?: RequestParams) =>
+    updatePetWithForm: (petId: number, data: { name?: string, status?: string }, params?: RequestParams) =>
       this.request<any, any>(`/pet/${petId}`, "POST", params, data, true),
 
 
@@ -303,7 +304,7 @@ export class Api<SecurityDataType> {
     * @secure
     * @response `200` `ApiResponse` successful operation
     */
-    uploadFile: (petId: number, data: any, params?: RequestParams) =>
+    uploadFile: (petId: number, data: { additionalMetadata?: string, file?: string }, params?: RequestParams) =>
       this.request<ApiResponse, any>(`/pet/${petId}/uploadImage`, "POST", params, data, true),
   }
   store = {
@@ -382,7 +383,7 @@ export class Api<SecurityDataType> {
     * @request POST:/user/createWithArray
     * @response `default` `any` successful operation
     */
-    createUsersWithArrayInput: (body: any, params?: RequestParams) =>
+    createUsersWithArrayInput: (body: User[], params?: RequestParams) =>
       this.request<any, any>(`/user/createWithArray`, "POST", params, body),
 
 
@@ -393,7 +394,7 @@ export class Api<SecurityDataType> {
     * @request POST:/user/createWithList
     * @response `default` `any` successful operation
     */
-    createUsersWithListInput: (body: any, params?: RequestParams) =>
+    createUsersWithListInput: (body: User[], params?: RequestParams) =>
       this.request<any, any>(`/user/createWithList`, "POST", params, body),
 
 

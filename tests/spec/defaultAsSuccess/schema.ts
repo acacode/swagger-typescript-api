@@ -190,7 +190,7 @@ export class Api<SecurityDataType> {
     * @response `401` `Error` Authentication error `auth-error`
     * @response `404` `Error` Unknown key `unknown-key`
     * @response `409` `Error` Confirm with code sent `confirm-first`
-    * @response `default` `any` 
+    * @response `default` `Error` 
     */
     keyRevokeNosecret: (query: { email: string, phone: string, code?: string }, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/key${this.addQueryParams(query)}`, "DELETE", params, null),
@@ -203,7 +203,7 @@ export class Api<SecurityDataType> {
     * @description Register a new ID `JWT(sub, devtoken)` v5: `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
     * @response `201` `{ secret?: string, status?: string }` Successfully registered
     * @response `409` `Error` Key already registered `duplicate-key`
-    * @response `default` `any` 
+    * @response `default` `Error` 
     */
     keyRegister: (body: AuthentiqID, params?: RequestParams) =>
       this.request<{ secret?: string, status?: string }, Error>(`/key`, "POST", params, body),
@@ -217,7 +217,7 @@ export class Api<SecurityDataType> {
     * @response `200` `{ status?: string }` Successful response
     * @response `401` `Error` Key not found / wrong code `auth-error`
     * @response `404` `Error` Unknown key `unknown-key`
-    * @response `default` `any` 
+    * @response `default` `Error` 
     */
     keyRevoke: (PK: string, query: { secret: string }, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/key/${PK}${this.addQueryParams(query)}`, "DELETE", params, null),
@@ -231,7 +231,7 @@ export class Api<SecurityDataType> {
     * @response `200` `{ since?: string, status?: string, sub?: string }` Successfully retrieved
     * @response `404` `Error` Unknown key `unknown-key`
     * @response `410` `Error` Key is revoked (gone). `revoked-key`
-    * @response `default` `any` 
+    * @response `default` `Error` 
     */
     getKey: (PK: string, params?: RequestParams) =>
       this.request<{ since?: string, status?: string, sub?: string }, Error>(`/key/${PK}`, "GET", params, null),
@@ -243,12 +243,12 @@ export class Api<SecurityDataType> {
     * @request HEAD:/key/{PK}
     * @description HEAD info on Authentiq ID
     * @response `200` `any` Key exists
-    * @response `404` `any` Unknown key `unknown-key`
-    * @response `410` `any` Key is revoked `revoked-key`
-    * @response `default` `any` 
+    * @response `404` `Error` Unknown key `unknown-key`
+    * @response `410` `Error` Key is revoked `revoked-key`
+    * @response `default` `Error` 
     */
     headKey: (PK: string, params?: RequestParams) =>
-      this.request<any, any>(`/key/${PK}`, "HEAD", params, null),
+      this.request<any, Error>(`/key/${PK}`, "HEAD", params, null),
 
 
     /**
@@ -258,7 +258,7 @@ export class Api<SecurityDataType> {
     * @description update properties of an Authentiq ID. (not operational in v4; use PUT for now) v5: POST issuer-signed email & phone scopes in a self-signed JWT See: https://github.com/skion/authentiq/wiki/JWT-Examples
     * @response `200` `{ status?: string }` Successfully updated
     * @response `404` `Error` Unknown key `unknown-key`
-    * @response `default` `any` 
+    * @response `default` `Error` 
     */
     keyUpdate: (PK: string, body: AuthentiqID, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/key/${PK}`, "POST", params, body),
@@ -272,7 +272,7 @@ export class Api<SecurityDataType> {
     * @response `200` `{ status?: string }` Successfully updated
     * @response `404` `Error` Unknown key `unknown-key`
     * @response `409` `Error` Already bound to another key `duplicate-hash`
-    * @response `default` `any` 
+    * @response `default` `Error` 
     */
     keyBind: (PK: string, body: AuthentiqID, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/key/${PK}`, "PUT", params, body),
@@ -287,9 +287,9 @@ export class Api<SecurityDataType> {
     * @description push sign-in request See: https://github.com/skion/authentiq/wiki/JWT-Examples
     * @response `200` `{ status?: string }` Successful response
     * @response `401` `Error` Unauthorized for this callback audience `aud-error` or JWT should be self-signed `auth-error`
-    * @response `default` `any` 
+    * @response `default` `Error` 
     */
-    pushLoginRequest: (query: { callback: string }, body: any, params?: RequestParams) =>
+    pushLoginRequest: (query: { callback: string }, body: PushToken, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/login${this.addQueryParams(query)}`, "POST", params, body),
   }
   scope = {
@@ -302,9 +302,9 @@ export class Api<SecurityDataType> {
     * @description scope verification request See: https://github.com/skion/authentiq/wiki/JWT-Examples
     * @response `201` `{ job?: string, status?: string }` Successful response
     * @response `429` `Error` Too Many Requests on same address / number `rate-limit`
-    * @response `default` `any` 
+    * @response `default` `Error` 
     */
-    signRequest: (query: { test?: number }, body: any, params?: RequestParams) =>
+    signRequest: (query: { test?: number }, body: Claims, params?: RequestParams) =>
       this.request<{ job?: string, status?: string }, Error>(`/scope${this.addQueryParams(query)}`, "POST", params, body),
 
 
@@ -315,7 +315,7 @@ export class Api<SecurityDataType> {
     * @description delete a verification job
     * @response `200` `{ status?: string }` Successfully deleted
     * @response `404` `Error` Job not found `unknown-job`
-    * @response `default` `any` 
+    * @response `default` `Error` 
     */
     signDelete: (job: string, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/scope/${job}`, "DELETE", params, null),
@@ -329,7 +329,7 @@ export class Api<SecurityDataType> {
     * @response `200` `{ exp?: number, field?: string, sub?: string }` Successful response (JWT)
     * @response `204` `any` Confirmed, waiting for signing
     * @response `404` `Error` Job not found `unknown-job`
-    * @response `default` `any` 
+    * @response `default` `Error` 
     */
     signRetrieve: (job: string, params?: RequestParams) =>
       this.request<{ exp?: number, field?: string, sub?: string }, Error>(`/scope/${job}`, "GET", params, null),
@@ -343,7 +343,7 @@ export class Api<SecurityDataType> {
     * @response `200` `any` Confirmed and signed
     * @response `204` `any` Confirmed, waiting for signing
     * @response `404` `Error` Job not found `unknown-job`
-    * @response `default` `any` 
+    * @response `default` `Error` 
     */
     signRetrieveHead: (job: string, params?: RequestParams) =>
       this.request<any, Error>(`/scope/${job}`, "HEAD", params, null),
@@ -358,7 +358,7 @@ export class Api<SecurityDataType> {
     * @response `401` `Error` Confirmation error `auth-error`
     * @response `404` `Error` Job not found `unknown-job`
     * @response `405` `Error` JWT POSTed to scope `not-supported`
-    * @response `default` `any` 
+    * @response `default` `Error` 
     */
     signConfirm: (job: string, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/scope/${job}`, "POST", params, null),
@@ -369,13 +369,13 @@ export class Api<SecurityDataType> {
     * @name sign_update
     * @request PUT:/scope/{job}
     * @description authority updates a JWT with its signature See: https://github.com/skion/authentiq/wiki/JWT-Examples
-    * @response `200` `any` Successfully updated
-    * @response `404` `any` Job not found `unknown-job`
-    * @response `409` `any` Job not confirmed yet `confirm-first`
-    * @response `default` `any` 
+    * @response `200` `{ jwt?: string, status?: string }` Successfully updated
+    * @response `404` `Error` Job not found `unknown-job`
+    * @response `409` `Error` Job not confirmed yet `confirm-first`
+    * @response `default` `Error` 
     */
     signUpdate: (job: string, params?: RequestParams) =>
-      this.request<any, any>(`/scope/${job}`, "PUT", params, null),
+      this.request<{ jwt?: string, status?: string }, Error>(`/scope/${job}`, "PUT", params, null),
   }
 
 }

@@ -26,8 +26,12 @@ module.exports = {
       generateRouteTypes,
       generateClient,
     })
-    getSwaggerObject(input, url).then(({ info, paths, servers, components }) => {
+    getSwaggerObject(input, url).then(swaggerSchema => {
       console.log('☄️  start generating your typescript api')
+      
+      addToConfig({ swaggerSchema });
+
+      const { info, paths, servers, components } = swaggerSchema;
 
       const apiTemplate = getTemplate('api');
       const clientTemplate = getTemplate('client');

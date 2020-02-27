@@ -580,7 +580,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    updateBlock: (username: string, dashboard_id: string, id: string, block: any, params?: RequestParams) =>
+    updateBlock: (username: string, dashboard_id: string, id: string, block: { block_feeds?: Array<{ feed_id?: string, group_id?: string }>, column?: number, dashboard_id?: number, description?: string, key?: string, name?: string, properties?: object, row?: number, size_x?: number, size_y?: number, visual_type?: string }, params?: RequestParams) =>
       this.request<Block, any>(`/${username}/dashboards/${dashboard_id}/blocks/${id}`, "PATCH", params, block),
 
 
@@ -595,7 +595,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    replaceBlock: (username: string, dashboard_id: string, id: string, block: any, params?: RequestParams) =>
+    replaceBlock: (username: string, dashboard_id: string, id: string, block: { block_feeds?: Array<{ feed_id?: string, group_id?: string }>, column?: number, dashboard_id?: number, description?: string, key?: string, name?: string, properties?: object, row?: number, size_x?: number, size_y?: number, visual_type?: string }, params?: RequestParams) =>
       this.request<Block, any>(`/${username}/dashboards/${dashboard_id}/blocks/${id}`, "PUT", params, block),
 
 
@@ -640,7 +640,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    updateDashboard: (username: string, id: string, dashboard: any, params?: RequestParams) =>
+    updateDashboard: (username: string, id: string, dashboard: { description?: string, key?: string, name?: string }, params?: RequestParams) =>
       this.request<Dashboard, any>(`/${username}/dashboards/${id}`, "PATCH", params, dashboard),
 
 
@@ -655,7 +655,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    replaceDashboard: (username: string, id: string, dashboard: any, params?: RequestParams) =>
+    replaceDashboard: (username: string, id: string, dashboard: { description?: string, key?: string, name?: string }, params?: RequestParams) =>
       this.request<Dashboard, any>(`/${username}/dashboards/${id}`, "PUT", params, dashboard),
 
 
@@ -732,7 +732,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    updateFeed: (username: string, feed_key: string, feed: any, params?: RequestParams) =>
+    updateFeed: (username: string, feed_key: string, feed: { description?: string, key?: string, license?: string, name?: string }, params?: RequestParams) =>
       this.request<Feed, any>(`/${username}/feeds/${feed_key}`, "PATCH", params, feed),
 
 
@@ -747,7 +747,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    replaceFeed: (username: string, feed_key: string, feed: any, params?: RequestParams) =>
+    replaceFeed: (username: string, feed_key: string, feed: { description?: string, key?: string, license?: string, name?: string }, params?: RequestParams) =>
       this.request<Feed, any>(`/${username}/feeds/${feed_key}`, "PUT", params, feed),
 
 
@@ -778,7 +778,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    createData: (username: string, feed_key: string, datum: any, params?: RequestParams) =>
+    createData: (username: string, feed_key: string, datum: { created_at?: string, ele?: string, epoch?: number, lat?: string, lon?: string, value?: string }, params?: RequestParams) =>
       this.request<Data, any>(`/${username}/feeds/${feed_key}/data`, "POST", params, datum),
 
 
@@ -883,14 +883,14 @@ export class Api<SecurityDataType> {
     * @summary Last Data in MQTT CSV format
     * @request GET:/{username}/feeds/{feed_key}/data/retain
     * @description Get the most recent data point in the feed in an MQTT compatible CSV format: `value,lat,lon,ele`
-    * @response `200` `any` CSV string in `value,lat,lon,ele` format. The lat, lon, and ele values are left blank if they are not set.
+    * @response `200` `string` CSV string in `value,lat,lon,ele` format. The lat, lon, and ele values are left blank if they are not set.
     * @response `401` `any` Unauthorized
     * @response `403` `any` Forbidden
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
     retainData: (username: string, feed_key: string, params?: RequestParams) =>
-      this.request<any, any>(`/${username}/feeds/${feed_key}/data/retain`, "GET", params, null),
+      this.request<string, any>(`/${username}/feeds/${feed_key}/data/retain`, "GET", params, null),
 
 
     /**
@@ -934,7 +934,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    updateData: (username: string, feed_key: string, id: string, datum: any, params?: RequestParams) =>
+    updateData: (username: string, feed_key: string, id: string, datum: { created_at?: string, ele?: string, epoch?: number, lat?: string, lon?: string, value?: string }, params?: RequestParams) =>
       this.request<DataResponse, any>(`/${username}/feeds/${feed_key}/data/${id}`, "PATCH", params, datum),
 
 
@@ -949,7 +949,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    replaceData: (username: string, feed_key: string, id: string, datum: any, params?: RequestParams) =>
+    replaceData: (username: string, feed_key: string, id: string, datum: { created_at?: string, ele?: string, epoch?: number, lat?: string, lon?: string, value?: string }, params?: RequestParams) =>
       this.request<DataResponse, any>(`/${username}/feeds/${feed_key}/data/${id}`, "PUT", params, datum),
 
 
@@ -1041,7 +1041,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    updateGroup: (username: string, group_key: string, group: any, params?: RequestParams) =>
+    updateGroup: (username: string, group_key: string, group: { description?: string, key?: string, name?: string }, params?: RequestParams) =>
       this.request<Group, any>(`/${username}/groups/${group_key}`, "PATCH", params, group),
 
 
@@ -1056,7 +1056,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    replaceGroup: (username: string, group_key: string, group: any, params?: RequestParams) =>
+    replaceGroup: (username: string, group_key: string, group: { description?: string, key?: string, name?: string }, params?: RequestParams) =>
       this.request<Group, any>(`/${username}/groups/${group_key}`, "PUT", params, group),
 
 
@@ -1117,7 +1117,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    createGroupFeed: (username: string, group_key: string, feed: any, params?: RequestParams) =>
+    createGroupFeed: (username: string, group_key: string, feed: { description?: string, key?: string, license?: string, name?: string }, params?: RequestParams) =>
       this.request<Feed, any>(`/${username}/groups/${group_key}/feeds`, "POST", params, feed),
 
 
@@ -1147,7 +1147,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    createGroupFeedData: (username: string, group_key: string, feed_key: string, datum: any, params?: RequestParams) =>
+    createGroupFeedData: (username: string, group_key: string, feed_key: string, datum: { created_at?: string, ele?: string, epoch?: number, lat?: string, lon?: string, value?: string }, params?: RequestParams) =>
       this.request<DataResponse, any>(`/${username}/groups/${group_key}/feeds/${feed_key}/data`, "POST", params, datum),
 
 
@@ -1162,7 +1162,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    batchCreateGroupFeedData: (username: string, group_key: string, feed_key: string, data: any, params?: RequestParams) =>
+    batchCreateGroupFeedData: (username: string, group_key: string, feed_key: string, data: Array<{ created_at?: string, ele?: string, epoch?: number, lat?: string, lon?: string, value?: string }>, params?: RequestParams) =>
       this.request<DataResponse[], any>(`/${username}/groups/${group_key}/feeds/${feed_key}/data/batch`, "POST", params, data),
 
 
@@ -1268,7 +1268,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    updateToken: (username: string, id: string, token: any, params?: RequestParams) =>
+    updateToken: (username: string, id: string, token: { token?: string }, params?: RequestParams) =>
       this.request<Token, any>(`/${username}/tokens/${id}`, "PATCH", params, token),
 
 
@@ -1283,7 +1283,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    replaceToken: (username: string, id: string, token: any, params?: RequestParams) =>
+    replaceToken: (username: string, id: string, token: { token?: string }, params?: RequestParams) =>
       this.request<Token, any>(`/${username}/tokens/${id}`, "PUT", params, token),
 
 
@@ -1359,7 +1359,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    updateTrigger: (username: string, id: string, trigger: any, params?: RequestParams) =>
+    updateTrigger: (username: string, id: string, trigger: { name?: string }, params?: RequestParams) =>
       this.request<Trigger, any>(`/${username}/triggers/${id}`, "PATCH", params, trigger),
 
 
@@ -1374,7 +1374,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    replaceTrigger: (username: string, id: string, trigger: any, params?: RequestParams) =>
+    replaceTrigger: (username: string, id: string, trigger: { name?: string }, params?: RequestParams) =>
       this.request<Trigger, any>(`/${username}/triggers/${id}`, "PUT", params, trigger),
 
 
@@ -1450,7 +1450,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    updatePermission: (username: string, type: string, type_id: string, id: string, permission: any, params?: RequestParams) =>
+    updatePermission: (username: string, type: string, type_id: string, id: string, permission: { mode?: "r" | "w" | "rw", scope?: "secret" | "public" | "user" | "organization", scope_value?: string }, params?: RequestParams) =>
       this.request<Permission, any>(`/${username}/${type}/${type_id}/acl/${id}`, "PATCH", params, permission),
 
 
@@ -1465,7 +1465,7 @@ export class Api<SecurityDataType> {
     * @response `404` `any` Not Found
     * @response `500` `any` Server Error
     */
-    replacePermission: (username: string, type: string, type_id: string, id: string, permission: any, params?: RequestParams) =>
+    replacePermission: (username: string, type: string, type_id: string, id: string, permission: { mode?: "r" | "w" | "rw", scope?: "secret" | "public" | "user" | "organization", scope_value?: string }, params?: RequestParams) =>
       this.request<Permission, any>(`/${username}/${type}/${type_id}/acl/${id}`, "PUT", params, permission),
   }
 

@@ -3457,11 +3457,11 @@ export class Api<SecurityDataType> {
     * @name emailsList
     * @request GET:/user/emails
     * @description List email addresses for a user. In the final version of the API, this method will return an array of hashes with extended information for each email address indicating if the address has been verified and if it's primary email address for GitHub. Until API v3 is finalized, use the application/vnd.github.v3 media type to get other response format.
-    * @response `200` `any` OK
+    * @response `200` `UserEmails` OK
     * @response `403` `any` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
     */
     emailsList: (params?: RequestParams) =>
-      this.request<any, any>(`/user/emails`, "GET", params, null),
+      this.request<UserEmails, any>(`/user/emails`, "GET", params, null),
 
 
     /**

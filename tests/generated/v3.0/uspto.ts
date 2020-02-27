@@ -136,7 +136,7 @@ export class Api<SecurityDataType> {
     * @response `200` `object[]` successful operation
     * @response `404` `any` No matching record found for the given criteria.
     */
-    performSearch: (version: string, dataset: string, data: any, params?: RequestParams) =>
+    performSearch: (version: string, dataset: string, data: { criteria: string, start?: number, rows?: number }, params?: RequestParams) =>
       this.request<object[], any>(`/${dataset}/${version}/records`, "POST", params, data),
   }
 

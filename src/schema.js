@@ -145,7 +145,7 @@ const schemaParsers = {
       type: 'primitive',
       typeIdentifier: 'type',
       name: typeName,
-      description: formatDescription(schema.description),
+      description: schema ? formatDescription(schema.description) : "",
       content: getType(schema),
     }
   }
