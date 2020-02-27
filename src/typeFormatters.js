@@ -16,8 +16,8 @@ const formatters = {
     const commonText = comments.length ? [
       '',
       '/**',
-      ...comments.reduce((acc, comment) => [...acc, ...comment.split(/\n/g).map(part => `* ${part}`)], []),
-      '*/'
+      ...comments.reduce((acc, comment) => [...acc, ...comment.split(/\n/g).map(part => ` * ${part}`)], []),
+      ' */'
     ].map(part => `${extraSpace}${part}\n`).join('') : '';
 
     return `${commonText}${result}`;
