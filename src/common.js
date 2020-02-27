@@ -4,16 +4,22 @@ module.exports = {
   formatDescription: (description, inline) => {
     let prettified = description;
 
-    prettified = _.replace(prettified, /\*\//g, "*\/")
+    prettified = _.replace(prettified, /\*\//g, "*\/");
 
-    if (inline && _.includes(prettified, '\n')) {
-      prettified = _(prettified).split(/\n/g)
+    const hasMultipleLines = _.includes(prettified, '\n');
+
+    if (!hasMultipleLines)
+      return prettified;
+
+    if (inline) {
+      return _(prettified)
+        .split(/\n/g)
         .map(part => _.trim(part))
         .compact()
         .join(' ')
         .valueOf()
     }
 
-    return prettified;
+    return _.replace(prettified, /\n$/g, '')
   }
 }

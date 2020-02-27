@@ -88,7 +88,6 @@ export interface ApiResponse {
 
 /**
  * some description
-
  */
 export interface Amount {
   
@@ -102,7 +101,6 @@ export interface Amount {
 
 /**
  * some description
-
  */
 export type Currency = string
 

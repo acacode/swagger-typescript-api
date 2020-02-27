@@ -995,8 +995,7 @@ type ApiConfig<SecurityDataType> = {
 }
 
 
-/** Powerful collaboration, code review, and code management for open source and private projects.
- */
+/** Powerful collaboration, code review, and code management for open source and private projects. */
 export class Api<SecurityDataType> {
   
   public baseUrl = "https://api.github.com/";

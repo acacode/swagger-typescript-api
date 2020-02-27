@@ -13,7 +13,6 @@
 
 /**
  * Authentiq ID in JWT format, self-signed.
-
  */
 export interface AuthentiqID {
   
@@ -30,7 +29,6 @@ export interface AuthentiqID {
 
 /**
  * Claim in JWT format, self- or issuer-signed. 
-
  */
 export interface Claims {
   email?: string;
@@ -61,7 +59,6 @@ export interface Error {
 
 /**
  * PushToken in JWT format, self-signed. 
-
  */
 export interface PushToken {
   
