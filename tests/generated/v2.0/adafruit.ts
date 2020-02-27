@@ -509,7 +509,7 @@ export class Api<SecurityDataType> {
     * @summary Update properties of an existing Block
     * @request PATCH:/{username}/dashboards/{dashboard_id}/blocks/{id}
     */
-    updateBlock: (username: string, dashboard_id: string, id: string, block: any, params?: RequestParams) =>
+    updateBlock: (username: string, dashboard_id: string, id: string, block: { block_feeds?: Array<{ feed_id?: string, group_id?: string }>, column?: number, dashboard_id?: number, description?: string, key?: string, name?: string, properties?: object, row?: number, size_x?: number, size_y?: number, visual_type?: string }, params?: RequestParams) =>
       this.request<Block>(`/${username}/dashboards/${dashboard_id}/blocks/${id}`, "PATCH", params, block),
 
 
@@ -519,7 +519,7 @@ export class Api<SecurityDataType> {
     * @summary Replace an existing Block
     * @request PUT:/{username}/dashboards/{dashboard_id}/blocks/{id}
     */
-    replaceBlock: (username: string, dashboard_id: string, id: string, block: any, params?: RequestParams) =>
+    replaceBlock: (username: string, dashboard_id: string, id: string, block: { block_feeds?: Array<{ feed_id?: string, group_id?: string }>, column?: number, dashboard_id?: number, description?: string, key?: string, name?: string, properties?: object, row?: number, size_x?: number, size_y?: number, visual_type?: string }, params?: RequestParams) =>
       this.request<Block>(`/${username}/dashboards/${dashboard_id}/blocks/${id}`, "PUT", params, block),
 
 
@@ -549,7 +549,7 @@ export class Api<SecurityDataType> {
     * @summary Update properties of an existing Dashboard
     * @request PATCH:/{username}/dashboards/{id}
     */
-    updateDashboard: (username: string, id: string, dashboard: any, params?: RequestParams) =>
+    updateDashboard: (username: string, id: string, dashboard: { description?: string, key?: string, name?: string }, params?: RequestParams) =>
       this.request<Dashboard>(`/${username}/dashboards/${id}`, "PATCH", params, dashboard),
 
 
@@ -559,7 +559,7 @@ export class Api<SecurityDataType> {
     * @summary Replace an existing Dashboard
     * @request PUT:/{username}/dashboards/{id}
     */
-    replaceDashboard: (username: string, id: string, dashboard: any, params?: RequestParams) =>
+    replaceDashboard: (username: string, id: string, dashboard: { description?: string, key?: string, name?: string }, params?: RequestParams) =>
       this.request<Dashboard>(`/${username}/dashboards/${id}`, "PUT", params, dashboard),
 
 
@@ -611,7 +611,7 @@ export class Api<SecurityDataType> {
     * @summary Update properties of an existing Feed
     * @request PATCH:/{username}/feeds/{feed_key}
     */
-    updateFeed: (username: string, feed_key: string, feed: any, params?: RequestParams) =>
+    updateFeed: (username: string, feed_key: string, feed: { description?: string, key?: string, license?: string, name?: string }, params?: RequestParams) =>
       this.request<Feed>(`/${username}/feeds/${feed_key}`, "PATCH", params, feed),
 
 
@@ -621,7 +621,7 @@ export class Api<SecurityDataType> {
     * @summary Replace an existing Feed
     * @request PUT:/{username}/feeds/{feed_key}
     */
-    replaceFeed: (username: string, feed_key: string, feed: any, params?: RequestParams) =>
+    replaceFeed: (username: string, feed_key: string, feed: { description?: string, key?: string, license?: string, name?: string }, params?: RequestParams) =>
       this.request<Feed>(`/${username}/feeds/${feed_key}`, "PUT", params, feed),
 
 
@@ -642,7 +642,7 @@ export class Api<SecurityDataType> {
     * @request POST:/{username}/feeds/{feed_key}/data
     * @description Create new data records on the given feed.. . **NOTE:** when feed history is on, data `value` size is limited to 1KB, when feed history is turned off data value size is limited to 100KB.
     */
-    createData: (username: string, feed_key: string, datum: any, params?: RequestParams) =>
+    createData: (username: string, feed_key: string, datum: { created_at?: string, ele?: string, epoch?: number, lat?: string, lon?: string, value?: string }, params?: RequestParams) =>
       this.request<Data>(`/${username}/feeds/${feed_key}/data`, "POST", params, datum),
 
 
@@ -719,7 +719,7 @@ export class Api<SecurityDataType> {
     * @description Get the most recent data point in the feed in an MQTT compatible CSV format: `value,lat,lon,ele`
     */
     retainData: (username: string, feed_key: string, params?: RequestParams) =>
-      this.request<any>(`/${username}/feeds/${feed_key}/data/retain`, "GET", params, null),
+      this.request<string>(`/${username}/feeds/${feed_key}/data/retain`, "GET", params, null),
 
 
     /**
@@ -748,7 +748,7 @@ export class Api<SecurityDataType> {
     * @summary Update properties of existing Data
     * @request PATCH:/{username}/feeds/{feed_key}/data/{id}
     */
-    updateData: (username: string, feed_key: string, id: string, datum: any, params?: RequestParams) =>
+    updateData: (username: string, feed_key: string, id: string, datum: { created_at?: string, ele?: string, epoch?: number, lat?: string, lon?: string, value?: string }, params?: RequestParams) =>
       this.request<DataResponse>(`/${username}/feeds/${feed_key}/data/${id}`, "PATCH", params, datum),
 
 
@@ -758,7 +758,7 @@ export class Api<SecurityDataType> {
     * @summary Replace existing Data
     * @request PUT:/{username}/feeds/{feed_key}/data/{id}
     */
-    replaceData: (username: string, feed_key: string, id: string, datum: any, params?: RequestParams) =>
+    replaceData: (username: string, feed_key: string, id: string, datum: { created_at?: string, ele?: string, epoch?: number, lat?: string, lon?: string, value?: string }, params?: RequestParams) =>
       this.request<DataResponse>(`/${username}/feeds/${feed_key}/data/${id}`, "PUT", params, datum),
 
 
@@ -820,7 +820,7 @@ export class Api<SecurityDataType> {
     * @summary Update properties of an existing Group
     * @request PATCH:/{username}/groups/{group_key}
     */
-    updateGroup: (username: string, group_key: string, group: any, params?: RequestParams) =>
+    updateGroup: (username: string, group_key: string, group: { description?: string, key?: string, name?: string }, params?: RequestParams) =>
       this.request<Group>(`/${username}/groups/${group_key}`, "PATCH", params, group),
 
 
@@ -830,7 +830,7 @@ export class Api<SecurityDataType> {
     * @summary Replace an existing Group
     * @request PUT:/{username}/groups/{group_key}
     */
-    replaceGroup: (username: string, group_key: string, group: any, params?: RequestParams) =>
+    replaceGroup: (username: string, group_key: string, group: { description?: string, key?: string, name?: string }, params?: RequestParams) =>
       this.request<Group>(`/${username}/groups/${group_key}`, "PUT", params, group),
 
 
@@ -871,7 +871,7 @@ export class Api<SecurityDataType> {
     * @summary Create a new Feed in a Group
     * @request POST:/{username}/groups/{group_key}/feeds
     */
-    createGroupFeed: (username: string, group_key: string, feed: any, params?: RequestParams) =>
+    createGroupFeed: (username: string, group_key: string, feed: { description?: string, key?: string, license?: string, name?: string }, params?: RequestParams) =>
       this.request<Feed>(`/${username}/groups/${group_key}/feeds`, "POST", params, feed),
 
 
@@ -891,7 +891,7 @@ export class Api<SecurityDataType> {
     * @summary Create new Data in a feed belonging to a particular group
     * @request POST:/{username}/groups/{group_key}/feeds/{feed_key}/data
     */
-    createGroupFeedData: (username: string, group_key: string, feed_key: string, datum: any, params?: RequestParams) =>
+    createGroupFeedData: (username: string, group_key: string, feed_key: string, datum: { created_at?: string, ele?: string, epoch?: number, lat?: string, lon?: string, value?: string }, params?: RequestParams) =>
       this.request<DataResponse>(`/${username}/groups/${group_key}/feeds/${feed_key}/data`, "POST", params, datum),
 
 
@@ -901,7 +901,7 @@ export class Api<SecurityDataType> {
     * @summary Create multiple new Data records in a feed belonging to a particular group
     * @request POST:/{username}/groups/{group_key}/feeds/{feed_key}/data/batch
     */
-    batchCreateGroupFeedData: (username: string, group_key: string, feed_key: string, data: any, params?: RequestParams) =>
+    batchCreateGroupFeedData: (username: string, group_key: string, feed_key: string, data: Array<{ created_at?: string, ele?: string, epoch?: number, lat?: string, lon?: string, value?: string }>, params?: RequestParams) =>
       this.request<DataResponse[]>(`/${username}/groups/${group_key}/feeds/${feed_key}/data/batch`, "POST", params, data),
 
 
@@ -972,7 +972,7 @@ export class Api<SecurityDataType> {
     * @summary Update properties of an existing Token
     * @request PATCH:/{username}/tokens/{id}
     */
-    updateToken: (username: string, id: string, token: any, params?: RequestParams) =>
+    updateToken: (username: string, id: string, token: { token?: string }, params?: RequestParams) =>
       this.request<Token>(`/${username}/tokens/${id}`, "PATCH", params, token),
 
 
@@ -982,7 +982,7 @@ export class Api<SecurityDataType> {
     * @summary Replace an existing Token
     * @request PUT:/{username}/tokens/{id}
     */
-    replaceToken: (username: string, id: string, token: any, params?: RequestParams) =>
+    replaceToken: (username: string, id: string, token: { token?: string }, params?: RequestParams) =>
       this.request<Token>(`/${username}/tokens/${id}`, "PUT", params, token),
 
 
@@ -1033,7 +1033,7 @@ export class Api<SecurityDataType> {
     * @summary Update properties of an existing Trigger
     * @request PATCH:/{username}/triggers/{id}
     */
-    updateTrigger: (username: string, id: string, trigger: any, params?: RequestParams) =>
+    updateTrigger: (username: string, id: string, trigger: { name?: string }, params?: RequestParams) =>
       this.request<Trigger>(`/${username}/triggers/${id}`, "PATCH", params, trigger),
 
 
@@ -1043,7 +1043,7 @@ export class Api<SecurityDataType> {
     * @summary Replace an existing Trigger
     * @request PUT:/{username}/triggers/{id}
     */
-    replaceTrigger: (username: string, id: string, trigger: any, params?: RequestParams) =>
+    replaceTrigger: (username: string, id: string, trigger: { name?: string }, params?: RequestParams) =>
       this.request<Trigger>(`/${username}/triggers/${id}`, "PUT", params, trigger),
 
 
@@ -1094,7 +1094,7 @@ export class Api<SecurityDataType> {
     * @summary Update properties of an existing Permission
     * @request PATCH:/{username}/{type}/{type_id}/acl/{id}
     */
-    updatePermission: (username: string, type: string, type_id: string, id: string, permission: any, params?: RequestParams) =>
+    updatePermission: (username: string, type: string, type_id: string, id: string, permission: { mode?: "r" | "w" | "rw", scope?: "secret" | "public" | "user" | "organization", scope_value?: string }, params?: RequestParams) =>
       this.request<Permission>(`/${username}/${type}/${type_id}/acl/${id}`, "PATCH", params, permission),
 
 
@@ -1104,7 +1104,7 @@ export class Api<SecurityDataType> {
     * @summary Replace an existing Permission
     * @request PUT:/{username}/{type}/{type_id}/acl/{id}
     */
-    replacePermission: (username: string, type: string, type_id: string, id: string, permission: any, params?: RequestParams) =>
+    replacePermission: (username: string, type: string, type_id: string, id: string, permission: { mode?: "r" | "w" | "rw", scope?: "secret" | "public" | "user" | "organization", scope_value?: string }, params?: RequestParams) =>
       this.request<Permission>(`/${username}/${type}/${type_id}/acl/${id}`, "PUT", params, permission),
   }
 

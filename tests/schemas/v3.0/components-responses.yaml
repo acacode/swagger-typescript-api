@@ -23,3 +23,5 @@ components:
             type: object
             properties:
               data: { type: string }
+  examples: |
+    Lorem ipsum de foo bar

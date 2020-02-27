@@ -262,7 +262,7 @@ export class Api<SecurityDataType> {
     * @request POST:/pet/{petId}
     * @secure
     */
-    updatePetWithForm: (petId: number, data: any, params?: RequestParams) =>
+    updatePetWithForm: (petId: number, data: { name?: string, status?: string }, params?: RequestParams) =>
       this.request<any>(`/pet/${petId}`, "POST", params, data, true),
 
 
@@ -284,7 +284,7 @@ export class Api<SecurityDataType> {
     * @request POST:/pet/{petId}/uploadImage
     * @secure
     */
-    uploadFile: (petId: number, data: any, params?: RequestParams) =>
+    uploadFile: (petId: number, data: { additionalMetadata?: string, file?: string }, params?: RequestParams) =>
       this.request<ApiResponse>(`/pet/${petId}/uploadImage`, "POST", params, data, true),
   }
   store = {
@@ -353,7 +353,7 @@ export class Api<SecurityDataType> {
     * @summary Creates list of users with given input array
     * @request POST:/user/createWithArray
     */
-    createUsersWithArrayInput: (body: any, params?: RequestParams) =>
+    createUsersWithArrayInput: (body: User[], params?: RequestParams) =>
       this.request<any>(`/user/createWithArray`, "POST", params, body),
 
 
@@ -363,7 +363,7 @@ export class Api<SecurityDataType> {
     * @summary Creates list of users with given input array
     * @request POST:/user/createWithList
     */
-    createUsersWithListInput: (body: any, params?: RequestParams) =>
+    createUsersWithListInput: (body: User[], params?: RequestParams) =>
       this.request<any>(`/user/createWithList`, "POST", params, body),
 
 
