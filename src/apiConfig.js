@@ -1,4 +1,4 @@
-const _ = require("lodash")
+const { formatDescription } = require("./common");
 
 const createApiConfig = ({ info, servers, }) => {
   const server = (servers && servers[0]) || { url: '' }
@@ -29,7 +29,7 @@ const createApiConfig = ({ info, servers, }) => {
     baseUrl: server.url,
     title: info.title,
     version: info.version,
-    description: _.replace(info.description, /\*\//g, "*\/"),
+    description: formatDescription(info.description),
   }
 }
 

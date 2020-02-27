@@ -27,6 +27,7 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
+
 /** A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification */
 export class Api<SecurityDataType> {
   
@@ -70,12 +71,12 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
@@ -88,7 +89,7 @@ export class Api<SecurityDataType> {
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -99,12 +100,12 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @name petsList
-    * @request GET:/pets
-    * @description Returns all pets from the system that the user has access to
-    */
+     * @name petsList
+     * @request GET:/pets
+     * @description Returns all pets from the system that the user has access to
+     */
     petsList: (params?: RequestParams) =>
-      this.request<Pet[]>(`/pets`, "GET", params, null),
+      this.request<Pet[], any>(`/pets`, "GET", params, null),
   }
 
 }

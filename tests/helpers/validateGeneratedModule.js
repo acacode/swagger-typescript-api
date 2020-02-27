@@ -9,14 +9,15 @@ const compilerOptions = {
   module: tsc.ModuleKind.CommonJS
 }
 
-const getDiagnosticsFromPath = pathToFile => {
-  return tsc.transpileModule(fs.readFileSync(pathToFile).toString(), {
-    compilerOptions,
-    reportDiagnostics: true,
-    moduleName:"TEST",
-    fileName: relative('', pathToFile),
-  }).diagnostics
-}
+const getDiagnosticsFromPath = pathToFile =>
+  tsc.createProgram([pathToFile], compilerOptions).emit(void 0, void 0, void 0, true).diagnostics
+  // TODO: that's faster but return 0 error kind of "Cannot find name ''"
+  // tsc.transpileModule(fs.readFileSync(pathToFile).toString(), {
+  //   compilerOptions,
+  //   reportDiagnostics: true,
+  //   moduleName:"TEST",
+  //   fileName: relative('', pathToFile),
+  // }).diagnostics
 
 module.exports = ({ pathToFile }) => {
   process.stdout.write(`validating ${relative('', pathToFile)}: `)

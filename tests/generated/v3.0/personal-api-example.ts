@@ -110,6 +110,7 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
+
 export class Api<SecurityDataType> {
   
   public baseUrl = "http://localhost:8080/api/v1";
@@ -152,12 +153,12 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
@@ -170,7 +171,7 @@ export class Api<SecurityDataType> {
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -181,137 +182,137 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @tags Auth
-    * @name Login
-    * @request POST:/auth
-    */
+     * @tags Auth
+     * @name Login
+     * @request POST:/auth
+     */
     login: (data: AuthUser, params?: RequestParams) =>
-      this.request<string>(`/auth`, "POST", params, data),
+      this.request<string, any>(`/auth`, "POST", params, data),
 
 
     /**
-    * @tags Auth
-    * @name Refresh
-    * @request POST:/auth/refresh
-    * @secure
-    */
+     * @tags Auth
+     * @name Refresh
+     * @request POST:/auth/refresh
+     * @secure
+     */
     refresh: (params?: RequestParams) =>
-      this.request<string>(`/auth/refresh`, "POST", params, null, true),
+      this.request<string, any>(`/auth/refresh`, "POST", params, null, true),
   }
   jobs = {
 
 
     /**
-    * @tags Jobs
-    * @name GetJobs
-    * @request GET:/jobs
-    * @secure
-    */
+     * @tags Jobs
+     * @name GetJobs
+     * @request GET:/jobs
+     * @secure
+     */
     getJobs: (params?: RequestParams) =>
-      this.request<Job[]>(`/jobs`, "GET", params, null, true),
+      this.request<Job[], any>(`/jobs`, "GET", params, null, true),
 
 
     /**
-    * @tags Jobs
-    * @name AddJob
-    * @request POST:/jobs
-    * @secure
-    */
+     * @tags Jobs
+     * @name AddJob
+     * @request POST:/jobs
+     * @secure
+     */
     addJob: (data: JobUpdate, params?: RequestParams) =>
-      this.request<string>(`/jobs`, "POST", params, data, true),
+      this.request<string, any>(`/jobs`, "POST", params, data, true),
 
 
     /**
-    * @tags Jobs
-    * @name GetJob
-    * @request GET:/jobs/{id}
-    * @secure
-    */
+     * @tags Jobs
+     * @name GetJob
+     * @request GET:/jobs/{id}
+     * @secure
+     */
     getJob: (id: string, params?: RequestParams) =>
-      this.request<Job>(`/jobs/${id}`, "GET", params, null, true),
+      this.request<Job, any>(`/jobs/${id}`, "GET", params, null, true),
 
 
     /**
-    * @tags Jobs
-    * @name UpdateJob
-    * @request PATCH:/jobs/{id}
-    * @secure
-    */
+     * @tags Jobs
+     * @name UpdateJob
+     * @request PATCH:/jobs/{id}
+     * @secure
+     */
     updateJob: (id: string, data: JobUpdate, params?: RequestParams) =>
-      this.request<UpdatedJob>(`/jobs/${id}`, "PATCH", params, data, true),
+      this.request<UpdatedJob, any>(`/jobs/${id}`, "PATCH", params, data, true),
   }
   projects = {
 
 
     /**
-    * @tags Projects
-    * @name GetProjects
-    * @request GET:/projects
-    */
+     * @tags Projects
+     * @name GetProjects
+     * @request GET:/projects
+     */
     getProjects: (params?: RequestParams) =>
-      this.request<Project[]>(`/projects`, "GET", params, null),
+      this.request<Project[], any>(`/projects`, "GET", params, null),
 
 
     /**
-    * @tags Projects
-    * @name AddProjects
-    * @request POST:/projects
-    * @secure
-    */
+     * @tags Projects
+     * @name AddProjects
+     * @request POST:/projects
+     * @secure
+     */
     addProjects: (data: ProjectUpdate, params?: RequestParams) =>
-      this.request<string>(`/projects`, "POST", params, data, true),
+      this.request<string, any>(`/projects`, "POST", params, data, true),
 
 
     /**
-    * @tags Projects
-    * @name UpdateProject
-    * @request PATCH:/projects/{id}
-    * @secure
-    */
+     * @tags Projects
+     * @name UpdateProject
+     * @request PATCH:/projects/{id}
+     * @secure
+     */
     updateProject: (id: string, data: ProjectUpdate, params?: RequestParams) =>
-      this.request<UpdatedProject>(`/projects/${id}`, "PATCH", params, data, true),
+      this.request<UpdatedProject, any>(`/projects/${id}`, "PATCH", params, data, true),
   }
   users = {
 
 
     /**
-    * @tags Users
-    * @name GetUsers
-    * @request GET:/users
-    * @secure
-    */
+     * @tags Users
+     * @name GetUsers
+     * @request GET:/users
+     * @secure
+     */
     getUsers: (params?: RequestParams) =>
-      this.request<User[]>(`/users`, "GET", params, null, true),
+      this.request<User[], any>(`/users`, "GET", params, null, true),
 
 
     /**
-    * @tags Users
-    * @name AddUser
-    * @request POST:/users
-    * @secure
-    */
+     * @tags Users
+     * @name AddUser
+     * @request POST:/users
+     * @secure
+     */
     addUser: (data: AuthUser, params?: RequestParams) =>
-      this.request<User>(`/users`, "POST", params, data, true),
+      this.request<User, any>(`/users`, "POST", params, data, true),
 
 
     /**
-    * @tags Users
-    * @name DeleteUser
-    * @request DELETE:/users/{id}
-    * @secure
-    */
+     * @tags Users
+     * @name DeleteUser
+     * @request DELETE:/users/{id}
+     * @secure
+     */
     deleteUser: (id: string, params?: RequestParams) =>
-      this.request<any>(`/users/${id}`, "DELETE", params, null, true),
+      this.request<any, any>(`/users/${id}`, "DELETE", params, null, true),
 
 
     /**
-    * @tags Users
-    * @name UpdateUser
-    * @request PATCH:/users/{id}
-    * @secure
-    */
+     * @tags Users
+     * @name UpdateUser
+     * @request PATCH:/users/{id}
+     * @secure
+     */
     updateUser: (id: string, data: UserUpdate, params?: RequestParams) =>
-      this.request<User>(`/users/${id}`, "PATCH", params, data, true),
+      this.request<User, any>(`/users/${id}`, "PATCH", params, data, true),
   }
 
 }

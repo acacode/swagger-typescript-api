@@ -21,6 +21,7 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
+
 export class Api<SecurityDataType> {
   
   public baseUrl = "";
@@ -63,12 +64,12 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
@@ -81,7 +82,7 @@ export class Api<SecurityDataType> {
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -95,18 +96,18 @@ export class Api<SecurityDataType> {
    * @request GET:/
    */
   listVersionsv2 = (params?: RequestParams) =>
-    this.request<any>(`/`, "GET", params, null)
+    this.request<any, any>(`/`, "GET", params, null)
 
   v2 = {
 
 
     /**
-    * @name getVersionDetailsv2
-    * @summary Show API version details
-    * @request GET:/v2
-    */
+     * @name getVersionDetailsv2
+     * @summary Show API version details
+     * @request GET:/v2
+     */
     getVersionDetailsv2: (params?: RequestParams) =>
-      this.request<any>(`/v2`, "GET", params, null),
+      this.request<any, any>(`/v2`, "GET", params, null),
   }
 
 }

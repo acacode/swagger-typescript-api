@@ -14,15 +14,15 @@
 export type Pet = NewPet & { id: number }
 
 /**
-* Description of Test type
-*/
+ * Description of Test type
+ */
 export type Test = NewPet
 
 export interface Test2 {
   
   /**
-  * Field description
-  */
+   * Field description
+   */
   data?: NewPet;
 }
 
@@ -45,6 +45,7 @@ type ApiConfig<SecurityDataType> = {
   baseApiParams?: RequestParams,
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
+
 
 /** A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification */
 export class Api<SecurityDataType> {
@@ -99,12 +100,12 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
@@ -117,7 +118,7 @@ export class Api<SecurityDataType> {
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -128,39 +129,39 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @name findPets
-    * @request GET:/pets
-    * @description Returns all pets from the system that the user has access to
-    */
+     * @name findPets
+     * @request GET:/pets
+     * @description Returns all pets from the system that the user has access to
+     */
     findPets: (query: { tags?: string[], limit?: number }, params?: RequestParams) =>
-      this.request<Pet[]>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<Pet[], ErrorModel>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
-    * @name addPet
-    * @request POST:/pets
-    * @description Creates a new pet in the store.  Duplicates are allowed
-    */
+     * @name addPet
+     * @request POST:/pets
+     * @description Creates a new pet in the store.  Duplicates are allowed
+     */
     addPet: (pet: NewPet, params?: RequestParams) =>
-      this.request<Pet>(`/pets`, "POST", params, pet),
+      this.request<Pet, ErrorModel>(`/pets`, "POST", params, pet),
 
 
     /**
-    * @name findPetById
-    * @request GET:/pets/{id}
-    * @description Returns a user based on a single ID, if the user does not have access to the pet
-    */
+     * @name findPetById
+     * @request GET:/pets/{id}
+     * @description Returns a user based on a single ID, if the user does not have access to the pet
+     */
     findPetById: (id: number, params?: RequestParams) =>
-      this.request<Pet>(`/pets/${id}`, "GET", params, null),
+      this.request<Pet, ErrorModel>(`/pets/${id}`, "GET", params, null),
 
 
     /**
-    * @name deletePet
-    * @request DELETE:/pets/{id}
-    * @description deletes a single pet based on the ID supplied
-    */
+     * @name deletePet
+     * @request DELETE:/pets/{id}
+     * @description deletes a single pet based on the ID supplied
+     */
     deletePet: (id: number, params?: RequestParams) =>
-      this.request<any>(`/pets/${id}`, "DELETE", params, null),
+      this.request<any, ErrorModel>(`/pets/${id}`, "DELETE", params, null),
   }
 
 }

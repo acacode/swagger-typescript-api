@@ -14,128 +14,128 @@
 export interface Product {
   
   /**
-  * Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
-  */
+   * Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
+   */
   product_id?: string;
   
   /**
-  * Description of product.
-  */
+   * Description of product.
+   */
   description?: string;
   
   /**
-  * Display name of product.
-  */
+   * Display name of product.
+   */
   display_name?: string;
   
   /**
-  * Capacity of product. For example, 4 people.
-  */
+   * Capacity of product. For example, 4 people.
+   */
   capacity?: number;
   
   /**
-  * Image URL representing the product.
-  */
+   * Image URL representing the product.
+   */
   image?: string;
 }
 
 export interface ProductList {
   
   /**
-  * Contains the list of products
-  */
+   * Contains the list of products
+   */
   products?: Product[];
 }
 
 export interface PriceEstimate {
   
   /**
-  * Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles
-  */
+   * Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles
+   */
   product_id?: string;
   
   /**
-  * [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code.
-  */
+   * [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code.
+   */
   currency_code?: string;
   
   /**
-  * Display name of product.
-  */
+   * Display name of product.
+   */
   display_name?: string;
   
   /**
-  * Formatted string of estimate in local currency of the start location. Estimate could be a range, a single number (flat rate) or "Metered" for TAXI.
-  */
+   * Formatted string of estimate in local currency of the start location. Estimate could be a range, a single number (flat rate) or "Metered" for TAXI.
+   */
   estimate?: string;
   
   /**
-  * Lower bound of the estimated price.
-  */
+   * Lower bound of the estimated price.
+   */
   low_estimate?: number;
   
   /**
-  * Upper bound of the estimated price.
-  */
+   * Upper bound of the estimated price.
+   */
   high_estimate?: number;
   
   /**
-  * Expected surge multiplier. Surge is active if surge_multiplier is greater than 1. Price estimate already factors in the surge multiplier.
-  */
+   * Expected surge multiplier. Surge is active if surge_multiplier is greater than 1. Price estimate already factors in the surge multiplier.
+   */
   surge_multiplier?: number;
 }
 
 export interface Profile {
   
   /**
-  * First name of the Uber user.
-  */
+   * First name of the Uber user.
+   */
   first_name?: string;
   
   /**
-  * Last name of the Uber user.
-  */
+   * Last name of the Uber user.
+   */
   last_name?: string;
   
   /**
-  * Email address of the Uber user
-  */
+   * Email address of the Uber user
+   */
   email?: string;
   
   /**
-  * Image URL of the Uber user.
-  */
+   * Image URL of the Uber user.
+   */
   picture?: string;
   
   /**
-  * Promo code of the Uber user.
-  */
+   * Promo code of the Uber user.
+   */
   promo_code?: string;
 }
 
 export interface Activity {
   
   /**
-  * Unique identifier for the activity
-  */
+   * Unique identifier for the activity
+   */
   uuid?: string;
 }
 
 export interface Activities {
   
   /**
-  * Position in pagination.
-  */
+   * Position in pagination.
+   */
   offset?: number;
   
   /**
-  * Number of items to retrieve (100 max).
-  */
+   * Number of items to retrieve (100 max).
+   */
   limit?: number;
   
   /**
-  * Total number of items available.
-  */
+   * Total number of items available.
+   */
   count?: number;
   history?: Activity[];
 }
@@ -155,6 +155,7 @@ type ApiConfig<SecurityDataType> = {
   baseApiParams?: RequestParams,
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
+
 
 /** Move your app forward with the Uber API */
 export class Api<SecurityDataType> {
@@ -209,12 +210,12 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
@@ -227,7 +228,7 @@ export class Api<SecurityDataType> {
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -238,65 +239,65 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @tags Products
-    * @name productsList
-    * @summary Product Types
-    * @request GET:/products
-    * @secure
-    * @description The Products endpoint returns information about the Uber products offered at a given location. The response includes the display name and other details about each product, and lists the products in the proper display order.
-    */
+     * @tags Products
+     * @name productsList
+     * @summary Product Types
+     * @request GET:/products
+     * @secure
+     * @description The Products endpoint returns information about the Uber products offered at a given location. The response includes the display name and other details about each product, and lists the products in the proper display order.
+     */
     productsList: (query: { latitude: number, longitude: number }, params?: RequestParams) =>
-      this.request<Product[]>(`/products${this.addQueryParams(query)}`, "GET", params, null, true),
+      this.request<Product[], Error>(`/products${this.addQueryParams(query)}`, "GET", params, null, true),
   }
   estimates = {
 
 
     /**
-    * @tags Estimates
-    * @name priceList
-    * @summary Price Estimates
-    * @request GET:/estimates/price
-    * @description The Price Estimates endpoint returns an estimated price range for each product offered at a given location. The price estimate is provided as a formatted string with the full price range and the localized currency symbol.<br><br>The response also includes low and high estimates, and the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for situations requiring currency conversion. When surge is active for a particular product, its surge_multiplier will be greater than 1, but the price estimate already factors in this multiplier.
-    */
+     * @tags Estimates
+     * @name priceList
+     * @summary Price Estimates
+     * @request GET:/estimates/price
+     * @description The Price Estimates endpoint returns an estimated price range for each product offered at a given location. The price estimate is provided as a formatted string with the full price range and the localized currency symbol.<br><br>The response also includes low and high estimates, and the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for situations requiring currency conversion. When surge is active for a particular product, its surge_multiplier will be greater than 1, but the price estimate already factors in this multiplier.
+     */
     priceList: (query: { start_latitude: number, start_longitude: number, end_latitude?: number, end_longitude: number }, params?: RequestParams) =>
-      this.request<PriceEstimate[]>(`/estimates/price${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<PriceEstimate[], Error>(`/estimates/price${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
-    * @tags Estimates
-    * @name timeList
-    * @summary Time Estimates
-    * @request GET:/estimates/time
-    * @description The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. We recommend that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.
-    */
+     * @tags Estimates
+     * @name timeList
+     * @summary Time Estimates
+     * @request GET:/estimates/time
+     * @description The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. We recommend that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.
+     */
     timeList: (query: { start_latitude: number, start_longitude: number, customer_uuid?: string, product_id?: string }, params?: RequestParams) =>
-      this.request<Product[]>(`/estimates/time${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<Product[], Error>(`/estimates/time${this.addQueryParams(query)}`, "GET", params, null),
   }
   me = {
 
 
     /**
-    * @tags User
-    * @name getMe
-    * @summary User Profile
-    * @request GET:/me
-    * @description The User Profile endpoint returns information about the Uber user that has authorized with the application.
-    */
+     * @tags User
+     * @name getMe
+     * @summary User Profile
+     * @request GET:/me
+     * @description The User Profile endpoint returns information about the Uber user that has authorized with the application.
+     */
     getMe: (params?: RequestParams) =>
-      this.request<Profile>(`/me`, "GET", params, null),
+      this.request<Profile, Error>(`/me`, "GET", params, null),
   }
   history = {
 
 
     /**
-    * @tags User
-    * @name historyList
-    * @summary User Activity
-    * @request GET:/history
-    * @description The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.
-    */
+     * @tags User
+     * @name historyList
+     * @summary User Activity
+     * @request GET:/history
+     * @description The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.
+     */
     historyList: (query: { offset?: number, limit?: number }, params?: RequestParams) =>
-      this.request<Activities>(`/history${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<Activities, Error>(`/history${this.addQueryParams(query)}`, "GET", params, null),
   }
 
 }

@@ -17,7 +17,7 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
     if (diagnostics.length) throw "Failed"
   })
   .catch(e => {
-    console.error("types only test failed.")
+    console.error("routeTypes option test failed.")
     throw e
   })
 })

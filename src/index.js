@@ -25,17 +25,23 @@ module.exports = {
     output,
     url,
     name,
+    generateResponses = defaults.generateResponses,
+    defaultResponseAsSuccess = defaults.defaultResponseAsSuccess,
     generateRouteTypes = defaults.generateRouteTypes,
     generateClient = defaults.generateClient,
   }) => new Promise((resolve, reject) => {
     addToConfig({
+      defaultResponseAsSuccess,
       generateRouteTypes,
       generateClient,
+      generateResponses,
     })
     getSwaggerObject(input, url).then(swaggerSchema => {
-      addToConfig({ swaggerSchema });
-      const { info, paths, servers, components } = swaggerSchema;
       console.log('☄️  start generating your typescript api')
+      
+      addToConfig({ swaggerSchema });
+
+      const { info, paths, servers, components } = swaggerSchema;
 
       const apiTemplate = getTemplate('api');
       const clientTemplate = getTemplate('client');
@@ -55,6 +61,7 @@ module.exports = {
         modelTypes: _.map(schemasMap, getModelType),
         hasSecurityRoutes,
         hasQueryRoutes,
+        generateResponses,
         routes: groupRoutes(routes),
       };
     

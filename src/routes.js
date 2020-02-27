@@ -2,8 +2,14 @@ const _ = require("lodash");
 const { collect } = require("./utils");
 const { parseSchema, getRefType } = require("./schema");
 const { checkAndRenameModelName } = require("./modelNames");
-const { getTypeData, typeInfoIsIn } = require("./components");
 const { inlineExtraFormatters } = require("./typeFormatters");
+const {
+  DEFAULT_PRIMITIVE_TYPE,
+  DEFAULT_BODY_ARG_NAME,
+  SUCCESS_RESPONSE_STATUS_RANGE,
+} = require("./constants");
+const { formatDescription } = require("./common");
+const { config } = require("./config")
 
 const methodAliases = {
   get: (pathName, hasPathInserts) => _.camelCase(`${pathName}_${hasPathInserts ? 'detail': 'list'}`),
@@ -60,12 +66,40 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, content
     }
   }
 
-  return 'any';
+  return DEFAULT_PRIMITIVE_TYPE;
 }
 
-const findSuccessResponse = (responses) => {
-  return _.find(responses, (v, status) => status === 'default' || (+status >= 200 && +status < 300))
-}
+const getTypesFromResponses = (responses, parsedSchemas, operationId) =>
+  _.reduce(responses, (acc, response, status) => {
+    return [
+      ...acc,
+      {
+        type: getTypeFromRequestInfo(response, parsedSchemas, operationId),
+        description: formatDescription(response.description || "", true),
+        status: status === 'default' ? "default" : +status,
+        isSuccess: isSuccessResponseStatus(status),
+      }
+    ];
+  }, [])
+
+const isSuccessResponseStatus = status => (config.defaultResponseAsSuccess && status === "default") || (+status >= SUCCESS_RESPONSE_STATUS_RANGE[0] && +status < SUCCESS_RESPONSE_STATUS_RANGE[1])
+
+const findBadResponses = responses =>
+  _.filter(responses, (v, status) => !isSuccessResponseStatus(status))
+
+const findSuccessResponse = (responses) =>
+  _.find(responses, (v, status) => isSuccessResponseStatus(status))
+
+const getReturnType = (responses, parsedSchemas, operationId) =>
+  getTypeFromRequestInfo(findSuccessResponse(responses), parsedSchemas, operationId) || DEFAULT_PRIMITIVE_TYPE
+
+const getErrorReturnType = (responses, parsedSchemas, operationId) =>
+  _.uniq(
+    findBadResponses(responses)
+      .map(response => getTypeFromRequestInfo(response, parsedSchemas, operationId))
+      .filter(type => type !== DEFAULT_PRIMITIVE_TYPE)
+    )
+      .join(' | ') || DEFAULT_PRIMITIVE_TYPE
 
 const createCustomOperationId = (method, route, moduleName) => {
   const hasPathInserts = /\{(\w){1,}\}/g.test(route);
@@ -128,6 +162,8 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
           const routeName = getRouteName(operationId, method, route, moduleName);
           const name = _.camelCase(routeName);
 
+          const responsesTypes = getTypesFromResponses(responses, parsedSchemas, operationId);
+
           const queryObjectSchema = _.reduce(queryParams, (objectSchema, queryPartSchema) => ({
             ...objectSchema,
             properties: {
@@ -139,14 +175,14 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
             type: 'object',
           });
 
-          const bodyParamName = requestInfo.requestBodyName || (requestBody && requestBody.name) || "data";
+          const bodyParamName = requestInfo.requestBodyName || (requestBody && requestBody.name) || DEFAULT_BODY_ARG_NAME;
 
           const queryType = queryParams.length
             ? parseSchema(queryObjectSchema, null, inlineExtraFormatters).content
             : null;
 
           const bodyType = requestBody
-            ? getTypeFromRequestInfo(requestBody, parsedSchemas, operationId, "application/json")
+            ? getTypeFromRequestInfo(requestBody, parsedSchemas, operationId)
             : null;
 
           const args = [
@@ -191,7 +227,10 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
             `@request ${_.upperCase(method)}:${route}`,
             // requestBody && requestBody.description && `@body ${requestBody.description}`,
             hasSecurity && `@secure`,
-            description && `@description ${_.replace(description, /\n/g, '. ')}`,
+            description && `@description ${formatDescription(description, true)}`,
+            ...(config.generateResponses && responsesTypes.length ? responsesTypes.map(({ type, status, description, isSuccess }) =>
+                `@response \`${status}\` \`${type}\` ${description}`
+              ) : [])
           ].filter(Boolean);
 
           return {
@@ -206,7 +245,8 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
             args,
             method: _.upperCase(method),
             path: route.replace(/{/g, '${'),
-            returnType: getTypeFromRequestInfo(findSuccessResponse(responses), parsedSchemas, operationId, 'application/json') || 'any',
+            returnType: getReturnType(responses, parsedSchemas, operationId),
+            errorReturnType: getErrorReturnType(responses, parsedSchemas, operationId),
             bodyArg: requestBody ? bodyParamName : 'null'
           }})
       ]
@@ -226,15 +266,15 @@ const groupRoutes = routes => {
       if (!duplicates[route.moduleName][route.name]) {
         duplicates[route.moduleName][route.name] = 1;
       } else {
-        console.warn(
-          `🥵  Module "${route.moduleName}" already have method "${route.name}()"\r\n` +
-          `🥵  This method has been renamed to "${route.name + (duplicates[route.moduleName][route.name] + 1)}()" to solve conflict names.`
-        )
-        route.comments.push(`@originalName ${route.name}`)
+        const routeName = route.name;
+        route.comments.push(`@originalName ${routeName}`)
         route.comments.push(`@duplicate`)
-        const duplicateNumber = ++duplicates[route.moduleName][route.name]
+        const duplicateNumber = ++duplicates[route.moduleName][routeName]
         route.name += duplicateNumber;
         route.pascalName += duplicateNumber;
+        console.warn(
+          `🥵  Module "${route.moduleName}" already have method "${routeName}()"`, `\n🥵  This method has been renamed to "${route.name}()" to solve conflict names.`
+        )
       }
 
       modules[route.moduleName].push(route)
@@ -246,24 +286,6 @@ const groupRoutes = routes => {
   }, {
     $outOfModule: []
   }), (acc, packRoutes, moduleName) => {
-
-    // if (moduleName === "$outOfModule") {
-    //   acc.outOfModule.push(...routes)
-    // } else {
-    //   if (routes.length === 1) {
-    //     const route = routes[0]
-    //     acc.outOfModule.push({
-    //       ...route,
-    //       name: route.name === _.lowerCase(route.name) ? moduleName : route.name,
-    //     })
-    //   } else {
-    //     acc.combined.push({
-    //       moduleName,
-    //       routes: routes,
-    //     })
-    //   }
-    // }
-
     if (moduleName === "$outOfModule") {
       acc.outOfModule = packRoutes
     } else {
@@ -274,7 +296,6 @@ const groupRoutes = routes => {
         routes: packRoutes,
       })
     }
-
     return acc;
   }, {})
 }

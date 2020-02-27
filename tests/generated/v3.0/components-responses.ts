@@ -21,6 +21,7 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
+
 /** Description */
 export class Api<SecurityDataType> {
   
@@ -64,12 +65,12 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
@@ -82,7 +83,7 @@ export class Api<SecurityDataType> {
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -93,11 +94,11 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @name getData
-    * @request GET:/api
-    */
+     * @name getData
+     * @request GET:/api
+     */
     getData: (params?: RequestParams) =>
-      this.request<{ data?: string }>(`/api`, "GET", params, null),
+      this.request<{ data?: string }, any>(`/api`, "GET", params, null),
   }
 
 }

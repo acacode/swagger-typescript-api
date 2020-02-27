@@ -1,6 +1,10 @@
 
 const config = {
   /** CLI flag */
+  generateResponses: false,
+  /** CLI flag */
+  defaultResponseAsSuccess: false,
+  /** CLI flag */
   generateRouteTypes: false,
   /** CLI flag */
   generateClient: true,

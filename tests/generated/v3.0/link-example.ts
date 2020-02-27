@@ -38,6 +38,7 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
+
 export class Api<SecurityDataType> {
   
   public baseUrl = "";
@@ -90,12 +91,12 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
@@ -108,7 +109,7 @@ export class Api<SecurityDataType> {
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -119,51 +120,51 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @name getUserByName
-    * @request GET:/2.0/users/{username}
-    */
+     * @name getUserByName
+     * @request GET:/2.0/users/{username}
+     */
     getUserByName: (username: string, params?: RequestParams) =>
-      this.request<user>(`/2.0/users/${username}`, "GET", params, null),
+      this.request<user, any>(`/2.0/users/${username}`, "GET", params, null),
 
 
     /**
-    * @name getRepositoriesByOwner
-    * @request GET:/2.0/repositories/{username}
-    */
+     * @name getRepositoriesByOwner
+     * @request GET:/2.0/repositories/{username}
+     */
     getRepositoriesByOwner: (username: string, params?: RequestParams) =>
-      this.request<repository[]>(`/2.0/repositories/${username}`, "GET", params, null),
+      this.request<repository[], any>(`/2.0/repositories/${username}`, "GET", params, null),
 
 
     /**
-    * @name getRepository
-    * @request GET:/2.0/repositories/{username}/{slug}
-    */
+     * @name getRepository
+     * @request GET:/2.0/repositories/{username}/{slug}
+     */
     getRepository: (username: string, slug: string, params?: RequestParams) =>
-      this.request<repository>(`/2.0/repositories/${username}/${slug}`, "GET", params, null),
+      this.request<repository, any>(`/2.0/repositories/${username}/${slug}`, "GET", params, null),
 
 
     /**
-    * @name getPullRequestsByRepository
-    * @request GET:/2.0/repositories/{username}/{slug}/pullrequests
-    */
+     * @name getPullRequestsByRepository
+     * @request GET:/2.0/repositories/{username}/{slug}/pullrequests
+     */
     getPullRequestsByRepository: (username: string, slug: string, query: { state?: "open" | "merged" | "declined" }, params?: RequestParams) =>
-      this.request<pullrequest[]>(`/2.0/repositories/${username}/${slug}/pullrequests${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<pullrequest[], any>(`/2.0/repositories/${username}/${slug}/pullrequests${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
-    * @name getPullRequestsById
-    * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
-    */
+     * @name getPullRequestsById
+     * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
+     */
     getPullRequestsById: (username: string, slug: string, pid: string, params?: RequestParams) =>
-      this.request<pullrequest>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}`, "GET", params, null),
+      this.request<pullrequest, any>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}`, "GET", params, null),
 
 
     /**
-    * @name mergePullRequest
-    * @request POST:/2.0/repositories/{username}/{slug}/pullrequests/{pid}/merge
-    */
+     * @name mergePullRequest
+     * @request POST:/2.0/repositories/{username}/{slug}/pullrequests/{pid}/merge
+     */
     mergePullRequest: (username: string, slug: string, pid: string, params?: RequestParams) =>
-      this.request<any>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}/merge`, "POST", params, null),
+      this.request<any, any>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}/merge`, "POST", params, null),
   }
 
 }
