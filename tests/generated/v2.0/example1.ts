@@ -12,29 +12,29 @@
 
 
 /**
-* A TDE certificate that can be uploaded into a server.
-*/
+ * A TDE certificate that can be uploaded into a server.
+ */
 export interface TdeCertificate {
   
   /**
-  * Resource properties.
-  */
+   * Resource properties.
+   */
   properties?: TdeCertificateProperties;
 }
 
 /**
-* Properties of a TDE certificate.
-*/
+ * Properties of a TDE certificate.
+ */
 export interface TdeCertificateProperties {
   
   /**
-  * The certificate password.
-  */
+   * The certificate password.
+   */
   certPassword?: string;
   
   /**
-  * The base64 encoded certificate private blob.
-  */
+   * The base64 encoded certificate private blob.
+   */
   privateBlob: string;
 }
 
@@ -131,11 +131,11 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @tags ManagedInstanceTdeCertificates
-    * @name ManagedInstanceTdeCertificates_Create
-    * @request POST:/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates
-    * @description Creates a TDE certificate for a given server.
-    */
+     * @tags ManagedInstanceTdeCertificates
+     * @name ManagedInstanceTdeCertificates_Create
+     * @request POST:/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates
+     * @description Creates a TDE certificate for a given server.
+     */
     managedInstanceTdeCertificatesCreate: (resourceGroupName: string, managedInstanceName: string, subscriptionId: string, query: { "api-version": string }, parameters: TdeCertificate, params?: RequestParams) =>
       this.request<any, any>(`/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Sql/managedInstances/${managedInstanceName}/tdeCertificates${this.addQueryParams(query)}`, "POST", params, parameters),
   }

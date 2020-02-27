@@ -24,8 +24,8 @@ export interface Pet {
   tags?: Tag[];
   
   /**
-  * pet status in the store
-  */
+   * pet status in the store
+   */
   status?: "available" | "pending" | "sold";
 }
 
@@ -47,8 +47,8 @@ export interface Order {
   shipDate?: string;
   
   /**
-  * Order Status
-  */
+   * Order Status
+   */
   status?: "placed" | "approved" | "delivered";
   complete?: boolean;
 }
@@ -63,8 +63,8 @@ export interface User {
   phone?: string;
   
   /**
-  * User Status
-  */
+   * User Status
+   */
   userStatus?: number;
 }
 
@@ -161,92 +161,92 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @tags pet
-    * @name getPetById
-    * @summary Find pet by ID
-    * @request GET:/pet/{petId}
-    * @secure
-    * @description Returns a single pet
-    */
+     * @tags pet
+     * @name getPetById
+     * @summary Find pet by ID
+     * @request GET:/pet/{petId}
+     * @secure
+     * @description Returns a single pet
+     */
     getPetById: (petId: number, params?: RequestParams) =>
       this.request<Pet, any>(`/pet/${petId}`, "GET", params, null, true),
 
 
     /**
-    * @tags pet
-    * @name updatePetWithForm
-    * @summary Updates a pet in the store with form data
-    * @request POST:/pet/{petId}
-    * @secure
-    */
+     * @tags pet
+     * @name updatePetWithForm
+     * @summary Updates a pet in the store with form data
+     * @request POST:/pet/{petId}
+     * @secure
+     */
     updatePetWithForm: (petId: number, data: { name?: string, status?: string }, params?: RequestParams) =>
       this.request<any, any>(`/pet/${petId}`, "POST", params, data, true),
 
 
     /**
-    * @tags pet
-    * @name deletePet
-    * @summary Deletes a pet
-    * @request DELETE:/pet/{petId}
-    * @secure
-    */
+     * @tags pet
+     * @name deletePet
+     * @summary Deletes a pet
+     * @request DELETE:/pet/{petId}
+     * @secure
+     */
     deletePet: (petId: number, params?: RequestParams) =>
       this.request<any, any>(`/pet/${petId}`, "DELETE", params, null, true),
 
 
     /**
-    * @tags pet
-    * @name uploadFile
-    * @summary uploads an image
-    * @request POST:/pet/{petId}/uploadImage
-    * @secure
-    */
+     * @tags pet
+     * @name uploadFile
+     * @summary uploads an image
+     * @request POST:/pet/{petId}/uploadImage
+     * @secure
+     */
     uploadFile: (petId: number, data: { additionalMetadata?: string, file?: string }, params?: RequestParams) =>
       this.request<ApiResponse, any>(`/pet/${petId}/uploadImage`, "POST", params, data, true),
 
 
     /**
-    * @tags pet
-    * @name addPet
-    * @summary Add a new pet to the store
-    * @request POST:/pet
-    * @secure
-    */
+     * @tags pet
+     * @name addPet
+     * @summary Add a new pet to the store
+     * @request POST:/pet
+     * @secure
+     */
     addPet: (body: Pet, params?: RequestParams) =>
       this.request<any, any>(`/pet`, "POST", params, body, true),
 
 
     /**
-    * @tags pet
-    * @name updatePet
-    * @summary Update an existing pet
-    * @request PUT:/pet
-    * @secure
-    */
+     * @tags pet
+     * @name updatePet
+     * @summary Update an existing pet
+     * @request PUT:/pet
+     * @secure
+     */
     updatePet: (body: Pet, params?: RequestParams) =>
       this.request<any, any>(`/pet`, "PUT", params, body, true),
 
 
     /**
-    * @tags pet
-    * @name findPetsByStatus
-    * @summary Finds Pets by status
-    * @request GET:/pet/findByStatus
-    * @secure
-    * @description Multiple status values can be provided with comma separated strings
-    */
+     * @tags pet
+     * @name findPetsByStatus
+     * @summary Finds Pets by status
+     * @request GET:/pet/findByStatus
+     * @secure
+     * @description Multiple status values can be provided with comma separated strings
+     */
     findPetsByStatus: (query: { status: Array<"available" | "pending" | "sold"> }, params?: RequestParams) =>
       this.request<Pet[], any>(`/pet/findByStatus${this.addQueryParams(query)}`, "GET", params, null, true),
 
 
     /**
-    * @tags pet
-    * @name findPetsByTags
-    * @summary Finds Pets by tags
-    * @request GET:/pet/findByTags
-    * @secure
-    * @description Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-    */
+     * @tags pet
+     * @name findPetsByTags
+     * @summary Finds Pets by tags
+     * @request GET:/pet/findByTags
+     * @secure
+     * @description Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     */
     findPetsByTags: (query: { tags: string[] }, params?: RequestParams) =>
       this.request<Pet[], any>(`/pet/findByTags${this.addQueryParams(query)}`, "GET", params, null, true),
   }
@@ -254,45 +254,45 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @tags store
-    * @name getInventory
-    * @summary Returns pet inventories by status
-    * @request GET:/store/inventory
-    * @secure
-    * @description Returns a map of status codes to quantities
-    */
+     * @tags store
+     * @name getInventory
+     * @summary Returns pet inventories by status
+     * @request GET:/store/inventory
+     * @secure
+     * @description Returns a map of status codes to quantities
+     */
     getInventory: (params?: RequestParams) =>
       this.request<number, any>(`/store/inventory`, "GET", params, null, true),
 
 
     /**
-    * @tags store
-    * @name getOrderById
-    * @summary Find purchase order by ID
-    * @request GET:/store/order/{orderId}
-    * @description For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions
-    */
+     * @tags store
+     * @name getOrderById
+     * @summary Find purchase order by ID
+     * @request GET:/store/order/{orderId}
+     * @description For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions
+     */
     getOrderById: (orderId: number, params?: RequestParams) =>
       this.request<Order, any>(`/store/order/${orderId}`, "GET", params, null),
 
 
     /**
-    * @tags store
-    * @name deleteOrder
-    * @summary Delete purchase order by ID
-    * @request DELETE:/store/order/{orderId}
-    * @description For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors
-    */
+     * @tags store
+     * @name deleteOrder
+     * @summary Delete purchase order by ID
+     * @request DELETE:/store/order/{orderId}
+     * @description For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors
+     */
     deleteOrder: (orderId: number, params?: RequestParams) =>
       this.request<any, any>(`/store/order/${orderId}`, "DELETE", params, null),
 
 
     /**
-    * @tags store
-    * @name placeOrder
-    * @summary Place an order for a pet
-    * @request POST:/store/order
-    */
+     * @tags store
+     * @name placeOrder
+     * @summary Place an order for a pet
+     * @request POST:/store/order
+     */
     placeOrder: (body: Order, params?: RequestParams) =>
       this.request<Order, any>(`/store/order`, "POST", params, body),
   }
@@ -300,84 +300,84 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @tags user
-    * @name getUserByName
-    * @summary Get user by user name
-    * @request GET:/user/{username}
-    */
+     * @tags user
+     * @name getUserByName
+     * @summary Get user by user name
+     * @request GET:/user/{username}
+     */
     getUserByName: (username: string, params?: RequestParams) =>
       this.request<User, any>(`/user/${username}`, "GET", params, null),
 
 
     /**
-    * @tags user
-    * @name updateUser
-    * @summary Updated user
-    * @request PUT:/user/{username}
-    * @description This can only be done by the logged in user.
-    */
+     * @tags user
+     * @name updateUser
+     * @summary Updated user
+     * @request PUT:/user/{username}
+     * @description This can only be done by the logged in user.
+     */
     updateUser: (username: string, body: User, params?: RequestParams) =>
       this.request<any, any>(`/user/${username}`, "PUT", params, body),
 
 
     /**
-    * @tags user
-    * @name deleteUser
-    * @summary Delete user
-    * @request DELETE:/user/{username}
-    * @description This can only be done by the logged in user.
-    */
+     * @tags user
+     * @name deleteUser
+     * @summary Delete user
+     * @request DELETE:/user/{username}
+     * @description This can only be done by the logged in user.
+     */
     deleteUser: (username: string, params?: RequestParams) =>
       this.request<any, any>(`/user/${username}`, "DELETE", params, null),
 
 
     /**
-    * @tags user
-    * @name loginUser
-    * @summary Logs user into the system
-    * @request GET:/user/login
-    */
+     * @tags user
+     * @name loginUser
+     * @summary Logs user into the system
+     * @request GET:/user/login
+     */
     loginUser: (query: { username: string, password: string }, params?: RequestParams) =>
       this.request<string, any>(`/user/login${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
-    * @tags user
-    * @name logoutUser
-    * @summary Logs out current logged in user session
-    * @request GET:/user/logout
-    */
+     * @tags user
+     * @name logoutUser
+     * @summary Logs out current logged in user session
+     * @request GET:/user/logout
+     */
     logoutUser: (params?: RequestParams) =>
       this.request<any, any>(`/user/logout`, "GET", params, null),
 
 
     /**
-    * @tags user
-    * @name createUser
-    * @summary Create user
-    * @request POST:/user
-    * @description This can only be done by the logged in user.
-    */
+     * @tags user
+     * @name createUser
+     * @summary Create user
+     * @request POST:/user
+     * @description This can only be done by the logged in user.
+     */
     createUser: (body: User, params?: RequestParams) =>
       this.request<any, any>(`/user`, "POST", params, body),
 
 
     /**
-    * @tags user
-    * @name createUsersWithArrayInput
-    * @summary Creates list of users with given input array
-    * @request POST:/user/createWithArray
-    */
+     * @tags user
+     * @name createUsersWithArrayInput
+     * @summary Creates list of users with given input array
+     * @request POST:/user/createWithArray
+     */
     createUsersWithArrayInput: (body: User[], params?: RequestParams) =>
       this.request<any, any>(`/user/createWithArray`, "POST", params, body),
 
 
     /**
-    * @tags user
-    * @name createUsersWithListInput
-    * @summary Creates list of users with given input array
-    * @request POST:/user/createWithList
-    */
+     * @tags user
+     * @name createUsersWithListInput
+     * @summary Creates list of users with given input array
+     * @request POST:/user/createWithList
+     */
     createUsersWithListInput: (body: User[], params?: RequestParams) =>
       this.request<any, any>(`/user/createWithList`, "POST", params, body),
   }

@@ -94,9 +94,9 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @name getData
-    * @request GET:/api
-    */
+     * @name getData
+     * @request GET:/api
+     */
     getData: (params?: RequestParams) =>
       this.request<{ data?: string }, any>(`/api`, "GET", params, null),
   }

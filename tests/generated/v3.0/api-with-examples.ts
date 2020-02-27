@@ -102,10 +102,10 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @name getVersionDetailsv2
-    * @summary Show API version details
-    * @request GET:/v2
-    */
+     * @name getVersionDetailsv2
+     * @summary Show API version details
+     * @request GET:/v2
+     */
     getVersionDetailsv2: (params?: RequestParams) =>
       this.request<any, any>(`/v2`, "GET", params, null),
   }

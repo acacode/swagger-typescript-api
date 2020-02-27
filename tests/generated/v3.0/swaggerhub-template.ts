@@ -94,11 +94,11 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @name exampleList
-    * @summary Server example operation
-    * @request GET:/example
-    * @description This is an example operation to show how security is applied to the call.
-    */
+     * @name exampleList
+     * @summary Server example operation
+     * @request GET:/example
+     * @description This is an example operation to show how security is applied to the call.
+     */
     exampleList: (params?: RequestParams) =>
       this.request<any, any>(`/example`, "GET", params, null),
   }
@@ -106,11 +106,11 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @name pingList
-    * @summary Server heartbeat operation
-    * @request GET:/ping
-    * @description This operation shows how to override the global security defined above, as we want to open it up for all users.
-    */
+     * @name pingList
+     * @summary Server heartbeat operation
+     * @request GET:/ping
+     * @description This operation shows how to override the global security defined above, as we want to open it up for all users.
+     */
     pingList: (params?: RequestParams) =>
       this.request<any, any>(`/ping`, "GET", params, null),
   }

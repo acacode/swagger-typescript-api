@@ -103,9 +103,9 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @name petsPartialUpdate
-    * @request PATCH:/pets
-    */
+     * @name petsPartialUpdate
+     * @request PATCH:/pets
+     */
     petsPartialUpdate: (data: Cat | Dog, params?: RequestParams) =>
       this.request<any, any>(`/pets`, "PATCH", params, data),
   }
