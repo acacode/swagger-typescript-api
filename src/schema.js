@@ -1,27 +1,31 @@
 const _ = require("lodash");
 const { inlineExtraFormatters } = require("./typeFormatters");
-const { isValidName } = require("./modelNames")
+const { isValidName, checkAndRenameModelName } = require("./modelNames")
 const { formatDescription } = require("./common");
 const { DEFAULT_PRIMITIVE_TYPE } = require("./constants");
+const { config } = require("./config");
 
 const jsTypes = ['number', 'boolean', 'string', 'object'];
 const jsEmptyTypes = ['null', 'undefined'];
-
-const findSchemaType = schema => {
-  if (!schema) return 'primitive'
-
-  if (schema.enum) return 'enum';
-  if (schema.properties) return 'object';
-  if (schema.allOf || schema.oneOf || schema.anyOf || schema.not) {
-    return 'complex'
-  }
-  return 'primitive';
-}
 const typeAliases = {
   "integer": "number",
 }
 
-const getPrimitiveType = type => typeAliases[type] || type || DEFAULT_PRIMITIVE_TYPE
+const findSchemaType = schema => {
+  if (schema.enum)
+    return 'enum';
+  if (schema.properties)
+    return 'object';
+  if (schema.allOf || schema.oneOf || schema.anyOf || schema.not)
+    return 'complex';
+
+  return 'primitive';
+}
+
+const getPrimitiveType = property => {
+  const type = _.get(property, "type")
+  return typeAliases[type] || type || DEFAULT_PRIMITIVE_TYPE
+}
 
 const specificObjectTypes = {
   'array': ({ items }) => {
@@ -30,55 +34,63 @@ const specificObjectTypes = {
   }
 }
 
-const getRefType = (property) => {
-  if (!property || !property["$ref"]) return null;
-  return _.last(_.split(property["$ref"], '/'));
+const getRefType = property => {
+  const ref = property && property["$ref"]
+  return (ref && config.componentsMap[ref]) || null;
 }
 
-const getType = (property) => {
+const getRefTypeName = property => {
+  const refTypeInfo = getRefType(property);
+  return refTypeInfo && checkAndRenameModelName(refTypeInfo.typeName);
+}
+
+const getType = property => {
   if (!property) return DEFAULT_PRIMITIVE_TYPE;
 
-  const func = specificObjectTypes[property.type] || (() => getPrimitiveType(property.type))
-  return getRefType(property) || func(property)
+  const anotherTypeGetter = specificObjectTypes[property.type] || getPrimitiveType
+  return getRefTypeName(property) || anotherTypeGetter(property)
 }
-const getObjectTypeContent = (properties) => {
+
+const getObjectTypeContent = properties => {
   return _.map(properties, (property, name) => {
+    // TODO: probably nullable should'n be use as required/no-required conditions
     const isRequired = typeof property.nullable === "undefined" ? property.required : !property.nullable
     return {
-      description: formatDescription(property.description, true),
-      field: `${isValidName(name) ? name : `"${name}"`}${isRequired ? '' : '?'}: ${parseSchema(property, null, inlineExtraFormatters).content}`,
+      description: property.description,
+      field: `${isValidName(name) ? name : `"${name}"`}${isRequired ? '' : '?'}: ${getInlineParseContent(property)}`,
     }
   })
 }
 
-
-const complexTypeGetter = ({description, ...schema}) => parseSchema(schema, null, inlineExtraFormatters).content
+const complexTypeGetter = ({ description, ...schema }) => getInlineParseContent(schema)
 
 const complexSchemaParsers = {
-  'oneOf': (schema) => {
+  'oneOf': schema => {
     // T1 | T2
     const combined = _.map(schema.oneOf, complexTypeGetter);
     return combined.join(' | ');
   },
-  'allOf': (schema) => {
+  'allOf': schema => {
     // T1 & T2
     return _.map(schema.allOf, complexTypeGetter).join(' & ')
   },
-  'anyOf': (schema) => {
+  'anyOf': schema => {
     // T1 | T2 | (T1 & T2)
     const combined = _.map(schema.anyOf, complexTypeGetter);
     return `${combined.join(' | ')}` + (combined.length > 1 ? ` | (${combined.join(' & ')})` : '');
   },
   // TODO
-  'not': (schema) => {
+  'not': schema => {
     // TODO
   }
 }
 
-const getComplexType = (schema) => {
+const getComplexType = schema => {
   if (schema.oneOf) return 'oneOf';
   if (schema.allOf) return 'allOf';
   if (schema.anyOf) return 'anyOf';
+
+  // TODO :(
   if (schema.not) return 'not';
 
   throw new Error("Uknown complex type")
@@ -86,7 +98,7 @@ const getComplexType = (schema) => {
 
 const schemaParsers = {
   'enum': (schema, typeName) => {
-    const type = getPrimitiveType(schema.type);
+    const type = getPrimitiveType(schema);
     const isIntegerEnum = type === "number";
     return {
       type: isIntegerEnum ? "intEnum" : 'enum',
@@ -139,27 +151,26 @@ const schemaParsers = {
   }
 }
 
-// { typeIdentifier, name, content }
+/** @returns {{ type, typeIdentifier, name, description, content }} */
 const parseSchema = (schema, typeName, formattersMap) => {
-  if (!schema) {
-    return {
-      type: 'primitive',
-      typeIdentifier: 'type',
-      name: typeName,
-      description: "",
-      content: DEFAULT_PRIMITIVE_TYPE,
-    }
-  }
+  if (!schema) return schemaParsers.primitive(null, typeName);
   
   const schemaType = findSchemaType(schema);
   const parsedSchema = schemaParsers[schemaType](schema, typeName);
   return (formattersMap && formattersMap[schemaType] && formattersMap[schemaType](parsedSchema)) || parsedSchema
 }
 
+const parseSchemas = components =>
+  _.map(_.get(components, "schemas"), (schema, typeName) => parseSchema(schema, typeName))
+
+const getInlineParseContent = rawTypeData =>
+  parseSchema(rawTypeData, null, inlineExtraFormatters).content
+
 module.exports = {
   parseSchema,
+  parseSchemas,
+  getInlineParseContent,
   getType,
+  getRefTypeName,
   getRefType,
-  getPrimitiveType,
-  DEFAULT_PRIMITIVE_TYPE,
 }

@@ -6,7 +6,6 @@ const { inlineExtraFormatters } = require("./typeFormatters");
 const {
   DEFAULT_PRIMITIVE_TYPE,
   DEFAULT_BODY_ARG_NAME,
-  DEFAULT_CONTENT_TYPE,
   SUCCESS_RESPONSE_STATUS_RANGE,
 } = require("./constants");
 const { formatDescription } = require("./common");
@@ -20,10 +19,21 @@ const methodAliases = {
   delete: (pathName, hasPathInserts) => _.camelCase(`${pathName}_delete`)
 }
 
+const getSchemaFromRequestType = requestType => {
+  const content = _.get(requestType, "content")
+
+  if (!content) return null;
+
+  const contentByType = _.find(content, contentByType => contentByType.schema);
+
+  return contentByType && contentByType.schema;
+}
+
 const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, contentType) => {
   // TODO: make more flexible pick schema without content type
-  const schema = _.get(requestInfo, `content["${contentType || DEFAULT_CONTENT_TYPE}"].schema`);
-  const refType = getRefType(requestInfo);
+  const schema = getSchemaFromRequestType(requestInfo);
+  // const refType = getRefTypeName(requestInfo);
+  const refTypeInfo = getRefType(requestInfo);
 
   if (schema) {
     const extractedSchema = _.get(schema, 'additionalProperties', schema);
@@ -36,11 +46,24 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, content
     return checkAndRenameModelName(foundSchema ? foundSchema.name : content);
   }
   
-  if (refType) {
-    // TODO: its temp solution because sometimes `swagger2openapi` create refs as operationId + name    
-    const refTypeWithoutOpId = refType.replace(operationId, '');
-    const foundedSchemaByName = _.find(parsedSchemas, ({ name }) => name === refType || name === refTypeWithoutOpId)
-    return foundedSchemaByName && foundedSchemaByName.name ? checkAndRenameModelName(foundedSchemaByName.name) : DEFAULT_PRIMITIVE_TYPE
+  if (refTypeInfo) {
+    // const refTypeWithoutOpId = refType.replace(operationId, '');
+    // const foundedSchemaByName = _.find(parsedSchemas, ({ name }) => name === refType || name === refTypeWithoutOpId)
+
+    // TODO:HACK fix problem of swagger2opeanpi
+    const typeNameWithoutOpId = _.replace(refTypeInfo.typeName, operationId, '')
+    if (_.find(parsedSchemas, schema => schema.name === typeNameWithoutOpId))
+      return checkAndRenameModelName(typeNameWithoutOpId);
+
+    switch (refTypeInfo.componentName) {
+      case "schemas":
+        return checkAndRenameModelName(refTypeInfo.typeName);
+      case "responses":
+      case "requestBodies":
+        return parseSchema(getSchemaFromRequestType(refTypeInfo.rawTypeData), 'none', inlineExtraFormatters).content
+      default:
+        return parseSchema(refTypeInfo.rawTypeData, 'none', inlineExtraFormatters).content
+    }
   }
 
   return DEFAULT_PRIMITIVE_TYPE;
@@ -91,14 +114,9 @@ const getRouteName = (operationId, method, route, moduleName) => {
   return createCustomOperationId(method, route, moduleName);
 }
 
-const parseRoutes = (
-  routes,
-  parsedSchemas,
-  components
-) =>
-  _.entries(routes)
+const parseRoutes = ({ paths }, parsedSchemas) =>
+  _.entries(paths)
     .reduce((routes, [route, requestInfoByMethodsMap]) => {
-      const globalParametersMap = _.get(components, "parameters", {});
       parameters = _.get(requestInfoByMethodsMap, 'parameters');
 
       // TODO: refactor that hell
@@ -130,16 +148,14 @@ const parseRoutes = (
           const pathParams = collect(parameters, parameter => {
             if (parameter.in === 'path') return parameter;
             
-            const refTypeName = getRefType(parameter);
-            const globalParam = refTypeName && globalParametersMap[refTypeName]
-            return globalParam && globalParametersMap[refTypeName].in === "path" && globalParam
+            const refTypeInfo = getRefType(parameter);
+            return refTypeInfo && refTypeInfo.rawTypeData.in === "path" && refTypeInfo.rawTypeData
           })
           const queryParams = collect(parameters, parameter => {
             if (parameter.in === 'query') return parameter;
             
-            const refTypeName = getRefType(parameter);
-            const globalParam = refTypeName && globalParametersMap[refTypeName]
-            return globalParam && globalParametersMap[refTypeName].in === "query" && globalParam;
+            const refTypeInfo = getRefType(parameter);
+            return refTypeInfo && refTypeInfo.rawTypeData.in === "query" && refTypeInfo.rawTypeData
           })
           const moduleName = _.camelCase(route.split('/').filter(Boolean)[0]);
 

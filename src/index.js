@@ -1,12 +1,12 @@
 const mustache = require("mustache");
 const _ = require("lodash");
-const fs = require("fs");
-const path = require("path");
-const { parseSchema } = require('./schema');
+const { parseSchemas } = require('./schema');
 const { parseRoutes, groupRoutes } = require('./routes');
 const { createApiConfig } = require('./apiConfig');
 const { getModelType } = require('./modelTypes');
 const { getSwaggerObject } = require('./swagger');
+const { createComponentsMap, filterComponentsMap } = require("./components");
+const { getTemplate, createFile, pathIsExist } = require('./files');
 const { addToConfig, config: defaults } = require("./config");
 
 mustache.escape = value => value
@@ -29,19 +29,22 @@ module.exports = {
     getSwaggerObject(input, url).then(({ info, paths, servers, components }) => {
       console.log('☄️  start generating your typescript api')
 
-      const apiTemplate = fs.readFileSync(path.resolve(__dirname, './templates/api.mustache'), 'utf-8');
-      const clientTemplate = fs.readFileSync(path.resolve(__dirname, './templates/client.mustache'), 'utf-8');
-      const routeTypesTemplate = fs.readFileSync(path.resolve(__dirname, './templates/route-types.mustache'), 'utf-8');
+      const apiTemplate = getTemplate('api');
+      const clientTemplate = getTemplate('client');
+      const routeTypesTemplate = getTemplate('route-types');
 
-      const parsedSchemas = _.map(_.get(components, "schemas"), parseSchema)
-      const routes = parseRoutes(paths, parsedSchemas, components);
+      const componentsMap = createComponentsMap(components);
+      const schemasMap = filterComponentsMap(componentsMap, "schemas")
+
+      const parsedSchemas = parseSchemas(components);
+      const routes = parseRoutes(swaggerSchema, parsedSchemas, componentsMap, components);
       const hasSecurityRoutes = routes.some(route => route.security);
       const hasQueryRoutes = routes.some(route => route.hasQuery);
       const apiConfig = createApiConfig({ info, servers }, hasSecurityRoutes);
     
       const configuration = {
         apiConfig,
-        modelTypes: _.map(parsedSchemas, getModelType),
+        modelTypes: _.map(schemasMap, getModelType),
         hasSecurityRoutes,
         hasQueryRoutes,
         routes: groupRoutes(routes),
@@ -53,8 +56,8 @@ module.exports = {
         generateClient ? mustache.render(clientTemplate, configuration) : '',
       ].join('');
 
-      if (output && fs.existsSync(output)) {
-        fs.writeFileSync(path.resolve(__dirname, output, `./${name}`), sourceFile, _.noop)
+      if (pathIsExist(output)) {
+        createFile(output, name, sourceFile);
         console.log(`✔️  your typescript api file created in "${output}"`)
       }
 

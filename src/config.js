@@ -1,12 +1,19 @@
 
 const config = {
+  /** CLI flag */
   defaultResponseAsSuccess: false,
+  /** CLI flag */
   generateRouteTypes: false,
+  /** CLI flag */
   generateClient: true,
+  /** parsed swagger schema from getSwaggerObject() */ 
+  swaggerSchema: null,
+  /** { "#/components/schemas/Foo": @TypeInfo, ... } */
+  componentsMap: {},
 }
 
-/** needs to use CLI config data everywhere in project */
+/** needs to use data everywhere in project */
 module.exports = {
   addToConfig: configParts => Object.assign(config, configParts),
   config,
-}
+} 

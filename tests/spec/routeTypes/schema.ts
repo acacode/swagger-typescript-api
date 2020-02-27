@@ -3779,7 +3779,7 @@ export namespace user {
   export namespace EmailsList {
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type ResponseBody = any;
+    export type ResponseBody = UserEmails;
   }
 
   /**
