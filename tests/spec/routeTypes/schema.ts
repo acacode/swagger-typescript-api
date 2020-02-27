@@ -3350,7 +3350,7 @@ export namespace user {
   export namespace EmailsList {
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type ResponseBody = any;
+    export type ResponseBody = UserEmails;
   }
 
   /**
@@ -5805,7 +5805,7 @@ export class Api<SecurityDataType> {
     * @description List email addresses for a user.. In the final version of the API, this method will return an array of hashes. with extended information for each email address indicating if the address. has been verified and if it's primary email address for GitHub.. Until API v3 is finalized, use the application/vnd.github.v3 media type to. get other response format.. 
     */
     emailsList: (params?: RequestParams) =>
-      this.request<any>(`/user/emails`, "GET", params, null),
+      this.request<UserEmails>(`/user/emails`, "GET", params, null),
 
 
     /**

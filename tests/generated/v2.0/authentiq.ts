@@ -253,7 +253,7 @@ export class Api<SecurityDataType> {
     * @request POST:/login
     * @description push sign-in request. See: https://github.com/skion/authentiq/wiki/JWT-Examples. 
     */
-    pushLoginRequest: (query: { callback: string }, body: any, params?: RequestParams) =>
+    pushLoginRequest: (query: { callback: string }, body: PushToken, params?: RequestParams) =>
       this.request<{ status?: string }>(`/login${this.addQueryParams(query)}`, "POST", params, body),
   }
   scope = {
@@ -265,7 +265,7 @@ export class Api<SecurityDataType> {
     * @request POST:/scope
     * @description scope verification request. See: https://github.com/skion/authentiq/wiki/JWT-Examples. 
     */
-    signRequest: (query: { test?: number }, body: any, params?: RequestParams) =>
+    signRequest: (query: { test?: number }, body: Claims, params?: RequestParams) =>
       this.request<{ job?: string, status?: string }>(`/scope${this.addQueryParams(query)}`, "POST", params, body),
 
 
@@ -316,7 +316,7 @@ export class Api<SecurityDataType> {
     * @description authority updates a JWT with its signature. See: https://github.com/skion/authentiq/wiki/JWT-Examples. 
     */
     signUpdate: (job: string, params?: RequestParams) =>
-      this.request<any>(`/scope/${job}`, "PUT", params, null),
+      this.request<{ jwt?: string, status?: string }>(`/scope/${job}`, "PUT", params, null),
   }
 
 }
