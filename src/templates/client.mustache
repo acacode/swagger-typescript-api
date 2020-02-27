@@ -118,9 +118,9 @@ export class Api{{apiConfig.generic}} {
 
     /**
     {{#comments}}
-    * {{.}}
+     * {{.}}
     {{/comments}}
-    */
+     */
     {{name}}: ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params?: RequestParams) =>
       this.request<{{returnType}}, {{errorReturnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
     {{/routes}}

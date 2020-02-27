@@ -1,6 +1,6 @@
 # next release  
 Breaking Changes:  
-  - Rename default typescript api file name (prev `api.ts`, now `Api.ts`)  
+  - Rename default typescript output api file name (prev `api.ts`, now `Api.ts`)  
 Features:  
   - `-d, --default-as-success` option. Allows to use "default" status codes as success response type  
   - `-r, --responses` option. Response declarations in request rescription  
@@ -10,6 +10,9 @@ Features:
     ![responses catch types](./assets/changelog_assets/responses-catch-types.jpg)  
   - Improve response body type definitions  
   - Types for bad responses  
+Changes:  
+  - \[minor\] fix jsdoc comments space  
+    ![right comments space](./assets/changelog_assets/right-comments-space.jpg)  
 
 # 1.3.0  
 Features:  
