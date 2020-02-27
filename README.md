@@ -25,7 +25,7 @@ All examples you can find [**here**](https://github.com/acacode/swagger-typescri
 
 ## 📄 Usage  
 
-```cool
+```muse
 Usage: sta [options]
 Usage: swagger-typescript-api [options]
 
