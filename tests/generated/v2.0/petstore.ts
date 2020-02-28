@@ -34,6 +34,7 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
+
 export class Api<SecurityDataType> {
   
   public baseUrl = "http://petstore.swagger.io/v1";
@@ -86,12 +87,12 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
@@ -104,7 +105,7 @@ export class Api<SecurityDataType> {
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -115,33 +116,33 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @tags pets
-    * @name listPets
-    * @summary List all pets
-    * @request GET:/pets
-    */
+     * @tags pets
+     * @name listPets
+     * @summary List all pets
+     * @request GET:/pets
+     */
     listPets: (query: { limit?: number }, params?: RequestParams) =>
-      this.request<Pets>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<Pets, Error>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
 
 
     /**
-    * @tags pets
-    * @name createPets
-    * @summary Create a pet
-    * @request POST:/pets
-    */
+     * @tags pets
+     * @name createPets
+     * @summary Create a pet
+     * @request POST:/pets
+     */
     createPets: (params?: RequestParams) =>
-      this.request<any>(`/pets`, "POST", params, null),
+      this.request<any, Error>(`/pets`, "POST", params, null),
 
 
     /**
-    * @tags pets
-    * @name showPetById
-    * @summary Info for a specific pet
-    * @request GET:/pets/{petId}
-    */
+     * @tags pets
+     * @name showPetById
+     * @summary Info for a specific pet
+     * @request GET:/pets/{petId}
+     */
     showPetById: (petId: string, params?: RequestParams) =>
-      this.request<Pets>(`/pets/${petId}`, "GET", params, null),
+      this.request<Pets, Error>(`/pets/${petId}`, "GET", params, null),
   }
 
 }

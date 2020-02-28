@@ -1,5 +1,15 @@
 
-interface BaseGenerateApiParams {
+interface GenerateApiParams {
+
+  /**
+   * path to swagger schema
+   */
+  input: string;
+
+  /**
+   * url to swagger schema
+   */
+  url: string;
 
   /**
    * default 'api.ts'
@@ -10,23 +20,29 @@ interface BaseGenerateApiParams {
    * path to folder where will been located the created api module
    */
   output?: string;
-}
-
-interface LocalFileGenerateApiParams extends BaseGenerateApiParams {
+  
+  /**
+   * generate type definitions for API routes (default: false)
+   */
+  generateRouteTypes?: boolean;
 
   /**
-   * path to swagger schema
+   * do not generate an API class
    */
-  input: string;
-}
-
-interface UrlGenerateApiParams extends BaseGenerateApiParams {
+  generateClient?: boolean;
 
   /**
-   * url to swagger schema
+   * use "default" response status code as success response too.  
+   * some swagger schemas use "default" response status code as success response type by default.
    */
-  url: string;
+  defaultResponseAsSuccess?: boolean;
+
+  /**
+   * generate additional information about request responses
+   * also add typings for bad responses
+   */
+  generateResponses?: boolean;
 }
 
-export declare function generateApi(params: LocalFileGenerateApiParams): Promise<string>
-export declare function generateApi(params: UrlGenerateApiParams): Promise<string>
+export declare function generateApi(params: Omit<GenerateApiParams, "url">): Promise<string>
+export declare function generateApi(params: Omit<GenerateApiParams, "input">): Promise<string>

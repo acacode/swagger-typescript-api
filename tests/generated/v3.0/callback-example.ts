@@ -21,6 +21,7 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
+
 export class Api<SecurityDataType> {
   
   public baseUrl = "";
@@ -73,12 +74,12 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
@@ -91,7 +92,7 @@ export class Api<SecurityDataType> {
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -102,12 +103,12 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @name streamsCreate
-    * @request POST:/streams
-    * @description subscribes a client to receive out-of-band data
-    */
+     * @name streamsCreate
+     * @request POST:/streams
+     * @description subscribes a client to receive out-of-band data
+     */
     streamsCreate: (query: { callbackUrl: string }, params?: RequestParams) =>
-      this.request<{ subscriptionId: string }>(`/streams${this.addQueryParams(query)}`, "POST", params, null),
+      this.request<{ subscriptionId: string }, any>(`/streams${this.addQueryParams(query)}`, "POST", params, null),
   }
 
 }

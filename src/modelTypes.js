@@ -1,6 +1,8 @@
 const _ = require('lodash');
 const { formatters } = require("./typeFormatters");
 const { checkAndRenameModelName } = require("./modelNames");
+const { formatDescription } = require("./common")
+const { getTypeData } = require('./components');
 
 const CONTENT_KEYWORD = '__CONTENT__';
 
@@ -10,8 +12,9 @@ const contentWrapersByTypeIdentifier = {
   'type': `= ${CONTENT_KEYWORD}`,
 }
 
-// { typeIdentifier, name, content, type }
-const getModelType = ({ typeIdentifier, name: originalName, content, type, description }) => {
+const getModelType = typeInfo => {
+  const { typeIdentifier, name: originalName, content, type, description } = getTypeData(typeInfo);
+
   if (!contentWrapersByTypeIdentifier[typeIdentifier]) {
     throw new Error(`${typeIdentifier} - type identifier is unknown for this utility`)
   }
@@ -23,7 +26,7 @@ const getModelType = ({ typeIdentifier, name: originalName, content, type, descr
     typeIdentifier,
     name,
     rawContent: resultContent,
-    description,
+    description: formatDescription(description),
     content: _.replace(contentWrapersByTypeIdentifier[typeIdentifier], CONTENT_KEYWORD, resultContent)
   }
 }

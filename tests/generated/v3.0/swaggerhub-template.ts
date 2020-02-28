@@ -21,6 +21,7 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
 
+
 /** This is an example of using OAuth2 Application Flow in a specification to describe security to your API. */
 export class Api<SecurityDataType> {
   
@@ -64,12 +65,12 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
@@ -82,7 +83,7 @@ export class Api<SecurityDataType> {
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -93,25 +94,25 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @name exampleList
-    * @summary Server example operation
-    * @request GET:/example
-    * @description This is an example operation to show how security is applied to the call.
-    */
+     * @name exampleList
+     * @summary Server example operation
+     * @request GET:/example
+     * @description This is an example operation to show how security is applied to the call.
+     */
     exampleList: (params?: RequestParams) =>
-      this.request<any>(`/example`, "GET", params, null),
+      this.request<any, any>(`/example`, "GET", params, null),
   }
   ping = {
 
 
     /**
-    * @name pingList
-    * @summary Server heartbeat operation
-    * @request GET:/ping
-    * @description This operation shows how to override the global security defined above, as we want to open it up for all users.
-    */
+     * @name pingList
+     * @summary Server heartbeat operation
+     * @request GET:/ping
+     * @description This operation shows how to override the global security defined above, as we want to open it up for all users.
+     */
     pingList: (params?: RequestParams) =>
-      this.request<any>(`/ping`, "GET", params, null),
+      this.request<any, any>(`/ping`, "GET", params, null),
   }
 
 }

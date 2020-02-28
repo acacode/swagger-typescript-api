@@ -12,29 +12,29 @@
 
 
 /**
-* A TDE certificate that can be uploaded into a server.
-*/
+ * A TDE certificate that can be uploaded into a server.
+ */
 export interface TdeCertificate {
   
   /**
-  * Resource properties.
-  */
+   * Resource properties.
+   */
   properties?: TdeCertificateProperties;
 }
 
 /**
-* Properties of a TDE certificate.
-*/
+ * Properties of a TDE certificate.
+ */
 export interface TdeCertificateProperties {
   
   /**
-  * The certificate password.
-  */
+   * The certificate password.
+   */
   certPassword?: string;
   
   /**
-  * The base64 encoded certificate private blob.
-  */
+   * The base64 encoded certificate private blob.
+   */
   privateBlob: string;
 }
 
@@ -47,6 +47,7 @@ type ApiConfig<SecurityDataType> = {
   baseApiParams?: RequestParams,
   securityWorker?: (securityData: SecurityDataType) => RequestParams,
 }
+
 
 /** The Azure SQL Database management API provides a RESTful set of web APIs that interact with Azure SQL Database services to manage your databases. The API enables users to create, retrieve, update, and delete databases, servers, and other entities. */
 export class Api<SecurityDataType> {
@@ -101,12 +102,12 @@ export class Api<SecurityDataType> {
     }
   }
   
-  private safeParseResponse = <T = any>(response: Response): Promise<T> =>
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
     response.json()
       .then(data => data)
       .catch(e => response.text);
   
-  public request = <T = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
@@ -119,7 +120,7 @@ export class Api<SecurityDataType> {
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
-      const data = await this.safeParseResponse<T>(response);
+      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
       return data
     })
@@ -130,13 +131,13 @@ export class Api<SecurityDataType> {
 
 
     /**
-    * @tags ManagedInstanceTdeCertificates
-    * @name ManagedInstanceTdeCertificates_Create
-    * @request POST:/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates
-    * @description Creates a TDE certificate for a given server.
-    */
+     * @tags ManagedInstanceTdeCertificates
+     * @name ManagedInstanceTdeCertificates_Create
+     * @request POST:/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates
+     * @description Creates a TDE certificate for a given server.
+     */
     managedInstanceTdeCertificatesCreate: (resourceGroupName: string, managedInstanceName: string, subscriptionId: string, query: { "api-version": string }, parameters: TdeCertificate, params?: RequestParams) =>
-      this.request<any>(`/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Sql/managedInstances/${managedInstanceName}/tdeCertificates${this.addQueryParams(query)}`, "POST", params, parameters),
+      this.request<any, any>(`/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Sql/managedInstances/${managedInstanceName}/tdeCertificates${this.addQueryParams(query)}`, "POST", params, parameters),
   }
 
 }
