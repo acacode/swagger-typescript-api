@@ -1,0 +1,13 @@
+{
+  "printWidth": 100,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "overrides": [
+    {
+      "files": "*.js",
+      "options": {
+        "trailingComma": "none"
+      }
+    }
+  ]
+}
