@@ -12,7 +12,7 @@ const createFile = (pathTo, fileName, content) =>
   fs.writeFileSync(resolve(__dirname, pathTo, `./${fileName}`), content, _.noop)
 
 const getTemplate = templateName =>
-  getFileContent(resolve(__dirname, `./templates/${templateName}.mustache`))
+  getFileContent(resolve(__dirname, `./templates/${templateName}.mustache`))                       
 
 module.exports = {
   getTemplate,
