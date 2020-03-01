@@ -7,19 +7,16 @@ const v3ApiPaths = createGeneratedApiInfos(resolve(__dirname, "./generated/v3.0"
 
 let hasErrors = false;
 
-[
-  ...v2ApiPaths,
-  ...v3ApiPaths,
-].forEach(pathToFile => {
-  const diagnostics = validateGeneratedModule({ pathToFile })
+[...v2ApiPaths, ...v3ApiPaths].forEach(pathToFile => {
+  const diagnostics = validateGeneratedModule({ pathToFile });
 
   if (!hasErrors) {
-    hasErrors = !!diagnostics.length
+    hasErrors = !!diagnostics.length;
   }
-})
+});
 
 if (hasErrors) {
-  process.exit(1)
+  process.exit(1);
 } else {
-  console.log('everything is good:)')
+  console.log("everything is good:)");
 }
