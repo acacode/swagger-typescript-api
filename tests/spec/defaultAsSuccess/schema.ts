@@ -2,26 +2,23 @@
 /* eslint-disable */
 
 /*
-* ---------------------------------------------------------------
-* ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
-* ##                                                           ##
-* ## AUTHOR: acacode                                           ##
-* ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
-* ---------------------------------------------------------------
-*/
-
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
 
 /**
  * Authentiq ID in JWT format, self-signed.
-
  */
 export interface AuthentiqID {
-  
   /**
    * device token for push messages
    */
   devtoken?: string;
-  
+
   /**
    * UUID and public signing key
    */
@@ -29,18 +26,17 @@ export interface AuthentiqID {
 }
 
 /**
- * Claim in JWT format, self- or issuer-signed. 
-
+ * Claim in JWT format, self- or issuer-signed.
  */
 export interface Claims {
   email?: string;
   phone?: string;
-  
+
   /**
    * claim scope
    */
   scope: string;
-  
+
   /**
    * UUID
    */
@@ -52,7 +48,7 @@ export interface Error {
   detail?: string;
   error: number;
   title?: string;
-  
+
   /**
    * unique uri for this error
    */
@@ -60,24 +56,22 @@ export interface Error {
 }
 
 /**
- * PushToken in JWT format, self-signed. 
-
+ * PushToken in JWT format, self-signed.
  */
 export interface PushToken {
-  
   /**
    * audience (URI)
    */
   aud: string;
   exp?: number;
   iat?: number;
-  
+
   /**
    * issuer (URI)
    */
   iss: string;
   nbf?: number;
-  
+
   /**
    * UUID and public signing key
    */
@@ -86,56 +80,62 @@ export interface PushToken {
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
-}
+};
 
 type ApiConfig<SecurityDataType> = {
-  baseUrl?: string,
-  baseApiParams?: RequestParams,
-  securityWorker?: (securityData: SecurityDataType) => RequestParams,
-}
-
+  baseUrl?: string;
+  baseApiParams?: RequestParams;
+  securityWorker?: (securityData: SecurityDataType) => RequestParams;
+};
 
 /** Strong authentication, without the passwords. */
 export class Api<SecurityDataType> {
-  
   public baseUrl = "https://6-dot-authentiqio.appspot.com/";
   public title = "Authentiq";
   public version = "6";
 
-  private securityData: SecurityDataType = (null as any);
-  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
-  
-  private baseApiParams: RequestParams = {
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-  }
+  private securityData: SecurityDataType = null as any;
+  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
-  constructor({ baseUrl,baseApiParams,securityWorker, }: ApiConfig<SecurityDataType> = {}) {
+  private baseApiParams: RequestParams = {
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  };
+
+  constructor({ baseUrl, baseApiParams, securityWorker }: ApiConfig<SecurityDataType> = {}) {
     this.baseUrl = baseUrl || this.baseUrl;
     this.baseApiParams = baseApiParams || this.baseApiParams;
     this.securityWorker = securityWorker || this.securityWorker;
   }
 
   public setSecurityData = (data: SecurityDataType) => {
-    this.securityData = data
-  }
+    this.securityData = data;
+  };
 
   private addQueryParams(query: object): string {
     const keys = Object.keys(query);
-    return keys.length ? (
-      '?' +
-      keys.reduce((paramsArray, param) => [
-        ...paramsArray,
-        param + '=' + encodeURIComponent(query[param])
-      ], []).join('&')
-    ) : ''
+    return keys.length
+      ? "?" +
+          keys
+            .reduce(
+              (paramsArray, param) => [
+                ...paramsArray,
+                param + "=" + encodeURIComponent(query[param]),
+              ],
+              [],
+            )
+            .join("&")
+      : "";
   }
 
-  private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
+  private mergeRequestOptions(
+    params: RequestParams,
+    securityParams?: RequestParams,
+  ): RequestParams {
     return {
       ...this.baseApiParams,
       ...params,
@@ -143,16 +143,17 @@ export class Api<SecurityDataType> {
       headers: {
         ...(this.baseApiParams.headers || {}),
         ...(params.headers || {}),
-        ...((securityParams && securityParams.headers) || {})
-      }
-    }
+        ...((securityParams && securityParams.headers) || {}),
+      },
+    };
   }
-  
+
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
-    response.json()
+    response
+      .json()
       .then(data => data)
       .catch(e => response.text);
-  
+
   public request = <T = any, E = any>(
     path: string,
     method: string,
@@ -162,29 +163,35 @@ export class Api<SecurityDataType> {
   ): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
-      ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
+      ...this.mergeRequestOptions(
+        params,
+        (secureByDefault || secure) && this.securityWorker(this.securityData),
+      ),
       method,
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
       const data = await this.safeParseResponse<T, E>(response);
-      if (!response.ok) throw data
-      return data
-    })
-
-
+      if (!response.ok) throw data;
+      return data;
+    });
 
   key = {
-
-
     /**
      * @tags key, delete
      * @name key_revoke_nosecret
      * @request DELETE:/key
      * @description Revoke an Authentiq ID using email & phone. If called with `email` and `phone` only, a verification code will be sent by email. Do a second call adding `code` to complete the revocation.
      */
-    keyRevokeNosecret: (query: { email: string, phone: string, code?: string }, params?: RequestParams) =>
-      this.request<{ status?: string }, Error>(`/key${this.addQueryParams(query)}`, "DELETE", params, null),
-
+    keyRevokeNosecret: (
+      query: { email: string; phone: string; code?: string },
+      params?: RequestParams,
+    ) =>
+      this.request<{ status?: string }, Error>(
+        `/key${this.addQueryParams(query)}`,
+        "DELETE",
+        params,
+        null,
+      ),
 
     /**
      * @tags key, post
@@ -193,8 +200,7 @@ export class Api<SecurityDataType> {
      * @description Register a new ID `JWT(sub, devtoken)` v5: `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
      */
     keyRegister: (body: AuthentiqID, params?: RequestParams) =>
-      this.request<{ secret?: string, status?: string }, Error>(`/key`, "POST", params, body),
-
+      this.request<{ secret?: string; status?: string }, Error>(`/key`, "POST", params, body),
 
     /**
      * @tags key, delete
@@ -203,8 +209,12 @@ export class Api<SecurityDataType> {
      * @description Revoke an Identity (Key) with a revocation secret
      */
     keyRevoke: (PK: string, query: { secret: string }, params?: RequestParams) =>
-      this.request<{ status?: string }, Error>(`/key/${PK}${this.addQueryParams(query)}`, "DELETE", params, null),
-
+      this.request<{ status?: string }, Error>(
+        `/key/${PK}${this.addQueryParams(query)}`,
+        "DELETE",
+        params,
+        null,
+      ),
 
     /**
      * @tags key, get
@@ -213,8 +223,12 @@ export class Api<SecurityDataType> {
      * @description Get public details of an Authentiq ID.
      */
     getKey: (PK: string, params?: RequestParams) =>
-      this.request<{ since?: string, status?: string, sub?: string }, Error>(`/key/${PK}`, "GET", params, null),
-
+      this.request<{ since?: string; status?: string; sub?: string }, Error>(
+        `/key/${PK}`,
+        "GET",
+        params,
+        null,
+      ),
 
     /**
      * @tags key, head
@@ -225,7 +239,6 @@ export class Api<SecurityDataType> {
     headKey: (PK: string, params?: RequestParams) =>
       this.request<any, Error>(`/key/${PK}`, "HEAD", params, null),
 
-
     /**
      * @tags key, post
      * @name key_update
@@ -235,7 +248,6 @@ export class Api<SecurityDataType> {
     keyUpdate: (PK: string, body: AuthentiqID, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/key/${PK}`, "POST", params, body),
 
-
     /**
      * @tags key, put
      * @name key_bind
@@ -244,10 +256,8 @@ export class Api<SecurityDataType> {
      */
     keyBind: (PK: string, body: AuthentiqID, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/key/${PK}`, "PUT", params, body),
-  }
+  };
   login = {
-
-
     /**
      * @tags login, post
      * @name push_login_request
@@ -255,11 +265,14 @@ export class Api<SecurityDataType> {
      * @description push sign-in request See: https://github.com/skion/authentiq/wiki/JWT-Examples
      */
     pushLoginRequest: (query: { callback: string }, body: PushToken, params?: RequestParams) =>
-      this.request<{ status?: string }, Error>(`/login${this.addQueryParams(query)}`, "POST", params, body),
-  }
+      this.request<{ status?: string }, Error>(
+        `/login${this.addQueryParams(query)}`,
+        "POST",
+        params,
+        body,
+      ),
+  };
   scope = {
-
-
     /**
      * @tags scope, post
      * @name sign_request
@@ -267,8 +280,12 @@ export class Api<SecurityDataType> {
      * @description scope verification request See: https://github.com/skion/authentiq/wiki/JWT-Examples
      */
     signRequest: (query: { test?: number }, body: Claims, params?: RequestParams) =>
-      this.request<{ job?: string, status?: string }, Error>(`/scope${this.addQueryParams(query)}`, "POST", params, body),
-
+      this.request<{ job?: string; status?: string }, Error>(
+        `/scope${this.addQueryParams(query)}`,
+        "POST",
+        params,
+        body,
+      ),
 
     /**
      * @tags scope, delete
@@ -279,7 +296,6 @@ export class Api<SecurityDataType> {
     signDelete: (job: string, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/scope/${job}`, "DELETE", params, null),
 
-
     /**
      * @tags scope, get
      * @name sign_retrieve
@@ -287,8 +303,12 @@ export class Api<SecurityDataType> {
      * @description get the status / current content of a verification job
      */
     signRetrieve: (job: string, params?: RequestParams) =>
-      this.request<{ exp?: number, field?: string, sub?: string }, Error>(`/scope/${job}`, "GET", params, null),
-
+      this.request<{ exp?: number; field?: string; sub?: string }, Error>(
+        `/scope/${job}`,
+        "GET",
+        params,
+        null,
+      ),
 
     /**
      * @tags scope, head
@@ -299,7 +319,6 @@ export class Api<SecurityDataType> {
     signRetrieveHead: (job: string, params?: RequestParams) =>
       this.request<any, Error>(`/scope/${job}`, "HEAD", params, null),
 
-
     /**
      * @tags scope, post
      * @name sign_confirm
@@ -309,7 +328,6 @@ export class Api<SecurityDataType> {
     signConfirm: (job: string, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/scope/${job}`, "POST", params, null),
 
-
     /**
      * @tags scope, put
      * @name sign_update
@@ -317,7 +335,6 @@ export class Api<SecurityDataType> {
      * @description authority updates a JWT with its signature See: https://github.com/skion/authentiq/wiki/JWT-Examples
      */
     signUpdate: (job: string, params?: RequestParams) =>
-      this.request<{ jwt?: string, status?: string }, Error>(`/scope/${job}`, "PUT", params, null),
-  }
-
+      this.request<{ jwt?: string; status?: string }, Error>(`/scope/${job}`, "PUT", params, null),
+  };
 }

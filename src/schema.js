@@ -154,7 +154,6 @@ const schemaParsers = {
 /** @returns {{ type, typeIdentifier, name, description, content }} */
 const parseSchema = (schema, typeName, formattersMap) => {
   if (!schema) return schemaParsers.primitive(null, typeName);
-
   const schemaType = findSchemaType(schema);
   const parsedSchema = schemaParsers[schemaType](schema, typeName);
   return (
