@@ -144,15 +144,12 @@ export class Api<SecurityDataType> {
     this.securityData = data
   }
 
-  private addQueryParams(query: object): string {
-    const keys = Object.keys(query);
-    return keys.length ? (
-      '?' +
-      keys.reduce((paramsArray, param) => [
-        ...paramsArray,
-        param + '=' + encodeURIComponent(query[param])
-      ], []).join('&')
-    ) : ''
+  private addQueryParams(query: Record<string, string|string[]|number|number[]|boolean|undefined>): string {
+    const keys = Object.keys(query).filter(key => "undefined" !== typeof query[key])
+    return keys.length === 0 ? ''
+      : '?' + keys.map(key => encodeURIComponent(key) + '=' + encodeURIComponent(
+                Array.isArray(query[key]) ? (query[key] as any).join(',') : query[key])
+              ).join('&')
   }
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {

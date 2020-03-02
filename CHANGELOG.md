@@ -1,97 +1,128 @@
-# 1.4.0  
-Breaking Changes:  
-  - Rename default typescript output api file name (prev `api.ts`, now `Api.ts`)  
-Features:  
-  - `-d, --default-as-success` option. Allows to use "default" status codes as success response type  
-  - `-r, --responses` option. Response declarations in request rescription  
-    This option adds comments of the possible responses from request  
-    ![responses comments](./assets/changelog_assets/responses-comments.jpg)  
-    Also typings for `.catch()` callback  
-    ![responses catch types](./assets/changelog_assets/responses-catch-types.jpg)  
-  - Improve response body type definitions  
-  - Types for bad responses  
-Changes:  
-  - \[minor\] fix jsdoc comments space  
-    ![right comments space](./assets/changelog_assets/right-comments-space.jpg)  
+# next release
 
-# 1.3.0  
-Features:  
-  - Api module description from schema info  
-    ![api description](./assets/changelog_assets/api-module-description.jpg)  
-  - Generate API type declarations (CLI flag `--route-types`)  
-    ![route types](./assets/changelog_assets/route-types.jpg)  
-  - Ability to not generate clint API class (CLI flag `--no-client`)  
+# 1.4.1
 
-Fixes:  
-  - Improve response body type definition  
+Fixes:
 
-Internal:  
-  - refactored `generate` and `validate` test scripts  
+- Fix TS problem with `addQueryParams` Api class method (issue [#22](https://github.com/acacode/swagger-typescript-api/issues/22), thanks [genaby](https://github.com/genaby))
 
-# 1.2.6  
-Fixes: create api without `-o` option (use default `./` output)  
+# 1.4.0
 
-# 1.2.5  
+Breaking Changes:
+
+- Rename default typescript output api file name (prev `api.ts`, now `Api.ts`)  
+  Features:
+- `-d, --default-as-success` option. Allows to use "default" status codes as success response type
+- `-r, --responses` option. Response declarations in request rescription  
+  This option adds comments of the possible responses from request  
+  ![responses comments](./assets/changelog_assets/responses-comments.jpg)  
+  Also typings for `.catch()` callback  
+  ![responses catch types](./assets/changelog_assets/responses-catch-types.jpg)
+- Improve response body type definitions
+- Types for bad responses  
+  Changes:
+- \[minor\] fix jsdoc comments space  
+  ![right comments space](./assets/changelog_assets/right-comments-space.jpg)
+
+# 1.3.0
+
+Features:
+
+- Api module description from schema info  
+  ![api description](./assets/changelog_assets/api-module-description.jpg)
+- Generate API type declarations (CLI flag `--route-types`, thanks [azz](https://github.com/azz))  
+  ![route types](./assets/changelog_assets/route-types.jpg)
+- Ability to not generate clint API class (CLI flag `--no-client`, thanks [azz](https://github.com/azz))
+
+Fixes:
+
+- Improve response body type definition
+
+Internal:
+
+- refactored `generate` and `validate` test scripts
+
+# 1.2.6
+
+Fixes: create api without `-o` option (use default `./` output)
+
+# 1.2.5
+
 Features: better naming of routes without `operationId`  
 ![route naming](./assets/changelog_assets/1.2.5_route_naming.jpg)  
 Changes: rename `@security true` -> `@secure`, `@duplicate true` -> `@duplicate`  
-Fixes: Support generated swagger schemes from tsoa 3.x with complex types (Omit, Pick, etc)  
+Fixes: Support generated swagger schemes from tsoa 3.x with complex types (Omit, Pick, etc)
 
-# 1.2.4  
+# 1.2.4
+
 Features: add .d.ts file into npm package  
 Changes: update help block in CLI  
-Internal: add greenkeeper, update npm keywords  
+Internal: add greenkeeper, update npm keywords
 
-# 1.2.3  
+# 1.2.3
+
 Features: @summary, @description comments at each route  
 Fixes: parsing schema without routes  
 Changes: update documentation  
-Internal: add anyOf, allOf test schemas, slack notifications in CI  
+Internal: add anyOf, allOf test schemas, slack notifications in CI
 
-# 1.2.2  
-Fixes: fix complex types (oneOf, anyOf), required fields of object type was not required  
+# 1.2.2
 
-# 1.2.0  
+Fixes: fix complex types (oneOf, anyOf), required fields of object type was not required
+
+# 1.2.0
+
 Changes: rename `ApiParams` to `RequestParams`, secure module always exist in generated API module, update documentation  
 Fixes: Query params was all required, parse yaml files, typescript minor warnings (;)  
-Internal: test schemas + manual testing, add travis CI/CD  
+Internal: test schemas + manual testing, add travis CI/CD
 
-# 1.1.0  
-Fixes: catching http errors with use API module  
+# 1.1.0
 
-# 1.0.9  
+Fixes: catching http errors with use API module
+
+# 1.0.9
+
 Features: add description to interfaces and their fields  
-Changes: update documentation  
+Changes: update documentation
 
-# 1.0.8  
-Changes: update documentation  
+# 1.0.8
 
-# 1.0.7  
-Changes: update documentation (+ add logo), add comment about author in generated module  
+Changes: update documentation
 
-# 1.0.6  
+# 1.0.7
+
+Changes: update documentation (+ add logo), add comment about author in generated module
+
+# 1.0.6
+
 Fixes: route naming, http(s) requests for getting swagger schema, integer enums  
-Changes: include only required files into npm pacakge  
+Changes: include only required files into npm pacakge
 
-# 1.0.5  
-Changes: update documentation  
+# 1.0.5
 
-# 1.0.4  
+Changes: update documentation
+
+# 1.0.4
+
 Changes: disable linters rules for generated API module  
-Fixes: TS issues in template  
+Fixes: TS issues in template
 
-# 1.0.3  
-Fixes: NodeJS main script cannot been called on Unix* machines  
-Changes: add LICENSE, update README  
+# 1.0.3
 
-# 1.0.2  
-Changes(Internal): change dependencies  
+Fixes: NodeJS main script cannot been called on Unix\* machines  
+Changes: add LICENSE, update README
 
-# 1.0.1  
+# 1.0.2
+
+Changes(Internal): change dependencies
+
+# 1.0.1
+
 New features: query params, separating routes on submodules, common params in constructor, swagger v2 + yaml parsers  
 Enhancements: better type extracting.  
 Fixes: mustache escaping chars  
-Changes: order of request params, emojis messages in console  
+Changes: order of request params, emojis messages in console
 
-# 1.0.0  
-Initial project.  
+# 1.0.0
+
+Initial project.

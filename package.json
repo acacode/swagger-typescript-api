@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Create typescript api module from swagger schema",
   "scripts": {
     "cli": "node index.js -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
@@ -18,10 +18,15 @@
   },
   "author": "acacode",
   "license": "MIT",
+  "typings": "./index.d.ts",
+  "main": "src/index.js",
   "devDependencies": {
     "@types/lodash": "^4.14.149",
     "@types/mustache": "^4.0.0",
+    "husky": "^4.2.3",
     "npm-run-all": "^4.1.5",
+    "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.1",
     "typescript": "^3.7.4"
   },
   "dependencies": {
@@ -32,10 +37,15 @@
     "mustache": "^4.0.0",
     "swagger2openapi": "^5.3.3"
   },
-  "main": "src/index.js",
   "bin": {
     "swagger-typescript-api": "index.js",
     "sta": "index.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged",
+      "post-commit": "git update-index -g"
+    }
   },
   "keywords": [
     "swagger",
@@ -53,7 +63,6 @@
     "index.d.ts",
     "LICENSE"
   ],
-  "typings": "./index.d.ts",
   "bugs": {
     "url": "https://github.com/acacode/swagger-typescript-api/issues"
   },
