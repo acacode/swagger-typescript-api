@@ -1,5 +1,15 @@
 # next release
 
+# 1.5.0
+
+Features:
+
+- Add `prettier` for beautify output typescript api module
+
+Fixes:
+
+- Fix problem with array `type` definitions without `type` property([#26](https://github.com/acacode/swagger-typescript-api/issues/26))
+
 # 1.4.1
 
 Fixes:

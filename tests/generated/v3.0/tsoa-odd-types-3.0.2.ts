@@ -2,14 +2,13 @@
 /* eslint-disable */
 
 /*
-* ---------------------------------------------------------------
-* ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
-* ##                                                           ##
-* ## AUTHOR: acacode                                           ##
-* ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
-* ---------------------------------------------------------------
-*/
-
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
 
 export interface AuthUser {
   username: string;
@@ -20,8 +19,8 @@ export enum Kind {
   COMPANY = "COMPANY",
   PERSONAL = "PERSONAL",
   FREELANCE = "FREELANCE",
-  OPEN_SOURCE = "OPEN_SOURCE" 
- }
+  OPEN_SOURCE = "OPEN_SOURCE",
+}
 
 export interface Job {
   id: string;
@@ -41,7 +40,7 @@ export interface Pick_Job_github {
   github?: string;
 }
 
-export type UpdatedJob = Job
+export type UpdatedJob = Job;
 
 /**
  * From T, pick a set of properties whose keys are in the union K
@@ -56,9 +55,9 @@ export interface Pick_Job_ExcludeKeys_id {
   github?: string;
 }
 
-export type Omit_Job_id = Pick_Job_ExcludeKeys_id
+export type Omit_Job_id = Pick_Job_ExcludeKeys_id;
 
-export type JobUpdate = Omit_Job_id | Pick_Job_github | object
+export type JobUpdate = Omit_Job_id | Pick_Job_github | object;
 
 export interface Project {
   id: string;
@@ -120,43 +119,40 @@ export interface UserUpdate {
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
-}
+};
 
 type ApiConfig<SecurityDataType> = {
-  baseUrl?: string,
-  baseApiParams?: RequestParams,
-  securityWorker?: (securityData: SecurityDataType) => RequestParams,
-}
-
+  baseUrl?: string;
+  baseApiParams?: RequestParams;
+  securityWorker?: (securityData: SecurityDataType) => RequestParams;
+};
 
 export class Api<SecurityDataType> {
-  
   public baseUrl = "http://localhost:8080/api/v1";
   public title = "";
   public version = "";
 
-  private securityData: SecurityDataType = (null as any);
-  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
-  
-  private baseApiParams: RequestParams = {
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-  }
+  private securityData: SecurityDataType = null as any;
+  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
-  constructor({ baseUrl,baseApiParams,securityWorker, }: ApiConfig<SecurityDataType> = {}) {
+  private baseApiParams: RequestParams = {
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  };
+
+  constructor({ baseUrl, baseApiParams, securityWorker }: ApiConfig<SecurityDataType> = {}) {
     this.baseUrl = baseUrl || this.baseUrl;
     this.baseApiParams = baseApiParams || this.baseApiParams;
     this.securityWorker = securityWorker || this.securityWorker;
   }
 
   public setSecurityData = (data: SecurityDataType) => {
-    this.securityData = data
-  }
-
+    this.securityData = data;
+  };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
@@ -166,16 +162,17 @@ export class Api<SecurityDataType> {
       headers: {
         ...(this.baseApiParams.headers || {}),
         ...(params.headers || {}),
-        ...((securityParams && securityParams.headers) || {})
-      }
-    }
+        ...((securityParams && securityParams.headers) || {}),
+      },
+    };
   }
-  
+
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
-    response.json()
+    response
+      .json()
       .then(data => data)
       .catch(e => response.text);
-  
+
   public request = <T = any, E = any>(
     path: string,
     method: string,
@@ -190,23 +187,17 @@ export class Api<SecurityDataType> {
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
       const data = await this.safeParseResponse<T, E>(response);
-      if (!response.ok) throw data
-      return data
-    })
-
-
+      if (!response.ok) throw data;
+      return data;
+    });
 
   auth = {
-
-
     /**
      * @tags Auth
      * @name Login
      * @request POST:/auth
      */
-    login: (data: AuthUser, params?: RequestParams) =>
-      this.request<string, any>(`/auth`, "POST", params, data),
-
+    login: (data: AuthUser, params?: RequestParams) => this.request<string, any>(`/auth`, "POST", params, data),
 
     /**
      * @tags Auth
@@ -214,21 +205,16 @@ export class Api<SecurityDataType> {
      * @request POST:/auth/refresh
      * @secure
      */
-    refresh: (params?: RequestParams) =>
-      this.request<string, any>(`/auth/refresh`, "POST", params, null, true),
-  }
+    refresh: (params?: RequestParams) => this.request<string, any>(`/auth/refresh`, "POST", params, null, true),
+  };
   jobs = {
-
-
     /**
      * @tags Jobs
      * @name GetJobs
      * @request GET:/jobs
      * @secure
      */
-    getJobs: (params?: RequestParams) =>
-      this.request<Job[], any>(`/jobs`, "GET", params, null, true),
-
+    getJobs: (params?: RequestParams) => this.request<Job[], any>(`/jobs`, "GET", params, null, true),
 
     /**
      * @tags Jobs
@@ -239,16 +225,13 @@ export class Api<SecurityDataType> {
     addJob: (data: Pick_Job_github, params?: RequestParams) =>
       this.request<string, any>(`/jobs`, "POST", params, data, true),
 
-
     /**
      * @tags Jobs
      * @name GetJob
      * @request GET:/jobs/{id}
      * @secure
      */
-    getJob: (id: string, params?: RequestParams) =>
-      this.request<Job, any>(`/jobs/${id}`, "GET", params, null, true),
-
+    getJob: (id: string, params?: RequestParams) => this.request<Job, any>(`/jobs/${id}`, "GET", params, null, true),
 
     /**
      * @tags Jobs
@@ -259,7 +242,6 @@ export class Api<SecurityDataType> {
     updateJob: (id: string, data: JobUpdate, params?: RequestParams) =>
       this.request<UpdatedJob, any>(`/jobs/${id}`, "PATCH", params, data, true),
 
-
     /**
      * @tags Jobs
      * @name DeleteJob
@@ -268,18 +250,14 @@ export class Api<SecurityDataType> {
      */
     deleteJob: (id: string, params?: RequestParams) =>
       this.request<any, any>(`/jobs/${id}`, "DELETE", params, null, true),
-  }
+  };
   projects = {
-
-
     /**
      * @tags Projects
      * @name GetProjects
      * @request GET:/projects
      */
-    getProjects: (params?: RequestParams) =>
-      this.request<Project[], any>(`/projects`, "GET", params, null),
-
+    getProjects: (params?: RequestParams) => this.request<Project[], any>(`/projects`, "GET", params, null),
 
     /**
      * @tags Projects
@@ -290,7 +268,6 @@ export class Api<SecurityDataType> {
     addProjects: (data: ProjectUpdate, params?: RequestParams) =>
       this.request<string, any>(`/projects`, "POST", params, data, true),
 
-
     /**
      * @tags Projects
      * @name UpdateProject
@@ -299,19 +276,15 @@ export class Api<SecurityDataType> {
      */
     updateProject: (id: string, data: ProjectUpdate, params?: RequestParams) =>
       this.request<UpdatedProject, any>(`/projects/${id}`, "PATCH", params, data, true),
-  }
+  };
   users = {
-
-
     /**
      * @tags Users
      * @name GetUsers
      * @request GET:/users
      * @secure
      */
-    getUsers: (params?: RequestParams) =>
-      this.request<User[], any>(`/users`, "GET", params, null, true),
-
+    getUsers: (params?: RequestParams) => this.request<User[], any>(`/users`, "GET", params, null, true),
 
     /**
      * @tags Users
@@ -319,9 +292,7 @@ export class Api<SecurityDataType> {
      * @request POST:/users
      * @secure
      */
-    addUser: (data: AuthUser, params?: RequestParams) =>
-      this.request<User, any>(`/users`, "POST", params, data, true),
-
+    addUser: (data: AuthUser, params?: RequestParams) => this.request<User, any>(`/users`, "POST", params, data, true),
 
     /**
      * @tags Users
@@ -332,7 +303,6 @@ export class Api<SecurityDataType> {
     deleteUser: (id: string, params?: RequestParams) =>
       this.request<any, any>(`/users/${id}`, "DELETE", params, null, true),
 
-
     /**
      * @tags Users
      * @name UpdateUser
@@ -341,6 +311,5 @@ export class Api<SecurityDataType> {
      */
     updateUser: (id: string, data: UserUpdate, params?: RequestParams) =>
       this.request<User, any>(`/users/${id}`, "PATCH", params, data, true),
-  }
-
+  };
 }

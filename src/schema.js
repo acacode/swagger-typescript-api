@@ -151,11 +151,20 @@ const schemaParsers = {
   },
 };
 
+const checkAndFixSchema = schema => {
+  if (schema.items && !schema.type) {
+    schema.type = "array";
+  }
+
+  return schema;
+};
+
 /** @returns {{ type, typeIdentifier, name, description, content }} */
-const parseSchema = (schema, typeName, formattersMap) => {
-  if (!schema) return schemaParsers.primitive(null, typeName);
-  const schemaType = findSchemaType(schema);
-  const parsedSchema = schemaParsers[schemaType](schema, typeName);
+const parseSchema = (rawSchema, typeName, formattersMap) => {
+  if (!rawSchema) return schemaParsers.primitive(null, typeName);
+  const fixedRawSchema = checkAndFixSchema(rawSchema);
+  const schemaType = findSchemaType(fixedRawSchema);
+  const parsedSchema = schemaParsers[schemaType](fixedRawSchema, typeName);
   return (
     (formattersMap && formattersMap[schemaType] && formattersMap[schemaType](parsedSchema)) ||
     parsedSchema
