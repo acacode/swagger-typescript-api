@@ -248,7 +248,8 @@ export class Api<SecurityDataType> {
      * @secure
      * @description Returns a map of status codes to quantities
      */
-    getInventory: (params?: RequestParams) => this.request<number, any>(`/store/inventory`, "GET", params, null, true),
+    getInventory: (params?: RequestParams) =>
+      this.request<Record<string, number>, any>(`/store/inventory`, "GET", params, null, true),
 
     /**
      * @tags store

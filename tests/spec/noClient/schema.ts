@@ -411,7 +411,7 @@ export interface editTeam {
 
 export type emailsPost = string[];
 
-export type emojis = object;
+export type emojis = Record<string, string>;
 
 export interface event {
   actor?: actor;
@@ -668,7 +668,7 @@ export interface label {
 
 export type labels = Array<{ color?: string; name?: string; url?: string }>;
 
-export type languages = object;
+export type languages = Record<string, number>;
 
 export interface markdown {
   context?: string;

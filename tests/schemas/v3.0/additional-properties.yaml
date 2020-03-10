@@ -1,0 +1,17 @@
+openapi: "3.0.0"
+info:
+  title: Additional propeties Example
+  version: 1.0.0
+components:
+  schemas:
+    Messages: # <---- dictionary
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/Message"
+    Message:
+      type: object
+      properties:
+        code:
+          type: integer
+        text:
+          type: string

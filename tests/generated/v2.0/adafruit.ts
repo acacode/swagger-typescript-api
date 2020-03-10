@@ -87,9 +87,12 @@ export interface Feed {
   /**
    * Additional details about this feed.
    */
-  details?: { data?: { count?: number; first?: object; last?: object }; shared_with?: object[] };
+  details?: {
+    data?: { count?: number; first?: Record<string, Data>; last?: Record<string, Data> };
+    shared_with?: object[];
+  };
   enabled?: boolean;
-  group?: object;
+  group?: Record<string, ShallowGroup>;
   groups?: ShallowGroup[];
   history?: boolean;
   id?: number;

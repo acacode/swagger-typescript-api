@@ -121,6 +121,6 @@ export class Api<SecurityDataType> {
       dataset: string,
       data: { criteria: string; start?: number; rows?: number },
       params?: RequestParams,
-    ) => this.request<object[], any>(`/${dataset}/${version}/records`, "POST", params, data),
+    ) => this.request<Record<string, object>[], any>(`/${dataset}/${version}/records`, "POST", params, data),
   };
 }

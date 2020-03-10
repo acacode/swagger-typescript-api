@@ -5,6 +5,8 @@
 Features:
 
 - Add `prettier` for beautify output typescript api module
+- Support `additionalProperties` type data  
+  ![additional properties](./assets/changelog_assets/additional-properties-types.jpg)
 
 Fixes:
 

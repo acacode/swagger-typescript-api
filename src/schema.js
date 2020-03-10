@@ -121,12 +121,14 @@ const schemaParsers = {
       });
     }
 
+    const properties = _.get(schema, "properties");
+
     return {
       type: "object",
       typeIdentifier: "interface",
       name: typeName,
       description: formatDescription(schema.description),
-      content: getObjectTypeContent(schema.properties),
+      content: getObjectTypeContent(properties),
     };
   },
   complex: (schema, typeName) => {
@@ -141,12 +143,20 @@ const schemaParsers = {
     };
   },
   primitive: (schema, typeName) => {
+    let contentType = null;
+    const { additionalProperties, type, description } = schema || {};
+
+    if (type === "object" && _.isObject(additionalProperties)) {
+      const fieldType = getInlineParseContent(additionalProperties);
+      contentType = `Record<string, ${fieldType}>`;
+    }
+
     return {
       type: "primitive",
       typeIdentifier: "type",
       name: typeName,
-      description: schema ? formatDescription(schema.description) : "",
-      content: getType(schema),
+      description: formatDescription(description),
+      content: contentType || getType(schema),
     };
   },
 };
