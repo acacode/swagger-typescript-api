@@ -2,16 +2,15 @@
 /* eslint-disable */
 
 /*
-* ---------------------------------------------------------------
-* ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
-* ##                                                           ##
-* ## AUTHOR: acacode                                           ##
-* ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
-* ---------------------------------------------------------------
-*/
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
 
-
-export type Pet = NewPet & { id: number }
+export type Pet = NewPet & { id: number };
 
 export interface NewPet {
   name: string;
@@ -25,50 +24,55 @@ export interface ErrorModel {
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
-}
+};
 
 type ApiConfig<SecurityDataType> = {
-  baseUrl?: string,
-  baseApiParams?: RequestParams,
-  securityWorker?: (securityData: SecurityDataType) => RequestParams,
-}
-
+  baseUrl?: string;
+  baseApiParams?: RequestParams;
+  securityWorker?: (securityData: SecurityDataType) => RequestParams;
+};
 
 /** A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification */
 export class Api<SecurityDataType> {
-  
   public baseUrl = "http://petstore.swagger.io/api";
   public title = "Swagger Petstore";
   public version = "1.0.0";
 
-  private securityData: SecurityDataType = (null as any);
-  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
-  
-  private baseApiParams: RequestParams = {
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-  }
+  private securityData: SecurityDataType = null as any;
+  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
-  constructor({ baseUrl,baseApiParams,securityWorker, }: ApiConfig<SecurityDataType> = {}) {
+  private baseApiParams: RequestParams = {
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  };
+
+  constructor({ baseUrl, baseApiParams, securityWorker }: ApiConfig<SecurityDataType> = {}) {
     this.baseUrl = baseUrl || this.baseUrl;
     this.baseApiParams = baseApiParams || this.baseApiParams;
     this.securityWorker = securityWorker || this.securityWorker;
   }
 
   public setSecurityData = (data: SecurityDataType) => {
-    this.securityData = data
-  }
+    this.securityData = data;
+  };
 
-  private addQueryParams(query: Record<string, string|string[]|number|number[]|boolean|undefined>): string {
-    const keys = Object.keys(query).filter(key => "undefined" !== typeof query[key])
-    return keys.length === 0 ? ''
-      : '?' + keys.map(key => encodeURIComponent(key) + '=' + encodeURIComponent(
-                Array.isArray(query[key]) ? (query[key] as any).join(',') : query[key])
-              ).join('&')
+  private addQueryParams(query: Record<string, string | string[] | number | number[] | boolean | undefined>): string {
+    const keys = Object.keys(query).filter(key => "undefined" !== typeof query[key]);
+    return keys.length === 0
+      ? ""
+      : "?" +
+          keys
+            .map(
+              key =>
+                encodeURIComponent(key) +
+                "=" +
+                encodeURIComponent(Array.isArray(query[key]) ? (query[key] as any).join(",") : query[key]),
+            )
+            .join("&");
   }
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -79,16 +83,17 @@ export class Api<SecurityDataType> {
       headers: {
         ...(this.baseApiParams.headers || {}),
         ...(params.headers || {}),
-        ...((securityParams && securityParams.headers) || {})
-      }
-    }
+        ...((securityParams && securityParams.headers) || {}),
+      },
+    };
   }
-  
+
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
-    response.json()
+    response
+      .json()
       .then(data => data)
       .catch(e => response.text);
-  
+
   public request = <T = any, E = any>(
     path: string,
     method: string,
@@ -103,32 +108,25 @@ export class Api<SecurityDataType> {
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
       const data = await this.safeParseResponse<T, E>(response);
-      if (!response.ok) throw data
-      return data
-    })
-
-
+      if (!response.ok) throw data;
+      return data;
+    });
 
   pets = {
-
-
     /**
      * @name findPets
      * @request GET:/pets
      * @description Returns all pets from the system that the user has access to
      */
-    findPets: (query: { tags?: string[], limit?: number }, params?: RequestParams) =>
+    findPets: (query: { tags?: string[]; limit?: number }, params?: RequestParams) =>
       this.request<Pet[], ErrorModel>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
-
 
     /**
      * @name addPet
      * @request POST:/pets
      * @description Creates a new pet in the store.  Duplicates are allowed
      */
-    addPet: (pet: NewPet, params?: RequestParams) =>
-      this.request<Pet, ErrorModel>(`/pets`, "POST", params, pet),
-
+    addPet: (pet: NewPet, params?: RequestParams) => this.request<Pet, ErrorModel>(`/pets`, "POST", params, pet),
 
     /**
      * @name findPetById
@@ -138,7 +136,6 @@ export class Api<SecurityDataType> {
     findPetById: (id: number, params?: RequestParams) =>
       this.request<Pet, ErrorModel>(`/pets/${id}`, "GET", params, null),
 
-
     /**
      * @name deletePet
      * @request DELETE:/pets/{id}
@@ -146,6 +143,5 @@ export class Api<SecurityDataType> {
      */
     deletePet: (id: number, params?: RequestParams) =>
       this.request<any, ErrorModel>(`/pets/${id}`, "DELETE", params, null),
-  }
-
+  };
 }

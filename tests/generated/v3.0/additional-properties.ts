@@ -10,6 +10,13 @@
  * ---------------------------------------------------------------
  */
 
+export type Messages = Record<string, Message>;
+
+export interface Message {
+  code?: number;
+  text?: string;
+}
+
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };
@@ -22,8 +29,8 @@ type ApiConfig<SecurityDataType> = {
 
 export class Api<SecurityDataType> {
   public baseUrl = "";
-  public title = "Simple API overview";
-  public version = "v2";
+  public title = "Additional propeties Example";
+  public version = "1.0.0";
 
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
@@ -83,21 +90,4 @@ export class Api<SecurityDataType> {
       if (!response.ok) throw data;
       return data;
     });
-
-  /**
-   * @name listVersionsv2
-   * @summary List API versions
-   * @request GET:/
-   * @description multiple line 1 multiple line 2 multiple line 3
-   */
-  listVersionsv2 = (params?: RequestParams) => this.request<any, any>(`/`, "GET", params, null);
-
-  v2 = {
-    /**
-     * @name getVersionDetailsv2
-     * @summary Show API version details
-     * @request GET:/v2
-     */
-    getVersionDetailsv2: (params?: RequestParams) => this.request<any, any>(`/v2`, "GET", params, null),
-  };
 }

@@ -121,12 +121,14 @@ const schemaParsers = {
       });
     }
 
+    const properties = _.get(schema, "properties");
+
     return {
       type: "object",
       typeIdentifier: "interface",
       name: typeName,
       description: formatDescription(schema.description),
-      content: getObjectTypeContent(schema.properties),
+      content: getObjectTypeContent(properties),
     };
   },
   complex: (schema, typeName) => {
@@ -141,21 +143,38 @@ const schemaParsers = {
     };
   },
   primitive: (schema, typeName) => {
+    let contentType = null;
+    const { additionalProperties, type, description } = schema || {};
+
+    if (type === "object" && _.isObject(additionalProperties)) {
+      const fieldType = getInlineParseContent(additionalProperties);
+      contentType = `Record<string, ${fieldType}>`;
+    }
+
     return {
       type: "primitive",
       typeIdentifier: "type",
       name: typeName,
-      description: schema ? formatDescription(schema.description) : "",
-      content: getType(schema),
+      description: formatDescription(description),
+      content: contentType || getType(schema),
     };
   },
 };
 
+const checkAndFixSchema = schema => {
+  if (schema.items && !schema.type) {
+    schema.type = "array";
+  }
+
+  return schema;
+};
+
 /** @returns {{ type, typeIdentifier, name, description, content }} */
-const parseSchema = (schema, typeName, formattersMap) => {
-  if (!schema) return schemaParsers.primitive(null, typeName);
-  const schemaType = findSchemaType(schema);
-  const parsedSchema = schemaParsers[schemaType](schema, typeName);
+const parseSchema = (rawSchema, typeName, formattersMap) => {
+  if (!rawSchema) return schemaParsers.primitive(null, typeName);
+  const fixedRawSchema = checkAndFixSchema(rawSchema);
+  const schemaType = findSchemaType(fixedRawSchema);
+  const parsedSchema = schemaParsers[schemaType](fixedRawSchema, typeName);
   return (
     (formattersMap && formattersMap[schemaType] && formattersMap[schemaType](parsedSchema)) ||
     parsedSchema

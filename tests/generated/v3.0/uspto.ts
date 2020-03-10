@@ -2,60 +2,56 @@
 /* eslint-disable */
 
 /*
-* ---------------------------------------------------------------
-* ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
-* ##                                                           ##
-* ## AUTHOR: acacode                                           ##
-* ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
-* ---------------------------------------------------------------
-*/
-
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
 
 export interface dataSetList {
   total?: number;
-  apis?: Array<{ apiKey?: string, apiVersionNumber?: string, apiUrl?: string, apiDocumentationUrl?: string }>;
+  apis?: Array<{ apiKey?: string; apiVersionNumber?: string; apiUrl?: string; apiDocumentationUrl?: string }>;
 }
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
-}
+};
 
 type ApiConfig<SecurityDataType> = {
-  baseUrl?: string,
-  baseApiParams?: RequestParams,
-  securityWorker?: (securityData: SecurityDataType) => RequestParams,
-}
-
+  baseUrl?: string;
+  baseApiParams?: RequestParams;
+  securityWorker?: (securityData: SecurityDataType) => RequestParams;
+};
 
 /** The Data Set API (DSAPI) allows the public users to discover and search USPTO exported data sets. This is a generic API that allows USPTO users to make any CSV based data files searchable through API. With the help of GET call, it returns the list of data fields that are searchable. With the help of POST call, data can be fetched based on the filters on the field names. Please note that POST call is used to search the actual data. The reason for the POST call is that it allows users to specify any complex search criteria without worry about the GET size limitations as well as encoding of the input parameters. */
 export class Api<SecurityDataType> {
-  
   public baseUrl = "{scheme}://developer.uspto.gov/ds-api";
   public title = "USPTO Data Set API";
   public version = "1.0.0";
 
-  private securityData: SecurityDataType = (null as any);
-  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
-  
-  private baseApiParams: RequestParams = {
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-  }
+  private securityData: SecurityDataType = null as any;
+  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
-  constructor({ baseUrl,baseApiParams,securityWorker, }: ApiConfig<SecurityDataType> = {}) {
+  private baseApiParams: RequestParams = {
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  };
+
+  constructor({ baseUrl, baseApiParams, securityWorker }: ApiConfig<SecurityDataType> = {}) {
     this.baseUrl = baseUrl || this.baseUrl;
     this.baseApiParams = baseApiParams || this.baseApiParams;
     this.securityWorker = securityWorker || this.securityWorker;
   }
 
   public setSecurityData = (data: SecurityDataType) => {
-    this.securityData = data
-  }
-
+    this.securityData = data;
+  };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
@@ -65,16 +61,17 @@ export class Api<SecurityDataType> {
       headers: {
         ...(this.baseApiParams.headers || {}),
         ...(params.headers || {}),
-        ...((securityParams && securityParams.headers) || {})
-      }
-    }
+        ...((securityParams && securityParams.headers) || {}),
+      },
+    };
   }
-  
+
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
-    response.json()
+    response
+      .json()
       .then(data => data)
       .catch(e => response.text);
-  
+
   public request = <T = any, E = any>(
     path: string,
     method: string,
@@ -89,12 +86,9 @@ export class Api<SecurityDataType> {
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
       const data = await this.safeParseResponse<T, E>(response);
-      if (!response.ok) throw data
-      return data
-    })
-
-
-
+      if (!response.ok) throw data;
+      return data;
+    });
 
   /**
    * @tags metadata
@@ -102,12 +96,9 @@ export class Api<SecurityDataType> {
    * @summary List available data sets
    * @request GET:/
    */
-  listDataSets = (params?: RequestParams) =>
-    this.request<dataSetList, any>(`/`, "GET", params, null)
+  listDataSets = (params?: RequestParams) => this.request<dataSetList, any>(`/`, "GET", params, null);
 
   dataset = {
-
-
     /**
      * @tags metadata
      * @name list-searchable-fields
@@ -118,7 +109,6 @@ export class Api<SecurityDataType> {
     listSearchableFields: (dataset: string, version: string, params?: RequestParams) =>
       this.request<string, string>(`/${dataset}/${version}/fields`, "GET", params, null),
 
-
     /**
      * @tags search
      * @name perform-search
@@ -126,8 +116,11 @@ export class Api<SecurityDataType> {
      * @request POST:/{dataset}/{version}/records
      * @description This API is based on Solr/Lucense Search. The data is indexed using SOLR. This GET API returns the list of all the searchable field names that are in the Solr Index. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the Solr/Lucene Syntax. Please refer https://lucene.apache.org/core/3_6_2/queryparsersyntax.html#Overview for the query syntax. List of field names that are searchable can be determined using above GET api.
      */
-    performSearch: (version: string, dataset: string, data: { criteria: string, start?: number, rows?: number }, params?: RequestParams) =>
-      this.request<object[], any>(`/${dataset}/${version}/records`, "POST", params, data),
-  }
-
+    performSearch: (
+      version: string,
+      dataset: string,
+      data: { criteria: string; start?: number; rows?: number },
+      params?: RequestParams,
+    ) => this.request<Record<string, object>[], any>(`/${dataset}/${version}/records`, "POST", params, data),
+  };
 }

@@ -2,37 +2,35 @@
 /* eslint-disable */
 
 /*
-* ---------------------------------------------------------------
-* ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
-* ##                                                           ##
-* ## AUTHOR: acacode                                           ##
-* ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
-* ---------------------------------------------------------------
-*/
-
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
 
 export interface Product {
-  
   /**
    * Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
    */
   product_id?: string;
-  
+
   /**
    * Description of product.
    */
   description?: string;
-  
+
   /**
    * Display name of product.
    */
   display_name?: string;
-  
+
   /**
    * Capacity of product. For example, 4 people.
    */
   capacity?: number;
-  
+
   /**
    * Image URL representing the product.
    */
@@ -40,7 +38,6 @@ export interface Product {
 }
 
 export interface ProductList {
-  
   /**
    * Contains the list of products
    */
@@ -48,37 +45,36 @@ export interface ProductList {
 }
 
 export interface PriceEstimate {
-  
   /**
    * Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles
    */
   product_id?: string;
-  
+
   /**
    * [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code.
    */
   currency_code?: string;
-  
+
   /**
    * Display name of product.
    */
   display_name?: string;
-  
+
   /**
    * Formatted string of estimate in local currency of the start location. Estimate could be a range, a single number (flat rate) or "Metered" for TAXI.
    */
   estimate?: string;
-  
+
   /**
    * Lower bound of the estimated price.
    */
   low_estimate?: number;
-  
+
   /**
    * Upper bound of the estimated price.
    */
   high_estimate?: number;
-  
+
   /**
    * Expected surge multiplier. Surge is active if surge_multiplier is greater than 1. Price estimate already factors in the surge multiplier.
    */
@@ -86,27 +82,26 @@ export interface PriceEstimate {
 }
 
 export interface Profile {
-  
   /**
    * First name of the Uber user.
    */
   first_name?: string;
-  
+
   /**
    * Last name of the Uber user.
    */
   last_name?: string;
-  
+
   /**
    * Email address of the Uber user
    */
   email?: string;
-  
+
   /**
    * Image URL of the Uber user.
    */
   picture?: string;
-  
+
   /**
    * Promo code of the Uber user.
    */
@@ -114,7 +109,6 @@ export interface Profile {
 }
 
 export interface Activity {
-  
   /**
    * Unique identifier for the activity
    */
@@ -122,17 +116,16 @@ export interface Activity {
 }
 
 export interface Activities {
-  
   /**
    * Position in pagination.
    */
   offset?: number;
-  
+
   /**
    * Number of items to retrieve (100 max).
    */
   limit?: number;
-  
+
   /**
    * Total number of items available.
    */
@@ -148,50 +141,55 @@ export interface Error {
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
-}
+};
 
 type ApiConfig<SecurityDataType> = {
-  baseUrl?: string,
-  baseApiParams?: RequestParams,
-  securityWorker?: (securityData: SecurityDataType) => RequestParams,
-}
-
+  baseUrl?: string;
+  baseApiParams?: RequestParams;
+  securityWorker?: (securityData: SecurityDataType) => RequestParams;
+};
 
 /** Move your app forward with the Uber API */
 export class Api<SecurityDataType> {
-  
   public baseUrl = "https://api.uber.com/v1";
   public title = "Uber API";
   public version = "1.0.0";
 
-  private securityData: SecurityDataType = (null as any);
-  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
-  
-  private baseApiParams: RequestParams = {
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-  }
+  private securityData: SecurityDataType = null as any;
+  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
-  constructor({ baseUrl,baseApiParams,securityWorker, }: ApiConfig<SecurityDataType> = {}) {
+  private baseApiParams: RequestParams = {
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  };
+
+  constructor({ baseUrl, baseApiParams, securityWorker }: ApiConfig<SecurityDataType> = {}) {
     this.baseUrl = baseUrl || this.baseUrl;
     this.baseApiParams = baseApiParams || this.baseApiParams;
     this.securityWorker = securityWorker || this.securityWorker;
   }
 
   public setSecurityData = (data: SecurityDataType) => {
-    this.securityData = data
-  }
+    this.securityData = data;
+  };
 
-  private addQueryParams(query: Record<string, string|string[]|number|number[]|boolean|undefined>): string {
-    const keys = Object.keys(query).filter(key => "undefined" !== typeof query[key])
-    return keys.length === 0 ? ''
-      : '?' + keys.map(key => encodeURIComponent(key) + '=' + encodeURIComponent(
-                Array.isArray(query[key]) ? (query[key] as any).join(',') : query[key])
-              ).join('&')
+  private addQueryParams(query: Record<string, string | string[] | number | number[] | boolean | undefined>): string {
+    const keys = Object.keys(query).filter(key => "undefined" !== typeof query[key]);
+    return keys.length === 0
+      ? ""
+      : "?" +
+          keys
+            .map(
+              key =>
+                encodeURIComponent(key) +
+                "=" +
+                encodeURIComponent(Array.isArray(query[key]) ? (query[key] as any).join(",") : query[key]),
+            )
+            .join("&");
   }
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -202,16 +200,17 @@ export class Api<SecurityDataType> {
       headers: {
         ...(this.baseApiParams.headers || {}),
         ...(params.headers || {}),
-        ...((securityParams && securityParams.headers) || {})
-      }
-    }
+        ...((securityParams && securityParams.headers) || {}),
+      },
+    };
   }
-  
+
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
-    response.json()
+    response
+      .json()
       .then(data => data)
       .catch(e => response.text);
-  
+
   public request = <T = any, E = any>(
     path: string,
     method: string,
@@ -226,15 +225,11 @@ export class Api<SecurityDataType> {
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
       const data = await this.safeParseResponse<T, E>(response);
-      if (!response.ok) throw data
-      return data
-    })
-
-
+      if (!response.ok) throw data;
+      return data;
+    });
 
   products = {
-
-
     /**
      * @tags Products
      * @name productsList
@@ -243,12 +238,10 @@ export class Api<SecurityDataType> {
      * @secure
      * @description The Products endpoint returns information about the Uber products offered at a given location. The response includes the display name and other details about each product, and lists the products in the proper display order.
      */
-    productsList: (query: { latitude: number, longitude: number }, params?: RequestParams) =>
+    productsList: (query: { latitude: number; longitude: number }, params?: RequestParams) =>
       this.request<Product[], Error>(`/products${this.addQueryParams(query)}`, "GET", params, null, true),
-  }
+  };
   estimates = {
-
-
     /**
      * @tags Estimates
      * @name priceList
@@ -256,9 +249,10 @@ export class Api<SecurityDataType> {
      * @request GET:/estimates/price
      * @description The Price Estimates endpoint returns an estimated price range for each product offered at a given location. The price estimate is provided as a formatted string with the full price range and the localized currency symbol.<br><br>The response also includes low and high estimates, and the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for situations requiring currency conversion. When surge is active for a particular product, its surge_multiplier will be greater than 1, but the price estimate already factors in this multiplier.
      */
-    priceList: (query: { start_latitude: number, start_longitude: number, end_latitude?: number, end_longitude: number }, params?: RequestParams) =>
-      this.request<PriceEstimate[], Error>(`/estimates/price${this.addQueryParams(query)}`, "GET", params, null),
-
+    priceList: (
+      query: { start_latitude: number; start_longitude: number; end_latitude?: number; end_longitude: number },
+      params?: RequestParams,
+    ) => this.request<PriceEstimate[], Error>(`/estimates/price${this.addQueryParams(query)}`, "GET", params, null),
 
     /**
      * @tags Estimates
@@ -267,12 +261,12 @@ export class Api<SecurityDataType> {
      * @request GET:/estimates/time
      * @description The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. We recommend that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.
      */
-    timeList: (query: { start_latitude: number, start_longitude: number, customer_uuid?: string, product_id?: string }, params?: RequestParams) =>
-      this.request<Product[], Error>(`/estimates/time${this.addQueryParams(query)}`, "GET", params, null),
-  }
+    timeList: (
+      query: { start_latitude: number; start_longitude: number; customer_uuid?: string; product_id?: string },
+      params?: RequestParams,
+    ) => this.request<Product[], Error>(`/estimates/time${this.addQueryParams(query)}`, "GET", params, null),
+  };
   me = {
-
-
     /**
      * @tags User
      * @name getMe
@@ -280,12 +274,9 @@ export class Api<SecurityDataType> {
      * @request GET:/me
      * @description The User Profile endpoint returns information about the Uber user that has authorized with the application.
      */
-    getMe: (params?: RequestParams) =>
-      this.request<Profile, Error>(`/me`, "GET", params, null),
-  }
+    getMe: (params?: RequestParams) => this.request<Profile, Error>(`/me`, "GET", params, null),
+  };
   history = {
-
-
     /**
      * @tags User
      * @name historyList
@@ -293,8 +284,7 @@ export class Api<SecurityDataType> {
      * @request GET:/history
      * @description The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.
      */
-    historyList: (query: { offset?: number, limit?: number }, params?: RequestParams) =>
+    historyList: (query: { offset?: number; limit?: number }, params?: RequestParams) =>
       this.request<Activities, Error>(`/history${this.addQueryParams(query)}`, "GET", params, null),
-  }
-
+  };
 }

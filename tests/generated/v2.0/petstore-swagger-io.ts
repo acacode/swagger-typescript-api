@@ -2,14 +2,13 @@
 /* eslint-disable */
 
 /*
-* ---------------------------------------------------------------
-* ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
-* ##                                                           ##
-* ## AUTHOR: acacode                                           ##
-* ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
-* ---------------------------------------------------------------
-*/
-
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
 
 export interface Category {
   id?: number;
@@ -22,7 +21,7 @@ export interface Pet {
   name: string;
   photoUrls: string[];
   tags?: Tag[];
-  
+
   /**
    * pet status in the store
    */
@@ -45,7 +44,7 @@ export interface Order {
   petId?: number;
   quantity?: number;
   shipDate?: string;
-  
+
   /**
    * Order Status
    */
@@ -61,7 +60,7 @@ export interface User {
   email?: string;
   password?: string;
   phone?: string;
-  
+
   /**
    * User Status
    */
@@ -70,50 +69,55 @@ export interface User {
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
-}
+};
 
 type ApiConfig<SecurityDataType> = {
-  baseUrl?: string,
-  baseApiParams?: RequestParams,
-  securityWorker?: (securityData: SecurityDataType) => RequestParams,
-}
-
+  baseUrl?: string;
+  baseApiParams?: RequestParams;
+  securityWorker?: (securityData: SecurityDataType) => RequestParams;
+};
 
 /** This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters. */
 export class Api<SecurityDataType> {
-  
   public baseUrl = "https://petstore.swagger.io/v2";
   public title = "Swagger Petstore";
   public version = "1.0.3";
 
-  private securityData: SecurityDataType = (null as any);
-  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any
-  
-  private baseApiParams: RequestParams = {
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-  }
+  private securityData: SecurityDataType = null as any;
+  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
-  constructor({ baseUrl,baseApiParams,securityWorker, }: ApiConfig<SecurityDataType> = {}) {
+  private baseApiParams: RequestParams = {
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  };
+
+  constructor({ baseUrl, baseApiParams, securityWorker }: ApiConfig<SecurityDataType> = {}) {
     this.baseUrl = baseUrl || this.baseUrl;
     this.baseApiParams = baseApiParams || this.baseApiParams;
     this.securityWorker = securityWorker || this.securityWorker;
   }
 
   public setSecurityData = (data: SecurityDataType) => {
-    this.securityData = data
-  }
+    this.securityData = data;
+  };
 
-  private addQueryParams(query: Record<string, string|string[]|number|number[]|boolean|undefined>): string {
-    const keys = Object.keys(query).filter(key => "undefined" !== typeof query[key])
-    return keys.length === 0 ? ''
-      : '?' + keys.map(key => encodeURIComponent(key) + '=' + encodeURIComponent(
-                Array.isArray(query[key]) ? (query[key] as any).join(',') : query[key])
-              ).join('&')
+  private addQueryParams(query: Record<string, string | string[] | number | number[] | boolean | undefined>): string {
+    const keys = Object.keys(query).filter(key => "undefined" !== typeof query[key]);
+    return keys.length === 0
+      ? ""
+      : "?" +
+          keys
+            .map(
+              key =>
+                encodeURIComponent(key) +
+                "=" +
+                encodeURIComponent(Array.isArray(query[key]) ? (query[key] as any).join(",") : query[key]),
+            )
+            .join("&");
   }
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -124,16 +128,17 @@ export class Api<SecurityDataType> {
       headers: {
         ...(this.baseApiParams.headers || {}),
         ...(params.headers || {}),
-        ...((securityParams && securityParams.headers) || {})
-      }
-    }
+        ...((securityParams && securityParams.headers) || {}),
+      },
+    };
   }
-  
+
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
-    response.json()
+    response
+      .json()
       .then(data => data)
       .catch(e => response.text);
-  
+
   public request = <T = any, E = any>(
     path: string,
     method: string,
@@ -148,15 +153,11 @@ export class Api<SecurityDataType> {
       body: body ? JSON.stringify(body) : null,
     }).then(async response => {
       const data = await this.safeParseResponse<T, E>(response);
-      if (!response.ok) throw data
-      return data
-    })
-
-
+      if (!response.ok) throw data;
+      return data;
+    });
 
   pet = {
-
-
     /**
      * @tags pet
      * @name getPetById
@@ -168,7 +169,6 @@ export class Api<SecurityDataType> {
     getPetById: (petId: number, params?: RequestParams) =>
       this.request<Pet, any>(`/pet/${petId}`, "GET", params, null, true),
 
-
     /**
      * @tags pet
      * @name updatePetWithForm
@@ -176,9 +176,8 @@ export class Api<SecurityDataType> {
      * @request POST:/pet/{petId}
      * @secure
      */
-    updatePetWithForm: (petId: number, data: { name?: string, status?: string }, params?: RequestParams) =>
+    updatePetWithForm: (petId: number, data: { name?: string; status?: string }, params?: RequestParams) =>
       this.request<any, any>(`/pet/${petId}`, "POST", params, data, true),
-
 
     /**
      * @tags pet
@@ -190,7 +189,6 @@ export class Api<SecurityDataType> {
     deletePet: (petId: number, params?: RequestParams) =>
       this.request<any, any>(`/pet/${petId}`, "DELETE", params, null, true),
 
-
     /**
      * @tags pet
      * @name uploadFile
@@ -198,9 +196,8 @@ export class Api<SecurityDataType> {
      * @request POST:/pet/{petId}/uploadImage
      * @secure
      */
-    uploadFile: (petId: number, data: { additionalMetadata?: string, file?: string }, params?: RequestParams) =>
+    uploadFile: (petId: number, data: { additionalMetadata?: string; file?: string }, params?: RequestParams) =>
       this.request<ApiResponse, any>(`/pet/${petId}/uploadImage`, "POST", params, data, true),
-
 
     /**
      * @tags pet
@@ -209,9 +206,7 @@ export class Api<SecurityDataType> {
      * @request POST:/pet
      * @secure
      */
-    addPet: (body: Pet, params?: RequestParams) =>
-      this.request<any, any>(`/pet`, "POST", params, body, true),
-
+    addPet: (body: Pet, params?: RequestParams) => this.request<any, any>(`/pet`, "POST", params, body, true),
 
     /**
      * @tags pet
@@ -220,9 +215,7 @@ export class Api<SecurityDataType> {
      * @request PUT:/pet
      * @secure
      */
-    updatePet: (body: Pet, params?: RequestParams) =>
-      this.request<any, any>(`/pet`, "PUT", params, body, true),
-
+    updatePet: (body: Pet, params?: RequestParams) => this.request<any, any>(`/pet`, "PUT", params, body, true),
 
     /**
      * @tags pet
@@ -235,7 +228,6 @@ export class Api<SecurityDataType> {
     findPetsByStatus: (query: { status: Array<"available" | "pending" | "sold"> }, params?: RequestParams) =>
       this.request<Pet[], any>(`/pet/findByStatus${this.addQueryParams(query)}`, "GET", params, null, true),
 
-
     /**
      * @tags pet
      * @name findPetsByTags
@@ -246,10 +238,8 @@ export class Api<SecurityDataType> {
      */
     findPetsByTags: (query: { tags: string[] }, params?: RequestParams) =>
       this.request<Pet[], any>(`/pet/findByTags${this.addQueryParams(query)}`, "GET", params, null, true),
-  }
+  };
   store = {
-
-
     /**
      * @tags store
      * @name getInventory
@@ -259,8 +249,7 @@ export class Api<SecurityDataType> {
      * @description Returns a map of status codes to quantities
      */
     getInventory: (params?: RequestParams) =>
-      this.request<number, any>(`/store/inventory`, "GET", params, null, true),
-
+      this.request<Record<string, number>, any>(`/store/inventory`, "GET", params, null, true),
 
     /**
      * @tags store
@@ -272,7 +261,6 @@ export class Api<SecurityDataType> {
     getOrderById: (orderId: number, params?: RequestParams) =>
       this.request<Order, any>(`/store/order/${orderId}`, "GET", params, null),
 
-
     /**
      * @tags store
      * @name deleteOrder
@@ -283,19 +271,15 @@ export class Api<SecurityDataType> {
     deleteOrder: (orderId: number, params?: RequestParams) =>
       this.request<any, any>(`/store/order/${orderId}`, "DELETE", params, null),
 
-
     /**
      * @tags store
      * @name placeOrder
      * @summary Place an order for a pet
      * @request POST:/store/order
      */
-    placeOrder: (body: Order, params?: RequestParams) =>
-      this.request<Order, any>(`/store/order`, "POST", params, body),
-  }
+    placeOrder: (body: Order, params?: RequestParams) => this.request<Order, any>(`/store/order`, "POST", params, body),
+  };
   user = {
-
-
     /**
      * @tags user
      * @name getUserByName
@@ -304,7 +288,6 @@ export class Api<SecurityDataType> {
      */
     getUserByName: (username: string, params?: RequestParams) =>
       this.request<User, any>(`/user/${username}`, "GET", params, null),
-
 
     /**
      * @tags user
@@ -316,7 +299,6 @@ export class Api<SecurityDataType> {
     updateUser: (username: string, body: User, params?: RequestParams) =>
       this.request<any, any>(`/user/${username}`, "PUT", params, body),
 
-
     /**
      * @tags user
      * @name deleteUser
@@ -327,16 +309,14 @@ export class Api<SecurityDataType> {
     deleteUser: (username: string, params?: RequestParams) =>
       this.request<any, any>(`/user/${username}`, "DELETE", params, null),
 
-
     /**
      * @tags user
      * @name loginUser
      * @summary Logs user into the system
      * @request GET:/user/login
      */
-    loginUser: (query: { username: string, password: string }, params?: RequestParams) =>
+    loginUser: (query: { username: string; password: string }, params?: RequestParams) =>
       this.request<string, any>(`/user/login${this.addQueryParams(query)}`, "GET", params, null),
-
 
     /**
      * @tags user
@@ -344,9 +324,7 @@ export class Api<SecurityDataType> {
      * @summary Logs out current logged in user session
      * @request GET:/user/logout
      */
-    logoutUser: (params?: RequestParams) =>
-      this.request<any, any>(`/user/logout`, "GET", params, null),
-
+    logoutUser: (params?: RequestParams) => this.request<any, any>(`/user/logout`, "GET", params, null),
 
     /**
      * @tags user
@@ -355,9 +333,7 @@ export class Api<SecurityDataType> {
      * @request POST:/user
      * @description This can only be done by the logged in user.
      */
-    createUser: (body: User, params?: RequestParams) =>
-      this.request<any, any>(`/user`, "POST", params, body),
-
+    createUser: (body: User, params?: RequestParams) => this.request<any, any>(`/user`, "POST", params, body),
 
     /**
      * @tags user
@@ -368,7 +344,6 @@ export class Api<SecurityDataType> {
     createUsersWithArrayInput: (body: User[], params?: RequestParams) =>
       this.request<any, any>(`/user/createWithArray`, "POST", params, body),
 
-
     /**
      * @tags user
      * @name createUsersWithListInput
@@ -377,6 +352,5 @@ export class Api<SecurityDataType> {
      */
     createUsersWithListInput: (body: User[], params?: RequestParams) =>
       this.request<any, any>(`/user/createWithList`, "POST", params, body),
-  }
-
+  };
 }
