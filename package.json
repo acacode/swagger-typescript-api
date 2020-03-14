@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "commander": "^4.1.0",
+    "commander": "^5.0.0",
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
     "mustache": "^4.0.0",
