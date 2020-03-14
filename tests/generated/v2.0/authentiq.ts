@@ -82,6 +82,8 @@ export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };
 
+export type RequestQueryParamsType = Record<string, string | string[] | number | number[] | boolean | undefined>;
+
 type ApiConfig<SecurityDataType> = {
   baseUrl?: string;
   baseApiParams?: RequestParams;
@@ -116,19 +118,18 @@ export class Api<SecurityDataType> {
     this.securityData = data;
   };
 
-  private addQueryParams(query: Record<string, string | string[] | number | number[] | boolean | undefined>): string {
-    const keys = Object.keys(query).filter(key => "undefined" !== typeof query[key]);
-    return keys.length === 0
-      ? ""
-      : "?" +
-          keys
-            .map(
-              key =>
-                encodeURIComponent(key) +
-                "=" +
-                encodeURIComponent(Array.isArray(query[key]) ? (query[key] as any).join(",") : query[key]),
-            )
-            .join("&");
+  private addQueryParam(query: RequestQueryParamsType, key: string) {
+    return (
+      encodeURIComponent(key) +
+      "=" +
+      encodeURIComponent(Array.isArray(query[key]) ? (query[key] as any).join(",") : query[key])
+    );
+  }
+
+  private addQueryParams(query?: RequestQueryParamsType): string {
+    const fixedQuery = query || {};
+    const keys = Object.keys(fixedQuery).filter(key => "undefined" !== typeof fixedQuery[key]);
+    return keys.length === 0 ? "" : `?${keys.map(key => this.addQueryParam(fixedQuery, key)).join("&")}`;
   }
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -248,7 +249,7 @@ export class Api<SecurityDataType> {
      * @request POST:/scope
      * @description scope verification request See: https://github.com/skion/authentiq/wiki/JWT-Examples
      */
-    signRequest: (query: { test?: number }, body: Claims, params?: RequestParams) =>
+    signRequest: (body: Claims, query?: { test?: number }, params?: RequestParams) =>
       this.request<{ job?: string; status?: string }, Error>(
         `/scope${this.addQueryParams(query)}`,
         "POST",

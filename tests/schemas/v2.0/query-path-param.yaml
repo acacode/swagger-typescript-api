@@ -1,0 +1,43 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Query Path Param
+  license:
+    name: MIT
+host: unknown.io
+basePath: /v666
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /foobarbaz/{query}:
+    get:
+      summary: List all pets
+      operationId: listPets
+      tags:
+        - pets
+      parameters:
+        - name: queryParam
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          type: integer
+          format: int32
+        - name: query
+          in: path
+          description: How many items to return at one time (max 100)
+          required: false
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: A paged array of pets
+          headers:
+            x-next:
+              type: string
+              description: A link to the next page of responses
+          schema:
+            type: object

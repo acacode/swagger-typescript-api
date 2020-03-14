@@ -143,6 +143,8 @@ export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };
 
+export type RequestQueryParamsType = Record<string, string | string[] | number | number[] | boolean | undefined>;
+
 type ApiConfig<SecurityDataType> = {
   baseUrl?: string;
   baseApiParams?: RequestParams;
@@ -177,19 +179,18 @@ export class Api<SecurityDataType> {
     this.securityData = data;
   };
 
-  private addQueryParams(query: Record<string, string | string[] | number | number[] | boolean | undefined>): string {
-    const keys = Object.keys(query).filter(key => "undefined" !== typeof query[key]);
-    return keys.length === 0
-      ? ""
-      : "?" +
-          keys
-            .map(
-              key =>
-                encodeURIComponent(key) +
-                "=" +
-                encodeURIComponent(Array.isArray(query[key]) ? (query[key] as any).join(",") : query[key]),
-            )
-            .join("&");
+  private addQueryParam(query: RequestQueryParamsType, key: string) {
+    return (
+      encodeURIComponent(key) +
+      "=" +
+      encodeURIComponent(Array.isArray(query[key]) ? (query[key] as any).join(",") : query[key])
+    );
+  }
+
+  private addQueryParams(query?: RequestQueryParamsType): string {
+    const fixedQuery = query || {};
+    const keys = Object.keys(fixedQuery).filter(key => "undefined" !== typeof fixedQuery[key]);
+    return keys.length === 0 ? "" : `?${keys.map(key => this.addQueryParam(fixedQuery, key)).join("&")}`;
   }
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -284,7 +285,7 @@ export class Api<SecurityDataType> {
      * @request GET:/history
      * @description The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.
      */
-    historyList: (query: { offset?: number; limit?: number }, params?: RequestParams) =>
+    historyList: (query?: { offset?: number; limit?: number }, params?: RequestParams) =>
       this.request<Activities, Error>(`/history${this.addQueryParams(query)}`, "GET", params, null),
   };
 }

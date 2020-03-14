@@ -3,6 +3,10 @@ export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 }
 
+{{#hasQueryRoutes}}
+export type RequestQueryParamsType = Record<string, string | string[] | number | number[] | boolean | undefined>;
+{{/hasQueryRoutes}}
+
 type ApiConfig{{apiConfig.generic}} = {
 {{#apiConfig.props}}
   {{name}}{{#optional}}?{{/optional}}: {{type}},
@@ -49,12 +53,14 @@ export class Api{{apiConfig.generic}} {
   }
 
   {{#hasQueryRoutes}}
-  private addQueryParams(query: Record<string, string|string[]|number|number[]|boolean|undefined>): string {
-    const keys = Object.keys(query).filter(key => "undefined" !== typeof query[key])
-    return keys.length === 0 ? ''
-      : '?' + keys.map(key => encodeURIComponent(key) + '=' + encodeURIComponent(
-                Array.isArray(query[key]) ? (query[key] as any).join(',') : query[key])
-              ).join('&')
+  private addQueryParam(query: RequestQueryParamsType, key: string) {
+    return encodeURIComponent(key) + "=" + encodeURIComponent(Array.isArray(query[key]) ? (query[key] as any).join(",") : query[key])
+  }
+
+  private addQueryParams(query?: RequestQueryParamsType): string {
+    const fixedQuery = query || {};
+    const keys = Object.keys(fixedQuery).filter(key => "undefined" !== typeof fixedQuery[key]);
+    return keys.length === 0 ? "" : `?${keys.map(key => this.addQueryParam(fixedQuery, key)).join("&")}`;
   }
   {{/hasQueryRoutes}}
 
@@ -104,8 +110,8 @@ export class Api{{apiConfig.generic}} {
    * {{.}}
   {{/comments}}
    */
-  {{name}} = ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params?: RequestParams) =>
-    this.request<{{returnType}}, {{errorReturnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}})
+  {{name}} = ({{#routeArgs}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/routeArgs}}) =>
+    this.request<{{returnType}}, {{errorReturnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams({{#specificArgs.query}}{{name}}{{/specificArgs.query}})}{{/hasQuery}}`, "{{method}}", {{#specificArgs.requestParams}}{{name}}{{/specificArgs.requestParams}}, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}})
   {{/outOfModule}}
 
   {{#combined}}
@@ -118,8 +124,8 @@ export class Api{{apiConfig.generic}} {
      * {{.}}
     {{/comments}}
      */
-    {{name}}: ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params?: RequestParams) =>
-      this.request<{{returnType}}, {{errorReturnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
+    {{name}}: ({{#routeArgs}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/routeArgs}}) =>
+      this.request<{{returnType}}, {{errorReturnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams({{#specificArgs.query}}{{name}}{{/specificArgs.query}})}{{/hasQuery}}`, "{{method}}", {{#specificArgs.requestParams}}{{name}}{{/specificArgs.requestParams}}, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
     {{/routes}}
   }
   {{/combined}}

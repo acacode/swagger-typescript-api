@@ -1,0 +1,55 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Path Args
+  license:
+    name: MIT
+host: unknown.io
+basePath: /v666
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /pets/{param1}/{param2}/{param3}:
+    get:
+      summary: List all pets
+      operationId: listPets
+      tags:
+        - pets
+      parameters:
+        - name: queryParam
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          type: integer
+          format: int32
+        - name: param1
+          in: path
+          description: How many items to return at one time (max 100)
+          required: false
+          type: integer
+          format: int32
+        - name: param2
+          in: path
+          description: How many items to return at one time (max 100)
+          required: false
+          type: integer
+          format: int32
+        - name: param3
+          in: path
+          description: How many items to return at one time (max 100)
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: A paged array of pets
+          headers:
+            x-next:
+              type: string
+              description: A link to the next page of responses
+          schema:
+            type: object

@@ -1,5 +1,21 @@
 # next release
 
+# 1.6.0
+
+Features:
+
+- Improvenment in optional request params (request body, query params, path params)
+
+Fixes:
+
+- Fix bug when `path` request param have the same name as `query`
+- Fix bug when `path` request param have the same name as `params`
+
+Minor/Internal:
+
+- changed `addQueryParams()` method
+- up `swagger2openapi` dependency version to `5.3.4`
+
 # 1.5.0
 
 Features:

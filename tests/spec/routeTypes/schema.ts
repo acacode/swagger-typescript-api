@@ -4287,6 +4287,8 @@ export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };
 
+export type RequestQueryParamsType = Record<string, string | string[] | number | number[] | boolean | undefined>;
+
 type ApiConfig<SecurityDataType> = {
   baseUrl?: string;
   baseApiParams?: RequestParams;
@@ -4321,19 +4323,18 @@ export class Api<SecurityDataType> {
     this.securityData = data;
   };
 
-  private addQueryParams(query: Record<string, string | string[] | number | number[] | boolean | undefined>): string {
-    const keys = Object.keys(query).filter(key => "undefined" !== typeof query[key]);
-    return keys.length === 0
-      ? ""
-      : "?" +
-          keys
-            .map(
-              key =>
-                encodeURIComponent(key) +
-                "=" +
-                encodeURIComponent(Array.isArray(query[key]) ? (query[key] as any).join(",") : query[key]),
-            )
-            .join("&");
+  private addQueryParam(query: RequestQueryParamsType, key: string) {
+    return (
+      encodeURIComponent(key) +
+      "=" +
+      encodeURIComponent(Array.isArray(query[key]) ? (query[key] as any).join(",") : query[key])
+    );
+  }
+
+  private addQueryParams(query?: RequestQueryParamsType): string {
+    const fixedQuery = query || {};
+    const keys = Object.keys(fixedQuery).filter(key => "undefined" !== typeof fixedQuery[key]);
+    return keys.length === 0 ? "" : `?${keys.map(key => this.addQueryParam(fixedQuery, key)).join("&")}`;
   }
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -4403,7 +4404,7 @@ export class Api<SecurityDataType> {
      * @request GET:/gists
      * @description List the authenticated user's gists or if called anonymously, this will return all public gists.
      */
-    gistsList: (query: { since?: string }, params?: RequestParams) =>
+    gistsList: (query?: { since?: string }, params?: RequestParams) =>
       this.request<gists, any>(`/gists${this.addQueryParams(query)}`, "GET", params, null),
 
     /**
@@ -4418,7 +4419,7 @@ export class Api<SecurityDataType> {
      * @request GET:/gists/public
      * @description List all public gists.
      */
-    publicList: (query: { since?: string }, params?: RequestParams) =>
+    publicList: (query?: { since?: string }, params?: RequestParams) =>
       this.request<gists, any>(`/gists/public${this.addQueryParams(query)}`, "GET", params, null),
 
     /**
@@ -4426,7 +4427,7 @@ export class Api<SecurityDataType> {
      * @request GET:/gists/starred
      * @description List the authenticated user's starred gists.
      */
-    starredList: (query: { since?: string }, params?: RequestParams) =>
+    starredList: (query?: { since?: string }, params?: RequestParams) =>
       this.request<gists, any>(`/gists/starred${this.addQueryParams(query)}`, "GET", params, null),
 
     /**
@@ -4587,7 +4588,7 @@ export class Api<SecurityDataType> {
      */
     reposSearchDetail: (
       keyword: string,
-      query: { order?: "desc" | "asc"; language?: string; start_page?: string; sort?: "updated" | "stars" | "forks" },
+      query?: { order?: "desc" | "asc"; language?: string; start_page?: string; sort?: "updated" | "stars" | "forks" },
       params?: RequestParams,
     ) =>
       this.request<SearchRepositoriesByKeyword, any>(
@@ -4612,7 +4613,7 @@ export class Api<SecurityDataType> {
      */
     userSearchDetail: (
       keyword: string,
-      query: { order?: "desc" | "asc"; start_page?: string; sort?: "updated" | "stars" | "forks" },
+      query?: { order?: "desc" | "asc"; start_page?: string; sort?: "updated" | "stars" | "forks" },
       params?: RequestParams,
     ) =>
       this.request<SearchUsersByKeyword, any>(
@@ -4661,7 +4662,7 @@ export class Api<SecurityDataType> {
      * @request GET:/notifications
      * @description List your notifications. List all notifications for the current user, grouped by repository.
      */
-    notificationsList: (query: { all?: boolean; participating?: boolean; since?: string }, params?: RequestParams) =>
+    notificationsList: (query?: { all?: boolean; participating?: boolean; since?: string }, params?: RequestParams) =>
       this.request<notifications, any>(`/notifications${this.addQueryParams(query)}`, "GET", params, null),
 
     /**
@@ -4822,7 +4823,7 @@ export class Api<SecurityDataType> {
      */
     reposDetail: (
       org: string,
-      query: { type?: "all" | "public" | "private" | "forks" | "sources" | "member" },
+      query?: { type?: "all" | "public" | "private" | "forks" | "sources" | "member" },
       params?: RequestParams,
     ) => this.request<repos, any>(`/orgs/${org}/repos${this.addQueryParams(query)}`, "GET", params, null),
 
@@ -5000,7 +5001,7 @@ export class Api<SecurityDataType> {
     commitsDetail: (
       owner: string,
       repo: string,
-      query: { since?: string; sha?: string; path?: string; author?: string; until?: string },
+      query?: { since?: string; sha?: string; path?: string; author?: string; until?: string },
       params?: RequestParams,
     ) =>
       this.request<commits, any>(`/repos/${owner}/${repo}/commits${this.addQueryParams(query)}`, "GET", params, null),
@@ -5069,7 +5070,7 @@ export class Api<SecurityDataType> {
       owner: string,
       repo: string,
       path: string,
-      query: { path?: string; ref?: string },
+      query?: { path?: string; ref?: string },
       params?: RequestParams,
     ) =>
       this.request<ContentsPath, any>(
@@ -5179,7 +5180,7 @@ export class Api<SecurityDataType> {
     forksDetail: (
       owner: string,
       repo: string,
-      query: { sort?: "newes" | "oldes" | "watchers" },
+      query?: { sort?: "newes" | "oldes" | "watchers" },
       params?: RequestParams,
     ) => this.request<forks, any>(`/repos/${owner}/${repo}/forks${this.addQueryParams(query)}`, "GET", params, null),
 
@@ -5298,7 +5299,7 @@ export class Api<SecurityDataType> {
       owner: string,
       repo: string,
       shaCode: string,
-      query: { recursive?: number },
+      query?: { recursive?: number },
       params?: RequestParams,
     ) =>
       this.request<tree, any>(
@@ -5393,7 +5394,7 @@ export class Api<SecurityDataType> {
     issuesCommentsDetail: (
       owner: string,
       repo: string,
-      query: { direction?: string; sort?: "created" | "updated"; since?: string },
+      query?: { direction?: string; sort?: "created" | "updated"; since?: string },
       params?: RequestParams,
     ) =>
       this.request<issuesComments, any>(
@@ -5641,7 +5642,7 @@ export class Api<SecurityDataType> {
     milestonesDetail: (
       owner: string,
       repo: string,
-      query: { state?: "open" | "closed"; direction?: string; sort?: "due_date" | "completeness" },
+      query?: { state?: "open" | "closed"; direction?: string; sort?: "due_date" | "completeness" },
       params?: RequestParams,
     ) =>
       this.request<milestone, any>(
@@ -5706,7 +5707,7 @@ export class Api<SecurityDataType> {
     notificationsDetail: (
       owner: string,
       repo: string,
-      query: { all?: boolean; participating?: boolean; since?: string },
+      query?: { all?: boolean; participating?: boolean; since?: string },
       params?: RequestParams,
     ) =>
       this.request<notifications, any>(
@@ -5732,7 +5733,7 @@ export class Api<SecurityDataType> {
     pullsDetail: (
       owner: string,
       repo: string,
-      query: { state?: "open" | "closed"; head?: string; base?: string },
+      query?: { state?: "open" | "closed"; head?: string; base?: string },
       params?: RequestParams,
     ) => this.request<pulls, any>(`/repos/${owner}/${repo}/pulls${this.addQueryParams(query)}`, "GET", params, null),
 
@@ -5752,7 +5753,7 @@ export class Api<SecurityDataType> {
     pullsCommentsDetail: (
       owner: string,
       repo: string,
-      query: { direction?: string; sort?: "created" | "updated"; since?: string },
+      query?: { direction?: string; sort?: "created" | "updated"; since?: string },
       params?: RequestParams,
     ) =>
       this.request<issuesComments, any>(
@@ -5871,7 +5872,7 @@ export class Api<SecurityDataType> {
      * @request GET:/repos/{owner}/{repo}/readme
      * @description Get the README. This method returns the preferred README for a repository.
      */
-    readmeDetail: (owner: string, repo: string, query: { ref?: string }, params?: RequestParams) =>
+    readmeDetail: (owner: string, repo: string, query?: { ref?: string }, params?: RequestParams) =>
       this.request<ContentsPath, any>(
         `/repos/${owner}/${repo}/readme${this.addQueryParams(query)}`,
         "GET",
@@ -6096,7 +6097,7 @@ export class Api<SecurityDataType> {
      * @request GET:/repositories
      * @description List all public repositories. This provides a dump of every public repository, in the order that they were created. Note: Pagination is powered exclusively by the since parameter. is the Link header to get the URL for the next page of repositories.
      */
-    repositoriesList: (query: { since?: string }, params?: RequestParams) =>
+    repositoriesList: (query?: { since?: string }, params?: RequestParams) =>
       this.request<repos, any>(`/repositories${this.addQueryParams(query)}`, "GET", params, null),
   };
   search = {
@@ -6399,7 +6400,7 @@ export class Api<SecurityDataType> {
      * @description List repositories for the authenticated user. Note that this does not include repositories owned by organizations which the user can access. You can lis user organizations and list organization repositories separately.
      */
     reposList: (
-      query: { type?: "all" | "public" | "private" | "forks" | "sources" | "member" },
+      query?: { type?: "all" | "public" | "private" | "forks" | "sources" | "member" },
       params?: RequestParams,
     ) => this.request<repos, any>(`/user/repos${this.addQueryParams(query)}`, "GET", params, null),
 
@@ -6416,7 +6417,7 @@ export class Api<SecurityDataType> {
      * @request GET:/user/starred
      * @description List repositories being starred by the authenticated user.
      */
-    starredList: (query: { direction?: string; sort?: "created" | "updated" }, params?: RequestParams) =>
+    starredList: (query?: { direction?: string; sort?: "created" | "updated" }, params?: RequestParams) =>
       this.request<gitignore, any>(`/user/starred${this.addQueryParams(query)}`, "GET", params, null),
 
     /**
@@ -6487,7 +6488,7 @@ export class Api<SecurityDataType> {
      * @request GET:/users
      * @description Get all users. This provides a dump of every user, in the order that they signed up for GitHub. Note: Pagination is powered exclusively by the since parameter. Use the Link header to get the URL for the next page of users.
      */
-    usersList: (query: { since?: number }, params?: RequestParams) =>
+    usersList: (query?: { since?: number }, params?: RequestParams) =>
       this.request<users, any>(`/users${this.addQueryParams(query)}`, "GET", params, null),
 
     /**
@@ -6535,7 +6536,7 @@ export class Api<SecurityDataType> {
      * @request GET:/users/{username}/gists
      * @description List a users gists.
      */
-    gistsDetail: (username: string, query: { since?: string }, params?: RequestParams) =>
+    gistsDetail: (username: string, query?: { since?: string }, params?: RequestParams) =>
       this.request<gists, any>(`/users/${username}/gists${this.addQueryParams(query)}`, "GET", params, null),
 
     /**
@@ -6577,7 +6578,7 @@ export class Api<SecurityDataType> {
      */
     reposDetail: (
       username: string,
-      query: { type?: "all" | "public" | "private" | "forks" | "sources" | "member" },
+      query?: { type?: "all" | "public" | "private" | "forks" | "sources" | "member" },
       params?: RequestParams,
     ) => this.request<repos, any>(`/users/${username}/repos${this.addQueryParams(query)}`, "GET", params, null),
 
