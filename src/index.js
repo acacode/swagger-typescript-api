@@ -81,12 +81,7 @@ module.exports = {
               generateRouteTypes ? mustache.render(routeTypesTemplate, configuration) : "",
               generateClient ? mustache.render(clientTemplate, configuration) : "",
             ].join(""),
-            {
-              printWidth: 120,
-              tabWidth: 2,
-              trailingComma: "all",
-              parser: "typescript",
-            },
+            prettierConfig,
           );
 
           if (pathIsExist(output)) {

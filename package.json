@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Create typescript api module from swagger schema",
   "scripts": {
     "cli": "node index.js -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
@@ -35,7 +35,7 @@
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
     "mustache": "^4.0.0",
-    "swagger2openapi": "^5.3.3",
+    "swagger2openapi": "^5.3.4",
     "prettier": "^1.19.1"
   },
   "bin": {

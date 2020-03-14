@@ -423,7 +423,7 @@ export class Api<SecurityDataType> {
      */
     allActivities: (
       username: string,
-      query: { start_time?: string; end_time?: string; limit?: number },
+      query?: { start_time?: string; end_time?: string; limit?: number },
       params?: RequestParams,
     ) => this.request<Activity[], any>(`/${username}/activities${this.addQueryParams(query)}`, "GET", params, null),
 
@@ -437,7 +437,7 @@ export class Api<SecurityDataType> {
     getActivity: (
       username: string,
       type: string,
-      query: { start_time?: string; end_time?: string; limit?: number },
+      query?: { start_time?: string; end_time?: string; limit?: number },
       params?: RequestParams,
     ) =>
       this.request<Activity[], any>(
@@ -615,7 +615,7 @@ export class Api<SecurityDataType> {
      * @summary Create a new Feed
      * @request POST:/{username}/feeds
      */
-    createFeed: (username: string, query: { group_key?: string }, feed: Feed, params?: RequestParams) =>
+    createFeed: (username: string, feed: Feed, query?: { group_key?: string }, params?: RequestParams) =>
       this.request<Feed, any>(`/${username}/feeds${this.addQueryParams(query)}`, "POST", params, feed),
 
     /**
@@ -672,7 +672,7 @@ export class Api<SecurityDataType> {
     allData: (
       username: string,
       feed_key: string,
-      query: { start_time?: string; end_time?: string; limit?: number; include?: string },
+      query?: { start_time?: string; end_time?: string; limit?: number; include?: string },
       params?: RequestParams,
     ) =>
       this.request<DataResponse[], any>(
@@ -715,7 +715,7 @@ export class Api<SecurityDataType> {
     chartData: (
       username: string,
       feed_key: string,
-      query: { start_time?: string; end_time?: string; resolution?: number; hours?: number },
+      query?: { start_time?: string; end_time?: string; resolution?: number; hours?: number },
       params?: RequestParams,
     ) =>
       this.request<
@@ -735,7 +735,7 @@ export class Api<SecurityDataType> {
      * @request GET:/{username}/feeds/{feed_key}/data/first
      * @description Get the oldest data point in the feed. This request sets the queue pointer to the beginning of the feed.
      */
-    firstData: (username: string, feed_key: string, query: { include?: string }, params?: RequestParams) =>
+    firstData: (username: string, feed_key: string, query?: { include?: string }, params?: RequestParams) =>
       this.request<DataResponse, any>(
         `/${username}/feeds/${feed_key}/data/first${this.addQueryParams(query)}`,
         "GET",
@@ -750,7 +750,7 @@ export class Api<SecurityDataType> {
      * @request GET:/{username}/feeds/{feed_key}/data/last
      * @description Get the most recent data point in the feed. This request sets the queue pointer to the end of the feed.
      */
-    lastData: (username: string, feed_key: string, query: { include?: string }, params?: RequestParams) =>
+    lastData: (username: string, feed_key: string, query?: { include?: string }, params?: RequestParams) =>
       this.request<DataResponse, any>(
         `/${username}/feeds/${feed_key}/data/last${this.addQueryParams(query)}`,
         "GET",
@@ -765,7 +765,7 @@ export class Api<SecurityDataType> {
      * @request GET:/{username}/feeds/{feed_key}/data/next
      * @description Get the next newest data point in the feed. If queue processing hasn't been started, the first data point in the feed will be returned.
      */
-    nextData: (username: string, feed_key: string, query: { include?: string }, params?: RequestParams) =>
+    nextData: (username: string, feed_key: string, query?: { include?: string }, params?: RequestParams) =>
       this.request<DataResponse, any>(
         `/${username}/feeds/${feed_key}/data/next${this.addQueryParams(query)}`,
         "GET",
@@ -780,7 +780,7 @@ export class Api<SecurityDataType> {
      * @request GET:/{username}/feeds/{feed_key}/data/previous
      * @description Get the previously processed data point in the feed. NOTE: this method doesn't move the processing queue pointer.
      */
-    previousData: (username: string, feed_key: string, query: { include?: string }, params?: RequestParams) =>
+    previousData: (username: string, feed_key: string, query?: { include?: string }, params?: RequestParams) =>
       this.request<DataResponse, any>(
         `/${username}/feeds/${feed_key}/data/previous${this.addQueryParams(query)}`,
         "GET",
@@ -813,7 +813,7 @@ export class Api<SecurityDataType> {
      * @summary Returns data based on feed key
      * @request GET:/{username}/feeds/{feed_key}/data/{id}
      */
-    getData: (username: string, feed_key: string, id: string, query: { include?: string }, params?: RequestParams) =>
+    getData: (username: string, feed_key: string, id: string, query?: { include?: string }, params?: RequestParams) =>
       this.request<DataResponse, any>(
         `/${username}/feeds/${feed_key}/data/${id}${this.addQueryParams(query)}`,
         "GET",
@@ -928,7 +928,7 @@ export class Api<SecurityDataType> {
      * @summary Add an existing Feed to a Group
      * @request POST:/{username}/groups/{group_key}/add
      */
-    addFeedToGroup: (group_key: string, username: string, query: { feed_key?: string }, params?: RequestParams) =>
+    addFeedToGroup: (group_key: string, username: string, query?: { feed_key?: string }, params?: RequestParams) =>
       this.request<Group, any>(
         `/${username}/groups/${group_key}/add${this.addQueryParams(query)}`,
         "POST",
@@ -986,7 +986,7 @@ export class Api<SecurityDataType> {
       username: string,
       group_key: string,
       feed_key: string,
-      query: { start_time?: string; end_time?: string; limit?: number },
+      query?: { start_time?: string; end_time?: string; limit?: number },
       params?: RequestParams,
     ) =>
       this.request<DataResponse[], any>(
@@ -1037,7 +1037,7 @@ export class Api<SecurityDataType> {
      * @summary Remove a Feed from a Group
      * @request POST:/{username}/groups/{group_key}/remove
      */
-    removeFeedFromGroup: (group_key: string, username: string, query: { feed_key?: string }, params?: RequestParams) =>
+    removeFeedFromGroup: (group_key: string, username: string, query?: { feed_key?: string }, params?: RequestParams) =>
       this.request<Group, any>(
         `/${username}/groups/${group_key}/remove${this.addQueryParams(query)}`,
         "POST",

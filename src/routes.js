@@ -216,20 +216,59 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
           ? getTypeFromRequestInfo(requestBody, parsedSchemas, operationId)
           : null;
 
-        const args = [
-          ...pathParams.map(param => ({
-            name: param.name,
-            type: parseSchema(param.schema, null, inlineExtraFormatters).content,
-          })),
-          queryType && {
-            name: "query",
-            type: queryType,
+        const pathArgs = _.map(pathParams, param => ({
+          name: param.name,
+          optional: !param.required,
+          type: parseSchema(param.schema, null, inlineExtraFormatters).content,
+        }));
+
+        const specificArgs = {
+          query: queryType
+            ? {
+                name: pathArgs.some(pathArg => pathArg.name === "query") ? "queryParams" : "query",
+                optional: parseSchema(queryObjectSchema, null).allFieldsAreOptional,
+                type: queryType,
+              }
+            : void 0,
+          body: bodyType
+            ? {
+                name: bodyParamName,
+                optional:
+                  typeof requestBody.required === "undefined" ? false : !requestBody.required,
+                type: bodyType,
+              }
+            : void 0,
+          requestParams: {
+            name: pathArgs.some(pathArg => pathArg.name === "params") ? "requestParams" : "params",
+            optional: true,
+            type: "RequestParams",
           },
-          bodyType && {
-            name: bodyParamName,
-            type: bodyType,
-          },
-        ].filter(Boolean);
+        };
+
+        let routeArgs = [...pathArgs, specificArgs.query, specificArgs.body].filter(Boolean);
+
+        if (routeArgs.some(pathArg => pathArg.optional)) {
+          const { optionalArgs, requiredArgs } = _.reduce(
+            [...routeArgs],
+            (acc, pathArg) => {
+              if (pathArg.optional) {
+                acc.optionalArgs.push(pathArg);
+              } else {
+                acc.requiredArgs.push(pathArg);
+              }
+
+              return acc;
+            },
+            {
+              optionalArgs: [],
+              requiredArgs: [],
+            },
+          );
+
+          routeArgs = [...requiredArgs, ...optionalArgs];
+        }
+
+        routeArgs.push(specificArgs.requestParams);
 
         // TODO: get args for formData
         // "name": "file",
@@ -275,7 +314,8 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
           name,
           pascalName: _.upperFirst(name),
           comments,
-          args,
+          routeArgs,
+          specificArgs,
           method: _.upperCase(method),
           path: route.replace(/{/g, "${"),
           returnType: getReturnType(responses, parsedSchemas, operationId),

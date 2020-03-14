@@ -55,6 +55,7 @@ const getObjectTypeContent = properties => {
       typeof property.nullable === "undefined" ? property.required : !property.nullable;
     return {
       description: property.description,
+      isRequired,
       field: `${isValidName(name) ? name : `"${name}"`}${
         isRequired ? "" : "?"
       }: ${getInlineParseContent(property)}`,
@@ -101,6 +102,8 @@ const schemaParsers = {
     const type = getPrimitiveType(schema);
     const isIntegerEnum = type === "number";
     return {
+      $parsedSchema: true,
+      schemaType: "enum",
       type: isIntegerEnum ? "intEnum" : "enum",
       typeIdentifier: isIntegerEnum ? "type" : "enum",
       name: typeName,
@@ -122,19 +125,25 @@ const schemaParsers = {
     }
 
     const properties = _.get(schema, "properties");
+    const typeContent = getObjectTypeContent(properties);
 
     return {
+      $parsedSchema: true,
+      schemaType: "object",
       type: "object",
       typeIdentifier: "interface",
       name: typeName,
       description: formatDescription(schema.description),
-      content: getObjectTypeContent(properties),
+      allFieldsAreOptional: !_.some(_.values(typeContent), part => part.isRequired),
+      content: typeContent,
     };
   },
   complex: (schema, typeName) => {
     const complexType = getComplexType(schema);
 
     return {
+      $parsedSchema: true,
+      schemaType: "complex",
       type: "type",
       typeIdentifier: "type",
       name: typeName,
@@ -152,6 +161,8 @@ const schemaParsers = {
     }
 
     return {
+      $parsedSchema: true,
+      schemaType: "primitive",
       type: "primitive",
       typeIdentifier: "type",
       name: typeName,
@@ -172,9 +183,25 @@ const checkAndFixSchema = schema => {
 /** @returns {{ type, typeIdentifier, name, description, content }} */
 const parseSchema = (rawSchema, typeName, formattersMap) => {
   if (!rawSchema) return schemaParsers.primitive(null, typeName);
-  const fixedRawSchema = checkAndFixSchema(rawSchema);
-  const schemaType = findSchemaType(fixedRawSchema);
-  const parsedSchema = schemaParsers[schemaType](fixedRawSchema, typeName);
+
+  let schemaType = null;
+  let parsedSchema = null;
+
+  if (typeof rawSchema === "string") {
+    console.log("WOW THERE IS STRING", rawSchema);
+    return rawSchema;
+  }
+
+  if (rawSchema.$parsedSchema) {
+    console.log("IT IS ALREADY PARSED SCHEMA", rawSchema);
+    schemaType = rawSchema.schemaType;
+    parsedSchema = rawSchema;
+  } else {
+    const fixedRawSchema = checkAndFixSchema(rawSchema);
+    schemaType = findSchemaType(fixedRawSchema);
+    parsedSchema = schemaParsers[schemaType](fixedRawSchema, typeName);
+  }
+
   return (
     (formattersMap && formattersMap[schemaType] && formattersMap[schemaType](parsedSchema)) ||
     parsedSchema

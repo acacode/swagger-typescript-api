@@ -110,8 +110,8 @@ export class Api{{apiConfig.generic}} {
    * {{.}}
   {{/comments}}
    */
-  {{name}} = ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params?: RequestParams) =>
-    this.request<{{returnType}}, {{errorReturnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}})
+  {{name}} = ({{#routeArgs}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/routeArgs}}) =>
+    this.request<{{returnType}}, {{errorReturnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams({{#specificArgs.query}}{{name}}{{/specificArgs.query}})}{{/hasQuery}}`, "{{method}}", {{#specificArgs.requestParams}}{{name}}{{/specificArgs.requestParams}}, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}})
   {{/outOfModule}}
 
   {{#combined}}
@@ -124,8 +124,8 @@ export class Api{{apiConfig.generic}} {
      * {{.}}
     {{/comments}}
      */
-    {{name}}: ({{#args}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/args}}params?: RequestParams) =>
-      this.request<{{returnType}}, {{errorReturnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams(query)}{{/hasQuery}}`, "{{method}}", params, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
+    {{name}}: ({{#routeArgs}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/routeArgs}}) =>
+      this.request<{{returnType}}, {{errorReturnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams({{#specificArgs.query}}{{name}}{{/specificArgs.query}})}{{/hasQuery}}`, "{{method}}", {{#specificArgs.requestParams}}{{name}}{{/specificArgs.requestParams}}, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
     {{/routes}}
   }
   {{/combined}}

@@ -293,7 +293,7 @@ export class Api<SecurityDataType> {
      * @response `429` `Error` Too Many Requests on same address / number `rate-limit`
      * @response `default` `Error`
      */
-    signRequest: (query: { test?: number }, body: Claims, params?: RequestParams) =>
+    signRequest: (body: Claims, query?: { test?: number }, params?: RequestParams) =>
       this.request<{ job?: string; status?: string }, Error>(
         `/scope${this.addQueryParams(query)}`,
         "POST",

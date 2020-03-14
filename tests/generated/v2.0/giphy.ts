@@ -352,7 +352,7 @@ export class Api<SecurityDataType> {
      * @request GET:/gifs
      * @description A multiget version of the get GIF by ID endpoint.
      */
-    getGifsById: (query: { ids?: string }, params?: RequestParams) =>
+    getGifsById: (query?: { ids?: string }, params?: RequestParams) =>
       this.request<{ data?: Gif[]; meta?: Meta; pagination?: Pagination }, any>(
         `/gifs${this.addQueryParams(query)}`,
         "GET",
@@ -367,7 +367,7 @@ export class Api<SecurityDataType> {
      * @request GET:/gifs/random
      * @description Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.
      */
-    randomGif: (query: { tag?: string; rating?: string }, params?: RequestParams) =>
+    randomGif: (query?: { tag?: string; rating?: string }, params?: RequestParams) =>
       this.request<{ data?: Gif; meta?: Meta }, any>(`/gifs/random${this.addQueryParams(query)}`, "GET", params, null),
 
     /**
@@ -410,7 +410,7 @@ export class Api<SecurityDataType> {
      * @request GET:/gifs/trending
      * @description Fetch GIFs currently trending online. Hand curated by the GIPHY editorial team.  The data returned mirrors the GIFs showcased on the GIPHY homepage. Returns 25 results by default.
      */
-    trendingGifs: (query: { limit?: number; offset?: number; rating?: string }, params?: RequestParams) =>
+    trendingGifs: (query?: { limit?: number; offset?: number; rating?: string }, params?: RequestParams) =>
       this.request<{ data?: Gif[]; meta?: Meta; pagination?: Pagination }, any>(
         `/gifs/trending${this.addQueryParams(query)}`,
         "GET",
@@ -436,7 +436,7 @@ export class Api<SecurityDataType> {
      * @request GET:/stickers/random
      * @description Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.
      */
-    randomSticker: (query: { tag?: string; rating?: string }, params?: RequestParams) =>
+    randomSticker: (query?: { tag?: string; rating?: string }, params?: RequestParams) =>
       this.request<{ data?: Gif; meta?: Meta }, any>(
         `/stickers/random${this.addQueryParams(query)}`,
         "GET",
@@ -484,7 +484,7 @@ export class Api<SecurityDataType> {
      * @request GET:/stickers/trending
      * @description Fetch Stickers currently trending online. Hand curated by the GIPHY editorial team. Returns 25 results by default.
      */
-    trendingStickers: (query: { limit?: number; offset?: number; rating?: string }, params?: RequestParams) =>
+    trendingStickers: (query?: { limit?: number; offset?: number; rating?: string }, params?: RequestParams) =>
       this.request<{ data?: Gif[]; meta?: Meta; pagination?: Pagination }, any>(
         `/stickers/trending${this.addQueryParams(query)}`,
         "GET",

@@ -249,7 +249,7 @@ export class Api<SecurityDataType> {
      * @request POST:/scope
      * @description scope verification request See: https://github.com/skion/authentiq/wiki/JWT-Examples
      */
-    signRequest: (query: { test?: number }, body: Claims, params?: RequestParams) =>
+    signRequest: (body: Claims, query?: { test?: number }, params?: RequestParams) =>
       this.request<{ job?: string; status?: string }, Error>(
         `/scope${this.addQueryParams(query)}`,
         "POST",

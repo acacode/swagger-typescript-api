@@ -131,7 +131,7 @@ export class Api<SecurityDataType> {
      * @request GET:/pets
      * @description Returns all pets from the system that the user has access to
      */
-    findPets: (query: { tags?: string[]; limit?: number }, params?: RequestParams) =>
+    findPets: (query?: { tags?: string[]; limit?: number }, params?: RequestParams) =>
       this.request<Pet[], ErrorModel>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
 
     /**

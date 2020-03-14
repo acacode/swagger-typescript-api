@@ -120,7 +120,7 @@ export class Api<SecurityDataType> {
      * @summary List all pets
      * @request GET:/pets
      */
-    listPets: (query: { limit?: number }, params?: RequestParams) =>
+    listPets: (query?: { limit?: number }, params?: RequestParams) =>
       this.request<Pets, Error>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
 
     /**

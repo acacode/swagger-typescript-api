@@ -197,7 +197,7 @@ export class Api<SecurityDataType> {
      * @name Login
      * @request POST:/auth
      */
-    login: (data: AuthUser, params?: RequestParams) => this.request<string, any>(`/auth`, "POST", params, data),
+    login: (data?: AuthUser, params?: RequestParams) => this.request<string, any>(`/auth`, "POST", params, data),
 
     /**
      * @tags Auth
