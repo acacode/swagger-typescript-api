@@ -35,7 +35,7 @@
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
     "mustache": "^4.0.0",
-    "prettier": "^2.0.0",
+    "prettier": "^2.0.2",
     "swagger2openapi": "^5.4.0"
   },
   "bin": {

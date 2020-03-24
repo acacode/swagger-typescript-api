@@ -4,7 +4,7 @@
 
 Internal:
 
-- Update `prettier`(`2.0.0`), `swagger2openapi`(`5.4.0`) dependencies  
+- Update `prettier`(`2.0.2`), `swagger2openapi`(`5.4.0`) dependencies  
 
 # 1.6.0
 
