@@ -1,10 +1,10 @@
-# next release
+# next release  
 
-# 1.6.1
+# 1.6.1  
 
 Internal:
 
-- Update `prettier`(`2.0.0`), `swagger2openapi`(`5.4.0`) dependencies
+- Update `prettier`(`2.0.0`), `swagger2openapi`(`5.4.0`) dependencies  
 
 # 1.6.0
 
@@ -48,9 +48,9 @@ Breaking Changes:
   Features:
 - `-d, --default-as-success` option. Allows to use "default" status codes as success response type
 - `-r, --responses` option. Response declarations in request rescription  
-  Thisoptionaddscommentsofthepossibleresponsesfromrequest  
+  This option adds comments of the possible responses from request   
   ![responses comments](./assets/changelog_assets/responses-comments.jpg)  
-  Alsotypingsfor`.catch()` callback  
+  Also typings for `.catch()` callback  
   ![responses catch types](./assets/changelog_assets/responses-catch-types.jpg)
 - Improve response body type definitions
 - Types for bad responses  
