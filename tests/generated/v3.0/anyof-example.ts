@@ -73,8 +73,8 @@ export class Api<SecurityDataType> {
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
     response
       .json()
-      .then(data => data)
-      .catch(e => response.text);
+      .then((data) => data)
+      .catch((e) => response.text);
 
   public request = <T = any, E = any>(
     path: string,
@@ -88,7 +88,7 @@ export class Api<SecurityDataType> {
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
       body: body ? JSON.stringify(body) : null,
-    }).then(async response => {
+    }).then(async (response) => {
       const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data;
       return data;

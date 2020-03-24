@@ -139,8 +139,8 @@ export class Api<SecurityDataType> {
 
   private addQueryParams(query?: RequestQueryParamsType): string {
     const fixedQuery = query || {};
-    const keys = Object.keys(fixedQuery).filter(key => "undefined" !== typeof fixedQuery[key]);
-    return keys.length === 0 ? "" : `?${keys.map(key => this.addQueryParam(fixedQuery, key)).join("&")}`;
+    const keys = Object.keys(fixedQuery).filter((key) => "undefined" !== typeof fixedQuery[key]);
+    return keys.length === 0 ? "" : `?${keys.map((key) => this.addQueryParam(fixedQuery, key)).join("&")}`;
   }
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -159,8 +159,8 @@ export class Api<SecurityDataType> {
   private safeParseResponse = <T = any, E = any>(response: Response): TPromise<T, E> =>
     response
       .json()
-      .then(data => data)
-      .catch(e => response.text);
+      .then((data) => data)
+      .catch((e) => response.text);
 
   public request = <T = any, E = any>(
     path: string,
@@ -174,7 +174,7 @@ export class Api<SecurityDataType> {
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
       body: body ? JSON.stringify(body) : null,
-    }).then(async response => {
+    }).then(async (response) => {
       const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data;
       return data;
