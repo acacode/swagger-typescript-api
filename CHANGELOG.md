@@ -1,5 +1,7 @@
 # next release
 
+# 1.6.1
+
 Internal:
 
 - Update `prettier`(`2.0.0`), `swagger2openapi`(`5.4.0`) dependencies
