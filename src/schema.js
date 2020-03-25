@@ -11,7 +11,7 @@ const typeAliases = {
   integer: "number",
 };
 
-const findSchemaType = schema => {
+const findSchemaType = (schema) => {
   if (schema.enum) return "enum";
   if (schema.properties) return "object";
   if (schema.allOf || schema.oneOf || schema.anyOf || schema.not) return "complex";
@@ -19,9 +19,12 @@ const findSchemaType = schema => {
   return "primitive";
 };
 
-const getPrimitiveType = property => {
-  const type = _.get(property, "type");
-  return typeAliases[type] || type || DEFAULT_PRIMITIVE_TYPE;
+const getPrimitiveType = (property) => {
+  const { type, nullable } = property || {};
+  const primitiveType = typeAliases[type] || type;
+  return primitiveType
+    ? (nullable && `${primitiveType} | null`) || primitiveType
+    : DEFAULT_PRIMITIVE_TYPE;
 };
 
 const specificObjectTypes = {
@@ -31,24 +34,24 @@ const specificObjectTypes = {
   },
 };
 
-const getRefType = property => {
+const getRefType = (property) => {
   const ref = property && property["$ref"];
   return (ref && config.componentsMap[ref]) || null;
 };
 
-const getRefTypeName = property => {
+const getRefTypeName = (property) => {
   const refTypeInfo = getRefType(property);
   return refTypeInfo && checkAndRenameModelName(refTypeInfo.typeName);
 };
 
-const getType = property => {
+const getType = (property) => {
   if (!property) return DEFAULT_PRIMITIVE_TYPE;
 
   const anotherTypeGetter = specificObjectTypes[property.type] || getPrimitiveType;
   return getRefTypeName(property) || anotherTypeGetter(property);
 };
 
-const getObjectTypeContent = properties => {
+const getObjectTypeContent = (properties) => {
   return _.map(properties, (property, name) => {
     // TODO: probably nullable should'n be use as required/no-required conditions
     const isRequired =
@@ -66,27 +69,27 @@ const getObjectTypeContent = properties => {
 const complexTypeGetter = ({ description, ...schema }) => getInlineParseContent(schema);
 
 const complexSchemaParsers = {
-  oneOf: schema => {
+  oneOf: (schema) => {
     // T1 | T2
     const combined = _.map(schema.oneOf, complexTypeGetter);
     return combined.join(" | ");
   },
-  allOf: schema => {
+  allOf: (schema) => {
     // T1 & T2
     return _.map(schema.allOf, complexTypeGetter).join(" & ");
   },
-  anyOf: schema => {
+  anyOf: (schema) => {
     // T1 | T2 | (T1 & T2)
     const combined = _.map(schema.anyOf, complexTypeGetter);
     return `${combined.join(" | ")}` + (combined.length > 1 ? ` | (${combined.join(" & ")})` : "");
   },
   // TODO
-  not: schema => {
+  not: (schema) => {
     // TODO
   },
 };
 
-const getComplexType = schema => {
+const getComplexType = (schema) => {
   if (schema.oneOf) return "oneOf";
   if (schema.allOf) return "allOf";
   if (schema.anyOf) return "anyOf";
@@ -108,7 +111,7 @@ const schemaParsers = {
       typeIdentifier: isIntegerEnum ? "type" : "enum",
       name: typeName,
       description: formatDescription(schema.description),
-      content: _.map(schema.enum, key => ({
+      content: _.map(schema.enum, (key) => ({
         key,
         type,
         value: isIntegerEnum ? `${key}` : `"${key}"`,
@@ -117,7 +120,7 @@ const schemaParsers = {
   },
   object: (schema, typeName) => {
     if (_.isArray(schema.required) && schema.properties) {
-      schema.required.forEach(requiredFieldName => {
+      schema.required.forEach((requiredFieldName) => {
         if (schema.properties[requiredFieldName]) {
           schema.properties[requiredFieldName].required = true;
         }
@@ -134,7 +137,7 @@ const schemaParsers = {
       typeIdentifier: "interface",
       name: typeName,
       description: formatDescription(schema.description),
-      allFieldsAreOptional: !_.some(_.values(typeContent), part => part.isRequired),
+      allFieldsAreOptional: !_.some(_.values(typeContent), (part) => part.isRequired),
       content: typeContent,
     };
   },
@@ -172,7 +175,7 @@ const schemaParsers = {
   },
 };
 
-const checkAndFixSchema = schema => {
+const checkAndFixSchema = (schema) => {
   if (schema.items && !schema.type) {
     schema.type = "array";
   }
@@ -208,10 +211,10 @@ const parseSchema = (rawSchema, typeName, formattersMap) => {
   );
 };
 
-const parseSchemas = components =>
+const parseSchemas = (components) =>
   _.map(_.get(components, "schemas"), (schema, typeName) => parseSchema(schema, typeName));
 
-const getInlineParseContent = rawTypeData =>
+const getInlineParseContent = (rawTypeData) =>
   parseSchema(rawTypeData, null, inlineExtraFormatters).content;
 
 module.exports = {
