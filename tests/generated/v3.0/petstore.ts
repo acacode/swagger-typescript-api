@@ -10,6 +10,8 @@
  * ---------------------------------------------------------------
  */
 
+export type StringNullable = string | null;
+
 export interface Pet {
   id: number;
   name: string;
