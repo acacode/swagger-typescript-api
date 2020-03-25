@@ -25,33 +25,33 @@ export enum Kind {
 export interface Job {
   id: string;
   kind: Kind;
-  name?: string;
-  link?: string;
-  github?: string;
-  npm?: string;
-  isTool?: boolean;
-  address?: string;
+  name?: string | null;
+  link?: string | null;
+  github?: string | null;
+  npm?: string | null;
+  isTool?: boolean | null;
+  address?: string | null;
 }
 
 export interface JobUpdate {
   kind: Kind;
-  name?: string;
-  link?: string;
-  github?: string;
-  npm?: string;
-  isTool?: boolean;
-  address?: string;
+  name?: string | null;
+  link?: string | null;
+  github?: string | null;
+  npm?: string | null;
+  isTool?: boolean | null;
+  address?: string | null;
 }
 
 export interface UpdatedJob {
   id: string;
   kind: Kind;
-  name?: string;
-  link?: string;
-  github?: string;
-  npm?: string;
-  isTool?: boolean;
-  address?: string;
+  name?: string | null;
+  link?: string | null;
+  github?: string | null;
+  npm?: string | null;
+  isTool?: boolean | null;
+  address?: string | null;
 }
 
 export interface Project {
@@ -59,9 +59,9 @@ export interface Project {
   year: number;
   description: string;
   job: Job;
-  name?: string;
-  notImportant?: boolean;
-  prefix?: string;
+  name?: string | null;
+  notImportant?: boolean | null;
+  prefix?: string | null;
   tags: string[];
   teamSize: string;
 }
@@ -69,9 +69,9 @@ export interface Project {
 export interface ProjectUpdate {
   year: number;
   description: string;
-  name?: string;
-  notImportant?: boolean;
-  prefix?: string;
+  name?: string | null;
+  notImportant?: boolean | null;
+  prefix?: string | null;
   tags: string[];
   teamSize: string;
   job: string;
@@ -81,9 +81,9 @@ export interface UpdatedProject {
   id: string;
   year: number;
   description: string;
-  name?: string;
-  notImportant?: boolean;
-  prefix?: string;
+  name?: string | null;
+  notImportant?: boolean | null;
+  prefix?: string | null;
   tags: string[];
   teamSize: string;
   job: string;
@@ -95,8 +95,8 @@ export interface User {
 }
 
 export interface UserUpdate {
-  id?: string;
-  username?: string;
+  id?: string | null;
+  username?: string | null;
 }
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {

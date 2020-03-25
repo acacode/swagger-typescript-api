@@ -1,5 +1,15 @@
 # next release  
 
+# 1.6.2  
+
+Fixes:  
+
+- Nullable not included in type definition ([issue](https://github.com/acacode/swagger-typescript-api/issues/36))  
+
+Internal:
+
+- Update `swagger2openapi`(`6.0.0`) dependency    
+
 # 1.6.1  
 
 Internal:
