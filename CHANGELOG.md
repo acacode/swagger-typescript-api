@@ -1,5 +1,13 @@
 # next release  
 
+# 1.6.3  
+
+Fixes:  
+
+- Handling of nullable for $ref in OpenAPI 3.0 ([issue](https://github.com/acacode/swagger-typescript-api/issues/39))  
+  Plus based on this issue was fixed most other problems with using `required` and `nullable` properties  
+
+
 # 1.6.2  
 
 Fixes:  

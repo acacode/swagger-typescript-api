@@ -19,18 +19,21 @@ const findSchemaType = (schema) => {
   return "primitive";
 };
 
+const nullableExtras = (schema, value) => {
+  const { nullable, type } = schema || {};
+  return nullable || type === "null" ? `${value} | null` : value;
+};
+
 const getPrimitiveType = (property) => {
-  const { type, nullable } = property || {};
+  const { type } = property || {};
   const primitiveType = typeAliases[type] || type;
-  return primitiveType
-    ? (nullable && `${primitiveType} | null`) || primitiveType
-    : DEFAULT_PRIMITIVE_TYPE;
+  return primitiveType ? nullableExtras(property, primitiveType) : DEFAULT_PRIMITIVE_TYPE;
 };
 
 const specificObjectTypes = {
-  array: ({ items }) => {
+  array: ({ items, ...schemaPart }) => {
     const { content, type } = parseSchema(items, null, inlineExtraFormatters);
-    return type === "primitive" ? `${content}[]` : `Array<${content}>`;
+    return nullableExtras(schemaPart, type === "primitive" ? `${content}[]` : `Array<${content}>`);
   },
 };
 
@@ -48,14 +51,17 @@ const getType = (property) => {
   if (!property) return DEFAULT_PRIMITIVE_TYPE;
 
   const anotherTypeGetter = specificObjectTypes[property.type] || getPrimitiveType;
-  return getRefTypeName(property) || anotherTypeGetter(property);
+  const refType = getRefTypeName(property);
+  return refType ? nullableExtras(property, refType) : anotherTypeGetter(property);
 };
 
 const getObjectTypeContent = (properties) => {
   return _.map(properties, (property, name) => {
-    // TODO: probably nullable should'n be use as required/no-required conditions
-    const isRequired =
-      typeof property.nullable === "undefined" ? property.required : !property.nullable;
+    const isRequired = config.convertedFromSwagger2
+      ? typeof property.nullable === "undefined"
+        ? property.required
+        : !property.nullable
+      : !!property.required;
     return {
       description: property.description,
       isRequired,
@@ -72,16 +78,21 @@ const complexSchemaParsers = {
   oneOf: (schema) => {
     // T1 | T2
     const combined = _.map(schema.oneOf, complexTypeGetter);
-    return combined.join(" | ");
+    return nullableExtras(schema, combined.join(" | "));
   },
   allOf: (schema) => {
     // T1 & T2
-    return _.map(schema.allOf, complexTypeGetter).join(" & ");
+    return nullableExtras(schema, _.map(schema.allOf, complexTypeGetter).join(" & "));
   },
   anyOf: (schema) => {
     // T1 | T2 | (T1 & T2)
     const combined = _.map(schema.anyOf, complexTypeGetter);
-    return `${combined.join(" | ")}` + (combined.length > 1 ? ` | (${combined.join(" & ")})` : "");
+    const nonEmptyTypesCombined = combined.filter((type) => !jsEmptyTypes.includes(type));
+    return nullableExtras(
+      schema,
+      `${combined.join(" | ")}` +
+        (nonEmptyTypesCombined.length > 1 ? ` | (${nonEmptyTypesCombined.join(" & ")})` : ""),
+    );
   },
   // TODO
   not: (schema) => {
@@ -170,7 +181,8 @@ const schemaParsers = {
       typeIdentifier: "type",
       name: typeName,
       description: formatDescription(description),
-      content: contentType || getType(schema),
+      // TODO: probably it should be refactored. `type === 'null'` is not flexible
+      content: type === "null" ? type : contentType || getType(schema),
     };
   },
 };
@@ -191,12 +203,10 @@ const parseSchema = (rawSchema, typeName, formattersMap) => {
   let parsedSchema = null;
 
   if (typeof rawSchema === "string") {
-    console.log("WOW THERE IS STRING", rawSchema);
     return rawSchema;
   }
 
   if (rawSchema.$parsedSchema) {
-    console.log("IT IS ALREADY PARSED SCHEMA", rawSchema);
     schemaType = rawSchema.schemaType;
     parsedSchema = rawSchema;
   } else {
