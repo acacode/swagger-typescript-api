@@ -175,7 +175,10 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/** ### The Internet of Things for Everyone
+/**
+ * @title Adafruit IO
+ * @version 2.0.0
+ * ### The Internet of Things for Everyone
 
 The Adafruit IO HTTP API provides access to your Adafruit IO data from any programming language or hardware environment that can speak HTTP. The easiest way to get started is with [an Adafruit IO learn guide](https://learn.adafruit.com/series/adafruit-io-basics) and [a simple Internet of Things capable device like the Feather Huzzah](https://www.adafruit.com/product/2821).
 
@@ -295,11 +298,10 @@ void loop() {}
 #### Client Libraries
 
 We have client libraries to help you get started with your project: [Python](https://github.com/adafruit/io-client-python), [Ruby](https://github.com/adafruit/io-client-ruby), [Arduino C++](https://github.com/adafruit/Adafruit_IO_Arduino), [Javascript](https://github.com/adafruit/adafruit-io-node), and [Go](https://github.com/adafruit/io-client-go) are available. They're all open source, so if they don't already do what you want, you can fork and add any feature you'd like.
+
  */
 export class Api<SecurityDataType> {
   public baseUrl = "https://io.adafruit.com/api/v2";
-  public title = "Adafruit IO";
-  public version = "2.0.0";
 
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;

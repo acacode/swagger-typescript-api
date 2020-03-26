@@ -101,11 +101,13 @@ type TPromise<ResolveType, RejectType = any> = Omit<Promise<ResolveType>, "then"
   ): TPromise<ResolveType | TResult, RejectType>;
 };
 
-/** Strong authentication, without the passwords. */
+/**
+ * @title Authentiq
+ * @version 6
+ * Strong authentication, without the passwords.
+ */
 export class Api<SecurityDataType> {
   public baseUrl = "https://6-dot-authentiqio.appspot.com/";
-  public title = "Authentiq";
-  public version = "6";
 
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;

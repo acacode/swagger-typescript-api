@@ -1502,11 +1502,13 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/** Powerful collaboration, code review, and code management for open source and private projects. */
+/**
+ * @title GitHub
+ * @version v3
+ * Powerful collaboration, code review, and code management for open source and private projects.
+ */
 export class Api<SecurityDataType> {
   public baseUrl = "https://api.github.com/";
-  public title = "GitHub";
-  public version = "v3";
 
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;

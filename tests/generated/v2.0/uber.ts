@@ -151,11 +151,13 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/** Move your app forward with the Uber API */
+/**
+ * @title Uber API
+ * @version 1.0.0
+ * Move your app forward with the Uber API
+ */
 export class Api<SecurityDataType> {
   public baseUrl = "https://api.uber.com/v1";
-  public title = "Uber API";
-  public version = "1.0.0";
 
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;

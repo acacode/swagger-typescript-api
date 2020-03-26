@@ -127,10 +127,11 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
+/**
+ * @title Api
+ */
 export class Api<SecurityDataType> {
   public baseUrl = "http://localhost:8080/api/v1";
-  public title = "";
-  public version = "";
 
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;

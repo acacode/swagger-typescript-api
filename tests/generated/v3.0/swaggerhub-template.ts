@@ -20,11 +20,13 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/** This is an example of using OAuth2 Application Flow in a specification to describe security to your API. */
+/**
+ * @title Sample Application Flow OAuth2 Project
+ * @version 1.0.0
+ * This is an example of using OAuth2 Application Flow in a specification to describe security to your API.
+ */
 export class Api<SecurityDataType> {
   public baseUrl = "https://virtserver.swaggerhub.com/sdfsdfsffs/sdfff/1.0.0";
-  public title = "Sample Application Flow OAuth2 Project";
-  public version = "1.0.0";
 
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;

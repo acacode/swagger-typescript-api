@@ -22,10 +22,12 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
+/**
+ * @title Callback Example
+ * @version 1.0.0
+ */
 export class Api<SecurityDataType> {
   public baseUrl = "";
-  public title = "Callback Example";
-  public version = "1.0.0";
 
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;

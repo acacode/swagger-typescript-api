@@ -21,14 +21,16 @@ type TPromise<ResolveType, RejectType = any> = Omit<Promise<ResolveType>, "then"
 }
 {{/generateResponses}}
 
+{{#apiConfig.hasDescription}}
+/**
 {{#apiConfig.description}}
-/** {{.}} */
+ * {{.}}
 {{/apiConfig.description}}
+ */
+{{/apiConfig.hasDescription}}
 export class Api{{apiConfig.generic}} {
   
   public baseUrl = "{{apiConfig.baseUrl}}";
-  public title = "{{apiConfig.title}}";
-  public version = "{{apiConfig.version}}";
 
   private securityData: SecurityDataType = (null as any);
   private securityWorker: ApiConfig{{apiConfig.generic}}["securityWorker"] = (() => {}) as any

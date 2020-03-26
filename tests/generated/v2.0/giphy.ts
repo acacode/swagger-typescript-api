@@ -265,11 +265,13 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/** Giphy API */
+/**
+ * @title Giphy
+ * @version 1.0
+ * Giphy API
+ */
 export class Api<SecurityDataType> {
   public baseUrl = "https://api.giphy.com/v1";
-  public title = "Giphy";
-  public version = "1.0";
 
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;

@@ -47,11 +47,13 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/** The Azure SQL Database management API provides a RESTful set of web APIs that interact with Azure SQL Database services to manage your databases. The API enables users to create, retrieve, update, and delete databases, servers, and other entities. */
+/**
+ * @title SqlManagementClient
+ * @version 2017-10-01-preview
+ * The Azure SQL Database management API provides a RESTful set of web APIs that interact with Azure SQL Database services to manage your databases. The API enables users to create, retrieve, update, and delete databases, servers, and other entities.
+ */
 export class Api<SecurityDataType> {
   public baseUrl = "https://management.azure.com";
-  public title = "SqlManagementClient";
-  public version = "2017-10-01-preview";
 
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;

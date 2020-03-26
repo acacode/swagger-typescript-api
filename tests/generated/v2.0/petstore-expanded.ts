@@ -34,11 +34,13 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/** A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification */
+/**
+ * @title Swagger Petstore
+ * @version 1.0.0
+ * A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
+ */
 export class Api<SecurityDataType> {
   public baseUrl = "http://petstore.swagger.io/api";
-  public title = "Swagger Petstore";
-  public version = "1.0.0";
 
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
