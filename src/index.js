@@ -16,9 +16,9 @@ const { getModelType } = require("./modelTypes");
 const { getSwaggerObject } = require("./swagger");
 const { createComponentsMap, filterComponentsMap } = require("./components");
 const { getTemplate, createFile, pathIsExist } = require("./files");
-const { addToConfig, config: defaults } = require("./config");
+const { addToConfig, config } = require("./config");
 
-mustache.escape = value => value;
+mustache.escape = (value) => value;
 
 const prettierConfig = {
   printWidth: 120,
@@ -33,10 +33,10 @@ module.exports = {
     output,
     url,
     name,
-    generateResponses = defaults.generateResponses,
-    defaultResponseAsSuccess = defaults.defaultResponseAsSuccess,
-    generateRouteTypes = defaults.generateRouteTypes,
-    generateClient = defaults.generateClient,
+    generateResponses = config.generateResponses,
+    defaultResponseAsSuccess = config.defaultResponseAsSuccess,
+    generateRouteTypes = config.generateRouteTypes,
+    generateClient = config.generateClient,
   }) =>
     new Promise((resolve, reject) => {
       addToConfig({
@@ -46,7 +46,7 @@ module.exports = {
         generateResponses,
       });
       getSwaggerObject(input, url)
-        .then(swaggerSchema => {
+        .then((swaggerSchema) => {
           console.log("☄️  start generating your typescript api");
 
           addToConfig({ swaggerSchema });
@@ -62,8 +62,8 @@ module.exports = {
 
           const parsedSchemas = parseSchemas(components);
           const routes = parseRoutes(swaggerSchema, parsedSchemas, componentsMap, components);
-          const hasSecurityRoutes = routes.some(route => route.security);
-          const hasQueryRoutes = routes.some(route => route.hasQuery);
+          const hasSecurityRoutes = routes.some((route) => route.security);
+          const hasQueryRoutes = routes.some((route) => route.hasQuery);
           const apiConfig = createApiConfig({ info, servers }, hasSecurityRoutes);
 
           const configuration = {
@@ -91,7 +91,7 @@ module.exports = {
 
           resolve(sourceFile);
         })
-        .catch(e => {
+        .catch((e) => {
           reject(e);
           throw new Error("Swagger schema parse error!\r\n " + e);
         });
