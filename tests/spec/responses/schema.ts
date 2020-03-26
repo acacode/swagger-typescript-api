@@ -101,12 +101,8 @@ type TPromise<ResolveType, RejectType = any> = Omit<Promise<ResolveType>, "then"
   ): TPromise<ResolveType | TResult, RejectType>;
 };
 
-/** Strong authentication, without the passwords. */
-export class Api<SecurityDataType> {
-  public baseUrl = "https://6-dot-authentiqio.appspot.com/";
-  public title = "Authentiq";
-  public version = "6";
-
+class HttpClient<SecurityDataType> {
+  public baseUrl: string = "https://6-dot-authentiqio.appspot.com/";
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
@@ -137,7 +133,7 @@ export class Api<SecurityDataType> {
     );
   }
 
-  private addQueryParams(query?: RequestQueryParamsType): string {
+  protected addQueryParams(query?: RequestQueryParamsType): string {
     const fixedQuery = query || {};
     const keys = Object.keys(fixedQuery).filter((key) => "undefined" !== typeof fixedQuery[key]);
     return keys.length === 0 ? "" : `?${keys.map((key) => this.addQueryParam(fixedQuery, key)).join("&")}`;
@@ -179,7 +175,15 @@ export class Api<SecurityDataType> {
       if (!response.ok) throw data;
       return data;
     });
+}
 
+/**
+ * @title Authentiq
+ * @version 6
+ * @baseUrl https://6-dot-authentiqio.appspot.com/
+ * Strong authentication, without the passwords.
+ */
+export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   key = {
     /**
      * @tags key, delete

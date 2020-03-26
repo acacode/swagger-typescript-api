@@ -265,12 +265,8 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/** Giphy API */
-export class Api<SecurityDataType> {
-  public baseUrl = "https://api.giphy.com/v1";
-  public title = "Giphy";
-  public version = "1.0";
-
+class HttpClient<SecurityDataType> {
+  public baseUrl: string = "https://api.giphy.com/v1";
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
@@ -301,7 +297,7 @@ export class Api<SecurityDataType> {
     );
   }
 
-  private addQueryParams(query?: RequestQueryParamsType): string {
+  protected addQueryParams(query?: RequestQueryParamsType): string {
     const fixedQuery = query || {};
     const keys = Object.keys(fixedQuery).filter((key) => "undefined" !== typeof fixedQuery[key]);
     return keys.length === 0 ? "" : `?${keys.map((key) => this.addQueryParam(fixedQuery, key)).join("&")}`;
@@ -343,7 +339,15 @@ export class Api<SecurityDataType> {
       if (!response.ok) throw data;
       return data;
     });
+}
 
+/**
+ * @title Giphy
+ * @version 1.0
+ * @baseUrl https://api.giphy.com/v1
+ * Giphy API
+ */
+export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   gifs = {
     /**
      * @tags gifs

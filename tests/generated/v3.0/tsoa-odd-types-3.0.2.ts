@@ -127,11 +127,8 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-export class Api<SecurityDataType> {
-  public baseUrl = "http://localhost:8080/api/v1";
-  public title = "";
-  public version = "";
-
+class HttpClient<SecurityDataType> {
+  public baseUrl: string = "http://localhost:8080/api/v1";
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
@@ -190,7 +187,13 @@ export class Api<SecurityDataType> {
       if (!response.ok) throw data;
       return data;
     });
+}
 
+/**
+ * @title Api
+ * @baseUrl http://localhost:8080/api/v1
+ */
+export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   auth = {
     /**
      * @tags Auth

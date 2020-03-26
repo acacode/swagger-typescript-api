@@ -79,12 +79,8 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/** This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters. */
-export class Api<SecurityDataType> {
-  public baseUrl = "https://petstore.swagger.io/v2";
-  public title = "Swagger Petstore";
-  public version = "1.0.3";
-
+class HttpClient<SecurityDataType> {
+  public baseUrl: string = "https://petstore.swagger.io/v2";
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
@@ -115,7 +111,7 @@ export class Api<SecurityDataType> {
     );
   }
 
-  private addQueryParams(query?: RequestQueryParamsType): string {
+  protected addQueryParams(query?: RequestQueryParamsType): string {
     const fixedQuery = query || {};
     const keys = Object.keys(fixedQuery).filter((key) => "undefined" !== typeof fixedQuery[key]);
     return keys.length === 0 ? "" : `?${keys.map((key) => this.addQueryParam(fixedQuery, key)).join("&")}`;
@@ -157,7 +153,15 @@ export class Api<SecurityDataType> {
       if (!response.ok) throw data;
       return data;
     });
+}
 
+/**
+ * @title Swagger Petstore
+ * @version 1.0.3
+ * @baseUrl https://petstore.swagger.io/v2
+ * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ */
+export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   pet = {
     /**
      * @tags pet

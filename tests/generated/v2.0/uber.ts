@@ -151,12 +151,8 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/** Move your app forward with the Uber API */
-export class Api<SecurityDataType> {
-  public baseUrl = "https://api.uber.com/v1";
-  public title = "Uber API";
-  public version = "1.0.0";
-
+class HttpClient<SecurityDataType> {
+  public baseUrl: string = "https://api.uber.com/v1";
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
@@ -187,7 +183,7 @@ export class Api<SecurityDataType> {
     );
   }
 
-  private addQueryParams(query?: RequestQueryParamsType): string {
+  protected addQueryParams(query?: RequestQueryParamsType): string {
     const fixedQuery = query || {};
     const keys = Object.keys(fixedQuery).filter((key) => "undefined" !== typeof fixedQuery[key]);
     return keys.length === 0 ? "" : `?${keys.map((key) => this.addQueryParam(fixedQuery, key)).join("&")}`;
@@ -229,7 +225,15 @@ export class Api<SecurityDataType> {
       if (!response.ok) throw data;
       return data;
     });
+}
 
+/**
+ * @title Uber API
+ * @version 1.0.0
+ * @baseUrl https://api.uber.com/v1
+ * Move your app forward with the Uber API
+ */
+export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   products = {
     /**
      * @tags Products

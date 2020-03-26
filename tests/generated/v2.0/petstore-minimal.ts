@@ -26,12 +26,8 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/** A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification */
-export class Api<SecurityDataType> {
-  public baseUrl = "http://petstore.swagger.io/api";
-  public title = "Swagger Petstore";
-  public version = "1.0.0";
-
+class HttpClient<SecurityDataType> {
+  public baseUrl: string = "http://petstore.swagger.io/api";
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
@@ -90,7 +86,15 @@ export class Api<SecurityDataType> {
       if (!response.ok) throw data;
       return data;
     });
+}
 
+/**
+ * @title Swagger Petstore
+ * @version 1.0.0
+ * @baseUrl http://petstore.swagger.io/api
+ * A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
+ */
+export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   pets = {
     /**
      * @name petsList

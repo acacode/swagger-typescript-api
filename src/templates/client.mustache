@@ -7,7 +7,7 @@ export type RequestParams = Omit<RequestInit, "body" | "method"> & {
 export type RequestQueryParamsType = Record<string, string | string[] | number | number[] | boolean | undefined>;
 {{/hasQueryRoutes}}
 
-type ApiConfig{{apiConfig.generic}} = {
+type ApiConfig<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> = {
 {{#apiConfig.props}}
   {{name}}{{#optional}}?{{/optional}}: {{type}},
 {{/apiConfig.props}}
@@ -21,17 +21,11 @@ type TPromise<ResolveType, RejectType = any> = Omit<Promise<ResolveType>, "then"
 }
 {{/generateResponses}}
 
-{{#apiConfig.description}}
-/** {{.}} */
-{{/apiConfig.description}}
-export class Api{{apiConfig.generic}} {
-  
-  public baseUrl = "{{apiConfig.baseUrl}}";
-  public title = "{{apiConfig.title}}";
-  public version = "{{apiConfig.version}}";
 
+class HttpClient<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> {
+  public baseUrl: string = "{{apiConfig.baseUrl}}";
   private securityData: SecurityDataType = (null as any);
-  private securityWorker: ApiConfig{{apiConfig.generic}}["securityWorker"] = (() => {}) as any
+  private securityWorker: ApiConfig<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}>["securityWorker"] = (() => {}) as any
   
   private baseApiParams: RequestParams = {
     credentials: 'same-origin',
@@ -42,7 +36,7 @@ export class Api{{apiConfig.generic}} {
     referrerPolicy: 'no-referrer',
   }
 
-  constructor({ {{#apiConfig.props}}{{name}},{{/apiConfig.props}} }: ApiConfig{{apiConfig.generic}} = {}) {
+  constructor({ {{#apiConfig.props}}{{name}},{{/apiConfig.props}} }: ApiConfig<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> = {}) {
   {{#apiConfig.props}}
     this.{{name}} = {{name}} || this.{{name}};
   {{/apiConfig.props}}
@@ -57,7 +51,7 @@ export class Api{{apiConfig.generic}} {
     return encodeURIComponent(key) + "=" + encodeURIComponent(Array.isArray(query[key]) ? (query[key] as any).join(",") : query[key])
   }
 
-  private addQueryParams(query?: RequestQueryParamsType): string {
+  protected addQueryParams(query?: RequestQueryParamsType): string {
     const fixedQuery = query || {};
     const keys = Object.keys(fixedQuery).filter(key => "undefined" !== typeof fixedQuery[key]);
     return keys.length === 0 ? "" : `?${keys.map(key => this.addQueryParam(fixedQuery, key)).join("&")}`;
@@ -99,7 +93,16 @@ export class Api{{apiConfig.generic}} {
       if (!response.ok) throw data
       return data
     })
+}
 
+{{#apiConfig.hasDescription}}
+/**
+{{#apiConfig.description}}
+ * {{.}}
+{{/apiConfig.description}}
+ */
+{{/apiConfig.hasDescription}}
+export class Api<{{#apiConfig.generic}}{{name}}{{#defaultValue}} = {{.}}{{/defaultValue}},{{/apiConfig.generic}}> extends HttpClient<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}>{
 {{#routes}}
 
   {{#outOfModule}}

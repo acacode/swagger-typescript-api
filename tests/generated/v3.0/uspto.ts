@@ -25,12 +25,8 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/** The Data Set API (DSAPI) allows the public users to discover and search USPTO exported data sets. This is a generic API that allows USPTO users to make any CSV based data files searchable through API. With the help of GET call, it returns the list of data fields that are searchable. With the help of POST call, data can be fetched based on the filters on the field names. Please note that POST call is used to search the actual data. The reason for the POST call is that it allows users to specify any complex search criteria without worry about the GET size limitations as well as encoding of the input parameters. */
-export class Api<SecurityDataType> {
-  public baseUrl = "{scheme}://developer.uspto.gov/ds-api";
-  public title = "USPTO Data Set API";
-  public version = "1.0.0";
-
+class HttpClient<SecurityDataType> {
+  public baseUrl: string = "{scheme}://developer.uspto.gov/ds-api";
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
@@ -89,7 +85,15 @@ export class Api<SecurityDataType> {
       if (!response.ok) throw data;
       return data;
     });
+}
 
+/**
+ * @title USPTO Data Set API
+ * @version 1.0.0
+ * @baseUrl {scheme}://developer.uspto.gov/ds-api
+ * The Data Set API (DSAPI) allows the public users to discover and search USPTO exported data sets. This is a generic API that allows USPTO users to make any CSV based data files searchable through API. With the help of GET call, it returns the list of data fields that are searchable. With the help of POST call, data can be fetched based on the filters on the field names. Please note that POST call is used to search the actual data. The reason for the POST call is that it allows users to specify any complex search criteria without worry about the GET size limitations as well as encoding of the input parameters.
+ */
+export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   /**
    * @tags metadata
    * @name list-data-sets

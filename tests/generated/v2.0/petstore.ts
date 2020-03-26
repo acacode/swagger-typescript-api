@@ -35,11 +35,8 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-export class Api<SecurityDataType> {
-  public baseUrl = "http://petstore.swagger.io/v1";
-  public title = "Swagger Petstore";
-  public version = "1.0.0";
-
+class HttpClient<SecurityDataType> {
+  public baseUrl: string = "http://petstore.swagger.io/v1";
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
@@ -70,7 +67,7 @@ export class Api<SecurityDataType> {
     );
   }
 
-  private addQueryParams(query?: RequestQueryParamsType): string {
+  protected addQueryParams(query?: RequestQueryParamsType): string {
     const fixedQuery = query || {};
     const keys = Object.keys(fixedQuery).filter((key) => "undefined" !== typeof fixedQuery[key]);
     return keys.length === 0 ? "" : `?${keys.map((key) => this.addQueryParam(fixedQuery, key)).join("&")}`;
@@ -112,7 +109,14 @@ export class Api<SecurityDataType> {
       if (!response.ok) throw data;
       return data;
     });
+}
 
+/**
+ * @title Swagger Petstore
+ * @version 1.0.0
+ * @baseUrl http://petstore.swagger.io/v1
+ */
+export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   pets = {
     /**
      * @tags pets

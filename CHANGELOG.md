@@ -1,5 +1,20 @@
 # next release  
 
+# 1.7.0  
+
+Breaking Changes:  
+
+- Remove `title` and `version` public Api class properties (moved it to Api class JSDOC)([fixes this issue](https://github.com/acacode/swagger-typescript-api/issues/41))  
+  ![removed title and version properties](./assets/changelog_assets/removed-title-version-props.jpg)  
+- Move out all http client handlers/properties into `HttpClient` local class in module  
+  ![http-client-class1](./assets/changelog_assets/http-client-class1.jpg)  
+  ![http-client-class2](./assets/changelog_assets/http-client-class2.jpg)  
+
+Chore:  
+
+- default value for `SecurityDataType` Api class generic type  
+  
+
 # 1.6.3  
 
 Fixes:  

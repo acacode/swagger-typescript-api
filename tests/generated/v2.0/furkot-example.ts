@@ -94,14 +94,8 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/** Furkot provides Rest API to access user trip data.
-Using Furkot API an application can list user trips and display stops for a specific trip.
-Furkot API uses OAuth2 protocol to authorize applications to access data on behalf of users. */
-export class Api<SecurityDataType> {
-  public baseUrl = "https://trips.furkot.com/pub/api";
-  public title = "Furkot Trips";
-  public version = "1.0.0";
-
+class HttpClient<SecurityDataType> {
+  public baseUrl: string = "https://trips.furkot.com/pub/api";
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
@@ -160,7 +154,17 @@ export class Api<SecurityDataType> {
       if (!response.ok) throw data;
       return data;
     });
+}
 
+/**
+ * @title Furkot Trips
+ * @version 1.0.0
+ * @baseUrl https://trips.furkot.com/pub/api
+ * Furkot provides Rest API to access user trip data.
+ * Using Furkot API an application can list user trips and display stops for a specific trip.
+ * Furkot API uses OAuth2 protocol to authorize applications to access data on behalf of users.
+ */
+export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   trip = {
     /**
      * @name tripList

@@ -1502,12 +1502,8 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/** Powerful collaboration, code review, and code management for open source and private projects. */
-export class Api<SecurityDataType> {
-  public baseUrl = "https://api.github.com/";
-  public title = "GitHub";
-  public version = "v3";
-
+class HttpClient<SecurityDataType> {
+  public baseUrl: string = "https://api.github.com/";
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
@@ -1538,7 +1534,7 @@ export class Api<SecurityDataType> {
     );
   }
 
-  private addQueryParams(query?: RequestQueryParamsType): string {
+  protected addQueryParams(query?: RequestQueryParamsType): string {
     const fixedQuery = query || {};
     const keys = Object.keys(fixedQuery).filter((key) => "undefined" !== typeof fixedQuery[key]);
     return keys.length === 0 ? "" : `?${keys.map((key) => this.addQueryParam(fixedQuery, key)).join("&")}`;
@@ -1580,7 +1576,15 @@ export class Api<SecurityDataType> {
       if (!response.ok) throw data;
       return data;
     });
+}
 
+/**
+ * @title GitHub
+ * @version v3
+ * @baseUrl https://api.github.com/
+ * Powerful collaboration, code review, and code management for open source and private projects.
+ */
+export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   emojis = {
     /**
      * @name emojisList

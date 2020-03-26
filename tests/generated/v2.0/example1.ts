@@ -47,12 +47,8 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/** The Azure SQL Database management API provides a RESTful set of web APIs that interact with Azure SQL Database services to manage your databases. The API enables users to create, retrieve, update, and delete databases, servers, and other entities. */
-export class Api<SecurityDataType> {
-  public baseUrl = "https://management.azure.com";
-  public title = "SqlManagementClient";
-  public version = "2017-10-01-preview";
-
+class HttpClient<SecurityDataType> {
+  public baseUrl: string = "https://management.azure.com";
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
@@ -83,7 +79,7 @@ export class Api<SecurityDataType> {
     );
   }
 
-  private addQueryParams(query?: RequestQueryParamsType): string {
+  protected addQueryParams(query?: RequestQueryParamsType): string {
     const fixedQuery = query || {};
     const keys = Object.keys(fixedQuery).filter((key) => "undefined" !== typeof fixedQuery[key]);
     return keys.length === 0 ? "" : `?${keys.map((key) => this.addQueryParam(fixedQuery, key)).join("&")}`;
@@ -125,7 +121,15 @@ export class Api<SecurityDataType> {
       if (!response.ok) throw data;
       return data;
     });
+}
 
+/**
+ * @title SqlManagementClient
+ * @version 2017-10-01-preview
+ * @baseUrl https://management.azure.com
+ * The Azure SQL Database management API provides a RESTful set of web APIs that interact with Azure SQL Database services to manage your databases. The API enables users to create, retrieve, update, and delete databases, servers, and other entities.
+ */
+export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   subscriptions = {
     /**
      * @tags ManagedInstanceTdeCertificates
