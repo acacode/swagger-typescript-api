@@ -7,7 +7,7 @@ export type RequestParams = Omit<RequestInit, "body" | "method"> & {
 export type RequestQueryParamsType = Record<string, string | string[] | number | number[] | boolean | undefined>;
 {{/hasQueryRoutes}}
 
-type ApiConfig<{{#apiConfig.generic}}{{name}}{{/apiConfig.generic}}> = {
+type ApiConfig<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> = {
 {{#apiConfig.props}}
   {{name}}{{#optional}}?{{/optional}}: {{type}},
 {{/apiConfig.props}}
@@ -22,10 +22,10 @@ type TPromise<ResolveType, RejectType = any> = Omit<Promise<ResolveType>, "then"
 {{/generateResponses}}
 
 
-class HttpClient<{{#apiConfig.generic}}{{name}}{{/apiConfig.generic}}> {
+class HttpClient<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> {
   public baseUrl: string = "{{apiConfig.baseUrl}}";
   private securityData: SecurityDataType = (null as any);
-  private securityWorker: ApiConfig<{{#apiConfig.generic}}{{name}}{{/apiConfig.generic}}>["securityWorker"] = (() => {}) as any
+  private securityWorker: ApiConfig<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}>["securityWorker"] = (() => {}) as any
   
   private baseApiParams: RequestParams = {
     credentials: 'same-origin',
@@ -36,7 +36,7 @@ class HttpClient<{{#apiConfig.generic}}{{name}}{{/apiConfig.generic}}> {
     referrerPolicy: 'no-referrer',
   }
 
-  constructor({ {{#apiConfig.props}}{{name}},{{/apiConfig.props}} }: ApiConfig<{{#apiConfig.generic}}{{name}}{{/apiConfig.generic}}> = {}) {
+  constructor({ {{#apiConfig.props}}{{name}},{{/apiConfig.props}} }: ApiConfig<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> = {}) {
   {{#apiConfig.props}}
     this.{{name}} = {{name}} || this.{{name}};
   {{/apiConfig.props}}
@@ -102,7 +102,7 @@ class HttpClient<{{#apiConfig.generic}}{{name}}{{/apiConfig.generic}}> {
 {{/apiConfig.description}}
  */
 {{/apiConfig.hasDescription}}
-export class Api<{{#apiConfig.generic}}{{name}}{{#defaultValue}} = {{.}}{{/defaultValue}}{{/apiConfig.generic}}> extends HttpClient<{{#apiConfig.generic}}{{name}}{{/apiConfig.generic}}>{
+export class Api<{{#apiConfig.generic}}{{name}}{{#defaultValue}} = {{.}}{{/defaultValue}},{{/apiConfig.generic}}> extends HttpClient<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}>{
 {{#routes}}
 
   {{#outOfModule}}
