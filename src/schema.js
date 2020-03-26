@@ -53,9 +53,7 @@ const getType = (property) => {
 
 const getObjectTypeContent = (properties) => {
   return _.map(properties, (property, name) => {
-    // TODO: probably nullable should'n be use as required/no-required conditions
-    const isRequired =
-      typeof property.nullable === "undefined" ? property.required : !property.nullable;
+    const isRequired = !!property.required;
     return {
       description: property.description,
       isRequired,
