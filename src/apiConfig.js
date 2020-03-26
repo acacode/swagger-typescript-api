@@ -4,12 +4,18 @@ const { formatDescription } = require("./common");
 const createApiConfig = ({ info, servers }) => {
   const server = (servers && servers[0]) || { url: "" };
 
-  const generic = _.compact(["SecurityDataType"]).join(", ");
+  const generic = _.compact([
+    {
+      name: "SecurityDataType",
+      defaultValue: "any",
+    },
+  ]);
 
   const description = _.compact([
     `@title ${info.title || "Api"}`,
     info.version && `@version ${info.version}`,
-    formatDescription(info.description),
+    server.url && `@baseUrl ${server.url}`,
+    _.replace(formatDescription(info.description), /\n/g, "\n * "),
   ]);
 
   return {
@@ -30,7 +36,7 @@ const createApiConfig = ({ info, servers }) => {
         type: "(securityData: SecurityDataType) => RequestParams",
       },
     ].filter(Boolean),
-    generic: generic && `<${generic}>`,
+    generic,
     baseUrl: server.url,
     title: info.title,
     version: info.version,

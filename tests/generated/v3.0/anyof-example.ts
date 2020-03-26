@@ -30,13 +30,8 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/**
- * @title Anyof Example
- * @version 1.0.0
- */
-export class Api<SecurityDataType> {
-  public baseUrl = "";
-
+class HttpClient<SecurityDataType> {
+  public baseUrl: string = "";
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
@@ -95,7 +90,13 @@ export class Api<SecurityDataType> {
       if (!response.ok) throw data;
       return data;
     });
+}
 
+/**
+ * @title Anyof Example
+ * @version 1.0.0
+ */
+export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   pets = {
     /**
      * @name petsPartialUpdate

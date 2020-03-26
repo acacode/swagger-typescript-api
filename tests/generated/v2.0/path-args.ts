@@ -22,13 +22,8 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-/**
- * @title Path Args
- * @version 1.0.0
- */
-export class Api<SecurityDataType> {
-  public baseUrl = "http://unknown.io/v666";
-
+class HttpClient<SecurityDataType> {
+  public baseUrl: string = "http://unknown.io/v666";
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
@@ -59,7 +54,7 @@ export class Api<SecurityDataType> {
     );
   }
 
-  private addQueryParams(query?: RequestQueryParamsType): string {
+  protected addQueryParams(query?: RequestQueryParamsType): string {
     const fixedQuery = query || {};
     const keys = Object.keys(fixedQuery).filter((key) => "undefined" !== typeof fixedQuery[key]);
     return keys.length === 0 ? "" : `?${keys.map((key) => this.addQueryParam(fixedQuery, key)).join("&")}`;
@@ -101,7 +96,14 @@ export class Api<SecurityDataType> {
       if (!response.ok) throw data;
       return data;
     });
+}
 
+/**
+ * @title Path Args
+ * @version 1.0.0
+ * @baseUrl http://unknown.io/v666
+ */
+export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   pets = {
     /**
      * @tags pets
