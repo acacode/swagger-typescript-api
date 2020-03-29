@@ -1,5 +1,7 @@
 # next release  
 
+# 1.7.2  
+
 Fixes:  
 
 - Critical bug with converting inline object into name of type for request body.  
