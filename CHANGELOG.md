@@ -1,5 +1,10 @@
 # next release  
 
+
+Features:  
+
+- Support FormData body types  
+
 # 1.7.2  
 
 Fixes:  
