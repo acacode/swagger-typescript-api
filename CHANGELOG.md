@@ -1,5 +1,10 @@
 # next release  
 
+Fixes:  
+
+- Critical bug with converting inline object into name of type for request body.  
+
+
 # 1.7.0  
 
 Breaking Changes:  
