@@ -216,11 +216,33 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
           ? getTypeFromRequestInfo(requestBody, parsedSchemas, operationId)
           : null;
 
-        const pathArgs = _.map(pathParams, (param) => ({
-          name: param.name,
-          optional: !param.required,
-          type: parseSchema(param.schema, null, inlineExtraFormatters).content,
-        }));
+        // Gets all in path parameters from route
+        // Example: someurl.com/{id}/{name}
+        // returns: ["id", "name"]
+        const insideRoutePathArgs = _.compact(
+          _.split(route, "{").map((part) => (part.includes("}") ? part.split("}")[0] : null)),
+        );
+
+        // Path args - someurl.com/{id}/{name}
+        // id, name its path args
+        const pathArgs = insideRoutePathArgs.length
+          ? _.map(pathParams, (param) => ({
+              name: param.name,
+              optional: !param.required,
+              type: parseSchema(param.schema, null, inlineExtraFormatters).content,
+            }))
+          : [];
+
+        insideRoutePathArgs.forEach((routePathArg) => {
+          // Cases when in path parameters is not exist in "parameters"
+          if (!pathArgs.find((pathArg) => pathArg && pathArg.name === routePathArg)) {
+            pathArgs.push({
+              name: routePathArg,
+              optional: false,
+              type: "string",
+            });
+          }
+        });
 
         const specificArgs = {
           query: queryType
