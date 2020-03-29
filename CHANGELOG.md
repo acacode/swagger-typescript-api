@@ -1,5 +1,15 @@
 # next release  
 
+# 1.7.2  
+
+Fixes:  
+
+- Critical bug with converting inline object into name of type for request body.  
+- Fix bug when path parameters is not set but contains in endpoint url.  
+  ![path params bug 1](./assets/changelog_assets/bug-with-no-path-args.jpg)  
+  ![path params bug 2](./assets/changelog_assets/bug-with-no-path-args2.jpg)  
+
+
 # 1.7.0  
 
 Breaking Changes:  

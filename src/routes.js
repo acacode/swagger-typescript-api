@@ -20,12 +20,12 @@ const methodAliases = {
   delete: (pathName, hasPathInserts) => _.camelCase(`${pathName}_delete`),
 };
 
-const getSchemaFromRequestType = requestType => {
+const getSchemaFromRequestType = (requestType) => {
   const content = _.get(requestType, "content");
 
   if (!content) return null;
 
-  const contentByType = _.find(content, contentByType => contentByType.schema);
+  const contentByType = _.find(content, (contentByType) => contentByType.schema);
 
   return contentByType && contentByType.schema;
 };
@@ -40,15 +40,15 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, content
     const { content } = parseSchema(schema, "none", inlineExtraFormatters);
     const foundedSchemaByName = _.find(
       parsedSchemas,
-      parsedSchema => parsedSchema.name === content,
+      (parsedSchema) => parsedSchema.name === content,
     );
-    const foundSchemaByContent = _.find(parsedSchemas, parsedSchema =>
+    const foundSchemaByContent = _.find(parsedSchemas, (parsedSchema) =>
       _.isEqual(parsedSchema.content, content),
     );
 
     const foundSchema = foundedSchemaByName || foundSchemaByContent;
 
-    return checkAndRenameModelName(foundSchema ? foundSchema.name : content);
+    return foundSchema ? checkAndRenameModelName(foundSchema.name) : content;
   }
 
   if (refTypeInfo) {
@@ -57,7 +57,7 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, content
 
     // TODO:HACK fix problem of swagger2opeanpi
     const typeNameWithoutOpId = _.replace(refTypeInfo.typeName, operationId, "");
-    if (_.find(parsedSchemas, schema => schema.name === typeNameWithoutOpId))
+    if (_.find(parsedSchemas, (schema) => schema.name === typeNameWithoutOpId))
       return checkAndRenameModelName(typeNameWithoutOpId);
 
     switch (refTypeInfo.componentName) {
@@ -95,14 +95,14 @@ const getTypesFromResponses = (responses, parsedSchemas, operationId) =>
     [],
   );
 
-const isSuccessResponseStatus = status =>
+const isSuccessResponseStatus = (status) =>
   (config.defaultResponseAsSuccess && status === "default") ||
   (+status >= SUCCESS_RESPONSE_STATUS_RANGE[0] && +status < SUCCESS_RESPONSE_STATUS_RANGE[1]);
 
-const findBadResponses = responses =>
+const findBadResponses = (responses) =>
   _.filter(responses, (v, status) => !isSuccessResponseStatus(status));
 
-const findSuccessResponse = responses =>
+const findSuccessResponse = (responses) =>
   _.find(responses, (v, status) => isSuccessResponseStatus(status));
 
 const getReturnType = (responses, parsedSchemas, operationId) =>
@@ -112,8 +112,8 @@ const getReturnType = (responses, parsedSchemas, operationId) =>
 const getErrorReturnType = (responses, parsedSchemas, operationId) =>
   _.uniq(
     findBadResponses(responses)
-      .map(response => getTypeFromRequestInfo(response, parsedSchemas, operationId))
-      .filter(type => type !== DEFAULT_PRIMITIVE_TYPE),
+      .map((response) => getTypeFromRequestInfo(response, parsedSchemas, operationId))
+      .filter((type) => type !== DEFAULT_PRIMITIVE_TYPE),
   ).join(" | ") || DEFAULT_PRIMITIVE_TYPE;
 
 const createCustomOperationId = (method, route, moduleName) => {
@@ -168,13 +168,13 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
           responses,
         } = requestInfo;
         const hasSecurity = !!(security && security.length);
-        const pathParams = collect(parameters, parameter => {
+        const pathParams = collect(parameters, (parameter) => {
           if (parameter.in === "path") return parameter;
 
           const refTypeInfo = getRefType(parameter);
           return refTypeInfo && refTypeInfo.rawTypeData.in === "path" && refTypeInfo.rawTypeData;
         });
-        const queryParams = collect(parameters, parameter => {
+        const queryParams = collect(parameters, (parameter) => {
           if (parameter.in === "query") return parameter;
 
           const refTypeInfo = getRefType(parameter);
@@ -216,16 +216,40 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
           ? getTypeFromRequestInfo(requestBody, parsedSchemas, operationId)
           : null;
 
-        const pathArgs = _.map(pathParams, param => ({
-          name: param.name,
-          optional: !param.required,
-          type: parseSchema(param.schema, null, inlineExtraFormatters).content,
-        }));
+        // Gets all in path parameters from route
+        // Example: someurl.com/{id}/{name}
+        // returns: ["id", "name"]
+        const insideRoutePathArgs = _.compact(
+          _.split(route, "{").map((part) => (part.includes("}") ? part.split("}")[0] : null)),
+        );
+
+        // Path args - someurl.com/{id}/{name}
+        // id, name its path args
+        const pathArgs = insideRoutePathArgs.length
+          ? _.map(pathParams, (param) => ({
+              name: param.name,
+              optional: !param.required,
+              type: parseSchema(param.schema, null, inlineExtraFormatters).content,
+            }))
+          : [];
+
+        insideRoutePathArgs.forEach((routePathArg) => {
+          // Cases when in path parameters is not exist in "parameters"
+          if (!pathArgs.find((pathArg) => pathArg && pathArg.name === routePathArg)) {
+            pathArgs.push({
+              name: routePathArg,
+              optional: false,
+              type: "string",
+            });
+          }
+        });
 
         const specificArgs = {
           query: queryType
             ? {
-                name: pathArgs.some(pathArg => pathArg.name === "query") ? "queryParams" : "query",
+                name: pathArgs.some((pathArg) => pathArg.name === "query")
+                  ? "queryParams"
+                  : "query",
                 optional: parseSchema(queryObjectSchema, null).allFieldsAreOptional,
                 type: queryType,
               }
@@ -239,7 +263,9 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
               }
             : void 0,
           requestParams: {
-            name: pathArgs.some(pathArg => pathArg.name === "params") ? "requestParams" : "params",
+            name: pathArgs.some((pathArg) => pathArg.name === "params")
+              ? "requestParams"
+              : "params",
             optional: true,
             type: "RequestParams",
           },
@@ -247,7 +273,7 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
 
         let routeArgs = [...pathArgs, specificArgs.query, specificArgs.body].filter(Boolean);
 
-        if (routeArgs.some(pathArg => pathArg.optional)) {
+        if (routeArgs.some((pathArg) => pathArg.optional)) {
           const { optionalArgs, requiredArgs } = _.reduce(
             [...routeArgs],
             (acc, pathArg) => {
@@ -326,7 +352,7 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
     ];
   }, []);
 
-const groupRoutes = routes => {
+const groupRoutes = (routes) => {
   const duplicates = {};
   return _.reduce(
     routes.reduce(
