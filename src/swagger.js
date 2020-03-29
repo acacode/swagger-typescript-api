@@ -40,18 +40,22 @@ const getSwaggerObject = (pathToSwagger, urlToSwagger) =>
               rbname: "requestBodyName",
             },
             function (err, options) {
-              const swaggerSchema = _.get(err, "options.openapi", _.get(options, "openapi"));
-              if (!swaggerSchema && err) {
+              const parsedSwaggerSchema = _.get(err, "options.openapi", _.get(options, "openapi"));
+              if (!parsedSwaggerSchema && err) {
                 throw new Error(err);
               }
-              addToConfig({
-                convertedFromSwagger2: true,
+              addToConfig({ convertedFromSwagger2: true });
+              resolve({
+                usageSchema: parsedSwaggerSchema,
+                originalSchema: swaggerSchema,
               });
-              resolve(swaggerSchema);
             },
           );
         } else {
-          resolve(swaggerSchema);
+          resolve({
+            usageSchema: swaggerSchema,
+            originalSchema: swaggerSchema,
+          });
         }
       })
       .catch((e) => {
@@ -59,6 +63,34 @@ const getSwaggerObject = (pathToSwagger, urlToSwagger) =>
       }),
   );
 
+const fixSwaggerScheme = (usage, original) => {
+  const usagePaths = _.get(usage, "paths");
+  const originalPaths = _.get(original, "paths");
+
+  // walk by routes
+  _.each(usagePaths, (usagePathObject, route) => {
+    const originalPathObject = _.get(originalPaths, route);
+
+    // walk by methods
+    _.each(usagePathObject, (usageRouteInfo, methodName) => {
+      const originalRouteInfo = _.get(originalPathObject, methodName);
+      const usageRouteParams = _.get(usageRouteInfo, "parameters", []);
+      const originalRouteParams = _.get(originalRouteInfo, "parameters", []);
+
+      _.each(originalRouteParams, (originalRouteParam) => {
+        const existUsageParam = _.find(
+          usageRouteParams,
+          (param) => originalRouteParam.in === param.in && originalRouteParam.name === param.name,
+        );
+        if (!existUsageParam) {
+          usageRouteParams.push(originalRouteParam);
+        }
+      });
+    });
+  });
+};
+
 module.exports = {
   getSwaggerObject,
+  fixSwaggerScheme,
 };

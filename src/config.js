@@ -9,7 +9,11 @@ const config = {
   generateClient: true,
   /** parsed swagger schema from getSwaggerObject() */
 
+  /** parsed swagger schema ref */
   swaggerSchema: null,
+  /** original (converted to json) swagger schema ref */
+  originalSchema: null,
+
   /** { "#/components/schemas/Foo": @TypeInfo, ... } */
   componentsMap: {},
   /** flag for catching convertion from swagger 2.0 */
