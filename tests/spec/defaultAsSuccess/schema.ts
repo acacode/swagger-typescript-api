@@ -90,6 +90,10 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
+const enum BodyType {
+  Json,
+}
+
 class HttpClient<SecurityDataType> {
   public baseUrl: string = "https://6-dot-authentiqio.appspot.com/";
   private securityData: SecurityDataType = null as any;
@@ -128,6 +132,10 @@ class HttpClient<SecurityDataType> {
     return keys.length === 0 ? "" : `?${keys.map((key) => this.addQueryParam(fixedQuery, key)).join("&")}`;
   }
 
+  private bodyFormatters: Record<BodyType, (input: object) => any> = {
+    [BodyType.Json]: JSON.stringify,
+  };
+
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
       ...this.baseApiParams,
@@ -152,13 +160,14 @@ class HttpClient<SecurityDataType> {
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
+    bodyType?: BodyType,
     secureByDefault?: boolean,
   ): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
-      body: body ? JSON.stringify(body) : null,
+      body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
     }).then(async (response) => {
       const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data;
@@ -181,7 +190,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Revoke an Authentiq ID using email & phone. If called with `email` and `phone` only, a verification code will be sent by email. Do a second call adding `code` to complete the revocation.
      */
     keyRevokeNosecret: (query: { email: string; phone: string; code?: string }, params?: RequestParams) =>
-      this.request<{ status?: string }, Error>(`/key${this.addQueryParams(query)}`, "DELETE", params, null),
+      this.request<{ status?: string }, Error>(`/key${this.addQueryParams(query)}`, "DELETE", params),
 
     /**
      * @tags key, post
@@ -199,7 +208,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Revoke an Identity (Key) with a revocation secret
      */
     keyRevoke: (PK: string, query: { secret: string }, params?: RequestParams) =>
-      this.request<{ status?: string }, Error>(`/key/${PK}${this.addQueryParams(query)}`, "DELETE", params, null),
+      this.request<{ status?: string }, Error>(`/key/${PK}${this.addQueryParams(query)}`, "DELETE", params),
 
     /**
      * @tags key, get
@@ -208,7 +217,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Get public details of an Authentiq ID.
      */
     getKey: (PK: string, params?: RequestParams) =>
-      this.request<{ since?: string; status?: string; sub?: string }, Error>(`/key/${PK}`, "GET", params, null),
+      this.request<{ since?: string; status?: string; sub?: string }, Error>(`/key/${PK}`, "GET", params),
 
     /**
      * @tags key, head
@@ -216,7 +225,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request HEAD:/key/{PK}
      * @description HEAD info on Authentiq ID
      */
-    headKey: (PK: string, params?: RequestParams) => this.request<any, Error>(`/key/${PK}`, "HEAD", params, null),
+    headKey: (PK: string, params?: RequestParams) => this.request<any, Error>(`/key/${PK}`, "HEAD", params),
 
     /**
      * @tags key, post
@@ -268,7 +277,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description delete a verification job
      */
     signDelete: (job: string, params?: RequestParams) =>
-      this.request<{ status?: string }, Error>(`/scope/${job}`, "DELETE", params, null),
+      this.request<{ status?: string }, Error>(`/scope/${job}`, "DELETE", params),
 
     /**
      * @tags scope, get
@@ -277,7 +286,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description get the status / current content of a verification job
      */
     signRetrieve: (job: string, params?: RequestParams) =>
-      this.request<{ exp?: number; field?: string; sub?: string }, Error>(`/scope/${job}`, "GET", params, null),
+      this.request<{ exp?: number; field?: string; sub?: string }, Error>(`/scope/${job}`, "GET", params),
 
     /**
      * @tags scope, head
@@ -286,7 +295,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description HEAD to get the status of a verification job
      */
     signRetrieveHead: (job: string, params?: RequestParams) =>
-      this.request<any, Error>(`/scope/${job}`, "HEAD", params, null),
+      this.request<any, Error>(`/scope/${job}`, "HEAD", params),
 
     /**
      * @tags scope, post
@@ -295,7 +304,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description this is a scope confirmation
      */
     signConfirm: (job: string, params?: RequestParams) =>
-      this.request<{ status?: string }, Error>(`/scope/${job}`, "POST", params, null),
+      this.request<{ status?: string }, Error>(`/scope/${job}`, "POST", params),
 
     /**
      * @tags scope, put
@@ -304,6 +313,6 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description authority updates a JWT with its signature See: https://github.com/skion/authentiq/wiki/JWT-Examples
      */
     signUpdate: (job: string, params?: RequestParams) =>
-      this.request<{ jwt?: string; status?: string }, Error>(`/scope/${job}`, "PUT", params, null),
+      this.request<{ jwt?: string; status?: string }, Error>(`/scope/${job}`, "PUT", params),
   };
 }

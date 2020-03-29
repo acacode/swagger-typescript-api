@@ -39,6 +39,10 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
+const enum BodyType {
+  Json,
+}
+
 class HttpClient<SecurityDataType> {
   public baseUrl: string = "";
   private securityData: SecurityDataType = null as any;
@@ -77,6 +81,10 @@ class HttpClient<SecurityDataType> {
     return keys.length === 0 ? "" : `?${keys.map((key) => this.addQueryParam(fixedQuery, key)).join("&")}`;
   }
 
+  private bodyFormatters: Record<BodyType, (input: object) => any> = {
+    [BodyType.Json]: JSON.stringify,
+  };
+
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
       ...this.baseApiParams,
@@ -101,13 +109,14 @@ class HttpClient<SecurityDataType> {
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
+    bodyType?: BodyType,
     secureByDefault?: boolean,
   ): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
-      body: body ? JSON.stringify(body) : null,
+      body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
     }).then(async (response) => {
       const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data;
@@ -126,21 +135,21 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/2.0/users/{username}
      */
     getUserByName: (username: string, params?: RequestParams) =>
-      this.request<user, any>(`/2.0/users/${username}`, "GET", params, null),
+      this.request<user, any>(`/2.0/users/${username}`, "GET", params),
 
     /**
      * @name getRepositoriesByOwner
      * @request GET:/2.0/repositories/{username}
      */
     getRepositoriesByOwner: (username: string, params?: RequestParams) =>
-      this.request<repository[], any>(`/2.0/repositories/${username}`, "GET", params, null),
+      this.request<repository[], any>(`/2.0/repositories/${username}`, "GET", params),
 
     /**
      * @name getRepository
      * @request GET:/2.0/repositories/{username}/{slug}
      */
     getRepository: (username: string, slug: string, params?: RequestParams) =>
-      this.request<repository, any>(`/2.0/repositories/${username}/${slug}`, "GET", params, null),
+      this.request<repository, any>(`/2.0/repositories/${username}/${slug}`, "GET", params),
 
     /**
      * @name getPullRequestsByRepository
@@ -156,7 +165,6 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
         `/2.0/repositories/${username}/${slug}/pullrequests${this.addQueryParams(query)}`,
         "GET",
         params,
-        null,
       ),
 
     /**
@@ -164,13 +172,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
      */
     getPullRequestsById: (username: string, slug: string, pid: string, params?: RequestParams) =>
-      this.request<pullrequest, any>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}`, "GET", params, null),
+      this.request<pullrequest, any>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}`, "GET", params),
 
     /**
      * @name mergePullRequest
      * @request POST:/2.0/repositories/{username}/{slug}/pullrequests/{pid}/merge
      */
     mergePullRequest: (username: string, slug: string, pid: string, params?: RequestParams) =>
-      this.request<any, any>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}/merge`, "POST", params, null),
+      this.request<any, any>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}/merge`, "POST", params),
   };
 }

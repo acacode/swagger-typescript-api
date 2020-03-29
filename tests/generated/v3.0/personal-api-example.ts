@@ -109,6 +109,10 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
+const enum BodyType {
+  Json,
+}
+
 class HttpClient<SecurityDataType> {
   public baseUrl: string = "http://localhost:8080/api/v1";
   private securityData: SecurityDataType = null as any;
@@ -131,6 +135,10 @@ class HttpClient<SecurityDataType> {
 
   public setSecurityData = (data: SecurityDataType) => {
     this.securityData = data;
+  };
+
+  private bodyFormatters: Record<BodyType, (input: object) => any> = {
+    [BodyType.Json]: JSON.stringify,
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -157,13 +165,14 @@ class HttpClient<SecurityDataType> {
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
+    bodyType?: BodyType,
     secureByDefault?: boolean,
   ): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
-      body: body ? JSON.stringify(body) : null,
+      body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
     }).then(async (response) => {
       const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data;
@@ -190,7 +199,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/auth/refresh
      * @secure
      */
-    refresh: (params?: RequestParams) => this.request<string, any>(`/auth/refresh`, "POST", params, null, true),
+    refresh: (params?: RequestParams) =>
+      this.request<string, any>(`/auth/refresh`, "POST", params, null, BodyType.Json, true),
   };
   jobs = {
     /**
@@ -199,7 +209,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/jobs
      * @secure
      */
-    getJobs: (params?: RequestParams) => this.request<Job[], any>(`/jobs`, "GET", params, null, true),
+    getJobs: (params?: RequestParams) => this.request<Job[], any>(`/jobs`, "GET", params, null, BodyType.Json, true),
 
     /**
      * @tags Jobs
@@ -207,7 +217,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/jobs
      * @secure
      */
-    addJob: (data: JobUpdate, params?: RequestParams) => this.request<string, any>(`/jobs`, "POST", params, data, true),
+    addJob: (data: JobUpdate, params?: RequestParams) =>
+      this.request<string, any>(`/jobs`, "POST", params, data, BodyType.Json, true),
 
     /**
      * @tags Jobs
@@ -215,7 +226,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/jobs/{id}
      * @secure
      */
-    getJob: (id: string, params?: RequestParams) => this.request<Job, any>(`/jobs/${id}`, "GET", params, null, true),
+    getJob: (id: string, params?: RequestParams) =>
+      this.request<Job, any>(`/jobs/${id}`, "GET", params, null, BodyType.Json, true),
 
     /**
      * @tags Jobs
@@ -224,7 +236,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @secure
      */
     updateJob: (id: string, data: JobUpdate, params?: RequestParams) =>
-      this.request<UpdatedJob, any>(`/jobs/${id}`, "PATCH", params, data, true),
+      this.request<UpdatedJob, any>(`/jobs/${id}`, "PATCH", params, data, BodyType.Json, true),
   };
   projects = {
     /**
@@ -232,7 +244,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name GetProjects
      * @request GET:/projects
      */
-    getProjects: (params?: RequestParams) => this.request<Project[], any>(`/projects`, "GET", params, null),
+    getProjects: (params?: RequestParams) => this.request<Project[], any>(`/projects`, "GET", params),
 
     /**
      * @tags Projects
@@ -241,7 +253,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @secure
      */
     addProjects: (data: ProjectUpdate, params?: RequestParams) =>
-      this.request<string, any>(`/projects`, "POST", params, data, true),
+      this.request<string, any>(`/projects`, "POST", params, data, BodyType.Json, true),
 
     /**
      * @tags Projects
@@ -250,7 +262,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @secure
      */
     updateProject: (id: string, data: ProjectUpdate, params?: RequestParams) =>
-      this.request<UpdatedProject, any>(`/projects/${id}`, "PATCH", params, data, true),
+      this.request<UpdatedProject, any>(`/projects/${id}`, "PATCH", params, data, BodyType.Json, true),
   };
   users = {
     /**
@@ -259,7 +271,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/users
      * @secure
      */
-    getUsers: (params?: RequestParams) => this.request<User[], any>(`/users`, "GET", params, null, true),
+    getUsers: (params?: RequestParams) => this.request<User[], any>(`/users`, "GET", params, null, BodyType.Json, true),
 
     /**
      * @tags Users
@@ -267,7 +279,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/users
      * @secure
      */
-    addUser: (data: AuthUser, params?: RequestParams) => this.request<User, any>(`/users`, "POST", params, data, true),
+    addUser: (data: AuthUser, params?: RequestParams) =>
+      this.request<User, any>(`/users`, "POST", params, data, BodyType.Json, true),
 
     /**
      * @tags Users
@@ -276,7 +289,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @secure
      */
     deleteUser: (id: string, params?: RequestParams) =>
-      this.request<any, any>(`/users/${id}`, "DELETE", params, null, true),
+      this.request<any, any>(`/users/${id}`, "DELETE", params, null, BodyType.Json, true),
 
     /**
      * @tags Users
@@ -285,6 +298,6 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @secure
      */
     updateUser: (id: string, data: UserUpdate, params?: RequestParams) =>
-      this.request<User, any>(`/users/${id}`, "PATCH", params, data, true),
+      this.request<User, any>(`/users/${id}`, "PATCH", params, data, BodyType.Json, true),
   };
 }

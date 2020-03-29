@@ -35,6 +35,10 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
+const enum BodyType {
+  Json,
+}
+
 class HttpClient<SecurityDataType> {
   public baseUrl: string = "http://petstore.swagger.io/v1";
   private securityData: SecurityDataType = null as any;
@@ -73,6 +77,10 @@ class HttpClient<SecurityDataType> {
     return keys.length === 0 ? "" : `?${keys.map((key) => this.addQueryParam(fixedQuery, key)).join("&")}`;
   }
 
+  private bodyFormatters: Record<BodyType, (input: object) => any> = {
+    [BodyType.Json]: JSON.stringify,
+  };
+
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
       ...this.baseApiParams,
@@ -97,13 +105,14 @@ class HttpClient<SecurityDataType> {
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
+    bodyType?: BodyType,
     secureByDefault?: boolean,
   ): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
-      body: body ? JSON.stringify(body) : null,
+      body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
     }).then(async (response) => {
       const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data;
@@ -125,7 +134,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/pets
      */
     listPets: (query?: { limit?: number }, params?: RequestParams) =>
-      this.request<Pets, Error>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<Pets, Error>(`/pets${this.addQueryParams(query)}`, "GET", params),
 
     /**
      * @tags pets
@@ -133,7 +142,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Create a pet
      * @request POST:/pets
      */
-    createPets: (params?: RequestParams) => this.request<any, Error>(`/pets`, "POST", params, null),
+    createPets: (params?: RequestParams) => this.request<any, Error>(`/pets`, "POST", params),
 
     /**
      * @tags pets
@@ -141,7 +150,6 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Info for a specific pet
      * @request GET:/pets/{petId}
      */
-    showPetById: (petId: string, params?: RequestParams) =>
-      this.request<Pets, Error>(`/pets/${petId}`, "GET", params, null),
+    showPetById: (petId: string, params?: RequestParams) => this.request<Pets, Error>(`/pets/${petId}`, "GET", params),
   };
 }

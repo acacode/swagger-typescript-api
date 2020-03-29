@@ -20,6 +20,10 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
+const enum BodyType {
+  Json,
+}
+
 class HttpClient<SecurityDataType> {
   public baseUrl: string = "";
   private securityData: SecurityDataType = null as any;
@@ -42,6 +46,10 @@ class HttpClient<SecurityDataType> {
 
   public setSecurityData = (data: SecurityDataType) => {
     this.securityData = data;
+  };
+
+  private bodyFormatters: Record<BodyType, (input: object) => any> = {
+    [BodyType.Json]: JSON.stringify,
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -68,13 +76,14 @@ class HttpClient<SecurityDataType> {
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
+    bodyType?: BodyType,
     secureByDefault?: boolean,
   ): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
-      body: body ? JSON.stringify(body) : null,
+      body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
     }).then(async (response) => {
       const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data;
@@ -93,7 +102,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
    * @request GET:/
    * @description multiple line 1 multiple line 2 multiple line 3
    */
-  listVersionsv2 = (params?: RequestParams) => this.request<any, any>(`/`, "GET", params, null);
+  listVersionsv2 = (params?: RequestParams) => this.request<any, any>(`/`, "GET", params);
 
   v2 = {
     /**
@@ -101,6 +110,6 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Show API version details
      * @request GET:/v2
      */
-    getVersionDetailsv2: (params?: RequestParams) => this.request<any, any>(`/v2`, "GET", params, null),
+    getVersionDetailsv2: (params?: RequestParams) => this.request<any, any>(`/v2`, "GET", params),
   };
 }

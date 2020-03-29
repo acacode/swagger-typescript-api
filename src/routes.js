@@ -202,10 +202,6 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
 
         const hasFormDataParams = formDataParams && formDataParams.length;
 
-        if (hasFormDataParams) {
-          console.log("formDataParams", formDataParams);
-        }
-
         const moduleName = _.camelCase(route.split("/").filter(Boolean)[0]);
 
         const routeName = getRouteName(operationId, method, route, moduleName);
@@ -215,10 +211,6 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
 
         const formDataObjectSchema = convertRouteParamsIntoObject(formDataParams);
         const queryObjectSchema = convertRouteParamsIntoObject(queryParams);
-
-        if (hasFormDataParams) {
-          console.log("formDataObjectSchema", formDataObjectSchema);
-        }
 
         const bodyParamName =
           requestInfo.requestBodyName || (requestBody && requestBody.name) || DEFAULT_BODY_ARG_NAME;
@@ -232,10 +224,6 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
           : requestBody
           ? getTypeFromRequestInfo(requestBody, parsedSchemas, operationId)
           : null;
-
-        if (hasFormDataParams) {
-          console.log("bodyType", bodyType);
-        }
 
         // Gets all in path parameters from route
         // Example: someurl.com/{id}/{name}

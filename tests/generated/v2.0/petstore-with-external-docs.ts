@@ -34,6 +34,10 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
+const enum BodyType {
+  Json,
+}
+
 class HttpClient<SecurityDataType> {
   public baseUrl: string = "http://petstore.swagger.io/api";
   private securityData: SecurityDataType = null as any;
@@ -72,6 +76,10 @@ class HttpClient<SecurityDataType> {
     return keys.length === 0 ? "" : `?${keys.map((key) => this.addQueryParam(fixedQuery, key)).join("&")}`;
   }
 
+  private bodyFormatters: Record<BodyType, (input: object) => any> = {
+    [BodyType.Json]: JSON.stringify,
+  };
+
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
       ...this.baseApiParams,
@@ -96,13 +104,14 @@ class HttpClient<SecurityDataType> {
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
+    bodyType?: BodyType,
     secureByDefault?: boolean,
   ): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
-      body: body ? JSON.stringify(body) : null,
+      body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
     }).then(async (response) => {
       const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data;
@@ -124,7 +133,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Returns all pets from the system that the user has access to
      */
     findPets: (query?: { tags?: string[]; limit?: number }, params?: RequestParams) =>
-      this.request<Pet[], ErrorModel>(`/pets${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<Pet[], ErrorModel>(`/pets${this.addQueryParams(query)}`, "GET", params),
 
     /**
      * @name addPet
@@ -138,15 +147,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/pets/{id}
      * @description Returns a user based on a single ID, if the user does not have access to the pet
      */
-    findPetById: (id: number, params?: RequestParams) =>
-      this.request<Pet, ErrorModel>(`/pets/${id}`, "GET", params, null),
+    findPetById: (id: number, params?: RequestParams) => this.request<Pet, ErrorModel>(`/pets/${id}`, "GET", params),
 
     /**
      * @name deletePet
      * @request DELETE:/pets/{id}
      * @description deletes a single pet based on the ID supplied
      */
-    deletePet: (id: number, params?: RequestParams) =>
-      this.request<any, ErrorModel>(`/pets/${id}`, "DELETE", params, null),
+    deletePet: (id: number, params?: RequestParams) => this.request<any, ErrorModel>(`/pets/${id}`, "DELETE", params),
   };
 }

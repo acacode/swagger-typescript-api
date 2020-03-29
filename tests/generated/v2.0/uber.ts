@@ -151,6 +151,10 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
+const enum BodyType {
+  Json,
+}
+
 class HttpClient<SecurityDataType> {
   public baseUrl: string = "https://api.uber.com/v1";
   private securityData: SecurityDataType = null as any;
@@ -189,6 +193,10 @@ class HttpClient<SecurityDataType> {
     return keys.length === 0 ? "" : `?${keys.map((key) => this.addQueryParam(fixedQuery, key)).join("&")}`;
   }
 
+  private bodyFormatters: Record<BodyType, (input: object) => any> = {
+    [BodyType.Json]: JSON.stringify,
+  };
+
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
       ...this.baseApiParams,
@@ -213,13 +221,14 @@ class HttpClient<SecurityDataType> {
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
+    bodyType?: BodyType,
     secureByDefault?: boolean,
   ): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
-      body: body ? JSON.stringify(body) : null,
+      body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
     }).then(async (response) => {
       const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data;
@@ -244,7 +253,14 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description The Products endpoint returns information about the Uber products offered at a given location. The response includes the display name and other details about each product, and lists the products in the proper display order.
      */
     productsList: (query: { latitude: number; longitude: number }, params?: RequestParams) =>
-      this.request<Product[], Error>(`/products${this.addQueryParams(query)}`, "GET", params, null, true),
+      this.request<Product[], Error>(
+        `/products${this.addQueryParams(query)}`,
+        "GET",
+        params,
+        null,
+        BodyType.Json,
+        true,
+      ),
   };
   estimates = {
     /**
@@ -257,7 +273,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     priceList: (
       query: { start_latitude: number; start_longitude: number; end_latitude?: number; end_longitude: number },
       params?: RequestParams,
-    ) => this.request<PriceEstimate[], Error>(`/estimates/price${this.addQueryParams(query)}`, "GET", params, null),
+    ) => this.request<PriceEstimate[], Error>(`/estimates/price${this.addQueryParams(query)}`, "GET", params),
 
     /**
      * @tags Estimates
@@ -269,7 +285,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     timeList: (
       query: { start_latitude: number; start_longitude: number; customer_uuid?: string; product_id?: string },
       params?: RequestParams,
-    ) => this.request<Product[], Error>(`/estimates/time${this.addQueryParams(query)}`, "GET", params, null),
+    ) => this.request<Product[], Error>(`/estimates/time${this.addQueryParams(query)}`, "GET", params),
   };
   me = {
     /**
@@ -279,7 +295,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/me
      * @description The User Profile endpoint returns information about the Uber user that has authorized with the application.
      */
-    getMe: (params?: RequestParams) => this.request<Profile, Error>(`/me`, "GET", params, null),
+    getMe: (params?: RequestParams) => this.request<Profile, Error>(`/me`, "GET", params),
   };
   history = {
     /**
@@ -290,6 +306,6 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.
      */
     historyList: (query?: { offset?: number; limit?: number }, params?: RequestParams) =>
-      this.request<Activities, Error>(`/history${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<Activities, Error>(`/history${this.addQueryParams(query)}`, "GET", params),
   };
 }
