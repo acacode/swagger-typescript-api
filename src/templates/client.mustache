@@ -22,6 +22,13 @@ type TPromise<ResolveType, RejectType = any> = Omit<Promise<ResolveType>, "then"
 {{/generateResponses}}
 
 
+const enum BodyType {
+  Json,
+  {{#hasFormDataRoutes}}
+  FormData,
+  {{/hasFormDataRoutes}}
+}
+
 class HttpClient<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> {
   public baseUrl: string = "{{apiConfig.baseUrl}}";
   private securityData: SecurityDataType = (null as any);
@@ -58,6 +65,17 @@ class HttpClient<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> {
   }
   {{/hasQueryRoutes}}
 
+  private bodyFormatters: Record<BodyType, (input: object) => any> = {
+    [BodyType.Json]: JSON.stringify,
+    {{#hasFormDataRoutes}}
+    [BodyType.FormData]: (input: object) =>
+      Object.entries(input).reduce((data, [key, value]) => {
+        data.append(key, value);
+        return data;
+      }, new FormData())
+    {{/hasFormDataRoutes}}
+  }
+
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
       ...this.baseApiParams,
@@ -81,13 +99,14 @@ class HttpClient<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> {
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
+    bodyType?: BodyType,
     secureByDefault?: boolean,
   ): {{#generateResponses}}TPromise<T, E>{{/generateResponses}}{{^generateResponses}}Promise<T>{{/generateResponses}} =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
-      body: body ? JSON.stringify(body) : null,
+      body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
     }).then(async response => {
       const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data
@@ -114,7 +133,7 @@ export class Api<{{#apiConfig.generic}}{{name}}{{#defaultValue}} = {{.}}{{/defau
   {{/comments}}
    */
   {{name}} = ({{#routeArgs}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/routeArgs}}) =>
-    this.request<{{returnType}}, {{errorReturnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams({{#specificArgs.query}}{{name}}{{/specificArgs.query}})}{{/hasQuery}}`, "{{method}}", {{#specificArgs.requestParams}}{{name}}{{/specificArgs.requestParams}}, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}})
+    this.request<{{returnType}}, {{errorReturnType}}>({{requestMethodContent}})
   {{/outOfModule}}
 
   {{#combined}}
@@ -128,7 +147,7 @@ export class Api<{{#apiConfig.generic}}{{name}}{{#defaultValue}} = {{.}}{{/defau
     {{/comments}}
      */
     {{name}}: ({{#routeArgs}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/routeArgs}}) =>
-      this.request<{{returnType}}, {{errorReturnType}}>(`{{path}}{{#hasQuery}}${this.addQueryParams({{#specificArgs.query}}{{name}}{{/specificArgs.query}})}{{/hasQuery}}`, "{{method}}", {{#specificArgs.requestParams}}{{name}}{{/specificArgs.requestParams}}, {{#bodyArg}}{{.}}{{#security}}, {{/security}}{{/bodyArg}}{{#security}}true{{/security}}),
+      this.request<{{returnType}}, {{errorReturnType}}>({{requestMethodContent}}),
     {{/routes}}
   }
   {{/combined}}

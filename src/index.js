@@ -69,11 +69,13 @@ module.exports = {
           const routes = parseRoutes(usageSchema, parsedSchemas, componentsMap, components);
           const hasSecurityRoutes = routes.some((route) => route.security);
           const hasQueryRoutes = routes.some((route) => route.hasQuery);
+          const hasFormDataRoutes = routes.some((route) => route.hasFormDataParams);
           const apiConfig = createApiConfig({ info, servers }, hasSecurityRoutes);
 
           const configuration = {
             apiConfig,
             modelTypes: _.map(schemasMap, getModelType),
+            hasFormDataRoutes,
             hasSecurityRoutes,
             hasQueryRoutes,
             generateResponses,

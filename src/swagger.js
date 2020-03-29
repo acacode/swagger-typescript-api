@@ -18,10 +18,10 @@ const parseSwaggerFile = (file) => {
 const getSwaggerFile = (pathToSwagger, urlToSwagger) =>
   new Promise((resolve) => {
     if (pathIsExist(pathToSwagger)) {
-      console.log(`✨  try to get swagger by path "${pathToSwagger}"`);
+      console.log(`✨ try to get swagger by path "${pathToSwagger}"`);
       resolve(getFileContent(pathToSwagger));
     } else {
-      console.log(`✨  try to get swagger by url "${urlToSwagger}"`);
+      console.log(`✨ try to get swagger by url "${urlToSwagger}"`);
       axios.get(urlToSwagger).then((res) => resolve(res.data));
     }
   });
