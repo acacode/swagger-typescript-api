@@ -88,7 +88,7 @@ class HttpClient<SecurityDataType> {
       ? `?${keys
           .map((key) =>
             typeof query[key] === "object" && !Array.isArray(query[key])
-              ? this.addQueryParams(query[key] as object)
+              ? this.addQueryParams(query[key] as object).substring(1)
               : this.addQueryParam(query, key),
           )
           .join("&")}`

@@ -63,7 +63,7 @@ class HttpClient<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> {
     const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
     return keys.length ? `?${keys.map(key =>
       typeof query[key] === "object" && !Array.isArray(query[key]) ?
-        this.addQueryParams(query[key] as object) :
+        this.addQueryParams(query[key] as object).substring(1) :
         this.addQueryParam(query, key)).join("&")
       }` : "";
   }
