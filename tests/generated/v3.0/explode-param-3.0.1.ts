@@ -10,9 +10,23 @@
  * ---------------------------------------------------------------
  */
 
+export interface QueryParams {
+  /**
+   * Page number
+   */
+  page?: number | null;
+
+  /**
+   * Page size
+   */
+  "page-size"?: number | null;
+}
+
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };
+
+export type RequestQueryParamsType = Record<string | number, any>;
 
 type ApiConfig<SecurityDataType> = {
   baseUrl?: string;
@@ -47,6 +61,26 @@ class HttpClient<SecurityDataType> {
   public setSecurityData = (data: SecurityDataType) => {
     this.securityData = data;
   };
+
+  private addQueryParam(query: RequestQueryParamsType, key: string) {
+    return (
+      encodeURIComponent(key) + "=" + encodeURIComponent(Array.isArray(query[key]) ? query[key].join(",") : query[key])
+    );
+  }
+
+  protected addQueryParams(rawQuery?: RequestQueryParamsType): string {
+    const query = rawQuery || {};
+    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
+    return keys.length
+      ? `?${keys
+          .map((key) =>
+            typeof query[key] === "object" && !Array.isArray(query[key])
+              ? this.addQueryParams(query[key] as object)
+              : this.addQueryParam(query, key),
+          )
+          .join("&")}`
+      : "";
+  }
 
   private bodyFormatters: Record<BodyType, (input: any) => any> = {
     [BodyType.Json]: JSON.stringify,
@@ -92,16 +126,17 @@ class HttpClient<SecurityDataType> {
 }
 
 /**
- * @title Title
- * @version latest
- * Description
+ * @title API
+ * @version 0.1
+ * Documentation
  */
 export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
-  api = {
+  something = {
     /**
-     * @name getData
-     * @request GET:/api
+     * @name gets
+     * @request GET:/something/
      */
-    getData: (params?: RequestParams) => this.request<{ data?: string }, any>(`/api`, "GET", params),
+    gets: (query?: { params?: QueryParams }, params?: RequestParams) =>
+      this.request<any, any>(`/something/${this.addQueryParams(query)}`, "GET", params),
   };
 }

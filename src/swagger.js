@@ -84,6 +84,8 @@ const fixSwaggerScheme = (usage, original) => {
         );
         if (!existUsageParam) {
           usageRouteParams.push(originalRouteParam);
+        } else if (originalRouteParam.in === "formData") {
+          console.log("HERE");
         }
       });
     });

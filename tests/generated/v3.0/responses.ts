@@ -48,7 +48,7 @@ class HttpClient<SecurityDataType> {
     this.securityData = data;
   };
 
-  private bodyFormatters: Record<BodyType, (input: object) => any> = {
+  private bodyFormatters: Record<BodyType, (input: any) => any> = {
     [BodyType.Json]: JSON.stringify,
   };
 
