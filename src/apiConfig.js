@@ -19,7 +19,7 @@ const createApiConfig = ({ info, servers }) => {
   ]);
 
   return {
-    props: [
+    props: _.compact([
       {
         name: "baseUrl",
         optional: true,
@@ -35,7 +35,7 @@ const createApiConfig = ({ info, servers }) => {
         optional: true,
         type: "(securityData: SecurityDataType) => RequestParams",
       },
-    ].filter(Boolean),
+    ]),
     generic,
     baseUrl: server.url,
     title: info.title,

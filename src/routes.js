@@ -118,9 +118,7 @@ const getErrorReturnType = (responses, parsedSchemas, operationId) =>
 
 const createCustomOperationId = (method, route, moduleName) => {
   const hasPathInserts = /\{(\w){1,}\}/g.test(route);
-  const splitedRouteBySlash = _.replace(route, /\{(\w){1,}\}/g, "")
-    .split("/")
-    .filter(Boolean);
+  const splitedRouteBySlash = _.compact(_.replace(route, /\{(\w){1,}\}/g, "").split("/"));
   const routeParts = (splitedRouteBySlash.length > 1
     ? splitedRouteBySlash.splice(1)
     : splitedRouteBySlash
@@ -173,7 +171,7 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
       (acc, requestInfo, method) => {
         acc[method] = {
           ...requestInfo,
-          parameters: _.concat(parameters, requestInfo.parameters).filter(Boolean),
+          parameters: _.compact(_.concat(parameters, requestInfo.parameters)),
         };
 
         return acc;
@@ -202,7 +200,7 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
 
         const hasFormDataParams = formDataParams && formDataParams.length;
 
-        const moduleName = _.camelCase(route.split("/").filter(Boolean)[0]);
+        const moduleName = _.camelCase(_.compact(_.split(route, "/"))[0]);
 
         const routeName = getRouteName(operationId, method, route, moduleName);
         const name = _.camelCase(routeName);
@@ -280,7 +278,7 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
           },
         };
 
-        let routeArgs = [...pathArgs, specificArgs.query, specificArgs.body].filter(Boolean);
+        let routeArgs = _.compact([...pathArgs, specificArgs.query, specificArgs.body]);
 
         if (routeArgs.some((pathArg) => pathArg.optional)) {
           const { optionalArgs, requiredArgs } = _.reduce(
@@ -324,7 +322,7 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
         //   return acc;
         // }, [' '])
 
-        const comments = [
+        const comments = _.compact([
           tags && tags.length && `@tags ${tags.join(", ")}`,
           `@name ${routeName}`,
           summary && `@summary ${summary}`,
@@ -338,7 +336,7 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
                   `@response \`${status}\` \`${type}\` ${description}`,
               )
             : []),
-        ].filter(Boolean);
+        ]);
 
         const path = route.replace(/{/g, "${");
         const hasQuery = !!queryParams.length;
@@ -366,14 +364,12 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
             `\`${path}${hasQuery ? `\${this.addQueryParams(${specificArgs.query.name})}` : ""}\`,` +
             `"${upperCaseMethod}", ` +
             `${specificArgs.requestParams.name}` +
-            [
+            _.compact([
               requestBody && `, ${bodyParamName}`,
               hasFormDataParams && `${requestBody ? "" : ", null"}, BodyType.FormData`,
               hasSecurity &&
                 `${hasFormDataParams ? "" : `${requestBody ? "" : ", null"}, BodyType.Json`}, true`,
-            ]
-              .filter(Boolean)
-              .join(""),
+            ]).join(""),
         };
       }),
     ];

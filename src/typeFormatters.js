@@ -9,7 +9,7 @@ const formatters = {
       const extraSpace = "  ";
       const result = `${extraSpace}${part.field};\n`;
 
-      const comments = [part.title, part.description].filter(Boolean);
+      const comments = _.compact([part.title, part.description]);
 
       const commonText = comments.length
         ? [
