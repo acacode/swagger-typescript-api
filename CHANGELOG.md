@@ -1,5 +1,13 @@
 # next release  
 
+# 1.8.0    
+
+Features:  
+
+- Support FormData body types  
+- Support to generate query params of nested query objects (Partial fix of [this issue](https://github.com/acacode/swagger-typescript-api/issues/45))  
+
+
 # 1.7.2  
 
 Fixes:  

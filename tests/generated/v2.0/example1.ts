@@ -39,13 +39,17 @@ export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };
 
-export type RequestQueryParamsType = Record<string, string | string[] | number | number[] | boolean | undefined>;
+export type RequestQueryParamsType = Record<string | number, any>;
 
 type ApiConfig<SecurityDataType> = {
   baseUrl?: string;
   baseApiParams?: RequestParams;
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
+
+const enum BodyType {
+  Json,
+}
 
 class HttpClient<SecurityDataType> {
   public baseUrl: string = "https://management.azure.com";
@@ -73,17 +77,27 @@ class HttpClient<SecurityDataType> {
 
   private addQueryParam(query: RequestQueryParamsType, key: string) {
     return (
-      encodeURIComponent(key) +
-      "=" +
-      encodeURIComponent(Array.isArray(query[key]) ? (query[key] as any).join(",") : query[key])
+      encodeURIComponent(key) + "=" + encodeURIComponent(Array.isArray(query[key]) ? query[key].join(",") : query[key])
     );
   }
 
-  protected addQueryParams(query?: RequestQueryParamsType): string {
-    const fixedQuery = query || {};
-    const keys = Object.keys(fixedQuery).filter((key) => "undefined" !== typeof fixedQuery[key]);
-    return keys.length === 0 ? "" : `?${keys.map((key) => this.addQueryParam(fixedQuery, key)).join("&")}`;
+  protected addQueryParams(rawQuery?: RequestQueryParamsType): string {
+    const query = rawQuery || {};
+    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
+    return keys.length
+      ? `?${keys
+          .map((key) =>
+            typeof query[key] === "object" && !Array.isArray(query[key])
+              ? this.addQueryParams(query[key] as object).substring(1)
+              : this.addQueryParam(query, key),
+          )
+          .join("&")}`
+      : "";
   }
+
+  private bodyFormatters: Record<BodyType, (input: any) => any> = {
+    [BodyType.Json]: JSON.stringify,
+  };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
@@ -109,13 +123,14 @@ class HttpClient<SecurityDataType> {
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
+    bodyType?: BodyType,
     secureByDefault?: boolean,
   ): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
-      body: body ? JSON.stringify(body) : null,
+      body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
     }).then(async (response) => {
       const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data;

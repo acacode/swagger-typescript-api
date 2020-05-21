@@ -9,6 +9,7 @@ const jsTypes = ["number", "boolean", "string", "object"];
 const jsEmptyTypes = ["null", "undefined"];
 const typeAliases = {
   integer: "number",
+  file: "File",
 };
 
 const findSchemaType = (schema) => {

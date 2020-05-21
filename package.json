@@ -1,9 +1,9 @@
 {
   "name": "swagger-typescript-api",
-  "version": "1.7.2",
+  "version": "1.8.0",
   "description": "Create typescript api module from swagger schema",
   "scripts": {
-    "cli": "node index.js -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
+    "cli": "node index.js -r -d -p http://localhost:8080/api/v1/swagger.json -n swagger-test-cli.ts",
     "cli:debug": "node  --nolazy --inspect-brk=9229 index.js -p ./swagger-test-cli.json -n swagger-test-cli.ts",
     "cli:help": "node index.js -h",
     "test:all": "npm-run-all generate validate test:routeTypes test:noClient test:defaultAsSuccess test:responses --continue-on-error",
@@ -22,21 +22,21 @@
   "main": "src/index.js",
   "devDependencies": {
     "@types/lodash": "^4.14.149",
-    "@types/mustache": "^4.0.0",
-    "@types/prettier": "^1.19.0",
+    "@types/mustache": "^4.0.1",
+    "@types/prettier": "^2.0.1",
     "husky": "^4.2.3",
     "npm-run-all": "^4.1.5",
     "pretty-quick": "^2.0.1",
-    "typescript": "^3.7.4"
+    "typescript": "^3.9.3"
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "commander": "^5.0.0",
+    "commander": "^5.1.0",
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
-    "mustache": "^4.0.0",
-    "prettier": "^2.0.2",
-    "swagger2openapi": "^6.0.0"
+    "mustache": "^4.0.1",
+    "prettier": "^2.0.5",
+    "swagger2openapi": "^6.0.3"
   },
   "bin": {
     "swagger-typescript-api": "index.js",

@@ -1,0 +1,34 @@
+openapi: 3.0.1
+info:
+  title: API
+  description: Documentation
+  version: "0.1"
+paths:
+  /something/:
+    get:
+      operationId: gets
+      parameters:
+        - name: params
+          in: query
+          required: false
+          explode: true
+          schema:
+            $ref: "#/components/schemas/QueryParams"
+
+components:
+  schemas:
+    QueryParams:
+      type: object
+      properties:
+        page:
+          minimum: 0
+          type: integer
+          description: Page number
+          format: int32
+          nullable: true
+        page-size:
+          minimum: 0
+          type: integer
+          description: Page size
+          format: int32
+          nullable: true

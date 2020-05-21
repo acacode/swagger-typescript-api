@@ -71,6 +71,11 @@ generateApi({
 
 ```
 
+## 📄 Mass media  
+
+- https://dev.to/js2me/why-swagger-schemes-are-needed-in-frontend-development-2cb4  
+
+
 ## 🚀 How it looks  
 
 ![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/npx.gif)  

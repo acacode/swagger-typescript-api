@@ -13,7 +13,7 @@ const { parseSchemas } = require("./schema");
 const { parseRoutes, groupRoutes } = require("./routes");
 const { createApiConfig } = require("./apiConfig");
 const { getModelType } = require("./modelTypes");
-const { getSwaggerObject } = require("./swagger");
+const { getSwaggerObject, fixSwaggerScheme } = require("./swagger");
 const { createComponentsMap, filterComponentsMap } = require("./components");
 const { getTemplate, createFile, pathIsExist } = require("./files");
 const { addToConfig, config } = require("./config");
@@ -46,12 +46,17 @@ module.exports = {
         generateResponses,
       });
       getSwaggerObject(input, url)
-        .then((swaggerSchema) => {
+        .then(({ usageSchema, originalSchema }) => {
           console.log("☄️  start generating your typescript api");
 
-          addToConfig({ swaggerSchema });
+          fixSwaggerScheme(usageSchema, originalSchema);
 
-          const { info, paths, servers, components } = swaggerSchema;
+          addToConfig({
+            swaggerSchema: usageSchema,
+            originalSchema,
+          });
+
+          const { info, paths, servers, components } = usageSchema;
 
           const apiTemplate = getTemplate("api");
           const clientTemplate = getTemplate("client");
@@ -61,14 +66,16 @@ module.exports = {
           const schemasMap = filterComponentsMap(componentsMap, "schemas");
 
           const parsedSchemas = parseSchemas(components);
-          const routes = parseRoutes(swaggerSchema, parsedSchemas, componentsMap, components);
+          const routes = parseRoutes(usageSchema, parsedSchemas, componentsMap, components);
           const hasSecurityRoutes = routes.some((route) => route.security);
           const hasQueryRoutes = routes.some((route) => route.hasQuery);
+          const hasFormDataRoutes = routes.some((route) => route.hasFormDataParams);
           const apiConfig = createApiConfig({ info, servers }, hasSecurityRoutes);
 
           const configuration = {
             apiConfig,
             modelTypes: _.map(schemasMap, getModelType),
+            hasFormDataRoutes,
             hasSecurityRoutes,
             hasQueryRoutes,
             generateResponses,

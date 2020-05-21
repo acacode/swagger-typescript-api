@@ -106,13 +106,18 @@ export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };
 
-export type RequestQueryParamsType = Record<string, string | string[] | number | number[] | boolean | undefined>;
+export type RequestQueryParamsType = Record<string | number, any>;
 
 type ApiConfig<SecurityDataType> = {
   baseUrl?: string;
   baseApiParams?: RequestParams;
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
+
+const enum BodyType {
+  Json,
+  FormData,
+}
 
 class HttpClient<SecurityDataType> {
   public baseUrl: string = "http://petstore.swagger.io/v2";
@@ -140,17 +145,32 @@ class HttpClient<SecurityDataType> {
 
   private addQueryParam(query: RequestQueryParamsType, key: string) {
     return (
-      encodeURIComponent(key) +
-      "=" +
-      encodeURIComponent(Array.isArray(query[key]) ? (query[key] as any).join(",") : query[key])
+      encodeURIComponent(key) + "=" + encodeURIComponent(Array.isArray(query[key]) ? query[key].join(",") : query[key])
     );
   }
 
-  protected addQueryParams(query?: RequestQueryParamsType): string {
-    const fixedQuery = query || {};
-    const keys = Object.keys(fixedQuery).filter((key) => "undefined" !== typeof fixedQuery[key]);
-    return keys.length === 0 ? "" : `?${keys.map((key) => this.addQueryParam(fixedQuery, key)).join("&")}`;
+  protected addQueryParams(rawQuery?: RequestQueryParamsType): string {
+    const query = rawQuery || {};
+    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
+    return keys.length
+      ? `?${keys
+          .map((key) =>
+            typeof query[key] === "object" && !Array.isArray(query[key])
+              ? this.addQueryParams(query[key] as object).substring(1)
+              : this.addQueryParam(query, key),
+          )
+          .join("&")}`
+      : "";
   }
+
+  private bodyFormatters: Record<BodyType, (input: any) => any> = {
+    [BodyType.Json]: JSON.stringify,
+    [BodyType.FormData]: (input: any) =>
+      Object.keys(input).reduce((data, key) => {
+        data.append(key, input[key]);
+        return data;
+      }, new FormData()),
+  };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
     return {
@@ -176,13 +196,14 @@ class HttpClient<SecurityDataType> {
     method: string,
     { secure, ...params }: RequestParams = {},
     body?: any,
+    bodyType?: BodyType,
     secureByDefault?: boolean,
   ): Promise<T> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
       method,
-      body: body ? JSON.stringify(body) : null,
+      body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
     }).then(async (response) => {
       const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data;
@@ -205,7 +226,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/pet
      * @secure
      */
-    addPet: (body: Pet, params?: RequestParams) => this.request<any, any>(`/pet`, "POST", params, body, true),
+    addPet: (body: Pet, params?: RequestParams) =>
+      this.request<any, any>(`/pet`, "POST", params, body, BodyType.Json, true),
 
     /**
      * @tags pet
@@ -214,7 +236,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PUT:/pet
      * @secure
      */
-    updatePet: (body: Pet, params?: RequestParams) => this.request<any, any>(`/pet`, "PUT", params, body, true),
+    updatePet: (body: Pet, params?: RequestParams) =>
+      this.request<any, any>(`/pet`, "PUT", params, body, BodyType.Json, true),
 
     /**
      * @tags pet
@@ -225,7 +248,14 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Multiple status values can be provided with comma separated strings
      */
     findPetsByStatus: (query: { status: Array<"available" | "pending" | "sold"> }, params?: RequestParams) =>
-      this.request<Pet[], any>(`/pet/findByStatus${this.addQueryParams(query)}`, "GET", params, null, true),
+      this.request<Pet[], any>(
+        `/pet/findByStatus${this.addQueryParams(query)}`,
+        "GET",
+        params,
+        null,
+        BodyType.Json,
+        true,
+      ),
 
     /**
      * @tags pet
@@ -236,7 +266,14 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      */
     findPetsByTags: (query: { tags: string[] }, params?: RequestParams) =>
-      this.request<Pet[], any>(`/pet/findByTags${this.addQueryParams(query)}`, "GET", params, null, true),
+      this.request<Pet[], any>(
+        `/pet/findByTags${this.addQueryParams(query)}`,
+        "GET",
+        params,
+        null,
+        BodyType.Json,
+        true,
+      ),
 
     /**
      * @tags pet
@@ -247,7 +284,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Returns a single pet
      */
     getPetById: (petId: number, params?: RequestParams) =>
-      this.request<Pet, any>(`/pet/${petId}`, "GET", params, null, true),
+      this.request<Pet, any>(`/pet/${petId}`, "GET", params, null, BodyType.Json, true),
 
     /**
      * @tags pet
@@ -257,7 +294,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @secure
      */
     updatePetWithForm: (petId: number, data: { name?: string; status?: string }, params?: RequestParams) =>
-      this.request<any, any>(`/pet/${petId}`, "POST", params, data, true),
+      this.request<any, any>(`/pet/${petId}`, "POST", params, data, BodyType.FormData, true),
 
     /**
      * @tags pet
@@ -267,7 +304,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @secure
      */
     deletePet: (petId: number, params?: RequestParams) =>
-      this.request<any, any>(`/pet/${petId}`, "DELETE", params, null, true),
+      this.request<any, any>(`/pet/${petId}`, "DELETE", params, null, BodyType.Json, true),
 
     /**
      * @tags pet
@@ -276,8 +313,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/pet/{petId}/uploadImage
      * @secure
      */
-    uploadFile: (petId: number, data: { additionalMetadata?: string; file?: string }, params?: RequestParams) =>
-      this.request<ApiResponse, any>(`/pet/${petId}/uploadImage`, "POST", params, data, true),
+    uploadFile: (petId: number, data: { additionalMetadata?: string; file?: File }, params?: RequestParams) =>
+      this.request<ApiResponse, any>(`/pet/${petId}/uploadImage`, "POST", params, data, BodyType.FormData, true),
   };
   store = {
     /**
@@ -289,7 +326,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Returns a map of status codes to quantities
      */
     getInventory: (params?: RequestParams) =>
-      this.request<Record<string, number>, any>(`/store/inventory`, "GET", params, null, true),
+      this.request<Record<string, number>, any>(`/store/inventory`, "GET", params, null, BodyType.Json, true),
 
     /**
      * @tags store
@@ -307,7 +344,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      */
     getOrderById: (orderId: number, params?: RequestParams) =>
-      this.request<Order, any>(`/store/order/${orderId}`, "GET", params, null),
+      this.request<Order, any>(`/store/order/${orderId}`, "GET", params),
 
     /**
      * @tags store
@@ -317,7 +354,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      */
     deleteOrder: (orderId: string, params?: RequestParams) =>
-      this.request<any, any>(`/store/order/${orderId}`, "DELETE", params, null),
+      this.request<any, any>(`/store/order/${orderId}`, "DELETE", params),
   };
   user = {
     /**
@@ -354,7 +391,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/user/login
      */
     loginUser: (query: { username: string; password: string }, params?: RequestParams) =>
-      this.request<Currency, any>(`/user/login${this.addQueryParams(query)}`, "GET", params, null),
+      this.request<Currency, any>(`/user/login${this.addQueryParams(query)}`, "GET", params),
 
     /**
      * @tags user
@@ -362,7 +399,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Logs out current logged in user session
      * @request GET:/user/logout
      */
-    logoutUser: (params?: RequestParams) => this.request<any, any>(`/user/logout`, "GET", params, null),
+    logoutUser: (params?: RequestParams) => this.request<any, any>(`/user/logout`, "GET", params),
 
     /**
      * @tags user
@@ -371,7 +408,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/user/{username}
      */
     getUserByName: (username: string, params?: RequestParams) =>
-      this.request<User, any>(`/user/${username}`, "GET", params, null),
+      this.request<User, any>(`/user/${username}`, "GET", params),
 
     /**
      * @tags user
@@ -391,6 +428,6 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description This can only be done by the logged in user.
      */
     deleteUser: (username: string, params?: RequestParams) =>
-      this.request<any, any>(`/user/${username}`, "DELETE", params, null),
+      this.request<any, any>(`/user/${username}`, "DELETE", params),
   };
 }

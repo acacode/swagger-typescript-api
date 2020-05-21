@@ -118,9 +118,7 @@ const getErrorReturnType = (responses, parsedSchemas, operationId) =>
 
 const createCustomOperationId = (method, route, moduleName) => {
   const hasPathInserts = /\{(\w){1,}\}/g.test(route);
-  const splitedRouteBySlash = _.replace(route, /\{(\w){1,}\}/g, "")
-    .split("/")
-    .filter(Boolean);
+  const splitedRouteBySlash = _.compact(_.replace(route, /\{(\w){1,}\}/g, "").split("/"));
   const routeParts = (splitedRouteBySlash.length > 1
     ? splitedRouteBySlash.splice(1)
     : splitedRouteBySlash
@@ -136,6 +134,33 @@ const getRouteName = (operationId, method, route, moduleName) => {
   return createCustomOperationId(method, route, moduleName);
 };
 
+const getRouteParams = (parameters, where) =>
+  collect(parameters, (parameter) => {
+    if (parameter.in === where) return parameter;
+
+    const refTypeInfo = getRefType(parameter);
+    return refTypeInfo && refTypeInfo.rawTypeData.in === where && refTypeInfo.rawTypeData;
+  });
+
+const convertRouteParamsIntoObject = (params) =>
+  _.reduce(
+    params,
+    (objectSchema, schemaPart) => ({
+      ...objectSchema,
+      properties: {
+        ...objectSchema.properties,
+        [_.get(schemaPart, "name")]: _.merge(
+          _.omit(schemaPart, "in", "schema"),
+          _.get(schemaPart, "schema"),
+        ),
+      },
+    }),
+    {
+      properties: {},
+      type: "object",
+    },
+  );
+
 const parseRoutes = ({ paths }, parsedSchemas) =>
   _.entries(paths).reduce((routes, [route, requestInfoByMethodsMap]) => {
     parameters = _.get(requestInfoByMethodsMap, "parameters");
@@ -146,7 +171,7 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
       (acc, requestInfo, method) => {
         acc[method] = {
           ...requestInfo,
-          parameters: _.concat(parameters, requestInfo.parameters).filter(Boolean),
+          parameters: _.compact(_.concat(parameters, requestInfo.parameters)),
         };
 
         return acc;
@@ -168,42 +193,22 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
           responses,
         } = requestInfo;
         const hasSecurity = !!(security && security.length);
-        const pathParams = collect(parameters, (parameter) => {
-          if (parameter.in === "path") return parameter;
 
-          const refTypeInfo = getRefType(parameter);
-          return refTypeInfo && refTypeInfo.rawTypeData.in === "path" && refTypeInfo.rawTypeData;
-        });
-        const queryParams = collect(parameters, (parameter) => {
-          if (parameter.in === "query") return parameter;
+        const formDataParams = getRouteParams(parameters, "formData");
+        const pathParams = getRouteParams(parameters, "path");
+        const queryParams = getRouteParams(parameters, "query");
 
-          const refTypeInfo = getRefType(parameter);
-          return refTypeInfo && refTypeInfo.rawTypeData.in === "query" && refTypeInfo.rawTypeData;
-        });
-        const moduleName = _.camelCase(route.split("/").filter(Boolean)[0]);
+        const hasFormDataParams = formDataParams && formDataParams.length;
+
+        const moduleName = _.camelCase(_.compact(_.split(route, "/"))[0]);
 
         const routeName = getRouteName(operationId, method, route, moduleName);
         const name = _.camelCase(routeName);
 
         const responsesTypes = getTypesFromResponses(responses, parsedSchemas, operationId);
 
-        const queryObjectSchema = _.reduce(
-          queryParams,
-          (objectSchema, queryPartSchema) => ({
-            ...objectSchema,
-            properties: {
-              ...objectSchema.properties,
-              [queryPartSchema.name]: _.merge(
-                _.omit(queryPartSchema, "in", "schema"),
-                queryPartSchema.schema,
-              ),
-            },
-          }),
-          {
-            properties: {},
-            type: "object",
-          },
-        );
+        const formDataObjectSchema = convertRouteParamsIntoObject(formDataParams);
+        const queryObjectSchema = convertRouteParamsIntoObject(queryParams);
 
         const bodyParamName =
           requestInfo.requestBodyName || (requestBody && requestBody.name) || DEFAULT_BODY_ARG_NAME;
@@ -212,7 +217,9 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
           ? parseSchema(queryObjectSchema, null, inlineExtraFormatters).content
           : null;
 
-        const bodyType = requestBody
+        const bodyType = hasFormDataParams
+          ? parseSchema(formDataObjectSchema, null, inlineExtraFormatters).content
+          : requestBody
           ? getTypeFromRequestInfo(requestBody, parsedSchemas, operationId)
           : null;
 
@@ -271,7 +278,7 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
           },
         };
 
-        let routeArgs = [...pathArgs, specificArgs.query, specificArgs.body].filter(Boolean);
+        let routeArgs = _.compact([...pathArgs, specificArgs.query, specificArgs.body]);
 
         if (routeArgs.some((pathArg) => pathArg.optional)) {
           const { optionalArgs, requiredArgs } = _.reduce(
@@ -315,7 +322,7 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
         //   return acc;
         // }, [' '])
 
-        const comments = [
+        const comments = _.compact([
           tags && tags.length && `@tags ${tags.join(", ")}`,
           `@name ${routeName}`,
           summary && `@summary ${summary}`,
@@ -329,12 +336,18 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
                   `@response \`${status}\` \`${type}\` ${description}`,
               )
             : []),
-        ].filter(Boolean);
+        ]);
+
+        const path = route.replace(/{/g, "${");
+        const hasQuery = !!queryParams.length;
+        const bodyArg = requestBody ? bodyParamName : "null";
+        const upperCaseMethod = _.upperCase(method);
 
         return {
           moduleName: _.replace(moduleName, /^(\d)/, "v$1"),
           security: hasSecurity,
-          hasQuery: !!queryParams.length,
+          hasQuery,
+          hasFormDataParams,
           queryType: queryType || "{}",
           bodyType: bodyType || "never",
           name,
@@ -342,11 +355,21 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
           comments,
           routeArgs,
           specificArgs,
-          method: _.upperCase(method),
-          path: route.replace(/{/g, "${"),
+          method: upperCaseMethod,
+          path,
           returnType: getReturnType(responses, parsedSchemas, operationId),
           errorReturnType: getErrorReturnType(responses, parsedSchemas, operationId),
-          bodyArg: requestBody ? bodyParamName : "null",
+          bodyArg,
+          requestMethodContent:
+            `\`${path}${hasQuery ? `\${this.addQueryParams(${specificArgs.query.name})}` : ""}\`,` +
+            `"${upperCaseMethod}", ` +
+            `${specificArgs.requestParams.name}` +
+            _.compact([
+              requestBody && `, ${bodyParamName}`,
+              hasFormDataParams && `${requestBody ? "" : ", null"}, BodyType.FormData`,
+              hasSecurity &&
+                `${hasFormDataParams ? "" : `${requestBody ? "" : ", null"}, BodyType.Json`}, true`,
+            ]).join(""),
         };
       }),
     ];
