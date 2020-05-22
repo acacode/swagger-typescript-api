@@ -4,7 +4,7 @@
 
 Features:  
 
-- Support FormData body types  
+- **Partially** support FormData body types  
 - Support to generate query params of nested query objects (Partial fix of [this issue](https://github.com/acacode/swagger-typescript-api/issues/45))  
 
 
