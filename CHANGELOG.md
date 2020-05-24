@@ -1,5 +1,15 @@
 # next release  
 
+# 1.8.1  
+
+Fixes:  
+- form data request body (request body content `multipart/form-data`)  
+
+Minor:  
+- inline comments of the data contract type properties  
+  ![one line comments](./assets/changelog_assets/one-line-comments.jpg)  
+- remove `Array<T>` type usage (now the more simple type `T[]`)
+
 # 1.8.0    
 
 Features:  

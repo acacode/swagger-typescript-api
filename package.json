@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Create typescript api module from swagger schema",
   "scripts": {
     "cli": "node index.js -r -d -p http://localhost:8080/api/v1/swagger.json -n swagger-test-cli.ts",
