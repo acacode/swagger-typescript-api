@@ -47,8 +47,8 @@ const getPrimitiveType = (property) => {
 
 const specificObjectTypes = {
   array: ({ items, ...schemaPart }) => {
-    const { content, type } = parseSchema(items, null, inlineExtraFormatters);
-    return nullableExtras(schemaPart, type === "primitive" ? `${content}[]` : `Array<${content}>`);
+    const { content } = parseSchema(items, null, inlineExtraFormatters);
+    return nullableExtras(schemaPart, `${content}[]`);
   },
 };
 

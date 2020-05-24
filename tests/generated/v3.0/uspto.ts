@@ -12,7 +12,7 @@
 
 export interface dataSetList {
   total?: number;
-  apis?: Array<{ apiKey?: string; apiVersionNumber?: string; apiUrl?: string; apiDocumentationUrl?: string }>;
+  apis?: { apiKey?: string; apiVersionNumber?: string; apiUrl?: string; apiDocumentationUrl?: string }[];
 }
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
