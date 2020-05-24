@@ -14,9 +14,7 @@
  * A TDE certificate that can be uploaded into a server.
  */
 export interface TdeCertificate {
-  /**
-   * Resource properties.
-   */
+  /** Resource properties. */
   properties?: TdeCertificateProperties;
 }
 
@@ -24,14 +22,10 @@ export interface TdeCertificate {
  * Properties of a TDE certificate.
  */
 export interface TdeCertificateProperties {
-  /**
-   * The certificate password.
-   */
+  /** The certificate password. */
   certPassword?: string;
 
-  /**
-   * The base64 encoded certificate private blob.
-   */
+  /** The base64 encoded certificate private blob. */
   privateBlob: string;
 }
 

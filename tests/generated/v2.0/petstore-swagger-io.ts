@@ -22,9 +22,7 @@ export interface Pet {
   photoUrls: string[];
   tags?: Tag[];
 
-  /**
-   * pet status in the store
-   */
+  /** pet status in the store */
   status?: "available" | "pending" | "sold";
 }
 
@@ -45,9 +43,7 @@ export interface Order {
   quantity?: number;
   shipDate?: string;
 
-  /**
-   * Order Status
-   */
+  /** Order Status */
   status?: "placed" | "approved" | "delivered";
   complete?: boolean;
 }
@@ -61,9 +57,7 @@ export interface User {
   password?: string;
   phone?: string;
 
-  /**
-   * User Status
-   */
+  /** User Status */
   userStatus?: number;
 }
 

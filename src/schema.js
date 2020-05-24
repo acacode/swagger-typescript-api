@@ -9,8 +9,13 @@ const jsTypes = ["number", "boolean", "string", "object"];
 const jsEmptyTypes = ["null", "undefined"];
 
 const typeAliases = {
+  /** { type: "integer" } -> { type: "number" } */
   integer: "number",
   file: "File",
+
+  // TODO: probably it can be needed
+  // date: "Date",
+  // dateTime: "Date",
 };
 
 const extraTypesWithFormats = {
@@ -19,6 +24,9 @@ const extraTypesWithFormats = {
     /** second depth is format */
     /** example: { type: "string", format: "binary" } */
     binary: "File",
+    // TODO: probably it can be needed
+    // date: "Date",
+    // dateTime: "Date",
   },
 };
 
@@ -39,8 +47,8 @@ const getPrimitiveType = (property) => {
   const { type, format } = property || {};
 
   const primitiveType =
-    typeAliases[toInternalCase(type)] ||
     _.get(extraTypesWithFormats, [toInternalCase(type), toInternalCase(format)]) ||
+    typeAliases[toInternalCase(type)] ||
     type;
   return primitiveType ? checkAndAddNull(property, primitiveType) : DEFAULT_PRIMITIVE_TYPE;
 };

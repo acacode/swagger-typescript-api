@@ -84,9 +84,7 @@ export interface Feed {
   created_at?: string;
   description?: string;
 
-  /**
-   * Additional details about this feed.
-   */
+  /** Additional details about this feed. */
   details?: {
     data?: { count?: number; first?: Record<string, Data>; last?: Record<string, Data> };
     shared_with?: object[];
@@ -102,14 +100,10 @@ export interface Feed {
   name?: string;
   status?: string;
 
-  /**
-   * Is status notification active?
-   */
+  /** Is status notification active? */
   status_notify?: boolean;
 
-  /**
-   * Status notification timeout in minutes.
-   */
+  /** Status notification timeout in minutes. */
   status_timeout?: number;
   unit_symbol?: string;
   unit_type?: string;
