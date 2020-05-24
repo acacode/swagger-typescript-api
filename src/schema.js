@@ -7,9 +7,19 @@ const { config } = require("./config");
 
 const jsTypes = ["number", "boolean", "string", "object"];
 const jsEmptyTypes = ["null", "undefined"];
+
 const typeAliases = {
   integer: "number",
   file: "File",
+};
+
+const extraTypesWithFormats = {
+  /** first depth is original type */
+  string: {
+    /** second depth is format */
+    /** example: { type: "string", format: "binary" } */
+    binary: "File",
+  },
 };
 
 const findSchemaType = (schema) => {
@@ -26,8 +36,12 @@ const nullableExtras = (schema, value) => {
 };
 
 const getPrimitiveType = (property) => {
-  const { type } = property || {};
-  const primitiveType = typeAliases[type] || type;
+  const { type, format } = property || {};
+
+  const primitiveType =
+    typeAliases[_.lowerCase(type)] ||
+    _.get(extraTypesWithFormats, [_.lowerCase(type), _.lowerCase(format)]) ||
+    type;
   return primitiveType ? nullableExtras(property, primitiveType) : DEFAULT_PRIMITIVE_TYPE;
 };
 
@@ -64,6 +78,7 @@ const getObjectTypeContent = (properties) => {
         : !property.nullable
       : !!property.required;
     return {
+      $$raw: property,
       description: property.description,
       isRequired,
       field: `${isValidName(name) ? name : `"${name}"`}${
