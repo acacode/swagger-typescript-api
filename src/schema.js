@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const { inlineExtraFormatters } = require("./typeFormatters");
 const { isValidName, checkAndRenameModelName } = require("./modelNames");
-const { formatDescription } = require("./common");
+const { formatDescription, toInternalCase } = require("./common");
 const { DEFAULT_PRIMITIVE_TYPE } = require("./constants");
 const { config } = require("./config");
 
@@ -30,7 +30,7 @@ const findSchemaType = (schema) => {
   return "primitive";
 };
 
-const nullableExtras = (schema, value) => {
+const checkAndAddNull = (schema, value) => {
   const { nullable, type } = schema || {};
   return nullable || type === "null" ? `${value} | null` : value;
 };
@@ -39,16 +39,16 @@ const getPrimitiveType = (property) => {
   const { type, format } = property || {};
 
   const primitiveType =
-    typeAliases[_.lowerCase(type)] ||
-    _.get(extraTypesWithFormats, [_.lowerCase(type), _.lowerCase(format)]) ||
+    typeAliases[toInternalCase(type)] ||
+    _.get(extraTypesWithFormats, [toInternalCase(type), toInternalCase(format)]) ||
     type;
-  return primitiveType ? nullableExtras(property, primitiveType) : DEFAULT_PRIMITIVE_TYPE;
+  return primitiveType ? checkAndAddNull(property, primitiveType) : DEFAULT_PRIMITIVE_TYPE;
 };
 
 const specificObjectTypes = {
   array: ({ items, ...schemaPart }) => {
     const { content } = parseSchema(items, null, inlineExtraFormatters);
-    return nullableExtras(schemaPart, `${content}[]`);
+    return checkAndAddNull(schemaPart, `${content}[]`);
   },
 };
 
@@ -67,7 +67,7 @@ const getType = (property) => {
 
   const anotherTypeGetter = specificObjectTypes[property.type] || getPrimitiveType;
   const refType = getRefTypeName(property);
-  return refType ? nullableExtras(property, refType) : anotherTypeGetter(property);
+  return refType ? checkAndAddNull(property, refType) : anotherTypeGetter(property);
 };
 
 const getObjectTypeContent = (properties) => {
@@ -94,17 +94,17 @@ const complexSchemaParsers = {
   oneOf: (schema) => {
     // T1 | T2
     const combined = _.map(schema.oneOf, complexTypeGetter);
-    return nullableExtras(schema, combined.join(" | "));
+    return checkAndAddNull(schema, combined.join(" | "));
   },
   allOf: (schema) => {
     // T1 & T2
-    return nullableExtras(schema, _.map(schema.allOf, complexTypeGetter).join(" & "));
+    return checkAndAddNull(schema, _.map(schema.allOf, complexTypeGetter).join(" & "));
   },
   anyOf: (schema) => {
     // T1 | T2 | (T1 & T2)
     const combined = _.map(schema.anyOf, complexTypeGetter);
     const nonEmptyTypesCombined = combined.filter((type) => !jsEmptyTypes.includes(type));
-    return nullableExtras(
+    return checkAndAddNull(
       schema,
       `${combined.join(" | ")}` +
         (nonEmptyTypesCombined.length > 1 ? ` | (${nonEmptyTypesCombined.join(" & ")})` : ""),

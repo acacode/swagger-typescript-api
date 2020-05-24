@@ -15,7 +15,7 @@ module.exports = {
     if (inline) {
       return _(prettified)
         .split(/\n/g)
-        .map(part => _.trim(part))
+        .map((part) => _.trim(part))
         .compact()
         .join(" ")
         .valueOf();
@@ -23,4 +23,5 @@ module.exports = {
 
     return _.replace(prettified, /\n$/g, "");
   },
+  toInternalCase: (value) => _.camelCase(_.lowerCase(value)),
 };
