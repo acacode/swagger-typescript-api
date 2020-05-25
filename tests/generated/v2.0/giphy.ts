@@ -11,24 +11,16 @@
  */
 
 export interface Gif {
-  /**
-   * The unique bit.ly URL for this GIF
-   */
+  /** The unique bit.ly URL for this GIF */
   bitly_url?: string;
 
-  /**
-   * Currently unused
-   */
+  /** Currently unused */
   content_url?: string;
 
-  /**
-   * The date this GIF was added to the GIPHY database.
-   */
+  /** The date this GIF was added to the GIPHY database. */
   create_datetime?: string;
 
-  /**
-   * A URL used for embedding this GIF
-   */
+  /** A URL used for embedding this GIF */
   embded_url?: string;
 
   /**
@@ -37,14 +29,10 @@ export interface Gif {
    */
   featured_tags?: string[];
 
-  /**
-   * This GIF's unique ID
-   */
+  /** This GIF's unique ID */
   id?: string;
 
-  /**
-   * An object containing data for various available formats and sizes of this GIF.
-   */
+  /** An object containing data for various available formats and sizes of this GIF. */
   images?: {
     downsized?: Image & any;
     downsized_large?: Image & any;
@@ -68,34 +56,22 @@ export interface Gif {
     preview_gif?: Image & any;
   };
 
-  /**
-   * The creation or upload date from this GIF's source.
-   */
+  /** The creation or upload date from this GIF's source. */
   import_datetime?: string;
 
-  /**
-   * The MPAA-style rating for this content. Examples include Y, G, PG, PG-13 and R
-   */
+  /** The MPAA-style rating for this content. Examples include Y, G, PG, PG-13 and R */
   rating?: string;
 
-  /**
-   * The unique slug used in this GIF's URL
-   */
+  /** The unique slug used in this GIF's URL */
   slug?: string;
 
-  /**
-   * The page on which this GIF was found
-   */
+  /** The page on which this GIF was found */
   source?: string;
 
-  /**
-   * The URL of the webpage on which this GIF was found.
-   */
+  /** The URL of the webpage on which this GIF was found. */
   source_post_url?: string;
 
-  /**
-   * The top level domain of the source URL.
-   */
+  /** The top level domain of the source URL. */
   source_tld?: string;
 
   /**
@@ -104,77 +80,49 @@ export interface Gif {
    */
   tags?: string[];
 
-  /**
-   * The date on which this gif was marked trending, if applicable.
-   */
+  /** The date on which this gif was marked trending, if applicable. */
   trending_datetime?: string;
 
-  /**
-   * Type of the gif. By default, this is almost always gif
-   */
+  /** Type of the gif. By default, this is almost always gif */
   type?: "gif";
 
-  /**
-   * The date on which this GIF was last updated.
-   */
+  /** The date on which this GIF was last updated. */
   update_datetime?: string;
 
-  /**
-   * The unique URL for this GIF
-   */
+  /** The unique URL for this GIF */
   url?: string;
   user?: User;
 
-  /**
-   * The username this GIF is attached to, if applicable
-   */
+  /** The username this GIF is attached to, if applicable */
   username?: string;
 }
 
 export interface Image {
-  /**
-   * The number of frames in this GIF.
-   */
+  /** The number of frames in this GIF. */
   frames?: string;
 
-  /**
-   * The height of this GIF in pixels.
-   */
+  /** The height of this GIF in pixels. */
   height?: string;
 
-  /**
-   * The URL for this GIF in .MP4 format.
-   */
+  /** The URL for this GIF in .MP4 format. */
   mp4?: string;
 
-  /**
-   * The size in bytes of the .MP4 file corresponding to this GIF.
-   */
+  /** The size in bytes of the .MP4 file corresponding to this GIF. */
   mp4_size?: string;
 
-  /**
-   * The size of this GIF in bytes.
-   */
+  /** The size of this GIF in bytes. */
   size?: string;
 
-  /**
-   * The publicly-accessible direct URL for this GIF.
-   */
+  /** The publicly-accessible direct URL for this GIF. */
   url?: string;
 
-  /**
-   * The URL for this GIF in .webp format.
-   */
+  /** The URL for this GIF in .webp format. */
   webp?: string;
 
-  /**
-   * The size in bytes of the .webp file corresponding to this GIF.
-   */
+  /** The size in bytes of the .webp file corresponding to this GIF. */
   webp_size?: string;
 
-  /**
-   * The width of this GIF in pixels.
-   */
+  /** The width of this GIF in pixels. */
   width?: string;
 }
 
@@ -182,19 +130,13 @@ export interface Image {
  * The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances.
  */
 export interface Meta {
-  /**
-   * HTTP Response Message
-   */
+  /** HTTP Response Message */
   msg?: string;
 
-  /**
-   * A unique ID paired with this response from the API.
-   */
+  /** A unique ID paired with this response from the API. */
   response_id?: string;
 
-  /**
-   * HTTP Response Code
-   */
+  /** HTTP Response Code */
   status?: number;
 }
 
@@ -202,19 +144,13 @@ export interface Meta {
  * The Pagination Object contains information relating to the number of total results available as well as the number of results fetched and their relative positions.
  */
 export interface Pagination {
-  /**
-   * Total number of items returned.
-   */
+  /** Total number of items returned. */
   count?: number;
 
-  /**
-   * Position in pagination.
-   */
+  /** Position in pagination. */
   offset?: number;
 
-  /**
-   * Total number of items available.
-   */
+  /** Total number of items available. */
   total_count?: number;
 }
 
@@ -222,34 +158,22 @@ export interface Pagination {
  * The User Object contains information about the user associated with a GIF and URLs to assets such as that user's avatar image, profile, and more.
  */
 export interface User {
-  /**
-   * The URL for this user's avatar image.
-   */
+  /** The URL for this user's avatar image. */
   avatar_url?: string;
 
-  /**
-   * The URL for the banner image that appears atop this user's profile page.
-   */
+  /** The URL for the banner image that appears atop this user's profile page. */
   banner_url?: string;
 
-  /**
-   * The display name associated with this user (contains formatting the base username might not).
-   */
+  /** The display name associated with this user (contains formatting the base username might not). */
   display_name?: string;
 
-  /**
-   * The URL for this user's profile.
-   */
+  /** The URL for this user's profile. */
   profile_url?: string;
 
-  /**
-   * The Twitter username associated with this user, if applicable.
-   */
+  /** The Twitter username associated with this user, if applicable. */
   twitter?: string;
 
-  /**
-   * The username associated with this user.
-   */
+  /** The username associated with this user. */
   username?: string;
 }
 

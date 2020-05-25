@@ -22,9 +22,7 @@ export interface Pet {
   photoUrls: string[];
   tags?: Tag[];
 
-  /**
-   * pet status in the store
-   */
+  /** pet status in the store */
   status?: "available" | "pending" | "sold";
 }
 
@@ -45,9 +43,7 @@ export interface Order {
   quantity?: number;
   shipDate?: string;
 
-  /**
-   * Order Status
-   */
+  /** Order Status */
   status?: "placed" | "approved" | "delivered";
   complete?: boolean;
 }
@@ -61,9 +57,7 @@ export interface User {
   password?: string;
   phone?: string;
 
-  /**
-   * User Status
-   */
+  /** User Status */
   userStatus?: number;
 }
 
@@ -253,7 +247,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @secure
      * @description Multiple status values can be provided with comma separated strings
      */
-    findPetsByStatus: (query: { status: Array<"available" | "pending" | "sold"> }, params?: RequestParams) =>
+    findPetsByStatus: (query: { status: "available" | "pending" | "sold"[] }, params?: RequestParams) =>
       this.request<Pet[], any>(
         `/pet/findByStatus${this.addQueryParams(query)}`,
         "GET",

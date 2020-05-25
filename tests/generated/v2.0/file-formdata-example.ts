@@ -10,11 +10,6 @@
  * ---------------------------------------------------------------
  */
 
-export interface dataSetList {
-  total?: number;
-  apis?: { apiKey?: string; apiVersionNumber?: string; apiUrl?: string; apiDocumentationUrl?: string }[];
-}
-
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };
@@ -27,10 +22,11 @@ type ApiConfig<SecurityDataType> = {
 
 const enum BodyType {
   Json,
+  FormData,
 }
 
 class HttpClient<SecurityDataType> {
-  public baseUrl: string = "{scheme}://developer.uspto.gov/ds-api";
+  public baseUrl: string = "";
   private securityData: SecurityDataType = null as any;
   private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
 
@@ -55,6 +51,11 @@ class HttpClient<SecurityDataType> {
 
   private bodyFormatters: Record<BodyType, (input: any) => any> = {
     [BodyType.Json]: JSON.stringify,
+    [BodyType.FormData]: (input: any) =>
+      Object.keys(input).reduce((data, key) => {
+        data.append(key, input[key]);
+        return data;
+      }, new FormData()),
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -97,43 +98,18 @@ class HttpClient<SecurityDataType> {
 }
 
 /**
- * @title USPTO Data Set API
- * @version 1.0.0
- * @baseUrl {scheme}://developer.uspto.gov/ds-api
- * The Data Set API (DSAPI) allows the public users to discover and search USPTO exported data sets. This is a generic API that allows USPTO users to make any CSV based data files searchable through API. With the help of GET call, it returns the list of data fields that are searchable. With the help of POST call, data can be fetched based on the filters on the field names. Please note that POST call is used to search the actual data. The reason for the POST call is that it allows users to specify any complex search criteria without worry about the GET size limitations as well as encoding of the input parameters.
+ * @title Title
+ * @version v0.1
  */
 export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
-  /**
-   * @tags metadata
-   * @name list-data-sets
-   * @summary List available data sets
-   * @request GET:/
-   */
-  listDataSets = (params?: RequestParams) => this.request<dataSetList, any>(`/`, "GET", params);
-
-  dataset = {
+  uploadFile = {
     /**
-     * @tags metadata
-     * @name list-searchable-fields
-     * @summary Provides the general information about the API and the list of fields that can be used to query the dataset.
-     * @request GET:/{dataset}/{version}/fields
-     * @description This GET API returns the list of all the searchable field names that are in the oa_citations. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the syntax options shown below.
+     * @tags tag
+     * @name UploadFile
+     * @summary Upload file
+     * @request POST:/upload-file
      */
-    listSearchableFields: (dataset: string, version: string, params?: RequestParams) =>
-      this.request<string, string>(`/${dataset}/${version}/fields`, "GET", params),
-
-    /**
-     * @tags search
-     * @name perform-search
-     * @summary Provides search capability for the data set with the given search criteria.
-     * @request POST:/{dataset}/{version}/records
-     * @description This API is based on Solr/Lucense Search. The data is indexed using SOLR. This GET API returns the list of all the searchable field names that are in the Solr Index. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the Solr/Lucene Syntax. Please refer https://lucene.apache.org/core/3_6_2/queryparsersyntax.html#Overview for the query syntax. List of field names that are searchable can be determined using above GET api.
-     */
-    performSearch: (
-      version: string,
-      dataset: string,
-      data: { criteria: string; start?: number; rows?: number },
-      params?: RequestParams,
-    ) => this.request<Record<string, object>[], any>(`/${dataset}/${version}/records`, "POST", params, data),
+    uploadFile: (data: { file?: File; someFlag?: boolean }, params?: RequestParams) =>
+      this.request<any, any>(`/upload-file`, "POST", params, data, BodyType.FormData),
   };
 }

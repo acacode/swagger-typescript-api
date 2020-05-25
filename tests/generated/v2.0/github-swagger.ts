@@ -17,22 +17,16 @@ export interface actor {
   avatar_url?: string;
   bio?: string;
 
-  /**
-   * The website URL from the profile page
-   */
+  /** The website URL from the profile page */
   blog?: string;
   collaborators?: number;
   company?: string;
 
-  /**
-   * ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
-   */
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   disk_usage?: number;
 
-  /**
-   * Note: The returned email is the user’s publicly visible email address (or null if the user has not specified a public email address in their profile).
-   */
+  /** Note: The returned email is the user’s publicly visible email address (or null if the user has not specified a public email address in their profile). */
   email?: string;
   followers?: number;
   followers_url?: string;
@@ -45,14 +39,10 @@ export interface actor {
   id?: number;
   location?: string;
 
-  /**
-   * The account username
-   */
+  /** The account username */
   login?: string;
 
-  /**
-   * The full account name
-   */
+  /** The full account name */
   name?: string;
   organizations_url?: string;
   owned_private_repos?: number;
@@ -65,9 +55,7 @@ export interface actor {
   total_private_repos?: number;
   type?: "User" | "Organization";
 
-  /**
-   * ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
-   */
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
 }
@@ -118,14 +106,14 @@ export interface branch {
       url?: string;
     };
     committer?: user;
-    parents?: Array<{ sha?: string; url?: string }>;
+    parents?: { sha?: string; url?: string }[];
     sha?: string;
     url?: string;
   };
   name?: string;
 }
 
-export type branches = Array<{ commit?: { sha?: string; url?: string }; name?: string }>;
+export type branches = { commit?: { sha?: string; url?: string }; name?: string }[];
 
 export type codeFrequencyStats = number[];
 
@@ -137,7 +125,7 @@ export interface commentBody {
   body: string;
 }
 
-export type comments = Array<{ body?: string; created_at?: string; id?: number; url?: string; user?: user }>;
+export type comments = { body?: string; created_at?: string; id?: number; url?: string; user?: user }[];
 
 export interface commit {
   author?: user;
@@ -149,7 +137,7 @@ export interface commit {
     url?: string;
   };
   committer?: user;
-  files?: Array<{
+  files?: {
     additions?: number;
     blob_url?: string;
     changes?: number;
@@ -158,22 +146,20 @@ export interface commit {
     patch?: string;
     raw_url?: string;
     status?: string;
-  }>;
-  parents?: Array<{ sha?: string; url?: string }>;
+  }[];
+  parents?: { sha?: string; url?: string }[];
   sha?: string;
   stats?: { additions?: number; deletions?: number; total?: number };
   url?: string;
 }
 
-export type commitActivityStats = Array<{ days?: number[]; total?: number; week?: number }>;
+export type commitActivityStats = { days?: number[]; total?: number; week?: number }[];
 
 export interface commitComment {
   body?: string;
   commit_id?: string;
 
-  /**
-   * ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
-   */
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   html_url?: string;
   id?: number;
@@ -181,9 +167,7 @@ export interface commitComment {
   path?: string;
   position?: number;
 
-  /**
-   * ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
-   */
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
   user?: user;
@@ -192,33 +176,23 @@ export interface commitComment {
 export interface commitCommentBody {
   body: string;
 
-  /**
-   * Deprecated - Use position parameter instead.
-   */
+  /** Deprecated - Use position parameter instead. */
   line?: string;
 
-  /**
-   * Line number in the file to comment on. Defaults to null.
-   */
+  /** Line number in the file to comment on. Defaults to null. */
   number?: string;
 
-  /**
-   * Relative path of the file to comment on.
-   */
+  /** Relative path of the file to comment on. */
   path?: string;
 
-  /**
-   * Line index in the diff to comment on.
-   */
+  /** Line index in the diff to comment on. */
   position?: number;
 
-  /**
-   * SHA of the commit to comment on.
-   */
+  /** SHA of the commit to comment on. */
   sha: string;
 }
 
-export type commits = Array<{
+export type commits = {
   author?: user;
   commit?: {
     author?: { date?: string; email?: string; name?: string };
@@ -228,10 +202,10 @@ export type commits = Array<{
     url?: string;
   };
   committer?: user;
-  parents?: Array<{ sha?: string; url?: string }>;
+  parents?: { sha?: string; url?: string }[];
   sha?: string;
   url?: string;
-}>;
+}[];
 
 export interface CompareCommits {
   ahead_by?: number;
@@ -245,12 +219,12 @@ export interface CompareCommits {
       url?: string;
     };
     committer?: user;
-    parents?: Array<{ sha?: string; url?: string }>;
+    parents?: { sha?: string; url?: string }[];
     sha?: string;
     url?: string;
   };
   behind_by?: number;
-  commits?: Array<{
+  commits?: {
     author?: user;
     commit?: {
       author?: { date?: string; email?: string; name?: string };
@@ -260,12 +234,12 @@ export interface CompareCommits {
       url?: string;
     };
     committer?: user;
-    parents?: Array<{ sha?: string; url?: string }>;
+    parents?: { sha?: string; url?: string }[];
     sha?: string;
     url?: string;
-  }>;
+  }[];
   diff_url?: string;
-  files?: Array<{
+  files?: {
     additions?: number;
     blob_url?: string;
     changes?: number;
@@ -276,7 +250,7 @@ export interface CompareCommits {
     raw_url?: string;
     sha?: string;
     status?: string;
-  }>;
+  }[];
   html_url?: string;
   patch_url?: string;
   permalink_url?: string;
@@ -299,11 +273,11 @@ export interface ContentsPath {
   url?: string;
 }
 
-export type contributorsStats = Array<{
+export type contributorsStats = {
   author?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
   total?: number;
-  weeks?: Array<{ a?: number; c?: number; d?: number; w?: string }>;
-}>;
+  weeks?: { a?: number; c?: number; d?: number; w?: string }[];
+}[];
 
 export interface createFile {
   commit?: {
@@ -311,7 +285,7 @@ export interface createFile {
     committer?: { date?: string; email?: string; name?: string };
     html_url?: string;
     message?: string;
-    parents?: Array<{ html_url?: string; sha?: string; url?: string }>;
+    parents?: { html_url?: string; sha?: string; url?: string }[];
     sha?: string;
     tree?: { sha?: string; url?: string };
     url?: string;
@@ -373,7 +347,7 @@ export interface DeploymentResp {
   url?: string;
 }
 
-export type DeploymentStatuses = Array<{
+export type DeploymentStatuses = {
   created_at?: string;
   creator?: user;
   description?: string;
@@ -383,7 +357,7 @@ export type DeploymentStatuses = Array<{
   target_url?: string;
   updated_at?: string;
   url?: string;
-}>;
+}[];
 
 export interface DeploymentStatusesCreate {
   description?: string;
@@ -453,22 +427,20 @@ export interface gist {
   comments?: number;
   comments_url?: string;
 
-  /**
-   * Timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
-   */
+  /** Timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ. */
   created_at?: string;
   description?: string;
   files?: { "ring.erl"?: { filename?: string; raw_url?: string; size?: number } };
-  forks?: Array<{ created_at?: string; url?: string; user?: user }>;
+  forks?: { created_at?: string; url?: string; user?: user }[];
   git_pull_url?: string;
   git_push_url?: string;
-  history?: Array<{
+  history?: {
     change_status?: { additions?: number; deletions?: number; total?: number };
     committed_at?: string;
     url?: string;
     user?: user;
     version?: string;
-  }>;
+  }[];
   html_url?: string;
   id?: string;
   public?: boolean;
@@ -476,7 +448,7 @@ export interface gist {
   user?: user;
 }
 
-export type gists = Array<{
+export type gists = {
   comments?: number;
   comments_url?: string;
   created_at?: string;
@@ -489,7 +461,7 @@ export type gists = Array<{
   public?: boolean;
   url?: string;
   user?: user;
-}>;
+}[];
 
 export interface gitCommit {
   author?: { date?: string; email?: string; name?: string };
@@ -516,11 +488,11 @@ export interface headBranch {
   url?: string;
 }
 
-export type hook = Array<{
+export type hook = {
   active?: boolean;
   config?: { content_type?: string; url?: string };
   created_at?: string;
-  events?: Array<
+  events?:
     | "push"
     | "issues"
     | "issue_comment"
@@ -535,13 +507,12 @@ export type hook = Array<{
     | "member"
     | "public"
     | "team_add"
-    | "status"
-  >;
+    | "status"[];
   id?: number;
   name?: string;
   updated_at?: string;
   url?: string;
-}>;
+}[];
 
 export interface hookBody {
   active?: boolean;
@@ -560,9 +531,7 @@ export interface issueEvent {
   actor?: actor;
   commit_id?: string;
 
-  /**
-   * ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
-   */
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   event?: string;
   issue?: {
@@ -572,7 +541,7 @@ export interface issueEvent {
     comments?: number;
     created_at?: string;
     html_url?: string;
-    labels?: Array<{ color?: string; name?: string; url?: string }>;
+    labels?: { color?: string; name?: string; url?: string }[];
     milestone?: {
       closed_issues?: number;
       created_at?: string;
@@ -598,14 +567,14 @@ export interface issueEvent {
 
 export type issueEvents = issueEvent[];
 
-export type issues = Array<{
+export type issues = {
   assignee?: user;
   body?: string;
   closed_at?: string;
   comments?: number;
   created_at?: string;
   html_url?: string;
-  labels?: Array<{ color?: string; name?: string; url?: string }>;
+  labels?: { color?: string; name?: string; url?: string }[];
   milestone?: {
     closed_issues?: number;
     created_at?: string;
@@ -625,27 +594,23 @@ export type issues = Array<{
   updated_at?: string;
   url?: string;
   user?: user;
-}>;
+}[];
 
 export interface issuesComment {
   body?: string;
 
-  /**
-   * ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
-   */
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   html_url?: string;
   id?: number;
 
-  /**
-   * ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
-   */
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
   user?: user;
 }
 
-export type issuesComments = Array<{
+export type issuesComments = {
   _links?: { html?: { href?: string }; pull_request?: { href?: string }; self?: { href?: string } };
   body?: string;
   commit_id?: string;
@@ -656,9 +621,9 @@ export type issuesComments = Array<{
   updated_at?: string;
   url?: string;
   user?: user;
-}>;
+}[];
 
-export type keys = Array<{ id?: number; key?: string; title?: string; url?: string }>;
+export type keys = { id?: number; key?: string; title?: string; url?: string }[];
 
 export interface label {
   color?: string;
@@ -666,7 +631,7 @@ export interface label {
   url?: string;
 }
 
-export type labels = Array<{ color?: string; name?: string; url?: string }>;
+export type labels = { color?: string; name?: string; url?: string }[];
 
 export type languages = Record<string, number>;
 
@@ -693,9 +658,7 @@ export interface mergesBody {
 }
 
 export interface mergesConflict {
-  /**
-   * Error message
-   */
+  /** Error message */
   message?: string;
 }
 
@@ -713,7 +676,7 @@ export interface mergesSuccessful {
   committer?: user;
   merged?: boolean;
   message?: string;
-  parents?: Array<{ sha?: string; url?: string }>;
+  parents?: { sha?: string; url?: string }[];
   sha?: string;
   url?: string;
 }
@@ -726,16 +689,12 @@ export interface meta {
 export interface milestone {
   closed_issues?: number;
 
-  /**
-   * ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
-   */
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   creator?: user;
   description?: string;
 
-  /**
-   * ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
-   */
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   due_on?: string;
   number?: number;
   open_issues?: number;
@@ -785,7 +744,7 @@ export interface orgTeamsPost {
 export type organization = actor & any;
 
 export interface organizationAsTeamMember {
-  errors?: Array<{ code?: string; field?: string; resource?: string }>;
+  errors?: { code?: string; field?: string; resource?: string }[];
   message?: string;
 }
 
@@ -805,15 +764,11 @@ export interface patchGist {
 }
 
 export interface patchOrg {
-  /**
-   * Billing email address. This address is not publicized.
-   */
+  /** Billing email address. This address is not publicized. */
   billing_email?: string;
   company?: string;
 
-  /**
-   * Publicly visible email address.
-   */
+  /** Publicly visible email address. */
   email?: string;
   location?: string;
   name?: string;
@@ -826,42 +781,28 @@ export interface postGist {
 }
 
 export interface postRepo {
-  /**
-   * True to create an initial commit with empty README. Default is false.
-   */
+  /** True to create an initial commit with empty README. Default is false. */
   auto_init?: boolean;
   description?: string;
 
-  /**
-   * Desired language or platform .gitignore template to apply. Use the name of the template without the extension. For example, "Haskell" Ignored if auto_init parameter is not provided.
-   */
+  /** Desired language or platform .gitignore template to apply. Use the name of the template without the extension. For example, "Haskell" Ignored if auto_init parameter is not provided.  */
   gitignore_template?: string;
 
-  /**
-   * True to enable downloads for this repository, false to disable them. Default is true.
-   */
+  /** True to enable downloads for this repository, false to disable them. Default is true. */
   has_downloads?: boolean;
 
-  /**
-   * True to enable issues for this repository, false to disable them. Default is true.
-   */
+  /** True to enable issues for this repository, false to disable them. Default is true. */
   has_issues?: boolean;
 
-  /**
-   * True to enable the wiki for this repository, false to disable it. Default is true.
-   */
+  /** True to enable the wiki for this repository, false to disable it. Default is true. */
   has_wiki?: boolean;
   homepage?: string;
   name: string;
 
-  /**
-   * True to create a private repository, false to create a public one. Creating private repositories requires a paid GitHub account.
-   */
+  /** True to create a private repository, false to create a public one. Creating private repositories requires a paid GitHub account. */
   private?: boolean;
 
-  /**
-   * The id of the team that will be granted access to this repository. This is only valid when creating a repo in an organization.
-   */
+  /** The id of the team that will be granted access to this repository. This is only valid when creating a repo in an organization. */
   team_id?: number;
 }
 
@@ -917,7 +858,7 @@ export interface pullUpdate {
   title?: string;
 }
 
-export type pulls = Array<{
+export type pulls = {
   _links?: {
     comments?: { href?: string };
     html?: { href?: string };
@@ -952,24 +893,20 @@ export type pulls = Array<{
   updated_at?: string;
   url?: string;
   user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
-}>;
+}[];
 
 export interface pullsComment {
   _links?: { html?: { href?: string }; pull_request?: { href?: string }; self?: { href?: string } };
   body?: string;
   commit_id?: string;
 
-  /**
-   * ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
-   */
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   id?: number;
   path?: string;
   position?: number;
 
-  /**
-   * ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
-   */
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
   user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
@@ -982,7 +919,7 @@ export interface pullsCommentPost {
   position?: number;
 }
 
-export type pullsComments = Array<{
+export type pullsComments = {
   _links?: { html?: { href?: string }; pull_request?: { href?: string }; self?: { href?: string } };
   body?: string;
   commit_id?: string;
@@ -993,7 +930,7 @@ export type pullsComments = Array<{
   updated_at?: string;
   url?: string;
   user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
-}>;
+}[];
 
 export interface pullsPost {
   base?: string;
@@ -1015,7 +952,7 @@ export interface rate_limit {
   rate?: { limit?: number; remaining?: number; reset?: number };
 }
 
-export type ref = Array<{
+export type ref = {
   created_at?: string;
   creator?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
   description?: string;
@@ -1024,15 +961,15 @@ export type ref = Array<{
   target_url?: string;
   updated_at?: string;
   url?: string;
-}>;
+}[];
 
-export type refStatus = Array<{
+export type refStatus = {
   commit_url?: string;
   name?: string;
   repository_url?: string;
   sha?: string;
   state?: string;
-  statuses?: Array<{
+  statuses?: {
     context?: string;
     created_at?: string;
     description?: string;
@@ -1041,10 +978,10 @@ export type refStatus = Array<{
     target_url?: string;
     updated_at?: string;
     url?: string;
-  }>;
-}>;
+  }[];
+}[];
 
-export type refs = Array<{ object?: { sha?: string; type?: string; url?: string }; ref?: string; url?: string }>;
+export type refs = { object?: { sha?: string; type?: string; url?: string }; ref?: string; url?: string }[];
 
 export interface refsBody {
   ref?: string;
@@ -1052,7 +989,7 @@ export interface refsBody {
 }
 
 export interface release {
-  assets?: Array<{
+  assets?: {
     content_type?: string;
     created_at?: string;
     download_count?: number;
@@ -1064,7 +1001,7 @@ export interface release {
     updated_at?: string;
     uploader?: user;
     url?: string;
-  }>;
+  }[];
   assets_url?: string;
   author?: user;
   body?: string;
@@ -1092,8 +1029,8 @@ export interface ReleaseCreate {
   target_commitish?: string;
 }
 
-export type releases = Array<{
-  assets?: Array<{
+export type releases = {
+  assets?: {
     content_type?: string;
     created_at?: string;
     download_count?: number;
@@ -1105,7 +1042,7 @@ export type releases = Array<{
     updated_at?: string;
     uploader?: user;
     url?: string;
-  }>;
+  }[];
   assets_url?: string;
   author?: user;
   body?: string;
@@ -1122,14 +1059,12 @@ export type releases = Array<{
   upload_url?: string;
   url?: string;
   zipball_url?: string;
-}>;
+}[];
 
 export interface repo {
   clone_url?: string;
 
-  /**
-   * ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
-   */
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   description?: string;
   fork?: boolean;
@@ -1154,25 +1089,21 @@ export interface repo {
   parent?: repo & any;
   private?: boolean;
 
-  /**
-   * ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
-   */
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   pushed_at?: string;
   size?: number;
   source?: repo & any;
   ssh_url?: string;
   svn_url?: string;
 
-  /**
-   * ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
-   */
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
   watchers?: number;
   watchers_count?: number;
 }
 
-export type RepoDeployments = Array<{
+export type RepoDeployments = {
   created_at?: string;
   creator?: user;
   description?: string;
@@ -1182,9 +1113,9 @@ export type RepoDeployments = Array<{
   statuses_url?: string;
   updated_at?: string;
   url?: string;
-}>;
+}[];
 
-export type repoComments = Array<{
+export type repoComments = {
   body?: string;
   commit_id?: string;
   created_at?: string;
@@ -1196,13 +1127,13 @@ export type repoComments = Array<{
   updated_at?: string;
   url?: string;
   user?: user;
-}>;
+}[];
 
 export interface repoCommit {
   author?: { date?: string; email?: string; name?: string };
   committer?: { date?: string; email?: string; name?: string };
   message?: string;
-  parents?: Array<{ sha?: string; url?: string }>;
+  parents?: { sha?: string; url?: string }[];
   sha?: string;
   tree?: { sha?: string; url?: string };
   url?: string;
@@ -1228,7 +1159,7 @@ export interface repoEdit {
 export type repos = repo[];
 
 export interface SearchCode {
-  items?: Array<{
+  items?: {
     git_url?: string;
     html_url?: string;
     name?: string;
@@ -1281,12 +1212,12 @@ export interface SearchCode {
     score?: number;
     sha?: string;
     url?: string;
-  }>;
+  }[];
   total_count?: number;
 }
 
 export interface SearchIssues {
-  items?: Array<{
+  items?: {
     assignee?: any;
     body?: string;
     closed_at?: any;
@@ -1296,7 +1227,7 @@ export interface SearchIssues {
     events_url?: string;
     html_url?: string;
     id?: number;
-    labels?: Array<{ color?: string; name?: string; url?: string }>;
+    labels?: { color?: string; name?: string; url?: string }[];
     labels_url?: string;
     milestone?: any;
     number?: number;
@@ -1307,12 +1238,12 @@ export interface SearchIssues {
     updated_at?: string;
     url?: string;
     user?: user;
-  }>;
+  }[];
   total_count?: number;
 }
 
 export interface SearchIssuesByKeyword {
-  issues?: Array<{
+  issues?: {
     body?: string;
     comments?: number;
     created_at?: string;
@@ -1326,7 +1257,7 @@ export interface SearchIssuesByKeyword {
     updated_at?: string;
     user?: string;
     votes?: number;
-  }>;
+  }[];
 }
 
 export interface SearchRepositories {
@@ -1352,9 +1283,7 @@ export interface SearchUsersByKeyword {
 }
 
 export interface subscription {
-  /**
-   * ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
-   */
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   ignored?: boolean;
   reason?: string;
@@ -1370,41 +1299,29 @@ export interface subscriptionBody {
 }
 
 export interface tag {
-  /**
-   * String of the tag message.
-   */
+  /** String of the tag message. */
   message?: string;
   object?: { sha?: string; type?: "commit" | "tree" | "blob"; url?: string };
   sha?: string;
 
-  /**
-   * The tag's name. This is typically a version (e.g., "v0.0.1").
-   */
+  /** The tag's name. This is typically a version (e.g., "v0.0.1"). */
   tag?: string;
   tagger?: { date?: string; email?: string; name?: string };
   url?: string;
 }
 
 export interface tagBody {
-  /**
-   * String of the tag message.
-   */
+  /** String of the tag message. */
   message: string;
 
-  /**
-   * String of the SHA of the git object this is tagging.
-   */
+  /** String of the SHA of the git object this is tagging. */
   object: string;
 
-  /**
-   * The tag's name. This is typically a version (e.g., "v0.0.1").
-   */
+  /** The tag's name. This is typically a version (e.g., "v0.0.1"). */
   tag: string;
   tagger: { date?: string; email?: string; name?: string };
 
-  /**
-   * String of the type of the object we’re tagging. Normally this is a commit but it can also be a tree or a blob.
-   */
+  /** String of the type of the object we’re tagging. Normally this is a commit but it can also be a tree or a blob. */
   type: "commit" | "tree" | "blob";
 }
 
@@ -1426,9 +1343,9 @@ export interface teamMembership {
 
 export type teamRepos = repos;
 
-export type teams = Array<{ id?: number; name?: string; url?: string }>;
+export type teams = { id?: number; name?: string; url?: string }[];
 
-export type TeamsList = Array<{
+export type TeamsList = {
   id?: number;
   members_count?: number;
   name?: string;
@@ -1436,27 +1353,25 @@ export type TeamsList = Array<{
   permission?: string;
   repos_count?: number;
   url?: string;
-}>;
+}[];
 
 export interface tree {
   sha?: string;
-  tree?: Array<{
+  tree?: {
     mode?: "100644" | "100755" | "040000" | "160000" | "120000";
     path?: string;
     sha?: string;
     size?: number;
     type?: "blob" | "tree" | "commit";
     url?: string;
-  }>;
+  }[];
   url?: string;
 }
 
 export interface trees {
   base_tree?: string;
 
-  /**
-   * SHA1 checksum ID of the object in the tree.
-   */
+  /** SHA1 checksum ID of the object in the tree. */
   sha?: string;
   tree?: tree[];
   url?: string;

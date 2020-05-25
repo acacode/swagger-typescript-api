@@ -14,14 +14,10 @@
  * Authentiq ID in JWT format, self-signed.
  */
 export interface AuthentiqID {
-  /**
-   * device token for push messages
-   */
+  /** device token for push messages */
   devtoken?: string;
 
-  /**
-   * UUID and public signing key
-   */
+  /** UUID and public signing key */
   sub: string;
 }
 
@@ -32,14 +28,10 @@ export interface Claims {
   email?: string;
   phone?: string;
 
-  /**
-   * claim scope
-   */
+  /** claim scope */
   scope: string;
 
-  /**
-   * UUID
-   */
+  /** UUID */
   sub: string;
   type?: string;
 }
@@ -49,9 +41,7 @@ export interface Error {
   error: number;
   title?: string;
 
-  /**
-   * unique uri for this error
-   */
+  /** unique uri for this error */
   type?: string;
 }
 
@@ -59,22 +49,16 @@ export interface Error {
  * PushToken in JWT format, self-signed.
  */
 export interface PushToken {
-  /**
-   * audience (URI)
-   */
+  /** audience (URI) */
   aud: string;
   exp?: number;
   iat?: number;
 
-  /**
-   * issuer (URI)
-   */
+  /** issuer (URI) */
   iss: string;
   nbf?: number;
 
-  /**
-   * UUID and public signing key
-   */
+  /** UUID and public signing key */
   sub: string;
 }
 

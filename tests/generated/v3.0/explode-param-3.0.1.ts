@@ -11,14 +11,10 @@
  */
 
 export interface QueryParams {
-  /**
-   * Page number
-   */
+  /** Page number */
   page?: number | null;
 
-  /**
-   * Page size
-   */
+  /** Page size */
   "page-size"?: number | null;
 }
 

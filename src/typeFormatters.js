@@ -9,17 +9,17 @@ const formatters = {
       const extraSpace = "  ";
       const result = `${extraSpace}${part.field};\n`;
 
-      const comments = _.compact([part.title, part.description]);
+      const comments = _.compact([part.title, part.description]).reduce(
+        (acc, comment) => [...acc, ...comment.split(/\n/g)],
+        [],
+      );
 
       const commonText = comments.length
         ? [
             "",
-            "/**",
-            ...comments.reduce(
-              (acc, comment) => [...acc, ...comment.split(/\n/g).map((part) => ` * ${part}`)],
-              [],
-            ),
-            " */",
+            ...(comments.length === 1
+              ? [`/** ${comments[0]} */`]
+              : ["/**", ...comments.map((commentPart) => ` * ${commentPart}`), " */"]),
           ]
             .map((part) => `${extraSpace}${part}\n`)
             .join("")

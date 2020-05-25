@@ -1,18 +1,50 @@
 const _ = require("lodash");
 const { inlineExtraFormatters } = require("./typeFormatters");
 const { isValidName, checkAndRenameModelName } = require("./modelNames");
-const { formatDescription } = require("./common");
+const { formatDescription, toInternalCase } = require("./common");
 const { DEFAULT_PRIMITIVE_TYPE } = require("./constants");
 const { config } = require("./config");
 
-const jsTypes = ["number", "boolean", "string", "object"];
-const jsEmptyTypes = ["null", "undefined"];
-const typeAliases = {
+const types = {
+  /** { type: "integer" } -> { type: "number" } */
   integer: "number",
+  number: "number",
+  boolean: "boolean",
+  object: "object",
   file: "File",
+  string: {
+    $default: "string",
+
+    /** formats */
+    binary: "File",
+  },
+  array: ({ items, ...schemaPart }) => {
+    const { content } = parseSchema(items, null, inlineExtraFormatters);
+    return checkAndAddNull(schemaPart, `${content}[]`);
+  },
+
+  // TODO: probably it can be needed
+  // date: "Date",
+  // dateTime: "Date",
 };
 
-const findSchemaType = (schema) => {
+const jsEmptyTypes = _.uniq(["null", "undefined"]);
+const formDataTypes = _.uniq([types.file, types.string.binary]);
+
+const getTypeAlias = (rawSchema) => {
+  const schema = rawSchema || {};
+  const type = toInternalCase(schema.type);
+  const format = toInternalCase(schema.format);
+  const typeAlias = _.get(types, [type, format]) || _.get(types, [type, "$default"]) || types[type];
+
+  if (_.isFunction(typeAlias)) {
+    return typeAlias(schema);
+  }
+
+  return typeAlias || type;
+};
+
+const getInternalSchemaType = (schema) => {
   if (schema.enum) return "enum";
   if (schema.properties) return "object";
   if (schema.allOf || schema.oneOf || schema.anyOf || schema.not) return "complex";
@@ -20,22 +52,9 @@ const findSchemaType = (schema) => {
   return "primitive";
 };
 
-const nullableExtras = (schema, value) => {
+const checkAndAddNull = (schema, value) => {
   const { nullable, type } = schema || {};
   return nullable || type === "null" ? `${value} | null` : value;
-};
-
-const getPrimitiveType = (property) => {
-  const { type } = property || {};
-  const primitiveType = typeAliases[type] || type;
-  return primitiveType ? nullableExtras(property, primitiveType) : DEFAULT_PRIMITIVE_TYPE;
-};
-
-const specificObjectTypes = {
-  array: ({ items, ...schemaPart }) => {
-    const { content, type } = parseSchema(items, null, inlineExtraFormatters);
-    return nullableExtras(schemaPart, type === "primitive" ? `${content}[]` : `Array<${content}>`);
-  },
 };
 
 const getRefType = (property) => {
@@ -43,17 +62,17 @@ const getRefType = (property) => {
   return (ref && config.componentsMap[ref]) || null;
 };
 
-const getRefTypeName = (property) => {
-  const refTypeInfo = getRefType(property);
-  return refTypeInfo && checkAndRenameModelName(refTypeInfo.typeName);
-};
+const getType = (schema) => {
+  if (!schema) return DEFAULT_PRIMITIVE_TYPE;
 
-const getType = (property) => {
-  if (!property) return DEFAULT_PRIMITIVE_TYPE;
+  const refTypeInfo = getRefType(schema);
 
-  const anotherTypeGetter = specificObjectTypes[property.type] || getPrimitiveType;
-  const refType = getRefTypeName(property);
-  return refType ? nullableExtras(property, refType) : anotherTypeGetter(property);
+  if (refTypeInfo) {
+    return checkAndAddNull(schema, checkAndRenameModelName(refTypeInfo.typeName));
+  }
+
+  const primitiveType = getTypeAlias(schema);
+  return primitiveType ? checkAndAddNull(schema, primitiveType) : DEFAULT_PRIMITIVE_TYPE;
 };
 
 const getObjectTypeContent = (properties) => {
@@ -64,6 +83,7 @@ const getObjectTypeContent = (properties) => {
         : !property.nullable
       : !!property.required;
     return {
+      $$raw: property,
       description: property.description,
       isRequired,
       field: `${isValidName(name) ? name : `"${name}"`}${
@@ -79,17 +99,17 @@ const complexSchemaParsers = {
   oneOf: (schema) => {
     // T1 | T2
     const combined = _.map(schema.oneOf, complexTypeGetter);
-    return nullableExtras(schema, combined.join(" | "));
+    return checkAndAddNull(schema, combined.join(" | "));
   },
   allOf: (schema) => {
     // T1 & T2
-    return nullableExtras(schema, _.map(schema.allOf, complexTypeGetter).join(" & "));
+    return checkAndAddNull(schema, _.map(schema.allOf, complexTypeGetter).join(" & "));
   },
   anyOf: (schema) => {
     // T1 | T2 | (T1 & T2)
     const combined = _.map(schema.anyOf, complexTypeGetter);
     const nonEmptyTypesCombined = combined.filter((type) => !jsEmptyTypes.includes(type));
-    return nullableExtras(
+    return checkAndAddNull(
       schema,
       `${combined.join(" | ")}` +
         (nonEmptyTypesCombined.length > 1 ? ` | (${nonEmptyTypesCombined.join(" & ")})` : ""),
@@ -114,8 +134,8 @@ const getComplexType = (schema) => {
 
 const schemaParsers = {
   enum: (schema, typeName) => {
-    const type = getPrimitiveType(schema);
-    const isIntegerEnum = type === "number";
+    const type = getType(schema);
+    const isIntegerEnum = type === types.number;
     return {
       $parsedSchema: true,
       schemaType: "enum",
@@ -212,7 +232,7 @@ const parseSchema = (rawSchema, typeName, formattersMap) => {
     parsedSchema = rawSchema;
   } else {
     const fixedRawSchema = checkAndFixSchema(rawSchema);
-    schemaType = findSchemaType(fixedRawSchema);
+    schemaType = getInternalSchemaType(fixedRawSchema);
     parsedSchema = schemaParsers[schemaType](fixedRawSchema, typeName);
   }
 
@@ -233,6 +253,6 @@ module.exports = {
   parseSchemas,
   getInlineParseContent,
   getType,
-  getRefTypeName,
   getRefType,
+  formDataTypes,
 };

@@ -1,0 +1,39 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "v0.1",
+    "title": "Title"
+  },
+  "paths": {
+    "/upload-file": {
+      "post": {
+        "tags": ["tag"],
+        "summary": "Upload file",
+        "operationId": "UploadFile",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json", "application/vnd.api+json"],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "File description",
+            "required": false,
+            "type": "file"
+          },
+          {
+            "name": "someFlag",
+            "in": "formData",
+            "description": "Boolean flag",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  }
+}

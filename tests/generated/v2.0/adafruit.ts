@@ -84,9 +84,7 @@ export interface Feed {
   created_at?: string;
   description?: string;
 
-  /**
-   * Additional details about this feed.
-   */
+  /** Additional details about this feed. */
   details?: {
     data?: { count?: number; first?: Record<string, Data>; last?: Record<string, Data> };
     shared_with?: object[];
@@ -102,14 +100,10 @@ export interface Feed {
   name?: string;
   status?: string;
 
-  /**
-   * Is status notification active?
-   */
+  /** Is status notification active? */
   status_notify?: boolean;
 
-  /**
-   * Status notification timeout in minutes.
-   */
+  /** Status notification timeout in minutes. */
   status_timeout?: number;
   unit_symbol?: string;
   unit_type?: string;
@@ -527,7 +521,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       dashboard_id: string,
       id: string,
       block: {
-        block_feeds?: Array<{ feed_id?: string; group_id?: string }>;
+        block_feeds?: { feed_id?: string; group_id?: string }[];
         column?: number;
         dashboard_id?: number;
         description?: string;
@@ -553,7 +547,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       dashboard_id: string,
       id: string,
       block: {
-        block_feeds?: Array<{ feed_id?: string; group_id?: string }>;
+        block_feeds?: { feed_id?: string; group_id?: string }[];
         column?: number;
         dashboard_id?: number;
         description?: string;
@@ -949,7 +943,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       group_key: string,
       group_feed_data: {
         created_at?: string;
-        feeds: Array<{ key: string; value: string }>;
+        feeds: { key: string; value: string }[];
         location: { ele?: number; lat: number; lon: number };
       },
       params?: RequestParams,
@@ -1022,7 +1016,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       username: string,
       group_key: string,
       feed_key: string,
-      data: Array<{ created_at?: string; ele?: string; epoch?: number; lat?: string; lon?: string; value?: string }>,
+      data: { created_at?: string; ele?: string; epoch?: number; lat?: string; lon?: string; value?: string }[],
       params?: RequestParams,
     ) =>
       this.request<DataResponse[], any>(

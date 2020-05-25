@@ -18,9 +18,7 @@ export type Pet = NewPet & { id: number };
 export type Test = NewPet;
 
 export interface Test2 {
-  /**
-   * Field description
-   */
+  /** Field description */
   data?: NewPet;
 }
 

@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const { collect } = require("./utils");
-const { parseSchema, getRefType } = require("./schema");
+const { parseSchema, getRefType, formDataTypes } = require("./schema");
 const { checkAndRenameModelName } = require("./modelNames");
 const { inlineExtraFormatters } = require("./typeFormatters");
 const {
@@ -25,15 +25,24 @@ const getSchemaFromRequestType = (requestType) => {
 
   if (!content) return null;
 
-  const contentByType = _.find(content, (contentByType) => contentByType.schema);
+  /* content: { "multipart/form-data": { schema: {...} }, "application/json": { schema: {...} } } */
 
-  return contentByType && contentByType.schema;
+  /* for example: dataType = "multipart/form-data" */
+  for (const dataType in content) {
+    if (content[dataType] && content[dataType].schema) {
+      return {
+        ...content[dataType].schema,
+        dataType,
+      };
+    }
+  }
+
+  return null;
 };
 
 const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, contentType) => {
   // TODO: make more flexible pick schema without content type
   const schema = getSchemaFromRequestType(requestInfo);
-  // const refType = getRefTypeName(requestInfo);
   const refTypeInfo = getRefType(requestInfo);
 
   if (schema) {
@@ -197,8 +206,11 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
         const formDataParams = getRouteParams(parameters, "formData");
         const pathParams = getRouteParams(parameters, "path");
         const queryParams = getRouteParams(parameters, "query");
+        const requestBodyType = getSchemaFromRequestType(requestBody);
 
-        const hasFormDataParams = formDataParams && formDataParams.length;
+        const hasFormDataParams = formDataParams && !!formDataParams.length;
+        let formDataRequestBody =
+          requestBodyType && requestBodyType.dataType === "multipart/form-data";
 
         const moduleName = _.camelCase(_.compact(_.split(route, "/"))[0]);
 
@@ -207,7 +219,11 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
 
         const responsesTypes = getTypesFromResponses(responses, parsedSchemas, operationId);
 
-        const formDataObjectSchema = convertRouteParamsIntoObject(formDataParams);
+        const formDataObjectSchema = hasFormDataParams
+          ? convertRouteParamsIntoObject(formDataParams)
+          : formDataRequestBody
+          ? getSchemaFromRequestType(requestBody)
+          : null;
         const queryObjectSchema = convertRouteParamsIntoObject(queryParams);
 
         const bodyParamName =
@@ -217,11 +233,20 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
           ? parseSchema(queryObjectSchema, null, inlineExtraFormatters).content
           : null;
 
-        const bodyType = hasFormDataParams
-          ? parseSchema(formDataObjectSchema, null, inlineExtraFormatters).content
-          : requestBody
-          ? getTypeFromRequestInfo(requestBody, parsedSchemas, operationId)
-          : null;
+        let bodyType = null;
+
+        if (formDataObjectSchema) {
+          bodyType = parseSchema(formDataObjectSchema, null, inlineExtraFormatters).content;
+        } else if (requestBody) {
+          bodyType = getTypeFromRequestInfo(requestBody, parsedSchemas, operationId);
+
+          // TODO: Refactor that.
+          // It needed for cases when swagger schema is not declared request body type as form data
+          // but request body data type contains form data types like File
+          if (formDataTypes.some((formDataType) => _.includes(bodyType, `: ${formDataType}`))) {
+            formDataRequestBody = true;
+          }
+        }
 
         // Gets all in path parameters from route
         // Example: someurl.com/{id}/{name}
@@ -347,7 +372,7 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
           moduleName: _.replace(moduleName, /^(\d)/, "v$1"),
           security: hasSecurity,
           hasQuery,
-          hasFormDataParams,
+          hasFormDataParams: hasFormDataParams || formDataRequestBody,
           queryType: queryType || "{}",
           bodyType: bodyType || "never",
           name,
@@ -366,9 +391,14 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
             `${specificArgs.requestParams.name}` +
             _.compact([
               requestBody && `, ${bodyParamName}`,
-              hasFormDataParams && `${requestBody ? "" : ", null"}, BodyType.FormData`,
+              (hasFormDataParams || formDataRequestBody) &&
+                `${requestBody ? "" : ", null"}, BodyType.FormData`,
               hasSecurity &&
-                `${hasFormDataParams ? "" : `${requestBody ? "" : ", null"}, BodyType.Json`}, true`,
+                `${
+                  hasFormDataParams || formDataRequestBody
+                    ? ""
+                    : `${requestBody ? "" : ", null"}, BodyType.Json`
+                }, true`,
             ]).join(""),
         };
       }),
