@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const { collect } = require("./utils");
-const { parseSchema, getRefType } = require("./schema");
+const { parseSchema, getRefType, formDataTypes } = require("./schema");
 const { checkAndRenameModelName } = require("./modelNames");
 const { inlineExtraFormatters } = require("./typeFormatters");
 const {
@@ -43,7 +43,6 @@ const getSchemaFromRequestType = (requestType) => {
 const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, contentType) => {
   // TODO: make more flexible pick schema without content type
   const schema = getSchemaFromRequestType(requestInfo);
-  // const refType = getRefTypeName(requestInfo);
   const refTypeInfo = getRefType(requestInfo);
 
   if (schema) {
@@ -210,7 +209,7 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
         const requestBodyType = getSchemaFromRequestType(requestBody);
 
         const hasFormDataParams = formDataParams && !!formDataParams.length;
-        const formDataRequestBody =
+        let formDataRequestBody =
           requestBodyType && requestBodyType.dataType === "multipart/form-data";
 
         const moduleName = _.camelCase(_.compact(_.split(route, "/"))[0]);
@@ -240,6 +239,13 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
           bodyType = parseSchema(formDataObjectSchema, null, inlineExtraFormatters).content;
         } else if (requestBody) {
           bodyType = getTypeFromRequestInfo(requestBody, parsedSchemas, operationId);
+
+          // TODO: Refactor that.
+          // It needed for cases when swagger schema is not declared request body type as form data
+          // but request body data type contains form data types like File
+          if (formDataTypes.some((formDataType) => _.includes(bodyType, `: ${formDataType}`))) {
+            formDataRequestBody = true;
+          }
         }
 
         // Gets all in path parameters from route

@@ -5,32 +5,46 @@ const { formatDescription, toInternalCase } = require("./common");
 const { DEFAULT_PRIMITIVE_TYPE } = require("./constants");
 const { config } = require("./config");
 
-const jsTypes = ["number", "boolean", "string", "object"];
-const jsEmptyTypes = ["null", "undefined"];
-
-const typeAliases = {
+const types = {
   /** { type: "integer" } -> { type: "number" } */
   integer: "number",
+  number: "number",
+  boolean: "boolean",
+  object: "object",
   file: "File",
+  string: {
+    $default: "string",
+
+    /** formats */
+    binary: "File",
+  },
+  array: ({ items, ...schemaPart }) => {
+    const { content } = parseSchema(items, null, inlineExtraFormatters);
+    return checkAndAddNull(schemaPart, `${content}[]`);
+  },
 
   // TODO: probably it can be needed
   // date: "Date",
   // dateTime: "Date",
 };
 
-const extraTypesWithFormats = {
-  /** first depth is original type */
-  string: {
-    /** second depth is format */
-    /** example: { type: "string", format: "binary" } */
-    binary: "File",
-    // TODO: probably it can be needed
-    // date: "Date",
-    // dateTime: "Date",
-  },
+const jsEmptyTypes = _.uniq(["null", "undefined"]);
+const formDataTypes = _.uniq([types.file, types.string.binary]);
+
+const getTypeAlias = (rawSchema) => {
+  const schema = rawSchema || {};
+  const type = toInternalCase(schema.type);
+  const format = toInternalCase(schema.format);
+  const typeAlias = _.get(types, [type, format]) || _.get(types, [type, "$default"]) || types[type];
+
+  if (_.isFunction(typeAlias)) {
+    return typeAlias(schema);
+  }
+
+  return typeAlias || type;
 };
 
-const findSchemaType = (schema) => {
+const getInternalSchemaType = (schema) => {
   if (schema.enum) return "enum";
   if (schema.properties) return "object";
   if (schema.allOf || schema.oneOf || schema.anyOf || schema.not) return "complex";
@@ -43,39 +57,22 @@ const checkAndAddNull = (schema, value) => {
   return nullable || type === "null" ? `${value} | null` : value;
 };
 
-const getPrimitiveType = (property) => {
-  const { type, format } = property || {};
-
-  const primitiveType =
-    _.get(extraTypesWithFormats, [toInternalCase(type), toInternalCase(format)]) ||
-    typeAliases[toInternalCase(type)] ||
-    type;
-  return primitiveType ? checkAndAddNull(property, primitiveType) : DEFAULT_PRIMITIVE_TYPE;
-};
-
-const specificObjectTypes = {
-  array: ({ items, ...schemaPart }) => {
-    const { content } = parseSchema(items, null, inlineExtraFormatters);
-    return checkAndAddNull(schemaPart, `${content}[]`);
-  },
-};
-
 const getRefType = (property) => {
   const ref = property && property["$ref"];
   return (ref && config.componentsMap[ref]) || null;
 };
 
-const getRefTypeName = (property) => {
-  const refTypeInfo = getRefType(property);
-  return refTypeInfo && checkAndRenameModelName(refTypeInfo.typeName);
-};
+const getType = (schema) => {
+  if (!schema) return DEFAULT_PRIMITIVE_TYPE;
 
-const getType = (property) => {
-  if (!property) return DEFAULT_PRIMITIVE_TYPE;
+  const refTypeInfo = getRefType(schema);
 
-  const anotherTypeGetter = specificObjectTypes[property.type] || getPrimitiveType;
-  const refType = getRefTypeName(property);
-  return refType ? checkAndAddNull(property, refType) : anotherTypeGetter(property);
+  if (refTypeInfo) {
+    return checkAndAddNull(schema, checkAndRenameModelName(refTypeInfo.typeName));
+  }
+
+  const primitiveType = getTypeAlias(schema);
+  return primitiveType ? checkAndAddNull(schema, primitiveType) : DEFAULT_PRIMITIVE_TYPE;
 };
 
 const getObjectTypeContent = (properties) => {
@@ -137,8 +134,8 @@ const getComplexType = (schema) => {
 
 const schemaParsers = {
   enum: (schema, typeName) => {
-    const type = getPrimitiveType(schema);
-    const isIntegerEnum = type === "number";
+    const type = getType(schema);
+    const isIntegerEnum = type === types.number;
     return {
       $parsedSchema: true,
       schemaType: "enum",
@@ -235,7 +232,7 @@ const parseSchema = (rawSchema, typeName, formattersMap) => {
     parsedSchema = rawSchema;
   } else {
     const fixedRawSchema = checkAndFixSchema(rawSchema);
-    schemaType = findSchemaType(fixedRawSchema);
+    schemaType = getInternalSchemaType(fixedRawSchema);
     parsedSchema = schemaParsers[schemaType](fixedRawSchema, typeName);
   }
 
@@ -256,6 +253,6 @@ module.exports = {
   parseSchemas,
   getInlineParseContent,
   getType,
-  getRefTypeName,
   getRefType,
+  formDataTypes,
 };
