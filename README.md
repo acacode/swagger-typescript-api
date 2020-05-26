@@ -73,7 +73,8 @@ generateApi({
 
 ## 📄 Mass media  
 
-- https://dev.to/js2me/why-swagger-schemes-are-needed-in-frontend-development-2cb4  
+- [Why Swagger schemes are needed in frontend development ?](https://dev.to/js2me/why-swagger-schemes-are-needed-in-frontend-development-2cb4)  
+- [Migration en douceur vers TypeScript](https://www.premieroctet.com/blog/migration-typescript/)  
 
 
 ## 🚀 How it looks  
