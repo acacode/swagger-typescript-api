@@ -1,5 +1,10 @@
 # next release  
 
+# 1.8.2  
+
+Fixes:  
+- Broken types for arrays of union types ([issue](https://github.com/acacode/swagger-typescript-api/issues/49))  
+
 # 1.8.1  
 
 Fixes:  

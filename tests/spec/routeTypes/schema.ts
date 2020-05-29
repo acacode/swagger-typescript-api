@@ -492,7 +492,7 @@ export type hook = {
   active?: boolean;
   config?: { content_type?: string; url?: string };
   created_at?: string;
-  events?:
+  events?: (
     | "push"
     | "issues"
     | "issue_comment"
@@ -507,7 +507,8 @@ export type hook = {
     | "member"
     | "public"
     | "team_add"
-    | "status"[];
+    | "status"
+  )[];
   id?: number;
   name?: string;
   updated_at?: string;

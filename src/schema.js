@@ -20,7 +20,7 @@ const types = {
   },
   array: ({ items, ...schemaPart }) => {
     const { content } = parseSchema(items, null, inlineExtraFormatters);
-    return checkAndAddNull(schemaPart, `${content}[]`);
+    return checkAndAddNull(schemaPart, `(${content})[]`);
   },
 
   // TODO: probably it can be needed
