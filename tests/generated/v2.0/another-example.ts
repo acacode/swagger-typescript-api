@@ -241,7 +241,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @secure
      * @description Multiple status values can be provided with comma separated strings
      */
-    findPetsByStatus: (query: { status: "available" | "pending" | "sold"[] }, params?: RequestParams) =>
+    findPetsByStatus: (query: { status: ("available" | "pending" | "sold")[] }, params?: RequestParams) =>
       this.request<Pet[], any>(
         `/pet/findByStatus${this.addQueryParams(query)}`,
         "GET",
