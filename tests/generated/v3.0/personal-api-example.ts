@@ -10,93 +10,142 @@
  * ---------------------------------------------------------------
  */
 
-export interface AuthUser {
+/**
+ * From T, pick a set of properties whose keys are in the union K
+ */
+export interface PickUserTypeExcludeKeysIdOrId {
   username: string;
   password: string;
 }
 
-export enum Kind {
+export type OmitUserTypeIdOrId = PickUserTypeExcludeKeysIdOrId;
+
+export type OmitId_UserType_ = OmitUserTypeIdOrId;
+
+export type AuthUserType = OmitId_UserType_;
+
+export enum JobKind {
   COMPANY = "COMPANY",
   PERSONAL = "PERSONAL",
   FREELANCE = "FREELANCE",
   OPEN_SOURCE = "OPEN_SOURCE",
 }
 
-export interface Job {
+/**
+ * Information about job
+ */
+export interface JobType {
   id: string;
-  kind: Kind;
-  name?: string | null;
-  link?: string | null;
-  github?: string | null;
-  npm?: string | null;
-  isTool?: boolean | null;
-  address?: string | null;
+  kind: JobKind;
+  name?: string;
+  link?: string;
+
+  /**
+   * Exist only in open source jobs
+   * Format: `${username}/${projectName}`
+   */
+  github?: string;
+
+  /**
+   * Exist only in open source jobs
+   * Format: `${orgname}/${projectName}`
+   */
+  npm?: string;
+
+  /**
+   * Exist only in open source jobs
+   * Means project is dev. tool (like swagger code generator)
+   */
+  isTool?: boolean;
+
+  /** web site address */
+  address?: string;
 }
 
-export interface JobUpdate {
-  kind: Kind;
-  name?: string | null;
-  link?: string | null;
-  github?: string | null;
-  npm?: string | null;
-  isTool?: boolean | null;
-  address?: string | null;
+/**
+ * From T, pick a set of properties whose keys are in the union K
+ */
+export interface PickJobTypeExcludeKeysIdOrId {
+  kind: JobKind;
+  name?: string;
+  link?: string;
+
+  /**
+   * Exist only in open source jobs
+   * Format: `${username}/${projectName}`
+   */
+  github?: string;
+
+  /**
+   * Exist only in open source jobs
+   * Format: `${orgname}/${projectName}`
+   */
+  npm?: string;
+
+  /**
+   * Exist only in open source jobs
+   * Means project is dev. tool (like swagger code generator)
+   */
+  isTool?: boolean;
+
+  /** web site address */
+  address?: string;
 }
 
-export interface UpdatedJob {
-  id: string;
-  kind: Kind;
-  name?: string | null;
-  link?: string | null;
-  github?: string | null;
-  npm?: string | null;
-  isTool?: boolean | null;
-  address?: string | null;
-}
+export type OmitJobTypeIdOrId = PickJobTypeExcludeKeysIdOrId;
 
-export interface Project {
+export type OmitId_JobType_ = OmitJobTypeIdOrId;
+
+export type JobUpdateType = OmitId_JobType_;
+
+/**
+ * From T, pick a set of properties whose keys are in the union K
+ */
+export interface Pick_ProjectType_ExcludeKeys_job {
   id: string;
+  name?: string;
   year: number;
   description: string;
-  job: Job;
-  name?: string | null;
-  notImportant?: boolean | null;
-  prefix?: string | null;
+  notImportant?: boolean;
+  prefix?: string;
   tags: string[];
   teamSize: string;
 }
 
-export interface ProjectUpdate {
-  year: number;
-  description: string;
-  name?: string | null;
-  notImportant?: boolean | null;
-  prefix?: string | null;
-  tags: string[];
-  teamSize: string;
+export type Omit_ProjectType_job_ = Pick_ProjectType_ExcludeKeys_job;
+
+export type ExtractedProjectType = Omit_ProjectType_job_ & { job: JobType };
+
+/**
+ * From T, pick a set of properties whose keys are in the union K
+ */
+export interface PickProjectTypeExcludeKeysIdOrId {
+  name?: string;
   job: string;
+  year: number;
+  description: string;
+  notImportant?: boolean;
+  prefix?: string;
+  tags: string[];
+  teamSize: string;
 }
 
-export interface UpdatedProject {
+export type OmitProjectTypeIdOrId = PickProjectTypeExcludeKeysIdOrId;
+
+export type OmitId_ProjectType_ = OmitProjectTypeIdOrId;
+
+export type ProjectUpdateType = OmitId_ProjectType_;
+
+export interface ProjectType {
   id: string;
   year: number;
   description: string;
-  name?: string | null;
-  notImportant?: boolean | null;
-  prefix?: string | null;
+  job: string;
+  name?: string;
+  notImportant?: boolean;
+  prefix?: string;
   tags: string[];
   teamSize: string;
-  job: string;
-}
-
-export interface User {
-  id: string;
-  username: string;
-}
-
-export interface UserUpdate {
-  id?: string | null;
-  username?: string | null;
 }
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
@@ -191,7 +240,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name Login
      * @request POST:/auth
      */
-    login: (data: AuthUser, params?: RequestParams) => this.request<string, any>(`/auth`, "POST", params, data),
+    login: (data: AuthUserType, params?: RequestParams) => this.request<string, any>(`/auth`, "POST", params, data),
 
     /**
      * @tags Auth
@@ -209,7 +258,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/jobs
      * @secure
      */
-    getJobs: (params?: RequestParams) => this.request<Job[], any>(`/jobs`, "GET", params, null, BodyType.Json, true),
+    getJobs: (params?: RequestParams) =>
+      this.request<JobType[], any>(`/jobs`, "GET", params, null, BodyType.Json, true),
 
     /**
      * @tags Jobs
@@ -217,7 +267,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/jobs
      * @secure
      */
-    addJob: (data: JobUpdate, params?: RequestParams) =>
+    addJob: (data: JobUpdateType, params?: RequestParams) =>
       this.request<string, any>(`/jobs`, "POST", params, data, BodyType.Json, true),
 
     /**
@@ -227,7 +277,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @secure
      */
     getJob: (id: string, params?: RequestParams) =>
-      this.request<Job, any>(`/jobs/${id}`, "GET", params, null, BodyType.Json, true),
+      this.request<JobType, any>(`/jobs/${id}`, "GET", params, null, BodyType.Json, true),
 
     /**
      * @tags Jobs
@@ -235,8 +285,17 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PATCH:/jobs/{id}
      * @secure
      */
-    updateJob: (id: string, data: JobUpdate, params?: RequestParams) =>
-      this.request<UpdatedJob, any>(`/jobs/${id}`, "PATCH", params, data, BodyType.Json, true),
+    updateJob: (id: string, data: JobUpdateType, params?: RequestParams) =>
+      this.request<JobType, any>(`/jobs/${id}`, "PATCH", params, data, BodyType.Json, true),
+
+    /**
+     * @tags Jobs
+     * @name DeleteJob
+     * @request DELETE:/jobs/{id}
+     * @secure
+     */
+    deleteJob: (id: string, params?: RequestParams) =>
+      this.request<any, any>(`/jobs/${id}`, "DELETE", params, null, BodyType.Json, true),
   };
   projects = {
     /**
@@ -244,7 +303,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name GetProjects
      * @request GET:/projects
      */
-    getProjects: (params?: RequestParams) => this.request<Project[], any>(`/projects`, "GET", params),
+    getProjects: (params?: RequestParams) => this.request<ExtractedProjectType[], any>(`/projects`, "GET", params),
 
     /**
      * @tags Projects
@@ -252,7 +311,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/projects
      * @secure
      */
-    addProjects: (data: ProjectUpdate, params?: RequestParams) =>
+    addProjects: (data: ProjectUpdateType, params?: RequestParams) =>
       this.request<string, any>(`/projects`, "POST", params, data, BodyType.Json, true),
 
     /**
@@ -261,43 +320,14 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PATCH:/projects/{id}
      * @secure
      */
-    updateProject: (id: string, data: ProjectUpdate, params?: RequestParams) =>
-      this.request<UpdatedProject, any>(`/projects/${id}`, "PATCH", params, data, BodyType.Json, true),
-  };
-  users = {
-    /**
-     * @tags Users
-     * @name GetUsers
-     * @request GET:/users
-     * @secure
-     */
-    getUsers: (params?: RequestParams) => this.request<User[], any>(`/users`, "GET", params, null, BodyType.Json, true),
+    updateProject: (id: string, data: ProjectUpdateType, params?: RequestParams) =>
+      this.request<ProjectType, any>(`/projects/${id}`, "PATCH", params, data, BodyType.Json, true),
 
     /**
-     * @tags Users
-     * @name AddUser
-     * @request POST:/users
-     * @secure
+     * @tags Projects
+     * @name DeleteProject
+     * @request DELETE:/projects/{id}
      */
-    addUser: (data: AuthUser, params?: RequestParams) =>
-      this.request<User, any>(`/users`, "POST", params, data, BodyType.Json, true),
-
-    /**
-     * @tags Users
-     * @name DeleteUser
-     * @request DELETE:/users/{id}
-     * @secure
-     */
-    deleteUser: (id: string, params?: RequestParams) =>
-      this.request<any, any>(`/users/${id}`, "DELETE", params, null, BodyType.Json, true),
-
-    /**
-     * @tags Users
-     * @name UpdateUser
-     * @request PATCH:/users/{id}
-     * @secure
-     */
-    updateUser: (id: string, data: UserUpdate, params?: RequestParams) =>
-      this.request<User, any>(`/users/${id}`, "PATCH", params, data, BodyType.Json, true),
+    deleteProject: (id: string, params?: RequestParams) => this.request<any, any>(`/projects/${id}`, "DELETE", params),
   };
 }
