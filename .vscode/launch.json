@@ -14,12 +14,21 @@
       "port": 9229
     },
     {
-      "name": "Debug CLI",
+      "name": "Debug JSON CLI",
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run-script", "cli:debug"],
+      "runtimeArgs": ["run-script", "cli:debug:json"],
+      "port": 9229
+    },
+    {
+      "name": "Debug YAML CLI",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run-script", "cli:debug:yaml"],
       "port": 9229
     }
   ]
