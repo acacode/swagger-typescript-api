@@ -1,5 +1,32 @@
 # next release  
 
+# 1.8.3  
+
+Fixes:  
+- Generating invalid code in composed schema contexts ([#51 issue](https://github.com/acacode/swagger-typescript-api/issues/51)) 
+  ```yaml
+  components:
+  schemas:
+    Test:
+      type: object
+      allOf:
+        - type: object
+          properties:
+            x:
+              type: array
+              items:
+                type: string
+                enum:
+                  - A-B
+        - type: object
+          properties:
+            y:
+              type: string
+  ```
+  ```ts
+  export type Test = XAB & { y?: string };
+  ```
+
 # 1.8.2  
 
 Fixes:  
