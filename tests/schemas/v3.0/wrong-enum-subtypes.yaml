@@ -1,0 +1,22 @@
+openapi: 3.0.1
+info:
+  title: Test
+  version: test
+paths: {}
+components:
+  schemas:
+    Test:
+      type: object
+      allOf:
+        - type: object
+          properties:
+            x:
+              type: array
+              items:
+                type: string
+                enum:
+                  - A-B
+        - type: object
+          properties:
+            y:
+              type: string

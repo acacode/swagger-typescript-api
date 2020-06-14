@@ -132,11 +132,20 @@ const getComplexType = (schema) => {
   throw new Error("Uknown complex type");
 };
 
+const attachParsedRef = (originalSchema, parsedSchema) => {
+  if (originalSchema) {
+    originalSchema.$parsed = parsedSchema;
+  }
+
+  return parsedSchema;
+};
+
 const schemaParsers = {
   enum: (schema, typeName) => {
     const type = getType(schema);
     const isIntegerEnum = type === types.number;
-    return {
+
+    return attachParsedRef(schema, {
       $parsedSchema: true,
       schemaType: "enum",
       type: isIntegerEnum ? "intEnum" : "enum",
@@ -148,7 +157,7 @@ const schemaParsers = {
         type,
         value: isIntegerEnum ? `${key}` : `"${key}"`,
       })),
-    };
+    });
   },
   object: (schema, typeName) => {
     if (_.isArray(schema.required) && schema.properties) {
@@ -162,7 +171,7 @@ const schemaParsers = {
     const properties = _.get(schema, "properties");
     const typeContent = getObjectTypeContent(properties);
 
-    return {
+    return attachParsedRef(schema, {
       $parsedSchema: true,
       schemaType: "object",
       type: "object",
@@ -171,12 +180,12 @@ const schemaParsers = {
       description: formatDescription(schema.description),
       allFieldsAreOptional: !_.some(_.values(typeContent), (part) => part.isRequired),
       content: typeContent,
-    };
+    });
   },
   complex: (schema, typeName) => {
     const complexType = getComplexType(schema);
 
-    return {
+    return attachParsedRef(schema, {
       $parsedSchema: true,
       schemaType: "complex",
       type: "type",
@@ -184,7 +193,7 @@ const schemaParsers = {
       name: typeName,
       description: formatDescription(schema.description),
       content: complexSchemaParsers[complexType](schema),
-    };
+    });
   },
   primitive: (schema, typeName) => {
     let contentType = null;
@@ -195,7 +204,7 @@ const schemaParsers = {
       contentType = `Record<string, ${fieldType}>`;
     }
 
-    return {
+    return attachParsedRef(schema, {
       $parsedSchema: true,
       schemaType: "primitive",
       type: "primitive",
@@ -204,7 +213,7 @@ const schemaParsers = {
       description: formatDescription(description),
       // TODO: probably it should be refactored. `type === 'null'` is not flexible
       content: type === "null" ? type : contentType || getType(schema),
-    };
+    });
   },
 };
 
@@ -227,9 +236,9 @@ const parseSchema = (rawSchema, typeName, formattersMap) => {
     return rawSchema;
   }
 
-  if (rawSchema.$parsedSchema) {
-    schemaType = rawSchema.schemaType;
-    parsedSchema = rawSchema;
+  if (rawSchema.$parsed) {
+    schemaType = rawSchema.$parsed.schemaType;
+    parsedSchema = rawSchema.$parsed;
   } else {
     const fixedRawSchema = checkAndFixSchema(rawSchema);
     schemaType = getInternalSchemaType(fixedRawSchema);

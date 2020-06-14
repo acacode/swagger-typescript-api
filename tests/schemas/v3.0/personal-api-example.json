@@ -1,1 +1,351 @@
-{"components":{"examples":{},"headers":{},"parameters":{},"requestBodies":{},"responses":{},"schemas":{"AuthUser":{"properties":{"username":{"type":"string"},"password":{"type":"string"}},"required":["username","password"],"type":"object","additionalProperties":false},"Kind":{"enum":["COMPANY","PERSONAL","FREELANCE","OPEN_SOURCE"],"type":"string"},"Job":{"properties":{"id":{"type":"string"},"kind":{"$ref":"#/components/schemas/Kind"},"name":{"type":"string","nullable":true},"link":{"type":"string","nullable":true},"github":{"type":"string","nullable":true},"npm":{"type":"string","nullable":true},"isTool":{"type":"boolean","nullable":true},"address":{"type":"string","nullable":true}},"required":["id","kind"],"type":"object","additionalProperties":false},"JobUpdate":{"properties":{"kind":{"$ref":"#/components/schemas/Kind"},"name":{"type":"string","nullable":true},"link":{"type":"string","nullable":true},"github":{"type":"string","nullable":true},"npm":{"type":"string","nullable":true},"isTool":{"type":"boolean","nullable":true},"address":{"type":"string","nullable":true}},"required":["kind"],"type":"object","additionalProperties":false},"UpdatedJob":{"properties":{"id":{"type":"string"},"kind":{"$ref":"#/components/schemas/Kind"},"name":{"type":"string","nullable":true},"link":{"type":"string","nullable":true},"github":{"type":"string","nullable":true},"npm":{"type":"string","nullable":true},"isTool":{"type":"boolean","nullable":true},"address":{"type":"string","nullable":true}},"required":["id","kind"],"type":"object","additionalProperties":false},"Project":{"properties":{"id":{"type":"string"},"year":{"type":"number","format":"double"},"description":{"type":"string"},"job":{"$ref":"#/components/schemas/Job"},"name":{"type":"string","nullable":true},"notImportant":{"type":"boolean","nullable":true},"prefix":{"type":"string","nullable":true},"tags":{"items":{"type":"string"},"type":"array"},"teamSize":{"type":"string"}},"required":["id","year","description","job","tags","teamSize"],"type":"object","additionalProperties":false},"ProjectUpdate":{"properties":{"year":{"type":"number","format":"double"},"description":{"type":"string"},"name":{"type":"string","nullable":true},"notImportant":{"type":"boolean","nullable":true},"prefix":{"type":"string","nullable":true},"tags":{"items":{"type":"string"},"type":"array"},"teamSize":{"type":"string"},"job":{"type":"string"}},"required":["year","description","tags","teamSize","job"],"type":"object","additionalProperties":false},"UpdatedProject":{"properties":{"id":{"type":"string"},"year":{"type":"number","format":"double"},"description":{"type":"string"},"name":{"type":"string","nullable":true},"notImportant":{"type":"boolean","nullable":true},"prefix":{"type":"string","nullable":true},"tags":{"items":{"type":"string"},"type":"array"},"teamSize":{"type":"string"},"job":{"type":"string"}},"required":["id","year","description","tags","teamSize","job"],"type":"object","additionalProperties":false},"User":{"properties":{"id":{"type":"string"},"username":{"type":"string"}},"required":["id","username"],"type":"object","additionalProperties":false},"UserUpdate":{"properties":{"id":{"type":"string","nullable":true},"username":{"type":"string","nullable":true}},"type":"object","additionalProperties":false}},"securitySchemes":{"JWT":{"description":"","type":"apiKey","name":"Authorization","in":"header"}}},"info":{"title":""},"openapi":"3.0.0","paths":{"/auth":{"post":{"operationId":"Login","responses":{"200":{"content":{"application/json":{"schema":{"type":"string"}}},"description":"Authorize and returns jwt token"}},"tags":["Auth"],"security":[],"parameters":[],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/AuthUser"}}}}}},"/auth/refresh":{"post":{"operationId":"Refresh","responses":{"200":{"content":{"application/json":{"schema":{"type":"string"}}},"description":"utilized current token and returns new token"}},"tags":["Auth"],"security":[{"jwt":[]}],"parameters":[{"in":"header","name":"Authorization","required":true,"schema":{"type":"string"}}]}},"/jobs":{"get":{"operationId":"GetJobs","responses":{"200":{"content":{"application/json":{"schema":{"items":{"$ref":"#/components/schemas/Job"},"type":"array"}}},"description":"jobs found"}},"tags":["Jobs"],"security":[{"jwt":[]}],"parameters":[]},"post":{"operationId":"AddJob","responses":{"200":{"content":{"application/json":{"schema":{"type":"string"}}},"description":"Ok"}},"tags":["Jobs"],"security":[{"jwt":[]}],"parameters":[],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/JobUpdate"}}}}}},"/jobs/{id}":{"get":{"operationId":"GetJob","responses":{"200":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/Job"}}},"description":"job found"},"404":{"content":{"application/json":{}},"description":"job not found"}},"tags":["Jobs"],"security":[{"jwt":[]}],"parameters":[{"in":"path","name":"id","required":true,"schema":{"type":"string"}}]},"patch":{"operationId":"UpdateJob","responses":{"200":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdatedJob"}}},"description":"Ok"}},"tags":["Jobs"],"security":[{"jwt":[]}],"parameters":[{"in":"path","name":"id","required":true,"schema":{"type":"string"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/JobUpdate"}}}}}},"/projects":{"get":{"operationId":"GetProjects","responses":{"200":{"content":{"application/json":{"schema":{"items":{"$ref":"#/components/schemas/Project"},"type":"array"}}},"description":"Ok"}},"tags":["Projects"],"security":[],"parameters":[]},"post":{"operationId":"AddProjects","responses":{"200":{"content":{"application/json":{"schema":{"type":"string"}}},"description":"Ok"}},"tags":["Projects"],"security":[{"jwt":[]}],"parameters":[],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ProjectUpdate"}}}}}},"/projects/{id}":{"patch":{"operationId":"UpdateProject","responses":{"200":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdatedProject"}}},"description":"Ok"}},"tags":["Projects"],"security":[{"jwt":[]}],"parameters":[{"in":"path","name":"id","required":true,"schema":{"type":"string"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ProjectUpdate"}}}}}},"/users":{"get":{"operationId":"GetUsers","responses":{"200":{"content":{"application/json":{"schema":{"items":{"$ref":"#/components/schemas/User"},"type":"array"}}},"description":"Ok"}},"tags":["Users"],"security":[{"jwt":[]}],"parameters":[]},"post":{"operationId":"AddUser","responses":{"200":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/User"}}},"description":"Ok"}},"tags":["Users"],"security":[{"jwt":[]}],"parameters":[],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/AuthUser"}}}}}},"/users/{id}":{"delete":{"operationId":"DeleteUser","responses":{"204":{"content":{"application/json":{}},"description":"No content"}},"tags":["Users"],"security":[{"jwt":[]}],"parameters":[{"in":"path","name":"id","required":true,"schema":{"type":"string"}}]},"patch":{"operationId":"UpdateUser","responses":{"200":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/User"}}},"description":"Ok"}},"tags":["Users"],"security":[{"jwt":[]}],"parameters":[{"in":"path","name":"id","required":true,"schema":{"type":"string"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UserUpdate"}}}}}}},"servers":[{"url":"http://localhost:8080/api/v1"}]}
+{
+  "components": {
+    "examples": {},
+    "headers": {},
+    "parameters": {},
+    "requestBodies": {},
+    "responses": {},
+    "schemas": {
+      "Pick_UserType.Exclude_keyofUserType.id-or-_id__": {
+        "properties": { "username": { "type": "string" }, "password": { "type": "string" } },
+        "required": ["username", "password"],
+        "type": "object",
+        "description": "From T, pick a set of properties whose keys are in the union K"
+      },
+      "Omit_UserType.id-or-_id_": {
+        "$ref": "#/components/schemas/Pick_UserType.Exclude_keyofUserType.id-or-_id__"
+      },
+      "OmitId_UserType_": { "$ref": "#/components/schemas/Omit_UserType.id-or-_id_" },
+      "AuthUserType": { "$ref": "#/components/schemas/OmitId_UserType_" },
+      "JobKind": { "enum": ["COMPANY", "PERSONAL", "FREELANCE", "OPEN_SOURCE"], "type": "string" },
+      "JobType": {
+        "description": "Information about job",
+        "properties": {
+          "id": { "type": "string" },
+          "kind": { "$ref": "#/components/schemas/JobKind" },
+          "name": { "type": "string" },
+          "link": { "type": "string" },
+          "github": {
+            "type": "string",
+            "description": "Exist only in open source jobs\nFormat: `${username}/${projectName}`"
+          },
+          "npm": {
+            "type": "string",
+            "description": "Exist only in open source jobs\nFormat: `${orgname}/${projectName}`"
+          },
+          "isTool": {
+            "type": "boolean",
+            "description": "Exist only in open source jobs\nMeans project is dev. tool (like swagger code generator)"
+          },
+          "address": { "type": "string", "description": "web site address" }
+        },
+        "required": ["id", "kind"],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "Pick_JobType.Exclude_keyofJobType.id-or-_id__": {
+        "properties": {
+          "kind": { "$ref": "#/components/schemas/JobKind" },
+          "name": { "type": "string" },
+          "link": { "type": "string" },
+          "github": {
+            "type": "string",
+            "description": "Exist only in open source jobs\nFormat: `${username}/${projectName}`"
+          },
+          "npm": {
+            "type": "string",
+            "description": "Exist only in open source jobs\nFormat: `${orgname}/${projectName}`"
+          },
+          "isTool": {
+            "type": "boolean",
+            "description": "Exist only in open source jobs\nMeans project is dev. tool (like swagger code generator)"
+          },
+          "address": { "type": "string", "description": "web site address" }
+        },
+        "required": ["kind"],
+        "type": "object",
+        "description": "From T, pick a set of properties whose keys are in the union K"
+      },
+      "Omit_JobType.id-or-_id_": {
+        "$ref": "#/components/schemas/Pick_JobType.Exclude_keyofJobType.id-or-_id__"
+      },
+      "OmitId_JobType_": { "$ref": "#/components/schemas/Omit_JobType.id-or-_id_" },
+      "JobUpdateType": { "$ref": "#/components/schemas/OmitId_JobType_" },
+      "Pick_ProjectType.Exclude_keyofProjectType.job__": {
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "year": { "type": "number", "format": "double" },
+          "description": { "type": "string" },
+          "notImportant": { "type": "boolean" },
+          "prefix": { "type": "string" },
+          "tags": { "items": { "type": "string" }, "type": "array" },
+          "teamSize": { "type": "string" }
+        },
+        "required": ["id", "year", "description", "tags", "teamSize"],
+        "type": "object",
+        "description": "From T, pick a set of properties whose keys are in the union K"
+      },
+      "Omit_ProjectType.job_": {
+        "$ref": "#/components/schemas/Pick_ProjectType.Exclude_keyofProjectType.job__"
+      },
+      "ExtractedProjectType": {
+        "allOf": [
+          { "$ref": "#/components/schemas/Omit_ProjectType.job_" },
+          {
+            "properties": { "job": { "$ref": "#/components/schemas/JobType" } },
+            "required": ["job"],
+            "type": "object"
+          }
+        ]
+      },
+      "Pick_ProjectType.Exclude_keyofProjectType.id-or-_id__": {
+        "properties": {
+          "name": { "type": "string" },
+          "job": { "type": "string" },
+          "year": { "type": "number", "format": "double" },
+          "description": { "type": "string" },
+          "notImportant": { "type": "boolean" },
+          "prefix": { "type": "string" },
+          "tags": { "items": { "type": "string" }, "type": "array" },
+          "teamSize": { "type": "string" }
+        },
+        "required": ["job", "year", "description", "tags", "teamSize"],
+        "type": "object",
+        "description": "From T, pick a set of properties whose keys are in the union K"
+      },
+      "Omit_ProjectType.id-or-_id_": {
+        "$ref": "#/components/schemas/Pick_ProjectType.Exclude_keyofProjectType.id-or-_id__"
+      },
+      "OmitId_ProjectType_": { "$ref": "#/components/schemas/Omit_ProjectType.id-or-_id_" },
+      "ProjectUpdateType": { "$ref": "#/components/schemas/OmitId_ProjectType_" },
+      "ProjectType": {
+        "properties": {
+          "id": { "type": "string" },
+          "year": { "type": "number", "format": "double" },
+          "description": { "type": "string" },
+          "job": { "type": "string" },
+          "name": { "type": "string" },
+          "notImportant": { "type": "boolean" },
+          "prefix": { "type": "string" },
+          "tags": { "items": { "type": "string" }, "type": "array" },
+          "teamSize": { "type": "string" }
+        },
+        "required": ["id", "year", "description", "job", "tags", "teamSize"],
+        "type": "object",
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "JWT": { "description": "", "type": "apiKey", "name": "Authorization", "in": "header" }
+    }
+  },
+  "info": { "title": "" },
+  "openapi": "3.0.0",
+  "paths": {
+    "/auth": {
+      "post": {
+        "operationId": "Login",
+        "responses": {
+          "200": {
+            "content": { "application/json": { "schema": { "type": "string" } } },
+            "description": "Authorize and returns jwt token"
+          }
+        },
+        "tags": ["Auth"],
+        "security": [],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/AuthUserType" } }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "operationId": "Refresh",
+        "responses": {
+          "200": {
+            "content": { "application/json": { "schema": { "type": "string" } } },
+            "description": "utilized current token and returns new token"
+          }
+        },
+        "tags": ["Auth"],
+        "security": [{ "jwt": [] }],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ]
+      }
+    },
+    "/jobs": {
+      "get": {
+        "operationId": "GetJobs",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": { "items": { "$ref": "#/components/schemas/JobType" }, "type": "array" }
+              }
+            },
+            "description": "jobs found"
+          }
+        },
+        "tags": ["Jobs"],
+        "security": [{ "jwt": [] }],
+        "parameters": []
+      },
+      "post": {
+        "operationId": "AddJob",
+        "responses": {
+          "200": {
+            "content": { "application/json": { "schema": { "type": "string" } } },
+            "description": "Ok"
+          }
+        },
+        "tags": ["Jobs"],
+        "security": [{ "jwt": [] }],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/JobUpdateType" } }
+          }
+        }
+      }
+    },
+    "/jobs/{id}": {
+      "get": {
+        "operationId": "GetJob",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/JobType" } }
+            },
+            "description": "job found"
+          },
+          "404": { "content": { "application/json": {} }, "description": "job not found" }
+        },
+        "tags": ["Jobs"],
+        "security": [{ "jwt": [] }],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
+        ]
+      },
+      "patch": {
+        "operationId": "UpdateJob",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/JobType" } }
+            },
+            "description": "Ok"
+          }
+        },
+        "tags": ["Jobs"],
+        "security": [{ "jwt": [] }],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/JobUpdateType" } }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeleteJob",
+        "responses": {
+          "204": { "content": { "application/json": {} }, "description": "No content" }
+        },
+        "tags": ["Jobs"],
+        "security": [{ "jwt": [] }],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
+        ]
+      }
+    },
+    "/projects": {
+      "get": {
+        "operationId": "GetProjects",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": { "$ref": "#/components/schemas/ExtractedProjectType" },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Ok"
+          }
+        },
+        "tags": ["Projects"],
+        "security": [],
+        "parameters": []
+      },
+      "post": {
+        "operationId": "AddProjects",
+        "responses": {
+          "200": {
+            "content": { "application/json": { "schema": { "type": "string" } } },
+            "description": "Ok"
+          }
+        },
+        "tags": ["Projects"],
+        "security": [{ "jwt": [] }],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ProjectUpdateType" } }
+          }
+        }
+      }
+    },
+    "/projects/{id}": {
+      "patch": {
+        "operationId": "UpdateProject",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/ProjectType" } }
+            },
+            "description": "Ok"
+          }
+        },
+        "tags": ["Projects"],
+        "security": [{ "jwt": [] }],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ProjectUpdateType" } }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeleteProject",
+        "responses": {
+          "204": { "content": { "application/json": {} }, "description": "No content" }
+        },
+        "tags": ["Projects"],
+        "security": [],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
+        ]
+      }
+    }
+  },
+  "servers": [{ "url": "http://localhost:8080/api/v1" }]
+}
