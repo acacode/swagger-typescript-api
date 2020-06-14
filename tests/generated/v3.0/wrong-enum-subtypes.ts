@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-export type Test = XAB & { y?: string };
+export type Test = { x?: "A-B"[] } & { y?: string };
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;

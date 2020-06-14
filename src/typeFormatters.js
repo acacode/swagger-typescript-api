@@ -28,13 +28,13 @@ const formatters = {
       return `${commonText}${result}`;
     }).join(""),
   type: (content) => {
-    if (content.includes(" & ")) {
-      return content.split(" & ").map(checkAndRenameModelName).join(" & ");
-    }
+    // const separators = [" & ", " | "];
 
-    if (content.includes(" | ")) {
-      return content.split(" | ").map(checkAndRenameModelName).join(" | ");
-    }
+    // for (const separator of separators) {
+    //   if (content.includes(separator)) {
+    //     return content.split(separator).map(checkAndRenameModelName).join(separator);
+    //   }
+    // }
 
     return content;
   },
