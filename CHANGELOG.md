@@ -1,5 +1,10 @@
 # next release  
 
+# 1.8.4  
+
+Fixes:  
+- Multiple types for a property in Swagger 2 are not handled correctly ([#55 issue](https://github.com/acacode/swagger-typescript-api/issues/55)) 
+
 # 1.8.3  
 
 Fixes:  
