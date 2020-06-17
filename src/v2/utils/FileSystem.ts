@@ -1,5 +1,6 @@
-import fs from "fs";
-import path from "path";
+import * as _ from "lodash";
+import * as fs from "fs";
+import * as path from "path";
 
 export class FileSystem {
   static getFileContent(pathFromSrc) {
@@ -11,5 +12,9 @@ export class FileSystem {
 
   static pathIsExist(path: string) {
     return !!path && fs.existsSync(path);
+  }
+
+  static createFile(pathTo: string, fileName: string, content: string) {
+    return fs.writeFileSync(path.resolve(__dirname, pathTo, `./${fileName}`), content);
   }
 }

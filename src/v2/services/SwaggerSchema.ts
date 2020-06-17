@@ -1,9 +1,9 @@
-import _ from "lodash";
+import * as _ from "lodash";
 import { FileSystem } from "../utils/FileSystem";
 import yaml from "js-yaml";
 import axios from "axios";
 import { schemaIsOpenAPIV3, AnySchema, UsageSchema } from "../interfaces/schema";
-import swagger2openapi from "swagger2openapi";
+import * as swagger2openapi from "swagger2openapi";
 import { Configuration } from "./Configuration";
 
 export class Schema {

@@ -2,7 +2,7 @@ import { AnySchema, UsageSchema } from "../interfaces/schema";
 import { GenerateAPIOptions } from "../interfaces/cli";
 
 interface AppConfiguration extends GenerateAPIOptions {
-  swaggerSchema: UsageSchema;
+  usageSchema: UsageSchema;
   originalSchema: AnySchema;
   componentsMap: any;
   convertedFromSwagger2: boolean;
@@ -15,7 +15,7 @@ const appConfiguration: AppConfiguration = {
   defaultResponseAsSuccess: false,
   generateRouteTypes: false,
   generateClient: true,
-  swaggerSchema: null,
+  usageSchema: null,
   originalSchema: null,
 
   /** { "#/components/schemas/Foo": @TypeInfo, ... } */

@@ -2,13 +2,12 @@
   "compilerOptions": {
     "pretty": true,
     "target": "esnext",
-    "module": "esnext",
-    "jsx": "preserve",
+    "module": "CommonJS",
     "strict": false,
     "allowJs": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "baseUrl": "./src/v2",
-    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "typeRoots": ["./node_modules/@types"],
     "types": ["node"],
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true

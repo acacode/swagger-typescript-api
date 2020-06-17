@@ -30,6 +30,14 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run-script", "cli:debug:yaml"],
       "port": 9229
+    },
+    {
+      "name": "Debug JSON CLI TS",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceRoot}",
+      "runtimeArgs": ["-r", "ts-node/register", "--trace-warnings"],
+      "args": ["${workspaceRoot}/src/v2/index.ts"]
     }
   ]
 }
