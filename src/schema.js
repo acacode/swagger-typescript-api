@@ -204,6 +204,13 @@ const schemaParsers = {
       contentType = `Record<string, ${fieldType}>`;
     }
 
+    if (_.isArray(type) && type.length) {
+      contentType = complexSchemaParsers.oneOf({
+        oneOf: type.map((type) => ({ type })),
+        description,
+      });
+    }
+
     return attachParsedRef(schema, {
       $parsedSchema: true,
       schemaType: "primitive",

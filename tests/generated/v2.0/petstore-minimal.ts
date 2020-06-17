@@ -14,7 +14,7 @@ export interface Pet {
   id: number;
   name: string;
   tag?: string;
-  multiple?: stringNumber;
+  multiple?: string | number;
 }
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
