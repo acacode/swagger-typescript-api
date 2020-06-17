@@ -14,22 +14,14 @@
   },
   "host": "petstore.swagger.io",
   "basePath": "/api",
-  "schemes": [
-    "http"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/pets": {
       "get": {
         "description": "Returns all pets from the system that the user has access to",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "A list of pets.",
@@ -47,10 +39,7 @@
   "definitions": {
     "Pet": {
       "type": "object",
-      "required": [
-        "id",
-        "name"
-      ],
+      "required": ["id", "name"],
       "properties": {
         "id": {
           "type": "integer",
@@ -61,6 +50,9 @@
         },
         "tag": {
           "type": "string"
+        },
+        "multiple": {
+          "type": ["string", "number"]
         }
       }
     }
