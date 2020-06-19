@@ -15,6 +15,7 @@ import { TemplateConfig } from "./interfaces/template";
 import { HttpClient } from "./models/HttpClient";
 import { ModelTypes } from "./models/ModelTypes";
 import { FileSystem } from "./utils/FileSystem";
+import { createSchemaTransformer } from "./transformers/schema/createSchemaTransformer";
 
 const mustache = require("mustache");
 const prettier = require("prettier");
@@ -49,8 +50,9 @@ export const generateApi = (options: GenerateAPIOptions) =>
 
     const schema = await SwaggerSchemaContainer.create(input, url);
 
-    // TODO: REMOVE_ME
-    (schema.components.schemas.AggregationSettingDc as any).serialize();
+    Object.values(schema.components.schemas).forEach((schema) => {
+      createSchemaTransformer(schema).transform();
+    });
 
     const templateData: TemplateConfig = {
       apiConfig: new HttpClient(schema).toTemplatePart(),

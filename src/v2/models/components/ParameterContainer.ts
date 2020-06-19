@@ -3,23 +3,38 @@ import { Component, fromRecord } from "../Component";
 import { HeaderContainer } from "./HeaderContainer";
 import { SchemaContainer } from "./SchemaContainer";
 import { ExampleContainer } from "./ExampleContainer";
+import { TransferComponent } from "../TransferComponent";
 
-export class ParameterContainer extends Component<OpenAPIV3.ParameterObject> {
+/** "in" key */
+export const enum ParameterKind {
+  Header = "header",
+  Body = "body",
+  Query = "query",
+  Path = "path",
+  FormData = "formData",
+}
+
+export class ParameterContainer extends TransferComponent<OpenAPIV3.ParameterObject> {
   name: string;
-  in: string;
+  kind: ParameterKind;
   schema: SchemaContainer;
   examples: Record<string, ExampleContainer>;
 
   protected initialize() {
+    super.initialize();
     const headerContainer = new HeaderContainer(this.value);
 
     this.schema = headerContainer.schema;
     this.examples = headerContainer.examples;
     this.name = this.value.name;
-    this.in = this.value.in;
+    this.kind = this.value.in as ParameterKind;
   }
 
   serialize() {
     return "";
+  }
+
+  is(kind: ParameterKind) {
+    return this.kind === kind;
   }
 }

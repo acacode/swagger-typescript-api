@@ -44,4 +44,8 @@ export class TransferContent {
 
     return TransferContentKind.Unknown;
   }
+
+  is(kind: TransferContentKind) {
+    return this.kind === kind;
+  }
 }

@@ -53,8 +53,9 @@ export class HttpClient implements TemplateConfigPart<ApiConfig> {
   }
 
   toTemplatePart() {
+    const { schema, ...templatePart } = this;
     return {
-      ...this,
+      ...templatePart,
       generic: _.values(this.generic),
       hasDescription: !!this.description.length,
     };

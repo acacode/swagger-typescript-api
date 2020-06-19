@@ -1,19 +1,18 @@
 import * as _ from "lodash";
 import { OpenAPIV3 } from "openapi-types";
-import { Component, fromRecord } from "../Component";
+import { fromRecord } from "../Component";
 import { HeaderContainer } from "./HeaderContainer";
 import { LinkContainer } from "./LinkContainer";
-import { TransferContent } from "../TransferContent";
+import { TransferComponent } from "../TransferComponent";
 
-export class ResponseContainer extends Component<OpenAPIV3.ResponseObject> {
+export class ResponseContainer extends TransferComponent<OpenAPIV3.ResponseObject> {
   headers: Record<string, HeaderContainer>;
-  content: TransferContent;
   links: Record<string, LinkContainer>;
 
   protected initialize() {
+    super.initialize();
     this.headers = fromRecord(HeaderContainer, this.value.headers);
     this.links = fromRecord(LinkContainer, this.value.links);
-    this.content = new TransferContent(this.value.content);
   }
 
   serialize() {

@@ -108,25 +108,24 @@ export class SchemaContainer extends Component<OpenAPIV3.SchemaObject> {
     if (schema) {
       if (SchemaContainer.isArraySchema(schema)) {
         return SchemaKind.Array;
-      } else {
-        if (schema.properties && Object.keys(schema.properties).length) {
-          return SchemaKind.Object;
-        }
-        if (schema.allOf || schema.oneOf || schema.anyOf || schema.not) {
-          return SchemaKind.Complex;
-        }
+      }
+      if (schema.properties && Object.keys(schema.properties).length) {
+        return SchemaKind.Object;
+      }
+      if (schema.allOf || schema.oneOf || schema.anyOf || schema.not) {
+        return SchemaKind.Complex;
       }
     }
 
     return SchemaKind.Primitive;
   }
 
-  static isArraySchema(schema: OpenAPIV3.SchemaObject): schema is OpenAPIV3.ArraySchemaObject {
-    return schema && "items" in schema && schema.type === "array";
+  is(kind: SchemaKind) {
+    return kind === this.kind;
   }
 
-  static isPrimitiveSchema(schema: OpenAPIV3.SchemaObject) {
-    return !SchemaContainer.isArraySchema(schema) && schema.type !== "object";
+  static isArraySchema(schema: OpenAPIV3.SchemaObject): schema is OpenAPIV3.ArraySchemaObject {
+    return schema && "items" in schema && schema.type === "array";
   }
 
   serialize() {

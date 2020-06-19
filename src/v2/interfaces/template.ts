@@ -6,7 +6,7 @@ export interface FuncArg {
   type: string;
 }
 
-interface TemplateConfigRoute {
+export interface TemplateConfigRoute {
   bodyArg: string;
   bodyType: string;
   comments: string[];
