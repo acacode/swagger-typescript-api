@@ -15,8 +15,9 @@ const { createApiConfig } = require("./apiConfig");
 const { getModelType } = require("./modelTypes");
 const { getSwaggerObject, fixSwaggerScheme } = require("./swagger");
 const { createComponentsMap, filterComponentsMap } = require("./components");
-const { getTemplate, createFile, pathIsExist } = require("./files");
+const { createFile, pathIsExist } = require("./files");
 const { addToConfig, config } = require("./config");
+const { getTemplates } = require("./templates");
 
 mustache.escape = (value) => value;
 
@@ -33,6 +34,7 @@ module.exports = {
     output,
     url,
     name,
+    templates = config.templates,
     generateResponses = config.generateResponses,
     defaultResponseAsSuccess = config.defaultResponseAsSuccess,
     generateRouteTypes = config.generateRouteTypes,
@@ -44,9 +46,12 @@ module.exports = {
         generateRouteTypes,
         generateClient,
         generateResponses,
+        templates,
       });
       getSwaggerObject(input, url)
         .then(({ usageSchema, originalSchema }) => {
+          const { apiTemplate, clientTemplate, routeTypesTemplate } = getTemplates();
+
           console.log("☄️  start generating your typescript api");
 
           fixSwaggerScheme(usageSchema, originalSchema);
@@ -57,10 +62,6 @@ module.exports = {
           });
 
           const { info, paths, servers, components } = usageSchema;
-
-          const apiTemplate = getTemplate("api");
-          const clientTemplate = getTemplate("client");
-          const routeTypesTemplate = getTemplate("route-types");
 
           const componentsMap = createComponentsMap(components);
           const schemasMap = filterComponentsMap(componentsMap, "schemas");
