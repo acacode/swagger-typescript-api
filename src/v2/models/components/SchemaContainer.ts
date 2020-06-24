@@ -1,59 +1,17 @@
 import * as _ from "lodash";
 import { OpenAPIV3 } from "openapi-types";
 import { Component, fromArray, fromRecord } from "../Component";
+import { Configuration } from "../../services/Configuration";
+import { TransformOptions, SchemaTransformer } from "../../transformers/SchemaTransformer";
+import { createSchemaTransformer } from "../../transformers/schema/createSchemaTransformer";
 
 export enum SchemaKind {
+  Enum = "Enum",
   Object = "Object",
   Array = "Array",
   Complex = "Complex",
   Primitive = "Primitive",
 }
-
-const typeAliases: Record<
-  OpenAPIV3.NonArraySchemaObjectType | "file",
-  Record<string, string> & { $default: string }
-> = {
-  boolean: {
-    $default: "boolean",
-  },
-  integer: {
-    $default: "number",
-  },
-  file: {
-    $default: "File",
-  },
-  null: {
-    $default: "null",
-  },
-  number: {
-    $default: "number",
-  },
-  string: {
-    $default: "string",
-    binary: "File",
-  },
-  object: {
-    $default: "object",
-  },
-};
-
-const getTypeAlias = (type: OpenAPIV3.NonArraySchemaObjectType, format?: string): string =>
-  typeAliases[type][format] || typeAliases[type].$default;
-
-const schemaSerializers: Record<SchemaKind, (instance: SchemaContainer) => string> = {
-  [SchemaKind.Object]: (schema) => {
-    const serializedProps = _.map(
-      schema.properties,
-      (property, name) => `${name}: ${property.serialize()}`,
-    );
-    return serializedProps.join(",");
-  },
-  [SchemaKind.Array]: () => "",
-  [SchemaKind.Complex]: () => "",
-  [SchemaKind.Primitive]: (schema) => {
-    return getTypeAlias(schema.type as OpenAPIV3.NonArraySchemaObjectType, schema.format);
-  },
-};
 
 export class SchemaContainer extends Component<OpenAPIV3.SchemaObject> {
   type: OpenAPIV3.SchemaObject["type"];
@@ -69,11 +27,17 @@ export class SchemaContainer extends Component<OpenAPIV3.SchemaObject> {
   not?: SchemaContainer;
 
   kind: SchemaKind;
+  nullable: boolean;
+
+  private transformer: SchemaTransformer;
 
   initialize() {
+    this.fixSchema();
     this.kind = SchemaContainer.getSchemaKind(this.value);
+    this.transformer = createSchemaTransformer(this);
     this.type = this.value.type;
     this.format = this.value.format;
+    this.nullable = !!this.value.nullable;
 
     if (this.value) {
       if (SchemaContainer.isArraySchema(this.value)) {
@@ -104,31 +68,66 @@ export class SchemaContainer extends Component<OpenAPIV3.SchemaObject> {
     }
   }
 
-  static getSchemaKind(schema?: OpenAPIV3.SchemaObject): SchemaKind {
-    if (schema) {
-      if (SchemaContainer.isArraySchema(schema)) {
-        return SchemaKind.Array;
-      }
-      if (schema.properties && Object.keys(schema.properties).length) {
-        return SchemaKind.Object;
-      }
-      if (schema.allOf || schema.oneOf || schema.anyOf || schema.not) {
-        return SchemaKind.Complex;
-      }
-    }
-
-    return SchemaKind.Primitive;
+  transform(options?: TransformOptions) {
+    return this.transformer.transform(options);
   }
 
   is(kind: SchemaKind) {
     return kind === this.kind;
   }
 
-  static isArraySchema(schema: OpenAPIV3.SchemaObject): schema is OpenAPIV3.ArraySchemaObject {
-    return schema && "items" in schema && schema.type === "array";
+  private fixSchema() {
+    // for cases when schema is array but haven't the "type" property
+    if ("items" in this.value && !this.value.type) {
+      this.value.type = "array";
+    }
+    // for cases when schema is enum but haven't the "type" property
+    if ("enum" in this.value && !this.value.type) {
+      this.value.type = "string";
+    }
   }
 
-  serialize() {
-    return schemaSerializers[this.kind](this);
+  static getSchemaKind(schema?: OpenAPIV3.SchemaObject): SchemaKind {
+    if (SchemaContainer.isEnumSchema(schema)) {
+      return SchemaKind.Enum;
+    }
+    if (SchemaContainer.isArraySchema(schema)) {
+      return SchemaKind.Array;
+    }
+    if (SchemaContainer.isObjectSchema(schema)) {
+      return SchemaKind.Object;
+    }
+    if (SchemaContainer.isComplexSchema(schema)) {
+      return SchemaKind.Complex;
+    }
+
+    return SchemaKind.Primitive;
+  }
+
+  static isEnumSchema(schema?: OpenAPIV3.SchemaObject) {
+    return schema && !!schema.enum;
+  }
+
+  static isArraySchema(schema?: OpenAPIV3.SchemaObject): schema is OpenAPIV3.ArraySchemaObject {
+    return schema && schema && "items" in schema && schema.type === "array";
+  }
+
+  static isObjectSchema(schema?: OpenAPIV3.SchemaObject) {
+    return schema && !!(schema.properties && _.keys(schema.properties).length);
+  }
+
+  static isComplexSchema(schema?: OpenAPIV3.SchemaObject) {
+    return schema && !!(schema.allOf || schema.oneOf || schema.anyOf || schema.not);
+  }
+
+  static isRequiredProperty(
+    property: string,
+    schema: SchemaContainer,
+    parentSchema: SchemaContainer,
+  ) {
+    return (
+      _.includes(parentSchema.value.required, property) ||
+      (Configuration.value.convertedFromSwagger2 && schema.nullable)
+    );
   }
 }

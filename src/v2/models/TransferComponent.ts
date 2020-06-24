@@ -1,6 +1,5 @@
 import { Component } from "./Component";
 import { OpenAPIV3 } from "openapi-types";
-import { ValuesType } from "utility-types";
 import { TransferContent, TransferContentKind } from "./TransferContent";
 
 type TransferableComponent = {
@@ -8,13 +7,13 @@ type TransferableComponent = {
 };
 
 export abstract class TransferComponent<T extends TransferableComponent> extends Component<T> {
-  content: TransferContent;
+  content?: TransferContent;
 
   protected initialize() {
     this.content = new TransferContent(this.value.content);
   }
 
   transferIs(kind: TransferContentKind) {
-    return this.content.is(kind);
+    return this.content && this.content.is(kind);
   }
 }

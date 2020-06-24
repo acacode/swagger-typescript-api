@@ -3,8 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 export class FileSystem {
-  static getFileContent(pathFromSrc) {
-    const pathToFile = path.resolve(__dirname, pathFromSrc);
+  static getFileContent(pathToFile) {
     const file = fs.readFileSync(pathToFile, { encoding: "utf8" });
 
     return file.toString();
@@ -14,7 +13,15 @@ export class FileSystem {
     return !!path && fs.existsSync(path);
   }
 
+  static resolveUserPath(...paths: string[]) {
+    return path.resolve(process.cwd(), ...paths);
+  }
+
+  static resolveProjectPath(...paths: string[]) {
+    return path.resolve(__dirname, "../../", ...paths);
+  }
+
   static createFile(pathTo: string, fileName: string, content: string) {
-    return fs.writeFileSync(path.resolve(__dirname, pathTo, `./${fileName}`), content);
+    return fs.writeFileSync(FileSystem.resolveUserPath(pathTo, `./${fileName}`), content);
   }
 }

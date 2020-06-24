@@ -1,6 +1,7 @@
 import { SchemaContainer } from "../models/components/SchemaContainer";
-import { SchemaTransformer } from "./SchemaTransformer";
+import { SchemaTransformer, TransformOptions } from "./SchemaTransformer";
 import { OpenAPIV3 } from "openapi-types";
+import { checkAndAddNull } from "./schema/checkAndAddNull";
 
 const typeAliases: Record<
   OpenAPIV3.NonArraySchemaObjectType | "file" | "$default",
@@ -34,9 +35,24 @@ const typeAliases: Record<
 };
 
 export class PrimitiveSchemaTransformer extends SchemaTransformer {
-  transform() {
-    const type = this.schema.type || "$default";
-    const format = this.schema.format || "$default";
-    return typeAliases[type][format];
+  transform({ inline, excludeAny }: TransformOptions) {
+    if (inline && this.schema.$refName) {
+      return checkAndAddNull(this.schema, this.schema.$refName);
+    }
+
+    if (!this.schema.type && excludeAny) {
+      console.log("this.schema", this.schema);
+      return "";
+    }
+
+    return checkAndAddNull(
+      this.schema,
+      PrimitiveSchemaTransformer.getPrimitiveType(this.schema.type, this.schema.format),
+    );
+  }
+
+  static getPrimitiveType(rawType?: string, format?: string) {
+    const type = rawType || "$default";
+    return typeAliases[type][format] || typeAliases[type].$default;
   }
 }

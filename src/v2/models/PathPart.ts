@@ -10,7 +10,7 @@ import { TemplateConfigRoute } from "../interfaces/template";
 import { stringify } from "querystring";
 import { TransferContentKind } from "./TransferContent";
 
-export class PathPart {
+export class Path {
   parameters: ParameterContainer[] = [];
   responses: Record<string, ResponseContainer> = {};
   callbacks: Record<string, CallbackContainer> = {};
@@ -81,7 +81,6 @@ export class PathPart {
   }
 
   get moduleName() {
-    console.count("moduleName");
     return _.camelCase(_.compact(_.split(this.pattern, "/"))[0]);
   }
 

@@ -4,8 +4,4 @@ import { Component } from "../Component";
 
 export class ExampleContainer extends Component<OpenAPIV3.ExampleObject> {
   protected initialize() {}
-
-  serialize() {
-    return "";
-  }
 }

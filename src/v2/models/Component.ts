@@ -2,7 +2,7 @@ import * as _ from "lodash";
 import { OpenAPIV3 } from "openapi-types";
 import { ValuesType } from "utility-types";
 import { RefWorker } from "../services/RefWorker";
-import { SchemaContainer } from "./components/SchemaContainer";
+import { fixRefName } from "../transformers/schema/fixRefName";
 
 const RefMap = new Map<string, Component<ValuesType<ValuesType<OpenAPIV3.ComponentsObject>>>>();
 
@@ -10,8 +10,9 @@ export abstract class Component<T extends ValuesType<ValuesType<OpenAPIV3.Compon
   protected referencesCount = 0;
   protected isInstanceRef = false;
   public $ref: string = null;
+  public $refName: string = null;
   public value: T;
-  constructor(public $value?: T | OpenAPIV3.ReferenceObject) {
+  constructor(public $value: T | OpenAPIV3.ReferenceObject) {
     if (RefWorker.isReferenceObject(this.$value) && RefMap.has(this.$value.$ref)) {
       const ref = RefMap.get(this.$value.$ref);
       ref.referencesCount += 1;
@@ -27,6 +28,7 @@ export abstract class Component<T extends ValuesType<ValuesType<OpenAPIV3.Compon
     if ($value) {
       this.value = RefWorker.extract<T>(this.$value);
       if (RefWorker.isReferenceObject(this.$value)) {
+        this.$refName = fixRefName(RefWorker.getRefName(this.$value.$ref));
         this.$ref = this.$value.$ref;
         if (!RefMap.has(this.$ref)) {
           RefMap.set(this.$ref, this);
@@ -43,7 +45,6 @@ export abstract class Component<T extends ValuesType<ValuesType<OpenAPIV3.Compon
   }
 
   protected abstract initialize(): void;
-  abstract serialize(): string;
 }
 
 export function fromRecord<
@@ -53,7 +54,7 @@ export function fromRecord<
 >(Component: T, record: Record<string, V>) {
   const componentRecord: Record<string, InstanceType<T>> = {};
   _.each(record, (recordPart, recordPartKey) => {
-    componentRecord[recordPartKey] = new Component(recordPart) as InstanceType<T>;
+    componentRecord[recordPartKey] = new Component(recordPart, recordPartKey) as InstanceType<T>;
   });
   return componentRecord;
 }

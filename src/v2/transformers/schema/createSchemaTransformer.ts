@@ -1,28 +1,25 @@
-import { OpenAPIV3 } from "openapi-types";
-import { SchemaContainer } from "../../models/components/SchemaContainer";
-import { getTransformKind, TransformKind } from "./getTransformKind";
+import { SchemaContainer, SchemaKind } from "../../models/components/SchemaContainer";
 import { EnumSchemaTransformer } from "../EnumSchemaTransformer";
 import { PrimitiveSchemaTransformer } from "../PrimitiveSchemaTransformer";
 import { ObjectSchemaTransformer } from "../ObjectSchemaTransformer";
 import { ComplexSchemaTransformer } from "../ComplexSchemaTransformer";
 import { ArraySchemaTransformer } from "../ArraySchemaTransformer";
 import { SchemaTransformer } from "../SchemaTransformer";
-
-const RefsMap = new Map<OpenAPIV3.SchemaObject, SchemaTransformer>();
+import { AbstractContructorParameters } from "../../interfaces/utility";
 
 const getSchemaTransformerConstructor = (
-  transformKind: TransformKind,
-): new (...args) => SchemaTransformer => {
-  switch (transformKind) {
-    case TransformKind.Enum:
+  schemaKind: SchemaKind,
+): new (...args: AbstractContructorParameters<typeof SchemaTransformer>) => SchemaTransformer => {
+  switch (schemaKind) {
+    case SchemaKind.Enum:
       return EnumSchemaTransformer;
-    case TransformKind.Array:
+    case SchemaKind.Array:
       return ArraySchemaTransformer;
-    case TransformKind.Complex:
+    case SchemaKind.Complex:
       return ComplexSchemaTransformer;
-    case TransformKind.Object:
+    case SchemaKind.Object:
       return ObjectSchemaTransformer;
-    case TransformKind.Primitive:
+    case SchemaKind.Primitive:
       return PrimitiveSchemaTransformer;
     default:
       return PrimitiveSchemaTransformer;
@@ -30,14 +27,8 @@ const getSchemaTransformerConstructor = (
 };
 
 export const createSchemaTransformer = (schema: SchemaContainer) => {
-  if (RefsMap.has(schema.value)) {
-    return RefsMap.get(schema.value);
-  }
-
-  const transformKind = getTransformKind(schema);
-  const Constructor = getSchemaTransformerConstructor(transformKind);
-  const modelType = new Constructor(schema, transformKind);
-  RefsMap.set(schema.value, modelType);
+  const Constructor = getSchemaTransformerConstructor(schema.kind);
+  const modelType = new Constructor(schema);
 
   return modelType;
 };

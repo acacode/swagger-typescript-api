@@ -50,7 +50,7 @@ export class Components {
       const Constructor = componentsContainers[componentName];
 
       _.each(componentMap, (componentPart, componentPartName) => {
-        this[componentName][componentPartName] = new Constructor(componentPart);
+        this[componentName][componentPartName] = new Constructor(componentPart, componentPartName);
       });
     });
   }

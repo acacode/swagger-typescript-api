@@ -14,8 +14,4 @@ export class HeaderContainer extends TransferComponent<OpenAPIV3.HeaderObject> {
     this.schema = new SchemaContainer(this.value.schema);
     this.examples = fromRecord(ExampleContainer, this.value.examples);
   }
-
-  serialize() {
-    return "";
-  }
 }

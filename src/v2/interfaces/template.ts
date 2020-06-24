@@ -44,7 +44,6 @@ export interface ModelType {
   content: string;
   description: string;
   name: string;
-  rawContent: string;
   typeIdentifier: string;
 }
 

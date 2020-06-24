@@ -15,7 +15,6 @@ import { TemplateConfig } from "./interfaces/template";
 import { HttpClient } from "./models/HttpClient";
 import { ModelTypes } from "./models/ModelTypes";
 import { FileSystem } from "./utils/FileSystem";
-import { createSchemaTransformer } from "./transformers/schema/createSchemaTransformer";
 
 const mustache = require("mustache");
 const prettier = require("prettier");
@@ -50,9 +49,9 @@ export const generateApi = (options: GenerateAPIOptions) =>
 
     const schema = await SwaggerSchemaContainer.create(input, url);
 
-    Object.values(schema.components.schemas).forEach((schema) => {
-      createSchemaTransformer(schema).transform();
-    });
+    // Object.values(schema.components.schemas).forEach((schema) => {
+    //   console.log(createSchemaTransformer(schema).transform({ inline: false }))
+    // });
 
     const templateData: TemplateConfig = {
       apiConfig: new HttpClient(schema).toTemplatePart(),
@@ -63,6 +62,16 @@ export const generateApi = (options: GenerateAPIOptions) =>
       modelTypes: new ModelTypes(schema).toTemplatePart(),
       routes: schema.paths.toTemplatePart(),
     };
+
+    console.log(
+      templateData.modelTypes
+        .map(
+          (modelType) => `
+    export ${modelType.typeIdentifier} ${modelType.name} ${modelType.content}
+        `,
+        )
+        .join("\r\n"),
+    );
 
     // const componentsMap = createComponentsMap(components);
     // const schemasMap = filterComponentsMap(componentsMap, "schemas");

@@ -1,9 +1,32 @@
-import { SchemaContainer } from "../models/components/SchemaContainer";
-import { SchemaTransformer } from "./SchemaTransformer";
+import * as _ from "lodash";
+import { SchemaTransformer, TransformOptions } from "./SchemaTransformer";
 
 export class EnumSchemaTransformer extends SchemaTransformer {
-  transform() {
-    console.log(this.schema.value.enum);
-    return this.schema.value.enum.toString();
+  transform({ inline }: TransformOptions) {
+    const enumParts = _.map(this.schema.value.enum, (key) => this.createEnumField(key, inline));
+    return enumParts.join(inline ? "|" : `,\r\n`);
+  }
+
+  private createEnumField(key: string, inline: boolean) {
+    const enumValue = this.formatEnumValue(key);
+
+    if (inline) {
+      return enumValue;
+    }
+
+    return `${key} = ${this.formatEnumValue(key)}`;
+  }
+
+  private formatEnumValue(value: string) {
+    switch (this.schema.type) {
+      case "integer":
+        return value;
+      case "number":
+        return value;
+      case "string":
+        return `"${value}"`;
+      default:
+        return value;
+    }
   }
 }

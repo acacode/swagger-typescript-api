@@ -1,20 +1,26 @@
+import * as _ from "lodash";
 import { SchemaContainer } from "../models/components/SchemaContainer";
-import { SchemaTransformer } from "./SchemaTransformer";
+import { SchemaTransformer, TransformOptions } from "./SchemaTransformer";
+import { checkAndAddNull } from "./schema/checkAndAddNull";
 
 export class ComplexSchemaTransformer extends SchemaTransformer {
-  transform() {
-    const { oneOf, anyOf, allOf, not } = this.schema;
+  transform({ inline }: TransformOptions) {
+    const { oneOf, anyOf, allOf, not, $refName } = this.schema;
 
-    // T1 | T2
+    if (inline && $refName) {
+      return checkAndAddNull(this.schema, this.schema.$refName);
+    }
+
     if (oneOf) {
+      return this.transformOneOf(oneOf);
     }
 
-    // T1 | T2 | (T1 & T2)
     if (anyOf) {
+      return this.transformAnyOf(anyOf);
     }
 
-    // T1 & T2
     if (allOf) {
+      return this.transformAllOf(allOf);
     }
 
     // TODO:
@@ -26,27 +32,27 @@ export class ComplexSchemaTransformer extends SchemaTransformer {
     return "";
     // if (this.schema.)
   }
-}
 
-/*
-  TODO:!:))))
-  oneOf: (schema) => {
-    // T1 | T2
-    const combined = _.map(schema.oneOf, complexTypeGetter);
-    return checkAndAddNull(schema, combined.join(" | "));
-  },
-  allOf: (schema) => {
-    // T1 & T2
-    return checkAndAddNull(schema, _.map(schema.allOf, complexTypeGetter).join(" & "));
-  },
-  anyOf: (schema) => {
-    // T1 | T2 | (T1 & T2)
-    const combined = _.map(schema.anyOf, complexTypeGetter);
-    const nonEmptyTypesCombined = combined.filter((type) => !jsEmptyTypes.includes(type));
-    return checkAndAddNull(
-      schema,
-      `${combined.join(" | ")}` +
-        (nonEmptyTypesCombined.length > 1 ? ` | (${nonEmptyTypesCombined.join(" & ")})` : ""),
+  // T1 | T2
+  private transformOneOf(oneOf: SchemaContainer[]) {
+    const transformers = _.compact(
+      _.uniq(_.map(oneOf, (schema) => schema.transform({ inline: true, excludeAny: true }))),
     );
-  },
-*/
+    return transformers.join(" | ");
+  }
+
+  // T1 | T2 | (T1 & T2)
+  private transformAnyOf(anyOf: SchemaContainer[]) {
+    const oneOfCase = this.transformOneOf(anyOf);
+    const allOfCase = this.transformOneOf(anyOf);
+    return `${oneOfCase || ""}${allOfCase ? `${oneOfCase ? " | " : ""}(${allOfCase})` : ""}`;
+  }
+
+  // T1 & T2
+  private transformAllOf(allOf: SchemaContainer[]) {
+    const transformers = _.compact(
+      _.uniq(_.map(allOf, (schema) => schema.transform({ inline: true, excludeAny: true }))),
+    );
+    return transformers.join(" & ");
+  }
+}

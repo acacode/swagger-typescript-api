@@ -44,4 +44,8 @@ export class RefWorker {
   static isReferenceObject(value: any): value is OpenAPIV3.ReferenceObject {
     return value && "$ref" in value;
   }
+
+  static getRefName($ref: string) {
+    return _.last(RefWorker.fixRef($ref).split("/"));
+  }
 }

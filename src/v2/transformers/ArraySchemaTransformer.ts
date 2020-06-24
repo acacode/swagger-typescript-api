@@ -1,9 +1,9 @@
 import * as _ from "lodash";
-import { SchemaContainer } from "../models/components/SchemaContainer";
-import { SchemaTransformer } from "./SchemaTransformer";
-import { createSchemaTransformer } from "./schema/createSchemaTransformer";
+import { SchemaTransformer, TransformOptions } from "./SchemaTransformer";
+import { checkAndAddNull } from "./schema/checkAndAddNull";
+
 export class ArraySchemaTransformer extends SchemaTransformer {
-  transform() {
-    return `(${createSchemaTransformer(this.schema.items).transform()})[]`;
+  transform(options: TransformOptions) {
+    return checkAndAddNull(this.schema, `(${this.schema.items.transform({ inline: true })})[]`);
   }
 }

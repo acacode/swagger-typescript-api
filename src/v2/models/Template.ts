@@ -6,6 +6,9 @@ mustache.escape = (value) => value;
 
 export class Template {
   static render(template: string, configuration: object) {
-    return mustache.render(FileSystem.getFileContent(template), configuration);
+    return mustache.render(
+      FileSystem.getFileContent(FileSystem.resolveProjectPath(template)),
+      configuration,
+    );
   }
 }

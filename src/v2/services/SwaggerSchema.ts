@@ -13,7 +13,7 @@ export class Schema {
   ): Promise<string | object> {
     if (FileSystem.pathIsExist(pathToSwagger)) {
       console.log(`✨ try to get swagger by path "${pathToSwagger}"`);
-      return FileSystem.getFileContent(pathToSwagger);
+      return FileSystem.getFileContent(FileSystem.resolveUserPath(pathToSwagger));
     } else {
       console.log(`✨ try to get swagger by url "${urlToSwagger}"`);
       return (await axios.get(urlToSwagger)).data;

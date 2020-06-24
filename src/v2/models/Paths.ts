@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import { OpenAPIV3 } from "openapi-types";
 import { RefWorker } from "../services/RefWorker";
-import { PathPart } from "./PathPart";
+import { Path } from "./PathPart";
 import { TemplateConfigPart, GroupedRoutes } from "../interfaces/template";
 import { PickByValue, OmitByValue } from "utility-types";
 
@@ -17,7 +17,7 @@ const pathItemCommonKeys: (keyof PathItemCommon)[] = [
 ];
 
 export class Paths implements TemplateConfigPart<GroupedRoutes> {
-  value: PathPart[] = [];
+  value: Path[] = [];
 
   constructor(private $value: OpenAPIV3.PathsObject) {
     _.each($value, (pathObject, pathPattern) => {
@@ -27,7 +27,7 @@ export class Paths implements TemplateConfigPart<GroupedRoutes> {
       const operationsByMethods = _.omit(pathObject, pathItemCommonKeys);
 
       _.each(operationsByMethods, (operation: OpenAPIV3.OperationObject, method: string) => {
-        this.value.push(new PathPart(pathPattern, method, operation, routeOuterData));
+        this.value.push(new Path(pathPattern, method, operation, routeOuterData));
       });
     });
   }

@@ -1,5 +1,4 @@
 import { OpenAPIV3 } from "openapi-types";
-import { Component, fromRecord } from "../Component";
 import { HeaderContainer } from "./HeaderContainer";
 import { SchemaContainer } from "./SchemaContainer";
 import { ExampleContainer } from "./ExampleContainer";
@@ -20,6 +19,9 @@ export class ParameterContainer extends TransferComponent<OpenAPIV3.ParameterObj
   schema: SchemaContainer;
   examples: Record<string, ExampleContainer>;
 
+  required: boolean;
+  nullable: boolean;
+
   protected initialize() {
     super.initialize();
     const headerContainer = new HeaderContainer(this.value);
@@ -28,10 +30,8 @@ export class ParameterContainer extends TransferComponent<OpenAPIV3.ParameterObj
     this.examples = headerContainer.examples;
     this.name = this.value.name;
     this.kind = this.value.in as ParameterKind;
-  }
-
-  serialize() {
-    return "";
+    this.required = !!this.value.required;
+    this.nullable = this.schema.nullable;
   }
 
   is(kind: ParameterKind) {
