@@ -40,6 +40,7 @@ Options:
                             as success response type by default. (default: false)
   -r, --responses           generate additional information about request responses  
                             also add typings for bad responses  
+  --union-enums             generate all "enum" types as union types (T1 | T2 | TN) (default: false)
   --route-types             generate type definitions for API routes (default: false)
   --no-client               do not generate an API class
   -h, --help                output usage information

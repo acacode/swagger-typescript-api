@@ -1,5 +1,18 @@
 # next release  
 
+Features:  
+- `--union-enums` CLI option. Allows to generate all enums as union types.  
+  For example:  
+    without this option enums will be looks like:  
+      ```
+export enum Enum { Value1 = "Value1", Value2 = "Value2" }
+      ```  
+    with this option:  
+      ```
+export type Enum = "Value1" | "Value1";
+      ```  
+  
+
 # 1.8.4  
 
 Fixes:  

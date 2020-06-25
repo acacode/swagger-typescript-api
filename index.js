@@ -30,6 +30,7 @@ program
       "also add typings for bad responses",
     false,
   )
+  .option("--union-enums", 'generate all "enum" types as union types (T1 | T2 | TN)', false)
   .option("--route-types", "generate type definitions for API routes", false)
   .option("--no-client", "do not generate an API class", false);
 
