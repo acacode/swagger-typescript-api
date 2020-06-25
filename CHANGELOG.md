@@ -2,14 +2,16 @@
 
 Features:  
 - `--union-enums` CLI option. Allows to generate all enums as union types.  
-  For example:  
-    without this option enums will be looks like:  
+  For example, schema part:  
+  ```
+  "StringEnum": {
+        "enum": ["String1", "String2", "String3", "String4"],
+        "type": "string"
+      },
+  ```  
+  will be converted into:
       ```
-export enum Enum { Value1 = "Value1", Value2 = "Value2" }
-      ```  
-    with this option:  
-      ```
-export type Enum = "Value1" | "Value1";
+export type StringEnum = "String1" | "String2" | "String3" | "String4";
       ```  
   
 
