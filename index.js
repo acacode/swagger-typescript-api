@@ -35,7 +35,7 @@ program
 
 program.parse(process.argv);
 
-const { path, output, name, templates, routeTypes, client, defaultAsSuccess, responses } = program;
+const { path, output, name, templates, unionEnums, routeTypes, client, defaultAsSuccess, responses } = program;
 
 generateApi({
   name,
@@ -43,6 +43,7 @@ generateApi({
   generateRouteTypes: routeTypes,
   generateClient: client,
   defaultResponseAsSuccess: defaultAsSuccess,
+  generateUnionEnums: unionEnums,
   generateResponses: responses,
   input: resolve(process.cwd(), path),
   output: resolve(process.cwd(), output || "."),

@@ -1,0 +1,30 @@
+{
+  "components": {
+    "examples": {},
+    "headers": {},
+    "parameters": {},
+    "requestBodies": {},
+    "responses": {},
+    "schemas": {
+      "StringEnum": {
+        "enum": ["String1", "String2", "String3", "String4"],
+        "type": "string"
+      },
+      "NumberEnum": {
+        "enum": [1, 2, 3, 4],
+        "type": "number"
+      }
+    },
+    "securitySchemes": {}
+  },
+  "info": {
+    "title": ""
+  },
+  "openapi": "3.0.0",
+  "paths": {},
+  "servers": [
+    {
+      "url": "http://localhost:8080/api/v1"
+    }
+  ]
+}
