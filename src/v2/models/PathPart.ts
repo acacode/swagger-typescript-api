@@ -6,34 +6,36 @@ import { ParameterContainer, ParameterKind } from "./components/ParameterContain
 import { CallbackContainer } from "./components/CallbackContainer";
 import { fromRecord, fromArray } from "./Component";
 import { PathItemOperations, PathItemCommon } from "./Paths";
-import { TemplateConfigRoute } from "../interfaces/template";
-import { stringify } from "querystring";
-import { TransferContentKind } from "./TransferContent";
+import { Responses } from "./components/groups/Responses";
 
 export class Path {
+  pattern: string;
+  method: string;
+  operation: OpenAPIV3.OperationObject;
   parameters: ParameterContainer[] = [];
-  responses: Record<string, ResponseContainer> = {};
+  responses: Responses;
   callbacks: Record<string, CallbackContainer> = {};
   requestBody: RequestBodyContainer;
 
-  operationId: string;
-
   constructor(
-    public pattern: string,
-    public method: string,
-    public operation: OpenAPIV3.OperationObject,
+    pattern: string,
+    method: string,
+    operation: OpenAPIV3.OperationObject,
     outerData: PathItemCommon,
   ) {
-    this.requestBody = new RequestBodyContainer(operation.requestBody);
-
-    this.responses = fromRecord(ResponseContainer, operation.responses);
+    this.pattern = pattern;
+    this.method = method;
+    this.operation = operation;
+    this.requestBody = new RequestBodyContainer(
+      operation.requestBody,
+      operation["requestBodyName"],
+    );
+    this.responses = new Responses(operation.responses);
     this.callbacks = fromRecord(CallbackContainer, operation.callbacks);
     this.parameters = [
       ...fromArray(ParameterContainer, operation.parameters),
       ...fromArray(ParameterContainer, outerData.parameters || []),
     ];
-
-    this.operationId = this.getOperationId();
   }
 
   get isSecure(): boolean {
@@ -60,8 +62,8 @@ export class Path {
     return this.parameters.filter((parameter) => parameter.is(kind));
   }
 
-  // TODO: REFACTOR
-  private getOperationId() {
+  // TODO: prev name: routeName
+  get operationId() {
     const existedOperationId = this.operation.operationId;
 
     if (existedOperationId) return existedOperationId;
@@ -74,8 +76,8 @@ export class Path {
     ).join("_");
 
     return _.camelCase(
-      routeParts.length > 3 && operationIdPartByPathMethod[this.method]
-        ? operationIdPartByPathMethod[this.method](routeParts, hasPathInserts)
+      routeParts.length > 3 && operationIdPartByMethod[this.method]
+        ? operationIdPartByMethod[this.method](routeParts, hasPathInserts)
         : _.lowerCase(this.method) + "_" + [this.moduleName].join("_") || "index",
     );
   }
@@ -83,57 +85,9 @@ export class Path {
   get moduleName() {
     return _.camelCase(_.compact(_.split(this.pattern, "/"))[0]);
   }
-
-  toTemplateConfigRoute(): TemplateConfigRoute {
-    return {
-      moduleName: _.replace(this.moduleName, /^(\d)/, "v$1"),
-      security: this.isSecure,
-      hasQuery: this.hasQueryParams,
-      hasFormDataParams:
-        this.hasFormDataParams || this.requestBody.transferIs(TransferContentKind.FormData),
-      // queryType: queryType || "{}",
-      queryType: "{}", // TODO: queryType
-      // bodyType: bodyType || "never",
-      bodyType: "never", // TODO: bodyType
-      name: _.camelCase(this.operationId),
-      pascalName: _.upperFirst(this.operationId),
-      comments: [""], // TODO:
-      routeArgs: [], // TODO:
-      specificArgs: {
-        // TODO:
-        body: undefined,
-        query: undefined,
-        requestParams: undefined,
-      },
-      method: _.upperCase(this.method),
-      path: _.replace(this.pattern, /{/g, "${"),
-      returnType: "string",
-      errorReturnType: "string",
-      bodyArg: "string",
-      requestMethodContent: "string",
-      // returnType: getReturnType(responses, parsedSchemas, operationId),
-      // errorReturnType: getErrorReturnType(responses, parsedSchemas, operationId),
-      // bodyArg,
-      // requestMethodContent:
-      //   `\`${path}${hasQuery ? `\${this.addQueryParams(${specificArgs.query.name})}` : ""}\`,` +
-      //   `"${upperCaseMethod}", ` +
-      //   `${specificArgs.requestParams.name}` +
-      //   _.compact([
-      //     requestBody && `, ${bodyParamName}`,
-      //     (hasFormDataParams || formDataRequestBody) &&
-      //       `${requestBody ? "" : ", null"}, BodyType.FormData`,
-      //     hasSecurity &&
-      //       `${
-      //         hasFormDataParams || formDataRequestBody
-      //           ? ""
-      //           : `${requestBody ? "" : ", null"}, BodyType.Json`
-      //       }, true`,
-      //   ]).join(""),
-    };
-  }
 }
 
-const operationIdPartByPathMethod: Record<keyof PathItemOperations, any> = {
+const operationIdPartByMethod: Record<keyof PathItemOperations, any> = {
   get: (pathName, hasPathInserts) => `${pathName}_${hasPathInserts ? "detail" : "list"}`,
   post: (pathName, hasPathInserts) => `${pathName}_create`,
   put: (pathName, hasPathInserts) => `${pathName}_update`,

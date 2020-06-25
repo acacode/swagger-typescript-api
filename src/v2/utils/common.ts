@@ -20,5 +20,6 @@ export const formatDescription = (description?: string, inline?: boolean) => {
       .valueOf();
   }
 
-  return _.replace(prettified, /\n$/g, "");
+  // TODO:?
+  return _.replace(prettified, /\n/g, "\n * ");
 };

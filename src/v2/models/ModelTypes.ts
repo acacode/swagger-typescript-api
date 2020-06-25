@@ -1,17 +1,15 @@
 import { TemplateConfigPart, ModelType } from "../interfaces/template";
-import { SwaggerSchemaContainer } from "./SwaggerSchemaContainer";
-import { SchemaKind } from "./components/SchemaContainer";
+import { SchemaKind, SchemaContainer } from "./components/SchemaContainer";
 import { formatDescription } from "../utils/common";
 import { fixRefName } from "../transformers/schema/fixRefName";
 
 export class ModelTypes implements TemplateConfigPart<ModelType[]> {
-  value: any[] = [];
-
-  constructor(private schema: SwaggerSchemaContainer) {}
+  constructor(private schemas: Record<string, SchemaContainer>) {}
 
   toTemplatePart(): ModelType[] {
-    return Object.entries(this.schema.components.schemas).map(([name, schema]) => {
+    return Object.entries(this.schemas).map(([name, schema]) => {
       return {
+        // TODO: здесь будет проблема в том случае если схема будет преобразована в onion а на самом деле оборачивается в enum и это приведет к ошибке.
         content: ModelTypes.wrapContent(schema.kind, schema.transform({ inline: false })),
         description: formatDescription(schema.value.description),
         name: schema.$refName || fixRefName(name),

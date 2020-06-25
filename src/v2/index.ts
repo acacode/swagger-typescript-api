@@ -15,6 +15,7 @@ import { TemplateConfig } from "./interfaces/template";
 import { HttpClient } from "./models/HttpClient";
 import { ModelTypes } from "./models/ModelTypes";
 import { FileSystem } from "./utils/FileSystem";
+import { Routes } from "./models/Routes";
 
 const mustache = require("mustache");
 const prettier = require("prettier");
@@ -59,19 +60,9 @@ export const generateApi = (options: GenerateAPIOptions) =>
       hasQueryRoutes: schema.paths.hasQueryRoutes,
       hasSecurityRoutes: schema.paths.hasSecurityRoutes,
       generateResponses: generateResponses,
-      modelTypes: new ModelTypes(schema).toTemplatePart(),
-      routes: schema.paths.toTemplatePart(),
+      modelTypes: new ModelTypes(schema.components.schemas).toTemplatePart(),
+      routes: new Routes(schema.paths).toTemplatePart(),
     };
-
-    console.log(
-      templateData.modelTypes
-        .map(
-          (modelType) => `
-    export ${modelType.typeIdentifier} ${modelType.name} ${modelType.content}
-        `,
-        )
-        .join("\r\n"),
-    );
 
     // const componentsMap = createComponentsMap(components);
     // const schemasMap = filterComponentsMap(componentsMap, "schemas");

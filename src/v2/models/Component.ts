@@ -4,9 +4,11 @@ import { ValuesType } from "utility-types";
 import { RefWorker } from "../services/RefWorker";
 import { fixRefName } from "../transformers/schema/fixRefName";
 
-const RefMap = new Map<string, Component<ValuesType<ValuesType<OpenAPIV3.ComponentsObject>>>>();
+export type ComponentRawType = ValuesType<ValuesType<OpenAPIV3.ComponentsObject>>;
 
-export abstract class Component<T extends ValuesType<ValuesType<OpenAPIV3.ComponentsObject>>> {
+const RefMap = new Map<string, Component<ComponentRawType>>();
+
+export abstract class Component<T extends ComponentRawType> {
   protected referencesCount = 0;
   protected isInstanceRef = false;
   public $ref: string = null;
@@ -44,12 +46,16 @@ export abstract class Component<T extends ValuesType<ValuesType<OpenAPIV3.Compon
     return this.isInstanceRef && this.referencesCount > 1;
   }
 
+  get exist() {
+    return !!this.value;
+  }
+
   protected abstract initialize(): void;
 }
 
 export function fromRecord<
   G extends unknown,
-  V extends ValuesType<ValuesType<OpenAPIV3.ComponentsObject>>,
+  V extends ComponentRawType,
   T extends new (...args: unknown[]) => G
 >(Component: T, record: Record<string, V>) {
   const componentRecord: Record<string, InstanceType<T>> = {};
@@ -61,7 +67,7 @@ export function fromRecord<
 
 export function fromArray<
   G extends unknown,
-  V extends ValuesType<ValuesType<OpenAPIV3.ComponentsObject>>,
+  V extends ComponentRawType,
   T extends new (...args: unknown[]) => G
 >(Component: T, array: V[]) {
   const components: InstanceType<T>[] = [];

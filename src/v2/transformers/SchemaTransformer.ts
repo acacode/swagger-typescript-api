@@ -19,20 +19,31 @@ export abstract class SchemaTransformer {
 
   abstract transform(options: TransformOptions): string;
 
+  private getRefMapKey(options: TransformOptions, schema: SchemaContainer) {
+    if (!schema.$ref) return null;
+
+    return [
+      options.inline ? "inline" : "not-inline",
+      options.excludeAny ? "exclude-any" : "not-exclude-any",
+      schema.$ref,
+    ].join(":");
+  }
+
   private patchTransform() {
     const originalTransform = this.transform.bind(this);
 
-    this.transform = (options: TransformOptions = {}) => {
-      const transformOptions = { ...defaultTransformOptions, ...options };
+    this.transform = (transformOptions: TransformOptions = {}) => {
+      const options = { ...defaultTransformOptions, ...transformOptions };
 
-      const refMapKey = `${!!transformOptions.inline}:${this.schema.$ref}`;
+      const refMapKey = this.getRefMapKey(options, this.schema);
 
-      if (this.schema.$ref && RefMap.has(refMapKey)) {
+      if (refMapKey && RefMap.has(refMapKey)) {
         return RefMap.get(refMapKey);
       }
 
-      const result = originalTransform(transformOptions);
-      if (this.schema.$ref) {
+      const result = originalTransform(options);
+
+      if (refMapKey) {
         RefMap.set(refMapKey, result);
       }
       return result;
