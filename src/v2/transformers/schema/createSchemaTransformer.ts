@@ -26,7 +26,11 @@ const getSchemaTransformerConstructor = (
   }
 };
 
-export const createSchemaTransformer = (schema: SchemaContainer) => {
+export const createSchemaTransformer = (schema: SchemaContainer | null) => {
+  if (!schema || !schema.exist) {
+    return new PrimitiveSchemaTransformer(new SchemaContainer({ type: "null" }));
+  }
+
   const Constructor = getSchemaTransformerConstructor(schema.kind);
   const modelType = new Constructor(schema);
 

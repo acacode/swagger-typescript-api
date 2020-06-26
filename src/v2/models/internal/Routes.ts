@@ -1,6 +1,6 @@
 import * as _ from "lodash";
-import { TemplateConfigPart, GroupedRoutes, TemplateConfigRoute } from "../interfaces/template";
-import { Paths } from "./Paths";
+import { TemplateConfigPart, GroupedRoutes, TemplateConfigRoute } from "../../interfaces/template";
+import { Paths } from "../Paths";
 import { RoutePath } from "./RoutePath";
 
 export class Routes implements TemplateConfigPart<GroupedRoutes> {

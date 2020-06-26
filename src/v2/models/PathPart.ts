@@ -7,6 +7,7 @@ import { CallbackContainer } from "./components/CallbackContainer";
 import { fromRecord, fromArray } from "./Component";
 import { PathItemOperations, PathItemCommon } from "./Paths";
 import { Responses } from "./components/groups/Responses";
+import { SchemaContainer } from "./components/SchemaContainer";
 
 export class Path {
   pattern: string;
@@ -16,6 +17,9 @@ export class Path {
   responses: Responses;
   callbacks: Record<string, CallbackContainer> = {};
   requestBody: RequestBodyContainer;
+  tags: string[];
+  summary?: string;
+  description?: string;
 
   constructor(
     pattern: string,
@@ -26,6 +30,9 @@ export class Path {
     this.pattern = pattern;
     this.method = method;
     this.operation = operation;
+    this.tags = operation.tags || [];
+    this.summary = operation.summary;
+    this.description = operation.description;
     this.requestBody = new RequestBodyContainer(
       operation.requestBody,
       operation["requestBodyName"],
@@ -62,6 +69,19 @@ export class Path {
     return this.parameters.filter((parameter) => parameter.is(kind));
   }
 
+  paramsToSchema(kind: ParameterKind) {
+    return new SchemaContainer({
+      type: "object",
+      properties: this.getParamsByKind(kind).reduce((properties, param) => {
+        if (param.name) {
+          properties[param.name] = param.$value;
+        }
+
+        return properties;
+      }, {}),
+    });
+  }
+
   // TODO: prev name: routeName
   get operationId() {
     const existedOperationId = this.operation.operationId;
@@ -84,6 +104,12 @@ export class Path {
 
   get moduleName() {
     return _.camelCase(_.compact(_.split(this.pattern, "/"))[0]);
+  }
+
+  get pathArgNames() {
+    return _.compact(
+      _.split(this.pattern, "{").map((part) => (part.includes("}") ? part.split("}")[0] : null)),
+    );
   }
 }
 

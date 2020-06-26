@@ -12,10 +12,10 @@ import { Template } from "./models/Template";
 import { GenerateAPIOptions } from "./interfaces/cli";
 import * as path from "path";
 import { TemplateConfig } from "./interfaces/template";
-import { HttpClient } from "./models/HttpClient";
-import { ModelTypes } from "./models/ModelTypes";
+import { HttpClient } from "./models/internal/HttpClient";
+import { ModelTypes } from "./models/internal/ModelTypes";
 import { FileSystem } from "./utils/FileSystem";
-import { Routes } from "./models/Routes";
+import { Routes } from "./models/internal/Routes";
 
 const mustache = require("mustache");
 const prettier = require("prettier");

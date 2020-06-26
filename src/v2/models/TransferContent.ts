@@ -45,6 +45,33 @@ export class TransferContent {
     return TransferContentKind.Unknown;
   }
 
+  getActualMediaType(): MediaTypeContainer {
+    if (this.is(TransferContentKind.FormData)) {
+      for (const kind of transferKindsByMediaType[TransferContentKind.FormData]) {
+        if (this.value[kind]) {
+          return this.value[kind];
+        }
+      }
+    }
+
+    if (this.is(TransferContentKind.Json)) {
+      for (const kind of transferKindsByMediaType[TransferContentKind.Json]) {
+        if (this.value[kind]) {
+          return this.value[kind];
+        }
+      }
+    }
+  }
+
+  getActualSchema() {
+    const mediaType = this.getActualMediaType();
+
+    if (mediaType) {
+      return mediaType.schema;
+    }
+    return null;
+  }
+
   is(kind: TransferContentKind) {
     return this.kind === kind;
   }
