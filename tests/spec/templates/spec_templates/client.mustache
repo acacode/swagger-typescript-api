@@ -1,0 +1,132 @@
+
+export type RequestParams = Omit<RequestInit, "body" | "method"> & {
+  secure?: boolean;
+}
+
+{{#hasQueryRoutes}}
+export type RequestQueryParamsType = Record<string | number, any>;
+{{/hasQueryRoutes}}
+
+type ApiConfig<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> = {
+{{#apiConfig.props}}
+  {{name}}{{#optional}}?{{/optional}}: {{type}},
+{{/apiConfig.props}}
+}
+
+const enum BodyType {
+  Json,
+  {{#hasFormDataRoutes}}
+  FormData,
+  {{/hasFormDataRoutes}}
+}
+
+class HttpClient<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> {
+  public baseUrl: string = "{{apiConfig.baseUrl}}";
+  private securityData: SecurityDataType = (null as any);
+  private securityWorker: ApiConfig<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}>["securityWorker"] = (() => {}) as any
+  
+  private baseApiParams: RequestParams = {
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  }
+
+  constructor({ {{#apiConfig.props}}{{name}},{{/apiConfig.props}} }: ApiConfig<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> = {}) {
+  {{#apiConfig.props}}
+    this.{{name}} = {{name}} || this.{{name}};
+  {{/apiConfig.props}}
+  }
+
+  public setSecurityData = (data: SecurityDataType) => {
+    this.securityData = data
+  }
+
+  {{#hasQueryRoutes}}
+  private addQueryParam(query: RequestQueryParamsType, key: string) {
+    return encodeURIComponent(key) + "=" + encodeURIComponent(Array.isArray(query[key]) ? query[key].join(",") : query[key])
+  }
+
+  protected addQueryParams(rawQuery?: RequestQueryParamsType): string {
+    const query = rawQuery || {};
+    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
+    return keys.length ? `?${keys.map(key =>
+      typeof query[key] === "object" && !Array.isArray(query[key]) ?
+        this.addQueryParams(query[key] as object).substring(1) :
+        this.addQueryParam(query, key)).join("&")
+      }` : "";
+  }
+  {{/hasQueryRoutes}}
+
+  private bodyFormatters: Record<BodyType, (input: any) => any> = {
+    [BodyType.Json]: JSON.stringify,
+    {{#hasFormDataRoutes}}
+    [BodyType.FormData]: (input: any) =>
+      Object.keys(input).reduce((data, key) => {
+        data.append(key, input[key]);
+        return data;
+      }, new FormData()),
+    {{/hasFormDataRoutes}}
+  }
+
+  private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
+    return {
+      ...this.baseApiParams,
+      ...params,
+      ...(securityParams || {}),
+      headers: {
+        ...(this.baseApiParams.headers || {}),
+        ...(params.headers || {}),
+        ...((securityParams && securityParams.headers) || {})
+      }
+    }
+  }
+  
+  private safeParseResponse = <T = any, E = any>(response: Response): {{#generateResponses}}TPromise<T, E>{{/generateResponses}}{{^generateResponses}}Promise<T>{{/generateResponses}} =>
+    response.json()
+      .then(data => data)
+      .catch(e => response.text);
+  
+  public request = <T = any, E = any>(
+    path: string,
+    method: string,
+    { secure, ...params }: RequestParams = {},
+    body?: any,
+    bodyType?: BodyType,
+    secureByDefault?: boolean,
+  ): {{#generateResponses}}TPromise<T, E>{{/generateResponses}}{{^generateResponses}}Promise<T>{{/generateResponses}} =>
+    fetch(`${this.baseUrl}${path}`, {
+      // @ts-ignore
+      ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
+      method,
+      body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
+    }).then(async response => {
+      const data = await this.safeParseResponse<T, E>(response);
+      if (!response.ok) throw data
+      return data
+    })
+}
+
+export class Api<{{#apiConfig.generic}}{{name}}{{#defaultValue}} = {{.}}{{/defaultValue}},{{/apiConfig.generic}}> extends HttpClient<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}>{
+{{#routes}}
+
+  {{#outOfModule}}
+
+  {{name}} = ({{#routeArgs}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/routeArgs}}) =>
+    this.request<{{returnType}}, {{errorReturnType}}>({{requestMethodContent}})
+  {{/outOfModule}}
+
+  {{#combined}}
+  {{moduleName}} = {
+    {{#routes}}
+
+    {{name}}: ({{#routeArgs}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/routeArgs}}) =>
+      this.request<{{returnType}}, {{errorReturnType}}>({{requestMethodContent}}),
+    {{/routes}}
+  }
+  {{/combined}}
+{{/routes}}
+
+}
