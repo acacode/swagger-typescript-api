@@ -10,7 +10,7 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
     name: apiFileName,
     input: absolutePath,
     output: resolve(__dirname, "./"),
-    generateRouteTypes: true,
+    generateUnionEnums: true,
   })
     .then(() => {
       const diagnostics = validateGeneratedModule({

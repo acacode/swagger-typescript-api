@@ -10,14 +10,9 @@
  * ---------------------------------------------------------------
  */
 
-export enum StringEnum {
-  COMPANY = "COMPANY",
-  PERSONAL = "PERSONAL",
-  FREELANCE = "FREELANCE",
-  OPEN_SOURCE = "OPEN_SOURCE",
-}
+export type StringEnum = "String1" | "String2" | "String3" | "String4";
 
-export type NumberEnum = 1 | 2 | 3;
+export type NumberEnum = 1 | 2 | 3 | 4;
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
