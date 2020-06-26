@@ -11,7 +11,7 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
     input: absolutePath,
     output: resolve(__dirname, "./"),
     // because this script was called from package.json folder
-    templates: "./test/spec/templates/spec_templates",
+    templates: "./tests/spec/templates/spec_templates",
   })
     .then(() => {
       const diagnostics = validateGeneratedModule({
