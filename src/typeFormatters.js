@@ -1,8 +1,12 @@
 const _ = require("lodash");
+const { config } = require("./config");
 const { checkAndRenameModelName } = require("./modelNames");
 
 const formatters = {
-  enum: (content) => _.map(content, ({ key, value }) => `  ${key} = ${value}`).join(",\n"),
+  enum: (content) =>
+    _.map(content, ({ key, value }) =>
+      config.generateUnionEnums ? value : `  ${key} = ${value}`,
+    ).join(config.generateUnionEnums ? " | " : ",\n"),
   intEnum: (content) => _.map(content, ({ value }) => value).join(" | "),
   object: (content) =>
     _.map(content, (part) => {

@@ -40,6 +40,7 @@ module.exports = {
     defaultResponseAsSuccess = config.defaultResponseAsSuccess,
     generateRouteTypes = config.generateRouteTypes,
     generateClient = config.generateClient,
+    generateUnionEnums = config.generateUnionEnums,
   }) =>
     new Promise((resolve, reject) => {
       addToConfig({
@@ -48,6 +49,7 @@ module.exports = {
         generateClient,
         generateResponses,
         templates,
+        generateUnionEnums,
       });
       getSwaggerObject(input, url)
         .then(({ usageSchema, originalSchema }) => {
