@@ -1,5 +1,7 @@
 const config = {
   /** CLI flag */
+  templates: "./templates",
+  /** CLI flag */
   generateResponses: false,
   /** CLI flag */
   defaultResponseAsSuccess: false,
