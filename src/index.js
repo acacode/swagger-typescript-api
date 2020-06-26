@@ -9,6 +9,7 @@
 const mustache = require("mustache");
 const prettier = require("prettier");
 const _ = require("lodash");
+const { resolve } = require("path");
 const { parseSchemas } = require("./schema");
 const { parseRoutes, groupRoutes } = require("./routes");
 const { createApiConfig } = require("./apiConfig");
@@ -34,7 +35,7 @@ module.exports = {
     output,
     url,
     name,
-    templates = config.templates,
+    templates = resolve(__dirname, config.templates),
     generateResponses = config.generateResponses,
     defaultResponseAsSuccess = config.defaultResponseAsSuccess,
     generateRouteTypes = config.generateRouteTypes,

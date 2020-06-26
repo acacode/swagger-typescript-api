@@ -13,7 +13,7 @@ const getTemplates = () => {
 };
 
 const getTemplate = (templateName) =>
-  getFileContent(resolve(__dirname, `${config.templates}/${templateName}.mustache`));
+  getFileContent(resolve(config.templates, `./${templateName}.mustache`));
 
 module.exports = {
   getTemplates,
