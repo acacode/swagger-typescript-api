@@ -1,5 +1,7 @@
 const config = {
   /** CLI flag */
+  templates: "./templates",
+  /** CLI flag */
   generateResponses: false,
   /** CLI flag */
   defaultResponseAsSuccess: false,
@@ -7,6 +9,8 @@ const config = {
   generateRouteTypes: false,
   /** CLI flag */
   generateClient: true,
+  /** CLI flag */
+  generateUnionEnums: false,
   /** parsed swagger schema from getSwaggerObject() */
 
   /** parsed swagger schema ref */

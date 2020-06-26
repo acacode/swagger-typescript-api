@@ -1,5 +1,26 @@
 # next release  
 
+
+# 1.10.0  
+
+Features:  
+- `--templates` CLI option. [[feature request]](https://github.com/acacode/swagger-typescript-api/issues/54)  
+  Provide custom `mustache` templates folder which allows to generate custom code (models, Api class, routes)  
+- `--union-enums` CLI option. [[feature request]](https://github.com/acacode/swagger-typescript-api/issues/58)  
+  Allows to generate all enums as union types.  
+  For example, schema part:  
+  ```
+  "StringEnum": {
+    "enum": ["String1", "String2", "String3", "String4"],
+    "type": "string"
+  }
+  ```  
+  will be converted into:
+      ```
+export type StringEnum = "String1" | "String2" | "String3" | "String4";
+      ```  
+  
+
 # 1.8.4  
 
 Fixes:  

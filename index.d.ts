@@ -1,6 +1,4 @@
-
 interface GenerateApiParams {
-
   /**
    * path to swagger schema
    */
@@ -20,7 +18,12 @@ interface GenerateApiParams {
    * path to folder where will been located the created api module
    */
   output?: string;
-  
+
+  /**
+   * path to folder containing templates (default: ./scr/templates)
+   */
+  templates?: string;
+
   /**
    * generate type definitions for API routes (default: false)
    */
@@ -32,7 +35,7 @@ interface GenerateApiParams {
   generateClient?: boolean;
 
   /**
-   * use "default" response status code as success response too.  
+   * use "default" response status code as success response too.
    * some swagger schemas use "default" response status code as success response type by default.
    */
   defaultResponseAsSuccess?: boolean;
@@ -44,5 +47,5 @@ interface GenerateApiParams {
   generateResponses?: boolean;
 }
 
-export declare function generateApi(params: Omit<GenerateApiParams, "url">): Promise<string>
-export declare function generateApi(params: Omit<GenerateApiParams, "input">): Promise<string>
+export declare function generateApi(params: Omit<GenerateApiParams, "url">): Promise<string>;
+export declare function generateApi(params: Omit<GenerateApiParams, "input">): Promise<string>;
