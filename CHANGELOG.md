@@ -1,7 +1,13 @@
 # next release  
 
+
+# 1.10.0  
+
 Features:  
-- `--union-enums` CLI option. Allows to generate all enums as union types.  
+- `--templates` CLI option.  
+  Provide custom `mustache` templates folder which allows to generate custom code (models, Api class, routes)  
+- `--union-enums` CLI option.  
+  Allows to generate all enums as union types.  
   For example, schema part:  
   ```
   "StringEnum": {
