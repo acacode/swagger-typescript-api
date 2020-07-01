@@ -11,6 +11,7 @@ export class EnumSchemaTransformer extends SchemaTransformer {
     const enumValue = this.formatEnumValue(key);
 
     if (inline) {
+      // TODO: add enumUnions configuration flag
       return enumValue;
     }
 

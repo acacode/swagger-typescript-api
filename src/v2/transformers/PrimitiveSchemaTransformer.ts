@@ -1,10 +1,11 @@
-import { SchemaContainer } from "../models/components/SchemaContainer";
 import { SchemaTransformer, TransformOptions } from "./SchemaTransformer";
 import { OpenAPIV3 } from "openapi-types";
 import { checkAndAddNull } from "./schema/checkAndAddNull";
 
+type ExtraTypeAliases = "never" | "unknown" | "void";
+
 const typeAliases: Record<
-  OpenAPIV3.NonArraySchemaObjectType | "file" | "$default",
+  OpenAPIV3.NonArraySchemaObjectType | ExtraTypeAliases | "file" | "$default",
   Record<string, string> & { $default: string }
 > = {
   boolean: {
@@ -29,9 +30,27 @@ const typeAliases: Record<
   object: {
     $default: "object",
   },
+  never: {
+    $default: "never",
+  },
+  unknown: {
+    $default: "unknown",
+  },
+  void: {
+    $default: "void",
+  },
   $default: {
     $default: "any",
   },
+};
+
+export const EXTRA_TYPES = {
+  ANY: typeAliases.$default.$default,
+  NULL: typeAliases.null.$default,
+  NEVER: typeAliases.never.$default,
+  UNKNOWN: typeAliases.unknown.$default,
+  VOID: typeAliases.void.$default,
+  EMPTY_OBJECT: "{}",
 };
 
 export class PrimitiveSchemaTransformer extends SchemaTransformer {
@@ -41,7 +60,6 @@ export class PrimitiveSchemaTransformer extends SchemaTransformer {
     }
 
     if (!this.schema.type && excludeAny) {
-      console.log("this.schema", this.schema);
       return "";
     }
 

@@ -6,7 +6,7 @@ import { ParameterContainer, ParameterKind } from "./components/ParameterContain
 import { CallbackContainer } from "./components/CallbackContainer";
 import { fromRecord, fromArray } from "./Component";
 import { PathItemOperations, PathItemCommon } from "./Paths";
-import { Responses } from "./components/groups/Responses";
+import { ResponsesGroup } from "./components/groups/ResponsesGroup";
 import { SchemaContainer } from "./components/SchemaContainer";
 
 export class Path {
@@ -14,7 +14,7 @@ export class Path {
   method: string;
   operation: OpenAPIV3.OperationObject;
   parameters: ParameterContainer[] = [];
-  responses: Responses;
+  responses: ResponsesGroup;
   callbacks: Record<string, CallbackContainer> = {};
   requestBody: RequestBodyContainer;
   tags: string[];
@@ -37,7 +37,7 @@ export class Path {
       operation.requestBody,
       operation["requestBodyName"],
     );
-    this.responses = new Responses(operation.responses);
+    this.responses = new ResponsesGroup(operation.responses);
     this.callbacks = fromRecord(CallbackContainer, operation.callbacks);
     this.parameters = [
       ...fromArray(ParameterContainer, operation.parameters),

@@ -98,6 +98,8 @@ export const generateApi = (options: GenerateAPIOptions) =>
       console.log(`✔️  your typescript api file created in "${output}"`);
     }
 
+    console.log("sourceFile", sourceFile);
+
     resolve(sourceFile);
   });
 

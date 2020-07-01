@@ -35,9 +35,16 @@
       "name": "Debug JSON CLI TS",
       "type": "node",
       "request": "launch",
-      "cwd": "${workspaceRoot}",
-      "runtimeArgs": ["-r", "ts-node/register", "--trace-warnings"],
-      "args": ["${workspaceRoot}/src/v2/index.ts"]
+      "args": ["-r", "ts-node/register", "src/v2/index.ts"],
+      "cwd": "${workspaceFolder}",
+      "protocol": "inspector",
+      "sourceMaps": true,
+      "outFiles": [".ts-node/**"],
+      "env": {
+        "TS_NODE_FILES": "true",
+        "TS_NODE_PROJECT": "./tsconfig.json"
+      },
+      "outputCapture": "std"
     }
   ]
 }

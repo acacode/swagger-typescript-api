@@ -10,18 +10,22 @@ const RefMap = new Map<string, Component<ComponentRawType>>();
 
 export abstract class Component<T extends ComponentRawType> {
   protected referencesCount = 0;
-  protected isInstanceRef = false;
+  /** original reference name */
   public $ref: string = null;
+  /** fixed reference name  */
   public $refName: string = null;
+  /** not infered schema type. can be reference */
+  public $value: T | OpenAPIV3.ReferenceObject;
+  /** infered schema type */
   public value: T;
-  constructor(public $value: T | OpenAPIV3.ReferenceObject) {
+  constructor($value: T | OpenAPIV3.ReferenceObject) {
+    this.$value = $value;
     if (RefWorker.isReferenceObject(this.$value) && RefMap.has(this.$value.$ref)) {
       const ref = RefMap.get(this.$value.$ref);
       ref.referencesCount += 1;
       RefMap.set(this.$value.$ref, ref);
       Object.assign(this, ref);
-      this.isInstanceRef = true;
-      if (!this.alreadyParsed) {
+      if (this.referencesCount <= 1) {
         this.initialize();
       }
       return;
@@ -40,10 +44,6 @@ export abstract class Component<T extends ComponentRawType> {
     } else {
       this.value = null;
     }
-  }
-
-  get alreadyParsed() {
-    return this.isInstanceRef && this.referencesCount > 1;
   }
 
   get exist() {

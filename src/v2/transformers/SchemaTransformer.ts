@@ -3,7 +3,9 @@ import { SchemaContainer, SchemaKind } from "../models/components/SchemaContaine
 const RefMap = new Map<string, string>();
 
 export interface TransformOptions {
+  /** generate inline code or return type name */
   inline?: boolean;
+  /** remove the type "any" from union types or some other types */
   excludeAny?: boolean;
 }
 
@@ -44,7 +46,7 @@ export abstract class SchemaTransformer {
       const result = originalTransform(options);
 
       if (refMapKey) {
-        RefMap.set(refMapKey, result);
+        RefMap.set(refMapKey, (options.inline && this.schema.$refName) || result);
       }
       return result;
     };

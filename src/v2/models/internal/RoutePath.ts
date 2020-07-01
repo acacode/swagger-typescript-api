@@ -4,9 +4,9 @@ import { Path } from "../PathPart";
 import { TransferContentKind } from "../TransferContent";
 import { ParameterKind } from "../components/ParameterContainer";
 import { SchemaContainer } from "../components/SchemaContainer";
-import { createSchemaTransformer } from "../../transformers/schema/createSchemaTransformer";
 import { formatDescription } from "../../utils/common";
 import { Configuration } from "../../services/Configuration";
+import { EXTRA_TYPES } from "../../transformers/PrimitiveSchemaTransformer";
 
 export class RoutePath implements TemplateConfigRoute {
   bodyArg: string;
@@ -36,7 +36,8 @@ export class RoutePath implements TemplateConfigRoute {
     const pathParams = $path.getParamsByKind(ParameterKind.Path);
     const queryParams = $path.getParamsByKind(ParameterKind.Query);
     const requestBodyType = $path.requestBody.value;
-    const responsesTypes = $path.responses.array;
+    const responsesTypes = $path.responses.toArray();
+    const asdasd = $path.responses.success;
     const queryObjectSchema = $path.paramsToSchema(ParameterKind.Query);
 
     // const formDataObjectSchema = hasFormDataParams
@@ -87,17 +88,14 @@ export class RoutePath implements TemplateConfigRoute {
       query: queryType
         ? {
             name: pathArgs.some((pathArg) => pathArg.name === "query") ? "queryParams" : "query",
-            optional: true,
-            // optional: parseSchema(queryObjectSchema, null).allFieldsAreOptional,
+            optional: queryObjectSchema.properties && !queryObjectSchema.properties.hasRequired,
             type: queryType,
           }
         : void 0,
       body: bodyType
         ? {
             name: bodyParamName,
-            optional: true,
-            // optional:
-            // typeof requestBody.required === "undefined" ? false : !requestBody.required,
+            optional: !$path.requestBody.required,
             type: bodyType,
           }
         : void 0,
@@ -141,8 +139,13 @@ export class RoutePath implements TemplateConfigRoute {
       // requestBody && requestBody.description && `@body ${requestBody.description}`,
       $path.isSecure && `@secure`,
       $path.description && `@description ${formatDescription($path.description, true)}`,
-      ...(Configuration.value.generateResponses && responsesTypes.length
-        ? responsesTypes.map(() => `@response \`{status}\` \`{type}\` {description}`)
+      ...(Configuration.value.generateResponses && $path.responses.length
+        ? $path.responses.map(
+            (response, code) =>
+              `@response \`${code}\` \`${response.transformContent({ inline: true })}\` ${
+                response.description
+              }`,
+          )
         : []),
     ]);
 
@@ -151,22 +154,37 @@ export class RoutePath implements TemplateConfigRoute {
     this.hasQuery = $path.hasQueryParams;
     this.hasFormDataParams =
       $path.hasFormDataParams || $path.requestBody.transferIs(TransferContentKind.FormData);
-    this.queryType = queryType || "{}"; // TODO = queryType
-    // bodyType = bodyType || "never",
-    this.bodyType = bodyType || "never"; // TODO: bodyType
+    this.queryType = queryType || EXTRA_TYPES.EMPTY_OBJECT;
+    this.bodyType = bodyType || EXTRA_TYPES.NEVER;
     this.name = _.camelCase($path.operationId);
     this.pascalName = _.upperFirst($path.operationId);
-    this.comments = comments; // TODO:
-    this.routeArgs = routeArgs; // TODO:
+    this.comments = comments;
+    this.routeArgs = routeArgs;
     this.specificArgs = specificArgs;
     this.method = _.upperCase($path.method);
     this.path = this.escapedPath;
-    this.returnType = "string";
-    this.errorReturnType = "string";
-    this.bodyArg = bodyType ? $path.requestBody.name : "null";
-    this.requestMethodContent = "";
-
-    console.log("this", this);
+    this.returnType = $path.responses.transformResponses($path.responses.success, { inline: true });
+    this.errorReturnType = $path.responses.transformResponses($path.responses.bad, {
+      inline: true,
+    });
+    this.bodyArg = bodyType ? $path.requestBody.name : EXTRA_TYPES.NULL;
+    this.requestMethodContent =
+      `\`${this.escapedPath}${
+        queryType ? `\${this.addQueryParams(${specificArgs.query.name})}` : ""
+      }\`,` +
+      `"${_.upperCase($path.method)}", ` +
+      `${specificArgs.requestParams.name}`;
+    // _.compact([
+    //   bodyType && `, ${bodyParamName}`,
+    //   (hasFormDataParams || formDataRequestBody) &&
+    //     `${requestBody ? "" : ", null"}, BodyType.FormData`,
+    //   hasSecurity &&
+    //     `${
+    //       hasFormDataParams || formDataRequestBody
+    //         ? ""
+    //         : `${requestBody ? "" : ", null"}, BodyType.Json`
+    //     }, true`,
+    // ]).join("");
   }
 
   get escapedPath() {

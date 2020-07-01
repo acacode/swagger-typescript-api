@@ -14,4 +14,8 @@ export class ResponseContainer extends TransferComponent<OpenAPIV3.ResponseObjec
     this.headers = fromRecord(HeaderContainer, this.value.headers);
     this.links = fromRecord(LinkContainer, this.value.links);
   }
+
+  get description() {
+    return this.value.description;
+  }
 }

@@ -4,7 +4,9 @@ import { Component, fromArray, fromRecord } from "../Component";
 import { Configuration } from "../../services/Configuration";
 import { TransformOptions, SchemaTransformer } from "../../transformers/SchemaTransformer";
 import { createSchemaTransformer } from "../../transformers/schema/createSchemaTransformer";
+import { SchemasGroup } from "./groups/SchemasGroup";
 
+// TODO: add "Combined" type for hybrid all schema kinds
 export enum SchemaKind {
   Enum = "Enum",
   Object = "Object",
@@ -14,20 +16,22 @@ export enum SchemaKind {
 }
 
 export class SchemaContainer extends Component<OpenAPIV3.SchemaObject> {
-  type: OpenAPIV3.SchemaObject["type"];
-  format?: OpenAPIV3.SchemaObject["format"];
-
-  items?: SchemaContainer;
   additionalProperties?: SchemaContainer;
-  properties?: Record<string, SchemaContainer>;
 
+  /** SchemaKind.Array */
+  items?: SchemaContainer;
+  /** SchemaKind.Object */
+  properties?: SchemasGroup;
+  /** SchemaKind.Complex */
   allOf?: SchemaContainer[];
+  /** SchemaKind.Complex */
   oneOf?: SchemaContainer[];
+  /** SchemaKind.Complex */
   anyOf?: SchemaContainer[];
+  /** SchemaKind.Complex */
   not?: SchemaContainer;
 
   kind: SchemaKind;
-  nullable: boolean;
 
   private transformer: SchemaTransformer;
 
@@ -35,22 +39,13 @@ export class SchemaContainer extends Component<OpenAPIV3.SchemaObject> {
     this.fixSchema();
     this.kind = SchemaContainer.getSchemaKind(this.value);
     this.transformer = createSchemaTransformer(this);
-    this.type = this.value.type;
-    this.format = this.value.format;
-    this.nullable = !!this.value.nullable;
 
     if (this.value) {
       if (SchemaContainer.isArraySchema(this.value)) {
         this.items = new SchemaContainer(this.value.items);
       } else {
-        if (
-          this.value.additionalProperties &&
-          typeof this.value.additionalProperties !== "boolean"
-        ) {
-          this.additionalProperties = new SchemaContainer(this.value.additionalProperties);
-        }
         if (this.value.properties) {
-          this.properties = fromRecord(SchemaContainer, this.value.properties);
+          this.properties = new SchemasGroup(this.value.properties);
         }
         if (this.value.allOf) {
           this.allOf = fromArray(SchemaContainer, this.value.allOf);
@@ -65,9 +60,61 @@ export class SchemaContainer extends Component<OpenAPIV3.SchemaObject> {
           this.not = new SchemaContainer(this.value.not);
         }
       }
+
+      if (this.value.additionalProperties && typeof this.value.additionalProperties !== "boolean") {
+        this.additionalProperties = new SchemaContainer(this.value.additionalProperties);
+      }
+    }
+
+    if (this.is(SchemaKind.Primitive)) {
+      // TODO: not type declared case
+      if (this.value && this.value.schema) {
+        const instance = new SchemaContainer(this.value.schema as OpenAPIV3.SchemaObject);
+
+        if (instance && instance.value) {
+          this.value.type = this.value.type || instance.value.type;
+          this.value.format = this.value.format || instance.value.format;
+          this.kind = this.kind;
+          this.value.enum = this.value.enum || instance.value.enum;
+          this.value.properties =
+            (this.value.properties || instance.value.properties) &&
+            _.merge(this.value.properties, instance.value.properties);
+
+          if (instance.value["items"] && this.value["items"]) {
+            this.items = new SchemaContainer(_.merge(instance.value["items"], this.value["items"]));
+          }
+        }
+      }
     }
   }
 
+  get required() {
+    if (Configuration.value.convertedFromSwagger2) {
+      return typeof this.value.nullable === "undefined"
+        ? !!this.value.required
+        : !this.value.nullable;
+    }
+
+    return !!this.value.required;
+  }
+
+  get nullable() {
+    return !!this.value.nullable;
+  }
+
+  get type() {
+    return this.value.type;
+  }
+
+  get format() {
+    return this.value.format;
+  }
+
+  get description() {
+    return this.value.description || "";
+  }
+
+  /** transform schema to string presentation */
   transform(options?: TransformOptions) {
     return this.transformer.transform(options);
   }
@@ -77,6 +124,7 @@ export class SchemaContainer extends Component<OpenAPIV3.SchemaObject> {
   }
 
   private fixSchema() {
+    if (!this.value) return;
     // for cases when schema is array but haven't the "type" property
     if ("items" in this.value && !this.value.type) {
       this.value.type = "array";
@@ -109,7 +157,7 @@ export class SchemaContainer extends Component<OpenAPIV3.SchemaObject> {
   }
 
   static isArraySchema(schema?: OpenAPIV3.SchemaObject): schema is OpenAPIV3.ArraySchemaObject {
-    return schema && schema && "items" in schema && schema.type === "array";
+    return schema && "items" in schema && schema.type === "array";
   }
 
   static isObjectSchema(schema?: OpenAPIV3.SchemaObject) {

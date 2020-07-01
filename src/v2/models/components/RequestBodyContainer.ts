@@ -14,4 +14,12 @@ export class RequestBodyContainer extends TransferComponent<OpenAPIV3.RequestBod
   get name() {
     return this.outerName || (this.value && this.value["name"]) || DEFAULT_BODY_ARG_NAME;
   }
+
+  get required() {
+    return typeof this.value.required === "undefined" || this.value.required;
+  }
+
+  get description() {
+    return this.value.description;
+  }
 }

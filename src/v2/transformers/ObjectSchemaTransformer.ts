@@ -11,10 +11,7 @@ export class ObjectSchemaTransformer extends SchemaTransformer {
       return checkAndAddNull(this.schema, this.schema.$refName);
     }
 
-    let result: string[] = [];
-    const propertyEntries = _.entries(this.schema.properties);
-
-    for (const [name, property] of propertyEntries) {
+    const result: string[] = this.schema.properties.map((property, name) => {
       const propertyParts = _.compact([
         !inline &&
           property.value.description &&
@@ -23,8 +20,9 @@ export class ObjectSchemaTransformer extends SchemaTransformer {
           SchemaContainer.isRequiredProperty(name, property, this.schema) ? "" : "?"
         }: ${property.transform({ inline: true })};`,
       ]);
-      result.push(propertyParts.join(""));
-    }
+
+      return propertyParts.join("");
+    });
 
     const content = result.join(`${inline ? "" : "\r\n"}`);
     return inline ? `{${content}}` : content;

@@ -7,9 +7,11 @@
     "allowJs": true,
     "moduleResolution": "Node",
     "baseUrl": "./src/v2",
-    "typeRoots": ["./node_modules/@types"],
+    "typeRoots": ["./types", "./node_modules/@types"],
     "types": ["node"],
     "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true
-  }
+    "experimentalDecorators": true,
+    "outDir": "./build"
+  },
+  "include": ["./src/v2", "./types"]
 }
