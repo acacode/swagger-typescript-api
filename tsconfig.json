@@ -11,7 +11,8 @@
     "types": ["node"],
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "outDir": "./build"
+    "outDir": "./build",
+    "declaration": true,
   },
   "include": ["./src/v2", "./types"]
 }

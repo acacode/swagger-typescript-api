@@ -69,10 +69,14 @@ export class Path {
     return this.parameters.filter((parameter) => parameter.is(kind));
   }
 
-  paramsToSchema(kind: ParameterKind) {
+  paramsToSchema(kind: ParameterKind): SchemaContainer | null {
+    const parameters = this.getParamsByKind(kind);
+
+    if (!parameters.length) return null;
+
     return new SchemaContainer({
       type: "object",
-      properties: this.getParamsByKind(kind).reduce((properties, param) => {
+      properties: parameters.reduce((properties, param) => {
         if (param.name) {
           properties[param.name] = param.$value;
         }

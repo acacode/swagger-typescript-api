@@ -1,5 +1,3 @@
-import { ValuesType } from "utility-types";
-
 export interface FuncArg {
   name: string;
   optional: boolean;
@@ -62,6 +60,6 @@ export interface TemplateConfig {
   routes: GroupedRoutes;
 }
 
-export abstract class TemplateConfigPart<T extends ValuesType<TemplateConfig>> {
+export abstract class TemplateConfigPart<T extends ValueOf<TemplateConfig>> {
   abstract toTemplatePart(): T;
 }

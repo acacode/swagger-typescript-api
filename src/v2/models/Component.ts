@@ -1,10 +1,9 @@
 import * as _ from "lodash";
 import { OpenAPIV3 } from "openapi-types";
-import { ValuesType } from "utility-types";
 import { RefWorker } from "../services/RefWorker";
 import { fixRefName } from "../transformers/schema/fixRefName";
 
-export type ComponentRawType = ValuesType<ValuesType<OpenAPIV3.ComponentsObject>>;
+export type ComponentRawType = ValueOf<ValueOf<OpenAPIV3.ComponentsObject>>;
 
 const RefMap = new Map<string, Component<ComponentRawType>>();
 

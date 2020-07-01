@@ -2,10 +2,9 @@ import * as _ from "lodash";
 import { OpenAPIV3 } from "openapi-types";
 import { RefWorker } from "../services/RefWorker";
 import { Path } from "./PathPart";
-import { PickByValue, OmitByValue } from "utility-types";
 
-export type PathItemOperations = PickByValue<OpenAPIV3.PathItemObject, OpenAPIV3.OperationObject>;
-export type PathItemCommon = OmitByValue<OpenAPIV3.PathItemObject, OpenAPIV3.OperationObject>;
+export type PathItemOperations = PickValue<OpenAPIV3.PathItemObject, OpenAPIV3.OperationObject>;
+export type PathItemCommon = OmitValue<OpenAPIV3.PathItemObject, OpenAPIV3.OperationObject>;
 
 const pathItemCommonKeys: (keyof PathItemCommon)[] = [
   "$ref",

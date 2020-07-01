@@ -3,16 +3,12 @@ import { MediaTypeContainer } from "./components/MediaTypeContainer";
 import { fromRecord } from "./Component";
 
 export enum TransferContentKind {
-  Unknown = "Unknown",
   Json = "Json",
   FormData = "FormData",
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
-const transferKindsByMediaType: Record<
-  Exclude<TransferContentKind, TransferContentKind.Unknown>,
-  string[]
-> = {
+const transferKindsByMediaType: Record<TransferContentKind, string[]> = {
   [TransferContentKind.FormData]: ["multipart/form-data"],
   [TransferContentKind.Json]: [
     "application/json-patch+json",
@@ -42,7 +38,7 @@ export class TransferContent {
       return TransferContentKind.Json;
     }
 
-    return TransferContentKind.Unknown;
+    return null;
   }
 
   getActualMediaType(): MediaTypeContainer {

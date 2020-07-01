@@ -16,7 +16,9 @@
     "test:routeTypes": "node tests/spec/routeTypes/test.js",
     "test:noClient": "node tests/spec/noClient/test.js",
     "test:defaultAsSuccess": "node tests/spec/defaultAsSuccess/test.js",
-    "test:responses": "node tests/spec/responses/test.js"
+    "test:responses": "node tests/spec/responses/test.js",
+    "sss": "ts-node --files ./src/v2/index.ts --project tsconfig.json",
+    "sss2": "tsc --project ./tsconfig.json"
   },
   "author": "acacode",
   "license": "MIT",
@@ -43,8 +45,7 @@
     "mustache": "^4.0.1",
     "openapi-types": "^1.3.5",
     "prettier": "^2.0.5",
-    "swagger2openapi": "^6.0.3",
-    "utility-types": "^3.10.0"
+    "swagger2openapi": "^6.0.3"
   },
   "bin": {
     "swagger-typescript-api": "index.js",

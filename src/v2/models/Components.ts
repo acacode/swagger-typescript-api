@@ -1,6 +1,5 @@
 import * as _ from "lodash";
 import { OpenAPIV3 } from "openapi-types";
-import { ValuesType } from "utility-types";
 import { CallbackContainer } from "./components/CallbackContainer";
 import { SecuritySchemeContainer } from "./components/SecuritySchemeContainer";
 import { SchemaContainer } from "./components/SchemaContainer";
@@ -15,7 +14,7 @@ import { Component } from "./Component";
 type ExtractedComponentsObject = {
   [K in keyof OpenAPIV3.ComponentsObject]: Record<
     string,
-    Exclude<ValuesType<OpenAPIV3.ComponentsObject[K]>, OpenAPIV3.ReferenceObject>
+    Exclude<ValueOf<OpenAPIV3.ComponentsObject[K]>, OpenAPIV3.ReferenceObject>
   >;
 };
 
