@@ -3,6 +3,7 @@
   "version": "1.8.4",
   "description": "Create typescript api module from swagger schema",
   "scripts": {
+    "build": "tsc --project ./tsconfig.json",
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
     "cli:yaml": "node index.js -r -d -p ./swagger-test-cli.yaml -n swagger-test-cli.ts",
     "cli:debug:json": "node  --nolazy --inspect-brk=9229 index.js -p ./swagger-test-cli.json -n swagger-test-cli.ts",
@@ -16,14 +17,12 @@
     "test:routeTypes": "node tests/spec/routeTypes/test.js",
     "test:noClient": "node tests/spec/noClient/test.js",
     "test:defaultAsSuccess": "node tests/spec/defaultAsSuccess/test.js",
-    "test:responses": "node tests/spec/responses/test.js",
-    "sss": "ts-node --files ./src/v2/index.ts --project tsconfig.json",
-    "sss2": "tsc --project ./tsconfig.json"
+    "test:responses": "node tests/spec/responses/test.js"
   },
   "author": "acacode",
   "license": "MIT",
-  "typings": "./index.d.ts",
-  "main": "src/index.js",
+  "typings": "dist/index.d.ts",
+  "main": "dist/index.js",
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/js-yaml": "^3.12.4",
