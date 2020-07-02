@@ -1,7 +1,7 @@
 import { TemplateConfigPart, ModelType } from "../../interfaces/template";
 import { SchemaKind, SchemaContainer } from "../components/SchemaContainer";
-import { formatDescription } from "../../utils/common";
-import { fixRefName } from "../../transformers/schema/fixRefName";
+import { formatDescription } from "../../transformers/utils/common";
+import { fixRefName } from "../../transformers/utils/fixRefName";
 
 export class ModelTypes implements TemplateConfigPart<ModelType[]> {
   constructor(private schemas: Record<string, SchemaContainer>) {}

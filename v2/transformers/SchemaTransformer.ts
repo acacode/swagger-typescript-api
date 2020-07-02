@@ -1,4 +1,4 @@
-import { SchemaContainer, SchemaKind } from "../models/components/SchemaContainer";
+import { SchemaContainer, SchemaKind } from "../swagger/components/SchemaContainer";
 
 const RefMap = new Map<string, string>();
 

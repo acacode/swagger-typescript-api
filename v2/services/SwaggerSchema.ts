@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import { FileSystem } from "../utils/FileSystem";
+import { FileSystem } from "./FileSystem";
 import yaml from "js-yaml";
 import axios from "axios";
 import { schemaIsOpenAPIV3, AnySchema, UsageSchema } from "../interfaces/schema";

@@ -1,10 +1,10 @@
 import * as _ from "lodash";
 import { SchemaTransformer, TransformOptions } from "./SchemaTransformer";
-import { SchemaContainer } from "../models/components/SchemaContainer";
-import { formatDescription } from "../utils/common";
-import { checkAndAddNull } from "./schema/checkAndAddNull";
-import { isValidName } from "./schema/fixRefName";
-import { getPrimitiveType } from "./schema/getPrimitiveType";
+import { SchemaContainer } from "../swagger/components/SchemaContainer";
+import { formatDescription } from "./utils/common";
+import { checkAndAddNull } from "./utils/checkAndAddNull";
+import { isValidName } from "./utils/fixRefName";
+import { getPrimitiveType } from "./utils/getPrimitiveType";
 
 export class ObjectSchemaTransformer extends SchemaTransformer {
   transform(options: TransformOptions) {

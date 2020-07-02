@@ -3,7 +3,7 @@ import { OpenAPIV3 } from "openapi-types";
 import { Component, fromArray, fromRecord } from "../Component";
 import { Configuration } from "../../services/Configuration";
 import { TransformOptions, SchemaTransformer } from "../../transformers/SchemaTransformer";
-import { createSchemaTransformer } from "../../transformers/schema/createSchemaTransformer";
+import { createSchemaTransformer } from "../../transformers/utils/createSchemaTransformer";
 import { SchemasGroup } from "./groups/SchemasGroup";
 
 // TODO: add "Combined" type for hybrid all schema kinds

@@ -10,15 +10,14 @@ import * as path from "path";
 import * as _ from "lodash";
 import * as prettier from "prettier";
 import { Configuration } from "./services/Configuration";
-import { SwaggerSchemaContainer } from "./models/SwaggerSchemaContainer";
-import { Template } from "./models/Template";
+import { SwaggerSchemaContainer } from "./swagger/SwaggerSchemaContainer";
+import { Template } from "./services/Template";
 import { GenerateAPIOptions } from "./interfaces/cli";
 import { TemplateConfig } from "./interfaces/template";
-import { HttpClient } from "./models/internal/HttpClient";
-import { ModelTypes } from "./models/internal/ModelTypes";
-import { FileSystem } from "./utils/FileSystem";
-import { Routes } from "./models/internal/Routes";
-import { version } from "../package.json";
+import { HttpClient } from "./swagger/internal/HttpClient";
+import { ModelTypes } from "./swagger/internal/ModelTypes";
+import { FileSystem } from "./services/FileSystem";
+import { Routes } from "./swagger/internal/Routes";
 
 const prettierConfig = {
   printWidth: 120,

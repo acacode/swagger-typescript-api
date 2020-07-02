@@ -1,6 +1,6 @@
 import { SchemaTransformer, TransformOptions } from "./SchemaTransformer";
-import { checkAndAddNull } from "./schema/checkAndAddNull";
-import { getPrimitiveType } from "./schema/getPrimitiveType";
+import { checkAndAddNull } from "./utils/checkAndAddNull";
+import { getPrimitiveType } from "./utils/getPrimitiveType";
 
 export class PrimitiveSchemaTransformer extends SchemaTransformer {
   transform({ inline, excludeAny }: TransformOptions) {

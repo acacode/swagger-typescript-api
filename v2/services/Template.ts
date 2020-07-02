@@ -1,5 +1,5 @@
 import * as mustache from "mustache";
-import { FileSystem } from "../utils/FileSystem";
+import { FileSystem } from "./FileSystem";
 
 // @ts-ignore ignore all character escaping
 mustache.escape = (value) => value;

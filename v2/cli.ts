@@ -9,10 +9,10 @@
 import * as program from "commander";
 import * as path from "path";
 import { generateApi } from "./generateApi";
-import { version } from "../package.json";
+const packageJson = require("../package.json");
 
 program
-  .version(version, "-v, --version", "output the current version")
+  .version(packageJson.version, "-v, --version", "output the current version")
   .description("Generate api via swagger scheme.\nSupports OA 3.0, 2.0, JSON, yaml.")
   .requiredOption("-p, --path <path>", "path/url to swagger scheme")
   .option("-o, --output <output>", "output path of typescript api file", "./")

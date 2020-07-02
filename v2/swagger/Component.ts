@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import { OpenAPIV3 } from "openapi-types";
 import { RefWorker } from "../services/RefWorker";
-import { fixRefName } from "../transformers/schema/fixRefName";
+import { fixRefName } from "../transformers/utils/fixRefName";
 import { ValueOf } from "../interfaces/utility";
 
 export type ComponentRawType = ValueOf<ValueOf<OpenAPIV3.ComponentsObject>>;

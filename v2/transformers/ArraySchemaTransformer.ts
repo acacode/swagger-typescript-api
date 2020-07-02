@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 import { SchemaTransformer, TransformOptions } from "./SchemaTransformer";
-import { checkAndAddNull } from "./schema/checkAndAddNull";
+import { checkAndAddNull } from "./utils/checkAndAddNull";
 
 export class ArraySchemaTransformer extends SchemaTransformer {
   transform(options: TransformOptions) {

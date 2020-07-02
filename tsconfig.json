@@ -7,6 +7,7 @@
     "allowJs": true,
     "moduleResolution": "Node",
     "baseUrl": "./v2",
+    "rootDir": "v2",
     "typeRoots": ["./types", "./node_modules/@types"],
     "types": ["node"],
     "allowSyntheticDefaultImports": true,
@@ -15,5 +16,5 @@
     "outDir": "./dist",
     "declaration": true
   },
-  "include": ["./v2", "./types"]
+  "include": ["v2/", "./types"]
 }

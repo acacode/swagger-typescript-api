@@ -1,4 +1,4 @@
-import { SchemaContainer, SchemaKind } from "../../models/components/SchemaContainer";
+import { SchemaContainer, SchemaKind } from "../../swagger/components/SchemaContainer";
 import { EnumSchemaTransformer } from "../EnumSchemaTransformer";
 import { PrimitiveSchemaTransformer } from "../PrimitiveSchemaTransformer";
 import { ObjectSchemaTransformer } from "../ObjectSchemaTransformer";

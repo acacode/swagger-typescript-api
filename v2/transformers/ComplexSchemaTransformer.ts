@@ -1,7 +1,7 @@
 import * as _ from "lodash";
-import { SchemaContainer } from "../models/components/SchemaContainer";
+import { SchemaContainer } from "../swagger/components/SchemaContainer";
 import { SchemaTransformer, TransformOptions } from "./SchemaTransformer";
-import { checkAndAddNull } from "./schema/checkAndAddNull";
+import { checkAndAddNull } from "./utils/checkAndAddNull";
 
 export class ComplexSchemaTransformer extends SchemaTransformer {
   transform({ inline }: TransformOptions) {

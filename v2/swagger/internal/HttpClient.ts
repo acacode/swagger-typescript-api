@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 import { SwaggerSchemaContainer } from "../SwaggerSchemaContainer";
-import { formatDescription } from "../../utils/common";
+import { formatDescription } from "../../transformers/utils/common";
 import { TemplateConfigPart, FuncArg, ApiConfig } from "../../interfaces/template";
 
 export class HttpClient implements TemplateConfigPart<ApiConfig> {
