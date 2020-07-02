@@ -4,13 +4,34 @@ import { SchemaContainer } from "../models/components/SchemaContainer";
 import { formatDescription } from "../utils/common";
 import { checkAndAddNull } from "./schema/checkAndAddNull";
 import { isValidName } from "./schema/fixRefName";
+import { getPrimitiveType } from "./schema/getPrimitiveType";
 
 export class ObjectSchemaTransformer extends SchemaTransformer {
-  transform({ inline }: TransformOptions) {
-    if (inline && this.schema.$refName) {
+  transform(options: TransformOptions) {
+    if (options.inline && this.schema.$refName) {
       return checkAndAddNull(this.schema, this.schema.$refName);
     }
 
+    if (this.schema.properties) {
+      return this.transformObjectWithProperties(options);
+    }
+    return this.transformSimpleObject(options);
+  }
+
+  private transformSimpleObject(options: TransformOptions): string {
+    const { additionalProperties, type, format } = this.schema;
+
+    if (additionalProperties) {
+      return `Record<string, ${getPrimitiveType(
+        additionalProperties.type,
+        additionalProperties.format,
+      )}>`;
+    }
+
+    return getPrimitiveType(type, format);
+  }
+
+  private transformObjectWithProperties({ inline }: TransformOptions): string {
     const result: string[] = this.schema.properties.map((property, name) => {
       const propertyParts = _.compact([
         !inline &&

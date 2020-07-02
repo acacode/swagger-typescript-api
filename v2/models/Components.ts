@@ -10,6 +10,7 @@ import { LinkContainer } from "./components/LinkContainer";
 import { HeaderContainer } from "./components/HeaderContainer";
 import { ExampleContainer } from "./components/ExampleContainer";
 import { Component } from "./Component";
+import { ValueOf } from "../interfaces/utility";
 
 type ExtractedComponentsObject = {
   [K in keyof OpenAPIV3.ComponentsObject]: Record<

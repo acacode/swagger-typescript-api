@@ -1,3 +1,5 @@
+import { ValueOf } from "./utility";
+
 export interface FuncArg {
   name: string;
   optional: boolean;

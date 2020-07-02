@@ -6,34 +6,26 @@
 // License text available at https://opensource.org/licenses/MIT
 // Repository https://github.com/acacode/swagger-typescript-api
 
+import * as path from "path";
+import * as _ from "lodash";
+import * as prettier from "prettier";
 import { Configuration } from "./services/Configuration";
 import { SwaggerSchemaContainer } from "./models/SwaggerSchemaContainer";
 import { Template } from "./models/Template";
 import { GenerateAPIOptions } from "./interfaces/cli";
-import * as path from "path";
 import { TemplateConfig } from "./interfaces/template";
 import { HttpClient } from "./models/internal/HttpClient";
 import { ModelTypes } from "./models/internal/ModelTypes";
 import { FileSystem } from "./utils/FileSystem";
 import { Routes } from "./models/internal/Routes";
-
-const mustache = require("mustache");
-const prettier = require("prettier");
-const _ = require("lodash");
-// const { parseSchemas } = require("./schema");
-// const { parseRoutes, groupRoutes } = require("./routes");
-// const { createApiConfig } = require("./apiConfig");
-// const { getModelType } = require("./modelTypes");
-// const { getSwaggerObject, fixSwaggerScheme } = require("./swagger");
-// const { createComponentsMap, filterComponentsMap } = require("./components");
-// const { getTemplate, createFile, pathIsExist } = require("./files");
+import { version } from "../package.json";
 
 const prettierConfig = {
   printWidth: 120,
   tabWidth: 2,
   trailingComma: "all",
   parser: "typescript",
-};
+} as const;
 
 export const generateApi = (options: GenerateAPIOptions) =>
   new Promise(async (resolve, reject) => {
@@ -46,13 +38,10 @@ export const generateApi = (options: GenerateAPIOptions) =>
       generateRouteTypes,
       generateClient,
       output,
+      name,
     } = Configuration.update(options);
 
     const schema = await SwaggerSchemaContainer.create(input, url);
-
-    // Object.values(schema.components.schemas).forEach((schema) => {
-    //   console.log(createSchemaTransformer(schema).transform({ inline: false }))
-    // });
 
     const templateData: TemplateConfig = {
       apiConfig: new HttpClient(schema).toTemplatePart(),
@@ -64,31 +53,13 @@ export const generateApi = (options: GenerateAPIOptions) =>
       routes: new Routes(schema.paths).toTemplatePart(),
     };
 
-    // const componentsMap = createComponentsMap(components);
-    // const schemasMap = filterComponentsMap(componentsMap, "schemas");
-
-    // const parsedSchemas = parseSchemas(components);
-    // const routes = parseRoutes(schema.usage, parsedSchemas, componentsMap, components);
-    // const hasSecurityRoutes = routes.some((route) => route.security);
-    // const hasQueryRoutes = routes.some((route) => route.hasQuery);
-    // const hasFormDataRoutes = routes.some((route) => route.hasFormDataParams);
-    // const apiConfig = createApiConfig({ info, servers }, hasSecurityRoutes);
-
-    // const templateData = {
-    //   apiConfig,
-    //   modelTypes: _.map(schemasMap, getModelType),
-    //   hasFormDataRoutes,
-    //   hasSecurityRoutes,
-    //   hasQueryRoutes,
-    //   generateResponses,
-    //   routes: groupRoutes(routes),
-    // };
-
     const sourceFile = prettier.format(
       [
-        Template.render("./templates/api.mustache", templateData),
-        generateRouteTypes ? Template.render("./templates/route-types.mustache", templateData) : "",
-        generateClient ? Template.render("./templates/client.mustache", templateData) : "",
+        Template.render("../templates/api.mustache", templateData),
+        generateRouteTypes
+          ? Template.render("../templates/route-types.mustache", templateData)
+          : "",
+        generateClient ? Template.render("../templates/client.mustache", templateData) : "",
       ].join(""),
       prettierConfig,
     );
@@ -105,7 +76,9 @@ export const generateApi = (options: GenerateAPIOptions) =>
 
 // TODO: REMOVE_ME
 generateApi({
-  input: path.resolve(__dirname, "../../swagger-test-cli.json"),
+  input: path.resolve(__dirname, "../swagger-test-cli.json"),
   url: "",
   generateClient: true,
+  output: ".",
+  name: "swagger-test-cli.ts",
 });

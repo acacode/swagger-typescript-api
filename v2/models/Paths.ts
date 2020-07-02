@@ -2,6 +2,7 @@ import * as _ from "lodash";
 import { OpenAPIV3 } from "openapi-types";
 import { RefWorker } from "../services/RefWorker";
 import { Path } from "./PathPart";
+import { OmitValue, PickValue } from "../interfaces/utility";
 
 export type PathItemOperations = PickValue<OpenAPIV3.PathItemObject, OpenAPIV3.OperationObject>;
 export type PathItemCommon = OmitValue<OpenAPIV3.PathItemObject, OpenAPIV3.OperationObject>;

@@ -2,7 +2,7 @@ import { Component } from "./Component";
 import { OpenAPIV3 } from "openapi-types";
 import { TransferContent, TransferContentKind } from "./TransferContent";
 import { TransformOptions } from "../transformers/SchemaTransformer";
-import { EXTRA_TYPES } from "../transformers/PrimitiveSchemaTransformer";
+import { EXTRA_TYPES } from "../transformers/schema/getPrimitiveType";
 
 type TransferableComponent = {
   content?: Record<string, OpenAPIV3.MediaTypeObject>;

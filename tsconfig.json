@@ -6,13 +6,14 @@
     "strict": false,
     "allowJs": true,
     "moduleResolution": "Node",
-    "baseUrl": "./src/v2",
+    "baseUrl": "./v2",
     "typeRoots": ["./types", "./node_modules/@types"],
     "types": ["node"],
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
+    "resolveJsonModule": true,
     "outDir": "./dist",
     "declaration": true
   },
-  "include": ["./src/v2", "./types"]
+  "include": ["./v2", "./types"]
 }

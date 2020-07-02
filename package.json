@@ -21,8 +21,8 @@
   },
   "author": "acacode",
   "license": "MIT",
-  "typings": "dist/index.d.ts",
-  "main": "dist/index.js",
+  "typings": "dist/generateApi.d.ts",
+  "main": "dist/generateApi.js",
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/js-yaml": "^3.12.4",
@@ -47,8 +47,8 @@
     "swagger2openapi": "^6.0.3"
   },
   "bin": {
-    "swagger-typescript-api": "index.js",
-    "sta": "index.js"
+    "swagger-typescript-api": "dist/generateApi.js",
+    "sta": "dist/generateApi.js"
   },
   "husky": {
     "hooks": {
@@ -67,9 +67,8 @@
     "http"
   ],
   "files": [
-    "src",
-    "index.js",
-    "index.d.ts",
+    "dist",
+    "templates",
     "LICENSE"
   ],
   "bugs": {

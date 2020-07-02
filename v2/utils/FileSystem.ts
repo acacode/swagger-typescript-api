@@ -13,12 +13,14 @@ export class FileSystem {
     return !!path && fs.existsSync(path);
   }
 
+  /** returns path where swagger-typescript-api script was called */
   static resolveUserPath(...paths: string[]) {
     return path.resolve(process.cwd(), ...paths);
   }
 
+  /** returns "src" path */
   static resolveProjectPath(...paths: string[]) {
-    return path.resolve(__dirname, "../../", ...paths);
+    return path.resolve(__dirname, "../", ...paths);
   }
 
   static createFile(pathTo: string, fileName: string, content: string) {

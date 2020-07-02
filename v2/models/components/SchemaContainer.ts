@@ -161,7 +161,7 @@ export class SchemaContainer extends Component<OpenAPIV3.SchemaObject> {
   }
 
   static isObjectSchema(schema?: OpenAPIV3.SchemaObject) {
-    return schema && !!(schema.properties && _.keys(schema.properties).length);
+    return schema && schema.type === "object";
   }
 
   static isComplexSchema(schema?: OpenAPIV3.SchemaObject) {

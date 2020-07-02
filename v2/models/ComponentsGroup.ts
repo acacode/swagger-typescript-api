@@ -2,7 +2,7 @@ import * as _ from "lodash";
 import { fromRecord, ComponentRawType, fromArray, Component } from "./Component";
 import { OpenAPIV3 } from "openapi-types";
 import { SchemaContainer } from "./components/SchemaContainer";
-import { EXTRA_TYPES } from "../transformers/PrimitiveSchemaTransformer";
+import { EXTRA_TYPES } from "../transformers/schema/getPrimitiveType";
 import { TransformOptions } from "../transformers/SchemaTransformer";
 
 export type ComponentRawGroup<T extends ComponentRawType> = Record<

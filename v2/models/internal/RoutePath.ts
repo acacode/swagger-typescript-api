@@ -6,7 +6,7 @@ import { ParameterKind } from "../components/ParameterContainer";
 import { SchemaContainer } from "../components/SchemaContainer";
 import { formatDescription } from "../../utils/common";
 import { Configuration } from "../../services/Configuration";
-import { EXTRA_TYPES } from "../../transformers/PrimitiveSchemaTransformer";
+import { EXTRA_TYPES } from "../../transformers/schema/getPrimitiveType";
 
 export class RoutePath implements TemplateConfigRoute {
   bodyArg: string;
