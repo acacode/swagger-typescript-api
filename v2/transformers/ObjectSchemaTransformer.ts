@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import { SchemaTransformer, TransformOptions } from "./SchemaTransformer";
 import { SchemaContainer } from "../swagger/components/SchemaContainer";
-import { formatDescription } from "./utils/common";
+import { formatDescription } from "./utils/formatDescription";
 import { checkAndAddNull } from "./utils/checkAndAddNull";
 import { isValidName } from "./utils/fixRefName";
 import { getPrimitiveType } from "./utils/getPrimitiveType";

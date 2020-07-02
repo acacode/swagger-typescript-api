@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import { formatDescription } from "../transformers/utils/common";
+import { formatDescription } from "../transformers/utils/formatDescription";
 
 interface CodeGenType {
   name: string;
