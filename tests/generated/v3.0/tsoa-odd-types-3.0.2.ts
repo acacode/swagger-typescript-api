@@ -10,6 +10,11 @@
  * ---------------------------------------------------------------
  */
 
+export interface GetProfileBioDTO {
+  candidateId?: number;
+  cityName?: string | null;
+}
+
 export interface AuthUser {
   username: string;
   password: string;
