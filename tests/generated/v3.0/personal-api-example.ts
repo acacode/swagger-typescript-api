@@ -20,9 +20,9 @@ export interface PickUserTypeExcludeKeysIdOrId {
 
 export type OmitUserTypeIdOrId = PickUserTypeExcludeKeysIdOrId;
 
-export type OmitId_UserType_ = OmitUserTypeIdOrId;
+export type OmitIdUserType = OmitUserTypeIdOrId;
 
-export type AuthUserType = OmitId_UserType_;
+export type AuthUserType = OmitIdUserType;
 
 export enum JobKind {
   COMPANY = "COMPANY",
@@ -94,14 +94,14 @@ export interface PickJobTypeExcludeKeysIdOrId {
 
 export type OmitJobTypeIdOrId = PickJobTypeExcludeKeysIdOrId;
 
-export type OmitId_JobType_ = OmitJobTypeIdOrId;
+export type OmitIdJobType = OmitJobTypeIdOrId;
 
-export type JobUpdateType = OmitId_JobType_;
+export type JobUpdateType = OmitIdJobType;
 
 /**
  * From T, pick a set of properties whose keys are in the union K
  */
-export interface Pick_ProjectType_ExcludeKeys_job {
+export interface PickProjectTypeExcludeKeysJob {
   id: string;
   name?: string;
   year: number;
@@ -112,9 +112,9 @@ export interface Pick_ProjectType_ExcludeKeys_job {
   teamSize: string;
 }
 
-export type Omit_ProjectType_job_ = Pick_ProjectType_ExcludeKeys_job;
+export type OmitProjectTypeJob = PickProjectTypeExcludeKeysJob;
 
-export type ExtractedProjectType = Omit_ProjectType_job_ & { job: JobType };
+export type ExtractedProjectType = OmitProjectTypeJob & { job: JobType };
 
 /**
  * From T, pick a set of properties whose keys are in the union K
@@ -132,9 +132,9 @@ export interface PickProjectTypeExcludeKeysIdOrId {
 
 export type OmitProjectTypeIdOrId = PickProjectTypeExcludeKeysIdOrId;
 
-export type OmitId_ProjectType_ = OmitProjectTypeIdOrId;
+export type OmitIdProjectType = OmitProjectTypeIdOrId;
 
-export type ProjectUpdateType = OmitId_ProjectType_;
+export type ProjectUpdateType = OmitIdProjectType;
 
 export interface ProjectType {
   id: string;

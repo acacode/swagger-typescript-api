@@ -49,7 +49,7 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, content
     const { content } = parseSchema(schema, "none", inlineExtraFormatters);
     const foundedSchemaByName = _.find(
       parsedSchemas,
-      (parsedSchema) => parsedSchema.name === content,
+      (parsedSchema) => checkAndRenameModelName(parsedSchema.name) === content,
     );
     const foundSchemaByContent = _.find(parsedSchemas, (parsedSchema) =>
       _.isEqual(parsedSchema.content, content),

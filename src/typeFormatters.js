@@ -42,7 +42,9 @@ const formatters = {
 
     return content;
   },
-  primitive: (content) => checkAndRenameModelName(content),
+  primitive: (content) => {
+    return content;
+  },
 };
 
 const inlineExtraFormatters = {

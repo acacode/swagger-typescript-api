@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-export interface dataSetList {
+export interface DataSetList {
   total?: number;
   apis?: { apiKey?: string; apiVersionNumber?: string; apiUrl?: string; apiDocumentationUrl?: string }[];
 }
@@ -109,7 +109,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
    * @summary List available data sets
    * @request GET:/
    */
-  listDataSets = (params?: RequestParams) => this.request<dataSetList, any>(`/`, "GET", params);
+  listDataSets = (params?: RequestParams) => this.request<DataSetList, any>(`/`, "GET", params);
 
   dataset = {
     /**

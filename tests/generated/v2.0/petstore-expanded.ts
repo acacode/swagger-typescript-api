@@ -22,6 +22,20 @@ export interface Error {
   message: string;
 }
 
+export interface PageTemplateResponseDto {
+  content?: any[];
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: any;
+  size?: number;
+  sort?: any;
+  totalElements?: number;
+  totalPages?: number;
+}
+
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };
