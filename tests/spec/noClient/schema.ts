@@ -13,7 +13,7 @@
 /**
  * A user or organization
  */
-export interface actor {
+export interface Actor {
   avatar_url?: string;
   bio?: string;
 
@@ -60,7 +60,7 @@ export interface actor {
   url?: string;
 }
 
-export interface asset {
+export interface Asset {
   content_type?: string;
   created_at?: string;
   download_count?: number;
@@ -70,34 +70,34 @@ export interface asset {
   size?: number;
   state?: string;
   updated_at?: string;
-  uploader?: user;
+  uploader?: User;
   url?: string;
 }
 
-export interface assetPatch {
+export interface AssetPatch {
   label?: string;
   name: string;
 }
 
-export type assets = asset[];
+export type Assets = Asset[];
 
-export type assignees = user[];
+export type Assignees = User[];
 
-export interface blob {
+export interface Blob {
   content?: string;
   encoding?: "utf-8" | "base64";
   sha?: string;
   size?: number;
 }
 
-export interface blobs {
+export interface Blobs {
   sha?: string;
 }
 
-export interface branch {
+export interface Branch {
   _links?: { html?: string; self?: string };
   commit?: {
-    author?: user;
+    author?: User;
     commit?: {
       author?: { date?: string; email?: string; name?: string };
       committer?: { date?: string; email?: string; name?: string };
@@ -105,7 +105,7 @@ export interface branch {
       tree?: { sha?: string; url?: string };
       url?: string;
     };
-    committer?: user;
+    committer?: User;
     parents?: { sha?: string; url?: string }[];
     sha?: string;
     url?: string;
@@ -113,22 +113,22 @@ export interface branch {
   name?: string;
 }
 
-export type branches = { commit?: { sha?: string; url?: string }; name?: string }[];
+export type Branches = { commit?: { sha?: string; url?: string }; name?: string }[];
 
-export type codeFrequencyStats = number[];
+export type CodeFrequencyStats = number[];
 
-export interface comment {
+export interface Comment {
   body?: string;
 }
 
-export interface commentBody {
+export interface CommentBody {
   body: string;
 }
 
-export type comments = { body?: string; created_at?: string; id?: number; url?: string; user?: user }[];
+export type Comments = { body?: string; created_at?: string; id?: number; url?: string; user?: User }[];
 
-export interface commit {
-  author?: user;
+export interface Commit {
+  author?: User;
   commit?: {
     author?: { date?: string; email?: string; name?: string };
     committer?: { date?: string; email?: string; name?: string };
@@ -136,7 +136,7 @@ export interface commit {
     tree?: { sha?: string; url?: string };
     url?: string;
   };
-  committer?: user;
+  committer?: User;
   files?: {
     additions?: number;
     blob_url?: string;
@@ -153,9 +153,9 @@ export interface commit {
   url?: string;
 }
 
-export type commitActivityStats = { days?: number[]; total?: number; week?: number }[];
+export type CommitActivityStats = { days?: number[]; total?: number; week?: number }[];
 
-export interface commitComment {
+export interface CommitComment {
   body?: string;
   commit_id?: string;
 
@@ -170,10 +170,10 @@ export interface commitComment {
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-  user?: user;
+  user?: User;
 }
 
-export interface commitCommentBody {
+export interface CommitCommentBody {
   body: string;
 
   /** Deprecated - Use position parameter instead. */
@@ -192,8 +192,8 @@ export interface commitCommentBody {
   sha: string;
 }
 
-export type commits = {
-  author?: user;
+export type Commits = {
+  author?: User;
   commit?: {
     author?: { date?: string; email?: string; name?: string };
     committer?: { date?: string; email?: string; name?: string };
@@ -201,7 +201,7 @@ export type commits = {
     tree?: { sha?: string; url?: string };
     url?: string;
   };
-  committer?: user;
+  committer?: User;
   parents?: { sha?: string; url?: string }[];
   sha?: string;
   url?: string;
@@ -210,7 +210,7 @@ export type commits = {
 export interface CompareCommits {
   ahead_by?: number;
   base_commit?: {
-    author?: user;
+    author?: User;
     commit?: {
       author?: { date?: string; email?: string; name?: string };
       committer?: { date?: string; email?: string; name?: string };
@@ -218,14 +218,14 @@ export interface CompareCommits {
       tree?: { sha?: string; url?: string };
       url?: string;
     };
-    committer?: user;
+    committer?: User;
     parents?: { sha?: string; url?: string }[];
     sha?: string;
     url?: string;
   };
   behind_by?: number;
   commits?: {
-    author?: user;
+    author?: User;
     commit?: {
       author?: { date?: string; email?: string; name?: string };
       committer?: { date?: string; email?: string; name?: string };
@@ -233,7 +233,7 @@ export interface CompareCommits {
       tree?: { sha?: string; url?: string };
       url?: string;
     };
-    committer?: user;
+    committer?: User;
     parents?: { sha?: string; url?: string }[];
     sha?: string;
     url?: string;
@@ -273,13 +273,13 @@ export interface ContentsPath {
   url?: string;
 }
 
-export type contributorsStats = {
+export type ContributorsStats = {
   author?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
   total?: number;
   weeks?: { a?: number; c?: number; d?: number; w?: string }[];
 }[];
 
-export interface createFile {
+export interface CreateFile {
   commit?: {
     author?: { date?: string; email?: string; name?: string };
     committer?: { date?: string; email?: string; name?: string };
@@ -303,13 +303,13 @@ export interface createFile {
   };
 }
 
-export interface createFileBody {
+export interface CreateFileBody {
   committer?: { email?: string; name?: string };
   content?: string;
   message?: string;
 }
 
-export interface deleteFile {
+export interface DeleteFile {
   commit?: {
     author?: { date?: string; email?: string; name?: string };
     committer?: { date?: string; email?: string; name?: string };
@@ -323,13 +323,13 @@ export interface deleteFile {
   content?: string;
 }
 
-export interface deleteFileBody {
+export interface DeleteFileBody {
   committer?: { email?: string; name?: string };
   message?: string;
   sha?: string;
 }
 
-export interface deployment {
+export interface Deployment {
   description?: string;
   payload?: { deploy_user?: string; environment?: string; room_id?: number };
   ref?: string;
@@ -337,7 +337,7 @@ export interface deployment {
 
 export interface DeploymentResp {
   created_at?: string;
-  creator?: user;
+  creator?: User;
   description?: string;
   id?: number;
   payload?: string;
@@ -349,7 +349,7 @@ export interface DeploymentResp {
 
 export type DeploymentStatuses = {
   created_at?: string;
-  creator?: user;
+  creator?: User;
   description?: string;
   id?: number;
   payload?: string;
@@ -365,7 +365,7 @@ export interface DeploymentStatusesCreate {
   target_url?: string;
 }
 
-export interface download {
+export interface Download {
   content_type?: string;
   description?: string;
   download_count?: number;
@@ -376,31 +376,31 @@ export interface download {
   url?: string;
 }
 
-export type downloads = download[];
+export type Downloads = Download[];
 
-export interface editTeam {
+export interface EditTeam {
   name: string;
   permission?: "pull" | "push" | "admin";
 }
 
-export type emailsPost = string[];
+export type EmailsPost = string[];
 
-export type emojis = Record<string, string>;
+export type Emojis = Record<string, string>;
 
-export interface event {
-  actor?: actor;
+export interface Event {
+  actor?: Actor;
   created_at?: object;
   id?: number;
-  org?: organization;
+  org?: Organization;
   payload?: object;
   public?: boolean;
   repo?: { id?: number; name?: string; url?: string };
   type?: string;
 }
 
-export type events = event[];
+export type Events = Event[];
 
-export interface feeds {
+export interface Feeds {
   _links?: {
     current_user?: { href?: string; type?: string };
     current_user_actor?: { href?: string; type?: string };
@@ -417,13 +417,13 @@ export interface feeds {
   user_url?: string;
 }
 
-export interface forkBody {
+export interface ForkBody {
   organization?: string;
 }
 
-export type forks = repos;
+export type Forks = Repos;
 
-export interface gist {
+export interface Gist {
   comments?: number;
   comments_url?: string;
 
@@ -431,64 +431,64 @@ export interface gist {
   created_at?: string;
   description?: string;
   files?: { "ring.erl"?: { filename?: string; raw_url?: string; size?: number } };
-  forks?: { created_at?: string; url?: string; user?: user }[];
+  forks?: { created_at?: string; url?: string; user?: User }[];
   git_pull_url?: string;
   git_push_url?: string;
   history?: {
     change_status?: { additions?: number; deletions?: number; total?: number };
     committed_at?: string;
     url?: string;
-    user?: user;
+    user?: User;
     version?: string;
   }[];
   html_url?: string;
   id?: string;
   public?: boolean;
   url?: string;
-  user?: user;
+  user?: User;
 }
 
-export type gists = {
+export type Gists = {
   comments?: number;
   comments_url?: string;
   created_at?: string;
   description?: string;
-  files?: { ring_erl?: { filename?: string; raw_url?: string; size?: number } };
+  files?: { "ring.erl"?: { filename?: string; raw_url?: string; size?: number } };
   git_pull_url?: string;
   git_push_url?: string;
   html_url?: string;
   id?: string;
   public?: boolean;
   url?: string;
-  user?: user;
+  user?: User;
 }[];
 
-export interface gitCommit {
+export interface GitCommit {
   author?: { date?: string; email?: string; name?: string };
   message?: string;
   parents?: string;
   tree?: string;
 }
 
-export interface gitRefPatch {
+export interface GitRefPatch {
   force?: boolean;
   sha?: string;
 }
 
-export type gitignore = any[];
+export type Gitignore = any[];
 
 export interface GitignoreLang {
   name?: string;
   source?: string;
 }
 
-export interface headBranch {
+export interface HeadBranch {
   object?: { sha?: string; type?: string; url?: string };
   ref?: string;
   url?: string;
 }
 
-export type hook = {
+export type Hook = {
   active?: boolean;
   config?: { content_type?: string; url?: string };
   created_at?: string;
@@ -515,12 +515,12 @@ export type hook = {
   url?: string;
 }[];
 
-export interface hookBody {
+export interface HookBody {
   active?: boolean;
   add_events?: string[];
 }
 
-export interface issue {
+export interface Issue {
   assignee?: string;
   body?: string;
   labels?: string[];
@@ -528,15 +528,15 @@ export interface issue {
   title?: string;
 }
 
-export interface issueEvent {
-  actor?: actor;
+export interface IssueEvent {
+  actor?: Actor;
   commit_id?: string;
 
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   event?: string;
   issue?: {
-    assignee?: user;
+    assignee?: User;
     body?: string;
     closed_at?: string;
     comments?: number;
@@ -546,7 +546,7 @@ export interface issueEvent {
     milestone?: {
       closed_issues?: number;
       created_at?: string;
-      creator?: user;
+      creator?: User;
       description?: string;
       due_on?: string;
       number?: number;
@@ -561,15 +561,15 @@ export interface issueEvent {
     title?: string;
     updated_at?: string;
     url?: string;
-    user?: user;
+    user?: User;
   };
   url?: string;
 }
 
-export type issueEvents = issueEvent[];
+export type IssueEvents = IssueEvent[];
 
-export type issues = {
-  assignee?: user;
+export type Issues = {
+  assignee?: User;
   body?: string;
   closed_at?: string;
   comments?: number;
@@ -579,7 +579,7 @@ export type issues = {
   milestone?: {
     closed_issues?: number;
     created_at?: string;
-    creator?: user;
+    creator?: User;
     description?: string;
     due_on?: string;
     number?: number;
@@ -594,10 +594,10 @@ export type issues = {
   title?: string;
   updated_at?: string;
   url?: string;
-  user?: user;
+  user?: User;
 }[];
 
-export interface issuesComment {
+export interface IssuesComment {
   body?: string;
 
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
@@ -608,10 +608,10 @@ export interface issuesComment {
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-  user?: user;
+  user?: User;
 }
 
-export type issuesComments = {
+export type IssuesComments = {
   _links?: { html?: { href?: string }; pull_request?: { href?: string }; self?: { href?: string } };
   body?: string;
   commit_id?: string;
@@ -621,50 +621,50 @@ export type issuesComments = {
   position?: number;
   updated_at?: string;
   url?: string;
-  user?: user;
+  user?: User;
 }[];
 
-export type keys = { id?: number; key?: string; title?: string; url?: string }[];
+export type Keys = { id?: number; key?: string; title?: string; url?: string }[];
 
-export interface label {
+export interface Label {
   color?: string;
   name?: string;
   url?: string;
 }
 
-export type labels = { color?: string; name?: string; url?: string }[];
+export type Labels = { color?: string; name?: string; url?: string }[];
 
-export type languages = Record<string, number>;
+export type Languages = Record<string, number>;
 
-export interface markdown {
+export interface Markdown {
   context?: string;
   mode?: string;
   text?: string;
 }
 
-export interface merge {
+export interface Merge {
   merged?: boolean;
   message?: string;
   sha?: string;
 }
 
-export interface mergePullBody {
+export interface MergePullBody {
   commit_message?: string;
 }
 
-export interface mergesBody {
+export interface MergesBody {
   base?: string;
   commit_message?: string;
   head?: string;
 }
 
-export interface mergesConflict {
+export interface MergesConflict {
   /** Error message */
   message?: string;
 }
 
-export interface mergesSuccessful {
-  author?: user;
+export interface MergesSuccessful {
+  author?: User;
   comments_url?: string;
   commit?: {
     author?: { date?: string; email?: string; name?: string };
@@ -674,7 +674,7 @@ export interface mergesSuccessful {
     tree?: { sha?: string; url?: string };
     url?: string;
   };
-  committer?: user;
+  committer?: User;
   merged?: boolean;
   message?: string;
   parents?: { sha?: string; url?: string }[];
@@ -682,17 +682,17 @@ export interface mergesSuccessful {
   url?: string;
 }
 
-export interface meta {
+export interface Meta {
   git?: string[];
   hooks?: string[];
 }
 
-export interface milestone {
+export interface Milestone {
   closed_issues?: number;
 
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
-  creator?: user;
+  creator?: User;
   description?: string;
 
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
@@ -704,18 +704,18 @@ export interface milestone {
   url?: string;
 }
 
-export interface milestoneUpdate {
+export interface MilestoneUpdate {
   description?: string;
   due_on?: string;
   state?: string;
   title?: string;
 }
 
-export interface notificationMarkRead {
+export interface NotificationMarkRead {
   last_read_at?: string;
 }
 
-export interface notifications {
+export interface Notifications {
   id?: number;
   last_read_at?: string;
   reason?: string;
@@ -726,7 +726,7 @@ export interface notifications {
     html_url?: string;
     id?: number;
     name?: string;
-    owner?: actor;
+    owner?: Actor;
     private?: boolean;
     url?: string;
   };
@@ -736,25 +736,25 @@ export interface notifications {
   url?: string;
 }
 
-export interface orgTeamsPost {
+export interface OrgTeamsPost {
   name: string;
   permission?: "pull" | "push" | "admin";
   repo_names?: string[];
 }
 
-export type organization = actor & any;
+export type Organization = Actor & any;
 
-export interface organizationAsTeamMember {
+export interface OrganizationAsTeamMember {
   errors?: { code?: string; field?: string; resource?: string }[];
   message?: string;
 }
 
-export interface participationStats {
+export interface ParticipationStats {
   all?: number[];
   owner?: number[];
 }
 
-export interface patchGist {
+export interface PatchGist {
   description?: string;
   files?: {
     "delete_this_file.txt"?: string;
@@ -764,7 +764,7 @@ export interface patchGist {
   };
 }
 
-export interface patchOrg {
+export interface PatchOrg {
   /** Billing email address. This address is not publicized. */
   billing_email?: string;
   company?: string;
@@ -775,13 +775,13 @@ export interface patchOrg {
   name?: string;
 }
 
-export interface postGist {
+export interface PostGist {
   description?: string;
   files?: { "file1.txt"?: { content?: string } };
   public?: boolean;
 }
 
-export interface postRepo {
+export interface PostRepo {
   /** True to create an initial commit with empty README. Default is false. */
   auto_init?: boolean;
   description?: string;
@@ -807,7 +807,7 @@ export interface postRepo {
   team_id?: number;
 }
 
-export interface pullRequest {
+export interface PullRequest {
   _links?: {
     comments?: { href?: string };
     html?: { href?: string };
@@ -818,7 +818,7 @@ export interface pullRequest {
   base?: {
     label?: string;
     ref?: string;
-    repo?: repo;
+    repo?: Repo;
     sha?: string;
     user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
   };
@@ -833,7 +833,7 @@ export interface pullRequest {
   head?: {
     label?: string;
     ref?: string;
-    repo?: repo;
+    repo?: Repo;
     sha?: string;
     user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
   };
@@ -853,13 +853,13 @@ export interface pullRequest {
   user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
 }
 
-export interface pullUpdate {
+export interface PullUpdate {
   body?: string;
   state?: string;
   title?: string;
 }
 
-export type pulls = {
+export type Pulls = {
   _links?: {
     comments?: { href?: string };
     html?: { href?: string };
@@ -869,7 +869,7 @@ export type pulls = {
   base?: {
     label?: string;
     ref?: string;
-    repo?: repo;
+    repo?: Repo;
     sha?: string;
     user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
   };
@@ -880,7 +880,7 @@ export type pulls = {
   head?: {
     label?: string;
     ref?: string;
-    repo?: repo;
+    repo?: Repo;
     sha?: string;
     user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
   };
@@ -896,7 +896,7 @@ export type pulls = {
   user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
 }[];
 
-export interface pullsComment {
+export interface PullsComment {
   _links?: { html?: { href?: string }; pull_request?: { href?: string }; self?: { href?: string } };
   body?: string;
   commit_id?: string;
@@ -913,14 +913,14 @@ export interface pullsComment {
   user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
 }
 
-export interface pullsCommentPost {
+export interface PullsCommentPost {
   body?: string;
   commit_id?: string;
   path?: string;
   position?: number;
 }
 
-export type pullsComments = {
+export type PullsComments = {
   _links?: { html?: { href?: string }; pull_request?: { href?: string }; self?: { href?: string } };
   body?: string;
   commit_id?: string;
@@ -933,14 +933,14 @@ export type pullsComments = {
   user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
 }[];
 
-export interface pullsPost {
+export interface PullsPost {
   base?: string;
   body?: string;
   head?: string;
   title?: string;
 }
 
-export interface putSubscription {
+export interface PutSubscription {
   created_at?: string;
   ignored?: boolean;
   reason?: object;
@@ -949,11 +949,11 @@ export interface putSubscription {
   url?: string;
 }
 
-export interface rate_limit {
+export interface RateLimit {
   rate?: { limit?: number; remaining?: number; reset?: number };
 }
 
-export type ref = {
+export type Ref = {
   created_at?: string;
   creator?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
   description?: string;
@@ -964,7 +964,7 @@ export type ref = {
   url?: string;
 }[];
 
-export type refStatus = {
+export type RefStatus = {
   commit_url?: string;
   name?: string;
   repository_url?: string;
@@ -982,14 +982,14 @@ export type refStatus = {
   }[];
 }[];
 
-export type refs = { object?: { sha?: string; type?: string; url?: string }; ref?: string; url?: string }[];
+export type Refs = { object?: { sha?: string; type?: string; url?: string }; ref?: string; url?: string }[];
 
-export interface refsBody {
+export interface RefsBody {
   ref?: string;
   sha?: string;
 }
 
-export interface release {
+export interface Release {
   assets?: {
     content_type?: string;
     created_at?: string;
@@ -1000,11 +1000,11 @@ export interface release {
     size?: number;
     state?: string;
     updated_at?: string;
-    uploader?: user;
+    uploader?: User;
     url?: string;
   }[];
   assets_url?: string;
-  author?: user;
+  author?: User;
   body?: string;
   created_at?: string;
   draft?: boolean;
@@ -1030,7 +1030,7 @@ export interface ReleaseCreate {
   target_commitish?: string;
 }
 
-export type releases = {
+export type Releases = {
   assets?: {
     content_type?: string;
     created_at?: string;
@@ -1041,11 +1041,11 @@ export type releases = {
     size?: number;
     state?: string;
     updated_at?: string;
-    uploader?: user;
+    uploader?: User;
     url?: string;
   }[];
   assets_url?: string;
-  author?: user;
+  author?: User;
   body?: string;
   created_at?: string;
   draft?: boolean;
@@ -1062,7 +1062,7 @@ export type releases = {
   zipball_url?: string;
 }[];
 
-export interface repo {
+export interface Repo {
   clone_url?: string;
 
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
@@ -1085,15 +1085,15 @@ export interface repo {
   name?: string;
   open_issues?: number;
   open_issues_count?: number;
-  organization?: organization;
-  owner?: actor;
-  parent?: repo & any;
+  organization?: Organization;
+  owner?: Actor;
+  parent?: Repo & any;
   private?: boolean;
 
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   pushed_at?: string;
   size?: number;
-  source?: repo & any;
+  source?: Repo & any;
   ssh_url?: string;
   svn_url?: string;
 
@@ -1106,7 +1106,7 @@ export interface repo {
 
 export type RepoDeployments = {
   created_at?: string;
-  creator?: user;
+  creator?: User;
   description?: string;
   id?: number;
   payload?: string;
@@ -1116,7 +1116,7 @@ export type RepoDeployments = {
   url?: string;
 }[];
 
-export type repoComments = {
+export type RepoComments = {
   body?: string;
   commit_id?: string;
   created_at?: string;
@@ -1127,10 +1127,10 @@ export type repoComments = {
   position?: number;
   updated_at?: string;
   url?: string;
-  user?: user;
+  user?: User;
 }[];
 
-export interface repoCommit {
+export interface RepoCommit {
   author?: { date?: string; email?: string; name?: string };
   committer?: { date?: string; email?: string; name?: string };
   message?: string;
@@ -1140,14 +1140,14 @@ export interface repoCommit {
   url?: string;
 }
 
-export interface repoCommitBody {
+export interface RepoCommitBody {
   author?: { date?: string; email?: string; name?: string };
   message: string;
   parents: string[];
   tree: string;
 }
 
-export interface repoEdit {
+export interface RepoEdit {
   description?: string;
   has_downloads?: boolean;
   has_issues?: boolean;
@@ -1157,7 +1157,7 @@ export interface repoEdit {
   private?: boolean;
 }
 
-export type repos = repo[];
+export type Repos = Repo[];
 
 export interface SearchCode {
   items?: {
@@ -1198,7 +1198,7 @@ export interface SearchCode {
       milestones_url?: string;
       name?: string;
       notifications_url?: string;
-      owner?: actor;
+      owner?: Actor;
       private?: boolean;
       pulls_url?: string;
       stargazers_url?: string;
@@ -1238,7 +1238,7 @@ export interface SearchIssues {
     title?: string;
     updated_at?: string;
     url?: string;
-    user?: user;
+    user?: User;
   }[];
   total_count?: number;
 }
@@ -1262,28 +1262,28 @@ export interface SearchIssuesByKeyword {
 }
 
 export interface SearchRepositories {
-  items?: repo[];
+  items?: Repo[];
   total_count?: number;
 }
 
 export interface SearchRepositoriesByKeyword {
-  repositories?: repo[];
+  repositories?: Repo[];
 }
 
 export interface SearchUserByEmail {
-  user?: user;
+  user?: User;
 }
 
 export interface SearchUsers {
-  items?: users;
+  items?: Users;
   total_count?: number;
 }
 
 export interface SearchUsersByKeyword {
-  users?: users;
+  users?: Users;
 }
 
-export interface subscription {
+export interface Subscription {
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   ignored?: boolean;
@@ -1294,12 +1294,12 @@ export interface subscription {
   url?: string;
 }
 
-export interface subscriptionBody {
+export interface SubscriptionBody {
   ignored?: boolean;
   subscribed?: boolean;
 }
 
-export interface tag {
+export interface Tag {
   /** String of the tag message. */
   message?: string;
   object?: { sha?: string; type?: "commit" | "tree" | "blob"; url?: string };
@@ -1311,7 +1311,7 @@ export interface tag {
   url?: string;
 }
 
-export interface tagBody {
+export interface TagBody {
   /** String of the tag message. */
   message: string;
 
@@ -1326,9 +1326,9 @@ export interface tagBody {
   type: "commit" | "tree" | "blob";
 }
 
-export type tags = tag[];
+export type Tags = Tag[];
 
-export interface team {
+export interface Team {
   id?: number;
   members_count?: number;
   name?: string;
@@ -1337,14 +1337,14 @@ export interface team {
   url?: string;
 }
 
-export interface teamMembership {
+export interface TeamMembership {
   state?: string;
   url?: string;
 }
 
-export type teamRepos = repos;
+export type TeamRepos = Repos;
 
-export type teams = { id?: number; name?: string; url?: string }[];
+export type Teams = { id?: number; name?: string; url?: string }[];
 
 export type TeamsList = {
   id?: number;
@@ -1356,7 +1356,7 @@ export type TeamsList = {
   url?: string;
 }[];
 
-export interface tree {
+export interface Tree {
   sha?: string;
   tree?: {
     mode?: "100644" | "100755" | "040000" | "160000" | "120000";
@@ -1369,16 +1369,16 @@ export interface tree {
   url?: string;
 }
 
-export interface trees {
+export interface Trees {
   base_tree?: string;
 
   /** SHA1 checksum ID of the object in the tree. */
   sha?: string;
-  tree?: tree[];
+  tree?: Tree[];
   url?: string;
 }
 
-export type user = actor & any;
+export type User = Actor & any;
 
 export type UserEmails = string[];
 
@@ -1404,4 +1404,4 @@ export interface UserUpdate {
   name?: string;
 }
 
-export type users = user[];
+export type Users = User[];

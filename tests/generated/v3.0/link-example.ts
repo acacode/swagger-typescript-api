@@ -10,21 +10,21 @@
  * ---------------------------------------------------------------
  */
 
-export interface user {
+export interface User {
   username?: string;
   uuid?: string;
 }
 
-export interface repository {
+export interface Repository {
   slug?: string;
-  owner?: user;
+  owner?: User;
 }
 
-export interface pullrequest {
+export interface Pullrequest {
   id?: number;
   title?: string;
-  repository?: repository;
-  author?: user;
+  repository?: Repository;
+  author?: User;
 }
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
@@ -141,21 +141,21 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/2.0/users/{username}
      */
     getUserByName: (username: string, params?: RequestParams) =>
-      this.request<user, any>(`/2.0/users/${username}`, "GET", params),
+      this.request<User, any>(`/2.0/users/${username}`, "GET", params),
 
     /**
      * @name getRepositoriesByOwner
      * @request GET:/2.0/repositories/{username}
      */
     getRepositoriesByOwner: (username: string, params?: RequestParams) =>
-      this.request<repository[], any>(`/2.0/repositories/${username}`, "GET", params),
+      this.request<Repository[], any>(`/2.0/repositories/${username}`, "GET", params),
 
     /**
      * @name getRepository
      * @request GET:/2.0/repositories/{username}/{slug}
      */
     getRepository: (username: string, slug: string, params?: RequestParams) =>
-      this.request<repository, any>(`/2.0/repositories/${username}/${slug}`, "GET", params),
+      this.request<Repository, any>(`/2.0/repositories/${username}/${slug}`, "GET", params),
 
     /**
      * @name getPullRequestsByRepository
@@ -167,7 +167,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       query?: { state?: "open" | "merged" | "declined" },
       params?: RequestParams,
     ) =>
-      this.request<pullrequest[], any>(
+      this.request<Pullrequest[], any>(
         `/2.0/repositories/${username}/${slug}/pullrequests${this.addQueryParams(query)}`,
         "GET",
         params,
@@ -178,7 +178,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
      */
     getPullRequestsById: (username: string, slug: string, pid: string, params?: RequestParams) =>
-      this.request<pullrequest, any>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}`, "GET", params),
+      this.request<Pullrequest, any>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}`, "GET", params),
 
     /**
      * @name mergePullRequest

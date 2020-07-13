@@ -17,15 +17,9 @@
   },
   "host": "petstore.swagger.io",
   "basePath": "/api",
-  "schemes": [
-    "http"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/pets": {
       "get": {
@@ -164,9 +158,7 @@
           "$ref": "#/definitions/NewPet"
         },
         {
-          "required": [
-            "id"
-          ],
+          "required": ["id"],
           "properties": {
             "id": {
               "type": "integer",
@@ -178,9 +170,7 @@
     },
     "NewPet": {
       "type": "object",
-      "required": [
-        "name"
-      ],
+      "required": ["name"],
       "properties": {
         "name": {
           "type": "string"
@@ -192,10 +182,7 @@
     },
     "Error": {
       "type": "object",
-      "required": [
-        "code",
-        "message"
-      ],
+      "required": ["code", "message"],
       "properties": {
         "code": {
           "type": "integer",
@@ -205,6 +192,53 @@
           "type": "string"
         }
       }
+    },
+    "Page«TemplateResponseDto»": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TemplateResponseDto"
+          }
+        },
+        "empty": {
+          "type": "boolean"
+        },
+        "first": {
+          "type": "boolean"
+        },
+        "last": {
+          "type": "boolean"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "numberOfElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageable": {
+          "$ref": "#/definitions/Pageable"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "$ref": "#/definitions/Sort"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "Page«TemplateResponseDto»"
     }
   }
 }

@@ -10,6 +10,11 @@
  * ---------------------------------------------------------------
  */
 
+export interface GetProfileBioDTO {
+  candidateId?: number;
+  cityName?: string | null;
+}
+
 export interface AuthUser {
   username: string;
   password: string;
@@ -36,7 +41,7 @@ export interface Job {
 /**
  * From T, pick a set of properties whose keys are in the union K
  */
-export interface Pick_Job_github {
+export interface PickJobGithub {
   github?: string;
 }
 
@@ -45,7 +50,7 @@ export type UpdatedJob = Job;
 /**
  * From T, pick a set of properties whose keys are in the union K
  */
-export interface Pick_Job_ExcludeKeys_id {
+export interface PickJobExcludeKeysId {
   address?: string;
   isTool?: boolean;
   npm?: string;
@@ -55,9 +60,9 @@ export interface Pick_Job_ExcludeKeys_id {
   github?: string;
 }
 
-export type Omit_Job_id = Pick_Job_ExcludeKeys_id;
+export type OmitJobId = PickJobExcludeKeysId;
 
-export type JobUpdate = Omit_Job_id | Pick_Job_github | object;
+export type JobUpdate = OmitJobId | PickJobGithub | object;
 
 export interface Project {
   id: string;
@@ -74,7 +79,7 @@ export interface Project {
 /**
  * From T, pick a set of properties whose keys are in the union K
  */
-export interface Pick_Project_ExcludeKeys_idOrjob {
+export interface PickProjectExcludeKeysIdOrjob {
   teamSize: string;
   tags: string[];
   prefix?: string;
@@ -235,7 +240,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/jobs
      * @secure
      */
-    addJob: (data: Pick_Job_github, params?: RequestParams) =>
+    addJob: (data: PickJobGithub, params?: RequestParams) =>
       this.request<string, any>(`/jobs`, "POST", params, data, BodyType.Json, true),
 
     /**

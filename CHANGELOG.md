@@ -1,6 +1,11 @@
 # next release  
 
 
+# 1.11.0  
+
+Features:  
+- Improve the naming of model types ([#65 issue](https://github.com/acacode/swagger-typescript-api/issues/65))  
+
 # 1.10.0  
 
 Features:  
