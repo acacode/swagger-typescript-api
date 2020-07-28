@@ -56,7 +56,7 @@ export interface PushToken {
 
   /** issuer (URI) */
   iss: string;
-  nbf?: number;
+  nbf: number;
 
   /** UUID and public signing key */
   sub: string;

@@ -75,19 +75,26 @@ const getType = (schema) => {
   return primitiveType ? checkAndAddNull(schema, primitiveType) : DEFAULT_PRIMITIVE_TYPE;
 };
 
+const isRequired = (property) => {
+  if (property["x-omitempty"] === false) {
+    return true;
+  }
+
+  if (config.convertedFromSwagger2) {
+    return typeof property.nullable === "undefined" ? property.required : !property.nullable;
+  }
+  return !!property.required;
+};
+
 const getObjectTypeContent = (properties) => {
   return _.map(properties, (property, name) => {
-    const isRequired = config.convertedFromSwagger2
-      ? typeof property.nullable === "undefined"
-        ? property.required
-        : !property.nullable
-      : !!property.required;
+    const required = isRequired(property);
     return {
       $$raw: property,
       description: property.description,
-      isRequired,
+      isRequired: required,
       field: `${isValidName(name) ? name : `"${name}"`}${
-        isRequired ? "" : "?"
+        required ? "" : "?"
       }: ${getInlineParseContent(property)}`,
     };
   });

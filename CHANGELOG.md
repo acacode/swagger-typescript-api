@@ -1,6 +1,11 @@
 # next release  
 
 
+# 1.11.1  
+
+Fixes:  
+- handling `x-omitempty` property for definition properties ([#68 issue](https://github.com/acacode/swagger-typescript-api/issues/68))  
+
 # 1.11.0  
 
 Features:  
