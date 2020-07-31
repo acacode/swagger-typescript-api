@@ -71,6 +71,29 @@ generateApi({
   .then(sourceFile => fs.writeFile(path, sourceFile))
   .catch(e => console.error(e))
 
+// example with parsed schema  
+generateApi({
+  name: "ApiModule.ts", // name of output typescript file
+  spec: {
+    swagger: "2.0",
+    info: {
+      version: "1.0.0",
+      title: "Swagger Petstore",
+    },
+    host: "petstore.swagger.io",
+    basePath: "/api",
+    schemes: ["http"],
+    consumes: ["application/json"],
+    produces: ["application/json"],
+    paths: {
+      // ...
+    }
+    // ...
+  }
+})
+  .then(sourceFile => fs.writeFile(path, sourceFile))
+  .catch(e => console.error(e))
+
 ```
 
 ## 📄 Mass media  
