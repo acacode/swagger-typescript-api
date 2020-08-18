@@ -19,7 +19,7 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
       if (diagnostics.length) throw "Failed";
     })
     .catch((e) => {
-      console.error("routeTypes option test failed.");
+      console.error("specProperty option test failed.");
       throw e;
     });
 });
