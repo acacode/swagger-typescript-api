@@ -85,7 +85,7 @@ type TPromise<ResolveType, RejectType = any> = Omit<Promise<ResolveType>, "then"
   ): TPromise<ResolveType | TResult, RejectType>;
 };
 
-const enum BodyType {
+enum BodyType {
   Json,
 }
 
