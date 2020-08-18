@@ -160,7 +160,7 @@ const schemaParsers = {
       name: typeName,
       description: formatDescription(schema.description),
       content: _.map(schema.enum, (key) => ({
-        key,
+        key: isIntegerEnum ? key : checkAndRenameModelName(key),
         type,
         value: isIntegerEnum ? `${key}` : `"${key}"`,
       })),
