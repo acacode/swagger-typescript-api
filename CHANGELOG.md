@@ -1,10 +1,18 @@
 # next release  
 
 
-# 1.11.1  
+# 1.12.0   
+
+Features:  
+- Can provide ability to generate from swagger JSON directly not from a file? #69 (Thanks @JennieJi)  
 
 Fixes:  
-- handling `x-omitempty` property for definition properties ([#68 issue](https://github.com/acacode/swagger-typescript-api/issues/68))  
+- handling `x-omitempty` property for definition properties #68  
+- Additional properties map to empty interfaces (OpenAPI v3) #76  
+- Pattern fields in Path Item Object are treated as operations #75  
+- Remove const enum from default template #73  
+- enums with spaces throw an error #71  
+
 
 # 1.11.0  
 
