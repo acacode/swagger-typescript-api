@@ -150,10 +150,6 @@ Fixes:
 - Remove const enum from default template #73  
 - enums with spaces throw an error #71  
 
-# 1.11.1  
-
-Fixes:  
-- handling `x-omitempty` property for definition properties ([#68 issue](https://github.com/acacode/swagger-typescript-api/issues/68))  
 
 # 1.11.0  
 
