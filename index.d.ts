@@ -1,5 +1,3 @@
-import { Spec } from "swagger-schema-official";
-
 interface GenerateApiParams {
   /**
    * path to swagger schema
@@ -14,7 +12,7 @@ interface GenerateApiParams {
   /**
    * swagger schema JSON
    */
-  spec: Spec;
+  spec: import("swagger-schema-official").Spec;
 
   /**
    * default 'api.ts'
