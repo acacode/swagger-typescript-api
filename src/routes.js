@@ -170,27 +170,36 @@ const convertRouteParamsIntoObject = (params) =>
     },
   );
 
+const createRequestsMap = (requestInfoByMethodsMap) => {
+  const parameters = _.get(requestInfoByMethodsMap, "parameters");
+
+  return _.reduce(
+    requestInfoByMethodsMap,
+    (acc, requestInfo, method) => {
+      if (method.startsWith("x-") || ["parameters", "$ref"].includes(method)) {
+        return acc;
+      }
+
+      acc[method] = {
+        ...requestInfo,
+        parameters: _.compact(_.concat(parameters, requestInfo.parameters)),
+      };
+
+      return acc;
+    },
+    {},
+  );
+};
+
 const parseRoutes = ({ paths }, parsedSchemas) =>
   _.entries(paths).reduce((routes, [route, requestInfoByMethodsMap]) => {
-    parameters = _.get(requestInfoByMethodsMap, "parameters");
+    if (route.startsWith("x-")) return routes;
 
-    // TODO: refactor that hell
-    requestInfoByMethodsMap = _.reduce(
-      _.omit(requestInfoByMethodsMap, "parameters"),
-      (acc, requestInfo, method) => {
-        acc[method] = {
-          ...requestInfo,
-          parameters: _.compact(_.concat(parameters, requestInfo.parameters)),
-        };
-
-        return acc;
-      },
-      {},
-    );
+    const requestsMap = createRequestsMap(requestInfoByMethodsMap);
 
     return [
       ...routes,
-      ..._.map(requestInfoByMethodsMap, (requestInfo, method) => {
+      ..._.map(requestsMap, (requestInfo, method) => {
         const {
           operationId,
           requestBody,
