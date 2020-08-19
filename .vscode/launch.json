@@ -10,8 +10,7 @@
       "request": "launch",
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run-script", "generate:debug"],
-      "port": 9229
+      "runtimeArgs": ["run-script", "generate:debug"]
     },
     {
       "name": "Debug JSON CLI",
@@ -19,8 +18,7 @@
       "request": "launch",
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run-script", "cli:debug:json"],
-      "port": 9229
+      "runtimeArgs": ["run-script", "cli:debug:json"]
     },
     {
       "name": "Debug YAML CLI",
@@ -28,8 +26,7 @@
       "request": "launch",
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run-script", "cli:debug:yaml"],
-      "port": 9229
+      "runtimeArgs": ["run-script", "cli:debug:yaml"]
     }
   ]
 }

@@ -1,8 +1,6 @@
 {
   "swagger": "2.0",
-  "schemes": [
-    "https"
-  ],
+  "schemes": ["https"],
   "host": "6-dot-authentiqio.appspot.com",
   "basePath": "/",
   "info": {
@@ -19,9 +17,7 @@
     "termsOfService": "http://authentiq.com/terms/",
     "title": "Authentiq",
     "version": "6",
-    "x-apisguru-categories": [
-      "security"
-    ],
+    "x-apisguru-categories": ["security"],
     "x-logo": {
       "backgroundColor": "#F26641",
       "url": "https://api.apis.guru/v2/cache/logo/https_www.authentiq.com_theme_images_authentiq-logo-a-inverse.svg"
@@ -115,9 +111,7 @@
             "type": "string"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successfully deleted",
@@ -153,15 +147,10 @@
             "$ref": "#/responses/ErrorResponse"
           }
         },
-        "tags": [
-          "key",
-          "delete"
-        ]
+        "tags": ["key", "delete"]
       },
       "post": {
-        "consumes": [
-          "application/jwt"
-        ],
+        "consumes": ["application/jwt"],
         "description": "Register a new ID `JWT(sub, devtoken)`\n\nv5: `JWT(sub, pk, devtoken, ...)`\n\nSee: https://github.com/skion/authentiq/wiki/JWT-Examples\n",
         "operationId": "key_register",
         "parameters": [
@@ -169,9 +158,7 @@
             "$ref": "#/parameters/AuthentiqID"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "201": {
             "description": "Successfully registered",
@@ -199,10 +186,7 @@
             "$ref": "#/responses/ErrorResponse"
           }
         },
-        "tags": [
-          "key",
-          "post"
-        ]
+        "tags": ["key", "post"]
       }
     },
     "/key/{PK}": {
@@ -221,9 +205,7 @@
             "type": "string"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successful response",
@@ -253,10 +235,7 @@
             "$ref": "#/responses/ErrorResponse"
           }
         },
-        "tags": [
-          "key",
-          "delete"
-        ]
+        "tags": ["key", "delete"]
       },
       "get": {
         "description": "Get public details of an Authentiq ID.\n",
@@ -265,9 +244,7 @@
             "$ref": "#/parameters/PK"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successfully retrieved",
@@ -305,10 +282,7 @@
             "$ref": "#/responses/ErrorResponse"
           }
         },
-        "tags": [
-          "key",
-          "get"
-        ]
+        "tags": ["key", "get"]
       },
       "head": {
         "description": "HEAD info on Authentiq ID\n",
@@ -337,15 +311,10 @@
             "$ref": "#/responses/ErrorResponse"
           }
         },
-        "tags": [
-          "key",
-          "head"
-        ]
+        "tags": ["key", "head"]
       },
       "post": {
-        "consumes": [
-          "application/jwt"
-        ],
+        "consumes": ["application/jwt"],
         "description": "update properties of an Authentiq ID.\n(not operational in v4; use PUT for now)\n\nv5: POST issuer-signed email & phone scopes in\na self-signed JWT\n\nSee: https://github.com/skion/authentiq/wiki/JWT-Examples\n",
         "operationId": "key_update",
         "parameters": [
@@ -356,9 +325,7 @@
             "$ref": "#/parameters/AuthentiqID"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successfully updated",
@@ -382,15 +349,10 @@
             "$ref": "#/responses/ErrorResponse"
           }
         },
-        "tags": [
-          "key",
-          "post"
-        ]
+        "tags": ["key", "post"]
       },
       "put": {
-        "consumes": [
-          "application/jwt"
-        ],
+        "consumes": ["application/jwt"],
         "description": "Update Authentiq ID by replacing the object.\n\nv4: `JWT(sub,email,phone)` to bind email/phone hash; \n\nv5: POST issuer-signed email & phone scopes\nand PUT to update registration `JWT(sub, pk, devtoken, ...)`\n\nSee: https://github.com/skion/authentiq/wiki/JWT-Examples\n",
         "operationId": "key_bind",
         "parameters": [
@@ -401,9 +363,7 @@
             "$ref": "#/parameters/AuthentiqID"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successfully updated",
@@ -433,17 +393,12 @@
             "$ref": "#/responses/ErrorResponse"
           }
         },
-        "tags": [
-          "key",
-          "put"
-        ]
+        "tags": ["key", "put"]
       }
     },
     "/login": {
       "post": {
-        "consumes": [
-          "application/jwt"
-        ],
+        "consumes": ["application/jwt"],
         "description": "push sign-in request\nSee: https://github.com/skion/authentiq/wiki/JWT-Examples\n",
         "operationId": "push_login_request",
         "parameters": [
@@ -458,9 +413,7 @@
             "type": "string"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successful response",
@@ -484,17 +437,12 @@
             "$ref": "#/responses/ErrorResponse"
           }
         },
-        "tags": [
-          "login",
-          "post"
-        ]
+        "tags": ["login", "post"]
       }
     },
     "/scope": {
       "post": {
-        "consumes": [
-          "application/jwt"
-        ],
+        "consumes": ["application/jwt"],
         "description": "scope verification request\nSee: https://github.com/skion/authentiq/wiki/JWT-Examples\n",
         "operationId": "sign_request",
         "parameters": [
@@ -509,9 +457,7 @@
             "type": "integer"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "201": {
             "description": "Successful response",
@@ -539,10 +485,7 @@
             "$ref": "#/responses/ErrorResponse"
           }
         },
-        "tags": [
-          "scope",
-          "post"
-        ]
+        "tags": ["scope", "post"]
       }
     },
     "/scope/{job}": {
@@ -554,9 +497,7 @@
             "$ref": "#/parameters/JobID"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successfully deleted",
@@ -580,10 +521,7 @@
             "$ref": "#/responses/ErrorResponse"
           }
         },
-        "tags": [
-          "scope",
-          "delete"
-        ]
+        "tags": ["scope", "delete"]
       },
       "get": {
         "description": "get the status / current content of a verification job",
@@ -593,10 +531,7 @@
             "$ref": "#/parameters/JobID"
           }
         ],
-        "produces": [
-          "application/json",
-          "application/jwt"
-        ],
+        "produces": ["application/json", "application/jwt"],
         "responses": {
           "200": {
             "description": "Successful response (JWT)",
@@ -630,10 +565,7 @@
             "$ref": "#/responses/ErrorResponse"
           }
         },
-        "tags": [
-          "scope",
-          "get"
-        ]
+        "tags": ["scope", "get"]
       },
       "head": {
         "description": "HEAD to get the status of a verification job",
@@ -643,9 +575,7 @@
             "$ref": "#/parameters/JobID"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Confirmed and signed"
@@ -663,15 +593,10 @@
             "$ref": "#/responses/ErrorResponse"
           }
         },
-        "tags": [
-          "scope",
-          "head"
-        ]
+        "tags": ["scope", "head"]
       },
       "post": {
-        "consumes": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
         "description": "this is a scope confirmation",
         "operationId": "sign_confirm",
         "parameters": [
@@ -679,9 +604,7 @@
             "$ref": "#/parameters/JobID"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "202": {
             "description": "Successfully confirmed",
@@ -717,15 +640,10 @@
             "$ref": "#/responses/ErrorResponse"
           }
         },
-        "tags": [
-          "scope",
-          "post"
-        ]
+        "tags": ["scope", "post"]
       },
       "put": {
-        "consumes": [
-          "application/jwt"
-        ],
+        "consumes": ["application/jwt"],
         "description": "authority updates a JWT with its signature\nSee: https://github.com/skion/authentiq/wiki/JWT-Examples\n",
         "operationId": "sign_update",
         "parameters": [
@@ -733,9 +651,7 @@
             "$ref": "#/parameters/JobID"
           }
         ],
-        "produces": [
-          "application/jwt"
-        ],
+        "produces": ["application/jwt"],
         "responses": {
           "200": {
             "description": "Successfully updated",
@@ -769,10 +685,7 @@
             "$ref": "#/responses/ErrorResponse"
           }
         },
-        "tags": [
-          "scope",
-          "put"
-        ]
+        "tags": ["scope", "put"]
       }
     }
   },
@@ -789,9 +702,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "sub"
-      ]
+      "required": ["sub"]
     },
     "Claims": {
       "description": "Claim in JWT format, self- or issuer-signed. \n",
@@ -817,10 +728,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "sub",
-        "scope"
-      ]
+      "required": ["sub", "scope"]
     },
     "Error": {
       "properties": {
@@ -838,9 +746,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "error"
-      ]
+      "required": ["error"]
     },
     "PushToken": {
       "description": "PushToken in JWT format, self-signed. \n",
@@ -860,18 +766,15 @@
           "type": "string"
         },
         "nbf": {
-          "type": "integer"
+          "type": "integer",
+          "x-omitempty": false
         },
         "sub": {
           "description": "UUID and public signing key",
           "type": "string"
         }
       },
-      "required": [
-        "sub",
-        "iss",
-        "aud"
-      ]
+      "required": ["sub", "iss", "aud"]
     }
   }
 }

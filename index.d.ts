@@ -10,6 +10,11 @@ interface GenerateApiParams {
   url: string;
 
   /**
+   * swagger schema JSON
+   */
+  spec: import("swagger-schema-official").Spec;
+
+  /**
    * default 'api.ts'
    */
   name?: string;
@@ -47,5 +52,12 @@ interface GenerateApiParams {
   generateResponses?: boolean;
 }
 
-export declare function generateApi(params: Omit<GenerateApiParams, "url">): Promise<string>;
-export declare function generateApi(params: Omit<GenerateApiParams, "input">): Promise<string>;
+export declare function generateApi(
+  params: Omit<GenerateApiParams, "url" | "spec">,
+): Promise<string>;
+export declare function generateApi(
+  params: Omit<GenerateApiParams, "input" | "spec">,
+): Promise<string>;
+export declare function generateApi(
+  params: Omit<GenerateApiParams, "input" | "url">,
+): Promise<string>;

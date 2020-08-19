@@ -28,7 +28,7 @@ export enum JobKind {
   COMPANY = "COMPANY",
   PERSONAL = "PERSONAL",
   FREELANCE = "FREELANCE",
-  OPEN_SOURCE = "OPEN_SOURCE",
+  OPENSOURCE = "OPEN_SOURCE",
 }
 
 /**
@@ -158,7 +158,7 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-const enum BodyType {
+enum BodyType {
   Json,
 }
 

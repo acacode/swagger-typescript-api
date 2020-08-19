@@ -27,41 +27,40 @@ const getSwaggerFile = (pathToSwagger, urlToSwagger) =>
   });
 
 const getSwaggerObject = (pathToSwagger, urlToSwagger) =>
-  new Promise((resolve) =>
-    getSwaggerFile(pathToSwagger, urlToSwagger)
-      .then((file) => {
-        const swaggerSchema = parseSwaggerFile(file);
-        if (!swaggerSchema.openapi) {
-          converter.convertObj(
-            swaggerSchema,
-            {
-              warnOnly: true,
-              refSiblings: "preserve",
-              rbname: "requestBodyName",
-            },
-            function (err, options) {
-              const parsedSwaggerSchema = _.get(err, "options.openapi", _.get(options, "openapi"));
-              if (!parsedSwaggerSchema && err) {
-                throw new Error(err);
-              }
-              addToConfig({ convertedFromSwagger2: true });
-              resolve({
-                usageSchema: parsedSwaggerSchema,
-                originalSchema: swaggerSchema,
-              });
-            },
-          );
-        } else {
+  getSwaggerFile(pathToSwagger, urlToSwagger).then((file) =>
+    convertSwaggerObject(parseSwaggerFile(file)),
+  );
+
+const convertSwaggerObject = (swaggerSchema) => {
+  return new Promise((resolve) => {
+    if (!swaggerSchema.openapi) {
+      converter.convertObj(
+        swaggerSchema,
+        {
+          warnOnly: true,
+          refSiblings: "preserve",
+          rbname: "requestBodyName",
+        },
+        function (err, options) {
+          const parsedSwaggerSchema = _.get(err, "options.openapi", _.get(options, "openapi"));
+          if (!parsedSwaggerSchema && err) {
+            throw new Error(err);
+          }
+          addToConfig({ convertedFromSwagger2: true });
           resolve({
-            usageSchema: swaggerSchema,
+            usageSchema: parsedSwaggerSchema,
             originalSchema: swaggerSchema,
           });
-        }
-      })
-      .catch((e) => {
-        throw new Error(e);
-      }),
-  );
+        },
+      );
+    } else {
+      resolve({
+        usageSchema: swaggerSchema,
+        originalSchema: swaggerSchema,
+      });
+    }
+  });
+};
 
 const fixSwaggerScheme = (usage, original) => {
   const usagePaths = _.get(usage, "paths");
@@ -95,4 +94,5 @@ const fixSwaggerScheme = (usage, original) => {
 module.exports = {
   getSwaggerObject,
   fixSwaggerScheme,
+  convertSwaggerObject,
 };

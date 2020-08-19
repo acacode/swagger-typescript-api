@@ -56,6 +56,14 @@ export interface Tag {
   name?: string;
 }
 
+export enum PetNames {
+  FluffyHero = "Fluffy Hero",
+  PiggyPo = "Piggy Po",
+  SwaggerTypescriptApi = "Swagger Typescript Api",
+}
+
+export type PetIds = 10 | 20 | 30 | 40;
+
 /**
  * A pet for sale in the pet store
  */
@@ -108,7 +116,7 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-const enum BodyType {
+enum BodyType {
   Json,
   FormData,
 }

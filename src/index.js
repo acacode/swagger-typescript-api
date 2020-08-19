@@ -14,7 +14,7 @@ const { parseSchemas } = require("./schema");
 const { parseRoutes, groupRoutes } = require("./routes");
 const { createApiConfig } = require("./apiConfig");
 const { getModelType } = require("./modelTypes");
-const { getSwaggerObject, fixSwaggerScheme } = require("./swagger");
+const { getSwaggerObject, fixSwaggerScheme, convertSwaggerObject } = require("./swagger");
 const { createComponentsMap, filterComponentsMap } = require("./components");
 const { createFile, pathIsExist } = require("./files");
 const { addToConfig, config } = require("./config");
@@ -34,6 +34,7 @@ module.exports = {
     input,
     output,
     url,
+    spec,
     name,
     templates = resolve(__dirname, config.templates),
     generateResponses = config.generateResponses,
@@ -51,7 +52,7 @@ module.exports = {
         templates,
         generateUnionEnums,
       });
-      getSwaggerObject(input, url)
+      (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url))
         .then(({ usageSchema, originalSchema }) => {
           const { apiTemplate, clientTemplate, routeTypesTemplate } = getTemplates();
 

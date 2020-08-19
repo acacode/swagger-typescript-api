@@ -56,7 +56,7 @@ export interface PushToken {
 
   /** issuer (URI) */
   iss: string;
-  nbf?: number;
+  nbf: number;
 
   /** UUID and public signing key */
   sub: string;
@@ -74,7 +74,7 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-const enum BodyType {
+enum BodyType {
   Json,
 }
 

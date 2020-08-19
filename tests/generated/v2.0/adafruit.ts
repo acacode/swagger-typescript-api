@@ -108,7 +108,7 @@ export interface Feed {
   unit_symbol?: string;
   unit_type?: string;
   updated_at?: string;
-  visibility?: "private" | "public";
+  visibility?: "private" | "public" | "in progress" | "out of access";
 }
 
 export interface Group {
@@ -169,7 +169,7 @@ type ApiConfig<SecurityDataType> = {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 };
 
-const enum BodyType {
+enum BodyType {
   Json,
 }
 

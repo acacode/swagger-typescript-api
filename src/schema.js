@@ -28,6 +28,7 @@ const types = {
   // dateTime: "Date",
 };
 
+const jsPrimitiveTypes = _.uniq(["number", "string", "boolean"]);
 const jsEmptyTypes = _.uniq(["null", "undefined"]);
 const formDataTypes = _.uniq([types.file, types.string.binary]);
 
@@ -45,8 +46,8 @@ const getTypeAlias = (rawSchema) => {
 };
 
 const getInternalSchemaType = (schema) => {
-  if (schema.enum) return "enum";
-  if (schema.properties) return "object";
+  if (!_.isEmpty(schema.enum)) return "enum";
+  if (!_.isEmpty(schema.properties)) return "object";
   if (schema.allOf || schema.oneOf || schema.anyOf || schema.not) return "complex";
 
   return "primitive";
@@ -75,19 +76,26 @@ const getType = (schema) => {
   return primitiveType ? checkAndAddNull(schema, primitiveType) : DEFAULT_PRIMITIVE_TYPE;
 };
 
+const isRequired = (property) => {
+  if (property["x-omitempty"] === false) {
+    return true;
+  }
+
+  if (config.convertedFromSwagger2) {
+    return typeof property.nullable === "undefined" ? property.required : !property.nullable;
+  }
+  return !!property.required;
+};
+
 const getObjectTypeContent = (properties) => {
   return _.map(properties, (property, name) => {
-    const isRequired = config.convertedFromSwagger2
-      ? typeof property.nullable === "undefined"
-        ? property.required
-        : !property.nullable
-      : !!property.required;
+    const required = isRequired(property);
     return {
       $$raw: property,
       description: property.description,
-      isRequired,
+      isRequired: required,
       field: `${isValidName(name) ? name : `"${name}"`}${
-        isRequired ? "" : "?"
+        required ? "" : "?"
       }: ${getInlineParseContent(property)}`,
     };
   });
@@ -108,7 +116,9 @@ const complexSchemaParsers = {
   anyOf: (schema) => {
     // T1 | T2 | (T1 & T2)
     const combined = _.map(schema.anyOf, complexTypeGetter);
-    const nonEmptyTypesCombined = combined.filter((type) => !jsEmptyTypes.includes(type));
+    const nonEmptyTypesCombined = combined.filter(
+      (type) => !jsEmptyTypes.includes(type) && !jsPrimitiveTypes.includes(type),
+    );
     return checkAndAddNull(
       schema,
       `${combined.join(" | ")}` +
@@ -153,9 +163,9 @@ const schemaParsers = {
       name: typeName,
       description: formatDescription(schema.description),
       content: _.map(schema.enum, (key) => ({
-        key,
+        key: isIntegerEnum ? key : checkAndRenameModelName(key),
         type,
-        value: isIntegerEnum ? `${key}` : `"${key}"`,
+        value: key === null ? key : isIntegerEnum ? `${key}` : `"${key}"`,
       })),
     });
   },

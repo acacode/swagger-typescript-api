@@ -388,6 +388,66 @@
       }
     },
     "/jobs": {
+      "x-method": {},
+      "get": {
+        "operationId": "GetJobs",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Job"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "jobs found"
+          }
+        },
+        "tags": ["Jobs"],
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "parameters": []
+      },
+      "post": {
+        "operationId": "AddJob",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Ok"
+          }
+        },
+        "tags": ["Jobs"],
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pick_Job.%22github%22_"
+              }
+            }
+          }
+        }
+      }
+    },
+    "x-route": {
       "get": {
         "operationId": "GetJobs",
         "responses": {

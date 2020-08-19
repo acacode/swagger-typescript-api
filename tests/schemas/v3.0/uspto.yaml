@@ -1,13 +1,13 @@
 openapi: 3.0.1
 servers:
-  - url: '{scheme}://developer.uspto.gov/ds-api'
+  - url: "{scheme}://developer.uspto.gov/ds-api"
     variables:
       scheme:
-        description: 'The Data Set API is accessible via https and http'
+        description: "The Data Set API is accessible via https and http"
         enum:
-          - 'https'
-          - 'http'
-        default: 'https'
+          - "https"
+          - "http"
+        default: "https"
 info:
   description: >-
     The Data Set API (DSAPI) allows the public users to discover and search
@@ -23,7 +23,7 @@ info:
   title: USPTO Data Set API
   contact:
     name: Open Data Portal
-    url: 'https://developer.uspto.gov'
+    url: "https://developer.uspto.gov"
     email: developer@uspto.gov
 tags:
   - name: metadata
@@ -38,29 +38,30 @@ paths:
       operationId: list-data-sets
       summary: List available data sets
       responses:
-        '200':
+        "200":
           description: Returns a list of data sets
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/dataSetList'
+                $ref: "#/components/schemas/dataSetList"
               example:
                 {
                   "total": 2,
-                  "apis": [
-                    {
-                      "apiKey": "oa_citations",
-                      "apiVersionNumber": "v1",
-                      "apiUrl": "https://developer.uspto.gov/ds-api/oa_citations/v1/fields",
-                      "apiDocumentationUrl": "https://developer.uspto.gov/ds-api-docs/index.html?url=https://developer.uspto.gov/ds-api/swagger/docs/oa_citations.json"
-                    },
-                    {
-                      "apiKey": "cancer_moonshot",
-                      "apiVersionNumber": "v1",
-                      "apiUrl": "https://developer.uspto.gov/ds-api/cancer_moonshot/v1/fields",
-                      "apiDocumentationUrl": "https://developer.uspto.gov/ds-api-docs/index.html?url=https://developer.uspto.gov/ds-api/swagger/docs/cancer_moonshot.json"
-                    }
-                  ]
+                  "apis":
+                    [
+                      {
+                        "apiKey": "oa_citations",
+                        "apiVersionNumber": "v1",
+                        "apiUrl": "https://developer.uspto.gov/ds-api/oa_citations/v1/fields",
+                        "apiDocumentationUrl": "https://developer.uspto.gov/ds-api-docs/index.html?url=https://developer.uspto.gov/ds-api/swagger/docs/oa_citations.json",
+                      },
+                      {
+                        "apiKey": "cancer_moonshot",
+                        "apiVersionNumber": "v1",
+                        "apiUrl": "https://developer.uspto.gov/ds-api/cancer_moonshot/v1/fields",
+                        "apiDocumentationUrl": "https://developer.uspto.gov/ds-api-docs/index.html?url=https://developer.uspto.gov/ds-api/swagger/docs/cancer_moonshot.json",
+                      },
+                    ],
                 }
   /{dataset}/{version}/fields:
     get:
@@ -78,7 +79,7 @@ paths:
       parameters:
         - name: dataset
           in: path
-          description: 'Name of the dataset.'
+          description: "Name of the dataset."
           required: true
           example: "oa_citations"
           schema:
@@ -91,7 +92,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: >-
             The dataset API for the given version is found and it is accessible
             to consume.
@@ -99,7 +100,7 @@ paths:
             application/json:
               schema:
                 type: string
-        '404':
+        "404":
           description: >-
             The combination of dataset name and version is not found in the
             system or it is not published yet to be consumed by public.
@@ -134,13 +135,13 @@ paths:
             default: v1
         - name: dataset
           in: path
-          description: 'Name of the dataset. In this case, the default value is oa_citations'
+          description: "Name of the dataset. In this case, the default value is oa_citations"
           required: true
           schema:
             type: string
             default: oa_citations
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
@@ -150,7 +151,7 @@ paths:
                   type: object
                   additionalProperties:
                     type: object
-        '404':
+        "404":
           description: No matching record found for the given criteria.
       requestBody:
         content:
@@ -167,7 +168,7 @@ paths:
                     record objects. Each record structure would consist of all
                     the fields and their corresponding values.
                   type: string
-                  default: '*:*'
+                  default: "*:*"
                 start:
                   description: Starting record number. Default value is 0.
                   type: integer
@@ -184,6 +185,18 @@ paths:
                 - criteria
 components:
   schemas:
+    someEnum:
+      type: string
+      enum:
+        - Foo
+        - Bar
+        - Foo Bar
+    status:
+      type: string
+      enum:
+        - resolved
+        - new
+        - in progress
     dataSetList:
       type: object
       properties:
