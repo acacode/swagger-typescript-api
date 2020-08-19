@@ -1,0 +1,34 @@
+{
+  "info": { "title": "" },
+  "openapi": "3.0.0",
+  "components": {
+    "schemas": {
+      "Primitive": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "number",
+            "enum": [null],
+            "nullable": true
+          }
+        ]
+      },
+      "PrimitiveMap": {
+        "properties": {},
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/components/schemas/Primitive"
+        }
+      }
+    }
+  }
+}
