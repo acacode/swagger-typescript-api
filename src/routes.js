@@ -191,7 +191,7 @@ const createRequestsMap = (requestInfoByMethodsMap) => {
   );
 };
 
-const parseRoutes = ({ paths }, parsedSchemas) =>
+const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas) =>
   _.entries(paths).reduce((routes, [route, requestInfoByMethodsMap]) => {
     if (route.startsWith("x-")) return routes;
 
@@ -210,7 +210,10 @@ const parseRoutes = ({ paths }, parsedSchemas) =>
           tags,
           responses,
         } = requestInfo;
-        const hasSecurity = !!(security && security.length);
+        const hasSecurity = !!(
+          (globalSecurity && globalSecurity.length) ||
+          (security && security.length)
+        );
 
         const formDataParams = getRouteParams(parameters, "formData");
         const pathParams = getRouteParams(parameters, "path");
