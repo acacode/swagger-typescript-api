@@ -152,16 +152,18 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * @name tripList
      * @request GET:/trip
+     * @secure
      * @description list user's trips
      */
-    tripList: (params?: RequestParams) => this.request<Trip[], any>(`/trip`, "GET", params),
+    tripList: (params?: RequestParams) => this.request<Trip[], any>(`/trip`, "GET", params, null, BodyType.Json, true),
 
     /**
      * @name stopDetail
      * @request GET:/trip/{trip_id}/stop
+     * @secure
      * @description list stops for a trip identified by {trip_id}
      */
     stopDetail: (trip_id: string, params?: RequestParams) =>
-      this.request<Step[], any>(`/trip/${trip_id}/stop`, "GET", params),
+      this.request<Step[], any>(`/trip/${trip_id}/stop`, "GET", params, null, BodyType.Json, true),
   };
 }

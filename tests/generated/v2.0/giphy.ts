@@ -293,6 +293,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name getGifsById
      * @summary Get GIFs by ID
      * @request GET:/gifs
+     * @secure
      * @description A multiget version of the get GIF by ID endpoint.
      */
     getGifsById: (query?: { ids?: string }, params?: RequestParams) =>
@@ -300,6 +301,9 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
         `/gifs${this.addQueryParams(query)}`,
         "GET",
         params,
+        null,
+        BodyType.Json,
+        true,
       ),
 
     /**
@@ -307,16 +311,25 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name randomGif
      * @summary Random GIF
      * @request GET:/gifs/random
+     * @secure
      * @description Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.
      */
     randomGif: (query?: { tag?: string; rating?: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif; meta?: Meta }, any>(`/gifs/random${this.addQueryParams(query)}`, "GET", params),
+      this.request<{ data?: Gif; meta?: Meta }, any>(
+        `/gifs/random${this.addQueryParams(query)}`,
+        "GET",
+        params,
+        null,
+        BodyType.Json,
+        true,
+      ),
 
     /**
      * @tags gifs
      * @name searchGifs
      * @summary Search GIFs
      * @request GET:/gifs/search
+     * @secure
      * @description Search all GIPHY GIFs for a word or phrase. Punctuation will be stripped and ignored.  Use a plus or url encode for phrases. Example paul+rudd, ryan+gosling or american+psycho.
      */
     searchGifs: (
@@ -327,6 +340,9 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
         `/gifs/search${this.addQueryParams(query)}`,
         "GET",
         params,
+        null,
+        BodyType.Json,
+        true,
       ),
 
     /**
@@ -334,16 +350,25 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name translateGif
      * @summary Translate phrase to GIF
      * @request GET:/gifs/translate
+     * @secure
      * @description The translate API draws on search, but uses the GIPHY `special sauce` to handle translating from one vocabulary to another. In this case, words and phrases to GIF
      */
     translateGif: (query: { s: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif; meta?: Meta }, any>(`/gifs/translate${this.addQueryParams(query)}`, "GET", params),
+      this.request<{ data?: Gif; meta?: Meta }, any>(
+        `/gifs/translate${this.addQueryParams(query)}`,
+        "GET",
+        params,
+        null,
+        BodyType.Json,
+        true,
+      ),
 
     /**
      * @tags gifs
      * @name trendingGifs
      * @summary Trending GIFs
      * @request GET:/gifs/trending
+     * @secure
      * @description Fetch GIFs currently trending online. Hand curated by the GIPHY editorial team.  The data returned mirrors the GIFs showcased on the GIPHY homepage. Returns 25 results by default.
      */
     trendingGifs: (query?: { limit?: number; offset?: number; rating?: string }, params?: RequestParams) =>
@@ -351,6 +376,9 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
         `/gifs/trending${this.addQueryParams(query)}`,
         "GET",
         params,
+        null,
+        BodyType.Json,
+        true,
       ),
 
     /**
@@ -358,10 +386,11 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name getGifById
      * @summary Get GIF by Id
      * @request GET:/gifs/{gifId}
+     * @secure
      * @description Returns a GIF given that GIF's unique ID
      */
     getGifById: (gifId: number, params?: RequestParams) =>
-      this.request<{ data?: Gif; meta?: Meta }, any>(`/gifs/${gifId}`, "GET", params),
+      this.request<{ data?: Gif; meta?: Meta }, any>(`/gifs/${gifId}`, "GET", params, null, BodyType.Json, true),
   };
   stickers = {
     /**
@@ -369,16 +398,25 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name randomSticker
      * @summary Random Sticker
      * @request GET:/stickers/random
+     * @secure
      * @description Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.
      */
     randomSticker: (query?: { tag?: string; rating?: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif; meta?: Meta }, any>(`/stickers/random${this.addQueryParams(query)}`, "GET", params),
+      this.request<{ data?: Gif; meta?: Meta }, any>(
+        `/stickers/random${this.addQueryParams(query)}`,
+        "GET",
+        params,
+        null,
+        BodyType.Json,
+        true,
+      ),
 
     /**
      * @tags stickers
      * @name searchStickers
      * @summary Search Stickers
      * @request GET:/stickers/search
+     * @secure
      * @description Replicates the functionality and requirements of the classic GIPHY search, but returns animated stickers rather than GIFs.
      */
     searchStickers: (
@@ -389,6 +427,9 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
         `/stickers/search${this.addQueryParams(query)}`,
         "GET",
         params,
+        null,
+        BodyType.Json,
+        true,
       ),
 
     /**
@@ -396,16 +437,25 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name translateSticker
      * @summary Translate phrase to Sticker
      * @request GET:/stickers/translate
+     * @secure
      * @description The translate API draws on search, but uses the GIPHY `special sauce` to handle translating from one vocabulary to another. In this case, words and phrases to GIFs.
      */
     translateSticker: (query: { s: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif; meta?: Meta }, any>(`/stickers/translate${this.addQueryParams(query)}`, "GET", params),
+      this.request<{ data?: Gif; meta?: Meta }, any>(
+        `/stickers/translate${this.addQueryParams(query)}`,
+        "GET",
+        params,
+        null,
+        BodyType.Json,
+        true,
+      ),
 
     /**
      * @tags stickers
      * @name trendingStickers
      * @summary Trending Stickers
      * @request GET:/stickers/trending
+     * @secure
      * @description Fetch Stickers currently trending online. Hand curated by the GIPHY editorial team. Returns 25 results by default.
      */
     trendingStickers: (query?: { limit?: number; offset?: number; rating?: string }, params?: RequestParams) =>
@@ -413,6 +463,9 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
         `/stickers/trending${this.addQueryParams(query)}`,
         "GET",
         params,
+        null,
+        BodyType.Json,
+        true,
       ),
   };
 }

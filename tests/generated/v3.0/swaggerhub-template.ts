@@ -103,17 +103,20 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name exampleList
      * @summary Server example operation
      * @request GET:/example
+     * @secure
      * @description This is an example operation to show how security is applied to the call.
      */
-    exampleList: (params?: RequestParams) => this.request<any, any>(`/example`, "GET", params),
+    exampleList: (params?: RequestParams) =>
+      this.request<any, any>(`/example`, "GET", params, null, BodyType.Json, true),
   };
   ping = {
     /**
      * @name pingList
      * @summary Server heartbeat operation
      * @request GET:/ping
+     * @secure
      * @description This operation shows how to override the global security defined above, as we want to open it up for all users.
      */
-    pingList: (params?: RequestParams) => this.request<any, any>(`/ping`, "GET", params),
+    pingList: (params?: RequestParams) => this.request<any, any>(`/ping`, "GET", params, null, BodyType.Json, true),
   };
 }
