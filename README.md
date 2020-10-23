@@ -43,6 +43,7 @@ Options:
   --union-enums             generate all "enum" types as union types (T1 | T2 | TN) (default: false)
   --route-types             generate type definitions for API routes (default: false)
   --no-client               do not generate an API class
+  --js                      generate js api module with declaration file (default: false)
   -h, --help                output usage information
 ```
 

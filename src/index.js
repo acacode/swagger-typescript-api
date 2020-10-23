@@ -36,6 +36,7 @@ module.exports = {
     url,
     spec,
     name,
+    toJS,
     templates = resolve(__dirname, config.templates),
     generateResponses = config.generateResponses,
     defaultResponseAsSuccess = config.defaultResponseAsSuccess,
@@ -87,7 +88,7 @@ module.exports = {
             routes: groupRoutes(routes),
           };
 
-          const sourceFile = prettier.format(
+          let sourceFile = prettier.format(
             [
               mustache.render(apiTemplate, configuration),
               generateRouteTypes ? mustache.render(routeTypesTemplate, configuration) : "",
@@ -96,12 +97,25 @@ module.exports = {
             prettierConfig,
           );
 
-          if (pathIsExist(output)) {
-            createFile(output, name, sourceFile);
-            console.log(`✔️  your typescript api file created in "${output}"`);
-          }
+          if (toJS) {
+            const {
+              sourceFile: sourceJsFile,
+              declarationFile,
+            } = require("./translators/JavaScript").translate(name, sourceFile);
 
-          resolve(sourceFile);
+            if (pathIsExist(output)) {
+              createFile(output, sourceJsFile.name, sourceJsFile.content);
+              createFile(output, declarationFile.name, declarationFile.content);
+              console.log(`✔️  your JavaScript api file created in "${output}"`);
+            }
+            resolve(sourceJsFile.content);
+          } else {
+            if (pathIsExist(output)) {
+              createFile(output, name, require("./translators/JavaScript").translate(sourceFile));
+              console.log(`✔️  your typescript api file created in "${output}"`);
+            }
+            resolve(sourceFile);
+          }
         })
         .catch((e) => {
           reject(e);

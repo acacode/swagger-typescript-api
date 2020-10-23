@@ -32,11 +32,23 @@ program
   )
   .option("--union-enums", 'generate all "enum" types as union types (T1 | T2 | TN)', false)
   .option("--route-types", "generate type definitions for API routes", false)
-  .option("--no-client", "do not generate an API class", false);
+  .option("--no-client", "do not generate an API class", false)
+  .option("--js", "generate js api module with declaration file", false);
 
 program.parse(process.argv);
 
-const { path, output, name, templates, unionEnums, routeTypes, client, defaultAsSuccess, responses } = program;
+const {
+  path,
+  output,
+  name,
+  templates,
+  unionEnums,
+  routeTypes,
+  client,
+  defaultAsSuccess,
+  responses,
+  js,
+} = program;
 
 generateApi({
   name,
@@ -49,4 +61,5 @@ generateApi({
   input: resolve(process.cwd(), path),
   output: resolve(process.cwd(), output || "."),
   templates: resolve(templates ? process.cwd() : __dirname, templates || "./src/templates"),
+  toJS: !!js,
 });

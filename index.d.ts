@@ -50,6 +50,8 @@ interface GenerateApiParams {
    * also add typings for bad responses
    */
   generateResponses?: boolean;
+
+  toJS?: boolean;
 }
 
 export declare function generateApi(
