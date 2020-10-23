@@ -1,5 +1,8 @@
 # next release  
 
+Features:
+- `--js` CLI option. [[feature request]](https://github.com/acacode/swagger-typescript-api/issues/79)  
+
 
 # 1.12.0   
 
