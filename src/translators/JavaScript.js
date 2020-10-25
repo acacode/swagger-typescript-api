@@ -2,7 +2,7 @@ const ts = require("typescript");
 
 function translate(fileName, content, options) {
   const output = {};
-  const host = ts.createCompilerHost(options);
+  const host = ts.createCompilerHost(options, true);
   const fileNames = [fileName];
   const originalSourceFileGet = host.getSourceFile.bind(host);
   host.getSourceFile = (sourceFileName, languageVersion, onError, shouldCreateNewSourceFile) => {
@@ -14,13 +14,12 @@ function translate(fileName, content, options) {
         shouldCreateNewSourceFile,
       );
 
-    return ts.createLanguageServiceSourceFile(
+    return ts.createSourceFile(
       sourceFileName,
-      ts.ScriptSnapshot.fromString(content),
-      ts.ScriptTarget.ESNext,
-      ts.version,
-      false,
-      ts.ScriptKind.TS,
+      content,
+      languageVersion,
+      true,
+      ts.ScriptKind.External,
     );
   };
 
@@ -36,13 +35,22 @@ function translate(fileName, content, options) {
 module.exports = {
   translate: (fileName, sourceTypeScript) => {
     const translated = translate(fileName, sourceTypeScript, {
-      target: ts.ScriptTarget.Latest,
+      module: "ESNext",
+      noImplicitReturns: true,
+      alwaysStrict: true,
+      target: ts.ScriptTarget.ESNext,
       declaration: true,
+      noImplicitAny: false,
+      sourceMap: false,
       removeComments: false,
+      disableSizeLimit: true,
+      esModuleInterop: true,
+      emitDecoratorMetadata: true,
+      skipLibCheck: true,
     });
 
-    const sourceFileName = fileName.replace(".ts", ".js");
-    const declarationFileName = fileName.replace(".ts", ".d.ts");
+    const sourceFileName = fileName.replace(ts.Extension.Ts, ts.Extension.Js);
+    const declarationFileName = fileName.replace(ts.Extension.Ts, ts.Extension.Dts);
 
     return {
       sourceFile: {

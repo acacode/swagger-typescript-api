@@ -1,5 +1,13 @@
 /* tslint:disable */
 /* eslint-disable */
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
 var BodyType;
 (function (BodyType) {
   BodyType[(BodyType["Json"] = 0)] = "Json";
@@ -31,10 +39,7 @@ class HttpClient {
     this.request = (path, method, { secure, ...params } = {}, body, bodyType, secureByDefault) =>
       fetch(`${this.baseUrl}${path}`, {
         // @ts-ignore
-        ...this.mergeRequestOptions(
-          params,
-          (secureByDefault || secure) && this.securityWorker(this.securityData),
-        ),
+        ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
         method,
         body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
       }).then(async (response) => {
@@ -48,9 +53,7 @@ class HttpClient {
   }
   addQueryParam(query, key) {
     return (
-      encodeURIComponent(key) +
-      "=" +
-      encodeURIComponent(Array.isArray(query[key]) ? query[key].join(",") : query[key])
+      encodeURIComponent(key) + "=" + encodeURIComponent(Array.isArray(query[key]) ? query[key].join(",") : query[key])
     );
   }
   addQueryParams(rawQuery) {
@@ -118,8 +121,7 @@ export class Api extends HttpClient {
        * @request GET:/gists
        * @description List the authenticated user's gists or if called anonymously, this will return all public gists.
        */
-      gistsList: (query, params) =>
-        this.request(`/gists${this.addQueryParams(query)}`, "GET", params),
+      gistsList: (query, params) => this.request(`/gists${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name gistsCreate
        * @request POST:/gists
@@ -131,15 +133,13 @@ export class Api extends HttpClient {
        * @request GET:/gists/public
        * @description List all public gists.
        */
-      publicList: (query, params) =>
-        this.request(`/gists/public${this.addQueryParams(query)}`, "GET", params),
+      publicList: (query, params) => this.request(`/gists/public${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name starredList
        * @request GET:/gists/starred
        * @description List the authenticated user's starred gists.
        */
-      starredList: (query, params) =>
-        this.request(`/gists/starred${this.addQueryParams(query)}`, "GET", params),
+      starredList: (query, params) => this.request(`/gists/starred${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name gistsDelete
        * @request DELETE:/gists/{id}
@@ -169,15 +169,13 @@ export class Api extends HttpClient {
        * @request POST:/gists/{id}/comments
        * @description Create a commen
        */
-      commentsCreate: (id, body, params) =>
-        this.request(`/gists/${id}/comments`, "POST", params, body),
+      commentsCreate: (id, body, params) => this.request(`/gists/${id}/comments`, "POST", params, body),
       /**
        * @name commentsDelete
        * @request DELETE:/gists/{id}/comments/{commentId}
        * @description Delete a comment.
        */
-      commentsDelete: (id, commentId, params) =>
-        this.request(`/gists/${id}/comments/${commentId}`, "DELETE", params),
+      commentsDelete: (id, commentId, params) => this.request(`/gists/${id}/comments/${commentId}`, "DELETE", params),
       /**
        * @name commentsDetail
        * @request GET:/gists/{id}/comments/{commentId}
@@ -185,8 +183,7 @@ export class Api extends HttpClient {
        * @originalName commentsDetail
        * @duplicate
        */
-      commentsDetail2: (id, commentId, params) =>
-        this.request(`/gists/${id}/comments/${commentId}`, "GET", params),
+      commentsDetail2: (id, commentId, params) => this.request(`/gists/${id}/comments/${commentId}`, "GET", params),
       /**
        * @name commentsPartialUpdate
        * @request PATCH:/gists/{id}/comments/{commentId}
@@ -231,8 +228,7 @@ export class Api extends HttpClient {
        * @request GET:/gitignore/templates/{language}
        * @description Get a single template.
        */
-      templatesDetail: (language, params) =>
-        this.request(`/gitignore/templates/${language}`, "GET", params),
+      templatesDetail: (language, params) => this.request(`/gitignore/templates/${language}`, "GET", params),
     };
     this.issues = {
       /**
@@ -240,8 +236,7 @@ export class Api extends HttpClient {
        * @request GET:/issues
        * @description List issues. List all issues across all the authenticated user's visible repositories.
        */
-      issuesList: (query, params) =>
-        this.request(`/issues${this.addQueryParams(query)}`, "GET", params),
+      issuesList: (query, params) => this.request(`/issues${this.addQueryParams(query)}`, "GET", params),
     };
     this.legacy = {
       /**
@@ -250,11 +245,7 @@ export class Api extends HttpClient {
        * @description Find issues by state and keyword.
        */
       issuesSearchDetail: (keyword, state, owner, repository, params) =>
-        this.request(
-          `/legacy/issues/search/${owner}/${repository}/${state}/${keyword}`,
-          "GET",
-          params,
-        ),
+        this.request(`/legacy/issues/search/${owner}/${repository}/${state}/${keyword}`, "GET", params),
       /**
        * @name reposSearchDetail
        * @request GET:/legacy/repos/search/{keyword}
@@ -267,8 +258,7 @@ export class Api extends HttpClient {
        * @request GET:/legacy/user/email/{email}
        * @description This API call is added for compatibility reasons only.
        */
-      userEmailDetail: (email, params) =>
-        this.request(`/legacy/user/email/${email}`, "GET", params),
+      userEmailDetail: (email, params) => this.request(`/legacy/user/email/${email}`, "GET", params),
       /**
        * @name userSearchDetail
        * @request GET:/legacy/user/search/{keyword}
@@ -305,8 +295,7 @@ export class Api extends HttpClient {
        * @request GET:/networks/{owner}/{repo}/events
        * @description List public events for a network of repositories.
        */
-      eventsDetail: (owner, repo, params) =>
-        this.request(`/networks/${owner}/${repo}/events`, "GET", params),
+      eventsDetail: (owner, repo, params) => this.request(`/networks/${owner}/${repo}/events`, "GET", params),
     };
     this.notifications = {
       /**
@@ -314,8 +303,7 @@ export class Api extends HttpClient {
        * @request GET:/notifications
        * @description List your notifications. List all notifications for the current user, grouped by repository.
        */
-      notificationsList: (query, params) =>
-        this.request(`/notifications${this.addQueryParams(query)}`, "GET", params),
+      notificationsList: (query, params) => this.request(`/notifications${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name notificationsUpdate
        * @request PUT:/notifications
@@ -333,8 +321,7 @@ export class Api extends HttpClient {
        * @request PATCH:/notifications/threads/{id}
        * @description Mark a thread as read
        */
-      threadsPartialUpdate: (id, params) =>
-        this.request(`/notifications/threads/${id}`, "PATCH", params),
+      threadsPartialUpdate: (id, params) => this.request(`/notifications/threads/${id}`, "PATCH", params),
       /**
        * @name threadsSubscriptionDelete
        * @request DELETE:/notifications/threads/{id}/subscription
@@ -394,8 +381,7 @@ export class Api extends HttpClient {
        * @request DELETE:/orgs/{org}/members/{username}
        * @description Remove a member. Removing a user from this list will remove them from all teams and they will no longer have any access to the organization's repositories.
        */
-      membersDelete: (org, username, params) =>
-        this.request(`/orgs/${org}/members/${username}`, "DELETE", params),
+      membersDelete: (org, username, params) => this.request(`/orgs/${org}/members/${username}`, "DELETE", params),
       /**
        * @name membersDetail
        * @request GET:/orgs/{org}/members/{username}
@@ -403,15 +389,13 @@ export class Api extends HttpClient {
        * @originalName membersDetail
        * @duplicate
        */
-      membersDetail2: (org, username, params) =>
-        this.request(`/orgs/${org}/members/${username}`, "GET", params),
+      membersDetail2: (org, username, params) => this.request(`/orgs/${org}/members/${username}`, "GET", params),
       /**
        * @name publicMembersDetail
        * @request GET:/orgs/{org}/public_members
        * @description Public members list. Members of an organization can choose to have their membership publicized or not.
        */
-      publicMembersDetail: (org, params) =>
-        this.request(`/orgs/${org}/public_members`, "GET", params),
+      publicMembersDetail: (org, params) => this.request(`/orgs/${org}/public_members`, "GET", params),
       /**
        * @name publicMembersDelete
        * @request DELETE:/orgs/{org}/public_members/{username}
@@ -475,8 +459,7 @@ export class Api extends HttpClient {
        * @request DELETE:/repos/{owner}/{repo}
        * @description Delete a Repository. Deleting a repository requires admin access. If OAuth is used, the delete_repo scope is required.
        */
-      reposDelete: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}`, "DELETE", params),
+      reposDelete: (owner, repo, params) => this.request(`/repos/${owner}/${repo}`, "DELETE", params),
       /**
        * @name reposDetail
        * @request GET:/repos/{owner}/{repo}
@@ -488,15 +471,13 @@ export class Api extends HttpClient {
        * @request PATCH:/repos/{owner}/{repo}
        * @description Edit repository.
        */
-      reposPartialUpdate: (owner, repo, body, params) =>
-        this.request(`/repos/${owner}/${repo}`, "PATCH", params, body),
+      reposPartialUpdate: (owner, repo, body, params) => this.request(`/repos/${owner}/${repo}`, "PATCH", params, body),
       /**
        * @name assigneesDetail
        * @request GET:/repos/{owner}/{repo}/assignees
        * @description List assignees. This call lists all the available assignees (owner + collaborators) to which issues may be assigned.
        */
-      assigneesDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/assignees`, "GET", params),
+      assigneesDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/assignees`, "GET", params),
       /**
        * @name assigneesDetail
        * @request GET:/repos/{owner}/{repo}/assignees/{assignee}
@@ -511,8 +492,7 @@ export class Api extends HttpClient {
        * @request GET:/repos/{owner}/{repo}/branches
        * @description Get list of branches
        */
-      branchesDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/branches`, "GET", params),
+      branchesDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/branches`, "GET", params),
       /**
        * @name branchesDetail
        * @request GET:/repos/{owner}/{repo}/branches/{branch}
@@ -557,8 +537,7 @@ export class Api extends HttpClient {
        * @request GET:/repos/{owner}/{repo}/comments
        * @description List commit comments for a repository. Comments are ordered by ascending ID.
        */
-      commentsDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/comments`, "GET", params),
+      commentsDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/comments`, "GET", params),
       /**
        * @name commentsDelete
        * @request DELETE:/repos/{owner}/{repo}/comments/{commentId}
@@ -639,11 +618,7 @@ export class Api extends HttpClient {
        * @description Get contents. This method returns the contents of a file or directory in a repository. Files and symlinks support a custom media type for getting the raw content. Directories and submodules do not support custom media types. Note: This API supports files up to 1 megabyte in size. Here can be many outcomes. For details see "http://developer.github.com/v3/repos/contents/"
        */
       contentsDetail: (owner, repo, path, query, params) =>
-        this.request(
-          `/repos/${owner}/${repo}/contents/${path}${this.addQueryParams(query)}`,
-          "GET",
-          params,
-        ),
+        this.request(`/repos/${owner}/${repo}/contents/${path}${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name contentsUpdate
        * @request PUT:/repos/{owner}/{repo}/contents/{path}
@@ -657,18 +632,13 @@ export class Api extends HttpClient {
        * @description Get list of contributors.
        */
       contributorsDetail: (owner, repo, query, params) =>
-        this.request(
-          `/repos/${owner}/${repo}/contributors${this.addQueryParams(query)}`,
-          "GET",
-          params,
-        ),
+        this.request(`/repos/${owner}/${repo}/contributors${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name deploymentsDetail
        * @request GET:/repos/{owner}/{repo}/deployments
        * @description Users with pull access can view deployments for a repository
        */
-      deploymentsDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/deployments`, "GET", params),
+      deploymentsDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/deployments`, "GET", params),
       /**
        * @name deploymentsCreate
        * @request POST:/repos/{owner}/{repo}/deployments
@@ -695,8 +665,7 @@ export class Api extends HttpClient {
        * @request GET:/repos/{owner}/{repo}/downloads
        * @description Deprecated. List downloads for a repository.
        */
-      downloadsDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/downloads`, "GET", params),
+      downloadsDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/downloads`, "GET", params),
       /**
        * @name downloadsDelete
        * @request DELETE:/repos/{owner}/{repo}/downloads/{downloadId}
@@ -718,8 +687,7 @@ export class Api extends HttpClient {
        * @request GET:/repos/{owner}/{repo}/events
        * @description Get list of repository events.
        */
-      eventsDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/events`, "GET", params),
+      eventsDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/events`, "GET", params),
       /**
        * @name forksDetail
        * @request GET:/repos/{owner}/{repo}/forks
@@ -732,8 +700,7 @@ export class Api extends HttpClient {
        * @request POST:/repos/{owner}/{repo}/forks
        * @description Create a fork. Forking a Repository happens asynchronously. Therefore, you may have to wai a short period before accessing the git objects. If this takes longer than 5 minutes, be sure to contact Support.
        */
-      forksCreate: (owner, repo, body, params) =>
-        this.request(`/repos/${owner}/${repo}/forks`, "POST", params, body),
+      forksCreate: (owner, repo, body, params) => this.request(`/repos/${owner}/${repo}/forks`, "POST", params, body),
       /**
        * @name gitBlobsCreate
        * @request POST:/repos/{owner}/{repo}/git/blobs
@@ -767,8 +734,7 @@ export class Api extends HttpClient {
        * @request GET:/repos/{owner}/{repo}/git/refs
        * @description Get all References
        */
-      gitRefsDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/git/refs`, "GET", params),
+      gitRefsDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/git/refs`, "GET", params),
       /**
        * @name gitRefsCreate
        * @request POST:/repos/{owner}/{repo}/git/refs
@@ -826,25 +792,19 @@ export class Api extends HttpClient {
        * @description Get a Tree.
        */
       gitTreesDetail: (owner, repo, shaCode, query, params) =>
-        this.request(
-          `/repos/${owner}/${repo}/git/trees/${shaCode}${this.addQueryParams(query)}`,
-          "GET",
-          params,
-        ),
+        this.request(`/repos/${owner}/${repo}/git/trees/${shaCode}${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name hooksDetail
        * @request GET:/repos/{owner}/{repo}/hooks
        * @description Get list of hooks.
        */
-      hooksDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/hooks`, "GET", params),
+      hooksDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/hooks`, "GET", params),
       /**
        * @name hooksCreate
        * @request POST:/repos/{owner}/{repo}/hooks
        * @description Create a hook.
        */
-      hooksCreate: (owner, repo, body, params) =>
-        this.request(`/repos/${owner}/${repo}/hooks`, "POST", params, body),
+      hooksCreate: (owner, repo, body, params) => this.request(`/repos/${owner}/${repo}/hooks`, "POST", params, body),
       /**
        * @name hooksDelete
        * @request DELETE:/repos/{owner}/{repo}/hooks/{hookId}
@@ -887,19 +847,14 @@ export class Api extends HttpClient {
        * @request POST:/repos/{owner}/{repo}/issues
        * @description Create an issue. Any user with pull access to a repository can create an issue.
        */
-      issuesCreate: (owner, repo, body, params) =>
-        this.request(`/repos/${owner}/${repo}/issues`, "POST", params, body),
+      issuesCreate: (owner, repo, body, params) => this.request(`/repos/${owner}/${repo}/issues`, "POST", params, body),
       /**
        * @name issuesCommentsDetail
        * @request GET:/repos/{owner}/{repo}/issues/comments
        * @description List comments in a repository.
        */
       issuesCommentsDetail: (owner, repo, query, params) =>
-        this.request(
-          `/repos/${owner}/${repo}/issues/comments${this.addQueryParams(query)}`,
-          "GET",
-          params,
-        ),
+        this.request(`/repos/${owner}/${repo}/issues/comments${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name issuesCommentsDelete
        * @request DELETE:/repos/{owner}/{repo}/issues/comments/{commentId}
@@ -928,8 +883,7 @@ export class Api extends HttpClient {
        * @request GET:/repos/{owner}/{repo}/issues/events
        * @description List issue events for a repository.
        */
-      issuesEventsDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/issues/events`, "GET", params),
+      issuesEventsDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/issues/events`, "GET", params),
       /**
        * @name issuesEventsDetail
        * @request GET:/repos/{owner}/{repo}/issues/events/{eventId}
@@ -1022,15 +976,13 @@ export class Api extends HttpClient {
        * @request GET:/repos/{owner}/{repo}/keys
        * @description Get list of keys.
        */
-      keysDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/keys`, "GET", params),
+      keysDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/keys`, "GET", params),
       /**
        * @name keysCreate
        * @request POST:/repos/{owner}/{repo}/keys
        * @description Create a key.
        */
-      keysCreate: (owner, repo, body, params) =>
-        this.request(`/repos/${owner}/${repo}/keys`, "POST", params, body),
+      keysCreate: (owner, repo, body, params) => this.request(`/repos/${owner}/${repo}/keys`, "POST", params, body),
       /**
        * @name keysDelete
        * @request DELETE:/repos/{owner}/{repo}/keys/{keyId}
@@ -1045,22 +997,19 @@ export class Api extends HttpClient {
        * @originalName keysDetail
        * @duplicate
        */
-      keysDetail2: (owner, repo, keyId, params) =>
-        this.request(`/repos/${owner}/${repo}/keys/${keyId}`, "GET", params),
+      keysDetail2: (owner, repo, keyId, params) => this.request(`/repos/${owner}/${repo}/keys/${keyId}`, "GET", params),
       /**
        * @name labelsDetail
        * @request GET:/repos/{owner}/{repo}/labels
        * @description List all labels for this repository.
        */
-      labelsDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/labels`, "GET", params),
+      labelsDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/labels`, "GET", params),
       /**
        * @name labelsCreate
        * @request POST:/repos/{owner}/{repo}/labels
        * @description Create a label.
        */
-      labelsCreate: (owner, repo, body, params) =>
-        this.request(`/repos/${owner}/${repo}/labels`, "POST", params, body),
+      labelsCreate: (owner, repo, body, params) => this.request(`/repos/${owner}/${repo}/labels`, "POST", params, body),
       /**
        * @name labelsDelete
        * @request DELETE:/repos/{owner}/{repo}/labels/{name}
@@ -1089,26 +1038,20 @@ export class Api extends HttpClient {
        * @request GET:/repos/{owner}/{repo}/languages
        * @description List languages. List languages for the specified repository. The value on the right of a language is the number of bytes of code written in that language.
        */
-      languagesDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/languages`, "GET", params),
+      languagesDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/languages`, "GET", params),
       /**
        * @name mergesCreate
        * @request POST:/repos/{owner}/{repo}/merges
        * @description Perform a merge.
        */
-      mergesCreate: (owner, repo, body, params) =>
-        this.request(`/repos/${owner}/${repo}/merges`, "POST", params, body),
+      mergesCreate: (owner, repo, body, params) => this.request(`/repos/${owner}/${repo}/merges`, "POST", params, body),
       /**
        * @name milestonesDetail
        * @request GET:/repos/{owner}/{repo}/milestones
        * @description List milestones for a repository.
        */
       milestonesDetail: (owner, repo, query, params) =>
-        this.request(
-          `/repos/${owner}/${repo}/milestones${this.addQueryParams(query)}`,
-          "GET",
-          params,
-        ),
+        this.request(`/repos/${owner}/${repo}/milestones${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name milestonesCreate
        * @request POST:/repos/{owner}/{repo}/milestones
@@ -1152,11 +1095,7 @@ export class Api extends HttpClient {
        * @description List your notifications in a repository List all notifications for the current user.
        */
       notificationsDetail: (owner, repo, query, params) =>
-        this.request(
-          `/repos/${owner}/${repo}/notifications${this.addQueryParams(query)}`,
-          "GET",
-          params,
-        ),
+        this.request(`/repos/${owner}/${repo}/notifications${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name notificationsUpdate
        * @request PUT:/repos/{owner}/{repo}/notifications
@@ -1176,19 +1115,14 @@ export class Api extends HttpClient {
        * @request POST:/repos/{owner}/{repo}/pulls
        * @description Create a pull request.
        */
-      pullsCreate: (owner, repo, body, params) =>
-        this.request(`/repos/${owner}/${repo}/pulls`, "POST", params, body),
+      pullsCreate: (owner, repo, body, params) => this.request(`/repos/${owner}/${repo}/pulls`, "POST", params, body),
       /**
        * @name pullsCommentsDetail
        * @request GET:/repos/{owner}/{repo}/pulls/comments
        * @description List comments in a repository. By default, Review Comments are ordered by ascending ID.
        */
       pullsCommentsDetail: (owner, repo, query, params) =>
-        this.request(
-          `/repos/${owner}/${repo}/pulls/comments${this.addQueryParams(query)}`,
-          "GET",
-          params,
-        ),
+        this.request(`/repos/${owner}/${repo}/pulls/comments${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name pullsCommentsDelete
        * @request DELETE:/repos/{owner}/{repo}/pulls/comments/{commentId}
@@ -1284,8 +1218,7 @@ export class Api extends HttpClient {
        * @request GET:/repos/{owner}/{repo}/releases
        * @description Users with push access to the repository will receive all releases (i.e., published releases and draft releases). Users with pull access will receive published releases only
        */
-      releasesDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/releases`, "GET", params),
+      releasesDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/releases`, "GET", params),
       /**
        * @name releasesCreate
        * @request POST:/repos/{owner}/{repo}/releases
@@ -1351,8 +1284,7 @@ export class Api extends HttpClient {
        * @request GET:/repos/{owner}/{repo}/stargazers
        * @description List Stargazers.
        */
-      stargazersDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/stargazers`, "GET", params),
+      stargazersDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/stargazers`, "GET", params),
       /**
        * @name statsCodeFrequencyDetail
        * @request GET:/repos/{owner}/{repo}/stats/code_frequency
@@ -1407,8 +1339,7 @@ export class Api extends HttpClient {
        * @request GET:/repos/{owner}/{repo}/subscribers
        * @description List watchers.
        */
-      subscribersDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/subscribers`, "GET", params),
+      subscribersDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/subscribers`, "GET", params),
       /**
        * @name subscriptionDelete
        * @request DELETE:/repos/{owner}/{repo}/subscription
@@ -1421,8 +1352,7 @@ export class Api extends HttpClient {
        * @request GET:/repos/{owner}/{repo}/subscription
        * @description Get a Repository Subscription.
        */
-      subscriptionDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/subscription`, "GET", params),
+      subscriptionDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/subscription`, "GET", params),
       /**
        * @name subscriptionUpdate
        * @request PUT:/repos/{owner}/{repo}/subscription
@@ -1435,22 +1365,19 @@ export class Api extends HttpClient {
        * @request GET:/repos/{owner}/{repo}/tags
        * @description Get list of tags.
        */
-      tagsDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/tags`, "GET", params),
+      tagsDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/tags`, "GET", params),
       /**
        * @name teamsDetail
        * @request GET:/repos/{owner}/{repo}/teams
        * @description Get list of teams
        */
-      teamsDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/teams`, "GET", params),
+      teamsDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/teams`, "GET", params),
       /**
        * @name watchersDetail
        * @request GET:/repos/{owner}/{repo}/watchers
        * @description List Stargazers. New implementation.
        */
-      watchersDetail: (owner, repo, params) =>
-        this.request(`/repos/${owner}/${repo}/watchers`, "GET", params),
+      watchersDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/watchers`, "GET", params),
       /**
        * @name reposDetail
        * @request GET:/repos/{owner}/{repo}/{archive_format}/{path}
@@ -1467,8 +1394,7 @@ export class Api extends HttpClient {
        * @request GET:/repositories
        * @description List all public repositories. This provides a dump of every public repository, in the order that they were created. Note: Pagination is powered exclusively by the since parameter. is the Link header to get the URL for the next page of repositories.
        */
-      repositoriesList: (query, params) =>
-        this.request(`/repositories${this.addQueryParams(query)}`, "GET", params),
+      repositoriesList: (query, params) => this.request(`/repositories${this.addQueryParams(query)}`, "GET", params),
     };
     this.search = {
       /**
@@ -1476,15 +1402,13 @@ export class Api extends HttpClient {
        * @request GET:/search/code
        * @description Search code.
        */
-      codeList: (query, params) =>
-        this.request(`/search/code${this.addQueryParams(query)}`, "GET", params),
+      codeList: (query, params) => this.request(`/search/code${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name issuesList
        * @request GET:/search/issues
        * @description Find issues by state and keyword. (This method returns up to 100 results per page.)
        */
-      issuesList: (query, params) =>
-        this.request(`/search/issues${this.addQueryParams(query)}`, "GET", params),
+      issuesList: (query, params) => this.request(`/search/issues${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name repositoriesList
        * @request GET:/search/repositories
@@ -1497,8 +1421,7 @@ export class Api extends HttpClient {
        * @request GET:/search/users
        * @description Search users.
        */
-      usersList: (query, params) =>
-        this.request(`/search/users${this.addQueryParams(query)}`, "GET", params),
+      usersList: (query, params) => this.request(`/search/users${this.addQueryParams(query)}`, "GET", params),
     };
     this.teams = {
       /**
@@ -1518,8 +1441,7 @@ export class Api extends HttpClient {
        * @request PATCH:/teams/{teamId}
        * @description Edit team. In order to edit a team, the authenticated user must be an owner of the org that the team is associated with.
        */
-      teamsPartialUpdate: (teamId, body, params) =>
-        this.request(`/teams/${teamId}`, "PATCH", params, body),
+      teamsPartialUpdate: (teamId, body, params) => this.request(`/teams/${teamId}`, "PATCH", params, body),
       /**
        * @name membersDetail
        * @request GET:/teams/{teamId}/members
@@ -1540,15 +1462,13 @@ export class Api extends HttpClient {
        * @originalName membersDetail
        * @duplicate
        */
-      membersDetail2: (teamId, username, params) =>
-        this.request(`/teams/${teamId}/members/${username}`, "GET", params),
+      membersDetail2: (teamId, username, params) => this.request(`/teams/${teamId}/members/${username}`, "GET", params),
       /**
        * @name membersUpdate
        * @request PUT:/teams/{teamId}/members/{username}
        * @description The API (described below) is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Add team membership API instead. It allows you to invite new organization members to your teams. Add team member. In order to add a user to a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with.
        */
-      membersUpdate: (teamId, username, params) =>
-        this.request(`/teams/${teamId}/members/${username}`, "PUT", params),
+      membersUpdate: (teamId, username, params) => this.request(`/teams/${teamId}/members/${username}`, "PUT", params),
       /**
        * @name membershipsDelete
        * @request DELETE:/teams/{teamId}/memberships/{username}
@@ -1648,29 +1568,25 @@ export class Api extends HttpClient {
        * @request DELETE:/user/following/{username}
        * @description Unfollow a user. Unfollowing a user requires the user to be logged in and authenticated with basic auth or OAuth with the user:follow scope.
        */
-      followingDelete: (username, params) =>
-        this.request(`/user/following/${username}`, "DELETE", params),
+      followingDelete: (username, params) => this.request(`/user/following/${username}`, "DELETE", params),
       /**
        * @name followingDetail
        * @request GET:/user/following/{username}
        * @description Check if you are following a user.
        */
-      followingDetail: (username, params) =>
-        this.request(`/user/following/${username}`, "GET", params),
+      followingDetail: (username, params) => this.request(`/user/following/${username}`, "GET", params),
       /**
        * @name followingUpdate
        * @request PUT:/user/following/{username}
        * @description Follow a user. Following a user requires the user to be logged in and authenticated with basic auth or OAuth with the user:follow scope.
        */
-      followingUpdate: (username, params) =>
-        this.request(`/user/following/${username}`, "PUT", params),
+      followingUpdate: (username, params) => this.request(`/user/following/${username}`, "PUT", params),
       /**
        * @name issuesList
        * @request GET:/user/issues
        * @description List issues. List all issues across owned and member repositories for the authenticated user.
        */
-      issuesList: (query, params) =>
-        this.request(`/user/issues${this.addQueryParams(query)}`, "GET", params),
+      issuesList: (query, params) => this.request(`/user/issues${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name keysList
        * @request GET:/user/keys
@@ -1706,8 +1622,7 @@ export class Api extends HttpClient {
        * @request GET:/user/repos
        * @description List repositories for the authenticated user. Note that this does not include repositories owned by organizations which the user can access. You can lis user organizations and list organization repositories separately.
        */
-      reposList: (query, params) =>
-        this.request(`/user/repos${this.addQueryParams(query)}`, "GET", params),
+      reposList: (query, params) => this.request(`/user/repos${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name reposCreate
        * @request POST:/user/repos
@@ -1719,29 +1634,25 @@ export class Api extends HttpClient {
        * @request GET:/user/starred
        * @description List repositories being starred by the authenticated user.
        */
-      starredList: (query, params) =>
-        this.request(`/user/starred${this.addQueryParams(query)}`, "GET", params),
+      starredList: (query, params) => this.request(`/user/starred${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name starredDelete
        * @request DELETE:/user/starred/{owner}/{repo}
        * @description Unstar a repository
        */
-      starredDelete: (owner, repo, params) =>
-        this.request(`/user/starred/${owner}/${repo}`, "DELETE", params),
+      starredDelete: (owner, repo, params) => this.request(`/user/starred/${owner}/${repo}`, "DELETE", params),
       /**
        * @name starredDetail
        * @request GET:/user/starred/{owner}/{repo}
        * @description Check if you are starring a repository.
        */
-      starredDetail: (owner, repo, params) =>
-        this.request(`/user/starred/${owner}/${repo}`, "GET", params),
+      starredDetail: (owner, repo, params) => this.request(`/user/starred/${owner}/${repo}`, "GET", params),
       /**
        * @name starredUpdate
        * @request PUT:/user/starred/{owner}/{repo}
        * @description Star a repository.
        */
-      starredUpdate: (owner, repo, params) =>
-        this.request(`/user/starred/${owner}/${repo}`, "PUT", params),
+      starredUpdate: (owner, repo, params) => this.request(`/user/starred/${owner}/${repo}`, "PUT", params),
       /**
        * @name subscriptionsList
        * @request GET:/user/subscriptions
@@ -1760,15 +1671,13 @@ export class Api extends HttpClient {
        * @request GET:/user/subscriptions/{owner}/{repo}
        * @description Check if you are watching a repository.
        */
-      subscriptionsDetail: (owner, repo, params) =>
-        this.request(`/user/subscriptions/${owner}/${repo}`, "GET", params),
+      subscriptionsDetail: (owner, repo, params) => this.request(`/user/subscriptions/${owner}/${repo}`, "GET", params),
       /**
        * @name subscriptionsUpdate
        * @request PUT:/user/subscriptions/{owner}/{repo}
        * @description Watch a repository.
        */
-      subscriptionsUpdate: (owner, repo, params) =>
-        this.request(`/user/subscriptions/${owner}/${repo}`, "PUT", params),
+      subscriptionsUpdate: (owner, repo, params) => this.request(`/user/subscriptions/${owner}/${repo}`, "PUT", params),
       /**
        * @name teamsList
        * @request GET:/user/teams
@@ -1782,8 +1691,7 @@ export class Api extends HttpClient {
        * @request GET:/users
        * @description Get all users. This provides a dump of every user, in the order that they signed up for GitHub. Note: Pagination is powered exclusively by the since parameter. Use the Link header to get the URL for the next page of users.
        */
-      usersList: (query, params) =>
-        this.request(`/users${this.addQueryParams(query)}`, "GET", params),
+      usersList: (query, params) => this.request(`/users${this.addQueryParams(query)}`, "GET", params),
       /**
        * @name usersDetail
        * @request GET:/users/{username}
@@ -1801,15 +1709,13 @@ export class Api extends HttpClient {
        * @request GET:/users/{username}/events/orgs/{org}
        * @description This is the user's organization dashboard. You must be authenticated as the user to view this.
        */
-      eventsOrgsDetail: (username, org, params) =>
-        this.request(`/users/${username}/events/orgs/${org}`, "GET", params),
+      eventsOrgsDetail: (username, org, params) => this.request(`/users/${username}/events/orgs/${org}`, "GET", params),
       /**
        * @name followersDetail
        * @request GET:/users/{username}/followers
        * @description List a user's followers
        */
-      followersDetail: (username, params) =>
-        this.request(`/users/${username}/followers`, "GET", params),
+      followersDetail: (username, params) => this.request(`/users/${username}/followers`, "GET", params),
       /**
        * @name followingDetail
        * @request GET:/users/{username}/following/{targetUser}
@@ -1841,8 +1747,7 @@ export class Api extends HttpClient {
        * @request GET:/users/{username}/received_events
        * @description These are events that you'll only see public events.
        */
-      receivedEventsDetail: (username, params) =>
-        this.request(`/users/${username}/received_events`, "GET", params),
+      receivedEventsDetail: (username, params) => this.request(`/users/${username}/received_events`, "GET", params),
       /**
        * @name receivedEventsPublicDetail
        * @request GET:/users/{username}/received_events/public
@@ -1862,15 +1767,13 @@ export class Api extends HttpClient {
        * @request GET:/users/{username}/starred
        * @description List repositories being starred by a user.
        */
-      starredDetail: (username, params) =>
-        this.request(`/users/${username}/starred`, "GET", params),
+      starredDetail: (username, params) => this.request(`/users/${username}/starred`, "GET", params),
       /**
        * @name subscriptionsDetail
        * @request GET:/users/{username}/subscriptions
        * @description List repositories being watched by a user.
        */
-      subscriptionsDetail: (username, params) =>
-        this.request(`/users/${username}/subscriptions`, "GET", params),
+      subscriptionsDetail: (username, params) => this.request(`/users/${username}/subscriptions`, "GET", params),
     };
   }
 }
