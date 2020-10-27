@@ -125,11 +125,16 @@ export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };
 
-type ApiConfig<SecurityDataType> = {
+interface ApiConfig<SecurityDataType> {
   baseUrl?: string;
   baseApiParams?: RequestParams;
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
-};
+}
+
+interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
+  data: D | null;
+  error: E | null;
+}
 
 enum BodyType {
   Json,
@@ -176,11 +181,26 @@ class HttpClient<SecurityDataType> {
     };
   }
 
-  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
-    response
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
+    const r = response.clone() as HttpResponse<T, E>;
+    r.data = null;
+    r.error = null;
+
+    return response
       .json()
-      .then((data) => data)
-      .catch((e) => response.text);
+      .then((data) => {
+        if (r.ok) {
+          r.data = data;
+        } else {
+          r.error = data;
+        }
+        return r;
+      })
+      .catch((e) => {
+        r.error = e;
+        return r;
+      });
+  };
 
   public request = <T = any, E = any>(
     path: string,
@@ -189,7 +209,7 @@ class HttpClient<SecurityDataType> {
     body?: any,
     bodyType?: BodyType,
     secureByDefault?: boolean,
-  ): Promise<T> =>
+  ): Promise<HttpResponse<T>> =>
     fetch(`${this.baseUrl}${path}`, {
       // @ts-ignore
       ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),

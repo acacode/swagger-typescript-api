@@ -31,11 +31,25 @@ class HttpClient {
     this.bodyFormatters = {
       [BodyType.Json]: JSON.stringify,
     };
-    this.safeParseResponse = (response) =>
-      response
+    this.safeParseResponse = (response) => {
+      const r = response.clone();
+      r.data = null;
+      r.error = null;
+      return response
         .json()
-        .then((data) => data)
-        .catch((e) => response.text);
+        .then((data) => {
+          if (r.ok) {
+            r.data = data;
+          } else {
+            r.error = data;
+          }
+          return r;
+        })
+        .catch((e) => {
+          r.error = e;
+          return r;
+        });
+    };
     this.request = (path, method, { secure, ...params } = {}, body, bodyType, secureByDefault) =>
       fetch(`${this.baseUrl}${path}`, {
         // @ts-ignore
