@@ -1,5 +1,23 @@
 # next release  
 
+Features:
+- `--js` CLI option. [[feature request]](https://github.com/acacode/swagger-typescript-api/issues/79)  
+
+BREAKING_CHANGES:  
+- Requests returns `Promise<HttpResponse<Data, Error>>` type.  
+  `HttpResponse` it is [Fetch.Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) wrapper with fields `data` and `error`
+  Example:  
+  ```ts
+    const api = new Api()
+    
+    //
+    const response: HttpResponse<Data, Error> = await api.fruits.getAll()
+
+    response.data // Data (can be null if response.ok is false)
+    response.error // Error (can be null if response.ok is true)
+  ```  
+- Breaking changes in the `client.mustache` template. Needs to update local custom templates.  
+
 
 # 1.12.0   
 

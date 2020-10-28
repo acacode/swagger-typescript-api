@@ -8,7 +8,7 @@
     "cli:debug:json": "node --nolazy index.js -p ./swagger-test-cli.json -n swagger-test-cli.ts --union-enums",
     "cli:debug:yaml": "node --nolazy index.js -p ./swagger-test-cli.yaml -n swagger-test-cli.ts",
     "cli:help": "node index.js -h",
-    "test:all": "npm-run-all generate validate test:routeTypes test:noClient test:defaultAsSuccess test:responses test:templates test:unionEnums test:specProperty --continue-on-error",
+    "test:all": "npm-run-all generate validate test:routeTypes test:noClient test:defaultAsSuccess test:responses test:templates test:unionEnums test:specProperty test:js --continue-on-error",
     "generate": "node tests/generate.js",
     "generate:debug": "node --nolazy tests/generate.js",
     "validate": "node tests/validate.js",
@@ -19,7 +19,8 @@
     "test:templates": "node tests/spec/templates/test.js",
     "test:unionEnums": "node tests/spec/unionEnums/test.js",
     "test:responses": "node tests/spec/responses/test.js",
-    "test:specProperty": "node tests/spec/specProperty/test.js"
+    "test:specProperty": "node tests/spec/specProperty/test.js",
+    "test:js": "node tests/spec/js/test.js"
   },
   "author": "acacode",
   "license": "MIT",
@@ -31,8 +32,7 @@
     "@types/prettier": "^2.0.1",
     "husky": "^4.2.3",
     "npm-run-all": "^4.1.5",
-    "pretty-quick": "^2.0.1",
-    "typescript": "^3.9.3"
+    "pretty-quick": "^2.0.1"
   },
   "dependencies": {
     "@types/swagger-schema-official": "2.0.21",
@@ -43,7 +43,8 @@
     "mustache": "^4.0.1",
     "prettier": "^2.0.5",
     "swagger-schema-official": "2.0.0-bab6bed",
-    "swagger2openapi": "^6.0.3"
+    "swagger2openapi": "^6.0.3",
+    "typescript": "^4.0.2"
   },
   "bin": {
     "swagger-typescript-api": "index.js",

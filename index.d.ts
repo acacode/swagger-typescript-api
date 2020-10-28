@@ -50,6 +50,11 @@ interface GenerateApiParams {
    * also add typings for bad responses
    */
   generateResponses?: boolean;
+
+  /**
+   * generate js api module with declaration file (default: false)
+   */
+  toJS?: boolean;
 }
 
 export declare function generateApi(

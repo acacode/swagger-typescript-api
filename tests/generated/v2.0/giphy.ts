@@ -1,6 +1,5 @@
 /* tslint:disable */
 /* eslint-disable */
-
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -183,11 +182,16 @@ export type RequestParams = Omit<RequestInit, "body" | "method"> & {
 
 export type RequestQueryParamsType = Record<string | number, any>;
 
-type ApiConfig<SecurityDataType> = {
+interface ApiConfig<SecurityDataType> {
   baseUrl?: string;
   baseApiParams?: RequestParams;
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
-};
+}
+
+interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
+  data: D | null;
+  error: E | null;
+}
 
 enum BodyType {
   Json,
@@ -196,7 +200,7 @@ enum BodyType {
 class HttpClient<SecurityDataType> {
   public baseUrl: string = "https://api.giphy.com/v1";
   private securityData: SecurityDataType = null as any;
-  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
+  private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
 
   private baseApiParams: RequestParams = {
     credentials: "same-origin",
@@ -207,10 +211,8 @@ class HttpClient<SecurityDataType> {
     referrerPolicy: "no-referrer",
   };
 
-  constructor({ baseUrl, baseApiParams, securityWorker }: ApiConfig<SecurityDataType> = {}) {
-    this.baseUrl = baseUrl || this.baseUrl;
-    this.baseApiParams = baseApiParams || this.baseApiParams;
-    this.securityWorker = securityWorker || this.securityWorker;
+  constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
+    Object.assign(this, apiConfig);
   }
 
   public setSecurityData = (data: SecurityDataType) => {
@@ -254,11 +256,26 @@ class HttpClient<SecurityDataType> {
     };
   }
 
-  private safeParseResponse = <T = any, E = any>(response: Response): Promise<T> =>
-    response
+  private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
+    const r = response.clone() as HttpResponse<T, E>;
+    r.data = null;
+    r.error = null;
+
+    return response
       .json()
-      .then((data) => data)
-      .catch((e) => response.text);
+      .then((data) => {
+        if (r.ok) {
+          r.data = data;
+        } else {
+          r.error = data;
+        }
+        return r;
+      })
+      .catch((e) => {
+        r.error = e;
+        return r;
+      });
+  };
 
   public request = <T = any, E = any>(
     path: string,
@@ -267,17 +284,22 @@ class HttpClient<SecurityDataType> {
     body?: any,
     bodyType?: BodyType,
     secureByDefault?: boolean,
-  ): Promise<T> =>
-    fetch(`${this.baseUrl}${path}`, {
-      // @ts-ignore
-      ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
+  ): Promise<HttpResponse<T>> => {
+    const requestUrl = `${this.baseUrl}${path}`;
+    const secureOptions =
+      (secureByDefault || secure) && this.securityWorker ? this.securityWorker(this.securityData) : {};
+    const requestOptions = {
+      ...this.mergeRequestOptions(params, secureOptions),
       method,
       body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
-    }).then(async (response) => {
+    };
+
+    return fetch(requestUrl, requestOptions).then(async (response) => {
       const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data;
       return data;
     });
+  };
 }
 
 /**
@@ -293,6 +315,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name getGifsById
      * @summary Get GIFs by ID
      * @request GET:/gifs
+     * @secure
      * @description A multiget version of the get GIF by ID endpoint.
      */
     getGifsById: (query?: { ids?: string }, params?: RequestParams) =>
@@ -300,6 +323,9 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
         `/gifs${this.addQueryParams(query)}`,
         "GET",
         params,
+        null,
+        BodyType.Json,
+        true,
       ),
 
     /**
@@ -307,16 +333,25 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name randomGif
      * @summary Random GIF
      * @request GET:/gifs/random
+     * @secure
      * @description Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.
      */
     randomGif: (query?: { tag?: string; rating?: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif; meta?: Meta }, any>(`/gifs/random${this.addQueryParams(query)}`, "GET", params),
+      this.request<{ data?: Gif; meta?: Meta }, any>(
+        `/gifs/random${this.addQueryParams(query)}`,
+        "GET",
+        params,
+        null,
+        BodyType.Json,
+        true,
+      ),
 
     /**
      * @tags gifs
      * @name searchGifs
      * @summary Search GIFs
      * @request GET:/gifs/search
+     * @secure
      * @description Search all GIPHY GIFs for a word or phrase. Punctuation will be stripped and ignored.  Use a plus or url encode for phrases. Example paul+rudd, ryan+gosling or american+psycho.
      */
     searchGifs: (
@@ -327,6 +362,9 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
         `/gifs/search${this.addQueryParams(query)}`,
         "GET",
         params,
+        null,
+        BodyType.Json,
+        true,
       ),
 
     /**
@@ -334,16 +372,25 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name translateGif
      * @summary Translate phrase to GIF
      * @request GET:/gifs/translate
+     * @secure
      * @description The translate API draws on search, but uses the GIPHY `special sauce` to handle translating from one vocabulary to another. In this case, words and phrases to GIF
      */
     translateGif: (query: { s: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif; meta?: Meta }, any>(`/gifs/translate${this.addQueryParams(query)}`, "GET", params),
+      this.request<{ data?: Gif; meta?: Meta }, any>(
+        `/gifs/translate${this.addQueryParams(query)}`,
+        "GET",
+        params,
+        null,
+        BodyType.Json,
+        true,
+      ),
 
     /**
      * @tags gifs
      * @name trendingGifs
      * @summary Trending GIFs
      * @request GET:/gifs/trending
+     * @secure
      * @description Fetch GIFs currently trending online. Hand curated by the GIPHY editorial team.  The data returned mirrors the GIFs showcased on the GIPHY homepage. Returns 25 results by default.
      */
     trendingGifs: (query?: { limit?: number; offset?: number; rating?: string }, params?: RequestParams) =>
@@ -351,6 +398,9 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
         `/gifs/trending${this.addQueryParams(query)}`,
         "GET",
         params,
+        null,
+        BodyType.Json,
+        true,
       ),
 
     /**
@@ -358,10 +408,11 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name getGifById
      * @summary Get GIF by Id
      * @request GET:/gifs/{gifId}
+     * @secure
      * @description Returns a GIF given that GIF's unique ID
      */
     getGifById: (gifId: number, params?: RequestParams) =>
-      this.request<{ data?: Gif; meta?: Meta }, any>(`/gifs/${gifId}`, "GET", params),
+      this.request<{ data?: Gif; meta?: Meta }, any>(`/gifs/${gifId}`, "GET", params, null, BodyType.Json, true),
   };
   stickers = {
     /**
@@ -369,16 +420,25 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name randomSticker
      * @summary Random Sticker
      * @request GET:/stickers/random
+     * @secure
      * @description Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.
      */
     randomSticker: (query?: { tag?: string; rating?: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif; meta?: Meta }, any>(`/stickers/random${this.addQueryParams(query)}`, "GET", params),
+      this.request<{ data?: Gif; meta?: Meta }, any>(
+        `/stickers/random${this.addQueryParams(query)}`,
+        "GET",
+        params,
+        null,
+        BodyType.Json,
+        true,
+      ),
 
     /**
      * @tags stickers
      * @name searchStickers
      * @summary Search Stickers
      * @request GET:/stickers/search
+     * @secure
      * @description Replicates the functionality and requirements of the classic GIPHY search, but returns animated stickers rather than GIFs.
      */
     searchStickers: (
@@ -389,6 +449,9 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
         `/stickers/search${this.addQueryParams(query)}`,
         "GET",
         params,
+        null,
+        BodyType.Json,
+        true,
       ),
 
     /**
@@ -396,16 +459,25 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name translateSticker
      * @summary Translate phrase to Sticker
      * @request GET:/stickers/translate
+     * @secure
      * @description The translate API draws on search, but uses the GIPHY `special sauce` to handle translating from one vocabulary to another. In this case, words and phrases to GIFs.
      */
     translateSticker: (query: { s: string }, params?: RequestParams) =>
-      this.request<{ data?: Gif; meta?: Meta }, any>(`/stickers/translate${this.addQueryParams(query)}`, "GET", params),
+      this.request<{ data?: Gif; meta?: Meta }, any>(
+        `/stickers/translate${this.addQueryParams(query)}`,
+        "GET",
+        params,
+        null,
+        BodyType.Json,
+        true,
+      ),
 
     /**
      * @tags stickers
      * @name trendingStickers
      * @summary Trending Stickers
      * @request GET:/stickers/trending
+     * @secure
      * @description Fetch Stickers currently trending online. Hand curated by the GIPHY editorial team. Returns 25 results by default.
      */
     trendingStickers: (query?: { limit?: number; offset?: number; rating?: string }, params?: RequestParams) =>
@@ -413,6 +485,9 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
         `/stickers/trending${this.addQueryParams(query)}`,
         "GET",
         params,
+        null,
+        BodyType.Json,
+        true,
       ),
   };
 }

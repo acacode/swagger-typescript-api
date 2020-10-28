@@ -22,12 +22,13 @@ const { getTemplates } = require("./templates");
 
 mustache.escape = (value) => value;
 
-const prettierConfig = {
-  printWidth: 120,
-  tabWidth: 2,
-  trailingComma: "all",
-  parser: "typescript",
-};
+const prettierFormat = (content) =>
+  prettier.format(content, {
+    printWidth: 120,
+    tabWidth: 2,
+    trailingComma: "all",
+    parser: "typescript",
+  });
 
 module.exports = {
   generateApi: ({
@@ -36,6 +37,7 @@ module.exports = {
     url,
     spec,
     name,
+    toJS,
     templates = resolve(__dirname, config.templates),
     generateResponses = config.generateResponses,
     defaultResponseAsSuccess = config.defaultResponseAsSuccess,
@@ -87,21 +89,36 @@ module.exports = {
             routes: groupRoutes(routes),
           };
 
-          const sourceFile = prettier.format(
-            [
-              mustache.render(apiTemplate, configuration),
-              generateRouteTypes ? mustache.render(routeTypesTemplate, configuration) : "",
-              generateClient ? mustache.render(clientTemplate, configuration) : "",
-            ].join(""),
-            prettierConfig,
-          );
+          let sourceFileContent = [
+            mustache.render(apiTemplate, configuration),
+            generateRouteTypes ? mustache.render(routeTypesTemplate, configuration) : "",
+            generateClient ? mustache.render(clientTemplate, configuration) : "",
+          ].join("");
 
-          if (pathIsExist(output)) {
-            createFile(output, name, sourceFile);
-            console.log(`✔️  your typescript api file created in "${output}"`);
+          if (toJS) {
+            const {
+              sourceFile: sourceJsFile,
+              declarationFile,
+            } = require("./translators/JavaScript").translate(name, sourceFileContent);
+
+            sourceJsFile.content = prettierFormat(sourceJsFile.content);
+            declarationFile.content = prettierFormat(declarationFile.content);
+
+            if (pathIsExist(output)) {
+              createFile(output, sourceJsFile.name, sourceJsFile.content);
+              createFile(output, declarationFile.name, declarationFile.content);
+              console.log(`✔️  your javascript api file created in "${output}"`);
+            }
+            resolve(sourceJsFile.content);
+          } else {
+            sourceFileContent = prettierFormat(sourceFileContent);
+
+            if (pathIsExist(output)) {
+              createFile(output, name, sourceFileContent);
+              console.log(`✔️  your typescript api file created in "${output}"`);
+            }
+            resolve(sourceFileContent);
           }
-
-          resolve(sourceFile);
         })
         .catch((e) => {
           reject(e);

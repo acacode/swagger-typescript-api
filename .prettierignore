@@ -1,2 +1,4 @@
 tests/**/*.ts
+tests/**/schema.js
+tests/**/*.d.js
 *.md
