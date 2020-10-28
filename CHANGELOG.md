@@ -1,4 +1,4 @@
-# next release  
+# 2.0.0  
 
 Features:
 - `--js` CLI option. [[feature request]](https://github.com/acacode/swagger-typescript-api/issues/79)  
@@ -17,6 +17,9 @@ BREAKING_CHANGES:
     response.error // Error (can be null if response.ok is true)
   ```  
 - Breaking changes in the `client.mustache` template. Needs to update local custom templates.  
+
+Fixes:  
+- Security configuration in methods. When the security definition is in the main configuration of the swagger definition  
 
 
 # 1.12.0   
