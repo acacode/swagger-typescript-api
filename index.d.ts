@@ -51,6 +51,9 @@ interface GenerateApiParams {
    */
   generateResponses?: boolean;
 
+  /**
+   * generate js api module with declaration file (default: false)
+   */
   toJS?: boolean;
 }
 
