@@ -15,7 +15,8 @@ BREAKING_CHANGES:
 
     response.data // Data (can be null if response.ok is false)
     response.error // Error (can be null if response.ok is true)
-  ```
+  ```  
+- Breaking changes in the `client.mustache` template. Needs to update local custom templates.  
 
 
 # 1.12.0   

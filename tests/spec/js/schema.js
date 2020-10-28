@@ -13,10 +13,10 @@ var BodyType;
   BodyType[(BodyType["Json"] = 0)] = "Json";
 })(BodyType || (BodyType = {}));
 class HttpClient {
-  constructor({ baseUrl, baseApiParams, securityWorker } = {}) {
+  constructor(apiConfig = {}) {
     this.baseUrl = "https://api.github.com/";
     this.securityData = null;
-    this.securityWorker = () => {};
+    this.securityWorker = null;
     this.baseApiParams = {
       credentials: "same-origin",
       headers: {
@@ -50,20 +50,22 @@ class HttpClient {
           return r;
         });
     };
-    this.request = (path, method, { secure, ...params } = {}, body, bodyType, secureByDefault) =>
-      fetch(`${this.baseUrl}${path}`, {
-        // @ts-ignore
-        ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
+    this.request = (path, method, { secure, ...params } = {}, body, bodyType, secureByDefault) => {
+      const requestUrl = `${this.baseUrl}${path}`;
+      const secureOptions =
+        (secureByDefault || secure) && this.securityWorker ? this.securityWorker(this.securityData) : {};
+      const requestOptions = {
+        ...this.mergeRequestOptions(params, secureOptions),
         method,
         body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
-      }).then(async (response) => {
+      };
+      return fetch(requestUrl, requestOptions).then(async (response) => {
         const data = await this.safeParseResponse(response);
         if (!response.ok) throw data;
         return data;
       });
-    this.baseUrl = baseUrl || this.baseUrl;
-    this.baseApiParams = baseApiParams || this.baseApiParams;
-    this.securityWorker = securityWorker || this.securityWorker;
+    };
+    Object.assign(this, apiConfig);
   }
   addQueryParam(query, key) {
     return (

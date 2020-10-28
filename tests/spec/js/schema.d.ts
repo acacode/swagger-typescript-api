@@ -1687,7 +1687,7 @@ declare class HttpClient<SecurityDataType> {
   private securityData;
   private securityWorker;
   private baseApiParams;
-  constructor({ baseUrl, baseApiParams, securityWorker }?: ApiConfig<SecurityDataType>);
+  constructor(apiConfig?: ApiConfig<SecurityDataType>);
   setSecurityData: (data: SecurityDataType) => void;
   private addQueryParam;
   protected addQueryParams(rawQuery?: RequestQueryParamsType): string;

@@ -85,7 +85,7 @@ enum BodyType {
 class HttpClient<SecurityDataType> {
   public baseUrl: string = "https://petstore.swagger.io/v2";
   private securityData: SecurityDataType = null as any;
-  private securityWorker: ApiConfig<SecurityDataType>["securityWorker"] = (() => {}) as any;
+  private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
 
   private baseApiParams: RequestParams = {
     credentials: "same-origin",
@@ -96,10 +96,8 @@ class HttpClient<SecurityDataType> {
     referrerPolicy: "no-referrer",
   };
 
-  constructor({ baseUrl, baseApiParams, securityWorker }: ApiConfig<SecurityDataType> = {}) {
-    this.baseUrl = baseUrl || this.baseUrl;
-    this.baseApiParams = baseApiParams || this.baseApiParams;
-    this.securityWorker = securityWorker || this.securityWorker;
+  constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
+    Object.assign(this, apiConfig);
   }
 
   public setSecurityData = (data: SecurityDataType) => {
@@ -176,17 +174,22 @@ class HttpClient<SecurityDataType> {
     body?: any,
     bodyType?: BodyType,
     secureByDefault?: boolean,
-  ): Promise<HttpResponse<T>> =>
-    fetch(`${this.baseUrl}${path}`, {
-      // @ts-ignore
-      ...this.mergeRequestOptions(params, (secureByDefault || secure) && this.securityWorker(this.securityData)),
+  ): Promise<HttpResponse<T>> => {
+    const requestUrl = `${this.baseUrl}${path}`;
+    const secureOptions =
+      (secureByDefault || secure) && this.securityWorker ? this.securityWorker(this.securityData) : {};
+    const requestOptions = {
+      ...this.mergeRequestOptions(params, secureOptions),
       method,
       body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
-    }).then(async (response) => {
+    };
+
+    return fetch(requestUrl, requestOptions).then(async (response) => {
       const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data;
       return data;
     });
+  };
 }
 
 /**
