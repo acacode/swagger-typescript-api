@@ -1,6 +1,6 @@
 const config = {
   /** CLI flag */
-  templates: "./templates",
+  templates: "./templates/defaults",
   /** CLI flag */
   generateResponses: false,
   /** CLI flag */
