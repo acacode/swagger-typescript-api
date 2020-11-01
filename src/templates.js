@@ -16,6 +16,9 @@ const getTemplates = () => {
   };
 };
 
+const getTemplate = (templateName) =>
+  getFileContent(resolve(config.templates, `./${templateName}.eta`));
+
 module.exports = {
   getTemplates,
 };
