@@ -9,12 +9,14 @@
 * ---------------------------------------------------------------
 */
 
-{{#modelTypes}}
+<% it.modelTypes.forEach(({ typeIdentifier, name, content, description }) => { %>
 
-{{#description}}
-/**
- * {{.}}
- */
-{{/description}}
-export {{typeIdentifier}} {{name}} {{content}}
-{{/modelTypes}}
+    <% if (description) { %>
+    /**
+    * <%~ description %>
+
+    */
+    <% } %>
+    export <%~ typeIdentifier %> <%~ name %> <%~ content %>
+
+<% }) %>
