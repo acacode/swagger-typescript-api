@@ -1,5 +1,13 @@
 # 2.0.0  
 
+BREAKING_CHANGES:  
+- Renamed mustache templates:  
+  - `api.mustache` -> `data-contracts.mustache`   
+  - `client.mustache` -> `http.client.mustache` + `api.mustache`  
+- Split the `client.mustache` template into two parts: `http-client.mustache` and `api.mustache`
+
+# 2.0.0  
+
 Features:
 - `--js` CLI option. [[feature request]](https://github.com/acacode/swagger-typescript-api/issues/79)  
 

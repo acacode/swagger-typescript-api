@@ -11,7 +11,8 @@ export type RequestQueryParamsType = Record<string | number, any>;
 interface ApiConfig<<%~ it.apiConfig.generic.map(g => g.name).join(', ') %>> {
     baseUrl?: string;
     baseApiParams?: RequestParams;
-    securityWorker?: (securityData: SecurityDataType) => RequestParams;
+    securityWorker?: (securityData: SecurityDataType) => Promise<RequestParams>;
+    CUSTOM_API_CONFIG_PARAM?: string;
 }
 
 <% if (it.generateResponses) {%>
@@ -117,7 +118,7 @@ class HttpClient<<%~ it.apiConfig.generic.map(g => g.name).join(', ') %>> {
             });
     }
 
-    public request = <T = any, E = any>(
+    public request = async <T = any, E = any>(
         path: string,
         method: string,
         { secure, ...params }: RequestParams = {},
@@ -126,7 +127,7 @@ class HttpClient<<%~ it.apiConfig.generic.map(g => g.name).join(', ') %>> {
         secureByDefault?: boolean,
     ): <% if (it.generateResponses) { %>TPromise<HttpResponse<T, E>><% } else { %>Promise<HttpResponse<T>><% } %> => {
         const requestUrl = `${this.baseUrl}${path}`;
-        const secureOptions = (secureByDefault || secure) && this.securityWorker ? this.securityWorker(this.securityData) : {};
+        const secureOptions = (secureByDefault || secure) && this.securityWorker ? await this.securityWorker(this.securityData) : {};
         const requestOptions = {
             ...this.mergeRequestOptions(params, secureOptions),
             method,
@@ -139,52 +140,4 @@ class HttpClient<<%~ it.apiConfig.generic.map(g => g.name).join(', ') %>> {
             return data
         })
     }
-}
-
-<% if (it.apiConfig.hasDescription) { %>
-/**
-<% it.apiConfig.description.forEach((jsDocLine) => { %>
-* <%~ jsDocLine %>
-
-<% }) %>
-*/
-<% } %>
-export class Api<<%~ it.apiConfig.generic.map(g => `${g.name} = ${g.defaultValue}`).join(', ') %>> extends HttpClient<<%~ it.apiConfig.generic.map(g => g.name).join(', ') %>>{
-<%
-/* TODO: outOfModule, combined should be attributes of route, which will allow to avoid duplication of code */
-%>
-
-<% it.routes.outOfModule && it.routes.outOfModule.forEach(({ name, comments = [], routeArgs = [], returnType, errorReturnType, requestMethodContent }) => { %>
-
-    /**
-    <% comments.forEach((jsDocLine) => { %>
-    * <%~ jsDocLine %>
-
-    <% }) %>
-    */
-    <%~ name %> = (
-        <% routeArgs.forEach(({ name, optional, type }) => { %>
-            <%~ optional ? `${name}?` : name %>: <%~ type %>,
-        <% }) %>) =>
-    this.request<<%~ returnType %>, <%~ errorReturnType %>>(<%~ requestMethodContent %>)
-<% }) %>
-
-<% it.routes.combined && it.routes.combined.forEach(({ routes = [], moduleName }) => { %>
-    <%~ moduleName %> = {
-    <% routes.forEach(({ name, comments = [], routeArgs = [], returnType, errorReturnType, requestMethodContent }) => { %>
-
-        /**
-        <% comments.forEach((jsDocLine) => { %>
-        * <%~ jsDocLine %>
-
-        <% }) %>
-        */
-        <%~ name %>: (
-        <% routeArgs.forEach(({ name, optional, type }) => { %>
-            <%~ optional ? `${name}?` : name %>: <%~ type %>,
-        <% }) %>) =>
-        this.request<<%~ returnType %>, <%~ errorReturnType %>>(<%~ requestMethodContent %>),
-    <% }) %>
-    }
-<% }) %>
 }

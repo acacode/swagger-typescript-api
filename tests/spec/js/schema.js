@@ -8,6 +8,7 @@
  * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
  * ---------------------------------------------------------------
  */
+
 var BodyType;
 (function (BodyType) {
   BodyType[(BodyType["Json"] = 0)] = "Json";

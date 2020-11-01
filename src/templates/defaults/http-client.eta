@@ -11,8 +11,7 @@ export type RequestQueryParamsType = Record<string | number, any>;
 interface ApiConfig<<%~ it.apiConfig.generic.map(g => g.name).join(', ') %>> {
     baseUrl?: string;
     baseApiParams?: RequestParams;
-    securityWorker?: (securityData: SecurityDataType) => Promise<RequestParams>;
-    CUSTOM_API_CONFIG_PARAM?: string;
+    securityWorker?: (securityData: SecurityDataType) => RequestParams;
 }
 
 <% if (it.generateResponses) {%>
@@ -118,7 +117,7 @@ class HttpClient<<%~ it.apiConfig.generic.map(g => g.name).join(', ') %>> {
             });
     }
 
-    public request = async <T = any, E = any>(
+    public request = <T = any, E = any>(
         path: string,
         method: string,
         { secure, ...params }: RequestParams = {},
@@ -127,7 +126,7 @@ class HttpClient<<%~ it.apiConfig.generic.map(g => g.name).join(', ') %>> {
         secureByDefault?: boolean,
     ): <% if (it.generateResponses) { %>TPromise<HttpResponse<T, E>><% } else { %>Promise<HttpResponse<T>><% } %> => {
         const requestUrl = `${this.baseUrl}${path}`;
-        const secureOptions = (secureByDefault || secure) && this.securityWorker ? await this.securityWorker(this.securityData) : {};
+        const secureOptions = (secureByDefault || secure) && this.securityWorker ? this.securityWorker(this.securityData) : {};
         const requestOptions = {
             ...this.mergeRequestOptions(params, secureOptions),
             method,
@@ -141,4 +140,3 @@ class HttpClient<<%~ it.apiConfig.generic.map(g => g.name).join(', ') %>> {
         })
     }
 }
-
