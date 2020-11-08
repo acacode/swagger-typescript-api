@@ -1,5 +1,0 @@
-<% it.modelTypes.forEach(({ typeIdentifier, name, content }) => { %>
-
-export <%~ typeIdentifier %> <%~ name %> <%~ content %>
-
-<% }) %>

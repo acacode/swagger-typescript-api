@@ -6,10 +6,10 @@
 // License text available at https://opensource.org/licenses/MIT
 // Repository https://github.com/acacode/swagger-typescript-api
 
-const eta = require("eta");
+const Eta = require("eta");
 const prettier = require("prettier");
 const _ = require("lodash");
-const { resolve } = require("path");
+const path = require("path");
 const { parseSchemas } = require("./schema");
 const { parseRoutes, groupRoutes } = require("./routes");
 const { createApiConfig } = require("./apiConfig");
@@ -18,7 +18,9 @@ const { getSwaggerObject, fixSwaggerScheme, convertSwaggerObject } = require("./
 const { createComponentsMap, filterComponentsMap } = require("./components");
 const { createFile, pathIsExist } = require("./files");
 const { addToConfig, config } = require("./config");
-const { getTemplates } = require("./templates");
+const { getTemplate } = require("./templates");
+
+const { resolve } = path;
 
 const prettierFormat = (content) =>
   prettier.format(content, {
@@ -54,12 +56,10 @@ module.exports = {
       });
       (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url))
         .then(({ usageSchema, originalSchema }) => {
-          const {
-            dataContractsTemplate,
-            httpClientTemplate,
-            apiTemplate,
-            routeTypesTemplate,
-          } = getTemplates();
+          Eta.configure({
+            views: path.resolve(config.templates),
+          });
+          const renderTemplate = getTemplate(config);
 
           console.log("☄️  start generating your typescript api");
 
@@ -84,22 +84,17 @@ module.exports = {
 
           const configuration = {
             apiConfig,
+            config,
             modelTypes: _.map(schemasMap, getModelType),
             hasFormDataRoutes,
             hasSecurityRoutes,
             hasQueryRoutes,
             generateResponses,
             routes: groupRoutes(routes),
+            utils: require("./render/utils"),
           };
 
-          let sourceFileContent = [
-            eta.render(dataContractsTemplate, configuration, { async: false }),
-            generateRouteTypes
-              ? eta.render(routeTypesTemplate, configuration, { async: false })
-              : "",
-            generateClient ? eta.render(httpClientTemplate, configuration, { async: false }) : "",
-            generateClient ? eta.render(apiTemplate, configuration, { async: false }) : "",
-          ].join("");
+          let sourceFileContent = Eta.render(renderTemplate, configuration, { async: false });
 
           if (toJS) {
             const {

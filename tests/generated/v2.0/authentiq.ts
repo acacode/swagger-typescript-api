@@ -80,6 +80,7 @@ interface HttpResponse<D extends unknown, E extends unknown = unknown> extends R
 
 enum BodyType {
   Json,
+  FormData,
 }
 
 class HttpClient<SecurityDataType> {
@@ -126,6 +127,11 @@ class HttpClient<SecurityDataType> {
 
   private bodyFormatters: Record<BodyType, (input: any) => any> = {
     [BodyType.Json]: JSON.stringify,
+    [BodyType.FormData]: (input: any) =>
+      Object.keys(input).reduce((data, key) => {
+        data.append(key, input[key]);
+        return data;
+      }, new FormData()),
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -196,83 +202,92 @@ class HttpClient<SecurityDataType> {
 export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   key = {
     /**
+     * @description Revoke an Authentiq ID using email & phone. If called with `email` and `phone` only, a verification code will be sent by email. Do a second call adding `code` to complete the revocation.
+     *
      * @tags key, delete
      * @name key_revoke_nosecret
      * @request DELETE:/key
-     * @description Revoke an Authentiq ID using email & phone. If called with `email` and `phone` only, a verification code will be sent by email. Do a second call adding `code` to complete the revocation.
      */
     keyRevokeNosecret: (query: { email: string; phone: string; code?: string }, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/key${this.addQueryParams(query)}`, "DELETE", params),
 
     /**
+     * @description Register a new ID `JWT(sub, devtoken)` v5: `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
+     *
      * @tags key, post
      * @name key_register
      * @request POST:/key
-     * @description Register a new ID `JWT(sub, devtoken)` v5: `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
      */
     keyRegister: (body: AuthentiqID, params?: RequestParams) =>
       this.request<{ secret?: string; status?: string }, Error>(`/key`, "POST", params, body),
 
     /**
+     * @description Revoke an Identity (Key) with a revocation secret
+     *
      * @tags key, delete
      * @name key_revoke
      * @request DELETE:/key/{PK}
-     * @description Revoke an Identity (Key) with a revocation secret
      */
     keyRevoke: (PK: string, query: { secret: string }, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/key/${PK}${this.addQueryParams(query)}`, "DELETE", params),
 
     /**
+     * @description Get public details of an Authentiq ID.
+     *
      * @tags key, get
      * @name getKey
      * @request GET:/key/{PK}
-     * @description Get public details of an Authentiq ID.
      */
     getKey: (PK: string, params?: RequestParams) =>
       this.request<{ since?: string; status?: string; sub?: string }, Error>(`/key/${PK}`, "GET", params),
 
     /**
+     * @description HEAD info on Authentiq ID
+     *
      * @tags key, head
      * @name headKey
      * @request HEAD:/key/{PK}
-     * @description HEAD info on Authentiq ID
      */
     headKey: (PK: string, params?: RequestParams) => this.request<any, Error>(`/key/${PK}`, "HEAD", params),
 
     /**
+     * @description update properties of an Authentiq ID. (not operational in v4; use PUT for now) v5: POST issuer-signed email & phone scopes in a self-signed JWT See: https://github.com/skion/authentiq/wiki/JWT-Examples
+     *
      * @tags key, post
      * @name key_update
      * @request POST:/key/{PK}
-     * @description update properties of an Authentiq ID. (not operational in v4; use PUT for now) v5: POST issuer-signed email & phone scopes in a self-signed JWT See: https://github.com/skion/authentiq/wiki/JWT-Examples
      */
     keyUpdate: (PK: string, body: AuthentiqID, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/key/${PK}`, "POST", params, body),
 
     /**
+     * @description Update Authentiq ID by replacing the object. v4: `JWT(sub,email,phone)` to bind email/phone hash; v5: POST issuer-signed email & phone scopes and PUT to update registration `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
+     *
      * @tags key, put
      * @name key_bind
      * @request PUT:/key/{PK}
-     * @description Update Authentiq ID by replacing the object. v4: `JWT(sub,email,phone)` to bind email/phone hash; v5: POST issuer-signed email & phone scopes and PUT to update registration `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
      */
     keyBind: (PK: string, body: AuthentiqID, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/key/${PK}`, "PUT", params, body),
   };
   login = {
     /**
+     * @description push sign-in request See: https://github.com/skion/authentiq/wiki/JWT-Examples
+     *
      * @tags login, post
      * @name push_login_request
      * @request POST:/login
-     * @description push sign-in request See: https://github.com/skion/authentiq/wiki/JWT-Examples
      */
     pushLoginRequest: (query: { callback: string }, body: PushToken, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/login${this.addQueryParams(query)}`, "POST", params, body),
   };
   scope = {
     /**
+     * @description scope verification request See: https://github.com/skion/authentiq/wiki/JWT-Examples
+     *
      * @tags scope, post
      * @name sign_request
      * @request POST:/scope
-     * @description scope verification request See: https://github.com/skion/authentiq/wiki/JWT-Examples
      */
     signRequest: (body: Claims, query?: { test?: number }, params?: RequestParams) =>
       this.request<{ job?: string; status?: string }, Error>(
@@ -283,46 +298,51 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * @description delete a verification job
+     *
      * @tags scope, delete
      * @name sign_delete
      * @request DELETE:/scope/{job}
-     * @description delete a verification job
      */
     signDelete: (job: string, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/scope/${job}`, "DELETE", params),
 
     /**
+     * @description get the status / current content of a verification job
+     *
      * @tags scope, get
      * @name sign_retrieve
      * @request GET:/scope/{job}
-     * @description get the status / current content of a verification job
      */
     signRetrieve: (job: string, params?: RequestParams) =>
       this.request<{ exp?: number; field?: string; sub?: string }, Error>(`/scope/${job}`, "GET", params),
 
     /**
+     * @description HEAD to get the status of a verification job
+     *
      * @tags scope, head
      * @name sign_retrieve_head
      * @request HEAD:/scope/{job}
-     * @description HEAD to get the status of a verification job
      */
     signRetrieveHead: (job: string, params?: RequestParams) =>
       this.request<any, Error>(`/scope/${job}`, "HEAD", params),
 
     /**
+     * @description this is a scope confirmation
+     *
      * @tags scope, post
      * @name sign_confirm
      * @request POST:/scope/{job}
-     * @description this is a scope confirmation
      */
     signConfirm: (job: string, params?: RequestParams) =>
       this.request<{ status?: string }, Error>(`/scope/${job}`, "POST", params),
 
     /**
+     * @description authority updates a JWT with its signature See: https://github.com/skion/authentiq/wiki/JWT-Examples
+     *
      * @tags scope, put
      * @name sign_update
      * @request PUT:/scope/{job}
-     * @description authority updates a JWT with its signature See: https://github.com/skion/authentiq/wiki/JWT-Examples
      */
     signUpdate: (job: string, params?: RequestParams) =>
       this.request<{ jwt?: string; status?: string }, Error>(`/scope/${job}`, "PUT", params),

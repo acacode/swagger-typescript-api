@@ -13,6 +13,8 @@ export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };
 
+export type RequestQueryParamsType = Record<string | number, any>;
+
 interface ApiConfig<SecurityDataType> {
   baseUrl?: string;
   baseApiParams?: RequestParams;
@@ -26,6 +28,7 @@ interface HttpResponse<D extends unknown, E extends unknown = unknown> extends R
 
 enum BodyType {
   Json,
+  FormData,
 }
 
 class HttpClient<SecurityDataType> {
@@ -50,8 +53,33 @@ class HttpClient<SecurityDataType> {
     this.securityData = data;
   };
 
+  private addQueryParam(query: RequestQueryParamsType, key: string) {
+    return (
+      encodeURIComponent(key) + "=" + encodeURIComponent(Array.isArray(query[key]) ? query[key].join(",") : query[key])
+    );
+  }
+
+  protected addQueryParams(rawQuery?: RequestQueryParamsType): string {
+    const query = rawQuery || {};
+    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
+    return keys.length
+      ? `?${keys
+          .map((key) =>
+            typeof query[key] === "object" && !Array.isArray(query[key])
+              ? this.addQueryParams(query[key] as object).substring(1)
+              : this.addQueryParam(query, key),
+          )
+          .join("&")}`
+      : "";
+  }
+
   private bodyFormatters: Record<BodyType, (input: any) => any> = {
     [BodyType.Json]: JSON.stringify,
+    [BodyType.FormData]: (input: any) =>
+      Object.keys(input).reduce((data, key) => {
+        data.append(key, input[key]);
+        return data;
+      }, new FormData()),
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -122,22 +150,24 @@ class HttpClient<SecurityDataType> {
 export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   example = {
     /**
+     * @description This is an example operation to show how security is applied to the call.
+     *
      * @name exampleList
      * @summary Server example operation
      * @request GET:/example
      * @secure
-     * @description This is an example operation to show how security is applied to the call.
      */
     exampleList: (params?: RequestParams) =>
       this.request<any, any>(`/example`, "GET", params, null, BodyType.Json, true),
   };
   ping = {
     /**
+     * @description This operation shows how to override the global security defined above, as we want to open it up for all users.
+     *
      * @name pingList
      * @summary Server heartbeat operation
      * @request GET:/ping
      * @secure
-     * @description This operation shows how to override the global security defined above, as we want to open it up for all users.
      */
     pingList: (params?: RequestParams) => this.request<any, any>(`/ping`, "GET", params, null, BodyType.Json, true),
   };

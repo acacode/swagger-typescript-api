@@ -1,0 +1,7 @@
+<% if (it.description) { %>
+/**
+* <%~ it.description %>
+
+*/
+<% } %>
+export <%~ it.typeIdentifier %> <%~ it.name %> <%~ it.content %>
