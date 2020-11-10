@@ -1417,6 +1417,7 @@ export namespace emojis {
     export type ResponseBody = Emojis;
   }
 }
+
 export namespace events {
   /**
    * @name eventsList
@@ -1429,6 +1430,7 @@ export namespace events {
     export type ResponseBody = Events;
   }
 }
+
 export namespace feeds {
   /**
    * @name feedsList
@@ -1441,6 +1443,7 @@ export namespace feeds {
     export type ResponseBody = Feeds;
   }
 }
+
 export namespace gists {
   /**
    * @name gistsList
@@ -1620,6 +1623,7 @@ export namespace gists {
     export type ResponseBody = any;
   }
 }
+
 export namespace gitignore {
   /**
    * @name templatesList
@@ -1643,6 +1647,7 @@ export namespace gitignore {
     export type ResponseBody = GitignoreLang;
   }
 }
+
 export namespace issues {
   /**
    * @name issuesList
@@ -1662,6 +1667,7 @@ export namespace issues {
     export type ResponseBody = Issues;
   }
 }
+
 export namespace legacy {
   /**
    * @name issuesSearchDetail
@@ -1712,6 +1718,7 @@ export namespace legacy {
     export type ResponseBody = SearchUsersByKeyword;
   }
 }
+
 export namespace markdown {
   /**
    * @name markdownCreate
@@ -1735,6 +1742,7 @@ export namespace markdown {
     export type ResponseBody = any;
   }
 }
+
 export namespace meta {
   /**
    * @name metaList
@@ -1747,6 +1755,7 @@ export namespace meta {
     export type ResponseBody = Meta;
   }
 }
+
 export namespace networks {
   /**
    * @name eventsDetail
@@ -1759,6 +1768,7 @@ export namespace networks {
     export type ResponseBody = Events;
   }
 }
+
 export namespace notifications {
   /**
    * @name notificationsList
@@ -1837,6 +1847,7 @@ export namespace notifications {
     export type ResponseBody = Subscription;
   }
 }
+
 export namespace orgs {
   /**
    * @name orgsDetail
@@ -2014,6 +2025,7 @@ export namespace orgs {
     export type ResponseBody = Team;
   }
 }
+
 export namespace rateLimit {
   /**
    * @name rateLimitList
@@ -2026,6 +2038,7 @@ export namespace rateLimit {
     export type ResponseBody = RateLimit;
   }
 }
+
 export namespace repos {
   /**
    * @name reposDelete
@@ -3521,6 +3534,7 @@ export namespace repos {
     export type ResponseBody = any;
   }
 }
+
 export namespace repositories {
   /**
    * @name repositoriesList
@@ -3533,6 +3547,7 @@ export namespace repositories {
     export type ResponseBody = Repos;
   }
 }
+
 export namespace search {
   /**
    * @name codeList
@@ -3578,6 +3593,7 @@ export namespace search {
     export type ResponseBody = SearchUsers;
   }
 }
+
 export namespace teams {
   /**
    * @name teamsDelete
@@ -3737,6 +3753,7 @@ export namespace teams {
     export type ResponseBody = any;
   }
 }
+
 export namespace user {
   /**
    * @name userList
@@ -4042,6 +4059,7 @@ export namespace user {
     export type ResponseBody = TeamsList;
   }
 }
+
 export namespace users {
   /**
    * @name usersList

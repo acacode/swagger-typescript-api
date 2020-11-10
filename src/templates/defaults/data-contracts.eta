@@ -1,0 +1,11 @@
+<% it.modelTypes.forEach(({ typeIdentifier, name, content, description }) => { %>
+
+    <% if (description) { %>
+    /**
+    * <%~ description %>
+
+    */
+    <% } %>
+    export <%~ typeIdentifier %> <%~ name %> <%~ content %>
+
+<% }) %>
