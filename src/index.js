@@ -6,7 +6,7 @@
 // License text available at https://opensource.org/licenses/MIT
 // Repository https://github.com/acacode/swagger-typescript-api
 
-const mustache = require("mustache");
+const eta = require("eta");
 const prettier = require("prettier");
 const _ = require("lodash");
 const { resolve } = require("path");
@@ -19,8 +19,6 @@ const { createComponentsMap, filterComponentsMap } = require("./components");
 const { createFile, pathIsExist } = require("./files");
 const { addToConfig, config } = require("./config");
 const { getTemplates } = require("./templates");
-
-mustache.escape = (value) => value;
 
 const prettierFormat = (content) =>
   prettier.format(content, {
@@ -97,10 +95,12 @@ module.exports = {
           };
 
           let sourceFileContent = [
-            mustache.render(dataContractsTemplate, configuration),
-            generateRouteTypes ? mustache.render(routeTypesTemplate, configuration) : "",
-            generateClient ? mustache.render(httpClientTemplate, configuration) : "",
-            generateClient ? mustache.render(apiTemplate, configuration) : "",
+            eta.render(dataContractsTemplate, configuration, { async: false }),
+            generateRouteTypes
+              ? eta.render(routeTypesTemplate, configuration, { async: false })
+              : "",
+            generateClient ? eta.render(httpClientTemplate, configuration, { async: false }) : "",
+            generateClient ? eta.render(apiTemplate, configuration, { async: false }) : "",
           ].join("");
 
           if (toJS) {
