@@ -56,7 +56,12 @@ module.exports = {
       });
       (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url))
         .then(({ usageSchema, originalSchema }) => {
-          const { apiTemplate, clientTemplate, routeTypesTemplate } = getTemplates();
+          const {
+            dataContractsTemplate,
+            httpClientTemplate,
+            apiTemplate,
+            routeTypesTemplate,
+          } = getTemplates();
 
           console.log("☄️  start generating your typescript api");
 
@@ -90,9 +95,10 @@ module.exports = {
           };
 
           let sourceFileContent = [
-            mustache.render(apiTemplate, configuration),
+            mustache.render(dataContractsTemplate, configuration),
             generateRouteTypes ? mustache.render(routeTypesTemplate, configuration) : "",
-            generateClient ? mustache.render(clientTemplate, configuration) : "",
+            generateClient ? mustache.render(httpClientTemplate, configuration) : "",
+            generateClient ? mustache.render(apiTemplate, configuration) : "",
           ].join("");
 
           if (toJS) {

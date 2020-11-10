@@ -10,8 +10,7 @@ export type RequestQueryParamsType = Record<string | number, any>;
 interface ApiConfig<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> {
   baseUrl?: string;
   baseApiParams?: RequestParams;
-  securityWorker?: (securityData: SecurityDataType) => Promise<RequestParams>;
-  CUSTOM_API_CONFIG_PARAM?: string;
+  securityWorker?: (securityData: SecurityDataType) => RequestParams;
 }
 
 {{#generateResponses}}
@@ -97,7 +96,7 @@ class HttpClient<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> {
   }
   
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
-    const r = response.clone() as HttpResponse<T, E>;
+    const r = response as HttpResponse<T, E>;
     r.data = null;
     r.error = null;
 
@@ -117,7 +116,7 @@ class HttpClient<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> {
       });
   }
   
-  public request = async <T = any, E = any>(
+  public request = <T = any, E = any>(
     path: string,
     method: string,
     { secure, ...params }: RequestParams = {},
@@ -126,7 +125,7 @@ class HttpClient<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> {
     secureByDefault?: boolean,
   ): {{#generateResponses}}TPromise<HttpResponse<T, E>>{{/generateResponses}}{{^generateResponses}}Promise<HttpResponse<T>>{{/generateResponses}} => {
     const requestUrl = `${this.baseUrl}${path}`;
-    const secureOptions = (secureByDefault || secure) && this.securityWorker ? await this.securityWorker(this.securityData) : {};
+    const secureOptions = (secureByDefault || secure) && this.securityWorker ? this.securityWorker(this.securityData) : {};
     const requestOptions = {
       ...this.mergeRequestOptions(params, secureOptions),
       method,
@@ -139,45 +138,4 @@ class HttpClient<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}> {
       return data
     })
   }
-}
-
-{{#apiConfig.hasDescription}}
-/**
-{{#apiConfig.description}}
- * {{.}}
-{{/apiConfig.description}}
- */
-{{/apiConfig.hasDescription}}
-export class Api<{{#apiConfig.generic}}{{name}}{{#defaultValue}} = {{.}}{{/defaultValue}},{{/apiConfig.generic}}> extends HttpClient<{{#apiConfig.generic}}{{name}},{{/apiConfig.generic}}>{
-{{#routes}}
-
-  {{#outOfModule}}
-
-
-  /**
-  {{#comments}}
-   * {{.}}
-  {{/comments}}
-   */
-  {{name}} = ({{#routeArgs}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/routeArgs}}) =>
-    this.request<{{returnType}}, {{errorReturnType}}>({{requestMethodContent}})
-  {{/outOfModule}}
-
-  {{#combined}}
-  {{moduleName}} = {
-    {{#routes}}
-
-
-    /**
-    {{#comments}}
-     * {{.}}
-    {{/comments}}
-     */
-    {{name}}: ({{#routeArgs}}{{name}}{{#optional}}?{{/optional}}: {{type}}, {{/routeArgs}}) =>
-      this.request<{{returnType}}, {{errorReturnType}}>({{requestMethodContent}}),
-    {{/routes}}
-  }
-  {{/combined}}
-{{/routes}}
-
 }

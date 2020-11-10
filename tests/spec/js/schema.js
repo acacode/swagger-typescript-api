@@ -8,6 +8,7 @@
  * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
  * ---------------------------------------------------------------
  */
+
 var BodyType;
 (function (BodyType) {
   BodyType[(BodyType["Json"] = 0)] = "Json";
@@ -32,7 +33,7 @@ class HttpClient {
       [BodyType.Json]: JSON.stringify,
     };
     this.safeParseResponse = (response) => {
-      const r = response.clone();
+      const r = response;
       r.data = null;
       r.error = null;
       return response

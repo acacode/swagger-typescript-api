@@ -1,13 +1,14 @@
 const _ = require("lodash");
 const fs = require("fs");
 const { resolve } = require("path");
+const { filePrefix } = require("./filePrefix");
 
 const getFileContent = (path) => fs.readFileSync(path, { encoding: "UTF-8" });
 
 const pathIsExist = (path) => path && fs.existsSync(path);
 
 const createFile = (pathTo, fileName, content) =>
-  fs.writeFileSync(resolve(__dirname, pathTo, `./${fileName}`), content, _.noop);
+  fs.writeFileSync(resolve(__dirname, pathTo, `./${fileName}`), `${filePrefix}${content}`, _.noop);
 
 module.exports = {
   createFile,

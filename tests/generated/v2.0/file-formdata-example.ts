@@ -74,7 +74,7 @@ class HttpClient<SecurityDataType> {
   }
 
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
-    const r = response.clone() as HttpResponse<T, E>;
+    const r = response as HttpResponse<T, E>;
     r.data = null;
     r.error = null;
 
