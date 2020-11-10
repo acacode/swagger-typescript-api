@@ -3,7 +3,7 @@ const { config } = require("./config");
 const { resolve } = require("path");
 
 const getTemplate = (templateName) =>
-  getFileContent(resolve(config.templates, `./${templateName}.mustache`));
+  getFileContent(resolve(config.templates, `./${templateName}.eta`));
 
 const getTemplates = () => {
   console.log(`✨ try to read templates from directory "${config.templates}"`);
@@ -15,9 +15,6 @@ const getTemplates = () => {
     apiTemplate: config.generateClient ? getTemplate("api") : null,
   };
 };
-
-const getTemplate = (templateName) =>
-  getFileContent(resolve(config.templates, `./${templateName}.eta`));
 
 module.exports = {
   getTemplates,

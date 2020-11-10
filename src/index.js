@@ -93,11 +93,12 @@ module.exports = {
           };
 
           let sourceFileContent = [
-            eta.render(apiTemplate, configuration, { async: false }),
+            eta.render(dataContractsTemplate, configuration, { async: false }),
             generateRouteTypes
               ? eta.render(routeTypesTemplate, configuration, { async: false })
               : "",
-            generateClient ? eta.render(clientTemplate, configuration, { async: false }) : "",
+            generateClient ? eta.render(httpClientTemplate, configuration, { async: false }) : "",
+            generateClient ? eta.render(apiTemplate, configuration, { async: false }) : "",
           ].join("");
 
           if (toJS) {
