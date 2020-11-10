@@ -1,5 +1,8 @@
 # next release  
 
+BREAKING_CHANGES:  
+- Migrate from mustache template engine to eta template engine  
+
 # 3.1.1  
 
 Fixes:  
