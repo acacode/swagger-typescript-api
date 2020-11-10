@@ -76,7 +76,7 @@ class HttpClient<SecurityDataType> {
   }
 
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
-    const r = response.clone() as HttpResponse<T, E>;
+    const r = response as HttpResponse<T, E>;
     r.data = null;
     r.error = null;
 
@@ -105,6 +105,7 @@ class HttpClient<SecurityDataType> {
     secureByDefault?: boolean,
   ): Promise<HttpResponse<T>> => {
     const requestUrl = `${this.baseUrl}${path}`;
+    console.info("request: ", method, requestUrl);
     const secureOptions =
       (secureByDefault || secure) && this.securityWorker ? await this.securityWorker(this.securityData) : {};
     const requestOptions = {
@@ -120,6 +121,7 @@ class HttpClient<SecurityDataType> {
     });
   };
 }
+
 /**
  * @title Swagger Petstore
  * @version 1.0.0
