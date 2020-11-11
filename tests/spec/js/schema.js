@@ -39,7 +39,7 @@ class HttpClient {
         }, new FormData()),
     };
     this.safeParseResponse = (response) => {
-      const r = response;
+      const r = response.clone();
       r.data = null;
       r.error = null;
       return response
