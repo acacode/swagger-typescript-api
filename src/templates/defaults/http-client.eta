@@ -3,14 +3,15 @@ export type RequestParams = Omit<RequestInit, "body" | "method"> & {
     secure?: boolean;
 }
 
+<% if (it.hasQueryRoutes) { %>
 export type RequestQueryParamsType = Record<string | number, any>;
+<% } %>
 
 
 interface ApiConfig<<%~ it.apiConfig.generic.map(g => g.name).join(', ') %>> {
     baseUrl?: string;
     baseApiParams?: RequestParams;
-    securityWorker?: (securityData: SecurityDataType) => Promise<RequestParams>;
-    CUSTOM_API_CONFIG_PARAM?: string;
+    securityWorker?: (securityData: SecurityDataType) => RequestParams;
 }
 
 <% if (it.generateResponses) {%>
@@ -28,7 +29,9 @@ interface HttpResponse<D extends unknown, E extends unknown = unknown> extends R
 
 enum BodyType {
     Json,
-    FormData
+    <% if (it.hasFormDataRoutes) { %>
+    FormData,
+    <% } %>
 }
 
 class HttpClient<<%~ it.apiConfig.generic.map(g => g.name).join(', ') %>> {
@@ -53,6 +56,7 @@ class HttpClient<<%~ it.apiConfig.generic.map(g => g.name).join(', ') %>> {
         this.securityData = data
     }
 
+    <% if (it.hasQueryRoutes) { %>
     private addQueryParam(query: RequestQueryParamsType, key: string) {
         return encodeURIComponent(key) + "=" + encodeURIComponent(Array.isArray(query[key]) ? query[key].join(",") : query[key])
     }
@@ -66,14 +70,17 @@ class HttpClient<<%~ it.apiConfig.generic.map(g => g.name).join(', ') %>> {
             this.addQueryParam(query, key)).join("&")
         }` : "";
     }
+    <% } %>
 
     private bodyFormatters: Record<BodyType, (input: any) => any> = {
         [BodyType.Json]: JSON.stringify,
+        <% if (it.hasFormDataRoutes) { %>
         [BodyType.FormData]: (input: any) =>
             Object.keys(input).reduce((data, key) => {
             data.append(key, input[key]);
             return data;
         }, new FormData()),
+        <% } %>
     }
 
     private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -110,7 +117,7 @@ class HttpClient<<%~ it.apiConfig.generic.map(g => g.name).join(', ') %>> {
             });
     }
 
-    public request = async <T = any, E = any>(
+    public request = <T = any, E = any>(
         path: string,
         method: string,
         { secure, ...params }: RequestParams = {},
@@ -119,8 +126,7 @@ class HttpClient<<%~ it.apiConfig.generic.map(g => g.name).join(', ') %>> {
         secureByDefault?: boolean,
     ): <% if (it.generateResponses) { %>TPromise<HttpResponse<T, E>><% } else { %>Promise<HttpResponse<T>><% } %> => {
         const requestUrl = `${this.baseUrl}${path}`;
-        console.info("request: ", method, requestUrl);
-        const secureOptions = (secureByDefault || secure) && this.securityWorker ? await this.securityWorker(this.securityData) : {};
+        const secureOptions = (secureByDefault || secure) && this.securityWorker ? this.securityWorker(this.securityData) : {};
         const requestOptions = {
             ...this.mergeRequestOptions(params, secureOptions),
             method,

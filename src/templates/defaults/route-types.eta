@@ -1,0 +1,40 @@
+<%
+/* TODO: outOfModule, combined should be attributes of route, which will allow to avoid duplication of code */
+%>
+
+<% it.routes.outOfModule && it.routes.outOfModule.forEach(({ routes }) => { %>
+    <% routes.forEach(({ comments, pascalName, queryType, bodyType, returnType }) => { %>
+
+        /**
+        <% comments.forEach((jsDocLine) => { %>
+        * <%~ jsDocLine %>
+
+        <% }) %>
+        */
+        export namespace <%~ pascalName %> {
+            export type RequestQuery = <%~ queryType %>;
+            export type RequestBody = <%~ bodyType %>;
+            export type ResponseBody = <%~ returnType %>;
+        }
+    <% }) %>
+<% }) %>
+
+<% it.routes.combined && it.routes.combined.forEach(({ routes, moduleName }) => { %>
+    export namespace <%~ moduleName %> {
+    <% routes.forEach(({ comments, pascalName, queryType, bodyType, returnType }) => { %>
+
+        /**
+        <% comments.forEach((jsDocLine) => { %>
+        * <%~ jsDocLine %>
+
+        <% }) %>
+        */
+        export namespace <%~ pascalName %> {
+        export type RequestQuery = <%~ queryType %>;
+        export type RequestBody = <%~ bodyType %>;
+        export type ResponseBody = <%~ returnType %>;
+        }
+    <% }) %>
+    }
+
+<% }) %>

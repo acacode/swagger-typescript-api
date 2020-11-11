@@ -1,10 +1,18 @@
-# 2.0.0  
+# next release  
+
+BREAKING_CHANGES:  
+- Migrate from mustache template engine to eta template engine  
+
+# 3.0.0  
 
 BREAKING_CHANGES:  
 - Renamed mustache templates:  
   - `api.mustache` -> `data-contracts.mustache`   
   - `client.mustache` -> `http.client.mustache` + `api.mustache`  
-- Split the `client.mustache` template into two parts: `http-client.mustache` and `api.mustache`
+- Split the `client.mustache` template into two parts: `http-client.mustache` and `api.mustache`  
+
+Fixes:  
+- Fixed unsafe clone() of Response causing json() hang. (Thanks @Benjamin-Dobell)  
 
 # 2.0.0  
 
