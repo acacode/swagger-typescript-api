@@ -33,7 +33,7 @@ class HttpClient {
       [BodyType.Json]: JSON.stringify,
     };
     this.safeParseResponse = (response) => {
-      const r = response.clone();
+      const r = response;
       r.data = null;
       r.error = null;
       return response
