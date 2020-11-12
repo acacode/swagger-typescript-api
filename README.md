@@ -139,6 +139,9 @@ When we change it to `--module-name-index 1` then Api class have two properties 
 
 ## 🛠️ Contribution  
 
+
+❗❗❗ Please use the `next` branch :)   
+
 You can manually check your changes at schemas in `tests` folder before create a PR.  
 To do that have scripts:  
     - `npm run generate` - generate API modules from schemas in `tests` folder  
