@@ -60,6 +60,9 @@ generateApi({
   generateResponses: responses,
   input: resolve(process.cwd(), path),
   output: resolve(process.cwd(), output || "."),
-  templates: resolve(templates ? process.cwd() : __dirname, templates || "./src/templates"),
+  templates: resolve(
+    templates ? process.cwd() : __dirname,
+    templates || "./src/templates/defaults",
+  ),
   toJS: !!js,
 });

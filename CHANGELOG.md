@@ -3,6 +3,11 @@
 BREAKING_CHANGES:  
 - Migrate from mustache template engine to eta template engine  
 
+# 3.0.1  
+
+Fixes:  
+- invalid default templates path (#92, thanks @larrybotha for quick fix)  
+
 # 3.0.0  
 
 BREAKING_CHANGES:  
