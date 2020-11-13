@@ -62,7 +62,7 @@ generateApi({
   output: resolve(process.cwd(), output || "."),
   templates: resolve(
     templates ? process.cwd() : __dirname,
-    templates || "./src/templates/defaults",
+    templates || "./templates/default",
   ),
   toJS: !!js,
 });
