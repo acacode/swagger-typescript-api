@@ -358,60 +358,44 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
         //   }
         //   return acc;
         // }, [' '])
-
-        const comments = _.compact([
-          tags && tags.length && `@tags ${tags.join(", ")}`,
-          `@name ${routeName}`,
-          summary && `@summary ${summary}`,
-          `@request ${_.upperCase(method)}:${route}`,
-          // requestBody && requestBody.description && `@body ${requestBody.description}`,
-          hasSecurity && `@secure`,
-          description && `@description ${formatDescription(description, true)}`,
+        const jsDocDescription =
+          description && ` * @description ${formatDescription(description, true)}`;
+        const jsDocLines = _.compact([
+          tags?.length && ` * @tags ${tags.join(", ")}`,
+          ` * @name ${routeName}`,
+          summary && ` * @summary ${summary}`,
+          ` * @request ${_.upperCase(method)}:${route}`,
+          hasSecurity && ` * @secure`,
           ...(config.generateResponses && responsesTypes.length
             ? responsesTypes.map(
                 ({ type, status, description, isSuccess }) =>
-                  `@response \`${status}\` \`${type}\` ${description}`,
+                  ` * @response \`${status}\` \`${type}\` ${description}`,
               )
             : []),
-        ]);
+        ]).join("\n");
 
         const path = route.replace(/{/g, "${");
-        const hasQuery = !!queryParams.length;
-        const bodyArg = requestBody ? bodyParamName : "null";
         const upperCaseMethod = _.upperCase(method);
 
         return {
-          moduleName: _.replace(moduleName, /^(\d)/, "v$1"),
-          security: hasSecurity,
-          hasQuery,
-          hasFormDataParams: hasFormDataParams || formDataRequestBody,
-          queryType: queryType || "{}",
-          bodyType: bodyType || "never",
           name,
-          pascalName: _.upperFirst(name),
-          comments,
-          routeArgs,
-          specificArgs,
-          method: upperCaseMethod,
-          path,
-          returnType: getReturnType(responses, parsedSchemas, operationId),
-          errorReturnType: getErrorReturnType(responses, parsedSchemas, operationId),
-          bodyArg,
-          requestMethodContent:
-            `\`${path}${hasQuery ? `\${this.addQueryParams(${specificArgs.query.name})}` : ""}\`,` +
-            `"${upperCaseMethod}", ` +
-            `${specificArgs.requestParams.name}` +
-            _.compact([
-              requestBody && `, ${bodyParamName}`,
-              (hasFormDataParams || formDataRequestBody) &&
-                `${requestBody ? "" : ", null"}, BodyType.FormData`,
-              hasSecurity &&
-                `${
-                  hasFormDataParams || formDataRequestBody
-                    ? ""
-                    : `${requestBody ? "" : ", null"}, BodyType.Json`
-                }, true`,
-            ]).join(""),
+          jsDocDescription,
+          jsDocLines,
+          namespace: _.replace(moduleName, /^(\d)/, "v$1"),
+          request: {
+            parameters: pathArgs,
+            query: specificArgs.query,
+            path,
+            formData: hasFormDataParams || formDataRequestBody,
+            security: hasSecurity,
+            method: upperCaseMethod,
+            payload: specificArgs.body,
+            params: specificArgs.requestParams,
+          },
+          response: {
+            type: getReturnType(responses, parsedSchemas, operationId),
+            errorType: getErrorReturnType(responses, parsedSchemas, operationId),
+          },
         };
       }),
     ];
@@ -422,28 +406,28 @@ const groupRoutes = (routes) => {
   return _.reduce(
     routes.reduce(
       (modules, route) => {
-        if (route.moduleName) {
-          if (!modules[route.moduleName]) {
-            modules[route.moduleName] = [];
+        if (route.namespace) {
+          if (!modules[route.namespace]) {
+            modules[route.namespace] = [];
           }
 
-          if (!duplicates[route.moduleName]) duplicates[route.moduleName] = {};
-          if (!duplicates[route.moduleName][route.name]) {
-            duplicates[route.moduleName][route.name] = 1;
+          if (!duplicates[route.namespace]) duplicates[route.namespace] = {};
+          if (!duplicates[route.namespace][route.name]) {
+            duplicates[route.namespace][route.name] = 1;
           } else {
             const routeName = route.name;
-            route.comments.push(`@originalName ${routeName}`);
-            route.comments.push(`@duplicate`);
-            const duplicateNumber = ++duplicates[route.moduleName][routeName];
+            route.jsDocLines += ` * @originalName ${routeName}\n`;
+            route.jsDocLines += ` * @duplicate\n`;
+            const duplicateNumber = ++duplicates[route.namespace][routeName];
             route.name += duplicateNumber;
             route.pascalName += duplicateNumber;
             console.warn(
-              `🥵  Module "${route.moduleName}" already have method "${routeName}()"`,
+              `🥵  Module "${route.namespace}" already have method "${routeName}()"`,
               `\n🥵  This method has been renamed to "${route.name}()" to solve conflict names.`,
             );
           }
 
-          modules[route.moduleName].push(route);
+          modules[route.namespace].push(route);
         } else {
           modules.$outOfModule.push(route);
         }

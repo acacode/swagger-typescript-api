@@ -21,6 +21,8 @@ export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };
 
+export type RequestQueryParamsType = Record<string | number, any>;
+
 interface ApiConfig<SecurityDataType> {
   baseUrl?: string;
   baseApiParams?: RequestParams;
@@ -34,6 +36,7 @@ interface HttpResponse<D extends unknown, E extends unknown = unknown> extends R
 
 enum BodyType {
   Json,
+  FormData,
 }
 
 class HttpClient<SecurityDataType> {
@@ -58,8 +61,33 @@ class HttpClient<SecurityDataType> {
     this.securityData = data;
   };
 
+  private addQueryParam(query: RequestQueryParamsType, key: string) {
+    return (
+      encodeURIComponent(key) + "=" + encodeURIComponent(Array.isArray(query[key]) ? query[key].join(",") : query[key])
+    );
+  }
+
+  protected addQueryParams(rawQuery?: RequestQueryParamsType): string {
+    const query = rawQuery || {};
+    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
+    return keys.length
+      ? `?${keys
+          .map((key) =>
+            typeof query[key] === "object" && !Array.isArray(query[key])
+              ? this.addQueryParams(query[key] as object).substring(1)
+              : this.addQueryParam(query, key),
+          )
+          .join("&")}`
+      : "";
+  }
+
   private bodyFormatters: Record<BodyType, (input: any) => any> = {
     [BodyType.Json]: JSON.stringify,
+    [BodyType.FormData]: (input: any) =>
+      Object.keys(input).reduce((data, key) => {
+        data.append(key, input[key]);
+        return data;
+      }, new FormData()),
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -76,7 +104,7 @@ class HttpClient<SecurityDataType> {
   }
 
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
-    const r = response as HttpResponse<T, E>;
+    const r = response.clone() as HttpResponse<T, E>;
     r.data = null;
     r.error = null;
 
@@ -128,6 +156,8 @@ class HttpClient<SecurityDataType> {
 export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   pets = {
     /**
+     * No description
+     *
      * @name petsPartialUpdate
      * @request PATCH:/pets
      */

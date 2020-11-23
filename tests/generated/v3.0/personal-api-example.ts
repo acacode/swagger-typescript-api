@@ -151,6 +151,8 @@ export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };
 
+export type RequestQueryParamsType = Record<string | number, any>;
+
 interface ApiConfig<SecurityDataType> {
   baseUrl?: string;
   baseApiParams?: RequestParams;
@@ -164,6 +166,7 @@ interface HttpResponse<D extends unknown, E extends unknown = unknown> extends R
 
 enum BodyType {
   Json,
+  FormData,
 }
 
 class HttpClient<SecurityDataType> {
@@ -188,8 +191,33 @@ class HttpClient<SecurityDataType> {
     this.securityData = data;
   };
 
+  private addQueryParam(query: RequestQueryParamsType, key: string) {
+    return (
+      encodeURIComponent(key) + "=" + encodeURIComponent(Array.isArray(query[key]) ? query[key].join(",") : query[key])
+    );
+  }
+
+  protected addQueryParams(rawQuery?: RequestQueryParamsType): string {
+    const query = rawQuery || {};
+    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
+    return keys.length
+      ? `?${keys
+          .map((key) =>
+            typeof query[key] === "object" && !Array.isArray(query[key])
+              ? this.addQueryParams(query[key] as object).substring(1)
+              : this.addQueryParam(query, key),
+          )
+          .join("&")}`
+      : "";
+  }
+
   private bodyFormatters: Record<BodyType, (input: any) => any> = {
     [BodyType.Json]: JSON.stringify,
+    [BodyType.FormData]: (input: any) =>
+      Object.keys(input).reduce((data, key) => {
+        data.append(key, input[key]);
+        return data;
+      }, new FormData()),
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -206,7 +234,7 @@ class HttpClient<SecurityDataType> {
   }
 
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
-    const r = response as HttpResponse<T, E>;
+    const r = response.clone() as HttpResponse<T, E>;
     r.data = null;
     r.error = null;
 
@@ -258,6 +286,8 @@ class HttpClient<SecurityDataType> {
 export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   auth = {
     /**
+     * No description
+     *
      * @tags Auth
      * @name Login
      * @request POST:/auth
@@ -265,6 +295,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     login: (data: AuthUserType, params?: RequestParams) => this.request<string, any>(`/auth`, "POST", params, data),
 
     /**
+     * No description
+     *
      * @tags Auth
      * @name Refresh
      * @request POST:/auth/refresh
@@ -275,6 +307,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   };
   jobs = {
     /**
+     * No description
+     *
      * @tags Jobs
      * @name GetJobs
      * @request GET:/jobs
@@ -284,6 +318,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<JobType[], any>(`/jobs`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Jobs
      * @name AddJob
      * @request POST:/jobs
@@ -293,6 +329,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<string, any>(`/jobs`, "POST", params, data, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Jobs
      * @name GetJob
      * @request GET:/jobs/{id}
@@ -302,6 +340,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<JobType, any>(`/jobs/${id}`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Jobs
      * @name UpdateJob
      * @request PATCH:/jobs/{id}
@@ -311,6 +351,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<JobType, any>(`/jobs/${id}`, "PATCH", params, data, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Jobs
      * @name DeleteJob
      * @request DELETE:/jobs/{id}
@@ -321,6 +363,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   };
   projects = {
     /**
+     * No description
+     *
      * @tags Projects
      * @name GetProjects
      * @request GET:/projects
@@ -328,6 +372,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     getProjects: (params?: RequestParams) => this.request<ExtractedProjectType[], any>(`/projects`, "GET", params),
 
     /**
+     * No description
+     *
      * @tags Projects
      * @name AddProjects
      * @request POST:/projects
@@ -337,6 +383,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<string, any>(`/projects`, "POST", params, data, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Projects
      * @name UpdateProject
      * @request PATCH:/projects/{id}
@@ -346,6 +394,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<ProjectType, any>(`/projects/${id}`, "PATCH", params, data, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Projects
      * @name DeleteProject
      * @request DELETE:/projects/{id}

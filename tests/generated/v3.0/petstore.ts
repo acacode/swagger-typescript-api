@@ -43,6 +43,7 @@ interface HttpResponse<D extends unknown, E extends unknown = unknown> extends R
 
 enum BodyType {
   Json,
+  FormData,
 }
 
 class HttpClient<SecurityDataType> {
@@ -89,6 +90,11 @@ class HttpClient<SecurityDataType> {
 
   private bodyFormatters: Record<BodyType, (input: any) => any> = {
     [BodyType.Json]: JSON.stringify,
+    [BodyType.FormData]: (input: any) =>
+      Object.keys(input).reduce((data, key) => {
+        data.append(key, input[key]);
+        return data;
+      }, new FormData()),
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -105,7 +111,7 @@ class HttpClient<SecurityDataType> {
   }
 
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
-    const r = response as HttpResponse<T, E>;
+    const r = response.clone() as HttpResponse<T, E>;
     r.data = null;
     r.error = null;
 
@@ -158,6 +164,8 @@ class HttpClient<SecurityDataType> {
 export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   pets = {
     /**
+     * No description
+     *
      * @tags pets
      * @name listPets
      * @summary List all pets
@@ -167,6 +175,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Pets, Error>(`/pets${this.addQueryParams(query)}`, "GET", params),
 
     /**
+     * No description
+     *
      * @tags pets
      * @name createPets
      * @summary Create a pet
@@ -175,6 +185,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     createPets: (params?: RequestParams) => this.request<any, Error>(`/pets`, "POST", params),
 
     /**
+     * No description
+     *
      * @tags pets
      * @name showPetById
      * @summary Info for a specific pet

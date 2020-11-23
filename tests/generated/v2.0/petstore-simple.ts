@@ -50,6 +50,7 @@ interface HttpResponse<D extends unknown, E extends unknown = unknown> extends R
 
 enum BodyType {
   Json,
+  FormData,
 }
 
 class HttpClient<SecurityDataType> {
@@ -96,6 +97,11 @@ class HttpClient<SecurityDataType> {
 
   private bodyFormatters: Record<BodyType, (input: any) => any> = {
     [BodyType.Json]: JSON.stringify,
+    [BodyType.FormData]: (input: any) =>
+      Object.keys(input).reduce((data, key) => {
+        data.append(key, input[key]);
+        return data;
+      }, new FormData()),
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -112,7 +118,7 @@ class HttpClient<SecurityDataType> {
   }
 
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
-    const r = response as HttpResponse<T, E>;
+    const r = response.clone() as HttpResponse<T, E>;
     r.data = null;
     r.error = null;
 
@@ -166,31 +172,35 @@ class HttpClient<SecurityDataType> {
 export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   pets = {
     /**
+     * @description Returns all pets from the system that the user has access to
+     *
      * @name findPets
      * @request GET:/pets
-     * @description Returns all pets from the system that the user has access to
      */
     findPets: (query?: { tags?: string[]; limit?: number }, params?: RequestParams) =>
       this.request<Pet[], ErrorModel>(`/pets${this.addQueryParams(query)}`, "GET", params),
 
     /**
+     * @description Creates a new pet in the store.  Duplicates are allowed
+     *
      * @name addPet
      * @request POST:/pets
-     * @description Creates a new pet in the store.  Duplicates are allowed
      */
     addPet: (pet: NewPet, params?: RequestParams) => this.request<Pet, ErrorModel>(`/pets`, "POST", params, pet),
 
     /**
+     * @description Returns a user based on a single ID, if the user does not have access to the pet
+     *
      * @name findPetById
      * @request GET:/pets/{id}
-     * @description Returns a user based on a single ID, if the user does not have access to the pet
      */
     findPetById: (id: number, params?: RequestParams) => this.request<Pet, ErrorModel>(`/pets/${id}`, "GET", params),
 
     /**
+     * @description deletes a single pet based on the ID supplied
+     *
      * @name deletePet
      * @request DELETE:/pets/{id}
-     * @description deletes a single pet based on the ID supplied
      */
     deletePet: (id: number, params?: RequestParams) => this.request<any, ErrorModel>(`/pets/${id}`, "DELETE", params),
   };

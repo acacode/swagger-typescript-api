@@ -1,0 +1,24 @@
+<%
+const { fmtToJSDocLine, _ } = it.utils
+const { name, jsDocDescription } = it.route
+const { query, payload } = it.route.request
+const { type: responseType } = it.route.response
+
+const description = jsDocDescription ?? fmtToJSDocLine('No description', { eol: false })
+const routeNamespace = _.upperFirst(name)
+const queryType = query?.type || '{}'
+const bodyType = payload?.type || 'never'
+%>
+/**
+<%~ description %>
+
+* <% /* Here you can add some other JSDoc tags */ %>
+
+<%~ it.route.jsDocLines %>
+
+*/
+export namespace <%~ routeNamespace %> {
+export type RequestQuery = <%~ queryType %>;
+export type RequestBody = <%~ bodyType %>;
+export type ResponseBody = <%~ responseType %>;
+}
