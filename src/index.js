@@ -118,7 +118,7 @@ module.exports = {
                   },
                 configuration.config.generateClient &&
                   templatesToRender.api &&
-                  configuration.routes.$outOfModule.length && {
+                  configuration.routes.$outOfModule && {
                     name: `Common.ts`,
                     content: renderTemplate(templatesToRender.api, {
                       ...configuration,
