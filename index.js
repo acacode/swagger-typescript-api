@@ -33,6 +33,11 @@ program
   .option("--union-enums", 'generate all "enum" types as union types (T1 | T2 | TN)', false)
   .option("--route-types", "generate type definitions for API routes", false)
   .option("--no-client", "do not generate an API class", false)
+  .option(
+    "--modular",
+    "generate separated files for http client, data contracts, and routes",
+    false,
+  )
   .option("--js", "generate js api module with declaration file", false)
   .option(
     "--module-name-index <number>",
@@ -52,6 +57,7 @@ const {
   client,
   defaultAsSuccess,
   responses,
+  modular,
   js,
   moduleNameIndex,
 } = program;
@@ -68,8 +74,9 @@ generateApi({
   output: resolve(process.cwd(), output || "."),
   templates: resolve(
     templates ? process.cwd() : __dirname,
-    templates || "./templates/default",
+    templates || (modular ? "./templates/modular" : "./templates/default"),
   ),
+  modular: !!modular,
   toJS: !!js,
   moduleNameIndex: +(moduleNameIndex || 0),
 });

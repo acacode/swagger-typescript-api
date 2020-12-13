@@ -48,7 +48,7 @@ enum BodyType {
   FormData,
 }
 
-class HttpClient<SecurityDataType> {
+export class HttpClient<SecurityDataType = unknown> {
   public baseUrl: string = "{scheme}://developer.uspto.gov/ds-api";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;

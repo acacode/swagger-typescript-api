@@ -1,0 +1,24 @@
+<%
+const { _ } = it.utils;
+const routesGroupName = _.upperFirst(it.route.moduleName);
+const routes = it.route.routes;
+const dataContracts = _.uniq(it.route.routes.reduce((acc, route) => [...acc, ...(route.dataContracts || [])], []));
+%>
+import { HttpClient, RequestParams } from "./http-client";
+<% if (dataContracts.length) { %>
+import { <%= dataContracts.join(", ") %> } from "./data-contracts"
+<% } %>
+
+<% if (it.apiConfig.hasDescription) { %>
+/**
+<% it.apiConfig.description.forEach((jsDocLine) => { %>
+* <%~ jsDocLine %>
+
+<% }) %>
+*/
+<% } %>
+export class <%= routesGroupName %> extends HttpClient {
+    <% routes.forEach((route) => { %>
+        <%~ includeFile('./procedure-call.eta', { route, utils: it.utils }) %>
+    <% }) %>
+}

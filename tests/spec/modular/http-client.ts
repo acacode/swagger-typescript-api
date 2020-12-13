@@ -9,8 +9,6 @@
  * ---------------------------------------------------------------
  */
 
-export type Test = { x?: "A-B"[] } & { y?: string };
-
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };
@@ -34,7 +32,7 @@ enum BodyType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "";
+  public baseUrl: string = "https://6-dot-authentiqio.appspot.com/";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
 
@@ -142,9 +140,3 @@ export class HttpClient<SecurityDataType = unknown> {
     });
   };
 }
-
-/**
- * @title Test
- * @version test
- */
-export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {}

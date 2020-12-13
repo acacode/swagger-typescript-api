@@ -60,14 +60,32 @@ interface GenerateApiParams {
    * determines which path index should be used for routes separation
    */
   moduleNameIndex?: number;
+  prepareConfig?: (currentConfiguration: GenerateApiConfiguration) => GenerateApiConfiguration;
+}
+
+export interface GenerateApiConfiguration {
+  apiConfig: object;
+  config: object;
+  modelTypes: object[];
+  hasFormDataRoutes: boolean;
+  hasSecurityRoutes: boolean;
+  hasQueryRoutes: boolean;
+  generateResponses: boolean;
+  routes: object;
+  utils: object;
+}
+
+export interface GenerateApiOutput {
+  configuration: GenerateApiConfiguration;
+  files: { name: string; content: string; declaration?: string }[];
 }
 
 export declare function generateApi(
   params: Omit<GenerateApiParams, "url" | "spec">,
-): Promise<string>;
+): Promise<GenerateApiOutput>;
 export declare function generateApi(
   params: Omit<GenerateApiParams, "input" | "spec">,
-): Promise<string>;
+): Promise<GenerateApiOutput>;
 export declare function generateApi(
   params: Omit<GenerateApiParams, "input" | "url">,
-): Promise<string>;
+): Promise<GenerateApiOutput>;

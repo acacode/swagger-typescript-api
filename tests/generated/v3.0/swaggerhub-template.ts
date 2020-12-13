@@ -31,7 +31,7 @@ enum BodyType {
   FormData,
 }
 
-class HttpClient<SecurityDataType> {
+export class HttpClient<SecurityDataType = unknown> {
   public baseUrl: string = "https://virtserver.swaggerhub.com/sdfsdfsffs/sdfff/1.0.0";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;

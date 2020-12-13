@@ -1694,7 +1694,7 @@ declare enum BodyType {
   Json = 0,
   FormData = 1,
 }
-declare class HttpClient<SecurityDataType> {
+export declare class HttpClient<SecurityDataType = unknown> {
   baseUrl: string;
   private securityData;
   private securityWorker;

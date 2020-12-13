@@ -7,6 +7,8 @@ const {
   DEFAULT_PRIMITIVE_TYPE,
   DEFAULT_BODY_ARG_NAME,
   SUCCESS_RESPONSE_STATUS_RANGE,
+  JS_PRIMITIVE_TYPES,
+  JS_EMPTY_TYPES,
 } = require("./constants");
 const { formatDescription } = require("./common");
 const { config } = require("./config");
@@ -377,6 +379,47 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
         const path = route.replace(/{/g, "${");
         const upperCaseMethod = _.upperCase(method);
 
+        const response = {
+          type: getReturnType(responses, parsedSchemas, operationId),
+          errorType: getErrorReturnType(responses, parsedSchemas, operationId),
+        };
+
+        const dataContracts = _.uniq(
+          [
+            ..._.map(pathArgs, "type"),
+            specificArgs.query && specificArgs.query.type,
+            specificArgs.body && specificArgs.body.type,
+            response.type,
+            response.errorType,
+          ]
+            .map((type) => {
+              if (typeof type === "string" && _.startsWith(type, "(") && _.endsWith(type, "[]")) {
+                type = type.replace(/((\(){1,1})|(\)\[\])/g, "");
+              }
+
+              if (
+                typeof type !== "string" ||
+                [
+                  "object",
+                  "void",
+                  DEFAULT_PRIMITIVE_TYPE,
+                  ...JS_PRIMITIVE_TYPES,
+                  ...JS_EMPTY_TYPES,
+                ].includes(type) ||
+                _.includes(type, "{") ||
+                _.includes(type, "Record<") ||
+                _.includes(type, '"') ||
+                _.includes(type, "|") ||
+                _.includes(type, "&")
+              ) {
+                return null;
+              }
+
+              return type;
+            })
+            .filter(Boolean),
+        );
+
         return {
           name,
           jsDocDescription,
@@ -392,10 +435,8 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
             payload: specificArgs.body,
             params: specificArgs.requestParams,
           },
-          response: {
-            type: getReturnType(responses, parsedSchemas, operationId),
-            errorType: getErrorReturnType(responses, parsedSchemas, operationId),
-          },
+          response,
+          dataContracts,
         };
       }),
     ];

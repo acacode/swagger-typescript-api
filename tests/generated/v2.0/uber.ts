@@ -116,7 +116,7 @@ enum BodyType {
   FormData,
 }
 
-class HttpClient<SecurityDataType> {
+export class HttpClient<SecurityDataType = unknown> {
   public baseUrl: string = "https://api.uber.com/v1";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;

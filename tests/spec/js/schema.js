@@ -14,7 +14,7 @@ var BodyType;
   BodyType[(BodyType["Json"] = 0)] = "Json";
   BodyType[(BodyType["FormData"] = 1)] = "FormData";
 })(BodyType || (BodyType = {}));
-class HttpClient {
+export class HttpClient {
   constructor(apiConfig = {}) {
     this.baseUrl = "https://api.github.com/";
     this.securityData = null;

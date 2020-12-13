@@ -1,0 +1,48 @@
+<%
+const argToTmpl = ({ name, optional, type }) => optional
+    ? `${name}?: ${type}`
+    : `${name}: ${type}`
+const { parameters, path, method, payload, params, query, formData, security } = it.route.request
+
+const description = it.route.jsDocDescription || it.utils.fmtToJSDocLine('No description', { eol: false })
+
+const rawWrapperArgs = Object.values(parameters)
+    .concat([query, payload, params])
+    .filter(Boolean)
+const wrapperArgs = it.utils._
+    // Sort by optionality
+    .sortBy(rawWrapperArgs, [function(o) { return o.optional }])
+    .map(argToTmpl)
+    .join(', ')
+
+const bodyModeTmpl = formData
+    ? 'BodyType.FormData'
+    : security
+        ? 'BodyType.Json'
+        : null
+const securityTmpl = security ? 'true' : null
+const pathTmpl = query != null
+    ? '`' + path + '${this.addQueryParams(' + query.name + ')}' + '`'
+    : '`' + path + '`'
+const requestArgs = [pathTmpl, `'${method}'`, params?.name ?? null, payload?.name ?? null, bodyModeTmpl, securityTmpl]
+    .reverse()
+    .reduce((args, arg) => {
+        if (args.length === 0 && !arg) return args
+        args.push(arg ? arg : 'null')
+        return args
+    }, [])
+    .reverse()
+    .join(', ')
+
+const { type, errorType } = it.route.response
+%>
+/**
+<%~ description %>
+
+ * <% /* Here you can add some other JSDoc tags */ %>
+
+<%~ it.route.jsDocLines %>
+
+ */
+<%~ it.route.name %> = (<%~ wrapperArgs %>) =>
+    this.request<<%~ type %>, <%~ errorType %>>(<%~ requestArgs %>)

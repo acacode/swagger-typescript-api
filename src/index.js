@@ -18,9 +18,7 @@ const { getSwaggerObject, fixSwaggerScheme, convertSwaggerObject } = require("./
 const { createComponentsMap, filterComponentsMap } = require("./components");
 const { createFile, pathIsExist } = require("./files");
 const { addToConfig, config } = require("./config");
-const { getTemplate } = require("./templates");
-
-const { resolve } = path;
+const { getTemplates, renderTemplate } = require("./templates");
 
 const prettierFormat = (content) =>
   prettier.format(content, {
@@ -38,7 +36,9 @@ module.exports = {
     spec,
     name,
     toJS,
-    templates = resolve(__dirname, config.templates),
+    modular,
+    prepareConfig,
+    templates,
     generateResponses = config.generateResponses,
     defaultResponseAsSuccess = config.defaultResponseAsSuccess,
     generateRouteTypes = config.generateRouteTypes,
@@ -47,6 +47,10 @@ module.exports = {
     moduleNameIndex = config.moduleNameIndex,
   }) =>
     new Promise((resolve, reject) => {
+      templates =
+        templates ||
+        path.resolve(__dirname, modular ? "../templates/modular" : "../templates/default");
+
       addToConfig({
         defaultResponseAsSuccess,
         generateRouteTypes,
@@ -58,10 +62,7 @@ module.exports = {
       });
       (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url))
         .then(({ usageSchema, originalSchema }) => {
-          Eta.configure({
-            views: path.resolve(config.templates),
-          });
-          const renderTemplate = getTemplate(config);
+          const templatesToRender = getTemplates(config);
 
           console.log("☄️  start generating your typescript api");
 
@@ -83,8 +84,7 @@ module.exports = {
           const hasQueryRoutes = routes.some((route) => route.hasQuery);
           const hasFormDataRoutes = routes.some((route) => route.hasFormDataParams);
           const apiConfig = createApiConfig({ info, servers }, hasSecurityRoutes);
-
-          const configuration = {
+          const rawConfiguration = {
             apiConfig,
             config,
             modelTypes: _.map(schemasMap, getModelType),
@@ -96,32 +96,110 @@ module.exports = {
             utils: require("./render/utils"),
           };
 
-          let sourceFileContent = Eta.render(renderTemplate, configuration, { async: false });
+          const configuration = prepareConfig ? prepareConfig(rawConfiguration) : rawConfiguration;
 
-          if (toJS) {
-            const {
-              sourceFile: sourceJsFile,
-              declarationFile,
-            } = require("./translators/JavaScript").translate(name, sourceFileContent);
+          console.info("FFF", configuration.routes.$outOfModule);
 
-            sourceJsFile.content = prettierFormat(sourceJsFile.content);
-            declarationFile.content = prettierFormat(declarationFile.content);
+          const files = modular
+            ? [
+                templatesToRender.dataContracts && {
+                  name: "data-contracts.ts",
+                  content: renderTemplate(templatesToRender.dataContracts, configuration),
+                },
+                configuration.config.generateRouteTypes &&
+                  templatesToRender.routeTypes && {
+                    name: "route-types.ts",
+                    content: renderTemplate(templatesToRender.routeTypes, configuration),
+                  },
+                configuration.config.generateClient &&
+                  templatesToRender.httpClient && {
+                    name: "http-client.ts",
+                    content: renderTemplate(templatesToRender.httpClient, configuration),
+                  },
+                configuration.config.generateClient &&
+                  templatesToRender.api &&
+                  configuration.routes.$outOfModule.length && {
+                    name: `Common.ts`,
+                    content: renderTemplate(templatesToRender.api, {
+                      ...configuration,
+                      route: configuration.routes.$outOfModule,
+                    }),
+                  },
+                ...(configuration.config.generateClient && templatesToRender.api
+                  ? _.reduce(
+                      configuration.routes.combined,
+                      (apis, route) => [
+                        ...apis,
+                        {
+                          name: `${_.upperFirst(route.moduleName)}.ts`,
+                          content: renderTemplate(templatesToRender.api, {
+                            ...configuration,
+                            route,
+                          }),
+                        },
+                      ],
+                      [],
+                    )
+                  : []),
+              ].filter(Boolean)
+            : [
+                {
+                  name: name,
+                  content: [
+                    templatesToRender.dataContracts &&
+                      renderTemplate(templatesToRender.dataContracts, configuration),
+                    configuration.config.generateRouteTypes &&
+                      templatesToRender.routeTypes &&
+                      renderTemplate(templatesToRender.routeTypes, configuration),
+                    configuration.config.generateClient &&
+                      templatesToRender.httpClient &&
+                      renderTemplate(templatesToRender.httpClient, configuration),
+                    configuration.config.generateClient &&
+                      templatesToRender.api &&
+                      renderTemplate(templatesToRender.api, configuration),
+                  ]
+                    .filter(Boolean)
+                    .join("\n"),
+                },
+              ];
 
-            if (pathIsExist(output)) {
-              createFile(output, sourceJsFile.name, sourceJsFile.content);
-              createFile(output, declarationFile.name, declarationFile.content);
-              console.log(`✔️  your javascript api file created in "${output}"`);
+          const generatedFiles = files.map((file) => {
+            if (toJS) {
+              const { sourceFile, declarationFile } = require("./translators/JavaScript").translate(
+                file.name,
+                file.content,
+              );
+
+              sourceFile.content = prettierFormat(sourceFile.content);
+              declarationFile.content = prettierFormat(declarationFile.content);
+
+              if (pathIsExist(output)) {
+                createFile(output, sourceFile.name, sourceFile.content);
+                createFile(output, declarationFile.name, declarationFile.content);
+                console.log(`✔️  your javascript api file created in "${output}"`);
+              }
+
+              return {
+                name: file.name,
+                content: sourceFile.content,
+                declaration: declarationFile.content,
+              };
+            } else {
+              file.content = prettierFormat(file.content);
+
+              if (pathIsExist(output)) {
+                createFile(output, file.name, file.content);
+                console.log(`✔️  your typescript api file created in "${output}"`);
+              }
+
+              return file;
             }
-            resolve(sourceJsFile.content);
-          } else {
-            sourceFileContent = prettierFormat(sourceFileContent);
+          });
 
-            if (pathIsExist(output)) {
-              createFile(output, name, sourceFileContent);
-              console.log(`✔️  your typescript api file created in "${output}"`);
-            }
-            resolve(sourceFileContent);
-          }
+          resolve({
+            files: generatedFiles,
+            configuration,
+          });
         })
         .catch((e) => {
           reject(e);

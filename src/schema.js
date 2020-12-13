@@ -2,7 +2,7 @@ const _ = require("lodash");
 const { inlineExtraFormatters } = require("./typeFormatters");
 const { isValidName, checkAndRenameModelName } = require("./modelNames");
 const { formatDescription, toInternalCase } = require("./common");
-const { DEFAULT_PRIMITIVE_TYPE } = require("./constants");
+const { DEFAULT_PRIMITIVE_TYPE, JS_PRIMITIVE_TYPES, JS_EMPTY_TYPES } = require("./constants");
 const { config } = require("./config");
 
 const types = {
@@ -28,8 +28,6 @@ const types = {
   // dateTime: "Date",
 };
 
-const jsPrimitiveTypes = _.uniq(["number", "string", "boolean"]);
-const jsEmptyTypes = _.uniq(["null", "undefined"]);
 const formDataTypes = _.uniq([types.file, types.string.binary]);
 
 const stealTypeFromSchema = (rawSchema) => {
@@ -137,7 +135,7 @@ const complexSchemaParsers = {
     // T1 | T2 | (T1 & T2)
     const combined = _.map(schema.anyOf, complexTypeGetter);
     const nonEmptyTypesCombined = combined.filter(
-      (type) => !jsEmptyTypes.includes(type) && !jsPrimitiveTypes.includes(type),
+      (type) => !JS_EMPTY_TYPES.includes(type) && !JS_PRIMITIVE_TYPES.includes(type),
     );
     return checkAndAddNull(
       schema,

@@ -50,6 +50,7 @@ Options:
   --js                          generate js api module with declaration file (default: false)
   --module-name-index <number>  determines which path index should be used for routes separation (default: 0)
                                 (example: GET:/fruites/getFruit -> index:0 -> moduleName -> fruites)
+  --modular                     generate separated files for http client, data contracts, and routes (default: false)
   -h, --help                    display help for command
 ```
 
@@ -67,7 +68,11 @@ generateApi({
   name: "MySuperbApi.ts", // name of output typescript file
   url: 'http://api.com/swagger.json', // url where located swagger schema
 })
-  .then(sourceFile => fs.writeFile(path, sourceFile))
+  .then(({ files, configuration }) => {
+    files.forEach(({ content, name }) => {
+      fs.writeFile(path, content);
+    });
+  })
   .catch(e => console.error(e))
 
 // example with local file  
@@ -75,7 +80,11 @@ generateApi({
   name: "ApiModule.ts", // name of output typescript file
   input: resolve(process.cwd(), './foo/swagger.json') // path to swagger schema
 })
-  .then(sourceFile => fs.writeFile(path, sourceFile))
+  .then(({ files, configuration }) => {
+    files.forEach(({ content, name }) => {
+      fs.writeFile(path, content);
+    });
+  })
   .catch(e => console.error(e))
 
 // example with parsed schema  
@@ -98,7 +107,11 @@ generateApi({
     // ...
   }
 })
-  .then(sourceFile => fs.writeFile(path, sourceFile))
+  .then(({ files, configuration }) => {
+    files.forEach(({ content, name }) => {
+      fs.writeFile(path, content);
+    });
+  })
   .catch(e => console.error(e))
 
 ```

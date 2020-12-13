@@ -3,6 +3,8 @@ const { formatDescription } = require("./common");
 
 const createApiConfig = ({ info, servers }) => {
   const server = (servers && servers[0]) || { url: "" };
+  const { title = "No title", version, description: schemaDescription = "" } = info || {};
+  const { url: serverUrl } = server;
 
   const generic = _.compact([
     {
@@ -12,10 +14,10 @@ const createApiConfig = ({ info, servers }) => {
   ]);
 
   const description = _.compact([
-    `@title ${info.title || "Api"}`,
-    info.version && `@version ${info.version}`,
-    server.url && `@baseUrl ${server.url}`,
-    _.replace(formatDescription(info.description), /\n/g, "\n * "),
+    `@title ${title || "Api"}`,
+    version && `@version ${version}`,
+    serverUrl && `@baseUrl ${serverUrl}`,
+    _.replace(formatDescription(schemaDescription), /\n/g, "\n * "),
   ]);
 
   return {
@@ -37,9 +39,9 @@ const createApiConfig = ({ info, servers }) => {
       },
     ]),
     generic,
-    baseUrl: server.url,
-    title: info.title,
-    version: info.version,
+    baseUrl: serverUrl,
+    title,
+    version,
     description,
     hasDescription: !!description.length,
   };
