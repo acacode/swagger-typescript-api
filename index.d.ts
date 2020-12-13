@@ -61,6 +61,7 @@ interface GenerateApiParams {
    */
   moduleNameIndex?: number;
   prepareConfig?: (currentConfiguration: GenerateApiConfiguration) => GenerateApiConfiguration;
+  prettier?: object;
 }
 
 export interface GenerateApiConfiguration {

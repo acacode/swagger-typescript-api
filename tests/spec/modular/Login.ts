@@ -9,8 +9,8 @@
  * ---------------------------------------------------------------
  */
 
+import { Error, PushToken } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
-import { PushToken, Error } from "./data-contracts";
 
 /**
  * @title Authentiq

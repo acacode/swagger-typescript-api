@@ -2,11 +2,11 @@
 const { _ } = it.utils;
 const routesGroupName = _.upperFirst(it.route.moduleName);
 const routes = it.route.routes;
-const dataContracts = _.uniq(it.route.routes.reduce((acc, route) => [...acc, ...(route.dataContracts || [])], []));
+const dataContracts = it.modelTypes.map(modelType => modelType.name);
 %>
 import { HttpClient, RequestParams } from "./http-client";
 <% if (dataContracts.length) { %>
-import { <%= dataContracts.join(", ") %> } from "./data-contracts"
+import { <%~ dataContracts.join(", ") %> } from "./data-contracts"
 <% } %>
 
 <% if (it.apiConfig.hasDescription) { %>

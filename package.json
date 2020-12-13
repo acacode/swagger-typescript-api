@@ -43,6 +43,7 @@
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
     "prettier": "^2.0.5",
+    "prettier-plugin-organize-imports": "^1.1.1",
     "swagger-schema-official": "2.0.0-bab6bed",
     "swagger2openapi": "^6.0.3",
     "typescript": "^4.0.2"

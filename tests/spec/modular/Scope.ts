@@ -9,8 +9,8 @@
  * ---------------------------------------------------------------
  */
 
-import { HttpClient, RequestParams } from "./http-client";
 import { Claims, Error } from "./data-contracts";
+import { HttpClient, RequestParams } from "./http-client";
 
 /**
  * @title Authentiq

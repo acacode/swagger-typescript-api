@@ -19,14 +19,7 @@ const { createComponentsMap, filterComponentsMap } = require("./components");
 const { createFile, pathIsExist } = require("./files");
 const { addToConfig, config } = require("./config");
 const { getTemplates, renderTemplate } = require("./templates");
-
-const prettierFormat = (content) =>
-  prettier.format(content, {
-    printWidth: 120,
-    tabWidth: 2,
-    trailingComma: "all",
-    parser: "typescript",
-  });
+const { PRETTIER_OPTIONS } = require("./constants");
 
 module.exports = {
   generateApi: ({
@@ -45,6 +38,7 @@ module.exports = {
     generateClient = config.generateClient,
     generateUnionEnums = config.generateUnionEnums,
     moduleNameIndex = config.moduleNameIndex,
+    prettier: prettierOptions = PRETTIER_OPTIONS,
   }) =>
     new Promise((resolve, reject) => {
       templates =
@@ -96,9 +90,9 @@ module.exports = {
             utils: require("./render/utils"),
           };
 
-          const configuration = prepareConfig ? prepareConfig(rawConfiguration) : rawConfiguration;
+          const prettierFormat = (content) => prettier.format(content, prettierOptions);
 
-          console.info("FFF", configuration.routes.$outOfModule);
+          const configuration = prepareConfig ? prepareConfig(rawConfiguration) : rawConfiguration;
 
           const files = modular
             ? [

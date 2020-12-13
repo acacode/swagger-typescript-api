@@ -172,6 +172,20 @@ const convertRouteParamsIntoObject = (params) =>
     },
   );
 
+const checkDataContractType = (type) => {
+  return !(
+    typeof type !== "string" ||
+    ["object", "void", DEFAULT_PRIMITIVE_TYPE, ...JS_PRIMITIVE_TYPES, ...JS_EMPTY_TYPES].includes(
+      type,
+    ) ||
+    _.includes(type, "{") ||
+    _.includes(type, "Record<") ||
+    _.includes(type, '"') ||
+    _.includes(type, "|") ||
+    _.includes(type, "&")
+  );
+};
+
 const createRequestsMap = (requestInfoByMethodsMap) => {
   const parameters = _.get(requestInfoByMethodsMap, "parameters");
 
@@ -384,42 +398,6 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
           errorType: getErrorReturnType(responses, parsedSchemas, operationId),
         };
 
-        const dataContracts = _.uniq(
-          [
-            ..._.map(pathArgs, "type"),
-            specificArgs.query && specificArgs.query.type,
-            specificArgs.body && specificArgs.body.type,
-            response.type,
-            response.errorType,
-          ]
-            .map((type) => {
-              if (typeof type === "string" && _.startsWith(type, "(") && _.endsWith(type, "[]")) {
-                type = type.replace(/((\(){1,1})|(\)\[\])/g, "");
-              }
-
-              if (
-                typeof type !== "string" ||
-                [
-                  "object",
-                  "void",
-                  DEFAULT_PRIMITIVE_TYPE,
-                  ...JS_PRIMITIVE_TYPES,
-                  ...JS_EMPTY_TYPES,
-                ].includes(type) ||
-                _.includes(type, "{") ||
-                _.includes(type, "Record<") ||
-                _.includes(type, '"') ||
-                _.includes(type, "|") ||
-                _.includes(type, "&")
-              ) {
-                return null;
-              }
-
-              return type;
-            })
-            .filter(Boolean),
-        );
-
         return {
           name,
           jsDocDescription,
@@ -436,7 +414,6 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
             params: specificArgs.requestParams,
           },
           response,
-          dataContracts,
         };
       }),
     ];
