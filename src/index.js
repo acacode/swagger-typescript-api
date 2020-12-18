@@ -44,6 +44,7 @@ module.exports = {
     generateRouteTypes = config.generateRouteTypes,
     generateClient = config.generateClient,
     generateUnionEnums = config.generateUnionEnums,
+    moduleNameIndex = config.moduleNameIndex,
   }) =>
     new Promise((resolve, reject) => {
       addToConfig({
@@ -53,6 +54,7 @@ module.exports = {
         generateResponses,
         templates,
         generateUnionEnums,
+        moduleNameIndex,
       });
       (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url))
         .then(({ usageSchema, originalSchema }) => {
@@ -78,7 +80,7 @@ module.exports = {
           const schemasMap = filterComponentsMap(componentsMap, "schemas");
 
           const parsedSchemas = parseSchemas(components);
-          const routes = parseRoutes(usageSchema, parsedSchemas, componentsMap, components);
+          const routes = parseRoutes(usageSchema, parsedSchemas, componentsMap, components, moduleNameIndex);
           const hasSecurityRoutes = routes.some((route) => route.security);
           const hasQueryRoutes = routes.some((route) => route.hasQuery);
           const hasFormDataRoutes = routes.some((route) => route.hasFormDataParams);
