@@ -87,7 +87,10 @@ module.exports = {
             hasQueryRoutes,
             generateResponses,
             routes: groupRoutes(routes),
-            utils: require("./render/utils"),
+            utils: {
+              ...require("./render/utils"),
+              ...require("./common"),
+            },
           };
 
           const prettierFormat = (content) => prettier.format(content, prettierOptions);

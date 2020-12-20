@@ -149,7 +149,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   /**
    * No description
    *
-   * @name listVersionsv2
+   * @name ListVersionsv2
    * @summary List API versions
    * @request GET:/
    */
@@ -159,7 +159,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * No description
      *
-     * @name getVersionDetailsv2
+     * @name GetVersionDetailsv2
      * @summary Show API version details
      * @request GET:/v2
      */

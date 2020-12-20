@@ -23,7 +23,7 @@ export class Scope extends HttpClient {
    * @description scope verification request See: https://github.com/skion/authentiq/wiki/JWT-Examples
    *
    * @tags scope, post
-   * @name sign_request
+   * @name SignRequest
    * @request POST:/scope
    */
   signRequest = (body: Claims, query?: { test?: number }, params?: RequestParams) =>
@@ -37,7 +37,7 @@ export class Scope extends HttpClient {
    * @description delete a verification job
    *
    * @tags scope, delete
-   * @name sign_delete
+   * @name SignDelete
    * @request DELETE:/scope/{job}
    */
   signDelete = (job: string, params?: RequestParams) =>
@@ -46,7 +46,7 @@ export class Scope extends HttpClient {
    * @description get the status / current content of a verification job
    *
    * @tags scope, get
-   * @name sign_retrieve
+   * @name SignRetrieve
    * @request GET:/scope/{job}
    */
   signRetrieve = (job: string, params?: RequestParams) =>
@@ -55,7 +55,7 @@ export class Scope extends HttpClient {
    * @description HEAD to get the status of a verification job
    *
    * @tags scope, head
-   * @name sign_retrieve_head
+   * @name SignRetrieveHead
    * @request HEAD:/scope/{job}
    */
   signRetrieveHead = (job: string, params?: RequestParams) =>
@@ -64,7 +64,7 @@ export class Scope extends HttpClient {
    * @description this is a scope confirmation
    *
    * @tags scope, post
-   * @name sign_confirm
+   * @name SignConfirm
    * @request POST:/scope/{job}
    */
   signConfirm = (job: string, params?: RequestParams) =>
@@ -73,7 +73,7 @@ export class Scope extends HttpClient {
    * @description authority updates a JWT with its signature See: https://github.com/skion/authentiq/wiki/JWT-Examples
    *
    * @tags scope, put
-   * @name sign_update
+   * @name SignUpdate
    * @request PUT:/scope/{job}
    */
   signUpdate = (job: string, params?: RequestParams) =>

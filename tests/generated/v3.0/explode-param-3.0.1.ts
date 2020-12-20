@@ -159,7 +159,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * No description
      *
-     * @name gets
+     * @name Gets
      * @request GET:/something/
      */
     gets: (query?: { params?: QueryParams }, params?: RequestParams) =>

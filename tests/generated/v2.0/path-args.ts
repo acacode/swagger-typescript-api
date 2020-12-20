@@ -152,7 +152,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * No description
      *
      * @tags pets
-     * @name listPets
+     * @name ListPets
      * @summary List all pets
      * @request GET:/pets/{param1}/{param2}/{param3}
      */

@@ -238,7 +238,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description The Products endpoint returns information about the Uber products offered at a given location. The response includes the display name and other details about each product, and lists the products in the proper display order.
      *
      * @tags Products
-     * @name productsList
+     * @name ProductsList
      * @summary Product Types
      * @request GET:/products
      * @secure
@@ -258,7 +258,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description The Price Estimates endpoint returns an estimated price range for each product offered at a given location. The price estimate is provided as a formatted string with the full price range and the localized currency symbol.<br><br>The response also includes low and high estimates, and the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for situations requiring currency conversion. When surge is active for a particular product, its surge_multiplier will be greater than 1, but the price estimate already factors in this multiplier.
      *
      * @tags Estimates
-     * @name priceList
+     * @name PriceList
      * @summary Price Estimates
      * @request GET:/estimates/price
      */
@@ -271,7 +271,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. We recommend that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.
      *
      * @tags Estimates
-     * @name timeList
+     * @name TimeList
      * @summary Time Estimates
      * @request GET:/estimates/time
      */
@@ -285,7 +285,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description The User Profile endpoint returns information about the Uber user that has authorized with the application.
      *
      * @tags User
-     * @name getMe
+     * @name GetMe
      * @summary User Profile
      * @request GET:/me
      */
@@ -296,7 +296,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.
      *
      * @tags User
-     * @name historyList
+     * @name HistoryList
      * @summary User Activity
      * @request GET:/history
      */

@@ -160,7 +160,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * No description
      *
-     * @name petsPartialUpdate
+     * @name PetsPartialUpdate
      * @request PATCH:/pets
      */
     petsPartialUpdate: (data: PetByAge | PetByType | (PetByAge & PetByType), params?: RequestParams) =>

@@ -1,5 +1,6 @@
 <%
 const { _ } = it.utils;
+const procedureDuplicatesMap = new Map();
 const routesGroupName = _.upperFirst(it.route.moduleName);
 const routes = it.route.routes;
 const dataContracts = it.modelTypes.map(modelType => modelType.name);
@@ -19,6 +20,6 @@ import { <%~ dataContracts.join(", ") %> } from "./data-contracts"
 <% } %>
 export class <%= routesGroupName %> extends HttpClient {
     <% routes.forEach((route) => { %>
-        <%~ includeFile('./procedure-call.eta', { route, utils: it.utils }) %>
+        <%~ includeFile('./procedure-call.eta', { route, utils: it.utils, procedureDuplicatesMap, config: it.config }) %>
     <% }) %>
 }

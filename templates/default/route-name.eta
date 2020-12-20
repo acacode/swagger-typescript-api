@@ -1,0 +1,53 @@
+<%
+const procedureDuplicatesMap = it.procedureDuplicatesMap;
+const { _, duplicatesMap } = it.utils;
+const { operationId, method, route, moduleName } = it.route.raw
+
+const methodAliases = {
+  get: (pathName, hasPathInserts) =>
+    _.camelCase(`${pathName}_${hasPathInserts ? "detail" : "list"}`),
+  post: (pathName, hasPathInserts) => _.camelCase(`${pathName}_create`),
+  put: (pathName, hasPathInserts) => _.camelCase(`${pathName}_update`),
+  patch: (pathName, hasPathInserts) => _.camelCase(`${pathName}_partial_update`),
+  delete: (pathName, hasPathInserts) => _.camelCase(`${pathName}_delete`),
+};
+
+const createCustomOperationId = (method, route, moduleName) => {
+  const hasPathInserts = /\{(\w){1,}\}/g.test(route);
+  const splitedRouteBySlash = _.compact(_.replace(route, /\{(\w){1,}\}/g, "").split("/"));
+  const routeParts = (splitedRouteBySlash.length > 1
+    ? splitedRouteBySlash.splice(1)
+    : splitedRouteBySlash
+  ).join("_");
+  return routeParts.length > 3 && methodAliases[method]
+    ? methodAliases[method](routeParts, hasPathInserts)
+    : _.camelCase(_.lowerCase(method) + "_" + [moduleName].join("_")) || "index";
+};
+
+const createRouteName = (operationId, method, route, moduleName) => {
+  if (operationId) return operationId;
+  if (route === "/") return `${_.lowerCase(method)}Root`;
+  return createCustomOperationId(method, route, moduleName);
+};
+
+const routeName = _.camelCase(createRouteName(operationId, method, route, moduleName))
+const duplicateIdentifier = `${moduleName}|${routeName}`
+
+if (procedureDuplicatesMap.has(duplicateIdentifier)) {
+  procedureDuplicatesMap.set(duplicateIdentifier, procedureDuplicatesMap.get(duplicateIdentifier) + 1)
+  console.warn(
+    `🥵  Module "${moduleName}" already have method "${routeName}()"`,
+    `\n🥵  This method has been renamed to "${routeName + procedureDuplicatesMap.get(duplicateIdentifier)}()" to solve conflict names.`,
+  );
+} else {
+  procedureDuplicatesMap.set(duplicateIdentifier, 1);
+}
+
+const duplicates = procedureDuplicatesMap.get(duplicateIdentifier);
+
+return {
+  routeName: routeName + (duplicates > 1 ? duplicates : ""),
+  originalRouteName: routeName,
+  isDuplicate: duplicates > 1,
+}
+%>

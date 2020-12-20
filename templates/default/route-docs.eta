@@ -1,0 +1,29 @@
+<%
+const { routeName, isDuplicate, config, originalRouteName, route, utils } = it;
+const { _, formatDescription, fmtToJSDocLine } = utils;
+const { raw, request } = route;
+const jsDocDescription = raw.description ?
+    ` * @description ${formatDescription(raw.description, true)}` :
+    fmtToJSDocLine('No description', { eol: false });
+const jsDocLines = _.compact([
+    raw.tags?.length && ` * @tags ${raw.tags.join(", ")}`,
+    ` * @name ${_.upperFirst(_.camelCase(routeName))}`,
+    raw.summary && ` * @summary ${raw.summary}`,
+    ` * @request ${_.upperCase(request.method)}:${raw.route}`,
+    isDuplicate && ` * @originalName ${originalRouteName}\n`,
+    isDuplicate && ` * @duplicate\n`,
+    request.security && ` * @secure`,
+    ...(config.generateResponses && raw.responsesTypes.length
+    ? raw.responsesTypes.map(
+        ({ type, status, description, isSuccess }) =>
+            ` * @response \`${status}\` \`${type}\` ${description}`,
+        )
+    : []),
+]).join("\n");
+
+
+return {
+  description: jsDocDescription,
+  lines: jsDocLines,
+}
+%>

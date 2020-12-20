@@ -320,7 +320,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description A multiget version of the get GIF by ID endpoint.
      *
      * @tags gifs
-     * @name getGifsById
+     * @name GetGifsById
      * @summary Get GIFs by ID
      * @request GET:/gifs
      * @secure
@@ -339,7 +339,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.
      *
      * @tags gifs
-     * @name randomGif
+     * @name RandomGif
      * @summary Random GIF
      * @request GET:/gifs/random
      * @secure
@@ -358,7 +358,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Search all GIPHY GIFs for a word or phrase. Punctuation will be stripped and ignored.  Use a plus or url encode for phrases. Example paul+rudd, ryan+gosling or american+psycho.
      *
      * @tags gifs
-     * @name searchGifs
+     * @name SearchGifs
      * @summary Search GIFs
      * @request GET:/gifs/search
      * @secure
@@ -380,7 +380,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description The translate API draws on search, but uses the GIPHY `special sauce` to handle translating from one vocabulary to another. In this case, words and phrases to GIF
      *
      * @tags gifs
-     * @name translateGif
+     * @name TranslateGif
      * @summary Translate phrase to GIF
      * @request GET:/gifs/translate
      * @secure
@@ -399,7 +399,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Fetch GIFs currently trending online. Hand curated by the GIPHY editorial team.  The data returned mirrors the GIFs showcased on the GIPHY homepage. Returns 25 results by default.
      *
      * @tags gifs
-     * @name trendingGifs
+     * @name TrendingGifs
      * @summary Trending GIFs
      * @request GET:/gifs/trending
      * @secure
@@ -418,7 +418,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Returns a GIF given that GIF's unique ID
      *
      * @tags gifs
-     * @name getGifById
+     * @name GetGifById
      * @summary Get GIF by Id
      * @request GET:/gifs/{gifId}
      * @secure
@@ -431,7 +431,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.
      *
      * @tags stickers
-     * @name randomSticker
+     * @name RandomSticker
      * @summary Random Sticker
      * @request GET:/stickers/random
      * @secure
@@ -450,7 +450,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Replicates the functionality and requirements of the classic GIPHY search, but returns animated stickers rather than GIFs.
      *
      * @tags stickers
-     * @name searchStickers
+     * @name SearchStickers
      * @summary Search Stickers
      * @request GET:/stickers/search
      * @secure
@@ -472,7 +472,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description The translate API draws on search, but uses the GIPHY `special sauce` to handle translating from one vocabulary to another. In this case, words and phrases to GIFs.
      *
      * @tags stickers
-     * @name translateSticker
+     * @name TranslateSticker
      * @summary Translate phrase to Sticker
      * @request GET:/stickers/translate
      * @secure
@@ -491,7 +491,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Fetch Stickers currently trending online. Hand curated by the GIPHY editorial team. Returns 25 results by default.
      *
      * @tags stickers
-     * @name trendingStickers
+     * @name TrendingStickers
      * @summary Trending Stickers
      * @request GET:/stickers/trending
      * @secure

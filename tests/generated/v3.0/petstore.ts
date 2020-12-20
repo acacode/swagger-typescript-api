@@ -167,7 +167,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * No description
      *
      * @tags pets
-     * @name listPets
+     * @name ListPets
      * @summary List all pets
      * @request GET:/pets
      */
@@ -178,7 +178,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * No description
      *
      * @tags pets
-     * @name createPets
+     * @name CreatePets
      * @summary Create a pet
      * @request POST:/pets
      */
@@ -188,7 +188,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * No description
      *
      * @tags pets
-     * @name showPetById
+     * @name ShowPetById
      * @summary Info for a specific pet
      * @request GET:/pets/{petId}
      */

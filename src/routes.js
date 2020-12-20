@@ -7,8 +7,6 @@ const {
   DEFAULT_PRIMITIVE_TYPE,
   DEFAULT_BODY_ARG_NAME,
   SUCCESS_RESPONSE_STATUS_RANGE,
-  JS_PRIMITIVE_TYPES,
-  JS_EMPTY_TYPES,
 } = require("./constants");
 const { formatDescription } = require("./common");
 const { config } = require("./config");
@@ -171,20 +169,6 @@ const convertRouteParamsIntoObject = (params) =>
       type: "object",
     },
   );
-
-const checkDataContractType = (type) => {
-  return !(
-    typeof type !== "string" ||
-    ["object", "void", DEFAULT_PRIMITIVE_TYPE, ...JS_PRIMITIVE_TYPES, ...JS_EMPTY_TYPES].includes(
-      type,
-    ) ||
-    _.includes(type, "{") ||
-    _.includes(type, "Record<") ||
-    _.includes(type, '"') ||
-    _.includes(type, "|") ||
-    _.includes(type, "&")
-  );
-};
 
 const createRequestsMap = (requestInfoByMethodsMap) => {
   const parameters = _.get(requestInfoByMethodsMap, "parameters");
@@ -414,35 +398,28 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
             params: specificArgs.requestParams,
           },
           response,
+          raw: {
+            operationId,
+            method,
+            route,
+            moduleName,
+            responsesTypes,
+            description,
+            tags,
+            summary,
+          },
         };
       }),
     ];
   }, []);
 
 const groupRoutes = (routes) => {
-  const duplicates = {};
   return _.reduce(
     routes.reduce(
       (modules, route) => {
         if (route.namespace) {
           if (!modules[route.namespace]) {
             modules[route.namespace] = [];
-          }
-
-          if (!duplicates[route.namespace]) duplicates[route.namespace] = {};
-          if (!duplicates[route.namespace][route.name]) {
-            duplicates[route.namespace][route.name] = 1;
-          } else {
-            const routeName = route.name;
-            route.jsDocLines += ` * @originalName ${routeName}\n`;
-            route.jsDocLines += ` * @duplicate\n`;
-            const duplicateNumber = ++duplicates[route.namespace][routeName];
-            route.name += duplicateNumber;
-            route.pascalName += duplicateNumber;
-            console.warn(
-              `🥵  Module "${route.namespace}" already have method "${routeName}()"`,
-              `\n🥵  This method has been renamed to "${route.name}()" to solve conflict names.`,
-            );
           }
 
           modules[route.namespace].push(route);

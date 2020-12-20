@@ -204,7 +204,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Returns a single pet
      *
      * @tags pet
-     * @name getPetById
+     * @name GetPetById
      * @summary Find pet by ID
      * @request GET:/pet/{petId}
      * @secure
@@ -216,7 +216,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * No description
      *
      * @tags pet
-     * @name updatePetWithForm
+     * @name UpdatePetWithForm
      * @summary Updates a pet in the store with form data
      * @request POST:/pet/{petId}
      * @secure
@@ -228,7 +228,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * No description
      *
      * @tags pet
-     * @name deletePet
+     * @name DeletePet
      * @summary Deletes a pet
      * @request DELETE:/pet/{petId}
      * @secure
@@ -240,7 +240,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * No description
      *
      * @tags pet
-     * @name uploadFile
+     * @name UploadFile
      * @summary uploads an image
      * @request POST:/pet/{petId}/uploadImage
      * @secure
@@ -252,7 +252,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * No description
      *
      * @tags pet
-     * @name addPet
+     * @name AddPet
      * @summary Add a new pet to the store
      * @request POST:/pet
      * @secure
@@ -264,7 +264,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * No description
      *
      * @tags pet
-     * @name updatePet
+     * @name UpdatePet
      * @summary Update an existing pet
      * @request PUT:/pet
      * @secure
@@ -276,7 +276,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Multiple status values can be provided with comma separated strings
      *
      * @tags pet
-     * @name findPetsByStatus
+     * @name FindPetsByStatus
      * @summary Finds Pets by status
      * @request GET:/pet/findByStatus
      * @secure
@@ -295,7 +295,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      *
      * @tags pet
-     * @name findPetsByTags
+     * @name FindPetsByTags
      * @summary Finds Pets by tags
      * @request GET:/pet/findByTags
      * @secure
@@ -315,7 +315,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Returns a map of status codes to quantities
      *
      * @tags store
-     * @name getInventory
+     * @name GetInventory
      * @summary Returns pet inventories by status
      * @request GET:/store/inventory
      * @secure
@@ -327,7 +327,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions
      *
      * @tags store
-     * @name getOrderById
+     * @name GetOrderById
      * @summary Find purchase order by ID
      * @request GET:/store/order/{orderId}
      */
@@ -338,7 +338,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors
      *
      * @tags store
-     * @name deleteOrder
+     * @name DeleteOrder
      * @summary Delete purchase order by ID
      * @request DELETE:/store/order/{orderId}
      */
@@ -349,7 +349,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * No description
      *
      * @tags store
-     * @name placeOrder
+     * @name PlaceOrder
      * @summary Place an order for a pet
      * @request POST:/store/order
      */
@@ -360,7 +360,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * No description
      *
      * @tags user
-     * @name getUserByName
+     * @name GetUserByName
      * @summary Get user by user name
      * @request GET:/user/{username}
      */
@@ -371,7 +371,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description This can only be done by the logged in user.
      *
      * @tags user
-     * @name updateUser
+     * @name UpdateUser
      * @summary Updated user
      * @request PUT:/user/{username}
      */
@@ -382,7 +382,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description This can only be done by the logged in user.
      *
      * @tags user
-     * @name deleteUser
+     * @name DeleteUser
      * @summary Delete user
      * @request DELETE:/user/{username}
      */
@@ -393,7 +393,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * No description
      *
      * @tags user
-     * @name loginUser
+     * @name LoginUser
      * @summary Logs user into the system
      * @request GET:/user/login
      */
@@ -404,7 +404,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * No description
      *
      * @tags user
-     * @name logoutUser
+     * @name LogoutUser
      * @summary Logs out current logged in user session
      * @request GET:/user/logout
      */
@@ -414,7 +414,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description This can only be done by the logged in user.
      *
      * @tags user
-     * @name createUser
+     * @name CreateUser
      * @summary Create user
      * @request POST:/user
      */
@@ -424,7 +424,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * No description
      *
      * @tags user
-     * @name createUsersWithArrayInput
+     * @name CreateUsersWithArrayInput
      * @summary Creates list of users with given input array
      * @request POST:/user/createWithArray
      */
@@ -435,7 +435,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * No description
      *
      * @tags user
-     * @name createUsersWithListInput
+     * @name CreateUsersWithListInput
      * @summary Creates list of users with given input array
      * @request POST:/user/createWithList
      */

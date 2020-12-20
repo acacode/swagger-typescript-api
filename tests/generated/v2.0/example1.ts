@@ -172,7 +172,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Creates a TDE certificate for a given server.
      *
      * @tags ManagedInstanceTdeCertificates
-     * @name ManagedInstanceTdeCertificates_Create
+     * @name ManagedInstanceTdeCertificatesCreate
      * @request POST:/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates
      */
     managedInstanceTdeCertificatesCreate: (

@@ -174,7 +174,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * @description Returns all pets from the system that the user has access to
      *
-     * @name findPets
+     * @name FindPets
      * @request GET:/pets
      */
     findPets: (query?: { tags?: string[]; limit?: number }, params?: RequestParams) =>
@@ -183,7 +183,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * @description Creates a new pet in the store.  Duplicates are allowed
      *
-     * @name addPet
+     * @name AddPet
      * @request POST:/pets
      */
     addPet: (pet: NewPet, params?: RequestParams) => this.request<Pet, ErrorModel>(`/pets`, "POST", params, pet),
@@ -191,7 +191,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * @description Returns a user based on a single ID, if the user does not have access to the pet
      *
-     * @name findPetById
+     * @name FindPetById
      * @request GET:/pets/{id}
      */
     findPetById: (id: number, params?: RequestParams) => this.request<Pet, ErrorModel>(`/pets/${id}`, "GET", params),
@@ -199,7 +199,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * @description deletes a single pet based on the ID supplied
      *
-     * @name deletePet
+     * @name DeletePet
      * @request DELETE:/pets/{id}
      */
     deletePet: (id: number, params?: RequestParams) => this.request<any, ErrorModel>(`/pets/${id}`, "DELETE", params),

@@ -151,7 +151,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * No description
      *
-     * @name getData
+     * @name GetData
      * @request GET:/api
      */
     getData: (params?: RequestParams) => this.request<{ data?: string }, any>(`/api`, "GET", params),

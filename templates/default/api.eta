@@ -1,4 +1,6 @@
-
+<%
+   const procedureDuplicatesMap = new Map();
+%>
 <% if (it.apiConfig.hasDescription) { %>
 /**
 <% it.apiConfig.description.forEach((jsDocLine) => { %>
@@ -14,7 +16,7 @@ export class Api<<%~ it.apiConfig.generic.map(g => `${g.name} = ${g.defaultValue
 
 <% it.routes.outOfModule && it.routes.outOfModule.forEach((route) => { %>
 
-        <%~ includeFile('./procedure-call.eta', { route, utils: it.utils }) %>
+        <%~ includeFile('./procedure-call.eta', { route, utils: it.utils, procedureDuplicatesMap, config: it.config }) %>
 
 <% }) %>
 
@@ -22,7 +24,7 @@ export class Api<<%~ it.apiConfig.generic.map(g => `${g.name} = ${g.defaultValue
     <%~ moduleName %> = {
     <% routes.forEach((route) => { %>
 
-        <%~ includeFile('./procedure-call.eta', { route, utils: it.utils }) %>
+        <%~ includeFile('./procedure-call.eta', { route, utils: it.utils, procedureDuplicatesMap, config: it.config }) %>
 
     <% }) %>
     }

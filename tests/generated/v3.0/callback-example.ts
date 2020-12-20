@@ -150,7 +150,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * @description subscribes a client to receive out-of-band data
      *
-     * @name streamsCreate
+     * @name StreamsCreate
      * @request POST:/streams
      */
     streamsCreate: (query: { callbackUrl: string }, params?: RequestParams) =>

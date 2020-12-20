@@ -119,11 +119,13 @@ generateApi({
 
 ## 💎 options   
 ### **`--templates`**  
-This option should be used in cases when you don't want to use default `swagger-typescript-api` output structure  
+This option needed for cases when you don't want to use default `swagger-typescript-api` output structure  
 How to use it:  
-1. copy [**swagger-typescript-api templates**](https://github.com/acacode/swagger-typescript-api/tree/mustache-latest/src/templates/defaults) into your place in project  
+1. copy swagger-typescript-api templates into your place in project
+    - from [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default) for single api file  
+    - from [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular) for multiple api files (with `--modular` option)  
 1. add `--templates PATH_TO_YOUR_TEMPLATES` option  
-2. modify [Mustache](https://mustache.github.io/) templates as you like  
+2. modify [ETA](https://eta.js.org/docs/syntax) templates as you like  
 
 ### **`--module-name-index`**  
 This option should be used in cases when you have api with one global prefix like `/api`   
@@ -155,10 +157,7 @@ When we change it to `--module-name-index 1` then Api class have two properties 
 
 ❗❗❗ Please use the `next` branch :)   
 
-You can manually check your changes at schemas in `tests` folder before create a PR.  
-To do that have scripts:  
-    - `npm run generate` - generate API modules from schemas in `tests` folder  
-    - `npm run validate` - validate generated API modules via TypeScript  
+If you need to check your changes at schemas in `tests` folder before create a PR just run command `npm run test:all`  
 
 ## 📝 License  
 Licensed under the [MIT License](https://github.com/acacode/swagger-typescript-api/blob/master/LICENSE).

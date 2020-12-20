@@ -216,7 +216,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Revoke an Authentiq ID using email & phone. If called with `email` and `phone` only, a verification code will be sent by email. Do a second call adding `code` to complete the revocation.
      *
      * @tags key, delete
-     * @name key_revoke_nosecret
+     * @name KeyRevokeNosecret
      * @request DELETE:/key
      * @response `200` `{ status?: string }` Successfully deleted
      * @response `401` `Error` Authentication error `auth-error`
@@ -231,7 +231,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Register a new ID `JWT(sub, devtoken)` v5: `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
      *
      * @tags key, post
-     * @name key_register
+     * @name KeyRegister
      * @request POST:/key
      * @response `201` `{ secret?: string, status?: string }` Successfully registered
      * @response `409` `Error` Key already registered `duplicate-key`
@@ -244,7 +244,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Revoke an Identity (Key) with a revocation secret
      *
      * @tags key, delete
-     * @name key_revoke
+     * @name KeyRevoke
      * @request DELETE:/key/{PK}
      * @response `200` `{ status?: string }` Successful response
      * @response `401` `Error` Key not found / wrong code `auth-error`
@@ -258,7 +258,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Get public details of an Authentiq ID.
      *
      * @tags key, get
-     * @name getKey
+     * @name GetKey
      * @request GET:/key/{PK}
      * @response `200` `{ since?: string, status?: string, sub?: string }` Successfully retrieved
      * @response `404` `Error` Unknown key `unknown-key`
@@ -272,7 +272,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description HEAD info on Authentiq ID
      *
      * @tags key, head
-     * @name headKey
+     * @name HeadKey
      * @request HEAD:/key/{PK}
      * @response `200` `any` Key exists
      * @response `404` `Error` Unknown key `unknown-key`
@@ -285,7 +285,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description update properties of an Authentiq ID. (not operational in v4; use PUT for now) v5: POST issuer-signed email & phone scopes in a self-signed JWT See: https://github.com/skion/authentiq/wiki/JWT-Examples
      *
      * @tags key, post
-     * @name key_update
+     * @name KeyUpdate
      * @request POST:/key/{PK}
      * @response `200` `{ status?: string }` Successfully updated
      * @response `404` `Error` Unknown key `unknown-key`
@@ -298,7 +298,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description Update Authentiq ID by replacing the object. v4: `JWT(sub,email,phone)` to bind email/phone hash; v5: POST issuer-signed email & phone scopes and PUT to update registration `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
      *
      * @tags key, put
-     * @name key_bind
+     * @name KeyBind
      * @request PUT:/key/{PK}
      * @response `200` `{ status?: string }` Successfully updated
      * @response `404` `Error` Unknown key `unknown-key`
@@ -313,7 +313,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description push sign-in request See: https://github.com/skion/authentiq/wiki/JWT-Examples
      *
      * @tags login, post
-     * @name push_login_request
+     * @name PushLoginRequest
      * @request POST:/login
      * @response `200` `{ status?: string }` Successful response
      * @response `401` `Error` Unauthorized for this callback audience `aud-error` or JWT should be self-signed `auth-error`
@@ -327,7 +327,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description scope verification request See: https://github.com/skion/authentiq/wiki/JWT-Examples
      *
      * @tags scope, post
-     * @name sign_request
+     * @name SignRequest
      * @request POST:/scope
      * @response `201` `{ job?: string, status?: string }` Successful response
      * @response `429` `Error` Too Many Requests on same address / number `rate-limit`
@@ -345,7 +345,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description delete a verification job
      *
      * @tags scope, delete
-     * @name sign_delete
+     * @name SignDelete
      * @request DELETE:/scope/{job}
      * @response `200` `{ status?: string }` Successfully deleted
      * @response `404` `Error` Job not found `unknown-job`
@@ -358,7 +358,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description get the status / current content of a verification job
      *
      * @tags scope, get
-     * @name sign_retrieve
+     * @name SignRetrieve
      * @request GET:/scope/{job}
      * @response `200` `{ exp?: number, field?: string, sub?: string }` Successful response (JWT)
      * @response `204` `any` Confirmed, waiting for signing
@@ -372,7 +372,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description HEAD to get the status of a verification job
      *
      * @tags scope, head
-     * @name sign_retrieve_head
+     * @name SignRetrieveHead
      * @request HEAD:/scope/{job}
      * @response `200` `any` Confirmed and signed
      * @response `204` `any` Confirmed, waiting for signing
@@ -386,7 +386,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description this is a scope confirmation
      *
      * @tags scope, post
-     * @name sign_confirm
+     * @name SignConfirm
      * @request POST:/scope/{job}
      * @response `202` `{ status?: string }` Successfully confirmed
      * @response `401` `Error` Confirmation error `auth-error`
@@ -401,7 +401,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description authority updates a JWT with its signature See: https://github.com/skion/authentiq/wiki/JWT-Examples
      *
      * @tags scope, put
-     * @name sign_update
+     * @name SignUpdate
      * @request PUT:/scope/{job}
      * @response `200` `{ jwt?: string, status?: string }` Successfully updated
      * @response `404` `Error` Job not found `unknown-job`

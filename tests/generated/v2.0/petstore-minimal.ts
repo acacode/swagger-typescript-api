@@ -159,7 +159,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * @description Returns all pets from the system that the user has access to
      *
-     * @name petsList
+     * @name PetsList
      * @request GET:/pets
      */
     petsList: (params?: RequestParams) => this.request<Pet[], any>(`/pets`, "GET", params),

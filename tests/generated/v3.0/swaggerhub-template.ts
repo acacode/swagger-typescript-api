@@ -152,7 +152,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * @description This is an example operation to show how security is applied to the call.
      *
-     * @name exampleList
+     * @name ExampleList
      * @summary Server example operation
      * @request GET:/example
      * @secure
@@ -164,7 +164,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * @description This operation shows how to override the global security defined above, as we want to open it up for all users.
      *
-     * @name pingList
+     * @name PingList
      * @summary Server heartbeat operation
      * @request GET:/ping
      * @secure

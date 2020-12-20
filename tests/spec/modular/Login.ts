@@ -23,7 +23,7 @@ export class Login extends HttpClient {
    * @description push sign-in request See: https://github.com/skion/authentiq/wiki/JWT-Examples
    *
    * @tags login, post
-   * @name push_login_request
+   * @name PushLoginRequest
    * @request POST:/login
    */
   pushLoginRequest = (query: { callback: string }, body: PushToken, params?: RequestParams) =>

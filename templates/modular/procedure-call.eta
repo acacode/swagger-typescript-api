@@ -1,15 +1,28 @@
 <%
+const { _ } = it.utils;
 const argToTmpl = ({ name, optional, type }) => optional
     ? `${name}?: ${type}`
-    : `${name}: ${type}`
-const { parameters, path, method, payload, params, query, formData, security } = it.route.request
+    : `${name}: ${type}`;
+const { parameters, path, method, payload, params, query, formData, security } = it.route.request;
 
-const description = it.route.jsDocDescription || it.utils.fmtToJSDocLine('No description', { eol: false })
+const { routeName, originalRouteName, isDuplicate } = includeFile('./route-name.eta', {
+    route: it.route,
+    utils: it.utils,
+    procedureDuplicatesMap: it.procedureDuplicatesMap
+});
+const routeDocs = includeFile("./route-docs", {
+    routeName,
+    isDuplicate,
+    originalRouteName,
+    config: it.config,
+    route: it.route,
+    utils: it.utils,
+});
 
 const rawWrapperArgs = Object.values(parameters)
     .concat([query, payload, params])
     .filter(Boolean)
-const wrapperArgs = it.utils._
+const wrapperArgs = _
     // Sort by optionality
     .sortBy(rawWrapperArgs, [function(o) { return o.optional }])
     .map(argToTmpl)
@@ -37,12 +50,12 @@ const requestArgs = [pathTmpl, `'${method}'`, params?.name ?? null, payload?.nam
 const { type, errorType } = it.route.response
 %>
 /**
-<%~ description %>
+<%~ routeDocs.description %>
 
  * <% /* Here you can add some other JSDoc tags */ %>
 
-<%~ it.route.jsDocLines %>
+<%~ routeDocs.lines %>
 
  */
-<%~ it.route.name %> = (<%~ wrapperArgs %>) =>
+<%~ routeName %> = (<%~ wrapperArgs %>) =>
     this.request<<%~ type %>, <%~ errorType %>>(<%~ requestArgs %>)

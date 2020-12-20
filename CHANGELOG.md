@@ -1,7 +1,14 @@
 # next release  
 
 BREAKING_CHANGES:  
-- Migrate from mustache template engine to eta template engine  
+- Migrate from [mustache](https://mustache.github.io/) template engine to [ETA](https://eta.js.org/) template engine.  
+
+Features:  
+- `--modular` option. Allows to generate api class per module name.   
+  Example: [here](./tests/spec/modular)   
+- new templates on [ETA](https://eta.js.org/) (enhanced EJS) which can improve your templates!   
+  Also moved out to templates `procedure-call.eta` (request api method template) and `route-name.eta` (api method name template)  
+  No worry about strange syntax it is very simple in usage :)  
 
 # 3.1.1  
 

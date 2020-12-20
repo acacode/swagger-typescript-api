@@ -202,7 +202,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * @description list user's trips
      *
-     * @name tripList
+     * @name TripList
      * @request GET:/trip
      * @secure
      */
@@ -211,7 +211,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * @description list stops for a trip identified by {trip_id}
      *
-     * @name stopDetail
+     * @name StopDetail
      * @request GET:/trip/{trip_id}/stop
      * @secure
      */

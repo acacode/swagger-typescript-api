@@ -1,20 +1,31 @@
 <%
-const { fmtToJSDocLine, _ } = it.utils
-const { name, jsDocDescription } = it.route
+const { _ } = it.utils
 const { query, payload } = it.route.request
 const { type: responseType } = it.route.response
 
-const description = jsDocDescription ?? fmtToJSDocLine('No description', { eol: false })
-const routeNamespace = _.upperFirst(name)
+const { routeName, isDuplicate, originalRouteName } = includeFile('./route-name.eta', {
+  route: it.route,
+  utils: it.utils,
+  procedureDuplicatesMap: it.procedureDuplicatesMap
+})
+const routeDocs = includeFile("./route-docs", {
+    routeName,
+    isDuplicate,
+    originalRouteName,
+    config: it.config,
+    route: it.route,
+    utils: it.utils,
+});
+const routeNamespace = _.upperFirst(routeName)
 const queryType = query?.type || '{}'
 const bodyType = payload?.type || 'never'
 %>
 /**
-<%~ description %>
+<%~ routeDocs.description %>
 
 * <% /* Here you can add some other JSDoc tags */ %>
 
-<%~ it.route.jsDocLines %>
+<%~ routeDocs.lines %>
 
 */
 export namespace <%~ routeNamespace %> {

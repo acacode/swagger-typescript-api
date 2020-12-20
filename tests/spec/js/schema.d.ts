@@ -1726,7 +1726,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Lists all the emojis available to use on GitHub.
      *
-     * @name emojisList
+     * @name EmojisList
      * @request GET:/emojis
      */
     emojisList: (params?: RequestParams) => Promise<HttpResponse<Record<string, string>, unknown>>;
@@ -1735,7 +1735,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List public events.
      *
-     * @name eventsList
+     * @name EventsList
      * @request GET:/events
      */
     eventsList: (params?: RequestParams) => Promise<HttpResponse<Events, unknown>>;
@@ -1744,7 +1744,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List Feeds. GitHub provides several timeline resources in Atom format. The Feeds API lists all the feeds available to the authenticating user.
      *
-     * @name feedsList
+     * @name FeedsList
      * @request GET:/feeds
      */
     feedsList: (params?: RequestParams) => Promise<HttpResponse<Feeds, unknown>>;
@@ -1753,7 +1753,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List the authenticated user's gists or if called anonymously, this will return all public gists.
      *
-     * @name gistsList
+     * @name GistsList
      * @request GET:/gists
      */
     gistsList: (
@@ -1765,14 +1765,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create a gist.
      *
-     * @name gistsCreate
+     * @name GistsCreate
      * @request POST:/gists
      */
     gistsCreate: (body: PostGist, params?: RequestParams) => Promise<HttpResponse<Gist, unknown>>;
     /**
      * @description List all public gists.
      *
-     * @name publicList
+     * @name PublicList
      * @request GET:/gists/public
      */
     publicList: (
@@ -1784,7 +1784,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List the authenticated user's starred gists.
      *
-     * @name starredList
+     * @name StarredList
      * @request GET:/gists/starred
      */
     starredList: (
@@ -1796,50 +1796,52 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Delete a gist.
      *
-     * @name gistsDelete
+     * @name GistsDelete
      * @request DELETE:/gists/{id}
      */
     gistsDelete: (id: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Get a single gist.
      *
-     * @name gistsDetail
+     * @name GistsDetail
      * @request GET:/gists/{id}
      */
     gistsDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<Gist, unknown>>;
     /**
      * @description Edit a gist.
      *
-     * @name gistsPartialUpdate
+     * @name GistsPartialUpdate
      * @request PATCH:/gists/{id}
      */
     gistsPartialUpdate: (id: number, body: PatchGist, params?: RequestParams) => Promise<HttpResponse<Gist, unknown>>;
     /**
      * @description List comments on a gist.
      *
-     * @name commentsDetail
+     * @name CommentsDetail
      * @request GET:/gists/{id}/comments
      */
     commentsDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<Comments, unknown>>;
     /**
      * @description Create a commen
      *
-     * @name commentsCreate
+     * @name CommentsCreate
      * @request POST:/gists/{id}/comments
      */
     commentsCreate: (id: number, body: CommentBody, params?: RequestParams) => Promise<HttpResponse<Comment, unknown>>;
     /**
      * @description Delete a comment.
      *
-     * @name commentsDelete
+     * @name CommentsDelete
      * @request DELETE:/gists/{id}/comments/{commentId}
      */
     commentsDelete: (id: number, commentId: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
  * @description Get a single comment.
  *
- * @name commentsDetail
- * @request GET:/gists/{id}/comments/{commentId} * @originalName commentsDetail
+ * @name CommentsDetail2
+ * @request GET:/gists/{id}/comments/{commentId}
+ * @originalName commentsDetail
+
  * @duplicate
 
  */
@@ -1847,7 +1849,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Edit a comment.
      *
-     * @name commentsPartialUpdate
+     * @name CommentsPartialUpdate
      * @request PATCH:/gists/{id}/comments/{commentId}
      */
     commentsPartialUpdate: (
@@ -1859,28 +1861,28 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Fork a gist.
      *
-     * @name forksCreate
+     * @name ForksCreate
      * @request POST:/gists/{id}/forks
      */
     forksCreate: (id: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Unstar a gist.
      *
-     * @name starDelete
+     * @name StarDelete
      * @request DELETE:/gists/{id}/star
      */
     starDelete: (id: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Check if a gist is starred.
      *
-     * @name starDetail
+     * @name StarDetail
      * @request GET:/gists/{id}/star
      */
     starDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Star a gist.
      *
-     * @name starUpdate
+     * @name StarUpdate
      * @request PUT:/gists/{id}/star
      */
     starUpdate: (id: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
@@ -1889,14 +1891,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Listing available templates. List all templates available to pass as an option when creating a repository.
      *
-     * @name templatesList
+     * @name TemplatesList
      * @request GET:/gitignore/templates
      */
     templatesList: (params?: RequestParams) => Promise<HttpResponse<Gitignore, unknown>>;
     /**
      * @description Get a single template.
      *
-     * @name templatesDetail
+     * @name TemplatesDetail
      * @request GET:/gitignore/templates/{language}
      */
     templatesDetail: (language: string, params?: RequestParams) => Promise<HttpResponse<GitignoreLang, unknown>>;
@@ -1905,7 +1907,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List issues. List all issues across all the authenticated user's visible repositories.
      *
-     * @name issuesList
+     * @name IssuesList
      * @request GET:/issues
      */
     issuesList: (
@@ -1924,7 +1926,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Find issues by state and keyword.
      *
-     * @name issuesSearchDetail
+     * @name IssuesSearchDetail
      * @request GET:/legacy/issues/search/{owner}/{repository}/{state}/{keyword}
      */
     issuesSearchDetail: (
@@ -1937,7 +1939,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Find repositories by keyword. Note, this legacy method does not follow the v3 pagination pattern. This method returns up to 100 results per page and pages can be fetched using the start_page parameter.
      *
-     * @name reposSearchDetail
+     * @name ReposSearchDetail
      * @request GET:/legacy/repos/search/{keyword}
      */
     reposSearchDetail: (
@@ -1953,14 +1955,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description This API call is added for compatibility reasons only.
      *
-     * @name userEmailDetail
+     * @name UserEmailDetail
      * @request GET:/legacy/user/email/{email}
      */
     userEmailDetail: (email: string, params?: RequestParams) => Promise<HttpResponse<SearchUserByEmail, unknown>>;
     /**
      * @description Find users by keyword.
      *
-     * @name userSearchDetail
+     * @name UserSearchDetail
      * @request GET:/legacy/user/search/{keyword}
      */
     userSearchDetail: (
@@ -1977,14 +1979,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Render an arbitrary Markdown document
      *
-     * @name markdownCreate
+     * @name MarkdownCreate
      * @request POST:/markdown
      */
     markdownCreate: (body: Markdown, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Render a Markdown document in raw mode
      *
-     * @name postMarkdown
+     * @name PostMarkdown
      * @request POST:/markdown/raw
      */
     postMarkdown: (params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
@@ -1993,7 +1995,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description This gives some information about GitHub.com, the service.
      *
-     * @name metaList
+     * @name MetaList
      * @request GET:/meta
      */
     metaList: (params?: RequestParams) => Promise<HttpResponse<Meta, unknown>>;
@@ -2002,7 +2004,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List public events for a network of repositories.
      *
-     * @name eventsDetail
+     * @name EventsDetail
      * @request GET:/networks/{owner}/{repo}/events
      */
     eventsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Events, unknown>>;
@@ -2011,7 +2013,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List your notifications. List all notifications for the current user, grouped by repository.
      *
-     * @name notificationsList
+     * @name NotificationsList
      * @request GET:/notifications
      */
     notificationsList: (
@@ -2025,42 +2027,42 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Mark as read. Marking a notification as "read" removes it from the default view on GitHub.com.
      *
-     * @name notificationsUpdate
+     * @name NotificationsUpdate
      * @request PUT:/notifications
      */
     notificationsUpdate: (body: NotificationMarkRead, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description View a single thread.
      *
-     * @name threadsDetail
+     * @name ThreadsDetail
      * @request GET:/notifications/threads/{id}
      */
     threadsDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<Notifications, unknown>>;
     /**
      * @description Mark a thread as read
      *
-     * @name threadsPartialUpdate
+     * @name ThreadsPartialUpdate
      * @request PATCH:/notifications/threads/{id}
      */
     threadsPartialUpdate: (id: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Delete a Thread Subscription.
      *
-     * @name threadsSubscriptionDelete
+     * @name ThreadsSubscriptionDelete
      * @request DELETE:/notifications/threads/{id}/subscription
      */
     threadsSubscriptionDelete: (id: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Get a Thread Subscription.
      *
-     * @name threadsSubscriptionDetail
+     * @name ThreadsSubscriptionDetail
      * @request GET:/notifications/threads/{id}/subscription
      */
     threadsSubscriptionDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<Subscription, unknown>>;
     /**
      * @description Set a Thread Subscription. This lets you subscribe to a thread, or ignore it. Subscribing to a thread is unnecessary if the user is already subscribed to the repository. Ignoring a thread will mute all future notifications (until you comment or get @mentioned).
      *
-     * @name threadsSubscriptionUpdate
+     * @name ThreadsSubscriptionUpdate
      * @request PUT:/notifications/threads/{id}/subscription
      */
     threadsSubscriptionUpdate: (
@@ -2073,28 +2075,28 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get an Organization.
      *
-     * @name orgsDetail
+     * @name OrgsDetail
      * @request GET:/orgs/{org}
      */
     orgsDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Edit an Organization.
      *
-     * @name orgsPartialUpdate
+     * @name OrgsPartialUpdate
      * @request PATCH:/orgs/{org}
      */
     orgsPartialUpdate: (org: string, body: PatchOrg, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description List public events for an organization.
      *
-     * @name eventsDetail
+     * @name EventsDetail
      * @request GET:/orgs/{org}/events
      */
     eventsDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Events, unknown>>;
     /**
      * @description List issues. List all issues for a given organization for the authenticated user.
      *
-     * @name issuesDetail
+     * @name IssuesDetail
      * @request GET:/orgs/{org}/issues
      */
     issuesDetail: (
@@ -2112,22 +2114,24 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Members list. List all users who are members of an organization. A member is a user tha belongs to at least 1 team in the organization. If the authenticated user is also an owner of this organization then both concealed and public members will be returned. If the requester is not an owner of the organization the query will be redirected to the public members list.
      *
-     * @name membersDetail
+     * @name MembersDetail
      * @request GET:/orgs/{org}/members
      */
     membersDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
     /**
      * @description Remove a member. Removing a user from this list will remove them from all teams and they will no longer have any access to the organization's repositories.
      *
-     * @name membersDelete
+     * @name MembersDelete
      * @request DELETE:/orgs/{org}/members/{username}
      */
     membersDelete: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
  * @description Check if a user is, publicly or privately, a member of the organization.
  *
- * @name membersDetail
- * @request GET:/orgs/{org}/members/{username} * @originalName membersDetail
+ * @name MembersDetail2
+ * @request GET:/orgs/{org}/members/{username}
+ * @originalName membersDetail
+
  * @duplicate
 
  */
@@ -2135,22 +2139,24 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Public members list. Members of an organization can choose to have their membership publicized or not.
      *
-     * @name publicMembersDetail
+     * @name PublicMembersDetail
      * @request GET:/orgs/{org}/public_members
      */
     publicMembersDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
     /**
      * @description Conceal a user's membership.
      *
-     * @name publicMembersDelete
+     * @name PublicMembersDelete
      * @request DELETE:/orgs/{org}/public_members/{username}
      */
     publicMembersDelete: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
  * @description Check public membership.
  *
- * @name publicMembersDetail
- * @request GET:/orgs/{org}/public_members/{username} * @originalName publicMembersDetail
+ * @name PublicMembersDetail2
+ * @request GET:/orgs/{org}/public_members/{username}
+ * @originalName publicMembersDetail
+
  * @duplicate
 
  */
@@ -2162,14 +2168,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Publicize a user's membership.
      *
-     * @name publicMembersUpdate
+     * @name PublicMembersUpdate
      * @request PUT:/orgs/{org}/public_members/{username}
      */
     publicMembersUpdate: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description List repositories for the specified org.
      *
-     * @name reposDetail
+     * @name ReposDetail
      * @request GET:/orgs/{org}/repos
      */
     reposDetail: (
@@ -2182,21 +2188,21 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create a new repository for the authenticated user. OAuth users must supply repo scope.
      *
-     * @name reposCreate
+     * @name ReposCreate
      * @request POST:/orgs/{org}/repos
      */
     reposCreate: (org: string, body: PostRepo, params?: RequestParams) => Promise<HttpResponse<Repos, unknown>>;
     /**
      * @description List teams.
      *
-     * @name teamsDetail
+     * @name TeamsDetail
      * @request GET:/orgs/{org}/teams
      */
     teamsDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Teams, unknown>>;
     /**
      * @description Create team. In order to create a team, the authenticated user must be an owner of organization.
      *
-     * @name teamsCreate
+     * @name TeamsCreate
      * @request POST:/orgs/{org}/teams
      */
     teamsCreate: (org: string, body: OrgTeamsPost, params?: RequestParams) => Promise<HttpResponse<Team, unknown>>;
@@ -2205,7 +2211,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get your current rate limit status Note: Accessing this endpoint does not count against your rate limit.
      *
-     * @name rateLimitList
+     * @name RateLimitList
      * @request GET:/rate_limit
      */
     rateLimitList: (params?: RequestParams) => Promise<HttpResponse<RateLimit, unknown>>;
@@ -2214,21 +2220,21 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Delete a Repository. Deleting a repository requires admin access. If OAuth is used, the delete_repo scope is required.
      *
-     * @name reposDelete
+     * @name ReposDelete
      * @request DELETE:/repos/{owner}/{repo}
      */
     reposDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Get repository.
      *
-     * @name reposDetail
+     * @name ReposDetail
      * @request GET:/repos/{owner}/{repo}
      */
     reposDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Repo, unknown>>;
     /**
      * @description Edit repository.
      *
-     * @name reposPartialUpdate
+     * @name ReposPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}
      */
     reposPartialUpdate: (
@@ -2240,15 +2246,17 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List assignees. This call lists all the available assignees (owner + collaborators) to which issues may be assigned.
      *
-     * @name assigneesDetail
+     * @name AssigneesDetail
      * @request GET:/repos/{owner}/{repo}/assignees
      */
     assigneesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Assignees, unknown>>;
     /**
  * @description Check assignee. You may also check to see if a particular user is an assignee for a repository.
  *
- * @name assigneesDetail
- * @request GET:/repos/{owner}/{repo}/assignees/{assignee} * @originalName assigneesDetail
+ * @name AssigneesDetail2
+ * @request GET:/repos/{owner}/{repo}/assignees/{assignee}
+ * @originalName assigneesDetail
+
  * @duplicate
 
  */
@@ -2261,15 +2269,17 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get list of branches
      *
-     * @name branchesDetail
+     * @name BranchesDetail
      * @request GET:/repos/{owner}/{repo}/branches
      */
     branchesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Branches, unknown>>;
     /**
  * @description Get Branch
  *
- * @name branchesDetail
- * @request GET:/repos/{owner}/{repo}/branches/{branch} * @originalName branchesDetail
+ * @name BranchesDetail2
+ * @request GET:/repos/{owner}/{repo}/branches/{branch}
+ * @originalName branchesDetail
+
  * @duplicate
 
  */
@@ -2282,14 +2292,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List. When authenticating as an organization owner of an organization-owned repository, all organization owners are included in the list of collaborators. Otherwise, only users with access to the repository are returned in the collaborators list.
      *
-     * @name collaboratorsDetail
+     * @name CollaboratorsDetail
      * @request GET:/repos/{owner}/{repo}/collaborators
      */
     collaboratorsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
     /**
      * @description Remove collaborator.
      *
-     * @name collaboratorsDelete
+     * @name CollaboratorsDelete
      * @request DELETE:/repos/{owner}/{repo}/collaborators/{user}
      */
     collaboratorsDelete: (
@@ -2301,8 +2311,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Check if user is a collaborator
  *
- * @name collaboratorsDetail
- * @request GET:/repos/{owner}/{repo}/collaborators/{user} * @originalName collaboratorsDetail
+ * @name CollaboratorsDetail2
+ * @request GET:/repos/{owner}/{repo}/collaborators/{user}
+ * @originalName collaboratorsDetail
+
  * @duplicate
 
  */
@@ -2315,7 +2327,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Add collaborator.
      *
-     * @name collaboratorsUpdate
+     * @name CollaboratorsUpdate
      * @request PUT:/repos/{owner}/{repo}/collaborators/{user}
      */
     collaboratorsUpdate: (
@@ -2327,7 +2339,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List commit comments for a repository. Comments are ordered by ascending ID.
      *
-     * @name commentsDetail
+     * @name CommentsDetail
      * @request GET:/repos/{owner}/{repo}/comments
      */
     commentsDetail: (
@@ -2338,7 +2350,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Delete a commit comment
      *
-     * @name commentsDelete
+     * @name CommentsDelete
      * @request DELETE:/repos/{owner}/{repo}/comments/{commentId}
      */
     commentsDelete: (
@@ -2350,8 +2362,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Get a single commit comment.
  *
- * @name commentsDetail
- * @request GET:/repos/{owner}/{repo}/comments/{commentId} * @originalName commentsDetail
+ * @name CommentsDetail2
+ * @request GET:/repos/{owner}/{repo}/comments/{commentId}
+ * @originalName commentsDetail
+
  * @duplicate
 
  */
@@ -2364,7 +2378,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Update a commit comment.
      *
-     * @name commentsPartialUpdate
+     * @name CommentsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/comments/{commentId}
      */
     commentsPartialUpdate: (
@@ -2377,7 +2391,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List commits on a repository.
      *
-     * @name commitsDetail
+     * @name CommitsDetail
      * @request GET:/repos/{owner}/{repo}/commits
      */
     commitsDetail: (
@@ -2395,7 +2409,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get the combined Status for a specific Ref The Combined status endpoint is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the blog post for full details. To access this endpoint during the preview period, you must provide a custom media type in the Accept header: application/vnd.github.she-hulk-preview+json
      *
-     * @name commitsStatusDetail
+     * @name CommitsStatusDetail
      * @request GET:/repos/{owner}/{repo}/commits/{ref}/status
      */
     commitsStatusDetail: (
@@ -2407,8 +2421,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Get a single commit.
  *
- * @name commitsDetail
- * @request GET:/repos/{owner}/{repo}/commits/{shaCode} * @originalName commitsDetail
+ * @name CommitsDetail2
+ * @request GET:/repos/{owner}/{repo}/commits/{shaCode}
+ * @originalName commitsDetail
+
  * @duplicate
 
  */
@@ -2421,7 +2437,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List comments for a single commitList comments for a single commit.
      *
-     * @name commitsCommentsDetail
+     * @name CommitsCommentsDetail
      * @request GET:/repos/{owner}/{repo}/commits/{shaCode}/comments
      */
     commitsCommentsDetail: (
@@ -2433,7 +2449,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create a commit comment.
      *
-     * @name commitsCommentsCreate
+     * @name CommitsCommentsCreate
      * @request POST:/repos/{owner}/{repo}/commits/{shaCode}/comments
      */
     commitsCommentsCreate: (
@@ -2446,7 +2462,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Compare two commits
      *
-     * @name compareDetail
+     * @name CompareDetail
      * @request GET:/repos/{owner}/{repo}/compare/{baseId}...{headId}
      */
     compareDetail: (
@@ -2459,7 +2475,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Delete a file. This method deletes a file in a repository.
      *
-     * @name contentsDelete
+     * @name ContentsDelete
      * @request DELETE:/repos/{owner}/{repo}/contents/{path}
      */
     contentsDelete: (
@@ -2472,7 +2488,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get contents. This method returns the contents of a file or directory in a repository. Files and symlinks support a custom media type for getting the raw content. Directories and submodules do not support custom media types. Note: This API supports files up to 1 megabyte in size. Here can be many outcomes. For details see "http://developer.github.com/v3/repos/contents/"
      *
-     * @name contentsDetail
+     * @name ContentsDetail
      * @request GET:/repos/{owner}/{repo}/contents/{path}
      */
     contentsDetail: (
@@ -2488,7 +2504,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create a file.
      *
-     * @name contentsUpdate
+     * @name ContentsUpdate
      * @request PUT:/repos/{owner}/{repo}/contents/{path}
      */
     contentsUpdate: (
@@ -2501,7 +2517,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get list of contributors.
      *
-     * @name contributorsDetail
+     * @name ContributorsDetail
      * @request GET:/repos/{owner}/{repo}/contributors
      */
     contributorsDetail: (
@@ -2515,7 +2531,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Users with pull access can view deployments for a repository
      *
-     * @name deploymentsDetail
+     * @name DeploymentsDetail
      * @request GET:/repos/{owner}/{repo}/deployments
      */
     deploymentsDetail: (
@@ -2526,7 +2542,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Users with push access can create a deployment for a given ref
      *
-     * @name deploymentsCreate
+     * @name DeploymentsCreate
      * @request POST:/repos/{owner}/{repo}/deployments
      */
     deploymentsCreate: (
@@ -2538,7 +2554,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Users with pull access can view deployment statuses for a deployment
      *
-     * @name deploymentsStatusesDetail
+     * @name DeploymentsStatusesDetail
      * @request GET:/repos/{owner}/{repo}/deployments/{id}/statuses
      */
     deploymentsStatusesDetail: (
@@ -2550,7 +2566,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create a Deployment Status Users with push access can create deployment statuses for a given deployment:
      *
-     * @name deploymentsStatusesCreate
+     * @name DeploymentsStatusesCreate
      * @request POST:/repos/{owner}/{repo}/deployments/{id}/statuses
      */
     deploymentsStatusesCreate: (
@@ -2563,14 +2579,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Deprecated. List downloads for a repository.
      *
-     * @name downloadsDetail
+     * @name DownloadsDetail
      * @request GET:/repos/{owner}/{repo}/downloads
      */
     downloadsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Downloads, unknown>>;
     /**
      * @description Deprecated. Delete a download.
      *
-     * @name downloadsDelete
+     * @name DownloadsDelete
      * @request DELETE:/repos/{owner}/{repo}/downloads/{downloadId}
      */
     downloadsDelete: (
@@ -2582,8 +2598,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Deprecated. Get a single download.
  *
- * @name downloadsDetail
- * @request GET:/repos/{owner}/{repo}/downloads/{downloadId} * @originalName downloadsDetail
+ * @name DownloadsDetail2
+ * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
+ * @originalName downloadsDetail
+
  * @duplicate
 
  */
@@ -2596,14 +2614,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get list of repository events.
      *
-     * @name eventsDetail
+     * @name EventsDetail
      * @request GET:/repos/{owner}/{repo}/events
      */
     eventsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Events, unknown>>;
     /**
      * @description List forks.
      *
-     * @name forksDetail
+     * @name ForksDetail
      * @request GET:/repos/{owner}/{repo}/forks
      */
     forksDetail: (
@@ -2617,7 +2635,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create a fork. Forking a Repository happens asynchronously. Therefore, you may have to wai a short period before accessing the git objects. If this takes longer than 5 minutes, be sure to contact Support.
      *
-     * @name forksCreate
+     * @name ForksCreate
      * @request POST:/repos/{owner}/{repo}/forks
      */
     forksCreate: (
@@ -2629,7 +2647,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create a Blob.
      *
-     * @name gitBlobsCreate
+     * @name GitBlobsCreate
      * @request POST:/repos/{owner}/{repo}/git/blobs
      */
     gitBlobsCreate: (
@@ -2641,7 +2659,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get a Blob. Since blobs can be any arbitrary binary data, the input and responses for the blob API takes an encoding parameter that can be either utf-8 or base64. If your data cannot be losslessly sent as a UTF-8 string, you can base64 encode it.
      *
-     * @name gitBlobsDetail
+     * @name GitBlobsDetail
      * @request GET:/repos/{owner}/{repo}/git/blobs/{shaCode}
      */
     gitBlobsDetail: (
@@ -2653,7 +2671,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create a Commit.
      *
-     * @name gitCommitsCreate
+     * @name GitCommitsCreate
      * @request POST:/repos/{owner}/{repo}/git/commits
      */
     gitCommitsCreate: (
@@ -2665,7 +2683,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get a Commit.
      *
-     * @name gitCommitsDetail
+     * @name GitCommitsDetail
      * @request GET:/repos/{owner}/{repo}/git/commits/{shaCode}
      */
     gitCommitsDetail: (
@@ -2677,14 +2695,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get all References
      *
-     * @name gitRefsDetail
+     * @name GitRefsDetail
      * @request GET:/repos/{owner}/{repo}/git/refs
      */
     gitRefsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Refs, unknown>>;
     /**
      * @description Create a Reference
      *
-     * @name gitRefsCreate
+     * @name GitRefsCreate
      * @request POST:/repos/{owner}/{repo}/git/refs
      */
     gitRefsCreate: (
@@ -2696,7 +2714,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Delete a Reference Example: Deleting a branch: DELETE /repos/octocat/Hello-World/git/refs/heads/feature-a Example: Deleting a tag:        DELETE /repos/octocat/Hello-World/git/refs/tags/v1.0
      *
-     * @name gitRefsDelete
+     * @name GitRefsDelete
      * @request DELETE:/repos/{owner}/{repo}/git/refs/{ref}
      */
     gitRefsDelete: (
@@ -2708,8 +2726,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Get a Reference
  *
- * @name gitRefsDetail
- * @request GET:/repos/{owner}/{repo}/git/refs/{ref} * @originalName gitRefsDetail
+ * @name GitRefsDetail2
+ * @request GET:/repos/{owner}/{repo}/git/refs/{ref}
+ * @originalName gitRefsDetail
+
  * @duplicate
 
  */
@@ -2722,7 +2742,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Update a Reference
      *
-     * @name gitRefsPartialUpdate
+     * @name GitRefsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/git/refs/{ref}
      */
     gitRefsPartialUpdate: (
@@ -2735,7 +2755,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create a Tag Object. Note that creating a tag object does not create the reference that makes a tag in Git. If you want to create an annotated tag in Git, you have to do this call to create the tag object, and then create the refs/tags/[tag] reference. If you want to create a lightweight tag, you only have to create the tag reference - this call would be unnecessary.
      *
-     * @name gitTagsCreate
+     * @name GitTagsCreate
      * @request POST:/repos/{owner}/{repo}/git/tags
      */
     gitTagsCreate: (
@@ -2747,7 +2767,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get a Tag.
      *
-     * @name gitTagsDetail
+     * @name GitTagsDetail
      * @request GET:/repos/{owner}/{repo}/git/tags/{shaCode}
      */
     gitTagsDetail: (
@@ -2759,7 +2779,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create a Tree. The tree creation API will take nested entries as well. If both a tree and a nested path modifying that tree are specified, it will overwrite the contents of that tree with the new path contents and write a new tree out.
      *
-     * @name gitTreesCreate
+     * @name GitTreesCreate
      * @request POST:/repos/{owner}/{repo}/git/trees
      */
     gitTreesCreate: (
@@ -2771,7 +2791,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get a Tree.
      *
-     * @name gitTreesDetail
+     * @name GitTreesDetail
      * @request GET:/repos/{owner}/{repo}/git/trees/{shaCode}
      */
     gitTreesDetail: (
@@ -2786,14 +2806,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get list of hooks.
      *
-     * @name hooksDetail
+     * @name HooksDetail
      * @request GET:/repos/{owner}/{repo}/hooks
      */
     hooksDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Hook, unknown>>;
     /**
      * @description Create a hook.
      *
-     * @name hooksCreate
+     * @name HooksCreate
      * @request POST:/repos/{owner}/{repo}/hooks
      */
     hooksCreate: (
@@ -2805,7 +2825,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Delete a hook.
      *
-     * @name hooksDelete
+     * @name HooksDelete
      * @request DELETE:/repos/{owner}/{repo}/hooks/{hookId}
      */
     hooksDelete: (
@@ -2817,8 +2837,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Get single hook.
  *
- * @name hooksDetail
- * @request GET:/repos/{owner}/{repo}/hooks/{hookId} * @originalName hooksDetail
+ * @name HooksDetail2
+ * @request GET:/repos/{owner}/{repo}/hooks/{hookId}
+ * @originalName hooksDetail
+
  * @duplicate
 
  */
@@ -2831,7 +2853,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Edit a hook.
      *
-     * @name hooksPartialUpdate
+     * @name HooksPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/hooks/{hookId}
      */
     hooksPartialUpdate: (
@@ -2844,7 +2866,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Test a push hook. This will trigger the hook with the latest push to the current repository if the hook is subscribed to push events. If the hook is not subscribed to push events, the server will respond with 204 but no test POST will be generated. Note: Previously /repos/:owner/:repo/hooks/:id/tes
      *
-     * @name hooksTestsCreate
+     * @name HooksTestsCreate
      * @request POST:/repos/{owner}/{repo}/hooks/{hookId}/tests
      */
     hooksTestsCreate: (
@@ -2856,7 +2878,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List issues for a repository.
      *
-     * @name issuesDetail
+     * @name IssuesDetail
      * @request GET:/repos/{owner}/{repo}/issues
      */
     issuesDetail: (
@@ -2875,7 +2897,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create an issue. Any user with pull access to a repository can create an issue.
      *
-     * @name issuesCreate
+     * @name IssuesCreate
      * @request POST:/repos/{owner}/{repo}/issues
      */
     issuesCreate: (
@@ -2887,7 +2909,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List comments in a repository.
      *
-     * @name issuesCommentsDetail
+     * @name IssuesCommentsDetail
      * @request GET:/repos/{owner}/{repo}/issues/comments
      */
     issuesCommentsDetail: (
@@ -2903,7 +2925,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Delete a comment.
      *
-     * @name issuesCommentsDelete
+     * @name IssuesCommentsDelete
      * @request DELETE:/repos/{owner}/{repo}/issues/comments/{commentId}
      */
     issuesCommentsDelete: (
@@ -2915,8 +2937,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Get a single comment.
  *
- * @name issuesCommentsDetail
- * @request GET:/repos/{owner}/{repo}/issues/comments/{commentId} * @originalName issuesCommentsDetail
+ * @name IssuesCommentsDetail2
+ * @request GET:/repos/{owner}/{repo}/issues/comments/{commentId}
+ * @originalName issuesCommentsDetail
+
  * @duplicate
 
  */
@@ -2929,7 +2953,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Edit a comment.
      *
-     * @name issuesCommentsPartialUpdate
+     * @name IssuesCommentsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/issues/comments/{commentId}
      */
     issuesCommentsPartialUpdate: (
@@ -2942,7 +2966,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List issue events for a repository.
      *
-     * @name issuesEventsDetail
+     * @name IssuesEventsDetail
      * @request GET:/repos/{owner}/{repo}/issues/events
      */
     issuesEventsDetail: (
@@ -2953,8 +2977,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Get a single event.
  *
- * @name issuesEventsDetail
- * @request GET:/repos/{owner}/{repo}/issues/events/{eventId} * @originalName issuesEventsDetail
+ * @name IssuesEventsDetail2
+ * @request GET:/repos/{owner}/{repo}/issues/events/{eventId}
+ * @originalName issuesEventsDetail
+
  * @duplicate
 
  */
@@ -2967,8 +2993,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Get a single issue
  *
- * @name issuesDetail
- * @request GET:/repos/{owner}/{repo}/issues/{number} * @originalName issuesDetail
+ * @name IssuesDetail2
+ * @request GET:/repos/{owner}/{repo}/issues/{number}
+ * @originalName issuesDetail
+
  * @duplicate
 
  */
@@ -2981,7 +3009,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Edit an issue. Issue owners and users with push access can edit an issue.
      *
-     * @name issuesPartialUpdate
+     * @name IssuesPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/issues/{number}
      */
     issuesPartialUpdate: (
@@ -2994,8 +3022,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description List comments on an issue.
  *
- * @name issuesCommentsDetail
- * @request GET:/repos/{owner}/{repo}/issues/{number}/comments * @originalName issuesCommentsDetail
+ * @name IssuesCommentsDetail3
+ * @request GET:/repos/{owner}/{repo}/issues/{number}/comments
+ * @originalName issuesCommentsDetail
+
  * @duplicate
 
  */
@@ -3008,7 +3038,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create a comment.
      *
-     * @name issuesCommentsCreate
+     * @name IssuesCommentsCreate
      * @request POST:/repos/{owner}/{repo}/issues/{number}/comments
      */
     issuesCommentsCreate: (
@@ -3021,8 +3051,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description List events for an issue.
  *
- * @name issuesEventsDetail
- * @request GET:/repos/{owner}/{repo}/issues/{number}/events * @originalName issuesEventsDetail
+ * @name IssuesEventsDetail3
+ * @request GET:/repos/{owner}/{repo}/issues/{number}/events
+ * @originalName issuesEventsDetail
+
  * @duplicate
 
  */
@@ -3035,7 +3067,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Remove all labels from an issue.
      *
-     * @name issuesLabelsDelete
+     * @name IssuesLabelsDelete
      * @request DELETE:/repos/{owner}/{repo}/issues/{number}/labels
      */
     issuesLabelsDelete: (
@@ -3047,7 +3079,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List labels on an issue.
      *
-     * @name issuesLabelsDetail
+     * @name IssuesLabelsDetail
      * @request GET:/repos/{owner}/{repo}/issues/{number}/labels
      */
     issuesLabelsDetail: (
@@ -3059,7 +3091,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Add labels to an issue.
      *
-     * @name issuesLabelsCreate
+     * @name IssuesLabelsCreate
      * @request POST:/repos/{owner}/{repo}/issues/{number}/labels
      */
     issuesLabelsCreate: (
@@ -3072,7 +3104,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Replace all labels for an issue. Sending an empty array ([]) will remove all Labels from the Issue.
      *
-     * @name issuesLabelsUpdate
+     * @name IssuesLabelsUpdate
      * @request PUT:/repos/{owner}/{repo}/issues/{number}/labels
      */
     issuesLabelsUpdate: (
@@ -3085,8 +3117,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Remove a label from an issue.
  *
- * @name issuesLabelsDelete
- * @request DELETE:/repos/{owner}/{repo}/issues/{number}/labels/{name} * @originalName issuesLabelsDelete
+ * @name IssuesLabelsDelete2
+ * @request DELETE:/repos/{owner}/{repo}/issues/{number}/labels/{name}
+ * @originalName issuesLabelsDelete
+
  * @duplicate
 
  */
@@ -3100,14 +3134,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get list of keys.
      *
-     * @name keysDetail
+     * @name KeysDetail
      * @request GET:/repos/{owner}/{repo}/keys
      */
     keysDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Keys, unknown>>;
     /**
      * @description Create a key.
      *
-     * @name keysCreate
+     * @name KeysCreate
      * @request POST:/repos/{owner}/{repo}/keys
      */
     keysCreate: (
@@ -3119,7 +3153,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Delete a key.
      *
-     * @name keysDelete
+     * @name KeysDelete
      * @request DELETE:/repos/{owner}/{repo}/keys/{keyId}
      */
     keysDelete: (
@@ -3131,8 +3165,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Get a key
  *
- * @name keysDetail
- * @request GET:/repos/{owner}/{repo}/keys/{keyId} * @originalName keysDetail
+ * @name KeysDetail2
+ * @request GET:/repos/{owner}/{repo}/keys/{keyId}
+ * @originalName keysDetail
+
  * @duplicate
 
  */
@@ -3145,14 +3181,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List all labels for this repository.
      *
-     * @name labelsDetail
+     * @name LabelsDetail
      * @request GET:/repos/{owner}/{repo}/labels
      */
     labelsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Labels, unknown>>;
     /**
      * @description Create a label.
      *
-     * @name labelsCreate
+     * @name LabelsCreate
      * @request POST:/repos/{owner}/{repo}/labels
      */
     labelsCreate: (
@@ -3164,7 +3200,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Delete a label.
      *
-     * @name labelsDelete
+     * @name LabelsDelete
      * @request DELETE:/repos/{owner}/{repo}/labels/{name}
      */
     labelsDelete: (
@@ -3176,8 +3212,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Get a single label.
  *
- * @name labelsDetail
- * @request GET:/repos/{owner}/{repo}/labels/{name} * @originalName labelsDetail
+ * @name LabelsDetail2
+ * @request GET:/repos/{owner}/{repo}/labels/{name}
+ * @originalName labelsDetail
+
  * @duplicate
 
  */
@@ -3190,7 +3228,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Update a label.
      *
-     * @name labelsPartialUpdate
+     * @name LabelsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/labels/{name}
      */
     labelsPartialUpdate: (
@@ -3203,7 +3241,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List languages. List languages for the specified repository. The value on the right of a language is the number of bytes of code written in that language.
      *
-     * @name languagesDetail
+     * @name LanguagesDetail
      * @request GET:/repos/{owner}/{repo}/languages
      */
     languagesDetail: (
@@ -3214,7 +3252,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Perform a merge.
      *
-     * @name mergesCreate
+     * @name MergesCreate
      * @request POST:/repos/{owner}/{repo}/merges
      */
     mergesCreate: (
@@ -3226,7 +3264,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List milestones for a repository.
      *
-     * @name milestonesDetail
+     * @name MilestonesDetail
      * @request GET:/repos/{owner}/{repo}/milestones
      */
     milestonesDetail: (
@@ -3242,7 +3280,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create a milestone.
      *
-     * @name milestonesCreate
+     * @name MilestonesCreate
      * @request POST:/repos/{owner}/{repo}/milestones
      */
     milestonesCreate: (
@@ -3254,7 +3292,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Delete a milestone.
      *
-     * @name milestonesDelete
+     * @name MilestonesDelete
      * @request DELETE:/repos/{owner}/{repo}/milestones/{number}
      */
     milestonesDelete: (
@@ -3266,8 +3304,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Get a single milestone.
  *
- * @name milestonesDetail
- * @request GET:/repos/{owner}/{repo}/milestones/{number} * @originalName milestonesDetail
+ * @name MilestonesDetail2
+ * @request GET:/repos/{owner}/{repo}/milestones/{number}
+ * @originalName milestonesDetail
+
  * @duplicate
 
  */
@@ -3280,7 +3320,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Update a milestone.
      *
-     * @name milestonesPartialUpdate
+     * @name MilestonesPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/milestones/{number}
      */
     milestonesPartialUpdate: (
@@ -3293,7 +3333,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get labels for every issue in a milestone.
      *
-     * @name milestonesLabelsDetail
+     * @name MilestonesLabelsDetail
      * @request GET:/repos/{owner}/{repo}/milestones/{number}/labels
      */
     milestonesLabelsDetail: (
@@ -3305,7 +3345,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List your notifications in a repository List all notifications for the current user.
      *
-     * @name notificationsDetail
+     * @name NotificationsDetail
      * @request GET:/repos/{owner}/{repo}/notifications
      */
     notificationsDetail: (
@@ -3321,7 +3361,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Mark notifications as read in a repository. Marking all notifications in a repository as "read" removes them from the default view on GitHub.com.
      *
-     * @name notificationsUpdate
+     * @name NotificationsUpdate
      * @request PUT:/repos/{owner}/{repo}/notifications
      */
     notificationsUpdate: (
@@ -3333,7 +3373,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List pull requests.
      *
-     * @name pullsDetail
+     * @name PullsDetail
      * @request GET:/repos/{owner}/{repo}/pulls
      */
     pullsDetail: (
@@ -3349,7 +3389,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create a pull request.
      *
-     * @name pullsCreate
+     * @name PullsCreate
      * @request POST:/repos/{owner}/{repo}/pulls
      */
     pullsCreate: (
@@ -3361,7 +3401,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List comments in a repository. By default, Review Comments are ordered by ascending ID.
      *
-     * @name pullsCommentsDetail
+     * @name PullsCommentsDetail
      * @request GET:/repos/{owner}/{repo}/pulls/comments
      */
     pullsCommentsDetail: (
@@ -3377,7 +3417,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Delete a comment.
      *
-     * @name pullsCommentsDelete
+     * @name PullsCommentsDelete
      * @request DELETE:/repos/{owner}/{repo}/pulls/comments/{commentId}
      */
     pullsCommentsDelete: (
@@ -3389,8 +3429,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Get a single comment.
  *
- * @name pullsCommentsDetail
- * @request GET:/repos/{owner}/{repo}/pulls/comments/{commentId} * @originalName pullsCommentsDetail
+ * @name PullsCommentsDetail2
+ * @request GET:/repos/{owner}/{repo}/pulls/comments/{commentId}
+ * @originalName pullsCommentsDetail
+
  * @duplicate
 
  */
@@ -3403,7 +3445,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Edit a comment.
      *
-     * @name pullsCommentsPartialUpdate
+     * @name PullsCommentsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/pulls/comments/{commentId}
      */
     pullsCommentsPartialUpdate: (
@@ -3416,8 +3458,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Get a single pull request.
  *
- * @name pullsDetail
- * @request GET:/repos/{owner}/{repo}/pulls/{number} * @originalName pullsDetail
+ * @name PullsDetail2
+ * @request GET:/repos/{owner}/{repo}/pulls/{number}
+ * @originalName pullsDetail
+
  * @duplicate
 
  */
@@ -3430,7 +3474,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Update a pull request.
      *
-     * @name pullsPartialUpdate
+     * @name PullsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/pulls/{number}
      */
     pullsPartialUpdate: (
@@ -3443,8 +3487,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description List comments on a pull request.
  *
- * @name pullsCommentsDetail
- * @request GET:/repos/{owner}/{repo}/pulls/{number}/comments * @originalName pullsCommentsDetail
+ * @name PullsCommentsDetail3
+ * @request GET:/repos/{owner}/{repo}/pulls/{number}/comments
+ * @originalName pullsCommentsDetail
+
  * @duplicate
 
  */
@@ -3457,7 +3503,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create a comment. #TODO Alternative input ( http://developer.github.com/v3/pulls/comments/ ) description: | Alternative Input. Instead of passing commit_id, path, and position you can reply to an existing Pull Request Comment like this: body Required string in_reply_to Required number - Comment id to reply to.
      *
-     * @name pullsCommentsCreate
+     * @name PullsCommentsCreate
      * @request POST:/repos/{owner}/{repo}/pulls/{number}/comments
      */
     pullsCommentsCreate: (
@@ -3470,7 +3516,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List commits on a pull request.
      *
-     * @name pullsCommitsDetail
+     * @name PullsCommitsDetail
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/commits
      */
     pullsCommitsDetail: (
@@ -3482,7 +3528,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List pull requests files.
      *
-     * @name pullsFilesDetail
+     * @name PullsFilesDetail
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/files
      */
     pullsFilesDetail: (
@@ -3494,7 +3540,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get if a pull request has been merged.
      *
-     * @name pullsMergeDetail
+     * @name PullsMergeDetail
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/merge
      */
     pullsMergeDetail: (
@@ -3506,7 +3552,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Merge a pull request (Merge Button's)
      *
-     * @name pullsMergeUpdate
+     * @name PullsMergeUpdate
      * @request PUT:/repos/{owner}/{repo}/pulls/{number}/merge
      */
     pullsMergeUpdate: (
@@ -3519,7 +3565,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get the README. This method returns the preferred README for a repository.
      *
-     * @name readmeDetail
+     * @name ReadmeDetail
      * @request GET:/repos/{owner}/{repo}/readme
      */
     readmeDetail: (
@@ -3533,14 +3579,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Users with push access to the repository will receive all releases (i.e., published releases and draft releases). Users with pull access will receive published releases only
      *
-     * @name releasesDetail
+     * @name ReleasesDetail
      * @request GET:/repos/{owner}/{repo}/releases
      */
     releasesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Releases, unknown>>;
     /**
      * @description Create a release Users with push access to the repository can create a release.
      *
-     * @name releasesCreate
+     * @name ReleasesCreate
      * @request POST:/repos/{owner}/{repo}/releases
      */
     releasesCreate: (
@@ -3552,7 +3598,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Delete a release asset
      *
-     * @name releasesAssetsDelete
+     * @name ReleasesAssetsDelete
      * @request DELETE:/repos/{owner}/{repo}/releases/assets/{id}
      */
     releasesAssetsDelete: (
@@ -3564,7 +3610,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get a single release asset
      *
-     * @name releasesAssetsDetail
+     * @name ReleasesAssetsDetail
      * @request GET:/repos/{owner}/{repo}/releases/assets/{id}
      */
     releasesAssetsDetail: (
@@ -3576,7 +3622,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Edit a release asset Users with push access to the repository can edit a release asset.
      *
-     * @name releasesAssetsPartialUpdate
+     * @name ReleasesAssetsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/releases/assets/{id}
      */
     releasesAssetsPartialUpdate: (
@@ -3589,7 +3635,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Users with push access to the repository can delete a release.
      *
-     * @name releasesDelete
+     * @name ReleasesDelete
      * @request DELETE:/repos/{owner}/{repo}/releases/{id}
      */
     releasesDelete: (
@@ -3601,8 +3647,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Get a single release
  *
- * @name releasesDetail
- * @request GET:/repos/{owner}/{repo}/releases/{id} * @originalName releasesDetail
+ * @name ReleasesDetail2
+ * @request GET:/repos/{owner}/{repo}/releases/{id}
+ * @originalName releasesDetail
+
  * @duplicate
 
  */
@@ -3615,7 +3663,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Users with push access to the repository can edit a release
      *
-     * @name releasesPartialUpdate
+     * @name ReleasesPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/releases/{id}
      */
     releasesPartialUpdate: (
@@ -3628,8 +3676,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description List assets for a release
  *
- * @name releasesAssetsDetail
- * @request GET:/repos/{owner}/{repo}/releases/{id}/assets * @originalName releasesAssetsDetail
+ * @name ReleasesAssetsDetail2
+ * @request GET:/repos/{owner}/{repo}/releases/{id}/assets
+ * @originalName releasesAssetsDetail
+
  * @duplicate
 
  */
@@ -3642,14 +3692,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List Stargazers.
      *
-     * @name stargazersDetail
+     * @name StargazersDetail
      * @request GET:/repos/{owner}/{repo}/stargazers
      */
     stargazersDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
     /**
      * @description Get the number of additions and deletions per week. Returns a weekly aggregate of the number of additions and deletions pushed to a repository.
      *
-     * @name statsCodeFrequencyDetail
+     * @name StatsCodeFrequencyDetail
      * @request GET:/repos/{owner}/{repo}/stats/code_frequency
      */
     statsCodeFrequencyDetail: (
@@ -3660,7 +3710,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get the last year of commit activity data. Returns the last year of commit activity grouped by week. The days array is a group of commits per day, starting on Sunday.
      *
-     * @name statsCommitActivityDetail
+     * @name StatsCommitActivityDetail
      * @request GET:/repos/{owner}/{repo}/stats/commit_activity
      */
     statsCommitActivityDetail: (
@@ -3671,7 +3721,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get contributors list with additions, deletions, and commit counts.
      *
-     * @name statsContributorsDetail
+     * @name StatsContributorsDetail
      * @request GET:/repos/{owner}/{repo}/stats/contributors
      */
     statsContributorsDetail: (
@@ -3682,7 +3732,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get the weekly commit count for the repo owner and everyone else.
      *
-     * @name statsParticipationDetail
+     * @name StatsParticipationDetail
      * @request GET:/repos/{owner}/{repo}/stats/participation
      */
     statsParticipationDetail: (
@@ -3693,7 +3743,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get the number of commits per hour in each day. Each array contains the day number, hour number, and number of commits 0-6 Sunday - Saturday 0-23 Hour of day Number of commits For example, [2, 14, 25] indicates that there were 25 total commits, during the 2.00pm hour on Tuesdays. All times are based on the time zone of individual commits.
      *
-     * @name statsPunchCardDetail
+     * @name StatsPunchCardDetail
      * @request GET:/repos/{owner}/{repo}/stats/punch_card
      */
     statsPunchCardDetail: (
@@ -3704,7 +3754,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List Statuses for a specific Ref.
      *
-     * @name statusesDetail
+     * @name StatusesDetail
      * @request GET:/repos/{owner}/{repo}/statuses/{ref}
      */
     statusesDetail: (
@@ -3716,7 +3766,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create a Status.
      *
-     * @name statusesCreate
+     * @name StatusesCreate
      * @request POST:/repos/{owner}/{repo}/statuses/{ref}
      */
     statusesCreate: (
@@ -3729,21 +3779,21 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List watchers.
      *
-     * @name subscribersDetail
+     * @name SubscribersDetail
      * @request GET:/repos/{owner}/{repo}/subscribers
      */
     subscribersDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
     /**
      * @description Delete a Repository Subscription.
      *
-     * @name subscriptionDelete
+     * @name SubscriptionDelete
      * @request DELETE:/repos/{owner}/{repo}/subscription
      */
     subscriptionDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Get a Repository Subscription.
      *
-     * @name subscriptionDetail
+     * @name SubscriptionDetail
      * @request GET:/repos/{owner}/{repo}/subscription
      */
     subscriptionDetail: (
@@ -3754,7 +3804,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Set a Repository Subscription
      *
-     * @name subscriptionUpdate
+     * @name SubscriptionUpdate
      * @request PUT:/repos/{owner}/{repo}/subscription
      */
     subscriptionUpdate: (
@@ -3766,29 +3816,31 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get list of tags.
      *
-     * @name tagsDetail
+     * @name TagsDetail
      * @request GET:/repos/{owner}/{repo}/tags
      */
     tagsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Tags, unknown>>;
     /**
      * @description Get list of teams
      *
-     * @name teamsDetail
+     * @name TeamsDetail
      * @request GET:/repos/{owner}/{repo}/teams
      */
     teamsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Teams, unknown>>;
     /**
      * @description List Stargazers. New implementation.
      *
-     * @name watchersDetail
+     * @name WatchersDetail
      * @request GET:/repos/{owner}/{repo}/watchers
      */
     watchersDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
     /**
  * @description Get archive link. This method will return a 302 to a URL to download a tarball or zipball archive for a repository. Please make sure your HTTP framework is configured to follow redirects or you will need to use the Location header to make a second GET request. Note: For private repositories, these links are temporary and expire quickly.
  *
- * @name reposDetail
- * @request GET:/repos/{owner}/{repo}/{archive_format}/{path} * @originalName reposDetail
+ * @name ReposDetail2
+ * @request GET:/repos/{owner}/{repo}/{archive_format}/{path}
+ * @originalName reposDetail
+
  * @duplicate
 
  */
@@ -3804,7 +3856,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List all public repositories. This provides a dump of every public repository, in the order that they were created. Note: Pagination is powered exclusively by the since parameter. is the Link header to get the URL for the next page of repositories.
      *
-     * @name repositoriesList
+     * @name RepositoriesList
      * @request GET:/repositories
      */
     repositoriesList: (
@@ -3818,7 +3870,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Search code.
      *
-     * @name codeList
+     * @name CodeList
      * @request GET:/search/code
      */
     codeList: (
@@ -3832,7 +3884,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Find issues by state and keyword. (This method returns up to 100 results per page.)
      *
-     * @name issuesList
+     * @name IssuesList
      * @request GET:/search/issues
      */
     issuesList: (
@@ -3846,7 +3898,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Search repositories.
      *
-     * @name repositoriesList
+     * @name RepositoriesList
      * @request GET:/search/repositories
      */
     repositoriesList: (
@@ -3860,7 +3912,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Search users.
      *
-     * @name usersList
+     * @name UsersList
      * @request GET:/search/users
      */
     usersList: (
@@ -3876,21 +3928,21 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Delete team. In order to delete a team, the authenticated user must be an owner of the org that the team is associated with.
      *
-     * @name teamsDelete
+     * @name TeamsDelete
      * @request DELETE:/teams/{teamId}
      */
     teamsDelete: (teamId: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Get team.
      *
-     * @name teamsDetail
+     * @name TeamsDetail
      * @request GET:/teams/{teamId}
      */
     teamsDetail: (teamId: number, params?: RequestParams) => Promise<HttpResponse<Team, unknown>>;
     /**
      * @description Edit team. In order to edit a team, the authenticated user must be an owner of the org that the team is associated with.
      *
-     * @name teamsPartialUpdate
+     * @name TeamsPartialUpdate
      * @request PATCH:/teams/{teamId}
      */
     teamsPartialUpdate: (
@@ -3901,22 +3953,24 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List team members. In order to list members in a team, the authenticated user must be a member of the team.
      *
-     * @name membersDetail
+     * @name MembersDetail
      * @request GET:/teams/{teamId}/members
      */
     membersDetail: (teamId: number, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
     /**
      * @description The "Remove team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Remove team membership API instead. It allows you to remove both active and pending memberships. Remove team member. In order to remove a user from a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with. NOTE This does not delete the user, it just remove them from the team.
      *
-     * @name membersDelete
+     * @name MembersDelete
      * @request DELETE:/teams/{teamId}/members/{username}
      */
     membersDelete: (teamId: number, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
  * @description The "Get team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Get team membership API instead. It allows you to get both active and pending memberships. Get team member. In order to get if a user is a member of a team, the authenticated user mus be a member of the team.
  *
- * @name membersDetail
- * @request GET:/teams/{teamId}/members/{username} * @originalName membersDetail
+ * @name MembersDetail2
+ * @request GET:/teams/{teamId}/members/{username}
+ * @originalName membersDetail
+
  * @duplicate
 
  */
@@ -3924,14 +3978,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description The API (described below) is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Add team membership API instead. It allows you to invite new organization members to your teams. Add team member. In order to add a user to a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with.
      *
-     * @name membersUpdate
+     * @name MembersUpdate
      * @request PUT:/teams/{teamId}/members/{username}
      */
     membersUpdate: (teamId: number, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Remove team membership. In order to remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. NOTE: This does not delete the user, it just removes their membership from the team.
      *
-     * @name membershipsDelete
+     * @name MembershipsDelete
      * @request DELETE:/teams/{teamId}/memberships/{username}
      */
     membershipsDelete: (
@@ -3942,7 +3996,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get team membership. In order to get a user's membership with a team, the authenticated user must be a member of the team or an owner of the team's organization.
      *
-     * @name membershipsDetail
+     * @name MembershipsDetail
      * @request GET:/teams/{teamId}/memberships/{username}
      */
     membershipsDetail: (
@@ -3953,7 +4007,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Add team membership. In order to add a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. If the user is already a part of the team's organization (meaning they're on at least one other team in the organization), this endpoint will add the user to the team. If the user is completely unaffiliated with the team's organization (meaning they're on none of the organization's teams), this endpoint will send an invitation to the user via email. This newly-created membership will be in the 'pending' state until the user accepts the invitation, at which point the membership will transition to the 'active' state and the user will be added as a member of the team.
      *
-     * @name membershipsUpdate
+     * @name MembershipsUpdate
      * @request PUT:/teams/{teamId}/memberships/{username}
      */
     membershipsUpdate: (
@@ -3964,14 +4018,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List team repos
      *
-     * @name reposDetail
+     * @name ReposDetail
      * @request GET:/teams/{teamId}/repos
      */
     reposDetail: (teamId: number, params?: RequestParams) => Promise<HttpResponse<Repos, unknown>>;
     /**
      * @description In order to remove a repository from a team, the authenticated user must be an owner of the org that the team is associated with. NOTE: This does not delete the repository, it just removes it from the team.
      *
-     * @name reposDelete
+     * @name ReposDelete
      * @request DELETE:/teams/{teamId}/repos/{owner}/{repo}
      */
     reposDelete: (
@@ -3983,8 +4037,10 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
  * @description Check if a team manages a repository
  *
- * @name reposDetail
- * @request GET:/teams/{teamId}/repos/{owner}/{repo} * @originalName reposDetail
+ * @name ReposDetail2
+ * @request GET:/teams/{teamId}/repos/{owner}/{repo}
+ * @originalName reposDetail
+
  * @duplicate
 
  */
@@ -3997,7 +4053,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description In order to add a repository to a team, the authenticated user must be an owner of the org that the team is associated with. Also, the repository must be owned by the organization, or a direct fork of a repository owned by the organization.
      *
-     * @name reposUpdate
+     * @name ReposUpdate
      * @request PUT:/teams/{teamId}/repos/{owner}/{repo}
      */
     reposUpdate: (
@@ -4011,77 +4067,77 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get the authenticated user.
      *
-     * @name userList
+     * @name UserList
      * @request GET:/user
      */
     userList: (params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Update the authenticated user.
      *
-     * @name userPartialUpdate
+     * @name UserPartialUpdate
      * @request PATCH:/user
      */
     userPartialUpdate: (body: UserUpdate, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Delete email address(es). You can include a single email address or an array of addresses.
      *
-     * @name emailsDelete
+     * @name EmailsDelete
      * @request DELETE:/user/emails
      */
     emailsDelete: (body: UserEmails, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description List email addresses for a user. In the final version of the API, this method will return an array of hashes with extended information for each email address indicating if the address has been verified and if it's primary email address for GitHub. Until API v3 is finalized, use the application/vnd.github.v3 media type to get other response format.
      *
-     * @name emailsList
+     * @name EmailsList
      * @request GET:/user/emails
      */
     emailsList: (params?: RequestParams) => Promise<HttpResponse<UserEmails, unknown>>;
     /**
      * @description Add email address(es). You can post a single email address or an array of addresses.
      *
-     * @name emailsCreate
+     * @name EmailsCreate
      * @request POST:/user/emails
      */
     emailsCreate: (body: EmailsPost, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description List the authenticated user's followers
      *
-     * @name followersList
+     * @name FollowersList
      * @request GET:/user/followers
      */
     followersList: (params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
     /**
      * @description List who the authenticated user is following.
      *
-     * @name followingList
+     * @name FollowingList
      * @request GET:/user/following
      */
     followingList: (params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
     /**
      * @description Unfollow a user. Unfollowing a user requires the user to be logged in and authenticated with basic auth or OAuth with the user:follow scope.
      *
-     * @name followingDelete
+     * @name FollowingDelete
      * @request DELETE:/user/following/{username}
      */
     followingDelete: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Check if you are following a user.
      *
-     * @name followingDetail
+     * @name FollowingDetail
      * @request GET:/user/following/{username}
      */
     followingDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Follow a user. Following a user requires the user to be logged in and authenticated with basic auth or OAuth with the user:follow scope.
      *
-     * @name followingUpdate
+     * @name FollowingUpdate
      * @request PUT:/user/following/{username}
      */
     followingUpdate: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description List issues. List all issues across owned and member repositories for the authenticated user.
      *
-     * @name issuesList
+     * @name IssuesList
      * @request GET:/user/issues
      */
     issuesList: (
@@ -4098,42 +4154,42 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List your public keys. Lists the current user's keys. Management of public keys via the API requires that you are authenticated through basic auth, or OAuth with the 'user', 'write:public_key' scopes.
      *
-     * @name keysList
+     * @name KeysList
      * @request GET:/user/keys
      */
     keysList: (params?: RequestParams) => Promise<HttpResponse<Gitignore, unknown>>;
     /**
      * @description Create a public key.
      *
-     * @name keysCreate
+     * @name KeysCreate
      * @request POST:/user/keys
      */
     keysCreate: (body: UserKeysPost, params?: RequestParams) => Promise<HttpResponse<UserKeysKeyId, unknown>>;
     /**
      * @description Delete a public key. Removes a public key. Requires that you are authenticated via Basic Auth or via OAuth with at least admin:public_key scope.
      *
-     * @name keysDelete
+     * @name KeysDelete
      * @request DELETE:/user/keys/{keyId}
      */
     keysDelete: (keyId: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Get a single public key.
      *
-     * @name keysDetail
+     * @name KeysDetail
      * @request GET:/user/keys/{keyId}
      */
     keysDetail: (keyId: number, params?: RequestParams) => Promise<HttpResponse<UserKeysKeyId, unknown>>;
     /**
      * @description List public and private organizations for the authenticated user.
      *
-     * @name orgsList
+     * @name OrgsList
      * @request GET:/user/orgs
      */
     orgsList: (params?: RequestParams) => Promise<HttpResponse<Gitignore, unknown>>;
     /**
      * @description List repositories for the authenticated user. Note that this does not include repositories owned by organizations which the user can access. You can lis user organizations and list organization repositories separately.
      *
-     * @name reposList
+     * @name ReposList
      * @request GET:/user/repos
      */
     reposList: (
@@ -4145,14 +4201,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Create a new repository for the authenticated user. OAuth users must supply repo scope.
      *
-     * @name reposCreate
+     * @name ReposCreate
      * @request POST:/user/repos
      */
     reposCreate: (body: PostRepo, params?: RequestParams) => Promise<HttpResponse<Repos, unknown>>;
     /**
      * @description List repositories being starred by the authenticated user.
      *
-     * @name starredList
+     * @name StarredList
      * @request GET:/user/starred
      */
     starredList: (
@@ -4165,56 +4221,56 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Unstar a repository
      *
-     * @name starredDelete
+     * @name StarredDelete
      * @request DELETE:/user/starred/{owner}/{repo}
      */
     starredDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Check if you are starring a repository.
      *
-     * @name starredDetail
+     * @name StarredDetail
      * @request GET:/user/starred/{owner}/{repo}
      */
     starredDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Star a repository.
      *
-     * @name starredUpdate
+     * @name StarredUpdate
      * @request PUT:/user/starred/{owner}/{repo}
      */
     starredUpdate: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description List repositories being watched by the authenticated user.
      *
-     * @name subscriptionsList
+     * @name SubscriptionsList
      * @request GET:/user/subscriptions
      */
     subscriptionsList: (params?: RequestParams) => Promise<HttpResponse<Repos, unknown>>;
     /**
      * @description Stop watching a repository
      *
-     * @name subscriptionsDelete
+     * @name SubscriptionsDelete
      * @request DELETE:/user/subscriptions/{owner}/{repo}
      */
     subscriptionsDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Check if you are watching a repository.
      *
-     * @name subscriptionsDetail
+     * @name SubscriptionsDetail
      * @request GET:/user/subscriptions/{owner}/{repo}
      */
     subscriptionsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Watch a repository.
      *
-     * @name subscriptionsUpdate
+     * @name SubscriptionsUpdate
      * @request PUT:/user/subscriptions/{owner}/{repo}
      */
     subscriptionsUpdate: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description List all of the teams across all of the organizations to which the authenticated user belongs. This method requires user or repo scope when authenticating via OAuth.
      *
-     * @name teamsList
+     * @name TeamsList
      * @request GET:/user/teams
      */
     teamsList: (params?: RequestParams) => Promise<HttpResponse<TeamsList, unknown>>;
@@ -4223,7 +4279,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get all users. This provides a dump of every user, in the order that they signed up for GitHub. Note: Pagination is powered exclusively by the since parameter. Use the Link header to get the URL for the next page of users.
      *
-     * @name usersList
+     * @name UsersList
      * @request GET:/users
      */
     usersList: (
@@ -4235,35 +4291,35 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description Get a single user.
      *
-     * @name usersDetail
+     * @name UsersDetail
      * @request GET:/users/{username}
      */
     usersDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description If you are authenticated as the given user, you will see your private events. Otherwise, you'll only see public events.
      *
-     * @name eventsDetail
+     * @name EventsDetail
      * @request GET:/users/{username}/events
      */
     eventsDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description This is the user's organization dashboard. You must be authenticated as the user to view this.
      *
-     * @name eventsOrgsDetail
+     * @name EventsOrgsDetail
      * @request GET:/users/{username}/events/orgs/{org}
      */
     eventsOrgsDetail: (username: string, org: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description List a user's followers
      *
-     * @name followersDetail
+     * @name FollowersDetail
      * @request GET:/users/{username}/followers
      */
     followersDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
     /**
      * @description Check if one user follows another.
      *
-     * @name followingDetail
+     * @name FollowingDetail
      * @request GET:/users/{username}/following/{targetUser}
      */
     followingDetail: (
@@ -4274,7 +4330,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List a users gists.
      *
-     * @name gistsDetail
+     * @name GistsDetail
      * @request GET:/users/{username}/gists
      */
     gistsDetail: (
@@ -4287,35 +4343,35 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List public keys for a user. Lists the verified public keys for a user. This is accessible by anyone.
      *
-     * @name keysDetail
+     * @name KeysDetail
      * @request GET:/users/{username}/keys
      */
     keysDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<Gitignore, unknown>>;
     /**
      * @description List all public organizations for a user.
      *
-     * @name orgsDetail
+     * @name OrgsDetail
      * @request GET:/users/{username}/orgs
      */
     orgsDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<Gitignore, unknown>>;
     /**
      * @description These are events that you'll only see public events.
      *
-     * @name receivedEventsDetail
+     * @name ReceivedEventsDetail
      * @request GET:/users/{username}/received_events
      */
     receivedEventsDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description List public events that a user has received
      *
-     * @name receivedEventsPublicDetail
+     * @name ReceivedEventsPublicDetail
      * @request GET:/users/{username}/received_events/public
      */
     receivedEventsPublicDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description List public repositories for the specified user.
      *
-     * @name reposDetail
+     * @name ReposDetail
      * @request GET:/users/{username}/repos
      */
     reposDetail: (
@@ -4328,14 +4384,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
     /**
      * @description List repositories being starred by a user.
      *
-     * @name starredDetail
+     * @name StarredDetail
      * @request GET:/users/{username}/starred
      */
     starredDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description List repositories being watched by a user.
      *
-     * @name subscriptionsDetail
+     * @name SubscriptionsDetail
      * @request GET:/users/{username}/subscriptions
      */
     subscriptionsDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;

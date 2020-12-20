@@ -23,7 +23,7 @@ export class Key extends HttpClient {
    * @description Revoke an Authentiq ID using email & phone. If called with `email` and `phone` only, a verification code will be sent by email. Do a second call adding `code` to complete the revocation.
    *
    * @tags key, delete
-   * @name key_revoke_nosecret
+   * @name KeyRevokeNosecret
    * @request DELETE:/key
    */
   keyRevokeNosecret = (query: { email: string; phone: string; code?: string }, params?: RequestParams) =>
@@ -32,7 +32,7 @@ export class Key extends HttpClient {
    * @description Register a new ID `JWT(sub, devtoken)` v5: `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
    *
    * @tags key, post
-   * @name key_register
+   * @name KeyRegister
    * @request POST:/key
    */
   keyRegister = (body: AuthentiqID, params?: RequestParams) =>
@@ -41,7 +41,7 @@ export class Key extends HttpClient {
    * @description Revoke an Identity (Key) with a revocation secret
    *
    * @tags key, delete
-   * @name key_revoke
+   * @name KeyRevoke
    * @request DELETE:/key/{PK}
    */
   keyRevoke = (PK: string, query: { secret: string }, params?: RequestParams) =>
@@ -50,7 +50,7 @@ export class Key extends HttpClient {
    * @description Get public details of an Authentiq ID.
    *
    * @tags key, get
-   * @name getKey
+   * @name GetKey
    * @request GET:/key/{PK}
    */
   getKey = (PK: string, params?: RequestParams) =>
@@ -59,7 +59,7 @@ export class Key extends HttpClient {
    * @description HEAD info on Authentiq ID
    *
    * @tags key, head
-   * @name headKey
+   * @name HeadKey
    * @request HEAD:/key/{PK}
    */
   headKey = (PK: string, params?: RequestParams) => this.request<any, Error>(`/key/${PK}`, "HEAD", params);
@@ -67,7 +67,7 @@ export class Key extends HttpClient {
    * @description update properties of an Authentiq ID. (not operational in v4; use PUT for now) v5: POST issuer-signed email & phone scopes in a self-signed JWT See: https://github.com/skion/authentiq/wiki/JWT-Examples
    *
    * @tags key, post
-   * @name key_update
+   * @name KeyUpdate
    * @request POST:/key/{PK}
    */
   keyUpdate = (PK: string, body: AuthentiqID, params?: RequestParams) =>
@@ -76,7 +76,7 @@ export class Key extends HttpClient {
    * @description Update Authentiq ID by replacing the object. v4: `JWT(sub,email,phone)` to bind email/phone hash; v5: POST issuer-signed email & phone scopes and PUT to update registration `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
    *
    * @tags key, put
-   * @name key_bind
+   * @name KeyBind
    * @request PUT:/key/{PK}
    */
   keyBind = (PK: string, body: AuthentiqID, params?: RequestParams) =>

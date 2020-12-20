@@ -169,7 +169,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
    * No description
    *
    * @tags metadata
-   * @name list-data-sets
+   * @name ListDataSets
    * @summary List available data sets
    * @request GET:/
    */
@@ -180,7 +180,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description This GET API returns the list of all the searchable field names that are in the oa_citations. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the syntax options shown below.
      *
      * @tags metadata
-     * @name list-searchable-fields
+     * @name ListSearchableFields
      * @summary Provides the general information about the API and the list of fields that can be used to query the dataset.
      * @request GET:/{dataset}/{version}/fields
      */
@@ -191,7 +191,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @description This API is based on Solr/Lucense Search. The data is indexed using SOLR. This GET API returns the list of all the searchable field names that are in the Solr Index. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the Solr/Lucene Syntax. Please refer https://lucene.apache.org/core/3_6_2/queryparsersyntax.html#Overview for the query syntax. List of field names that are searchable can be determined using above GET api.
      *
      * @tags search
-     * @name perform-search
+     * @name PerformSearch
      * @summary Provides search capability for the data set with the given search criteria.
      * @request POST:/{dataset}/{version}/records
      */

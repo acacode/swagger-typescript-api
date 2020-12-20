@@ -167,7 +167,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * No description
      *
-     * @name getUserByName
+     * @name GetUserByName
      * @request GET:/2.0/users/{username}
      */
     getUserByName: (username: string, params?: RequestParams) =>
@@ -176,7 +176,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * No description
      *
-     * @name getRepositoriesByOwner
+     * @name GetRepositoriesByOwner
      * @request GET:/2.0/repositories/{username}
      */
     getRepositoriesByOwner: (username: string, params?: RequestParams) =>
@@ -185,7 +185,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * No description
      *
-     * @name getRepository
+     * @name GetRepository
      * @request GET:/2.0/repositories/{username}/{slug}
      */
     getRepository: (username: string, slug: string, params?: RequestParams) =>
@@ -194,7 +194,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * No description
      *
-     * @name getPullRequestsByRepository
+     * @name GetPullRequestsByRepository
      * @request GET:/2.0/repositories/{username}/{slug}/pullrequests
      */
     getPullRequestsByRepository: (
@@ -212,7 +212,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * No description
      *
-     * @name getPullRequestsById
+     * @name GetPullRequestsById
      * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
      */
     getPullRequestsById: (username: string, slug: string, pid: string, params?: RequestParams) =>
@@ -221,7 +221,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * No description
      *
-     * @name mergePullRequest
+     * @name MergePullRequest
      * @request POST:/2.0/repositories/{username}/{slug}/pullrequests/{pid}/merge
      */
     mergePullRequest: (username: string, slug: string, pid: string, params?: RequestParams) =>
