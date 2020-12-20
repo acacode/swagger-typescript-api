@@ -72,6 +72,7 @@
     "src",
     "index.js",
     "index.d.ts",
+    "templates",
     "LICENSE"
   ],
   "bugs": {
