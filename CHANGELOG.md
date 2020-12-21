@@ -1,6 +1,14 @@
 # next release  
 
 
+# 3.1.0  
+
+Features:  
+- `--moduleNameIndex` option. determines which path index should be used for routes separation (Thanks @nikalun)  
+  Examples:  
+    GET:api/v1/fruites/getFruit -> index:2 -> moduleName -> fruites
+    GET:api/v1/fruites/getFruit -> index:0 -> moduleName -> api
+
 # 3.0.1  
 
 Fixes:  

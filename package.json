@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "Create typescript api module from swagger schema",
   "scripts": {
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
@@ -8,7 +8,7 @@
     "cli:debug:json": "node --nolazy index.js -p ./swagger-test-cli.json -n swagger-test-cli.ts --union-enums",
     "cli:debug:yaml": "node --nolazy index.js -p ./swagger-test-cli.yaml -n swagger-test-cli.ts",
     "cli:help": "node index.js -h",
-    "test:all": "npm-run-all generate validate test:routeTypes test:noClient test:defaultAsSuccess test:responses test:templates test:unionEnums test:specProperty test:js --continue-on-error",
+    "test:all": "npm-run-all generate validate test:routeTypes test:noClient test:defaultAsSuccess test:responses test:templates test:unionEnums test:specProperty test:js test:moduleNameIndex --continue-on-error",
     "generate": "node tests/generate.js",
     "generate:debug": "node --nolazy tests/generate.js",
     "validate": "node tests/validate.js",
@@ -20,6 +20,7 @@
     "test:unionEnums": "node tests/spec/unionEnums/test.js",
     "test:responses": "node tests/spec/responses/test.js",
     "test:specProperty": "node tests/spec/specProperty/test.js",
+    "test:moduleNameIndex": "node tests/spec/moduleNameIndex/test.js",
     "test:js": "node tests/spec/js/test.js"
   },
   "author": "acacode",

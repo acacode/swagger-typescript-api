@@ -57,7 +57,7 @@ interface GenerateApiParams {
   toJS?: boolean;
 
   /**
-   * url index from paths used for merging into modules
+   * determines which path index should be used for routes separation
    */
   moduleNameIndex?: number;
 }

@@ -23,6 +23,10 @@ Any questions you can ask [**here**](https://github.com/acacode/swagger-typescri
 
 All examples you can find [**here**](https://github.com/acacode/swagger-typescript-api/tree/master/tests)  
 
+## 🛑 It is the latest version on mustache templates   
+Next versions 4.0.0+ will use the [ETA](https://eta.js.org/docs/syntax) templates.  
+If you want to create fork with `mustache` templates use `mustache-latest` branch  
+
 ## 📄 Usage  
 
 ```muse
@@ -30,21 +34,23 @@ Usage: sta [options]
 Usage: swagger-typescript-api [options]
 
 Options:
-  -v, --version             output the current version
-  -p, --path <path>         path/url to swagger scheme
-  -o, --output <output>     output path of typescript api file (default: "./")
-  -n, --name <name>         name of output typescript api file (default: "Api.ts")
-  -t, --templates <path>    path to folder containing templates (default: "./src/templates")
-  -d, --default-as-success  use "default" response status code as success response too.
-                            some swagger schemas use "default" response status code
-                            as success response type by default. (default: false)
-  -r, --responses           generate additional information about request responses  
-                            also add typings for bad responses  
-  --union-enums             generate all "enum" types as union types (T1 | T2 | TN) (default: false)
-  --route-types             generate type definitions for API routes (default: false)
-  --no-client               do not generate an API class
-  --js                      generate js api module with declaration file (default: false)
-  -h, --help                output usage information
+  -v, --version                 output the current version
+  -p, --path <path>             path/url to swagger scheme
+  -o, --output <output>         output path of typescript api file (default: "./")
+  -n, --name <name>             name of output typescript api file (default: "Api.ts")
+  -t, --templates <path>        path to folder containing templates
+  -d, --default-as-success      use "default" response status code as success response too.
+                                some swagger schemas use "default" response status code
+                                as success response type by default. (default: false)
+  -r, --responses               generate additional information about request responses
+                                also add typings for bad responses (default: false)
+  --union-enums                 generate all "enum" types as union types (T1 | T2 | TN) (default: false)
+  --route-types                 generate type definitions for API routes (default: false)
+  --no-client                   do not generate an API class
+  --js                          generate js api module with declaration file (default: false)
+  --module-name-index <number>  determines which path index should be used for routes separation (default: 0)
+                                (example: GET:/fruites/getFruit -> index:0 -> moduleName -> fruites)
+  -h, --help                    display help for command
 ```
 
 Also you can use `npx`:  
@@ -96,6 +102,25 @@ generateApi({
   .catch(e => console.error(e))
 
 ```
+
+
+## 💎 options   
+### **`--templates`**  
+This option should be used in cases when you don't want to use default `swagger-typescript-api` output structure  
+How to use it:  
+1. copy [**swagger-typescript-api templates**](https://github.com/acacode/swagger-typescript-api/tree/mustache-latest/src/templates/defaults) into your place in project  
+1. add `--templates PATH_TO_YOUR_TEMPLATES` option  
+2. modify [Mustache](https://mustache.github.io/) templates as you like  
+
+### **`--module-name-index`**  
+This option should be used in cases when you have api with one global prefix like `/api`   
+Example:   
+`GET:/api/fruits/getFruits`  
+`POST:/api/fruits/addFruits`  
+`GET:/api/vegetables/addVegetable`  
+with `--module-name-index 0` Api class will have one property `api`  
+When we change it to `--module-name-index 1` then Api class have two properties `fruits` and `vegetables`  
+
 
 ## 📄 Mass media  
 
