@@ -33,7 +33,12 @@ program
   .option("--union-enums", 'generate all "enum" types as union types (T1 | T2 | TN)', false)
   .option("--route-types", "generate type definitions for API routes", false)
   .option("--no-client", "do not generate an API class", false)
-  .option("--js", "generate js api module with declaration file", false);
+  .option("--js", "generate js api module with declaration file", false)
+  .option(
+    "--module-name-index <number>",
+    "determines which path index should be used for routes separation (example: GET:/fruites/getFruit -> index:0 -> moduleName -> fruites)",
+    0,
+  );
 
 program.parse(process.argv);
 
@@ -48,6 +53,7 @@ const {
   defaultAsSuccess,
   responses,
   js,
+  moduleNameIndex,
 } = program;
 
 generateApi({
@@ -65,4 +71,5 @@ generateApi({
     templates || "./src/templates/defaults",
   ),
   toJS: !!js,
+  moduleNameIndex: +(moduleNameIndex || 0),
 });
