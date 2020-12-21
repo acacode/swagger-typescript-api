@@ -26,7 +26,7 @@ interface HttpResponse<D extends unknown, E extends unknown = unknown> extends R
   error: E | null;
 }
 
-enum BodyType {
+export enum BodyType {
   Json,
   FormData,
 }

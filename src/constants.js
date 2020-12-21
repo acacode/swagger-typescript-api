@@ -9,5 +9,6 @@ module.exports = {
     tabWidth: 2,
     trailingComma: "all",
     parser: "typescript",
+    plugins: ["prettier-plugin-organize-imports"],
   },
 };

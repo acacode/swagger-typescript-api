@@ -5,7 +5,7 @@ const routesGroupName = _.upperFirst(it.route.moduleName);
 const routes = it.route.routes;
 const dataContracts = it.modelTypes.map(modelType => modelType.name);
 %>
-import { HttpClient, RequestParams } from "./http-client";
+import { HttpClient, RequestParams, BodyType } from "./http-client";
 <% if (dataContracts.length) { %>
 import { <%~ dataContracts.join(", ") %> } from "./data-contracts"
 <% } %>
