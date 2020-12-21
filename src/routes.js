@@ -191,7 +191,7 @@ const createRequestsMap = (requestInfoByMethodsMap) => {
   );
 };
 
-const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas) =>
+const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, componentsMap, components, moduleNameIndex) =>
   _.entries(paths).reduce((routes, [route, requestInfoByMethodsMap]) => {
     if (route.startsWith("x-")) return routes;
 
@@ -224,7 +224,7 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas) =>
         let formDataRequestBody =
           requestBodyType && requestBodyType.dataType === "multipart/form-data";
 
-        const moduleName = _.camelCase(_.compact(_.split(route, "/"))[0]);
+        const moduleName = _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
 
         const routeName = getRouteName(operationId, method, route, moduleName);
         const name = _.camelCase(routeName);

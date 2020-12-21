@@ -55,6 +55,11 @@ interface GenerateApiParams {
    * generate js api module with declaration file (default: false)
    */
   toJS?: boolean;
+
+  /**
+   * url index from paths used for merging into modules
+   */
+  moduleNameIndex?: number;
 }
 
 export declare function generateApi(
