@@ -32,9 +32,29 @@ const jsPrimitiveTypes = _.uniq(["number", "string", "boolean"]);
 const jsEmptyTypes = _.uniq(["null", "undefined"]);
 const formDataTypes = _.uniq([types.file, types.string.binary]);
 
+const stealTypeFromSchema = (rawSchema) => {
+  const schema = rawSchema || {};
+
+  if (schema.type) {
+    return schema.type;
+  }
+  if (schema.enum) {
+    const enumFieldType = typeof schema.enum[0];
+    if (enumFieldType === "undefined") return;
+
+    return enumFieldType;
+  }
+  if (_.keys(schema.properties).length) {
+    return "object";
+  }
+  if (!!schema.items) {
+    return "array";
+  }
+};
+
 const getTypeAlias = (rawSchema) => {
   const schema = rawSchema || {};
-  const type = toInternalCase(schema.type);
+  const type = toInternalCase(stealTypeFromSchema(schema));
   const format = toInternalCase(schema.format);
   const typeAlias = _.get(types, [type, format]) || _.get(types, [type, "$default"]) || types[type];
 

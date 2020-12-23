@@ -5,6 +5,12 @@ const isValidName = (name) => /^([A-Za-z$_]{1,})$/g.test(name);
 const formattedModelNamesMap = new Map();
 
 const checkAndRenameModelName = (name) => {
+  if (typeof name !== "string") {
+    console.warn("🔨 wrong name of the model name", name);
+
+    return name;
+  }
+
   if (formattedModelNamesMap.has(name)) {
     return formattedModelNamesMap.get(name);
   }
