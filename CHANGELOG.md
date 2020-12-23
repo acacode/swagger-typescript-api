@@ -1,5 +1,9 @@
 # next release  
 
+# 3.1.1  
+
+Fixes:  
+- `name.includes is not a function` (issue #98)  
 
 # 3.1.0  
 

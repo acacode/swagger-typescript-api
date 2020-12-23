@@ -63,6 +63,8 @@ export enum PetNames {
 
 export type PetIds = 10 | 20 | 30 | 40;
 
+export type PetIdsWithWrongEnum = 10 | 20 | 30 | 40;
+
 /**
  * A pet for sale in the pet store
  */

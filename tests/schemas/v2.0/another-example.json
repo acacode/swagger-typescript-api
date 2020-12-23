@@ -887,6 +887,9 @@
       "type": "integer",
       "enum": [10, 20, 30, 40]
     },
+    "PetIdsWithWrongEnum": {
+      "enum": [10, 20, 30, 40]
+    },
     "Pet": {
       "type": "object",
       "required": ["name", "photoUrls"],
