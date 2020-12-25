@@ -6,14 +6,20 @@
 // License text available at https://opensource.org/licenses/MIT
 // Repository https://github.com/acacode/swagger-typescript-api
 
-const program = require("commander");
+const { Command } = require("commander");
 const { resolve } = require("path");
 const { generateApi } = require("./src");
-const { version } = require("./package.json");
+const { version, name: packageName } = require("./package.json");
+
+const program = new Command(packageName);
+
+program.storeOptionsAsProperties(true);
 
 program
   .version(version, "-v, --version", "output the current version")
-  .description("Generate api via swagger scheme.\nSupports OA 3.0, 2.0, JSON, yaml.")
+  .description("Generate api via swagger scheme.\nSupports OA 3.0, 2.0, JSON, yaml.");
+
+program
   .requiredOption("-p, --path <path>", "path/url to swagger scheme")
   .option("-o, --output <output>", "output path of typescript api file", "./")
   .option("-n, --name <name>", "name of output typescript api file", "Api.ts")

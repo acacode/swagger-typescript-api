@@ -10,6 +10,9 @@ Features:
   Also moved out to templates `procedure-call.eta` (request api method template) and `route-name.eta` (api method name template)  
   No worry about strange syntax it is very simple in usage :)  
 
+Internal:  
+- Update all dependencies to latest  
+
 # 3.1.1  
 
 Fixes:  
