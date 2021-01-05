@@ -37,10 +37,10 @@
   },
   "dependencies": {
     "@types/swagger-schema-official": "2.0.21",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "commander": "^5.1.0",
     "js-yaml": "^3.13.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.20",
     "mustache": "^4.0.1",
     "prettier": "^2.0.5",
     "swagger-schema-official": "2.0.0-bab6bed",
