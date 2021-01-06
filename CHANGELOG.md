@@ -7,6 +7,7 @@ Features:
 - `--modular` option. Allows to generate api class per module name.   
   Example: [here](./tests/spec/modular)   
 - new templates on [ETA](https://eta.js.org/) (enhanced EJS) which can improve your templates!   
+  [ETA extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=shadowtime2000.eta-vscode) (thanks @shadowtime2000)  
   Also moved out to templates `procedure-call.eta` (request api method template) and `route-name.eta` (api method name template)  
   No worry about strange syntax it is very simple in usage :)  
 - Optional templates feature  
