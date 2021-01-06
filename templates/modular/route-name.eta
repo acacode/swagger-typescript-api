@@ -1,7 +1,16 @@
 <%
-const procedureDuplicatesMap = it.procedureDuplicatesMap;
-const { _, duplicatesMap } = it.utils;
-const { operationId, method, route, moduleName } = it.route.raw
+const { routeInfo, utils } = it;
+const {
+  operationId,
+  method,
+  route,
+  moduleName,
+  responsesTypes,
+  description,
+  tags,
+  summary,
+} = routeInfo;
+const { _, fmtToJSDocLine } = utils;
 
 const methodAliases = {
   get: (pathName, hasPathInserts) =>
@@ -24,30 +33,10 @@ const createCustomOperationId = (method, route, moduleName) => {
     : _.camelCase(_.lowerCase(method) + "_" + [moduleName].join("_")) || "index";
 };
 
-const createRouteName = (operationId, method, route, moduleName) => {
-  if (operationId) return operationId;
-  if (route === "/") return `${_.lowerCase(method)}Root`;
-  return createCustomOperationId(method, route, moduleName);
-};
+if (operationId)
+  return _.camelCase(operationId);
+if (route === "/")
+  return _.camelCase(`${_.lowerCase(method)}Root`);
 
-const routeName = _.camelCase(createRouteName(operationId, method, route, moduleName))
-const duplicateIdentifier = `${moduleName}|${routeName}`
-
-if (procedureDuplicatesMap.has(duplicateIdentifier)) {
-  procedureDuplicatesMap.set(duplicateIdentifier, procedureDuplicatesMap.get(duplicateIdentifier) + 1)
-  console.warn(
-    `🥵  Module "${moduleName}" already have method "${routeName}()"`,
-    `\n🥵  This method has been renamed to "${routeName + procedureDuplicatesMap.get(duplicateIdentifier)}()" to solve conflict names.`,
-  );
-} else {
-  procedureDuplicatesMap.set(duplicateIdentifier, 1);
-}
-
-const duplicates = procedureDuplicatesMap.get(duplicateIdentifier);
-
-return {
-  routeName: routeName + (duplicates > 1 ? duplicates : ""),
-  originalRouteName: routeName,
-  isDuplicate: duplicates > 1,
-}
+return createCustomOperationId(method, route, moduleName);
 %>

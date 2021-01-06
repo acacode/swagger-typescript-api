@@ -1,8 +1,14 @@
-<% it.modelTypes.forEach(({ typeIdentifier, name, content, description }) => { %>
+<%
+  const { modelTypes } = it;
+%>
+<% modelTypes.forEach((contract) => { %>
+<% if (contract.description) { %>
+/**
+* <%~ contract.description %>
 
-    <% if (description) { %>
-    /** <%~ description %> */
-    <% } %>
-    export <%~ typeIdentifier %> <%~ name %> <%~ content %>
+*/
+<% } %>
+export <%~ contract.typeIdentifier %> <%~ contract.name %> <%~ contract.content %>
+
 
 <% }) %>

@@ -1,51 +1,50 @@
+const _ = require("lodash");
 const Eta = require("eta");
 const { getFileContent } = require("./files");
 const { resolve } = require("path");
 
-const getTemplates = (config) => {
-  console.log(`✨ try to read templates from directory "${config.templates}"`);
+const getTemplates = ({ templates, modular }) => {
+  const originalTemplatesPath = resolve(
+    __dirname,
+    modular ? "../templates/modular" : "../templates/default",
+  );
+  const customTemplatesPath = templates ? resolve(process.cwd(), templates) : originalTemplatesPath;
+
+  console.log(`✨ try to read templates from directory "${customTemplatesPath}"`);
 
   Eta.configure({
-    views: resolve(config.templates),
+    views: customTemplatesPath,
   });
 
   const templatePaths = {
-    api: resolve(config.templates, "./api.eta"),
-    dataContracts: resolve(config.templates, "./data-contracts.eta"),
-    httpClient: resolve(config.templates, "./http-client.eta"),
-    routeTypes: resolve(config.templates, "./route-types.eta"),
+    api: "./api.eta",
+    dataContracts: "./data-contracts.eta",
+    httpClient: "./http-client.eta",
+    routeTypes: "./route-types.eta",
+    routeName: "./route-name.eta",
   };
 
-  const api = getFileContent(templatePaths.api);
+  const templatesMap = _.reduce(
+    templatePaths,
+    (acc, pathToTemplate, key) => {
+      let fileContent = getFileContent(resolve(customTemplatesPath, pathToTemplate));
 
-  if (!api) {
-    console.log(`❗❗❗ api template not found in ${templatePaths.api}`);
-  }
+      if (!fileContent) {
+        console.log(
+          `❗❗❗ ${_.lowerCase(key)} template not found in ${pathToTemplate}\n` +
+            `Code generator will use the default template`,
+        );
+        fileContent = getFileContent(resolve(originalTemplatesPath, pathToTemplate));
+      }
 
-  const dataContracts = getFileContent(resolve(config.templates, "./data-contracts.eta"));
+      acc[key] = fileContent;
 
-  if (!dataContracts) {
-    console.log(`❗❗❗ data contracts template not found in ${templatePaths.dataContracts}`);
-  }
+      return acc;
+    },
+    {},
+  );
 
-  const httpClient = getFileContent(resolve(config.templates, "./http-client.eta"));
-
-  if (!httpClient) {
-    console.log(`❗❗❗ http client template not found in ${templatePaths.httpClient}`);
-  }
-
-  const routeTypes = getFileContent(resolve(config.templates, "./route-types.eta"));
-
-  if (!routeTypes) {
-    console.log(`❗❗❗ route types template not found in ${templatePaths.routeTypes}`);
-  }
-
-  return {
-    api,
-    dataContracts,
-    httpClient,
-    routeTypes,
-  };
+  return templatesMap;
 };
 
 const renderTemplate = (template, configuration, options) => {

@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const { inlineExtraFormatters } = require("./typeFormatters");
 const { isValidName, checkAndRenameModelName } = require("./modelNames");
-const { formatDescription, toInternalCase } = require("./common");
+const { formatDescription, internalCase } = require("./common");
 const { DEFAULT_PRIMITIVE_TYPE, JS_PRIMITIVE_TYPES, JS_EMPTY_TYPES } = require("./constants");
 const { config } = require("./config");
 
@@ -19,7 +19,7 @@ const types = {
     binary: "File",
   },
   array: ({ items, ...schemaPart }) => {
-    const { content } = parseSchema(items, null, inlineExtraFormatters);
+    const content = getInlineParseContent(items);
     return checkAndAddNull(schemaPart, `(${content})[]`);
   },
 
@@ -52,8 +52,8 @@ const stealTypeFromSchema = (rawSchema) => {
 
 const getTypeAlias = (rawSchema) => {
   const schema = rawSchema || {};
-  const type = toInternalCase(stealTypeFromSchema(schema));
-  const format = toInternalCase(schema.format);
+  const type = internalCase(stealTypeFromSchema(schema));
+  const format = internalCase(schema.format);
   const typeAlias = _.get(types, [type, format]) || _.get(types, [type, "$default"]) || types[type];
 
   if (_.isFunction(typeAlias)) {
@@ -289,13 +289,17 @@ const parseSchema = (rawSchema, typeName, formattersMap) => {
 const parseSchemas = (components) =>
   _.map(_.get(components, "schemas"), (schema, typeName) => parseSchema(schema, typeName));
 
-const getInlineParseContent = (rawTypeData) =>
-  parseSchema(rawTypeData, null, inlineExtraFormatters).content;
+const getInlineParseContent = (rawTypeData, typeName = null) =>
+  parseSchema(rawTypeData, typeName, inlineExtraFormatters).content;
+
+const getParseContent = (rawTypeData, typeName = null) =>
+  parseSchema(rawTypeData, typeName).content;
 
 module.exports = {
   parseSchema,
   parseSchemas,
   getInlineParseContent,
+  getParseContent,
   getType,
   getRefType,
   formDataTypes,

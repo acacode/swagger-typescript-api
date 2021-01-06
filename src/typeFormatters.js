@@ -51,8 +51,10 @@ const inlineExtraFormatters = {
   object: (parsedSchema) => {
     return {
       ...parsedSchema,
-      typeIdentifier: parsedSchema.content.length ? parsedSchema.typeIdentifier : "type",
-      content: parsedSchema.content.length
+      typeIdentifier: "type",
+      content: _.isString(parsedSchema.content)
+        ? parsedSchema.content
+        : parsedSchema.content.length
         ? `{ ${parsedSchema.content.map((part) => part.field).join(", ")} }`
         : "object",
     };

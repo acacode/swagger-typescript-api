@@ -1,28 +1,30 @@
-
-<% if (it.apiConfig.hasDescription) { %>
+<%
+const { apiConfig, routes, utils, config } = it;
+%>
+<% if (apiConfig.hasDescription) { %>
 /**
-<% it.apiConfig.description.forEach((jsDocLine) => { %>
+<% apiConfig.description.forEach((jsDocLine) => { %>
 * <%~ jsDocLine %>
 
 <% }) %>
 */
 <% } %>
-export class Api<<%~ it.apiConfig.generic.map(g => `${g.name} = ${g.defaultValue}`).join(', ') %>> extends HttpClient<<%~ it.apiConfig.generic.map(g => g.name).join(', ') %>>{
+export class Api<<%~ apiConfig.generic.map(g => `${g.name} = ${g.defaultValue}`).join(', ') %>> extends HttpClient<<%~ apiConfig.generic.map(g => g.name).join(', ') %>>{
 <%
 /* TODO: outOfModule, combined should be attributes of route, which will allow to avoid duplication of code */
 %>
 
-<% it.routes.outOfModule && it.routes.outOfModule.forEach((route) => { %>
+<% routes.outOfModule && routes.outOfModule.forEach((route) => { %>
 
-        <%~ includeFile('./procedure-call.eta', { route, utils: it.utils }) %>
+        <%~ includeFile('./procedure-call.eta', { route, utils, config }) %>
 
 <% }) %>
 
-<% it.routes.combined && it.routes.combined.forEach(({ routes = [], moduleName }) => { %>
+<% routes.combined && routes.combined.forEach(({ routes = [], moduleName }) => { %>
     <%~ moduleName %> = {
     <% routes.forEach((route) => { %>
 
-        <%~ includeFile('./procedure-call.eta', { route, utils: it.utils }) %>
+        <%~ includeFile('./procedure-call.eta', { route, utils, config }) %>
 
     <% }) %>
     }

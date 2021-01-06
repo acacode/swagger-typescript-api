@@ -1,22 +1,11 @@
 <%
-const { _ } = it.utils
-const { query, payload } = it.route.request
-const { type: responseType } = it.route.response
+const { route, utils, config } = it;
+const { _, classNameCase } = utils
+const { query, payload } = route.request
+const { type: responseType } = route.response
 
-const { routeName, isDuplicate, originalRouteName } = includeFile('./route-name.eta', {
-  route: it.route,
-  utils: it.utils,
-  procedureDuplicatesMap: it.procedureDuplicatesMap
-})
-const routeDocs = includeFile("./route-docs", {
-    routeName,
-    isDuplicate,
-    originalRouteName,
-    config: it.config,
-    route: it.route,
-    utils: it.utils,
-});
-const routeNamespace = _.upperFirst(routeName)
+const routeDocs = includeFile("./route-docs", { config, route, utils });
+const routeNamespace = classNameCase(route.routeName.usage)
 const queryType = query?.type || '{}'
 const bodyType = payload?.type || 'never'
 %>

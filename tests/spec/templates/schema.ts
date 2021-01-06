@@ -39,7 +39,7 @@ enum BodyType {
   FormData,
 }
 
-class HttpClient<SecurityDataType> {
+export class HttpClient<SecurityDataType = unknown> {
   public baseUrl: string = "http://petstore.swagger.io/api";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
@@ -161,7 +161,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     /**
      * @description Returns all pets from the system that the user has access to
      *
-     * @name petsList
+     * @name PetsList
      * @request GET:/pets
      */
     petsList: (params?: RequestParams) => this.request<Pet[], any>(`/pets`, "GET", params),

@@ -1,25 +1,14 @@
 <%
-const { fmtToJSDocLine, _ } = it.utils
-const { name, jsDocDescription } = it.route
-const { query, payload } = it.route.request
-const { type: responseType } = it.route.response
+const { utils, route, config } = it;
+const { _, fmtToJSDocLine, classNameCase } = utils;
+const { name, jsDocDescription, routeName } = route;
+const { query, payload } = route.request;
+const { type: responseType } = route.response;
 
-const { routeName, isDuplicate, originalRouteName } = includeFile('./route-name.eta', {
-  route: it.route,
-  utils: it.utils,
-  procedureDuplicatesMap: it.procedureDuplicatesMap
-})
-const routeDocs = includeFile("./route-docs", {
-    routeName,
-    isDuplicate,
-    originalRouteName,
-    config: it.config,
-    route: it.route,
-    utils: it.utils,
-})
-const routeNamespace = _.upperFirst(routeName)
-const queryType = query?.type || '{}'
-const bodyType = payload?.type || 'never'
+const routeDocs = includeFile("./route-docs", { config, route, utils });
+const routeNamespace = classNameCase(routeName.usage);
+const queryType = query?.type || '{}';
+const bodyType = payload?.type || 'never';
 %>
 /**
 <%~ routeDocs.description %>

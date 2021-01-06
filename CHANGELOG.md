@@ -9,9 +9,14 @@ Features:
 - new templates on [ETA](https://eta.js.org/) (enhanced EJS) which can improve your templates!   
   Also moved out to templates `procedure-call.eta` (request api method template) and `route-name.eta` (api method name template)  
   No worry about strange syntax it is very simple in usage :)  
+- Optional templates feature  
+  Now you can store only the `ETA` templates which you need to change for yourself.  
 
 Internal:  
 - Update all dependencies to latest  
+
+Common:  
+- Improve typings when use `swagger-typescript-api` with NodeJS (`index.d.ts`)  
 
 # 3.1.1  
 

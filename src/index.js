@@ -6,10 +6,8 @@
 // License text available at https://opensource.org/licenses/MIT
 // Repository https://github.com/acacode/swagger-typescript-api
 
-const Eta = require("eta");
 const prettier = require("prettier");
 const _ = require("lodash");
-const path = require("path");
 const { parseSchemas } = require("./schema");
 const { parseRoutes, groupRoutes } = require("./routes");
 const { createApiConfig } = require("./apiConfig");
@@ -20,6 +18,7 @@ const { createFile, pathIsExist } = require("./files");
 const { addToConfig, config } = require("./config");
 const { getTemplates, renderTemplate } = require("./templates");
 const { PRETTIER_OPTIONS } = require("./constants");
+const { classNameCase } = require("./render/utils");
 
 module.exports = {
   generateApi: ({
@@ -38,13 +37,10 @@ module.exports = {
     generateClient = config.generateClient,
     generateUnionEnums = config.generateUnionEnums,
     moduleNameIndex = config.moduleNameIndex,
+    extractRequestParams = config.extractRequestParams,
     prettier: prettierOptions = PRETTIER_OPTIONS,
   }) =>
     new Promise((resolve, reject) => {
-      templates =
-        templates ||
-        path.resolve(__dirname, modular ? "../templates/modular" : "../templates/default");
-
       addToConfig({
         defaultResponseAsSuccess,
         generateRouteTypes,
@@ -53,6 +49,8 @@ module.exports = {
         templates,
         generateUnionEnums,
         moduleNameIndex,
+        modular,
+        extractRequestParams,
       });
       (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url))
         .then(({ usageSchema, originalSchema }) => {
@@ -65,15 +63,23 @@ module.exports = {
           addToConfig({
             swaggerSchema: usageSchema,
             originalSchema,
+            templatesToRender,
           });
 
           const { info, paths, servers, components } = usageSchema;
 
           const componentsMap = createComponentsMap(components);
-          const schemasMap = filterComponentsMap(componentsMap, "schemas");
 
           const parsedSchemas = parseSchemas(components);
-          const routes = parseRoutes(usageSchema, parsedSchemas, componentsMap, components, moduleNameIndex);
+          const routes = parseRoutes({
+            usageSchema,
+            parsedSchemas,
+            componentsMap,
+            components,
+            moduleNameIndex,
+            extractRequestParams,
+          });
+
           const hasSecurityRoutes = routes.some((route) => route.security);
           const hasQueryRoutes = routes.some((route) => route.hasQuery);
           const hasFormDataRoutes = routes.some((route) => route.hasFormDataParams);
@@ -81,7 +87,7 @@ module.exports = {
           const rawConfiguration = {
             apiConfig,
             config,
-            modelTypes: _.map(schemasMap, getModelType),
+            modelTypes: _.map(filterComponentsMap(componentsMap, "schemas"), getModelType),
             hasFormDataRoutes,
             hasSecurityRoutes,
             hasQueryRoutes,
@@ -100,23 +106,23 @@ module.exports = {
           const files = modular
             ? [
                 templatesToRender.dataContracts && {
-                  name: "data-contracts.ts",
+                  name: `${config.fileNames.dataContracts}.ts`,
                   content: renderTemplate(templatesToRender.dataContracts, configuration),
                 },
                 configuration.config.generateRouteTypes &&
                   templatesToRender.routeTypes && {
-                    name: "route-types.ts",
+                    name: `${config.fileNames.routeTypes}.ts`,
                     content: renderTemplate(templatesToRender.routeTypes, configuration),
                   },
                 configuration.config.generateClient &&
                   templatesToRender.httpClient && {
-                    name: "http-client.ts",
+                    name: `${config.fileNames.httpClient}.ts`,
                     content: renderTemplate(templatesToRender.httpClient, configuration),
                   },
                 configuration.config.generateClient &&
                   templatesToRender.api &&
                   configuration.routes.$outOfModule && {
-                    name: `Common.ts`,
+                    name: `${config.fileNames.outOfModuleApi}.ts`,
                     content: renderTemplate(templatesToRender.api, {
                       ...configuration,
                       route: configuration.routes.$outOfModule,
@@ -128,7 +134,7 @@ module.exports = {
                       (apis, route) => [
                         ...apis,
                         {
-                          name: `${_.upperFirst(route.moduleName)}.ts`,
+                          name: `${classNameCase(route.moduleName)}.ts`,
                           content: renderTemplate(templatesToRender.api, {
                             ...configuration,
                             route,

@@ -1,1 +1,0 @@
-export <%~ it.typeIdentifier %> <%~ it.name %> <%~ it.content %>

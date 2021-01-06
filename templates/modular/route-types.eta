@@ -1,20 +1,20 @@
 <%
-   const procedureDuplicatesMap = new Map();
+const { utils, config, routes } = it;
 %>
 <%
 /* TODO: outOfModule, combined should be attributes of route, which will allow to avoid duplication of code */
 %>
 
-<% it.routes.outOfModule && it.routes.outOfModule.forEach(({ routes = [] }) => { %>
+<% routes.outOfModule && routes.outOfModule.forEach(({ routes = [] }) => { %>
     <% routes.forEach((route) => { %>
-        <%~ includeFile('./route-type.eta', { route, utils: it.utils, procedureDuplicatesMap, config: it.config }) %>
+        <%~ includeFile('./route-type.eta', { route, utils, config }) %>
     <% }) %>
 <% }) %>
 
-<% it.routes.combined && it.routes.combined.forEach(({ routes = [], moduleName }) => { %>
+<% routes.combined && routes.combined.forEach(({ routes = [], moduleName }) => { %>
     export namespace <%~ moduleName %> {
     <% routes.forEach((route) => { %>
-        <%~ includeFile('./route-type.eta', { route, utils: it.utils, procedureDuplicatesMap, config: it.config }) %>
+        <%~ includeFile('./route-type.eta', { route, utils, config }) %>
     <% }) %>
     }
 

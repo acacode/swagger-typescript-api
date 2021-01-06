@@ -1,4 +1,7 @@
-<% it.modelTypes.forEach((contract) => { %>
+<%
+  const { modelTypes } = it;
+%>
+<% modelTypes.forEach((contract) => { %>
 <% if (contract.description) { %>
 /**
 * <%~ contract.description %>

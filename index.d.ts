@@ -60,20 +60,166 @@ interface GenerateApiParams {
    * determines which path index should be used for routes separation
    */
   moduleNameIndex?: number;
-  prepareConfig?: (currentConfiguration: GenerateApiConfiguration) => GenerateApiConfiguration;
+  /**
+   *  customize configuration object before sending it to ETA templates
+   */
+  prepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C;
+  /**
+   * prettier configuration
+   */
   prettier?: object;
 }
 
+export type SchemaTypePrimitiveContent = {
+  $parsedSchema: boolean;
+  schemaType: string;
+  type: string;
+  typeIdentifier: string;
+  name?: any;
+  description: string;
+  content: string;
+};
+
+export type SchemaTypeObjectContent = {
+  $$raw: {
+    type: string;
+    required: boolean;
+    $parsed: SchemaTypePrimitiveContent;
+  };
+  isRequired: boolean;
+  field: string;
+}[];
+
+export type SchemaTypeEnumContent = {
+  key: string;
+  type: string;
+  value: string;
+};
+
+export interface ParsedSchema<C> {
+  $parsedSchema: boolean;
+  schemaType: string;
+  type: string;
+  typeIdentifier: string;
+  name: string;
+  description?: string;
+  allFieldsAreOptional?: boolean;
+  content: C;
+}
+
+export interface SchemaComponent {
+  typeName: string;
+  rawTypeData: {
+    type: string;
+    required?: string[];
+    properties?: Record<
+      string,
+      {
+        type: string;
+        required: boolean;
+        $parsed?: SchemaTypePrimitiveContent;
+      }
+    >;
+    discriminator?: {
+      propertyName?: string;
+    };
+    $parsed: ParsedSchema<
+      SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent
+    >;
+  };
+  componentName: string;
+  typeData: ParsedSchema<
+    SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent
+  >;
+}
+
+export interface ParsedRoute {
+  id: string;
+  jsDocLines: string;
+  namespace: string;
+  request: Request;
+  response: Response;
+  routeName: {
+    usage: string;
+    original: string;
+    duplicate: boolean;
+  };
+  raw: {
+    method: string;
+    route: string;
+    moduleName: string;
+    responsesTypes: {
+      type: string;
+      description: string;
+      status: number;
+      isSuccess: boolean;
+    }[];
+  };
+}
+
 export interface GenerateApiConfiguration {
-  apiConfig: object;
-  config: object;
-  modelTypes: object[];
+  apiConfig: {
+    props: {
+      name: string;
+      optional: boolean;
+      type: string;
+    }[];
+    generic: {
+      name: string;
+      defaultValue: string;
+    }[];
+    baseUrl: string;
+    title: string;
+    version: string;
+    description: string[];
+    hasDescription: boolean;
+  };
+  config: {
+    generateResponses: boolean;
+    defaultResponseAsSuccess: boolean;
+    generateRouteTypes: boolean;
+    generateClient: boolean;
+    generateUnionEnums: boolean;
+    swaggerSchema: object;
+    originalSchema: object;
+    componentsMap: Record<string, SchemaComponent>;
+    convertedFromSwagger2: boolean;
+    moduleNameIndex: number;
+    extractRequestParams: boolean;
+    fileNames: {
+      dataContracts: string;
+      routeTypes: string;
+      httpClient: string;
+      outOfModuleApi: string;
+    };
+    templatesToRender: {
+      api: string;
+      dataContracts: string;
+      httpClient: string;
+      routeTypes: string;
+      routeName: string;
+    };
+    routeNameDuplicatesMap: Map<string, string>;
+  };
+  modelTypes: {
+    typeIdentifier: string;
+    name: string;
+    rawContent: string;
+    description: string;
+    content: string;
+  }[];
   hasFormDataRoutes: boolean;
   hasSecurityRoutes: boolean;
   hasQueryRoutes: boolean;
   generateResponses: boolean;
-  routes: object;
-  utils: object;
+  routes: {
+    outOfModule: ParsedRoute[];
+    combined?: {
+      moduleName: string;
+      routes: ParsedRoute[];
+    }[];
+  };
+  utils: typeof import("./src/render/utils");
 }
 
 export interface GenerateApiOutput {

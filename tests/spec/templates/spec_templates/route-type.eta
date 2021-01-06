@@ -1,20 +1,20 @@
 <%
-const { fmtToJSDocLine, _ } = it.utils
-const { name, jsDocDescription } = it.route
-const { query, payload } = it.route.request
-const { type: responseType } = it.route.response
+const { route, utils, config } = it;
+const { _, classNameCase } = utils
+const { query, payload } = route.request
+const { type: responseType } = route.response
 
-const description = jsDocDescription ?? fmtToJSDocLine('No description', { eol: false })
-const routeNamespace = _.upperFirst(name)
+const routeDocs = includeFile("./route-docs", { config, route, utils });
+const routeNamespace = classNameCase(route.routeName.usage)
 const queryType = query?.type || '{}'
 const bodyType = payload?.type || 'never'
 %>
 /**
-<%~ description %>
+<%~ routeDocs.description %>
 
 * <% /* Here you can add some other JSDoc tags */ %>
 
-<%~ it.route.jsDocLines %>
+<%~ routeDocs.lines %>
 
 */
 export namespace <%~ routeNamespace %> {

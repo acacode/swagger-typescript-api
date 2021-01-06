@@ -25,6 +25,13 @@ const config = {
 
   /** url index from paths used for merging into modules */
   moduleNameIndex: 0,
+  extractRequestParams: false,
+  fileNames: {
+    dataContracts: "data-contracts",
+    routeTypes: "route-types",
+    httpClient: "http-client",
+    outOfModuleApi: "Common",
+  },
 };
 
 /** needs to use data everywhere in project */

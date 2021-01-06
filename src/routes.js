@@ -1,24 +1,16 @@
 const _ = require("lodash");
 const { collect } = require("./utils");
-const { parseSchema, getRefType, formDataTypes } = require("./schema");
+const { parseSchema, getRefType, formDataTypes, getInlineParseContent } = require("./schema");
 const { checkAndRenameModelName } = require("./modelNames");
-const { inlineExtraFormatters } = require("./typeFormatters");
 const {
   DEFAULT_PRIMITIVE_TYPE,
   DEFAULT_BODY_ARG_NAME,
   SUCCESS_RESPONSE_STATUS_RANGE,
 } = require("./constants");
-const { formatDescription } = require("./common");
-const { config } = require("./config");
-
-const methodAliases = {
-  get: (pathName, hasPathInserts) =>
-    _.camelCase(`${pathName}_${hasPathInserts ? "detail" : "list"}`),
-  post: (pathName, hasPathInserts) => _.camelCase(`${pathName}_create`),
-  put: (pathName, hasPathInserts) => _.camelCase(`${pathName}_update`),
-  patch: (pathName, hasPathInserts) => _.camelCase(`${pathName}_partial_update`),
-  delete: (pathName, hasPathInserts) => _.camelCase(`${pathName}_delete`),
-};
+const { formatDescription, classNameCase } = require("./common");
+const { config, addToConfig } = require("./config");
+const { nanoid } = require("nanoid");
+const { getRouteName } = require("./routeNames");
 
 const getSchemaFromRequestType = (requestType) => {
   const content = _.get(requestType, "content");
@@ -46,7 +38,7 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, content
   const refTypeInfo = getRefType(requestInfo);
 
   if (schema) {
-    const { content } = parseSchema(schema, "none", inlineExtraFormatters);
+    const content = getInlineParseContent(schema, "none");
     const foundedSchemaByName = _.find(
       parsedSchemas,
       (parsedSchema) => checkAndRenameModelName(parsedSchema.name) === content,
@@ -66,21 +58,18 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, content
 
     // TODO:HACK fix problem of swagger2opeanpi
     const typeNameWithoutOpId = _.replace(refTypeInfo.typeName, operationId, "");
-    if (_.find(parsedSchemas, (schema) => schema.name === typeNameWithoutOpId))
+    if (_.find(parsedSchemas, (schema) => schema.name === typeNameWithoutOpId)) {
       return checkAndRenameModelName(typeNameWithoutOpId);
+    }
 
     switch (refTypeInfo.componentName) {
       case "schemas":
         return checkAndRenameModelName(refTypeInfo.typeName);
       case "responses":
       case "requestBodies":
-        return parseSchema(
-          getSchemaFromRequestType(refTypeInfo.rawTypeData),
-          "none",
-          inlineExtraFormatters,
-        ).content;
+        return getInlineParseContent(getSchemaFromRequestType(refTypeInfo.rawTypeData), "none");
       default:
-        return parseSchema(refTypeInfo.rawTypeData, "none", inlineExtraFormatters).content;
+        return getInlineParseContent(refTypeInfo.rawTypeData, "none");
     }
   }
 
@@ -124,24 +113,6 @@ const getErrorReturnType = (responses, parsedSchemas, operationId) =>
       .map((response) => getTypeFromRequestInfo(response, parsedSchemas, operationId))
       .filter((type) => type !== DEFAULT_PRIMITIVE_TYPE),
   ).join(" | ") || DEFAULT_PRIMITIVE_TYPE;
-
-const createCustomOperationId = (method, route, moduleName) => {
-  const hasPathInserts = /\{(\w){1,}\}/g.test(route);
-  const splitedRouteBySlash = _.compact(_.replace(route, /\{(\w){1,}\}/g, "").split("/"));
-  const routeParts = (splitedRouteBySlash.length > 1
-    ? splitedRouteBySlash.splice(1)
-    : splitedRouteBySlash
-  ).join("_");
-  return routeParts.length > 3 && methodAliases[method]
-    ? methodAliases[method](routeParts, hasPathInserts)
-    : _.camelCase(_.lowerCase(method) + "_" + [moduleName].join("_")) || "index";
-};
-
-const getRouteName = (operationId, method, route, moduleName) => {
-  if (operationId) return operationId;
-  if (route === "/") return `${_.lowerCase(method)}Root`;
-  return createCustomOperationId(method, route, moduleName);
-};
 
 const getRouteParams = (parameters, where) =>
   collect(parameters, (parameter) => {
@@ -191,8 +162,116 @@ const createRequestsMap = (requestInfoByMethodsMap) => {
   );
 };
 
-const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, componentsMap, components, moduleNameIndex) =>
-  _.entries(paths).reduce((routes, [route, requestInfoByMethodsMap]) => {
+const collectPathParams = ({ pathParams, route }) => {
+  const routePathArgs = _.compact(
+    _.split(route, "{").map((part) => (part.includes("}") ? part.split("}")[0] : null)),
+  );
+
+  return _.uniqBy(
+    _.compact([
+      ...(routePathArgs.length
+        ? _.map(pathParams, (param) => ({
+            name: param.name,
+            optional: !param.required,
+            type: getInlineParseContent(param.schema),
+            description: param.description,
+            in: "path",
+          }))
+        : []),
+      ..._.map(routePathArgs, (paramName) => ({
+        name: paramName,
+        optional: false,
+        type: "string",
+        description: "",
+        in: "path",
+      })),
+    ]),
+    "name",
+  );
+};
+
+const createRequestParamsSchema = ({
+  queryParams,
+  queryObjectSchema,
+  pathArgs,
+  extractRequestParams,
+  routeName,
+}) => {
+  if (!queryParams || !queryParams.length) return null;
+
+  const pathParams = _.reduce(
+    pathArgs,
+    (acc, pathArg) => {
+      if (pathArg.name) {
+        acc[pathArg.name] = {
+          type: pathArg.type,
+          required: !pathArg.optional,
+          name: pathArg.name,
+          description: pathArg.description,
+          in: "path",
+        };
+      }
+
+      return acc;
+    },
+    {},
+  );
+
+  const fixedQueryParams = _.reduce(
+    _.get(queryObjectSchema, "properties", {}),
+    (acc, property, name) => {
+      if (name && _.isObject(property)) {
+        acc[name] = {
+          ...property,
+          in: "query",
+        };
+      }
+
+      return acc;
+    },
+    {},
+  );
+
+  const schema = {
+    ...queryObjectSchema,
+    properties: {
+      ...fixedQueryParams,
+      ...pathParams,
+    },
+  };
+
+  if (extractRequestParams) {
+    const requestParamsTypeName = classNameCase(`${routeName.usage} Params`);
+    const $ref = `#/components/schemas/${requestParamsTypeName}`;
+
+    config.componentsMap[$ref] = {
+      typeName: requestParamsTypeName,
+      rawTypeData: { ...schema },
+      componentName: "schemas",
+      typeData: null,
+    };
+
+    return { $ref };
+  }
+
+  return schema;
+};
+
+const parseRoutes = ({
+  usageSchema,
+  parsedSchemas,
+  componentsMap,
+  components,
+  moduleNameIndex,
+  extractRequestParams,
+}) => {
+  const { paths, security: globalSecurity } = usageSchema;
+  const pathsEntries = _.entries(paths);
+  addToConfig({
+    routeNameDuplicatesMap: new Map(),
+  });
+
+  return pathsEntries.reduce((routes, [route, requestInfoByMethodsMap]) => {
     if (route.startsWith("x-")) return routes;
 
     const requestsMap = createRequestsMap(requestInfoByMethodsMap);
@@ -209,7 +288,9 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
           description,
           tags,
           responses,
+          requestBodyName,
         } = requestInfo;
+        const routeId = nanoid(12);
         const hasSecurity = !!(
           (globalSecurity && globalSecurity.length) ||
           (security && security.length)
@@ -223,14 +304,8 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
         const hasFormDataParams = formDataParams && !!formDataParams.length;
         let formDataRequestBody =
           requestBodyType && requestBodyType.dataType === "multipart/form-data";
-
         const moduleName = _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
-
-        const routeName = getRouteName(operationId, method, route, moduleName);
-        const name = _.camelCase(routeName);
-
         const responsesTypes = getTypesFromResponses(responses, parsedSchemas, operationId);
-
         const formDataObjectSchema = hasFormDataParams
           ? convertRouteParamsIntoObject(formDataParams)
           : formDataRequestBody
@@ -239,16 +314,39 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
         const queryObjectSchema = convertRouteParamsIntoObject(queryParams);
 
         const bodyParamName =
-          requestInfo.requestBodyName || (requestBody && requestBody.name) || DEFAULT_BODY_ARG_NAME;
+          requestBodyName || (requestBody && requestBody.name) || DEFAULT_BODY_ARG_NAME;
 
-        const queryType = queryParams.length
-          ? parseSchema(queryObjectSchema, null, inlineExtraFormatters).content
-          : null;
+        const routeInfo = {
+          operationId,
+          method,
+          route,
+          moduleName,
+          responsesTypes,
+          description,
+          tags,
+          summary,
+        };
+
+        const routeName = getRouteName(routeInfo);
+        const pathArgs = collectPathParams({
+          pathParams,
+          route,
+        });
+
+        const requestParamsSchema = createRequestParamsSchema({
+          queryParams,
+          pathArgs,
+          queryObjectSchema,
+          extractRequestParams,
+          routeName,
+        });
+
+        const queryType = queryParams.length ? getInlineParseContent(queryObjectSchema) : null;
 
         let bodyType = null;
 
         if (formDataObjectSchema) {
-          bodyType = parseSchema(formDataObjectSchema, null, inlineExtraFormatters).content;
+          bodyType = getInlineParseContent(formDataObjectSchema);
         } else if (requestBody) {
           bodyType = getTypeFromRequestInfo(requestBody, parsedSchemas, operationId);
 
@@ -259,34 +357,6 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
             formDataRequestBody = true;
           }
         }
-
-        // Gets all in path parameters from route
-        // Example: someurl.com/{id}/{name}
-        // returns: ["id", "name"]
-        const insideRoutePathArgs = _.compact(
-          _.split(route, "{").map((part) => (part.includes("}") ? part.split("}")[0] : null)),
-        );
-
-        // Path args - someurl.com/{id}/{name}
-        // id, name its path args
-        const pathArgs = insideRoutePathArgs.length
-          ? _.map(pathParams, (param) => ({
-              name: param.name,
-              optional: !param.required,
-              type: parseSchema(param.schema, null, inlineExtraFormatters).content,
-            }))
-          : [];
-
-        insideRoutePathArgs.forEach((routePathArg) => {
-          // Cases when in path parameters is not exist in "parameters"
-          if (!pathArgs.find((pathArg) => pathArg && pathArg.name === routePathArg)) {
-            pathArgs.push({
-              name: routePathArg,
-              optional: false,
-              type: "string",
-            });
-          }
-        });
 
         const specificArgs = {
           query: queryType
@@ -362,7 +432,7 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
           description && ` * @description ${formatDescription(description, true)}`;
         const jsDocLines = _.compact([
           tags?.length && ` * @tags ${tags.join(", ")}`,
-          ` * @name ${routeName}`,
+          ` * @name ${routeId}`,
           summary && ` * @summary ${summary}`,
           ` * @request ${_.upperCase(method)}:${route}`,
           hasSecurity && ` * @secure`,
@@ -382,8 +452,12 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
           errorType: getErrorReturnType(responses, parsedSchemas, operationId),
         };
 
+        if (extractRequestParams) {
+          console.info("extractRequestParams");
+        }
+
         return {
-          name,
+          id: routeId,
           jsDocDescription,
           jsDocLines,
           namespace: _.replace(moduleName, /^(\d)/, "v$1"),
@@ -398,6 +472,7 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
             params: specificArgs.requestParams,
           },
           response,
+          routeName,
           raw: {
             operationId,
             method,
@@ -412,6 +487,7 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
       }),
     ];
   }, []);
+};
 
 const groupRoutes = (routes) => {
   return _.reduce(

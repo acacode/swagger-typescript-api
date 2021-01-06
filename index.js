@@ -40,6 +40,11 @@ program
   .option("--route-types", "generate type definitions for API routes", false)
   .option("--no-client", "do not generate an API class", false)
   .option(
+    "--extract-request-params",
+    "extract request params to data contract (Also combine path params and query params into one object)",
+    false,
+  )
+  .option(
     "--modular",
     "generate separated files for http client, data contracts, and routes",
     false,
@@ -66,6 +71,7 @@ const {
   modular,
   js,
   moduleNameIndex,
+  extractRequestParams,
 } = program;
 
 generateApi({
@@ -76,12 +82,10 @@ generateApi({
   defaultResponseAsSuccess: defaultAsSuccess,
   generateUnionEnums: unionEnums,
   generateResponses: responses,
+  extractRequestParams: extractRequestParams,
   input: resolve(process.cwd(), path),
   output: resolve(process.cwd(), output || "."),
-  templates: resolve(
-    templates ? process.cwd() : __dirname,
-    templates || (modular ? "./templates/modular" : "./templates/default"),
-  ),
+  templates,
   modular: !!modular,
   toJS: !!js,
   moduleNameIndex: +(moduleNameIndex || 0),

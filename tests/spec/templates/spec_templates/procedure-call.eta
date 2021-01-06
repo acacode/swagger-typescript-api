@@ -1,15 +1,18 @@
 <%
+const { utils, route, config } = it;
+const { _ } = utils;
+const { parameters, path, method, payload, params, query, formData, security } = route.request;
+const { type, errorType } = route.response;
+const routeDocs = includeFile("./route-docs", { config, route, utils });
+
 const argToTmpl = ({ name, optional, type }) => optional
     ? `${name}?: ${type}`
-    : `${name}: ${type}`
-const { parameters, path, method, payload, params, query, formData, security } = it.route.request
-
-const description = it.route.jsDocDescription || it.utils.fmtToJSDocLine('No description', { eol: false })
+    : `${name}: ${type}`;
 
 const rawWrapperArgs = Object.values(parameters)
     .concat([query, payload, params])
     .filter(Boolean)
-const wrapperArgs = it.utils._
+const wrapperArgs = _
     // Sort by optionality
     .sortBy(rawWrapperArgs, [function(o) { return o.optional }])
     .map(argToTmpl)
@@ -33,16 +36,14 @@ const requestArgs = [pathTmpl, `'${method}'`, params?.name ?? null, payload?.nam
     }, [])
     .reverse()
     .join(', ')
-
-const { type, errorType } = it.route.response
 %>
 /**
-<%~ description %>
+<%~ routeDocs.description %>
 
  * <% /* Here you can add some other JSDoc tags */ %>
 
-<%~ it.route.jsDocLines %>
+<%~ routeDocs.lines %>
 
  */
-<%~ it.route.name %><%~ it.route.namespace ? ': ' : ' = ' %>(<%~ wrapperArgs %>) =>
-    this.request<<%~ type %>, <%~ errorType %>>(<%~ requestArgs %>)<%~ it.route.namespace ? ',' : '' %>
+<%~ route.routeName.usage %><%~ route.namespace ? ': ' : ' = ' %>(<%~ wrapperArgs %>) =>
+    this.request<<%~ type %>, <%~ errorType %>>(<%~ requestArgs %>)<%~ route.namespace ? ',' : '' %>
