@@ -1,5 +1,9 @@
 # next release  
 
+# 3.1.2  
+Fixes:  
+- axios vulnerability (#101 issue, thanks @Mvbraathen)  
+
 # 3.1.1  
 
 Fixes:  
