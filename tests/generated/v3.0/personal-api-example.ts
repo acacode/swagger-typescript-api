@@ -10,6 +10,22 @@
  */
 
 /**
+ * FooBar
+ */
+export enum IntEnumWithNames {
+  Unknown = 0,
+  String = 1,
+  Int32 = 2,
+  Int64 = 3,
+  Double = 4,
+  DateTime = 5,
+  Test2 = 6,
+  Test23 = 7,
+  Tess44 = 8,
+  BooFar = 9,
+}
+
+/**
  * From T, pick a set of properties whose keys are in the union K
  */
 export interface PickUserTypeExcludeKeysIdOrId {

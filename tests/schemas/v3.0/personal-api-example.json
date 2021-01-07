@@ -6,6 +6,24 @@
     "requestBodies": {},
     "responses": {},
     "schemas": {
+      "IntEnumWithNames": {
+        "enum": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        "type": "integer",
+        "description": "FooBar",
+        "format": "int32",
+        "x-enumNames": [
+          "Unknown",
+          "String",
+          "Int32",
+          "Int64",
+          "Double",
+          "DateTime",
+          "Test2",
+          "Test23",
+          "Tess44",
+          "BooFar"
+        ]
+      },
       "Pick_UserType.Exclude_keyofUserType.id-or-_id__": {
         "properties": { "username": { "type": "string" }, "password": { "type": "string" } },
         "required": ["username", "password"],

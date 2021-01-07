@@ -48,6 +48,8 @@ Options:
   --route-types                 generate type definitions for API routes (default: false)
   --no-client                   do not generate an API class
   --js                          generate js api module with declaration file (default: false)
+  --extract-request-params      extract request params to data contract (default: false)
+                                Also combine path params and query params into one object
   --module-name-index <number>  determines which path index should be used for routes separation (default: 0)
                                 (example: GET:/fruites/getFruit -> index:0 -> moduleName -> fruites)
   --modular                     generate separated files for http client, data contracts, and routes (default: false)

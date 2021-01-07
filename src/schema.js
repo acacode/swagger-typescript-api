@@ -172,16 +172,18 @@ const schemaParsers = {
   enum: (schema, typeName) => {
     const type = getType(schema);
     const isIntegerEnum = type === types.number;
+    const enumNames = schema["x-enumNames"];
 
     return attachParsedRef(schema, {
       $parsedSchema: true,
       schemaType: "enum",
-      type: isIntegerEnum ? "intEnum" : "enum",
-      typeIdentifier: isIntegerEnum ? "type" : "enum",
+      type: !enumNames && isIntegerEnum ? "intEnum" : "enum",
+      typeIdentifier: !enumNames && isIntegerEnum ? "type" : "enum",
       name: typeName,
       description: formatDescription(schema.description),
-      content: _.map(schema.enum, (key) => ({
-        key: isIntegerEnum ? key : checkAndRenameModelName(key),
+      content: _.map(schema.enum, (key, index) => ({
+        key:
+          (enumNames && enumNames[index]) || (isIntegerEnum ? key : checkAndRenameModelName(key)),
         type,
         value: key === null ? key : isIntegerEnum ? `${key}` : `"${key}"`,
       })),

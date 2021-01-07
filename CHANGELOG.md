@@ -23,6 +23,9 @@ Features:
 Internal:  
 - Update all dependencies to latest  
 
+Fixes:  
+- `x-enumNames` support for enums  
+
 Common:  
 - `HttpClient` is exportable by default  
 - Improve typings when use `swagger-typescript-api` with NodeJS (`index.d.ts`)  

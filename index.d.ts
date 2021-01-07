@@ -61,6 +61,14 @@ interface GenerateApiParams {
    */
   moduleNameIndex?: number;
   /**
+   * generate separated files for http client, data contracts, and routes (default: false)
+   */
+  modular?: boolean;
+  /**
+   * extract request params to data contract (Also combine path params and query params into one object)
+   */
+  extractRequestParams?: boolean;
+  /**
    *  customize configuration object before sending it to ETA templates
    */
   prepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C;
