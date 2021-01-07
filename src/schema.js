@@ -172,7 +172,7 @@ const schemaParsers = {
   enum: (schema, typeName) => {
     const type = getType(schema);
     const isIntegerEnum = type === types.number;
-    const enumNames = schema["x-enumNames"];
+    const enumNames = schema["x-enumNames"] || schema["xEnumNames"] || schema["x-enumnames"];
 
     return attachParsedRef(schema, {
       $parsedSchema: true,
