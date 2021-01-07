@@ -74,8 +74,6 @@ module.exports = {
           const routes = parseRoutes({
             usageSchema,
             parsedSchemas,
-            componentsMap,
-            components,
             moduleNameIndex,
             extractRequestParams,
           });

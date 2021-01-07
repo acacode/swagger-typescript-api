@@ -54,8 +54,11 @@ const getTypeData = (typeInfo) => {
   return typeInfo.typeData;
 };
 
+const getComponentByRef = (ref) => config.componentsMap[ref];
+
 module.exports = {
   getTypeData,
   createComponentsMap,
   filterComponentsMap,
+  getComponentByRef,
 };

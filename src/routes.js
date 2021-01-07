@@ -205,7 +205,7 @@ const createRequestParamsSchema = ({
       if (pathArg.name) {
         acc[pathArg.name] = {
           type: pathArg.type,
-          required: !pathArg.optional,
+          required: extractRequestParams || !pathArg.optional,
           name: pathArg.name,
           description: pathArg.description,
           in: "path",
@@ -257,14 +257,7 @@ const createRequestParamsSchema = ({
   return schema;
 };
 
-const parseRoutes = ({
-  usageSchema,
-  parsedSchemas,
-  componentsMap,
-  components,
-  moduleNameIndex,
-  extractRequestParams,
-}) => {
+const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractRequestParams }) => {
   const { paths, security: globalSecurity } = usageSchema;
   const pathsEntries = _.entries(paths);
   addToConfig({
@@ -445,16 +438,11 @@ const parseRoutes = ({
         ]).join("\n");
 
         const path = route.replace(/{/g, "${");
-        const upperCaseMethod = _.upperCase(method);
 
         const response = {
           type: getReturnType(responses, parsedSchemas, operationId),
           errorType: getErrorReturnType(responses, parsedSchemas, operationId),
         };
-
-        if (extractRequestParams) {
-          console.info("extractRequestParams");
-        }
 
         return {
           id: routeId,
@@ -467,9 +455,10 @@ const parseRoutes = ({
             path,
             formData: hasFormDataParams || formDataRequestBody,
             security: hasSecurity,
-            method: upperCaseMethod,
+            method: method,
             payload: specificArgs.body,
             params: specificArgs.requestParams,
+            requestParams: requestParamsSchema,
           },
           response,
           routeName,

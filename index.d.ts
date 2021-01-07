@@ -109,12 +109,13 @@ export interface ParsedSchema<C> {
 
 export interface SchemaComponent {
   typeName: string;
-  rawTypeData: {
+  rawTypeData?: {
     type: string;
     required?: string[];
     properties?: Record<
       string,
       {
+        name?: string;
         type: string;
         required: boolean;
         $parsed?: SchemaTypePrimitiveContent;

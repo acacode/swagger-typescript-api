@@ -1,20 +1,35 @@
 <%
 const { utils, route, config } = it;
-const { _ } = utils;
-const { parameters, path, method, payload, params, query, formData, security } = route.request;
+const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef } = utils;
+const { parameters, path, method, payload, params, query, formData, security, requestParams } = route.request;
 const { type, errorType } = route.response;
 const routeDocs = includeFile("./route-docs", { config, route, utils });
+const queryName = query?.name ?? "query";
+const pathParams = _.values(parameters);
 
-const argToTmpl = ({ name, optional, type }) => optional
-    ? `${name}?: ${type}`
-    : `${name}: ${type}`;
+const argToTmpl = ({ name, optional, type }) => `${name}${optional ? '?' : ''}: ${type}`;
 
-const rawWrapperArgs = Object.values(parameters)
-    .concat([query, payload, params])
-    .filter(Boolean)
+const rawWrapperArgs = config.extractRequestParams ?
+    _.compact([
+        requestParams && {
+          name: pathParams.length ? `{ ${_.join(_.map(pathParams, "name"), ", ")}, ...${queryName} }` : queryName,
+          optional: false,
+          type: getParseContent(requestParams),
+        },
+        ...(!requestParams ? pathParams : []),
+        payload,
+        params,
+    ]) :
+    _.compact([
+        ...pathParams,
+        query,
+        payload,
+        params,
+    ])
+
 const wrapperArgs = _
     // Sort by optionality
-    .sortBy(rawWrapperArgs, [function(o) { return o.optional }])
+    .sortBy(rawWrapperArgs, [o => o.optional])
     .map(argToTmpl)
     .join(', ')
 
@@ -25,9 +40,9 @@ const bodyModeTmpl = formData
         : null
 const securityTmpl = security ? 'true' : null
 const pathTmpl = query != null
-    ? '`' + path + '${this.addQueryParams(' + query.name + ')}' + '`'
-    : '`' + path + '`'
-const requestArgs = [pathTmpl, `'${method}'`, params?.name ?? null, payload?.name ?? null, bodyModeTmpl, securityTmpl]
+    ? `\`${path}\${this.addQueryParams(${queryName})}\``
+    : `\`${path}\``
+const requestArgs = [pathTmpl, `'${_.upperCase(method)}'`, params?.name, payload?.name, bodyModeTmpl, securityTmpl]
     .reverse()
     .reduce((args, arg) => {
         if (args.length === 0 && !arg) return args

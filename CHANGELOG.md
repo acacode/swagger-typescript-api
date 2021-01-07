@@ -8,15 +8,23 @@ Features:
   Example: [here](./tests/spec/modular)   
 - new templates on [ETA](https://eta.js.org/) (enhanced EJS) which can improve your templates!   
   [ETA extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=shadowtime2000.eta-vscode) (thanks @shadowtime2000)  
-  Also moved out to templates `procedure-call.eta` (request api method template) and `route-name.eta` (api method name template)  
+  Also moved out to templates:
+    - `procedure-call.eta` (request api method template)  
+    - `route-name.eta` (api method name template)  
+    - `route-docs.eta` (api method docs template)  
+
   No worry about strange syntax it is very simple in usage :)  
-- Optional templates feature  
+- Optional templates feature (Except templates using in `includeFile` `ETA` directive)  
   Now you can store only the `ETA` templates which you need to change for yourself.  
+- `--extract-request-params` option. Generate path and query request params data contract and modify request payload args   
+  Example:  
+  ![extract-request-params](./assets/changelog_assets/extractRequestParams.jpg)  
 
 Internal:  
 - Update all dependencies to latest  
 
 Common:  
+- `HttpClient` is exportable by default  
 - Improve typings when use `swagger-typescript-api` with NodeJS (`index.d.ts`)  
 
 # 3.1.1  

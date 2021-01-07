@@ -1,7 +1,7 @@
 <%
 const { utils, route, config, apiConfig, modelTypes } = it;
 const { _, classNameCase } = utils;
-const routesGroupName = classNameCase(route.moduleName);
+const apiClassName = classNameCase(route.moduleName);
 const routes = route.routes;
 const dataContracts = _.map(modelTypes, "name");
 %>
@@ -18,7 +18,7 @@ import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataCont
 <% }) %>
 */
 <% } %>
-export class <%= routesGroupName %> extends HttpClient {
+export class <%= apiClassName %> extends HttpClient {
     <% routes.forEach((route) => { %>
         <%~ includeFile('./procedure-call.eta', { route, utils, config }) %>
     <% }) %>
