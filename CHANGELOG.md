@@ -19,6 +19,7 @@ Features:
 - `--extract-request-params` option. Generate path and query request params data contract and modify request payload args   
   Example:  
   ![extract-request-params](./assets/changelog_assets/extractRequestParams.jpg)  
+- Improve `data-contracts.eta` template. Added more power :)  
 
 Internal:  
 - Update all dependencies to latest  

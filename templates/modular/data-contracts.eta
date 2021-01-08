@@ -1,11 +1,28 @@
-<% it.modelTypes.forEach((contract) => { %>
+<%
+  const { modelTypes, utils } = it;
+  const { formatDescription } = utils;
+  
+
+  const dataContractTemplates = {
+    enum: (contract) => {
+      return `enum ${contract.name} {\r\n${contract.content} \r\n }`;
+    },
+    interface: (contract) => {
+      return `interface ${contract.name} {\r\n${contract.content}}`;
+    },
+    type: (contract) => {
+      return `type ${contract.name} = ${contract.content}`;
+    },
+  }
+%>
+<% modelTypes.forEach((contract) => { %>
 <% if (contract.description) { %>
 /**
-* <%~ contract.description %>
+* <%~ formatDescription(contract.description) %>
 
 */
 <% } %>
-export <%~ contract.typeIdentifier %> <%~ contract.name %> <%~ contract.content %>
+export <%~ (dataContractTemplates[contract.typeIdentifier] || dataContractTemplates.type)(contract) %>
 
 
 <% }) %>

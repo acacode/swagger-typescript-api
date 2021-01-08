@@ -11,7 +11,7 @@ const _ = require("lodash");
 const { parseSchemas } = require("./schema");
 const { parseRoutes, groupRoutes } = require("./routes");
 const { createApiConfig } = require("./apiConfig");
-const { getModelType } = require("./modelTypes");
+const { prepareModelType } = require("./modelTypes");
 const { getSwaggerObject, fixSwaggerScheme, convertSwaggerObject } = require("./swagger");
 const { createComponentsMap, filterComponentsMap } = require("./components");
 const { createFile, pathIsExist } = require("./files");
@@ -85,7 +85,7 @@ module.exports = {
           const rawConfiguration = {
             apiConfig,
             config,
-            modelTypes: _.map(filterComponentsMap(componentsMap, "schemas"), getModelType),
+            modelTypes: _.map(filterComponentsMap(componentsMap, "schemas"), prepareModelType),
             hasFormDataRoutes,
             hasSecurityRoutes,
             hasQueryRoutes,

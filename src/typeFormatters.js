@@ -1,6 +1,5 @@
 const _ = require("lodash");
 const { config } = require("./config");
-const { checkAndRenameModelName } = require("./modelNames");
 
 const formatters = {
   enum: (content) =>

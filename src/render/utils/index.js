@@ -1,6 +1,7 @@
 const { classNameCase, formatDescription, internalCase } = require("../../common");
 const { getComponentByRef } = require("../../components");
 const { getInlineParseContent, getParseContent, parseSchema } = require("../../schema");
+const { formatters, inlineExtraFormatters } = require("../../typeFormatters");
 
 module.exports = {
   formatDescription,
@@ -10,6 +11,8 @@ module.exports = {
   getParseContent,
   getComponentByRef,
   parseSchema,
+  formatters,
+  inlineExtraFormatters,
   fmtToJSDocLine: require("./fmtToJSDocLine"),
   _: require("lodash"),
 };
