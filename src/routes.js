@@ -444,7 +444,7 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           errorType: getErrorReturnType(responses, parsedSchemas, operationId),
         };
 
-        return {
+        const routeData = {
           id: routeId,
           jsDocDescription,
           jsDocLines,
@@ -473,6 +473,8 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
             summary,
           },
         };
+
+        return config.hooks.onCreateRoute(routeData) || routeData;
       }),
     ];
   }, []);

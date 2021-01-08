@@ -20,6 +20,27 @@ Features:
   Example:  
   ![extract-request-params](./assets/changelog_assets/extractRequestParams.jpg)  
 - Improve `data-contracts.eta` template. Added more power :)  
+- Add `hooks` property for `generateApi()`  
+  ```ts
+  hooks?: Partial<{
+    onCreateComponent: (component: SchemaComponent) => SchemaComponent | void;
+    onParseSchema: (rawSchema: any, typeName: any, parsedSchema: any) => any | void;
+    onCreateRoute: (routeData: ParsedRoute) => ParsedRoute | void;
+  }>;
+  ```
+  ```ts
+    generateApi({
+      input: "./schema.json",
+      output: "./__generated__",
+      hooks: {
+        onCreateComponent(component) {
+          // do something
+          return component;
+        },
+        // ...
+      }
+    })
+  ```
 
 Internal:  
 - Update all dependencies to latest  

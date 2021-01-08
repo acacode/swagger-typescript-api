@@ -39,6 +39,7 @@ module.exports = {
     moduleNameIndex = config.moduleNameIndex,
     extractRequestParams = config.extractRequestParams,
     prettier: prettierOptions = PRETTIER_OPTIONS,
+    hooks,
   }) =>
     new Promise((resolve, reject) => {
       addToConfig({
@@ -51,6 +52,7 @@ module.exports = {
         moduleNameIndex,
         modular,
         extractRequestParams,
+        hooks: _.merge(config.hooks, hooks || {}),
       });
       (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url))
         .then(({ usageSchema, originalSchema }) => {

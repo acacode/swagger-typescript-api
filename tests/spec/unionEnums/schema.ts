@@ -13,6 +13,11 @@ export type StringEnum = "String1" | "String2" | "String3" | "String4";
 
 export type NumberEnum = 1 | 2 | 3 | 4;
 
+/**
+ * FooBar
+ */
+export type IntEnumWithNames = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };

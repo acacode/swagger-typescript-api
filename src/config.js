@@ -32,6 +32,11 @@ const config = {
     httpClient: "http-client",
     outOfModuleApi: "Common",
   },
+  hooks: {
+    onCreateComponent: (schema) => schema,
+    onParseSchema: (rawSchema, typeName, parsedSchema) => parsedSchema,
+    onCreateRoute: (routeData) => routeData,
+  },
 };
 
 /** needs to use data everywhere in project */

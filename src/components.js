@@ -22,12 +22,15 @@ const createComponentsMap = (components) => {
     (map, component, componentName) => {
       _.each(component, (rawTypeData, typeName) => {
         // only map data for now
-        map[`#/components/${componentName}/${typeName}`] = {
+        const componentSchema = {
           typeName,
           rawTypeData,
           componentName,
           typeData: null,
         };
+
+        map[`#/components/${componentName}/${typeName}`] =
+          config.hooks.onCreateComponent(componentSchema) || componentSchema;
       });
       return map;
     },

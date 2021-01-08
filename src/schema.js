@@ -282,6 +282,8 @@ const parseSchema = (rawSchema, typeName, formattersMap) => {
     parsedSchema = schemaParsers[schemaType](fixedRawSchema, typeName);
   }
 
+  parsedSchema = config.hooks.onParseSchema(rawSchema, typeName, parsedSchema) || parsedSchema;
+
   return (
     (formattersMap && formattersMap[schemaType] && formattersMap[schemaType](parsedSchema)) ||
     parsedSchema

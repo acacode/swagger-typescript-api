@@ -76,6 +76,12 @@ interface GenerateApiParams {
    * prettier configuration
    */
   prettier?: object;
+
+  hooks?: Partial<{
+    onCreateComponent: (component: SchemaComponent) => SchemaComponent | void;
+    onParseSchema: (rawSchema: any, typeName: any, parsedSchema: any) => any | void;
+    onCreateRoute: (routeData: ParsedRoute) => ParsedRoute | void;
+  }>;
 }
 
 export type SchemaTypePrimitiveContent = {
@@ -139,7 +145,7 @@ export interface SchemaComponent {
   componentName: string;
   typeData: ParsedSchema<
     SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent
-  >;
+  > | null;
 }
 
 export interface ParsedRoute {
