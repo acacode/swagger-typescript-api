@@ -1,6 +1,21 @@
 const _ = require("lodash");
 const { parseSchema } = require("./schema");
-const { addToConfig, config } = require("./config");
+const { config } = require("./config");
+
+const createComponent = (componentName, typeName, rawTypeData) => {
+  const $ref = `#/components/${componentName}/${typeName}`;
+
+  const componentSchema = {
+    $ref,
+    typeName,
+    rawTypeData,
+    componentName,
+    typeData: null,
+  };
+
+  return (config.componentsMap[$ref] =
+    config.hooks.onCreateComponent(componentSchema) || componentSchema);
+};
 
 /**
  *
@@ -17,29 +32,15 @@ const { addToConfig, config } = require("./config");
  * @returns {{ "#/components/schemas/Foo": TypeInfo, ... }}
  */
 const createComponentsMap = (components) => {
-  const componentsMap = _.reduce(
-    components,
-    (map, component, componentName) => {
-      _.each(component, (rawTypeData, typeName) => {
-        // only map data for now
-        const componentSchema = {
-          typeName,
-          rawTypeData,
-          componentName,
-          typeData: null,
-        };
+  config.componentsMap = {};
 
-        map[`#/components/${componentName}/${typeName}`] =
-          config.hooks.onCreateComponent(componentSchema) || componentSchema;
-      });
-      return map;
-    },
-    {},
+  _.each(components, (component, componentName) =>
+    _.each(component, (rawTypeData, typeName) =>
+      createComponent(componentName, typeName, rawTypeData),
+    ),
   );
 
-  addToConfig({ componentsMap });
-
-  return componentsMap;
+  return config.componentsMap;
 };
 
 /**
@@ -61,6 +62,7 @@ const getComponentByRef = (ref) => config.componentsMap[ref];
 
 module.exports = {
   getTypeData,
+  createComponent,
   createComponentsMap,
   filterComponentsMap,
   getComponentByRef,

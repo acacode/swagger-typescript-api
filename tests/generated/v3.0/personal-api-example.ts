@@ -9,6 +9,14 @@
  * ---------------------------------------------------------------
  */
 
+export type TestAllOfDc = (FooBarBaz & FooBar) & { prop?: string };
+
+export type TestAllOfDc2 = FooBarBaz & { prop?: string };
+
+export type TestAnyOfDc = (FooBarBaz | FooBar | (FooBarBaz & FooBar)) & { prop?: string };
+
+export type TestOneOfDc = (FooBarBaz | FooBar) & { prop?: string };
+
 /**
  * FooBar
  */
@@ -23,6 +31,31 @@ export enum IntEnumWithNames {
   Test23 = 7,
   Tess44 = 8,
   BooFar = 9,
+}
+
+/**
+ * Information about job
+ */
+export interface FooBarBaz {
+  id?: string;
+  kind?: JobKind;
+  name?: string;
+  link?: string;
+}
+
+/**
+ * Information about job
+ */
+export interface FooBar {
+  kind?: JobKind;
+}
+
+/**
+ * Information about job
+ */
+export interface FooBaz {
+  name?: string;
+  link?: string;
 }
 
 /**

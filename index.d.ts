@@ -122,6 +122,7 @@ export interface ParsedSchema<C> {
 }
 
 export interface SchemaComponent {
+  $ref: string;
   typeName: string;
   rawTypeData?: {
     type: string;

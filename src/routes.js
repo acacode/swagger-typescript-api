@@ -11,6 +11,7 @@ const { formatDescription, classNameCase } = require("./common");
 const { config, addToConfig } = require("./config");
 const { nanoid } = require("nanoid");
 const { getRouteName } = require("./routeNames");
+const { createComponent } = require("./components");
 
 const getSchemaFromRequestType = (requestType) => {
   const content = _.get(requestType, "content");
@@ -170,17 +171,11 @@ const collectPathParams = ({ pathParams, route }) => {
   return _.uniqBy(
     _.compact([
       ...(routePathArgs.length
-        ? _.map(pathParams, (param) => ({
-            name: param.name,
-            optional: !param.required,
-            type: getInlineParseContent(param.schema),
-            description: param.description,
-            in: "path",
-          }))
+        ? _.map(pathParams, (param) => ({ ...param, ...(param.schema || {}), in: "path" }))
         : []),
       ..._.map(routePathArgs, (paramName) => ({
         name: paramName,
-        optional: false,
+        required: true,
         type: "string",
         description: "",
         in: "path",
@@ -193,21 +188,18 @@ const collectPathParams = ({ pathParams, route }) => {
 const createRequestParamsSchema = ({
   queryParams,
   queryObjectSchema,
-  pathArgs,
+  pathArgsSchemas,
   extractRequestParams,
   routeName,
 }) => {
   if (!queryParams || !queryParams.length) return null;
 
   const pathParams = _.reduce(
-    pathArgs,
-    (acc, pathArg) => {
-      if (pathArg.name) {
-        acc[pathArg.name] = {
-          type: pathArg.type,
-          required: extractRequestParams || !pathArg.optional,
-          name: pathArg.name,
-          description: pathArg.description,
+    pathArgsSchemas,
+    (acc, pathArgSchema) => {
+      if (pathArgSchema.name) {
+        acc[pathArgSchema.name] = {
+          ...pathArgSchema,
           in: "path",
         };
       }
@@ -241,17 +233,7 @@ const createRequestParamsSchema = ({
   };
 
   if (extractRequestParams) {
-    const requestParamsTypeName = classNameCase(`${routeName.usage} Params`);
-    const $ref = `#/components/schemas/${requestParamsTypeName}`;
-
-    config.componentsMap[$ref] = {
-      typeName: requestParamsTypeName,
-      rawTypeData: { ...schema },
-      componentName: "schemas",
-      typeData: null,
-    };
-
-    return { $ref };
+    return createComponent("schemas", classNameCase(`${routeName.usage} Params`), { ...schema });
   }
 
   return schema;
@@ -321,14 +303,20 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
         };
 
         const routeName = getRouteName(routeInfo);
-        const pathArgs = collectPathParams({
+        const pathArgsSchemas = collectPathParams({
           pathParams,
           route,
         });
+        const pathArgs = pathArgsSchemas.map((pathArgSchema) => ({
+          name: pathArgSchema.name,
+          optional: !pathArgSchema.required,
+          type: getInlineParseContent(pathArgSchema.schema),
+          description: pathArgSchema.description,
+        }));
 
         const requestParamsSchema = createRequestParamsSchema({
           queryParams,
-          pathArgs,
+          pathArgsSchemas,
           queryObjectSchema,
           extractRequestParams,
           routeName,

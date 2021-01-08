@@ -65,15 +65,20 @@ const getTypeAlias = (rawSchema) => {
 
 const getInternalSchemaType = (schema) => {
   if (!_.isEmpty(schema.enum)) return "enum";
-  if (!_.isEmpty(schema.properties)) return "object";
   if (schema.allOf || schema.oneOf || schema.anyOf || schema.not) return "complex";
+  if (!_.isEmpty(schema.properties)) return "object";
 
   return "primitive";
 };
 
 const checkAndAddNull = (schema, value) => {
   const { nullable, type } = schema || {};
-  return nullable || type === "null" ? `${value} | null` : value;
+  return (nullable || type === "null") &&
+    _.isString(value) &&
+    !value.includes(" null") &&
+    !value.includes("null ")
+    ? `${value} | null`
+    : value;
 };
 
 const getRefType = (property) => {
@@ -214,6 +219,8 @@ const schemaParsers = {
   },
   complex: (schema, typeName) => {
     const complexType = getComplexType(schema);
+    const simpleSchema = _.omit(_.clone(schema), _.keys(complexSchemaParsers));
+    const complexSchemaContent = complexSchemaParsers[complexType](schema);
 
     return attachParsedRef(schema, {
       $parsedSchema: true,
@@ -222,7 +229,11 @@ const schemaParsers = {
       typeIdentifier: "type",
       name: typeName,
       description: formatDescription(schema.description),
-      content: complexSchemaParsers[complexType](schema),
+      content:
+        _.compact([
+          complexSchemaContent && `(${complexSchemaContent})`,
+          getInternalSchemaType(simpleSchema) === "object" && getInlineParseContent(simpleSchema),
+        ]).join(" & ") || "any",
     });
   },
   primitive: (schema, typeName) => {

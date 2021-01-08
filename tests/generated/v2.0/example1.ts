@@ -12,10 +12,12 @@
 /**
  * A TDE certificate that can be uploaded into a server.
  */
-export interface TdeCertificate {
-  /** Resource properties. */
-  properties?: TdeCertificateProperties;
-}
+export type TdeCertificate = { id?: string; name?: string; type?: string } & { properties?: TdeCertificateProperties };
+
+/**
+ * A TDE certificate that can be uploaded into a server.
+ */
+export type TdeCertificate2 = { id?: string; name?: string; type?: string };
 
 /**
  * Properties of a TDE certificate.
