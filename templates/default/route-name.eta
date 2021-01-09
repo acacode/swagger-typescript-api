@@ -9,6 +9,7 @@ const {
   description,
   tags,
   summary,
+  pathArgs,
 } = routeInfo;
 const { _, fmtToJSDocLine } = utils;
 

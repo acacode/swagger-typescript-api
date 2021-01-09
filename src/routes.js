@@ -291,18 +291,6 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
         const bodyParamName =
           requestBodyName || (requestBody && requestBody.name) || DEFAULT_BODY_ARG_NAME;
 
-        const routeInfo = {
-          operationId,
-          method,
-          route,
-          moduleName,
-          responsesTypes,
-          description,
-          tags,
-          summary,
-        };
-
-        const routeName = getRouteName(routeInfo);
         const pathArgsSchemas = collectPathParams({
           pathParams,
           route,
@@ -313,6 +301,18 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           type: getInlineParseContent(pathArgSchema.schema),
           description: pathArgSchema.description,
         }));
+
+        const routeName = getRouteName({
+          operationId,
+          method,
+          route,
+          moduleName,
+          responsesTypes,
+          description,
+          tags,
+          summary,
+          pathArgs,
+        });
 
         const requestParamsSchema = createRequestParamsSchema({
           queryParams,
