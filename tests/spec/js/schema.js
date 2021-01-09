@@ -213,15 +213,13 @@ export class Api extends HttpClient {
        */
       commentsDelete: (id, commentId, params) => this.request(`/gists/${id}/comments/${commentId}`, "DELETE", params),
       /**
-     * @description Get a single comment.
-     *
-     * @name CommentsDetail2
-     * @request GET:/gists/{id}/comments/{commentId}
-     * @originalName commentsDetail
-    
-     * @duplicate
-    
-     */
+       * @description Get a single comment.
+       *
+       * @name CommentsDetail2
+       * @request GET:/gists/{id}/comments/{commentId}
+       * @originalName commentsDetail
+       * @duplicate
+       */
       commentsDetail2: (id, commentId, params) => this.request(`/gists/${id}/comments/${commentId}`, "GET", params),
       /**
        * @description Edit a comment.
@@ -451,15 +449,13 @@ export class Api extends HttpClient {
        */
       membersDelete: (org, username, params) => this.request(`/orgs/${org}/members/${username}`, "DELETE", params),
       /**
-     * @description Check if a user is, publicly or privately, a member of the organization.
-     *
-     * @name MembersDetail2
-     * @request GET:/orgs/{org}/members/{username}
-     * @originalName membersDetail
-    
-     * @duplicate
-    
-     */
+       * @description Check if a user is, publicly or privately, a member of the organization.
+       *
+       * @name MembersDetail2
+       * @request GET:/orgs/{org}/members/{username}
+       * @originalName membersDetail
+       * @duplicate
+       */
       membersDetail2: (org, username, params) => this.request(`/orgs/${org}/members/${username}`, "GET", params),
       /**
        * @description Public members list. Members of an organization can choose to have their membership publicized or not.
@@ -477,15 +473,13 @@ export class Api extends HttpClient {
       publicMembersDelete: (org, username, params) =>
         this.request(`/orgs/${org}/public_members/${username}`, "DELETE", params),
       /**
-     * @description Check public membership.
-     *
-     * @name PublicMembersDetail2
-     * @request GET:/orgs/{org}/public_members/{username}
-     * @originalName publicMembersDetail
-    
-     * @duplicate
-    
-     */
+       * @description Check public membership.
+       *
+       * @name PublicMembersDetail2
+       * @request GET:/orgs/{org}/public_members/{username}
+       * @originalName publicMembersDetail
+       * @duplicate
+       */
       publicMembersDetail2: (org, username, params) =>
         this.request(`/orgs/${org}/public_members/${username}`, "GET", params),
       /**
@@ -565,15 +559,13 @@ export class Api extends HttpClient {
        */
       assigneesDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/assignees`, "GET", params),
       /**
-     * @description Check assignee. You may also check to see if a particular user is an assignee for a repository.
-     *
-     * @name AssigneesDetail2
-     * @request GET:/repos/{owner}/{repo}/assignees/{assignee}
-     * @originalName assigneesDetail
-    
-     * @duplicate
-    
-     */
+       * @description Check assignee. You may also check to see if a particular user is an assignee for a repository.
+       *
+       * @name AssigneesDetail2
+       * @request GET:/repos/{owner}/{repo}/assignees/{assignee}
+       * @originalName assigneesDetail
+       * @duplicate
+       */
       assigneesDetail2: (owner, repo, assignee, params) =>
         this.request(`/repos/${owner}/${repo}/assignees/${assignee}`, "GET", params),
       /**
@@ -584,15 +576,13 @@ export class Api extends HttpClient {
        */
       branchesDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/branches`, "GET", params),
       /**
-     * @description Get Branch
-     *
-     * @name BranchesDetail2
-     * @request GET:/repos/{owner}/{repo}/branches/{branch}
-     * @originalName branchesDetail
-    
-     * @duplicate
-    
-     */
+       * @description Get Branch
+       *
+       * @name BranchesDetail2
+       * @request GET:/repos/{owner}/{repo}/branches/{branch}
+       * @originalName branchesDetail
+       * @duplicate
+       */
       branchesDetail2: (owner, repo, branch, params) =>
         this.request(`/repos/${owner}/${repo}/branches/${branch}`, "GET", params),
       /**
@@ -612,15 +602,13 @@ export class Api extends HttpClient {
       collaboratorsDelete: (owner, repo, user, params) =>
         this.request(`/repos/${owner}/${repo}/collaborators/${user}`, "DELETE", params),
       /**
-     * @description Check if user is a collaborator
-     *
-     * @name CollaboratorsDetail2
-     * @request GET:/repos/{owner}/{repo}/collaborators/{user}
-     * @originalName collaboratorsDetail
-    
-     * @duplicate
-    
-     */
+       * @description Check if user is a collaborator
+       *
+       * @name CollaboratorsDetail2
+       * @request GET:/repos/{owner}/{repo}/collaborators/{user}
+       * @originalName collaboratorsDetail
+       * @duplicate
+       */
       collaboratorsDetail2: (owner, repo, user, params) =>
         this.request(`/repos/${owner}/${repo}/collaborators/${user}`, "GET", params),
       /**
@@ -647,15 +635,13 @@ export class Api extends HttpClient {
       commentsDelete: (owner, repo, commentId, params) =>
         this.request(`/repos/${owner}/${repo}/comments/${commentId}`, "DELETE", params),
       /**
-     * @description Get a single commit comment.
-     *
-     * @name CommentsDetail2
-     * @request GET:/repos/{owner}/{repo}/comments/{commentId}
-     * @originalName commentsDetail
-    
-     * @duplicate
-    
-     */
+       * @description Get a single commit comment.
+       *
+       * @name CommentsDetail2
+       * @request GET:/repos/{owner}/{repo}/comments/{commentId}
+       * @originalName commentsDetail
+       * @duplicate
+       */
       commentsDetail2: (owner, repo, commentId, params) =>
         this.request(`/repos/${owner}/${repo}/comments/${commentId}`, "GET", params),
       /**
@@ -683,15 +669,13 @@ export class Api extends HttpClient {
       commitsStatusDetail: (owner, repo, ref, params) =>
         this.request(`/repos/${owner}/${repo}/commits/${ref}/status`, "GET", params),
       /**
-     * @description Get a single commit.
-     *
-     * @name CommitsDetail2
-     * @request GET:/repos/{owner}/{repo}/commits/{shaCode}
-     * @originalName commitsDetail
-    
-     * @duplicate
-    
-     */
+       * @description Get a single commit.
+       *
+       * @name CommitsDetail2
+       * @request GET:/repos/{owner}/{repo}/commits/{shaCode}
+       * @originalName commitsDetail
+       * @duplicate
+       */
       commitsDetail2: (owner, repo, shaCode, params) =>
         this.request(`/repos/${owner}/${repo}/commits/${shaCode}`, "GET", params),
       /**
@@ -797,15 +781,13 @@ export class Api extends HttpClient {
       downloadsDelete: (owner, repo, downloadId, params) =>
         this.request(`/repos/${owner}/${repo}/downloads/${downloadId}`, "DELETE", params),
       /**
-     * @description Deprecated. Get a single download.
-     *
-     * @name DownloadsDetail2
-     * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
-     * @originalName downloadsDetail
-    
-     * @duplicate
-    
-     */
+       * @description Deprecated. Get a single download.
+       *
+       * @name DownloadsDetail2
+       * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
+       * @originalName downloadsDetail
+       * @duplicate
+       */
       downloadsDetail2: (owner, repo, downloadId, params) =>
         this.request(`/repos/${owner}/${repo}/downloads/${downloadId}`, "GET", params),
       /**
@@ -886,15 +868,13 @@ export class Api extends HttpClient {
       gitRefsDelete: (owner, repo, ref, params) =>
         this.request(`/repos/${owner}/${repo}/git/refs/${ref}`, "DELETE", params),
       /**
-     * @description Get a Reference
-     *
-     * @name GitRefsDetail2
-     * @request GET:/repos/{owner}/{repo}/git/refs/{ref}
-     * @originalName gitRefsDetail
-    
-     * @duplicate
-    
-     */
+       * @description Get a Reference
+       *
+       * @name GitRefsDetail2
+       * @request GET:/repos/{owner}/{repo}/git/refs/{ref}
+       * @originalName gitRefsDetail
+       * @duplicate
+       */
       gitRefsDetail2: (owner, repo, ref, params) =>
         this.request(`/repos/${owner}/${repo}/git/refs/${ref}`, "GET", params),
       /**
@@ -960,15 +940,13 @@ export class Api extends HttpClient {
       hooksDelete: (owner, repo, hookId, params) =>
         this.request(`/repos/${owner}/${repo}/hooks/${hookId}`, "DELETE", params),
       /**
-     * @description Get single hook.
-     *
-     * @name HooksDetail2
-     * @request GET:/repos/{owner}/{repo}/hooks/{hookId}
-     * @originalName hooksDetail
-    
-     * @duplicate
-    
-     */
+       * @description Get single hook.
+       *
+       * @name HooksDetail2
+       * @request GET:/repos/{owner}/{repo}/hooks/{hookId}
+       * @originalName hooksDetail
+       * @duplicate
+       */
       hooksDetail2: (owner, repo, hookId, params) =>
         this.request(`/repos/${owner}/${repo}/hooks/${hookId}`, "GET", params),
       /**
@@ -1019,15 +997,13 @@ export class Api extends HttpClient {
       issuesCommentsDelete: (owner, repo, commentId, params) =>
         this.request(`/repos/${owner}/${repo}/issues/comments/${commentId}`, "DELETE", params),
       /**
-     * @description Get a single comment.
-     *
-     * @name IssuesCommentsDetail2
-     * @request GET:/repos/{owner}/{repo}/issues/comments/{commentId}
-     * @originalName issuesCommentsDetail
-    
-     * @duplicate
-    
-     */
+       * @description Get a single comment.
+       *
+       * @name IssuesCommentsDetail2
+       * @request GET:/repos/{owner}/{repo}/issues/comments/{commentId}
+       * @originalName issuesCommentsDetail
+       * @duplicate
+       */
       issuesCommentsDetail2: (owner, repo, commentId, params) =>
         this.request(`/repos/${owner}/${repo}/issues/comments/${commentId}`, "GET", params),
       /**
@@ -1046,27 +1022,23 @@ export class Api extends HttpClient {
        */
       issuesEventsDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/issues/events`, "GET", params),
       /**
-     * @description Get a single event.
-     *
-     * @name IssuesEventsDetail2
-     * @request GET:/repos/{owner}/{repo}/issues/events/{eventId}
-     * @originalName issuesEventsDetail
-    
-     * @duplicate
-    
-     */
+       * @description Get a single event.
+       *
+       * @name IssuesEventsDetail2
+       * @request GET:/repos/{owner}/{repo}/issues/events/{eventId}
+       * @originalName issuesEventsDetail
+       * @duplicate
+       */
       issuesEventsDetail2: (owner, repo, eventId, params) =>
         this.request(`/repos/${owner}/${repo}/issues/events/${eventId}`, "GET", params),
       /**
-     * @description Get a single issue
-     *
-     * @name IssuesDetail2
-     * @request GET:/repos/{owner}/{repo}/issues/{number}
-     * @originalName issuesDetail
-    
-     * @duplicate
-    
-     */
+       * @description Get a single issue
+       *
+       * @name IssuesDetail2
+       * @request GET:/repos/{owner}/{repo}/issues/{number}
+       * @originalName issuesDetail
+       * @duplicate
+       */
       issuesDetail2: (owner, repo, number, params) =>
         this.request(`/repos/${owner}/${repo}/issues/${number}`, "GET", params),
       /**
@@ -1078,15 +1050,13 @@ export class Api extends HttpClient {
       issuesPartialUpdate: (owner, repo, number, body, params) =>
         this.request(`/repos/${owner}/${repo}/issues/${number}`, "PATCH", params, body),
       /**
-     * @description List comments on an issue.
-     *
-     * @name IssuesCommentsDetail3
-     * @request GET:/repos/{owner}/{repo}/issues/{number}/comments
-     * @originalName issuesCommentsDetail
-    
-     * @duplicate
-    
-     */
+       * @description List comments on an issue.
+       *
+       * @name IssuesCommentsDetail3
+       * @request GET:/repos/{owner}/{repo}/issues/{number}/comments
+       * @originalName issuesCommentsDetail
+       * @duplicate
+       */
       issuesCommentsDetail3: (owner, repo, number, params) =>
         this.request(`/repos/${owner}/${repo}/issues/${number}/comments`, "GET", params),
       /**
@@ -1098,15 +1068,13 @@ export class Api extends HttpClient {
       issuesCommentsCreate: (owner, repo, number, body, params) =>
         this.request(`/repos/${owner}/${repo}/issues/${number}/comments`, "POST", params, body),
       /**
-     * @description List events for an issue.
-     *
-     * @name IssuesEventsDetail3
-     * @request GET:/repos/{owner}/{repo}/issues/{number}/events
-     * @originalName issuesEventsDetail
-    
-     * @duplicate
-    
-     */
+       * @description List events for an issue.
+       *
+       * @name IssuesEventsDetail3
+       * @request GET:/repos/{owner}/{repo}/issues/{number}/events
+       * @originalName issuesEventsDetail
+       * @duplicate
+       */
       issuesEventsDetail3: (owner, repo, number, params) =>
         this.request(`/repos/${owner}/${repo}/issues/${number}/events`, "GET", params),
       /**
@@ -1142,15 +1110,13 @@ export class Api extends HttpClient {
       issuesLabelsUpdate: (owner, repo, number, body, params) =>
         this.request(`/repos/${owner}/${repo}/issues/${number}/labels`, "PUT", params, body),
       /**
-     * @description Remove a label from an issue.
-     *
-     * @name IssuesLabelsDelete2
-     * @request DELETE:/repos/{owner}/{repo}/issues/{number}/labels/{name}
-     * @originalName issuesLabelsDelete
-    
-     * @duplicate
-    
-     */
+       * @description Remove a label from an issue.
+       *
+       * @name IssuesLabelsDelete2
+       * @request DELETE:/repos/{owner}/{repo}/issues/{number}/labels/{name}
+       * @originalName issuesLabelsDelete
+       * @duplicate
+       */
       issuesLabelsDelete2: (owner, repo, number, name, params) =>
         this.request(`/repos/${owner}/${repo}/issues/${number}/labels/${name}`, "DELETE", params),
       /**
@@ -1176,15 +1142,13 @@ export class Api extends HttpClient {
       keysDelete: (owner, repo, keyId, params) =>
         this.request(`/repos/${owner}/${repo}/keys/${keyId}`, "DELETE", params),
       /**
-     * @description Get a key
-     *
-     * @name KeysDetail2
-     * @request GET:/repos/{owner}/{repo}/keys/{keyId}
-     * @originalName keysDetail
-    
-     * @duplicate
-    
-     */
+       * @description Get a key
+       *
+       * @name KeysDetail2
+       * @request GET:/repos/{owner}/{repo}/keys/{keyId}
+       * @originalName keysDetail
+       * @duplicate
+       */
       keysDetail2: (owner, repo, keyId, params) => this.request(`/repos/${owner}/${repo}/keys/${keyId}`, "GET", params),
       /**
        * @description List all labels for this repository.
@@ -1209,15 +1173,13 @@ export class Api extends HttpClient {
       labelsDelete: (owner, repo, name, params) =>
         this.request(`/repos/${owner}/${repo}/labels/${name}`, "DELETE", params),
       /**
-     * @description Get a single label.
-     *
-     * @name LabelsDetail2
-     * @request GET:/repos/{owner}/{repo}/labels/{name}
-     * @originalName labelsDetail
-    
-     * @duplicate
-    
-     */
+       * @description Get a single label.
+       *
+       * @name LabelsDetail2
+       * @request GET:/repos/{owner}/{repo}/labels/{name}
+       * @originalName labelsDetail
+       * @duplicate
+       */
       labelsDetail2: (owner, repo, name, params) =>
         this.request(`/repos/${owner}/${repo}/labels/${name}`, "GET", params),
       /**
@@ -1267,15 +1229,13 @@ export class Api extends HttpClient {
       milestonesDelete: (owner, repo, number, params) =>
         this.request(`/repos/${owner}/${repo}/milestones/${number}`, "DELETE", params),
       /**
-     * @description Get a single milestone.
-     *
-     * @name MilestonesDetail2
-     * @request GET:/repos/{owner}/{repo}/milestones/{number}
-     * @originalName milestonesDetail
-    
-     * @duplicate
-    
-     */
+       * @description Get a single milestone.
+       *
+       * @name MilestonesDetail2
+       * @request GET:/repos/{owner}/{repo}/milestones/{number}
+       * @originalName milestonesDetail
+       * @duplicate
+       */
       milestonesDetail2: (owner, repo, number, params) =>
         this.request(`/repos/${owner}/${repo}/milestones/${number}`, "GET", params),
       /**
@@ -1342,15 +1302,13 @@ export class Api extends HttpClient {
       pullsCommentsDelete: (owner, repo, commentId, params) =>
         this.request(`/repos/${owner}/${repo}/pulls/comments/${commentId}`, "DELETE", params),
       /**
-     * @description Get a single comment.
-     *
-     * @name PullsCommentsDetail2
-     * @request GET:/repos/{owner}/{repo}/pulls/comments/{commentId}
-     * @originalName pullsCommentsDetail
-    
-     * @duplicate
-    
-     */
+       * @description Get a single comment.
+       *
+       * @name PullsCommentsDetail2
+       * @request GET:/repos/{owner}/{repo}/pulls/comments/{commentId}
+       * @originalName pullsCommentsDetail
+       * @duplicate
+       */
       pullsCommentsDetail2: (owner, repo, commentId, params) =>
         this.request(`/repos/${owner}/${repo}/pulls/comments/${commentId}`, "GET", params),
       /**
@@ -1362,15 +1320,13 @@ export class Api extends HttpClient {
       pullsCommentsPartialUpdate: (owner, repo, commentId, body, params) =>
         this.request(`/repos/${owner}/${repo}/pulls/comments/${commentId}`, "PATCH", params, body),
       /**
-     * @description Get a single pull request.
-     *
-     * @name PullsDetail2
-     * @request GET:/repos/{owner}/{repo}/pulls/{number}
-     * @originalName pullsDetail
-    
-     * @duplicate
-    
-     */
+       * @description Get a single pull request.
+       *
+       * @name PullsDetail2
+       * @request GET:/repos/{owner}/{repo}/pulls/{number}
+       * @originalName pullsDetail
+       * @duplicate
+       */
       pullsDetail2: (owner, repo, number, params) =>
         this.request(`/repos/${owner}/${repo}/pulls/${number}`, "GET", params),
       /**
@@ -1382,15 +1338,13 @@ export class Api extends HttpClient {
       pullsPartialUpdate: (owner, repo, number, body, params) =>
         this.request(`/repos/${owner}/${repo}/pulls/${number}`, "PATCH", params, body),
       /**
-     * @description List comments on a pull request.
-     *
-     * @name PullsCommentsDetail3
-     * @request GET:/repos/{owner}/{repo}/pulls/{number}/comments
-     * @originalName pullsCommentsDetail
-    
-     * @duplicate
-    
-     */
+       * @description List comments on a pull request.
+       *
+       * @name PullsCommentsDetail3
+       * @request GET:/repos/{owner}/{repo}/pulls/{number}/comments
+       * @originalName pullsCommentsDetail
+       * @duplicate
+       */
       pullsCommentsDetail3: (owner, repo, number, params) =>
         this.request(`/repos/${owner}/${repo}/pulls/${number}/comments`, "GET", params),
       /**
@@ -1489,15 +1443,13 @@ export class Api extends HttpClient {
       releasesDelete: (owner, repo, id, params) =>
         this.request(`/repos/${owner}/${repo}/releases/${id}`, "DELETE", params),
       /**
-     * @description Get a single release
-     *
-     * @name ReleasesDetail2
-     * @request GET:/repos/{owner}/{repo}/releases/{id}
-     * @originalName releasesDetail
-    
-     * @duplicate
-    
-     */
+       * @description Get a single release
+       *
+       * @name ReleasesDetail2
+       * @request GET:/repos/{owner}/{repo}/releases/{id}
+       * @originalName releasesDetail
+       * @duplicate
+       */
       releasesDetail2: (owner, repo, id, params) =>
         this.request(`/repos/${owner}/${repo}/releases/${id}`, "GET", params),
       /**
@@ -1509,15 +1461,13 @@ export class Api extends HttpClient {
       releasesPartialUpdate: (owner, repo, id, body, params) =>
         this.request(`/repos/${owner}/${repo}/releases/${id}`, "PATCH", params, body),
       /**
-     * @description List assets for a release
-     *
-     * @name ReleasesAssetsDetail2
-     * @request GET:/repos/{owner}/{repo}/releases/{id}/assets
-     * @originalName releasesAssetsDetail
-    
-     * @duplicate
-    
-     */
+       * @description List assets for a release
+       *
+       * @name ReleasesAssetsDetail2
+       * @request GET:/repos/{owner}/{repo}/releases/{id}/assets
+       * @originalName releasesAssetsDetail
+       * @duplicate
+       */
       releasesAssetsDetail2: (owner, repo, id, params) =>
         this.request(`/repos/${owner}/${repo}/releases/${id}/assets`, "GET", params),
       /**
@@ -1635,15 +1585,13 @@ export class Api extends HttpClient {
        */
       watchersDetail: (owner, repo, params) => this.request(`/repos/${owner}/${repo}/watchers`, "GET", params),
       /**
-     * @description Get archive link. This method will return a 302 to a URL to download a tarball or zipball archive for a repository. Please make sure your HTTP framework is configured to follow redirects or you will need to use the Location header to make a second GET request. Note: For private repositories, these links are temporary and expire quickly.
-     *
-     * @name ReposDetail2
-     * @request GET:/repos/{owner}/{repo}/{archive_format}/{path}
-     * @originalName reposDetail
-    
-     * @duplicate
-    
-     */
+       * @description Get archive link. This method will return a 302 to a URL to download a tarball or zipball archive for a repository. Please make sure your HTTP framework is configured to follow redirects or you will need to use the Location header to make a second GET request. Note: For private repositories, these links are temporary and expire quickly.
+       *
+       * @name ReposDetail2
+       * @request GET:/repos/{owner}/{repo}/{archive_format}/{path}
+       * @originalName reposDetail
+       * @duplicate
+       */
       reposDetail2: (owner, repo, archive_format, path, params) =>
         this.request(`/repos/${owner}/${repo}/${archive_format}/${path}`, "GET", params),
     };
@@ -1725,15 +1673,13 @@ export class Api extends HttpClient {
       membersDelete: (teamId, username, params) =>
         this.request(`/teams/${teamId}/members/${username}`, "DELETE", params),
       /**
-     * @description The "Get team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Get team membership API instead. It allows you to get both active and pending memberships. Get team member. In order to get if a user is a member of a team, the authenticated user mus be a member of the team.
-     *
-     * @name MembersDetail2
-     * @request GET:/teams/{teamId}/members/{username}
-     * @originalName membersDetail
-    
-     * @duplicate
-    
-     */
+       * @description The "Get team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Get team membership API instead. It allows you to get both active and pending memberships. Get team member. In order to get if a user is a member of a team, the authenticated user mus be a member of the team.
+       *
+       * @name MembersDetail2
+       * @request GET:/teams/{teamId}/members/{username}
+       * @originalName membersDetail
+       * @duplicate
+       */
       membersDetail2: (teamId, username, params) => this.request(`/teams/${teamId}/members/${username}`, "GET", params),
       /**
        * @description The API (described below) is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Add team membership API instead. It allows you to invite new organization members to your teams. Add team member. In order to add a user to a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with.
@@ -1782,15 +1728,13 @@ export class Api extends HttpClient {
       reposDelete: (teamId, owner, repo, params) =>
         this.request(`/teams/${teamId}/repos/${owner}/${repo}`, "DELETE", params),
       /**
-     * @description Check if a team manages a repository
-     *
-     * @name ReposDetail2
-     * @request GET:/teams/{teamId}/repos/{owner}/{repo}
-     * @originalName reposDetail
-    
-     * @duplicate
-    
-     */
+       * @description Check if a team manages a repository
+       *
+       * @name ReposDetail2
+       * @request GET:/teams/{teamId}/repos/{owner}/{repo}
+       * @originalName reposDetail
+       * @duplicate
+       */
       reposDetail2: (teamId, owner, repo, params) =>
         this.request(`/teams/${teamId}/repos/${owner}/${repo}`, "GET", params),
       /**

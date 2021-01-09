@@ -10,8 +10,8 @@ const jsDocLines = _.compact([
     ` * @name ${classNameCase(routeName.usage)}`,
     raw.summary && ` * @summary ${raw.summary}`,
     ` * @request ${_.upperCase(request.method)}:${raw.route}`,
-    routeName.duplicate && ` * @originalName ${routeName.original}\n`,
-    routeName.duplicate && ` * @duplicate\n`,
+    routeName.duplicate && ` * @originalName ${routeName.original}`,
+    routeName.duplicate && ` * @duplicate`,
     request.security && ` * @secure`,
     ...(config.generateResponses && raw.responsesTypes.length
     ? raw.responsesTypes.map(

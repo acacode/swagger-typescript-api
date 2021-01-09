@@ -1660,15 +1660,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/gists/${id}/comments/${commentId}`, "DELETE", params),
 
     /**
- * @description Get a single comment.
- * 
- * @name CommentsDetail2
- * @request GET:/gists/{id}/comments/{commentId}
- * @originalName commentsDetail
-
- * @duplicate
-
- */
+     * @description Get a single comment.
+     *
+     * @name CommentsDetail2
+     * @request GET:/gists/{id}/comments/{commentId}
+     * @originalName commentsDetail
+     * @duplicate
+     */
     commentsDetail2: (id: number, commentId: number, params?: RequestParams) =>
       this.request<Comment, any>(`/gists/${id}/comments/${commentId}`, "GET", params),
 
@@ -1979,15 +1977,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/orgs/${org}/members/${username}`, "DELETE", params),
 
     /**
- * @description Check if a user is, publicly or privately, a member of the organization.
- * 
- * @name MembersDetail2
- * @request GET:/orgs/{org}/members/{username}
- * @originalName membersDetail
-
- * @duplicate
-
- */
+     * @description Check if a user is, publicly or privately, a member of the organization.
+     *
+     * @name MembersDetail2
+     * @request GET:/orgs/{org}/members/{username}
+     * @originalName membersDetail
+     * @duplicate
+     */
     membersDetail2: (org: string, username: string, params?: RequestParams) =>
       this.request<any, any>(`/orgs/${org}/members/${username}`, "GET", params),
 
@@ -2010,15 +2006,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/orgs/${org}/public_members/${username}`, "DELETE", params),
 
     /**
- * @description Check public membership.
- * 
- * @name PublicMembersDetail2
- * @request GET:/orgs/{org}/public_members/{username}
- * @originalName publicMembersDetail
-
- * @duplicate
-
- */
+     * @description Check public membership.
+     *
+     * @name PublicMembersDetail2
+     * @request GET:/orgs/{org}/public_members/{username}
+     * @originalName publicMembersDetail
+     * @duplicate
+     */
     publicMembersDetail2: (org: string, username: string, params?: RequestParams) =>
       this.request<any, any>(`/orgs/${org}/public_members/${username}`, "GET", params),
 
@@ -2116,15 +2110,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Assignees, any>(`/repos/${owner}/${repo}/assignees`, "GET", params),
 
     /**
- * @description Check assignee. You may also check to see if a particular user is an assignee for a repository.
- * 
- * @name AssigneesDetail2
- * @request GET:/repos/{owner}/{repo}/assignees/{assignee}
- * @originalName assigneesDetail
-
- * @duplicate
-
- */
+     * @description Check assignee. You may also check to see if a particular user is an assignee for a repository.
+     *
+     * @name AssigneesDetail2
+     * @request GET:/repos/{owner}/{repo}/assignees/{assignee}
+     * @originalName assigneesDetail
+     * @duplicate
+     */
     assigneesDetail2: (owner: string, repo: string, assignee: string, params?: RequestParams) =>
       this.request<any, any>(`/repos/${owner}/${repo}/assignees/${assignee}`, "GET", params),
 
@@ -2138,15 +2130,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Branches, any>(`/repos/${owner}/${repo}/branches`, "GET", params),
 
     /**
- * @description Get Branch
- * 
- * @name BranchesDetail2
- * @request GET:/repos/{owner}/{repo}/branches/{branch}
- * @originalName branchesDetail
-
- * @duplicate
-
- */
+     * @description Get Branch
+     *
+     * @name BranchesDetail2
+     * @request GET:/repos/{owner}/{repo}/branches/{branch}
+     * @originalName branchesDetail
+     * @duplicate
+     */
     branchesDetail2: (owner: string, repo: string, branch: string, params?: RequestParams) =>
       this.request<Branch, any>(`/repos/${owner}/${repo}/branches/${branch}`, "GET", params),
 
@@ -2169,15 +2159,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/repos/${owner}/${repo}/collaborators/${user}`, "DELETE", params),
 
     /**
- * @description Check if user is a collaborator
- * 
- * @name CollaboratorsDetail2
- * @request GET:/repos/{owner}/{repo}/collaborators/{user}
- * @originalName collaboratorsDetail
-
- * @duplicate
-
- */
+     * @description Check if user is a collaborator
+     *
+     * @name CollaboratorsDetail2
+     * @request GET:/repos/{owner}/{repo}/collaborators/{user}
+     * @originalName collaboratorsDetail
+     * @duplicate
+     */
     collaboratorsDetail2: (owner: string, repo: string, user: string, params?: RequestParams) =>
       this.request<any, any>(`/repos/${owner}/${repo}/collaborators/${user}`, "GET", params),
 
@@ -2209,15 +2197,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/repos/${owner}/${repo}/comments/${commentId}`, "DELETE", params),
 
     /**
- * @description Get a single commit comment.
- * 
- * @name CommentsDetail2
- * @request GET:/repos/{owner}/{repo}/comments/{commentId}
- * @originalName commentsDetail
-
- * @duplicate
-
- */
+     * @description Get a single commit comment.
+     *
+     * @name CommentsDetail2
+     * @request GET:/repos/{owner}/{repo}/comments/{commentId}
+     * @originalName commentsDetail
+     * @duplicate
+     */
     commentsDetail2: (owner: string, repo: string, commentId: number, params?: RequestParams) =>
       this.request<CommitComment, any>(`/repos/${owner}/${repo}/comments/${commentId}`, "GET", params),
 
@@ -2258,15 +2244,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<RefStatus, any>(`/repos/${owner}/${repo}/commits/${ref}/status`, "GET", params),
 
     /**
- * @description Get a single commit.
- * 
- * @name CommitsDetail2
- * @request GET:/repos/{owner}/{repo}/commits/{shaCode}
- * @originalName commitsDetail
-
- * @duplicate
-
- */
+     * @description Get a single commit.
+     *
+     * @name CommitsDetail2
+     * @request GET:/repos/{owner}/{repo}/commits/{shaCode}
+     * @originalName commitsDetail
+     * @duplicate
+     */
     commitsDetail2: (owner: string, repo: string, shaCode: string, params?: RequestParams) =>
       this.request<Commit, any>(`/repos/${owner}/${repo}/commits/${shaCode}`, "GET", params),
 
@@ -2408,15 +2392,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/repos/${owner}/${repo}/downloads/${downloadId}`, "DELETE", params),
 
     /**
- * @description Deprecated. Get a single download.
- * 
- * @name DownloadsDetail2
- * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
- * @originalName downloadsDetail
-
- * @duplicate
-
- */
+     * @description Deprecated. Get a single download.
+     *
+     * @name DownloadsDetail2
+     * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
+     * @originalName downloadsDetail
+     * @duplicate
+     */
     downloadsDetail2: (owner: string, repo: string, downloadId: number, params?: RequestParams) =>
       this.request<Download, any>(`/repos/${owner}/${repo}/downloads/${downloadId}`, "GET", params),
 
@@ -2515,15 +2497,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/repos/${owner}/${repo}/git/refs/${ref}`, "DELETE", params),
 
     /**
- * @description Get a Reference
- * 
- * @name GitRefsDetail2
- * @request GET:/repos/{owner}/{repo}/git/refs/{ref}
- * @originalName gitRefsDetail
-
- * @duplicate
-
- */
+     * @description Get a Reference
+     *
+     * @name GitRefsDetail2
+     * @request GET:/repos/{owner}/{repo}/git/refs/{ref}
+     * @originalName gitRefsDetail
+     * @duplicate
+     */
     gitRefsDetail2: (owner: string, repo: string, ref: string, params?: RequestParams) =>
       this.request<HeadBranch, any>(`/repos/${owner}/${repo}/git/refs/${ref}`, "GET", params),
 
@@ -2610,15 +2590,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/repos/${owner}/${repo}/hooks/${hookId}`, "DELETE", params),
 
     /**
- * @description Get single hook.
- * 
- * @name HooksDetail2
- * @request GET:/repos/{owner}/{repo}/hooks/{hookId}
- * @originalName hooksDetail
-
- * @duplicate
-
- */
+     * @description Get single hook.
+     *
+     * @name HooksDetail2
+     * @request GET:/repos/{owner}/{repo}/hooks/{hookId}
+     * @originalName hooksDetail
+     * @duplicate
+     */
     hooksDetail2: (owner: string, repo: string, hookId: number, params?: RequestParams) =>
       this.request<Hook, any>(`/repos/${owner}/${repo}/hooks/${hookId}`, "GET", params),
 
@@ -2697,15 +2675,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/repos/${owner}/${repo}/issues/comments/${commentId}`, "DELETE", params),
 
     /**
- * @description Get a single comment.
- * 
- * @name IssuesCommentsDetail2
- * @request GET:/repos/{owner}/{repo}/issues/comments/{commentId}
- * @originalName issuesCommentsDetail
-
- * @duplicate
-
- */
+     * @description Get a single comment.
+     *
+     * @name IssuesCommentsDetail2
+     * @request GET:/repos/{owner}/{repo}/issues/comments/{commentId}
+     * @originalName issuesCommentsDetail
+     * @duplicate
+     */
     issuesCommentsDetail2: (owner: string, repo: string, commentId: number, params?: RequestParams) =>
       this.request<IssuesComment, any>(`/repos/${owner}/${repo}/issues/comments/${commentId}`, "GET", params),
 
@@ -2734,28 +2710,24 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<IssueEvents, any>(`/repos/${owner}/${repo}/issues/events`, "GET", params),
 
     /**
- * @description Get a single event.
- * 
- * @name IssuesEventsDetail2
- * @request GET:/repos/{owner}/{repo}/issues/events/{eventId}
- * @originalName issuesEventsDetail
-
- * @duplicate
-
- */
+     * @description Get a single event.
+     *
+     * @name IssuesEventsDetail2
+     * @request GET:/repos/{owner}/{repo}/issues/events/{eventId}
+     * @originalName issuesEventsDetail
+     * @duplicate
+     */
     issuesEventsDetail2: (owner: string, repo: string, eventId: number, params?: RequestParams) =>
       this.request<IssueEvent, any>(`/repos/${owner}/${repo}/issues/events/${eventId}`, "GET", params),
 
     /**
- * @description Get a single issue
- * 
- * @name IssuesDetail2
- * @request GET:/repos/{owner}/{repo}/issues/{number}
- * @originalName issuesDetail
-
- * @duplicate
-
- */
+     * @description Get a single issue
+     *
+     * @name IssuesDetail2
+     * @request GET:/repos/{owner}/{repo}/issues/{number}
+     * @originalName issuesDetail
+     * @duplicate
+     */
     issuesDetail2: (owner: string, repo: string, number: number, params?: RequestParams) =>
       this.request<Issue, any>(`/repos/${owner}/${repo}/issues/${number}`, "GET", params),
 
@@ -2769,15 +2741,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Issue, any>(`/repos/${owner}/${repo}/issues/${number}`, "PATCH", params, body),
 
     /**
- * @description List comments on an issue.
- * 
- * @name IssuesCommentsDetail3
- * @request GET:/repos/{owner}/{repo}/issues/{number}/comments
- * @originalName issuesCommentsDetail
-
- * @duplicate
-
- */
+     * @description List comments on an issue.
+     *
+     * @name IssuesCommentsDetail3
+     * @request GET:/repos/{owner}/{repo}/issues/{number}/comments
+     * @originalName issuesCommentsDetail
+     * @duplicate
+     */
     issuesCommentsDetail3: (owner: string, repo: string, number: number, params?: RequestParams) =>
       this.request<IssuesComments, any>(`/repos/${owner}/${repo}/issues/${number}/comments`, "GET", params),
 
@@ -2791,15 +2761,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<IssuesComment, any>(`/repos/${owner}/${repo}/issues/${number}/comments`, "POST", params, body),
 
     /**
- * @description List events for an issue.
- * 
- * @name IssuesEventsDetail3
- * @request GET:/repos/{owner}/{repo}/issues/{number}/events
- * @originalName issuesEventsDetail
-
- * @duplicate
-
- */
+     * @description List events for an issue.
+     *
+     * @name IssuesEventsDetail3
+     * @request GET:/repos/{owner}/{repo}/issues/{number}/events
+     * @originalName issuesEventsDetail
+     * @duplicate
+     */
     issuesEventsDetail3: (owner: string, repo: string, number: number, params?: RequestParams) =>
       this.request<IssueEvents, any>(`/repos/${owner}/${repo}/issues/${number}/events`, "GET", params),
 
@@ -2840,15 +2808,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Label, any>(`/repos/${owner}/${repo}/issues/${number}/labels`, "PUT", params, body),
 
     /**
- * @description Remove a label from an issue.
- * 
- * @name IssuesLabelsDelete2
- * @request DELETE:/repos/{owner}/{repo}/issues/{number}/labels/{name}
- * @originalName issuesLabelsDelete
-
- * @duplicate
-
- */
+     * @description Remove a label from an issue.
+     *
+     * @name IssuesLabelsDelete2
+     * @request DELETE:/repos/{owner}/{repo}/issues/{number}/labels/{name}
+     * @originalName issuesLabelsDelete
+     * @duplicate
+     */
     issuesLabelsDelete2: (owner: string, repo: string, number: number, name: string, params?: RequestParams) =>
       this.request<any, any>(`/repos/${owner}/${repo}/issues/${number}/labels/${name}`, "DELETE", params),
 
@@ -2880,15 +2846,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/repos/${owner}/${repo}/keys/${keyId}`, "DELETE", params),
 
     /**
- * @description Get a key
- * 
- * @name KeysDetail2
- * @request GET:/repos/{owner}/{repo}/keys/{keyId}
- * @originalName keysDetail
-
- * @duplicate
-
- */
+     * @description Get a key
+     *
+     * @name KeysDetail2
+     * @request GET:/repos/{owner}/{repo}/keys/{keyId}
+     * @originalName keysDetail
+     * @duplicate
+     */
     keysDetail2: (owner: string, repo: string, keyId: number, params?: RequestParams) =>
       this.request<UserKeysKeyId, any>(`/repos/${owner}/${repo}/keys/${keyId}`, "GET", params),
 
@@ -2920,15 +2884,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/repos/${owner}/${repo}/labels/${name}`, "DELETE", params),
 
     /**
- * @description Get a single label.
- * 
- * @name LabelsDetail2
- * @request GET:/repos/{owner}/{repo}/labels/{name}
- * @originalName labelsDetail
-
- * @duplicate
-
- */
+     * @description Get a single label.
+     *
+     * @name LabelsDetail2
+     * @request GET:/repos/{owner}/{repo}/labels/{name}
+     * @originalName labelsDetail
+     * @duplicate
+     */
     labelsDetail2: (owner: string, repo: string, name: string, params?: RequestParams) =>
       this.request<Label, any>(`/repos/${owner}/${repo}/labels/${name}`, "GET", params),
 
@@ -2991,15 +2953,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/repos/${owner}/${repo}/milestones/${number}`, "DELETE", params),
 
     /**
- * @description Get a single milestone.
- * 
- * @name MilestonesDetail2
- * @request GET:/repos/{owner}/{repo}/milestones/{number}
- * @originalName milestonesDetail
-
- * @duplicate
-
- */
+     * @description Get a single milestone.
+     *
+     * @name MilestonesDetail2
+     * @request GET:/repos/{owner}/{repo}/milestones/{number}
+     * @originalName milestonesDetail
+     * @duplicate
+     */
     milestonesDetail2: (owner: string, repo: string, number: number, params?: RequestParams) =>
       this.request<Milestone, any>(`/repos/${owner}/${repo}/milestones/${number}`, "GET", params),
 
@@ -3103,15 +3063,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/repos/${owner}/${repo}/pulls/comments/${commentId}`, "DELETE", params),
 
     /**
- * @description Get a single comment.
- * 
- * @name PullsCommentsDetail2
- * @request GET:/repos/{owner}/{repo}/pulls/comments/{commentId}
- * @originalName pullsCommentsDetail
-
- * @duplicate
-
- */
+     * @description Get a single comment.
+     *
+     * @name PullsCommentsDetail2
+     * @request GET:/repos/{owner}/{repo}/pulls/comments/{commentId}
+     * @originalName pullsCommentsDetail
+     * @duplicate
+     */
     pullsCommentsDetail2: (owner: string, repo: string, commentId: number, params?: RequestParams) =>
       this.request<PullsComment, any>(`/repos/${owner}/${repo}/pulls/comments/${commentId}`, "GET", params),
 
@@ -3130,15 +3088,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     ) => this.request<PullsComment, any>(`/repos/${owner}/${repo}/pulls/comments/${commentId}`, "PATCH", params, body),
 
     /**
- * @description Get a single pull request.
- * 
- * @name PullsDetail2
- * @request GET:/repos/{owner}/{repo}/pulls/{number}
- * @originalName pullsDetail
-
- * @duplicate
-
- */
+     * @description Get a single pull request.
+     *
+     * @name PullsDetail2
+     * @request GET:/repos/{owner}/{repo}/pulls/{number}
+     * @originalName pullsDetail
+     * @duplicate
+     */
     pullsDetail2: (owner: string, repo: string, number: number, params?: RequestParams) =>
       this.request<PullRequest, any>(`/repos/${owner}/${repo}/pulls/${number}`, "GET", params),
 
@@ -3152,15 +3108,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Repo, any>(`/repos/${owner}/${repo}/pulls/${number}`, "PATCH", params, body),
 
     /**
- * @description List comments on a pull request.
- * 
- * @name PullsCommentsDetail3
- * @request GET:/repos/{owner}/{repo}/pulls/{number}/comments
- * @originalName pullsCommentsDetail
-
- * @duplicate
-
- */
+     * @description List comments on a pull request.
+     *
+     * @name PullsCommentsDetail3
+     * @request GET:/repos/{owner}/{repo}/pulls/{number}/comments
+     * @originalName pullsCommentsDetail
+     * @duplicate
+     */
     pullsCommentsDetail3: (owner: string, repo: string, number: number, params?: RequestParams) =>
       this.request<PullsComment, any>(`/repos/${owner}/${repo}/pulls/${number}/comments`, "GET", params),
 
@@ -3278,15 +3232,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/repos/${owner}/${repo}/releases/${id}`, "DELETE", params),
 
     /**
- * @description Get a single release
- * 
- * @name ReleasesDetail2
- * @request GET:/repos/{owner}/{repo}/releases/{id}
- * @originalName releasesDetail
-
- * @duplicate
-
- */
+     * @description Get a single release
+     *
+     * @name ReleasesDetail2
+     * @request GET:/repos/{owner}/{repo}/releases/{id}
+     * @originalName releasesDetail
+     * @duplicate
+     */
     releasesDetail2: (owner: string, repo: string, id: string, params?: RequestParams) =>
       this.request<Release, any>(`/repos/${owner}/${repo}/releases/${id}`, "GET", params),
 
@@ -3300,15 +3252,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Release, any>(`/repos/${owner}/${repo}/releases/${id}`, "PATCH", params, body),
 
     /**
- * @description List assets for a release
- * 
- * @name ReleasesAssetsDetail2
- * @request GET:/repos/{owner}/{repo}/releases/{id}/assets
- * @originalName releasesAssetsDetail
-
- * @duplicate
-
- */
+     * @description List assets for a release
+     *
+     * @name ReleasesAssetsDetail2
+     * @request GET:/repos/{owner}/{repo}/releases/{id}/assets
+     * @originalName releasesAssetsDetail
+     * @duplicate
+     */
     releasesAssetsDetail2: (owner: string, repo: string, id: string, params?: RequestParams) =>
       this.request<Assets, any>(`/repos/${owner}/${repo}/releases/${id}/assets`, "GET", params),
 
@@ -3448,15 +3398,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Users, any>(`/repos/${owner}/${repo}/watchers`, "GET", params),
 
     /**
- * @description Get archive link. This method will return a 302 to a URL to download a tarball or zipball archive for a repository. Please make sure your HTTP framework is configured to follow redirects or you will need to use the Location header to make a second GET request. Note: For private repositories, these links are temporary and expire quickly.
- * 
- * @name ReposDetail2
- * @request GET:/repos/{owner}/{repo}/{archive_format}/{path}
- * @originalName reposDetail
-
- * @duplicate
-
- */
+     * @description Get archive link. This method will return a 302 to a URL to download a tarball or zipball archive for a repository. Please make sure your HTTP framework is configured to follow redirects or you will need to use the Location header to make a second GET request. Note: For private repositories, these links are temporary and expire quickly.
+     *
+     * @name ReposDetail2
+     * @request GET:/repos/{owner}/{repo}/{archive_format}/{path}
+     * @originalName reposDetail
+     * @duplicate
+     */
     reposDetail2: (
       owner: string,
       repo: string,
@@ -3564,15 +3512,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/teams/${teamId}/members/${username}`, "DELETE", params),
 
     /**
- * @description The "Get team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Get team membership API instead. It allows you to get both active and pending memberships. Get team member. In order to get if a user is a member of a team, the authenticated user mus be a member of the team.
- * 
- * @name MembersDetail2
- * @request GET:/teams/{teamId}/members/{username}
- * @originalName membersDetail
-
- * @duplicate
-
- */
+     * @description The "Get team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Get team membership API instead. It allows you to get both active and pending memberships. Get team member. In order to get if a user is a member of a team, the authenticated user mus be a member of the team.
+     *
+     * @name MembersDetail2
+     * @request GET:/teams/{teamId}/members/{username}
+     * @originalName membersDetail
+     * @duplicate
+     */
     membersDetail2: (teamId: number, username: string, params?: RequestParams) =>
       this.request<any, any>(`/teams/${teamId}/members/${username}`, "GET", params),
 
@@ -3631,15 +3577,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/teams/${teamId}/repos/${owner}/${repo}`, "DELETE", params),
 
     /**
- * @description Check if a team manages a repository
- * 
- * @name ReposDetail2
- * @request GET:/teams/{teamId}/repos/{owner}/{repo}
- * @originalName reposDetail
-
- * @duplicate
-
- */
+     * @description Check if a team manages a repository
+     *
+     * @name ReposDetail2
+     * @request GET:/teams/{teamId}/repos/{owner}/{repo}
+     * @originalName reposDetail
+     * @duplicate
+     */
     reposDetail2: (teamId: number, owner: string, repo: string, params?: RequestParams) =>
       this.request<any, any>(`/teams/${teamId}/repos/${owner}/${repo}`, "GET", params),
 

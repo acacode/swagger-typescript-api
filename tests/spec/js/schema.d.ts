@@ -1836,15 +1836,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      */
     commentsDelete: (id: number, commentId: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
- * @description Get a single comment.
- *
- * @name CommentsDetail2
- * @request GET:/gists/{id}/comments/{commentId}
- * @originalName commentsDetail
-
- * @duplicate
-
- */
+     * @description Get a single comment.
+     *
+     * @name CommentsDetail2
+     * @request GET:/gists/{id}/comments/{commentId}
+     * @originalName commentsDetail
+     * @duplicate
+     */
     commentsDetail2: (id: number, commentId: number, params?: RequestParams) => Promise<HttpResponse<Comment, unknown>>;
     /**
      * @description Edit a comment.
@@ -2126,15 +2124,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      */
     membersDelete: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
- * @description Check if a user is, publicly or privately, a member of the organization.
- *
- * @name MembersDetail2
- * @request GET:/orgs/{org}/members/{username}
- * @originalName membersDetail
-
- * @duplicate
-
- */
+     * @description Check if a user is, publicly or privately, a member of the organization.
+     *
+     * @name MembersDetail2
+     * @request GET:/orgs/{org}/members/{username}
+     * @originalName membersDetail
+     * @duplicate
+     */
     membersDetail2: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description Public members list. Members of an organization can choose to have their membership publicized or not.
@@ -2151,15 +2147,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      */
     publicMembersDelete: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
- * @description Check public membership.
- *
- * @name PublicMembersDetail2
- * @request GET:/orgs/{org}/public_members/{username}
- * @originalName publicMembersDetail
-
- * @duplicate
-
- */
+     * @description Check public membership.
+     *
+     * @name PublicMembersDetail2
+     * @request GET:/orgs/{org}/public_members/{username}
+     * @originalName publicMembersDetail
+     * @duplicate
+     */
     publicMembersDetail2: (
       org: string,
       username: string,
@@ -2251,15 +2245,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      */
     assigneesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Assignees, unknown>>;
     /**
- * @description Check assignee. You may also check to see if a particular user is an assignee for a repository.
- *
- * @name AssigneesDetail2
- * @request GET:/repos/{owner}/{repo}/assignees/{assignee}
- * @originalName assigneesDetail
-
- * @duplicate
-
- */
+     * @description Check assignee. You may also check to see if a particular user is an assignee for a repository.
+     *
+     * @name AssigneesDetail2
+     * @request GET:/repos/{owner}/{repo}/assignees/{assignee}
+     * @originalName assigneesDetail
+     * @duplicate
+     */
     assigneesDetail2: (
       owner: string,
       repo: string,
@@ -2274,15 +2266,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      */
     branchesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Branches, unknown>>;
     /**
- * @description Get Branch
- *
- * @name BranchesDetail2
- * @request GET:/repos/{owner}/{repo}/branches/{branch}
- * @originalName branchesDetail
-
- * @duplicate
-
- */
+     * @description Get Branch
+     *
+     * @name BranchesDetail2
+     * @request GET:/repos/{owner}/{repo}/branches/{branch}
+     * @originalName branchesDetail
+     * @duplicate
+     */
     branchesDetail2: (
       owner: string,
       repo: string,
@@ -2309,15 +2299,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<any, unknown>>;
     /**
- * @description Check if user is a collaborator
- *
- * @name CollaboratorsDetail2
- * @request GET:/repos/{owner}/{repo}/collaborators/{user}
- * @originalName collaboratorsDetail
-
- * @duplicate
-
- */
+     * @description Check if user is a collaborator
+     *
+     * @name CollaboratorsDetail2
+     * @request GET:/repos/{owner}/{repo}/collaborators/{user}
+     * @originalName collaboratorsDetail
+     * @duplicate
+     */
     collaboratorsDetail2: (
       owner: string,
       repo: string,
@@ -2360,15 +2348,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<any, unknown>>;
     /**
- * @description Get a single commit comment.
- *
- * @name CommentsDetail2
- * @request GET:/repos/{owner}/{repo}/comments/{commentId}
- * @originalName commentsDetail
-
- * @duplicate
-
- */
+     * @description Get a single commit comment.
+     *
+     * @name CommentsDetail2
+     * @request GET:/repos/{owner}/{repo}/comments/{commentId}
+     * @originalName commentsDetail
+     * @duplicate
+     */
     commentsDetail2: (
       owner: string,
       repo: string,
@@ -2419,15 +2405,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<RefStatus, unknown>>;
     /**
- * @description Get a single commit.
- *
- * @name CommitsDetail2
- * @request GET:/repos/{owner}/{repo}/commits/{shaCode}
- * @originalName commitsDetail
-
- * @duplicate
-
- */
+     * @description Get a single commit.
+     *
+     * @name CommitsDetail2
+     * @request GET:/repos/{owner}/{repo}/commits/{shaCode}
+     * @originalName commitsDetail
+     * @duplicate
+     */
     commitsDetail2: (
       owner: string,
       repo: string,
@@ -2596,15 +2580,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<any, unknown>>;
     /**
- * @description Deprecated. Get a single download.
- *
- * @name DownloadsDetail2
- * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
- * @originalName downloadsDetail
-
- * @duplicate
-
- */
+     * @description Deprecated. Get a single download.
+     *
+     * @name DownloadsDetail2
+     * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
+     * @originalName downloadsDetail
+     * @duplicate
+     */
     downloadsDetail2: (
       owner: string,
       repo: string,
@@ -2724,15 +2706,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<any, unknown>>;
     /**
- * @description Get a Reference
- *
- * @name GitRefsDetail2
- * @request GET:/repos/{owner}/{repo}/git/refs/{ref}
- * @originalName gitRefsDetail
-
- * @duplicate
-
- */
+     * @description Get a Reference
+     *
+     * @name GitRefsDetail2
+     * @request GET:/repos/{owner}/{repo}/git/refs/{ref}
+     * @originalName gitRefsDetail
+     * @duplicate
+     */
     gitRefsDetail2: (
       owner: string,
       repo: string,
@@ -2835,15 +2815,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<any, unknown>>;
     /**
- * @description Get single hook.
- *
- * @name HooksDetail2
- * @request GET:/repos/{owner}/{repo}/hooks/{hookId}
- * @originalName hooksDetail
-
- * @duplicate
-
- */
+     * @description Get single hook.
+     *
+     * @name HooksDetail2
+     * @request GET:/repos/{owner}/{repo}/hooks/{hookId}
+     * @originalName hooksDetail
+     * @duplicate
+     */
     hooksDetail2: (
       owner: string,
       repo: string,
@@ -2935,15 +2913,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<any, unknown>>;
     /**
- * @description Get a single comment.
- *
- * @name IssuesCommentsDetail2
- * @request GET:/repos/{owner}/{repo}/issues/comments/{commentId}
- * @originalName issuesCommentsDetail
-
- * @duplicate
-
- */
+     * @description Get a single comment.
+     *
+     * @name IssuesCommentsDetail2
+     * @request GET:/repos/{owner}/{repo}/issues/comments/{commentId}
+     * @originalName issuesCommentsDetail
+     * @duplicate
+     */
     issuesCommentsDetail2: (
       owner: string,
       repo: string,
@@ -2975,15 +2951,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<IssueEvents, unknown>>;
     /**
- * @description Get a single event.
- *
- * @name IssuesEventsDetail2
- * @request GET:/repos/{owner}/{repo}/issues/events/{eventId}
- * @originalName issuesEventsDetail
-
- * @duplicate
-
- */
+     * @description Get a single event.
+     *
+     * @name IssuesEventsDetail2
+     * @request GET:/repos/{owner}/{repo}/issues/events/{eventId}
+     * @originalName issuesEventsDetail
+     * @duplicate
+     */
     issuesEventsDetail2: (
       owner: string,
       repo: string,
@@ -2991,15 +2965,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<IssueEvent, unknown>>;
     /**
- * @description Get a single issue
- *
- * @name IssuesDetail2
- * @request GET:/repos/{owner}/{repo}/issues/{number}
- * @originalName issuesDetail
-
- * @duplicate
-
- */
+     * @description Get a single issue
+     *
+     * @name IssuesDetail2
+     * @request GET:/repos/{owner}/{repo}/issues/{number}
+     * @originalName issuesDetail
+     * @duplicate
+     */
     issuesDetail2: (
       owner: string,
       repo: string,
@@ -3020,15 +2992,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<Issue, unknown>>;
     /**
- * @description List comments on an issue.
- *
- * @name IssuesCommentsDetail3
- * @request GET:/repos/{owner}/{repo}/issues/{number}/comments
- * @originalName issuesCommentsDetail
-
- * @duplicate
-
- */
+     * @description List comments on an issue.
+     *
+     * @name IssuesCommentsDetail3
+     * @request GET:/repos/{owner}/{repo}/issues/{number}/comments
+     * @originalName issuesCommentsDetail
+     * @duplicate
+     */
     issuesCommentsDetail3: (
       owner: string,
       repo: string,
@@ -3049,15 +3019,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<IssuesComment, unknown>>;
     /**
- * @description List events for an issue.
- *
- * @name IssuesEventsDetail3
- * @request GET:/repos/{owner}/{repo}/issues/{number}/events
- * @originalName issuesEventsDetail
-
- * @duplicate
-
- */
+     * @description List events for an issue.
+     *
+     * @name IssuesEventsDetail3
+     * @request GET:/repos/{owner}/{repo}/issues/{number}/events
+     * @originalName issuesEventsDetail
+     * @duplicate
+     */
     issuesEventsDetail3: (
       owner: string,
       repo: string,
@@ -3115,15 +3083,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<Label, unknown>>;
     /**
- * @description Remove a label from an issue.
- *
- * @name IssuesLabelsDelete2
- * @request DELETE:/repos/{owner}/{repo}/issues/{number}/labels/{name}
- * @originalName issuesLabelsDelete
-
- * @duplicate
-
- */
+     * @description Remove a label from an issue.
+     *
+     * @name IssuesLabelsDelete2
+     * @request DELETE:/repos/{owner}/{repo}/issues/{number}/labels/{name}
+     * @originalName issuesLabelsDelete
+     * @duplicate
+     */
     issuesLabelsDelete2: (
       owner: string,
       repo: string,
@@ -3163,15 +3129,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<any, unknown>>;
     /**
- * @description Get a key
- *
- * @name KeysDetail2
- * @request GET:/repos/{owner}/{repo}/keys/{keyId}
- * @originalName keysDetail
-
- * @duplicate
-
- */
+     * @description Get a key
+     *
+     * @name KeysDetail2
+     * @request GET:/repos/{owner}/{repo}/keys/{keyId}
+     * @originalName keysDetail
+     * @duplicate
+     */
     keysDetail2: (
       owner: string,
       repo: string,
@@ -3210,15 +3174,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<any, unknown>>;
     /**
- * @description Get a single label.
- *
- * @name LabelsDetail2
- * @request GET:/repos/{owner}/{repo}/labels/{name}
- * @originalName labelsDetail
-
- * @duplicate
-
- */
+     * @description Get a single label.
+     *
+     * @name LabelsDetail2
+     * @request GET:/repos/{owner}/{repo}/labels/{name}
+     * @originalName labelsDetail
+     * @duplicate
+     */
     labelsDetail2: (
       owner: string,
       repo: string,
@@ -3302,15 +3264,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<any, unknown>>;
     /**
- * @description Get a single milestone.
- *
- * @name MilestonesDetail2
- * @request GET:/repos/{owner}/{repo}/milestones/{number}
- * @originalName milestonesDetail
-
- * @duplicate
-
- */
+     * @description Get a single milestone.
+     *
+     * @name MilestonesDetail2
+     * @request GET:/repos/{owner}/{repo}/milestones/{number}
+     * @originalName milestonesDetail
+     * @duplicate
+     */
     milestonesDetail2: (
       owner: string,
       repo: string,
@@ -3427,15 +3387,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<any, unknown>>;
     /**
- * @description Get a single comment.
- *
- * @name PullsCommentsDetail2
- * @request GET:/repos/{owner}/{repo}/pulls/comments/{commentId}
- * @originalName pullsCommentsDetail
-
- * @duplicate
-
- */
+     * @description Get a single comment.
+     *
+     * @name PullsCommentsDetail2
+     * @request GET:/repos/{owner}/{repo}/pulls/comments/{commentId}
+     * @originalName pullsCommentsDetail
+     * @duplicate
+     */
     pullsCommentsDetail2: (
       owner: string,
       repo: string,
@@ -3456,15 +3414,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<PullsComment, unknown>>;
     /**
- * @description Get a single pull request.
- *
- * @name PullsDetail2
- * @request GET:/repos/{owner}/{repo}/pulls/{number}
- * @originalName pullsDetail
-
- * @duplicate
-
- */
+     * @description Get a single pull request.
+     *
+     * @name PullsDetail2
+     * @request GET:/repos/{owner}/{repo}/pulls/{number}
+     * @originalName pullsDetail
+     * @duplicate
+     */
     pullsDetail2: (
       owner: string,
       repo: string,
@@ -3485,15 +3441,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<Repo, unknown>>;
     /**
- * @description List comments on a pull request.
- *
- * @name PullsCommentsDetail3
- * @request GET:/repos/{owner}/{repo}/pulls/{number}/comments
- * @originalName pullsCommentsDetail
-
- * @duplicate
-
- */
+     * @description List comments on a pull request.
+     *
+     * @name PullsCommentsDetail3
+     * @request GET:/repos/{owner}/{repo}/pulls/{number}/comments
+     * @originalName pullsCommentsDetail
+     * @duplicate
+     */
     pullsCommentsDetail3: (
       owner: string,
       repo: string,
@@ -3645,15 +3599,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<any, unknown>>;
     /**
- * @description Get a single release
- *
- * @name ReleasesDetail2
- * @request GET:/repos/{owner}/{repo}/releases/{id}
- * @originalName releasesDetail
-
- * @duplicate
-
- */
+     * @description Get a single release
+     *
+     * @name ReleasesDetail2
+     * @request GET:/repos/{owner}/{repo}/releases/{id}
+     * @originalName releasesDetail
+     * @duplicate
+     */
     releasesDetail2: (
       owner: string,
       repo: string,
@@ -3674,15 +3626,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<Release, unknown>>;
     /**
- * @description List assets for a release
- *
- * @name ReleasesAssetsDetail2
- * @request GET:/repos/{owner}/{repo}/releases/{id}/assets
- * @originalName releasesAssetsDetail
-
- * @duplicate
-
- */
+     * @description List assets for a release
+     *
+     * @name ReleasesAssetsDetail2
+     * @request GET:/repos/{owner}/{repo}/releases/{id}/assets
+     * @originalName releasesAssetsDetail
+     * @duplicate
+     */
     releasesAssetsDetail2: (
       owner: string,
       repo: string,
@@ -3835,15 +3785,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      */
     watchersDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
     /**
- * @description Get archive link. This method will return a 302 to a URL to download a tarball or zipball archive for a repository. Please make sure your HTTP framework is configured to follow redirects or you will need to use the Location header to make a second GET request. Note: For private repositories, these links are temporary and expire quickly.
- *
- * @name ReposDetail2
- * @request GET:/repos/{owner}/{repo}/{archive_format}/{path}
- * @originalName reposDetail
-
- * @duplicate
-
- */
+     * @description Get archive link. This method will return a 302 to a URL to download a tarball or zipball archive for a repository. Please make sure your HTTP framework is configured to follow redirects or you will need to use the Location header to make a second GET request. Note: For private repositories, these links are temporary and expire quickly.
+     *
+     * @name ReposDetail2
+     * @request GET:/repos/{owner}/{repo}/{archive_format}/{path}
+     * @originalName reposDetail
+     * @duplicate
+     */
     reposDetail2: (
       owner: string,
       repo: string,
@@ -3965,15 +3913,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      */
     membersDelete: (teamId: number, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
- * @description The "Get team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Get team membership API instead. It allows you to get both active and pending memberships. Get team member. In order to get if a user is a member of a team, the authenticated user mus be a member of the team.
- *
- * @name MembersDetail2
- * @request GET:/teams/{teamId}/members/{username}
- * @originalName membersDetail
-
- * @duplicate
-
- */
+     * @description The "Get team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Get team membership API instead. It allows you to get both active and pending memberships. Get team member. In order to get if a user is a member of a team, the authenticated user mus be a member of the team.
+     *
+     * @name MembersDetail2
+     * @request GET:/teams/{teamId}/members/{username}
+     * @originalName membersDetail
+     * @duplicate
+     */
     membersDetail2: (teamId: number, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
     /**
      * @description The API (described below) is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Add team membership API instead. It allows you to invite new organization members to your teams. Add team member. In order to add a user to a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with.
@@ -4035,15 +3981,13 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       params?: RequestParams,
     ) => Promise<HttpResponse<any, unknown>>;
     /**
- * @description Check if a team manages a repository
- *
- * @name ReposDetail2
- * @request GET:/teams/{teamId}/repos/{owner}/{repo}
- * @originalName reposDetail
-
- * @duplicate
-
- */
+     * @description Check if a team manages a repository
+     *
+     * @name ReposDetail2
+     * @request GET:/teams/{teamId}/repos/{owner}/{repo}
+     * @originalName reposDetail
+     * @duplicate
+     */
     reposDetail2: (
       teamId: number,
       owner: string,
