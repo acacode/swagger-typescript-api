@@ -122,6 +122,17 @@ generateApi({
 ## 💎 options   
 ### **`--templates`**  
 This option needed for cases when you don't want to use default `swagger-typescript-api` output structure  
+
+Templates:  
+- `api.eta` - Api class module  
+- `data-contracts.eta` - all types (data contracts) from swagger schema  
+- `http-client.eta` - HttpClient class module  
+- `procedure-call.eta` - route in Api class  
+- `route-docs.eta` - documentation for route in Api class  
+- `route-name.eta` - route name for route in Api class  
+- `route-type.eta` - *(`--route-types` option)*  
+- `route-types.eta` - *(`--route-types` option)*  
+
 How to use it:  
 1. copy swagger-typescript-api templates into your place in project
     - from [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default) for single api file  
