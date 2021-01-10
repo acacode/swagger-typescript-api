@@ -2,6 +2,15 @@
 
 BREAKING_CHANGES:  
 - Migrate from [mustache](https://mustache.github.io/) template engine to [ETA](https://eta.js.org/) template engine. (Thanks @Fl0pZz)  
+- Critical change in `HttpResponse` type (Remove `D | null`, `E | null` unions)  
+```diff
+interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
+-  data: D | null;
++  data: D;
+-  error: E | null;
++  error: E;
+}
+```
 
 Features:  
 - `--modular` option. Allows to generate api class per module name.   

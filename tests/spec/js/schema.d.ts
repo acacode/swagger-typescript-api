@@ -1687,8 +1687,8 @@ interface ApiConfig<SecurityDataType> {
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 }
 interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
-  data: D | null;
-  error: E | null;
+  data: D;
+  error: E;
 }
 declare enum BodyType {
   Json = 0,

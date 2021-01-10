@@ -85,8 +85,8 @@ type TPromise<ResolveType, RejectType = any> = Omit<Promise<ResolveType>, "then"
 };
 
 interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
-  data: D | null;
-  error: E | null;
+  data: D;
+  error: E;
 }
 
 enum BodyType {
@@ -160,8 +160,8 @@ export class HttpClient<SecurityDataType = unknown> {
 
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
     const r = response as HttpResponse<T, E>;
-    r.data = null;
-    r.error = null;
+    r.data = (null as unknown) as T;
+    r.error = (null as unknown) as E;
 
     return response
       .json()
