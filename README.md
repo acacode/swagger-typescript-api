@@ -23,9 +23,8 @@ Any questions you can ask [**here**](https://github.com/acacode/swagger-typescri
 
 All examples you can find [**here**](https://github.com/acacode/swagger-typescript-api/tree/master/tests)  
 
-## 🛑 It is the latest version on mustache templates   
-Next versions 4.0.0+ will use the [ETA](https://eta.js.org/docs/syntax) templates.  
-If you want to create fork with `mustache` templates use `mustache-latest` branch  
+## 🛑 It is new version with [ETA](https://eta.js.org/docs/syntax) templates  
+Version with `mustache` templates is `>4.0.0`  
 
 ## 📄 Usage  
 
