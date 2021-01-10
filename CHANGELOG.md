@@ -64,6 +64,10 @@ Common:
 - `HttpClient` is exportable by default  
 - Improve typings when use `swagger-typescript-api` with NodeJS (`index.d.ts`)  
 
+# 3.1.2  
+Fixes:  
+- axios vulnerability (#101 issue, thanks @Mvbraathen)  
+
 # 3.1.1  
 
 Fixes:  
