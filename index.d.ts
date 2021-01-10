@@ -82,6 +82,10 @@ interface GenerateApiParams {
     onParseSchema: (rawSchema: any, typeName: any, parsedSchema: any) => any | void;
     onCreateRoute: (routeData: ParsedRoute) => ParsedRoute | void;
   }>;
+  /**
+   *  extra templates
+   */
+  extraTemplates?: { name: string; path: string }[];
 }
 
 export type SchemaTypePrimitiveContent = {

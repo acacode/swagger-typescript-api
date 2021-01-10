@@ -29,6 +29,8 @@ Features:
   Example:  
   ![extract-request-params](./assets/changelog_assets/extractRequestParams.jpg)  
 - Improve `data-contracts.eta` template. Added more power :)  
+- Add `prepareConfig()` property for `generateApi()`. Allows to customize configuration object before sending it to templates.  
+- Add `extraTemplates` property for `generateApi()`. Allows to generate extra files via this tool.  
 - Add `hooks` property for `generateApi()`  
   ```ts
   hooks?: Partial<{

@@ -14,7 +14,7 @@ const { createApiConfig } = require("./apiConfig");
 const { prepareModelType } = require("./modelTypes");
 const { getSwaggerObject, fixSwaggerScheme, convertSwaggerObject } = require("./swagger");
 const { createComponentsMap, filterComponentsMap } = require("./components");
-const { createFile, pathIsExist } = require("./files");
+const { createFile, getFileContent, pathIsExist } = require("./files");
 const { addToConfig, config } = require("./config");
 const { getTemplates, renderTemplate } = require("./templates");
 const { PRETTIER_OPTIONS } = require("./constants");
@@ -40,6 +40,7 @@ module.exports = {
     extractRequestParams = config.extractRequestParams,
     prettier: prettierOptions = PRETTIER_OPTIONS,
     hooks,
+    extraTemplates,
   }) =>
     new Promise((resolve, reject) => {
       addToConfig({
@@ -165,6 +166,15 @@ module.exports = {
                     .join("\n"),
                 },
               ];
+
+          if (extraTemplates) {
+            extraTemplates.forEach((extraTemplate) => {
+              files.push({
+                name: `${extraTemplate.name}.ts`,
+                content: renderTemplate(getFileContent(extraTemplate.path), configuration),
+              });
+            });
+          }
 
           const generatedFiles = files.map((file) => {
             if (toJS) {

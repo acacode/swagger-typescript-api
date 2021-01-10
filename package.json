@@ -7,6 +7,8 @@
     "cli:yaml": "node index.js -r -d -p ./swagger-test-cli.yaml -n swagger-test-cli.ts",
     "cli:debug:json": "node --nolazy index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts --extract-request-params",
     "cli:debug:yaml": "node --nolazy index.js -p ./swagger-test-cli.yaml -n swagger-test-cli.ts",
+    "node": "node swagger-test-cli/generate.js",
+    "node:debug": "node --nolazy swagger-test-cli/generate.js",
     "cli:help": "node index.js -h",
     "test:all": "npm-run-all generate validate test:routeTypes test:noClient test:defaultAsSuccess test:responses test:templates test:unionEnums test:specProperty test:js test:moduleNameIndex test:modular test:extractRequestParams --continue-on-error",
     "generate": "node tests/generate.js",
