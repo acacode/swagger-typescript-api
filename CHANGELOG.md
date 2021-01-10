@@ -1,5 +1,7 @@
 # next release  
 
+# 4.0.0  
+
 BREAKING_CHANGES:  
 - Migrate from [mustache](https://mustache.github.io/) template engine to [ETA](https://eta.js.org/) template engine. (Thanks @Fl0pZz)  
 - Critical change in `HttpResponse` type (Remove `D | null`, `E | null` unions)  
