@@ -3,9 +3,9 @@ const { collect } = require("./utils");
 const { parseSchema, getRefType, formDataTypes, getInlineParseContent } = require("./schema");
 const { checkAndRenameModelName } = require("./modelNames");
 const {
-  DEFAULT_PRIMITIVE_TYPE,
   DEFAULT_BODY_ARG_NAME,
   SUCCESS_RESPONSE_STATUS_RANGE,
+  TS_KEYWORDS,
 } = require("./constants");
 const { formatDescription, classNameCase } = require("./common");
 const { config, addToConfig } = require("./config");
@@ -74,7 +74,7 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, content
     }
   }
 
-  return DEFAULT_PRIMITIVE_TYPE;
+  return TS_KEYWORDS.ANY;
 };
 
 const getTypesFromResponses = (responses, parsedSchemas, operationId) =>
@@ -106,14 +106,14 @@ const findSuccessResponse = (responses) =>
 
 const getReturnType = (responses, parsedSchemas, operationId) =>
   getTypeFromRequestInfo(findSuccessResponse(responses), parsedSchemas, operationId) ||
-  DEFAULT_PRIMITIVE_TYPE;
+  TS_KEYWORDS.ANY;
 
 const getErrorReturnType = (responses, parsedSchemas, operationId) =>
   _.uniq(
     findBadResponses(responses)
       .map((response) => getTypeFromRequestInfo(response, parsedSchemas, operationId))
-      .filter((type) => type !== DEFAULT_PRIMITIVE_TYPE),
-  ).join(" | ") || DEFAULT_PRIMITIVE_TYPE;
+      .filter((type) => type !== TS_KEYWORDS.ANY),
+  ).join(" | ") || TS_KEYWORDS.ANY;
 
 const getRouteParams = (parameters, where) =>
   collect(parameters, (parameter) => {

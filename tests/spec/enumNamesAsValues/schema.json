@@ -97,8 +97,7 @@
           "name": { "type": "string" },
           "link": { "type": "string" }
         },
-        "type": "object",
-        "additionalProperties": true
+        "type": "object"
       },
       "FooBar": {
         "description": "Information about job",

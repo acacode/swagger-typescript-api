@@ -11,6 +11,7 @@ const config = {
   generateClient: true,
   /** CLI flag */
   generateUnionEnums: false,
+  enumNamesAsValues: false,
   /** parsed swagger schema from getSwaggerObject() */
 
   /** parsed swagger schema ref */
@@ -34,8 +35,10 @@ const config = {
   },
   hooks: {
     onCreateComponent: (schema) => schema,
-    onParseSchema: (rawSchema, typeName, parsedSchema) => parsedSchema,
+    onParseSchema: (originalSchema, parsedSchema) => parsedSchema,
     onCreateRoute: (routeData) => routeData,
+    onInit: (config) => config,
+    onPrepareConfig: (apiConfig) => apiConfig,
   },
 };
 

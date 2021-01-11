@@ -61,7 +61,7 @@ export interface PickJobExcludeKeysId {
 
 export type OmitJobId = PickJobExcludeKeysId;
 
-export type JobUpdate = OmitJobId | PickJobGithub | object;
+export type JobUpdate = OmitJobId | PickJobGithub | Record<string, any>;
 
 export interface Project {
   id: string;

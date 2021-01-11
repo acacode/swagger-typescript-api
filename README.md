@@ -46,6 +46,7 @@ Options:
   --union-enums                 generate all "enum" types as union types (T1 | T2 | TN) (default: false)
   --route-types                 generate type definitions for API routes (default: false)
   --no-client                   do not generate an API class
+  --enum-names-as-values        use values in 'x-enumNames' as enum values (not only as keys) (default: false)
   --js                          generate js api module with declaration file (default: false)
   --extract-request-params      extract request params to data contract (default: false)
                                 Also combine path params and query params into one object

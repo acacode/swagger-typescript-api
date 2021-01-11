@@ -31,14 +31,17 @@ Features:
   Example:  
   ![extract-request-params](./assets/changelog_assets/extractRequestParams.jpg)  
 - Improve `data-contracts.eta` template. Added more power :)  
-- Add `prepareConfig()` property for `generateApi()`. Allows to customize configuration object before sending it to templates.  
 - Add `extraTemplates` property for `generateApi()`. Allows to generate extra files via this tool.  
 - Add `hooks` property for `generateApi()`  
   ```ts
   hooks?: Partial<{
     onCreateComponent: (component: SchemaComponent) => SchemaComponent | void;
-    onParseSchema: (rawSchema: any, typeName: any, parsedSchema: any) => any | void;
+    onParseSchema: (originalSchema: any, parsedSchema: any) => any | void;
     onCreateRoute: (routeData: ParsedRoute) => ParsedRoute | void;
+    /** Start point of work this tool (after fetching schema) */
+    onInit?: <C extends GenerateApiConfiguration["config"]>(configuration: C) => C | void;
+    /** Allows to customize configuration object before sending it to templates. */
+    onPrepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C | void;
   }>;
   ```
   ```ts

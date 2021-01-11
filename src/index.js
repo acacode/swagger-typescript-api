@@ -17,7 +17,7 @@ const { createComponentsMap, filterComponentsMap } = require("./components");
 const { createFile, getFileContent, pathIsExist } = require("./files");
 const { addToConfig, config } = require("./config");
 const { getTemplates, renderTemplate } = require("./templates");
-const { PRETTIER_OPTIONS } = require("./constants");
+const constants = require("./constants");
 const { classNameCase } = require("./render/utils");
 
 module.exports = {
@@ -29,7 +29,6 @@ module.exports = {
     name,
     toJS,
     modular,
-    prepareConfig,
     templates,
     generateResponses = config.generateResponses,
     defaultResponseAsSuccess = config.defaultResponseAsSuccess,
@@ -38,9 +37,10 @@ module.exports = {
     generateUnionEnums = config.generateUnionEnums,
     moduleNameIndex = config.moduleNameIndex,
     extractRequestParams = config.extractRequestParams,
-    prettier: prettierOptions = PRETTIER_OPTIONS,
-    hooks,
+    prettier: prettierOptions = constants.PRETTIER_OPTIONS,
+    hooks: rawHooks,
     extraTemplates,
+    enumNamesAsValues,
   }) =>
     new Promise((resolve, reject) => {
       addToConfig({
@@ -53,7 +53,8 @@ module.exports = {
         moduleNameIndex,
         modular,
         extractRequestParams,
-        hooks: _.merge(config.hooks, hooks || {}),
+        hooks: _.merge(config.hooks, rawHooks || {}),
+        enumNamesAsValues,
       });
       (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url))
         .then(({ usageSchema, originalSchema }) => {
@@ -70,6 +71,8 @@ module.exports = {
           });
 
           const { info, paths, servers, components } = usageSchema;
+
+          addToConfig(config.hooks.onInit(config) || config);
 
           const componentsMap = createComponentsMap(components);
 
@@ -102,7 +105,7 @@ module.exports = {
 
           const prettierFormat = (content) => prettier.format(content, prettierOptions);
 
-          const configuration = prepareConfig ? prepareConfig(rawConfiguration) : rawConfiguration;
+          const configuration = config.hooks.onPrepareConfig(rawConfiguration) || rawConfiguration;
 
           const files = modular
             ? [

@@ -68,19 +68,21 @@ interface GenerateApiParams {
    * extract request params to data contract (Also combine path params and query params into one object)
    */
   extractRequestParams?: boolean;
-  /**
-   *  customize configuration object before sending it to ETA templates
-   */
   prepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C;
   /**
    * prettier configuration
    */
   prettier?: object;
+  enumNamesAsValues?: boolean;
 
   hooks?: Partial<{
     onCreateComponent: (component: SchemaComponent) => SchemaComponent | void;
-    onParseSchema: (rawSchema: any, typeName: any, parsedSchema: any) => any | void;
+    onParseSchema: (originalSchema: any, parsedSchema: any) => any | void;
     onCreateRoute: (routeData: ParsedRoute) => ParsedRoute | void;
+    /** Start point of work this tool (after fetching schema) */
+    onInit?: <C extends GenerateApiConfiguration["config"]>(configuration: C) => C | void;
+    /** customize configuration object before sending it to ETA templates */
+    onPrepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C | void;
   }>;
   /**
    *  extra templates

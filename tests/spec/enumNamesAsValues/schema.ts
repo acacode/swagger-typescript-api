@@ -21,16 +21,16 @@ export type TestOneOfDc = (FooBarBaz | FooBar) & { prop?: string };
  * FooBar
  */
 export enum IntEnumWithNames {
-  Unknown = 0,
-  String = 1,
-  Int32 = 2,
-  Int64 = 3,
-  Double = 4,
-  DateTime = 5,
-  Test2 = 6,
-  Test23 = 7,
-  Tess44 = 8,
-  BooFar = 9,
+  Unknown = "Unknown",
+  String = "String",
+  Int32 = "Int32",
+  Int64 = "Int64",
+  Double = "Double",
+  DateTime = "DateTime",
+  Test2 = "Test2",
+  Test23 = "Test23",
+  Tess44 = "Tess44",
+  BooFar = "BooFar",
 }
 
 /**
@@ -41,7 +41,6 @@ export interface FooBarBaz {
   kind?: JobKind;
   name?: string;
   link?: string;
-  [key: string]: any;
 }
 
 /**

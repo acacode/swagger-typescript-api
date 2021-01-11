@@ -40,6 +40,11 @@ program
   .option("--route-types", "generate type definitions for API routes", false)
   .option("--no-client", "do not generate an API class", false)
   .option(
+    "--enum-names-as-values",
+    "use values in 'x-enumNames' as enum values (not only as keys)",
+    false,
+  )
+  .option(
     "--extract-request-params",
     "extract request params to data contract (Also combine path params and query params into one object)",
     false,
@@ -72,6 +77,7 @@ const {
   js,
   moduleNameIndex,
   extractRequestParams,
+  enumNamesAsValues,
 } = program;
 
 generateApi({
@@ -88,5 +94,6 @@ generateApi({
   templates,
   modular: !!modular,
   toJS: !!js,
+  enumNamesAsValues: enumNamesAsValues,
   moduleNameIndex: +(moduleNameIndex || 0),
 });

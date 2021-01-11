@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const { formatDescription } = require("./common");
+const { TS_KEYWORDS } = require("./constants");
 
 const createApiConfig = ({ info, servers }) => {
   const server = (servers && servers[0]) || { url: "" };
@@ -9,7 +10,7 @@ const createApiConfig = ({ info, servers }) => {
   const generic = _.compact([
     {
       name: "SecurityDataType",
-      defaultValue: "any",
+      defaultValue: TS_KEYWORDS.ANY,
     },
   ]);
 
@@ -25,7 +26,7 @@ const createApiConfig = ({ info, servers }) => {
       {
         name: "baseUrl",
         optional: true,
-        type: "string",
+        type: TS_KEYWORDS.STRING,
       },
       {
         name: "baseApiParams",
