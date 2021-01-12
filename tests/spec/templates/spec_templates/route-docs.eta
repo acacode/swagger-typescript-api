@@ -6,7 +6,7 @@ const jsDocDescription = raw.description ?
     ` * @description ${formatDescription(raw.description, true)}` :
     fmtToJSDocLine('No description', { eol: false });
 const jsDocLines = _.compact([
-    raw.tags?.length && ` * @tags ${raw.tags.join(", ")}`,
+    _.size(raw.tags) && ` * @tags ${raw.tags.join(", ")}`,
     ` * @name ${classNameCase(routeName.usage)}`,
     raw.summary && ` * @summary ${raw.summary}`,
     ` * @request ${_.upperCase(request.method)}:${raw.route}`,

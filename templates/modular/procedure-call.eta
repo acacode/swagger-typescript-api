@@ -4,7 +4,7 @@ const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRe
 const { parameters, path, method, payload, params, query, formData, security, requestParams } = route.request;
 const { type, errorType } = route.response;
 const routeDocs = includeFile("./route-docs", { config, route, utils });
-const queryName = query?.name ?? "query";
+const queryName = (query && query.name) || "query";
 const pathParams = _.values(parameters);
 
 const argToTmpl = ({ name, optional, type }) => `${name}${optional ? '?' : ''}: ${type}`;
@@ -42,7 +42,7 @@ const securityTmpl = security ? 'true' : null
 const pathTmpl = query != null
     ? '`' + path + '${this.addQueryParams(' + query.name + ')}' + '`'
     : '`' + path + '`'
-const requestArgs = [pathTmpl, `'${_.upperCase(method)}'`, params?.name ?? null, payload?.name ?? null, bodyModeTmpl, securityTmpl]
+const requestArgs = [pathTmpl, `'${_.upperCase(method)}'`, _.get(params, "name"), _.get(payload, "name"), bodyModeTmpl, securityTmpl]
     .reverse()
     .reduce((args, arg) => {
         if (args.length === 0 && !arg) return args

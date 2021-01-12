@@ -1,5 +1,11 @@
 # next release  
 
+# 4.0.2  
+
+Fixes:  
+ - `Unexpected token '.'` on v4 (Thanks @savingprivatebryan for issue #111)  
+    Replaced all new syntax sugar like `?.` or `??` to prev. alternatives for support nodejs 12  
+
 # 4.0.1  
 
 Fixes:  
