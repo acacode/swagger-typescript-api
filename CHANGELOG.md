@@ -1,5 +1,10 @@
 # next release  
 
+# 4.0.1  
+
+Fixes:  
+- `Cannot find module 'prettier-plugin-organize-imports'` #109  
+
 # 4.0.0  
 
 BREAKING_CHANGES:  

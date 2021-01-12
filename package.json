@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Create typescript api module from swagger schema",
   "scripts": {
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts --extract-request-params --enum-names-as-values",
@@ -10,7 +10,7 @@
     "node": "node swagger-test-cli/generate.js",
     "node:debug": "node --nolazy swagger-test-cli/generate.js",
     "cli:help": "node index.js -h",
-    "test:all": "npm-run-all generate validate test:routeTypes test:noClient test:defaultAsSuccess test:responses test:templates test:unionEnums test:specProperty test:js test:moduleNameIndex test:modular test:extractRequestParams test:enumNamesAsValues --continue-on-error",
+    "test:all": "node ./node_modules/npm-run-all/bin/npm-run-all/index.js generate validate test:routeTypes test:noClient test:defaultAsSuccess test:responses test:templates test:unionEnums test:specProperty test:js test:moduleNameIndex test:modular test:extractRequestParams test:enumNamesAsValues --continue-on-error",
     "generate": "node tests/generate.js",
     "generate:debug": "node --nolazy tests/generate.js",
     "validate": "node tests/validate.js",
