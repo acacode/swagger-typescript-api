@@ -107,15 +107,16 @@ interface ApiConfig<SecurityDataType> {
 }
 
 interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
-  data: D | null;
-  error: E | null;
+  data: D;
+  error: E;
 }
 
 enum BodyType {
   Json,
+  FormData,
 }
 
-class HttpClient<SecurityDataType> {
+export class HttpClient<SecurityDataType = unknown> {
   public baseUrl: string = "https://api.uber.com/v1";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
@@ -159,6 +160,11 @@ class HttpClient<SecurityDataType> {
 
   private bodyFormatters: Record<BodyType, (input: any) => any> = {
     [BodyType.Json]: JSON.stringify,
+    [BodyType.FormData]: (input: any) =>
+      Object.keys(input).reduce((data, key) => {
+        data.append(key, input[key]);
+        return data;
+      }, new FormData()),
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -176,8 +182,8 @@ class HttpClient<SecurityDataType> {
 
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
     const r = response as HttpResponse<T, E>;
-    r.data = null;
-    r.error = null;
+    r.data = (null as unknown) as T;
+    r.error = (null as unknown) as E;
 
     return response
       .json()
@@ -229,12 +235,13 @@ class HttpClient<SecurityDataType> {
 export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   products = {
     /**
+     * @description The Products endpoint returns information about the Uber products offered at a given location. The response includes the display name and other details about each product, and lists the products in the proper display order.
+     *
      * @tags Products
-     * @name productsList
+     * @name ProductsList
      * @summary Product Types
      * @request GET:/products
      * @secure
-     * @description The Products endpoint returns information about the Uber products offered at a given location. The response includes the display name and other details about each product, and lists the products in the proper display order.
      */
     productsList: (query: { latitude: number; longitude: number }, params?: RequestParams) =>
       this.request<Product[], Error>(
@@ -248,11 +255,12 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   };
   estimates = {
     /**
+     * @description The Price Estimates endpoint returns an estimated price range for each product offered at a given location. The price estimate is provided as a formatted string with the full price range and the localized currency symbol.<br><br>The response also includes low and high estimates, and the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for situations requiring currency conversion. When surge is active for a particular product, its surge_multiplier will be greater than 1, but the price estimate already factors in this multiplier.
+     *
      * @tags Estimates
-     * @name priceList
+     * @name PriceList
      * @summary Price Estimates
      * @request GET:/estimates/price
-     * @description The Price Estimates endpoint returns an estimated price range for each product offered at a given location. The price estimate is provided as a formatted string with the full price range and the localized currency symbol.<br><br>The response also includes low and high estimates, and the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for situations requiring currency conversion. When surge is active for a particular product, its surge_multiplier will be greater than 1, but the price estimate already factors in this multiplier.
      */
     priceList: (
       query: { start_latitude: number; start_longitude: number; end_latitude?: number; end_longitude: number },
@@ -260,11 +268,12 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     ) => this.request<PriceEstimate[], Error>(`/estimates/price${this.addQueryParams(query)}`, "GET", params),
 
     /**
+     * @description The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. We recommend that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.
+     *
      * @tags Estimates
-     * @name timeList
+     * @name TimeList
      * @summary Time Estimates
      * @request GET:/estimates/time
-     * @description The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. We recommend that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.
      */
     timeList: (
       query: { start_latitude: number; start_longitude: number; customer_uuid?: string; product_id?: string },
@@ -273,21 +282,23 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   };
   me = {
     /**
+     * @description The User Profile endpoint returns information about the Uber user that has authorized with the application.
+     *
      * @tags User
-     * @name getMe
+     * @name GetMe
      * @summary User Profile
      * @request GET:/me
-     * @description The User Profile endpoint returns information about the Uber user that has authorized with the application.
      */
     getMe: (params?: RequestParams) => this.request<Profile, Error>(`/me`, "GET", params),
   };
   history = {
     /**
+     * @description The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.
+     *
      * @tags User
-     * @name historyList
+     * @name HistoryList
      * @summary User Activity
      * @request GET:/history
-     * @description The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.
      */
     historyList: (query?: { offset?: number; limit?: number }, params?: RequestParams) =>
       this.request<Activities, Error>(`/history${this.addQueryParams(query)}`, "GET", params),

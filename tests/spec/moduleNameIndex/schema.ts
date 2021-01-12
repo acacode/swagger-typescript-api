@@ -116,8 +116,8 @@ interface ApiConfig<SecurityDataType> {
 }
 
 interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
-  data: D | null;
-  error: E | null;
+  data: D;
+  error: E;
 }
 
 enum BodyType {
@@ -125,7 +125,7 @@ enum BodyType {
   FormData,
 }
 
-class HttpClient<SecurityDataType> {
+export class HttpClient<SecurityDataType = unknown> {
   public baseUrl: string = "http://petstore.swagger.io/v2";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
@@ -191,8 +191,8 @@ class HttpClient<SecurityDataType> {
 
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
     const r = response as HttpResponse<T, E>;
-    r.data = null;
-    r.error = null;
+    r.data = (null as unknown) as T;
+    r.error = (null as unknown) as E;
 
     return response
       .json()
@@ -244,8 +244,10 @@ class HttpClient<SecurityDataType> {
 export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   pet = {
     /**
+     * No description
+     *
      * @tags pet
-     * @name addPet
+     * @name AddPet
      * @summary Add a new pet to the store
      * @request POST:api/v1/pet
      * @secure
@@ -254,8 +256,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`api/v1/pet`, "POST", params, body, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags pet
-     * @name updatePet
+     * @name UpdatePet
      * @summary Update an existing pet
      * @request PUT:api/v1/pet
      * @secure
@@ -264,12 +268,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`api/v1/pet`, "PUT", params, body, BodyType.Json, true),
 
     /**
+     * @description Multiple status values can be provided with comma separated strings
+     *
      * @tags pet
-     * @name findPetsByStatus
+     * @name FindPetsByStatus
      * @summary Finds Pets by status
      * @request GET:api/v1/pet/findByStatus
      * @secure
-     * @description Multiple status values can be provided with comma separated strings
      */
     findPetsByStatus: (query: { status: ("available" | "pending" | "sold")[] }, params?: RequestParams) =>
       this.request<Pet[], any>(
@@ -282,12 +287,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * @description Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     *
      * @tags pet
-     * @name findPetsByTags
+     * @name FindPetsByTags
      * @summary Finds Pets by tags
      * @request GET:api/v1/pet/findByTags
      * @secure
-     * @description Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      */
     findPetsByTags: (query: { tags: string[] }, params?: RequestParams) =>
       this.request<Pet[], any>(
@@ -300,19 +306,22 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * @description Returns a single pet
+     *
      * @tags pet
-     * @name getPetById
+     * @name GetPetById
      * @summary Find pet by ID
      * @request GET:api/v1/pet/{petId}
      * @secure
-     * @description Returns a single pet
      */
     getPetById: (petId: number, params?: RequestParams) =>
       this.request<Pet, any>(`api/v1/pet/${petId}`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags pet
-     * @name updatePetWithForm
+     * @name UpdatePetWithForm
      * @summary Updates a pet in the store with form data
      * @request POST:api/v1/pet/{petId}
      * @secure
@@ -321,8 +330,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`api/v1/pet/${petId}`, "POST", params, data, BodyType.FormData, true),
 
     /**
+     * No description
+     *
      * @tags pet
-     * @name deletePet
+     * @name DeletePet
      * @summary Deletes a pet
      * @request DELETE:api/v1/pet/{petId}
      * @secure
@@ -331,8 +342,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`api/v1/pet/${petId}`, "DELETE", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags pet
-     * @name uploadFile
+     * @name UploadFile
      * @summary uploads an image
      * @request POST:api/v1/pet/{petId}/uploadImage
      * @secure
@@ -342,19 +355,22 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   };
   store = {
     /**
+     * @description Returns a map of status codes to quantities
+     *
      * @tags store
-     * @name getInventory
+     * @name GetInventory
      * @summary Returns pet inventories by status
      * @request GET:api/v1/store/inventory
      * @secure
-     * @description Returns a map of status codes to quantities
      */
     getInventory: (params?: RequestParams) =>
       this.request<Record<string, number>, any>(`api/v1/store/inventory`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags store
-     * @name placeOrder
+     * @name PlaceOrder
      * @summary Place an order for a pet
      * @request POST:api/v1/store/order
      */
@@ -362,38 +378,43 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Order, any>(`api/v1/store/order`, "POST", params, body),
 
     /**
+     * @description For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     *
      * @tags store
-     * @name getOrderById
+     * @name GetOrderById
      * @summary Find purchase order by ID
      * @request GET:api/v1/store/order/{orderId}
-     * @description For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      */
     getOrderById: (orderId: number, params?: RequestParams) =>
       this.request<Order, any>(`api/v1/store/order/${orderId}`, "GET", params),
 
     /**
+     * @description For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+     *
      * @tags store
-     * @name deleteOrder
+     * @name DeleteOrder
      * @summary Delete purchase order by ID
      * @request DELETE:api/v1/store/order/{orderId}
-     * @description For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      */
     deleteOrder: (orderId: string, params?: RequestParams) =>
       this.request<any, any>(`api/v1/store/order/${orderId}`, "DELETE", params),
   };
   user = {
     /**
+     * @description This can only be done by the logged in user.
+     *
      * @tags user
-     * @name createUser
+     * @name CreateUser
      * @summary Create user
      * @request POST:api/v1/user
-     * @description This can only be done by the logged in user.
      */
     createUser: (body: User, params?: RequestParams) => this.request<any, any>(`api/v1/user`, "POST", params, body),
 
     /**
+     * No description
+     *
      * @tags user
-     * @name createUsersWithArrayInput
+     * @name CreateUsersWithArrayInput
      * @summary Creates list of users with given input array
      * @request POST:api/v1/user/createWithArray
      */
@@ -401,8 +422,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`api/v1/user/createWithArray`, "POST", params, body),
 
     /**
+     * No description
+     *
      * @tags user
-     * @name createUsersWithListInput
+     * @name CreateUsersWithListInput
      * @summary Creates list of users with given input array
      * @request POST:api/v1/user/createWithList
      */
@@ -410,8 +433,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`api/v1/user/createWithList`, "POST", params, body),
 
     /**
+     * No description
+     *
      * @tags user
-     * @name loginUser
+     * @name LoginUser
      * @summary Logs user into the system
      * @request GET:api/v1/user/login
      */
@@ -419,16 +444,20 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Currency, any>(`api/v1/user/login${this.addQueryParams(query)}`, "GET", params),
 
     /**
+     * No description
+     *
      * @tags user
-     * @name logoutUser
+     * @name LogoutUser
      * @summary Logs out current logged in user session
      * @request GET:api/v1/user/logout
      */
     logoutUser: (params?: RequestParams) => this.request<any, any>(`api/v1/user/logout`, "GET", params),
 
     /**
+     * No description
+     *
      * @tags user
-     * @name getUserByName
+     * @name GetUserByName
      * @summary Get user by user name
      * @request GET:api/v1/user/{username}
      */
@@ -436,29 +465,33 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<User, any>(`api/v1/user/${username}`, "GET", params),
 
     /**
+     * @description This can only be done by the logged in user.
+     *
      * @tags user
-     * @name updateUser
+     * @name UpdateUser
      * @summary Updated user
      * @request PUT:api/v1/user/{username}
-     * @description This can only be done by the logged in user.
      */
     updateUser: (username: string, body: User, params?: RequestParams) =>
       this.request<any, any>(`api/v1/user/${username}`, "PUT", params, body),
 
     /**
+     * @description This can only be done by the logged in user.
+     *
      * @tags user
-     * @name deleteUser
+     * @name DeleteUser
      * @summary Delete user
      * @request DELETE:api/v1/user/{username}
-     * @description This can only be done by the logged in user.
      */
     deleteUser: (username: string, params?: RequestParams) =>
       this.request<any, any>(`api/v1/user/${username}`, "DELETE", params),
   };
   username = {
     /**
+     * No description
+     *
      * @tags user
-     * @name getUserByName
+     * @name GetUserByName
      * @summary Get user by user name
      * @request GET:api/v1/{username}
      */
@@ -466,21 +499,23 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<User, any>(`api/v1/${username}`, "GET", params),
 
     /**
+     * @description This can only be done by the logged in user.
+     *
      * @tags user
-     * @name updateUser
+     * @name UpdateUser
      * @summary Updated user
      * @request PUT:api/v1/{username}
-     * @description This can only be done by the logged in user.
      */
     updateUser: (username: string, body: User, params?: RequestParams) =>
       this.request<any, any>(`api/v1/${username}`, "PUT", params, body),
 
     /**
+     * @description This can only be done by the logged in user.
+     *
      * @tags user
-     * @name deleteUser
+     * @name DeleteUser
      * @summary Delete user
      * @request DELETE:api/v1/{username}
-     * @description This can only be done by the logged in user.
      */
     deleteUser: (username: string, params?: RequestParams) =>
       this.request<any, any>(`api/v1/${username}`, "DELETE", params),

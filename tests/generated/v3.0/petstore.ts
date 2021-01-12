@@ -37,15 +37,16 @@ interface ApiConfig<SecurityDataType> {
 }
 
 interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
-  data: D | null;
-  error: E | null;
+  data: D;
+  error: E;
 }
 
 enum BodyType {
   Json,
+  FormData,
 }
 
-class HttpClient<SecurityDataType> {
+export class HttpClient<SecurityDataType = unknown> {
   public baseUrl: string = "http://petstore.swagger.io/v1";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
@@ -89,6 +90,11 @@ class HttpClient<SecurityDataType> {
 
   private bodyFormatters: Record<BodyType, (input: any) => any> = {
     [BodyType.Json]: JSON.stringify,
+    [BodyType.FormData]: (input: any) =>
+      Object.keys(input).reduce((data, key) => {
+        data.append(key, input[key]);
+        return data;
+      }, new FormData()),
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -106,8 +112,8 @@ class HttpClient<SecurityDataType> {
 
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
     const r = response as HttpResponse<T, E>;
-    r.data = null;
-    r.error = null;
+    r.data = (null as unknown) as T;
+    r.error = (null as unknown) as E;
 
     return response
       .json()
@@ -158,8 +164,10 @@ class HttpClient<SecurityDataType> {
 export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   pets = {
     /**
+     * No description
+     *
      * @tags pets
-     * @name listPets
+     * @name ListPets
      * @summary List all pets
      * @request GET:/pets
      */
@@ -167,16 +175,20 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Pets, Error>(`/pets${this.addQueryParams(query)}`, "GET", params),
 
     /**
+     * No description
+     *
      * @tags pets
-     * @name createPets
+     * @name CreatePets
      * @summary Create a pet
      * @request POST:/pets
      */
     createPets: (params?: RequestParams) => this.request<any, Error>(`/pets`, "POST", params),
 
     /**
+     * No description
+     *
      * @tags pets
-     * @name showPetById
+     * @name ShowPetById
      * @summary Info for a specific pet
      * @request GET:/pets/{petId}
      */

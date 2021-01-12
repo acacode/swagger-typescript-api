@@ -39,15 +39,16 @@ interface ApiConfig<SecurityDataType> {
 }
 
 interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
-  data: D | null;
-  error: E | null;
+  data: D;
+  error: E;
 }
 
 enum BodyType {
   Json,
+  FormData,
 }
 
-class HttpClient<SecurityDataType> {
+export class HttpClient<SecurityDataType = unknown> {
   public baseUrl: string = "";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
@@ -91,6 +92,11 @@ class HttpClient<SecurityDataType> {
 
   private bodyFormatters: Record<BodyType, (input: any) => any> = {
     [BodyType.Json]: JSON.stringify,
+    [BodyType.FormData]: (input: any) =>
+      Object.keys(input).reduce((data, key) => {
+        data.append(key, input[key]);
+        return data;
+      }, new FormData()),
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -108,8 +114,8 @@ class HttpClient<SecurityDataType> {
 
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
     const r = response as HttpResponse<T, E>;
-    r.data = null;
-    r.error = null;
+    r.data = (null as unknown) as T;
+    r.error = (null as unknown) as E;
 
     return response
       .json()
@@ -159,28 +165,36 @@ class HttpClient<SecurityDataType> {
 export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   v20 = {
     /**
-     * @name getUserByName
+     * No description
+     *
+     * @name GetUserByName
      * @request GET:/2.0/users/{username}
      */
     getUserByName: (username: string, params?: RequestParams) =>
       this.request<User, any>(`/2.0/users/${username}`, "GET", params),
 
     /**
-     * @name getRepositoriesByOwner
+     * No description
+     *
+     * @name GetRepositoriesByOwner
      * @request GET:/2.0/repositories/{username}
      */
     getRepositoriesByOwner: (username: string, params?: RequestParams) =>
       this.request<Repository[], any>(`/2.0/repositories/${username}`, "GET", params),
 
     /**
-     * @name getRepository
+     * No description
+     *
+     * @name GetRepository
      * @request GET:/2.0/repositories/{username}/{slug}
      */
     getRepository: (username: string, slug: string, params?: RequestParams) =>
       this.request<Repository, any>(`/2.0/repositories/${username}/${slug}`, "GET", params),
 
     /**
-     * @name getPullRequestsByRepository
+     * No description
+     *
+     * @name GetPullRequestsByRepository
      * @request GET:/2.0/repositories/{username}/{slug}/pullrequests
      */
     getPullRequestsByRepository: (
@@ -196,14 +210,18 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
-     * @name getPullRequestsById
+     * No description
+     *
+     * @name GetPullRequestsById
      * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
      */
     getPullRequestsById: (username: string, slug: string, pid: string, params?: RequestParams) =>
       this.request<Pullrequest, any>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}`, "GET", params),
 
     /**
-     * @name mergePullRequest
+     * No description
+     *
+     * @name MergePullRequest
      * @request POST:/2.0/repositories/{username}/{slug}/pullrequests/{pid}/merge
      */
     mergePullRequest: (username: string, slug: string, pid: string, params?: RequestParams) =>

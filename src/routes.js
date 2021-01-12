@@ -1,24 +1,17 @@
 const _ = require("lodash");
 const { collect } = require("./utils");
-const { parseSchema, getRefType, formDataTypes } = require("./schema");
+const { parseSchema, getRefType, formDataTypes, getInlineParseContent } = require("./schema");
 const { checkAndRenameModelName } = require("./modelNames");
-const { inlineExtraFormatters } = require("./typeFormatters");
 const {
-  DEFAULT_PRIMITIVE_TYPE,
   DEFAULT_BODY_ARG_NAME,
   SUCCESS_RESPONSE_STATUS_RANGE,
+  TS_KEYWORDS,
 } = require("./constants");
-const { formatDescription } = require("./common");
-const { config } = require("./config");
-
-const methodAliases = {
-  get: (pathName, hasPathInserts) =>
-    _.camelCase(`${pathName}_${hasPathInserts ? "detail" : "list"}`),
-  post: (pathName, hasPathInserts) => _.camelCase(`${pathName}_create`),
-  put: (pathName, hasPathInserts) => _.camelCase(`${pathName}_update`),
-  patch: (pathName, hasPathInserts) => _.camelCase(`${pathName}_partial_update`),
-  delete: (pathName, hasPathInserts) => _.camelCase(`${pathName}_delete`),
-};
+const { formatDescription, classNameCase } = require("./common");
+const { config, addToConfig } = require("./config");
+const { nanoid } = require("nanoid");
+const { getRouteName } = require("./routeNames");
+const { createComponent } = require("./components");
 
 const getSchemaFromRequestType = (requestType) => {
   const content = _.get(requestType, "content");
@@ -46,7 +39,7 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, content
   const refTypeInfo = getRefType(requestInfo);
 
   if (schema) {
-    const { content } = parseSchema(schema, "none", inlineExtraFormatters);
+    const content = getInlineParseContent(schema, "none");
     const foundedSchemaByName = _.find(
       parsedSchemas,
       (parsedSchema) => checkAndRenameModelName(parsedSchema.name) === content,
@@ -66,25 +59,22 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, content
 
     // TODO:HACK fix problem of swagger2opeanpi
     const typeNameWithoutOpId = _.replace(refTypeInfo.typeName, operationId, "");
-    if (_.find(parsedSchemas, (schema) => schema.name === typeNameWithoutOpId))
+    if (_.find(parsedSchemas, (schema) => schema.name === typeNameWithoutOpId)) {
       return checkAndRenameModelName(typeNameWithoutOpId);
+    }
 
     switch (refTypeInfo.componentName) {
       case "schemas":
         return checkAndRenameModelName(refTypeInfo.typeName);
       case "responses":
       case "requestBodies":
-        return parseSchema(
-          getSchemaFromRequestType(refTypeInfo.rawTypeData),
-          "none",
-          inlineExtraFormatters,
-        ).content;
+        return getInlineParseContent(getSchemaFromRequestType(refTypeInfo.rawTypeData), "none");
       default:
-        return parseSchema(refTypeInfo.rawTypeData, "none", inlineExtraFormatters).content;
+        return getInlineParseContent(refTypeInfo.rawTypeData, "none");
     }
   }
 
-  return DEFAULT_PRIMITIVE_TYPE;
+  return TS_KEYWORDS.ANY;
 };
 
 const getTypesFromResponses = (responses, parsedSchemas, operationId) =>
@@ -116,32 +106,14 @@ const findSuccessResponse = (responses) =>
 
 const getReturnType = (responses, parsedSchemas, operationId) =>
   getTypeFromRequestInfo(findSuccessResponse(responses), parsedSchemas, operationId) ||
-  DEFAULT_PRIMITIVE_TYPE;
+  TS_KEYWORDS.ANY;
 
 const getErrorReturnType = (responses, parsedSchemas, operationId) =>
   _.uniq(
     findBadResponses(responses)
       .map((response) => getTypeFromRequestInfo(response, parsedSchemas, operationId))
-      .filter((type) => type !== DEFAULT_PRIMITIVE_TYPE),
-  ).join(" | ") || DEFAULT_PRIMITIVE_TYPE;
-
-const createCustomOperationId = (method, route, moduleName) => {
-  const hasPathInserts = /\{(\w){1,}\}/g.test(route);
-  const splitedRouteBySlash = _.compact(_.replace(route, /\{(\w){1,}\}/g, "").split("/"));
-  const routeParts = (splitedRouteBySlash.length > 1
-    ? splitedRouteBySlash.splice(1)
-    : splitedRouteBySlash
-  ).join("_");
-  return routeParts.length > 3 && methodAliases[method]
-    ? methodAliases[method](routeParts, hasPathInserts)
-    : _.camelCase(_.lowerCase(method) + "_" + [moduleName].join("_")) || "index";
-};
-
-const getRouteName = (operationId, method, route, moduleName) => {
-  if (operationId) return operationId;
-  if (route === "/") return `${_.lowerCase(method)}Root`;
-  return createCustomOperationId(method, route, moduleName);
-};
+      .filter((type) => type !== TS_KEYWORDS.ANY),
+  ).join(" | ") || TS_KEYWORDS.ANY;
 
 const getRouteParams = (parameters, where) =>
   collect(parameters, (parameter) => {
@@ -191,8 +163,90 @@ const createRequestsMap = (requestInfoByMethodsMap) => {
   );
 };
 
-const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, componentsMap, components, moduleNameIndex) =>
-  _.entries(paths).reduce((routes, [route, requestInfoByMethodsMap]) => {
+const collectPathParams = ({ pathParams, route }) => {
+  const routePathArgs = _.compact(
+    _.split(route, "{").map((part) => (part.includes("}") ? part.split("}")[0] : null)),
+  );
+
+  return _.uniqBy(
+    _.compact([
+      ...(routePathArgs.length
+        ? _.map(pathParams, (param) => ({ ...param, ...(param.schema || {}), in: "path" }))
+        : []),
+      ..._.map(routePathArgs, (paramName) => ({
+        name: paramName,
+        required: true,
+        type: "string",
+        description: "",
+        in: "path",
+      })),
+    ]),
+    "name",
+  );
+};
+
+const createRequestParamsSchema = ({
+  queryParams,
+  queryObjectSchema,
+  pathArgsSchemas,
+  extractRequestParams,
+  routeName,
+}) => {
+  if (!queryParams || !queryParams.length) return null;
+
+  const pathParams = _.reduce(
+    pathArgsSchemas,
+    (acc, pathArgSchema) => {
+      if (pathArgSchema.name) {
+        acc[pathArgSchema.name] = {
+          ...pathArgSchema,
+          in: "path",
+        };
+      }
+
+      return acc;
+    },
+    {},
+  );
+
+  const fixedQueryParams = _.reduce(
+    _.get(queryObjectSchema, "properties", {}),
+    (acc, property, name) => {
+      if (name && _.isObject(property)) {
+        acc[name] = {
+          ...property,
+          in: "query",
+        };
+      }
+
+      return acc;
+    },
+    {},
+  );
+
+  const schema = {
+    ...queryObjectSchema,
+    properties: {
+      ...fixedQueryParams,
+      ...pathParams,
+    },
+  };
+
+  if (extractRequestParams) {
+    return createComponent("schemas", classNameCase(`${routeName.usage} Params`), { ...schema });
+  }
+
+  return schema;
+};
+
+const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractRequestParams }) => {
+  const { paths, security: globalSecurity } = usageSchema;
+  const pathsEntries = _.entries(paths);
+  addToConfig({
+    routeNameDuplicatesMap: new Map(),
+  });
+
+  return pathsEntries.reduce((routes, [route, requestInfoByMethodsMap]) => {
     if (route.startsWith("x-")) return routes;
 
     const requestsMap = createRequestsMap(requestInfoByMethodsMap);
@@ -209,7 +263,9 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
           description,
           tags,
           responses,
+          requestBodyName,
         } = requestInfo;
+        const routeId = nanoid(12);
         const hasSecurity = !!(
           (globalSecurity && globalSecurity.length) ||
           (security && security.length)
@@ -223,14 +279,8 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
         const hasFormDataParams = formDataParams && !!formDataParams.length;
         let formDataRequestBody =
           requestBodyType && requestBodyType.dataType === "multipart/form-data";
-
         const moduleName = _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
-
-        const routeName = getRouteName(operationId, method, route, moduleName);
-        const name = _.camelCase(routeName);
-
         const responsesTypes = getTypesFromResponses(responses, parsedSchemas, operationId);
-
         const formDataObjectSchema = hasFormDataParams
           ? convertRouteParamsIntoObject(formDataParams)
           : formDataRequestBody
@@ -239,16 +289,45 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
         const queryObjectSchema = convertRouteParamsIntoObject(queryParams);
 
         const bodyParamName =
-          requestInfo.requestBodyName || (requestBody && requestBody.name) || DEFAULT_BODY_ARG_NAME;
+          requestBodyName || (requestBody && requestBody.name) || DEFAULT_BODY_ARG_NAME;
 
-        const queryType = queryParams.length
-          ? parseSchema(queryObjectSchema, null, inlineExtraFormatters).content
-          : null;
+        const pathArgsSchemas = collectPathParams({
+          pathParams,
+          route,
+        });
+        const pathArgs = pathArgsSchemas.map((pathArgSchema) => ({
+          name: pathArgSchema.name,
+          optional: !pathArgSchema.required,
+          type: getInlineParseContent(pathArgSchema.schema),
+          description: pathArgSchema.description,
+        }));
+
+        const routeName = getRouteName({
+          operationId,
+          method,
+          route,
+          moduleName,
+          responsesTypes,
+          description,
+          tags,
+          summary,
+          pathArgs,
+        });
+
+        const requestParamsSchema = createRequestParamsSchema({
+          queryParams,
+          pathArgsSchemas,
+          queryObjectSchema,
+          extractRequestParams,
+          routeName,
+        });
+
+        const queryType = queryParams.length ? getInlineParseContent(queryObjectSchema) : null;
 
         let bodyType = null;
 
         if (formDataObjectSchema) {
-          bodyType = parseSchema(formDataObjectSchema, null, inlineExtraFormatters).content;
+          bodyType = getInlineParseContent(formDataObjectSchema);
         } else if (requestBody) {
           bodyType = getTypeFromRequestInfo(requestBody, parsedSchemas, operationId);
 
@@ -259,34 +338,6 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
             formDataRequestBody = true;
           }
         }
-
-        // Gets all in path parameters from route
-        // Example: someurl.com/{id}/{name}
-        // returns: ["id", "name"]
-        const insideRoutePathArgs = _.compact(
-          _.split(route, "{").map((part) => (part.includes("}") ? part.split("}")[0] : null)),
-        );
-
-        // Path args - someurl.com/{id}/{name}
-        // id, name its path args
-        const pathArgs = insideRoutePathArgs.length
-          ? _.map(pathParams, (param) => ({
-              name: param.name,
-              optional: !param.required,
-              type: parseSchema(param.schema, null, inlineExtraFormatters).content,
-            }))
-          : [];
-
-        insideRoutePathArgs.forEach((routePathArg) => {
-          // Cases when in path parameters is not exist in "parameters"
-          if (!pathArgs.find((pathArg) => pathArg && pathArg.name === routePathArg)) {
-            pathArgs.push({
-              name: routePathArg,
-              optional: false,
-              type: "string",
-            });
-          }
-        });
 
         const specificArgs = {
           query: queryType
@@ -358,92 +409,75 @@ const parseRoutes = ({ paths, security: globalSecurity }, parsedSchemas, compone
         //   }
         //   return acc;
         // }, [' '])
-
-        const comments = _.compact([
-          tags && tags.length && `@tags ${tags.join(", ")}`,
-          `@name ${routeName}`,
-          summary && `@summary ${summary}`,
-          `@request ${_.upperCase(method)}:${route}`,
-          // requestBody && requestBody.description && `@body ${requestBody.description}`,
-          hasSecurity && `@secure`,
-          description && `@description ${formatDescription(description, true)}`,
+        const jsDocDescription =
+          description && ` * @description ${formatDescription(description, true)}`;
+        const jsDocLines = _.compact([
+          tags?.length && ` * @tags ${tags.join(", ")}`,
+          ` * @name ${routeId}`,
+          summary && ` * @summary ${summary}`,
+          ` * @request ${_.upperCase(method)}:${route}`,
+          hasSecurity && ` * @secure`,
           ...(config.generateResponses && responsesTypes.length
             ? responsesTypes.map(
                 ({ type, status, description, isSuccess }) =>
-                  `@response \`${status}\` \`${type}\` ${description}`,
+                  ` * @response \`${status}\` \`${type}\` ${description}`,
               )
             : []),
-        ]);
+        ]).join("\n");
 
         const path = route.replace(/{/g, "${");
-        const hasQuery = !!queryParams.length;
-        const bodyArg = requestBody ? bodyParamName : "null";
-        const upperCaseMethod = _.upperCase(method);
 
-        return {
-          moduleName: _.replace(moduleName, /^(\d)/, "v$1"),
-          security: hasSecurity,
-          hasQuery,
-          hasFormDataParams: hasFormDataParams || formDataRequestBody,
-          queryType: queryType || "{}",
-          bodyType: bodyType || "never",
-          name,
-          pascalName: _.upperFirst(name),
-          comments,
-          routeArgs,
-          specificArgs,
-          method: upperCaseMethod,
-          path,
-          returnType: getReturnType(responses, parsedSchemas, operationId),
-          errorReturnType: getErrorReturnType(responses, parsedSchemas, operationId),
-          bodyArg,
-          requestMethodContent:
-            `\`${path}${hasQuery ? `\${this.addQueryParams(${specificArgs.query.name})}` : ""}\`,` +
-            `"${upperCaseMethod}", ` +
-            `${specificArgs.requestParams.name}` +
-            _.compact([
-              requestBody && `, ${bodyParamName}`,
-              (hasFormDataParams || formDataRequestBody) &&
-                `${requestBody ? "" : ", null"}, BodyType.FormData`,
-              hasSecurity &&
-                `${
-                  hasFormDataParams || formDataRequestBody
-                    ? ""
-                    : `${requestBody ? "" : ", null"}, BodyType.Json`
-                }, true`,
-            ]).join(""),
+        const response = {
+          type: getReturnType(responses, parsedSchemas, operationId),
+          errorType: getErrorReturnType(responses, parsedSchemas, operationId),
         };
+
+        const routeData = {
+          id: routeId,
+          jsDocDescription,
+          jsDocLines,
+          namespace: _.replace(moduleName, /^(\d)/, "v$1"),
+          request: {
+            parameters: pathArgs,
+            query: specificArgs.query,
+            path,
+            formData: hasFormDataParams || formDataRequestBody,
+            security: hasSecurity,
+            method: method,
+            payload: specificArgs.body,
+            params: specificArgs.requestParams,
+            requestParams: requestParamsSchema,
+          },
+          response,
+          routeName,
+          raw: {
+            operationId,
+            method,
+            route,
+            moduleName,
+            responsesTypes,
+            description,
+            tags,
+            summary,
+          },
+        };
+
+        return config.hooks.onCreateRoute(routeData) || routeData;
       }),
     ];
   }, []);
+};
 
 const groupRoutes = (routes) => {
-  const duplicates = {};
   return _.reduce(
     routes.reduce(
       (modules, route) => {
-        if (route.moduleName) {
-          if (!modules[route.moduleName]) {
-            modules[route.moduleName] = [];
+        if (route.namespace) {
+          if (!modules[route.namespace]) {
+            modules[route.namespace] = [];
           }
 
-          if (!duplicates[route.moduleName]) duplicates[route.moduleName] = {};
-          if (!duplicates[route.moduleName][route.name]) {
-            duplicates[route.moduleName][route.name] = 1;
-          } else {
-            const routeName = route.name;
-            route.comments.push(`@originalName ${routeName}`);
-            route.comments.push(`@duplicate`);
-            const duplicateNumber = ++duplicates[route.moduleName][routeName];
-            route.name += duplicateNumber;
-            route.pascalName += duplicateNumber;
-            console.warn(
-              `🥵  Module "${route.moduleName}" already have method "${routeName}()"`,
-              `\n🥵  This method has been renamed to "${route.name}()" to solve conflict names.`,
-            );
-          }
-
-          modules[route.moduleName].push(route);
+          modules[route.namespace].push(route);
         } else {
           modules.$outOfModule.push(route);
         }

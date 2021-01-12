@@ -2,6 +2,7 @@
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/acacode/swagger-typescript-api.svg)](https://greenkeeper.io/)
 [![NPM badge](https://img.shields.io/npm/v/swagger-typescript-api.svg)](https://www.npmjs.com/package/swagger-typescript-api)
+[![Build Status](https://travis-ci.org/acacode/swagger-typescript-api.svg?branch=master)](https://travis-ci.org/acacode/swagger-typescript-api)
 
 <img src="https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/swagger-typescript-api-logo.png" align="left"
      title="swagger-typescript-api logo by js2me" width="93" height="180">
@@ -23,9 +24,8 @@ Any questions you can ask [**here**](https://github.com/acacode/swagger-typescri
 
 All examples you can find [**here**](https://github.com/acacode/swagger-typescript-api/tree/master/tests)  
 
-## 🛑 It is the latest version on mustache templates   
-Next versions 4.0.0+ will use the [ETA](https://eta.js.org/docs/syntax) templates.  
-If you want to create fork with `mustache` templates use `mustache-latest` branch  
+## 🛑 It is new version with [ETA](https://eta.js.org/docs/syntax) templates  
+Version with `mustache` templates is `>4.0.0`  
 
 ## 📄 Usage  
 
@@ -47,9 +47,13 @@ Options:
   --union-enums                 generate all "enum" types as union types (T1 | T2 | TN) (default: false)
   --route-types                 generate type definitions for API routes (default: false)
   --no-client                   do not generate an API class
+  --enum-names-as-values        use values in 'x-enumNames' as enum values (not only as keys) (default: false)
   --js                          generate js api module with declaration file (default: false)
+  --extract-request-params      extract request params to data contract (default: false)
+                                Also combine path params and query params into one object
   --module-name-index <number>  determines which path index should be used for routes separation (default: 0)
                                 (example: GET:/fruites/getFruit -> index:0 -> moduleName -> fruites)
+  --modular                     generate separated files for http client, data contracts, and routes (default: false)
   -h, --help                    display help for command
 ```
 
@@ -67,7 +71,11 @@ generateApi({
   name: "MySuperbApi.ts", // name of output typescript file
   url: 'http://api.com/swagger.json', // url where located swagger schema
 })
-  .then(sourceFile => fs.writeFile(path, sourceFile))
+  .then(({ files, configuration }) => {
+    files.forEach(({ content, name }) => {
+      fs.writeFile(path, content);
+    });
+  })
   .catch(e => console.error(e))
 
 // example with local file  
@@ -75,7 +83,11 @@ generateApi({
   name: "ApiModule.ts", // name of output typescript file
   input: resolve(process.cwd(), './foo/swagger.json') // path to swagger schema
 })
-  .then(sourceFile => fs.writeFile(path, sourceFile))
+  .then(({ files, configuration }) => {
+    files.forEach(({ content, name }) => {
+      fs.writeFile(path, content);
+    });
+  })
   .catch(e => console.error(e))
 
 // example with parsed schema  
@@ -98,7 +110,11 @@ generateApi({
     // ...
   }
 })
-  .then(sourceFile => fs.writeFile(path, sourceFile))
+  .then(({ files, configuration }) => {
+    files.forEach(({ content, name }) => {
+      fs.writeFile(path, content);
+    });
+  })
   .catch(e => console.error(e))
 
 ```
@@ -106,11 +122,24 @@ generateApi({
 
 ## 💎 options   
 ### **`--templates`**  
-This option should be used in cases when you don't want to use default `swagger-typescript-api` output structure  
+This option needed for cases when you don't want to use default `swagger-typescript-api` output structure  
+
+Templates:  
+- `api.eta` - Api class module  
+- `data-contracts.eta` - all types (data contracts) from swagger schema  
+- `http-client.eta` - HttpClient class module  
+- `procedure-call.eta` - route in Api class  
+- `route-docs.eta` - documentation for route in Api class  
+- `route-name.eta` - route name for route in Api class  
+- `route-type.eta` - *(`--route-types` option)*  
+- `route-types.eta` - *(`--route-types` option)*  
+
 How to use it:  
-1. copy [**swagger-typescript-api templates**](https://github.com/acacode/swagger-typescript-api/tree/mustache-latest/src/templates/defaults) into your place in project  
+1. copy swagger-typescript-api templates into your place in project
+    - from [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default) for single api file  
+    - from [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular) for multiple api files (with `--modular` option)  
 1. add `--templates PATH_TO_YOUR_TEMPLATES` option  
-2. modify [Mustache](https://mustache.github.io/) templates as you like  
+2. modify [ETA](https://eta.js.org/docs/syntax) templates as you like  
 
 ### **`--module-name-index`**  
 This option should be used in cases when you have api with one global prefix like `/api`   
@@ -139,10 +168,10 @@ When we change it to `--module-name-index 1` then Api class have two properties 
 
 ## 🛠️ Contribution  
 
-You can manually check your changes at schemas in `tests` folder before create a PR.  
-To do that have scripts:  
-    - `npm run generate` - generate API modules from schemas in `tests` folder  
-    - `npm run validate` - validate generated API modules via TypeScript  
+
+❗❗❗ Please use the `next` branch :)   
+
+If you need to check your changes at schemas in `tests` folder before create a PR just run command `npm run test:all`  
 
 ## 📝 License  
 Licensed under the [MIT License](https://github.com/acacode/swagger-typescript-api/blob/master/LICENSE).

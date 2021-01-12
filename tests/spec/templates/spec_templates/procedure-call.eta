@@ -1,0 +1,49 @@
+<%
+const { utils, route, config } = it;
+const { _ } = utils;
+const { parameters, path, method, payload, params, query, formData, security } = route.request;
+const { type, errorType } = route.response;
+const routeDocs = includeFile("./route-docs", { config, route, utils });
+
+const argToTmpl = ({ name, optional, type }) => optional
+    ? `${name}?: ${type}`
+    : `${name}: ${type}`;
+
+const rawWrapperArgs = Object.values(parameters)
+    .concat([query, payload, params])
+    .filter(Boolean)
+const wrapperArgs = _
+    // Sort by optionality
+    .sortBy(rawWrapperArgs, [function(o) { return o.optional }])
+    .map(argToTmpl)
+    .join(', ')
+
+const bodyModeTmpl = formData
+    ? 'BodyType.FormData'
+    : security
+        ? 'BodyType.Json'
+        : null
+const securityTmpl = security ? 'true' : null
+const pathTmpl = query != null
+    ? '`' + path + '${this.addQueryParams(' + query.name + ')}' + '`'
+    : '`' + path + '`'
+const requestArgs = [pathTmpl, `'${_.upperCase(method)}'`, params?.name ?? null, payload?.name ?? null, bodyModeTmpl, securityTmpl]
+    .reverse()
+    .reduce((args, arg) => {
+        if (args.length === 0 && !arg) return args
+        args.push(arg ? arg : 'null')
+        return args
+    }, [])
+    .reverse()
+    .join(', ')
+%>
+/**
+<%~ routeDocs.description %>
+
+ * <% /* Here you can add some other JSDoc tags */ %>
+
+<%~ routeDocs.lines %>
+
+ */
+<%~ route.routeName.usage %><%~ route.namespace ? ': ' : ' = ' %>(<%~ wrapperArgs %>) =>
+    this.request<<%~ type %>, <%~ errorType %>>(<%~ requestArgs %>)<%~ route.namespace ? ',' : '' %>

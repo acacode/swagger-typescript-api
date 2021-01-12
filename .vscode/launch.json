@@ -27,6 +27,14 @@
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run-script", "cli:debug:yaml"]
+    },
+    {
+      "name": "Debug Node",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run-script", "node:debug"]
     }
   ]
 }

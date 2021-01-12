@@ -6,16 +6,8 @@ cache:
   directories:
     - "node_modules"
 
-before_install:
-  - export PACKAGE_VERSION=$(node -p "require('./package.json').version")
-  - export PACKAGE_NAME=$(node -p "require('./package.json').name")
-  - export NPM_REMOTE_VERSION=$(npm view swagger-typescript-api version)
-  - export BRANCH_IS_TAG=$(node -p "/^([0-9].[0-9].[0-9]+((-(alpha|beta))|))$/.test('${TRAVIS_BRANCH}')")
-  - export GIT_LOG="$(git log --pretty=format:"* %s (%h)")"
-  - export PROJECT_NAME="acacode/swagger-typescript-api"
-
 install:
-  - npm ci
+  - npm i
 
 jobs:
   include:

@@ -1,14 +1,19 @@
 const _ = require("lodash");
 const { config } = require("./config");
-const { checkAndRenameModelName } = require("./modelNames");
+const { TS_KEYWORDS, SCHEMA_TYPES } = require("./constants");
 
 const formatters = {
-  enum: (content) =>
-    _.map(content, ({ key, value }) =>
-      config.generateUnionEnums ? value : `  ${key} = ${value}`,
-    ).join(config.generateUnionEnums ? " | " : ",\n"),
-  intEnum: (content) => _.map(content, ({ value }) => value).join(" | "),
-  object: (content) =>
+  [SCHEMA_TYPES.ENUM]: (content) => {
+    const isNumberEnum = _.some(content, (content) => typeof content.key === "number");
+    const formatAsUnionType = !!(isNumberEnum || config.generateUnionEnums);
+
+    if (formatAsUnionType) {
+      return _.map(content, ({ value }) => value).join(" | ");
+    }
+
+    return _.map(content, ({ key, value }) => `  ${key} = ${value}`).join(",\n");
+  },
+  [SCHEMA_TYPES.OBJECT]: (content) =>
     _.map(content, (part) => {
       const extraSpace = "  ";
       const result = `${extraSpace}${part.field};\n`;
@@ -31,33 +36,24 @@ const formatters = {
 
       return `${commonText}${result}`;
     }).join(""),
-  type: (content) => {
-    // const separators = [" & ", " | "];
-
-    // for (const separator of separators) {
-    //   if (content.includes(separator)) {
-    //     return content.split(separator).map(checkAndRenameModelName).join(separator);
-    //   }
-    // }
-
-    return content;
-  },
-  primitive: (content) => {
+  [SCHEMA_TYPES.PRIMITIVE]: (content) => {
     return content;
   },
 };
 
 const inlineExtraFormatters = {
-  object: (parsedSchema) => {
+  [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
     return {
       ...parsedSchema,
-      typeIdentifier: parsedSchema.content.length ? parsedSchema.typeIdentifier : "type",
-      content: parsedSchema.content.length
+      typeIdentifier: "type",
+      content: _.isString(parsedSchema.content)
+        ? parsedSchema.content
+        : parsedSchema.content.length
         ? `{ ${parsedSchema.content.map((part) => part.field).join(", ")} }`
-        : "object",
+        : TS_KEYWORDS.OBJECT,
     };
   },
-  enum: (parsedSchema) => {
+  [SCHEMA_TYPES.ENUM]: (parsedSchema) => {
     return {
       ...parsedSchema,
       content: _.map(parsedSchema.content, ({ value }) => `${value}`).join(" | "),

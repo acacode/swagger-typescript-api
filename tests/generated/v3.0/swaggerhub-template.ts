@@ -13,6 +13,8 @@ export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };
 
+export type RequestQueryParamsType = Record<string | number, any>;
+
 interface ApiConfig<SecurityDataType> {
   baseUrl?: string;
   baseApiParams?: RequestParams;
@@ -20,15 +22,16 @@ interface ApiConfig<SecurityDataType> {
 }
 
 interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
-  data: D | null;
-  error: E | null;
+  data: D;
+  error: E;
 }
 
 enum BodyType {
   Json,
+  FormData,
 }
 
-class HttpClient<SecurityDataType> {
+export class HttpClient<SecurityDataType = unknown> {
   public baseUrl: string = "https://virtserver.swaggerhub.com/sdfsdfsffs/sdfff/1.0.0";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
@@ -50,8 +53,33 @@ class HttpClient<SecurityDataType> {
     this.securityData = data;
   };
 
+  private addQueryParam(query: RequestQueryParamsType, key: string) {
+    return (
+      encodeURIComponent(key) + "=" + encodeURIComponent(Array.isArray(query[key]) ? query[key].join(",") : query[key])
+    );
+  }
+
+  protected addQueryParams(rawQuery?: RequestQueryParamsType): string {
+    const query = rawQuery || {};
+    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
+    return keys.length
+      ? `?${keys
+          .map((key) =>
+            typeof query[key] === "object" && !Array.isArray(query[key])
+              ? this.addQueryParams(query[key] as object).substring(1)
+              : this.addQueryParam(query, key),
+          )
+          .join("&")}`
+      : "";
+  }
+
   private bodyFormatters: Record<BodyType, (input: any) => any> = {
     [BodyType.Json]: JSON.stringify,
+    [BodyType.FormData]: (input: any) =>
+      Object.keys(input).reduce((data, key) => {
+        data.append(key, input[key]);
+        return data;
+      }, new FormData()),
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -69,8 +97,8 @@ class HttpClient<SecurityDataType> {
 
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
     const r = response as HttpResponse<T, E>;
-    r.data = null;
-    r.error = null;
+    r.data = (null as unknown) as T;
+    r.error = (null as unknown) as E;
 
     return response
       .json()
@@ -122,22 +150,24 @@ class HttpClient<SecurityDataType> {
 export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   example = {
     /**
-     * @name exampleList
+     * @description This is an example operation to show how security is applied to the call.
+     *
+     * @name ExampleList
      * @summary Server example operation
      * @request GET:/example
      * @secure
-     * @description This is an example operation to show how security is applied to the call.
      */
     exampleList: (params?: RequestParams) =>
       this.request<any, any>(`/example`, "GET", params, null, BodyType.Json, true),
   };
   ping = {
     /**
-     * @name pingList
+     * @description This operation shows how to override the global security defined above, as we want to open it up for all users.
+     *
+     * @name PingList
      * @summary Server heartbeat operation
      * @request GET:/ping
      * @secure
-     * @description This operation shows how to override the global security defined above, as we want to open it up for all users.
      */
     pingList: (params?: RequestParams) => this.request<any, any>(`/ping`, "GET", params, null, BodyType.Json, true),
   };

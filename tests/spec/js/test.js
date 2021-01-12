@@ -6,8 +6,6 @@ const createSchemasInfos = require("../../helpers/createSchemaInfos");
 const schemas = createSchemasInfos({ absolutePathToSchemas: resolve(__dirname, "./") });
 
 schemas.forEach(({ absolutePath, apiFileName }) => {
-  console.info("apiFileName", apiFileName);
-
   generateApi({
     name: apiFileName,
     input: absolutePath,

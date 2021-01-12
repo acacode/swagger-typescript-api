@@ -1,0 +1,64 @@
+<%
+const { utils, route, config } = it;
+const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef } = utils;
+const { parameters, path, method, payload, params, query, formData, security, requestParams } = route.request;
+const { type, errorType } = route.response;
+const routeDocs = includeFile("./route-docs", { config, route, utils });
+const queryName = query?.name ?? "query";
+const pathParams = _.values(parameters);
+
+const argToTmpl = ({ name, optional, type }) => `${name}${optional ? '?' : ''}: ${type}`;
+
+const rawWrapperArgs = config.extractRequestParams ?
+    _.compact([
+        requestParams && {
+          name: pathParams.length ? `{ ${_.join(_.map(pathParams, "name"), ", ")}, ...${queryName} }` : queryName,
+          optional: false,
+          type: getParseContent(requestParams),
+        },
+        ...(!requestParams ? pathParams : []),
+        payload,
+        params,
+    ]) :
+    _.compact([
+        ...pathParams,
+        query,
+        payload,
+        params,
+    ])
+
+const wrapperArgs = _
+    // Sort by optionality
+    .sortBy(rawWrapperArgs, [o => o.optional])
+    .map(argToTmpl)
+    .join(', ')
+
+const bodyModeTmpl = formData
+    ? 'BodyType.FormData'
+    : security
+        ? 'BodyType.Json'
+        : null
+const securityTmpl = security ? 'true' : null
+const pathTmpl = query != null
+    ? `\`${path}\${this.addQueryParams(${queryName})}\``
+    : `\`${path}\``
+const requestArgs = [pathTmpl, `'${_.upperCase(method)}'`, params?.name, payload?.name, bodyModeTmpl, securityTmpl]
+    .reverse()
+    .reduce((args, arg) => {
+        if (args.length === 0 && !arg) return args
+        args.push(arg ? arg : 'null')
+        return args
+    }, [])
+    .reverse()
+    .join(', ')
+%>
+/**
+<%~ routeDocs.description %>
+
+ * <% /* Here you can add some other JSDoc tags */ %>
+
+<%~ routeDocs.lines %>
+
+ */
+<%~ route.routeName.usage %><%~ route.namespace ? ': ' : ' = ' %>(<%~ wrapperArgs %>) =>
+    this.request<<%~ type %>, <%~ errorType %>>(<%~ requestArgs %>)<%~ route.namespace ? ',' : '' %>

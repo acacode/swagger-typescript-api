@@ -1,0 +1,24 @@
+<%
+const { route, utils, config } = it;
+const { _, classNameCase } = utils
+const { query, payload } = route.request
+const { type: responseType } = route.response
+
+const routeDocs = includeFile("./route-docs", { config, route, utils });
+const routeNamespace = classNameCase(route.routeName.usage)
+const queryType = query?.type || '{}'
+const bodyType = payload?.type || 'never'
+%>
+/**
+<%~ routeDocs.description %>
+
+* <% /* Here you can add some other JSDoc tags */ %>
+
+<%~ routeDocs.lines %>
+
+*/
+export namespace <%~ routeNamespace %> {
+export type RequestQuery = <%~ queryType %>;
+export type RequestBody = <%~ bodyType %>;
+export type ResponseBody = <%~ responseType %>;
+}

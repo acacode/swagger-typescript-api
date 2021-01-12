@@ -1,5 +1,75 @@
 # next release  
 
+# 4.0.0  
+
+BREAKING_CHANGES:  
+- Migrate from [mustache](https://mustache.github.io/) template engine to [ETA](https://eta.js.org/) template engine. (Thanks @Fl0pZz)  
+- Critical change in `HttpResponse` type (Remove `D | null`, `E | null` unions)  
+```diff
+interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
+-  data: D | null;
++  data: D;
+-  error: E | null;
++  error: E;
+}
+```
+
+Features:  
+- `--modular` option. Allows to generate api class per module name.   
+  Example: [here](./tests/spec/modular)   
+- new templates on [ETA](https://eta.js.org/) (enhanced EJS) which can improve your templates! (Thanks @Fl0pZz)   
+  [ETA extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=shadowtime2000.eta-vscode) (thanks @shadowtime2000)  
+  Also moved out to templates:
+    - `procedure-call.eta` (request api method template)  
+    - `route-name.eta` (api method name template)  
+    - `route-docs.eta` (api method docs template)  
+
+  No worry about strange syntax it is very simple in usage :)  
+- Optional templates feature (Except templates using in `includeFile` `ETA` directive)  
+  Now you can store only the `ETA` templates which you need to change for yourself.  
+- `--extract-request-params` option. Generate path and query request params data contract and modify request payload args   
+  Example:  
+  ![extract-request-params](./assets/changelog_assets/extractRequestParams.jpg)  
+- Improve `data-contracts.eta` template. Added more power :)  
+- Add `extraTemplates` property for `generateApi()`. Allows to generate extra files via this tool.  
+- Add `hooks` property for `generateApi()`  
+  ```ts
+  hooks?: Partial<{
+    onCreateComponent: (component: SchemaComponent) => SchemaComponent | void;
+    onParseSchema: (originalSchema: any, parsedSchema: any) => any | void;
+    onCreateRoute: (routeData: ParsedRoute) => ParsedRoute | void;
+    /** Start point of work this tool (after fetching schema) */
+    onInit?: <C extends GenerateApiConfiguration["config"]>(configuration: C) => C | void;
+    /** Allows to customize configuration object before sending it to templates. */
+    onPrepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C | void;
+  }>;
+  ```
+  ```ts
+    generateApi({
+      input: "./schema.json",
+      output: "./__generated__",
+      hooks: {
+        onCreateComponent(component) {
+          // do something
+          return component;
+        },
+        // ...
+      }
+    })
+  ```
+
+Internal:  
+- Update all dependencies to latest  
+
+Fixes:  
+- `x-enumNames` support for enums  
+- Problem of complex types (`oneOf`, `allOf`) with `properties` field  
+- `additionalProperties: true` should make `[key: string]: any` for object types (Thanks @brookjordan for issue #103)  
+
+Common:  
+- `HttpClient` is exportable by default  
+- Improve typings when use `swagger-typescript-api` with NodeJS (`index.d.ts`)  
+
 # 3.1.2  
 Fixes:  
 - axios vulnerability (#101 issue, thanks @Mvbraathen)  

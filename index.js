@@ -6,14 +6,20 @@
 // License text available at https://opensource.org/licenses/MIT
 // Repository https://github.com/acacode/swagger-typescript-api
 
-const program = require("commander");
+const { Command } = require("commander");
 const { resolve } = require("path");
 const { generateApi } = require("./src");
-const { version } = require("./package.json");
+const { version, name: packageName } = require("./package.json");
+
+const program = new Command(packageName);
+
+program.storeOptionsAsProperties(true);
 
 program
   .version(version, "-v, --version", "output the current version")
-  .description("Generate api via swagger scheme.\nSupports OA 3.0, 2.0, JSON, yaml.")
+  .description("Generate api via swagger scheme.\nSupports OA 3.0, 2.0, JSON, yaml.");
+
+program
   .requiredOption("-p, --path <path>", "path/url to swagger scheme")
   .option("-o, --output <output>", "output path of typescript api file", "./")
   .option("-n, --name <name>", "name of output typescript api file", "Api.ts")
@@ -33,6 +39,21 @@ program
   .option("--union-enums", 'generate all "enum" types as union types (T1 | T2 | TN)', false)
   .option("--route-types", "generate type definitions for API routes", false)
   .option("--no-client", "do not generate an API class", false)
+  .option(
+    "--enum-names-as-values",
+    "use values in 'x-enumNames' as enum values (not only as keys)",
+    false,
+  )
+  .option(
+    "--extract-request-params",
+    "extract request params to data contract (Also combine path params and query params into one object)",
+    false,
+  )
+  .option(
+    "--modular",
+    "generate separated files for http client, data contracts, and routes",
+    false,
+  )
   .option("--js", "generate js api module with declaration file", false)
   .option(
     "--module-name-index <number>",
@@ -52,8 +73,11 @@ const {
   client,
   defaultAsSuccess,
   responses,
+  modular,
   js,
   moduleNameIndex,
+  extractRequestParams,
+  enumNamesAsValues,
 } = program;
 
 generateApi({
@@ -64,12 +88,12 @@ generateApi({
   defaultResponseAsSuccess: defaultAsSuccess,
   generateUnionEnums: unionEnums,
   generateResponses: responses,
+  extractRequestParams: extractRequestParams,
   input: resolve(process.cwd(), path),
   output: resolve(process.cwd(), output || "."),
-  templates: resolve(
-    templates ? process.cwd() : __dirname,
-    templates || "./src/templates/defaults",
-  ),
+  templates,
+  modular: !!modular,
   toJS: !!js,
+  enumNamesAsValues: enumNamesAsValues,
   moduleNameIndex: +(moduleNameIndex || 0),
 });

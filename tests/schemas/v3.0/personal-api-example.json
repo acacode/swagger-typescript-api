@@ -6,6 +6,115 @@
     "requestBodies": {},
     "responses": {},
     "schemas": {
+      "TestAllOfDc": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FooBarBaz"
+          },
+          {
+            "$ref": "#/components/schemas/FooBar"
+          }
+        ],
+        "properties": {
+          "prop": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TestAllOfDc2": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FooBarBaz"
+          }
+        ],
+        "properties": {
+          "prop": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TestAnyOfDc": {
+        "type": "object",
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/FooBarBaz"
+          },
+          {
+            "$ref": "#/components/schemas/FooBar"
+          }
+        ],
+        "properties": {
+          "prop": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TestOneOfDc": {
+        "type": "object",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/FooBarBaz"
+          },
+          {
+            "$ref": "#/components/schemas/FooBar"
+          }
+        ],
+        "properties": {
+          "prop": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "IntEnumWithNames": {
+        "enum": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        "type": "integer",
+        "description": "FooBar",
+        "format": "int32",
+        "x-enumNames": [
+          "Unknown",
+          "String",
+          "Int32",
+          "Int64",
+          "Double",
+          "DateTime",
+          "Test2",
+          "Test23",
+          "Tess44",
+          "BooFar"
+        ]
+      },
+      "FooBarBaz": {
+        "description": "Information about job",
+        "properties": {
+          "id": { "type": "string" },
+          "kind": { "$ref": "#/components/schemas/JobKind" },
+          "name": { "type": "string" },
+          "link": { "type": "string" }
+        },
+        "type": "object",
+        "additionalProperties": true
+      },
+      "FooBar": {
+        "description": "Information about job",
+        "properties": {
+          "kind": { "$ref": "#/components/schemas/JobKind" }
+        },
+        "type": "object"
+      },
+      "FooBaz": {
+        "description": "Information about job",
+        "properties": {
+          "name": { "type": "string" },
+          "link": { "type": "string" }
+        },
+        "type": "object"
+      },
       "Pick_UserType.Exclude_keyofUserType.id-or-_id__": {
         "properties": { "username": { "type": "string" }, "password": { "type": "string" } },
         "required": ["username", "password"],

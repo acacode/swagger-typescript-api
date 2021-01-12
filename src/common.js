@@ -23,5 +23,6 @@ module.exports = {
 
     return _.replace(prettified, /\n$/g, "");
   },
-  toInternalCase: (value) => _.camelCase(_.lowerCase(value)),
+  internalCase: (value) => _.camelCase(_.lowerCase(value)),
+  classNameCase: (value) => _.upperFirst(_.camelCase(value)),
 };

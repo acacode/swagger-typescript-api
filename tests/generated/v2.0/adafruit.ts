@@ -169,15 +169,16 @@ interface ApiConfig<SecurityDataType> {
 }
 
 interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
-  data: D | null;
-  error: E | null;
+  data: D;
+  error: E;
 }
 
 enum BodyType {
   Json,
+  FormData,
 }
 
-class HttpClient<SecurityDataType> {
+export class HttpClient<SecurityDataType = unknown> {
   public baseUrl: string = "https://io.adafruit.com/api/v2";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
@@ -221,6 +222,11 @@ class HttpClient<SecurityDataType> {
 
   private bodyFormatters: Record<BodyType, (input: any) => any> = {
     [BodyType.Json]: JSON.stringify,
+    [BodyType.FormData]: (input: any) =>
+      Object.keys(input).reduce((data, key) => {
+        data.append(key, input[key]);
+        return data;
+      }, new FormData()),
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -238,8 +244,8 @@ class HttpClient<SecurityDataType> {
 
   private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
     const r = response as HttpResponse<T, E>;
-    r.data = null;
-    r.error = null;
+    r.data = (null as unknown) as T;
+    r.error = (null as unknown) as E;
 
     return response
       .json()
@@ -411,8 +417,10 @@ class HttpClient<SecurityDataType> {
 export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   user = {
     /**
+     * No description
+     *
      * @tags Users
-     * @name currentUser
+     * @name CurrentUser
      * @summary Get information about the current user
      * @request GET:/user
      * @secure
@@ -421,8 +429,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
   };
   webhooks = {
     /**
+     * No description
+     *
      * @tags Webhooks, Data
-     * @name createWebhookFeedData
+     * @name CreateWebhookFeedData
      * @summary Send data to a feed via webhook URL.
      * @request POST:/webhooks/feed/:token
      * @secure
@@ -431,35 +441,38 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Data, any>(`/webhooks/feed/:token`, "POST", params, payload, BodyType.Json, true),
 
     /**
+     * @description The raw data webhook receiver accepts POST requests and stores the raw request body on your feed. This is useful when you don't have control of the webhook sender. If feed history is turned on, payloads will be truncated at 1024 bytes. If feed history is turned off, payloads will be truncated at 100KB.
+     *
      * @tags Webhooks, Data
-     * @name createRawWebhookFeedData
+     * @name CreateRawWebhookFeedData
      * @summary Send arbitrary data to a feed via webhook URL.
      * @request POST:/webhooks/feed/:token/raw
      * @secure
-     * @description The raw data webhook receiver accepts POST requests and stores the raw request body on your feed. This is useful when you don't have control of the webhook sender. If feed history is turned on, payloads will be truncated at 1024 bytes. If feed history is turned off, payloads will be truncated at 100KB.
      */
     createRawWebhookFeedData: (params?: RequestParams) =>
       this.request<Data, any>(`/webhooks/feed/:token/raw`, "POST", params, null, BodyType.Json, true),
   };
   username = {
     /**
+     * @description Delete all your activities.
+     *
      * @tags Activities
-     * @name destroyActivities
+     * @name DestroyActivities
      * @summary All activities for current user
      * @request DELETE:/{username}/activities
      * @secure
-     * @description Delete all your activities.
      */
     destroyActivities: (username: string, params?: RequestParams) =>
       this.request<any, any>(`/${username}/activities`, "DELETE", params, null, BodyType.Json, true),
 
     /**
+     * @description The Activities endpoint returns information about the user's activities.
+     *
      * @tags Activities
-     * @name allActivities
+     * @name AllActivities
      * @summary All activities for current user
      * @request GET:/{username}/activities
      * @secure
-     * @description The Activities endpoint returns information about the user's activities.
      */
     allActivities: (
       username: string,
@@ -476,12 +489,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * @description The Activities endpoint returns information about the user's activities.
+     *
      * @tags Activities
-     * @name getActivity
+     * @name GetActivity
      * @summary Get activities by type for current user
      * @request GET:/{username}/activities/{type}
      * @secure
-     * @description The Activities endpoint returns information about the user's activities.
      */
     getActivity: (
       username: string,
@@ -499,19 +513,22 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * @description The Dashboards endpoint returns information about the user's dashboards.
+     *
      * @tags Dashboards
-     * @name allDashboards
+     * @name AllDashboards
      * @summary All dashboards for current user
      * @request GET:/{username}/dashboards
      * @secure
-     * @description The Dashboards endpoint returns information about the user's dashboards.
      */
     allDashboards: (username: string, params?: RequestParams) =>
       this.request<Dashboard[], any>(`/${username}/dashboards`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Dashboards
-     * @name createDashboard
+     * @name CreateDashboard
      * @summary Create a new Dashboard
      * @request POST:/{username}/dashboards
      * @secure
@@ -520,12 +537,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Dashboard, any>(`/${username}/dashboards`, "POST", params, dashboard, BodyType.Json, true),
 
     /**
+     * @description The Blocks endpoint returns information about the user's blocks.
+     *
      * @tags Blocks
-     * @name allBlocks
+     * @name AllBlocks
      * @summary All blocks for current user
      * @request GET:/{username}/dashboards/{dashboard_id}/blocks
      * @secure
-     * @description The Blocks endpoint returns information about the user's blocks.
      */
     allBlocks: (username: string, dashboard_id: string, params?: RequestParams) =>
       this.request<Block[], any>(
@@ -538,8 +556,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Blocks
-     * @name createBlock
+     * @name CreateBlock
      * @summary Create a new Block
      * @request POST:/{username}/dashboards/{dashboard_id}/blocks
      * @secure
@@ -555,8 +575,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Blocks
-     * @name destroyBlock
+     * @name DestroyBlock
      * @summary Delete an existing Block
      * @request DELETE:/{username}/dashboards/{dashboard_id}/blocks/{id}
      * @secure
@@ -572,8 +594,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Blocks
-     * @name getBlock
+     * @name GetBlock
      * @summary Returns Block based on ID
      * @request GET:/{username}/dashboards/{dashboard_id}/blocks/{id}
      * @secure
@@ -589,8 +613,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Blocks
-     * @name updateBlock
+     * @name UpdateBlock
      * @summary Update properties of an existing Block
      * @request PATCH:/{username}/dashboards/{dashboard_id}/blocks/{id}
      * @secure
@@ -624,8 +650,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Blocks
-     * @name replaceBlock
+     * @name ReplaceBlock
      * @summary Replace an existing Block
      * @request PUT:/{username}/dashboards/{dashboard_id}/blocks/{id}
      * @secure
@@ -659,8 +687,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Dashboards
-     * @name destroyDashboard
+     * @name DestroyDashboard
      * @summary Delete an existing Dashboard
      * @request DELETE:/{username}/dashboards/{id}
      * @secure
@@ -669,8 +699,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<string, any>(`/${username}/dashboards/${id}`, "DELETE", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Dashboards
-     * @name getDashboard
+     * @name GetDashboard
      * @summary Returns Dashboard based on ID
      * @request GET:/{username}/dashboards/{id}
      * @secure
@@ -679,8 +711,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Dashboard, any>(`/${username}/dashboards/${id}`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Dashboards
-     * @name updateDashboard
+     * @name UpdateDashboard
      * @summary Update properties of an existing Dashboard
      * @request PATCH:/{username}/dashboards/{id}
      * @secure
@@ -693,8 +727,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     ) => this.request<Dashboard, any>(`/${username}/dashboards/${id}`, "PATCH", params, dashboard, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Dashboards
-     * @name replaceDashboard
+     * @name ReplaceDashboard
      * @summary Replace an existing Dashboard
      * @request PUT:/{username}/dashboards/{id}
      * @secure
@@ -707,19 +743,22 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     ) => this.request<Dashboard, any>(`/${username}/dashboards/${id}`, "PUT", params, dashboard, BodyType.Json, true),
 
     /**
+     * @description The Feeds endpoint returns information about the user's feeds. The response includes the latest value of each feed, and other metadata about each feed.
+     *
      * @tags Feeds
-     * @name allFeeds
+     * @name AllFeeds
      * @summary All feeds for current user
      * @request GET:/{username}/feeds
      * @secure
-     * @description The Feeds endpoint returns information about the user's feeds. The response includes the latest value of each feed, and other metadata about each feed.
      */
     allFeeds: (username: string, params?: RequestParams) =>
       this.request<Feed[], any>(`/${username}/feeds`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Feeds
-     * @name createFeed
+     * @name CreateFeed
      * @summary Create a new Feed
      * @request POST:/{username}/feeds
      * @secure
@@ -735,8 +774,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Feeds
-     * @name destroyFeed
+     * @name DestroyFeed
      * @summary Delete an existing Feed
      * @request DELETE:/{username}/feeds/{feed_key}
      * @secure
@@ -745,19 +786,22 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<any, any>(`/${username}/feeds/${feed_key}`, "DELETE", params, null, BodyType.Json, true),
 
     /**
+     * @description Returns feed based on the feed key
+     *
      * @tags Feeds
-     * @name getFeed
+     * @name GetFeed
      * @summary Get feed by feed key
      * @request GET:/{username}/feeds/{feed_key}
      * @secure
-     * @description Returns feed based on the feed key
      */
     getFeed: (username: string, feed_key: string, params?: RequestParams) =>
       this.request<Feed, any>(`/${username}/feeds/${feed_key}`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Feeds
-     * @name updateFeed
+     * @name UpdateFeed
      * @summary Update properties of an existing Feed
      * @request PATCH:/{username}/feeds/{feed_key}
      * @secure
@@ -770,8 +814,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     ) => this.request<Feed, any>(`/${username}/feeds/${feed_key}`, "PATCH", params, feed, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Feeds
-     * @name replaceFeed
+     * @name ReplaceFeed
      * @summary Replace an existing Feed
      * @request PUT:/{username}/feeds/{feed_key}
      * @secure
@@ -784,8 +830,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     ) => this.request<Feed, any>(`/${username}/feeds/${feed_key}`, "PUT", params, feed, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Data
-     * @name allData
+     * @name AllData
      * @summary Get all data for the given feed
      * @request GET:/{username}/feeds/{feed_key}/data
      * @secure
@@ -806,12 +854,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * @description Create new data records on the given feed. **NOTE:** when feed history is on, data `value` size is limited to 1KB, when feed history is turned off data value size is limited to 100KB.
+     *
      * @tags Data
-     * @name createData
+     * @name CreateData
      * @summary Create new Data
      * @request POST:/{username}/feeds/{feed_key}/data
      * @secure
-     * @description Create new data records on the given feed. **NOTE:** when feed history is on, data `value` size is limited to 1KB, when feed history is turned off data value size is limited to 100KB.
      */
     createData: (
       username: string,
@@ -821,8 +870,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     ) => this.request<Data, any>(`/${username}/feeds/${feed_key}/data`, "POST", params, datum, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Data
-     * @name batchCreateData
+     * @name BatchCreateData
      * @summary Create multiple new Data records
      * @request POST:/{username}/feeds/{feed_key}/data/batch
      * @secure
@@ -838,12 +889,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * @description The Chart API is what we use on io.adafruit.com to populate charts over varying timespans with a consistent number of data points. The maximum number of points returned is 480. This API works by aggregating slices of time into a single value by averaging. All time-based parameters are optional, if none are given it will default to 1 hour at the finest-grained resolution possible.
+     *
      * @tags Data
-     * @name chartData
+     * @name ChartData
      * @summary Chart data for current feed
      * @request GET:/{username}/feeds/{feed_key}/data/chart
      * @secure
-     * @description The Chart API is what we use on io.adafruit.com to populate charts over varying timespans with a consistent number of data points. The maximum number of points returned is 480. This API works by aggregating slices of time into a single value by averaging. All time-based parameters are optional, if none are given it will default to 1 hour at the finest-grained resolution possible.
      */
     chartData: (
       username: string,
@@ -869,12 +921,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * @description Get the oldest data point in the feed. This request sets the queue pointer to the beginning of the feed.
+     *
      * @tags Data
-     * @name firstData
+     * @name FirstData
      * @summary First Data in Queue
      * @request GET:/{username}/feeds/{feed_key}/data/first
      * @secure
-     * @description Get the oldest data point in the feed. This request sets the queue pointer to the beginning of the feed.
      */
     firstData: (username: string, feed_key: string, query?: { include?: string }, params?: RequestParams) =>
       this.request<DataResponse, any>(
@@ -887,12 +940,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * @description Get the most recent data point in the feed. This request sets the queue pointer to the end of the feed.
+     *
      * @tags Data
-     * @name lastData
+     * @name LastData
      * @summary Last Data in Queue
      * @request GET:/{username}/feeds/{feed_key}/data/last
      * @secure
-     * @description Get the most recent data point in the feed. This request sets the queue pointer to the end of the feed.
      */
     lastData: (username: string, feed_key: string, query?: { include?: string }, params?: RequestParams) =>
       this.request<DataResponse, any>(
@@ -905,12 +959,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * @description Get the next newest data point in the feed. If queue processing hasn't been started, the first data point in the feed will be returned.
+     *
      * @tags Data
-     * @name nextData
+     * @name NextData
      * @summary Next Data in Queue
      * @request GET:/{username}/feeds/{feed_key}/data/next
      * @secure
-     * @description Get the next newest data point in the feed. If queue processing hasn't been started, the first data point in the feed will be returned.
      */
     nextData: (username: string, feed_key: string, query?: { include?: string }, params?: RequestParams) =>
       this.request<DataResponse, any>(
@@ -923,12 +978,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * @description Get the previously processed data point in the feed. NOTE: this method doesn't move the processing queue pointer.
+     *
      * @tags Data
-     * @name previousData
+     * @name PreviousData
      * @summary Previous Data in Queue
      * @request GET:/{username}/feeds/{feed_key}/data/previous
      * @secure
-     * @description Get the previously processed data point in the feed. NOTE: this method doesn't move the processing queue pointer.
      */
     previousData: (username: string, feed_key: string, query?: { include?: string }, params?: RequestParams) =>
       this.request<DataResponse, any>(
@@ -941,19 +997,22 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * @description Get the most recent data point in the feed in an MQTT compatible CSV format: `value,lat,lon,ele`
+     *
      * @tags Data
-     * @name retainData
+     * @name RetainData
      * @summary Last Data in MQTT CSV format
      * @request GET:/{username}/feeds/{feed_key}/data/retain
      * @secure
-     * @description Get the most recent data point in the feed in an MQTT compatible CSV format: `value,lat,lon,ele`
      */
     retainData: (username: string, feed_key: string, params?: RequestParams) =>
       this.request<string, any>(`/${username}/feeds/${feed_key}/data/retain`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Data
-     * @name destroyData
+     * @name DestroyData
      * @summary Delete existing Data
      * @request DELETE:/{username}/feeds/{feed_key}/data/{id}
      * @secure
@@ -969,8 +1028,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Data
-     * @name getData
+     * @name GetData
      * @summary Returns data based on feed key
      * @request GET:/{username}/feeds/{feed_key}/data/{id}
      * @secure
@@ -986,8 +1047,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Data
-     * @name updateData
+     * @name UpdateData
      * @summary Update properties of existing Data
      * @request PATCH:/{username}/feeds/{feed_key}/data/{id}
      * @secure
@@ -1009,8 +1072,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Data
-     * @name replaceData
+     * @name ReplaceData
      * @summary Replace existing Data
      * @request PUT:/{username}/feeds/{feed_key}/data/{id}
      * @secure
@@ -1032,30 +1097,34 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * @description Returns more detailed feed record based on the feed key
+     *
      * @tags Feeds
-     * @name getFeedDetails
+     * @name GetFeedDetails
      * @summary Get detailed feed by feed key
      * @request GET:/{username}/feeds/{feed_key}/details
      * @secure
-     * @description Returns more detailed feed record based on the feed key
      */
     getFeedDetails: (username: string, feed_key: string, params?: RequestParams) =>
       this.request<Feed, any>(`/${username}/feeds/${feed_key}/details`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * @description The Groups endpoint returns information about the user's groups. The response includes the latest value of each feed in the group, and other metadata about the group.
+     *
      * @tags Groups
-     * @name allGroups
+     * @name AllGroups
      * @summary All groups for current user
      * @request GET:/{username}/groups
      * @secure
-     * @description The Groups endpoint returns information about the user's groups. The response includes the latest value of each feed in the group, and other metadata about the group.
      */
     allGroups: (username: string, params?: RequestParams) =>
       this.request<Group[], any>(`/${username}/groups`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Groups
-     * @name createGroup
+     * @name CreateGroup
      * @summary Create a new Group
      * @request POST:/{username}/groups
      * @secure
@@ -1064,8 +1133,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Group, any>(`/${username}/groups`, "POST", params, group, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Groups
-     * @name destroyGroup
+     * @name DestroyGroup
      * @summary Delete an existing Group
      * @request DELETE:/{username}/groups/{group_key}
      * @secure
@@ -1074,8 +1145,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<string, any>(`/${username}/groups/${group_key}`, "DELETE", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Groups
-     * @name getGroup
+     * @name GetGroup
      * @summary Returns Group based on ID
      * @request GET:/{username}/groups/{group_key}
      * @secure
@@ -1084,8 +1157,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Group, any>(`/${username}/groups/${group_key}`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Groups
-     * @name updateGroup
+     * @name UpdateGroup
      * @summary Update properties of an existing Group
      * @request PATCH:/{username}/groups/{group_key}
      * @secure
@@ -1098,8 +1173,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     ) => this.request<Group, any>(`/${username}/groups/${group_key}`, "PATCH", params, group, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Groups
-     * @name replaceGroup
+     * @name ReplaceGroup
      * @summary Replace an existing Group
      * @request PUT:/{username}/groups/{group_key}
      * @secure
@@ -1112,8 +1189,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     ) => this.request<Group, any>(`/${username}/groups/${group_key}`, "PUT", params, group, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Groups, Feeds
-     * @name addFeedToGroup
+     * @name AddFeedToGroup
      * @summary Add an existing Feed to a Group
      * @request POST:/{username}/groups/{group_key}/add
      * @secure
@@ -1129,8 +1208,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Data
-     * @name createGroupData
+     * @name CreateGroupData
      * @summary Create new data for multiple feeds in a group
      * @request POST:/{username}/groups/{group_key}/data
      * @secure
@@ -1155,19 +1236,22 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * @description The Group Feeds endpoint returns information about the user's feeds. The response includes the latest value of each feed, and other metadata about each feed, but only for feeds within the given group.
+     *
      * @tags Groups, Feeds
-     * @name allGroupFeeds
+     * @name AllGroupFeeds
      * @summary All feeds for current user in a given group
      * @request GET:/{username}/groups/{group_key}/feeds
      * @secure
-     * @description The Group Feeds endpoint returns information about the user's feeds. The response includes the latest value of each feed, and other metadata about each feed, but only for feeds within the given group.
      */
     allGroupFeeds: (group_key: string, username: string, params?: RequestParams) =>
       this.request<Feed[], any>(`/${username}/groups/${group_key}/feeds`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Feeds
-     * @name createGroupFeed
+     * @name CreateGroupFeed
      * @summary Create a new Feed in a Group
      * @request POST:/{username}/groups/{group_key}/feeds
      * @secure
@@ -1180,8 +1264,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     ) => this.request<Feed, any>(`/${username}/groups/${group_key}/feeds`, "POST", params, feed, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Data
-     * @name allGroupFeedData
+     * @name AllGroupFeedData
      * @summary All data for current feed in a specific group
      * @request GET:/{username}/groups/{group_key}/feeds/{feed_key}/data
      * @secure
@@ -1203,8 +1289,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Data
-     * @name createGroupFeedData
+     * @name CreateGroupFeedData
      * @summary Create new Data in a feed belonging to a particular group
      * @request POST:/{username}/groups/{group_key}/feeds/{feed_key}/data
      * @secure
@@ -1226,8 +1314,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Data
-     * @name batchCreateGroupFeedData
+     * @name BatchCreateGroupFeedData
      * @summary Create multiple new Data records in a feed belonging to a particular group
      * @request POST:/{username}/groups/{group_key}/feeds/{feed_key}/data/batch
      * @secure
@@ -1249,8 +1339,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Groups, Feeds
-     * @name removeFeedFromGroup
+     * @name RemoveFeedFromGroup
      * @summary Remove a Feed from a Group
      * @request POST:/{username}/groups/{group_key}/remove
      * @secure
@@ -1266,8 +1358,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Users
-     * @name getCurrentUserThrottle
+     * @name GetCurrentUserThrottle
      * @summary Get the user's data rate limit and current activity level.
      * @request GET:/{username}/throttle
      * @secure
@@ -1283,19 +1377,22 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * @description The Tokens endpoint returns information about the user's tokens.
+     *
      * @tags Tokens
-     * @name allTokens
+     * @name AllTokens
      * @summary All tokens for current user
      * @request GET:/{username}/tokens
      * @secure
-     * @description The Tokens endpoint returns information about the user's tokens.
      */
     allTokens: (username: string, params?: RequestParams) =>
       this.request<Token[], any>(`/${username}/tokens`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Tokens
-     * @name createToken
+     * @name CreateToken
      * @summary Create a new Token
      * @request POST:/{username}/tokens
      * @secure
@@ -1304,8 +1401,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Token, any>(`/${username}/tokens`, "POST", params, token, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Tokens
-     * @name destroyToken
+     * @name DestroyToken
      * @summary Delete an existing Token
      * @request DELETE:/{username}/tokens/{id}
      * @secure
@@ -1314,8 +1413,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<string, any>(`/${username}/tokens/${id}`, "DELETE", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Tokens
-     * @name getToken
+     * @name GetToken
      * @summary Returns Token based on ID
      * @request GET:/{username}/tokens/{id}
      * @secure
@@ -1324,8 +1425,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Token, any>(`/${username}/tokens/${id}`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Tokens
-     * @name updateToken
+     * @name UpdateToken
      * @summary Update properties of an existing Token
      * @request PATCH:/{username}/tokens/{id}
      * @secure
@@ -1334,8 +1437,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Token, any>(`/${username}/tokens/${id}`, "PATCH", params, token, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Tokens
-     * @name replaceToken
+     * @name ReplaceToken
      * @summary Replace an existing Token
      * @request PUT:/{username}/tokens/{id}
      * @secure
@@ -1344,19 +1449,22 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Token, any>(`/${username}/tokens/${id}`, "PUT", params, token, BodyType.Json, true),
 
     /**
+     * @description The Triggers endpoint returns information about the user's triggers.
+     *
      * @tags Triggers
-     * @name allTriggers
+     * @name AllTriggers
      * @summary All triggers for current user
      * @request GET:/{username}/triggers
      * @secure
-     * @description The Triggers endpoint returns information about the user's triggers.
      */
     allTriggers: (username: string, params?: RequestParams) =>
       this.request<Trigger[], any>(`/${username}/triggers`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Triggers
-     * @name createTrigger
+     * @name CreateTrigger
      * @summary Create a new Trigger
      * @request POST:/{username}/triggers
      * @secure
@@ -1365,8 +1473,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Trigger, any>(`/${username}/triggers`, "POST", params, trigger, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Triggers
-     * @name destroyTrigger
+     * @name DestroyTrigger
      * @summary Delete an existing Trigger
      * @request DELETE:/{username}/triggers/{id}
      * @secure
@@ -1375,8 +1485,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<string, any>(`/${username}/triggers/${id}`, "DELETE", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Triggers
-     * @name getTrigger
+     * @name GetTrigger
      * @summary Returns Trigger based on ID
      * @request GET:/{username}/triggers/{id}
      * @secure
@@ -1385,8 +1497,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Trigger, any>(`/${username}/triggers/${id}`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Triggers
-     * @name updateTrigger
+     * @name UpdateTrigger
      * @summary Update properties of an existing Trigger
      * @request PATCH:/{username}/triggers/{id}
      * @secure
@@ -1395,8 +1509,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Trigger, any>(`/${username}/triggers/${id}`, "PATCH", params, trigger, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Triggers
-     * @name replaceTrigger
+     * @name ReplaceTrigger
      * @summary Replace an existing Trigger
      * @request PUT:/{username}/triggers/{id}
      * @secure
@@ -1405,19 +1521,22 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       this.request<Trigger, any>(`/${username}/triggers/${id}`, "PUT", params, trigger, BodyType.Json, true),
 
     /**
+     * @description The Permissions endpoint returns information about the user's permissions.
+     *
      * @tags Permissions
-     * @name allPermissions
+     * @name AllPermissions
      * @summary All permissions for current user and type
      * @request GET:/{username}/{type}/{type_id}/acl
      * @secure
-     * @description The Permissions endpoint returns information about the user's permissions.
      */
     allPermissions: (username: string, type: string, type_id: string, params?: RequestParams) =>
       this.request<Permission[], any>(`/${username}/${type}/${type_id}/acl`, "GET", params, null, BodyType.Json, true),
 
     /**
+     * No description
+     *
      * @tags Permissions
-     * @name createPermission
+     * @name CreatePermission
      * @summary Create a new Permission
      * @request POST:/{username}/{type}/{type_id}/acl
      * @secure
@@ -1439,8 +1558,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Permissions
-     * @name destroyPermission
+     * @name DestroyPermission
      * @summary Delete an existing Permission
      * @request DELETE:/{username}/{type}/{type_id}/acl/{id}
      * @secure
@@ -1456,8 +1577,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Permissions
-     * @name getPermission
+     * @name GetPermission
      * @summary Returns Permission based on ID
      * @request GET:/{username}/{type}/{type_id}/acl/{id}
      * @secure
@@ -1473,8 +1596,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Permissions
-     * @name updatePermission
+     * @name UpdatePermission
      * @summary Update properties of an existing Permission
      * @request PATCH:/{username}/{type}/{type_id}/acl/{id}
      * @secure
@@ -1501,8 +1626,10 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
      * @tags Permissions
-     * @name replacePermission
+     * @name ReplacePermission
      * @summary Replace an existing Permission
      * @request PUT:/{username}/{type}/{type_id}/acl/{id}
      * @secure

@@ -1,6 +1,6 @@
 const config = {
   /** CLI flag */
-  templates: "./templates/defaults",
+  templates: "../templates/default",
   /** CLI flag */
   generateResponses: false,
   /** CLI flag */
@@ -11,6 +11,7 @@ const config = {
   generateClient: true,
   /** CLI flag */
   generateUnionEnums: false,
+  enumNamesAsValues: false,
   /** parsed swagger schema from getSwaggerObject() */
 
   /** parsed swagger schema ref */
@@ -25,6 +26,20 @@ const config = {
 
   /** url index from paths used for merging into modules */
   moduleNameIndex: 0,
+  extractRequestParams: false,
+  fileNames: {
+    dataContracts: "data-contracts",
+    routeTypes: "route-types",
+    httpClient: "http-client",
+    outOfModuleApi: "Common",
+  },
+  hooks: {
+    onCreateComponent: (schema) => schema,
+    onParseSchema: (originalSchema, parsedSchema) => parsedSchema,
+    onCreateRoute: (routeData) => routeData,
+    onInit: (config) => config,
+    onPrepareConfig: (apiConfig) => apiConfig,
+  },
 };
 
 /** needs to use data everywhere in project */
