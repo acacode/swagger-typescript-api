@@ -412,7 +412,7 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
         const jsDocDescription =
           description && ` * @description ${formatDescription(description, true)}`;
         const jsDocLines = _.compact([
-          tags?.length && ` * @tags ${tags.join(", ")}`,
+          _.size(tags) && ` * @tags ${tags.join(", ")}`,
           ` * @name ${routeId}`,
           summary && ` * @summary ${summary}`,
           ` * @request ${_.upperCase(method)}:${route}`,
