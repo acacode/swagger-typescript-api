@@ -64,6 +64,7 @@ Internal:
 Fixes:  
 - `x-enumNames` support for enums  
 - Problem of complex types (`oneOf`, `allOf`) with `properties` field  
+- `additionalProperties: true` should make `[key: string]: any` for object types (Thanks @brookjordan for issue #103)  
 
 Common:  
 - `HttpClient` is exportable by default  
