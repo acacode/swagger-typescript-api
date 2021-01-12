@@ -1,5 +1,5 @@
 <%
-const { utils, route, config, apiConfig, modelTypes } = it;
+const { utils, route, config, modelTypes } = it;
 const { _, classNameCase } = utils;
 const apiClassName = classNameCase(route.moduleName);
 const routes = route.routes;
@@ -10,14 +10,6 @@ import { HttpClient, RequestParams, BodyType } from "./<%~ config.fileNames.http
 import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataContracts %>"
 <% } %>
 
-<% if (apiConfig.hasDescription) { %>
-/**
-<% apiConfig.description.forEach((jsDocLine) => { %>
-* <%~ jsDocLine %>
-
-<% }) %>
-*/
-<% } %>
 export class <%= apiClassName %> extends HttpClient {
     <% routes.forEach((route) => { %>
         <%~ includeFile('./procedure-call.eta', { route, utils, config }) %>

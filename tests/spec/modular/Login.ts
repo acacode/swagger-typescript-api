@@ -12,12 +12,6 @@
 import { Error, PushToken } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 
-/**
- * @title Authentiq
- * @version 6
- * @baseUrl https://6-dot-authentiqio.appspot.com/
- * Strong authentication, without the passwords.
- */
 export class Login extends HttpClient {
   /**
    * @description push sign-in request See: https://github.com/skion/authentiq/wiki/JWT-Examples

@@ -12,12 +12,6 @@
 import { AuthentiqID, Error } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 
-/**
- * @title Authentiq
- * @version 6
- * @baseUrl https://6-dot-authentiqio.appspot.com/
- * Strong authentication, without the passwords.
- */
 export class Key extends HttpClient {
   /**
    * @description Revoke an Authentiq ID using email & phone. If called with `email` and `phone` only, a verification code will be sent by email. Do a second call adding `code` to complete the revocation.
