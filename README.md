@@ -54,6 +54,7 @@ Options:
   --module-name-index <number>  determines which path index should be used for routes separation (default: 0)
                                 (example: GET:/fruites/getFruit -> index:0 -> moduleName -> fruites)
   --modular                     generate separated files for http client, data contracts, and routes (default: false)
+  --disableStrictSSL            disabled strict SSL (default: false)
   -h, --help                    display help for command
 ```
 

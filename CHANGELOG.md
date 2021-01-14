@@ -1,5 +1,11 @@
 # next release  
 
+# 4.0.3  
+
+Features:  
+- `--disableStrictSSL` option for disable strict SSL statement with fetching swagger schema. (Thanks @kel666 for PR with feature request)  
+  This option fix problem #114  
+
 # 4.0.2  
 
 Fixes:  
