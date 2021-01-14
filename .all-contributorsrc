@@ -14,7 +14,8 @@
         "code",
         "doc",
         "design",
-        "example"
+        "example",
+        "maintenance"
       ]
     }
   ],
