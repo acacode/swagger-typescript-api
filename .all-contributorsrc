@@ -1,0 +1,27 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "js2me",
+      "name": "Sergey S. Volkov",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/16340911?v=4",
+      "profile": "https://github.com/js2me",
+      "contributions": [
+        "code",
+        "doc",
+        "design",
+        "example"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "swagger-typescript-api",
+  "projectOwner": "acacode",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
