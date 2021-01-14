@@ -26,6 +26,7 @@ const config = {
 
   /** url index from paths used for merging into modules */
   moduleNameIndex: 0,
+  disableStrictSSL: false,
   extractRequestParams: false,
   fileNames: {
     dataContracts: "data-contracts",
