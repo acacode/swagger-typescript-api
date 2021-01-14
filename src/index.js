@@ -41,6 +41,7 @@ module.exports = {
     hooks: rawHooks,
     extraTemplates,
     enumNamesAsValues,
+    disableStrictSSL = config.disableStrictSSL,
   }) =>
     new Promise((resolve, reject) => {
       addToConfig({
@@ -55,8 +56,9 @@ module.exports = {
         extractRequestParams,
         hooks: _.merge(config.hooks, rawHooks || {}),
         enumNamesAsValues,
+        disableStrictSSL,
       });
-      (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url))
+      (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url, disableStrictSSL))
         .then(({ usageSchema, originalSchema }) => {
           const templatesToRender = getTemplates(config);
 
