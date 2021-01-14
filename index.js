@@ -60,7 +60,7 @@ program
     "determines which path index should be used for routes separation (example: GET:/fruites/getFruit -> index:0 -> moduleName -> fruites)",
     0,
   )
-  .option("--disableStrictSSL <boolean>", "disabled strict SSL", false);
+  .option("--disableStrictSSL", "disabled strict SSL", false);
 
 program.parse(process.argv);
 
@@ -98,5 +98,5 @@ generateApi({
   toJS: !!js,
   enumNamesAsValues: enumNamesAsValues,
   moduleNameIndex: +(moduleNameIndex || 0),
-  disableStrictSSL: disableStrictSSL,
+  disableStrictSSL: !!disableStrictSSL,
 });

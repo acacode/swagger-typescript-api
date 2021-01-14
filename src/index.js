@@ -58,7 +58,7 @@ module.exports = {
         enumNamesAsValues,
         disableStrictSSL,
       });
-      (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url, disableStrictSSL == "true"))
+      (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url, disableStrictSSL))
         .then(({ usageSchema, originalSchema }) => {
           const templatesToRender = getTemplates(config);
 
