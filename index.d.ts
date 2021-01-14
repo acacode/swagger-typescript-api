@@ -61,6 +61,10 @@ interface GenerateApiParams {
    */
   moduleNameIndex?: number;
   /**
+   * disabled SSL check
+   */
+  disableStrictSSL?: boolean;
+  /**
    * generate separated files for http client, data contracts, and routes (default: false)
    */
   modular?: boolean;
@@ -207,6 +211,7 @@ export interface GenerateApiConfiguration {
     componentsMap: Record<string, SchemaComponent>;
     convertedFromSwagger2: boolean;
     moduleNameIndex: number;
+    disableStrictSSSL: boolean;
     extractRequestParams: boolean;
     fileNames: {
       dataContracts: string;
