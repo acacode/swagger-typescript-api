@@ -1,0 +1,13 @@
+{
+  "projectName": "swagger-typescript-api",
+  "projectOwner": "acacode",
+  "repoType": "github",
+  "files": [
+    "README.md"
+  ],
+  "contributors": [],
+  "commitConvention": "none",
+  "repoHost": "https://github.com",
+  "skipCi": true,
+  "contributorsPerLine": 7
+}
