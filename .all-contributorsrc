@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "nikalun",
+      "name": "Nikolay Lukinykh",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/13102962?v=4",
+      "profile": "https://github.com/nikalun",
+      "contributions": [
+        "code",
+        "ideas",
+        "bug"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "swagger-typescript-api",
+  "projectOwner": "acacode",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
