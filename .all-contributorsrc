@@ -61,6 +61,16 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "jomarquez21",
+      "name": "Jose Enrique Marquez",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/16705169?v=4",
+      "profile": "https://github.com/jomarquez21",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
