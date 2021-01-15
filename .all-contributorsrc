@@ -120,6 +120,16 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "kel666",
+      "name": "Fabio",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/2040661?v=4",
+      "profile": "https://github.com/kel666",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
