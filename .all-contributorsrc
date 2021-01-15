@@ -40,6 +40,17 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "azz",
+      "name": "Lucas Azzola",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1297597?v=4",
+      "profile": "https://azzola.dev",
+      "contributions": [
+        "code",
+        "ideas",
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 7,
