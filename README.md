@@ -160,6 +160,15 @@ When we change it to `--module-name-index 1` then Api class have two properties 
 - [Why Swagger schemes are needed in frontend development ?](https://dev.to/js2me/why-swagger-schemes-are-needed-in-frontend-development-2cb4)  
 - [Migration en douceur vers TypeScript](https://www.premieroctet.com/blog/migration-typescript/)  
 
+## 🛠️ Contribution  
+
+❗❗❗ Please use the `next` branch :)   
+
+If you need to check your changes at schemas in `tests` folder before create a PR just run command `npm run test:all`  
+
+## 💪 Contributors  
+![https://github.com/acacode/swagger-typescript-api/graphs/contributors](https://contrib.rocks/image?repo=acacode/swagger-typescript-api)  
+Made with [contributors-img](https://contrib.rocks).  
 
 ## 🚀 How it looks  
 
@@ -169,13 +178,6 @@ When we change it to `--module-name-index 1` then Api class have two properties 
 
 ![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/typings1.gif)  
 
-
-## 🛠️ Contribution  
-
-
-❗❗❗ Please use the `next` branch :)   
-
-If you need to check your changes at schemas in `tests` folder before create a PR just run command `npm run test:all`  
 
 ## 📝 License  
 Licensed under the [MIT License](https://github.com/acacode/swagger-typescript-api/blob/master/LICENSE).
