@@ -51,6 +51,16 @@
         "ideas",
         "design"
       ]
+    },
+    {
+      "login": "JennieJi",
+      "name": "Jennie",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1913045?v=4",
+      "profile": "https://github.com/JennieJi",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
