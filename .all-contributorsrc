@@ -111,6 +111,15 @@
       "contributions": [
         "security"
       ]
+    },
+    {
+      "login": "xesjkeee",
+      "name": "Evgeny Vlasov",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/17751886?v=4",
+      "profile": "https://github.com/xesjkeee",
+      "contributions": [
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
