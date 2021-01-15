@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "description": "Create typescript api module from swagger schema",
   "scripts": {
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts --extract-request-params --enum-names-as-values",

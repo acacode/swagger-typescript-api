@@ -15,4 +15,5 @@ module.exports = {
   inlineExtraFormatters,
   fmtToJSDocLine: require("./fmtToJSDocLine"),
   _: require("lodash"),
+  require: require,
 };

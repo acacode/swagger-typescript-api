@@ -1,6 +1,6 @@
 <%
 const { apiConfig, routes, utils, config } = it;
-const { _ } = utils;
+const { _, require } = utils;
 const genericValues = apiConfig.generic.map(g => ({
   withDefault: `${g.name} = ${g.defaultValue}`,
   name: g.name,

@@ -1,5 +1,10 @@
 # next release  
 
+# 4.0.4  
+
+Features:  
+- add `require()` to template `utils` object  
+
 # 4.0.3  
 
 Features:  

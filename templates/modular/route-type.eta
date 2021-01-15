@@ -1,6 +1,6 @@
 <%
 const { utils, route, config } = it;
-const { _, fmtToJSDocLine, classNameCase } = utils;
+const { _, fmtToJSDocLine, classNameCase, require } = utils;
 const { name, jsDocDescription, routeName } = route;
 const { query, payload } = route.request;
 const { type: responseType } = route.response;

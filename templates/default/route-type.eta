@@ -1,6 +1,6 @@
 <%
 const { route, utils, config } = it;
-const { _, classNameCase } = utils
+const { _, classNameCase, require } = utils
 const { query, payload } = route.request
 const { type: responseType } = route.response
 

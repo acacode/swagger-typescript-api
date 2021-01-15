@@ -1,6 +1,6 @@
 <%
 const { utils, route, config, modelTypes } = it;
-const { _, classNameCase } = utils;
+const { _, classNameCase, require } = utils;
 const apiClassName = classNameCase(route.moduleName);
 const routes = route.routes;
 const dataContracts = _.map(modelTypes, "name");

@@ -1,6 +1,6 @@
 <%
 const { config, route, utils } = it;
-const { _, formatDescription, fmtToJSDocLine, classNameCase } = utils;
+const { _, formatDescription, fmtToJSDocLine, classNameCase, require } = utils;
 const { raw, request, routeName } = route;
 const jsDocDescription = raw.description ?
     ` * @description ${formatDescription(raw.description, true)}` :
