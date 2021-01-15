@@ -9,6 +9,7 @@
     "cli:debug:yaml": "node --nolazy index.js -p ./swagger-test-cli.yaml -n swagger-test-cli.ts",
     "node": "node swagger-test-cli/generate.js",
     "node:debug": "node --nolazy swagger-test-cli/generate.js",
+    "contributors": "all-contributors generate",
     "cli:help": "node index.js -h",
     "test:all": "node ./node_modules/npm-run-all/bin/npm-run-all/index.js generate validate test:routeTypes test:noClient test:defaultAsSuccess test:responses test:templates test:unionEnums test:specProperty test:js test:moduleNameIndex test:modular test:extractRequestParams test:enumNamesAsValues --continue-on-error",
     "generate": "node tests/generate.js",
@@ -35,6 +36,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.166",
     "@types/prettier": "^2.1.6",
+    "all-contributors-cli": "^6.19.0",
     "husky": "^4.3.6",
     "npm-run-all": "^4.1.5",
     "pretty-quick": "^3.1.0"
