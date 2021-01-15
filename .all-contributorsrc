@@ -71,6 +71,16 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "Benjamin-Dobell",
+      "name": "Benjamin Dobell",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/482276?v=4",
+      "profile": "https://glassechidna.com.au",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
