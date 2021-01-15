@@ -5,6 +5,9 @@
 Features:  
 - add `require()` to template `utils` object  
 
+Docs:  
+- add information about contributors  
+
 # 4.0.3  
 
 Features:  
