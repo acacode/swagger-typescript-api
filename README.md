@@ -166,22 +166,6 @@ When we change it to `--module-name-index 1` then Api class have two properties 
 
 If you need to check your changes at schemas in `tests` folder before create a PR just run command `npm run test:all`  
 
-## 💪 Contributors  
-![https://github.com/acacode/swagger-typescript-api/graphs/contributors](https://contrib.rocks/image?repo=acacode/swagger-typescript-api)  
-Made with [contributors-img](https://contrib.rocks).  
-
-## 🚀 How it looks  
-
-![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/npx.gif)  
-
-![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/auth-example.gif)  
-
-![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/typings1.gif)  
-
-
-## 📝 License  
-Licensed under the [MIT License](https://github.com/acacode/swagger-typescript-api/blob/master/LICENSE).
-
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -209,4 +193,16 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!  
+
+## 🚀 How it looks  
+
+![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/npx.gif)  
+
+![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/auth-example.gif)  
+
+![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/typings1.gif)  
+
+
+## 📝 License  
+Licensed under the [MIT License](https://github.com/acacode/swagger-typescript-api/blob/master/LICENSE).
