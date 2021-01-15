@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "andrefilimono",
+      "name": "Filimonov Andrey",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/7794526?v=4",
+      "profile": "https://github.com/andrefilimono",
+      "contributions": [
+        "code",
+        "ideas",
+        "design"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "swagger-typescript-api",
+  "projectOwner": "acacode",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
