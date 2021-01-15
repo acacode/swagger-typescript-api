@@ -6,6 +6,63 @@
   "commit": false,
   "contributors": [
     {
+      "login": "js2me",
+      "name": "Sergey S. Volkov",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/16340911?v=4",
+      "profile": "https://github.com/js2me",
+      "contributions": [
+        "code",
+        "doc",
+        "design",
+        "example",
+        "maintenance",
+        "ideas",
+        "bug"
+      ]
+    },
+    {
+      "login": "andrefilimono",
+      "name": "Filimonov Andrey",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/7794526?v=4",
+      "profile": "https://github.com/andrefilimono",
+      "contributions": [
+        "code",
+        "ideas",
+        "design"
+      ]
+    },
+    {    
+      "login": "Fl0pZz",
+      "name": "Rafael Fakhreev",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/9510124?v=4",
+      "profile": "https://github.com/Fl0pZz",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "azz",
+      "name": "Lucas Azzola",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1297597?v=4",
+      "profile": "https://azzola.dev",
+      "contributions": [
+        "code",
+        "ideas",
+        "design"
+      ]
+    },
+    {
+      "login": "JennieJi",
+      "name": "Jennie",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1913045?v=4",
+      "profile": "https://github.com/JennieJi",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    },
+    {
       "login": "jomarquez21",
       "name": "Jose Enrique Marquez",
       "avatar_url": "https://avatars1.githubusercontent.com/u/16705169?v=4",
