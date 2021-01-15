@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "larrybotha",
+      "name": "Larry Botha",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1510520?v=4",
+      "profile": "http://fixate.it",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "swagger-typescript-api",
+  "projectOwner": "acacode",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
