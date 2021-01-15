@@ -1,4 +1,7 @@
 # swagger-typescript-api  
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/acacode/swagger-typescript-api.svg)](https://greenkeeper.io/)
 [![NPM badge](https://img.shields.io/npm/v/swagger-typescript-api.svg)](https://www.npmjs.com/package/swagger-typescript-api)
@@ -157,6 +160,40 @@ When we change it to `--module-name-index 1` then Api class have two properties 
 - [Why Swagger schemes are needed in frontend development ?](https://dev.to/js2me/why-swagger-schemes-are-needed-in-frontend-development-2cb4)  
 - [Migration en douceur vers TypeScript](https://www.premieroctet.com/blog/migration-typescript/)  
 
+## 🛠️ Contribution  
+
+❗❗❗ Please use the `next` branch :)   
+
+If you need to check your changes at schemas in `tests` folder before create a PR just run command `npm run test:all`  
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/js2me"><img src="https://avatars1.githubusercontent.com/u/16340911?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sergey S. Volkov</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=js2me" title="Code">💻</a> <a href="https://github.com/acacode/swagger-typescript-api/commits?author=js2me" title="Documentation">📖</a> <a href="#design-js2me" title="Design">🎨</a> <a href="#example-js2me" title="Examples">💡</a> <a href="#maintenance-js2me" title="Maintenance">🚧</a> <a href="#ideas-js2me" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Ajs2me" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/andrefilimono"><img src="https://avatars0.githubusercontent.com/u/7794526?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Filimonov Andrey</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=andrefilimono" title="Code">💻</a> <a href="#ideas-andrefilimono" title="Ideas, Planning, & Feedback">🤔</a> <a href="#design-andrefilimono" title="Design">🎨</a></td>
+    <td align="center"><a href="https://github.com/Fl0pZz"><img src="https://avatars2.githubusercontent.com/u/9510124?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rafael Fakhreev</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=Fl0pZz" title="Code">💻</a> <a href="#ideas-Fl0pZz" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://azzola.dev"><img src="https://avatars3.githubusercontent.com/u/1297597?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Lucas Azzola</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=azz" title="Code">💻</a> <a href="#ideas-azz" title="Ideas, Planning, & Feedback">🤔</a> <a href="#design-azz" title="Design">🎨</a></td>
+    <td align="center"><a href="https://github.com/JennieJi"><img src="https://avatars3.githubusercontent.com/u/1913045?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jennie</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=JennieJi" title="Code">💻</a> <a href="#ideas-JennieJi" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/jomarquez21"><img src="https://avatars1.githubusercontent.com/u/16705169?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jose Enrique Marquez</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=jomarquez21" title="Code">💻</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Ajomarquez21" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://glassechidna.com.au"><img src="https://avatars1.githubusercontent.com/u/482276?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Benjamin Dobell</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=Benjamin-Dobell" title="Code">💻</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3ABenjamin-Dobell" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="http://fixate.it"><img src="https://avatars0.githubusercontent.com/u/1510520?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Larry Botha</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=larrybotha" title="Code">💻</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Alarrybotha" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/nikalun"><img src="https://avatars3.githubusercontent.com/u/13102962?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nikolay Lukinykh</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=nikalun" title="Code">💻</a> <a href="#ideas-nikalun" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Anikalun" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/Mvbraathen"><img src="https://avatars0.githubusercontent.com/u/16756739?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Marius Bråthen</b></sub></a><br /><a href="#security-Mvbraathen" title="Security">🛡️</a></td>
+    <td align="center"><a href="https://github.com/xesjkeee"><img src="https://avatars2.githubusercontent.com/u/17751886?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Evgeny Vlasov</b></sub></a><br /><a href="#ideas-xesjkeee" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/kel666"><img src="https://avatars1.githubusercontent.com/u/2040661?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Fabio</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Akel666" title="Bug reports">🐛</a> <a href="https://github.com/acacode/swagger-typescript-api/commits?author=kel666" title="Code">💻</a></td>
+  </tr>
+</table>
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!  
 
 ## 🚀 How it looks  
 
@@ -166,13 +203,6 @@ When we change it to `--module-name-index 1` then Api class have two properties 
 
 ![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/typings1.gif)  
 
-
-## 🛠️ Contribution  
-
-
-❗❗❗ Please use the `next` branch :)   
-
-If you need to check your changes at schemas in `tests` folder before create a PR just run command `npm run test:all`  
 
 ## 📝 License  
 Licensed under the [MIT License](https://github.com/acacode/swagger-typescript-api/blob/master/LICENSE).

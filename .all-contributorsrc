@@ -1,0 +1,141 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "js2me",
+      "name": "Sergey S. Volkov",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/16340911?v=4",
+      "profile": "https://github.com/js2me",
+      "contributions": [
+        "code",
+        "doc",
+        "design",
+        "example",
+        "maintenance",
+        "ideas",
+        "bug"
+      ]
+    },
+    {
+      "login": "andrefilimono",
+      "name": "Filimonov Andrey",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/7794526?v=4",
+      "profile": "https://github.com/andrefilimono",
+      "contributions": [
+        "code",
+        "ideas",
+        "design"
+      ]
+    },
+    {    
+      "login": "Fl0pZz",
+      "name": "Rafael Fakhreev",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/9510124?v=4",
+      "profile": "https://github.com/Fl0pZz",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "azz",
+      "name": "Lucas Azzola",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1297597?v=4",
+      "profile": "https://azzola.dev",
+      "contributions": [
+        "code",
+        "ideas",
+        "design"
+      ]
+    },
+    {
+      "login": "JennieJi",
+      "name": "Jennie",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1913045?v=4",
+      "profile": "https://github.com/JennieJi",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "jomarquez21",
+      "name": "Jose Enrique Marquez",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/16705169?v=4",
+      "profile": "https://github.com/jomarquez21",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "Benjamin-Dobell",
+      "name": "Benjamin Dobell",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/482276?v=4",
+      "profile": "https://glassechidna.com.au",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "larrybotha",
+      "name": "Larry Botha",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1510520?v=4",
+      "profile": "http://fixate.it",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "nikalun",
+      "name": "Nikolay Lukinykh",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/13102962?v=4",
+      "profile": "https://github.com/nikalun",
+      "contributions": [
+        "code",
+        "ideas",
+        "bug"
+      ]
+    },
+    {
+      "login": "Mvbraathen",
+      "name": "Marius Bråthen",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/16756739?v=4",
+      "profile": "https://github.com/Mvbraathen",
+      "contributions": [
+        "security"
+      ]
+    },
+    {
+      "login": "xesjkeee",
+      "name": "Evgeny Vlasov",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/17751886?v=4",
+      "profile": "https://github.com/xesjkeee",
+      "contributions": [
+        "ideas"
+      ]
+    },
+    {
+      "login": "kel666",
+      "name": "Fabio",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/2040661?v=4",
+      "profile": "https://github.com/kel666",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "swagger-typescript-api",
+  "projectOwner": "acacode",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
