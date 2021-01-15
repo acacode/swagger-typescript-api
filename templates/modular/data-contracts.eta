@@ -1,6 +1,6 @@
 <%
   const { modelTypes, utils } = it;
-  const { formatDescription } = utils;
+  const { formatDescription, require } = utils;
   
 
   const dataContractTemplates = {

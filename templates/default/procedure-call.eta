@@ -1,6 +1,6 @@
 <%
 const { utils, route, config } = it;
-const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef } = utils;
+const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef, require } = utils;
 const { parameters, path, method, payload, params, query, formData, security, requestParams } = route.request;
 const { type, errorType } = route.response;
 const routeDocs = includeFile("./route-docs", { config, route, utils });

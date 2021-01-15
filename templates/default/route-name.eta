@@ -11,7 +11,7 @@ const {
   summary,
   pathArgs,
 } = routeInfo;
-const { _, fmtToJSDocLine } = utils;
+const { _, fmtToJSDocLine, require } = utils;
 
 const methodAliases = {
   get: (pathName, hasPathInserts) =>
