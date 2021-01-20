@@ -1,3 +1,5 @@
+const constants = require("./constants");
+
 const config = {
   /** CLI flag */
   templates: "../templates/default",
@@ -34,6 +36,7 @@ const config = {
     httpClient: "http-client",
     outOfModuleApi: "Common",
   },
+  prettierOptions: constants.PRETTIER_OPTIONS,
   hooks: {
     onCreateComponent: (schema) => schema,
     onParseSchema: (originalSchema, parsedSchema) => parsedSchema,

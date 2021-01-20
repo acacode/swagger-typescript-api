@@ -251,7 +251,7 @@ export interface GenerateApiConfiguration {
 
 export interface GenerateApiOutput {
   configuration: GenerateApiConfiguration;
-  files: { name: string; content: string; declaration?: string }[];
+  files: { name: string; content: string; declaration: { name: string; content: string } | null }[];
 }
 
 export declare function generateApi(

@@ -6,7 +6,6 @@
 // License text available at https://opensource.org/licenses/MIT
 // Repository https://github.com/acacode/swagger-typescript-api
 
-const prettier = require("prettier");
 const _ = require("lodash");
 const { parseSchemas } = require("./schema");
 const { parseRoutes, groupRoutes } = require("./routes");
@@ -14,11 +13,11 @@ const { createApiConfig } = require("./apiConfig");
 const { prepareModelType } = require("./modelTypes");
 const { getSwaggerObject, fixSwaggerScheme, convertSwaggerObject } = require("./swagger");
 const { createComponentsMap, filterComponentsMap } = require("./components");
-const { createFile, getFileContent, pathIsExist } = require("./files");
+const { createFile, pathIsExist } = require("./files");
 const { addToConfig, config } = require("./config");
-const { getTemplates, renderTemplate } = require("./templates");
+const { getTemplates } = require("./templates");
 const constants = require("./constants");
-const { classNameCase } = require("./render/utils");
+const { generateOutputFiles } = require("./output");
 
 module.exports = {
   generateApi: ({
@@ -26,8 +25,8 @@ module.exports = {
     output,
     url,
     spec,
-    name,
-    toJS,
+    name: fileName,
+    toJS: translateToJavaScript,
     modular,
     templates,
     generateResponses = config.generateResponses,
@@ -52,6 +51,7 @@ module.exports = {
         templates,
         generateUnionEnums,
         moduleNameIndex,
+        prettierOptions,
         modular,
         extractRequestParams,
         hooks: _.merge(config.hooks, rawHooks || {}),
@@ -99,119 +99,36 @@ module.exports = {
             hasQueryRoutes,
             generateResponses,
             routes: groupRoutes(routes),
+            extraTemplates,
+            fileName,
+            translateToJavaScript,
             utils: {
               ...require("./render/utils"),
               ...require("./common"),
             },
           };
 
-          const prettierFormat = (content) => prettier.format(content, prettierOptions);
-
           const configuration = config.hooks.onPrepareConfig(rawConfiguration) || rawConfiguration;
 
-          const files = modular
-            ? [
-                templatesToRender.dataContracts && {
-                  name: `${config.fileNames.dataContracts}.ts`,
-                  content: renderTemplate(templatesToRender.dataContracts, configuration),
-                },
-                configuration.config.generateRouteTypes &&
-                  templatesToRender.routeTypes && {
-                    name: `${config.fileNames.routeTypes}.ts`,
-                    content: renderTemplate(templatesToRender.routeTypes, configuration),
-                  },
-                configuration.config.generateClient &&
-                  templatesToRender.httpClient && {
-                    name: `${config.fileNames.httpClient}.ts`,
-                    content: renderTemplate(templatesToRender.httpClient, configuration),
-                  },
-                configuration.config.generateClient &&
-                  templatesToRender.api &&
-                  configuration.routes.$outOfModule && {
-                    name: `${config.fileNames.outOfModuleApi}.ts`,
-                    content: renderTemplate(templatesToRender.api, {
-                      ...configuration,
-                      route: configuration.routes.$outOfModule,
-                    }),
-                  },
-                ...(configuration.config.generateClient && templatesToRender.api
-                  ? _.reduce(
-                      configuration.routes.combined,
-                      (apis, route) => [
-                        ...apis,
-                        {
-                          name: `${classNameCase(route.moduleName)}.ts`,
-                          content: renderTemplate(templatesToRender.api, {
-                            ...configuration,
-                            route,
-                          }),
-                        },
-                      ],
-                      [],
-                    )
-                  : []),
-              ].filter(Boolean)
-            : [
-                {
-                  name: name,
-                  content: [
-                    templatesToRender.dataContracts &&
-                      renderTemplate(templatesToRender.dataContracts, configuration),
-                    configuration.config.generateRouteTypes &&
-                      templatesToRender.routeTypes &&
-                      renderTemplate(templatesToRender.routeTypes, configuration),
-                    configuration.config.generateClient &&
-                      templatesToRender.httpClient &&
-                      renderTemplate(templatesToRender.httpClient, configuration),
-                    configuration.config.generateClient &&
-                      templatesToRender.api &&
-                      renderTemplate(templatesToRender.api, configuration),
-                  ]
-                    .filter(Boolean)
-                    .join("\n"),
-                },
-              ];
-
-          if (extraTemplates) {
-            extraTemplates.forEach((extraTemplate) => {
-              files.push({
-                name: `${extraTemplate.name}.ts`,
-                content: renderTemplate(getFileContent(extraTemplate.path), configuration),
-              });
-            });
-          }
+          const files = generateOutputFiles({
+            modular,
+            templatesToRender,
+            configuration,
+          });
 
           const generatedFiles = files.map((file) => {
-            if (toJS) {
-              const { sourceFile, declarationFile } = require("./translators/JavaScript").translate(
-                file.name,
-                file.content,
-              );
+            if (!pathIsExist(output)) return file;
 
-              sourceFile.content = prettierFormat(sourceFile.content);
-              declarationFile.content = prettierFormat(declarationFile.content);
-
-              if (pathIsExist(output)) {
-                createFile(output, sourceFile.name, sourceFile.content);
-                createFile(output, declarationFile.name, declarationFile.content);
-                console.log(`✔️  your javascript api file created in "${output}"`);
-              }
-
-              return {
-                name: file.name,
-                content: sourceFile.content,
-                declaration: declarationFile.content,
-              };
+            if (translateToJavaScript) {
+              createFile(output, file.name, file.content);
+              createFile(output, file.declaration.name, file.declaration.content);
+              console.log(`✔️  your javascript api file created in "${output}"`);
             } else {
-              file.content = prettierFormat(file.content);
-
-              if (pathIsExist(output)) {
-                createFile(output, file.name, file.content);
-                console.log(`✔️  your typescript api file created in "${output}"`);
-              }
-
-              return file;
+              createFile(output, file.name, file.content);
+              console.log(`✔️  your typescript api file created in "${output}"`);
             }
+
+            return file;
           });
 
           resolve({
