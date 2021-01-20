@@ -1,5 +1,8 @@
 # next release  
 
+BREAKING_CHANGE:  
+- remove `'prettier-plugin-organize-imports'` dependency from package  
+
 # 4.0.4  
 
 Features:  

@@ -48,6 +48,8 @@ const getTemplates = ({ templates, modular }) => {
 };
 
 const renderTemplate = (template, configuration, options) => {
+  if (!template) return "";
+
   return Eta.render(template, configuration, { async: false, ...(options || {}) });
 };
 

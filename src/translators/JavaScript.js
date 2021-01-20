@@ -53,14 +53,8 @@ module.exports = {
     const declarationFileName = fileName.replace(ts.Extension.Ts, ts.Extension.Dts);
 
     return {
-      sourceFile: {
-        name: sourceFileName,
-        content: translated[sourceFileName],
-      },
-      declarationFile: {
-        name: declarationFileName,
-        content: translated[declarationFileName],
-      },
+      sourceContent: translated[sourceFileName],
+      declarationContent: translated[declarationFileName],
     };
   },
 };
