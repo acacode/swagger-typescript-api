@@ -2,9 +2,13 @@
 
 Features:  
 - Improve `require()` function used in ETA templates (using relative path imports)  
+- `--clean-output` option.  
+  clean output folder before generate api  
 
 Fixes:  
 - Error: `Unexpected token =` (Issue #136, Thanks @jlow-mudbath)  
+- Output folder creation (Issue #137, Thanks @Rinta01)  
+  Create output folder if it is not exist  
 
 # 4.0.5  
 
