@@ -1,5 +1,11 @@
 # next release  
 
+Features:  
+- Improve `require()` function used in ETA templates (using relative path imports)  
+
+Fixes:  
+- Error: `Unexpected token =` (Issue #136, Thanks @jlow-mudbath)  
+
 # 4.0.5  
 
 BREAKING_CHANGE:  

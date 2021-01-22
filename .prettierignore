@@ -1,4 +1,7 @@
 tests/**/*.ts
 tests/**/schema.js
 tests/**/*.d.js
+swagger-test-cli
+swagger-test-cli.*
+templates
 *.md

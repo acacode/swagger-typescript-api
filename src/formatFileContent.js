@@ -18,13 +18,27 @@ class LanguageServiceHost {
     });
   }
 
-  getNewLine = () => "\n";
-  getScriptFileNames = () => [this.fileName];
-  getCompilationSettings = () => this.compilerOptions;
-  getDefaultLibFileName = () => ts.getDefaultLibFileName(this.getCompilationSettings());
-  getCurrentDirectory = () => process.cwd();
-  getScriptVersion = () => ts.version;
-  getScriptSnapshot = () => ts.ScriptSnapshot.fromString(this.content);
+  getNewLine() {
+    return "\n";
+  }
+  getScriptFileNames() {
+    return [this.fileName];
+  }
+  getCompilationSettings() {
+    return this.compilerOptions;
+  }
+  getDefaultLibFileName() {
+    return ts.getDefaultLibFileName(this.getCompilationSettings());
+  }
+  getCurrentDirectory() {
+    return process.cwd();
+  }
+  getScriptVersion() {
+    return ts.version;
+  }
+  getScriptSnapshot() {
+    return ts.ScriptSnapshot.fromString(this.content);
+  }
 }
 
 const removeUnusedImports = (content) => {
