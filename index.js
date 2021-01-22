@@ -60,7 +60,12 @@ program
     "determines which path index should be used for routes separation (example: GET:/fruites/getFruit -> index:0 -> moduleName -> fruites)",
     0,
   )
-  .option("--disableStrictSSL", "disabled strict SSL", false);
+  .option("--disableStrictSSL", "disabled strict SSL", false)
+  .option(
+    "--clean-output",
+    "clean output folder before generate api. WARNING: May cause data loss",
+    false,
+  );
 
 program.parse(process.argv);
 
@@ -80,6 +85,7 @@ const {
   extractRequestParams,
   enumNamesAsValues,
   disableStrictSSL,
+  cleanOutput,
 } = program;
 
 generateApi({
@@ -99,4 +105,5 @@ generateApi({
   enumNamesAsValues: enumNamesAsValues,
   moduleNameIndex: +(moduleNameIndex || 0),
   disableStrictSSL: !!disableStrictSSL,
+  cleanOutput: !!cleanOutput,
 });

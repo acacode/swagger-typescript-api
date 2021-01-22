@@ -57,6 +57,7 @@ Options:
                                 (example: GET:/fruites/getFruit -> index:0 -> moduleName -> fruites)
   --modular                     generate separated files for http client, data contracts, and routes (default: false)
   --disableStrictSSL            disabled strict SSL (default: false)
+  --clean-output                clean output folder before generate api. WARNING: May cause data loss (default: false)
   -h, --help                    display help for command
 ```
 

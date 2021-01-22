@@ -13,7 +13,7 @@ const { createApiConfig } = require("./apiConfig");
 const { prepareModelType } = require("./modelTypes");
 const { getSwaggerObject, fixSwaggerScheme, convertSwaggerObject } = require("./swagger");
 const { createComponentsMap, filterComponentsMap } = require("./components");
-const { createFile, pathIsExist } = require("./files");
+const { createFile, pathIsExist, pathIsDir, createDir, cleanDir } = require("./files");
 const { addToConfig, config } = require("./config");
 const { getTemplates } = require("./templates");
 const constants = require("./constants");
@@ -41,6 +41,7 @@ module.exports = {
     extraTemplates,
     enumNamesAsValues,
     disableStrictSSL = config.disableStrictSSL,
+    cleanOutput,
   }) =>
     new Promise((resolve, reject) => {
       addToConfig({
@@ -57,6 +58,7 @@ module.exports = {
         hooks: _.merge(config.hooks, rawHooks || {}),
         enumNamesAsValues,
         disableStrictSSL,
+        cleanOutput,
       });
       (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url, disableStrictSSL))
         .then(({ usageSchema, originalSchema }) => {
@@ -110,14 +112,24 @@ module.exports = {
 
           const configuration = config.hooks.onPrepareConfig(rawConfiguration) || rawConfiguration;
 
+          if (pathIsExist(output)) {
+            if (cleanOutput) {
+              cleanDir(output);
+            }
+          } else {
+            createDir(output);
+          }
+
           const files = generateOutputFiles({
             modular,
             templatesToRender,
             configuration,
           });
 
+          const isDirPath = pathIsDir(output);
+
           const generatedFiles = files.map((file) => {
-            if (!pathIsExist(output)) return file;
+            if (!isDirPath) return file;
 
             if (translateToJavaScript) {
               createFile(output, file.name, file.content);
