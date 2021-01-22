@@ -1,5 +1,7 @@
 # next release  
 
+# 4.1.0  
+
 Features:  
 - Improve `require()` function used in ETA templates (using relative path imports)  
 - `--clean-output` option.  
