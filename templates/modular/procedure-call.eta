@@ -2,7 +2,7 @@
 const { utils, route, config } = it;
 const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef, require } = utils;
 const { parameters, path, method, payload, params, query, formData, security, requestParams } = route.request;
-const { type, errorType } = route.response;
+const { type, errorType, contentTypes } = route.response;
 const routeDocs = includeFile("./route-docs", { config, route, utils });
 const queryName = (query && query.name) || "query";
 const pathParams = _.values(parameters);
@@ -14,7 +14,7 @@ const rawWrapperArgs = config.extractRequestParams ?
         requestParams && {
           name: pathParams.length ? `{ ${_.join(_.map(pathParams, "name"), ", ")}, ...${queryName} }` : queryName,
           optional: false,
-          type: getParseContent(requestParams),
+          type: getInlineParseContent(requestParams),
         },
         ...(!requestParams ? pathParams : []),
         payload,

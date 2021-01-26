@@ -232,6 +232,10 @@ const createRequestParamsSchema = ({
     },
   };
 
+  const fixedSchema = config.hooks.onCreateRequestParams(schema);
+
+  if (fixedSchema) return fixedSchema;
+
   if (extractRequestParams) {
     return createComponent("schemas", classNameCase(`${routeName.usage} Params`), { ...schema });
   }
@@ -264,12 +268,17 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           tags,
           responses,
           requestBodyName,
+          produces,
+          ...otherInfo
         } = requestInfo;
         const routeId = nanoid(12);
         const hasSecurity = !!(
           (globalSecurity && globalSecurity.length) ||
           (security && security.length)
         );
+        const responseContentTypes =
+          produces ||
+          _.flatten(_.map(responses, (response) => response && _.keys(response.content)));
 
         const formDataParams = getRouteParams(parameters, "formData");
         const pathParams = getRouteParams(parameters, "path");
@@ -419,7 +428,7 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           hasSecurity && ` * @secure`,
           ...(config.generateResponses && responsesTypes.length
             ? responsesTypes.map(
-                ({ type, status, description, isSuccess }) =>
+                ({ type, status, description }) =>
                   ` * @response \`${status}\` \`${type}\` ${description}`,
               )
             : []),
@@ -428,6 +437,7 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
         const path = route.replace(/{/g, "${");
 
         const response = {
+          contentTypes: responseContentTypes,
           type: getReturnType(responses, parsedSchemas, operationId),
           errorType: getErrorReturnType(responses, parsedSchemas, operationId),
         };
@@ -459,6 +469,10 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
             description,
             tags,
             summary,
+            responses,
+            produces,
+            requestBody,
+            ...otherInfo,
           },
         };
 
