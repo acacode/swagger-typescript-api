@@ -43,6 +43,7 @@ const config = {
     onCreateRoute: (routeData) => routeData,
     onInit: (config) => config,
     onPrepareConfig: (apiConfig) => apiConfig,
+    onCreateRequestParams: (rawType) => {},
   },
 };
 

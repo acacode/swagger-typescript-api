@@ -77,6 +77,7 @@ interface GenerateApiParams {
    * prettier configuration
    */
   prettier?: object;
+  cleanOutput?: boolean;
   enumNamesAsValues?: boolean;
 
   hooks?: Partial<{
@@ -87,6 +88,9 @@ interface GenerateApiParams {
     onInit?: <C extends GenerateApiConfiguration["config"]>(configuration: C) => C | void;
     /** customize configuration object before sending it to ETA templates */
     onPrepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C | void;
+    onCreateRequestParams?: (
+      rawType: SchemaComponent["rawTypeData"],
+    ) => SchemaComponent["rawTypeData"] | void;
   }>;
   /**
    *  extra templates

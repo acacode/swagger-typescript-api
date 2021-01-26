@@ -1,5 +1,31 @@
 # next release  
 
+# 4.2.0  
+Features:  
+- new hook `onCreateRequestParams` which allows modify request params (`--extract-request-params` option) before sending it to route info   
+  ![onCreateRequestParams](./assets/changelog_assets/onCreateRequestParamsHook.jpg)  
+  How to use:  
+  ```ts
+    generateApi({
+      // ... your config,
+      hooks: {
+        onCreateRequestParams: (rawType) => {
+          if (Object.keys(rawType.properties).length > 1) return rawType;
+
+          return rawType;
+        }
+      }
+    })
+  ```   
+- response content types (array of string like `application/json`, `image/png`) which allows to customize declaration of request response  
+  Exist in `procedure-call.eta` template `it.route.response.contentTypes`  
+
+Internal:  
+- Difference in templates:  
+  - `procedure-call.eta`  
+  ![procedureCallEta1](./assets/changelog_assets/changes_procedure_call_1.jpg)  
+
+
 # 4.1.0  
 
 Features:  
