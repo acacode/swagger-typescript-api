@@ -33,6 +33,11 @@ export enum IntEnumWithNames {
   BooFar = 9,
 }
 
+export interface NullableEnum {
+  id?: number;
+  legalCategory?: "SARL" | "ASSOCIATION";
+}
+
 /**
  * Information about job
  */

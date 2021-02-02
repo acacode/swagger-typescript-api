@@ -89,6 +89,20 @@
           "BooFar"
         ]
       },
+      "NullableEnum": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "legalCategory": {
+            "type": "string",
+            "nullable": true,
+            "enum": ["SARL", "ASSOCIATION"]
+          }
+        }
+      },
       "FooBarBaz": {
         "description": "Information about job",
         "properties": {
