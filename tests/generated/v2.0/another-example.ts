@@ -289,6 +289,28 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       ),
 
     /**
+     * No description
+     *
+     * @tags pet
+     * @name SingleFormUrlEncodedRequest
+     * @summary summary
+     * @request POST:/pet/single-form-url-encoded
+     */
+    singleFormUrlEncodedRequest: (data: { param1: string; param2: string }, params?: RequestParams) =>
+      this.request<any, any>(`/pet/single-form-url-encoded`, "POST", params, data),
+
+    /**
+     * No description
+     *
+     * @tags pet
+     * @name FormUrlEncodedRequest
+     * @summary summary
+     * @request POST:/pet/form-url-encoded
+     */
+    formUrlEncodedRequest: (data: { param1: string; param2: string }, params?: RequestParams) =>
+      this.request<any, any>(`/pet/form-url-encoded`, "POST", params, data, BodyType.FormData),
+
+    /**
      * @description Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      *
      * @tags pet

@@ -28,8 +28,6 @@ const types = {
   // dateTime: "Date",
 };
 
-const formDataTypes = _.uniq([types.file, types.string.binary]);
-
 const stealTypeFromSchema = (rawSchema) => {
   const schema = rawSchema || {};
 
@@ -356,12 +354,12 @@ const getParseContent = (rawTypeData, typeName = null) =>
   parseSchema(rawTypeData, typeName).content;
 
 module.exports = {
+  types,
   parseSchema,
   parseSchemas,
   getInlineParseContent,
   getParseContent,
   getType,
   getRefType,
-  formDataTypes,
   SCHEMA_TYPES,
 };

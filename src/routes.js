@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const { collect } = require("./utils");
-const { parseSchema, getRefType, formDataTypes, getInlineParseContent } = require("./schema");
+const { types, parseSchema, getRefType, getInlineParseContent } = require("./schema");
 const { checkAndRenameModelName } = require("./modelNames");
 const {
   DEFAULT_BODY_ARG_NAME,
@@ -13,8 +13,10 @@ const { nanoid } = require("nanoid");
 const { getRouteName } = require("./routeNames");
 const { createComponent } = require("./components");
 
-const getSchemaFromRequestType = (requestType) => {
-  const content = _.get(requestType, "content");
+const formDataTypes = _.uniq([types.file, types.string.binary]);
+
+const getSchemaFromRequestType = (requestInfo) => {
+  const content = _.get(requestInfo, "content");
 
   if (!content) return null;
 
@@ -33,7 +35,7 @@ const getSchemaFromRequestType = (requestType) => {
   return null;
 };
 
-const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, contentType) => {
+const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId) => {
   // TODO: make more flexible pick schema without content type
   const schema = getSchemaFromRequestType(requestInfo);
   const refTypeInfo = getRefType(requestInfo);
@@ -84,9 +86,10 @@ const getTypesFromResponses = (responses, parsedSchemas, operationId) =>
       return [
         ...acc,
         {
+          ...(response || {}),
           type: getTypeFromRequestInfo(response, parsedSchemas, operationId),
           description: formatDescription(response.description || "", true),
-          status: status === "default" ? "default" : +status,
+          status: _.isNaN(+status) ? status : +status,
           isSuccess: isSuccessResponseStatus(status),
         },
       ];
@@ -115,13 +118,66 @@ const getErrorReturnType = (responses, parsedSchemas, operationId) =>
       .filter((type) => type !== TS_KEYWORDS.ANY),
   ).join(" | ") || TS_KEYWORDS.ANY;
 
-const getRouteParams = (parameters, where) =>
-  collect(parameters, (parameter) => {
-    if (parameter.in === where) return parameter;
+const getRouteParams = (routeInfo, route) => {
+  const { parameters } = routeInfo;
+  const pathParamMatches = (route || "").match(/{(([a-zA-Z]-?_?){1,})([0-9]{1,})?}/g);
+  const routeParams = {
+    path: [],
+    header: [],
+    body: [],
+    query: [],
+    body: [],
+    formData: [],
+    cookie: [],
+  };
 
+  _.each(parameters, (parameter) => {
     const refTypeInfo = getRefType(parameter);
-    return refTypeInfo && refTypeInfo.rawTypeData.in === where && refTypeInfo.rawTypeData;
+
+    if (refTypeInfo && refTypeInfo.rawTypeData.in && refTypeInfo.rawTypeData) {
+      if (!routeParams[refTypeInfo.rawTypeData.in]) {
+        routeParams[refTypeInfo.rawTypeData.in] = [];
+      }
+
+      routeParams[refTypeInfo.rawTypeData.in].push({
+        ...refTypeInfo.rawTypeData,
+        ...(refTypeInfo.rawTypeData.schema || {}),
+      });
+    } else {
+      if (!parameter.in) return;
+
+      if (!routeParams[parameter.in]) {
+        routeParams[parameter.in] = [];
+      }
+
+      routeParams[parameter.in].push({
+        ...parameter,
+        ...(parameter.schema || {}),
+      });
+    }
   });
+
+  // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
+  _.each(pathParamMatches, (match) => {
+    const paramName = _.replace(match, /\{|\}/g, "");
+
+    if (!paramName) return;
+
+    const alreadyExist = _.some(routeParams.path, (parameter) => parameter.name === paramName);
+
+    if (!alreadyExist) {
+      routeParams.path.push({
+        name: paramName,
+        required: true,
+        type: "string",
+        description: "",
+        in: "path",
+      });
+    }
+  });
+
+  return routeParams;
+};
 
 const convertRouteParamsIntoObject = (params) =>
   _.reduce(
@@ -142,11 +198,11 @@ const convertRouteParamsIntoObject = (params) =>
     },
   );
 
-const createRequestsMap = (requestInfoByMethodsMap) => {
-  const parameters = _.get(requestInfoByMethodsMap, "parameters");
+const createRequestsMap = (routeInfoByMethodsMap) => {
+  const parameters = _.get(routeInfoByMethodsMap, "parameters");
 
   return _.reduce(
-    requestInfoByMethodsMap,
+    routeInfoByMethodsMap,
     (acc, requestInfo, method) => {
       if (method.startsWith("x-") || ["parameters", "$ref"].includes(method)) {
         return acc;
@@ -160,28 +216,6 @@ const createRequestsMap = (requestInfoByMethodsMap) => {
       return acc;
     },
     {},
-  );
-};
-
-const collectPathParams = ({ pathParams, route }) => {
-  const routePathArgs = _.compact(
-    _.split(route, "{").map((part) => (part.includes("}") ? part.split("}")[0] : null)),
-  );
-
-  return _.uniqBy(
-    _.compact([
-      ...(routePathArgs.length
-        ? _.map(pathParams, (param) => ({ ...param, ...(param.schema || {}), in: "path" }))
-        : []),
-      ..._.map(routePathArgs, (paramName) => ({
-        name: paramName,
-        required: true,
-        type: "string",
-        description: "",
-        in: "path",
-      })),
-    ]),
-    "name",
   );
 };
 
@@ -243,6 +277,14 @@ const createRequestParamsSchema = ({
   return schema;
 };
 
+const getContentTypes = (requestInfo, extraContentTypes) =>
+  _.compact([
+    ...(extraContentTypes || []),
+    ..._.flatten(
+      _.map(requestInfo, (requestInfoData) => requestInfoData && _.keys(requestInfoData.content)),
+    ),
+  ]);
+
 const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractRequestParams }) => {
   const { paths, security: globalSecurity } = usageSchema;
   const pathsEntries = _.entries(paths);
@@ -250,14 +292,14 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
     routeNameDuplicatesMap: new Map(),
   });
 
-  return pathsEntries.reduce((routes, [route, requestInfoByMethodsMap]) => {
+  return pathsEntries.reduce((routes, [route, routeInfoByMethodsMap]) => {
     if (route.startsWith("x-")) return routes;
 
-    const requestsMap = createRequestsMap(requestInfoByMethodsMap);
+    const routeInfosMap = createRequestsMap(routeInfoByMethodsMap);
 
     return [
       ...routes,
-      ..._.map(requestsMap, (requestInfo, method) => {
+      ..._.map(routeInfosMap, (routeInfo, method) => {
         const {
           operationId,
           requestBody,
@@ -269,42 +311,39 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           responses,
           requestBodyName,
           produces,
+          consumes,
           ...otherInfo
-        } = requestInfo;
+        } = routeInfo;
+
         const routeId = nanoid(12);
+        const moduleName = _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
         const hasSecurity = !!(
           (globalSecurity && globalSecurity.length) ||
           (security && security.length)
         );
-        const responseContentTypes =
-          produces ||
-          _.flatten(_.map(responses, (response) => response && _.keys(response.content)));
 
-        const formDataParams = getRouteParams(parameters, "formData");
-        const pathParams = getRouteParams(parameters, "path");
-        const queryParams = getRouteParams(parameters, "query");
+        const routeParams = getRouteParams(routeInfo, route);
+
+        const responseContentTypes = getContentTypes(responses, produces);
+        const requestContentTypes = getContentTypes([requestBody], consumes);
+
         const requestBodyType = getSchemaFromRequestType(requestBody);
 
-        const hasFormDataParams = formDataParams && !!formDataParams.length;
+        const hasFormDataParams = !!routeParams.formData.length;
         let formDataRequestBody =
           requestBodyType && requestBodyType.dataType === "multipart/form-data";
-        const moduleName = _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
         const responsesTypes = getTypesFromResponses(responses, parsedSchemas, operationId);
         const formDataObjectSchema = hasFormDataParams
-          ? convertRouteParamsIntoObject(formDataParams)
+          ? convertRouteParamsIntoObject(routeParams.formData)
           : formDataRequestBody
           ? getSchemaFromRequestType(requestBody)
           : null;
-        const queryObjectSchema = convertRouteParamsIntoObject(queryParams);
+        const queryObjectSchema = convertRouteParamsIntoObject(routeParams.query);
 
         const bodyParamName =
           requestBodyName || (requestBody && requestBody.name) || DEFAULT_BODY_ARG_NAME;
 
-        const pathArgsSchemas = collectPathParams({
-          pathParams,
-          route,
-        });
-        const pathArgs = pathArgsSchemas.map((pathArgSchema) => ({
+        const pathArgs = routeParams.path.map((pathArgSchema) => ({
           name: pathArgSchema.name,
           optional: !pathArgSchema.required,
           type: getInlineParseContent(pathArgSchema.schema),
@@ -324,14 +363,16 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
         });
 
         const requestParamsSchema = createRequestParamsSchema({
-          queryParams,
-          pathArgsSchemas,
+          queryParams: routeParams.query,
+          pathArgsSchemas: routeParams.path,
           queryObjectSchema,
           extractRequestParams,
           routeName,
         });
 
-        const queryType = queryParams.length ? getInlineParseContent(queryObjectSchema) : null;
+        const queryType = routeParams.query.length
+          ? getInlineParseContent(queryObjectSchema)
+          : null;
 
         let bodyType = null;
 
@@ -418,39 +459,17 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
         //   }
         //   return acc;
         // }, [' '])
-        const jsDocDescription =
-          description && ` * @description ${formatDescription(description, true)}`;
-        const jsDocLines = _.compact([
-          _.size(tags) && ` * @tags ${tags.join(", ")}`,
-          ` * @name ${routeId}`,
-          summary && ` * @summary ${summary}`,
-          ` * @request ${_.upperCase(method)}:${route}`,
-          hasSecurity && ` * @secure`,
-          ...(config.generateResponses && responsesTypes.length
-            ? responsesTypes.map(
-                ({ type, status, description }) =>
-                  ` * @response \`${status}\` \`${type}\` ${description}`,
-              )
-            : []),
-        ]).join("\n");
-
-        const path = route.replace(/{/g, "${");
-
-        const response = {
-          contentTypes: responseContentTypes,
-          type: getReturnType(responses, parsedSchemas, operationId),
-          errorType: getErrorReturnType(responses, parsedSchemas, operationId),
-        };
 
         const routeData = {
           id: routeId,
-          jsDocDescription,
-          jsDocLines,
           namespace: _.replace(moduleName, /^(\d)/, "v$1"),
+          routeName,
+          routeParams,
           request: {
+            contentTypes: requestContentTypes,
             parameters: pathArgs,
             query: specificArgs.query,
-            path,
+            path: route.replace(/{/g, "${"),
             formData: hasFormDataParams || formDataRequestBody,
             security: hasSecurity,
             method: method,
@@ -458,8 +477,11 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
             params: specificArgs.requestParams,
             requestParams: requestParamsSchema,
           },
-          response,
-          routeName,
+          response: {
+            contentTypes: responseContentTypes,
+            type: getReturnType(responses, parsedSchemas, operationId),
+            errorType: getErrorReturnType(responses, parsedSchemas, operationId),
+          },
           raw: {
             operationId,
             method,
@@ -472,6 +494,7 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
             responses,
             produces,
             requestBody,
+            consumes,
             ...otherInfo,
           },
         };
