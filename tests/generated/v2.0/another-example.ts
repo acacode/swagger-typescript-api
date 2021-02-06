@@ -296,8 +296,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary summary
      * @request POST:/pet/single-form-url-encoded
      */
-    singleFormUrlEncodedRequest: (data: { param1: string; param2: string }, params?: RequestParams) =>
-      this.request<any, any>(`/pet/single-form-url-encoded`, "POST", params, data),
+    singleFormUrlEncodedRequest: (query: { param1: string; param2: string }, params?: RequestParams) =>
+      this.request<any, any>(`/pet/single-form-url-encoded${this.addQueryParams(query)}`, "POST", params),
 
     /**
      * No description

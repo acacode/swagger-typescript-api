@@ -163,8 +163,8 @@ const getRouteParams = (routeInfo, route) => {
   return routeParams;
 };
 
-const convertRouteParamsIntoObject = (params) =>
-  _.reduce(
+const convertRouteParamsIntoObject = (params) => {
+  return _.reduce(
     params,
     (objectSchema, schemaPart) => {
       if (!schemaPart || !schemaPart.name) return objectSchema;
@@ -185,6 +185,7 @@ const convertRouteParamsIntoObject = (params) =>
       type: "object",
     },
   );
+};
 
 const createRequestsMap = (routeInfoByMethodsMap) => {
   const parameters = _.get(routeInfoByMethodsMap, "parameters");
@@ -441,22 +442,31 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           : null;
 
         const specificArgs = {
-          query: queryType
-            ? {
-                name: pathArgs.some((pathArg) => pathArg.name === "query")
-                  ? "queryParams"
-                  : "query",
-                optional: parseSchema(queryObjectSchema, null).allFieldsAreOptional,
-                type: queryType,
-              }
-            : void 0,
-          body: requestBodyInfo.type
-            ? {
-                name: requestBodyInfo.paramName,
-                optional: !requestBodyInfo.required,
-                type: requestBodyInfo.type,
-              }
-            : void 0,
+          query:
+            queryType || requestBodyInfo.contentKind === CONTENT_KIND.QUERY
+              ? {
+                  name: pathArgs.some((pathArg) => pathArg.name === "query")
+                    ? "queryParams"
+                    : "query",
+                  optional:
+                    requestBodyInfo.contentKind === CONTENT_KIND.QUERY
+                      ? !requestBodyInfo.required &&
+                        (!queryType || parseSchema(queryObjectSchema, null).allFieldsAreOptional)
+                      : parseSchema(queryObjectSchema, null).allFieldsAreOptional,
+                  type:
+                    requestBodyInfo.contentKind === CONTENT_KIND.QUERY
+                      ? _.compact([queryType, requestBodyInfo.type]).join(" & ")
+                      : queryType,
+                }
+              : void 0,
+          body:
+            requestBodyInfo.contentKind !== CONTENT_KIND.QUERY && requestBodyInfo.type
+              ? {
+                  name: requestBodyInfo.paramName,
+                  optional: !requestBodyInfo.required,
+                  type: requestBodyInfo.type,
+                }
+              : void 0,
           requestParams: {
             name: pathArgs.some((pathArg) => pathArg.name === "params")
               ? "requestParams"
@@ -515,12 +525,15 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           namespace: _.replace(moduleName, /^(\d)/, "v$1"),
           routeName,
           routeParams,
+          requestBodyInfo,
+          responseBodyInfo,
           request: {
             contentTypes: requestBodyInfo.contentTypes,
             parameters: pathArgs,
             query: specificArgs.query,
             path: route.replace(/{/g, "${"),
             formData: requestBodyInfo.contentKind === CONTENT_KIND.FORM_DATA,
+            isQueryBody: requestBodyInfo.contentKind === CONTENT_KIND.QUERY,
             security: hasSecurity,
             method: method,
             payload: specificArgs.body,
