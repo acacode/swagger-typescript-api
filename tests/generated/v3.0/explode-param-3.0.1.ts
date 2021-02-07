@@ -10,10 +10,18 @@
  */
 
 export interface QueryParams {
-  /** Page number */
+  /**
+   * Page number
+   * @format int32
+   * @min 0
+   */
   page?: number | null;
 
-  /** Page size */
+  /**
+   * Page size
+   * @format int32
+   * @min 0
+   */
   "page-size"?: number | null;
 }
 

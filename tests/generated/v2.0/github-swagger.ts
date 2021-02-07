@@ -69,6 +69,8 @@ export interface Asset {
   size?: number;
   state?: string;
   updated_at?: string;
+
+  /** A GitHub user */
   uploader?: User;
   url?: string;
 }
@@ -127,6 +129,7 @@ export interface CommentBody {
 export type Comments = { body?: string; created_at?: string; id?: number; url?: string; user?: User }[];
 
 export interface Commit {
+  /** A GitHub user */
   author?: User;
   commit?: {
     author?: { date?: string; email?: string; name?: string };
@@ -135,6 +138,8 @@ export interface Commit {
     tree?: { sha?: string; url?: string };
     url?: string;
   };
+
+  /** A GitHub user */
   committer?: User;
   files?: {
     additions?: number;
@@ -169,6 +174,8 @@ export interface CommitComment {
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
+
+  /** A GitHub user */
   user?: User;
 }
 
@@ -336,6 +343,8 @@ export interface Deployment {
 
 export interface DeploymentResp {
   created_at?: string;
+
+  /** A GitHub user */
   creator?: User;
   description?: string;
   id?: number;
@@ -387,9 +396,12 @@ export type EmailsPost = string[];
 export type Emojis = Record<string, string>;
 
 export interface Event {
+  /** A user or organization */
   actor?: Actor;
   created_at?: object;
   id?: number;
+
+  /** A GitHub organization */
   org?: Organization;
   payload?: object;
   public?: boolean;
@@ -444,6 +456,8 @@ export interface Gist {
   id?: string;
   public?: boolean;
   url?: string;
+
+  /** A GitHub user */
   user?: User;
 }
 
@@ -528,6 +542,7 @@ export interface Issue {
 }
 
 export interface IssueEvent {
+  /** A user or organization */
   actor?: Actor;
   commit_id?: string;
 
@@ -607,6 +622,8 @@ export interface IssuesComment {
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
+
+  /** A GitHub user */
   user?: User;
 }
 
@@ -663,6 +680,7 @@ export interface MergesConflict {
 }
 
 export interface MergesSuccessful {
+  /** A GitHub user */
   author?: User;
   comments_url?: string;
   commit?: {
@@ -673,6 +691,8 @@ export interface MergesSuccessful {
     tree?: { sha?: string; url?: string };
     url?: string;
   };
+
+  /** A GitHub user */
   committer?: User;
   merged?: boolean;
   message?: string;
@@ -691,6 +711,8 @@ export interface Milestone {
 
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
+
+  /** A GitHub user */
   creator?: User;
   description?: string;
 
@@ -1003,6 +1025,8 @@ export interface Release {
     url?: string;
   }[];
   assets_url?: string;
+
+  /** A GitHub user */
   author?: User;
   body?: string;
   created_at?: string;
@@ -1084,7 +1108,11 @@ export interface Repo {
   name?: string;
   open_issues?: number;
   open_issues_count?: number;
+
+  /** A GitHub organization */
   organization?: Organization;
+
+  /** A user or organization */
   owner?: Actor;
   parent?: Repo & any;
   private?: boolean;
@@ -1270,6 +1298,7 @@ export interface SearchRepositoriesByKeyword {
 }
 
 export interface SearchUserByEmail {
+  /** A GitHub user */
   user?: User;
 }
 

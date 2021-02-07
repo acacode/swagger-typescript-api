@@ -41,6 +41,7 @@ const formatters = {
   },
 };
 
+/** transform content of parsed schema to string or compact size */
 const inlineExtraFormatters = {
   [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
     return {
@@ -56,7 +57,10 @@ const inlineExtraFormatters = {
   [SCHEMA_TYPES.ENUM]: (parsedSchema) => {
     return {
       ...parsedSchema,
-      content: _.map(parsedSchema.content, ({ value }) => `${value}`).join(" | "),
+      content: _.compact([
+        ..._.map(parsedSchema.content, ({ value }) => `${value}`),
+        parsedSchema.nullable && "null",
+      ]).join(" | "),
     };
   },
 };

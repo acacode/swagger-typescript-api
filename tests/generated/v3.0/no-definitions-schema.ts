@@ -11,6 +11,11 @@
 
 export interface BasicErrorModel {
   message: string;
+
+  /**
+   * @min 100
+   * @max 600
+   */
   code: number;
 }
 

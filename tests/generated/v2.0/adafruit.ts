@@ -11,10 +11,14 @@
 
 export interface Activity {
   action?: string;
+
+  /** @format dateTime */
   created_at?: string;
   data?: object;
   id?: number;
   model?: string;
+
+  /** @format dateTime */
   updated_at?: string;
   user_id?: number;
 }
@@ -148,10 +152,14 @@ export interface Trigger {
 
 export interface User {
   color?: string;
+
+  /** @format dateTime */
   created_at?: string;
   id?: number;
   name?: string;
   time_zone?: string;
+
+  /** @format dateTime */
   updated_at?: string;
   username?: string;
 }

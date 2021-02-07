@@ -89,6 +89,13 @@
           "BooFar"
         ]
       },
+      "PetIds": {
+        "type": "integer",
+        "enum": [10, 20, 30, 40]
+      },
+      "PetIdsWithWrongEnum": {
+        "enum": [10, 20, 30, 40]
+      },
       "FooBarBaz": {
         "description": "Information about job",
         "properties": {

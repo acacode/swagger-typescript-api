@@ -845,7 +845,8 @@
         "status": {
           "type": "string",
           "description": "Order Status",
-          "enum": ["placed", "approved", "delivered"]
+          "enum": ["placed", "approved", "delivered"],
+          "nullable": true
         },
         "complete": {
           "type": "boolean",

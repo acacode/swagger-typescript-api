@@ -34,8 +34,9 @@ export enum IntEnumWithNames {
 }
 
 export interface NullableEnum {
+  /** @format int64 */
   id?: number;
-  legalCategory?: "SARL" | "ASSOCIATION";
+  legalCategory?: "SARL" | "ASSOCIATION" | null;
 }
 
 /**
@@ -158,6 +159,8 @@ export type JobUpdateType = OmitIdJobType;
 export interface PickProjectTypeExcludeKeysJob {
   id: string;
   name?: string;
+
+  /** @format double */
   year: number;
   description: string;
   notImportant?: boolean;
@@ -176,6 +179,8 @@ export type ExtractedProjectType = OmitProjectTypeJob & { job: JobType };
 export interface PickProjectTypeExcludeKeysIdOrId {
   name?: string;
   job: string;
+
+  /** @format double */
   year: number;
   description: string;
   notImportant?: boolean;
@@ -192,6 +197,8 @@ export type ProjectUpdateType = OmitIdProjectType;
 
 export interface ProjectType {
   id: string;
+
+  /** @format double */
   year: number;
   description: string;
   job: string;

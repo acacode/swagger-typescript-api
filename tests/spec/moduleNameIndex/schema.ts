@@ -13,9 +13,16 @@
  * An order for a pets from the pet store
  */
 export interface Order {
+  /** @format int64 */
   id?: number;
+
+  /** @format int64 */
   petId?: number;
+
+  /** @format int32 */
   quantity?: number;
+
+  /** @format date-time */
   shipDate?: string;
 
   /** Order Status */
@@ -27,6 +34,7 @@ export interface Order {
  * A category for a pet
  */
 export interface Category {
+  /** @format int64 */
   id?: number;
   name?: string;
 }
@@ -35,6 +43,7 @@ export interface Category {
  * A User who is purchasing from the pet store
  */
 export interface User {
+  /** @format int64 */
   id?: number;
   username?: string;
   firstName?: string;
@@ -43,7 +52,10 @@ export interface User {
   password?: string;
   phone?: string;
 
-  /** User Status */
+  /**
+   * User Status
+   * @format int32
+   */
   userStatus?: number;
 }
 
@@ -51,6 +63,7 @@ export interface User {
  * A tag for a pet
  */
 export interface Tag {
+  /** @format int64 */
   id?: number;
   name?: string;
 }
@@ -67,8 +80,13 @@ export type PetIds = 10 | 20 | 30 | 40;
  * A pet for sale in the pet store
  */
 export interface Pet {
+  /** @format int64 */
   id?: number;
+
+  /** A category for a pet */
   category?: Category;
+
+  /** @example doggie */
   name: string;
   photoUrls: string[];
   tags?: Tag[];
@@ -81,6 +99,7 @@ export interface Pet {
  * Describes the result of uploading an image resource
  */
 export interface ApiResponse {
+  /** @format int32 */
   code?: number;
   type?: string;
   message?: string;
@@ -93,14 +112,24 @@ export interface Amount {
   /**
    * some description
    *
+   * @format double
+   * @min 0.01
+   * @max 1000000000000000
    */
   value: number;
+
+  /**
+   * some description
+   *
+   */
   currency: Currency;
 }
 
 /**
- * some description
- */
+*  some description
+
+ @pattern ^[A-Z]{3,3}$
+*/
 export type Currency = string;
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {

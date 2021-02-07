@@ -13,19 +13,28 @@ export interface Step {
   /** address of the stop */
   address?: string;
 
-  /** arrival at the stop in its local timezone as YYYY-MM-DDThh:mm */
+  /**
+   * arrival at the stop in its local timezone as YYYY-MM-DDThh:mm
+   * @format date-time
+   */
   arrival?: string;
 
   /** geographical coordinates of the stop */
   coordinates?: { lat?: number; lon?: number };
 
-  /** departure from the stop in its local timezone as YYYY-MM-DDThh:mm */
+  /**
+   * departure from the stop in its local timezone as YYYY-MM-DDThh:mm
+   * @format date-time
+   */
   departure?: string;
 
   /** name of the stop */
   name?: string;
 
-  /** number of nights */
+  /**
+   * number of nights
+   * @format int64
+   */
   nights?: number;
 
   /** route leading to the stop */
@@ -41,13 +50,19 @@ export interface Step {
 }
 
 export interface Trip {
-  /** begin of the trip in its local timezone as YYYY-MM-DDThh:mm */
+  /**
+   * begin of the trip in its local timezone as YYYY-MM-DDThh:mm
+   * @format date-time
+   */
   begin?: string;
 
   /** description of the trip (truncated to 200 characters) */
   description?: string;
 
-  /** end of the trip in its local timezone as YYYY-MM-DDThh:mm */
+  /**
+   * end of the trip in its local timezone as YYYY-MM-DDThh:mm
+   * @format date-time
+   */
   end?: string;
 
   /** Unique ID of the trip */

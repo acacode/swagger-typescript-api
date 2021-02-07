@@ -17,6 +17,7 @@ export interface NewPet {
 }
 
 export interface Error {
+  /** @format int32 */
   code: number;
   message: string;
 }
