@@ -958,7 +958,7 @@
     },
     "PetNames": {
       "type": "string",
-      "enum": ["Fluffy Hero", "Piggy Po", "Swagger Typescript Api"]
+      "enum": ["Fluffy Hero", "Piggy Po", "Swagger Typescript Api", "UPPER_CASE"]
     },
     "PetIds": {
       "type": "integer",

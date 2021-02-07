@@ -24,7 +24,7 @@ export enum Kind {
   COMPANY = "COMPANY",
   PERSONAL = "PERSONAL",
   FREELANCE = "FREELANCE",
-  OPENSOURCE = "OPEN_SOURCE",
+  OPEN_SOURCE = "OPEN_SOURCE",
 }
 
 export interface Job {

@@ -72,6 +72,7 @@ export enum PetNames {
   FluffyHero = "Fluffy Hero",
   PiggyPo = "Piggy Po",
   SwaggerTypescriptApi = "Swagger Typescript Api",
+  UPPER_CASE = "UPPER_CASE",
 }
 
 export type PetIds = 10 | 20 | 30 | 40;

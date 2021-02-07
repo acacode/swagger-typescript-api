@@ -4,6 +4,7 @@
 Fixes:  
 - Client generation for `Content-Type: application/x-www-form-urlencoded` (issue #146, thanks @Larox)  
 - enum + nullable: true doesn't compute the good type (issue #145, thanks @RoXuS)  
+- Underscores are omitted from enum keys (issue #108, thanks @eolant)  
 
 Features:  
 - Improved types description   
