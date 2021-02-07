@@ -126,10 +126,8 @@ export interface Amount {
 }
 
 /**
-*  some description
-
- @pattern ^[A-Z]{3,3}$
-*/
+ * some description
+ */
 export type Currency = string;
 
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {

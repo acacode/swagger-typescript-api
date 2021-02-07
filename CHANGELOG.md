@@ -1,5 +1,13 @@
 # next release  
 
+
+Fixes:  
+- Client generation for `Content-Type: application/x-www-form-urlencoded` (issue #146, thanks @Larox)  
+- enum + nullable: true doesn't compute the good type (issue #145, thanks @RoXuS)  
+
+Features:  
+- Improved types description   
+
 # 4.2.0  
 Features:  
 - new hook `onCreateRequestParams` which allows modify request params (`--extract-request-params` option) before sending it to route info   
