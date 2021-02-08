@@ -4,6 +4,7 @@ const { isValidName, checkAndRenameModelName } = require("./modelNames");
 const { formatDescription, internalCase } = require("./common");
 const { JS_PRIMITIVE_TYPES, JS_EMPTY_TYPES, TS_KEYWORDS, SCHEMA_TYPES } = require("./constants");
 const { config } = require("./config");
+const { isObject } = require("lodash");
 
 const types = {
   /** { type: "integer" } -> { type: "number" } */
@@ -27,8 +28,6 @@ const types = {
   // date: "Date",
   // dateTime: "Date",
 };
-
-const formDataTypes = _.uniq([types.file, types.string.binary]);
 
 const stealTypeFromSchema = (rawSchema) => {
   const schema = rawSchema || {};
@@ -119,13 +118,35 @@ const isRequired = (property) => {
 const getObjectTypeContent = (properties, additionalProperties) => {
   const propertiesContent = _.map(properties, (property, name) => {
     const required = isRequired(property);
+    const rawTypeData = _.get(getRefType(property), "rawTypeData", {});
+    const nullable = !!(rawTypeData.nullable || property.nullable);
+
     return {
       $$raw: property,
-      description: property.description,
+      description: _.compact([
+        property.description ||
+          rawTypeData.description ||
+          _.compact(_.map(rawTypeData.allOf, "description"))[0] ||
+          _.compact(_.map(rawTypeData.oneOf, "description"))[0] ||
+          _.compact(_.map(rawTypeData.anyOf, "description"))[0] ||
+          "",
+        !_.isUndefined(property.format) && `@format ${property.format}`,
+        !_.isUndefined(property.minimum) && `@min ${property.minimum}`,
+        !_.isUndefined(property.maximum) && `@max ${property.maximum}`,
+        !_.isUndefined(property.pattern) && `@pattern ${property.pattern}`,
+        !_.isUndefined(property.example) &&
+          `@example ${
+            _.isObject(property.example) ? JSON.stringify(property.example) : property.example
+          }`,
+      ]).join("\n"),
       isRequired: required,
-      field: `${isValidName(name) ? name : `"${name}"`}${
-        required ? "" : "?"
-      }: ${getInlineParseContent(property)}`,
+      isNullable: nullable,
+      field: _.compact([
+        isValidName(name) ? name : `"${name}"`,
+        !required && "?",
+        ": ",
+        getInlineParseContent(property),
+      ]).join(""),
     };
   });
 
@@ -179,7 +200,7 @@ const getComplexType = (schema) => {
   // TODO :(
   if (schema.not) return SCHEMA_TYPES.COMPLEX_NOT;
 
-  throw new Error("Uknown complex type");
+  throw new Error("Unknown complex type");
 };
 
 const attachParsedRef = (originalSchema, parsedSchema) => {
@@ -194,11 +215,11 @@ const attachParsedRef = (originalSchema, parsedSchema) => {
 };
 
 const schemaParsers = {
-  enum: (schema, typeName) => {
+  [SCHEMA_TYPES.ENUM]: (schema, typeName) => {
     const enumNamesAsValues = config.enumNamesAsValues;
-    const type = getType(schema);
-    const isIntegerEnum = !enumNamesAsValues && type === types.number;
+    const keyType = getType(schema);
     const enumNames = getEnumNames(schema);
+    const isIntegerEnum = keyType === types.number;
     let content = null;
 
     if (enumNamesAsValues && _.size(enumNames)) {
@@ -212,7 +233,7 @@ const schemaParsers = {
         key:
           (enumNames && enumNames[index]) ||
           (isIntegerEnum ? enumName : checkAndRenameModelName(enumName)),
-        type,
+        type: keyType,
         value: enumName === null ? enumName : isIntegerEnum ? `${enumName}` : `"${enumName}"`,
       }));
     } else {
@@ -221,23 +242,25 @@ const schemaParsers = {
 
         return {
           key: enumName || (isIntegerEnum ? key : checkAndRenameModelName(key)),
-          type,
+          type: keyType,
           value: key === null ? key : isIntegerEnum ? `${key}` : `"${key}"`,
         };
       });
     }
 
     return attachParsedRef(schema, {
+      ...(_.isObject(schema) ? schema : {}),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.ENUM,
       type: SCHEMA_TYPES.ENUM,
+      keyType: keyType,
       typeIdentifier: !enumNames && isIntegerEnum ? TS_KEYWORDS.TYPE : TS_KEYWORDS.ENUM,
       name: typeName,
       description: formatDescription(schema.description),
       content,
     });
   },
-  object: (schema, typeName) => {
+  [SCHEMA_TYPES.OBJECT]: (schema, typeName) => {
     const { required, properties, additionalProperties } = schema || {};
 
     if (_.isArray(required) && properties) {
@@ -248,25 +271,27 @@ const schemaParsers = {
       });
     }
 
-    const typeContent = getObjectTypeContent(properties, additionalProperties);
+    const content = getObjectTypeContent(properties, additionalProperties);
 
     return attachParsedRef(schema, {
+      ...(isObject(schema) ? schema : {}),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.OBJECT,
       type: SCHEMA_TYPES.OBJECT,
       typeIdentifier: TS_KEYWORDS.INTERFACE,
       name: typeName,
       description: formatDescription(schema.description),
-      allFieldsAreOptional: !_.some(_.values(typeContent), (part) => part.isRequired),
-      content: typeContent,
+      allFieldsAreOptional: !_.some(_.values(content), (part) => part.isRequired),
+      content: content,
     });
   },
-  complex: (schema, typeName) => {
+  [SCHEMA_TYPES.COMPLEX]: (schema, typeName) => {
     const complexType = getComplexType(schema);
     const simpleSchema = _.omit(_.clone(schema), _.keys(complexSchemaParsers));
     const complexSchemaContent = complexSchemaParsers[complexType](schema);
 
     return attachParsedRef(schema, {
+      ...(isObject(schema) ? schema : {}),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.COMPLEX,
       type: SCHEMA_TYPES.PRIMITIVE,
@@ -281,7 +306,7 @@ const schemaParsers = {
         ]).join(" & ") || TS_KEYWORDS.ANY,
     });
   },
-  primitive: (schema, typeName) => {
+  [SCHEMA_TYPES.PRIMITIVE]: (schema, typeName) => {
     let contentType = null;
     const { additionalProperties, type, description } = schema || {};
 
@@ -294,12 +319,13 @@ const schemaParsers = {
 
     if (_.isArray(type) && type.length) {
       contentType = complexSchemaParsers.oneOf({
+        ...(_.isObject(schema) ? schema : {}),
         oneOf: type.map((type) => ({ type })),
-        description,
       });
     }
 
     return attachParsedRef(schema, {
+      ...(isObject(schema) ? schema : {}),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.PRIMITIVE,
       type: SCHEMA_TYPES.PRIMITIVE,
@@ -356,12 +382,12 @@ const getParseContent = (rawTypeData, typeName = null) =>
   parseSchema(rawTypeData, typeName).content;
 
 module.exports = {
+  types,
   parseSchema,
   parseSchemas,
   getInlineParseContent,
   getParseContent,
   getType,
   getRefType,
-  formDataTypes,
   SCHEMA_TYPES,
 };

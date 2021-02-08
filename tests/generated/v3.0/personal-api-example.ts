@@ -19,6 +19,7 @@ export type TestOneOfDc = (FooBarBaz | FooBar) & { prop?: string };
 
 /**
  * FooBar
+ * @format int32
  */
 export enum IntEnumWithNames {
   Unknown = 0,
@@ -31,6 +32,12 @@ export enum IntEnumWithNames {
   Test23 = 7,
   Tess44 = 8,
   BooFar = 9,
+}
+
+export interface NullableEnum {
+  /** @format int64 */
+  id?: number;
+  legalCategory?: "SARL" | "ASSOCIATION" | null;
 }
 
 /**
@@ -77,7 +84,7 @@ export enum JobKind {
   COMPANY = "COMPANY",
   PERSONAL = "PERSONAL",
   FREELANCE = "FREELANCE",
-  OPENSOURCE = "OPEN_SOURCE",
+  OPEN_SOURCE = "OPEN_SOURCE",
 }
 
 /**
@@ -153,6 +160,8 @@ export type JobUpdateType = OmitIdJobType;
 export interface PickProjectTypeExcludeKeysJob {
   id: string;
   name?: string;
+
+  /** @format double */
   year: number;
   description: string;
   notImportant?: boolean;
@@ -171,6 +180,8 @@ export type ExtractedProjectType = OmitProjectTypeJob & { job: JobType };
 export interface PickProjectTypeExcludeKeysIdOrId {
   name?: string;
   job: string;
+
+  /** @format double */
   year: number;
   description: string;
   notImportant?: boolean;
@@ -187,6 +198,8 @@ export type ProjectUpdateType = OmitIdProjectType;
 
 export interface ProjectType {
   id: string;
+
+  /** @format double */
   year: number;
   description: string;
   job: string;

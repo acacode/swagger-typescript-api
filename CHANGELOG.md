@@ -1,5 +1,25 @@
 # next release  
 
+# 4.3.0  
+
+Fixes:  
+- Client generation for `Content-Type: application/x-www-form-urlencoded` (issue #146, thanks @Larox)  
+- enum + nullable: true doesn't compute the good type (issue #145, thanks @RoXuS)  
+- Underscores are omitted from enum keys (issue #108, thanks @eolant)  
+- CLI silently fails if the directory to put new files in doesn't exist yet (issue #141, thanks @Styn)  
+
+Features:  
+- Improved type description   
+
+Internal:   
+- dependencies update:  
+  - `"js-yaml": "^4.0.0"` (`"^3.14.1"`)  
+  - `"make-dir": "^3.1.0"`
+  - `"swagger2openapi": "^7.0.5"` (`"^7.0.4"`)  
+- Difference in templates:  
+  - `data-contracts.eta`  
+  ![dataContracts430](./assets/changelog_assets/http-client-template-diff-4.3.0.jpg)  
+
 # 4.2.0  
 Features:  
 - new hook `onCreateRequestParams` which allows modify request params (`--extract-request-params` option) before sending it to route info   

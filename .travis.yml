@@ -13,7 +13,7 @@ jobs:
   include:
     - stage: generate&validate
       script:
-        - npm run test:all
+        - npm run test-all
 
 notifications:
   slack:

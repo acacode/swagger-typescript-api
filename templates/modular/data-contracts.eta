@@ -1,6 +1,6 @@
 <%
   const { modelTypes, utils } = it;
-  const { formatDescription, require } = utils;
+  const { formatDescription, require, _ } = utils;
   
 
   const dataContractTemplates = {
@@ -14,11 +14,27 @@
       return `type ${contract.name} = ${contract.content}`;
     },
   }
+
+  const createDescription = (contract) => {
+    if (!contract.typeData) return _.compact([contract.description]);
+
+    return _.compact([
+        contract.description && formatDescription(contract.description),
+        !_.isUndefined(contract.typeData.format) && `@format ${contract.typeData.format}`,
+        !_.isUndefined(contract.typeData.minimum) && `@min ${contract.typeData.minimum}`,
+        !_.isUndefined(contract.typeData.maximum) && `@max ${contract.typeData.maximum}`,
+        !_.isUndefined(contract.typeData.pattern) && `@pattern ${contract.typeData.pattern}`,
+        !_.isUndefined(contract.typeData.example) && `@example ${
+          _.isObject(contract.typeData.example) ? JSON.stringify(contract.typeData.example) : contract.typeData.example
+        }`,
+    ]);
+  }
 %>
 <% modelTypes.forEach((contract) => { %>
-<% if (contract.description) { %>
+<% const description = createDescription(contract); %>
+<% if (description.length) { %>
 /**
-* <%~ formatDescription(contract.description) %>
+<%~ description.map(part => `* ${part}`).join("\n") %>
 
 */
 <% } %>

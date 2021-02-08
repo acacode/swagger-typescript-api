@@ -164,7 +164,7 @@ When we change it to `--module-name-index 1` then Api class have two properties 
 
 ❗❗❗ Please use the `next` branch :)   
 
-If you need to check your changes at schemas in `tests` folder before create a PR just run command `npm run test:all`  
+If you need to check your changes at schemas in `tests` folder before create a PR just run command `npm run test-all`  
 
 ## Contributors ✨
 

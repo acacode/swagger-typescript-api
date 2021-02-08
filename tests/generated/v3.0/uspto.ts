@@ -198,8 +198,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
     performSearch: (
       version: string,
       dataset: string,
-      data: { criteria: string; start?: number; rows?: number },
+      query: { criteria: string; start?: number; rows?: number },
       params?: RequestParams,
-    ) => this.request<Record<string, object>[], any>(`/${dataset}/${version}/records`, "POST", params, data),
+    ) =>
+      this.request<Record<string, object>[], any>(
+        `/${dataset}/${version}/records${this.addQueryParams(query)}`,
+        "POST",
+        params,
+      ),
   };
 }

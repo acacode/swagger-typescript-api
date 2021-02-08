@@ -10,6 +10,7 @@
  */
 
 export interface GetProfileBioDTO {
+  /** @format int32 */
   candidateId?: number;
   cityName?: string | null;
 }
@@ -23,7 +24,7 @@ export enum Kind {
   COMPANY = "COMPANY",
   PERSONAL = "PERSONAL",
   FREELANCE = "FREELANCE",
-  OPENSOURCE = "OPEN_SOURCE",
+  OPEN_SOURCE = "OPEN_SOURCE",
 }
 
 export interface Job {
@@ -65,6 +66,8 @@ export type JobUpdate = OmitJobId | PickJobGithub | Record<string, any>;
 
 export interface Project {
   id: string;
+
+  /** @format double */
   year: number;
   description: string;
   job: Job;
@@ -84,12 +87,16 @@ export interface PickProjectExcludeKeysIdOrjob {
   prefix?: string;
   notImportant?: boolean;
   description: string;
+
+  /** @format double */
   year: number;
   name?: string;
 }
 
 export interface ProjectUpdate {
   name?: string | null;
+
+  /** @format double */
   year: number;
   description: string;
   notImportant?: boolean | null;
@@ -101,6 +108,8 @@ export interface ProjectUpdate {
 
 export interface UpdatedProject {
   id: string;
+
+  /** @format double */
   year: number;
   description: string;
   name?: string | null;

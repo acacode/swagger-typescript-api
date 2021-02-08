@@ -10,16 +10,26 @@
  */
 
 export interface Gif {
-  /** The unique bit.ly URL for this GIF */
+  /**
+   * The unique bit.ly URL for this GIF
+   * @example http://gph.is/1gsWDcL
+   */
   bitly_url?: string;
 
   /** Currently unused */
   content_url?: string;
 
-  /** The date this GIF was added to the GIPHY database. */
+  /**
+   * The date this GIF was added to the GIPHY database.
+   * @format date-time
+   * @example 2013-08-01 12:41:48
+   */
   create_datetime?: string;
 
-  /** A URL used for embedding this GIF */
+  /**
+   * A URL used for embedding this GIF
+   * @example http://giphy.com/embed/YsTs5ltWtEhnq
+   */
   embded_url?: string;
 
   /**
@@ -28,7 +38,10 @@ export interface Gif {
    */
   featured_tags?: string[];
 
-  /** This GIF's unique ID */
+  /**
+   * This GIF's unique ID
+   * @example YsTs5ltWtEhnq
+   */
   id?: string;
 
   /** An object containing data for various available formats and sizes of this GIF. */
@@ -55,22 +68,41 @@ export interface Gif {
     preview_gif?: Image & any;
   };
 
-  /** The creation or upload date from this GIF's source. */
+  /**
+   * The creation or upload date from this GIF's source.
+   * @format date-time
+   * @example 2013-08-01 12:41:48
+   */
   import_datetime?: string;
 
-  /** The MPAA-style rating for this content. Examples include Y, G, PG, PG-13 and R */
+  /**
+   * The MPAA-style rating for this content. Examples include Y, G, PG, PG-13 and R
+   * @example g
+   */
   rating?: string;
 
-  /** The unique slug used in this GIF's URL */
+  /**
+   * The unique slug used in this GIF's URL
+   * @example confused-flying-YsTs5ltWtEhnq
+   */
   slug?: string;
 
-  /** The page on which this GIF was found */
+  /**
+   * The page on which this GIF was found
+   * @example http://www.reddit.com/r/reactiongifs/comments/1xpyaa/superman_goes_to_hollywood/
+   */
   source?: string;
 
-  /** The URL of the webpage on which this GIF was found. */
+  /**
+   * The URL of the webpage on which this GIF was found.
+   * @example http://cheezburger.com/5282328320
+   */
   source_post_url?: string;
 
-  /** The top level domain of the source URL. */
+  /**
+   * The top level domain of the source URL.
+   * @example cheezburger.com
+   */
   source_tld?: string;
 
   /**
@@ -79,49 +111,92 @@ export interface Gif {
    */
   tags?: string[];
 
-  /** The date on which this gif was marked trending, if applicable. */
+  /**
+   * The date on which this gif was marked trending, if applicable.
+   * @format date-time
+   * @example 2013-08-01 12:41:48
+   */
   trending_datetime?: string;
 
   /** Type of the gif. By default, this is almost always gif */
   type?: "gif";
 
-  /** The date on which this GIF was last updated. */
+  /**
+   * The date on which this GIF was last updated.
+   * @format date-time
+   * @example 2013-08-01 12:41:48
+   */
   update_datetime?: string;
 
-  /** The unique URL for this GIF */
+  /**
+   * The unique URL for this GIF
+   * @example http://giphy.com/gifs/confused-flying-YsTs5ltWtEhnq
+   */
   url?: string;
+
+  /** The User Object contains information about the user associated with a GIF and URLs to assets such as that user's avatar image, profile, and more. */
   user?: User;
 
-  /** The username this GIF is attached to, if applicable */
+  /**
+   * The username this GIF is attached to, if applicable
+   * @example JoeCool4000
+   */
   username?: string;
 }
 
 export interface Image {
-  /** The number of frames in this GIF. */
+  /**
+   * The number of frames in this GIF.
+   * @example 15
+   */
   frames?: string;
 
-  /** The height of this GIF in pixels. */
+  /**
+   * The height of this GIF in pixels.
+   * @example 200
+   */
   height?: string;
 
-  /** The URL for this GIF in .MP4 format. */
+  /**
+   * The URL for this GIF in .MP4 format.
+   * @example https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy.mp4
+   */
   mp4?: string;
 
-  /** The size in bytes of the .MP4 file corresponding to this GIF. */
+  /**
+   * The size in bytes of the .MP4 file corresponding to this GIF.
+   * @example 25123
+   */
   mp4_size?: string;
 
-  /** The size of this GIF in bytes. */
+  /**
+   * The size of this GIF in bytes.
+   * @example 32381
+   */
   size?: string;
 
-  /** The publicly-accessible direct URL for this GIF. */
+  /**
+   * The publicly-accessible direct URL for this GIF.
+   * @example https://media1.giphy.com/media/cZ7rmKfFYOvYI/200.gif
+   */
   url?: string;
 
-  /** The URL for this GIF in .webp format. */
+  /**
+   * The URL for this GIF in .webp format.
+   * @example https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy.webp
+   */
   webp?: string;
 
-  /** The size in bytes of the .webp file corresponding to this GIF. */
+  /**
+   * The size in bytes of the .webp file corresponding to this GIF.
+   * @example 12321
+   */
   webp_size?: string;
 
-  /** The width of this GIF in pixels. */
+  /**
+   * The width of this GIF in pixels.
+   * @example 320
+   */
   width?: string;
 }
 
@@ -129,13 +204,23 @@ export interface Image {
  * The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances.
  */
 export interface Meta {
-  /** HTTP Response Message */
+  /**
+   * HTTP Response Message
+   * @example OK
+   */
   msg?: string;
 
-  /** A unique ID paired with this response from the API. */
+  /**
+   * A unique ID paired with this response from the API.
+   * @example 57eea03c72381f86e05c35d2
+   */
   response_id?: string;
 
-  /** HTTP Response Code */
+  /**
+   * HTTP Response Code
+   * @format int32
+   * @example 200
+   */
   status?: number;
 }
 
@@ -143,13 +228,25 @@ export interface Meta {
  * The Pagination Object contains information relating to the number of total results available as well as the number of results fetched and their relative positions.
  */
 export interface Pagination {
-  /** Total number of items returned. */
+  /**
+   * Total number of items returned.
+   * @format int32
+   * @example 25
+   */
   count?: number;
 
-  /** Position in pagination. */
+  /**
+   * Position in pagination.
+   * @format int32
+   * @example 75
+   */
   offset?: number;
 
-  /** Total number of items available. */
+  /**
+   * Total number of items available.
+   * @format int32
+   * @example 250
+   */
   total_count?: number;
 }
 
@@ -157,22 +254,40 @@ export interface Pagination {
  * The User Object contains information about the user associated with a GIF and URLs to assets such as that user's avatar image, profile, and more.
  */
 export interface User {
-  /** The URL for this user's avatar image. */
+  /**
+   * The URL for this user's avatar image.
+   * @example https://media1.giphy.com/avatars/election2016/XwYrZi5H87o6.gif
+   */
   avatar_url?: string;
 
-  /** The URL for the banner image that appears atop this user's profile page. */
+  /**
+   * The URL for the banner image that appears atop this user's profile page.
+   * @example https://media4.giphy.com/avatars/cheezburger/XkuejOhoGLE6.jpg
+   */
   banner_url?: string;
 
-  /** The display name associated with this user (contains formatting the base username might not). */
+  /**
+   * The display name associated with this user (contains formatting the base username might not).
+   * @example JoeCool4000
+   */
   display_name?: string;
 
-  /** The URL for this user's profile. */
+  /**
+   * The URL for this user's profile.
+   * @example https://giphy.com/cheezburger/
+   */
   profile_url?: string;
 
-  /** The Twitter username associated with this user, if applicable. */
+  /**
+   * The Twitter username associated with this user, if applicable.
+   * @example @joecool4000
+   */
   twitter?: string;
 
-  /** The username associated with this user. */
+  /**
+   * The username associated with this user.
+   * @example joecool4000
+   */
   username?: string;
 }
 

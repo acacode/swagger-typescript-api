@@ -15,6 +15,10 @@ const checkAndRenameModelName = (name) => {
     return formattedModelNamesMap.get(name);
   }
 
+  if (/^([A-Z_]{1,})$/g.test(name)) {
+    return name;
+  }
+
   if (!isValidName(name)) {
     // specific replaces for TSOA 3.x
     if (name.includes("."))

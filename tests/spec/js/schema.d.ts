@@ -67,6 +67,7 @@ export interface Asset {
   size?: number;
   state?: string;
   updated_at?: string;
+  /** A GitHub user */
   uploader?: User;
   url?: string;
 }
@@ -142,6 +143,7 @@ export declare type Comments = {
   user?: User;
 }[];
 export interface Commit {
+  /** A GitHub user */
   author?: User;
   commit?: {
     author?: {
@@ -161,6 +163,7 @@ export interface Commit {
     };
     url?: string;
   };
+  /** A GitHub user */
   committer?: User;
   files?: {
     additions?: number;
@@ -202,6 +205,7 @@ export interface CommitComment {
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
+  /** A GitHub user */
   user?: User;
 }
 export interface CommitCommentBody {
@@ -454,6 +458,7 @@ export interface Deployment {
 }
 export interface DeploymentResp {
   created_at?: string;
+  /** A GitHub user */
   creator?: User;
   description?: string;
   id?: number;
@@ -497,9 +502,11 @@ export interface EditTeam {
 export declare type EmailsPost = string[];
 export declare type Emojis = Record<string, string>;
 export interface Event {
+  /** A user or organization */
   actor?: Actor;
   created_at?: object;
   id?: number;
+  /** A GitHub organization */
   org?: Organization;
   payload?: object;
   public?: boolean;
@@ -584,6 +591,7 @@ export interface Gist {
   id?: string;
   public?: boolean;
   url?: string;
+  /** A GitHub user */
   user?: User;
 }
 export declare type Gists = {
@@ -675,6 +683,7 @@ export interface Issue {
   title?: string;
 }
 export interface IssueEvent {
+  /** A user or organization */
   actor?: Actor;
   commit_id?: string;
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
@@ -764,6 +773,7 @@ export interface IssuesComment {
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
+  /** A GitHub user */
   user?: User;
 }
 export declare type IssuesComments = {
@@ -828,6 +838,7 @@ export interface MergesConflict {
   message?: string;
 }
 export interface MergesSuccessful {
+  /** A GitHub user */
   author?: User;
   comments_url?: string;
   commit?: {
@@ -849,6 +860,7 @@ export interface MergesSuccessful {
     };
     url?: string;
   };
+  /** A GitHub user */
   committer?: User;
   merged?: boolean;
   message?: string;
@@ -867,6 +879,7 @@ export interface Milestone {
   closed_issues?: number;
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
+  /** A GitHub user */
   creator?: User;
   description?: string;
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
@@ -1272,6 +1285,7 @@ export interface Release {
     url?: string;
   }[];
   assets_url?: string;
+  /** A GitHub user */
   author?: User;
   body?: string;
   created_at?: string;
@@ -1349,7 +1363,9 @@ export interface Repo {
   name?: string;
   open_issues?: number;
   open_issues_count?: number;
+  /** A GitHub organization */
   organization?: Organization;
+  /** A user or organization */
   owner?: Actor;
   parent?: Repo & any;
   private?: boolean;
@@ -1547,6 +1563,7 @@ export interface SearchRepositoriesByKeyword {
   repositories?: Repo[];
 }
 export interface SearchUserByEmail {
+  /** A GitHub user */
   user?: User;
 }
 export interface SearchUsers {
@@ -1718,7 +1735,7 @@ export declare class HttpClient<SecurityDataType = unknown> {
 /**
  * @title GitHub
  * @version v3
- * @baseUrl https://api.github.com/
+ * @baseUrl https://api.github.com
  * Powerful collaboration, code review, and code management for open source and private projects.
  */
 export declare class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {

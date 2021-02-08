@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const { collect } = require("./utils");
-const { parseSchema, getRefType, formDataTypes, getInlineParseContent } = require("./schema");
+const { types, parseSchema, getRefType, getInlineParseContent } = require("./schema");
 const { checkAndRenameModelName } = require("./modelNames");
 const {
   DEFAULT_BODY_ARG_NAME,
@@ -13,8 +13,10 @@ const { nanoid } = require("nanoid");
 const { getRouteName } = require("./routeNames");
 const { createComponent } = require("./components");
 
-const getSchemaFromRequestType = (requestType) => {
-  const content = _.get(requestType, "content");
+const formDataTypes = _.uniq([types.file, types.string.binary]);
+
+const getSchemaFromRequestType = (requestInfo) => {
+  const content = _.get(requestInfo, "content");
 
   if (!content) return null;
 
@@ -33,7 +35,7 @@ const getSchemaFromRequestType = (requestType) => {
   return null;
 };
 
-const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, contentType) => {
+const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId) => {
   // TODO: make more flexible pick schema without content type
   const schema = getSchemaFromRequestType(requestInfo);
   const refTypeInfo = getRefType(requestInfo);
@@ -77,76 +79,119 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId, content
   return TS_KEYWORDS.ANY;
 };
 
-const getTypesFromResponses = (responses, parsedSchemas, operationId) =>
+const getRequestInfoTypes = (requestInfos, parsedSchemas, operationId) =>
   _.reduce(
-    responses,
-    (acc, response, status) => {
+    requestInfos,
+    (acc, requestInfo, status) => {
       return [
         ...acc,
         {
-          type: getTypeFromRequestInfo(response, parsedSchemas, operationId),
-          description: formatDescription(response.description || "", true),
-          status: status === "default" ? "default" : +status,
-          isSuccess: isSuccessResponseStatus(status),
+          ...(requestInfo || {}),
+          contentTypes: getContentTypes([requestInfo]),
+          type: getTypeFromRequestInfo(requestInfo, parsedSchemas, operationId),
+          description: formatDescription(requestInfo.description || "", true),
+          status: _.isNaN(+status) ? status : +status,
+          isSuccess: isSuccessStatus(status),
         },
       ];
     },
     [],
   );
 
-const isSuccessResponseStatus = (status) =>
+const isSuccessStatus = (status) =>
   (config.defaultResponseAsSuccess && status === "default") ||
   (+status >= SUCCESS_RESPONSE_STATUS_RANGE[0] && +status < SUCCESS_RESPONSE_STATUS_RANGE[1]);
 
-const findBadResponses = (responses) =>
-  _.filter(responses, (v, status) => !isSuccessResponseStatus(status));
+const getRouteParams = (routeInfo, route) => {
+  const { parameters } = routeInfo;
+  const pathParamMatches = (route || "").match(/{(([a-zA-Z]-?_?){1,})([0-9]{1,})?}/g);
+  const routeParams = {
+    path: [],
+    header: [],
+    body: [],
+    query: [],
+    body: [],
+    formData: [],
+    cookie: [],
+  };
 
-const findSuccessResponse = (responses) =>
-  _.find(responses, (v, status) => isSuccessResponseStatus(status));
-
-const getReturnType = (responses, parsedSchemas, operationId) =>
-  getTypeFromRequestInfo(findSuccessResponse(responses), parsedSchemas, operationId) ||
-  TS_KEYWORDS.ANY;
-
-const getErrorReturnType = (responses, parsedSchemas, operationId) =>
-  _.uniq(
-    findBadResponses(responses)
-      .map((response) => getTypeFromRequestInfo(response, parsedSchemas, operationId))
-      .filter((type) => type !== TS_KEYWORDS.ANY),
-  ).join(" | ") || TS_KEYWORDS.ANY;
-
-const getRouteParams = (parameters, where) =>
-  collect(parameters, (parameter) => {
-    if (parameter.in === where) return parameter;
-
+  _.each(parameters, (parameter) => {
     const refTypeInfo = getRefType(parameter);
-    return refTypeInfo && refTypeInfo.rawTypeData.in === where && refTypeInfo.rawTypeData;
+
+    if (refTypeInfo && refTypeInfo.rawTypeData.in && refTypeInfo.rawTypeData) {
+      if (!routeParams[refTypeInfo.rawTypeData.in]) {
+        routeParams[refTypeInfo.rawTypeData.in] = [];
+      }
+
+      routeParams[refTypeInfo.rawTypeData.in].push({
+        ...refTypeInfo.rawTypeData,
+        ...(refTypeInfo.rawTypeData.schema || {}),
+      });
+    } else {
+      if (!parameter.in) return;
+
+      if (!routeParams[parameter.in]) {
+        routeParams[parameter.in] = [];
+      }
+
+      routeParams[parameter.in].push({
+        ...parameter,
+        ...(parameter.schema || {}),
+      });
+    }
   });
 
-const convertRouteParamsIntoObject = (params) =>
-  _.reduce(
+  // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
+  _.each(pathParamMatches, (match) => {
+    const paramName = _.replace(match, /\{|\}/g, "");
+
+    if (!paramName) return;
+
+    const alreadyExist = _.some(routeParams.path, (parameter) => parameter.name === paramName);
+
+    if (!alreadyExist) {
+      routeParams.path.push({
+        name: paramName,
+        required: true,
+        type: "string",
+        description: "",
+        in: "path",
+      });
+    }
+  });
+
+  return routeParams;
+};
+
+const convertRouteParamsIntoObject = (params) => {
+  return _.reduce(
     params,
-    (objectSchema, schemaPart) => ({
-      ...objectSchema,
-      properties: {
-        ...objectSchema.properties,
-        [_.get(schemaPart, "name")]: _.merge(
-          _.omit(schemaPart, "in", "schema"),
-          _.get(schemaPart, "schema"),
-        ),
-      },
-    }),
+    (objectSchema, schemaPart) => {
+      if (!schemaPart || !schemaPart.name) return objectSchema;
+
+      return {
+        ...objectSchema,
+        properties: {
+          ...objectSchema.properties,
+          [schemaPart.name]: {
+            ...schemaPart,
+            ...(schemaPart.schema || {}),
+          },
+        },
+      };
+    },
     {
       properties: {},
       type: "object",
     },
   );
+};
 
-const createRequestsMap = (requestInfoByMethodsMap) => {
-  const parameters = _.get(requestInfoByMethodsMap, "parameters");
+const createRequestsMap = (routeInfoByMethodsMap) => {
+  const parameters = _.get(routeInfoByMethodsMap, "parameters");
 
   return _.reduce(
-    requestInfoByMethodsMap,
+    routeInfoByMethodsMap,
     (acc, requestInfo, method) => {
       if (method.startsWith("x-") || ["parameters", "$ref"].includes(method)) {
         return acc;
@@ -160,28 +205,6 @@ const createRequestsMap = (requestInfoByMethodsMap) => {
       return acc;
     },
     {},
-  );
-};
-
-const collectPathParams = ({ pathParams, route }) => {
-  const routePathArgs = _.compact(
-    _.split(route, "{").map((part) => (part.includes("}") ? part.split("}")[0] : null)),
-  );
-
-  return _.uniqBy(
-    _.compact([
-      ...(routePathArgs.length
-        ? _.map(pathParams, (param) => ({ ...param, ...(param.schema || {}), in: "path" }))
-        : []),
-      ..._.map(routePathArgs, (paramName) => ({
-        name: paramName,
-        required: true,
-        type: "string",
-        description: "",
-        in: "path",
-      })),
-    ]),
-    "name",
   );
 };
 
@@ -243,6 +266,106 @@ const createRequestParamsSchema = ({
   return schema;
 };
 
+const getContentTypes = (requestInfo, extraContentTypes) =>
+  _.uniq(
+    _.compact([
+      ...(extraContentTypes || []),
+      ..._.flatten(
+        _.map(requestInfo, (requestInfoData) => requestInfoData && _.keys(requestInfoData.content)),
+      ),
+    ]),
+  );
+
+const CONTENT_KIND = {
+  JSON: "json",
+  QUERY: "query",
+  FORM_DATA: "formData",
+  UNKNOWN: "unknown",
+};
+
+const getContentKind = (contentTypes) => {
+  if (contentTypes.includes("application/json")) {
+    return CONTENT_KIND.JSON;
+  }
+
+  if (contentTypes.includes("application/x-www-form-urlencoded")) {
+    return CONTENT_KIND.QUERY;
+  }
+
+  if (contentTypes.includes("multipart/form-data")) {
+    return CONTENT_KIND.FORM_DATA;
+  }
+
+  return CONTENT_KIND.UNKNOWN;
+};
+
+const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
+  const { requestBody, consumes, requestBodyName, operationId } = routeInfo;
+  let schema = null;
+  let type = null;
+
+  const contentTypes = getContentTypes(
+    [requestBody],
+    [...(consumes || []), routeInfo["x-contentType"]],
+  );
+  let contentKind = getContentKind(contentTypes);
+
+  if (routeParams.formData.length) {
+    contentKind = CONTENT_KIND.FORM_DATA;
+    schema = convertRouteParamsIntoObject(routeParams.formData);
+    type = getInlineParseContent(schema);
+  } else if (contentKind === CONTENT_KIND.FORM_DATA) {
+    schema = getSchemaFromRequestType(requestBody);
+    type = getInlineParseContent(schema);
+  } else if (requestBody) {
+    schema = requestBody;
+    type = getTypeFromRequestInfo(requestBody, parsedSchemas, operationId);
+
+    // TODO: Refactor that.
+    // It needed for cases when swagger schema is not declared request body type as form data
+    // but request body data type contains form data types like File
+    if (formDataTypes.some((dataType) => _.includes(type, `: ${dataType}`))) {
+      contentKind = CONTENT_KIND.FORM_DATA;
+    }
+  }
+
+  return {
+    paramName: requestBodyName || (requestBody && requestBody.name) || DEFAULT_BODY_ARG_NAME,
+    contentTypes,
+    contentKind,
+    schema,
+    type,
+    required:
+      requestBody && (typeof requestBody.required === "undefined" || !!requestBody.required),
+  };
+};
+
+const getResponseBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
+  const { produces, operationId, responses } = routeInfo;
+
+  const contentTypes = getContentTypes(responses, [...(produces || []), routeInfo["x-accepts"]]);
+
+  const responseInfos = getRequestInfoTypes(responses, parsedSchemas, operationId);
+
+  const successResponse = responseInfos.find((response) => response.isSuccess);
+  const errorResponses = responseInfos.filter(
+    (response) => !response.isSuccess && response.type !== TS_KEYWORDS.ANY,
+  );
+
+  return {
+    contentTypes,
+    responses: responseInfos,
+    success: {
+      schema: successResponse,
+      type: (successResponse && successResponse.type) || TS_KEYWORDS.ANY,
+    },
+    error: {
+      schemas: errorResponses,
+      type: _.uniq(errorResponses.map((response) => response.type)).join(" | ") || TS_KEYWORDS.ANY,
+    },
+  };
+};
+
 const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractRequestParams }) => {
   const { paths, security: globalSecurity } = usageSchema;
   const pathsEntries = _.entries(paths);
@@ -250,14 +373,14 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
     routeNameDuplicatesMap: new Map(),
   });
 
-  return pathsEntries.reduce((routes, [route, requestInfoByMethodsMap]) => {
+  return pathsEntries.reduce((routes, [route, routeInfoByMethodsMap]) => {
     if (route.startsWith("x-")) return routes;
 
-    const requestsMap = createRequestsMap(requestInfoByMethodsMap);
+    const routeInfosMap = createRequestsMap(routeInfoByMethodsMap);
 
     return [
       ...routes,
-      ..._.map(requestsMap, (requestInfo, method) => {
+      ..._.map(routeInfosMap, (routeInfo, method) => {
         const {
           operationId,
           requestBody,
@@ -269,54 +392,37 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           responses,
           requestBodyName,
           produces,
+          consumes,
           ...otherInfo
-        } = requestInfo;
+        } = routeInfo;
+
         const routeId = nanoid(12);
+        const moduleName = _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
         const hasSecurity = !!(
           (globalSecurity && globalSecurity.length) ||
           (security && security.length)
         );
-        const responseContentTypes =
-          produces ||
-          _.flatten(_.map(responses, (response) => response && _.keys(response.content)));
 
-        const formDataParams = getRouteParams(parameters, "formData");
-        const pathParams = getRouteParams(parameters, "path");
-        const queryParams = getRouteParams(parameters, "query");
-        const requestBodyType = getSchemaFromRequestType(requestBody);
+        const routeParams = getRouteParams(routeInfo, route);
 
-        const hasFormDataParams = formDataParams && !!formDataParams.length;
-        let formDataRequestBody =
-          requestBodyType && requestBodyType.dataType === "multipart/form-data";
-        const moduleName = _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
-        const responsesTypes = getTypesFromResponses(responses, parsedSchemas, operationId);
-        const formDataObjectSchema = hasFormDataParams
-          ? convertRouteParamsIntoObject(formDataParams)
-          : formDataRequestBody
-          ? getSchemaFromRequestType(requestBody)
-          : null;
-        const queryObjectSchema = convertRouteParamsIntoObject(queryParams);
-
-        const bodyParamName =
-          requestBodyName || (requestBody && requestBody.name) || DEFAULT_BODY_ARG_NAME;
-
-        const pathArgsSchemas = collectPathParams({
-          pathParams,
-          route,
-        });
-        const pathArgs = pathArgsSchemas.map((pathArgSchema) => ({
+        const pathArgs = routeParams.path.map((pathArgSchema) => ({
           name: pathArgSchema.name,
           optional: !pathArgSchema.required,
           type: getInlineParseContent(pathArgSchema.schema),
           description: pathArgSchema.description,
         }));
 
+        const requestBodyInfo = getRequestBodyInfo(routeInfo, routeParams, parsedSchemas);
+        const responseBodyInfo = getResponseBodyInfo(routeInfo, routeParams, parsedSchemas);
+
+        const queryObjectSchema = convertRouteParamsIntoObject(routeParams.query);
+
         const routeName = getRouteName({
           operationId,
           method,
           route,
           moduleName,
-          responsesTypes,
+          responsesTypes: responseBodyInfo.responses,
           description,
           tags,
           summary,
@@ -324,48 +430,43 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
         });
 
         const requestParamsSchema = createRequestParamsSchema({
-          queryParams,
-          pathArgsSchemas,
+          queryParams: routeParams.query,
+          pathArgsSchemas: routeParams.path,
           queryObjectSchema,
           extractRequestParams,
           routeName,
         });
 
-        const queryType = queryParams.length ? getInlineParseContent(queryObjectSchema) : null;
-
-        let bodyType = null;
-
-        if (formDataObjectSchema) {
-          bodyType = getInlineParseContent(formDataObjectSchema);
-        } else if (requestBody) {
-          bodyType = getTypeFromRequestInfo(requestBody, parsedSchemas, operationId);
-
-          // TODO: Refactor that.
-          // It needed for cases when swagger schema is not declared request body type as form data
-          // but request body data type contains form data types like File
-          if (formDataTypes.some((formDataType) => _.includes(bodyType, `: ${formDataType}`))) {
-            formDataRequestBody = true;
-          }
-        }
+        const queryType = routeParams.query.length
+          ? getInlineParseContent(queryObjectSchema)
+          : null;
 
         const specificArgs = {
-          query: queryType
-            ? {
-                name: pathArgs.some((pathArg) => pathArg.name === "query")
-                  ? "queryParams"
-                  : "query",
-                optional: parseSchema(queryObjectSchema, null).allFieldsAreOptional,
-                type: queryType,
-              }
-            : void 0,
-          body: bodyType
-            ? {
-                name: bodyParamName,
-                optional:
-                  typeof requestBody.required === "undefined" ? false : !requestBody.required,
-                type: bodyType,
-              }
-            : void 0,
+          query:
+            queryType || requestBodyInfo.contentKind === CONTENT_KIND.QUERY
+              ? {
+                  name: pathArgs.some((pathArg) => pathArg.name === "query")
+                    ? "queryParams"
+                    : "query",
+                  optional:
+                    requestBodyInfo.contentKind === CONTENT_KIND.QUERY
+                      ? !requestBodyInfo.required &&
+                        (!queryType || parseSchema(queryObjectSchema, null).allFieldsAreOptional)
+                      : parseSchema(queryObjectSchema, null).allFieldsAreOptional,
+                  type:
+                    requestBodyInfo.contentKind === CONTENT_KIND.QUERY
+                      ? _.compact([queryType, requestBodyInfo.type]).join(" & ")
+                      : queryType,
+                }
+              : void 0,
+          body:
+            requestBodyInfo.contentKind !== CONTENT_KIND.QUERY && requestBodyInfo.type
+              ? {
+                  name: requestBodyInfo.paramName,
+                  optional: !requestBodyInfo.required,
+                  type: requestBodyInfo.type,
+                }
+              : void 0,
           requestParams: {
             name: pathArgs.some((pathArg) => pathArg.name === "params")
               ? "requestParams"
@@ -418,60 +519,45 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
         //   }
         //   return acc;
         // }, [' '])
-        const jsDocDescription =
-          description && ` * @description ${formatDescription(description, true)}`;
-        const jsDocLines = _.compact([
-          _.size(tags) && ` * @tags ${tags.join(", ")}`,
-          ` * @name ${routeId}`,
-          summary && ` * @summary ${summary}`,
-          ` * @request ${_.upperCase(method)}:${route}`,
-          hasSecurity && ` * @secure`,
-          ...(config.generateResponses && responsesTypes.length
-            ? responsesTypes.map(
-                ({ type, status, description }) =>
-                  ` * @response \`${status}\` \`${type}\` ${description}`,
-              )
-            : []),
-        ]).join("\n");
-
-        const path = route.replace(/{/g, "${");
-
-        const response = {
-          contentTypes: responseContentTypes,
-          type: getReturnType(responses, parsedSchemas, operationId),
-          errorType: getErrorReturnType(responses, parsedSchemas, operationId),
-        };
 
         const routeData = {
           id: routeId,
-          jsDocDescription,
-          jsDocLines,
           namespace: _.replace(moduleName, /^(\d)/, "v$1"),
+          routeName,
+          routeParams,
+          requestBodyInfo,
+          responseBodyInfo,
           request: {
+            contentTypes: requestBodyInfo.contentTypes,
             parameters: pathArgs,
             query: specificArgs.query,
-            path,
-            formData: hasFormDataParams || formDataRequestBody,
+            path: route.replace(/{/g, "${"),
+            formData: requestBodyInfo.contentKind === CONTENT_KIND.FORM_DATA,
+            isQueryBody: requestBodyInfo.contentKind === CONTENT_KIND.QUERY,
             security: hasSecurity,
             method: method,
             payload: specificArgs.body,
             params: specificArgs.requestParams,
             requestParams: requestParamsSchema,
           },
-          response,
-          routeName,
+          response: {
+            contentTypes: responseBodyInfo.contentTypes,
+            type: responseBodyInfo.success.type,
+            errorType: responseBodyInfo.error.type,
+          },
           raw: {
             operationId,
             method,
             route,
             moduleName,
-            responsesTypes,
+            responsesTypes: responseBodyInfo.responses,
             description,
             tags,
             summary,
             responses,
             produces,
             requestBody,
+            consumes,
             ...otherInfo,
           },
         };

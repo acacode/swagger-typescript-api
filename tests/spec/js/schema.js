@@ -16,7 +16,7 @@ var BodyType;
 })(BodyType || (BodyType = {}));
 export class HttpClient {
   constructor(apiConfig = {}) {
-    this.baseUrl = "https://api.github.com/";
+    this.baseUrl = "https://api.github.com";
     this.securityData = null;
     this.securityWorker = null;
     this.baseApiParams = {
@@ -108,7 +108,7 @@ export class HttpClient {
 /**
  * @title GitHub
  * @version v3
- * @baseUrl https://api.github.com/
+ * @baseUrl https://api.github.com
  * Powerful collaboration, code review, and code management for open source and private projects.
  */
 export class Api extends HttpClient {

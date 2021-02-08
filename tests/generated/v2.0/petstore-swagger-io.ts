@@ -10,13 +10,17 @@
  */
 
 export interface Category {
+  /** @format int64 */
   id?: number;
   name?: string;
 }
 
 export interface Pet {
+  /** @format int64 */
   id?: number;
   category?: Category;
+
+  /** @example doggie */
   name: string;
   photoUrls: string[];
   tags?: Tag[];
@@ -26,20 +30,29 @@ export interface Pet {
 }
 
 export interface Tag {
+  /** @format int64 */
   id?: number;
   name?: string;
 }
 
 export interface ApiResponse {
+  /** @format int32 */
   code?: number;
   type?: string;
   message?: string;
 }
 
 export interface Order {
+  /** @format int64 */
   id?: number;
+
+  /** @format int64 */
   petId?: number;
+
+  /** @format int32 */
   quantity?: number;
+
+  /** @format date-time */
   shipDate?: string;
 
   /** Order Status */
@@ -48,6 +61,7 @@ export interface Order {
 }
 
 export interface User {
+  /** @format int64 */
   id?: number;
   username?: string;
   firstName?: string;
@@ -56,7 +70,10 @@ export interface User {
   password?: string;
   phone?: string;
 
-  /** User Status */
+  /**
+   * User Status
+   * @format int32
+   */
   userStatus?: number;
 }
 

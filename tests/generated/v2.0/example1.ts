@@ -10,6 +10,12 @@
  */
 
 /**
+ * some description
+ * @pattern ^[A-Z]{3,3}$
+ */
+export type Currency = string;
+
+/**
  * A TDE certificate that can be uploaded into a server.
  */
 export type TdeCertificate = { id?: string; name?: string; type?: string } & { properties?: TdeCertificateProperties };

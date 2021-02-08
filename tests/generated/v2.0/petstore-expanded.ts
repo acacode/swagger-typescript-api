@@ -17,6 +17,7 @@ export interface NewPet {
 }
 
 export interface Error {
+  /** @format int32 */
   code: number;
   message: string;
 }
@@ -26,12 +27,22 @@ export interface PageTemplateResponseDto {
   empty?: boolean;
   first?: boolean;
   last?: boolean;
+
+  /** @format int32 */
   number?: number;
+
+  /** @format int32 */
   numberOfElements?: number;
   pageable?: any;
+
+  /** @format int32 */
   size?: number;
   sort?: any;
+
+  /** @format int64 */
   totalElements?: number;
+
+  /** @format int32 */
   totalPages?: number;
 }
 

@@ -77,18 +77,28 @@ export interface Activity {
 }
 
 export interface Activities {
-  /** Position in pagination. */
+  /**
+   * Position in pagination.
+   * @format int32
+   */
   offset?: number;
 
-  /** Number of items to retrieve (100 max). */
+  /**
+   * Number of items to retrieve (100 max).
+   * @format int32
+   */
   limit?: number;
 
-  /** Total number of items available. */
+  /**
+   * Total number of items available.
+   * @format int32
+   */
   count?: number;
   history?: Activity[];
 }
 
 export interface Error {
+  /** @format int32 */
   code?: number;
   message?: string;
   fields?: string;

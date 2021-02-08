@@ -183,6 +183,11 @@
     }
   },
   "definitions": {
+    "Currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3,3}$",
+      "description": "some description\n"
+    },
     "TdeCertificate": {
       "allOf": [
         {

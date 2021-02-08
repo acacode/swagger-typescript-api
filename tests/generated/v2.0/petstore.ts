@@ -10,6 +10,7 @@
  */
 
 export interface Pet {
+  /** @format int64 */
   id: number;
   name: string;
   tag?: string;
@@ -18,6 +19,7 @@ export interface Pet {
 export type Pets = Pet[];
 
 export interface Error {
+  /** @format int32 */
   code: number;
   message: string;
 }
