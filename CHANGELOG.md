@@ -16,6 +16,9 @@ Internal:
   - `"js-yaml": "^4.0.0"` (`"^3.14.1"`)  
   - `"make-dir": "^3.1.0"`
   - `"swagger2openapi": "^7.0.5"` (`"^7.0.4"`)  
+- Difference in templates:  
+  - `data-contracts.eta`  
+  ![dataContracts430](./assets/changelog_assets/http-client-template-diff-4.3.0.jpg)  
 
 # 4.2.0  
 Features:  

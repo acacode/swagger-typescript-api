@@ -19,6 +19,7 @@ export type TestOneOfDc = (FooBarBaz | FooBar) & { prop?: string };
 
 /**
  * FooBar
+ * @format int32
  */
 export enum IntEnumWithNames {
   Unknown = "Unknown",

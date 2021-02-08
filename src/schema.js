@@ -134,7 +134,10 @@ const getObjectTypeContent = (properties, additionalProperties) => {
         !_.isUndefined(property.minimum) && `@min ${property.minimum}`,
         !_.isUndefined(property.maximum) && `@max ${property.maximum}`,
         !_.isUndefined(property.pattern) && `@pattern ${property.pattern}`,
-        !_.isUndefined(property.example) && `@example ${property.example}`,
+        !_.isUndefined(property.example) &&
+          `@example ${
+            _.isObject(property.example) ? JSON.stringify(property.example) : property.example
+          }`,
       ]).join("\n"),
       isRequired: required,
       isNullable: nullable,
@@ -329,16 +332,6 @@ const schemaParsers = {
       typeIdentifier: TS_KEYWORDS.TYPE,
       name: typeName,
       description: formatDescription(description),
-      /*
-      
-      description: _.compact([
-        description,
-        schema && !_.isUndefined(schema.minimum) && `@min ${schema.minimum}`,
-        schema && !_.isUndefined(schema.maximum) && `@max ${schema.maximum}`,
-        schema && !_.isUndefined(schema.pattern) && `@pattern ${schema.pattern}`,
-        schema && !_.isUndefined(schema.example) && `@example ${schema.example}`,
-      ]).join("\n"),
-      */
       // TODO: probably it should be refactored. `type === 'null'` is not flexible
       content: type === TS_KEYWORDS.NULL ? type : contentType || getType(schema),
     });
