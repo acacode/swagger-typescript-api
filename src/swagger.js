@@ -12,7 +12,7 @@ const parseSwaggerFile = (file) => {
   try {
     return JSON.parse(file);
   } catch (e) {
-    return yaml.safeLoad(file);
+    return yaml.load(file);
   }
 };
 

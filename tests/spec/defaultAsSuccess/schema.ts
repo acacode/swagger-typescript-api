@@ -84,7 +84,7 @@ enum BodyType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "https://6-dot-authentiqio.appspot.com/";
+  public baseUrl: string = "https://6-dot-authentiqio.appspot.com";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
 
@@ -196,7 +196,7 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title Authentiq
  * @version 6
- * @baseUrl https://6-dot-authentiqio.appspot.com/
+ * @baseUrl https://6-dot-authentiqio.appspot.com
  * Strong authentication, without the passwords.
  */
 export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {

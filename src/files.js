@@ -2,6 +2,7 @@ const _ = require("lodash");
 const fs = require("fs");
 const { resolve } = require("path");
 const { filePrefix } = require("./filePrefix");
+const makeDir = require("make-dir");
 
 const getFileContent = (path) => fs.readFileSync(path, { encoding: "UTF-8" });
 
@@ -24,7 +25,7 @@ const removeDir = (path) => {
 
 const createDir = (path) => {
   try {
-    fs.mkdirSync(path);
+    makeDir.sync(path);
   } catch (e) {}
 };
 

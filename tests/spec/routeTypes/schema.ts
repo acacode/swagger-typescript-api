@@ -4287,7 +4287,7 @@ enum BodyType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "https://api.github.com/";
+  public baseUrl: string = "https://api.github.com";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
 
@@ -4399,7 +4399,7 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title GitHub
  * @version v3
- * @baseUrl https://api.github.com/
+ * @baseUrl https://api.github.com
  * Powerful collaboration, code review, and code management for open source and private projects.
  */
 export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
