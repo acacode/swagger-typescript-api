@@ -1,5 +1,6 @@
 # next release  
 
+# 4.3.0  
 
 Fixes:  
 - Client generation for `Content-Type: application/x-www-form-urlencoded` (issue #146, thanks @Larox)  
