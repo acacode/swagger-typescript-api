@@ -46,7 +46,7 @@ const inlineExtraFormatters = {
   [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
     return {
       ...parsedSchema,
-      typeIdentifier: "type",
+      typeIdentifier: TS_KEYWORDS.TYPE,
       content: _.isString(parsedSchema.content)
         ? parsedSchema.content
         : parsedSchema.content.length
@@ -57,10 +57,12 @@ const inlineExtraFormatters = {
   [SCHEMA_TYPES.ENUM]: (parsedSchema) => {
     return {
       ...parsedSchema,
-      content: _.compact([
-        ..._.map(parsedSchema.content, ({ value }) => `${value}`),
-        parsedSchema.nullable && "null",
-      ]).join(" | "),
+      content: _.uniq(
+        _.compact([
+          ..._.map(parsedSchema.content, ({ value }) => `${value}`),
+          parsedSchema.nullable && TS_KEYWORDS.NULL,
+        ]),
+      ).join(" | "),
     };
   },
 };

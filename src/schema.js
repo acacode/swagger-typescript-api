@@ -200,7 +200,7 @@ const getComplexType = (schema) => {
   // TODO :(
   if (schema.not) return SCHEMA_TYPES.COMPLEX_NOT;
 
-  throw new Error("Uknown complex type");
+  throw new Error("Unknown complex type");
 };
 
 const attachParsedRef = (originalSchema, parsedSchema) => {
