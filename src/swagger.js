@@ -83,6 +83,13 @@ const fixSwaggerScheme = (usage, original) => {
       const usageRouteParams = _.get(usageRouteInfo, "parameters", []);
       const originalRouteParams = _.get(originalRouteInfo, "parameters", []);
 
+      usageRouteInfo.consumes = _.uniq(
+        _.compact([...(usageRouteInfo.consumes || []), ...(originalRouteInfo.consumes || [])]),
+      );
+      usageRouteInfo.produces = _.uniq(
+        _.compact([...(usageRouteInfo.produces || []), ...(originalRouteInfo.produces || [])]),
+      );
+
       _.each(originalRouteParams, (originalRouteParam) => {
         const existUsageParam = _.find(
           usageRouteParams,
@@ -90,8 +97,6 @@ const fixSwaggerScheme = (usage, original) => {
         );
         if (!existUsageParam) {
           usageRouteParams.push(originalRouteParam);
-        } else if (originalRouteParam.in === "formData") {
-          // console.log("HERE");
         }
       });
     });

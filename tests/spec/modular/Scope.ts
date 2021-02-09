@@ -10,7 +10,7 @@
  */
 
 import { Claims, Error } from "./data-contracts";
-import { HttpClient, RequestParams } from "./http-client";
+import { BodyType, HttpClient, RequestParams } from "./http-client";
 
 export class Scope extends HttpClient {
   /**
@@ -62,7 +62,7 @@ export class Scope extends HttpClient {
    * @request POST:/scope/{job}
    */
   signConfirm = (job: string, params?: RequestParams) =>
-    this.request<{ status?: string }, Error>(`/scope/${job}`, "POST", params);
+    this.request<{ status?: string }, Error>(`/scope/${job}`, "POST", params, null, BodyType.Json);
   /**
    * @description authority updates a JWT with its signature See: https://github.com/skion/authentiq/wiki/JWT-Examples
    *

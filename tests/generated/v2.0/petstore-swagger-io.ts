@@ -97,6 +97,7 @@ interface HttpResponse<D extends unknown, E extends unknown = unknown> extends R
 enum BodyType {
   Json,
   FormData,
+  UrlEncoded,
 }
 
 export class HttpClient<SecurityDataType = unknown> {
@@ -127,18 +128,21 @@ export class HttpClient<SecurityDataType = unknown> {
     );
   }
 
-  protected addQueryParams(rawQuery?: RequestQueryParamsType): string {
+  protected toQueryString(rawQuery?: RequestQueryParamsType): string {
     const query = rawQuery || {};
     const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
-    return keys.length
-      ? `?${keys
-          .map((key) =>
-            typeof query[key] === "object" && !Array.isArray(query[key])
-              ? this.addQueryParams(query[key] as object).substring(1)
-              : this.addQueryParam(query, key),
-          )
-          .join("&")}`
-      : "";
+    return keys
+      .map((key) =>
+        typeof query[key] === "object" && !Array.isArray(query[key])
+          ? this.toQueryString(query[key] as object)
+          : this.addQueryParam(query, key),
+      )
+      .join("&");
+  }
+
+  protected addQueryParams(rawQuery?: RequestQueryParamsType): string {
+    const queryString = this.toQueryString(rawQuery);
+    return queryString ? `?${queryString}` : "";
   }
 
   private bodyFormatters: Record<BodyType, (input: any) => any> = {
@@ -148,6 +152,7 @@ export class HttpClient<SecurityDataType = unknown> {
         data.append(key, input[key]);
         return data;
       }, new FormData()),
+    [BodyType.UrlEncoded]: (input: any) => this.toQueryString(input),
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -370,7 +375,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Place an order for a pet
      * @request POST:/store/order
      */
-    placeOrder: (body: Order, params?: RequestParams) => this.request<Order, any>(`/store/order`, "POST", params, body),
+    placeOrder: (body: Order, params?: RequestParams) =>
+      this.request<Order, any>(`/store/order`, "POST", params, body, BodyType.Json),
   };
   user = {
     /**
@@ -393,7 +399,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PUT:/user/{username}
      */
     updateUser: (username: string, body: User, params?: RequestParams) =>
-      this.request<any, any>(`/user/${username}`, "PUT", params, body),
+      this.request<any, any>(`/user/${username}`, "PUT", params, body, BodyType.Json),
 
     /**
      * @description This can only be done by the logged in user.
@@ -435,7 +441,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Create user
      * @request POST:/user
      */
-    createUser: (body: User, params?: RequestParams) => this.request<any, any>(`/user`, "POST", params, body),
+    createUser: (body: User, params?: RequestParams) =>
+      this.request<any, any>(`/user`, "POST", params, body, BodyType.Json),
 
     /**
      * No description
@@ -446,7 +453,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/user/createWithArray
      */
     createUsersWithArrayInput: (body: User[], params?: RequestParams) =>
-      this.request<any, any>(`/user/createWithArray`, "POST", params, body),
+      this.request<any, any>(`/user/createWithArray`, "POST", params, body, BodyType.Json),
 
     /**
      * No description
@@ -457,6 +464,6 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/user/createWithList
      */
     createUsersWithListInput: (body: User[], params?: RequestParams) =>
-      this.request<any, any>(`/user/createWithList`, "POST", params, body),
+      this.request<any, any>(`/user/createWithList`, "POST", params, body, BodyType.Json),
   };
 }

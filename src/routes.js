@@ -277,10 +277,10 @@ const getContentTypes = (requestInfo, extraContentTypes) =>
   );
 
 const CONTENT_KIND = {
-  JSON: "json",
-  QUERY: "query",
-  FORM_DATA: "formData",
-  UNKNOWN: "unknown",
+  JSON: "JSON",
+  URL_ENCODED: "URL_ENCODED",
+  FORM_DATA: "FORM_DATA",
+  OTHER: "OTHER",
 };
 
 const getContentKind = (contentTypes) => {
@@ -289,14 +289,14 @@ const getContentKind = (contentTypes) => {
   }
 
   if (contentTypes.includes("application/x-www-form-urlencoded")) {
-    return CONTENT_KIND.QUERY;
+    return CONTENT_KIND.URL_ENCODED;
   }
 
   if (contentTypes.includes("multipart/form-data")) {
     return CONTENT_KIND.FORM_DATA;
   }
 
-  return CONTENT_KIND.UNKNOWN;
+  return CONTENT_KIND.OTHER;
 };
 
 const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
@@ -442,31 +442,22 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           : null;
 
         const specificArgs = {
-          query:
-            queryType || requestBodyInfo.contentKind === CONTENT_KIND.QUERY
-              ? {
-                  name: pathArgs.some((pathArg) => pathArg.name === "query")
-                    ? "queryParams"
-                    : "query",
-                  optional:
-                    requestBodyInfo.contentKind === CONTENT_KIND.QUERY
-                      ? !requestBodyInfo.required &&
-                        (!queryType || parseSchema(queryObjectSchema, null).allFieldsAreOptional)
-                      : parseSchema(queryObjectSchema, null).allFieldsAreOptional,
-                  type:
-                    requestBodyInfo.contentKind === CONTENT_KIND.QUERY
-                      ? _.compact([queryType, requestBodyInfo.type]).join(" & ")
-                      : queryType,
-                }
-              : void 0,
-          body:
-            requestBodyInfo.contentKind !== CONTENT_KIND.QUERY && requestBodyInfo.type
-              ? {
-                  name: requestBodyInfo.paramName,
-                  optional: !requestBodyInfo.required,
-                  type: requestBodyInfo.type,
-                }
-              : void 0,
+          query: queryType
+            ? {
+                name: pathArgs.some((pathArg) => pathArg.name === "query")
+                  ? "queryParams"
+                  : "query",
+                optional: parseSchema(queryObjectSchema, null).allFieldsAreOptional,
+                type: queryType,
+              }
+            : void 0,
+          body: requestBodyInfo.type
+            ? {
+                name: requestBodyInfo.paramName,
+                optional: !requestBodyInfo.required,
+                type: requestBodyInfo.type,
+              }
+            : void 0,
           requestParams: {
             name: pathArgs.some((pathArg) => pathArg.name === "params")
               ? "requestParams"
@@ -533,7 +524,7 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
             query: specificArgs.query,
             path: route.replace(/{/g, "${"),
             formData: requestBodyInfo.contentKind === CONTENT_KIND.FORM_DATA,
-            isQueryBody: requestBodyInfo.contentKind === CONTENT_KIND.QUERY,
+            isQueryBody: requestBodyInfo.contentKind === CONTENT_KIND.URL_ENCODED,
             security: hasSecurity,
             method: method,
             payload: specificArgs.body,

@@ -4284,6 +4284,7 @@ interface HttpResponse<D extends unknown, E extends unknown = unknown> extends R
 enum BodyType {
   Json,
   FormData,
+  UrlEncoded,
 }
 
 export class HttpClient<SecurityDataType = unknown> {
@@ -4314,18 +4315,21 @@ export class HttpClient<SecurityDataType = unknown> {
     );
   }
 
-  protected addQueryParams(rawQuery?: RequestQueryParamsType): string {
+  protected toQueryString(rawQuery?: RequestQueryParamsType): string {
     const query = rawQuery || {};
     const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
-    return keys.length
-      ? `?${keys
-          .map((key) =>
-            typeof query[key] === "object" && !Array.isArray(query[key])
-              ? this.addQueryParams(query[key] as object).substring(1)
-              : this.addQueryParam(query, key),
-          )
-          .join("&")}`
-      : "";
+    return keys
+      .map((key) =>
+        typeof query[key] === "object" && !Array.isArray(query[key])
+          ? this.toQueryString(query[key] as object)
+          : this.addQueryParam(query, key),
+      )
+      .join("&");
+  }
+
+  protected addQueryParams(rawQuery?: RequestQueryParamsType): string {
+    const queryString = this.toQueryString(rawQuery);
+    return queryString ? `?${queryString}` : "";
   }
 
   private bodyFormatters: Record<BodyType, (input: any) => any> = {
@@ -4335,6 +4339,7 @@ export class HttpClient<SecurityDataType = unknown> {
         data.append(key, input[key]);
         return data;
       }, new FormData()),
+    [BodyType.UrlEncoded]: (input: any) => this.toQueryString(input),
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -4446,7 +4451,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name GistsCreate
      * @request POST:/gists
      */
-    gistsCreate: (body: PostGist, params?: RequestParams) => this.request<Gist, any>(`/gists`, "POST", params, body),
+    gistsCreate: (body: PostGist, params?: RequestParams) =>
+      this.request<Gist, any>(`/gists`, "POST", params, body, BodyType.Json),
 
     /**
      * @description List all public gists.
@@ -4489,7 +4495,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PATCH:/gists/{id}
      */
     gistsPartialUpdate: (id: number, body: PatchGist, params?: RequestParams) =>
-      this.request<Gist, any>(`/gists/${id}`, "PATCH", params, body),
+      this.request<Gist, any>(`/gists/${id}`, "PATCH", params, body, BodyType.Json),
 
     /**
      * @description List comments on a gist.
@@ -4536,7 +4542,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PATCH:/gists/{id}/comments/{commentId}
      */
     commentsPartialUpdate: (id: number, commentId: number, body: Comment, params?: RequestParams) =>
-      this.request<Comment, any>(`/gists/${id}/comments/${commentId}`, "PATCH", params, body),
+      this.request<Comment, any>(`/gists/${id}/comments/${commentId}`, "PATCH", params, body, BodyType.Json),
 
     /**
      * @description Fork a gist.
@@ -4678,7 +4684,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/markdown
      */
     markdownCreate: (body: Markdown, params?: RequestParams) =>
-      this.request<any, any>(`/markdown`, "POST", params, body),
+      this.request<any, any>(`/markdown`, "POST", params, body, BodyType.Json),
 
     /**
      * @description Render a Markdown document in raw mode
@@ -4769,7 +4775,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PUT:/notifications/threads/{id}/subscription
      */
     threadsSubscriptionUpdate: (id: number, body: PutSubscription, params?: RequestParams) =>
-      this.request<Subscription, any>(`/notifications/threads/${id}/subscription`, "PUT", params, body),
+      this.request<Subscription, any>(`/notifications/threads/${id}/subscription`, "PUT", params, body, BodyType.Json),
   };
   orgs = {
     /**
@@ -4787,7 +4793,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PATCH:/orgs/{org}
      */
     orgsPartialUpdate: (org: string, body: PatchOrg, params?: RequestParams) =>
-      this.request<Organization, any>(`/orgs/${org}`, "PATCH", params, body),
+      this.request<Organization, any>(`/orgs/${org}`, "PATCH", params, body, BodyType.Json),
 
     /**
      * @description List public events for an organization.
@@ -4920,7 +4926,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/orgs/{org}/teams
      */
     teamsCreate: (org: string, body: OrgTeamsPost, params?: RequestParams) =>
-      this.request<Team, any>(`/orgs/${org}/teams`, "POST", params, body),
+      this.request<Team, any>(`/orgs/${org}/teams`, "POST", params, body, BodyType.Json),
   };
   rateLimit = {
     /**
@@ -4957,7 +4963,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PATCH:/repos/{owner}/{repo}
      */
     reposPartialUpdate: (owner: string, repo: string, body: RepoEdit, params?: RequestParams) =>
-      this.request<Repo, any>(`/repos/${owner}/${repo}`, "PATCH", params, body),
+      this.request<Repo, any>(`/repos/${owner}/${repo}`, "PATCH", params, body, BodyType.Json),
 
     /**
      * @description List assignees. This call lists all the available assignees (owner + collaborators) to which issues may be assigned.
@@ -5134,7 +5140,14 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       shaCode: string,
       body: CommitCommentBody,
       params?: RequestParams,
-    ) => this.request<CommitComment, any>(`/repos/${owner}/${repo}/commits/${shaCode}/comments`, "POST", params, body),
+    ) =>
+      this.request<CommitComment, any>(
+        `/repos/${owner}/${repo}/commits/${shaCode}/comments`,
+        "POST",
+        params,
+        body,
+        BodyType.Json,
+      ),
 
     /**
      * @description Compare two commits
@@ -5152,7 +5165,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request DELETE:/repos/{owner}/{repo}/contents/{path}
      */
     contentsDelete: (owner: string, repo: string, path: string, body: DeleteFileBody, params?: RequestParams) =>
-      this.request<DeleteFile, any>(`/repos/${owner}/${repo}/contents/${path}`, "DELETE", params, body),
+      this.request<DeleteFile, any>(`/repos/${owner}/${repo}/contents/${path}`, "DELETE", params, body, BodyType.Json),
 
     /**
      * @description Get contents. This method returns the contents of a file or directory in a repository. Files and symlinks support a custom media type for getting the raw content. Directories and submodules do not support custom media types. Note: This API supports files up to 1 megabyte in size. Here can be many outcomes. For details see "http://developer.github.com/v3/repos/contents/"
@@ -5180,7 +5193,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PUT:/repos/{owner}/{repo}/contents/{path}
      */
     contentsUpdate: (owner: string, repo: string, path: string, body: CreateFileBody, params?: RequestParams) =>
-      this.request<CreateFile, any>(`/repos/${owner}/${repo}/contents/${path}`, "PUT", params, body),
+      this.request<CreateFile, any>(`/repos/${owner}/${repo}/contents/${path}`, "PUT", params, body, BodyType.Json),
 
     /**
      * @description Get list of contributors.
@@ -5207,7 +5220,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/repos/{owner}/{repo}/deployments
      */
     deploymentsCreate: (owner: string, repo: string, body: Deployment, params?: RequestParams) =>
-      this.request<DeploymentResp, any>(`/repos/${owner}/${repo}/deployments`, "POST", params, body),
+      this.request<DeploymentResp, any>(`/repos/${owner}/${repo}/deployments`, "POST", params, body, BodyType.Json),
 
     /**
      * @description Users with pull access can view deployment statuses for a deployment
@@ -5230,7 +5243,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       id: number,
       body: DeploymentStatusesCreate,
       params?: RequestParams,
-    ) => this.request<any, any>(`/repos/${owner}/${repo}/deployments/${id}/statuses`, "POST", params, body),
+    ) =>
+      this.request<any, any>(`/repos/${owner}/${repo}/deployments/${id}/statuses`, "POST", params, body, BodyType.Json),
 
     /**
      * @description Deprecated. List downloads for a repository.
@@ -5290,7 +5304,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/repos/{owner}/{repo}/forks
      */
     forksCreate: (owner: string, repo: string, body: ForkBody, params?: RequestParams) =>
-      this.request<Repo, any>(`/repos/${owner}/${repo}/forks`, "POST", params, body),
+      this.request<Repo, any>(`/repos/${owner}/${repo}/forks`, "POST", params, body, BodyType.Json),
 
     /**
      * @description Create a Blob.
@@ -5299,7 +5313,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/repos/{owner}/{repo}/git/blobs
      */
     gitBlobsCreate: (owner: string, repo: string, body: Blob, params?: RequestParams) =>
-      this.request<Blobs, any>(`/repos/${owner}/${repo}/git/blobs`, "POST", params, body),
+      this.request<Blobs, any>(`/repos/${owner}/${repo}/git/blobs`, "POST", params, body, BodyType.Json),
 
     /**
      * @description Get a Blob. Since blobs can be any arbitrary binary data, the input and responses for the blob API takes an encoding parameter that can be either utf-8 or base64. If your data cannot be losslessly sent as a UTF-8 string, you can base64 encode it.
@@ -5317,7 +5331,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/repos/{owner}/{repo}/git/commits
      */
     gitCommitsCreate: (owner: string, repo: string, body: RepoCommitBody, params?: RequestParams) =>
-      this.request<GitCommit, any>(`/repos/${owner}/${repo}/git/commits`, "POST", params, body),
+      this.request<GitCommit, any>(`/repos/${owner}/${repo}/git/commits`, "POST", params, body, BodyType.Json),
 
     /**
      * @description Get a Commit.
@@ -5344,7 +5358,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/repos/{owner}/{repo}/git/refs
      */
     gitRefsCreate: (owner: string, repo: string, body: RefsBody, params?: RequestParams) =>
-      this.request<HeadBranch, any>(`/repos/${owner}/${repo}/git/refs`, "POST", params, body),
+      this.request<HeadBranch, any>(`/repos/${owner}/${repo}/git/refs`, "POST", params, body, BodyType.Json),
 
     /**
      * @description Delete a Reference Example: Deleting a branch: DELETE /repos/octocat/Hello-World/git/refs/heads/feature-a Example: Deleting a tag:        DELETE /repos/octocat/Hello-World/git/refs/tags/v1.0
@@ -5373,7 +5387,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PATCH:/repos/{owner}/{repo}/git/refs/{ref}
      */
     gitRefsPartialUpdate: (owner: string, repo: string, ref: string, body: GitRefPatch, params?: RequestParams) =>
-      this.request<HeadBranch, any>(`/repos/${owner}/${repo}/git/refs/${ref}`, "PATCH", params, body),
+      this.request<HeadBranch, any>(`/repos/${owner}/${repo}/git/refs/${ref}`, "PATCH", params, body, BodyType.Json),
 
     /**
      * @description Create a Tag Object. Note that creating a tag object does not create the reference that makes a tag in Git. If you want to create an annotated tag in Git, you have to do this call to create the tag object, and then create the refs/tags/[tag] reference. If you want to create a lightweight tag, you only have to create the tag reference - this call would be unnecessary.
@@ -5382,7 +5396,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/repos/{owner}/{repo}/git/tags
      */
     gitTagsCreate: (owner: string, repo: string, body: TagBody, params?: RequestParams) =>
-      this.request<Tag, any>(`/repos/${owner}/${repo}/git/tags`, "POST", params, body),
+      this.request<Tag, any>(`/repos/${owner}/${repo}/git/tags`, "POST", params, body, BodyType.Json),
 
     /**
      * @description Get a Tag.
@@ -5400,7 +5414,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/repos/{owner}/{repo}/git/trees
      */
     gitTreesCreate: (owner: string, repo: string, body: Tree, params?: RequestParams) =>
-      this.request<Trees, any>(`/repos/${owner}/${repo}/git/trees`, "POST", params, body),
+      this.request<Trees, any>(`/repos/${owner}/${repo}/git/trees`, "POST", params, body, BodyType.Json),
 
     /**
      * @description Get a Tree.
@@ -5778,7 +5792,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/repos/{owner}/{repo}/merges
      */
     mergesCreate: (owner: string, repo: string, body: MergesBody, params?: RequestParams) =>
-      this.request<MergesSuccessful, MergesConflict>(`/repos/${owner}/${repo}/merges`, "POST", params, body),
+      this.request<MergesSuccessful, MergesConflict>(
+        `/repos/${owner}/${repo}/merges`,
+        "POST",
+        params,
+        body,
+        BodyType.Json,
+      ),
 
     /**
      * @description List milestones for a repository.
@@ -5892,7 +5912,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/repos/{owner}/{repo}/pulls
      */
     pullsCreate: (owner: string, repo: string, body: PullsPost, params?: RequestParams) =>
-      this.request<Pulls, any>(`/repos/${owner}/${repo}/pulls`, "POST", params, body),
+      this.request<Pulls, any>(`/repos/${owner}/${repo}/pulls`, "POST", params, body, BodyType.Json),
 
     /**
      * @description List comments in a repository. By default, Review Comments are ordered by ascending ID.
@@ -5964,7 +5984,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PATCH:/repos/{owner}/{repo}/pulls/{number}
      */
     pullsPartialUpdate: (owner: string, repo: string, number: number, body: PullUpdate, params?: RequestParams) =>
-      this.request<Repo, any>(`/repos/${owner}/${repo}/pulls/${number}`, "PATCH", params, body),
+      this.request<Repo, any>(`/repos/${owner}/${repo}/pulls/${number}`, "PATCH", params, body, BodyType.Json),
 
     /**
      * @description List comments on a pull request.
@@ -5989,7 +6009,14 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       number: number,
       body: PullsCommentPost,
       params?: RequestParams,
-    ) => this.request<PullsComment, any>(`/repos/${owner}/${repo}/pulls/${number}/comments`, "POST", params, body),
+    ) =>
+      this.request<PullsComment, any>(
+        `/repos/${owner}/${repo}/pulls/${number}/comments`,
+        "POST",
+        params,
+        body,
+        BodyType.Json,
+      ),
 
     /**
      * @description List commits on a pull request.
@@ -6025,7 +6052,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PUT:/repos/{owner}/{repo}/pulls/{number}/merge
      */
     pullsMergeUpdate: (owner: string, repo: string, number: number, body: MergePullBody, params?: RequestParams) =>
-      this.request<Merge, Merge>(`/repos/${owner}/${repo}/pulls/${number}/merge`, "PUT", params, body),
+      this.request<Merge, Merge>(`/repos/${owner}/${repo}/pulls/${number}/merge`, "PUT", params, body, BodyType.Json),
 
     /**
      * @description Get the README. This method returns the preferred README for a repository.
@@ -6079,7 +6106,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PATCH:/repos/{owner}/{repo}/releases/assets/{id}
      */
     releasesAssetsPartialUpdate: (owner: string, repo: string, id: string, body: AssetPatch, params?: RequestParams) =>
-      this.request<Asset, any>(`/repos/${owner}/${repo}/releases/assets/${id}`, "PATCH", params, body),
+      this.request<Asset, any>(`/repos/${owner}/${repo}/releases/assets/${id}`, "PATCH", params, body, BodyType.Json),
 
     /**
      * @description Users with push access to the repository can delete a release.
@@ -6191,7 +6218,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/repos/{owner}/{repo}/statuses/{ref}
      */
     statusesCreate: (owner: string, repo: string, ref: string, body: HeadBranch, params?: RequestParams) =>
-      this.request<Ref, any>(`/repos/${owner}/${repo}/statuses/${ref}`, "POST", params, body),
+      this.request<Ref, any>(`/repos/${owner}/${repo}/statuses/${ref}`, "POST", params, body, BodyType.Json),
 
     /**
      * @description List watchers.
@@ -6227,7 +6254,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PUT:/repos/{owner}/{repo}/subscription
      */
     subscriptionUpdate: (owner: string, repo: string, body: SubscriptionBody, params?: RequestParams) =>
-      this.request<Subscription, any>(`/repos/${owner}/${repo}/subscription`, "PUT", params, body),
+      this.request<Subscription, any>(`/repos/${owner}/${repo}/subscription`, "PUT", params, body, BodyType.Json),
 
     /**
      * @description Get list of tags.
@@ -6350,7 +6377,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PATCH:/teams/{teamId}
      */
     teamsPartialUpdate: (teamId: number, body: EditTeam, params?: RequestParams) =>
-      this.request<Team, any>(`/teams/${teamId}`, "PATCH", params, body),
+      this.request<Team, any>(`/teams/${teamId}`, "PATCH", params, body, BodyType.Json),
 
     /**
      * @description List team members. In order to list members in a team, the authenticated user must be a member of the team.
@@ -6471,7 +6498,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PATCH:/user
      */
     userPartialUpdate: (body: UserUpdate, params?: RequestParams) =>
-      this.request<User, any>(`/user`, "PATCH", params, body),
+      this.request<User, any>(`/user`, "PATCH", params, body, BodyType.Json),
 
     /**
      * @description Delete email address(es). You can include a single email address or an array of addresses.
@@ -6480,7 +6507,7 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request DELETE:/user/emails
      */
     emailsDelete: (body: UserEmails, params?: RequestParams) =>
-      this.request<any, any>(`/user/emails`, "DELETE", params, body),
+      this.request<any, any>(`/user/emails`, "DELETE", params, body, BodyType.Json),
 
     /**
      * @description List email addresses for a user. In the final version of the API, this method will return an array of hashes with extended information for each email address indicating if the address has been verified and if it's primary email address for GitHub. Until API v3 is finalized, use the application/vnd.github.v3 media type to get other response format.

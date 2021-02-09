@@ -229,6 +229,44 @@
         "tags": ["pet"]
       }
     },
+    "/pet/end-form-url-encoded": {
+      "post": {
+        "responses": {
+          "500": {
+            "description": "500"
+          },
+          "400": {
+            "description": "400"
+          },
+          "401": {
+            "description": "401"
+          },
+          "200": {
+            "description": "200"
+          }
+        },
+        "summary": "summary",
+        "operationId": "formUrlEncodedRequest",
+        "parameters": [
+          {
+            "name": "param1",
+            "in": "formData",
+            "type": "string",
+            "format": "string",
+            "required": true
+          },
+          {
+            "name": "param2",
+            "in": "formData",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "security": [],
+        "consumes": ["multipart/form-data", "application/x-www-form-urlencoded"],
+        "tags": ["pet"]
+      }
+    },
     "/pet/findByTags": {
       "get": {
         "tags": ["pet"],

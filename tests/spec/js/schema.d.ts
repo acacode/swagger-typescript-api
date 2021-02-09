@@ -1710,6 +1710,7 @@ interface HttpResponse<D extends unknown, E extends unknown = unknown> extends R
 declare enum BodyType {
   Json = 0,
   FormData = 1,
+  UrlEncoded = 2,
 }
 export declare class HttpClient<SecurityDataType = unknown> {
   baseUrl: string;
@@ -1719,6 +1720,7 @@ export declare class HttpClient<SecurityDataType = unknown> {
   constructor(apiConfig?: ApiConfig<SecurityDataType>);
   setSecurityData: (data: SecurityDataType) => void;
   private addQueryParam;
+  protected toQueryString(rawQuery?: RequestQueryParamsType): string;
   protected addQueryParams(rawQuery?: RequestQueryParamsType): string;
   private bodyFormatters;
   private mergeRequestOptions;
