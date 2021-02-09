@@ -1,7 +1,7 @@
 # These are supported funding model platforms
 
 github: [js2me]
-patreon: # Replace with a single Patreon username
+patreon: js2me
 open_collective: # Replace with a single Open Collective username
 ko_fi: js2me
 tidelift: # Replace with a single Tidelift platform-name/package-name e.g., npm/babel
