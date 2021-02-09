@@ -1,9 +1,18 @@
 # next release  
 
-# 4.3.0  
+# 4.4.0  
 
 Fixes:  
 - Client generation for `Content-Type: application/x-www-form-urlencoded` (issue #146, thanks @Larox)  
+
+Internal:  
+- Changed templates:  
+  - `http-client.eta`  
+  - `procedure-call.eta`  
+
+# 4.3.0  
+
+Fixes:  
 - enum + nullable: true doesn't compute the good type (issue #145, thanks @RoXuS)  
 - Underscores are omitted from enum keys (issue #108, thanks @eolant)  
 - CLI silently fails if the directory to put new files in doesn't exist yet (issue #141, thanks @Styn)  

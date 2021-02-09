@@ -1,5 +1,6 @@
 <%
 const { utils, route, config } = it;
+const { requestBodyInfo } = route;
 const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef, require } = utils;
 const { parameters, path, method, payload, params, query, formData, security, requestParams } = route.request;
 const { type, errorType, contentTypes } = route.response;
@@ -33,11 +34,13 @@ const wrapperArgs = _
     .map(argToTmpl)
     .join(', ')
 
-const bodyModeTmpl = formData
-    ? 'BodyType.FormData'
-    : security
-        ? 'BodyType.Json'
-        : null
+const requestContentKind = {
+    "JSON": "BodyType.Json",
+    "URL_ENCODED": "BodyType.UrlEncoded",
+    "FORM_DATA": "BodyType.FormData"
+}
+
+const bodyModeTmpl = requestContentKind[requestBodyInfo.contentKind] || (security && requestContentKind.JSON) || null
 const securityTmpl = security ? 'true' : null
 const pathTmpl = query != null
     ? `\`${path}\${this.addQueryParams(${queryName})}\``

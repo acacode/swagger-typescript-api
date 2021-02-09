@@ -227,6 +227,7 @@ interface HttpResponse<D extends unknown, E extends unknown = unknown> extends R
 enum BodyType {
   Json,
   FormData,
+  UrlEncoded,
 }
 
 export class HttpClient<SecurityDataType = unknown> {
@@ -257,18 +258,21 @@ export class HttpClient<SecurityDataType = unknown> {
     );
   }
 
-  protected addQueryParams(rawQuery?: RequestQueryParamsType): string {
+  protected toQueryString(rawQuery?: RequestQueryParamsType): string {
     const query = rawQuery || {};
     const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
-    return keys.length
-      ? `?${keys
-          .map((key) =>
-            typeof query[key] === "object" && !Array.isArray(query[key])
-              ? this.addQueryParams(query[key] as object).substring(1)
-              : this.addQueryParam(query, key),
-          )
-          .join("&")}`
-      : "";
+    return keys
+      .map((key) =>
+        typeof query[key] === "object" && !Array.isArray(query[key])
+          ? this.toQueryString(query[key] as object)
+          : this.addQueryParam(query, key),
+      )
+      .join("&");
+  }
+
+  protected addQueryParams(rawQuery?: RequestQueryParamsType): string {
+    const queryString = this.toQueryString(rawQuery);
+    return queryString ? `?${queryString}` : "";
   }
 
   private bodyFormatters: Record<BodyType, (input: any) => any> = {
@@ -278,6 +282,7 @@ export class HttpClient<SecurityDataType = unknown> {
         data.append(key, input[key]);
         return data;
       }, new FormData()),
+    [BodyType.UrlEncoded]: (input: any) => this.toQueryString(input),
   };
 
   private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
@@ -352,7 +357,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name Login
      * @request POST:/auth
      */
-    login: (data: AuthUserType, params?: RequestParams) => this.request<string, any>(`/auth`, "POST", params, data),
+    login: (data: AuthUserType, params?: RequestParams) =>
+      this.request<string, any>(`/auth`, "POST", params, data, BodyType.Json),
 
     /**
      * No description
