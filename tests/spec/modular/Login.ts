@@ -20,6 +20,12 @@ export class Login extends HttpClient {
    * @name PushLoginRequest
    * @request POST:/login
    */
-  pushLoginRequest = (query: { callback: string }, body: PushToken, params?: RequestParams) =>
-    this.request<{ status?: string }, Error>(`/login${this.addQueryParams(query)}`, "POST", params, body);
+  pushLoginRequest = (query: { callback: string }, body: PushToken, params: RequestParams = {}) =>
+    this.request<{ status?: string }, Error>({
+      path: `/login`,
+      method: "POST",
+      query: query,
+      body: body,
+      ...params,
+    });
 }

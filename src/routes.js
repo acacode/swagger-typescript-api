@@ -83,11 +83,14 @@ const getRequestInfoTypes = (requestInfos, parsedSchemas, operationId) =>
   _.reduce(
     requestInfos,
     (acc, requestInfo, status) => {
+      const contentTypes = getContentTypes([requestInfo]);
+
       return [
         ...acc,
         {
           ...(requestInfo || {}),
-          contentTypes: getContentTypes([requestInfo]),
+          contentTypes: contentTypes,
+          contentKind: getContentKind(contentTypes),
           type: getTypeFromRequestInfo(requestInfo, parsedSchemas, operationId),
           description: formatDescription(requestInfo.description || "", true),
           status: _.isNaN(+status) ? status : +status,
@@ -280,6 +283,7 @@ const CONTENT_KIND = {
   JSON: "JSON",
   URL_ENCODED: "URL_ENCODED",
   FORM_DATA: "FORM_DATA",
+  IMAGE: "IMAGE",
   OTHER: "OTHER",
 };
 
@@ -294,6 +298,10 @@ const getContentKind = (contentTypes) => {
 
   if (contentTypes.includes("multipart/form-data")) {
     return CONTENT_KIND.FORM_DATA;
+  }
+
+  if (_.some(contentTypes, (contentType) => _.includes(contentType, "image/"))) {
+    return CONTENT_KIND.IMAGE;
   }
 
   return CONTENT_KIND.OTHER;
@@ -464,6 +472,7 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
               : "params",
             optional: true,
             type: "RequestParams",
+            defaultValue: "{}",
           },
         };
 

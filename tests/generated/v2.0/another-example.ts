@@ -140,15 +140,31 @@ export interface Amount {
  */
 export type Currency = string;
 
-export type RequestParams = Omit<RequestInit, "body" | "method"> & {
-  secure?: boolean;
-};
+export type QueryParamsType = Record<string | number, any>;
+export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
-export type RequestQueryParamsType = Record<string | number, any>;
+export interface FullRequestParams extends Omit<RequestInit, "body"> {
+  /** set parameter to `true` for call `securityWorker` for this request */
+  secure?: boolean;
+  /** request path */
+  path: string;
+  /** content type of request body */
+  type?: ContentType;
+  /** query params */
+  query?: QueryParamsType;
+  /** format of response (i.e. response.json() -> format: "json") */
+  format?: keyof Omit<Body, "body" | "bodyUsed">;
+  /** request body */
+  body?: unknown;
+  /** base url */
+  baseUrl?: string;
+}
+
+export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
 interface ApiConfig<SecurityDataType> {
   baseUrl?: string;
-  baseApiParams?: RequestParams;
+  baseApiParams?: Omit<RequestParams, "baseUrl">;
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 }
 
@@ -157,10 +173,10 @@ interface HttpResponse<D extends unknown, E extends unknown = unknown> extends R
   error: E;
 }
 
-enum BodyType {
-  Json,
-  FormData,
-  UrlEncoded,
+export enum ContentType {
+  Json = "application/json",
+  FormData = "multipart/form-data",
+  UrlEncoded = "application/x-www-form-urlencoded",
 }
 
 export class HttpClient<SecurityDataType = unknown> {
@@ -171,7 +187,7 @@ export class HttpClient<SecurityDataType = unknown> {
   private baseApiParams: RequestParams = {
     credentials: "same-origin",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": ContentType.Json,
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -185,92 +201,96 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  private addQueryParam(query: RequestQueryParamsType, key: string) {
+  private addQueryParam(query: QueryParamsType, key: string) {
+    const value = query[key];
+
     return (
-      encodeURIComponent(key) + "=" + encodeURIComponent(Array.isArray(query[key]) ? query[key].join(",") : query[key])
+      encodeURIComponent(key) +
+      "=" +
+      encodeURIComponent(Array.isArray(value) ? value.join(",") : typeof value === "number" ? value : `${value}`)
     );
   }
 
-  protected toQueryString(rawQuery?: RequestQueryParamsType): string {
+  protected toQueryString(rawQuery?: QueryParamsType): string {
     const query = rawQuery || {};
     const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
     return keys
       .map((key) =>
         typeof query[key] === "object" && !Array.isArray(query[key])
-          ? this.toQueryString(query[key] as object)
+          ? this.toQueryString(query[key] as QueryParamsType)
           : this.addQueryParam(query, key),
       )
       .join("&");
   }
 
-  protected addQueryParams(rawQuery?: RequestQueryParamsType): string {
+  protected addQueryParams(rawQuery?: QueryParamsType): string {
     const queryString = this.toQueryString(rawQuery);
     return queryString ? `?${queryString}` : "";
   }
 
-  private bodyFormatters: Record<BodyType, (input: any) => any> = {
-    [BodyType.Json]: JSON.stringify,
-    [BodyType.FormData]: (input: any) =>
+  private contentFormatters: Record<ContentType, (input: any) => any> = {
+    [ContentType.Json]: JSON.stringify,
+    [ContentType.FormData]: (input: any) =>
       Object.keys(input).reduce((data, key) => {
         data.append(key, input[key]);
         return data;
       }, new FormData()),
-    [BodyType.UrlEncoded]: (input: any) => this.toQueryString(input),
+    [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
   };
 
-  private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
+  private mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
     return {
       ...this.baseApiParams,
-      ...params,
-      ...(securityParams || {}),
+      ...params1,
+      ...(params2 || {}),
       headers: {
         ...(this.baseApiParams.headers || {}),
-        ...(params.headers || {}),
-        ...((securityParams && securityParams.headers) || {}),
+        ...(params1.headers || {}),
+        ...((params2 && params2.headers) || {}),
       },
     };
   }
 
-  private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
-    const r = response as HttpResponse<T, E>;
-    r.data = (null as unknown) as T;
-    r.error = (null as unknown) as E;
+  public request = <T = any, E = any>({
+    body,
+    secure,
+    path,
+    type = ContentType.Json,
+    query,
+    format = "json",
+    baseUrl,
+    ...params
+  }: FullRequestParams): Promise<HttpResponse<T, E>> => {
+    const secureParams = secure && this.securityWorker ? this.securityWorker(this.securityData) : {};
+    const requestParams = this.mergeRequestParams(params, secureParams);
+    const queryString = query && this.toQueryString(query);
 
-    return response
-      .json()
-      .then((data) => {
-        if (r.ok) {
-          r.data = data;
-        } else {
-          r.error = data;
-        }
-        return r;
-      })
-      .catch((e) => {
-        r.error = e;
-        return r;
-      });
-  };
+    return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
+      headers: {
+        "Content-Type": type,
+        ...(requestParams.headers || {}),
+      },
+      ...requestParams,
+      body: body ? (this.contentFormatters[type] ? this.contentFormatters[type](body) : body) : null,
+    }).then(async (response) => {
+      const r = response as HttpResponse<T, E>;
+      r.data = (null as unknown) as T;
+      r.error = (null as unknown) as E;
 
-  public request = <T = any, E = any>(
-    path: string,
-    method: string,
-    { secure, ...params }: RequestParams = {},
-    body?: any,
-    bodyType?: BodyType,
-    secureByDefault?: boolean,
-  ): Promise<HttpResponse<T>> => {
-    const requestUrl = `${this.baseUrl}${path}`;
-    const secureOptions =
-      (secureByDefault || secure) && this.securityWorker ? this.securityWorker(this.securityData) : {};
-    const requestOptions = {
-      ...this.mergeRequestOptions(params, secureOptions),
-      method,
-      body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
-    };
+      const data = await response[format]()
+        .then((data) => {
+          if (r.ok) {
+            r.data = data;
+          } else {
+            r.error = data;
+          }
+          return r;
+        })
+        .catch((e) => {
+          r.error = e;
+          return r;
+        });
 
-    return fetch(requestUrl, requestOptions).then(async (response) => {
-      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data;
       return data;
     });
@@ -294,8 +314,15 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/pet
      * @secure
      */
-    addPet: (body: Pet, params?: RequestParams) =>
-      this.request<any, any>(`/pet`, "POST", params, body, BodyType.Json, true),
+    addPet: (body: Pet, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/pet`,
+        method: "POST",
+        body: body,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
 
     /**
      * No description
@@ -306,8 +333,15 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request PUT:/pet
      * @secure
      */
-    updatePet: (body: Pet, params?: RequestParams) =>
-      this.request<any, any>(`/pet`, "PUT", params, body, BodyType.Json, true),
+    updatePet: (body: Pet, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/pet`,
+        method: "PUT",
+        body: body,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
 
     /**
      * @description Multiple status values can be provided with comma separated strings
@@ -318,15 +352,15 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/pet/findByStatus
      * @secure
      */
-    findPetsByStatus: (query: { status: ("available" | "pending" | "sold")[] }, params?: RequestParams) =>
-      this.request<Pet[], any>(
-        `/pet/findByStatus${this.addQueryParams(query)}`,
-        "GET",
-        params,
-        null,
-        BodyType.Json,
-        true,
-      ),
+    findPetsByStatus: (query: { status: ("available" | "pending" | "sold")[] }, params: RequestParams = {}) =>
+      this.request<Pet[], any>({
+        path: `/pet/findByStatus`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
 
     /**
      * No description
@@ -336,8 +370,14 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary summary
      * @request POST:/pet/single-form-url-encoded
      */
-    singleFormUrlEncodedRequest: (data: { param1: string; param2: string }, params?: RequestParams) =>
-      this.request<any, any>(`/pet/single-form-url-encoded`, "POST", params, data, BodyType.UrlEncoded),
+    singleFormUrlEncodedRequest: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/pet/single-form-url-encoded`,
+        method: "POST",
+        body: data,
+        type: ContentType.UrlEncoded,
+        ...params,
+      }),
 
     /**
      * No description
@@ -347,8 +387,14 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary summary
      * @request POST:/pet/form-url-encoded
      */
-    formUrlEncodedRequest: (data: { param1: string; param2: string }, params?: RequestParams) =>
-      this.request<any, any>(`/pet/form-url-encoded`, "POST", params, data, BodyType.UrlEncoded),
+    formUrlEncodedRequest: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/pet/form-url-encoded`,
+        method: "POST",
+        body: data,
+        type: ContentType.UrlEncoded,
+        ...params,
+      }),
 
     /**
      * No description
@@ -360,8 +406,14 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @originalName formUrlEncodedRequest
      * @duplicate
      */
-    formUrlEncodedRequest2: (data: { param1: string; param2: string }, params?: RequestParams) =>
-      this.request<any, any>(`/pet/end-form-url-encoded`, "POST", params, data, BodyType.UrlEncoded),
+    formUrlEncodedRequest2: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/pet/end-form-url-encoded`,
+        method: "POST",
+        body: data,
+        type: ContentType.UrlEncoded,
+        ...params,
+      }),
 
     /**
      * @description Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -372,15 +424,15 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/pet/findByTags
      * @secure
      */
-    findPetsByTags: (query: { tags: string[] }, params?: RequestParams) =>
-      this.request<Pet[], any>(
-        `/pet/findByTags${this.addQueryParams(query)}`,
-        "GET",
-        params,
-        null,
-        BodyType.Json,
-        true,
-      ),
+    findPetsByTags: (query: { tags: string[] }, params: RequestParams = {}) =>
+      this.request<Pet[], any>({
+        path: `/pet/findByTags`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
 
     /**
      * @description Returns a single pet
@@ -391,8 +443,14 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/pet/{petId}
      * @secure
      */
-    getPetById: (petId: number, params?: RequestParams) =>
-      this.request<Pet, any>(`/pet/${petId}`, "GET", params, null, BodyType.Json, true),
+    getPetById: (petId: number, params: RequestParams = {}) =>
+      this.request<Pet, any>({
+        path: `/pet/${petId}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
 
     /**
      * No description
@@ -403,8 +461,15 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/pet/{petId}
      * @secure
      */
-    updatePetWithForm: (petId: number, data: { name?: string; status?: string }, params?: RequestParams) =>
-      this.request<any, any>(`/pet/${petId}`, "POST", params, data, BodyType.FormData, true),
+    updatePetWithForm: (petId: number, data: { name?: string; status?: string }, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/pet/${petId}`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.FormData,
+        ...params,
+      }),
 
     /**
      * No description
@@ -415,8 +480,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request DELETE:/pet/{petId}
      * @secure
      */
-    deletePet: (petId: number, params?: RequestParams) =>
-      this.request<any, any>(`/pet/${petId}`, "DELETE", params, null, BodyType.Json, true),
+    deletePet: (petId: number, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/pet/${petId}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
 
     /**
      * No description
@@ -427,8 +497,16 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request POST:/pet/{petId}/uploadImage
      * @secure
      */
-    uploadFile: (petId: number, data: { additionalMetadata?: string; file?: File }, params?: RequestParams) =>
-      this.request<ApiResponse, any>(`/pet/${petId}/uploadImage`, "POST", params, data, BodyType.FormData, true),
+    uploadFile: (petId: number, data: { additionalMetadata?: string; file?: File }, params: RequestParams = {}) =>
+      this.request<ApiResponse, any>({
+        path: `/pet/${petId}/uploadImage`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.FormData,
+        format: "json",
+        ...params,
+      }),
   };
   store = {
     /**
@@ -440,8 +518,14 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/store/inventory
      * @secure
      */
-    getInventory: (params?: RequestParams) =>
-      this.request<Record<string, number>, any>(`/store/inventory`, "GET", params, null, BodyType.Json, true),
+    getInventory: (params: RequestParams = {}) =>
+      this.request<Record<string, number>, any>({
+        path: `/store/inventory`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
 
     /**
      * No description
@@ -451,8 +535,15 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Place an order for a pet
      * @request POST:/store/order
      */
-    placeOrder: (body: Order, params?: RequestParams) =>
-      this.request<Order, any>(`/store/order`, "POST", params, body, BodyType.Json),
+    placeOrder: (body: Order, params: RequestParams = {}) =>
+      this.request<Order, any>({
+        path: `/store/order`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
 
     /**
      * @description For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -462,8 +553,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Find purchase order by ID
      * @request GET:/store/order/{orderId}
      */
-    getOrderById: (orderId: number, params?: RequestParams) =>
-      this.request<Order, any>(`/store/order/${orderId}`, "GET", params),
+    getOrderById: (orderId: number, params: RequestParams = {}) =>
+      this.request<Order, any>({
+        path: `/store/order/${orderId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
 
     /**
      * @description For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -473,8 +569,12 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Delete purchase order by ID
      * @request DELETE:/store/order/{orderId}
      */
-    deleteOrder: (orderId: string, params?: RequestParams) =>
-      this.request<any, any>(`/store/order/${orderId}`, "DELETE", params),
+    deleteOrder: (orderId: string, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/store/order/${orderId}`,
+        method: "DELETE",
+        ...params,
+      }),
   };
   user = {
     /**
@@ -485,8 +585,14 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Create user
      * @request POST:/user
      */
-    createUser: (body: User, params?: RequestParams) =>
-      this.request<any, any>(`/user`, "POST", params, body, BodyType.Json),
+    createUser: (body: User, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/user`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
 
     /**
      * No description
@@ -496,8 +602,14 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Creates list of users with given input array
      * @request POST:/user/createWithArray
      */
-    createUsersWithArrayInput: (body: User[], params?: RequestParams) =>
-      this.request<any, any>(`/user/createWithArray`, "POST", params, body, BodyType.Json),
+    createUsersWithArrayInput: (body: User[], params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/user/createWithArray`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
 
     /**
      * No description
@@ -507,8 +619,14 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Creates list of users with given input array
      * @request POST:/user/createWithList
      */
-    createUsersWithListInput: (body: User[], params?: RequestParams) =>
-      this.request<any, any>(`/user/createWithList`, "POST", params, body, BodyType.Json),
+    createUsersWithListInput: (body: User[], params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/user/createWithList`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
 
     /**
      * No description
@@ -518,8 +636,14 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Logs user into the system
      * @request GET:/user/login
      */
-    loginUser: (query: { username: string; password: string }, params?: RequestParams) =>
-      this.request<Currency, any>(`/user/login${this.addQueryParams(query)}`, "GET", params),
+    loginUser: (query: { username: string; password: string }, params: RequestParams = {}) =>
+      this.request<Currency, any>({
+        path: `/user/login`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
 
     /**
      * No description
@@ -529,7 +653,12 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Logs out current logged in user session
      * @request GET:/user/logout
      */
-    logoutUser: (params?: RequestParams) => this.request<any, any>(`/user/logout`, "GET", params),
+    logoutUser: (params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/user/logout`,
+        method: "GET",
+        ...params,
+      }),
 
     /**
      * No description
@@ -539,8 +668,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Get user by user name
      * @request GET:/user/{username}
      */
-    getUserByName: (username: string, params?: RequestParams) =>
-      this.request<User, any>(`/user/${username}`, "GET", params),
+    getUserByName: (username: string, params: RequestParams = {}) =>
+      this.request<User, any>({
+        path: `/user/${username}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
 
     /**
      * @description This can only be done by the logged in user.
@@ -550,8 +684,14 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Updated user
      * @request PUT:/user/{username}
      */
-    updateUser: (username: string, body: User, params?: RequestParams) =>
-      this.request<any, any>(`/user/${username}`, "PUT", params, body, BodyType.Json),
+    updateUser: (username: string, body: User, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/user/${username}`,
+        method: "PUT",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
 
     /**
      * @description This can only be done by the logged in user.
@@ -561,7 +701,11 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @summary Delete user
      * @request DELETE:/user/{username}
      */
-    deleteUser: (username: string, params?: RequestParams) =>
-      this.request<any, any>(`/user/${username}`, "DELETE", params),
+    deleteUser: (username: string, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/user/${username}`,
+        method: "DELETE",
+        ...params,
+      }),
   };
 }

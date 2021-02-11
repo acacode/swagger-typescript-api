@@ -26,15 +26,31 @@ export interface Pullrequest {
   author?: User;
 }
 
-export type RequestParams = Omit<RequestInit, "body" | "method"> & {
-  secure?: boolean;
-};
+export type QueryParamsType = Record<string | number, any>;
+export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
-export type RequestQueryParamsType = Record<string | number, any>;
+export interface FullRequestParams extends Omit<RequestInit, "body"> {
+  /** set parameter to `true` for call `securityWorker` for this request */
+  secure?: boolean;
+  /** request path */
+  path: string;
+  /** content type of request body */
+  type?: ContentType;
+  /** query params */
+  query?: QueryParamsType;
+  /** format of response (i.e. response.json() -> format: "json") */
+  format?: keyof Omit<Body, "body" | "bodyUsed">;
+  /** request body */
+  body?: unknown;
+  /** base url */
+  baseUrl?: string;
+}
+
+export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
 interface ApiConfig<SecurityDataType> {
   baseUrl?: string;
-  baseApiParams?: RequestParams;
+  baseApiParams?: Omit<RequestParams, "baseUrl">;
   securityWorker?: (securityData: SecurityDataType) => RequestParams;
 }
 
@@ -43,10 +59,10 @@ interface HttpResponse<D extends unknown, E extends unknown = unknown> extends R
   error: E;
 }
 
-enum BodyType {
-  Json,
-  FormData,
-  UrlEncoded,
+export enum ContentType {
+  Json = "application/json",
+  FormData = "multipart/form-data",
+  UrlEncoded = "application/x-www-form-urlencoded",
 }
 
 export class HttpClient<SecurityDataType = unknown> {
@@ -57,7 +73,7 @@ export class HttpClient<SecurityDataType = unknown> {
   private baseApiParams: RequestParams = {
     credentials: "same-origin",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": ContentType.Json,
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -71,92 +87,96 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  private addQueryParam(query: RequestQueryParamsType, key: string) {
+  private addQueryParam(query: QueryParamsType, key: string) {
+    const value = query[key];
+
     return (
-      encodeURIComponent(key) + "=" + encodeURIComponent(Array.isArray(query[key]) ? query[key].join(",") : query[key])
+      encodeURIComponent(key) +
+      "=" +
+      encodeURIComponent(Array.isArray(value) ? value.join(",") : typeof value === "number" ? value : `${value}`)
     );
   }
 
-  protected toQueryString(rawQuery?: RequestQueryParamsType): string {
+  protected toQueryString(rawQuery?: QueryParamsType): string {
     const query = rawQuery || {};
     const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
     return keys
       .map((key) =>
         typeof query[key] === "object" && !Array.isArray(query[key])
-          ? this.toQueryString(query[key] as object)
+          ? this.toQueryString(query[key] as QueryParamsType)
           : this.addQueryParam(query, key),
       )
       .join("&");
   }
 
-  protected addQueryParams(rawQuery?: RequestQueryParamsType): string {
+  protected addQueryParams(rawQuery?: QueryParamsType): string {
     const queryString = this.toQueryString(rawQuery);
     return queryString ? `?${queryString}` : "";
   }
 
-  private bodyFormatters: Record<BodyType, (input: any) => any> = {
-    [BodyType.Json]: JSON.stringify,
-    [BodyType.FormData]: (input: any) =>
+  private contentFormatters: Record<ContentType, (input: any) => any> = {
+    [ContentType.Json]: JSON.stringify,
+    [ContentType.FormData]: (input: any) =>
       Object.keys(input).reduce((data, key) => {
         data.append(key, input[key]);
         return data;
       }, new FormData()),
-    [BodyType.UrlEncoded]: (input: any) => this.toQueryString(input),
+    [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
   };
 
-  private mergeRequestOptions(params: RequestParams, securityParams?: RequestParams): RequestParams {
+  private mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
     return {
       ...this.baseApiParams,
-      ...params,
-      ...(securityParams || {}),
+      ...params1,
+      ...(params2 || {}),
       headers: {
         ...(this.baseApiParams.headers || {}),
-        ...(params.headers || {}),
-        ...((securityParams && securityParams.headers) || {}),
+        ...(params1.headers || {}),
+        ...((params2 && params2.headers) || {}),
       },
     };
   }
 
-  private safeParseResponse = <T = any, E = any>(response: Response): Promise<HttpResponse<T, E>> => {
-    const r = response as HttpResponse<T, E>;
-    r.data = (null as unknown) as T;
-    r.error = (null as unknown) as E;
+  public request = <T = any, E = any>({
+    body,
+    secure,
+    path,
+    type = ContentType.Json,
+    query,
+    format = "json",
+    baseUrl,
+    ...params
+  }: FullRequestParams): Promise<HttpResponse<T, E>> => {
+    const secureParams = secure && this.securityWorker ? this.securityWorker(this.securityData) : {};
+    const requestParams = this.mergeRequestParams(params, secureParams);
+    const queryString = query && this.toQueryString(query);
 
-    return response
-      .json()
-      .then((data) => {
-        if (r.ok) {
-          r.data = data;
-        } else {
-          r.error = data;
-        }
-        return r;
-      })
-      .catch((e) => {
-        r.error = e;
-        return r;
-      });
-  };
+    return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
+      headers: {
+        "Content-Type": type,
+        ...(requestParams.headers || {}),
+      },
+      ...requestParams,
+      body: body ? (this.contentFormatters[type] ? this.contentFormatters[type](body) : body) : null,
+    }).then(async (response) => {
+      const r = response as HttpResponse<T, E>;
+      r.data = (null as unknown) as T;
+      r.error = (null as unknown) as E;
 
-  public request = <T = any, E = any>(
-    path: string,
-    method: string,
-    { secure, ...params }: RequestParams = {},
-    body?: any,
-    bodyType?: BodyType,
-    secureByDefault?: boolean,
-  ): Promise<HttpResponse<T>> => {
-    const requestUrl = `${this.baseUrl}${path}`;
-    const secureOptions =
-      (secureByDefault || secure) && this.securityWorker ? this.securityWorker(this.securityData) : {};
-    const requestOptions = {
-      ...this.mergeRequestOptions(params, secureOptions),
-      method,
-      body: body ? this.bodyFormatters[bodyType || BodyType.Json](body) : null,
-    };
+      const data = await response[format]()
+        .then((data) => {
+          if (r.ok) {
+            r.data = data;
+          } else {
+            r.error = data;
+          }
+          return r;
+        })
+        .catch((e) => {
+          r.error = e;
+          return r;
+        });
 
-    return fetch(requestUrl, requestOptions).then(async (response) => {
-      const data = await this.safeParseResponse<T, E>(response);
       if (!response.ok) throw data;
       return data;
     });
@@ -175,8 +195,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name GetUserByName
      * @request GET:/2.0/users/{username}
      */
-    getUserByName: (username: string, params?: RequestParams) =>
-      this.request<User, any>(`/2.0/users/${username}`, "GET", params),
+    getUserByName: (username: string, params: RequestParams = {}) =>
+      this.request<User, any>({
+        path: `/2.0/users/${username}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
 
     /**
      * No description
@@ -184,8 +209,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name GetRepositoriesByOwner
      * @request GET:/2.0/repositories/{username}
      */
-    getRepositoriesByOwner: (username: string, params?: RequestParams) =>
-      this.request<Repository[], any>(`/2.0/repositories/${username}`, "GET", params),
+    getRepositoriesByOwner: (username: string, params: RequestParams = {}) =>
+      this.request<Repository[], any>({
+        path: `/2.0/repositories/${username}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
 
     /**
      * No description
@@ -193,8 +223,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name GetRepository
      * @request GET:/2.0/repositories/{username}/{slug}
      */
-    getRepository: (username: string, slug: string, params?: RequestParams) =>
-      this.request<Repository, any>(`/2.0/repositories/${username}/${slug}`, "GET", params),
+    getRepository: (username: string, slug: string, params: RequestParams = {}) =>
+      this.request<Repository, any>({
+        path: `/2.0/repositories/${username}/${slug}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
 
     /**
      * No description
@@ -206,13 +241,15 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
       username: string,
       slug: string,
       query?: { state?: "open" | "merged" | "declined" },
-      params?: RequestParams,
+      params: RequestParams = {},
     ) =>
-      this.request<Pullrequest[], any>(
-        `/2.0/repositories/${username}/${slug}/pullrequests${this.addQueryParams(query)}`,
-        "GET",
-        params,
-      ),
+      this.request<Pullrequest[], any>({
+        path: `/2.0/repositories/${username}/${slug}/pullrequests`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
 
     /**
      * No description
@@ -220,8 +257,13 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name GetPullRequestsById
      * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
      */
-    getPullRequestsById: (username: string, slug: string, pid: string, params?: RequestParams) =>
-      this.request<Pullrequest, any>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}`, "GET", params),
+    getPullRequestsById: (username: string, slug: string, pid: string, params: RequestParams = {}) =>
+      this.request<Pullrequest, any>({
+        path: `/2.0/repositories/${username}/${slug}/pullrequests/${pid}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
 
     /**
      * No description
@@ -229,7 +271,11 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @name MergePullRequest
      * @request POST:/2.0/repositories/{username}/{slug}/pullrequests/{pid}/merge
      */
-    mergePullRequest: (username: string, slug: string, pid: string, params?: RequestParams) =>
-      this.request<any, any>(`/2.0/repositories/${username}/${slug}/pullrequests/${pid}/merge`, "POST", params),
+    mergePullRequest: (username: string, slug: string, pid: string, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/2.0/repositories/${username}/${slug}/pullrequests/${pid}/merge`,
+        method: "POST",
+        ...params,
+      }),
   };
 }

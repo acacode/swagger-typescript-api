@@ -1,5 +1,22 @@
 # next release  
 
+Fixes:  
+- Request content types auto substitution  
+  i.e. if request body is form data, then request body content type will be `multipart/form-data`  
+Features:  
+- Ability to provide custom formatting `fetch` response  
+- `"IMAGE"` content kind for response\request data objects  
+
+BREAKING_CHANGES:  
+- Fully refactored `http-client.eta` template, make it more flexible and simpler.   
+
+Internal:  
+- Changed templates:  
+  - `http-client.eta`  
+  - `procedure-call.eta`  
+
+This version works with previous templates.  
+
 # 4.4.0  
 
 Fixes:  
