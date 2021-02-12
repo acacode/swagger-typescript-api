@@ -22,9 +22,7 @@ export class HttpClient {
     this.securityWorker = null;
     this.baseApiParams = {
       credentials: "same-origin",
-      headers: {
-        "Content-Type": ContentType.Json,
-      },
+      headers: {},
       redirect: "follow",
       referrerPolicy: "no-referrer",
     };
@@ -32,25 +30,26 @@ export class HttpClient {
       this.securityData = data;
     };
     this.contentFormatters = {
-      [ContentType.Json]: JSON.stringify,
+      [ContentType.Json]: (input) => (input !== null && typeof input === "object" ? JSON.stringify(input) : input),
       [ContentType.FormData]: (input) =>
-        Object.keys(input).reduce((data, key) => {
+        Object.keys(input || {}).reduce((data, key) => {
           data.append(key, input[key]);
           return data;
         }, new FormData()),
       [ContentType.UrlEncoded]: (input) => this.toQueryString(input),
     };
-    this.request = ({ body, secure, path, type = ContentType.Json, query, format = "json", baseUrl, ...params }) => {
+    this.request = ({ body, secure, path, type, query, format = "json", baseUrl, ...params }) => {
       const secureParams = (secure && this.securityWorker && this.securityWorker(this.securityData)) || {};
       const requestParams = this.mergeRequestParams(params, secureParams);
       const queryString = query && this.toQueryString(query);
+      const payloadFormatter = this.contentFormatters[type || ContentType.Json];
       return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
         headers: {
-          "Content-Type": type,
+          ...(type ? { "Content-Type": type } : {}),
           ...(requestParams.headers || {}),
         },
         ...requestParams,
-        body: body ? (this.contentFormatters[type] ? this.contentFormatters[type](body) : body) : null,
+        body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
       }).then(async (response) => {
         const r = response;
         r.data = null;

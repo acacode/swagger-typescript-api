@@ -70,9 +70,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
   private baseApiParams: RequestParams = {
     credentials: "same-origin",
-    headers: {
-      "Content-Type": ContentType.Json,
-    },
+    headers: {},
     redirect: "follow",
     referrerPolicy: "no-referrer",
   };
@@ -113,9 +111,9 @@ export class HttpClient<SecurityDataType = unknown> {
   }
 
   private contentFormatters: Record<ContentType, (input: any) => any> = {
-    [ContentType.Json]: JSON.stringify,
+    [ContentType.Json]: (input: any) => (input !== null && typeof input === "object" ? JSON.stringify(input) : input),
     [ContentType.FormData]: (input: any) =>
-      Object.keys(input).reduce((data, key) => {
+      Object.keys(input || {}).reduce((data, key) => {
         data.append(key, input[key]);
         return data;
       }, new FormData()),
@@ -139,7 +137,7 @@ export class HttpClient<SecurityDataType = unknown> {
     body,
     secure,
     path,
-    type = ContentType.Json,
+    type,
     query,
     format = "json",
     baseUrl,
@@ -148,14 +146,15 @@ export class HttpClient<SecurityDataType = unknown> {
     const secureParams = (secure && this.securityWorker && this.securityWorker(this.securityData)) || {};
     const requestParams = this.mergeRequestParams(params, secureParams);
     const queryString = query && this.toQueryString(query);
+    const payloadFormatter = this.contentFormatters[type || ContentType.Json];
 
     return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       headers: {
-        "Content-Type": type,
+        ...(type ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
       },
       ...requestParams,
-      body: body ? (this.contentFormatters[type] ? this.contentFormatters[type](body) : body) : null,
+      body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
       r.data = (null as unknown) as T;

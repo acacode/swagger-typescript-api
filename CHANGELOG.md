@@ -4,6 +4,7 @@ Fixes:
 - Request content types auto substitution  
   i.e. if request body is form data, then request body content type will be `multipart/form-data`  
 - Strange method name (issue #152, thanks @RoXuS)  
+- Hardcoded Content-Type causes issues with some endpoints (issue #153, thanks @po5i)  
 
 Features:  
 - Ability to provide custom formatting `fetch` response  
