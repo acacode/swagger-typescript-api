@@ -79,13 +79,15 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
   body?: unknown;
   /** base url */
   baseUrl?: string;
+  /** request cancellation token */
+  cancelToken?: CancelToken;
 }
 
 export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
 interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
-  baseApiParams?: Omit<RequestParams, "baseUrl">;
+  baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
   securityWorker?: (securityData: SecurityDataType) => RequestParams | void;
 }
 
@@ -93,6 +95,8 @@ interface HttpResponse<D extends unknown, E extends unknown = unknown> extends R
   data: D;
   error: E;
 }
+
+type CancelToken = Symbol | string | number;
 
 export enum ContentType {
   Json = "application/json",
@@ -104,6 +108,7 @@ export class HttpClient<SecurityDataType = unknown> {
   public baseUrl: string = "https://6-dot-authentiqio.appspot.com";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
+  private abortControllers = new Map<CancelToken, AbortController>();
 
   private baseApiParams: RequestParams = {
     credentials: "same-origin",
@@ -170,6 +175,29 @@ export class HttpClient<SecurityDataType = unknown> {
     };
   }
 
+  private createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
+    if (this.abortControllers.has(cancelToken)) {
+      const abortController = this.abortControllers.get(cancelToken);
+      if (abortController) {
+        return abortController.signal;
+      }
+      return void 0;
+    }
+
+    const abortController = new AbortController();
+    this.abortControllers.set(cancelToken, abortController);
+    return abortController.signal;
+  };
+
+  public abortRequest = (cancelToken: CancelToken) => {
+    const abortController = this.abortControllers.get(cancelToken);
+
+    if (abortController) {
+      abortController.abort();
+      this.abortControllers.delete(cancelToken);
+    }
+  };
+
   public request = <T = any, E = any>({
     body,
     secure,
@@ -178,6 +206,7 @@ export class HttpClient<SecurityDataType = unknown> {
     query,
     format = "json",
     baseUrl,
+    cancelToken,
     ...params
   }: FullRequestParams): Promise<HttpResponse<T, E>> => {
     const secureParams = (secure && this.securityWorker && this.securityWorker(this.securityData)) || {};
@@ -191,6 +220,7 @@ export class HttpClient<SecurityDataType = unknown> {
         ...(requestParams.headers || {}),
       },
       ...requestParams,
+      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
@@ -210,6 +240,10 @@ export class HttpClient<SecurityDataType = unknown> {
           r.error = e;
           return r;
         });
+
+      if (cancelToken) {
+        this.abortControllers.delete(cancelToken);
+      }
 
       if (!response.ok) throw data;
       return data;

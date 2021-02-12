@@ -11,6 +11,9 @@ Features:
 - `"IMAGE"` content kind for response\request data objects  
 - `RequestParams` `RequestHeaders` types for `--route-types` (`routeTypes: true`) option (issue #150, thanks @Fabiencdp )  
 - `--default-response` option. Allows to set default type for empty response schema (default: `void`) (based on issue #14)  
+- Request cancellation support (issue #96, thanks @ApacheEx)  
+  `RequestParams` type now have the `cancelToken` field  
+  `HttpClient` instance now have the `abortRequest(cancelToken)` method  
 
 BREAKING_CHANGES:  
 - Fully refactored `http-client.eta` template, make it more flexible and simpler.  

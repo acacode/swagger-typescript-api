@@ -20,6 +20,7 @@ export class HttpClient {
     this.baseUrl = "https://api.github.com";
     this.securityData = null;
     this.securityWorker = null;
+    this.abortControllers = new Map();
     this.baseApiParams = {
       credentials: "same-origin",
       headers: {},
@@ -38,7 +39,26 @@ export class HttpClient {
         }, new FormData()),
       [ContentType.UrlEncoded]: (input) => this.toQueryString(input),
     };
-    this.request = ({ body, secure, path, type, query, format = "json", baseUrl, ...params }) => {
+    this.createAbortSignal = (cancelToken) => {
+      if (this.abortControllers.has(cancelToken)) {
+        const abortController = this.abortControllers.get(cancelToken);
+        if (abortController) {
+          return abortController.signal;
+        }
+        return void 0;
+      }
+      const abortController = new AbortController();
+      this.abortControllers.set(cancelToken, abortController);
+      return abortController.signal;
+    };
+    this.abortRequest = (cancelToken) => {
+      const abortController = this.abortControllers.get(cancelToken);
+      if (abortController) {
+        abortController.abort();
+        this.abortControllers.delete(cancelToken);
+      }
+    };
+    this.request = ({ body, secure, path, type, query, format = "json", baseUrl, cancelToken, ...params }) => {
       const secureParams = (secure && this.securityWorker && this.securityWorker(this.securityData)) || {};
       const requestParams = this.mergeRequestParams(params, secureParams);
       const queryString = query && this.toQueryString(query);
@@ -49,6 +69,7 @@ export class HttpClient {
           ...(requestParams.headers || {}),
         },
         ...requestParams,
+        signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
         body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
       }).then(async (response) => {
         const r = response;
@@ -67,6 +88,9 @@ export class HttpClient {
             r.error = e;
             return r;
           });
+        if (cancelToken) {
+          this.abortControllers.delete(cancelToken);
+        }
         if (!response.ok) throw data;
         return data;
       });
