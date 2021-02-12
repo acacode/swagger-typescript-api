@@ -7,6 +7,7 @@ Features:
 - Ability to provide custom formatting `fetch` response  
 - `"IMAGE"` content kind for response\request data objects  
 - `RequestParams` `RequestHeaders` types for `--route-types` (`routeTypes: true`) option (issue #150, thanks @Fabiencdp )  
+- Strange method name (issue #152, thanks @RoXuS)  
 
 BREAKING_CHANGES:  
 - Fully refactored `http-client.eta` template, make it more flexible and simpler.  

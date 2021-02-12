@@ -28,4 +28,17 @@ export class Login<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       body: body,
       ...params,
     });
+  /**
+   * @description Get a current key register
+   *
+   * @tags key, get
+   * @name KeyRegister
+   * @request GET:/login
+   */
+  keyRegister = (params: RequestParams = {}) =>
+    this.request<{ secret?: string; status?: string }, Error>({
+      path: `/login`,
+      method: "GET",
+      ...params,
+    });
 }

@@ -215,7 +215,7 @@ export interface GenerateApiConfiguration {
     componentsMap: Record<string, SchemaComponent>;
     convertedFromSwagger2: boolean;
     moduleNameIndex: number;
-    disableStrictSSSL: boolean;
+    disableStrictSSL: boolean;
     extractRequestParams: boolean;
     fileNames: {
       dataContracts: string;

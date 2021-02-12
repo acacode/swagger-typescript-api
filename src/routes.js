@@ -523,25 +523,6 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
 
         routeArgs.push(specificArgs.requestParams);
 
-        // TODO: get args for formData
-        // "name": "file",
-        // "in": "formData",
-
-        // const responsesInfos = _.reduce(responses, (acc, response, status) => {
-
-        //   const type = getTypeFromRequestInfo(response, parsedSchemas, 'application/json');
-
-        //   if (type) {
-        //     acc.push(`@response`)
-        //     acc.push(`  status: ${status === 'default' ? 200 : status}`)
-        //     acc.push(`  type: ${type}`)
-        //     if (response.description) {
-        //       acc.push(`  description: ${response.description}`)
-        //     }
-        //   }
-        //   return acc;
-        // }, [' '])
-
         const routeData = {
           id: routeId,
           namespace: _.replace(moduleName, /^(\d)/, "v$1"),
@@ -627,7 +608,30 @@ const groupRoutes = (routes) => {
 
         acc.combined.push({
           moduleName,
-          routes: packRoutes,
+          routes: _.map(packRoutes, (route) => {
+            const { original: originalName, usage: usageName } = route.routeName;
+
+            // TODO: https://github.com/acacode/swagger-typescript-api/issues/152
+            // TODO: refactor
+            if (
+              packRoutes.length > 1 &&
+              usageName !== originalName &&
+              !_.some(
+                packRoutes,
+                ({ routeName, id }) => id !== route.id && originalName === routeName.original,
+              )
+            ) {
+              return {
+                ...route,
+                routeName: {
+                  ...route.routeName,
+                  usage: originalName,
+                },
+              };
+            }
+
+            return route;
+          }),
         });
       }
       return acc;
