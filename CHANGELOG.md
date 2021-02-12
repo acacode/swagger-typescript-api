@@ -10,6 +10,8 @@ Features:
 
 BREAKING_CHANGES:  
 - Fully refactored `http-client.eta` template, make it more flexible and simpler.  
+  `HttpClient["request"]` takes one argument with type `FullRequestParams`  
+  (previously it takes many count of arguments which was not flexible)  
 
 Internal:  
 - Changed templates:  
