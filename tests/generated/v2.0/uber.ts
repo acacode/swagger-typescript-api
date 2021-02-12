@@ -126,10 +126,10 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
 
 export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
-interface ApiConfig<SecurityDataType> {
+interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
   baseApiParams?: Omit<RequestParams, "baseUrl">;
-  securityWorker?: (securityData: SecurityDataType) => RequestParams;
+  securityWorker?: (securityData: SecurityDataType) => RequestParams | void;
 }
 
 interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
@@ -225,7 +225,7 @@ export class HttpClient<SecurityDataType = unknown> {
     baseUrl,
     ...params
   }: FullRequestParams): Promise<HttpResponse<T, E>> => {
-    const secureParams = secure && this.securityWorker ? this.securityWorker(this.securityData) : {};
+    const secureParams = (secure && this.securityWorker && this.securityWorker(this.securityData)) || {};
     const requestParams = this.mergeRequestParams(params, secureParams);
     const queryString = query && this.toQueryString(query);
 
@@ -267,7 +267,7 @@ export class HttpClient<SecurityDataType = unknown> {
  * @baseUrl https://api.uber.com/v1
  * Move your app forward with the Uber API
  */
-export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
+export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   products = {
     /**
      * @description The Products endpoint returns information about the Uber products offered at a given location. The response includes the display name and other details about each product, and lists the products in the proper display order.

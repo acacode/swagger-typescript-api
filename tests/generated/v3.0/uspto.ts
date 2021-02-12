@@ -48,10 +48,10 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
 
 export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
-interface ApiConfig<SecurityDataType> {
+interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
   baseApiParams?: Omit<RequestParams, "baseUrl">;
-  securityWorker?: (securityData: SecurityDataType) => RequestParams;
+  securityWorker?: (securityData: SecurityDataType) => RequestParams | void;
 }
 
 interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
@@ -147,7 +147,7 @@ export class HttpClient<SecurityDataType = unknown> {
     baseUrl,
     ...params
   }: FullRequestParams): Promise<HttpResponse<T, E>> => {
-    const secureParams = secure && this.securityWorker ? this.securityWorker(this.securityData) : {};
+    const secureParams = (secure && this.securityWorker && this.securityWorker(this.securityData)) || {};
     const requestParams = this.mergeRequestParams(params, secureParams);
     const queryString = query && this.toQueryString(query);
 
@@ -189,7 +189,7 @@ export class HttpClient<SecurityDataType = unknown> {
  * @baseUrl {scheme}://developer.uspto.gov/ds-api
  * The Data Set API (DSAPI) allows the public users to discover and search USPTO exported data sets. This is a generic API that allows USPTO users to make any CSV based data files searchable through API. With the help of GET call, it returns the list of data fields that are searchable. With the help of POST call, data can be fetched based on the filters on the field names. Please note that POST call is used to search the actual data. The reason for the POST call is that it allows users to specify any complex search criteria without worry about the GET size limitations as well as encoding of the input parameters.
  */
-export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
+export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   /**
    * No description
    *

@@ -1713,10 +1713,10 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
   baseUrl?: string;
 }
 export declare type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
-interface ApiConfig<SecurityDataType> {
+interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
   baseApiParams?: Omit<RequestParams, "baseUrl">;
-  securityWorker?: (securityData: SecurityDataType) => RequestParams;
+  securityWorker?: (securityData: SecurityDataType) => RequestParams | void;
 }
 interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
   data: D;
@@ -1756,7 +1756,7 @@ export declare class HttpClient<SecurityDataType = unknown> {
  * @baseUrl https://api.github.com
  * Powerful collaboration, code review, and code management for open source and private projects.
  */
-export declare class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
+export declare class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   emojis: {
     /**
      * @description Lists all the emojis available to use on GitHub.

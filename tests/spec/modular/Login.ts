@@ -12,7 +12,7 @@
 import { Error, PushToken } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 
-export class Login extends HttpClient {
+export class Login<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
    * @description push sign-in request See: https://github.com/skion/authentiq/wiki/JWT-Examples
    *

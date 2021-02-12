@@ -12,7 +12,7 @@
 import { AuthentiqID, Error } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 
-export class Key extends HttpClient {
+export class Key<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
    * @description Revoke an Authentiq ID using email & phone. If called with `email` and `phone` only, a verification code will be sent by email. Do a second call adding `code` to complete the revocation.
    *

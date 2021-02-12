@@ -25,10 +25,10 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
 export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">
 
 
-interface ApiConfig<<%~ apiConfig.generic.map(g => g.name).join(', ') %>> {
+interface ApiConfig<SecurityDataType = unknown> {
     baseUrl?: string;
     baseApiParams?: Omit<RequestParams, "baseUrl">;
-    securityWorker?: (securityData: SecurityDataType) => RequestParams;
+    securityWorker?: (securityData: SecurityDataType) => RequestParams | void;
 }
 
 <% if (generateResponses) {%>
@@ -50,10 +50,10 @@ export enum ContentType {
     UrlEncoded = "application/x-www-form-urlencoded",
 }
 
-export class HttpClient<<%~ apiConfig.generic.map(g => `${g.name} = unknown`).join(', ') %>> {
+export class HttpClient<SecurityDataType = unknown> {
     public baseUrl: string = "<%~ apiConfig.baseUrl %>";
     private securityData: SecurityDataType = (null as any);
-    private securityWorker: null | ApiConfig<<%~ apiConfig.generic.map(g => g.name).join(', ') %>>["securityWorker"] = null;
+    private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
 
     private baseApiParams: RequestParams = {
         credentials: 'same-origin',
@@ -64,7 +64,7 @@ export class HttpClient<<%~ apiConfig.generic.map(g => `${g.name} = unknown`).jo
         referrerPolicy: 'no-referrer',
     }
 
-    constructor(apiConfig: ApiConfig<<%~ apiConfig.generic.map(g => g.name).join(', ') %>> = {}) {
+    constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
         Object.assign(this, apiConfig);
     }
 
@@ -134,7 +134,7 @@ export class HttpClient<<%~ apiConfig.generic.map(g => `${g.name} = unknown`).jo
         baseUrl,
         ...params
     }: FullRequestParams): <% if (generateResponses) { %>TPromise<HttpResponse<T, E>><% } else { %>Promise<HttpResponse<T, E>><% } %> => {
-        const secureParams = (secure && this.securityWorker) ? this.securityWorker(this.securityData) : {};
+        const secureParams = (secure && this.securityWorker && this.securityWorker(this.securityData)) || {};
         const requestParams = this.mergeRequestParams(params, secureParams);
         const queryString = query && this.toQueryString(query);
 

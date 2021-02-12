@@ -31,10 +31,10 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
 
 export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
-interface ApiConfig<SecurityDataType> {
+interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
   baseApiParams?: Omit<RequestParams, "baseUrl">;
-  securityWorker?: (securityData: SecurityDataType) => RequestParams;
+  securityWorker?: (securityData: SecurityDataType) => RequestParams | void;
 }
 
 interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
@@ -130,7 +130,7 @@ export class HttpClient<SecurityDataType = unknown> {
     baseUrl,
     ...params
   }: FullRequestParams): Promise<HttpResponse<T, E>> => {
-    const secureParams = secure && this.securityWorker ? this.securityWorker(this.securityData) : {};
+    const secureParams = (secure && this.securityWorker && this.securityWorker(this.securityData)) || {};
     const requestParams = this.mergeRequestParams(params, secureParams);
     const queryString = query && this.toQueryString(query);
 
@@ -170,7 +170,7 @@ export class HttpClient<SecurityDataType = unknown> {
  * @title Title
  * @version v0.1
  */
-export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
+export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   uploadFile = {
     /**
      * No description

@@ -83,10 +83,10 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
 
 export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
-interface ApiConfig<SecurityDataType> {
+interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
   baseApiParams?: Omit<RequestParams, "baseUrl">;
-  securityWorker?: (securityData: SecurityDataType) => RequestParams;
+  securityWorker?: (securityData: SecurityDataType) => RequestParams | void;
 }
 
 /** Overrided Promise type. Needs for additional typings of `.catch` callback */
@@ -193,7 +193,7 @@ export class HttpClient<SecurityDataType = unknown> {
     baseUrl,
     ...params
   }: FullRequestParams): TPromise<HttpResponse<T, E>> => {
-    const secureParams = secure && this.securityWorker ? this.securityWorker(this.securityData) : {};
+    const secureParams = (secure && this.securityWorker && this.securityWorker(this.securityData)) || {};
     const requestParams = this.mergeRequestParams(params, secureParams);
     const queryString = query && this.toQueryString(query);
 
@@ -235,7 +235,7 @@ export class HttpClient<SecurityDataType = unknown> {
  * @baseUrl https://6-dot-authentiqio.appspot.com
  * Strong authentication, without the passwords.
  */
-export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
+export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   key = {
     /**
      * @description Revoke an Authentiq ID using email & phone. If called with `email` and `phone` only, a verification code will be sent by email. Do a second call adding `code` to complete the revocation.

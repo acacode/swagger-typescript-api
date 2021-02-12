@@ -6,14 +6,16 @@ Fixes:
 Features:  
 - Ability to provide custom formatting `fetch` response  
 - `"IMAGE"` content kind for response\request data objects  
+- `RequestParams` `RequestHeaders` types for `--route-types` (`routeTypes: true`) option (issue #150, thanks @Fabiencdp )  
 
 BREAKING_CHANGES:  
-- Fully refactored `http-client.eta` template, make it more flexible and simpler.   
+- Fully refactored `http-client.eta` template, make it more flexible and simpler.  
 
 Internal:  
 - Changed templates:  
   - `http-client.eta`  
   - `procedure-call.eta`  
+  - `api.eta`  
 
 This version works with previous templates.  
 

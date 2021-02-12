@@ -74,7 +74,7 @@ module.exports = {
             templatesToRender,
           });
 
-          const { info, paths, servers, components } = usageSchema;
+          const { components } = usageSchema;
 
           addToConfig(config.hooks.onInit(config) || config);
 
@@ -91,9 +91,9 @@ module.exports = {
           const hasSecurityRoutes = routes.some((route) => route.security);
           const hasQueryRoutes = routes.some((route) => route.hasQuery);
           const hasFormDataRoutes = routes.some((route) => route.hasFormDataParams);
-          const apiConfig = createApiConfig({ info, servers }, hasSecurityRoutes);
+
           const rawConfiguration = {
-            apiConfig,
+            apiConfig: createApiConfig(usageSchema, hasSecurityRoutes),
             config,
             modelTypes: _.map(filterComponentsMap(componentsMap, "schemas"), prepareModelType),
             hasFormDataRoutes,

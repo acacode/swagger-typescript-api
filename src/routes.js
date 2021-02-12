@@ -424,6 +424,8 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
         const responseBodyInfo = getResponseBodyInfo(routeInfo, routeParams, parsedSchemas);
 
         const queryObjectSchema = convertRouteParamsIntoObject(routeParams.query);
+        const pathObjectSchema = convertRouteParamsIntoObject(routeParams.path);
+        const headersObjectSchema = convertRouteParamsIntoObject(routeParams.header);
 
         const routeName = getRouteName({
           operationId,
@@ -447,6 +449,10 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
 
         const queryType = routeParams.query.length
           ? getInlineParseContent(queryObjectSchema)
+          : null;
+        const pathType = routeParams.path.length ? getInlineParseContent(pathObjectSchema) : null;
+        const headersType = routeParams.header.length
+          ? getInlineParseContent(headersObjectSchema)
           : null;
 
         const specificArgs = {
@@ -474,6 +480,22 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
             type: "RequestParams",
             defaultValue: "{}",
           },
+          pathParams: pathType
+            ? {
+                name: pathArgs.some((pathArg) => pathArg.name === "path") ? "pathParams" : "path",
+                optional: parseSchema(pathObjectSchema, null).allFieldsAreOptional,
+                type: pathType,
+              }
+            : void 0,
+          headers: headersType
+            ? {
+                name: pathArgs.some((pathArg) => pathArg.name === "headers")
+                  ? "headersParams"
+                  : "headers",
+                optional: parseSchema(headersObjectSchema, null).allFieldsAreOptional,
+                type: headersType,
+              }
+            : void 0,
         };
 
         let routeArgs = _.compact([...pathArgs, specificArgs.query, specificArgs.body]);
@@ -527,18 +549,27 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           routeParams,
           requestBodyInfo,
           responseBodyInfo,
+          specificArgs,
+          queryObjectSchema,
+          pathObjectSchema,
+          headersObjectSchema,
+          responseBodySchema: responseBodyInfo.success.schema,
+          requestBodySchema: requestBodyInfo.schema,
           request: {
             contentTypes: requestBodyInfo.contentTypes,
             parameters: pathArgs,
-            query: specificArgs.query,
             path: route.replace(/{/g, "${"),
             formData: requestBodyInfo.contentKind === CONTENT_KIND.FORM_DATA,
             isQueryBody: requestBodyInfo.contentKind === CONTENT_KIND.URL_ENCODED,
             security: hasSecurity,
             method: method,
+            requestParams: requestParamsSchema,
+
             payload: specificArgs.body,
             params: specificArgs.requestParams,
-            requestParams: requestParamsSchema,
+            query: specificArgs.query,
+            pathParams: specificArgs.pathParams,
+            headers: specificArgs.headers,
           },
           response: {
             contentTypes: responseBodyInfo.contentTypes,

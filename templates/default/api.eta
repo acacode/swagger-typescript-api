@@ -1,23 +1,27 @@
 <%
 const { apiConfig, routes, utils, config } = it;
-const { _, require } = utils;
-const genericValues = apiConfig.generic.map(g => ({
-  withDefault: `${g.name} = ${g.defaultValue}`,
-  name: g.name,
-}));
+const { info, servers } = apiConfig;
+const { _, require, formatDescription } = utils;
+
+const server = (servers && servers[0]) || { url: "" };
+
+const descriptionLines = _.compact([
+  `@title ${info.title || "No title"}`,
+  info.version && `@version ${info.version}`,
+  server.url && `@baseUrl ${server.url}`,
+  info.description && _.replace(formatDescription(info.description), /\n/g, "\n * "),
+]);
+
 %>
-<% if (apiConfig.hasDescription) { %>
+<% if (descriptionLines.length) { %>
 /**
-<% apiConfig.description.forEach((jsDocLine) => { %>
-* <%~ jsDocLine %>
+<% descriptionLines.forEach((descriptionLine) => { %>
+* <%~ descriptionLine %>
 
 <% }) %>
 */
 <% } %>
-export class Api<<%~ _.map(genericValues, "withDefault").join(', ') %>> extends HttpClient<<%~ _.map(genericValues, "name").join(', ') %>>{
-<%
-/* TODO: outOfModule, combined should be attributes of route, which will allow to avoid duplication of code */
-%>
+export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType>{
 
 <% routes.outOfModule && routes.outOfModule.forEach((route) => { %>
 

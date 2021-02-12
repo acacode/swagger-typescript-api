@@ -12,7 +12,7 @@
 import { Claims, Error } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
-export class Scope extends HttpClient {
+export class Scope<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
    * @description scope verification request See: https://github.com/skion/authentiq/wiki/JWT-Examples
    *

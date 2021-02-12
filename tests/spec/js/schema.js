@@ -41,7 +41,7 @@ export class HttpClient {
       [ContentType.UrlEncoded]: (input) => this.toQueryString(input),
     };
     this.request = ({ body, secure, path, type = ContentType.Json, query, format = "json", baseUrl, ...params }) => {
-      const secureParams = secure && this.securityWorker ? this.securityWorker(this.securityData) : {};
+      const secureParams = (secure && this.securityWorker && this.securityWorker(this.securityData)) || {};
       const requestParams = this.mergeRequestParams(params, secureParams);
       const queryString = query && this.toQueryString(query);
       return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
