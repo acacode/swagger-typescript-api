@@ -3,6 +3,7 @@ const TS_KEYWORDS = {
   STRING: "string",
   BOOLEAN: "boolean",
   ANY: "any",
+  VOID: "void",
   UNKNOWN: "unknown",
   NULL: "null",
   UNDEFINED: "undefined",

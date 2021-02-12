@@ -2,7 +2,8 @@ const _ = require("lodash");
 const { formatDescription } = require("./common");
 const { TS_KEYWORDS } = require("./constants");
 
-const createApiConfig = ({ info, servers }) => {
+const createApiConfig = (swaggerSchema) => {
+  const { info, servers, host, basePath } = swaggerSchema;
   const server = (servers && servers[0]) || { url: "" };
   const { title = "No title", version, description: schemaDescription = "" } = info || {};
   const { url: serverUrl } = server;
@@ -15,13 +16,18 @@ const createApiConfig = ({ info, servers }) => {
   ]);
 
   const description = _.compact([
-    `@title ${title || "Api"}`,
+    `@title ${title || "No title"}`,
     version && `@version ${version}`,
     serverUrl && `@baseUrl ${serverUrl}`,
     _.replace(formatDescription(schemaDescription), /\n/g, "\n * "),
   ]);
 
   return {
+    info: info || {},
+    servers: servers || [],
+    basePath,
+    host,
+    // TODO: unused, remove!
     props: _.compact([
       {
         name: "baseUrl",
@@ -39,6 +45,7 @@ const createApiConfig = ({ info, servers }) => {
         type: "(securityData: SecurityDataType) => RequestParams",
       },
     ]),
+    // TODO: unused in fresh templates, remove in future
     generic,
     baseUrl: serverUrl,
     title,

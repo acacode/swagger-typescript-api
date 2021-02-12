@@ -36,6 +36,7 @@ module.exports = {
     generateUnionEnums = config.generateUnionEnums,
     moduleNameIndex = config.moduleNameIndex,
     extractRequestParams = config.extractRequestParams,
+    defaultResponseType = config.defaultResponseType,
     prettier: prettierOptions = constants.PRETTIER_OPTIONS,
     hooks: rawHooks,
     extraTemplates,
@@ -59,6 +60,7 @@ module.exports = {
         enumNamesAsValues,
         disableStrictSSL,
         cleanOutput,
+        defaultResponseType,
       });
       (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url, disableStrictSSL))
         .then(({ usageSchema, originalSchema }) => {
@@ -74,7 +76,7 @@ module.exports = {
             templatesToRender,
           });
 
-          const { info, paths, servers, components } = usageSchema;
+          const { components } = usageSchema;
 
           addToConfig(config.hooks.onInit(config) || config);
 
@@ -91,9 +93,9 @@ module.exports = {
           const hasSecurityRoutes = routes.some((route) => route.security);
           const hasQueryRoutes = routes.some((route) => route.hasQuery);
           const hasFormDataRoutes = routes.some((route) => route.hasFormDataParams);
-          const apiConfig = createApiConfig({ info, servers }, hasSecurityRoutes);
+
           const rawConfiguration = {
-            apiConfig,
+            apiConfig: createApiConfig(usageSchema, hasSecurityRoutes),
             config,
             modelTypes: _.map(filterComponentsMap(componentsMap, "schemas"), prepareModelType),
             hasFormDataRoutes,

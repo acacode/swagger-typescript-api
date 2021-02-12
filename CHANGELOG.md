@@ -1,5 +1,37 @@
 # next release  
 
+# 5.0.0  
+
+Fixes:  
+- Request content types auto substitution  
+  i.e. if request body is form data, then request body content type will be `multipart/form-data`  
+- Strange method name (issue #152, thanks @RoXuS)  
+- Hardcoded Content-Type causes issues with some endpoints (issue #153, thanks @po5i)  
+- Critical bug with `:paramName` path params (issue #154)  
+
+Features:  
+- Ability to provide custom formatting `fetch` response  
+- `"IMAGE"` content kind for response\request data objects  
+- `RequestParams` `RequestHeaders` types for `--route-types` (`routeTypes: true`) option (issue #150, thanks @Fabiencdp )  
+- `--default-response` option. Allows to set default type for empty response schema (default: `void`) (based on issue #14)  
+- Request cancellation support (issue #96, thanks @ApacheEx)  
+  `RequestParams` type now have the `cancelToken` field  
+  `HttpClient` instance now have the `abortRequest(cancelToken)` method  
+
+BREAKING_CHANGES:  
+- Fully refactored `http-client.eta` template, make it more flexible and simpler.  
+  `HttpClient["request"]` takes one argument with type `FullRequestParams`  
+  (previously it takes many count of arguments which was not flexible)  
+- Changed the default response body type from `any` to `void` (issue #14)   
+
+Internal:  
+- Changed templates:  
+  - `http-client.eta`  
+  - `procedure-call.eta`  
+  - `api.eta`  
+
+This version works with previous templates.  
+
 # 4.4.0  
 
 Fixes:  

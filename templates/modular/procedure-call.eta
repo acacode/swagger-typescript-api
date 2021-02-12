@@ -1,6 +1,6 @@
 <%
 const { utils, route, config } = it;
-const { requestBodyInfo } = route;
+const { requestBodyInfo, responseBodyInfo } = route;
 const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef, require } = utils;
 const { parameters, path, method, payload, params, query, formData, security, requestParams } = route.request;
 const { type, errorType, contentTypes } = route.response;
@@ -8,7 +8,7 @@ const routeDocs = includeFile("./route-docs", { config, route, utils });
 const queryName = (query && query.name) || "query";
 const pathParams = _.values(parameters);
 
-const argToTmpl = ({ name, optional, type }) => `${name}${optional ? '?' : ''}: ${type}`;
+const argToTmpl = ({ name, optional, type, defaultValue }) => `${name}${!defaultValue && optional ? '?' : ''}: ${type}${defaultValue ? ` = ${defaultValue}` : ''}`;
 
 const rawWrapperArgs = config.extractRequestParams ?
     _.compact([
@@ -30,30 +30,28 @@ const rawWrapperArgs = config.extractRequestParams ?
 
 const wrapperArgs = _
     // Sort by optionality
-    .sortBy(rawWrapperArgs, [function(o) { return o.optional }])
+    .sortBy(rawWrapperArgs, [o => o.optional])
     .map(argToTmpl)
     .join(', ')
 
+// RequestParams["type"]
 const requestContentKind = {
-    "JSON": "BodyType.Json",
-    "URL_ENCODED": "BodyType.UrlEncoded",
-    "FORM_DATA": "BodyType.FormData"
+    "JSON": "ContentType.Json",
+    "URL_ENCODED": "ContentType.UrlEncoded",
+    "FORM_DATA": "ContentType.FormData",
+}
+// RequestParams["format"]
+const responseContentKind = {
+    "JSON": '"json"',
+    "IMAGE": '"blob"',
+    "FORM_DATA": '"formData"'
 }
 
-const bodyModeTmpl = requestContentKind[requestBodyInfo.contentKind] || (security && requestContentKind.JSON) || null
-const securityTmpl = security ? 'true' : null
-const pathTmpl = query != null
-    ? '`' + path + '${this.addQueryParams(' + query.name + ')}' + '`'
-    : '`' + path + '`'
-const requestArgs = [pathTmpl, `'${_.upperCase(method)}'`, _.get(params, "name"), _.get(payload, "name"), bodyModeTmpl, securityTmpl]
-    .reverse()
-    .reduce((args, arg) => {
-        if (args.length === 0 && !arg) return args
-        args.push(arg ? arg : 'null')
-        return args
-    }, [])
-    .reverse()
-    .join(', ')
+const bodyTmpl = _.get(payload, "name") || null;
+const queryTmpl = (query != null && queryName) || null;
+const bodyContentKindTmpl = requestContentKind[requestBodyInfo.contentKind] || null;
+const responseFormatTmpl = responseContentKind[responseBodyInfo.success && responseBodyInfo.success.schema && responseBodyInfo.success.schema.contentKind] || null;
+const securityTmpl = security ? 'true' : null;
 %>
 /**
 <%~ routeDocs.description %>
@@ -64,4 +62,12 @@ const requestArgs = [pathTmpl, `'${_.upperCase(method)}'`, _.get(params, "name")
 
  */
 <%~ route.routeName.usage %> = (<%~ wrapperArgs %>) =>
-    this.request<<%~ type %>, <%~ errorType %>>(<%~ requestArgs %>)
+    this.request<<%~ type %>, <%~ errorType %>>({
+        path: `<%~ path %>`,
+        method: '<%~ _.upperCase(method) %>',
+        <%~ queryTmpl ? `query: ${queryTmpl},` : '' %>
+        <%~ bodyTmpl ? `body: ${bodyTmpl},` : '' %>
+        <%~ securityTmpl ? `secure: ${securityTmpl},` : '' %>
+        <%~ bodyContentKindTmpl ? `type: ${bodyContentKindTmpl},` : '' %>
+        ...<%~ _.get(params, "name") %>,
+    })

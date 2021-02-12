@@ -10,9 +10,9 @@
  */
 
 import { Claims, Error } from "./data-contracts";
-import { BodyType, HttpClient, RequestParams } from "./http-client";
+import { ContentType, HttpClient, RequestParams } from "./http-client";
 
-export class Scope extends HttpClient {
+export class Scope<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
    * @description scope verification request See: https://github.com/skion/authentiq/wiki/JWT-Examples
    *
@@ -20,13 +20,14 @@ export class Scope extends HttpClient {
    * @name SignRequest
    * @request POST:/scope
    */
-  signRequest = (body: Claims, query?: { test?: number }, params?: RequestParams) =>
-    this.request<{ job?: string; status?: string }, Error>(
-      `/scope${this.addQueryParams(query)}`,
-      "POST",
-      params,
-      body,
-    );
+  signRequest = (body: Claims, query?: { test?: number }, params: RequestParams = {}) =>
+    this.request<{ job?: string; status?: string }, Error>({
+      path: `/scope`,
+      method: "POST",
+      query: query,
+      body: body,
+      ...params,
+    });
   /**
    * @description delete a verification job
    *
@@ -34,8 +35,12 @@ export class Scope extends HttpClient {
    * @name SignDelete
    * @request DELETE:/scope/{job}
    */
-  signDelete = (job: string, params?: RequestParams) =>
-    this.request<{ status?: string }, Error>(`/scope/${job}`, "DELETE", params);
+  signDelete = (job: string, params: RequestParams = {}) =>
+    this.request<{ status?: string }, Error>({
+      path: `/scope/${job}`,
+      method: "DELETE",
+      ...params,
+    });
   /**
    * @description get the status / current content of a verification job
    *
@@ -43,8 +48,12 @@ export class Scope extends HttpClient {
    * @name SignRetrieve
    * @request GET:/scope/{job}
    */
-  signRetrieve = (job: string, params?: RequestParams) =>
-    this.request<{ exp?: number; field?: string; sub?: string }, Error>(`/scope/${job}`, "GET", params);
+  signRetrieve = (job: string, params: RequestParams = {}) =>
+    this.request<{ exp?: number; field?: string; sub?: string }, Error>({
+      path: `/scope/${job}`,
+      method: "GET",
+      ...params,
+    });
   /**
    * @description HEAD to get the status of a verification job
    *
@@ -52,8 +61,12 @@ export class Scope extends HttpClient {
    * @name SignRetrieveHead
    * @request HEAD:/scope/{job}
    */
-  signRetrieveHead = (job: string, params?: RequestParams) =>
-    this.request<any, Error>(`/scope/${job}`, "HEAD", params);
+  signRetrieveHead = (job: string, params: RequestParams = {}) =>
+    this.request<void, Error>({
+      path: `/scope/${job}`,
+      method: "HEAD",
+      ...params,
+    });
   /**
    * @description this is a scope confirmation
    *
@@ -61,8 +74,13 @@ export class Scope extends HttpClient {
    * @name SignConfirm
    * @request POST:/scope/{job}
    */
-  signConfirm = (job: string, params?: RequestParams) =>
-    this.request<{ status?: string }, Error>(`/scope/${job}`, "POST", params, null, BodyType.Json);
+  signConfirm = (job: string, params: RequestParams = {}) =>
+    this.request<{ status?: string }, Error>({
+      path: `/scope/${job}`,
+      method: "POST",
+      type: ContentType.Json,
+      ...params,
+    });
   /**
    * @description authority updates a JWT with its signature See: https://github.com/skion/authentiq/wiki/JWT-Examples
    *
@@ -70,6 +88,10 @@ export class Scope extends HttpClient {
    * @name SignUpdate
    * @request PUT:/scope/{job}
    */
-  signUpdate = (job: string, params?: RequestParams) =>
-    this.request<{ jwt?: string; status?: string }, Error>(`/scope/${job}`, "PUT", params);
+  signUpdate = (job: string, params: RequestParams = {}) =>
+    this.request<{ jwt?: string; status?: string }, Error>({
+      path: `/scope/${job}`,
+      method: "PUT",
+      ...params,
+    });
 }

@@ -1,5 +1,4 @@
 const _ = require("lodash");
-const { collect } = require("./utils");
 const { types, parseSchema, getRefType, getInlineParseContent } = require("./schema");
 const { checkAndRenameModelName } = require("./modelNames");
 const {
@@ -35,7 +34,7 @@ const getSchemaFromRequestType = (requestInfo) => {
   return null;
 };
 
-const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId) => {
+const getTypeFromRequestInfo = ({ requestInfo, parsedSchemas, operationId, defaultType }) => {
   // TODO: make more flexible pick schema without content type
   const schema = getSchemaFromRequestType(requestInfo);
   const refTypeInfo = getRefType(requestInfo);
@@ -76,19 +75,27 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId) => {
     }
   }
 
-  return TS_KEYWORDS.ANY;
+  return defaultType || TS_KEYWORDS.ANY;
 };
 
-const getRequestInfoTypes = (requestInfos, parsedSchemas, operationId) =>
+const getRequestInfoTypes = ({ requestInfos, parsedSchemas, operationId, defaultType }) =>
   _.reduce(
     requestInfos,
     (acc, requestInfo, status) => {
+      const contentTypes = getContentTypes([requestInfo]);
+
       return [
         ...acc,
         {
           ...(requestInfo || {}),
-          contentTypes: getContentTypes([requestInfo]),
-          type: getTypeFromRequestInfo(requestInfo, parsedSchemas, operationId),
+          contentTypes: contentTypes,
+          contentKind: getContentKind(contentTypes),
+          type: getTypeFromRequestInfo({
+            requestInfo,
+            parsedSchemas,
+            operationId,
+            defaultType,
+          }),
           description: formatDescription(requestInfo.description || "", true),
           status: _.isNaN(+status) ? status : +status,
           isSuccess: isSuccessStatus(status),
@@ -102,9 +109,58 @@ const isSuccessStatus = (status) =>
   (config.defaultResponseAsSuccess && status === "default") ||
   (+status >= SUCCESS_RESPONSE_STATUS_RANGE[0] && +status < SUCCESS_RESPONSE_STATUS_RANGE[1]);
 
-const getRouteParams = (routeInfo, route) => {
+const parseRoute = (route) => {
+  const pathParamMatches = (route || "").match(
+    /({(([a-zA-Z]-?_?){1,})([0-9]{1,})?})|(:(([a-zA-Z]-?_?){1,})([0-9]{1,})?:?)/g,
+  );
+
+  // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
+  const pathParams = _.reduce(
+    pathParamMatches,
+    (pathParams, match) => {
+      const paramName = _.replace(match, /\{|\}|\:/g, "");
+
+      if (!paramName) return pathParams;
+
+      if (_.includes(paramName, "-")) {
+        console.warn("🔨 wrong path param name", paramName);
+      }
+
+      return [
+        ...pathParams,
+        {
+          $match: match,
+          name: paramName,
+          required: true,
+          type: "string",
+          description: "",
+          schema: {
+            type: "string",
+          },
+          in: "path",
+        },
+      ];
+    },
+    [],
+  );
+
+  const fixedRoute = _.reduce(
+    pathParams,
+    (fixedRoute, pathParam) => {
+      return _.replace(fixedRoute, pathParam.$match, `\${${pathParam.name}}`);
+    },
+    route || "",
+  );
+
+  return {
+    route: fixedRoute,
+    pathParams,
+  };
+};
+
+const getRouteParams = (routeInfo, pathParams) => {
   const { parameters } = routeInfo;
-  const pathParamMatches = (route || "").match(/{(([a-zA-Z]-?_?){1,})([0-9]{1,})?}/g);
+
   const routeParams = {
     path: [],
     header: [],
@@ -117,16 +173,17 @@ const getRouteParams = (routeInfo, route) => {
 
   _.each(parameters, (parameter) => {
     const refTypeInfo = getRefType(parameter);
+    let routeParam = null;
 
     if (refTypeInfo && refTypeInfo.rawTypeData.in && refTypeInfo.rawTypeData) {
       if (!routeParams[refTypeInfo.rawTypeData.in]) {
         routeParams[refTypeInfo.rawTypeData.in] = [];
       }
 
-      routeParams[refTypeInfo.rawTypeData.in].push({
+      routeParam = {
         ...refTypeInfo.rawTypeData,
         ...(refTypeInfo.rawTypeData.schema || {}),
-      });
+      };
     } else {
       if (!parameter.in) return;
 
@@ -134,29 +191,23 @@ const getRouteParams = (routeInfo, route) => {
         routeParams[parameter.in] = [];
       }
 
-      routeParams[parameter.in].push({
+      routeParam = {
         ...parameter,
         ...(parameter.schema || {}),
-      });
+      };
+    }
+
+    if (routeParam) {
+      routeParams[routeParam.in].push(routeParam);
     }
   });
 
   // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
-  _.each(pathParamMatches, (match) => {
-    const paramName = _.replace(match, /\{|\}/g, "");
-
-    if (!paramName) return;
-
-    const alreadyExist = _.some(routeParams.path, (parameter) => parameter.name === paramName);
+  _.each(pathParams, (pathParam) => {
+    const alreadyExist = _.some(routeParams.path, (parameter) => parameter.name === pathParam.name);
 
     if (!alreadyExist) {
-      routeParams.path.push({
-        name: paramName,
-        required: true,
-        type: "string",
-        description: "",
-        in: "path",
-      });
+      routeParams.path.push(pathParam);
     }
   });
 
@@ -280,6 +331,7 @@ const CONTENT_KIND = {
   JSON: "JSON",
   URL_ENCODED: "URL_ENCODED",
   FORM_DATA: "FORM_DATA",
+  IMAGE: "IMAGE",
   OTHER: "OTHER",
 };
 
@@ -294,6 +346,10 @@ const getContentKind = (contentTypes) => {
 
   if (contentTypes.includes("multipart/form-data")) {
     return CONTENT_KIND.FORM_DATA;
+  }
+
+  if (_.some(contentTypes, (contentType) => _.includes(contentType, "image/"))) {
+    return CONTENT_KIND.IMAGE;
   }
 
   return CONTENT_KIND.OTHER;
@@ -319,7 +375,11 @@ const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
     type = getInlineParseContent(schema);
   } else if (requestBody) {
     schema = requestBody;
-    type = getTypeFromRequestInfo(requestBody, parsedSchemas, operationId);
+    type = getTypeFromRequestInfo({
+      requestInfo: requestBody,
+      parsedSchemas,
+      operationId,
+    });
 
     // TODO: Refactor that.
     // It needed for cases when swagger schema is not declared request body type as form data
@@ -345,7 +405,12 @@ const getResponseBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
 
   const contentTypes = getContentTypes(responses, [...(produces || []), routeInfo["x-accepts"]]);
 
-  const responseInfos = getRequestInfoTypes(responses, parsedSchemas, operationId);
+  const responseInfos = getRequestInfoTypes({
+    requestInfos: responses,
+    parsedSchemas,
+    operationId,
+    defaultType: config.defaultResponseType || TS_KEYWORDS.VOID,
+  });
 
   const successResponse = responseInfos.find((response) => response.isSuccess);
   const errorResponses = responseInfos.filter(
@@ -373,8 +438,8 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
     routeNameDuplicatesMap: new Map(),
   });
 
-  return pathsEntries.reduce((routes, [route, routeInfoByMethodsMap]) => {
-    if (route.startsWith("x-")) return routes;
+  return pathsEntries.reduce((routes, [rawRoute, routeInfoByMethodsMap]) => {
+    if (rawRoute.startsWith("x-")) return routes;
 
     const routeInfosMap = createRequestsMap(routeInfoByMethodsMap);
 
@@ -395,6 +460,7 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           consumes,
           ...otherInfo
         } = routeInfo;
+        const { route, pathParams } = parseRoute(rawRoute);
 
         const routeId = nanoid(12);
         const moduleName = _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
@@ -403,7 +469,7 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           (security && security.length)
         );
 
-        const routeParams = getRouteParams(routeInfo, route);
+        const routeParams = getRouteParams(routeInfo, pathParams);
 
         const pathArgs = routeParams.path.map((pathArgSchema) => ({
           name: pathArgSchema.name,
@@ -416,11 +482,13 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
         const responseBodyInfo = getResponseBodyInfo(routeInfo, routeParams, parsedSchemas);
 
         const queryObjectSchema = convertRouteParamsIntoObject(routeParams.query);
+        const pathObjectSchema = convertRouteParamsIntoObject(routeParams.path);
+        const headersObjectSchema = convertRouteParamsIntoObject(routeParams.header);
 
         const routeName = getRouteName({
           operationId,
           method,
-          route,
+          route: rawRoute,
           moduleName,
           responsesTypes: responseBodyInfo.responses,
           description,
@@ -439,6 +507,10 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
 
         const queryType = routeParams.query.length
           ? getInlineParseContent(queryObjectSchema)
+          : null;
+        const pathType = routeParams.path.length ? getInlineParseContent(pathObjectSchema) : null;
+        const headersType = routeParams.header.length
+          ? getInlineParseContent(headersObjectSchema)
           : null;
 
         const specificArgs = {
@@ -464,7 +536,24 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
               : "params",
             optional: true,
             type: "RequestParams",
+            defaultValue: "{}",
           },
+          pathParams: pathType
+            ? {
+                name: pathArgs.some((pathArg) => pathArg.name === "path") ? "pathParams" : "path",
+                optional: parseSchema(pathObjectSchema, null).allFieldsAreOptional,
+                type: pathType,
+              }
+            : void 0,
+          headers: headersType
+            ? {
+                name: pathArgs.some((pathArg) => pathArg.name === "headers")
+                  ? "headersParams"
+                  : "headers",
+                optional: parseSchema(headersObjectSchema, null).allFieldsAreOptional,
+                type: headersType,
+              }
+            : void 0,
         };
 
         let routeArgs = _.compact([...pathArgs, specificArgs.query, specificArgs.body]);
@@ -492,25 +581,6 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
 
         routeArgs.push(specificArgs.requestParams);
 
-        // TODO: get args for formData
-        // "name": "file",
-        // "in": "formData",
-
-        // const responsesInfos = _.reduce(responses, (acc, response, status) => {
-
-        //   const type = getTypeFromRequestInfo(response, parsedSchemas, 'application/json');
-
-        //   if (type) {
-        //     acc.push(`@response`)
-        //     acc.push(`  status: ${status === 'default' ? 200 : status}`)
-        //     acc.push(`  type: ${type}`)
-        //     if (response.description) {
-        //       acc.push(`  description: ${response.description}`)
-        //     }
-        //   }
-        //   return acc;
-        // }, [' '])
-
         const routeData = {
           id: routeId,
           namespace: _.replace(moduleName, /^(\d)/, "v$1"),
@@ -518,18 +588,27 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           routeParams,
           requestBodyInfo,
           responseBodyInfo,
+          specificArgs,
+          queryObjectSchema,
+          pathObjectSchema,
+          headersObjectSchema,
+          responseBodySchema: responseBodyInfo.success.schema,
+          requestBodySchema: requestBodyInfo.schema,
           request: {
             contentTypes: requestBodyInfo.contentTypes,
             parameters: pathArgs,
-            query: specificArgs.query,
-            path: route.replace(/{/g, "${"),
+            path: route,
             formData: requestBodyInfo.contentKind === CONTENT_KIND.FORM_DATA,
             isQueryBody: requestBodyInfo.contentKind === CONTENT_KIND.URL_ENCODED,
             security: hasSecurity,
             method: method,
+            requestParams: requestParamsSchema,
+
             payload: specificArgs.body,
             params: specificArgs.requestParams,
-            requestParams: requestParamsSchema,
+            query: specificArgs.query,
+            pathParams: specificArgs.pathParams,
+            headers: specificArgs.headers,
           },
           response: {
             contentTypes: responseBodyInfo.contentTypes,
@@ -539,7 +618,7 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           raw: {
             operationId,
             method,
-            route,
+            route: rawRoute,
             moduleName,
             responsesTypes: responseBodyInfo.responses,
             description,
@@ -587,7 +666,30 @@ const groupRoutes = (routes) => {
 
         acc.combined.push({
           moduleName,
-          routes: packRoutes,
+          routes: _.map(packRoutes, (route) => {
+            const { original: originalName, usage: usageName } = route.routeName;
+
+            // TODO: https://github.com/acacode/swagger-typescript-api/issues/152
+            // TODO: refactor
+            if (
+              packRoutes.length > 1 &&
+              usageName !== originalName &&
+              !_.some(
+                packRoutes,
+                ({ routeName, id }) => id !== route.id && originalName === routeName.original,
+              )
+            ) {
+              return {
+                ...route,
+                routeName: {
+                  ...route.routeName,
+                  usage: originalName,
+                },
+              };
+            }
+
+            return route;
+          }),
         });
       }
       return acc;

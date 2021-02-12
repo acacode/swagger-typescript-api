@@ -1694,45 +1694,68 @@ export interface UserUpdate {
   name?: string;
 }
 export declare type Users = User[];
-export declare type RequestParams = Omit<RequestInit, "body" | "method"> & {
+export declare type QueryParamsType = Record<string | number, any>;
+export declare type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
+export interface FullRequestParams extends Omit<RequestInit, "body"> {
+  /** set parameter to `true` for call `securityWorker` for this request */
   secure?: boolean;
-};
-export declare type RequestQueryParamsType = Record<string | number, any>;
-interface ApiConfig<SecurityDataType> {
+  /** request path */
+  path: string;
+  /** content type of request body */
+  type?: ContentType;
+  /** query params */
+  query?: QueryParamsType;
+  /** format of response (i.e. response.json() -> format: "json") */
+  format?: keyof Omit<Body, "body" | "bodyUsed">;
+  /** request body */
+  body?: unknown;
+  /** base url */
   baseUrl?: string;
-  baseApiParams?: RequestParams;
-  securityWorker?: (securityData: SecurityDataType) => RequestParams;
+  /** request cancellation token */
+  cancelToken?: CancelToken;
+}
+export declare type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
+interface ApiConfig<SecurityDataType = unknown> {
+  baseUrl?: string;
+  baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
+  securityWorker?: (securityData: SecurityDataType) => RequestParams | void;
 }
 interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
   data: D;
   error: E;
 }
-declare enum BodyType {
-  Json = 0,
-  FormData = 1,
-  UrlEncoded = 2,
+declare type CancelToken = Symbol | string | number;
+export declare enum ContentType {
+  Json = "application/json",
+  FormData = "multipart/form-data",
+  UrlEncoded = "application/x-www-form-urlencoded",
 }
 export declare class HttpClient<SecurityDataType = unknown> {
   baseUrl: string;
   private securityData;
   private securityWorker;
+  private abortControllers;
   private baseApiParams;
   constructor(apiConfig?: ApiConfig<SecurityDataType>);
   setSecurityData: (data: SecurityDataType) => void;
   private addQueryParam;
-  protected toQueryString(rawQuery?: RequestQueryParamsType): string;
-  protected addQueryParams(rawQuery?: RequestQueryParamsType): string;
-  private bodyFormatters;
-  private mergeRequestOptions;
-  private safeParseResponse;
-  request: <T = any, E = any>(
-    path: string,
-    method: string,
-    { secure, ...params }?: RequestParams,
-    body?: any,
-    bodyType?: BodyType,
-    secureByDefault?: boolean,
-  ) => Promise<HttpResponse<T, unknown>>;
+  protected toQueryString(rawQuery?: QueryParamsType): string;
+  protected addQueryParams(rawQuery?: QueryParamsType): string;
+  private contentFormatters;
+  private mergeRequestParams;
+  private createAbortSignal;
+  abortRequest: (cancelToken: CancelToken) => void;
+  request: <T = any, E = any>({
+    body,
+    secure,
+    path,
+    type,
+    query,
+    format,
+    baseUrl,
+    cancelToken,
+    ...params
+  }: FullRequestParams) => Promise<HttpResponse<T, E>>;
 }
 /**
  * @title GitHub
@@ -1740,7 +1763,7 @@ export declare class HttpClient<SecurityDataType = unknown> {
  * @baseUrl https://api.github.com
  * Powerful collaboration, code review, and code management for open source and private projects.
  */
-export declare class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
+export declare class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   emojis: {
     /**
      * @description Lists all the emojis available to use on GitHub.
@@ -1748,7 +1771,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      * @name EmojisList
      * @request GET:/emojis
      */
-    emojisList: (params?: RequestParams) => Promise<HttpResponse<Record<string, string>, unknown>>;
+    emojisList: (params?: RequestParams) => Promise<HttpResponse<Record<string, string>, void>>;
   };
   events: {
     /**
@@ -1757,7 +1780,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      * @name EventsList
      * @request GET:/events
      */
-    eventsList: (params?: RequestParams) => Promise<HttpResponse<Events, unknown>>;
+    eventsList: (params?: RequestParams) => Promise<HttpResponse<Events, void>>;
   };
   feeds: {
     /**
@@ -1766,7 +1789,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      * @name FeedsList
      * @request GET:/feeds
      */
-    feedsList: (params?: RequestParams) => Promise<HttpResponse<Feeds, unknown>>;
+    feedsList: (params?: RequestParams) => Promise<HttpResponse<Feeds, void>>;
   };
   gists: {
     /**
@@ -1780,14 +1803,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Gists, unknown>>;
+    ) => Promise<HttpResponse<Gists, void>>;
     /**
      * @description Create a gist.
      *
      * @name GistsCreate
      * @request POST:/gists
      */
-    gistsCreate: (body: PostGist, params?: RequestParams) => Promise<HttpResponse<Gist, unknown>>;
+    gistsCreate: (body: PostGist, params?: RequestParams) => Promise<HttpResponse<Gist, void>>;
     /**
      * @description List all public gists.
      *
@@ -1799,7 +1822,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Gists, unknown>>;
+    ) => Promise<HttpResponse<Gists, void>>;
     /**
      * @description List the authenticated user's starred gists.
      *
@@ -1811,49 +1834,49 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Gists, unknown>>;
+    ) => Promise<HttpResponse<Gists, void>>;
     /**
      * @description Delete a gist.
      *
      * @name GistsDelete
      * @request DELETE:/gists/{id}
      */
-    gistsDelete: (id: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    gistsDelete: (id: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get a single gist.
      *
      * @name GistsDetail
      * @request GET:/gists/{id}
      */
-    gistsDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<Gist, unknown>>;
+    gistsDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<Gist, void>>;
     /**
      * @description Edit a gist.
      *
      * @name GistsPartialUpdate
      * @request PATCH:/gists/{id}
      */
-    gistsPartialUpdate: (id: number, body: PatchGist, params?: RequestParams) => Promise<HttpResponse<Gist, unknown>>;
+    gistsPartialUpdate: (id: number, body: PatchGist, params?: RequestParams) => Promise<HttpResponse<Gist, void>>;
     /**
      * @description List comments on a gist.
      *
      * @name CommentsDetail
      * @request GET:/gists/{id}/comments
      */
-    commentsDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<Comments, unknown>>;
+    commentsDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<Comments, void>>;
     /**
      * @description Create a commen
      *
      * @name CommentsCreate
      * @request POST:/gists/{id}/comments
      */
-    commentsCreate: (id: number, body: CommentBody, params?: RequestParams) => Promise<HttpResponse<Comment, unknown>>;
+    commentsCreate: (id: number, body: CommentBody, params?: RequestParams) => Promise<HttpResponse<Comment, void>>;
     /**
      * @description Delete a comment.
      *
      * @name CommentsDelete
      * @request DELETE:/gists/{id}/comments/{commentId}
      */
-    commentsDelete: (id: number, commentId: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    commentsDelete: (id: number, commentId: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get a single comment.
      *
@@ -1862,7 +1885,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      * @originalName commentsDetail
      * @duplicate
      */
-    commentsDetail2: (id: number, commentId: number, params?: RequestParams) => Promise<HttpResponse<Comment, unknown>>;
+    commentsDetail2: (id: number, commentId: number, params?: RequestParams) => Promise<HttpResponse<Comment, void>>;
     /**
      * @description Edit a comment.
      *
@@ -1874,35 +1897,35 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       commentId: number,
       body: Comment,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Comment, unknown>>;
+    ) => Promise<HttpResponse<Comment, void>>;
     /**
      * @description Fork a gist.
      *
      * @name ForksCreate
      * @request POST:/gists/{id}/forks
      */
-    forksCreate: (id: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    forksCreate: (id: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Unstar a gist.
      *
      * @name StarDelete
      * @request DELETE:/gists/{id}/star
      */
-    starDelete: (id: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    starDelete: (id: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Check if a gist is starred.
      *
      * @name StarDetail
      * @request GET:/gists/{id}/star
      */
-    starDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    starDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Star a gist.
      *
      * @name StarUpdate
      * @request PUT:/gists/{id}/star
      */
-    starUpdate: (id: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    starUpdate: (id: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
   };
   gitignore: {
     /**
@@ -1911,14 +1934,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      * @name TemplatesList
      * @request GET:/gitignore/templates
      */
-    templatesList: (params?: RequestParams) => Promise<HttpResponse<Gitignore, unknown>>;
+    templatesList: (params?: RequestParams) => Promise<HttpResponse<Gitignore, void>>;
     /**
      * @description Get a single template.
      *
      * @name TemplatesDetail
      * @request GET:/gitignore/templates/{language}
      */
-    templatesDetail: (language: string, params?: RequestParams) => Promise<HttpResponse<GitignoreLang, unknown>>;
+    templatesDetail: (language: string, params?: RequestParams) => Promise<HttpResponse<GitignoreLang, void>>;
   };
   issues: {
     /**
@@ -1937,7 +1960,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Issues, unknown>>;
+    ) => Promise<HttpResponse<Issues, void>>;
   };
   legacy: {
     /**
@@ -1952,7 +1975,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       owner: string,
       repository: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<SearchIssuesByKeyword, unknown>>;
+    ) => Promise<HttpResponse<SearchIssuesByKeyword, void>>;
     /**
      * @description Find repositories by keyword. Note, this legacy method does not follow the v3 pagination pattern. This method returns up to 100 results per page and pages can be fetched using the start_page parameter.
      *
@@ -1968,14 +1991,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         sort?: "updated" | "stars" | "forks";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<SearchRepositoriesByKeyword, unknown>>;
+    ) => Promise<HttpResponse<SearchRepositoriesByKeyword, void>>;
     /**
      * @description This API call is added for compatibility reasons only.
      *
      * @name UserEmailDetail
      * @request GET:/legacy/user/email/{email}
      */
-    userEmailDetail: (email: string, params?: RequestParams) => Promise<HttpResponse<SearchUserByEmail, unknown>>;
+    userEmailDetail: (email: string, params?: RequestParams) => Promise<HttpResponse<SearchUserByEmail, void>>;
     /**
      * @description Find users by keyword.
      *
@@ -1990,7 +2013,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         sort?: "updated" | "stars" | "forks";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<SearchUsersByKeyword, unknown>>;
+    ) => Promise<HttpResponse<SearchUsersByKeyword, void>>;
   };
   markdown: {
     /**
@@ -1999,14 +2022,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      * @name MarkdownCreate
      * @request POST:/markdown
      */
-    markdownCreate: (body: Markdown, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    markdownCreate: (body: Markdown, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Render a Markdown document in raw mode
      *
      * @name PostMarkdown
      * @request POST:/markdown/raw
      */
-    postMarkdown: (params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    postMarkdown: (params?: RequestParams) => Promise<HttpResponse<void, void>>;
   };
   meta: {
     /**
@@ -2015,7 +2038,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      * @name MetaList
      * @request GET:/meta
      */
-    metaList: (params?: RequestParams) => Promise<HttpResponse<Meta, unknown>>;
+    metaList: (params?: RequestParams) => Promise<HttpResponse<Meta, void>>;
   };
   networks: {
     /**
@@ -2024,7 +2047,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      * @name EventsDetail
      * @request GET:/networks/{owner}/{repo}/events
      */
-    eventsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Events, unknown>>;
+    eventsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Events, void>>;
   };
   notifications: {
     /**
@@ -2040,42 +2063,42 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Notifications, unknown>>;
+    ) => Promise<HttpResponse<Notifications, void>>;
     /**
      * @description Mark as read. Marking a notification as "read" removes it from the default view on GitHub.com.
      *
      * @name NotificationsUpdate
      * @request PUT:/notifications
      */
-    notificationsUpdate: (body: NotificationMarkRead, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    notificationsUpdate: (body: NotificationMarkRead, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description View a single thread.
      *
      * @name ThreadsDetail
      * @request GET:/notifications/threads/{id}
      */
-    threadsDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<Notifications, unknown>>;
+    threadsDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<Notifications, void>>;
     /**
      * @description Mark a thread as read
      *
      * @name ThreadsPartialUpdate
      * @request PATCH:/notifications/threads/{id}
      */
-    threadsPartialUpdate: (id: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    threadsPartialUpdate: (id: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Delete a Thread Subscription.
      *
      * @name ThreadsSubscriptionDelete
      * @request DELETE:/notifications/threads/{id}/subscription
      */
-    threadsSubscriptionDelete: (id: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    threadsSubscriptionDelete: (id: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get a Thread Subscription.
      *
      * @name ThreadsSubscriptionDetail
      * @request GET:/notifications/threads/{id}/subscription
      */
-    threadsSubscriptionDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<Subscription, unknown>>;
+    threadsSubscriptionDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<Subscription, void>>;
     /**
      * @description Set a Thread Subscription. This lets you subscribe to a thread, or ignore it. Subscribing to a thread is unnecessary if the user is already subscribed to the repository. Ignoring a thread will mute all future notifications (until you comment or get @mentioned).
      *
@@ -2086,7 +2109,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       id: number,
       body: PutSubscription,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Subscription, unknown>>;
+    ) => Promise<HttpResponse<Subscription, void>>;
   };
   orgs: {
     /**
@@ -2095,21 +2118,21 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      * @name OrgsDetail
      * @request GET:/orgs/{org}
      */
-    orgsDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    orgsDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<any, void>>;
     /**
      * @description Edit an Organization.
      *
      * @name OrgsPartialUpdate
      * @request PATCH:/orgs/{org}
      */
-    orgsPartialUpdate: (org: string, body: PatchOrg, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    orgsPartialUpdate: (org: string, body: PatchOrg, params?: RequestParams) => Promise<HttpResponse<any, void>>;
     /**
      * @description List public events for an organization.
      *
      * @name EventsDetail
      * @request GET:/orgs/{org}/events
      */
-    eventsDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Events, unknown>>;
+    eventsDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Events, void>>;
     /**
      * @description List issues. List all issues for a given organization for the authenticated user.
      *
@@ -2127,21 +2150,21 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Issues, unknown>>;
+    ) => Promise<HttpResponse<Issues, void>>;
     /**
      * @description Members list. List all users who are members of an organization. A member is a user tha belongs to at least 1 team in the organization. If the authenticated user is also an owner of this organization then both concealed and public members will be returned. If the requester is not an owner of the organization the query will be redirected to the public members list.
      *
      * @name MembersDetail
      * @request GET:/orgs/{org}/members
      */
-    membersDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
+    membersDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Users, void>>;
     /**
      * @description Remove a member. Removing a user from this list will remove them from all teams and they will no longer have any access to the organization's repositories.
      *
      * @name MembersDelete
      * @request DELETE:/orgs/{org}/members/{username}
      */
-    membersDelete: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    membersDelete: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Check if a user is, publicly or privately, a member of the organization.
      *
@@ -2150,21 +2173,21 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      * @originalName membersDetail
      * @duplicate
      */
-    membersDetail2: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    membersDetail2: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Public members list. Members of an organization can choose to have their membership publicized or not.
      *
      * @name PublicMembersDetail
      * @request GET:/orgs/{org}/public_members
      */
-    publicMembersDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
+    publicMembersDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Users, void>>;
     /**
      * @description Conceal a user's membership.
      *
      * @name PublicMembersDelete
      * @request DELETE:/orgs/{org}/public_members/{username}
      */
-    publicMembersDelete: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    publicMembersDelete: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Check public membership.
      *
@@ -2173,18 +2196,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      * @originalName publicMembersDetail
      * @duplicate
      */
-    publicMembersDetail2: (
-      org: string,
-      username: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    publicMembersDetail2: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Publicize a user's membership.
      *
      * @name PublicMembersUpdate
      * @request PUT:/orgs/{org}/public_members/{username}
      */
-    publicMembersUpdate: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    publicMembersUpdate: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description List repositories for the specified org.
      *
@@ -2197,28 +2216,28 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Repos, unknown>>;
+    ) => Promise<HttpResponse<Repos, void>>;
     /**
      * @description Create a new repository for the authenticated user. OAuth users must supply repo scope.
      *
      * @name ReposCreate
      * @request POST:/orgs/{org}/repos
      */
-    reposCreate: (org: string, body: PostRepo, params?: RequestParams) => Promise<HttpResponse<Repos, unknown>>;
+    reposCreate: (org: string, body: PostRepo, params?: RequestParams) => Promise<HttpResponse<Repos, void>>;
     /**
      * @description List teams.
      *
      * @name TeamsDetail
      * @request GET:/orgs/{org}/teams
      */
-    teamsDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Teams, unknown>>;
+    teamsDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Teams, void>>;
     /**
      * @description Create team. In order to create a team, the authenticated user must be an owner of organization.
      *
      * @name TeamsCreate
      * @request POST:/orgs/{org}/teams
      */
-    teamsCreate: (org: string, body: OrgTeamsPost, params?: RequestParams) => Promise<HttpResponse<Team, unknown>>;
+    teamsCreate: (org: string, body: OrgTeamsPost, params?: RequestParams) => Promise<HttpResponse<Team, void>>;
   };
   rateLimit: {
     /**
@@ -2227,7 +2246,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      * @name RateLimitList
      * @request GET:/rate_limit
      */
-    rateLimitList: (params?: RequestParams) => Promise<HttpResponse<RateLimit, unknown>>;
+    rateLimitList: (params?: RequestParams) => Promise<HttpResponse<RateLimit, void>>;
   };
   repos: {
     /**
@@ -2236,14 +2255,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      * @name ReposDelete
      * @request DELETE:/repos/{owner}/{repo}
      */
-    reposDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    reposDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get repository.
      *
      * @name ReposDetail
      * @request GET:/repos/{owner}/{repo}
      */
-    reposDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Repo, unknown>>;
+    reposDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Repo, void>>;
     /**
      * @description Edit repository.
      *
@@ -2255,14 +2274,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: RepoEdit,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Repo, unknown>>;
+    ) => Promise<HttpResponse<Repo, void>>;
     /**
      * @description List assignees. This call lists all the available assignees (owner + collaborators) to which issues may be assigned.
      *
      * @name AssigneesDetail
      * @request GET:/repos/{owner}/{repo}/assignees
      */
-    assigneesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Assignees, unknown>>;
+    assigneesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Assignees, void>>;
     /**
      * @description Check assignee. You may also check to see if a particular user is an assignee for a repository.
      *
@@ -2276,14 +2295,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       assignee: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get list of branches
      *
      * @name BranchesDetail
      * @request GET:/repos/{owner}/{repo}/branches
      */
-    branchesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Branches, unknown>>;
+    branchesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Branches, void>>;
     /**
      * @description Get Branch
      *
@@ -2297,14 +2316,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       branch: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Branch, unknown>>;
+    ) => Promise<HttpResponse<Branch, void>>;
     /**
      * @description List. When authenticating as an organization owner of an organization-owned repository, all organization owners are included in the list of collaborators. Otherwise, only users with access to the repository are returned in the collaborators list.
      *
      * @name CollaboratorsDetail
      * @request GET:/repos/{owner}/{repo}/collaborators
      */
-    collaboratorsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
+    collaboratorsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, void>>;
     /**
      * @description Remove collaborator.
      *
@@ -2316,7 +2335,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       user: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Check if user is a collaborator
      *
@@ -2330,7 +2349,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       user: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Add collaborator.
      *
@@ -2342,18 +2361,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       user: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description List commit comments for a repository. Comments are ordered by ascending ID.
      *
      * @name CommentsDetail
      * @request GET:/repos/{owner}/{repo}/comments
      */
-    commentsDetail: (
-      owner: string,
-      repo: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<RepoComments, unknown>>;
+    commentsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<RepoComments, void>>;
     /**
      * @description Delete a commit comment
      *
@@ -2365,7 +2380,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       commentId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get a single commit comment.
      *
@@ -2379,7 +2394,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       commentId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<CommitComment, unknown>>;
+    ) => Promise<HttpResponse<CommitComment, void>>;
     /**
      * @description Update a commit comment.
      *
@@ -2392,7 +2407,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       commentId: number,
       body: CommentBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<CommitComment, unknown>>;
+    ) => Promise<HttpResponse<CommitComment, void>>;
     /**
      * @description List commits on a repository.
      *
@@ -2410,7 +2425,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         until?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Commits, unknown>>;
+    ) => Promise<HttpResponse<Commits, void>>;
     /**
      * @description Get the combined Status for a specific Ref The Combined status endpoint is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the blog post for full details. To access this endpoint during the preview period, you must provide a custom media type in the Accept header: application/vnd.github.she-hulk-preview+json
      *
@@ -2422,7 +2437,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       ref: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<RefStatus, unknown>>;
+    ) => Promise<HttpResponse<RefStatus, void>>;
     /**
      * @description Get a single commit.
      *
@@ -2436,7 +2451,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       shaCode: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Commit, unknown>>;
+    ) => Promise<HttpResponse<Commit, void>>;
     /**
      * @description List comments for a single commitList comments for a single commit.
      *
@@ -2448,7 +2463,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       shaCode: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<RepoComments, unknown>>;
+    ) => Promise<HttpResponse<RepoComments, void>>;
     /**
      * @description Create a commit comment.
      *
@@ -2461,7 +2476,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       shaCode: string,
       body: CommitCommentBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<CommitComment, unknown>>;
+    ) => Promise<HttpResponse<CommitComment, void>>;
     /**
      * @description Compare two commits
      *
@@ -2474,7 +2489,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       baseId: string,
       headId: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<CompareCommits, unknown>>;
+    ) => Promise<HttpResponse<CompareCommits, void>>;
     /**
      * @description Delete a file. This method deletes a file in a repository.
      *
@@ -2487,7 +2502,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       path: string,
       body: DeleteFileBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<DeleteFile, unknown>>;
+    ) => Promise<HttpResponse<DeleteFile, void>>;
     /**
      * @description Get contents. This method returns the contents of a file or directory in a repository. Files and symlinks support a custom media type for getting the raw content. Directories and submodules do not support custom media types. Note: This API supports files up to 1 megabyte in size. Here can be many outcomes. For details see "http://developer.github.com/v3/repos/contents/"
      *
@@ -2503,7 +2518,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         ref?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<ContentsPath, unknown>>;
+    ) => Promise<HttpResponse<ContentsPath, void>>;
     /**
      * @description Create a file.
      *
@@ -2516,7 +2531,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       path: string,
       body: CreateFileBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<CreateFile, unknown>>;
+    ) => Promise<HttpResponse<CreateFile, void>>;
     /**
      * @description Get list of contributors.
      *
@@ -2530,7 +2545,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         anon: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Users, unknown>>;
+    ) => Promise<HttpResponse<Users, void>>;
     /**
      * @description Users with pull access can view deployments for a repository
      *
@@ -2541,7 +2556,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<RepoDeployments, unknown>>;
+    ) => Promise<HttpResponse<RepoDeployments, void>>;
     /**
      * @description Users with push access can create a deployment for a given ref
      *
@@ -2553,7 +2568,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: Deployment,
       params?: RequestParams,
-    ) => Promise<HttpResponse<DeploymentResp, unknown>>;
+    ) => Promise<HttpResponse<DeploymentResp, void>>;
     /**
      * @description Users with pull access can view deployment statuses for a deployment
      *
@@ -2565,7 +2580,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       id: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<DeploymentStatuses, unknown>>;
+    ) => Promise<HttpResponse<DeploymentStatuses, void>>;
     /**
      * @description Create a Deployment Status Users with push access can create deployment statuses for a given deployment:
      *
@@ -2578,14 +2593,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       id: number,
       body: DeploymentStatusesCreate,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Deprecated. List downloads for a repository.
      *
      * @name DownloadsDetail
      * @request GET:/repos/{owner}/{repo}/downloads
      */
-    downloadsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Downloads, unknown>>;
+    downloadsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Downloads, void>>;
     /**
      * @description Deprecated. Delete a download.
      *
@@ -2597,7 +2612,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       downloadId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Deprecated. Get a single download.
      *
@@ -2611,14 +2626,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       downloadId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Download, unknown>>;
+    ) => Promise<HttpResponse<Download, void>>;
     /**
      * @description Get list of repository events.
      *
      * @name EventsDetail
      * @request GET:/repos/{owner}/{repo}/events
      */
-    eventsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Events, unknown>>;
+    eventsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Events, void>>;
     /**
      * @description List forks.
      *
@@ -2632,7 +2647,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         sort?: "newes" | "oldes" | "watchers";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Repos, unknown>>;
+    ) => Promise<HttpResponse<Repos, void>>;
     /**
      * @description Create a fork. Forking a Repository happens asynchronously. Therefore, you may have to wai a short period before accessing the git objects. If this takes longer than 5 minutes, be sure to contact Support.
      *
@@ -2644,7 +2659,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: ForkBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Repo, unknown>>;
+    ) => Promise<HttpResponse<Repo, void>>;
     /**
      * @description Create a Blob.
      *
@@ -2656,7 +2671,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: Blob,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Blobs, unknown>>;
+    ) => Promise<HttpResponse<Blobs, void>>;
     /**
      * @description Get a Blob. Since blobs can be any arbitrary binary data, the input and responses for the blob API takes an encoding parameter that can be either utf-8 or base64. If your data cannot be losslessly sent as a UTF-8 string, you can base64 encode it.
      *
@@ -2668,7 +2683,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       shaCode: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Blob, unknown>>;
+    ) => Promise<HttpResponse<Blob, void>>;
     /**
      * @description Create a Commit.
      *
@@ -2680,7 +2695,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: RepoCommitBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<GitCommit, unknown>>;
+    ) => Promise<HttpResponse<GitCommit, void>>;
     /**
      * @description Get a Commit.
      *
@@ -2692,14 +2707,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       shaCode: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<RepoCommit, unknown>>;
+    ) => Promise<HttpResponse<RepoCommit, void>>;
     /**
      * @description Get all References
      *
      * @name GitRefsDetail
      * @request GET:/repos/{owner}/{repo}/git/refs
      */
-    gitRefsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Refs, unknown>>;
+    gitRefsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Refs, void>>;
     /**
      * @description Create a Reference
      *
@@ -2711,7 +2726,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: RefsBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<HeadBranch, unknown>>;
+    ) => Promise<HttpResponse<HeadBranch, void>>;
     /**
      * @description Delete a Reference Example: Deleting a branch: DELETE /repos/octocat/Hello-World/git/refs/heads/feature-a Example: Deleting a tag:        DELETE /repos/octocat/Hello-World/git/refs/tags/v1.0
      *
@@ -2723,7 +2738,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       ref: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get a Reference
      *
@@ -2737,7 +2752,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       ref: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<HeadBranch, unknown>>;
+    ) => Promise<HttpResponse<HeadBranch, void>>;
     /**
      * @description Update a Reference
      *
@@ -2750,7 +2765,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       ref: string,
       body: GitRefPatch,
       params?: RequestParams,
-    ) => Promise<HttpResponse<HeadBranch, unknown>>;
+    ) => Promise<HttpResponse<HeadBranch, void>>;
     /**
      * @description Create a Tag Object. Note that creating a tag object does not create the reference that makes a tag in Git. If you want to create an annotated tag in Git, you have to do this call to create the tag object, and then create the refs/tags/[tag] reference. If you want to create a lightweight tag, you only have to create the tag reference - this call would be unnecessary.
      *
@@ -2762,7 +2777,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: TagBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Tag, unknown>>;
+    ) => Promise<HttpResponse<Tag, void>>;
     /**
      * @description Get a Tag.
      *
@@ -2774,7 +2789,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       shaCode: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Tag, unknown>>;
+    ) => Promise<HttpResponse<Tag, void>>;
     /**
      * @description Create a Tree. The tree creation API will take nested entries as well. If both a tree and a nested path modifying that tree are specified, it will overwrite the contents of that tree with the new path contents and write a new tree out.
      *
@@ -2786,7 +2801,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: Tree,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Trees, unknown>>;
+    ) => Promise<HttpResponse<Trees, void>>;
     /**
      * @description Get a Tree.
      *
@@ -2801,14 +2816,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         recursive?: number;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Tree, unknown>>;
+    ) => Promise<HttpResponse<Tree, void>>;
     /**
      * @description Get list of hooks.
      *
      * @name HooksDetail
      * @request GET:/repos/{owner}/{repo}/hooks
      */
-    hooksDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Hook, unknown>>;
+    hooksDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Hook, void>>;
     /**
      * @description Create a hook.
      *
@@ -2820,7 +2835,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: HookBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Hook, unknown>>;
+    ) => Promise<HttpResponse<Hook, void>>;
     /**
      * @description Delete a hook.
      *
@@ -2832,7 +2847,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       hookId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get single hook.
      *
@@ -2846,7 +2861,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       hookId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Hook, unknown>>;
+    ) => Promise<HttpResponse<Hook, void>>;
     /**
      * @description Edit a hook.
      *
@@ -2859,7 +2874,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       hookId: number,
       body: HookBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Hook, unknown>>;
+    ) => Promise<HttpResponse<Hook, void>>;
     /**
      * @description Test a push hook. This will trigger the hook with the latest push to the current repository if the hook is subscribed to push events. If the hook is not subscribed to push events, the server will respond with 204 but no test POST will be generated. Note: Previously /repos/:owner/:repo/hooks/:id/tes
      *
@@ -2871,7 +2886,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       hookId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description List issues for a repository.
      *
@@ -2890,7 +2905,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Issues, unknown>>;
+    ) => Promise<HttpResponse<Issues, void>>;
     /**
      * @description Create an issue. Any user with pull access to a repository can create an issue.
      *
@@ -2902,7 +2917,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: Issue,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Issue, unknown>>;
+    ) => Promise<HttpResponse<Issue, void>>;
     /**
      * @description List comments in a repository.
      *
@@ -2918,7 +2933,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssuesComments, unknown>>;
+    ) => Promise<HttpResponse<IssuesComments, void>>;
     /**
      * @description Delete a comment.
      *
@@ -2930,7 +2945,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       commentId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get a single comment.
      *
@@ -2944,7 +2959,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       commentId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssuesComment, unknown>>;
+    ) => Promise<HttpResponse<IssuesComment, void>>;
     /**
      * @description Edit a comment.
      *
@@ -2957,7 +2972,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       commentId: number,
       body: CommentBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssuesComment, unknown>>;
+    ) => Promise<HttpResponse<IssuesComment, void>>;
     /**
      * @description List issue events for a repository.
      *
@@ -2968,7 +2983,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssueEvents, unknown>>;
+    ) => Promise<HttpResponse<IssueEvents, void>>;
     /**
      * @description Get a single event.
      *
@@ -2982,7 +2997,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       eventId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssueEvent, unknown>>;
+    ) => Promise<HttpResponse<IssueEvent, void>>;
     /**
      * @description Get a single issue
      *
@@ -2996,7 +3011,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Issue, unknown>>;
+    ) => Promise<HttpResponse<Issue, void>>;
     /**
      * @description Edit an issue. Issue owners and users with push access can edit an issue.
      *
@@ -3009,7 +3024,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       number: number,
       body: Issue,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Issue, unknown>>;
+    ) => Promise<HttpResponse<Issue, void>>;
     /**
      * @description List comments on an issue.
      *
@@ -3023,7 +3038,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssuesComments, unknown>>;
+    ) => Promise<HttpResponse<IssuesComments, void>>;
     /**
      * @description Create a comment.
      *
@@ -3036,7 +3051,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       number: number,
       body: CommentBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssuesComment, unknown>>;
+    ) => Promise<HttpResponse<IssuesComment, void>>;
     /**
      * @description List events for an issue.
      *
@@ -3050,7 +3065,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssueEvents, unknown>>;
+    ) => Promise<HttpResponse<IssueEvents, void>>;
     /**
      * @description Remove all labels from an issue.
      *
@@ -3062,7 +3077,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description List labels on an issue.
      *
@@ -3074,7 +3089,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Labels, unknown>>;
+    ) => Promise<HttpResponse<Labels, void>>;
     /**
      * @description Add labels to an issue.
      *
@@ -3087,7 +3102,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       number: number,
       body: EmailsPost,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Label, unknown>>;
+    ) => Promise<HttpResponse<Label, void>>;
     /**
      * @description Replace all labels for an issue. Sending an empty array ([]) will remove all Labels from the Issue.
      *
@@ -3100,7 +3115,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       number: number,
       body: EmailsPost,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Label, unknown>>;
+    ) => Promise<HttpResponse<Label, void>>;
     /**
      * @description Remove a label from an issue.
      *
@@ -3115,14 +3130,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       number: number,
       name: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get list of keys.
      *
      * @name KeysDetail
      * @request GET:/repos/{owner}/{repo}/keys
      */
-    keysDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Keys, unknown>>;
+    keysDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Keys, void>>;
     /**
      * @description Create a key.
      *
@@ -3134,7 +3149,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: UserKeysPost,
       params?: RequestParams,
-    ) => Promise<HttpResponse<UserKeysKeyId, unknown>>;
+    ) => Promise<HttpResponse<UserKeysKeyId, void>>;
     /**
      * @description Delete a key.
      *
@@ -3146,7 +3161,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       keyId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get a key
      *
@@ -3160,14 +3175,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       keyId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<UserKeysKeyId, unknown>>;
+    ) => Promise<HttpResponse<UserKeysKeyId, void>>;
     /**
      * @description List all labels for this repository.
      *
      * @name LabelsDetail
      * @request GET:/repos/{owner}/{repo}/labels
      */
-    labelsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Labels, unknown>>;
+    labelsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Labels, void>>;
     /**
      * @description Create a label.
      *
@@ -3179,7 +3194,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: EmailsPost,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Label, unknown>>;
+    ) => Promise<HttpResponse<Label, void>>;
     /**
      * @description Delete a label.
      *
@@ -3191,7 +3206,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       name: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get a single label.
      *
@@ -3205,7 +3220,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       name: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Label, unknown>>;
+    ) => Promise<HttpResponse<Label, void>>;
     /**
      * @description Update a label.
      *
@@ -3218,7 +3233,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       name: string,
       body: EmailsPost,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Label, unknown>>;
+    ) => Promise<HttpResponse<Label, void>>;
     /**
      * @description List languages. List languages for the specified repository. The value on the right of a language is the number of bytes of code written in that language.
      *
@@ -3229,7 +3244,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Record<string, number>, unknown>>;
+    ) => Promise<HttpResponse<Record<string, number>, void>>;
     /**
      * @description Perform a merge.
      *
@@ -3241,7 +3256,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: MergesBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<MergesSuccessful, unknown>>;
+    ) => Promise<HttpResponse<MergesSuccessful, void | MergesConflict>>;
     /**
      * @description List milestones for a repository.
      *
@@ -3257,7 +3272,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         sort?: "due_date" | "completeness";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Milestone, unknown>>;
+    ) => Promise<HttpResponse<Milestone, void>>;
     /**
      * @description Create a milestone.
      *
@@ -3269,7 +3284,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: MilestoneUpdate,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Milestone, unknown>>;
+    ) => Promise<HttpResponse<Milestone, void>>;
     /**
      * @description Delete a milestone.
      *
@@ -3281,7 +3296,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get a single milestone.
      *
@@ -3295,7 +3310,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Milestone, unknown>>;
+    ) => Promise<HttpResponse<Milestone, void>>;
     /**
      * @description Update a milestone.
      *
@@ -3308,7 +3323,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       number: number,
       body: MilestoneUpdate,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Milestone, unknown>>;
+    ) => Promise<HttpResponse<Milestone, void>>;
     /**
      * @description Get labels for every issue in a milestone.
      *
@@ -3320,7 +3335,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Labels, unknown>>;
+    ) => Promise<HttpResponse<Labels, void>>;
     /**
      * @description List your notifications in a repository List all notifications for the current user.
      *
@@ -3336,7 +3351,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Notifications, unknown>>;
+    ) => Promise<HttpResponse<Notifications, void>>;
     /**
      * @description Mark notifications as read in a repository. Marking all notifications in a repository as "read" removes them from the default view on GitHub.com.
      *
@@ -3348,7 +3363,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: NotificationMarkRead,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description List pull requests.
      *
@@ -3364,7 +3379,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         base?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Pulls, unknown>>;
+    ) => Promise<HttpResponse<Pulls, void>>;
     /**
      * @description Create a pull request.
      *
@@ -3376,7 +3391,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: PullsPost,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Pulls, unknown>>;
+    ) => Promise<HttpResponse<Pulls, void>>;
     /**
      * @description List comments in a repository. By default, Review Comments are ordered by ascending ID.
      *
@@ -3392,7 +3407,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssuesComments, unknown>>;
+    ) => Promise<HttpResponse<IssuesComments, void>>;
     /**
      * @description Delete a comment.
      *
@@ -3404,7 +3419,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       commentId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get a single comment.
      *
@@ -3418,7 +3433,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       commentId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<PullsComment, unknown>>;
+    ) => Promise<HttpResponse<PullsComment, void>>;
     /**
      * @description Edit a comment.
      *
@@ -3431,7 +3446,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       commentId: number,
       body: CommentBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<PullsComment, unknown>>;
+    ) => Promise<HttpResponse<PullsComment, void>>;
     /**
      * @description Get a single pull request.
      *
@@ -3445,7 +3460,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<PullRequest, unknown>>;
+    ) => Promise<HttpResponse<PullRequest, void>>;
     /**
      * @description Update a pull request.
      *
@@ -3458,7 +3473,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       number: number,
       body: PullUpdate,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Repo, unknown>>;
+    ) => Promise<HttpResponse<Repo, void>>;
     /**
      * @description List comments on a pull request.
      *
@@ -3472,7 +3487,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<PullsComment, unknown>>;
+    ) => Promise<HttpResponse<PullsComment, void>>;
     /**
      * @description Create a comment. #TODO Alternative input ( http://developer.github.com/v3/pulls/comments/ ) description: | Alternative Input. Instead of passing commit_id, path, and position you can reply to an existing Pull Request Comment like this: body Required string in_reply_to Required number - Comment id to reply to.
      *
@@ -3485,7 +3500,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       number: number,
       body: PullsCommentPost,
       params?: RequestParams,
-    ) => Promise<HttpResponse<PullsComment, unknown>>;
+    ) => Promise<HttpResponse<PullsComment, void>>;
     /**
      * @description List commits on a pull request.
      *
@@ -3497,7 +3512,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Commits, unknown>>;
+    ) => Promise<HttpResponse<Commits, void>>;
     /**
      * @description List pull requests files.
      *
@@ -3509,7 +3524,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Pulls, unknown>>;
+    ) => Promise<HttpResponse<Pulls, void>>;
     /**
      * @description Get if a pull request has been merged.
      *
@@ -3521,7 +3536,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Merge a pull request (Merge Button's)
      *
@@ -3534,7 +3549,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       number: number,
       body: MergePullBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Merge, unknown>>;
+    ) => Promise<HttpResponse<Merge, void | Merge>>;
     /**
      * @description Get the README. This method returns the preferred README for a repository.
      *
@@ -3548,14 +3563,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         ref?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<ContentsPath, unknown>>;
+    ) => Promise<HttpResponse<ContentsPath, void>>;
     /**
      * @description Users with push access to the repository will receive all releases (i.e., published releases and draft releases). Users with pull access will receive published releases only
      *
      * @name ReleasesDetail
      * @request GET:/repos/{owner}/{repo}/releases
      */
-    releasesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Releases, unknown>>;
+    releasesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Releases, void>>;
     /**
      * @description Create a release Users with push access to the repository can create a release.
      *
@@ -3567,7 +3582,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: ReleaseCreate,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Release, unknown>>;
+    ) => Promise<HttpResponse<Release, void>>;
     /**
      * @description Delete a release asset
      *
@@ -3579,7 +3594,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       id: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get a single release asset
      *
@@ -3591,7 +3606,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       id: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Asset, unknown>>;
+    ) => Promise<HttpResponse<Asset, void>>;
     /**
      * @description Edit a release asset Users with push access to the repository can edit a release asset.
      *
@@ -3604,7 +3619,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       id: string,
       body: AssetPatch,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Asset, unknown>>;
+    ) => Promise<HttpResponse<Asset, void>>;
     /**
      * @description Users with push access to the repository can delete a release.
      *
@@ -3616,7 +3631,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       id: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get a single release
      *
@@ -3630,7 +3645,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       id: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Release, unknown>>;
+    ) => Promise<HttpResponse<Release, void>>;
     /**
      * @description Users with push access to the repository can edit a release
      *
@@ -3643,7 +3658,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       id: string,
       body: ReleaseCreate,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Release, unknown>>;
+    ) => Promise<HttpResponse<Release, void>>;
     /**
      * @description List assets for a release
      *
@@ -3657,14 +3672,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       id: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Assets, unknown>>;
+    ) => Promise<HttpResponse<Assets, void>>;
     /**
      * @description List Stargazers.
      *
      * @name StargazersDetail
      * @request GET:/repos/{owner}/{repo}/stargazers
      */
-    stargazersDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
+    stargazersDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, void>>;
     /**
      * @description Get the number of additions and deletions per week. Returns a weekly aggregate of the number of additions and deletions pushed to a repository.
      *
@@ -3675,7 +3690,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<CodeFrequencyStats, unknown>>;
+    ) => Promise<HttpResponse<CodeFrequencyStats, void>>;
     /**
      * @description Get the last year of commit activity data. Returns the last year of commit activity grouped by week. The days array is a group of commits per day, starting on Sunday.
      *
@@ -3686,7 +3701,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<CommitActivityStats, unknown>>;
+    ) => Promise<HttpResponse<CommitActivityStats, void>>;
     /**
      * @description Get contributors list with additions, deletions, and commit counts.
      *
@@ -3697,7 +3712,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<ContributorsStats, unknown>>;
+    ) => Promise<HttpResponse<ContributorsStats, void>>;
     /**
      * @description Get the weekly commit count for the repo owner and everyone else.
      *
@@ -3708,7 +3723,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<ParticipationStats, unknown>>;
+    ) => Promise<HttpResponse<ParticipationStats, void>>;
     /**
      * @description Get the number of commits per hour in each day. Each array contains the day number, hour number, and number of commits 0-6 Sunday - Saturday 0-23 Hour of day Number of commits For example, [2, 14, 25] indicates that there were 25 total commits, during the 2.00pm hour on Tuesdays. All times are based on the time zone of individual commits.
      *
@@ -3719,7 +3734,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<CodeFrequencyStats, unknown>>;
+    ) => Promise<HttpResponse<CodeFrequencyStats, void>>;
     /**
      * @description List Statuses for a specific Ref.
      *
@@ -3731,7 +3746,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       ref: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Ref, unknown>>;
+    ) => Promise<HttpResponse<Ref, void>>;
     /**
      * @description Create a Status.
      *
@@ -3744,21 +3759,21 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       ref: string,
       body: HeadBranch,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Ref, unknown>>;
+    ) => Promise<HttpResponse<Ref, void>>;
     /**
      * @description List watchers.
      *
      * @name SubscribersDetail
      * @request GET:/repos/{owner}/{repo}/subscribers
      */
-    subscribersDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
+    subscribersDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, void>>;
     /**
      * @description Delete a Repository Subscription.
      *
      * @name SubscriptionDelete
      * @request DELETE:/repos/{owner}/{repo}/subscription
      */
-    subscriptionDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    subscriptionDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get a Repository Subscription.
      *
@@ -3769,7 +3784,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Subscription, unknown>>;
+    ) => Promise<HttpResponse<Subscription, void>>;
     /**
      * @description Set a Repository Subscription
      *
@@ -3781,28 +3796,28 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       repo: string,
       body: SubscriptionBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Subscription, unknown>>;
+    ) => Promise<HttpResponse<Subscription, void>>;
     /**
      * @description Get list of tags.
      *
      * @name TagsDetail
      * @request GET:/repos/{owner}/{repo}/tags
      */
-    tagsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Tags, unknown>>;
+    tagsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Tags, void>>;
     /**
      * @description Get list of teams
      *
      * @name TeamsDetail
      * @request GET:/repos/{owner}/{repo}/teams
      */
-    teamsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Teams, unknown>>;
+    teamsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Teams, void>>;
     /**
      * @description List Stargazers. New implementation.
      *
      * @name WatchersDetail
      * @request GET:/repos/{owner}/{repo}/watchers
      */
-    watchersDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
+    watchersDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, void>>;
     /**
      * @description Get archive link. This method will return a 302 to a URL to download a tarball or zipball archive for a repository. Please make sure your HTTP framework is configured to follow redirects or you will need to use the Location header to make a second GET request. Note: For private repositories, these links are temporary and expire quickly.
      *
@@ -3817,7 +3832,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       archive_format: "tarball" | "zipball",
       path: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<any, void>>;
   };
   repositories: {
     /**
@@ -3831,7 +3846,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Repos, unknown>>;
+    ) => Promise<HttpResponse<Repos, void>>;
   };
   search: {
     /**
@@ -3847,7 +3862,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         sort?: "indexed";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<SearchCode, unknown>>;
+    ) => Promise<HttpResponse<SearchCode, void>>;
     /**
      * @description Find issues by state and keyword. (This method returns up to 100 results per page.)
      *
@@ -3861,7 +3876,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         sort?: "updated" | "created" | "comments";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<SearchIssues, unknown>>;
+    ) => Promise<HttpResponse<SearchIssues, void>>;
     /**
      * @description Search repositories.
      *
@@ -3875,7 +3890,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         sort?: "stars" | "forks" | "updated";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<SearchRepositories, unknown>>;
+    ) => Promise<HttpResponse<SearchRepositories, void>>;
     /**
      * @description Search users.
      *
@@ -3889,7 +3904,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         sort?: "followers" | "repositories" | "joined";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<SearchUsers, unknown>>;
+    ) => Promise<HttpResponse<SearchUsers, void>>;
   };
   teams: {
     /**
@@ -3898,39 +3913,35 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      * @name TeamsDelete
      * @request DELETE:/teams/{teamId}
      */
-    teamsDelete: (teamId: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    teamsDelete: (teamId: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get team.
      *
      * @name TeamsDetail
      * @request GET:/teams/{teamId}
      */
-    teamsDetail: (teamId: number, params?: RequestParams) => Promise<HttpResponse<Team, unknown>>;
+    teamsDetail: (teamId: number, params?: RequestParams) => Promise<HttpResponse<Team, void>>;
     /**
      * @description Edit team. In order to edit a team, the authenticated user must be an owner of the org that the team is associated with.
      *
      * @name TeamsPartialUpdate
      * @request PATCH:/teams/{teamId}
      */
-    teamsPartialUpdate: (
-      teamId: number,
-      body: EditTeam,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<Team, unknown>>;
+    teamsPartialUpdate: (teamId: number, body: EditTeam, params?: RequestParams) => Promise<HttpResponse<Team, void>>;
     /**
      * @description List team members. In order to list members in a team, the authenticated user must be a member of the team.
      *
      * @name MembersDetail
      * @request GET:/teams/{teamId}/members
      */
-    membersDetail: (teamId: number, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
+    membersDetail: (teamId: number, params?: RequestParams) => Promise<HttpResponse<Users, void>>;
     /**
      * @description The "Remove team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Remove team membership API instead. It allows you to remove both active and pending memberships. Remove team member. In order to remove a user from a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with. NOTE This does not delete the user, it just remove them from the team.
      *
      * @name MembersDelete
      * @request DELETE:/teams/{teamId}/members/{username}
      */
-    membersDelete: (teamId: number, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    membersDelete: (teamId: number, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description The "Get team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Get team membership API instead. It allows you to get both active and pending memberships. Get team member. In order to get if a user is a member of a team, the authenticated user mus be a member of the team.
      *
@@ -3939,25 +3950,25 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      * @originalName membersDetail
      * @duplicate
      */
-    membersDetail2: (teamId: number, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    membersDetail2: (teamId: number, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description The API (described below) is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Add team membership API instead. It allows you to invite new organization members to your teams. Add team member. In order to add a user to a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with.
      *
      * @name MembersUpdate
      * @request PUT:/teams/{teamId}/members/{username}
      */
-    membersUpdate: (teamId: number, username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    membersUpdate: (
+      teamId: number,
+      username: string,
+      params?: RequestParams,
+    ) => Promise<HttpResponse<void, void | OrganizationAsTeamMember>>;
     /**
      * @description Remove team membership. In order to remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. NOTE: This does not delete the user, it just removes their membership from the team.
      *
      * @name MembershipsDelete
      * @request DELETE:/teams/{teamId}/memberships/{username}
      */
-    membershipsDelete: (
-      teamId: number,
-      username: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    membershipsDelete: (teamId: number, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get team membership. In order to get a user's membership with a team, the authenticated user must be a member of the team or an owner of the team's organization.
      *
@@ -3968,7 +3979,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       teamId: number,
       username: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<TeamMembership, unknown>>;
+    ) => Promise<HttpResponse<TeamMembership, void>>;
     /**
      * @description Add team membership. In order to add a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. If the user is already a part of the team's organization (meaning they're on at least one other team in the organization), this endpoint will add the user to the team. If the user is completely unaffiliated with the team's organization (meaning they're on none of the organization's teams), this endpoint will send an invitation to the user via email. This newly-created membership will be in the 'pending' state until the user accepts the invitation, at which point the membership will transition to the 'active' state and the user will be added as a member of the team.
      *
@@ -3979,14 +3990,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       teamId: number,
       username: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<TeamMembership, unknown>>;
+    ) => Promise<HttpResponse<TeamMembership, void | OrganizationAsTeamMember>>;
     /**
      * @description List team repos
      *
      * @name ReposDetail
      * @request GET:/teams/{teamId}/repos
      */
-    reposDetail: (teamId: number, params?: RequestParams) => Promise<HttpResponse<Repos, unknown>>;
+    reposDetail: (teamId: number, params?: RequestParams) => Promise<HttpResponse<Repos, void>>;
     /**
      * @description In order to remove a repository from a team, the authenticated user must be an owner of the org that the team is associated with. NOTE: This does not delete the repository, it just removes it from the team.
      *
@@ -3998,7 +4009,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description Check if a team manages a repository
      *
@@ -4012,7 +4023,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<any, void>>;
     /**
      * @description In order to add a repository to a team, the authenticated user must be an owner of the org that the team is associated with. Also, the repository must be owned by the organization, or a direct fork of a repository owned by the organization.
      *
@@ -4024,7 +4035,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<any, void>>;
   };
   user: {
     /**
@@ -4033,70 +4044,70 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
      * @name UserList
      * @request GET:/user
      */
-    userList: (params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    userList: (params?: RequestParams) => Promise<HttpResponse<any, void>>;
     /**
      * @description Update the authenticated user.
      *
      * @name UserPartialUpdate
      * @request PATCH:/user
      */
-    userPartialUpdate: (body: UserUpdate, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    userPartialUpdate: (body: UserUpdate, params?: RequestParams) => Promise<HttpResponse<any, void>>;
     /**
      * @description Delete email address(es). You can include a single email address or an array of addresses.
      *
      * @name EmailsDelete
      * @request DELETE:/user/emails
      */
-    emailsDelete: (body: UserEmails, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    emailsDelete: (body: UserEmails, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description List email addresses for a user. In the final version of the API, this method will return an array of hashes with extended information for each email address indicating if the address has been verified and if it's primary email address for GitHub. Until API v3 is finalized, use the application/vnd.github.v3 media type to get other response format.
      *
      * @name EmailsList
      * @request GET:/user/emails
      */
-    emailsList: (params?: RequestParams) => Promise<HttpResponse<UserEmails, unknown>>;
+    emailsList: (params?: RequestParams) => Promise<HttpResponse<UserEmails, void>>;
     /**
      * @description Add email address(es). You can post a single email address or an array of addresses.
      *
      * @name EmailsCreate
      * @request POST:/user/emails
      */
-    emailsCreate: (body: EmailsPost, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    emailsCreate: (body: EmailsPost, params?: RequestParams) => Promise<HttpResponse<any, void>>;
     /**
      * @description List the authenticated user's followers
      *
      * @name FollowersList
      * @request GET:/user/followers
      */
-    followersList: (params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
+    followersList: (params?: RequestParams) => Promise<HttpResponse<Users, void>>;
     /**
      * @description List who the authenticated user is following.
      *
      * @name FollowingList
      * @request GET:/user/following
      */
-    followingList: (params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
+    followingList: (params?: RequestParams) => Promise<HttpResponse<Users, void>>;
     /**
      * @description Unfollow a user. Unfollowing a user requires the user to be logged in and authenticated with basic auth or OAuth with the user:follow scope.
      *
      * @name FollowingDelete
      * @request DELETE:/user/following/{username}
      */
-    followingDelete: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    followingDelete: (username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Check if you are following a user.
      *
      * @name FollowingDetail
      * @request GET:/user/following/{username}
      */
-    followingDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    followingDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Follow a user. Following a user requires the user to be logged in and authenticated with basic auth or OAuth with the user:follow scope.
      *
      * @name FollowingUpdate
      * @request PUT:/user/following/{username}
      */
-    followingUpdate: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    followingUpdate: (username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description List issues. List all issues across owned and member repositories for the authenticated user.
      *
@@ -4113,42 +4124,42 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Issues, unknown>>;
+    ) => Promise<HttpResponse<Issues, void>>;
     /**
      * @description List your public keys. Lists the current user's keys. Management of public keys via the API requires that you are authenticated through basic auth, or OAuth with the 'user', 'write:public_key' scopes.
      *
      * @name KeysList
      * @request GET:/user/keys
      */
-    keysList: (params?: RequestParams) => Promise<HttpResponse<Gitignore, unknown>>;
+    keysList: (params?: RequestParams) => Promise<HttpResponse<Gitignore, void>>;
     /**
      * @description Create a public key.
      *
      * @name KeysCreate
      * @request POST:/user/keys
      */
-    keysCreate: (body: UserKeysPost, params?: RequestParams) => Promise<HttpResponse<UserKeysKeyId, unknown>>;
+    keysCreate: (body: UserKeysPost, params?: RequestParams) => Promise<HttpResponse<UserKeysKeyId, void>>;
     /**
      * @description Delete a public key. Removes a public key. Requires that you are authenticated via Basic Auth or via OAuth with at least admin:public_key scope.
      *
      * @name KeysDelete
      * @request DELETE:/user/keys/{keyId}
      */
-    keysDelete: (keyId: number, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    keysDelete: (keyId: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Get a single public key.
      *
      * @name KeysDetail
      * @request GET:/user/keys/{keyId}
      */
-    keysDetail: (keyId: number, params?: RequestParams) => Promise<HttpResponse<UserKeysKeyId, unknown>>;
+    keysDetail: (keyId: number, params?: RequestParams) => Promise<HttpResponse<UserKeysKeyId, void>>;
     /**
      * @description List public and private organizations for the authenticated user.
      *
      * @name OrgsList
      * @request GET:/user/orgs
      */
-    orgsList: (params?: RequestParams) => Promise<HttpResponse<Gitignore, unknown>>;
+    orgsList: (params?: RequestParams) => Promise<HttpResponse<Gitignore, void>>;
     /**
      * @description List repositories for the authenticated user. Note that this does not include repositories owned by organizations which the user can access. You can lis user organizations and list organization repositories separately.
      *
@@ -4160,14 +4171,14 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Repos, unknown>>;
+    ) => Promise<HttpResponse<Repos, void>>;
     /**
      * @description Create a new repository for the authenticated user. OAuth users must supply repo scope.
      *
      * @name ReposCreate
      * @request POST:/user/repos
      */
-    reposCreate: (body: PostRepo, params?: RequestParams) => Promise<HttpResponse<Repos, unknown>>;
+    reposCreate: (body: PostRepo, params?: RequestParams) => Promise<HttpResponse<Repos, void>>;
     /**
      * @description List repositories being starred by the authenticated user.
      *
@@ -4180,63 +4191,63 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         sort?: "created" | "updated";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Gitignore, unknown>>;
+    ) => Promise<HttpResponse<Gitignore, void>>;
     /**
      * @description Unstar a repository
      *
      * @name StarredDelete
      * @request DELETE:/user/starred/{owner}/{repo}
      */
-    starredDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    starredDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Check if you are starring a repository.
      *
      * @name StarredDetail
      * @request GET:/user/starred/{owner}/{repo}
      */
-    starredDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    starredDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Star a repository.
      *
      * @name StarredUpdate
      * @request PUT:/user/starred/{owner}/{repo}
      */
-    starredUpdate: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    starredUpdate: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description List repositories being watched by the authenticated user.
      *
      * @name SubscriptionsList
      * @request GET:/user/subscriptions
      */
-    subscriptionsList: (params?: RequestParams) => Promise<HttpResponse<Repos, unknown>>;
+    subscriptionsList: (params?: RequestParams) => Promise<HttpResponse<Repos, void>>;
     /**
      * @description Stop watching a repository
      *
      * @name SubscriptionsDelete
      * @request DELETE:/user/subscriptions/{owner}/{repo}
      */
-    subscriptionsDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    subscriptionsDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Check if you are watching a repository.
      *
      * @name SubscriptionsDetail
      * @request GET:/user/subscriptions/{owner}/{repo}
      */
-    subscriptionsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    subscriptionsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description Watch a repository.
      *
      * @name SubscriptionsUpdate
      * @request PUT:/user/subscriptions/{owner}/{repo}
      */
-    subscriptionsUpdate: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    subscriptionsUpdate: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
      * @description List all of the teams across all of the organizations to which the authenticated user belongs. This method requires user or repo scope when authenticating via OAuth.
      *
      * @name TeamsList
      * @request GET:/user/teams
      */
-    teamsList: (params?: RequestParams) => Promise<HttpResponse<TeamsList, unknown>>;
+    teamsList: (params?: RequestParams) => Promise<HttpResponse<TeamsList, void>>;
   };
   users: {
     /**
@@ -4250,35 +4261,35 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         since?: number;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Users, unknown>>;
+    ) => Promise<HttpResponse<Users, void>>;
     /**
      * @description Get a single user.
      *
      * @name UsersDetail
      * @request GET:/users/{username}
      */
-    usersDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    usersDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, void>>;
     /**
      * @description If you are authenticated as the given user, you will see your private events. Otherwise, you'll only see public events.
      *
      * @name EventsDetail
      * @request GET:/users/{username}/events
      */
-    eventsDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    eventsDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, void>>;
     /**
      * @description This is the user's organization dashboard. You must be authenticated as the user to view this.
      *
      * @name EventsOrgsDetail
      * @request GET:/users/{username}/events/orgs/{org}
      */
-    eventsOrgsDetail: (username: string, org: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    eventsOrgsDetail: (username: string, org: string, params?: RequestParams) => Promise<HttpResponse<any, void>>;
     /**
      * @description List a user's followers
      *
      * @name FollowersDetail
      * @request GET:/users/{username}/followers
      */
-    followersDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<Users, unknown>>;
+    followersDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<Users, void>>;
     /**
      * @description Check if one user follows another.
      *
@@ -4289,7 +4300,7 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
       username: string,
       targetUser: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, unknown>>;
+    ) => Promise<HttpResponse<void, void>>;
     /**
      * @description List a users gists.
      *
@@ -4302,35 +4313,35 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Gists, unknown>>;
+    ) => Promise<HttpResponse<Gists, void>>;
     /**
      * @description List public keys for a user. Lists the verified public keys for a user. This is accessible by anyone.
      *
      * @name KeysDetail
      * @request GET:/users/{username}/keys
      */
-    keysDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<Gitignore, unknown>>;
+    keysDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<Gitignore, void>>;
     /**
      * @description List all public organizations for a user.
      *
      * @name OrgsDetail
      * @request GET:/users/{username}/orgs
      */
-    orgsDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<Gitignore, unknown>>;
+    orgsDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<Gitignore, void>>;
     /**
      * @description These are events that you'll only see public events.
      *
      * @name ReceivedEventsDetail
      * @request GET:/users/{username}/received_events
      */
-    receivedEventsDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    receivedEventsDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, void>>;
     /**
      * @description List public events that a user has received
      *
      * @name ReceivedEventsPublicDetail
      * @request GET:/users/{username}/received_events/public
      */
-    receivedEventsPublicDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    receivedEventsPublicDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, void>>;
     /**
      * @description List public repositories for the specified user.
      *
@@ -4343,21 +4354,21 @@ export declare class Api<SecurityDataType = any> extends HttpClient<SecurityData
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Repos, unknown>>;
+    ) => Promise<HttpResponse<Repos, void>>;
     /**
      * @description List repositories being starred by a user.
      *
      * @name StarredDetail
      * @request GET:/users/{username}/starred
      */
-    starredDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    starredDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, void>>;
     /**
      * @description List repositories being watched by a user.
      *
      * @name SubscriptionsDetail
      * @request GET:/users/{username}/subscriptions
      */
-    subscriptionsDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, unknown>>;
+    subscriptionsDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, void>>;
   };
 }
 export {};

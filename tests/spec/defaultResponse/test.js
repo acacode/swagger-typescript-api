@@ -8,10 +8,9 @@ const schemas = createSchemasInfos({ absolutePathToSchemas: resolve(__dirname, "
 schemas.forEach(({ absolutePath, apiFileName }) => {
   generateApi({
     name: apiFileName,
-    input: absolutePath,
+    spec: require(absolutePath),
     output: resolve(__dirname, "./"),
-    generateRouteTypes: true,
-    generateClient: false,
+    defaultResponseType: "unknown",
   })
     .then(() => {
       const diagnostics = validateGeneratedModule({
@@ -20,7 +19,7 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
       if (diagnostics.length) throw "Failed";
     })
     .catch((e) => {
-      console.error("routeTypes option test failed.");
+      console.error("--default-response option test failed.");
       throw e;
     });
 });

@@ -438,6 +438,41 @@
           }
         },
         "tags": ["login", "post"]
+      },
+      "get": {
+        "consumes": ["application/jwt"],
+        "description": "Get a current key register",
+        "operationId": "key_register",
+        "parameters": [],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "properties": {
+                "secret": {
+                  "description": "revoke key",
+                  "type": "string"
+                },
+                "status": {
+                  "description": "registered",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "409": {
+            "description": "Key already registered `duplicate-key`",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        },
+        "tags": ["key", "get"]
       }
     },
     "/scope": {

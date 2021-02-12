@@ -77,6 +77,10 @@ interface GenerateApiParams {
    * prettier configuration
    */
   prettier?: object;
+  /**
+   * default type for empty response schema (default: "void")
+   */
+  defaultResponseType?: boolean;
   cleanOutput?: boolean;
   enumNamesAsValues?: boolean;
 
@@ -215,7 +219,7 @@ export interface GenerateApiConfiguration {
     componentsMap: Record<string, SchemaComponent>;
     convertedFromSwagger2: boolean;
     moduleNameIndex: number;
-    disableStrictSSSL: boolean;
+    disableStrictSSL: boolean;
     extractRequestParams: boolean;
     fileNames: {
       dataContracts: string;

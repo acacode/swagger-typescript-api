@@ -1,25 +1,22 @@
 <%
-const { utils, route, config } = it;
-const { _, fmtToJSDocLine, classNameCase, require } = utils;
-const { name, jsDocDescription, routeName } = route;
-const { query, payload } = route.request;
-const { type: responseType } = route.response;
+const { route, utils, config } = it;
+const { _, classNameCase, require } = utils;
+const { query, payload, pathParams, headers } = route.request;
 
 const routeDocs = includeFile("./route-docs", { config, route, utils });
-const routeNamespace = classNameCase(routeName.usage);
-const queryType = (query && query.type) || '{}';
-const bodyType = (payload && payload.type) || 'never';
+const routeNamespace = classNameCase(route.routeName.usage);
+
 %>
 /**
 <%~ routeDocs.description %>
-
-* <% /* Here you can add some other JSDoc tags */ %>
 
 <%~ routeDocs.lines %>
 
 */
 export namespace <%~ routeNamespace %> {
-export type RequestQuery = <%~ queryType %>;
-export type RequestBody = <%~ bodyType %>;
-export type ResponseBody = <%~ responseType %>;
+  export type RequestParams = <%~ (pathParams && pathParams.type) || '{}' %>;
+  export type RequestQuery = <%~ (query && query.type) || '{}' %>;
+  export type RequestBody = <%~ (payload && payload.type) || 'never' %>;
+  export type RequestHeaders = <%~ (headers && headers.type) || '{}' %>;
+  export type ResponseBody = <%~ route.response.type %>;
 }
