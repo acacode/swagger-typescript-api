@@ -1,5 +1,4 @@
 const _ = require("lodash");
-const { collect } = require("./utils");
 const { types, parseSchema, getRefType, getInlineParseContent } = require("./schema");
 const { checkAndRenameModelName } = require("./modelNames");
 const {
@@ -110,9 +109,58 @@ const isSuccessStatus = (status) =>
   (config.defaultResponseAsSuccess && status === "default") ||
   (+status >= SUCCESS_RESPONSE_STATUS_RANGE[0] && +status < SUCCESS_RESPONSE_STATUS_RANGE[1]);
 
-const getRouteParams = (routeInfo, route) => {
+const parseRoute = (route) => {
+  const pathParamMatches = (route || "").match(
+    /({(([a-zA-Z]-?_?){1,})([0-9]{1,})?})|(:(([a-zA-Z]-?_?){1,})([0-9]{1,})?:?)/g,
+  );
+
+  // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
+  const pathParams = _.reduce(
+    pathParamMatches,
+    (pathParams, match) => {
+      const paramName = _.replace(match, /\{|\}|\:/g, "");
+
+      if (!paramName) return pathParams;
+
+      if (_.includes(paramName, "-")) {
+        console.warn("🔨 wrong path param name", paramName);
+      }
+
+      return [
+        ...pathParams,
+        {
+          $match: match,
+          name: paramName,
+          required: true,
+          type: "string",
+          description: "",
+          schema: {
+            type: "string",
+          },
+          in: "path",
+        },
+      ];
+    },
+    [],
+  );
+
+  const fixedRoute = _.reduce(
+    pathParams,
+    (fixedRoute, pathParam) => {
+      return _.replace(fixedRoute, pathParam.$match, `\${${pathParam.name}}`);
+    },
+    route || "",
+  );
+
+  return {
+    route: fixedRoute,
+    pathParams,
+  };
+};
+
+const getRouteParams = (routeInfo, pathParams) => {
   const { parameters } = routeInfo;
-  const pathParamMatches = (route || "").match(/{(([a-zA-Z]-?_?){1,})([0-9]{1,})?}/g);
+
   const routeParams = {
     path: [],
     header: [],
@@ -125,16 +173,17 @@ const getRouteParams = (routeInfo, route) => {
 
   _.each(parameters, (parameter) => {
     const refTypeInfo = getRefType(parameter);
+    let routeParam = null;
 
     if (refTypeInfo && refTypeInfo.rawTypeData.in && refTypeInfo.rawTypeData) {
       if (!routeParams[refTypeInfo.rawTypeData.in]) {
         routeParams[refTypeInfo.rawTypeData.in] = [];
       }
 
-      routeParams[refTypeInfo.rawTypeData.in].push({
+      routeParam = {
         ...refTypeInfo.rawTypeData,
         ...(refTypeInfo.rawTypeData.schema || {}),
-      });
+      };
     } else {
       if (!parameter.in) return;
 
@@ -142,29 +191,23 @@ const getRouteParams = (routeInfo, route) => {
         routeParams[parameter.in] = [];
       }
 
-      routeParams[parameter.in].push({
+      routeParam = {
         ...parameter,
         ...(parameter.schema || {}),
-      });
+      };
+    }
+
+    if (routeParam) {
+      routeParams[routeParam.in].push(routeParam);
     }
   });
 
   // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
-  _.each(pathParamMatches, (match) => {
-    const paramName = _.replace(match, /\{|\}/g, "");
-
-    if (!paramName) return;
-
-    const alreadyExist = _.some(routeParams.path, (parameter) => parameter.name === paramName);
+  _.each(pathParams, (pathParam) => {
+    const alreadyExist = _.some(routeParams.path, (parameter) => parameter.name === pathParam.name);
 
     if (!alreadyExist) {
-      routeParams.path.push({
-        name: paramName,
-        required: true,
-        type: "string",
-        description: "",
-        in: "path",
-      });
+      routeParams.path.push(pathParam);
     }
   });
 
@@ -395,8 +438,8 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
     routeNameDuplicatesMap: new Map(),
   });
 
-  return pathsEntries.reduce((routes, [route, routeInfoByMethodsMap]) => {
-    if (route.startsWith("x-")) return routes;
+  return pathsEntries.reduce((routes, [rawRoute, routeInfoByMethodsMap]) => {
+    if (rawRoute.startsWith("x-")) return routes;
 
     const routeInfosMap = createRequestsMap(routeInfoByMethodsMap);
 
@@ -417,6 +460,7 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           consumes,
           ...otherInfo
         } = routeInfo;
+        const { route, pathParams } = parseRoute(rawRoute);
 
         const routeId = nanoid(12);
         const moduleName = _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
@@ -425,7 +469,7 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           (security && security.length)
         );
 
-        const routeParams = getRouteParams(routeInfo, route);
+        const routeParams = getRouteParams(routeInfo, pathParams);
 
         const pathArgs = routeParams.path.map((pathArgSchema) => ({
           name: pathArgSchema.name,
@@ -444,7 +488,7 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
         const routeName = getRouteName({
           operationId,
           method,
-          route,
+          route: rawRoute,
           moduleName,
           responsesTypes: responseBodyInfo.responses,
           description,
@@ -553,7 +597,7 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           request: {
             contentTypes: requestBodyInfo.contentTypes,
             parameters: pathArgs,
-            path: route.replace(/{/g, "${"),
+            path: route,
             formData: requestBodyInfo.contentKind === CONTENT_KIND.FORM_DATA,
             isQueryBody: requestBodyInfo.contentKind === CONTENT_KIND.URL_ENCODED,
             security: hasSecurity,
@@ -574,7 +618,7 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           raw: {
             operationId,
             method,
-            route,
+            route: rawRoute,
             moduleName,
             responsesTypes: responseBodyInfo.responses,
             description,

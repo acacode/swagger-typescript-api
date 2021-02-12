@@ -258,6 +258,42 @@ export class HttpClient<SecurityDataType = unknown> {
  * Strong authentication, without the passwords.
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  wrongPathParams1 = {
+    /**
+     * @description DDD
+     *
+     * @tags key, delete
+     * @name WrongPathParams1
+     * @request DELETE:/wrong-path-params1/{pathParam1}/{path_param2}/{path_param3}/:pathParam4
+     */
+    wrongPathParams1: (
+      pathParam1: string,
+      path_param2: string,
+      path_param3: string,
+      pathParam4: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/wrong-path-params1/${pathParam1}/${path_param2}/${path_param3}/${pathParam4}`,
+        method: "DELETE",
+        ...params,
+      }),
+  };
+  wrongPathParams2 = {
+    /**
+     * @description DDD
+     *
+     * @tags key, delete
+     * @name WrongPathParams2
+     * @request DELETE:/wrong-path-params2
+     */
+    wrongPathParams2: (path_param1: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/wrong-path-params2`,
+        method: "DELETE",
+        ...params,
+      }),
+  };
   key = {
     /**
      * @description Revoke an Authentiq ID using email & phone. If called with `email` and `phone` only, a verification code will be sent by email. Do a second call adding `code` to complete the revocation.

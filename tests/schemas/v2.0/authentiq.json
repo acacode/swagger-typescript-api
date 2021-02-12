@@ -84,6 +84,38 @@
     }
   },
   "paths": {
+    "/wrong-path-params1/{pathParam1}/{path_param2}/{path_param3}/:pathParam4": {
+      "delete": {
+        "description": "DDD",
+        "operationId": "wrong-path-params1",
+        "parameters": [],
+        "produces": ["application/json"],
+        "responses": {
+          "200": { "description": "Successfully deleted" }
+        },
+        "tags": ["key", "delete"]
+      }
+    },
+    "/wrong-path-params2": {
+      "delete": {
+        "description": "DDD",
+        "operationId": "wrong-path-params2",
+        "parameters": [
+          {
+            "description": "DDD",
+            "in": "path",
+            "name": "path_param1",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": { "description": "Successfully deleted" }
+        },
+        "tags": ["key", "delete"]
+      }
+    },
     "/key": {
       "delete": {
         "description": "Revoke an Authentiq ID using email & phone.\n\nIf called with `email` and `phone` only, a verification code \nwill be sent by email. Do a second call adding `code` to \ncomplete the revocation.\n",

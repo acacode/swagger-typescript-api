@@ -7,6 +7,7 @@ Fixes:
   i.e. if request body is form data, then request body content type will be `multipart/form-data`  
 - Strange method name (issue #152, thanks @RoXuS)  
 - Hardcoded Content-Type causes issues with some endpoints (issue #153, thanks @po5i)  
+- Critical bug with `:paramName` path params (issue #154)  
 
 Features:  
 - Ability to provide custom formatting `fetch` response  

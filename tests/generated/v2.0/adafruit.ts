@@ -510,9 +510,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/webhooks/feed/:token
      * @secure
      */
-    createWebhookFeedData: (payload: { value?: string }, params: RequestParams = {}) =>
+    createWebhookFeedData: (token: string, payload: { value?: string }, params: RequestParams = {}) =>
       this.request<Data, void>({
-        path: `/webhooks/feed/:token`,
+        path: `/webhooks/feed/${token}`,
         method: "POST",
         body: payload,
         secure: true,
@@ -530,9 +530,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/webhooks/feed/:token/raw
      * @secure
      */
-    createRawWebhookFeedData: (params: RequestParams = {}) =>
+    createRawWebhookFeedData: (token: string, params: RequestParams = {}) =>
       this.request<Data, void>({
-        path: `/webhooks/feed/:token/raw`,
+        path: `/webhooks/feed/${token}/raw`,
         method: "POST",
         secure: true,
         type: ContentType.Json,
