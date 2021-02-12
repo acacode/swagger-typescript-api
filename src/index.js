@@ -36,6 +36,7 @@ module.exports = {
     generateUnionEnums = config.generateUnionEnums,
     moduleNameIndex = config.moduleNameIndex,
     extractRequestParams = config.extractRequestParams,
+    defaultResponseType = config.defaultResponseType,
     prettier: prettierOptions = constants.PRETTIER_OPTIONS,
     hooks: rawHooks,
     extraTemplates,
@@ -59,6 +60,7 @@ module.exports = {
         enumNamesAsValues,
         disableStrictSSL,
         cleanOutput,
+        defaultResponseType,
       });
       (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url, disableStrictSSL))
         .then(({ usageSchema, originalSchema }) => {

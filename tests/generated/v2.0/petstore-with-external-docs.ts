@@ -239,7 +239,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/pets/{id}
      */
     deletePet: (id: number, params: RequestParams = {}) =>
-      this.request<any, ErrorModel>({
+      this.request<void, ErrorModel>({
         path: `/pets/${id}`,
         method: "DELETE",
         ...params,

@@ -272,7 +272,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/2.0/repositories/{username}/{slug}/pullrequests/{pid}/merge
      */
     mergePullRequest: (username: string, slug: string, pid: string, params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<void, any>({
         path: `/2.0/repositories/${username}/${slug}/pullrequests/${pid}/merge`,
         method: "POST",
         ...params,

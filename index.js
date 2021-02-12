@@ -10,6 +10,7 @@ const { Command } = require("commander");
 const { resolve } = require("path");
 const { generateApi } = require("./src");
 const { version, name: packageName } = require("./package.json");
+const { TS_KEYWORDS } = require("./src/constants");
 
 const program = new Command(packageName);
 
@@ -61,6 +62,7 @@ program
     0,
   )
   .option("--disableStrictSSL", "disabled strict SSL", false)
+  .option("--default-response <type>", "default type for empty response schema", TS_KEYWORDS.VOID)
   .option(
     "--clean-output",
     "clean output folder before generate api. WARNING: May cause data loss",
@@ -86,6 +88,7 @@ const {
   enumNamesAsValues,
   disableStrictSSL,
   cleanOutput,
+  defaultResponse,
 } = program;
 
 generateApi({
@@ -94,6 +97,7 @@ generateApi({
   generateRouteTypes: routeTypes,
   generateClient: client,
   defaultResponseAsSuccess: defaultAsSuccess,
+  defaultResponseType: defaultResponse,
   generateUnionEnums: unionEnums,
   generateResponses: responses,
   extractRequestParams: extractRequestParams,

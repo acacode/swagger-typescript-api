@@ -315,7 +315,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     addPet: (body: Pet, params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<any, void>({
         path: `/pet`,
         method: "POST",
         body: body,
@@ -334,7 +334,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     updatePet: (body: Pet, params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<any, void>({
         path: `/pet`,
         method: "PUT",
         body: body,
@@ -353,7 +353,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     findPetsByStatus: (query: { status: ("available" | "pending" | "sold")[] }, params: RequestParams = {}) =>
-      this.request<Pet[], any>({
+      this.request<Pet[], void>({
         path: `/pet/findByStatus`,
         method: "GET",
         query: query,
@@ -371,7 +371,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/pet/single-form-url-encoded
      */
     singleFormUrlEncodedRequest: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<void, void>({
         path: `/pet/single-form-url-encoded`,
         method: "POST",
         body: data,
@@ -388,7 +388,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/pet/form-url-encoded
      */
     formUrlEncodedRequest: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<void, void>({
         path: `/pet/form-url-encoded`,
         method: "POST",
         body: data,
@@ -407,7 +407,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     formUrlEncodedRequest2: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<void, void>({
         path: `/pet/end-form-url-encoded`,
         method: "POST",
         body: data,
@@ -425,7 +425,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     findPetsByTags: (query: { tags: string[] }, params: RequestParams = {}) =>
-      this.request<Pet[], any>({
+      this.request<Pet[], void>({
         path: `/pet/findByTags`,
         method: "GET",
         query: query,
@@ -444,7 +444,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     getPetById: (petId: number, params: RequestParams = {}) =>
-      this.request<Pet, any>({
+      this.request<Pet, void>({
         path: `/pet/${petId}`,
         method: "GET",
         secure: true,
@@ -462,7 +462,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     updatePetWithForm: (petId: number, data: { name?: string; status?: string }, params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<any, void>({
         path: `/pet/${petId}`,
         method: "POST",
         body: data,
@@ -481,7 +481,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     deletePet: (petId: number, params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<any, void>({
         path: `/pet/${petId}`,
         method: "DELETE",
         secure: true,
@@ -536,7 +536,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/store/order
      */
     placeOrder: (body: Order, params: RequestParams = {}) =>
-      this.request<Order, any>({
+      this.request<Order, void>({
         path: `/store/order`,
         method: "POST",
         body: body,
@@ -554,7 +554,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/store/order/{orderId}
      */
     getOrderById: (orderId: number, params: RequestParams = {}) =>
-      this.request<Order, any>({
+      this.request<Order, void>({
         path: `/store/order/${orderId}`,
         method: "GET",
         format: "json",
@@ -570,7 +570,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/store/order/{orderId}
      */
     deleteOrder: (orderId: string, params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<any, void>({
         path: `/store/order/${orderId}`,
         method: "DELETE",
         ...params,
@@ -586,7 +586,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/user
      */
     createUser: (body: User, params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<any, void>({
         path: `/user`,
         method: "POST",
         body: body,
@@ -603,7 +603,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/user/createWithArray
      */
     createUsersWithArrayInput: (body: User[], params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<any, void>({
         path: `/user/createWithArray`,
         method: "POST",
         body: body,
@@ -620,7 +620,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/user/createWithList
      */
     createUsersWithListInput: (body: User[], params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<any, void>({
         path: `/user/createWithList`,
         method: "POST",
         body: body,
@@ -637,7 +637,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/login
      */
     loginUser: (query: { username: string; password: string }, params: RequestParams = {}) =>
-      this.request<Currency, any>({
+      this.request<Currency, void>({
         path: `/user/login`,
         method: "GET",
         query: query,
@@ -654,7 +654,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/logout
      */
     logoutUser: (params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<any, void>({
         path: `/user/logout`,
         method: "GET",
         ...params,
@@ -669,7 +669,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/{username}
      */
     getUserByName: (username: string, params: RequestParams = {}) =>
-      this.request<User, any>({
+      this.request<User, void>({
         path: `/user/${username}`,
         method: "GET",
         format: "json",
@@ -685,7 +685,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/user/{username}
      */
     updateUser: (username: string, body: User, params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<any, void>({
         path: `/user/${username}`,
         method: "PUT",
         body: body,
@@ -702,7 +702,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/user/{username}
      */
     deleteUser: (username: string, params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<any, void>({
         path: `/user/${username}`,
         method: "DELETE",
         ...params,

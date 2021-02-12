@@ -77,6 +77,10 @@ interface GenerateApiParams {
    * prettier configuration
    */
   prettier?: object;
+  /**
+   * default type for empty response schema (default: "void")
+   */
+  defaultResponseType?: boolean;
   cleanOutput?: boolean;
   enumNamesAsValues?: boolean;
 

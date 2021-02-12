@@ -216,7 +216,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/pets
      */
     createPets: (params: RequestParams = {}) =>
-      this.request<any, Error>({
+      this.request<void, Error>({
         path: `/pets`,
         method: "POST",
         ...params,

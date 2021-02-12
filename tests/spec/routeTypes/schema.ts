@@ -1538,7 +1538,7 @@ export namespace gists {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get a single gist.
@@ -1598,7 +1598,7 @@ export namespace gists {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get a single comment.
@@ -1636,7 +1636,7 @@ export namespace gists {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Unstar a gist.
@@ -1648,7 +1648,7 @@ export namespace gists {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Check if a gist is starred.
@@ -1660,7 +1660,7 @@ export namespace gists {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Star a gist.
@@ -1672,7 +1672,7 @@ export namespace gists {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
 }
 
@@ -1792,7 +1792,7 @@ export namespace markdown {
     export type RequestQuery = {};
     export type RequestBody = Markdown;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Render a Markdown document in raw mode
@@ -1804,7 +1804,7 @@ export namespace markdown {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
 }
 
@@ -1861,7 +1861,7 @@ export namespace notifications {
     export type RequestQuery = {};
     export type RequestBody = NotificationMarkRead;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description View a single thread.
@@ -1885,7 +1885,7 @@ export namespace notifications {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Delete a Thread Subscription.
@@ -1897,7 +1897,7 @@ export namespace notifications {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get a Thread Subscription.
@@ -2003,7 +2003,7 @@ export namespace orgs {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Check if a user is, publicly or privately, a member of the organization.
@@ -2017,7 +2017,7 @@ export namespace orgs {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Public members list. Members of an organization can choose to have their membership publicized or not.
@@ -2041,7 +2041,7 @@ export namespace orgs {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Check public membership.
@@ -2055,7 +2055,7 @@ export namespace orgs {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Publicize a user's membership.
@@ -2067,7 +2067,7 @@ export namespace orgs {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description List repositories for the specified org.
@@ -2145,7 +2145,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get repository.
@@ -2195,7 +2195,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get list of branches
@@ -2245,7 +2245,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Check if user is a collaborator
@@ -2259,7 +2259,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Add collaborator.
@@ -2271,7 +2271,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description List commit comments for a repository. Comments are ordered by ascending ID.
@@ -2295,7 +2295,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get a single commit comment.
@@ -2491,7 +2491,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = DeploymentStatusesCreate;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Deprecated. List downloads for a repository.
@@ -2515,7 +2515,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Deprecated. Get a single download.
@@ -2649,7 +2649,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get a Reference
@@ -2759,7 +2759,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get single hook.
@@ -2797,7 +2797,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description List issues for a repository.
@@ -2852,7 +2852,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get a single comment.
@@ -2982,7 +2982,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description List labels on an issue.
@@ -3032,7 +3032,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get list of keys.
@@ -3068,7 +3068,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get a key
@@ -3118,7 +3118,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get a single label.
@@ -3204,7 +3204,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get a single milestone.
@@ -3266,7 +3266,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = NotificationMarkRead;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description List pull requests.
@@ -3314,7 +3314,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get a single comment.
@@ -3428,7 +3428,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Merge a pull request (Merge Button's)
@@ -3488,7 +3488,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get a single release asset
@@ -3524,7 +3524,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get a single release
@@ -3684,7 +3684,7 @@ export namespace repos {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get a Repository Subscription.
@@ -3839,7 +3839,7 @@ export namespace teams {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get team.
@@ -3887,7 +3887,7 @@ export namespace teams {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description The "Get team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Get team membership API instead. It allows you to get both active and pending memberships. Get team member. In order to get if a user is a member of a team, the authenticated user mus be a member of the team.
@@ -3901,7 +3901,7 @@ export namespace teams {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description The API (described below) is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Add team membership API instead. It allows you to invite new organization members to your teams. Add team member. In order to add a user to a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with.
@@ -3913,7 +3913,7 @@ export namespace teams {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Remove team membership. In order to remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. NOTE: This does not delete the user, it just removes their membership from the team.
@@ -3925,7 +3925,7 @@ export namespace teams {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get team membership. In order to get a user's membership with a team, the authenticated user must be a member of the team or an owner of the team's organization.
@@ -3973,7 +3973,7 @@ export namespace teams {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Check if a team manages a repository
@@ -4038,7 +4038,7 @@ export namespace user {
     export type RequestQuery = {};
     export type RequestBody = UserEmails;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description List email addresses for a user. In the final version of the API, this method will return an array of hashes with extended information for each email address indicating if the address has been verified and if it's primary email address for GitHub. Until API v3 is finalized, use the application/vnd.github.v3 media type to get other response format.
@@ -4098,7 +4098,7 @@ export namespace user {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Check if you are following a user.
@@ -4110,7 +4110,7 @@ export namespace user {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Follow a user. Following a user requires the user to be logged in and authenticated with basic auth or OAuth with the user:follow scope.
@@ -4122,7 +4122,7 @@ export namespace user {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description List issues. List all issues across owned and member repositories for the authenticated user.
@@ -4177,7 +4177,7 @@ export namespace user {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Get a single public key.
@@ -4249,7 +4249,7 @@ export namespace user {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Check if you are starring a repository.
@@ -4261,7 +4261,7 @@ export namespace user {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Star a repository.
@@ -4273,7 +4273,7 @@ export namespace user {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description List repositories being watched by the authenticated user.
@@ -4297,7 +4297,7 @@ export namespace user {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Check if you are watching a repository.
@@ -4309,7 +4309,7 @@ export namespace user {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description Watch a repository.
@@ -4321,7 +4321,7 @@ export namespace user {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description List all of the teams across all of the organizations to which the authenticated user belongs. This method requires user or repo scope when authenticating via OAuth.
@@ -4408,7 +4408,7 @@ export namespace users {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };
-    export type ResponseBody = any;
+    export type ResponseBody = void;
   }
   /**
    * @description List a users gists.

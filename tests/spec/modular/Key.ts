@@ -76,7 +76,7 @@ export class Key<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @request HEAD:/key/{PK}
    */
   headKey = (PK: string, params: RequestParams = {}) =>
-    this.request<any, Error>({
+    this.request<void, Error>({
       path: `/key/${PK}`,
       method: "HEAD",
       ...params,

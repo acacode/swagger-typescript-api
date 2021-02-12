@@ -179,7 +179,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @request GET:/
    */
   listVersionsv2 = (params: RequestParams = {}) =>
-    this.request<any, any>({
+    this.request<void, void>({
       path: `/`,
       method: "GET",
       format: "json",
@@ -195,7 +195,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/v2
      */
     getVersionDetailsv2: (params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<void, any>({
         path: `/v2`,
         method: "GET",
         format: "json",

@@ -35,7 +35,7 @@ const getSchemaFromRequestType = (requestInfo) => {
   return null;
 };
 
-const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId) => {
+const getTypeFromRequestInfo = ({ requestInfo, parsedSchemas, operationId, defaultType }) => {
   // TODO: make more flexible pick schema without content type
   const schema = getSchemaFromRequestType(requestInfo);
   const refTypeInfo = getRefType(requestInfo);
@@ -76,10 +76,10 @@ const getTypeFromRequestInfo = (requestInfo, parsedSchemas, operationId) => {
     }
   }
 
-  return TS_KEYWORDS.ANY;
+  return defaultType || TS_KEYWORDS.ANY;
 };
 
-const getRequestInfoTypes = (requestInfos, parsedSchemas, operationId) =>
+const getRequestInfoTypes = ({ requestInfos, parsedSchemas, operationId, defaultType }) =>
   _.reduce(
     requestInfos,
     (acc, requestInfo, status) => {
@@ -91,7 +91,12 @@ const getRequestInfoTypes = (requestInfos, parsedSchemas, operationId) =>
           ...(requestInfo || {}),
           contentTypes: contentTypes,
           contentKind: getContentKind(contentTypes),
-          type: getTypeFromRequestInfo(requestInfo, parsedSchemas, operationId),
+          type: getTypeFromRequestInfo({
+            requestInfo,
+            parsedSchemas,
+            operationId,
+            defaultType,
+          }),
           description: formatDescription(requestInfo.description || "", true),
           status: _.isNaN(+status) ? status : +status,
           isSuccess: isSuccessStatus(status),
@@ -327,7 +332,11 @@ const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
     type = getInlineParseContent(schema);
   } else if (requestBody) {
     schema = requestBody;
-    type = getTypeFromRequestInfo(requestBody, parsedSchemas, operationId);
+    type = getTypeFromRequestInfo({
+      requestInfo: requestBody,
+      parsedSchemas,
+      operationId,
+    });
 
     // TODO: Refactor that.
     // It needed for cases when swagger schema is not declared request body type as form data
@@ -353,7 +362,12 @@ const getResponseBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
 
   const contentTypes = getContentTypes(responses, [...(produces || []), routeInfo["x-accepts"]]);
 
-  const responseInfos = getRequestInfoTypes(responses, parsedSchemas, operationId);
+  const responseInfos = getRequestInfoTypes({
+    requestInfos: responses,
+    parsedSchemas,
+    operationId,
+    defaultType: config.defaultResponseType || TS_KEYWORDS.VOID,
+  });
 
   const successResponse = responseInfos.find((response) => response.isSuccess);
   const errorResponses = responseInfos.filter(

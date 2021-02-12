@@ -322,13 +322,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags key, head
      * @name HeadKey
      * @request HEAD:/key/{PK}
-     * @response `200` `any` Key exists
+     * @response `200` `void` Key exists
      * @response `404` `Error` Unknown key `unknown-key`
      * @response `410` `Error` Key is revoked `revoked-key`
      * @response `default` `Error`
      */
     headKey: (PK: string, params: RequestParams = {}) =>
-      this.request<any, Error>({
+      this.request<void, Error>({
         path: `/key/${PK}`,
         method: "HEAD",
         ...params,
@@ -440,7 +440,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name SignRetrieve
      * @request GET:/scope/{job}
      * @response `200` `{ exp?: number, field?: string, sub?: string }` Successful response (JWT)
-     * @response `204` `any` Confirmed, waiting for signing
+     * @response `204` `void` Confirmed, waiting for signing
      * @response `404` `Error` Job not found `unknown-job`
      * @response `default` `Error`
      */
@@ -458,13 +458,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags scope, head
      * @name SignRetrieveHead
      * @request HEAD:/scope/{job}
-     * @response `200` `any` Confirmed and signed
-     * @response `204` `any` Confirmed, waiting for signing
+     * @response `200` `void` Confirmed and signed
+     * @response `204` `void` Confirmed, waiting for signing
      * @response `404` `Error` Job not found `unknown-job`
      * @response `default` `Error`
      */
     signRetrieveHead: (job: string, params: RequestParams = {}) =>
-      this.request<any, Error>({
+      this.request<void, Error>({
         path: `/scope/${job}`,
         method: "HEAD",
         ...params,

@@ -326,7 +326,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request HEAD:/key/{PK}
      */
     headKey: (PK: string, params: RequestParams = {}) =>
-      this.request<any, Error>({
+      this.request<void, Error>({
         path: `/key/${PK}`,
         method: "HEAD",
         ...params,
@@ -438,7 +438,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request HEAD:/scope/{job}
      */
     signRetrieveHead: (job: string, params: RequestParams = {}) =>
-      this.request<any, Error>({
+      this.request<void, Error>({
         path: `/scope/${job}`,
         method: "HEAD",
         ...params,

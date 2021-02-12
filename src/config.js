@@ -45,6 +45,7 @@ const config = {
     onPrepareConfig: (apiConfig) => apiConfig,
     onCreateRequestParams: (rawType) => {},
   },
+  defaultResponseType: constants.TS_KEYWORDS.VOID,
 };
 
 /** needs to use data everywhere in project */

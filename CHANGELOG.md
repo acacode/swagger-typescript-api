@@ -3,16 +3,19 @@
 Fixes:  
 - Request content types auto substitution  
   i.e. if request body is form data, then request body content type will be `multipart/form-data`  
+- Strange method name (issue #152, thanks @RoXuS)  
+
 Features:  
 - Ability to provide custom formatting `fetch` response  
 - `"IMAGE"` content kind for response\request data objects  
 - `RequestParams` `RequestHeaders` types for `--route-types` (`routeTypes: true`) option (issue #150, thanks @Fabiencdp )  
-- Strange method name (issue #152, thanks @RoXuS)  
+- `--default-response` option. Allows to set default type for empty response schema (default: `void`) (based on issue #14)  
 
 BREAKING_CHANGES:  
 - Fully refactored `http-client.eta` template, make it more flexible and simpler.  
   `HttpClient["request"]` takes one argument with type `FullRequestParams`  
   (previously it takes many count of arguments which was not flexible)  
+- Changed the default response body type from `any` to `void` (issue #14)   
 
 Internal:  
 - Changed templates:  

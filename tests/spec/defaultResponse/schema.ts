@@ -9,21 +9,6 @@
  * ---------------------------------------------------------------
  */
 
-export interface Pet {
-  /** @format int64 */
-  id: number;
-  name: string;
-  tag?: string;
-}
-
-export type Pets = Pet[];
-
-export interface Error {
-  /** @format int32 */
-  code: number;
-  message: string;
-}
-
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -64,7 +49,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "http://petstore.swagger.io/v1";
+  public baseUrl: string = "http://petstore.swagger.io/api";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
 
@@ -184,55 +169,22 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title Swagger Petstore
  * @version 1.0.0
- * @baseUrl http://petstore.swagger.io/v1
+ * @baseUrl http://petstore.swagger.io/api
+ * A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   pets = {
     /**
-     * No description
+     * @description Returns all pets from the system that the user has access to Nam sed condimentum est. Maecenas tempor sagittis sapien, nec rhoncus sem sagittis sit amet. Aenean at gravida augue, ac iaculis sem. Curabitur odio lorem, ornare eget elementum nec, cursus id lectus. Duis mi turpis, pulvinar ac eros ac, tincidunt varius justo. In hac habitasse platea dictumst. Integer at adipiscing ante, a sagittis ligula. Aenean pharetra tempor ante molestie imperdiet. Vivamus id aliquam diam. Cras quis velit non tortor eleifend sagittis. Praesent at enim pharetra urna volutpat venenatis eget eget mauris. In eleifend fermentum facilisis. Praesent enim enim, gravida ac sodales sed, placerat id erat. Suspendisse lacus dolor, consectetur non augue vel, vehicula interdum libero. Morbi euismod sagittis libero sed lacinia. Sed tempus felis lobortis leo pulvinar rutrum. Nam mattis velit nisl, eu condimentum ligula luctus nec. Phasellus semper velit eget aliquet faucibus. In a mattis elit. Phasellus vel urna viverra, condimentum lorem id, rhoncus nibh. Ut pellentesque posuere elementum. Sed a varius odio. Morbi rhoncus ligula libero, vel eleifend nunc tristique vitae. Fusce et sem dui. Aenean nec scelerisque tortor. Fusce malesuada accumsan magna vel tempus. Quisque mollis felis eu dolor tristique, sit amet auctor felis gravida. Sed libero lorem, molestie sed nisl in, accumsan tempor nisi. Fusce sollicitudin massa ut lacinia mattis. Sed vel eleifend lorem. Pellentesque vitae felis pretium, pulvinar elit eu, euismod sapien.
      *
-     * @tags pets
-     * @name ListPets
-     * @summary List all pets
+     * @name FindPets
      * @request GET:/pets
      */
-    listPets: (query?: { limit?: number }, params: RequestParams = {}) =>
-      this.request<Pets, Error>({
+    findPets: (query?: { tags?: string[]; limit?: number }, params: RequestParams = {}) =>
+      this.request<unknown, unknown>({
         path: `/pets`,
         method: "GET",
         query: query,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags pets
-     * @name CreatePets
-     * @summary Create a pet
-     * @request POST:/pets
-     */
-    createPets: (params: RequestParams = {}) =>
-      this.request<void, Error>({
-        path: `/pets`,
-        method: "POST",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags pets
-     * @name ShowPetById
-     * @summary Info for a specific pet
-     * @request GET:/pets/{petId}
-     */
-    showPetById: (petId: string, params: RequestParams = {}) =>
-      this.request<Pets, Error>({
-        path: `/pets/${petId}`,
-        method: "GET",
-        format: "json",
         ...params,
       }),
   };

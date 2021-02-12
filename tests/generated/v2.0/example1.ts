@@ -216,7 +216,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       parameters: TdeCertificate,
       params: RequestParams = {},
     ) =>
-      this.request<any, any>({
+      this.request<void, void>({
         path: `/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Sql/managedInstances/${managedInstanceName}/tdeCertificates`,
         method: "POST",
         query: query,

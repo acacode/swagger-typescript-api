@@ -62,7 +62,7 @@ export class Scope<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @request HEAD:/scope/{job}
    */
   signRetrieveHead = (job: string, params: RequestParams = {}) =>
-    this.request<any, Error>({
+    this.request<void, Error>({
       path: `/scope/${job}`,
       method: "HEAD",
       ...params,

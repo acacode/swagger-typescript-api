@@ -373,7 +373,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     getJob: (id: string, params: RequestParams = {}) =>
-      this.request<Job, any>({
+      this.request<Job, void>({
         path: `/jobs/${id}`,
         method: "GET",
         secure: true,
@@ -409,7 +409,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     deleteJob: (id: string, params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<void, any>({
         path: `/jobs/${id}`,
         method: "DELETE",
         secure: true,
@@ -517,7 +517,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     deleteUser: (id: string, params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<void, any>({
         path: `/users/${id}`,
         method: "DELETE",
         secure: true,

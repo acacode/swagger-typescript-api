@@ -58,6 +58,7 @@ Options:
   --modular                     generate separated files for http client, data contracts, and routes (default: false)
   --disableStrictSSL            disabled strict SSL (default: false)
   --clean-output                clean output folder before generate api. WARNING: May cause data loss (default: false)
+  --default-response <type>     default type for empty response schema (default: "void")
   -h, --help                    display help for command
 ```
 

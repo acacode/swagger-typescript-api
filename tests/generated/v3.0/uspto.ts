@@ -237,7 +237,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: { criteria: string; start?: number; rows?: number },
       params: RequestParams = {},
     ) =>
-      this.request<Record<string, object>[], any>({
+      this.request<Record<string, object>[], void>({
         path: `/${dataset}/${version}/records`,
         method: "POST",
         body: data,
