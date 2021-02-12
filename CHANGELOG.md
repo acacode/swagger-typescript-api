@@ -1,5 +1,7 @@
 # next release  
 
+# 5.0.0  
+
 Fixes:  
 - Request content types auto substitution  
   i.e. if request body is form data, then request body content type will be `multipart/form-data`  
