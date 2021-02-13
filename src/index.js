@@ -37,6 +37,7 @@ module.exports = {
     moduleNameIndex = config.moduleNameIndex,
     extractRequestParams = config.extractRequestParams,
     defaultResponseType = config.defaultResponseType,
+    singleHttpClient = config.singleHttpClient,
     prettier: prettierOptions = constants.PRETTIER_OPTIONS,
     hooks: rawHooks,
     extraTemplates,
@@ -61,6 +62,7 @@ module.exports = {
         disableStrictSSL,
         cleanOutput,
         defaultResponseType,
+        singleHttpClient,
       });
       (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url, disableStrictSSL))
         .then(({ usageSchema, originalSchema }) => {

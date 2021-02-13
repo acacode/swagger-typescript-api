@@ -46,6 +46,7 @@ const config = {
     onCreateRequestParams: (rawType) => {},
   },
   defaultResponseType: constants.TS_KEYWORDS.VOID,
+  singleHttpClient: false,
 };
 
 /** needs to use data everywhere in project */

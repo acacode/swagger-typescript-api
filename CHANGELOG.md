@@ -1,5 +1,13 @@
 # next release  
 
+# 5.1.0  
+
+Features:  
+- `--single-http-client` option which allows to send HttpClient instance to Api constructor and not to create many count of HttpClient instances with `--modular` api (issue #155)   
+
+Minor:  
+- make exportable `ApiConfig` interface  
+
 # 5.0.0  
 
 Fixes:  

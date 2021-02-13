@@ -81,6 +81,10 @@ interface GenerateApiParams {
    * default type for empty response schema (default: "void")
    */
   defaultResponseType?: boolean;
+  /**
+   * Ability to send HttpClient instance to Api constructor
+   */
+  singleHttpClient?: boolean;
   cleanOutput?: boolean;
   enumNamesAsValues?: boolean;
 

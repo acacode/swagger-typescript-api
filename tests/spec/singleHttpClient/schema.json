@@ -1,0 +1,129 @@
+{
+  "swagger": "2.0",
+  "schemes": ["https"],
+  "host": "6-dot-authentiqio.appspot.com",
+  "basePath": "/",
+  "info": {
+    "contact": {
+      "email": "hello@authentiq.com",
+      "name": "Authentiq team",
+      "url": "http://authentiq.io/support"
+    },
+    "description": "Strong authentication, without the passwords.",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "termsOfService": "http://authentiq.com/terms/",
+    "title": "Authentiq",
+    "version": "6",
+    "x-apisguru-categories": ["security"],
+    "x-logo": {
+      "backgroundColor": "#F26641",
+      "url": "https://api.apis.guru/v2/cache/logo/https_www.authentiq.com_theme_images_authentiq-logo-a-inverse.svg"
+    },
+    "x-origin": [
+      {
+        "format": "swagger",
+        "url": "https://raw.githubusercontent.com/AuthentiqID/authentiq-docs/master/docs/swagger/issuer.yaml",
+        "version": "2.0"
+      }
+    ],
+    "x-preferred": true,
+    "x-providerName": "6-dot-authentiqio.appspot.com"
+  },
+  "parameters": {
+    "AuthentiqID": {
+      "description": "Authentiq ID to register",
+      "in": "body",
+      "name": "body",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/AuthentiqID"
+      }
+    },
+    "JobID": {
+      "description": "Job ID (20 chars)",
+      "in": "path",
+      "name": "job",
+      "required": true,
+      "type": "string"
+    },
+    "PK": {
+      "description": "Public Signing Key - Authentiq ID (43 chars)",
+      "in": "path",
+      "name": "PK",
+      "required": true,
+      "type": "string"
+    },
+    "PushToken": {
+      "description": "Push Token.",
+      "in": "body",
+      "name": "body",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/PushToken"
+      }
+    },
+    "Scope": {
+      "description": "Claims of scope",
+      "in": "body",
+      "name": "body",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/Claims"
+      }
+    }
+  },
+  "responses": {
+    "ErrorResponse": {
+      "description": "Error response",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    }
+  },
+  "paths": {
+    "/key": {
+      "post": {
+        "consumes": ["application/jwt"],
+        "description": "Register a new ID `JWT(sub, devtoken)`\n\nv5: `JWT(sub, pk, devtoken, ...)`\n\nSee: https://github.com/skion/authentiq/wiki/JWT-Examples\n",
+        "operationId": "key_register",
+        "parameters": [
+          {
+            "$ref": "#/parameters/AuthentiqID"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "Successfully registered",
+            "schema": {
+              "properties": {
+                "secret": {
+                  "description": "revoke key",
+                  "type": "string"
+                },
+                "status": {
+                  "description": "registered",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "409": {
+            "description": "Key already registered `duplicate-key`",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        },
+        "tags": ["key", "post"]
+      }
+    }
+  }
+}
