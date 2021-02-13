@@ -1,6 +1,6 @@
 module.exports = {
-  filePrefix: `/* tslint:disable */
-/* eslint-disable */
+  filePrefix: `/* eslint:disable */
+/* tslint-disable */
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
