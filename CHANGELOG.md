@@ -1,5 +1,18 @@
 # next release  
 
+
+Features:   
+- `onCreateRouteName(routeNameInfo: RouteNameInfo, rawRouteInfo: RawRouteInfo): RouteNameInfo | void` hook  
+  Which allows to customize route name without customizing `route-name.eta` template  
+- Improved content kinds for request infos  
+
+Minor:  
+- A bit improve type declaration file (index.d.ts) for this tool     
+
+Internal:  
+- clearing `routeNameDuplicatesMap` before each `parseRoutes()` function call  
+
+
 # 5.1.0  
 
 Fixes:  
