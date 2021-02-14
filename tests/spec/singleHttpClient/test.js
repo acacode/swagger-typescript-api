@@ -10,7 +10,6 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
     name: apiFileName,
     spec: require(absolutePath),
     output: resolve(__dirname, "./"),
-    generateRouteTypes: true,
     singleHttpClient: true,
   })
     .then(() => {

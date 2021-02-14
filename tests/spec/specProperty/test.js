@@ -11,6 +11,7 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
     spec: require(absolutePath),
     output: resolve(__dirname, "./"),
     generateRouteTypes: true,
+    generateClient: false,
   })
     .then(() => {
       const diagnostics = validateGeneratedModule({

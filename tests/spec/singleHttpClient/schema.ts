@@ -9,22 +9,6 @@
  * ---------------------------------------------------------------
  */
 
-export namespace key {
-  /**
-   * @description Register a new ID `JWT(sub, devtoken)` v5: `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
-   * @tags key, post
-   * @name KeyRegister
-   * @request POST:/key
-   */
-  export namespace KeyRegister {
-    export type RequestParams = {};
-    export type RequestQuery = {};
-    export type RequestBody = any;
-    export type RequestHeaders = {};
-    export type ResponseBody = { secret?: string; status?: string };
-  }
-}
-
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
