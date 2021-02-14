@@ -85,6 +85,9 @@ module.exports = {
           const componentsMap = createComponentsMap(components);
 
           const parsedSchemas = parseSchemas(components);
+
+          config.routeNameDuplicatesMap.clear();
+
           const routes = parseRoutes({
             usageSchema,
             parsedSchemas,

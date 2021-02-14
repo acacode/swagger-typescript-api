@@ -7,7 +7,7 @@ const {
   TS_KEYWORDS,
 } = require("./constants");
 const { formatDescription, classNameCase } = require("./common");
-const { config, addToConfig } = require("./config");
+const { config } = require("./config");
 const { nanoid } = require("nanoid");
 const { getRouteName } = require("./routeNames");
 const { createComponent } = require("./components");
@@ -336,7 +336,10 @@ const CONTENT_KIND = {
 };
 
 const getContentKind = (contentTypes) => {
-  if (contentTypes.includes("application/json")) {
+  if (
+    _.includes(contentTypes, "application/json") ||
+    _.some(contentTypes, (contentType) => _.endsWith(contentType, "+json"))
+  ) {
     return CONTENT_KIND.JSON;
   }
 
@@ -434,9 +437,6 @@ const getResponseBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
 const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractRequestParams }) => {
   const { paths, security: globalSecurity } = usageSchema;
   const pathsEntries = _.entries(paths);
-  addToConfig({
-    routeNameDuplicatesMap: new Map(),
-  });
 
   return pathsEntries.reduce((routes, [rawRoute, routeInfoByMethodsMap]) => {
     if (rawRoute.startsWith("x-")) return routes;
@@ -481,11 +481,8 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
         const requestBodyInfo = getRequestBodyInfo(routeInfo, routeParams, parsedSchemas);
         const responseBodyInfo = getResponseBodyInfo(routeInfo, routeParams, parsedSchemas);
 
-        const queryObjectSchema = convertRouteParamsIntoObject(routeParams.query);
-        const pathObjectSchema = convertRouteParamsIntoObject(routeParams.path);
-        const headersObjectSchema = convertRouteParamsIntoObject(routeParams.header);
-
-        const routeName = getRouteName({
+        const rawRouteInfo = {
+          pathArgs,
           operationId,
           method,
           route: rawRoute,
@@ -494,8 +491,18 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
           description,
           tags,
           summary,
-          pathArgs,
-        });
+          responses,
+          produces,
+          requestBody,
+          consumes,
+          ...otherInfo,
+        };
+
+        const queryObjectSchema = convertRouteParamsIntoObject(routeParams.query);
+        const pathObjectSchema = convertRouteParamsIntoObject(routeParams.path);
+        const headersObjectSchema = convertRouteParamsIntoObject(routeParams.header);
+
+        const routeName = getRouteName(rawRouteInfo);
 
         const requestParamsSchema = createRequestParamsSchema({
           queryParams: routeParams.query,
@@ -615,21 +622,7 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
             type: responseBodyInfo.success.type,
             errorType: responseBodyInfo.error.type,
           },
-          raw: {
-            operationId,
-            method,
-            route: rawRoute,
-            moduleName,
-            responsesTypes: responseBodyInfo.responses,
-            description,
-            tags,
-            summary,
-            responses,
-            produces,
-            requestBody,
-            consumes,
-            ...otherInfo,
-          },
+          raw: rawRouteInfo,
         };
 
         return config.hooks.onCreateRoute(routeData) || routeData;
