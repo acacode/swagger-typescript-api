@@ -88,5 +88,9 @@
   "bugs": {
     "url": "https://github.com/acacode/swagger-typescript-api/issues"
   },
-  "homepage": "https://github.com/acacode/swagger-typescript-api"
+  "homepage": "https://github.com/acacode/swagger-typescript-api",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/acacode/swagger-typescript-api"
+  }
 }
