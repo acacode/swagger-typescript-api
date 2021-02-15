@@ -1,5 +1,7 @@
 # next release  
 
+# 5.1.0  
+
 Fixes:  
 - Bug with optional nested properties of object schema type (issue #156, thanks @Fabiencdp)  
 
