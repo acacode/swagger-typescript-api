@@ -9,23 +9,6 @@ Features:
 - `onCreateRouteName(routeNameInfo: RouteNameInfo, rawRouteInfo: RawRouteInfo): RouteNameInfo | void` hook  
   Which allows to customize route name without customizing `route-name.eta` template  
 - Improved content kinds for request infos  
-
-Minor:  
-- A bit improve type declaration file (index.d.ts) for this tool     
-
-Internal:  
-- clearing `routeNameDuplicatesMap` before each `parseRoutes()` function call  
-
-
-# 5.1.0  
-
-Fixes:  
-- Bug with optional nested properties of object schema type (issue #156, thanks @Fabiencdp)  
-
-Features:   
-- `onCreateRouteName(routeNameInfo: RouteNameInfo, rawRouteInfo: RawRouteInfo): RouteNameInfo | void` hook  
-  Which allows to customize route name without customizing `route-name.eta` template  
-- Improved content kinds for request infos  
 - `--single-http-client` option which allows to send HttpClient instance to Api constructor and not to create many count of HttpClient instances with `--modular` api (issue #155)   
 
 Minor:  
