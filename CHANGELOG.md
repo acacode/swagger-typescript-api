@@ -1,5 +1,10 @@
 # next release  
 
+# 5.1.2  
+
+Fixes:  
+- Linter disable rules is not working (issue #164, thanks @Haritaso)  
+
 # 5.1.1  
 
 Fixes:  
