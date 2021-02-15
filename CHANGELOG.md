@@ -1,5 +1,7 @@
 # next release  
 
+# 5.1.0  
+
 Fixes:  
 - Bug with optional nested properties of object schema type (issue #156, thanks @Fabiencdp)  
 
@@ -15,6 +17,10 @@ Minor:
 
 Internal:  
 - clearing `routeNameDuplicatesMap` before each `parseRoutes()` function call  
+- Changed templates:  
+  - `http-client.eta`  
+  - `procedure-call.eta`  
+  - `api.eta`  
 
 # 5.0.0  
 
