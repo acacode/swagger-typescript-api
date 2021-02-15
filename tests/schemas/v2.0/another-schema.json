@@ -1,0 +1,125 @@
+{
+  "x-generator": "NSwag v11.14.0.0 (NJsonSchema v9.10.24.0 (Newtonsoft.Json v9.0.0.0))",
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/api/Foo/GetBarDescriptions": {
+      "get": {
+        "tags": ["Foo"],
+        "operationId": "Foo_GetBarDescriptions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    },
+    "/api/Foo/GetBar": {
+      "get": {
+        "tags": ["Foo"],
+        "operationId": "Foo_GetBar",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "x-nullable": false,
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Bar"
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    },
+    "/api/Foo/SetBar": {
+      "post": {
+        "tags": ["Foo"],
+        "operationId": "Foo_SetBar",
+        "parameters": [
+          {
+            "name": "value",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Bar"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Bar": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["B", "C"],
+      "properties": {
+        "A": {
+          "type": "string"
+        },
+        "B": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "C": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Baz": {
+          "$ref": "#/definitions/Baz"
+        }
+      }
+    },
+    "Baz": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["D", "Color"],
+      "properties": {
+        "D": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "Color": {
+          "$ref": "#/definitions/Color"
+        }
+      }
+    },
+    "Color": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": ["RED", "GREEN", "BLUE"],
+      "enum": [0, 1, 2]
+    }
+  },
+  "parameters": {},
+  "responses": {},
+  "securityDefinitions": {}
+}

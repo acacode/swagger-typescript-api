@@ -9,6 +9,29 @@
  * ---------------------------------------------------------------
  */
 
+export interface Bar {
+  A?: string;
+
+  /** @format int32 */
+  B: number;
+
+  /** @format date-time */
+  C: string;
+  Baz?: Baz;
+}
+
+export interface Baz {
+  /** @format decimal */
+  D: number;
+  Color: Color;
+}
+
+export enum Color {
+  RED = 0,
+  GREEN = 1,
+  BLUE = 2,
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -53,7 +76,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "http://petstore.swagger.io/api";
+  public baseUrl: string = "";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
   private abortControllers = new Map<CancelToken, AbortController>();
@@ -200,24 +223,54 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title Swagger Petstore
- * @version 1.0.0
- * @baseUrl http://petstore.swagger.io/api
- * A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
+ * @title No title
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
-  pets = {
+  api = {
     /**
-     * @description Returns all pets from the system that the user has access to Nam sed condimentum est. Maecenas tempor sagittis sapien, nec rhoncus sem sagittis sit amet. Aenean at gravida augue, ac iaculis sem. Curabitur odio lorem, ornare eget elementum nec, cursus id lectus. Duis mi turpis, pulvinar ac eros ac, tincidunt varius justo. In hac habitasse platea dictumst. Integer at adipiscing ante, a sagittis ligula. Aenean pharetra tempor ante molestie imperdiet. Vivamus id aliquam diam. Cras quis velit non tortor eleifend sagittis. Praesent at enim pharetra urna volutpat venenatis eget eget mauris. In eleifend fermentum facilisis. Praesent enim enim, gravida ac sodales sed, placerat id erat. Suspendisse lacus dolor, consectetur non augue vel, vehicula interdum libero. Morbi euismod sagittis libero sed lacinia. Sed tempus felis lobortis leo pulvinar rutrum. Nam mattis velit nisl, eu condimentum ligula luctus nec. Phasellus semper velit eget aliquet faucibus. In a mattis elit. Phasellus vel urna viverra, condimentum lorem id, rhoncus nibh. Ut pellentesque posuere elementum. Sed a varius odio. Morbi rhoncus ligula libero, vel eleifend nunc tristique vitae. Fusce et sem dui. Aenean nec scelerisque tortor. Fusce malesuada accumsan magna vel tempus. Quisque mollis felis eu dolor tristique, sit amet auctor felis gravida. Sed libero lorem, molestie sed nisl in, accumsan tempor nisi. Fusce sollicitudin massa ut lacinia mattis. Sed vel eleifend lorem. Pellentesque vitae felis pretium, pulvinar elit eu, euismod sapien.
+     * No description
      *
-     * @name FindPets
-     * @request GET:/pets
+     * @tags Foo
+     * @name FooGetBarDescriptions
+     * @request GET:/api/Foo/GetBarDescriptions
      */
-    findPets: (query?: { tags?: string[]; limit?: number }, params: RequestParams = {}) =>
-      this.request<unknown, unknown>({
-        path: `/pets`,
+    fooGetBarDescriptions: (params: RequestParams = {}) =>
+      this.request<string[], any>({
+        path: `/api/Foo/GetBarDescriptions`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Foo
+     * @name FooGetBar
+     * @request GET:/api/Foo/GetBar
+     */
+    fooGetBar: (query: { id: number }, params: RequestParams = {}) =>
+      this.request<Bar, any>({
+        path: `/api/Foo/GetBar`,
         method: "GET",
         query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Foo
+     * @name FooSetBar
+     * @request POST:/api/Foo/SetBar
+     */
+    fooSetBar: (value: Bar, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/Foo/SetBar`,
+        method: "POST",
+        body: value,
+        type: ContentType.Json,
         ...params,
       }),
   };
