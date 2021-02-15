@@ -1451,20 +1451,20 @@ export namespace someTest {
         extra: {
           id: number;
           extra: {
-            foo?: string;
-            bar?: number;
-            baz?: string;
-            bad?: number;
+            foo: string;
+            bar: number;
+            baz: string;
+            bad: number;
             extra: {
               foo: string;
               bar: number;
               baz: string;
               bad: number;
               extra: {
-                foo?: string;
-                bar?: number;
-                baz?: string;
-                bad?: number;
+                foo: string;
+                bar: number;
+                baz: string;
+                bad: number;
                 extra: { foo: string; bar: number; baz: string; bad: number };
               };
             };

@@ -75,7 +75,7 @@
                   "properties": {
                     "user": {
                       "type": "object",
-                      "required": ["foo", "firstName", "lastName", "email", "extra"],
+                      "required": ["foo", "extra"],
                       "properties": {
                         "foo": {
                           "type": "number",

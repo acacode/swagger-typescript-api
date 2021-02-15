@@ -1473,7 +1473,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       group_feed_data: {
         created_at?: string;
         feeds: { key: string; value: string }[];
-        location: { ele?: number; lat: number; lon: number };
+        location?: { ele?: number; lat: number; lon: number };
       },
       params: RequestParams = {},
     ) =>
