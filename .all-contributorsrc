@@ -149,6 +149,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "Larox",
+      "name": "Sebastián Arias",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9751266?v=4",
+      "profile": "http://sebastianarias.dev",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
