@@ -1,5 +1,7 @@
 # next release  
 
+Fixes:  
+- Bug with optional nested properties of object schema type (issue #156, thanks @Fabiencdp)  
 
 Features:   
 - `onCreateRouteName(routeNameInfo: RouteNameInfo, rawRouteInfo: RawRouteInfo): RouteNameInfo | void` hook  
