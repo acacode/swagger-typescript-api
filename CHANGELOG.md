@@ -1,5 +1,7 @@
 # next release  
 
+# 5.1.1  
+
 Fixes:  
 - The HttpResponse type is no longer exported from http-client (issue #161, thanks @Styn)  
 
