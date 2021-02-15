@@ -102,7 +102,7 @@ type TPromise<ResolveType, RejectType = any> = Omit<Promise<ResolveType>, "then"
   ): TPromise<ResolveType | TResult, RejectType>;
 };
 
-interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
+export interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
   data: D;
   error: E;
 }
