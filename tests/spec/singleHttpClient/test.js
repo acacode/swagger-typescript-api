@@ -10,8 +10,7 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
     name: apiFileName,
     spec: require(absolutePath),
     output: resolve(__dirname, "./"),
-    generateRouteTypes: true,
-    generateClient: false,
+    singleHttpClient: true,
   })
     .then(() => {
       const diagnostics = validateGeneratedModule({
@@ -20,7 +19,7 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
       if (diagnostics.length) throw "Failed";
     })
     .catch((e) => {
-      console.error("specProperty option test failed.");
+      console.error("--single-http-client option test failed.");
       throw e;
     });
 });

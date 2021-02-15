@@ -1,5 +1,5 @@
-/* tslint:disable */
-/* eslint-disable */
+/* eslint:disable */
+/* tslint-disable */
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -1458,7 +1458,7 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
 
 export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
-interface ApiConfig<SecurityDataType = unknown> {
+export interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
   baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
   securityWorker?: (securityData: SecurityDataType) => RequestParams | void;
@@ -1631,6 +1631,50 @@ export class HttpClient<SecurityDataType = unknown> {
  * Powerful collaboration, code review, and code management for open source and private projects.
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  someop = {
+    /**
+     * No description
+     *
+     * @tags someop
+     * @name SomeOp1
+     * @request POST:/someop
+     */
+    someOp1: (
+      data: Events,
+      query?: { queryParam1?: number; queryParam2?: number; queryParam3?: string[] },
+      params: RequestParams = {},
+    ) =>
+      this.request<Events, void>({
+        path: `/someop`,
+        method: "POST",
+        query: query,
+        body: data,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags someop
+     * @name SomeOp
+     * @request POST:/someop/{fooId}/bars/bar-bar
+     */
+    someOp: (
+      fooId: string,
+      data: Events,
+      query?: { page?: number; size?: number; sort?: string[] },
+      params: RequestParams = {},
+    ) =>
+      this.request<Events, void>({
+        path: `/someop/${fooId}/bars/bar-bar`,
+        method: "POST",
+        query: query,
+        body: data,
+        format: "json",
+        ...params,
+      }),
+  };
   emojis = {
     /**
      * @description Lists all the emojis available to use on GitHub.

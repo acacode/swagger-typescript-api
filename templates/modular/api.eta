@@ -10,7 +10,12 @@ import { HttpClient, RequestParams, ContentType } from "./<%~ config.fileNames.h
 import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataContracts %>"
 <% } %>
 
-export class <%= apiClassName %><SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+export class <%= apiClassName %><SecurityDataType = unknown><% if (!config.singleHttpClient) { %> extends HttpClient<SecurityDataType> <% } %> {
+
+<% if(config.singleHttpClient) { %>
+  constructor (private http: HttpClient<SecurityDataType>) {}
+<% } %>
+
     <% routes.forEach((route) => { %>
         <%~ includeFile('./procedure-call.eta', { route, utils, config }) %>
     <% }) %>

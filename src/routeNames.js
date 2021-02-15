@@ -32,11 +32,13 @@ const getRouteName = (routeInfo) => {
 
   const duplicates = routeNameDuplicatesMap.get(duplicateIdentifier);
 
-  return {
+  const routeNameInfo = {
     usage: routeName + (duplicates > 1 ? duplicates : ""),
     original: routeName,
     duplicate: duplicates > 1,
   };
+
+  return config.hooks.onCreateRouteName(routeNameInfo, routeInfo) || routeNameInfo;
 };
 
 module.exports = {

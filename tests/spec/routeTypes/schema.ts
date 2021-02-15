@@ -1,5 +1,5 @@
-/* tslint:disable */
-/* eslint-disable */
+/* eslint:disable */
+/* tslint-disable */
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -1433,6 +1433,47 @@ export interface UserUpdate {
 }
 
 export type Users = User[];
+
+export namespace someTest {
+  /**
+   * @description This type should test bug https://github.com/acacode/swagger-typescript-api/issues/156 NOTE: all properties should be required
+   * @name SomeTestList
+   * @request GET:/some-test
+   */
+  export namespace SomeTestList {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = {
+      user: {
+        foo: number;
+        extra: {
+          id: number;
+          extra: {
+            foo: string;
+            bar: number;
+            baz: string;
+            bad: number;
+            extra: {
+              foo: string;
+              bar: number;
+              baz: string;
+              bad: number;
+              extra: {
+                foo: string;
+                bar: number;
+                baz: string;
+                bad: number;
+                extra: { foo: string; bar: number; baz: string; bad: number };
+              };
+            };
+          };
+        };
+      };
+    };
+  }
+}
 
 export namespace pathParams {
   /**

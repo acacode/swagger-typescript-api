@@ -36,6 +36,7 @@ const config = {
     httpClient: "http-client",
     outOfModuleApi: "Common",
   },
+  routeNameDuplicatesMap: new Map(),
   prettierOptions: constants.PRETTIER_OPTIONS,
   hooks: {
     onCreateComponent: (schema) => schema,
@@ -44,8 +45,10 @@ const config = {
     onInit: (config) => config,
     onPrepareConfig: (apiConfig) => apiConfig,
     onCreateRequestParams: (rawType) => {},
+    onCreateRouteName: () => {},
   },
   defaultResponseType: constants.TS_KEYWORDS.VOID,
+  singleHttpClient: false,
 };
 
 /** needs to use data everywhere in project */

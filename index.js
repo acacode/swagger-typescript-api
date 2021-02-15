@@ -62,6 +62,7 @@ program
     0,
   )
   .option("--disableStrictSSL", "disabled strict SSL", false)
+  .option("--single-http-client", "Ability to send HttpClient instance to Api constructor", false)
   .option("--default-response <type>", "default type for empty response schema", TS_KEYWORDS.VOID)
   .option(
     "--clean-output",
@@ -89,6 +90,7 @@ const {
   disableStrictSSL,
   cleanOutput,
   defaultResponse,
+  singleHttpClient,
 } = program;
 
 generateApi({
@@ -109,5 +111,6 @@ generateApi({
   enumNamesAsValues: enumNamesAsValues,
   moduleNameIndex: +(moduleNameIndex || 0),
   disableStrictSSL: !!disableStrictSSL,
+  singleHttpClient: !!singleHttpClient,
   cleanOutput: !!cleanOutput,
 });

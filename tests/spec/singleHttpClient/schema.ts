@@ -9,69 +9,6 @@
  * ---------------------------------------------------------------
  */
 
-export interface Step {
-  /** address of the stop */
-  address?: string;
-
-  /**
-   * arrival at the stop in its local timezone as YYYY-MM-DDThh:mm
-   * @format date-time
-   */
-  arrival?: string;
-
-  /** geographical coordinates of the stop */
-  coordinates?: { lat?: number; lon?: number };
-
-  /**
-   * departure from the stop in its local timezone as YYYY-MM-DDThh:mm
-   * @format date-time
-   */
-  departure?: string;
-
-  /** name of the stop */
-  name?: string;
-
-  /**
-   * number of nights
-   * @format int64
-   */
-  nights?: number;
-
-  /** route leading to the stop */
-  route?: {
-    distance?: number;
-    duration?: number;
-    mode?: "car" | "motorcycle" | "bicycle" | "walk" | "other";
-    polyline?: string;
-  };
-
-  /** url of the page with more information about the stop */
-  url?: string;
-}
-
-export interface Trip {
-  /**
-   * begin of the trip in its local timezone as YYYY-MM-DDThh:mm
-   * @format date-time
-   */
-  begin?: string;
-
-  /** description of the trip (truncated to 200 characters) */
-  description?: string;
-
-  /**
-   * end of the trip in its local timezone as YYYY-MM-DDThh:mm
-   * @format date-time
-   */
-  end?: string;
-
-  /** Unique ID of the trip */
-  id?: string;
-
-  /** name of the trip */
-  name?: string;
-}
-
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -116,7 +53,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "https://trips.furkot.com/pub/api";
+  public baseUrl: string = "https://6-dot-authentiqio.appspot.com";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
   private abortControllers = new Map<CancelToken, AbortController>();
@@ -263,43 +200,27 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title Furkot Trips
- * @version 1.0.0
- * @baseUrl https://trips.furkot.com/pub/api
- * Furkot provides Rest API to access user trip data.
- * Using Furkot API an application can list user trips and display stops for a specific trip.
- * Furkot API uses OAuth2 protocol to authorize applications to access data on behalf of users.
+ * @title Authentiq
+ * @version 6
+ * @baseUrl https://6-dot-authentiqio.appspot.com
+ * Strong authentication, without the passwords.
  */
-export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
-  trip = {
-    /**
-     * @description list user's trips
-     *
-     * @name TripList
-     * @request GET:/trip
-     * @secure
-     */
-    tripList: (params: RequestParams = {}) =>
-      this.request<Trip[], any>({
-        path: `/trip`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
+export class Api<SecurityDataType extends unknown> {
+  constructor(private http: HttpClient<SecurityDataType>) {}
 
+  key = {
     /**
-     * @description list stops for a trip identified by {trip_id}
+     * @description Register a new ID `JWT(sub, devtoken)` v5: `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
      *
-     * @name StopDetail
-     * @request GET:/trip/{trip_id}/stop
-     * @secure
+     * @tags key, post
+     * @name KeyRegister
+     * @request POST:/key
      */
-    stopDetail: (trip_id: string, params: RequestParams = {}) =>
-      this.request<Step[], any>({
-        path: `/trip/${trip_id}/stop`,
-        method: "GET",
-        secure: true,
+    keyRegister: (body: any, params: RequestParams = {}) =>
+      this.http.request<{ secret?: string; status?: string }, any>({
+        path: `/key`,
+        method: "POST",
+        body: body,
         format: "json",
         ...params,
       }),

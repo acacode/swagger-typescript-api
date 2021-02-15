@@ -60,6 +60,119 @@
     }
   },
   "paths": {
+    "/some-test": {
+      "get": {
+        "description": "This type should test bug https://github.com/acacode/swagger-typescript-api/issues/156\r\n NOTE: all properties should be required",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["user"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "required": ["foo", "extra"],
+                      "properties": {
+                        "foo": {
+                          "type": "number",
+                          "nullable": false
+                        },
+                        "extra": {
+                          "type": "object",
+                          "required": ["id", "extra"],
+                          "properties": {
+                            "id": {
+                              "type": "number",
+                              "nullable": false
+                            },
+                            "extra": {
+                              "type": "object",
+                              "required": ["foo", "bar", "baz", "bad", "extra"],
+                              "properties": {
+                                "foo": {
+                                  "type": "string"
+                                },
+                                "bar": {
+                                  "type": "number"
+                                },
+                                "baz": {
+                                  "type": "string"
+                                },
+                                "bad": {
+                                  "type": "number"
+                                },
+                                "extra": {
+                                  "type": "object",
+                                  "required": ["foo", "bar", "baz", "bad", "extra"],
+                                  "properties": {
+                                    "foo": {
+                                      "type": "string"
+                                    },
+                                    "bar": {
+                                      "type": "number"
+                                    },
+                                    "baz": {
+                                      "type": "string"
+                                    },
+                                    "bad": {
+                                      "type": "number"
+                                    },
+                                    "extra": {
+                                      "type": "object",
+                                      "required": ["foo", "bar", "baz", "bad", "extra"],
+                                      "properties": {
+                                        "foo": {
+                                          "type": "string"
+                                        },
+                                        "bar": {
+                                          "type": "number"
+                                        },
+                                        "baz": {
+                                          "type": "string"
+                                        },
+                                        "bad": {
+                                          "type": "number"
+                                        },
+                                        "extra": {
+                                          "type": "object",
+                                          "required": ["foo", "bar", "baz", "bad"],
+                                          "properties": {
+                                            "foo": {
+                                              "type": "string"
+                                            },
+                                            "bar": {
+                                              "type": "number"
+                                            },
+                                            "baz": {
+                                              "type": "string"
+                                            },
+                                            "bad": {
+                                              "type": "number"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/path-params": {
       "get": {
         "description": "Lists all the emojis available to use on GitHub.",

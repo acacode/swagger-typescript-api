@@ -102,22 +102,28 @@ const getType = (schema) => {
   return primitiveType ? checkAndAddNull(schema, primitiveType) : TS_KEYWORDS.ANY;
 };
 
-const isRequired = (property) => {
+const isRequired = (property, name, requiredProperties) => {
   if (property["x-omitempty"] === false) {
     return true;
   }
 
+  const isRequired = _.isBoolean(property.required)
+    ? !!property.required
+    : _.isArray(requiredProperties)
+    ? requiredProperties.includes(name)
+    : !!requiredProperties;
+
   if (config.convertedFromSwagger2) {
-    return typeof property.nullable === TS_KEYWORDS.UNDEFINED
-      ? property.required
-      : !property.nullable;
+    return typeof property.nullable === TS_KEYWORDS.UNDEFINED ? isRequired : !property.nullable;
   }
-  return !!property.required;
+  return isRequired;
 };
 
-const getObjectTypeContent = (properties, additionalProperties) => {
+const getObjectTypeContent = (schema) => {
+  const { properties, additionalProperties, required: requiredProperties } = schema || {};
+
   const propertiesContent = _.map(properties, (property, name) => {
-    const required = isRequired(property);
+    const required = isRequired(property, name, requiredProperties);
     const rawTypeData = _.get(getRefType(property), "rawTypeData", {});
     const nullable = !!(rawTypeData.nullable || property.nullable);
 
@@ -261,17 +267,7 @@ const schemaParsers = {
     });
   },
   [SCHEMA_TYPES.OBJECT]: (schema, typeName) => {
-    const { required, properties, additionalProperties } = schema || {};
-
-    if (_.isArray(required) && properties) {
-      required.forEach((requiredFieldName) => {
-        if (properties[requiredFieldName]) {
-          properties[requiredFieldName].required = true;
-        }
-      });
-    }
-
-    const content = getObjectTypeContent(properties, additionalProperties);
+    const content = getObjectTypeContent(schema);
 
     return attachParsedRef(schema, {
       ...(isObject(schema) ? schema : {}),
@@ -353,7 +349,7 @@ const parseSchema = (rawSchema, typeName, formattersMap) => {
   let schemaType = null;
   let parsedSchema = null;
 
-  if (typeof rawSchema === TS_KEYWORDS.STRING) {
+  if (typeof rawSchema === "string") {
     return rawSchema;
   }
 

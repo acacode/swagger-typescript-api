@@ -1,5 +1,5 @@
-/* tslint:disable */
-/* eslint-disable */
+/* eslint:disable */
+/* tslint-disable */
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -188,7 +188,7 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
 
 export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
-interface ApiConfig<SecurityDataType = unknown> {
+export interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
   baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
   securityWorker?: (securityData: SecurityDataType) => RequestParams | void;
@@ -1473,7 +1473,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       group_feed_data: {
         created_at?: string;
         feeds: { key: string; value: string }[];
-        location: { ele?: number; lat: number; lon: number };
+        location?: { ele?: number; lat: number; lon: number };
       },
       params: RequestParams = {},
     ) =>

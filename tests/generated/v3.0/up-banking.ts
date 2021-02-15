@@ -1,5 +1,5 @@
-/* tslint:disable */
-/* eslint-disable */
+/* eslint:disable */
+/* tslint-disable */
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -57,9 +57,9 @@ export interface AccountResource {
    *
    */
   id: string;
-  attributes: { displayName?: string; accountType?: AccountTypeEnum; balance?: MoneyObject; createdAt?: string };
-  relationships: { transactions?: { links: { related: string } } };
-  links: { self: string };
+  attributes: { displayName: string; accountType: AccountTypeEnum; balance: MoneyObject; createdAt: string };
+  relationships: { transactions: { links?: { related: string } } };
+  links?: { self: string };
 }
 
 /**
@@ -73,7 +73,7 @@ export interface ListAccountsResponse {
    *
    */
   data: AccountResource[];
-  links: { prev?: string | null; next?: string | null };
+  links: { prev: string | null; next: string | null };
 }
 
 /**
@@ -100,12 +100,12 @@ export interface CategoryResource {
    *
    */
   id: string;
-  attributes: { name?: string };
+  attributes: { name: string };
   relationships: {
-    parent: { data: { type?: string; id?: string }; links: { related: string } };
-    children: { data: { type: string; id: string }[]; links: { related: string } };
+    parent: { data: { type: string; id: string }; links?: { related: string } };
+    children: { data: { type: string; id: string }[]; links?: { related: string } };
   };
-  links: { self: string };
+  links?: { self: string };
 }
 
 /**
@@ -135,7 +135,7 @@ export interface GetCategoryResponse {
  * Basic ping response to verify authentication.
  */
 export interface PingResponse {
-  meta: { id?: string; statusEmoji?: string };
+  meta: { id: string; statusEmoji: string };
 }
 
 /**
@@ -198,7 +198,7 @@ export interface TagResource {
    *
    */
   id: string;
-  relationships: { transactions?: { links: { related: string } } };
+  relationships: { transactions: { links?: { related: string } } };
 }
 
 /**
@@ -212,7 +212,7 @@ export interface ListTagsResponse {
    *
    */
   data: TagResource[];
-  links: { prev?: string | null; next?: string | null };
+  links: { prev: string | null; next: string | null };
 }
 
 /**
@@ -321,25 +321,25 @@ export interface TransactionResource {
    */
   id: string;
   attributes: {
-    status?: TransactionStatusEnum;
-    rawText?: string | null;
-    description?: string;
-    message?: string | null;
-    holdInfo?: HoldInfoObject | null;
-    roundUp?: RoundUpObject | null;
-    cashback?: CashbackObject | null;
-    amount?: MoneyObject;
-    foreignAmount?: MoneyObject | null;
-    settledAt?: string | null;
-    createdAt?: string;
+    status: TransactionStatusEnum;
+    rawText: string | null;
+    description: string;
+    message: string | null;
+    holdInfo: HoldInfoObject | null;
+    roundUp: RoundUpObject | null;
+    cashback: CashbackObject | null;
+    amount: MoneyObject;
+    foreignAmount: MoneyObject | null;
+    settledAt: string | null;
+    createdAt: string;
   };
   relationships: {
-    account: { data: { type?: string; id?: string }; links: { related: string } };
-    category: { data: { type?: string; id?: string }; links: { related: string } };
-    parentCategory: { data: { type?: string; id?: string }; links: { related: string } };
-    tags: { data: { type: string; id: string }[]; links: { self: string } };
+    account: { data: { type: string; id: string }; links?: { related: string } };
+    category: { data: { type: string; id: string }; links?: { related: string } };
+    parentCategory: { data: { type: string; id: string }; links?: { related: string } };
+    tags: { data: { type: string; id: string }[]; links?: { self: string } };
   };
-  links: { self: string };
+  links?: { self: string };
 }
 
 /**
@@ -353,7 +353,7 @@ export interface ListTransactionsResponse {
    *
    */
   data: TransactionResource[];
-  links: { prev?: string | null; next?: string | null };
+  links: { prev: string | null; next: string | null };
 }
 
 /**
@@ -379,9 +379,9 @@ export interface WebhookResource {
    *
    */
   id: string;
-  attributes: { url?: string; description?: string | null; secretKey?: string; createdAt?: string };
-  relationships: { logs?: { links: { related: string } } };
-  links: { self: string };
+  attributes: { url: string; description: string | null; secretKey?: string; createdAt: string };
+  relationships: { logs: { links?: { related: string } } };
+  links?: { self: string };
 }
 
 /**
@@ -395,14 +395,14 @@ export interface ListWebhooksResponse {
    *
    */
   data: WebhookResource[];
-  links: { prev?: string | null; next?: string | null };
+  links: { prev: string | null; next: string | null };
 }
 
 /**
  * Represents a webhook specified as request input.
  */
 export interface WebhookInputResource {
-  attributes: { url?: string; description?: string | null };
+  attributes: { url: string; description?: string | null };
 }
 
 /**
@@ -455,10 +455,10 @@ export interface WebhookEventResource {
    *
    */
   id: string;
-  attributes: { eventType?: WebhookEventTypeEnum; createdAt?: string };
+  attributes: { eventType: WebhookEventTypeEnum; createdAt: string };
   relationships: {
-    webhook: { data: { type?: string; id?: string }; links: { related: string } };
-    transaction: { data: { type?: string; id?: string }; links: { related: string } };
+    webhook: { data: { type: string; id: string }; links?: { related: string } };
+    transaction?: { data: { type: string; id: string }; links?: { related: string } };
   };
 }
 
@@ -517,10 +517,10 @@ export interface WebhookDeliveryLogResource {
   attributes: {
     request: { body: string };
     response: { statusCode: number; body: string };
-    deliveryStatus?: WebhookDeliveryStatusEnum;
-    createdAt?: string;
+    deliveryStatus: WebhookDeliveryStatusEnum;
+    createdAt: string;
   };
-  relationships: { webhookEvent: { data: { type?: string; id?: string } } };
+  relationships: { webhookEvent: { data: { type: string; id: string } } };
 }
 
 /**
@@ -534,7 +534,7 @@ export interface ListWebhookDeliveryLogsResponse {
    *
    */
   data: WebhookDeliveryLogResource[];
-  links: { prev?: string | null; next?: string | null };
+  links: { prev: string | null; next: string | null };
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -561,7 +561,7 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
 
 export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
-interface ApiConfig<SecurityDataType = unknown> {
+export interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
   baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
   securityWorker?: (securityData: SecurityDataType) => RequestParams | void;

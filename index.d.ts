@@ -81,6 +81,10 @@ interface GenerateApiParams {
    * default type for empty response schema (default: "void")
    */
   defaultResponseType?: boolean;
+  /**
+   * Ability to send HttpClient instance to Api constructor
+   */
+  singleHttpClient?: boolean;
   cleanOutput?: boolean;
   enumNamesAsValues?: boolean;
 
@@ -92,6 +96,10 @@ interface GenerateApiParams {
     onInit?: <C extends GenerateApiConfiguration["config"]>(configuration: C) => C | void;
     /** customize configuration object before sending it to ETA templates */
     onPrepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C | void;
+    onCreateRouteName?: (
+      routeNameInfo: RouteNameInfo,
+      rawRouteInfo: RawRouteInfo,
+    ) => RouteNameInfo | void;
     onCreateRequestParams?: (
       rawType: SchemaComponent["rawTypeData"],
     ) => SchemaComponent["rawTypeData"] | void;
@@ -101,6 +109,14 @@ interface GenerateApiParams {
    */
   extraTemplates?: { name: string; path: string }[];
 }
+
+export interface RouteNameRouteInfo {}
+
+export type RouteNameInfo = {
+  usage: string;
+  original: string;
+  duplicate: boolean;
+};
 
 export type SchemaTypePrimitiveContent = {
   $parsedSchema: boolean;
@@ -139,6 +155,13 @@ export interface ParsedSchema<C> {
   content: C;
 }
 
+export interface PathArgInfo {
+  name: string;
+  optional: boolean;
+  type: string;
+  description?: string;
+}
+
 export interface SchemaComponent {
   $ref: string;
   typeName: string;
@@ -167,41 +190,50 @@ export interface SchemaComponent {
   > | null;
 }
 
+export enum RequestContentKind {
+  JSON = "JSON",
+  URL_ENCODED = "URL_ENCODED",
+  FORM_DATA = "FORM_DATA",
+  IMAGE = "IMAGE",
+  OTHER = "OTHER",
+}
+
+export interface RequestResponseInfo {
+  contentTypes: string[];
+  contentKind: RequestContentKind;
+  type: string;
+  description: string;
+  status: string | number;
+  isSuccess: boolean;
+}
+
+export type RawRouteInfo = {
+  operationId: string;
+  method: string;
+  route: string;
+  moduleName: string;
+  responsesTypes: RequestResponseInfo[];
+  description?: string;
+  tags?: string[];
+  summary?: string;
+  responses?: import("swagger-schema-official").Spec["responses"];
+  produces?: string[];
+  requestBody?: object;
+  consumes?: string[];
+};
+
 export interface ParsedRoute {
   id: string;
   jsDocLines: string;
   namespace: string;
   request: Request;
   response: Response;
-  routeName: {
-    usage: string;
-    original: string;
-    duplicate: boolean;
-  };
-  raw: {
-    method: string;
-    route: string;
-    moduleName: string;
-    responsesTypes: {
-      type: string;
-      description: string;
-      status: number;
-      isSuccess: boolean;
-    }[];
-  };
+  routeName: RouteNameInfo;
+  raw: RawRouteInfo;
 }
 
 export interface GenerateApiConfiguration {
   apiConfig: {
-    props: {
-      name: string;
-      optional: boolean;
-      type: string;
-    }[];
-    generic: {
-      name: string;
-      defaultValue: string;
-    }[];
     baseUrl: string;
     title: string;
     version: string;
