@@ -76,7 +76,7 @@ const getInternalSchemaType = (schema) => {
 
 const checkAndAddNull = (schema, value) => {
   const { nullable, type } = schema || {};
-  return (nullable || type === TS_KEYWORDS.NULL) &&
+  return (nullable || !!_.get(schema, "x-nullable") || type === TS_KEYWORDS.NULL) &&
     _.isString(value) &&
     !value.includes(` ${TS_KEYWORDS.NULL}`) &&
     !value.includes(`${TS_KEYWORDS.NULL} `)
@@ -386,4 +386,5 @@ module.exports = {
   getType,
   getRefType,
   SCHEMA_TYPES,
+  checkAndAddNull,
 };

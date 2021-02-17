@@ -1,5 +1,11 @@
 const _ = require("lodash");
-const { types, parseSchema, getRefType, getInlineParseContent } = require("./schema");
+const {
+  types,
+  parseSchema,
+  getRefType,
+  getInlineParseContent,
+  checkAndAddNull,
+} = require("./schema");
 const { checkAndRenameModelName } = require("./modelNames");
 const {
   DEFAULT_BODY_ARG_NAME,
@@ -90,12 +96,15 @@ const getRequestInfoTypes = ({ requestInfos, parsedSchemas, operationId, default
           ...(requestInfo || {}),
           contentTypes: contentTypes,
           contentKind: getContentKind(contentTypes),
-          type: getTypeFromRequestInfo({
+          type: checkAndAddNull(
             requestInfo,
-            parsedSchemas,
-            operationId,
-            defaultType,
-          }),
+            getTypeFromRequestInfo({
+              requestInfo,
+              parsedSchemas,
+              operationId,
+              defaultType,
+            }),
+          ),
           description: formatDescription(requestInfo.description || "", true),
           status: _.isNaN(+status) ? status : +status,
           isSuccess: isSuccessStatus(status),
@@ -378,11 +387,14 @@ const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
     type = getInlineParseContent(schema);
   } else if (requestBody) {
     schema = requestBody;
-    type = getTypeFromRequestInfo({
-      requestInfo: requestBody,
-      parsedSchemas,
-      operationId,
-    });
+    type = checkAndAddNull(
+      requestBody,
+      getTypeFromRequestInfo({
+        requestInfo: requestBody,
+        parsedSchemas,
+        operationId,
+      }),
+    );
 
     // TODO: Refactor that.
     // It needed for cases when swagger schema is not declared request body type as form data

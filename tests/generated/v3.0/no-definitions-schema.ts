@@ -11,6 +11,7 @@
 
 export interface BasicErrorModel {
   message: string;
+  field?: string | null;
 
   /**
    * @min 100

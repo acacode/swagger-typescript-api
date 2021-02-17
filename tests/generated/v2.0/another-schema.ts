@@ -235,7 +235,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/Foo/GetBarDescriptions
      */
     fooGetBarDescriptions: (params: RequestParams = {}) =>
-      this.request<string[], any>({
+      this.request<string[] | null, any>({
         path: `/api/Foo/GetBarDescriptions`,
         method: "GET",
         format: "json",
@@ -250,7 +250,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/Foo/GetBar
      */
     fooGetBar: (query: { id: number }, params: RequestParams = {}) =>
-      this.request<Bar, any>({
+      this.request<Bar | null, any>({
         path: `/api/Foo/GetBar`,
         method: "GET",
         query: query,
@@ -265,7 +265,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name FooSetBar
      * @request POST:/api/Foo/SetBar
      */
-    fooSetBar: (value: Bar, params: RequestParams = {}) =>
+    fooSetBar: (value: Bar | null, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/Foo/SetBar`,
         method: "POST",
