@@ -1,5 +1,10 @@
 # next release  
 
+# 5.1.4  
+
+Fixes:  
+- header overwrite in `default` and `modular` API templates (thanks @emilecantin)  
+
 # 5.1.3  
 
 Fixes:  
