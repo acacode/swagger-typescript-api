@@ -167,6 +167,16 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "emilecantin",
+      "name": "Emile Cantin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/885486?v=4",
+      "profile": "http://emilecantin.com",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
