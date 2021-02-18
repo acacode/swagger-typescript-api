@@ -64,11 +64,11 @@ export class HttpClient {
       const queryString = query && this.toQueryString(query);
       const payloadFormatter = this.contentFormatters[type || ContentType.Json];
       return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
+        ...requestParams,
         headers: {
           ...(type ? { "Content-Type": type } : {}),
           ...(requestParams.headers || {}),
         },
-        ...requestParams,
         signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
         body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
       }).then(async (response) => {
