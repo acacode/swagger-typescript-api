@@ -3,7 +3,7 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/acacode/swagger-typescript-api.svg)](https://greenkeeper.io/) 
 [![NPM badge](https://img.shields.io/npm/v/swagger-typescript-api.svg)](https://www.npmjs.com/package/swagger-typescript-api) 
 [![Build Status](https://travis-ci.org/acacode/swagger-typescript-api.svg?branch=master)](https://travis-ci.org/acacode/swagger-typescript-api) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-16-orange.svg)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <img src="https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/swagger-typescript-api-logo.png" align="left"
@@ -197,6 +197,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="http://sebastianarias.dev"><img src="https://avatars.githubusercontent.com/u/9751266?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sebastián Arias</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3ALarox" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/Styn"><img src="https://avatars.githubusercontent.com/u/6705137?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Stijn Lammens</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3AStyn" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="http://emilecantin.com"><img src="https://avatars.githubusercontent.com/u/885486?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Emile Cantin</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Aemilecantin" title="Bug reports">🐛</a> <a href="https://github.com/acacode/swagger-typescript-api/commits?author=emilecantin" title="Code">💻</a></td>
   </tr>
 </table>
 
