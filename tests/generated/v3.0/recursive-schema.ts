@@ -9,18 +9,19 @@
  * ---------------------------------------------------------------
  */
 
-export interface BasicErrorModel {
-  message: string;
-  field?: string | null;
-
+/**
+ * RECURSIVE
+ */
+export interface RecursiveObject {
   /**
-   * @min 100
-   * @max 600
+   * Unique identifier of the GitHub app
+   * @example 37
    */
-  code: number;
-}
+  id?: number;
 
-export type ExtendedErrorModel = BasicErrorModel & { rootCause: string };
+  /** RECURSIVE */
+  bar?: RecursiveObject;
+}
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -213,7 +214,6 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title Empty schema example
- * @version 1.0.0
+ * @title No title
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {}

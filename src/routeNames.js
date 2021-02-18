@@ -6,12 +6,14 @@ const getRouteName = (routeInfo) => {
   const { routeNameDuplicatesMap, templatesToRender } = config;
   const routeNameTemplate = templatesToRender.routeName;
 
-  const routeName = routeNameTemplate
-    ? renderTemplate(routeNameTemplate, {
-        routeInfo: routeInfo,
-        utils: require("./render/utils"),
-      })
-    : null;
+  if (!routeNameTemplate) {
+    throw new Error("🥵 route name template (route-name.eta) not found");
+  }
+
+  const routeName = renderTemplate(routeNameTemplate, {
+    routeInfo: routeInfo,
+    utils: require("./render/utils"),
+  });
 
   const duplicateIdentifier = `${moduleName}|${routeName}`;
 

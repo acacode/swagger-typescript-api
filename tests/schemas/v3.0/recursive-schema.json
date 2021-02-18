@@ -1,0 +1,32 @@
+{
+  "components": {
+    "examples": {},
+    "headers": {},
+    "parameters": {},
+    "requestBodies": {},
+    "responses": {},
+    "schemas": {
+      "recursive-object": {
+        "type": "object",
+        "description": "RECURSIVE",
+        "properties": {
+          "id": {
+            "description": "Unique identifier of the GitHub app",
+            "example": 37,
+            "type": "integer"
+          },
+          "bar": {
+            "$ref": "#/components/schemas/recursive-object"
+          }
+        }
+      }
+    },
+    "securitySchemes": {}
+  },
+  "info": {
+    "title": ""
+  },
+  "openapi": "3.0.0",
+  "paths": {},
+  "servers": []
+}

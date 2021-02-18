@@ -9,18 +9,29 @@
  * ---------------------------------------------------------------
  */
 
-export interface BasicErrorModel {
-  message: string;
-  field?: string | null;
+/**
+ * Not found response
+ * @example Not found
+ */
+export type Type404 = string;
 
-  /**
-   * @min 100
-   * @max 600
-   */
-  code: number;
-}
+/**
+ * Not found response
+ * @example Not found
+ */
+export type Type405 = string;
 
-export type ExtendedErrorModel = BasicErrorModel & { rootCause: string };
+/**
+ * Not found response
+ * @example Not found
+ */
+export type FF = string;
+
+/**
+ * Not found response
+ * @example Not found
+ */
+export type TypeFF = string;
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -213,7 +224,98 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title Empty schema example
+ * @title Link Example
  * @version 1.0.0
  */
-export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {}
+export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  v20 = {
+    /**
+     * No description
+     *
+     * @name GetUserByName
+     * @request GET:/2.0/users/{username}
+     */
+    getUserByName: (username: string, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/2.0/users/${username}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name GetRepositoriesByOwner
+     * @request GET:/2.0/repositories/{username}
+     */
+    getRepositoriesByOwner: (username: string, params: RequestParams = {}) =>
+      this.request<any[], any>({
+        path: `/2.0/repositories/${username}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name GetRepository
+     * @request GET:/2.0/repositories/{username}/{slug}
+     */
+    getRepository: (username: string, slug: string, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/2.0/repositories/${username}/${slug}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name GetPullRequestsByRepository
+     * @request GET:/2.0/repositories/{username}/{slug}/pullrequests
+     */
+    getPullRequestsByRepository: (
+      username: string,
+      slug: string,
+      query?: { state?: "open" | "merged" | "declined" },
+      params: RequestParams = {},
+    ) =>
+      this.request<any[], any>({
+        path: `/2.0/repositories/${username}/${slug}/pullrequests`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name GetPullRequestsById
+     * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
+     */
+    getPullRequestsById: (username: string, slug: string, pid: string, params: RequestParams = {}) =>
+      this.request<Type404, any>({
+        path: `/2.0/repositories/${username}/${slug}/pullrequests/${pid}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name MergePullRequest
+     * @request POST:/2.0/repositories/{username}/{slug}/pullrequests/{pid}/merge
+     */
+    mergePullRequest: (username: string, slug: string, pid: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/2.0/repositories/${username}/${slug}/pullrequests/${pid}/merge`,
+        method: "POST",
+        ...params,
+      }),
+  };
+}

@@ -20,6 +20,10 @@ const checkAndRenameModelName = (name) => {
   }
 
   if (!isValidName(name)) {
+    if (!/^[a-zA-Z_$]/g.test(name)) {
+      name = `Type ${name}`;
+    }
+
     // specific replaces for TSOA 3.x
     if (name.includes("."))
       name = name

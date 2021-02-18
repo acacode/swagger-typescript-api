@@ -1,5 +1,11 @@
 # next release  
 
+# 5.1.3  
+
+Fixes:  
+- Ignored `x-nullable` field  
+- Schema type names which starts with number or special characters  
+
 # 5.1.2  
 
 Fixes:  

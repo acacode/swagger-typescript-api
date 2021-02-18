@@ -12,13 +12,16 @@ components:
       properties:
         message:
           type: string
+        field:
+          type: string
+          x-nullable: true
         code:
           type: integer
           minimum: 100
           maximum: 600
     ExtendedErrorModel:
-      allOf:     # Combines the BasicErrorModel and the inline model
-        - $ref: '#/components/schemas/BasicErrorModel'
+      allOf: # Combines the BasicErrorModel and the inline model
+        - $ref: "#/components/schemas/BasicErrorModel"
         - type: object
           required:
             - rootCause
