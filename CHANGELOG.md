@@ -3,7 +3,7 @@
 # 5.1.4  
 
 Fixes:  
-- header overwrite in `default` and `modular` API templates (thanks @emilecantin)  
+- header overwrite in `default` and `modular` API templates (issue #171 by @Styn, thanks @emilecantin for PR with fix)  
 
 # 5.1.3  
 
