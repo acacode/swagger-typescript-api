@@ -196,7 +196,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="http://sebastianarias.dev"><img src="https://avatars.githubusercontent.com/u/9751266?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sebastián Arias</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3ALarox" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/Styn"><img src="https://avatars.githubusercontent.com/u/6705137?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Stijn Lammens</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3AStyn" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/Styn"><img src="https://avatars.githubusercontent.com/u/6705137?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Stijn Lammens</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3AStyn" title="Bug reports">🐛</a> <a href="https://github.com/acacode/swagger-typescript-api/commits?author=Styn" title="Code">💻</a></td>
     <td align="center"><a href="http://emilecantin.com"><img src="https://avatars.githubusercontent.com/u/885486?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Emile Cantin</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Aemilecantin" title="Bug reports">🐛</a> <a href="https://github.com/acacode/swagger-typescript-api/commits?author=emilecantin" title="Code">💻</a></td>
   </tr>
 </table>
