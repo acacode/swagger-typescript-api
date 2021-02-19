@@ -31,7 +31,8 @@ export class HttpClient {
       this.securityData = data;
     };
     this.contentFormatters = {
-      [ContentType.Json]: (input) => (input !== null && typeof input === "object" ? JSON.stringify(input) : input),
+      [ContentType.Json]: (input) =>
+        input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
       [ContentType.FormData]: (input) =>
         Object.keys(input || {}).reduce((data, key) => {
           data.append(key, input[key]);

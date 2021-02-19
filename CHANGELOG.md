@@ -1,5 +1,10 @@
 # next release  
 
+# 5.1.6  
+
+Fixes:  
+- The contentFormatter for ContentType:Json does not correctly format strings (issue #176, thanks @Styn)  
+
 # 5.1.5  
 
 Fixes:  
