@@ -171,7 +171,7 @@ export class HttpClient<SecurityDataType = unknown> {
         {
             ...requestParams,
             headers: {
-            ...(type ? { "Content-Type": type } : {}),
+            ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
             ...(requestParams.headers || {}),
             },
             signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,

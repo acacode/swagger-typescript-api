@@ -66,7 +66,7 @@ export class HttpClient {
       return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
         ...requestParams,
         headers: {
-          ...(type ? { "Content-Type": type } : {}),
+          ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
           ...(requestParams.headers || {}),
         },
         signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,

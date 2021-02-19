@@ -1,5 +1,10 @@
 # next release  
 
+# 5.1.5  
+
+Fixes:  
+- ContentType.FormData no longer sets the correct boundary (issue #172, thanks @Styn)  
+
 # 5.1.4  
 
 Fixes:  
