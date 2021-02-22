@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const Eta = require("eta");
-const { getFileContent } = require("./files");
+const { getFileContent, pathIsExist } = require("./files");
 const { resolve } = require("path");
 
 const getTemplates = ({ templates, modular }) => {
@@ -27,7 +27,8 @@ const getTemplates = ({ templates, modular }) => {
   const templatesMap = _.reduce(
     templatePaths,
     (acc, pathToTemplate, key) => {
-      let fileContent = getFileContent(resolve(customTemplatesPath, pathToTemplate));
+      const customFullPath = resolve(customTemplatesPath, pathToTemplate)
+      let fileContent = pathIsExist(customFullPath) && getFileContent(customFullPath);
 
       if (!fileContent) {
         console.log(
