@@ -151,7 +151,7 @@ How to use it:
 NOTE:  
   Eta has special directive to render template in your Eta templates - `includeFile(pathToTemplate, payload)`  
   If you want to use some default templates from this tool you can use path prefixes: `@base`, `@default`, `@modular`.  
-  Examples:
+  Examples:  
     - `includeFile("@base/data-contracts.eta", configuration)`  
     - `includeFile("@default/api.eta", configuration)`  
     - `includeFile("@default/procedure-call.eta", configuration)`  
