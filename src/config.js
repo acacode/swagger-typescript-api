@@ -49,6 +49,20 @@ const config = {
   },
   defaultResponseType: constants.TS_KEYWORDS.VOID,
   singleHttpClient: false,
+  templatePaths: {
+    /** `templates/base` */
+    base: "",
+    /** `templates/default` */
+    default: "",
+    /** `templates/modular` */
+    modular: "",
+    /** usage path if `--templates` option is not set */
+    original: "",
+    /** custom path to templates (`--templates`) */
+    custom: "",
+  },
+  /** Record<templateName, templateContent> */
+  templatesToRender: {},
 };
 
 /** needs to use data everywhere in project */

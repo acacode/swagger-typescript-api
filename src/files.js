@@ -4,7 +4,9 @@ const { resolve } = require("path");
 const { filePrefix } = require("./filePrefix");
 const makeDir = require("make-dir");
 
-const getFileContent = (path) => fs.readFileSync(path, { encoding: "UTF-8" });
+const getFileContent = (path) => {
+  return fs.readFileSync(path, { encoding: "UTF-8" });
+};
 
 const pathIsDir = (path) => {
   if (!path) return false;

@@ -4,7 +4,7 @@ const { requestBodyInfo, responseBodyInfo } = route;
 const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef, require } = utils;
 const { parameters, path, method, payload, params, query, formData, security, requestParams } = route.request;
 const { type, errorType, contentTypes } = route.response;
-const routeDocs = includeFile("./route-docs", { config, route, utils });
+const routeDocs = includeFile("@base/route-docs", { config, route, utils });
 const queryName = (query && query.name) || "query";
 const pathParams = _.values(parameters);
 

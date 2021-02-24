@@ -1,5 +1,11 @@
 # next release  
 
+BREAKING_CHANGES:  
+- Ability to override only one template (issue #166, thanks @Nihisil)  
+
+Features:  
+- template path prefixes `@base`, `@default`, `@modular` (using in Eta templates, `includeFile()`, see README.md)  
+
 # 5.1.7  
 
 Fixes:  

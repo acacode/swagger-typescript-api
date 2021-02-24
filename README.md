@@ -144,8 +144,23 @@ How to use it:
 1. copy swagger-typescript-api templates into your place in project
     - from [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default) for single api file  
     - from [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular) for multiple api files (with `--modular` option)  
+    - from [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base) for base templates (templates using both in default and modular)  
 1. add `--templates PATH_TO_YOUR_TEMPLATES` option  
 2. modify [ETA](https://eta.js.org/docs/syntax) templates as you like  
+
+NOTE:  
+  Eta has special directive to render template in your Eta templates - `includeFile(pathToTemplate, payload)`  
+  If you want to use some default templates from this tool you can use path prefixes: `@base`, `@default`, `@modular`.  
+  Examples:
+    - `includeFile("@base/data-contracts.eta", configuration)`  
+    - `includeFile("@default/api.eta", configuration)`  
+    - `includeFile("@default/procedure-call.eta", configuration)`  
+    - `includeFile("@modular/api.eta", configuration)`  
+    - `includeFile("@modular/procedure-call.eta", configuration)`  
+    - `includeFile("@base/route-docs.eta", configuration)`  
+    - `includeFile("@base/route-name.eta", configuration)`  
+    - `includeFile("@base/route-type.eta", configuration)`  
+    - `includeFile("@base/route-types.eta", configuration)`  
 
 ### **`--module-name-index`**  
 This option should be used in cases when you have api with one global prefix like `/api`   

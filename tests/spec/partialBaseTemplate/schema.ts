@@ -9,6 +9,18 @@
  * ---------------------------------------------------------------
  */
 
+/** PARTIAL TEMPLATES */
+/**
+ * * FOO BAR
+ */
+export interface Pet {
+  /** @format int64 */
+  id: number;
+  name: string;
+  tag?: string;
+  multiple?: string | number;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -53,7 +65,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "https://6-dot-authentiqio.appspot.com";
+  public baseUrl: string = "http://petstore.swagger.io/api";
   private securityData: SecurityDataType = null as any;
   private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
   private abortControllers = new Map<CancelToken, AbortController>();
@@ -197,5 +209,29 @@ export class HttpClient<SecurityDataType = unknown> {
       if (!response.ok) throw data;
       return data;
     });
+  };
+}
+
+/**
+ * @title Swagger Petstore
+ * @version 1.0.0
+ * @baseUrl http://petstore.swagger.io/api
+ * A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
+ */
+export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  pets = {
+    /**
+     * @description Returns all pets from the system that the user has access to
+     *
+     * @name PetsList
+     * @request GET:/pets
+     */
+    petsList: (params: RequestParams = {}) =>
+      this.request<Pet[], any>({
+        path: `/pets`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
   };
 }

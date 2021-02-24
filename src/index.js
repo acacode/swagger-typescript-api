@@ -15,7 +15,7 @@ const { getSwaggerObject, fixSwaggerScheme, convertSwaggerObject } = require("./
 const { createComponentsMap, filterComponentsMap } = require("./components");
 const { createFile, pathIsExist, pathIsDir, createDir, cleanDir } = require("./files");
 const { addToConfig, config } = require("./config");
-const { getTemplates } = require("./templates");
+const { getTemplates, getTemplatePaths } = require("./templates");
 const constants = require("./constants");
 const { generateOutputFiles } = require("./output");
 
@@ -66,6 +66,10 @@ module.exports = {
       });
       (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url, disableStrictSSL))
         .then(({ usageSchema, originalSchema }) => {
+          const templatePaths = getTemplatePaths(config);
+
+          addToConfig({ templatePaths });
+
           const templatesToRender = getTemplates(config);
 
           console.log("☄️  start generating your typescript api");

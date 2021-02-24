@@ -29,7 +29,9 @@
     "test:--extract-request-params": "node tests/spec/extractRequestParams/test.js",
     "test:--enum-names-as-values": "node tests/spec/enumNamesAsValues/test.js",
     "test:--default-response": "node tests/spec/defaultResponse/test.js",
-    "test:--js": "node tests/spec/js/test.js"
+    "test:--js": "node tests/spec/js/test.js",
+    "test:partialBaseTemplate": "node tests/spec/partialBaseTemplate/test.js",
+    "test:partialDefaultTemplate": "node tests/spec/partialDefaultTemplate/test.js"
   },
   "author": "acacode",
   "license": "MIT",
