@@ -1,5 +1,11 @@
 # next release  
 
+# 5.1.7  
+
+Fixes:  
+- Do not fail if template file does not exist (issue #166, thanks @armsnyder )  
+  Caveat: With this fix it will still error if the overridden template uses `includeFile` on a template file that is not overridden  
+
 # 5.1.6  
 
 Fixes:  
