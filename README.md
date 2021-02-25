@@ -26,9 +26,6 @@ Any questions you can ask [**here**](https://github.com/acacode/swagger-typescri
 
 All examples you can find [**here**](https://github.com/acacode/swagger-typescript-api/tree/master/tests)  
 
-## 🛑 It is new version with [ETA](https://eta.js.org/docs/syntax) templates  
-Version with `mustache` templates is `>4.0.0`  
-
 ## 📄 Usage  
 
 ```muse
