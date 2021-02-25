@@ -128,7 +128,7 @@ generateApi({
 
 ## 💎 options   
 ### **`--templates`**  
-This option needed for cases when you don't want to use default `swagger-typescript-api` output structure  
+This option needed for cases when you don't want to use the default `swagger-typescript-api` output structure  
 
 Templates:  
 - `api.eta` - Api class module (locations: [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default/api.eta), [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular/api.eta))  
@@ -141,7 +141,7 @@ Templates:
 - `route-types.eta` - *(`--route-types` option)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-types.eta))  
 
 How to use it:  
-1. copy swagger-typescript-api templates into your place in project
+1. copy `swagger-typescript-api` templates into your place in project
     - from [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default) for single api file  
     - from [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular) for multiple api files (with `--modular` option)  
     - from [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base) for base templates (templates using both in default and modular)  
@@ -151,6 +151,9 @@ How to use it:
 NOTE:  
   Eta has special directive to render template in your Eta templates - `includeFile(pathToTemplate, payload)`  
   If you want to use some default templates from this tool you can use path prefixes: `@base`, `@default`, `@modular`.  
+    `@base` - [path to base templates](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base)  
+    `@default` - [path to single api file templates](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default)  
+    `@modular` - [path to multiple api files templates](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular)  
   Examples:  
     - `includeFile("@base/data-contracts.eta", configuration)`  
     - `includeFile("@default/api.eta", configuration)`  
