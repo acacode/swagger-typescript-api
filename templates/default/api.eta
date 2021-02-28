@@ -13,6 +13,7 @@ const descriptionLines = _.compact([
 ]);
 
 %>
+<% if (config.httpClientType === config.constants.HTTP_CLIENT.AXIOS) { %> import { AxiosRequestConfig } from "axios"; <% } %>
 <% if (descriptionLines.length) { %>
 /**
 <% descriptionLines.forEach((descriptionLine) => { %>

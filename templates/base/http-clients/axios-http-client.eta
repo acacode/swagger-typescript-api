@@ -1,0 +1,118 @@
+<%
+const { apiConfig, generateResponses } = it;
+%>
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+
+export type QueryParamsType = Record<string | number, any>;
+export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
+
+export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "params"> {
+  /** set parameter to `true` for call `securityWorker` for this request */
+  secure?: boolean;
+  /** request path */
+  path: string;
+  /** content type of request body */
+  type?: ContentType;
+  /** query params */
+  query?: QueryParamsType;
+  /** format of response (i.e. response.json() -> format: "json") */
+  format?: keyof Omit<Body, "body" | "bodyUsed">;
+  /** request body */
+  body?: unknown;
+}
+
+export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
+
+export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequestConfig, "data" | "cancelToken"> {
+  securityWorker?: (securityData: SecurityDataType | null) => Promise<AxiosRequestConfig | void> | AxiosRequestConfig | void;
+}
+
+export enum ContentType {
+  Json = "application/json",
+  FormData = "multipart/form-data",
+  UrlEncoded = "application/x-www-form-urlencoded",
+}
+
+export class HttpClient<SecurityDataType = unknown> {
+    private instance: AxiosInstance;
+    private securityData: SecurityDataType | null = null;
+    private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
+
+    constructor({ securityWorker, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
+        this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "<%~ apiConfig.baseUrl %>" })
+        this.securityWorker = securityWorker;
+    }
+
+    public setSecurityData = (data: SecurityDataType | null) => {
+        this.securityData = data
+    }
+
+    private addQueryParam(query: QueryParamsType, key: string) {
+        const value = query[key];
+
+        return (
+            encodeURIComponent(key) + "=" + encodeURIComponent(
+                Array.isArray(value) ? value.join(",") :
+                typeof value === "number" ? value :
+                `${value}`
+            )
+        );
+    }
+
+    protected toQueryString(rawQuery?: QueryParamsType): string {
+        const query = rawQuery || {};
+        const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
+        return keys
+                .map((key) =>
+                    typeof query[key] === "object" && !Array.isArray(query[key])
+                    ? this.toQueryString(query[key] as QueryParamsType)
+                    : this.addQueryParam(query, key),
+                )
+                .join("&");
+    }
+
+    private contentFormatters: Record<ContentType, (input: any) => any> = {
+        [ContentType.Json]: (input:any) => input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
+        [ContentType.FormData]: (input: any) =>
+            Object.keys(input || {}).reduce((data, key) => {
+            data.append(key, input[key]);
+            return data;
+        }, new FormData()),
+        [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
+    }
+
+    private mergeRequestParams(params1: AxiosRequestConfig, params2?: AxiosRequestConfig): AxiosRequestConfig {
+        return {
+            ...params1,
+            ...(params2 || {}),
+            headers: {
+                ...(params1.headers || {}),
+                ...((params2 && params2.headers) || {}),
+            },
+        };
+    }
+
+    public request = async <T = any, E = any>({
+        secure,
+        path,
+        type,
+        query,
+        format = "json",
+        body,
+        ...params
+    }: FullRequestParams): Promise<AxiosResponse<T>> => {
+        const secureParams = (secure && this.securityWorker && (await this.securityWorker(this.securityData))) || {};
+        const requestParams = this.mergeRequestParams(params, secureParams);
+        const payloadFormatter = this.contentFormatters[type || ContentType.Json];
+
+        return this.instance.request({
+            ...requestParams,
+            headers: {
+                ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
+                ...(requestParams.headers || {}),
+            },
+            params: query,
+            data: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
+        });
+    };
+}

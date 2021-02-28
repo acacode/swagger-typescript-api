@@ -27,26 +27,6 @@ const createApiConfig = (swaggerSchema) => {
     servers: servers || [],
     basePath,
     host,
-    // TODO: unused, remove!
-    props: _.compact([
-      {
-        name: "baseUrl",
-        optional: true,
-        type: TS_KEYWORDS.STRING,
-      },
-      {
-        name: "baseApiParams",
-        optional: true,
-        type: "RequestParams",
-      },
-      {
-        name: "securityWorker",
-        optional: true,
-        type: "(securityData: SecurityDataType) => RequestParams",
-      },
-    ]),
-    // TODO: unused in fresh templates, remove in future
-    generic,
     baseUrl: serverUrl,
     title,
     version,

@@ -1434,10 +1434,12 @@ export interface UserUpdate {
 
 export type Users = User[];
 
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
-export interface FullRequestParams extends Omit<RequestInit, "body"> {
+export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "params"> {
   /** set parameter to `true` for call `securityWorker` for this request */
   secure?: boolean;
   /** request path */
@@ -1450,26 +1452,15 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
   format?: keyof Omit<Body, "body" | "bodyUsed">;
   /** request body */
   body?: unknown;
-  /** base url */
-  baseUrl?: string;
-  /** request cancellation token */
-  cancelToken?: CancelToken;
 }
 
 export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
-export interface ApiConfig<SecurityDataType = unknown> {
-  baseUrl?: string;
-  baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
-  securityWorker?: (securityData: SecurityDataType | null) => Promise<RequestParams | void> | RequestParams | void;
+export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequestConfig, "data" | "cancelToken"> {
+  securityWorker?: (
+    securityData: SecurityDataType | null,
+  ) => Promise<AxiosRequestConfig | void> | AxiosRequestConfig | void;
 }
-
-export interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
-  data: D;
-  error: E;
-}
-
-type CancelToken = Symbol | string | number;
 
 export enum ContentType {
   Json = "application/json",
@@ -1478,20 +1469,13 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "https://api.github.com";
+  private instance: AxiosInstance;
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
-  private abortControllers = new Map<CancelToken, AbortController>();
 
-  private baseApiParams: RequestParams = {
-    credentials: "same-origin",
-    headers: {},
-    redirect: "follow",
-    referrerPolicy: "no-referrer",
-  };
-
-  constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
-    Object.assign(this, apiConfig);
+  constructor({ securityWorker, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
+    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "https://api.github.com" });
+    this.securityWorker = securityWorker;
   }
 
   public setSecurityData = (data: SecurityDataType | null) => {
@@ -1520,11 +1504,6 @@ export class HttpClient<SecurityDataType = unknown> {
       .join("&");
   }
 
-  protected addQueryParams(rawQuery?: QueryParamsType): string {
-    const queryString = this.toQueryString(rawQuery);
-    return queryString ? `?${queryString}` : "";
-  }
-
   private contentFormatters: Record<ContentType, (input: any) => any> = {
     [ContentType.Json]: (input: any) =>
       input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
@@ -1536,156 +1515,97 @@ export class HttpClient<SecurityDataType = unknown> {
     [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
   };
 
-  private mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
+  private mergeRequestParams(params1: AxiosRequestConfig, params2?: AxiosRequestConfig): AxiosRequestConfig {
     return {
-      ...this.baseApiParams,
       ...params1,
       ...(params2 || {}),
       headers: {
-        ...(this.baseApiParams.headers || {}),
         ...(params1.headers || {}),
         ...((params2 && params2.headers) || {}),
       },
     };
   }
 
-  private createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
-    if (this.abortControllers.has(cancelToken)) {
-      const abortController = this.abortControllers.get(cancelToken);
-      if (abortController) {
-        return abortController.signal;
-      }
-      return void 0;
-    }
-
-    const abortController = new AbortController();
-    this.abortControllers.set(cancelToken, abortController);
-    return abortController.signal;
-  };
-
-  public abortRequest = (cancelToken: CancelToken) => {
-    const abortController = this.abortControllers.get(cancelToken);
-
-    if (abortController) {
-      abortController.abort();
-      this.abortControllers.delete(cancelToken);
-    }
-  };
-
   public request = async <T = any, E = any>({
-    body,
     secure,
     path,
     type,
     query,
     format = "json",
-    baseUrl,
-    cancelToken,
+    body,
     ...params
-  }: FullRequestParams): Promise<HttpResponse<T, E>> => {
+  }: FullRequestParams): Promise<AxiosResponse<T>> => {
     const secureParams = (secure && this.securityWorker && (await this.securityWorker(this.securityData))) || {};
     const requestParams = this.mergeRequestParams(params, secureParams);
-    const queryString = query && this.toQueryString(query);
     const payloadFormatter = this.contentFormatters[type || ContentType.Json];
 
-    return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
+    return this.instance.request({
       ...requestParams,
       headers: {
         ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
-      body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
-    }).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = (null as unknown) as T;
-      r.error = (null as unknown) as E;
-
-      const data = await response[format]()
-        .then((data) => {
-          if (r.ok) {
-            r.data = data;
-          } else {
-            r.error = data;
-          }
-          return r;
-        })
-        .catch((e) => {
-          r.error = e;
-          return r;
-        });
-
-      if (cancelToken) {
-        this.abortControllers.delete(cancelToken);
-      }
-
-      if (!response.ok) throw data;
-      return data;
+      params: query,
+      data: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     });
   };
 }
 
-/**
- * @title GitHub
- * @version v3
- * @baseUrl https://api.github.com
- * Powerful collaboration, code review, and code management for open source and private projects.
- */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
-  someop = {
+  someTest = {
     /**
-     * No description
+     * @description This type should test bug https://github.com/acacode/swagger-typescript-api/issues/156 NOTE: all properties should be required
      *
-     * @tags someop
-     * @name SomeOp1
-     * @request POST:/someop
+     * @name SomeTestList
+     * @request GET:/some-test
      */
-    someOp1: (
-      data: Events,
-      query?: { queryParam1?: number; queryParam2?: number; queryParam3?: string[] },
-      params: RequestParams = {},
-    ) =>
-      this.request<Events, void>({
-        path: `/someop`,
-        method: "POST",
-        query: query,
-        body: data,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags someop
-     * @name SomeOp
-     * @request POST:/someop/{fooId}/bars/bar-bar
-     */
-    someOp: (
-      fooId: string,
-      data: Events,
-      query?: { page?: number; size?: number; sort?: string[] },
-      params: RequestParams = {},
-    ) =>
-      this.request<Events, void>({
-        path: `/someop/${fooId}/bars/bar-bar`,
-        method: "POST",
-        query: query,
-        body: data,
+    someTestList: (params: RequestParams = {}) =>
+      this.request<
+        {
+          user: {
+            foo: number;
+            extra: {
+              id: number;
+              extra: {
+                foo: string;
+                bar: number;
+                baz: string;
+                bad: number;
+                extra: {
+                  foo: string;
+                  bar: number;
+                  baz: string;
+                  bad: number;
+                  extra: {
+                    foo: string;
+                    bar: number;
+                    baz: string;
+                    bad: number;
+                    extra: { foo: string; bar: number; baz: string; bad: number };
+                  };
+                };
+              };
+            };
+          };
+        },
+        any
+      >({
+        path: `/some-test`,
+        method: "GET",
         format: "json",
         ...params,
       }),
   };
-  emojis = {
+  pathParams = {
     /**
      * @description Lists all the emojis available to use on GitHub.
      *
-     * @name EmojisList
-     * @request GET:/emojis
+     * @name PathParamsList
+     * @request GET:/path-params
      */
-    emojisList: (params: RequestParams = {}) =>
+    pathParamsList: (petId: number, params: RequestParams = {}) =>
       this.request<Emojis, void>({
-        path: `/emojis`,
+        path: `/path-params`,
         method: "GET",
         format: "json",
         ...params,

@@ -10,7 +10,7 @@ const { Command } = require("commander");
 const { resolve } = require("path");
 const { generateApi } = require("./src");
 const { version, name: packageName } = require("./package.json");
-const { TS_KEYWORDS } = require("./src/constants");
+const { TS_KEYWORDS, HTTP_CLIENT } = require("./src/constants");
 
 const program = new Command(packageName);
 
@@ -62,6 +62,7 @@ program
     0,
   )
   .option("--disableStrictSSL", "disabled strict SSL", false)
+  .option("--axios", "generate axios http client", false)
   .option("--single-http-client", "Ability to send HttpClient instance to Api constructor", false)
   .option("--default-response <type>", "default type for empty response schema", TS_KEYWORDS.VOID)
   .option(
@@ -91,13 +92,15 @@ const {
   cleanOutput,
   defaultResponse,
   singleHttpClient,
+  axios,
 } = program;
 
 generateApi({
   name,
   url: path,
   generateRouteTypes: routeTypes,
-  generateClient: client,
+  generateClient: !!(axios || client),
+  httpClientType: axios ? HTTP_CLIENT.AXIOS : HTTP_CLIENT.FETCH,
   defaultResponseAsSuccess: defaultAsSuccess,
   defaultResponseType: defaultResponse,
   generateUnionEnums: unionEnums,

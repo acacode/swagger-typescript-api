@@ -1,4 +1,4 @@
-const constants = require("./constants");
+const { HTTP_CLIENT, TS_KEYWORDS, PRETTIER_OPTIONS } = require("./constants");
 
 const config = {
   /** CLI flag */
@@ -37,7 +37,7 @@ const config = {
     outOfModuleApi: "Common",
   },
   routeNameDuplicatesMap: new Map(),
-  prettierOptions: constants.PRETTIER_OPTIONS,
+  prettierOptions: PRETTIER_OPTIONS,
   hooks: {
     onCreateComponent: (schema) => schema,
     onParseSchema: (originalSchema, parsedSchema) => parsedSchema,
@@ -47,8 +47,9 @@ const config = {
     onCreateRequestParams: (rawType) => {},
     onCreateRouteName: () => {},
   },
-  defaultResponseType: constants.TS_KEYWORDS.VOID,
+  defaultResponseType: TS_KEYWORDS.VOID,
   singleHttpClient: false,
+  httpClientType: HTTP_CLIENT.FETCH,
   templatePaths: {
     /** `templates/base` */
     base: "",

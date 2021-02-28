@@ -3,9 +3,11 @@
 BREAKING_CHANGES:  
 - Ability to override only one template (issue #166, thanks @Nihisil)  
 - removed `TPromise` type for `--responses` options (perf. problem, issue #182, thanks @mixalbl4-127)  
+- breaking changes in `http-client.eta`  
 
 Features:  
 - template path prefixes `@base`, `@default`, `@modular` (using in Eta templates, `includeFile()`, see README.md)  
+- `--axios` option for axios http client (issue #142, thanks @msklvsk, @mixalbl4-127 )  
 
 # 5.1.7  
 

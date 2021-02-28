@@ -33,6 +33,7 @@ module.exports = {
     defaultResponseAsSuccess = config.defaultResponseAsSuccess,
     generateRouteTypes = config.generateRouteTypes,
     generateClient = config.generateClient,
+    httpClientType = config.httpClientType,
     generateUnionEnums = config.generateUnionEnums,
     moduleNameIndex = config.moduleNameIndex,
     extractRequestParams = config.extractRequestParams,
@@ -50,6 +51,7 @@ module.exports = {
         defaultResponseAsSuccess,
         generateRouteTypes,
         generateClient,
+        httpClientType,
         generateResponses,
         templates,
         generateUnionEnums,
@@ -63,6 +65,7 @@ module.exports = {
         cleanOutput,
         defaultResponseType,
         singleHttpClient,
+        constants,
       });
       (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url, disableStrictSSL))
         .then(({ usageSchema, originalSchema }) => {
