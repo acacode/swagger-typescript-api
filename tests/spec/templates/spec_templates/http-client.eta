@@ -1,7 +1,6 @@
 <%
 const { apiConfig, generateResponses } = it;
 %>
-
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
     secure?: boolean;
 }
@@ -137,3 +136,5 @@ export class HttpClient<<%~ apiConfig.generic.map(g => `${g.name} = unknown`).jo
         })
     }
 }
+
+/* CUSTOM TEMPLATE */

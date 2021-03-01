@@ -13,7 +13,14 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
     // because this script was called from package.json folder
     templates: "./tests/spec/templates/spec_templates",
   })
-    .then(() => {
+    .then((output) => {
+      if (!output.files[0]) throw "Failed. no output file"
+      if (!output.files[0].content) throw "Failed. no output file content"
+
+      const matches = output.files[0].content.match(/\/\* CUSTOM TEMPLATE \*\//g)
+
+      if (!matches || matches.length < 4) throw "Failed. too few comment matches"
+
       const diagnostics = validateGeneratedModule({
         pathToFile: resolve(__dirname, `./${apiFileName}`),
       });

@@ -30,3 +30,5 @@ export class Api<<%~ apiConfig.generic.map(g => `${g.name} = ${g.defaultValue}`)
     }
 <% }) %>
 }
+
+/* CUSTOM TEMPLATE */

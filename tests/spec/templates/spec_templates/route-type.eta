@@ -22,3 +22,5 @@ export type RequestQuery = <%~ queryType %>;
 export type RequestBody = <%~ bodyType %>;
 export type ResponseBody = <%~ responseType %>;
 }
+
+/* CUSTOM TEMPLATE */

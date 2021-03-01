@@ -47,3 +47,5 @@ const requestArgs = [pathTmpl, `'${_.upperCase(method)}'`, _.get(params, "name")
  */
 <%~ route.routeName.usage %><%~ route.namespace ? ': ' : ' = ' %>(<%~ wrapperArgs %>) =>
     this.request<<%~ type %>, <%~ errorType %>>(<%~ requestArgs %>)<%~ route.namespace ? ',' : '' %>
+
+/* CUSTOM TEMPLATE */

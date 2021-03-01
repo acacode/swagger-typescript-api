@@ -1482,39 +1482,6 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  private addQueryParam(query: QueryParamsType, key: string) {
-    const value = query[key];
-
-    return (
-      encodeURIComponent(key) +
-      "=" +
-      encodeURIComponent(Array.isArray(value) ? value.join(",") : typeof value === "number" ? value : `${value}`)
-    );
-  }
-
-  protected toQueryString(rawQuery?: QueryParamsType): string {
-    const query = rawQuery || {};
-    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
-    return keys
-      .map((key) =>
-        typeof query[key] === "object" && !Array.isArray(query[key])
-          ? this.toQueryString(query[key] as QueryParamsType)
-          : this.addQueryParam(query, key),
-      )
-      .join("&");
-  }
-
-  private contentFormatters: Record<ContentType, (input: any) => any> = {
-    [ContentType.Json]: (input: any) =>
-      input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
-    [ContentType.FormData]: (input: any) =>
-      Object.keys(input || {}).reduce((data, key) => {
-        data.append(key, input[key]);
-        return data;
-      }, new FormData()),
-    [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
-  };
-
   private mergeRequestParams(params1: AxiosRequestConfig, params2?: AxiosRequestConfig): AxiosRequestConfig {
     return {
       ...params1,
@@ -1537,7 +1504,6 @@ export class HttpClient<SecurityDataType = unknown> {
   }: FullRequestParams): Promise<AxiosResponse<T>> => {
     const secureParams = (secure && this.securityWorker && (await this.securityWorker(this.securityData))) || {};
     const requestParams = this.mergeRequestParams(params, secureParams);
-    const payloadFormatter = this.contentFormatters[type || ContentType.Json];
 
     return this.instance.request({
       ...requestParams,
@@ -1546,7 +1512,7 @@ export class HttpClient<SecurityDataType = unknown> {
         ...(requestParams.headers || {}),
       },
       params: query,
-      data: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
+      data: body,
     });
   };
 }

@@ -40,10 +40,6 @@ const getTemplatePaths = ({ templates, modular }) => {
 const getTemplates = ({ templatePaths }) => {
   console.log(`✨ try to read templates from directory "${templatePaths.custom}"`);
 
-  Eta.configure({
-    views: templatePaths.custom,
-  });
-
   const templatesMap = _.reduce(
     TEMPLATE_INFOS,
     (acc, { fileName, name }) => {
