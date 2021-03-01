@@ -31,6 +31,11 @@ const SCHEMA_TYPES = {
   COMPLEX_NOT: "not",
 };
 
+const HTTP_CLIENT = {
+  FETCH: "fetch",
+  AXIOS: "axios",
+};
+
 module.exports = {
   DEFAULT_BODY_ARG_NAME: "data",
   SUCCESS_RESPONSE_STATUS_RANGE: [200, 300],
@@ -38,6 +43,7 @@ module.exports = {
   JS_EMPTY_TYPES,
   TS_KEYWORDS,
   SCHEMA_TYPES,
+  HTTP_CLIENT,
   PRETTIER_OPTIONS: {
     printWidth: 120,
     tabWidth: 2,

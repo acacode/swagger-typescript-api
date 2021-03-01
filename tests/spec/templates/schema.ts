@@ -17,6 +17,7 @@ export interface Pet {
   multiple?: string | number;
 }
 
+/* CUSTOM TEMPLATE */
 export type RequestParams = Omit<RequestInit, "body" | "method"> & {
   secure?: boolean;
 };
@@ -151,6 +152,7 @@ export class HttpClient<SecurityDataType = unknown> {
   };
 }
 
+/* CUSTOM TEMPLATE */
 /**
  * @title Swagger Petstore
  * @version 1.0.0
@@ -166,5 +168,8 @@ export class Api<SecurityDataType = any> extends HttpClient<SecurityDataType> {
      * @request GET:/pets
      */
     petsList: (params?: RequestParams) => this.request<Pet[], any>(`/pets`, "GET", params),
+    /* CUSTOM TEMPLATE */
   };
 }
+
+/* CUSTOM TEMPLATE */

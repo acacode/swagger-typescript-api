@@ -7,14 +7,14 @@ const { utils, config, routes } = it;
 
 <% routes.outOfModule && routes.outOfModule.forEach(({ routes = [] }) => { %>
     <% routes.forEach((route) => { %>
-        <%~ includeFile('./route-type.eta', { route, utils, config }) %>
+        <%~ includeFile('@base/route-type.eta', { route, utils, config }) %>
     <% }) %>
 <% }) %>
 
 <% routes.combined && routes.combined.forEach(({ routes = [], moduleName }) => { %>
     export namespace <%~ moduleName %> {
     <% routes.forEach((route) => { %>
-        <%~ includeFile('./route-type.eta', { route, utils, config }) %>
+        <%~ includeFile('@base/route-type.eta', { route, utils, config }) %>
     <% }) %>
     }
 

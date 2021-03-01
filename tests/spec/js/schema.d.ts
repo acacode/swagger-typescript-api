@@ -1718,7 +1718,7 @@ export declare type RequestParams = Omit<FullRequestParams, "body" | "method" | 
 export interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
   baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
-  securityWorker?: (securityData: SecurityDataType) => RequestParams | void;
+  securityWorker?: (securityData: SecurityDataType | null) => Promise<RequestParams | void> | RequestParams | void;
 }
 export interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
   data: D;
@@ -1733,11 +1733,11 @@ export declare enum ContentType {
 export declare class HttpClient<SecurityDataType = unknown> {
   baseUrl: string;
   private securityData;
-  private securityWorker;
+  private securityWorker?;
   private abortControllers;
   private baseApiParams;
   constructor(apiConfig?: ApiConfig<SecurityDataType>);
-  setSecurityData: (data: SecurityDataType) => void;
+  setSecurityData: (data: SecurityDataType | null) => void;
   private addQueryParam;
   protected toQueryString(rawQuery?: QueryParamsType): string;
   protected addQueryParams(rawQuery?: QueryParamsType): string;

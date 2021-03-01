@@ -3,7 +3,7 @@ const { route, utils, config } = it;
 const { _, classNameCase, require } = utils;
 const { query, payload, pathParams, headers } = route.request;
 
-const routeDocs = includeFile("./route-docs", { config, route, utils });
+const routeDocs = includeFile("@base/route-docs", { config, route, utils });
 const routeNamespace = classNameCase(route.routeName.usage);
 
 %>

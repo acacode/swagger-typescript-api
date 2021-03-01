@@ -4,9 +4,16 @@ const { requestBodyInfo, responseBodyInfo } = route;
 const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef, require } = utils;
 const { parameters, path, method, payload, params, query, formData, security, requestParams } = route.request;
 const { type, errorType, contentTypes } = route.response;
-const routeDocs = includeFile("./route-docs", { config, route, utils });
+const routeDocs = includeFile("@base/route-docs", { config, route, utils });
 const queryName = (query && query.name) || "query";
 const pathParams = _.values(parameters);
+
+const requestConfigParam = {
+    name: pathParams.some((pathArg) => pathArg.name === "params") ? "requestParams" : "params",
+    optional: true,
+    type: "RequestParams",
+    defaultValue: "{}",
+}
 
 const argToTmpl = ({ name, optional, type, defaultValue }) => `${name}${!defaultValue && optional ? '?' : ''}: ${type}${defaultValue ? ` = ${defaultValue}` : ''}`;
 
@@ -19,13 +26,13 @@ const rawWrapperArgs = config.extractRequestParams ?
         },
         ...(!requestParams ? pathParams : []),
         payload,
-        params,
+        requestConfigParam,
     ]) :
     _.compact([
         ...pathParams,
         query,
         payload,
-        params,
+        requestConfigParam,
     ])
 
 const wrapperArgs = _
@@ -69,5 +76,5 @@ const securityTmpl = security ? 'true' : null;
         <%~ bodyTmpl ? `body: ${bodyTmpl},` : '' %>
         <%~ securityTmpl ? `secure: ${securityTmpl},` : '' %>
         <%~ bodyContentKindTmpl ? `type: ${bodyContentKindTmpl},` : '' %>
-        ...<%~ _.get(params, "name") %>,
+        ...<%~ _.get(requestConfigParam, "name") %>,
     })

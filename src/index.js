@@ -15,7 +15,7 @@ const { getSwaggerObject, fixSwaggerScheme, convertSwaggerObject } = require("./
 const { createComponentsMap, filterComponentsMap } = require("./components");
 const { createFile, pathIsExist, pathIsDir, createDir, cleanDir } = require("./files");
 const { addToConfig, config } = require("./config");
-const { getTemplates } = require("./templates");
+const { getTemplates, getTemplatePaths } = require("./templates");
 const constants = require("./constants");
 const { generateOutputFiles } = require("./output");
 
@@ -33,6 +33,7 @@ module.exports = {
     defaultResponseAsSuccess = config.defaultResponseAsSuccess,
     generateRouteTypes = config.generateRouteTypes,
     generateClient = config.generateClient,
+    httpClientType = config.httpClientType,
     generateUnionEnums = config.generateUnionEnums,
     moduleNameIndex = config.moduleNameIndex,
     extractRequestParams = config.extractRequestParams,
@@ -50,6 +51,7 @@ module.exports = {
         defaultResponseAsSuccess,
         generateRouteTypes,
         generateClient,
+        httpClientType,
         generateResponses,
         templates,
         generateUnionEnums,
@@ -63,9 +65,14 @@ module.exports = {
         cleanOutput,
         defaultResponseType,
         singleHttpClient,
+        constants,
       });
       (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url, disableStrictSSL))
         .then(({ usageSchema, originalSchema }) => {
+          const templatePaths = getTemplatePaths(config);
+
+          addToConfig({ templatePaths });
+
           const templatesToRender = getTemplates(config);
 
           console.log("☄️  start generating your typescript api");

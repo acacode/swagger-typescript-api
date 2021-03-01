@@ -35,6 +35,22 @@
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run-script", "node:debug"]
+    },
+    {
+      "name": "Debug partialTemplates test",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run-script", "test:partialBaseTemplate"]
+    },
+    {
+      "name": "Debug test:--templates",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run-script", "test:--templates"]
     }
   ]
 }

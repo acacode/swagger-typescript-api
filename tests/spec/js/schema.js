@@ -19,7 +19,6 @@ export class HttpClient {
   constructor(apiConfig = {}) {
     this.baseUrl = "https://api.github.com";
     this.securityData = null;
-    this.securityWorker = null;
     this.abortControllers = new Map();
     this.baseApiParams = {
       credentials: "same-origin",
@@ -59,8 +58,8 @@ export class HttpClient {
         this.abortControllers.delete(cancelToken);
       }
     };
-    this.request = ({ body, secure, path, type, query, format = "json", baseUrl, cancelToken, ...params }) => {
-      const secureParams = (secure && this.securityWorker && this.securityWorker(this.securityData)) || {};
+    this.request = async ({ body, secure, path, type, query, format = "json", baseUrl, cancelToken, ...params }) => {
+      const secureParams = (secure && this.securityWorker && (await this.securityWorker(this.securityData))) || {};
       const requestParams = this.mergeRequestParams(params, secureParams);
       const queryString = query && this.toQueryString(query);
       const payloadFormatter = this.contentFormatters[type || ContentType.Json];

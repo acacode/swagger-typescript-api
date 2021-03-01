@@ -40,3 +40,5 @@ if (route === "/")
 
 return createCustomOperationId(method, route, moduleName);
 %>
+
+/* CUSTOM TEMPLATE */

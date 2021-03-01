@@ -19,3 +19,5 @@ const { utils, config, routes } = it;
     }
 
 <% }) %>
+
+/* CUSTOM TEMPLATE */

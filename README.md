@@ -26,9 +26,6 @@ Any questions you can ask [**here**](https://github.com/acacode/swagger-typescri
 
 All examples you can find [**here**](https://github.com/acacode/swagger-typescript-api/tree/master/tests)  
 
-## 🛑 It is new version with [ETA](https://eta.js.org/docs/syntax) templates  
-Version with `mustache` templates is `>4.0.0`  
-
 ## 📄 Usage  
 
 ```muse
@@ -58,6 +55,7 @@ Options:
   --modular                     generate separated files for http client, data contracts, and routes (default: false)
   --disableStrictSSL            disabled strict SSL (default: false)
   --clean-output                clean output folder before generate api. WARNING: May cause data loss (default: false)
+  --axios                       generate axios http client (default: false)
   --single-http-client          Ability to send HttpClient instance to Api constructor (default: false)
   --default-response <type>     default type for empty response schema (default: "void")
   -h, --help                    display help for command
@@ -128,24 +126,42 @@ generateApi({
 
 ## 💎 options   
 ### **`--templates`**  
-This option needed for cases when you don't want to use default `swagger-typescript-api` output structure  
+This option needed for cases when you don't want to use the default `swagger-typescript-api` output structure  
 
 Templates:  
-- `api.eta` - Api class module  
-- `data-contracts.eta` - all types (data contracts) from swagger schema  
-- `http-client.eta` - HttpClient class module  
-- `procedure-call.eta` - route in Api class  
-- `route-docs.eta` - documentation for route in Api class  
-- `route-name.eta` - route name for route in Api class  
-- `route-type.eta` - *(`--route-types` option)*  
-- `route-types.eta` - *(`--route-types` option)*  
+- `api.eta` - Api class module (locations: [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default/api.eta), [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular/api.eta))  
+- `data-contracts.eta` - all types (data contracts) from swagger schema (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/data-contracts.eta))  
+- `http-client.eta` - HttpClient class module (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/http-client.eta))  
+- `procedure-call.eta` - route in Api class (locations: [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default/procedure-call.eta), [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular/procedure-call.eta))  
+- `route-docs.eta` - documentation for route in Api class (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-docs.eta))  
+- `route-name.eta` - route name for route in Api class (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-name.eta))  
+- `route-type.eta` - *(`--route-types` option)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-type.eta))  
+- `route-types.eta` - *(`--route-types` option)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-types.eta))  
 
 How to use it:  
-1. copy swagger-typescript-api templates into your place in project
+1. copy `swagger-typescript-api` templates into your place in project
     - from [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default) for single api file  
     - from [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular) for multiple api files (with `--modular` option)  
+    - from [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base) for base templates (templates using both in default and modular)  
 1. add `--templates PATH_TO_YOUR_TEMPLATES` option  
 2. modify [ETA](https://eta.js.org/docs/syntax) templates as you like  
+
+NOTE:  
+  Eta has special directive to render template in your Eta templates - `includeFile(pathToTemplate, payload)`  
+  If you want to use some default templates from this tool you can use path prefixes: `@base`, `@default`, `@modular`.  
+    `@base` - [path to base templates](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base)  
+    `@default` - [path to single api file templates](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default)  
+    `@modular` - [path to multiple api files templates](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular)  
+  Examples:  
+    - `includeFile("@base/data-contracts.eta", configuration)`  
+    - `includeFile("@default/api.eta", configuration)`  
+    - `includeFile("@default/procedure-call.eta", configuration)`  
+    - `includeFile("@modular/api.eta", configuration)`  
+    - `includeFile("@modular/procedure-call.eta", configuration)`  
+    - `includeFile("@base/route-docs.eta", configuration)`  
+    - `includeFile("@base/route-name.eta", configuration)`  
+    - `includeFile("@base/route-type.eta", configuration)`  
+    - `includeFile("@base/route-types.eta", configuration)`  
 
 ### **`--module-name-index`**  
 This option should be used in cases when you have api with one global prefix like `/api`   
