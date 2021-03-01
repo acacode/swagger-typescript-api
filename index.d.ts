@@ -38,7 +38,10 @@ interface GenerateApiParams {
    * do not generate an API class
    */
   generateClient?: boolean;
-
+  /**
+   * generated http client type
+   */
+  httpClientType?: "axios" | "fetch";
   /**
    * use "default" response status code as success response too.
    * some swagger schemas use "default" response status code as success response type by default.
