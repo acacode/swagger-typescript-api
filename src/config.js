@@ -64,6 +64,8 @@ const config = {
   },
   /** Record<templateName, templateContent> */
   templatesToRender: {},
+  toJS: false,
+  silent: false,
 };
 
 /** needs to use data everywhere in project */

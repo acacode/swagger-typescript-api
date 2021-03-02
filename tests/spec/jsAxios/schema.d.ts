@@ -1694,9 +1694,10 @@ export interface UserUpdate {
   name?: string;
 }
 export declare type Users = User[];
+import { AxiosRequestConfig, AxiosResponse } from "axios";
 export declare type QueryParamsType = Record<string | number, any>;
 export declare type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
-export interface FullRequestParams extends Omit<RequestInit, "body"> {
+export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "params"> {
   /** set parameter to `true` for call `securityWorker` for this request */
   secure?: boolean;
   /** request path */
@@ -1709,60 +1710,35 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
   format?: keyof Omit<Body, "body" | "bodyUsed">;
   /** request body */
   body?: unknown;
-  /** base url */
-  baseUrl?: string;
-  /** request cancellation token */
-  cancelToken?: CancelToken;
 }
 export declare type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
-export interface ApiConfig<SecurityDataType = unknown> {
-  baseUrl?: string;
-  baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
-  securityWorker?: (securityData: SecurityDataType | null) => Promise<RequestParams | void> | RequestParams | void;
+export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequestConfig, "data" | "cancelToken"> {
+  securityWorker?: (
+    securityData: SecurityDataType | null,
+  ) => Promise<AxiosRequestConfig | void> | AxiosRequestConfig | void;
 }
-export interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
-  data: D;
-  error: E;
-}
-declare type CancelToken = Symbol | string | number;
 export declare enum ContentType {
   Json = "application/json",
   FormData = "multipart/form-data",
   UrlEncoded = "application/x-www-form-urlencoded",
 }
 export declare class HttpClient<SecurityDataType = unknown> {
-  baseUrl: string;
+  private instance;
   private securityData;
   private securityWorker?;
-  private abortControllers;
-  private baseApiParams;
-  constructor(apiConfig?: ApiConfig<SecurityDataType>);
+  constructor({ securityWorker, ...axiosConfig }?: ApiConfig<SecurityDataType>);
   setSecurityData: (data: SecurityDataType | null) => void;
-  private addQueryParam;
-  protected toQueryString(rawQuery?: QueryParamsType): string;
-  protected addQueryParams(rawQuery?: QueryParamsType): string;
-  private contentFormatters;
   private mergeRequestParams;
-  private createAbortSignal;
-  abortRequest: (cancelToken: CancelToken) => void;
   request: <T = any, E = any>({
-    body,
     secure,
     path,
     type,
     query,
     format,
-    baseUrl,
-    cancelToken,
+    body,
     ...params
-  }: FullRequestParams) => Promise<HttpResponse<T, E>>;
+  }: FullRequestParams) => Promise<any>;
 }
-/**
- * @title GitHub
- * @version v3
- * @baseUrl https://api.github.com
- * Powerful collaboration, code review, and code management for open source and private projects.
- */
 export declare class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   emojis: {
     /**
@@ -1771,7 +1747,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name EmojisList
      * @request GET:/emojis
      */
-    emojisList: (params?: RequestParams) => Promise<HttpResponse<Emojis, void>>;
+    emojisList: (params?: RequestParams) => Promise<AxiosResponse<Emojis>>;
   };
   events: {
     /**
@@ -1780,7 +1756,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name EventsList
      * @request GET:/events
      */
-    eventsList: (params?: RequestParams) => Promise<HttpResponse<Events, void>>;
+    eventsList: (params?: RequestParams) => Promise<AxiosResponse<Events>>;
   };
   feeds: {
     /**
@@ -1789,7 +1765,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name FeedsList
      * @request GET:/feeds
      */
-    feedsList: (params?: RequestParams) => Promise<HttpResponse<Feeds, void>>;
+    feedsList: (params?: RequestParams) => Promise<AxiosResponse<Feeds>>;
   };
   gists: {
     /**
@@ -1803,14 +1779,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Gists, void>>;
+    ) => Promise<AxiosResponse<Gists>>;
     /**
      * @description Create a gist.
      *
      * @name GistsCreate
      * @request POST:/gists
      */
-    gistsCreate: (body: PostGist, params?: RequestParams) => Promise<HttpResponse<Gist, void>>;
+    gistsCreate: (body: PostGist, params?: RequestParams) => Promise<AxiosResponse<Gist>>;
     /**
      * @description List all public gists.
      *
@@ -1822,7 +1798,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Gists, void>>;
+    ) => Promise<AxiosResponse<Gists>>;
     /**
      * @description List the authenticated user's starred gists.
      *
@@ -1834,49 +1810,49 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Gists, void>>;
+    ) => Promise<AxiosResponse<Gists>>;
     /**
      * @description Delete a gist.
      *
      * @name GistsDelete
      * @request DELETE:/gists/{id}
      */
-    gistsDelete: (id: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    gistsDelete: (id: number, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Get a single gist.
      *
      * @name GistsDetail
      * @request GET:/gists/{id}
      */
-    gistsDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<Gist, void>>;
+    gistsDetail: (id: number, params?: RequestParams) => Promise<AxiosResponse<Gist>>;
     /**
      * @description Edit a gist.
      *
      * @name GistsPartialUpdate
      * @request PATCH:/gists/{id}
      */
-    gistsPartialUpdate: (id: number, body: PatchGist, params?: RequestParams) => Promise<HttpResponse<Gist, void>>;
+    gistsPartialUpdate: (id: number, body: PatchGist, params?: RequestParams) => Promise<AxiosResponse<Gist>>;
     /**
      * @description List comments on a gist.
      *
      * @name CommentsDetail
      * @request GET:/gists/{id}/comments
      */
-    commentsDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<Comments, void>>;
+    commentsDetail: (id: number, params?: RequestParams) => Promise<AxiosResponse<Comments>>;
     /**
      * @description Create a commen
      *
      * @name CommentsCreate
      * @request POST:/gists/{id}/comments
      */
-    commentsCreate: (id: number, body: CommentBody, params?: RequestParams) => Promise<HttpResponse<Comment, void>>;
+    commentsCreate: (id: number, body: CommentBody, params?: RequestParams) => Promise<AxiosResponse<Comment>>;
     /**
      * @description Delete a comment.
      *
      * @name CommentsDelete
      * @request DELETE:/gists/{id}/comments/{commentId}
      */
-    commentsDelete: (id: number, commentId: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    commentsDelete: (id: number, commentId: number, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Get a single comment.
      *
@@ -1885,7 +1861,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @originalName commentsDetail
      * @duplicate
      */
-    commentsDetail2: (id: number, commentId: number, params?: RequestParams) => Promise<HttpResponse<Comment, void>>;
+    commentsDetail2: (id: number, commentId: number, params?: RequestParams) => Promise<AxiosResponse<Comment>>;
     /**
      * @description Edit a comment.
      *
@@ -1897,35 +1873,35 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       commentId: number,
       body: Comment,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Comment, void>>;
+    ) => Promise<AxiosResponse<Comment>>;
     /**
      * @description Fork a gist.
      *
      * @name ForksCreate
      * @request POST:/gists/{id}/forks
      */
-    forksCreate: (id: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    forksCreate: (id: number, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Unstar a gist.
      *
      * @name StarDelete
      * @request DELETE:/gists/{id}/star
      */
-    starDelete: (id: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    starDelete: (id: number, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Check if a gist is starred.
      *
      * @name StarDetail
      * @request GET:/gists/{id}/star
      */
-    starDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    starDetail: (id: number, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Star a gist.
      *
      * @name StarUpdate
      * @request PUT:/gists/{id}/star
      */
-    starUpdate: (id: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    starUpdate: (id: number, params?: RequestParams) => Promise<AxiosResponse<void>>;
   };
   gitignore: {
     /**
@@ -1934,14 +1910,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name TemplatesList
      * @request GET:/gitignore/templates
      */
-    templatesList: (params?: RequestParams) => Promise<HttpResponse<Gitignore, void>>;
+    templatesList: (params?: RequestParams) => Promise<AxiosResponse<Gitignore>>;
     /**
      * @description Get a single template.
      *
      * @name TemplatesDetail
      * @request GET:/gitignore/templates/{language}
      */
-    templatesDetail: (language: string, params?: RequestParams) => Promise<HttpResponse<GitignoreLang, void>>;
+    templatesDetail: (language: string, params?: RequestParams) => Promise<AxiosResponse<GitignoreLang>>;
   };
   issues: {
     /**
@@ -1960,7 +1936,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Issues, void>>;
+    ) => Promise<AxiosResponse<Issues>>;
   };
   legacy: {
     /**
@@ -1975,7 +1951,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repository: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<SearchIssuesByKeyword, void>>;
+    ) => Promise<AxiosResponse<SearchIssuesByKeyword>>;
     /**
      * @description Find repositories by keyword. Note, this legacy method does not follow the v3 pagination pattern. This method returns up to 100 results per page and pages can be fetched using the start_page parameter.
      *
@@ -1991,14 +1967,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         sort?: "updated" | "stars" | "forks";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<SearchRepositoriesByKeyword, void>>;
+    ) => Promise<AxiosResponse<SearchRepositoriesByKeyword>>;
     /**
      * @description This API call is added for compatibility reasons only.
      *
      * @name UserEmailDetail
      * @request GET:/legacy/user/email/{email}
      */
-    userEmailDetail: (email: string, params?: RequestParams) => Promise<HttpResponse<SearchUserByEmail, void>>;
+    userEmailDetail: (email: string, params?: RequestParams) => Promise<AxiosResponse<SearchUserByEmail>>;
     /**
      * @description Find users by keyword.
      *
@@ -2013,7 +1989,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         sort?: "updated" | "stars" | "forks";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<SearchUsersByKeyword, void>>;
+    ) => Promise<AxiosResponse<SearchUsersByKeyword>>;
   };
   markdown: {
     /**
@@ -2022,14 +1998,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name MarkdownCreate
      * @request POST:/markdown
      */
-    markdownCreate: (body: Markdown, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    markdownCreate: (body: Markdown, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Render a Markdown document in raw mode
      *
      * @name PostMarkdown
      * @request POST:/markdown/raw
      */
-    postMarkdown: (params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    postMarkdown: (params?: RequestParams) => Promise<AxiosResponse<void>>;
   };
   meta: {
     /**
@@ -2038,7 +2014,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name MetaList
      * @request GET:/meta
      */
-    metaList: (params?: RequestParams) => Promise<HttpResponse<Meta, void>>;
+    metaList: (params?: RequestParams) => Promise<AxiosResponse<Meta>>;
   };
   networks: {
     /**
@@ -2047,7 +2023,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name EventsDetail
      * @request GET:/networks/{owner}/{repo}/events
      */
-    eventsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Events, void>>;
+    eventsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Events>>;
   };
   notifications: {
     /**
@@ -2063,42 +2039,42 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Notifications, void>>;
+    ) => Promise<AxiosResponse<Notifications>>;
     /**
      * @description Mark as read. Marking a notification as "read" removes it from the default view on GitHub.com.
      *
      * @name NotificationsUpdate
      * @request PUT:/notifications
      */
-    notificationsUpdate: (body: NotificationMarkRead, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    notificationsUpdate: (body: NotificationMarkRead, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description View a single thread.
      *
      * @name ThreadsDetail
      * @request GET:/notifications/threads/{id}
      */
-    threadsDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<Notifications, void>>;
+    threadsDetail: (id: number, params?: RequestParams) => Promise<AxiosResponse<Notifications>>;
     /**
      * @description Mark a thread as read
      *
      * @name ThreadsPartialUpdate
      * @request PATCH:/notifications/threads/{id}
      */
-    threadsPartialUpdate: (id: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    threadsPartialUpdate: (id: number, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Delete a Thread Subscription.
      *
      * @name ThreadsSubscriptionDelete
      * @request DELETE:/notifications/threads/{id}/subscription
      */
-    threadsSubscriptionDelete: (id: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    threadsSubscriptionDelete: (id: number, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Get a Thread Subscription.
      *
      * @name ThreadsSubscriptionDetail
      * @request GET:/notifications/threads/{id}/subscription
      */
-    threadsSubscriptionDetail: (id: number, params?: RequestParams) => Promise<HttpResponse<Subscription, void>>;
+    threadsSubscriptionDetail: (id: number, params?: RequestParams) => Promise<AxiosResponse<Subscription>>;
     /**
      * @description Set a Thread Subscription. This lets you subscribe to a thread, or ignore it. Subscribing to a thread is unnecessary if the user is already subscribed to the repository. Ignoring a thread will mute all future notifications (until you comment or get @mentioned).
      *
@@ -2109,7 +2085,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       id: number,
       body: PutSubscription,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Subscription, void>>;
+    ) => Promise<AxiosResponse<Subscription>>;
   };
   orgs: {
     /**
@@ -2118,25 +2094,21 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name OrgsDetail
      * @request GET:/orgs/{org}
      */
-    orgsDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Organization, void>>;
+    orgsDetail: (org: string, params?: RequestParams) => Promise<AxiosResponse<Organization>>;
     /**
      * @description Edit an Organization.
      *
      * @name OrgsPartialUpdate
      * @request PATCH:/orgs/{org}
      */
-    orgsPartialUpdate: (
-      org: string,
-      body: PatchOrg,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<Organization, void>>;
+    orgsPartialUpdate: (org: string, body: PatchOrg, params?: RequestParams) => Promise<AxiosResponse<Organization>>;
     /**
      * @description List public events for an organization.
      *
      * @name EventsDetail
      * @request GET:/orgs/{org}/events
      */
-    eventsDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Events, void>>;
+    eventsDetail: (org: string, params?: RequestParams) => Promise<AxiosResponse<Events>>;
     /**
      * @description List issues. List all issues for a given organization for the authenticated user.
      *
@@ -2154,21 +2126,21 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Issues, void>>;
+    ) => Promise<AxiosResponse<Issues>>;
     /**
      * @description Members list. List all users who are members of an organization. A member is a user tha belongs to at least 1 team in the organization. If the authenticated user is also an owner of this organization then both concealed and public members will be returned. If the requester is not an owner of the organization the query will be redirected to the public members list.
      *
      * @name MembersDetail
      * @request GET:/orgs/{org}/members
      */
-    membersDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Users, void>>;
+    membersDetail: (org: string, params?: RequestParams) => Promise<AxiosResponse<Users>>;
     /**
      * @description Remove a member. Removing a user from this list will remove them from all teams and they will no longer have any access to the organization's repositories.
      *
      * @name MembersDelete
      * @request DELETE:/orgs/{org}/members/{username}
      */
-    membersDelete: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    membersDelete: (org: string, username: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Check if a user is, publicly or privately, a member of the organization.
      *
@@ -2177,21 +2149,21 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @originalName membersDetail
      * @duplicate
      */
-    membersDetail2: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    membersDetail2: (org: string, username: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Public members list. Members of an organization can choose to have their membership publicized or not.
      *
      * @name PublicMembersDetail
      * @request GET:/orgs/{org}/public_members
      */
-    publicMembersDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Users, void>>;
+    publicMembersDetail: (org: string, params?: RequestParams) => Promise<AxiosResponse<Users>>;
     /**
      * @description Conceal a user's membership.
      *
      * @name PublicMembersDelete
      * @request DELETE:/orgs/{org}/public_members/{username}
      */
-    publicMembersDelete: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    publicMembersDelete: (org: string, username: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Check public membership.
      *
@@ -2200,14 +2172,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @originalName publicMembersDetail
      * @duplicate
      */
-    publicMembersDetail2: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    publicMembersDetail2: (org: string, username: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Publicize a user's membership.
      *
      * @name PublicMembersUpdate
      * @request PUT:/orgs/{org}/public_members/{username}
      */
-    publicMembersUpdate: (org: string, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    publicMembersUpdate: (org: string, username: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description List repositories for the specified org.
      *
@@ -2220,28 +2192,28 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Repos, void>>;
+    ) => Promise<AxiosResponse<Repos>>;
     /**
      * @description Create a new repository for the authenticated user. OAuth users must supply repo scope.
      *
      * @name ReposCreate
      * @request POST:/orgs/{org}/repos
      */
-    reposCreate: (org: string, body: PostRepo, params?: RequestParams) => Promise<HttpResponse<Repos, void>>;
+    reposCreate: (org: string, body: PostRepo, params?: RequestParams) => Promise<AxiosResponse<Repos>>;
     /**
      * @description List teams.
      *
      * @name TeamsDetail
      * @request GET:/orgs/{org}/teams
      */
-    teamsDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Teams, void>>;
+    teamsDetail: (org: string, params?: RequestParams) => Promise<AxiosResponse<Teams>>;
     /**
      * @description Create team. In order to create a team, the authenticated user must be an owner of organization.
      *
      * @name TeamsCreate
      * @request POST:/orgs/{org}/teams
      */
-    teamsCreate: (org: string, body: OrgTeamsPost, params?: RequestParams) => Promise<HttpResponse<Team, void>>;
+    teamsCreate: (org: string, body: OrgTeamsPost, params?: RequestParams) => Promise<AxiosResponse<Team>>;
   };
   rateLimit: {
     /**
@@ -2250,7 +2222,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name RateLimitList
      * @request GET:/rate_limit
      */
-    rateLimitList: (params?: RequestParams) => Promise<HttpResponse<RateLimit, void>>;
+    rateLimitList: (params?: RequestParams) => Promise<AxiosResponse<RateLimit>>;
   };
   repos: {
     /**
@@ -2259,14 +2231,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name ReposDelete
      * @request DELETE:/repos/{owner}/{repo}
      */
-    reposDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    reposDelete: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Get repository.
      *
      * @name ReposDetail
      * @request GET:/repos/{owner}/{repo}
      */
-    reposDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Repo, void>>;
+    reposDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Repo>>;
     /**
      * @description Edit repository.
      *
@@ -2278,14 +2250,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       body: RepoEdit,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Repo, void>>;
+    ) => Promise<AxiosResponse<Repo>>;
     /**
      * @description List assignees. This call lists all the available assignees (owner + collaborators) to which issues may be assigned.
      *
      * @name AssigneesDetail
      * @request GET:/repos/{owner}/{repo}/assignees
      */
-    assigneesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Assignees, void>>;
+    assigneesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Assignees>>;
     /**
      * @description Check assignee. You may also check to see if a particular user is an assignee for a repository.
      *
@@ -2299,14 +2271,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       assignee: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    ) => Promise<AxiosResponse<void>>;
     /**
      * @description Get list of branches
      *
      * @name BranchesDetail
      * @request GET:/repos/{owner}/{repo}/branches
      */
-    branchesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Branches, void>>;
+    branchesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Branches>>;
     /**
      * @description Get Branch
      *
@@ -2320,14 +2292,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       branch: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Branch, void>>;
+    ) => Promise<AxiosResponse<Branch>>;
     /**
      * @description List. When authenticating as an organization owner of an organization-owned repository, all organization owners are included in the list of collaborators. Otherwise, only users with access to the repository are returned in the collaborators list.
      *
      * @name CollaboratorsDetail
      * @request GET:/repos/{owner}/{repo}/collaborators
      */
-    collaboratorsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, void>>;
+    collaboratorsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Users>>;
     /**
      * @description Remove collaborator.
      *
@@ -2339,7 +2311,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       user: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    ) => Promise<AxiosResponse<void>>;
     /**
      * @description Check if user is a collaborator
      *
@@ -2353,7 +2325,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       user: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    ) => Promise<AxiosResponse<void>>;
     /**
      * @description Add collaborator.
      *
@@ -2365,14 +2337,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       user: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    ) => Promise<AxiosResponse<void>>;
     /**
      * @description List commit comments for a repository. Comments are ordered by ascending ID.
      *
      * @name CommentsDetail
      * @request GET:/repos/{owner}/{repo}/comments
      */
-    commentsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<RepoComments, void>>;
+    commentsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<RepoComments>>;
     /**
      * @description Delete a commit comment
      *
@@ -2384,7 +2356,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       commentId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    ) => Promise<AxiosResponse<void>>;
     /**
      * @description Get a single commit comment.
      *
@@ -2398,7 +2370,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       commentId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<CommitComment, void>>;
+    ) => Promise<AxiosResponse<CommitComment>>;
     /**
      * @description Update a commit comment.
      *
@@ -2411,7 +2383,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       commentId: number,
       body: CommentBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<CommitComment, void>>;
+    ) => Promise<AxiosResponse<CommitComment>>;
     /**
      * @description List commits on a repository.
      *
@@ -2429,7 +2401,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         until?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Commits, void>>;
+    ) => Promise<AxiosResponse<Commits>>;
     /**
      * @description Get the combined Status for a specific Ref The Combined status endpoint is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the blog post for full details. To access this endpoint during the preview period, you must provide a custom media type in the Accept header: application/vnd.github.she-hulk-preview+json
      *
@@ -2441,7 +2413,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       ref: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<RefStatus, void>>;
+    ) => Promise<AxiosResponse<RefStatus>>;
     /**
      * @description Get a single commit.
      *
@@ -2455,7 +2427,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       shaCode: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Commit, void>>;
+    ) => Promise<AxiosResponse<Commit>>;
     /**
      * @description List comments for a single commitList comments for a single commit.
      *
@@ -2467,7 +2439,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       shaCode: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<RepoComments, void>>;
+    ) => Promise<AxiosResponse<RepoComments>>;
     /**
      * @description Create a commit comment.
      *
@@ -2480,7 +2452,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       shaCode: string,
       body: CommitCommentBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<CommitComment, void>>;
+    ) => Promise<AxiosResponse<CommitComment>>;
     /**
      * @description Compare two commits
      *
@@ -2493,7 +2465,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       baseId: string,
       headId: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<CompareCommits, void>>;
+    ) => Promise<AxiosResponse<CompareCommits>>;
     /**
      * @description Delete a file. This method deletes a file in a repository.
      *
@@ -2506,7 +2478,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       path: string,
       body: DeleteFileBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<DeleteFile, void>>;
+    ) => Promise<AxiosResponse<DeleteFile>>;
     /**
      * @description Get contents. This method returns the contents of a file or directory in a repository. Files and symlinks support a custom media type for getting the raw content. Directories and submodules do not support custom media types. Note: This API supports files up to 1 megabyte in size. Here can be many outcomes. For details see "http://developer.github.com/v3/repos/contents/"
      *
@@ -2522,7 +2494,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         ref?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<ContentsPath, void>>;
+    ) => Promise<AxiosResponse<ContentsPath>>;
     /**
      * @description Create a file.
      *
@@ -2535,7 +2507,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       path: string,
       body: CreateFileBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<CreateFile, void>>;
+    ) => Promise<AxiosResponse<CreateFile>>;
     /**
      * @description Get list of contributors.
      *
@@ -2549,18 +2521,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         anon: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Users, void>>;
+    ) => Promise<AxiosResponse<Users>>;
     /**
      * @description Users with pull access can view deployments for a repository
      *
      * @name DeploymentsDetail
      * @request GET:/repos/{owner}/{repo}/deployments
      */
-    deploymentsDetail: (
-      owner: string,
-      repo: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<RepoDeployments, void>>;
+    deploymentsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<RepoDeployments>>;
     /**
      * @description Users with push access can create a deployment for a given ref
      *
@@ -2572,7 +2540,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       body: Deployment,
       params?: RequestParams,
-    ) => Promise<HttpResponse<DeploymentResp, void>>;
+    ) => Promise<AxiosResponse<DeploymentResp>>;
     /**
      * @description Users with pull access can view deployment statuses for a deployment
      *
@@ -2584,7 +2552,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       id: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<DeploymentStatuses, void>>;
+    ) => Promise<AxiosResponse<DeploymentStatuses>>;
     /**
      * @description Create a Deployment Status Users with push access can create deployment statuses for a given deployment:
      *
@@ -2597,14 +2565,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       id: number,
       body: DeploymentStatusesCreate,
       params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    ) => Promise<AxiosResponse<void>>;
     /**
      * @description Deprecated. List downloads for a repository.
      *
      * @name DownloadsDetail
      * @request GET:/repos/{owner}/{repo}/downloads
      */
-    downloadsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Downloads, void>>;
+    downloadsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Downloads>>;
     /**
      * @description Deprecated. Delete a download.
      *
@@ -2616,7 +2584,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       downloadId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    ) => Promise<AxiosResponse<void>>;
     /**
      * @description Deprecated. Get a single download.
      *
@@ -2630,14 +2598,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       downloadId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Download, void>>;
+    ) => Promise<AxiosResponse<Download>>;
     /**
      * @description Get list of repository events.
      *
      * @name EventsDetail
      * @request GET:/repos/{owner}/{repo}/events
      */
-    eventsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Events, void>>;
+    eventsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Events>>;
     /**
      * @description List forks.
      *
@@ -2651,31 +2619,21 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         sort?: "newes" | "oldes" | "watchers";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Forks, void>>;
+    ) => Promise<AxiosResponse<Forks>>;
     /**
      * @description Create a fork. Forking a Repository happens asynchronously. Therefore, you may have to wai a short period before accessing the git objects. If this takes longer than 5 minutes, be sure to contact Support.
      *
      * @name ForksCreate
      * @request POST:/repos/{owner}/{repo}/forks
      */
-    forksCreate: (
-      owner: string,
-      repo: string,
-      body: ForkBody,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<Repo, void>>;
+    forksCreate: (owner: string, repo: string, body: ForkBody, params?: RequestParams) => Promise<AxiosResponse<Repo>>;
     /**
      * @description Create a Blob.
      *
      * @name GitBlobsCreate
      * @request POST:/repos/{owner}/{repo}/git/blobs
      */
-    gitBlobsCreate: (
-      owner: string,
-      repo: string,
-      body: Blob,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<Blobs, void>>;
+    gitBlobsCreate: (owner: string, repo: string, body: Blob, params?: RequestParams) => Promise<AxiosResponse<Blobs>>;
     /**
      * @description Get a Blob. Since blobs can be any arbitrary binary data, the input and responses for the blob API takes an encoding parameter that can be either utf-8 or base64. If your data cannot be losslessly sent as a UTF-8 string, you can base64 encode it.
      *
@@ -2687,7 +2645,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       shaCode: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Blob, void>>;
+    ) => Promise<AxiosResponse<Blob>>;
     /**
      * @description Create a Commit.
      *
@@ -2699,7 +2657,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       body: RepoCommitBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<GitCommit, void>>;
+    ) => Promise<AxiosResponse<GitCommit>>;
     /**
      * @description Get a Commit.
      *
@@ -2711,14 +2669,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       shaCode: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<RepoCommit, void>>;
+    ) => Promise<AxiosResponse<RepoCommit>>;
     /**
      * @description Get all References
      *
      * @name GitRefsDetail
      * @request GET:/repos/{owner}/{repo}/git/refs
      */
-    gitRefsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Refs, void>>;
+    gitRefsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Refs>>;
     /**
      * @description Create a Reference
      *
@@ -2730,19 +2688,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       body: RefsBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<HeadBranch, void>>;
+    ) => Promise<AxiosResponse<HeadBranch>>;
     /**
      * @description Delete a Reference Example: Deleting a branch: DELETE /repos/octocat/Hello-World/git/refs/heads/feature-a Example: Deleting a tag:        DELETE /repos/octocat/Hello-World/git/refs/tags/v1.0
      *
      * @name GitRefsDelete
      * @request DELETE:/repos/{owner}/{repo}/git/refs/{ref}
      */
-    gitRefsDelete: (
-      owner: string,
-      repo: string,
-      ref: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    gitRefsDelete: (owner: string, repo: string, ref: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Get a Reference
      *
@@ -2756,7 +2709,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       ref: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<HeadBranch, void>>;
+    ) => Promise<AxiosResponse<HeadBranch>>;
     /**
      * @description Update a Reference
      *
@@ -2769,19 +2722,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       ref: string,
       body: GitRefPatch,
       params?: RequestParams,
-    ) => Promise<HttpResponse<HeadBranch, void>>;
+    ) => Promise<AxiosResponse<HeadBranch>>;
     /**
      * @description Create a Tag Object. Note that creating a tag object does not create the reference that makes a tag in Git. If you want to create an annotated tag in Git, you have to do this call to create the tag object, and then create the refs/tags/[tag] reference. If you want to create a lightweight tag, you only have to create the tag reference - this call would be unnecessary.
      *
      * @name GitTagsCreate
      * @request POST:/repos/{owner}/{repo}/git/tags
      */
-    gitTagsCreate: (
-      owner: string,
-      repo: string,
-      body: TagBody,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<Tag, void>>;
+    gitTagsCreate: (owner: string, repo: string, body: TagBody, params?: RequestParams) => Promise<AxiosResponse<Tag>>;
     /**
      * @description Get a Tag.
      *
@@ -2793,19 +2741,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       shaCode: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Tag, void>>;
+    ) => Promise<AxiosResponse<Tag>>;
     /**
      * @description Create a Tree. The tree creation API will take nested entries as well. If both a tree and a nested path modifying that tree are specified, it will overwrite the contents of that tree with the new path contents and write a new tree out.
      *
      * @name GitTreesCreate
      * @request POST:/repos/{owner}/{repo}/git/trees
      */
-    gitTreesCreate: (
-      owner: string,
-      repo: string,
-      body: Tree,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<Trees, void>>;
+    gitTreesCreate: (owner: string, repo: string, body: Tree, params?: RequestParams) => Promise<AxiosResponse<Trees>>;
     /**
      * @description Get a Tree.
      *
@@ -2820,38 +2763,28 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         recursive?: number;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Tree, void>>;
+    ) => Promise<AxiosResponse<Tree>>;
     /**
      * @description Get list of hooks.
      *
      * @name HooksDetail
      * @request GET:/repos/{owner}/{repo}/hooks
      */
-    hooksDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Hook, void>>;
+    hooksDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Hook>>;
     /**
      * @description Create a hook.
      *
      * @name HooksCreate
      * @request POST:/repos/{owner}/{repo}/hooks
      */
-    hooksCreate: (
-      owner: string,
-      repo: string,
-      body: HookBody,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<Hook, void>>;
+    hooksCreate: (owner: string, repo: string, body: HookBody, params?: RequestParams) => Promise<AxiosResponse<Hook>>;
     /**
      * @description Delete a hook.
      *
      * @name HooksDelete
      * @request DELETE:/repos/{owner}/{repo}/hooks/{hookId}
      */
-    hooksDelete: (
-      owner: string,
-      repo: string,
-      hookId: number,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    hooksDelete: (owner: string, repo: string, hookId: number, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Get single hook.
      *
@@ -2860,12 +2793,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @originalName hooksDetail
      * @duplicate
      */
-    hooksDetail2: (
-      owner: string,
-      repo: string,
-      hookId: number,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<Hook, void>>;
+    hooksDetail2: (owner: string, repo: string, hookId: number, params?: RequestParams) => Promise<AxiosResponse<Hook>>;
     /**
      * @description Edit a hook.
      *
@@ -2878,7 +2806,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       hookId: number,
       body: HookBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Hook, void>>;
+    ) => Promise<AxiosResponse<Hook>>;
     /**
      * @description Test a push hook. This will trigger the hook with the latest push to the current repository if the hook is subscribed to push events. If the hook is not subscribed to push events, the server will respond with 204 but no test POST will be generated. Note: Previously /repos/:owner/:repo/hooks/:id/tes
      *
@@ -2890,7 +2818,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       hookId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    ) => Promise<AxiosResponse<void>>;
     /**
      * @description List issues for a repository.
      *
@@ -2909,19 +2837,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Issues, void>>;
+    ) => Promise<AxiosResponse<Issues>>;
     /**
      * @description Create an issue. Any user with pull access to a repository can create an issue.
      *
      * @name IssuesCreate
      * @request POST:/repos/{owner}/{repo}/issues
      */
-    issuesCreate: (
-      owner: string,
-      repo: string,
-      body: Issue,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<Issue, void>>;
+    issuesCreate: (owner: string, repo: string, body: Issue, params?: RequestParams) => Promise<AxiosResponse<Issue>>;
     /**
      * @description List comments in a repository.
      *
@@ -2937,7 +2860,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssuesComments, void>>;
+    ) => Promise<AxiosResponse<IssuesComments>>;
     /**
      * @description Delete a comment.
      *
@@ -2949,7 +2872,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       commentId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    ) => Promise<AxiosResponse<void>>;
     /**
      * @description Get a single comment.
      *
@@ -2963,7 +2886,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       commentId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssuesComment, void>>;
+    ) => Promise<AxiosResponse<IssuesComment>>;
     /**
      * @description Edit a comment.
      *
@@ -2976,18 +2899,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       commentId: number,
       body: CommentBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssuesComment, void>>;
+    ) => Promise<AxiosResponse<IssuesComment>>;
     /**
      * @description List issue events for a repository.
      *
      * @name IssuesEventsDetail
      * @request GET:/repos/{owner}/{repo}/issues/events
      */
-    issuesEventsDetail: (
-      owner: string,
-      repo: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<IssueEvents, void>>;
+    issuesEventsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<IssueEvents>>;
     /**
      * @description Get a single event.
      *
@@ -3001,7 +2920,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       eventId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssueEvent, void>>;
+    ) => Promise<AxiosResponse<IssueEvent>>;
     /**
      * @description Get a single issue
      *
@@ -3015,7 +2934,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Issue, void>>;
+    ) => Promise<AxiosResponse<Issue>>;
     /**
      * @description Edit an issue. Issue owners and users with push access can edit an issue.
      *
@@ -3028,7 +2947,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       number: number,
       body: Issue,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Issue, void>>;
+    ) => Promise<AxiosResponse<Issue>>;
     /**
      * @description List comments on an issue.
      *
@@ -3042,7 +2961,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssuesComments, void>>;
+    ) => Promise<AxiosResponse<IssuesComments>>;
     /**
      * @description Create a comment.
      *
@@ -3055,7 +2974,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       number: number,
       body: CommentBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssuesComment, void>>;
+    ) => Promise<AxiosResponse<IssuesComment>>;
     /**
      * @description List events for an issue.
      *
@@ -3069,7 +2988,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssueEvents, void>>;
+    ) => Promise<AxiosResponse<IssueEvents>>;
     /**
      * @description Remove all labels from an issue.
      *
@@ -3081,7 +3000,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    ) => Promise<AxiosResponse<void>>;
     /**
      * @description List labels on an issue.
      *
@@ -3093,7 +3012,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Labels, void>>;
+    ) => Promise<AxiosResponse<Labels>>;
     /**
      * @description Add labels to an issue.
      *
@@ -3106,7 +3025,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       number: number,
       body: EmailsPost,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Label, void>>;
+    ) => Promise<AxiosResponse<Label>>;
     /**
      * @description Replace all labels for an issue. Sending an empty array ([]) will remove all Labels from the Issue.
      *
@@ -3119,7 +3038,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       number: number,
       body: EmailsPost,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Label, void>>;
+    ) => Promise<AxiosResponse<Label>>;
     /**
      * @description Remove a label from an issue.
      *
@@ -3134,14 +3053,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       number: number,
       name: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    ) => Promise<AxiosResponse<void>>;
     /**
      * @description Get list of keys.
      *
      * @name KeysDetail
      * @request GET:/repos/{owner}/{repo}/keys
      */
-    keysDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Keys, void>>;
+    keysDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Keys>>;
     /**
      * @description Create a key.
      *
@@ -3153,19 +3072,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       body: UserKeysPost,
       params?: RequestParams,
-    ) => Promise<HttpResponse<UserKeysKeyId, void>>;
+    ) => Promise<AxiosResponse<UserKeysKeyId>>;
     /**
      * @description Delete a key.
      *
      * @name KeysDelete
      * @request DELETE:/repos/{owner}/{repo}/keys/{keyId}
      */
-    keysDelete: (
-      owner: string,
-      repo: string,
-      keyId: number,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    keysDelete: (owner: string, repo: string, keyId: number, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Get a key
      *
@@ -3179,14 +3093,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       keyId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<UserKeysKeyId, void>>;
+    ) => Promise<AxiosResponse<UserKeysKeyId>>;
     /**
      * @description List all labels for this repository.
      *
      * @name LabelsDetail
      * @request GET:/repos/{owner}/{repo}/labels
      */
-    labelsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Labels, void>>;
+    labelsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Labels>>;
     /**
      * @description Create a label.
      *
@@ -3198,19 +3112,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       body: EmailsPost,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Label, void>>;
+    ) => Promise<AxiosResponse<Label>>;
     /**
      * @description Delete a label.
      *
      * @name LabelsDelete
      * @request DELETE:/repos/{owner}/{repo}/labels/{name}
      */
-    labelsDelete: (
-      owner: string,
-      repo: string,
-      name: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    labelsDelete: (owner: string, repo: string, name: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Get a single label.
      *
@@ -3219,12 +3128,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @originalName labelsDetail
      * @duplicate
      */
-    labelsDetail2: (
-      owner: string,
-      repo: string,
-      name: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<Label, void>>;
+    labelsDetail2: (owner: string, repo: string, name: string, params?: RequestParams) => Promise<AxiosResponse<Label>>;
     /**
      * @description Update a label.
      *
@@ -3237,14 +3141,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       name: string,
       body: EmailsPost,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Label, void>>;
+    ) => Promise<AxiosResponse<Label>>;
     /**
      * @description List languages. List languages for the specified repository. The value on the right of a language is the number of bytes of code written in that language.
      *
      * @name LanguagesDetail
      * @request GET:/repos/{owner}/{repo}/languages
      */
-    languagesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Languages, void>>;
+    languagesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Languages>>;
     /**
      * @description Perform a merge.
      *
@@ -3256,7 +3160,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       body: MergesBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<MergesSuccessful, void | MergesConflict>>;
+    ) => Promise<AxiosResponse<MergesSuccessful>>;
     /**
      * @description List milestones for a repository.
      *
@@ -3272,7 +3176,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         sort?: "due_date" | "completeness";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Milestone, void>>;
+    ) => Promise<AxiosResponse<Milestone>>;
     /**
      * @description Create a milestone.
      *
@@ -3284,7 +3188,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       body: MilestoneUpdate,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Milestone, void>>;
+    ) => Promise<AxiosResponse<Milestone>>;
     /**
      * @description Delete a milestone.
      *
@@ -3296,7 +3200,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    ) => Promise<AxiosResponse<void>>;
     /**
      * @description Get a single milestone.
      *
@@ -3310,7 +3214,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Milestone, void>>;
+    ) => Promise<AxiosResponse<Milestone>>;
     /**
      * @description Update a milestone.
      *
@@ -3323,7 +3227,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       number: number,
       body: MilestoneUpdate,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Milestone, void>>;
+    ) => Promise<AxiosResponse<Milestone>>;
     /**
      * @description Get labels for every issue in a milestone.
      *
@@ -3335,7 +3239,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Labels, void>>;
+    ) => Promise<AxiosResponse<Labels>>;
     /**
      * @description List your notifications in a repository List all notifications for the current user.
      *
@@ -3351,7 +3255,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Notifications, void>>;
+    ) => Promise<AxiosResponse<Notifications>>;
     /**
      * @description Mark notifications as read in a repository. Marking all notifications in a repository as "read" removes them from the default view on GitHub.com.
      *
@@ -3363,7 +3267,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       body: NotificationMarkRead,
       params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    ) => Promise<AxiosResponse<void>>;
     /**
      * @description List pull requests.
      *
@@ -3379,7 +3283,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         base?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Pulls, void>>;
+    ) => Promise<AxiosResponse<Pulls>>;
     /**
      * @description Create a pull request.
      *
@@ -3391,7 +3295,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       body: PullsPost,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Pulls, void>>;
+    ) => Promise<AxiosResponse<Pulls>>;
     /**
      * @description List comments in a repository. By default, Review Comments are ordered by ascending ID.
      *
@@ -3407,7 +3311,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<IssuesComments, void>>;
+    ) => Promise<AxiosResponse<IssuesComments>>;
     /**
      * @description Delete a comment.
      *
@@ -3419,7 +3323,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       commentId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    ) => Promise<AxiosResponse<void>>;
     /**
      * @description Get a single comment.
      *
@@ -3433,7 +3337,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       commentId: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<PullsComment, void>>;
+    ) => Promise<AxiosResponse<PullsComment>>;
     /**
      * @description Edit a comment.
      *
@@ -3446,7 +3350,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       commentId: number,
       body: CommentBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<PullsComment, void>>;
+    ) => Promise<AxiosResponse<PullsComment>>;
     /**
      * @description Get a single pull request.
      *
@@ -3460,7 +3364,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<PullRequest, void>>;
+    ) => Promise<AxiosResponse<PullRequest>>;
     /**
      * @description Update a pull request.
      *
@@ -3473,7 +3377,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       number: number,
       body: PullUpdate,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Repo, void>>;
+    ) => Promise<AxiosResponse<Repo>>;
     /**
      * @description List comments on a pull request.
      *
@@ -3487,7 +3391,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<PullsComment, void>>;
+    ) => Promise<AxiosResponse<PullsComment>>;
     /**
      * @description Create a comment. #TODO Alternative input ( http://developer.github.com/v3/pulls/comments/ ) description: | Alternative Input. Instead of passing commit_id, path, and position you can reply to an existing Pull Request Comment like this: body Required string in_reply_to Required number - Comment id to reply to.
      *
@@ -3500,7 +3404,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       number: number,
       body: PullsCommentPost,
       params?: RequestParams,
-    ) => Promise<HttpResponse<PullsComment, void>>;
+    ) => Promise<AxiosResponse<PullsComment>>;
     /**
      * @description List commits on a pull request.
      *
@@ -3512,7 +3416,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Commits, void>>;
+    ) => Promise<AxiosResponse<Commits>>;
     /**
      * @description List pull requests files.
      *
@@ -3524,7 +3428,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Pulls, void>>;
+    ) => Promise<AxiosResponse<Pulls>>;
     /**
      * @description Get if a pull request has been merged.
      *
@@ -3536,7 +3440,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       number: number,
       params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    ) => Promise<AxiosResponse<void>>;
     /**
      * @description Merge a pull request (Merge Button's)
      *
@@ -3549,7 +3453,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       number: number,
       body: MergePullBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Merge, void | Merge>>;
+    ) => Promise<AxiosResponse<Merge>>;
     /**
      * @description Get the README. This method returns the preferred README for a repository.
      *
@@ -3563,14 +3467,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         ref?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<ContentsPath, void>>;
+    ) => Promise<AxiosResponse<ContentsPath>>;
     /**
      * @description Users with push access to the repository will receive all releases (i.e., published releases and draft releases). Users with pull access will receive published releases only
      *
      * @name ReleasesDetail
      * @request GET:/repos/{owner}/{repo}/releases
      */
-    releasesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Releases, void>>;
+    releasesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Releases>>;
     /**
      * @description Create a release Users with push access to the repository can create a release.
      *
@@ -3582,7 +3486,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       body: ReleaseCreate,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Release, void>>;
+    ) => Promise<AxiosResponse<Release>>;
     /**
      * @description Delete a release asset
      *
@@ -3594,7 +3498,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       id: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    ) => Promise<AxiosResponse<void>>;
     /**
      * @description Get a single release asset
      *
@@ -3606,7 +3510,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       id: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Asset, void>>;
+    ) => Promise<AxiosResponse<Asset>>;
     /**
      * @description Edit a release asset Users with push access to the repository can edit a release asset.
      *
@@ -3619,19 +3523,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       id: string,
       body: AssetPatch,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Asset, void>>;
+    ) => Promise<AxiosResponse<Asset>>;
     /**
      * @description Users with push access to the repository can delete a release.
      *
      * @name ReleasesDelete
      * @request DELETE:/repos/{owner}/{repo}/releases/{id}
      */
-    releasesDelete: (
-      owner: string,
-      repo: string,
-      id: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    releasesDelete: (owner: string, repo: string, id: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Get a single release
      *
@@ -3645,7 +3544,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       id: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Release, void>>;
+    ) => Promise<AxiosResponse<Release>>;
     /**
      * @description Users with push access to the repository can edit a release
      *
@@ -3658,7 +3557,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       id: string,
       body: ReleaseCreate,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Release, void>>;
+    ) => Promise<AxiosResponse<Release>>;
     /**
      * @description List assets for a release
      *
@@ -3672,14 +3571,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       id: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Assets, void>>;
+    ) => Promise<AxiosResponse<Assets>>;
     /**
      * @description List Stargazers.
      *
      * @name StargazersDetail
      * @request GET:/repos/{owner}/{repo}/stargazers
      */
-    stargazersDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, void>>;
+    stargazersDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Users>>;
     /**
      * @description Get the number of additions and deletions per week. Returns a weekly aggregate of the number of additions and deletions pushed to a repository.
      *
@@ -3690,7 +3589,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<CodeFrequencyStats, void>>;
+    ) => Promise<AxiosResponse<CodeFrequencyStats>>;
     /**
      * @description Get the last year of commit activity data. Returns the last year of commit activity grouped by week. The days array is a group of commits per day, starting on Sunday.
      *
@@ -3701,7 +3600,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<CommitActivityStats, void>>;
+    ) => Promise<AxiosResponse<CommitActivityStats>>;
     /**
      * @description Get contributors list with additions, deletions, and commit counts.
      *
@@ -3712,7 +3611,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<ContributorsStats, void>>;
+    ) => Promise<AxiosResponse<ContributorsStats>>;
     /**
      * @description Get the weekly commit count for the repo owner and everyone else.
      *
@@ -3723,7 +3622,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<ParticipationStats, void>>;
+    ) => Promise<AxiosResponse<ParticipationStats>>;
     /**
      * @description Get the number of commits per hour in each day. Each array contains the day number, hour number, and number of commits 0-6 Sunday - Saturday 0-23 Hour of day Number of commits For example, [2, 14, 25] indicates that there were 25 total commits, during the 2.00pm hour on Tuesdays. All times are based on the time zone of individual commits.
      *
@@ -3734,19 +3633,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<CodeFrequencyStats, void>>;
+    ) => Promise<AxiosResponse<CodeFrequencyStats>>;
     /**
      * @description List Statuses for a specific Ref.
      *
      * @name StatusesDetail
      * @request GET:/repos/{owner}/{repo}/statuses/{ref}
      */
-    statusesDetail: (
-      owner: string,
-      repo: string,
-      ref: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<Ref, void>>;
+    statusesDetail: (owner: string, repo: string, ref: string, params?: RequestParams) => Promise<AxiosResponse<Ref>>;
     /**
      * @description Create a Status.
      *
@@ -3759,32 +3653,28 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       ref: string,
       body: HeadBranch,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Ref, void>>;
+    ) => Promise<AxiosResponse<Ref>>;
     /**
      * @description List watchers.
      *
      * @name SubscribersDetail
      * @request GET:/repos/{owner}/{repo}/subscribers
      */
-    subscribersDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, void>>;
+    subscribersDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Users>>;
     /**
      * @description Delete a Repository Subscription.
      *
      * @name SubscriptionDelete
      * @request DELETE:/repos/{owner}/{repo}/subscription
      */
-    subscriptionDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    subscriptionDelete: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Get a Repository Subscription.
      *
      * @name SubscriptionDetail
      * @request GET:/repos/{owner}/{repo}/subscription
      */
-    subscriptionDetail: (
-      owner: string,
-      repo: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<Subscription, void>>;
+    subscriptionDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Subscription>>;
     /**
      * @description Set a Repository Subscription
      *
@@ -3796,28 +3686,28 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       body: SubscriptionBody,
       params?: RequestParams,
-    ) => Promise<HttpResponse<Subscription, void>>;
+    ) => Promise<AxiosResponse<Subscription>>;
     /**
      * @description Get list of tags.
      *
      * @name TagsDetail
      * @request GET:/repos/{owner}/{repo}/tags
      */
-    tagsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Tags, void>>;
+    tagsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Tags>>;
     /**
      * @description Get list of teams
      *
      * @name TeamsDetail
      * @request GET:/repos/{owner}/{repo}/teams
      */
-    teamsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Teams, void>>;
+    teamsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Teams>>;
     /**
      * @description List Stargazers. New implementation.
      *
      * @name WatchersDetail
      * @request GET:/repos/{owner}/{repo}/watchers
      */
-    watchersDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Users, void>>;
+    watchersDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<Users>>;
     /**
      * @description Get archive link. This method will return a 302 to a URL to download a tarball or zipball archive for a repository. Please make sure your HTTP framework is configured to follow redirects or you will need to use the Location header to make a second GET request. Note: For private repositories, these links are temporary and expire quickly.
      *
@@ -3832,7 +3722,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       archiveFormat: "tarball" | "zipball",
       path: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<any, void>>;
+    ) => Promise<AxiosResponse<any>>;
   };
   repositories: {
     /**
@@ -3846,7 +3736,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Repos, void>>;
+    ) => Promise<AxiosResponse<Repos>>;
   };
   search: {
     /**
@@ -3862,7 +3752,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         sort?: "indexed";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<SearchCode, void>>;
+    ) => Promise<AxiosResponse<SearchCode>>;
     /**
      * @description Find issues by state and keyword. (This method returns up to 100 results per page.)
      *
@@ -3876,7 +3766,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         sort?: "updated" | "created" | "comments";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<SearchIssues, void>>;
+    ) => Promise<AxiosResponse<SearchIssues>>;
     /**
      * @description Search repositories.
      *
@@ -3890,7 +3780,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         sort?: "stars" | "forks" | "updated";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<SearchRepositories, void>>;
+    ) => Promise<AxiosResponse<SearchRepositories>>;
     /**
      * @description Search users.
      *
@@ -3904,7 +3794,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         sort?: "followers" | "repositories" | "joined";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<SearchUsers, void>>;
+    ) => Promise<AxiosResponse<SearchUsers>>;
   };
   teams: {
     /**
@@ -3913,35 +3803,35 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name TeamsDelete
      * @request DELETE:/teams/{teamId}
      */
-    teamsDelete: (teamId: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    teamsDelete: (teamId: number, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Get team.
      *
      * @name TeamsDetail
      * @request GET:/teams/{teamId}
      */
-    teamsDetail: (teamId: number, params?: RequestParams) => Promise<HttpResponse<Team, void>>;
+    teamsDetail: (teamId: number, params?: RequestParams) => Promise<AxiosResponse<Team>>;
     /**
      * @description Edit team. In order to edit a team, the authenticated user must be an owner of the org that the team is associated with.
      *
      * @name TeamsPartialUpdate
      * @request PATCH:/teams/{teamId}
      */
-    teamsPartialUpdate: (teamId: number, body: EditTeam, params?: RequestParams) => Promise<HttpResponse<Team, void>>;
+    teamsPartialUpdate: (teamId: number, body: EditTeam, params?: RequestParams) => Promise<AxiosResponse<Team>>;
     /**
      * @description List team members. In order to list members in a team, the authenticated user must be a member of the team.
      *
      * @name MembersDetail
      * @request GET:/teams/{teamId}/members
      */
-    membersDetail: (teamId: number, params?: RequestParams) => Promise<HttpResponse<Users, void>>;
+    membersDetail: (teamId: number, params?: RequestParams) => Promise<AxiosResponse<Users>>;
     /**
      * @description The "Remove team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Remove team membership API instead. It allows you to remove both active and pending memberships. Remove team member. In order to remove a user from a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with. NOTE This does not delete the user, it just remove them from the team.
      *
      * @name MembersDelete
      * @request DELETE:/teams/{teamId}/members/{username}
      */
-    membersDelete: (teamId: number, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    membersDelete: (teamId: number, username: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description The "Get team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Get team membership API instead. It allows you to get both active and pending memberships. Get team member. In order to get if a user is a member of a team, the authenticated user mus be a member of the team.
      *
@@ -3950,25 +3840,21 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @originalName membersDetail
      * @duplicate
      */
-    membersDetail2: (teamId: number, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    membersDetail2: (teamId: number, username: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description The API (described below) is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Add team membership API instead. It allows you to invite new organization members to your teams. Add team member. In order to add a user to a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with.
      *
      * @name MembersUpdate
      * @request PUT:/teams/{teamId}/members/{username}
      */
-    membersUpdate: (
-      teamId: number,
-      username: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<void, void | OrganizationAsTeamMember>>;
+    membersUpdate: (teamId: number, username: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Remove team membership. In order to remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. NOTE: This does not delete the user, it just removes their membership from the team.
      *
      * @name MembershipsDelete
      * @request DELETE:/teams/{teamId}/memberships/{username}
      */
-    membershipsDelete: (teamId: number, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    membershipsDelete: (teamId: number, username: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Get team membership. In order to get a user's membership with a team, the authenticated user must be a member of the team or an owner of the team's organization.
      *
@@ -3979,7 +3865,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       teamId: number,
       username: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<TeamMembership, void>>;
+    ) => Promise<AxiosResponse<TeamMembership>>;
     /**
      * @description Add team membership. In order to add a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. If the user is already a part of the team's organization (meaning they're on at least one other team in the organization), this endpoint will add the user to the team. If the user is completely unaffiliated with the team's organization (meaning they're on none of the organization's teams), this endpoint will send an invitation to the user via email. This newly-created membership will be in the 'pending' state until the user accepts the invitation, at which point the membership will transition to the 'active' state and the user will be added as a member of the team.
      *
@@ -3990,26 +3876,21 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       teamId: number,
       username: string,
       params?: RequestParams,
-    ) => Promise<HttpResponse<TeamMembership, void | OrganizationAsTeamMember>>;
+    ) => Promise<AxiosResponse<TeamMembership>>;
     /**
      * @description List team repos
      *
      * @name ReposDetail
      * @request GET:/teams/{teamId}/repos
      */
-    reposDetail: (teamId: number, params?: RequestParams) => Promise<HttpResponse<TeamRepos, void>>;
+    reposDetail: (teamId: number, params?: RequestParams) => Promise<AxiosResponse<TeamRepos>>;
     /**
      * @description In order to remove a repository from a team, the authenticated user must be an owner of the org that the team is associated with. NOTE: This does not delete the repository, it just removes it from the team.
      *
      * @name ReposDelete
      * @request DELETE:/teams/{teamId}/repos/{owner}/{repo}
      */
-    reposDelete: (
-      teamId: number,
-      owner: string,
-      repo: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    reposDelete: (teamId: number, owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Check if a team manages a repository
      *
@@ -4018,24 +3899,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @originalName reposDetail
      * @duplicate
      */
-    reposDetail2: (
-      teamId: number,
-      owner: string,
-      repo: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<any, void>>;
+    reposDetail2: (teamId: number, owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<any>>;
     /**
      * @description In order to add a repository to a team, the authenticated user must be an owner of the org that the team is associated with. Also, the repository must be owned by the organization, or a direct fork of a repository owned by the organization.
      *
      * @name ReposUpdate
      * @request PUT:/teams/{teamId}/repos/{owner}/{repo}
      */
-    reposUpdate: (
-      teamId: number,
-      owner: string,
-      repo: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<any, void>>;
+    reposUpdate: (teamId: number, owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<any>>;
   };
   user: {
     /**
@@ -4044,70 +3915,70 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name UserList
      * @request GET:/user
      */
-    userList: (params?: RequestParams) => Promise<HttpResponse<User, void>>;
+    userList: (params?: RequestParams) => Promise<AxiosResponse<User>>;
     /**
      * @description Update the authenticated user.
      *
      * @name UserPartialUpdate
      * @request PATCH:/user
      */
-    userPartialUpdate: (body: UserUpdate, params?: RequestParams) => Promise<HttpResponse<User, void>>;
+    userPartialUpdate: (body: UserUpdate, params?: RequestParams) => Promise<AxiosResponse<User>>;
     /**
      * @description Delete email address(es). You can include a single email address or an array of addresses.
      *
      * @name EmailsDelete
      * @request DELETE:/user/emails
      */
-    emailsDelete: (body: UserEmails, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    emailsDelete: (body: UserEmails, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description List email addresses for a user. In the final version of the API, this method will return an array of hashes with extended information for each email address indicating if the address has been verified and if it's primary email address for GitHub. Until API v3 is finalized, use the application/vnd.github.v3 media type to get other response format.
      *
      * @name EmailsList
      * @request GET:/user/emails
      */
-    emailsList: (params?: RequestParams) => Promise<HttpResponse<UserEmails, void>>;
+    emailsList: (params?: RequestParams) => Promise<AxiosResponse<UserEmails>>;
     /**
      * @description Add email address(es). You can post a single email address or an array of addresses.
      *
      * @name EmailsCreate
      * @request POST:/user/emails
      */
-    emailsCreate: (body: EmailsPost, params?: RequestParams) => Promise<HttpResponse<any, void>>;
+    emailsCreate: (body: EmailsPost, params?: RequestParams) => Promise<AxiosResponse<any>>;
     /**
      * @description List the authenticated user's followers
      *
      * @name FollowersList
      * @request GET:/user/followers
      */
-    followersList: (params?: RequestParams) => Promise<HttpResponse<Users, void>>;
+    followersList: (params?: RequestParams) => Promise<AxiosResponse<Users>>;
     /**
      * @description List who the authenticated user is following.
      *
      * @name FollowingList
      * @request GET:/user/following
      */
-    followingList: (params?: RequestParams) => Promise<HttpResponse<Users, void>>;
+    followingList: (params?: RequestParams) => Promise<AxiosResponse<Users>>;
     /**
      * @description Unfollow a user. Unfollowing a user requires the user to be logged in and authenticated with basic auth or OAuth with the user:follow scope.
      *
      * @name FollowingDelete
      * @request DELETE:/user/following/{username}
      */
-    followingDelete: (username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    followingDelete: (username: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Check if you are following a user.
      *
      * @name FollowingDetail
      * @request GET:/user/following/{username}
      */
-    followingDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    followingDetail: (username: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Follow a user. Following a user requires the user to be logged in and authenticated with basic auth or OAuth with the user:follow scope.
      *
      * @name FollowingUpdate
      * @request PUT:/user/following/{username}
      */
-    followingUpdate: (username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    followingUpdate: (username: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description List issues. List all issues across owned and member repositories for the authenticated user.
      *
@@ -4124,42 +3995,42 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Issues, void>>;
+    ) => Promise<AxiosResponse<Issues>>;
     /**
      * @description List your public keys. Lists the current user's keys. Management of public keys via the API requires that you are authenticated through basic auth, or OAuth with the 'user', 'write:public_key' scopes.
      *
      * @name KeysList
      * @request GET:/user/keys
      */
-    keysList: (params?: RequestParams) => Promise<HttpResponse<Gitignore, void>>;
+    keysList: (params?: RequestParams) => Promise<AxiosResponse<Gitignore>>;
     /**
      * @description Create a public key.
      *
      * @name KeysCreate
      * @request POST:/user/keys
      */
-    keysCreate: (body: UserKeysPost, params?: RequestParams) => Promise<HttpResponse<UserKeysKeyId, void>>;
+    keysCreate: (body: UserKeysPost, params?: RequestParams) => Promise<AxiosResponse<UserKeysKeyId>>;
     /**
      * @description Delete a public key. Removes a public key. Requires that you are authenticated via Basic Auth or via OAuth with at least admin:public_key scope.
      *
      * @name KeysDelete
      * @request DELETE:/user/keys/{keyId}
      */
-    keysDelete: (keyId: number, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    keysDelete: (keyId: number, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Get a single public key.
      *
      * @name KeysDetail
      * @request GET:/user/keys/{keyId}
      */
-    keysDetail: (keyId: number, params?: RequestParams) => Promise<HttpResponse<UserKeysKeyId, void>>;
+    keysDetail: (keyId: number, params?: RequestParams) => Promise<AxiosResponse<UserKeysKeyId>>;
     /**
      * @description List public and private organizations for the authenticated user.
      *
      * @name OrgsList
      * @request GET:/user/orgs
      */
-    orgsList: (params?: RequestParams) => Promise<HttpResponse<Gitignore, void>>;
+    orgsList: (params?: RequestParams) => Promise<AxiosResponse<Gitignore>>;
     /**
      * @description List repositories for the authenticated user. Note that this does not include repositories owned by organizations which the user can access. You can lis user organizations and list organization repositories separately.
      *
@@ -4171,14 +4042,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Repos, void>>;
+    ) => Promise<AxiosResponse<Repos>>;
     /**
      * @description Create a new repository for the authenticated user. OAuth users must supply repo scope.
      *
      * @name ReposCreate
      * @request POST:/user/repos
      */
-    reposCreate: (body: PostRepo, params?: RequestParams) => Promise<HttpResponse<Repos, void>>;
+    reposCreate: (body: PostRepo, params?: RequestParams) => Promise<AxiosResponse<Repos>>;
     /**
      * @description List repositories being starred by the authenticated user.
      *
@@ -4191,63 +4062,63 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         sort?: "created" | "updated";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Gitignore, void>>;
+    ) => Promise<AxiosResponse<Gitignore>>;
     /**
      * @description Unstar a repository
      *
      * @name StarredDelete
      * @request DELETE:/user/starred/{owner}/{repo}
      */
-    starredDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    starredDelete: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Check if you are starring a repository.
      *
      * @name StarredDetail
      * @request GET:/user/starred/{owner}/{repo}
      */
-    starredDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    starredDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Star a repository.
      *
      * @name StarredUpdate
      * @request PUT:/user/starred/{owner}/{repo}
      */
-    starredUpdate: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    starredUpdate: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description List repositories being watched by the authenticated user.
      *
      * @name SubscriptionsList
      * @request GET:/user/subscriptions
      */
-    subscriptionsList: (params?: RequestParams) => Promise<HttpResponse<Repos, void>>;
+    subscriptionsList: (params?: RequestParams) => Promise<AxiosResponse<Repos>>;
     /**
      * @description Stop watching a repository
      *
      * @name SubscriptionsDelete
      * @request DELETE:/user/subscriptions/{owner}/{repo}
      */
-    subscriptionsDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    subscriptionsDelete: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Check if you are watching a repository.
      *
      * @name SubscriptionsDetail
      * @request GET:/user/subscriptions/{owner}/{repo}
      */
-    subscriptionsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    subscriptionsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description Watch a repository.
      *
      * @name SubscriptionsUpdate
      * @request PUT:/user/subscriptions/{owner}/{repo}
      */
-    subscriptionsUpdate: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
+    subscriptionsUpdate: (owner: string, repo: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description List all of the teams across all of the organizations to which the authenticated user belongs. This method requires user or repo scope when authenticating via OAuth.
      *
      * @name TeamsList
      * @request GET:/user/teams
      */
-    teamsList: (params?: RequestParams) => Promise<HttpResponse<TeamsList, void>>;
+    teamsList: (params?: RequestParams) => Promise<AxiosResponse<TeamsList>>;
   };
   users: {
     /**
@@ -4261,46 +4132,42 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         since?: number;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Users, void>>;
+    ) => Promise<AxiosResponse<Users>>;
     /**
      * @description Get a single user.
      *
      * @name UsersDetail
      * @request GET:/users/{username}
      */
-    usersDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<User, void>>;
+    usersDetail: (username: string, params?: RequestParams) => Promise<AxiosResponse<User>>;
     /**
      * @description If you are authenticated as the given user, you will see your private events. Otherwise, you'll only see public events.
      *
      * @name EventsDetail
      * @request GET:/users/{username}/events
      */
-    eventsDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, void>>;
+    eventsDetail: (username: string, params?: RequestParams) => Promise<AxiosResponse<any>>;
     /**
      * @description This is the user's organization dashboard. You must be authenticated as the user to view this.
      *
      * @name EventsOrgsDetail
      * @request GET:/users/{username}/events/orgs/{org}
      */
-    eventsOrgsDetail: (username: string, org: string, params?: RequestParams) => Promise<HttpResponse<any, void>>;
+    eventsOrgsDetail: (username: string, org: string, params?: RequestParams) => Promise<AxiosResponse<any>>;
     /**
      * @description List a user's followers
      *
      * @name FollowersDetail
      * @request GET:/users/{username}/followers
      */
-    followersDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<Users, void>>;
+    followersDetail: (username: string, params?: RequestParams) => Promise<AxiosResponse<Users>>;
     /**
      * @description Check if one user follows another.
      *
      * @name FollowingDetail
      * @request GET:/users/{username}/following/{targetUser}
      */
-    followingDetail: (
-      username: string,
-      targetUser: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<void, void>>;
+    followingDetail: (username: string, targetUser: string, params?: RequestParams) => Promise<AxiosResponse<void>>;
     /**
      * @description List a users gists.
      *
@@ -4313,35 +4180,35 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         since?: string;
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Gists, void>>;
+    ) => Promise<AxiosResponse<Gists>>;
     /**
      * @description List public keys for a user. Lists the verified public keys for a user. This is accessible by anyone.
      *
      * @name KeysDetail
      * @request GET:/users/{username}/keys
      */
-    keysDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<Gitignore, void>>;
+    keysDetail: (username: string, params?: RequestParams) => Promise<AxiosResponse<Gitignore>>;
     /**
      * @description List all public organizations for a user.
      *
      * @name OrgsDetail
      * @request GET:/users/{username}/orgs
      */
-    orgsDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<Gitignore, void>>;
+    orgsDetail: (username: string, params?: RequestParams) => Promise<AxiosResponse<Gitignore>>;
     /**
      * @description These are events that you'll only see public events.
      *
      * @name ReceivedEventsDetail
      * @request GET:/users/{username}/received_events
      */
-    receivedEventsDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, void>>;
+    receivedEventsDetail: (username: string, params?: RequestParams) => Promise<AxiosResponse<any>>;
     /**
      * @description List public events that a user has received
      *
      * @name ReceivedEventsPublicDetail
      * @request GET:/users/{username}/received_events/public
      */
-    receivedEventsPublicDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, void>>;
+    receivedEventsPublicDetail: (username: string, params?: RequestParams) => Promise<AxiosResponse<any>>;
     /**
      * @description List public repositories for the specified user.
      *
@@ -4354,21 +4221,20 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Repos, void>>;
+    ) => Promise<AxiosResponse<Repos>>;
     /**
      * @description List repositories being starred by a user.
      *
      * @name StarredDetail
      * @request GET:/users/{username}/starred
      */
-    starredDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, void>>;
+    starredDetail: (username: string, params?: RequestParams) => Promise<AxiosResponse<any>>;
     /**
      * @description List repositories being watched by a user.
      *
      * @name SubscriptionsDetail
      * @request GET:/users/{username}/subscriptions
      */
-    subscriptionsDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, void>>;
+    subscriptionsDetail: (username: string, params?: RequestParams) => Promise<AxiosResponse<any>>;
   };
 }
-export {};

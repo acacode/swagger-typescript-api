@@ -3,7 +3,7 @@ const yaml = require("js-yaml");
 const axios = require("axios");
 const converter = require("swagger2openapi");
 const https = require("https");
-const { addToConfig } = require("./config");
+const { addToConfig, config } = require("./config");
 const { pathIsExist, getFileContent } = require("./files");
 
 const parseSwaggerFile = (file) => {
@@ -19,10 +19,10 @@ const parseSwaggerFile = (file) => {
 const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL) =>
   new Promise((resolve) => {
     if (pathIsExist(pathToSwagger)) {
-      console.log(`✨ try to get swagger by path "${pathToSwagger}"`);
+      if (!config.silent) console.log(`✨ try to get swagger by path "${pathToSwagger}"`);
       resolve(getFileContent(pathToSwagger));
     } else {
-      console.log(`✨ try to get swagger by url "${urlToSwagger}"`);
+      if (!config.silent) console.log(`✨ try to get swagger by url "${urlToSwagger}"`);
       let agent = undefined;
       if (disableStrictSSL) {
         agent = new https.Agent({

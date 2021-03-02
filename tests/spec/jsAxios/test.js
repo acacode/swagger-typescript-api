@@ -9,18 +9,12 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
   generateApi({
     silent: true,
     name: apiFileName,
-    spec: require(absolutePath),
+    input: absolutePath,
     output: resolve(__dirname, "./"),
-    singleHttpClient: true,
-  })
-    .then(() => {
-      const diagnostics = validateGeneratedModule({
-        pathToFile: resolve(__dirname, `./${apiFileName}`),
-      });
-      if (diagnostics.length) throw "Failed";
-    })
-    .catch((e) => {
-      console.error("--single-http-client option test failed.");
-      throw e;
-    });
+    toJS: true,
+    httpClientType: "axios",
+  }).catch((e) => {
+    console.error("--js --axios option test failed.");
+    throw e;
+  });
 });

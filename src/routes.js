@@ -132,7 +132,7 @@ const parseRoute = (route) => {
       if (!paramName) return pathParams;
 
       if (_.includes(paramName, "-")) {
-        console.warn("🔨 wrong path param name", paramName);
+        if (!config.silent) console.warn("🔨 wrong path param name", paramName);
       }
 
       return [

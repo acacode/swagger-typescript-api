@@ -7,6 +7,7 @@ const schemas = createSchemasInfos({ absolutePathToSchemas: resolve(__dirname, "
 
 schemas.forEach(({ absolutePath }) => {
   generateApi({
+    silent: true,
     input: absolutePath,
     output: resolve(__dirname, "./"),
     modular: true,

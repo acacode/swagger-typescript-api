@@ -26,7 +26,7 @@ module.exports = {
     url,
     spec,
     name: fileName,
-    toJS: translateToJavaScript,
+    toJS: translateToJavaScript = config.toJS,
     modular,
     templates,
     generateResponses = config.generateResponses,
@@ -45,6 +45,7 @@ module.exports = {
     enumNamesAsValues,
     disableStrictSSL = config.disableStrictSSL,
     cleanOutput,
+    silent = config.silent,
   }) =>
     new Promise((resolve, reject) => {
       addToConfig({
@@ -66,6 +67,8 @@ module.exports = {
         defaultResponseType,
         singleHttpClient,
         constants,
+        silent,
+        toJS: translateToJavaScript,
       });
       (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url, disableStrictSSL))
         .then(({ usageSchema, originalSchema }) => {
@@ -75,7 +78,7 @@ module.exports = {
 
           const templatesToRender = getTemplates(config);
 
-          console.log("☄️  start generating your typescript api");
+          if (!config.silent) console.log("☄️  start generating your typescript api");
 
           fixSwaggerScheme(usageSchema, originalSchema);
 
@@ -148,10 +151,12 @@ module.exports = {
             if (translateToJavaScript) {
               createFile(output, file.name, file.content);
               createFile(output, file.declaration.name, file.declaration.content);
-              console.log(`✔️  your javascript api file created in "${output}"`);
+              if (!config.silent)
+                console.log(`✔️  your javascript api file created in "${output}"`);
             } else {
               createFile(output, file.name, file.content);
-              console.log(`✔️  your typescript api file created in "${output}"`);
+              if (!config.silent)
+                console.log(`✔️  your typescript api file created in "${output}"`);
             }
 
             return file;

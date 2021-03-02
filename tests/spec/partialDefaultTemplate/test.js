@@ -8,6 +8,7 @@ const schemas = createSchemasInfos({ absolutePathToSchemas: resolve(__dirname, "
 
 schemas.forEach(({ absolutePath, apiFileName }) => {
   generateApi({
+    silent: true,
     name: apiFileName,
     input: absolutePath,
     output: resolve(__dirname, "./"),
