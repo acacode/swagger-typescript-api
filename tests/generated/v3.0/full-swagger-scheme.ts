@@ -9291,9 +9291,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get an installation for the authenticated app
      * @request GET:/app/installations/{installation_id}
      */
-    appsGetInstallation: (installation_id: number, params: RequestParams = {}) =>
+    appsGetInstallation: (installationId: number, params: RequestParams = {}) =>
       this.request<Installation, BasicError | { message: string; documentation_url: string }>({
-        path: `/app/installations/${installation_id}`,
+        path: `/app/installations/${installationId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -9307,9 +9307,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete an installation for the authenticated app
      * @request DELETE:/app/installations/{installation_id}
      */
-    appsDeleteInstallation: (installation_id: number, params: RequestParams = {}) =>
+    appsDeleteInstallation: (installationId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/app/installations/${installation_id}`,
+        path: `/app/installations/${installationId}`,
         method: "DELETE",
         ...params,
       }),
@@ -9323,12 +9323,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/app/installations/{installation_id}/access_tokens
      */
     appsCreateInstallationAccessToken: (
-      installation_id: number,
+      installationId: number,
       data: { repositories?: string[]; repository_ids?: number[]; permissions?: AppPermissions },
       params: RequestParams = {},
     ) =>
       this.request<InstallationToken, BasicError | { message: string; documentation_url: string } | ValidationError>({
-        path: `/app/installations/${installation_id}/access_tokens`,
+        path: `/app/installations/${installationId}/access_tokens`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -9344,9 +9344,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Suspend an app installation
      * @request PUT:/app/installations/{installation_id}/suspended
      */
-    appsSuspendInstallation: (installation_id: number, params: RequestParams = {}) =>
+    appsSuspendInstallation: (installationId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/app/installations/${installation_id}/suspended`,
+        path: `/app/installations/${installationId}/suspended`,
         method: "PUT",
         ...params,
       }),
@@ -9359,9 +9359,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Unsuspend an app installation
      * @request DELETE:/app/installations/{installation_id}/suspended
      */
-    appsUnsuspendInstallation: (installation_id: number, params: RequestParams = {}) =>
+    appsUnsuspendInstallation: (installationId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/app/installations/${installation_id}/suspended`,
+        path: `/app/installations/${installationId}/suspended`,
         method: "DELETE",
         ...params,
       }),
@@ -9418,9 +9418,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a single grant
      * @request GET:/applications/grants/{grant_id}
      */
-    oauthAuthorizationsGetGrant: (grant_id: number, params: RequestParams = {}) =>
+    oauthAuthorizationsGetGrant: (grantId: number, params: RequestParams = {}) =>
       this.request<ApplicationGrant, BasicError>({
-        path: `/applications/grants/${grant_id}`,
+        path: `/applications/grants/${grantId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -9434,9 +9434,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a grant
      * @request DELETE:/applications/grants/{grant_id}
      */
-    oauthAuthorizationsDeleteGrant: (grant_id: number, params: RequestParams = {}) =>
+    oauthAuthorizationsDeleteGrant: (grantId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/applications/grants/${grant_id}`,
+        path: `/applications/grants/${grantId}`,
         method: "DELETE",
         ...params,
       }),
@@ -9449,9 +9449,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete an app authorization
      * @request DELETE:/applications/{client_id}/grant
      */
-    appsDeleteAuthorization: (client_id: string, data: { access_token?: string }, params: RequestParams = {}) =>
+    appsDeleteAuthorization: (clientId: string, data: { access_token?: string }, params: RequestParams = {}) =>
       this.request<void, ValidationError>({
-        path: `/applications/${client_id}/grant`,
+        path: `/applications/${clientId}/grant`,
         method: "DELETE",
         body: data,
         type: ContentType.Json,
@@ -9466,9 +9466,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Revoke a grant for an application
      * @request DELETE:/applications/{client_id}/grants/{access_token}
      */
-    appsRevokeGrantForApplication: (client_id: string, access_token: string, params: RequestParams = {}) =>
+    appsRevokeGrantForApplication: (clientId: string, accessToken: string, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/applications/${client_id}/grants/${access_token}`,
+        path: `/applications/${clientId}/grants/${accessToken}`,
         method: "DELETE",
         ...params,
       }),
@@ -9481,9 +9481,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Check a token
      * @request POST:/applications/{client_id}/token
      */
-    appsCheckToken: (client_id: string, data: { access_token: string }, params: RequestParams = {}) =>
+    appsCheckToken: (clientId: string, data: { access_token: string }, params: RequestParams = {}) =>
       this.request<Authorization, BasicError | ValidationError>({
-        path: `/applications/${client_id}/token`,
+        path: `/applications/${clientId}/token`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -9499,9 +9499,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Reset a token
      * @request PATCH:/applications/{client_id}/token
      */
-    appsResetToken: (client_id: string, data: { access_token: string }, params: RequestParams = {}) =>
+    appsResetToken: (clientId: string, data: { access_token: string }, params: RequestParams = {}) =>
       this.request<Authorization, ValidationError>({
-        path: `/applications/${client_id}/token`,
+        path: `/applications/${clientId}/token`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -9517,9 +9517,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete an app token
      * @request DELETE:/applications/{client_id}/token
      */
-    appsDeleteToken: (client_id: string, data: { access_token?: string }, params: RequestParams = {}) =>
+    appsDeleteToken: (clientId: string, data: { access_token?: string }, params: RequestParams = {}) =>
       this.request<void, ValidationError>({
-        path: `/applications/${client_id}/token`,
+        path: `/applications/${clientId}/token`,
         method: "DELETE",
         body: data,
         type: ContentType.Json,
@@ -9535,7 +9535,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/applications/{client_id}/token/scoped
      */
     appsScopeToken: (
-      client_id: string,
+      clientId: string,
       data: {
         access_token?: string;
         target?: string;
@@ -9547,7 +9547,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Authorization, BasicError | ValidationError>({
-        path: `/applications/${client_id}/token/scoped`,
+        path: `/applications/${clientId}/token/scoped`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -9563,9 +9563,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Check an authorization
      * @request GET:/applications/{client_id}/tokens/{access_token}
      */
-    appsCheckAuthorization: (client_id: string, access_token: string, params: RequestParams = {}) =>
+    appsCheckAuthorization: (clientId: string, accessToken: string, params: RequestParams = {}) =>
       this.request<Authorization | null, BasicError>({
-        path: `/applications/${client_id}/tokens/${access_token}`,
+        path: `/applications/${clientId}/tokens/${accessToken}`,
         method: "GET",
         format: "json",
         ...params,
@@ -9579,9 +9579,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Reset an authorization
      * @request POST:/applications/{client_id}/tokens/{access_token}
      */
-    appsResetAuthorization: (client_id: string, access_token: string, params: RequestParams = {}) =>
+    appsResetAuthorization: (clientId: string, accessToken: string, params: RequestParams = {}) =>
       this.request<Authorization, any>({
-        path: `/applications/${client_id}/tokens/${access_token}`,
+        path: `/applications/${clientId}/tokens/${accessToken}`,
         method: "POST",
         format: "json",
         ...params,
@@ -9595,9 +9595,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Revoke an authorization for an application
      * @request DELETE:/applications/{client_id}/tokens/{access_token}
      */
-    appsRevokeAuthorizationForApplication: (client_id: string, access_token: string, params: RequestParams = {}) =>
+    appsRevokeAuthorizationForApplication: (clientId: string, accessToken: string, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/applications/${client_id}/tokens/${access_token}`,
+        path: `/applications/${clientId}/tokens/${accessToken}`,
         method: "DELETE",
         ...params,
       }),
@@ -9611,9 +9611,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get an app
      * @request GET:/apps/{app_slug}
      */
-    appsGetBySlug: (app_slug: string, params: RequestParams = {}) =>
+    appsGetBySlug: (appSlug: string, params: RequestParams = {}) =>
       this.request<Integration, BasicError | { message: string; documentation_url: string }>({
-        path: `/apps/${app_slug}`,
+        path: `/apps/${appSlug}`,
         method: "GET",
         format: "json",
         ...params,
@@ -9674,12 +9674,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/authorizations/clients/{client_id}
      */
     oauthAuthorizationsGetOrCreateAuthorizationForApp: (
-      client_id: string,
+      clientId: string,
       data: { client_secret: string; scopes?: string[] | null; note?: string; note_url?: string; fingerprint?: string },
       params: RequestParams = {},
     ) =>
       this.request<Authorization, BasicError | ValidationError>({
-        path: `/authorizations/clients/${client_id}`,
+        path: `/authorizations/clients/${clientId}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -9696,13 +9696,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/authorizations/clients/{client_id}/{fingerprint}
      */
     oauthAuthorizationsGetOrCreateAuthorizationForAppAndFingerprint: (
-      client_id: string,
+      clientId: string,
       fingerprint: string,
       data: { client_secret: string; scopes?: string[] | null; note?: string; note_url?: string },
       params: RequestParams = {},
     ) =>
       this.request<Authorization, ValidationError>({
-        path: `/authorizations/clients/${client_id}/${fingerprint}`,
+        path: `/authorizations/clients/${clientId}/${fingerprint}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -9718,9 +9718,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a single authorization
      * @request GET:/authorizations/{authorization_id}
      */
-    oauthAuthorizationsGetAuthorization: (authorization_id: number, params: RequestParams = {}) =>
+    oauthAuthorizationsGetAuthorization: (authorizationId: number, params: RequestParams = {}) =>
       this.request<Authorization, BasicError>({
-        path: `/authorizations/${authorization_id}`,
+        path: `/authorizations/${authorizationId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -9735,7 +9735,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/authorizations/{authorization_id}
      */
     oauthAuthorizationsUpdateAuthorization: (
-      authorization_id: number,
+      authorizationId: number,
       data: {
         scopes?: string[] | null;
         add_scopes?: string[];
@@ -9747,7 +9747,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Authorization, ValidationError>({
-        path: `/authorizations/${authorization_id}`,
+        path: `/authorizations/${authorizationId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -9763,9 +9763,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete an authorization
      * @request DELETE:/authorizations/{authorization_id}
      */
-    oauthAuthorizationsDeleteAuthorization: (authorization_id: number, params: RequestParams = {}) =>
+    oauthAuthorizationsDeleteAuthorization: (authorizationId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/authorizations/${authorization_id}`,
+        path: `/authorizations/${authorizationId}`,
         method: "DELETE",
         ...params,
       }),
@@ -9813,7 +9813,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/content_references/{content_reference_id}/attachments
      */
     appsCreateContentAttachment: (
-      content_reference_id: number,
+      contentReferenceId: number,
       data: { title: string; body: string },
       params: RequestParams = {},
     ) =>
@@ -9821,7 +9821,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ContentReferenceAttachment,
         BasicError | { message: string; documentation_url: string } | ValidationError
       >({
-        path: `/content_references/${content_reference_id}/attachments`,
+        path: `/content_references/${contentReferenceId}/attachments`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -9936,11 +9936,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminEnableSelectedOrganizationGithubActionsEnterprise: (
       enterprise: string,
-      org_id: number,
+      orgId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/enterprises/${enterprise}/actions/permissions/organizations/${org_id}`,
+        path: `/enterprises/${enterprise}/actions/permissions/organizations/${orgId}`,
         method: "PUT",
         ...params,
       }),
@@ -9955,11 +9955,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminDisableSelectedOrganizationGithubActionsEnterprise: (
       enterprise: string,
-      org_id: number,
+      orgId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/enterprises/${enterprise}/actions/permissions/organizations/${org_id}`,
+        path: `/enterprises/${enterprise}/actions/permissions/organizations/${orgId}`,
         method: "DELETE",
         ...params,
       }),
@@ -10054,11 +10054,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminGetSelfHostedRunnerGroupForEnterprise: (
       enterprise: string,
-      runner_group_id: number,
+      runnerGroupId: number,
       params: RequestParams = {},
     ) =>
       this.request<RunnerGroupsEnterprise, any>({
-        path: `/enterprises/${enterprise}/actions/runner-groups/${runner_group_id}`,
+        path: `/enterprises/${enterprise}/actions/runner-groups/${runnerGroupId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -10074,12 +10074,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminUpdateSelfHostedRunnerGroupForEnterprise: (
       enterprise: string,
-      runner_group_id: number,
+      runnerGroupId: number,
       data: { name?: string; visibility?: "selected" | "all" },
       params: RequestParams = {},
     ) =>
       this.request<RunnerGroupsEnterprise, any>({
-        path: `/enterprises/${enterprise}/actions/runner-groups/${runner_group_id}`,
+        path: `/enterprises/${enterprise}/actions/runner-groups/${runnerGroupId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -10097,11 +10097,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminDeleteSelfHostedRunnerGroupFromEnterprise: (
       enterprise: string,
-      runner_group_id: number,
+      runnerGroupId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/enterprises/${enterprise}/actions/runner-groups/${runner_group_id}`,
+        path: `/enterprises/${enterprise}/actions/runner-groups/${runnerGroupId}`,
         method: "DELETE",
         ...params,
       }),
@@ -10116,12 +10116,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminListOrgAccessToSelfHostedRunnerGroupInEnterprise: (
       enterprise: string,
-      runner_group_id: number,
+      runnerGroupId: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<{ total_count: number; organizations: OrganizationSimple[] }, any>({
-        path: `/enterprises/${enterprise}/actions/runner-groups/${runner_group_id}/organizations`,
+        path: `/enterprises/${enterprise}/actions/runner-groups/${runnerGroupId}/organizations`,
         method: "GET",
         query: query,
         format: "json",
@@ -10138,12 +10138,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminSetOrgAccessToSelfHostedRunnerGroupInEnterprise: (
       enterprise: string,
-      runner_group_id: number,
+      runnerGroupId: number,
       data: { selected_organization_ids: number[] },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/enterprises/${enterprise}/actions/runner-groups/${runner_group_id}/organizations`,
+        path: `/enterprises/${enterprise}/actions/runner-groups/${runnerGroupId}/organizations`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -10160,12 +10160,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminAddOrgAccessToSelfHostedRunnerGroupInEnterprise: (
       enterprise: string,
-      runner_group_id: number,
-      org_id: number,
+      runnerGroupId: number,
+      orgId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/enterprises/${enterprise}/actions/runner-groups/${runner_group_id}/organizations/${org_id}`,
+        path: `/enterprises/${enterprise}/actions/runner-groups/${runnerGroupId}/organizations/${orgId}`,
         method: "PUT",
         ...params,
       }),
@@ -10180,12 +10180,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminRemoveOrgAccessToSelfHostedRunnerGroupInEnterprise: (
       enterprise: string,
-      runner_group_id: number,
-      org_id: number,
+      runnerGroupId: number,
+      orgId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/enterprises/${enterprise}/actions/runner-groups/${runner_group_id}/organizations/${org_id}`,
+        path: `/enterprises/${enterprise}/actions/runner-groups/${runnerGroupId}/organizations/${orgId}`,
         method: "DELETE",
         ...params,
       }),
@@ -10200,12 +10200,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminListSelfHostedRunnersInGroupForEnterprise: (
       enterprise: string,
-      runner_group_id: number,
+      runnerGroupId: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<{ total_count: number; runners: Runner[] }, any>({
-        path: `/enterprises/${enterprise}/actions/runner-groups/${runner_group_id}/runners`,
+        path: `/enterprises/${enterprise}/actions/runner-groups/${runnerGroupId}/runners`,
         method: "GET",
         query: query,
         format: "json",
@@ -10222,12 +10222,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminSetSelfHostedRunnersInGroupForEnterprise: (
       enterprise: string,
-      runner_group_id: number,
+      runnerGroupId: number,
       data: { runners: number[] },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/enterprises/${enterprise}/actions/runner-groups/${runner_group_id}/runners`,
+        path: `/enterprises/${enterprise}/actions/runner-groups/${runnerGroupId}/runners`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -10244,12 +10244,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminAddSelfHostedRunnerToGroupForEnterprise: (
       enterprise: string,
-      runner_group_id: number,
-      runner_id: number,
+      runnerGroupId: number,
+      runnerId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/enterprises/${enterprise}/actions/runner-groups/${runner_group_id}/runners/${runner_id}`,
+        path: `/enterprises/${enterprise}/actions/runner-groups/${runnerGroupId}/runners/${runnerId}`,
         method: "PUT",
         ...params,
       }),
@@ -10264,12 +10264,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminRemoveSelfHostedRunnerFromGroupForEnterprise: (
       enterprise: string,
-      runner_group_id: number,
-      runner_id: number,
+      runnerGroupId: number,
+      runnerId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/enterprises/${enterprise}/actions/runner-groups/${runner_group_id}/runners/${runner_id}`,
+        path: `/enterprises/${enterprise}/actions/runner-groups/${runnerGroupId}/runners/${runnerId}`,
         method: "DELETE",
         ...params,
       }),
@@ -10353,11 +10353,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminGetSelfHostedRunnerForEnterprise: (
       enterprise: string,
-      runner_id: number,
+      runnerId: number,
       params: RequestParams = {},
     ) =>
       this.request<Runner, any>({
-        path: `/enterprises/${enterprise}/actions/runners/${runner_id}`,
+        path: `/enterprises/${enterprise}/actions/runners/${runnerId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -10373,11 +10373,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminDeleteSelfHostedRunnerFromEnterprise: (
       enterprise: string,
-      runner_id: number,
+      runnerId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/enterprises/${enterprise}/actions/runners/${runner_id}`,
+        path: `/enterprises/${enterprise}/actions/runners/${runnerId}`,
         method: "DELETE",
         ...params,
       }),
@@ -10574,7 +10574,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a gist
      * @request GET:/gists/{gist_id}
      */
-    gistsGet: (gist_id: string, params: RequestParams = {}) =>
+    gistsGet: (gistId: string, params: RequestParams = {}) =>
       this.request<
         GistSimple,
         | {
@@ -10584,7 +10584,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
           }
         | BasicError
       >({
-        path: `/gists/${gist_id}`,
+        path: `/gists/${gistId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -10599,7 +10599,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/gists/{gist_id}
      */
     gistsUpdate: (
-      gist_id: string,
+      gistId: string,
       data: (any | any | (any & any) | null) & {
         description?: string;
         files?: Record<
@@ -10610,7 +10610,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<GistSimple, BasicError | ValidationError>({
-        path: `/gists/${gist_id}`,
+        path: `/gists/${gistId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -10626,9 +10626,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a gist
      * @request DELETE:/gists/{gist_id}
      */
-    gistsDelete: (gist_id: string, params: RequestParams = {}) =>
+    gistsDelete: (gistId: string, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/gists/${gist_id}`,
+        path: `/gists/${gistId}`,
         method: "DELETE",
         ...params,
       }),
@@ -10641,9 +10641,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary List gist comments
      * @request GET:/gists/{gist_id}/comments
      */
-    gistsListComments: (gist_id: string, query?: { per_page?: number; page?: number }, params: RequestParams = {}) =>
+    gistsListComments: (gistId: string, query?: { per_page?: number; page?: number }, params: RequestParams = {}) =>
       this.request<GistComment[], BasicError>({
-        path: `/gists/${gist_id}/comments`,
+        path: `/gists/${gistId}/comments`,
         method: "GET",
         query: query,
         format: "json",
@@ -10658,9 +10658,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a gist comment
      * @request POST:/gists/{gist_id}/comments
      */
-    gistsCreateComment: (gist_id: string, data: { body: string }, params: RequestParams = {}) =>
+    gistsCreateComment: (gistId: string, data: { body: string }, params: RequestParams = {}) =>
       this.request<GistComment, BasicError>({
-        path: `/gists/${gist_id}/comments`,
+        path: `/gists/${gistId}/comments`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -10676,7 +10676,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a gist comment
      * @request GET:/gists/{gist_id}/comments/{comment_id}
      */
-    gistsGetComment: (gist_id: string, comment_id: number, params: RequestParams = {}) =>
+    gistsGetComment: (gistId: string, commentId: number, params: RequestParams = {}) =>
       this.request<
         GistComment,
         | {
@@ -10686,7 +10686,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
           }
         | BasicError
       >({
-        path: `/gists/${gist_id}/comments/${comment_id}`,
+        path: `/gists/${gistId}/comments/${commentId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -10700,9 +10700,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a gist comment
      * @request PATCH:/gists/{gist_id}/comments/{comment_id}
      */
-    gistsUpdateComment: (gist_id: string, comment_id: number, data: { body: string }, params: RequestParams = {}) =>
+    gistsUpdateComment: (gistId: string, commentId: number, data: { body: string }, params: RequestParams = {}) =>
       this.request<GistComment, BasicError>({
-        path: `/gists/${gist_id}/comments/${comment_id}`,
+        path: `/gists/${gistId}/comments/${commentId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -10718,9 +10718,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a gist comment
      * @request DELETE:/gists/{gist_id}/comments/{comment_id}
      */
-    gistsDeleteComment: (gist_id: string, comment_id: number, params: RequestParams = {}) =>
+    gistsDeleteComment: (gistId: string, commentId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/gists/${gist_id}/comments/${comment_id}`,
+        path: `/gists/${gistId}/comments/${commentId}`,
         method: "DELETE",
         ...params,
       }),
@@ -10733,9 +10733,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary List gist commits
      * @request GET:/gists/{gist_id}/commits
      */
-    gistsListCommits: (gist_id: string, query?: { per_page?: number; page?: number }, params: RequestParams = {}) =>
+    gistsListCommits: (gistId: string, query?: { per_page?: number; page?: number }, params: RequestParams = {}) =>
       this.request<GistCommit[], BasicError>({
-        path: `/gists/${gist_id}/commits`,
+        path: `/gists/${gistId}/commits`,
         method: "GET",
         query: query,
         format: "json",
@@ -10750,9 +10750,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary List gist forks
      * @request GET:/gists/{gist_id}/forks
      */
-    gistsListForks: (gist_id: string, query?: { per_page?: number; page?: number }, params: RequestParams = {}) =>
+    gistsListForks: (gistId: string, query?: { per_page?: number; page?: number }, params: RequestParams = {}) =>
       this.request<GistSimple[], BasicError>({
-        path: `/gists/${gist_id}/forks`,
+        path: `/gists/${gistId}/forks`,
         method: "GET",
         query: query,
         format: "json",
@@ -10767,9 +10767,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Fork a gist
      * @request POST:/gists/{gist_id}/forks
      */
-    gistsFork: (gist_id: string, params: RequestParams = {}) =>
+    gistsFork: (gistId: string, params: RequestParams = {}) =>
       this.request<BaseGist, BasicError | ValidationError>({
-        path: `/gists/${gist_id}/forks`,
+        path: `/gists/${gistId}/forks`,
         method: "POST",
         format: "json",
         ...params,
@@ -10783,9 +10783,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Check if a gist is starred
      * @request GET:/gists/{gist_id}/star
      */
-    gistsCheckIsStarred: (gist_id: string, params: RequestParams = {}) =>
+    gistsCheckIsStarred: (gistId: string, params: RequestParams = {}) =>
       this.request<void, BasicError | object>({
-        path: `/gists/${gist_id}/star`,
+        path: `/gists/${gistId}/star`,
         method: "GET",
         ...params,
       }),
@@ -10798,9 +10798,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Star a gist
      * @request PUT:/gists/{gist_id}/star
      */
-    gistsStar: (gist_id: string, params: RequestParams = {}) =>
+    gistsStar: (gistId: string, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/gists/${gist_id}/star`,
+        path: `/gists/${gistId}/star`,
         method: "PUT",
         ...params,
       }),
@@ -10813,9 +10813,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Unstar a gist
      * @request DELETE:/gists/{gist_id}/star
      */
-    gistsUnstar: (gist_id: string, params: RequestParams = {}) =>
+    gistsUnstar: (gistId: string, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/gists/${gist_id}/star`,
+        path: `/gists/${gistId}/star`,
         method: "DELETE",
         ...params,
       }),
@@ -10828,9 +10828,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a gist revision
      * @request GET:/gists/{gist_id}/{sha}
      */
-    gistsGetRevision: (gist_id: string, sha: string, params: RequestParams = {}) =>
+    gistsGetRevision: (gistId: string, sha: string, params: RequestParams = {}) =>
       this.request<GistSimple, BasicError | ValidationError>({
-        path: `/gists/${gist_id}/${sha}`,
+        path: `/gists/${gistId}/${sha}`,
         method: "GET",
         format: "json",
         ...params,
@@ -11013,9 +11013,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a subscription plan for an account
      * @request GET:/marketplace_listing/accounts/{account_id}
      */
-    appsGetSubscriptionPlanForAccount: (account_id: number, params: RequestParams = {}) =>
+    appsGetSubscriptionPlanForAccount: (accountId: number, params: RequestParams = {}) =>
       this.request<MarketplacePurchase, BasicError>({
-        path: `/marketplace_listing/accounts/${account_id}`,
+        path: `/marketplace_listing/accounts/${accountId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -11047,12 +11047,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/marketplace_listing/plans/{plan_id}/accounts
      */
     appsListAccountsForPlan: (
-      plan_id: number,
+      planId: number,
       query?: { sort?: "created" | "updated"; direction?: "asc" | "desc"; per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<MarketplacePurchase[], BasicError | ValidationError>({
-        path: `/marketplace_listing/plans/${plan_id}/accounts`,
+        path: `/marketplace_listing/plans/${planId}/accounts`,
         method: "GET",
         query: query,
         format: "json",
@@ -11067,9 +11067,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a subscription plan for an account (stubbed)
      * @request GET:/marketplace_listing/stubbed/accounts/{account_id}
      */
-    appsGetSubscriptionPlanForAccountStubbed: (account_id: number, params: RequestParams = {}) =>
+    appsGetSubscriptionPlanForAccountStubbed: (accountId: number, params: RequestParams = {}) =>
       this.request<MarketplacePurchase, BasicError | void>({
-        path: `/marketplace_listing/stubbed/accounts/${account_id}`,
+        path: `/marketplace_listing/stubbed/accounts/${accountId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -11101,12 +11101,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/marketplace_listing/stubbed/plans/{plan_id}/accounts
      */
     appsListAccountsForPlanStubbed: (
-      plan_id: number,
+      planId: number,
       query?: { sort?: "created" | "updated"; direction?: "asc" | "desc"; per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<MarketplacePurchase[], BasicError>({
-        path: `/marketplace_listing/stubbed/plans/${plan_id}/accounts`,
+        path: `/marketplace_listing/stubbed/plans/${planId}/accounts`,
         method: "GET",
         query: query,
         format: "json",
@@ -11207,9 +11207,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a thread
      * @request GET:/notifications/threads/{thread_id}
      */
-    activityGetThread: (thread_id: number, params: RequestParams = {}) =>
+    activityGetThread: (threadId: number, params: RequestParams = {}) =>
       this.request<Thread, BasicError>({
-        path: `/notifications/threads/${thread_id}`,
+        path: `/notifications/threads/${threadId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -11223,9 +11223,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Mark a thread as read
      * @request PATCH:/notifications/threads/{thread_id}
      */
-    activityMarkThreadAsRead: (thread_id: number, params: RequestParams = {}) =>
+    activityMarkThreadAsRead: (threadId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/notifications/threads/${thread_id}`,
+        path: `/notifications/threads/${threadId}`,
         method: "PATCH",
         ...params,
       }),
@@ -11238,9 +11238,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a thread subscription for the authenticated user
      * @request GET:/notifications/threads/{thread_id}/subscription
      */
-    activityGetThreadSubscriptionForAuthenticatedUser: (thread_id: number, params: RequestParams = {}) =>
+    activityGetThreadSubscriptionForAuthenticatedUser: (threadId: number, params: RequestParams = {}) =>
       this.request<ThreadSubscription, BasicError>({
-        path: `/notifications/threads/${thread_id}/subscription`,
+        path: `/notifications/threads/${threadId}/subscription`,
         method: "GET",
         format: "json",
         ...params,
@@ -11254,9 +11254,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set a thread subscription
      * @request PUT:/notifications/threads/{thread_id}/subscription
      */
-    activitySetThreadSubscription: (thread_id: number, data: { ignored?: boolean }, params: RequestParams = {}) =>
+    activitySetThreadSubscription: (threadId: number, data: { ignored?: boolean }, params: RequestParams = {}) =>
       this.request<ThreadSubscription, BasicError>({
-        path: `/notifications/threads/${thread_id}/subscription`,
+        path: `/notifications/threads/${threadId}/subscription`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -11272,9 +11272,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a thread subscription
      * @request DELETE:/notifications/threads/{thread_id}/subscription
      */
-    activityDeleteThreadSubscription: (thread_id: number, params: RequestParams = {}) =>
+    activityDeleteThreadSubscription: (threadId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/notifications/threads/${thread_id}/subscription`,
+        path: `/notifications/threads/${threadId}/subscription`,
         method: "DELETE",
         ...params,
       }),
@@ -11465,11 +11465,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsEnableSelectedRepositoryGithubActionsOrganization: (
       org: string,
-      repository_id: number,
+      repositoryId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/orgs/${org}/actions/permissions/repositories/${repository_id}`,
+        path: `/orgs/${org}/actions/permissions/repositories/${repositoryId}`,
         method: "PUT",
         ...params,
       }),
@@ -11484,11 +11484,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsDisableSelectedRepositoryGithubActionsOrganization: (
       org: string,
-      repository_id: number,
+      repositoryId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/orgs/${org}/actions/permissions/repositories/${repository_id}`,
+        path: `/orgs/${org}/actions/permissions/repositories/${repositoryId}`,
         method: "DELETE",
         ...params,
       }),
@@ -11582,9 +11582,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a self-hosted runner group for an organization
      * @request GET:/orgs/{org}/actions/runner-groups/{runner_group_id}
      */
-    actionsGetSelfHostedRunnerGroupForOrg: (org: string, runner_group_id: number, params: RequestParams = {}) =>
+    actionsGetSelfHostedRunnerGroupForOrg: (org: string, runnerGroupId: number, params: RequestParams = {}) =>
       this.request<RunnerGroupsOrg, any>({
-        path: `/orgs/${org}/actions/runner-groups/${runner_group_id}`,
+        path: `/orgs/${org}/actions/runner-groups/${runnerGroupId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -11600,12 +11600,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsUpdateSelfHostedRunnerGroupForOrg: (
       org: string,
-      runner_group_id: number,
+      runnerGroupId: number,
       data: { name?: string; visibility?: "selected" | "all" | "private" },
       params: RequestParams = {},
     ) =>
       this.request<RunnerGroupsOrg, any>({
-        path: `/orgs/${org}/actions/runner-groups/${runner_group_id}`,
+        path: `/orgs/${org}/actions/runner-groups/${runnerGroupId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -11621,9 +11621,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a self-hosted runner group from an organization
      * @request DELETE:/orgs/{org}/actions/runner-groups/{runner_group_id}
      */
-    actionsDeleteSelfHostedRunnerGroupFromOrg: (org: string, runner_group_id: number, params: RequestParams = {}) =>
+    actionsDeleteSelfHostedRunnerGroupFromOrg: (org: string, runnerGroupId: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/orgs/${org}/actions/runner-groups/${runner_group_id}`,
+        path: `/orgs/${org}/actions/runner-groups/${runnerGroupId}`,
         method: "DELETE",
         ...params,
       }),
@@ -11638,11 +11638,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsListRepoAccessToSelfHostedRunnerGroupInOrg: (
       org: string,
-      runner_group_id: number,
+      runnerGroupId: number,
       params: RequestParams = {},
     ) =>
       this.request<{ total_count: number; repositories: Repository[] }, any>({
-        path: `/orgs/${org}/actions/runner-groups/${runner_group_id}/repositories`,
+        path: `/orgs/${org}/actions/runner-groups/${runnerGroupId}/repositories`,
         method: "GET",
         format: "json",
         ...params,
@@ -11658,12 +11658,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsSetRepoAccessToSelfHostedRunnerGroupInOrg: (
       org: string,
-      runner_group_id: number,
+      runnerGroupId: number,
       data: { selected_repository_ids: number[] },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/orgs/${org}/actions/runner-groups/${runner_group_id}/repositories`,
+        path: `/orgs/${org}/actions/runner-groups/${runnerGroupId}/repositories`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -11680,12 +11680,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsAddRepoAccessToSelfHostedRunnerGroupInOrg: (
       org: string,
-      runner_group_id: number,
-      repository_id: number,
+      runnerGroupId: number,
+      repositoryId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/orgs/${org}/actions/runner-groups/${runner_group_id}/repositories/${repository_id}`,
+        path: `/orgs/${org}/actions/runner-groups/${runnerGroupId}/repositories/${repositoryId}`,
         method: "PUT",
         ...params,
       }),
@@ -11700,12 +11700,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsRemoveRepoAccessToSelfHostedRunnerGroupInOrg: (
       org: string,
-      runner_group_id: number,
-      repository_id: number,
+      runnerGroupId: number,
+      repositoryId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/orgs/${org}/actions/runner-groups/${runner_group_id}/repositories/${repository_id}`,
+        path: `/orgs/${org}/actions/runner-groups/${runnerGroupId}/repositories/${repositoryId}`,
         method: "DELETE",
         ...params,
       }),
@@ -11720,12 +11720,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsListSelfHostedRunnersInGroupForOrg: (
       org: string,
-      runner_group_id: number,
+      runnerGroupId: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<{ total_count: number; runners: Runner[] }, any>({
-        path: `/orgs/${org}/actions/runner-groups/${runner_group_id}/runners`,
+        path: `/orgs/${org}/actions/runner-groups/${runnerGroupId}/runners`,
         method: "GET",
         query: query,
         format: "json",
@@ -11742,12 +11742,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsSetSelfHostedRunnersInGroupForOrg: (
       org: string,
-      runner_group_id: number,
+      runnerGroupId: number,
       data: { runners: number[] },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/orgs/${org}/actions/runner-groups/${runner_group_id}/runners`,
+        path: `/orgs/${org}/actions/runner-groups/${runnerGroupId}/runners`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -11764,12 +11764,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsAddSelfHostedRunnerToGroupForOrg: (
       org: string,
-      runner_group_id: number,
-      runner_id: number,
+      runnerGroupId: number,
+      runnerId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/orgs/${org}/actions/runner-groups/${runner_group_id}/runners/${runner_id}`,
+        path: `/orgs/${org}/actions/runner-groups/${runnerGroupId}/runners/${runnerId}`,
         method: "PUT",
         ...params,
       }),
@@ -11784,12 +11784,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsRemoveSelfHostedRunnerFromGroupForOrg: (
       org: string,
-      runner_group_id: number,
-      runner_id: number,
+      runnerGroupId: number,
+      runnerId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/orgs/${org}/actions/runner-groups/${runner_group_id}/runners/${runner_id}`,
+        path: `/orgs/${org}/actions/runner-groups/${runnerGroupId}/runners/${runnerId}`,
         method: "DELETE",
         ...params,
       }),
@@ -11871,9 +11871,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a self-hosted runner for an organization
      * @request GET:/orgs/{org}/actions/runners/{runner_id}
      */
-    actionsGetSelfHostedRunnerForOrg: (org: string, runner_id: number, params: RequestParams = {}) =>
+    actionsGetSelfHostedRunnerForOrg: (org: string, runnerId: number, params: RequestParams = {}) =>
       this.request<Runner, any>({
-        path: `/orgs/${org}/actions/runners/${runner_id}`,
+        path: `/orgs/${org}/actions/runners/${runnerId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -11887,9 +11887,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a self-hosted runner from an organization
      * @request DELETE:/orgs/{org}/actions/runners/{runner_id}
      */
-    actionsDeleteSelfHostedRunnerFromOrg: (org: string, runner_id: number, params: RequestParams = {}) =>
+    actionsDeleteSelfHostedRunnerFromOrg: (org: string, runnerId: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/orgs/${org}/actions/runners/${runner_id}`,
+        path: `/orgs/${org}/actions/runners/${runnerId}`,
         method: "DELETE",
         ...params,
       }),
@@ -11935,9 +11935,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get an organization secret
      * @request GET:/orgs/{org}/actions/secrets/{secret_name}
      */
-    actionsGetOrgSecret: (org: string, secret_name: string, params: RequestParams = {}) =>
+    actionsGetOrgSecret: (org: string, secretName: string, params: RequestParams = {}) =>
       this.request<OrganizationActionsSecret, any>({
-        path: `/orgs/${org}/actions/secrets/${secret_name}`,
+        path: `/orgs/${org}/actions/secrets/${secretName}`,
         method: "GET",
         format: "json",
         ...params,
@@ -11953,7 +11953,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsCreateOrUpdateOrgSecret: (
       org: string,
-      secret_name: string,
+      secretName: string,
       data: {
         encrypted_value?: string;
         key_id?: string;
@@ -11963,7 +11963,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/orgs/${org}/actions/secrets/${secret_name}`,
+        path: `/orgs/${org}/actions/secrets/${secretName}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -11978,9 +11978,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete an organization secret
      * @request DELETE:/orgs/{org}/actions/secrets/{secret_name}
      */
-    actionsDeleteOrgSecret: (org: string, secret_name: string, params: RequestParams = {}) =>
+    actionsDeleteOrgSecret: (org: string, secretName: string, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/orgs/${org}/actions/secrets/${secret_name}`,
+        path: `/orgs/${org}/actions/secrets/${secretName}`,
         method: "DELETE",
         ...params,
       }),
@@ -11993,9 +11993,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary List selected repositories for an organization secret
      * @request GET:/orgs/{org}/actions/secrets/{secret_name}/repositories
      */
-    actionsListSelectedReposForOrgSecret: (org: string, secret_name: string, params: RequestParams = {}) =>
+    actionsListSelectedReposForOrgSecret: (org: string, secretName: string, params: RequestParams = {}) =>
       this.request<{ total_count: number; repositories: MinimalRepository[] }, any>({
-        path: `/orgs/${org}/actions/secrets/${secret_name}/repositories`,
+        path: `/orgs/${org}/actions/secrets/${secretName}/repositories`,
         method: "GET",
         format: "json",
         ...params,
@@ -12011,12 +12011,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsSetSelectedReposForOrgSecret: (
       org: string,
-      secret_name: string,
+      secretName: string,
       data: { selected_repository_ids?: number[] },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/orgs/${org}/actions/secrets/${secret_name}/repositories`,
+        path: `/orgs/${org}/actions/secrets/${secretName}/repositories`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -12033,12 +12033,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsAddSelectedRepoToOrgSecret: (
       org: string,
-      secret_name: string,
-      repository_id: number,
+      secretName: string,
+      repositoryId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, void>({
-        path: `/orgs/${org}/actions/secrets/${secret_name}/repositories/${repository_id}`,
+        path: `/orgs/${org}/actions/secrets/${secretName}/repositories/${repositoryId}`,
         method: "PUT",
         ...params,
       }),
@@ -12053,12 +12053,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsRemoveSelectedRepoFromOrgSecret: (
       org: string,
-      secret_name: string,
-      repository_id: number,
+      secretName: string,
+      repositoryId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, void>({
-        path: `/orgs/${org}/actions/secrets/${secret_name}/repositories/${repository_id}`,
+        path: `/orgs/${org}/actions/secrets/${secretName}/repositories/${repositoryId}`,
         method: "DELETE",
         ...params,
       }),
@@ -12176,9 +12176,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove a SAML SSO authorization for an organization
      * @request DELETE:/orgs/{org}/credential-authorizations/{credential_id}
      */
-    orgsRemoveSamlSsoAuthorization: (org: string, credential_id: number, params: RequestParams = {}) =>
+    orgsRemoveSamlSsoAuthorization: (org: string, credentialId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/orgs/${org}/credential-authorizations/${credential_id}`,
+        path: `/orgs/${org}/credential-authorizations/${credentialId}`,
         method: "DELETE",
         ...params,
       }),
@@ -12284,9 +12284,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get an organization webhook
      * @request GET:/orgs/{org}/hooks/{hook_id}
      */
-    orgsGetWebhook: (org: string, hook_id: number, params: RequestParams = {}) =>
+    orgsGetWebhook: (org: string, hookId: number, params: RequestParams = {}) =>
       this.request<OrgHook, BasicError>({
-        path: `/orgs/${org}/hooks/${hook_id}`,
+        path: `/orgs/${org}/hooks/${hookId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -12302,7 +12302,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     orgsUpdateWebhook: (
       org: string,
-      hook_id: number,
+      hookId: number,
       data: {
         config?: {
           url: WebhookConfigUrl;
@@ -12317,7 +12317,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<OrgHook, BasicError | ValidationError>({
-        path: `/orgs/${org}/hooks/${hook_id}`,
+        path: `/orgs/${org}/hooks/${hookId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -12333,9 +12333,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete an organization webhook
      * @request DELETE:/orgs/{org}/hooks/{hook_id}
      */
-    orgsDeleteWebhook: (org: string, hook_id: number, params: RequestParams = {}) =>
+    orgsDeleteWebhook: (org: string, hookId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/orgs/${org}/hooks/${hook_id}`,
+        path: `/orgs/${org}/hooks/${hookId}`,
         method: "DELETE",
         ...params,
       }),
@@ -12348,9 +12348,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a webhook configuration for an organization
      * @request GET:/orgs/{org}/hooks/{hook_id}/config
      */
-    orgsGetWebhookConfigForOrg: (org: string, hook_id: number, params: RequestParams = {}) =>
+    orgsGetWebhookConfigForOrg: (org: string, hookId: number, params: RequestParams = {}) =>
       this.request<WebhookConfig, any>({
-        path: `/orgs/${org}/hooks/${hook_id}/config`,
+        path: `/orgs/${org}/hooks/${hookId}/config`,
         method: "GET",
         format: "json",
         ...params,
@@ -12366,7 +12366,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     orgsUpdateWebhookConfigForOrg: (
       org: string,
-      hook_id: number,
+      hookId: number,
       data: {
         url?: WebhookConfigUrl;
         content_type?: WebhookConfigContentType;
@@ -12376,7 +12376,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<WebhookConfig, any>({
-        path: `/orgs/${org}/hooks/${hook_id}/config`,
+        path: `/orgs/${org}/hooks/${hookId}/config`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -12392,9 +12392,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Ping an organization webhook
      * @request POST:/orgs/{org}/hooks/{hook_id}/pings
      */
-    orgsPingWebhook: (org: string, hook_id: number, params: RequestParams = {}) =>
+    orgsPingWebhook: (org: string, hookId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/orgs/${org}/hooks/${hook_id}/pings`,
+        path: `/orgs/${org}/hooks/${hookId}/pings`,
         method: "POST",
         ...params,
       }),
@@ -12537,9 +12537,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Cancel an organization invitation
      * @request DELETE:/orgs/{org}/invitations/{invitation_id}
      */
-    orgsCancelInvitation: (org: string, invitation_id: number, params: RequestParams = {}) =>
+    orgsCancelInvitation: (org: string, invitationId: number, params: RequestParams = {}) =>
       this.request<void, BasicError | ValidationError>({
-        path: `/orgs/${org}/invitations/${invitation_id}`,
+        path: `/orgs/${org}/invitations/${invitationId}`,
         method: "DELETE",
         ...params,
       }),
@@ -12554,12 +12554,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     orgsListInvitationTeams: (
       org: string,
-      invitation_id: number,
+      invitationId: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<Team[], BasicError>({
-        path: `/orgs/${org}/invitations/${invitation_id}/teams`,
+        path: `/orgs/${org}/invitations/${invitationId}/teams`,
         method: "GET",
         query: query,
         format: "json",
@@ -12748,9 +12748,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get an organization migration status
      * @request GET:/orgs/{org}/migrations/{migration_id}
      */
-    migrationsGetStatusForOrg: (org: string, migration_id: number, params: RequestParams = {}) =>
+    migrationsGetStatusForOrg: (org: string, migrationId: number, params: RequestParams = {}) =>
       this.request<Migration, BasicError>({
-        path: `/orgs/${org}/migrations/${migration_id}`,
+        path: `/orgs/${org}/migrations/${migrationId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -12764,9 +12764,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Download an organization migration archive
      * @request GET:/orgs/{org}/migrations/{migration_id}/archive
      */
-    migrationsDownloadArchiveForOrg: (org: string, migration_id: number, params: RequestParams = {}) =>
+    migrationsDownloadArchiveForOrg: (org: string, migrationId: number, params: RequestParams = {}) =>
       this.request<any, void | BasicError>({
-        path: `/orgs/${org}/migrations/${migration_id}/archive`,
+        path: `/orgs/${org}/migrations/${migrationId}/archive`,
         method: "GET",
         ...params,
       }),
@@ -12779,9 +12779,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete an organization migration archive
      * @request DELETE:/orgs/{org}/migrations/{migration_id}/archive
      */
-    migrationsDeleteArchiveForOrg: (org: string, migration_id: number, params: RequestParams = {}) =>
+    migrationsDeleteArchiveForOrg: (org: string, migrationId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/orgs/${org}/migrations/${migration_id}/archive`,
+        path: `/orgs/${org}/migrations/${migrationId}/archive`,
         method: "DELETE",
         ...params,
       }),
@@ -12794,9 +12794,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Unlock an organization repository
      * @request DELETE:/orgs/{org}/migrations/{migration_id}/repos/{repo_name}/lock
      */
-    migrationsUnlockRepoForOrg: (org: string, migration_id: number, repo_name: string, params: RequestParams = {}) =>
+    migrationsUnlockRepoForOrg: (org: string, migrationId: number, repoName: string, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/orgs/${org}/migrations/${migration_id}/repos/${repo_name}/lock`,
+        path: `/orgs/${org}/migrations/${migrationId}/repos/${repoName}/lock`,
         method: "DELETE",
         ...params,
       }),
@@ -12811,12 +12811,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     migrationsListReposForOrg: (
       org: string,
-      migration_id: number,
+      migrationId: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<MinimalRepository[], BasicError>({
-        path: `/orgs/${org}/migrations/${migration_id}/repositories`,
+        path: `/orgs/${org}/migrations/${migrationId}/repositories`,
         method: "GET",
         query: query,
         format: "json",
@@ -13162,9 +13162,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a team by name
      * @request GET:/orgs/{org}/teams/{team_slug}
      */
-    teamsGetByName: (org: string, team_slug: string, params: RequestParams = {}) =>
+    teamsGetByName: (org: string, teamSlug: string, params: RequestParams = {}) =>
       this.request<TeamFull, BasicError>({
-        path: `/orgs/${org}/teams/${team_slug}`,
+        path: `/orgs/${org}/teams/${teamSlug}`,
         method: "GET",
         format: "json",
         ...params,
@@ -13180,7 +13180,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsUpdateInOrg: (
       org: string,
-      team_slug: string,
+      teamSlug: string,
       data: {
         name: string;
         description?: string;
@@ -13191,7 +13191,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<TeamFull, any>({
-        path: `/orgs/${org}/teams/${team_slug}`,
+        path: `/orgs/${org}/teams/${teamSlug}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -13207,9 +13207,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a team
      * @request DELETE:/orgs/{org}/teams/{team_slug}
      */
-    teamsDeleteInOrg: (org: string, team_slug: string, params: RequestParams = {}) =>
+    teamsDeleteInOrg: (org: string, teamSlug: string, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/orgs/${org}/teams/${team_slug}`,
+        path: `/orgs/${org}/teams/${teamSlug}`,
         method: "DELETE",
         ...params,
       }),
@@ -13224,12 +13224,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsListDiscussionsInOrg: (
       org: string,
-      team_slug: string,
+      teamSlug: string,
       query?: { direction?: "asc" | "desc"; per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussion[], any>({
-        path: `/orgs/${org}/teams/${team_slug}/discussions`,
+        path: `/orgs/${org}/teams/${teamSlug}/discussions`,
         method: "GET",
         query: query,
         format: "json",
@@ -13246,12 +13246,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsCreateDiscussionInOrg: (
       org: string,
-      team_slug: string,
+      teamSlug: string,
       data: { title: string; body: string; private?: boolean },
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussion, any>({
-        path: `/orgs/${org}/teams/${team_slug}/discussions`,
+        path: `/orgs/${org}/teams/${teamSlug}/discussions`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -13267,9 +13267,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a discussion
      * @request GET:/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}
      */
-    teamsGetDiscussionInOrg: (org: string, team_slug: string, discussion_number: number, params: RequestParams = {}) =>
+    teamsGetDiscussionInOrg: (org: string, teamSlug: string, discussionNumber: number, params: RequestParams = {}) =>
       this.request<TeamDiscussion, any>({
-        path: `/orgs/${org}/teams/${team_slug}/discussions/${discussion_number}`,
+        path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}`,
         method: "GET",
         format: "json",
         ...params,
@@ -13285,13 +13285,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsUpdateDiscussionInOrg: (
       org: string,
-      team_slug: string,
-      discussion_number: number,
+      teamSlug: string,
+      discussionNumber: number,
       data: { title?: string; body?: string },
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussion, any>({
-        path: `/orgs/${org}/teams/${team_slug}/discussions/${discussion_number}`,
+        path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -13307,14 +13307,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a discussion
      * @request DELETE:/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}
      */
-    teamsDeleteDiscussionInOrg: (
-      org: string,
-      team_slug: string,
-      discussion_number: number,
-      params: RequestParams = {},
-    ) =>
+    teamsDeleteDiscussionInOrg: (org: string, teamSlug: string, discussionNumber: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/orgs/${org}/teams/${team_slug}/discussions/${discussion_number}`,
+        path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}`,
         method: "DELETE",
         ...params,
       }),
@@ -13329,13 +13324,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsListDiscussionCommentsInOrg: (
       org: string,
-      team_slug: string,
-      discussion_number: number,
+      teamSlug: string,
+      discussionNumber: number,
       query?: { direction?: "asc" | "desc"; per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussionComment[], any>({
-        path: `/orgs/${org}/teams/${team_slug}/discussions/${discussion_number}/comments`,
+        path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/comments`,
         method: "GET",
         query: query,
         format: "json",
@@ -13352,13 +13347,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsCreateDiscussionCommentInOrg: (
       org: string,
-      team_slug: string,
-      discussion_number: number,
+      teamSlug: string,
+      discussionNumber: number,
       data: { body: string },
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussionComment, any>({
-        path: `/orgs/${org}/teams/${team_slug}/discussions/${discussion_number}/comments`,
+        path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/comments`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -13376,13 +13371,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsGetDiscussionCommentInOrg: (
       org: string,
-      team_slug: string,
-      discussion_number: number,
-      comment_number: number,
+      teamSlug: string,
+      discussionNumber: number,
+      commentNumber: number,
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussionComment, any>({
-        path: `/orgs/${org}/teams/${team_slug}/discussions/${discussion_number}/comments/${comment_number}`,
+        path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/comments/${commentNumber}`,
         method: "GET",
         format: "json",
         ...params,
@@ -13398,14 +13393,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsUpdateDiscussionCommentInOrg: (
       org: string,
-      team_slug: string,
-      discussion_number: number,
-      comment_number: number,
+      teamSlug: string,
+      discussionNumber: number,
+      commentNumber: number,
       data: { body: string },
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussionComment, any>({
-        path: `/orgs/${org}/teams/${team_slug}/discussions/${discussion_number}/comments/${comment_number}`,
+        path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/comments/${commentNumber}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -13423,13 +13418,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsDeleteDiscussionCommentInOrg: (
       org: string,
-      team_slug: string,
-      discussion_number: number,
-      comment_number: number,
+      teamSlug: string,
+      discussionNumber: number,
+      commentNumber: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/orgs/${org}/teams/${team_slug}/discussions/${discussion_number}/comments/${comment_number}`,
+        path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/comments/${commentNumber}`,
         method: "DELETE",
         ...params,
       }),
@@ -13444,9 +13439,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reactionsListForTeamDiscussionCommentInOrg: (
       org: string,
-      team_slug: string,
-      discussion_number: number,
-      comment_number: number,
+      teamSlug: string,
+      discussionNumber: number,
+      commentNumber: number,
       query?: {
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: number;
@@ -13455,7 +13450,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Reaction[], any>({
-        path: `/orgs/${org}/teams/${team_slug}/discussions/${discussion_number}/comments/${comment_number}/reactions`,
+        path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/comments/${commentNumber}/reactions`,
         method: "GET",
         query: query,
         format: "json",
@@ -13472,14 +13467,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reactionsCreateForTeamDiscussionCommentInOrg: (
       org: string,
-      team_slug: string,
-      discussion_number: number,
-      comment_number: number,
+      teamSlug: string,
+      discussionNumber: number,
+      commentNumber: number,
       data: { content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes" },
       params: RequestParams = {},
     ) =>
       this.request<Reaction, any>({
-        path: `/orgs/${org}/teams/${team_slug}/discussions/${discussion_number}/comments/${comment_number}/reactions`,
+        path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/comments/${commentNumber}/reactions`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -13497,14 +13492,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reactionsDeleteForTeamDiscussionComment: (
       org: string,
-      team_slug: string,
-      discussion_number: number,
-      comment_number: number,
-      reaction_id: number,
+      teamSlug: string,
+      discussionNumber: number,
+      commentNumber: number,
+      reactionId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/orgs/${org}/teams/${team_slug}/discussions/${discussion_number}/comments/${comment_number}/reactions/${reaction_id}`,
+        path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/comments/${commentNumber}/reactions/${reactionId}`,
         method: "DELETE",
         ...params,
       }),
@@ -13519,8 +13514,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reactionsListForTeamDiscussionInOrg: (
       org: string,
-      team_slug: string,
-      discussion_number: number,
+      teamSlug: string,
+      discussionNumber: number,
       query?: {
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: number;
@@ -13529,7 +13524,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Reaction[], any>({
-        path: `/orgs/${org}/teams/${team_slug}/discussions/${discussion_number}/reactions`,
+        path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/reactions`,
         method: "GET",
         query: query,
         format: "json",
@@ -13546,13 +13541,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reactionsCreateForTeamDiscussionInOrg: (
       org: string,
-      team_slug: string,
-      discussion_number: number,
+      teamSlug: string,
+      discussionNumber: number,
       data: { content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes" },
       params: RequestParams = {},
     ) =>
       this.request<Reaction, any>({
-        path: `/orgs/${org}/teams/${team_slug}/discussions/${discussion_number}/reactions`,
+        path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/reactions`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -13570,13 +13565,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reactionsDeleteForTeamDiscussion: (
       org: string,
-      team_slug: string,
-      discussion_number: number,
-      reaction_id: number,
+      teamSlug: string,
+      discussionNumber: number,
+      reactionId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/orgs/${org}/teams/${team_slug}/discussions/${discussion_number}/reactions/${reaction_id}`,
+        path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/reactions/${reactionId}`,
         method: "DELETE",
         ...params,
       }),
@@ -13591,12 +13586,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsListPendingInvitationsInOrg: (
       org: string,
-      team_slug: string,
+      teamSlug: string,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<OrganizationInvitation[], any>({
-        path: `/orgs/${org}/teams/${team_slug}/invitations`,
+        path: `/orgs/${org}/teams/${teamSlug}/invitations`,
         method: "GET",
         query: query,
         format: "json",
@@ -13613,12 +13608,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsListMembersInOrg: (
       org: string,
-      team_slug: string,
+      teamSlug: string,
       query?: { role?: "member" | "maintainer" | "all"; per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<SimpleUser[], any>({
-        path: `/orgs/${org}/teams/${team_slug}/members`,
+        path: `/orgs/${org}/teams/${teamSlug}/members`,
         method: "GET",
         query: query,
         format: "json",
@@ -13633,9 +13628,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get team membership for a user
      * @request GET:/orgs/{org}/teams/{team_slug}/memberships/{username}
      */
-    teamsGetMembershipForUserInOrg: (org: string, team_slug: string, username: string, params: RequestParams = {}) =>
+    teamsGetMembershipForUserInOrg: (org: string, teamSlug: string, username: string, params: RequestParams = {}) =>
       this.request<TeamMembership, void>({
-        path: `/orgs/${org}/teams/${team_slug}/memberships/${username}`,
+        path: `/orgs/${org}/teams/${teamSlug}/memberships/${username}`,
         method: "GET",
         format: "json",
         ...params,
@@ -13651,7 +13646,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsAddOrUpdateMembershipForUserInOrg: (
       org: string,
-      team_slug: string,
+      teamSlug: string,
       username: string,
       data: { role?: "member" | "maintainer" },
       params: RequestParams = {},
@@ -13660,7 +13655,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         TeamMembership,
         void | { message?: string; errors?: { code?: string; field?: string; resource?: string }[] }
       >({
-        path: `/orgs/${org}/teams/${team_slug}/memberships/${username}`,
+        path: `/orgs/${org}/teams/${teamSlug}/memberships/${username}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -13676,9 +13671,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove team membership for a user
      * @request DELETE:/orgs/{org}/teams/{team_slug}/memberships/{username}
      */
-    teamsRemoveMembershipForUserInOrg: (org: string, team_slug: string, username: string, params: RequestParams = {}) =>
+    teamsRemoveMembershipForUserInOrg: (org: string, teamSlug: string, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
-        path: `/orgs/${org}/teams/${team_slug}/memberships/${username}`,
+        path: `/orgs/${org}/teams/${teamSlug}/memberships/${username}`,
         method: "DELETE",
         ...params,
       }),
@@ -13693,12 +13688,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsListProjectsInOrg: (
       org: string,
-      team_slug: string,
+      teamSlug: string,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<TeamProject[], any>({
-        path: `/orgs/${org}/teams/${team_slug}/projects`,
+        path: `/orgs/${org}/teams/${teamSlug}/projects`,
         method: "GET",
         query: query,
         format: "json",
@@ -13715,12 +13710,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsCheckPermissionsForProjectInOrg: (
       org: string,
-      team_slug: string,
-      project_id: number,
+      teamSlug: string,
+      projectId: number,
       params: RequestParams = {},
     ) =>
       this.request<TeamProject, void>({
-        path: `/orgs/${org}/teams/${team_slug}/projects/${project_id}`,
+        path: `/orgs/${org}/teams/${teamSlug}/projects/${projectId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -13736,13 +13731,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsAddOrUpdateProjectPermissionsInOrg: (
       org: string,
-      team_slug: string,
-      project_id: number,
+      teamSlug: string,
+      projectId: number,
       data: { permission?: "read" | "write" | "admin" },
       params: RequestParams = {},
     ) =>
       this.request<void, { message?: string; documentation_url?: string }>({
-        path: `/orgs/${org}/teams/${team_slug}/projects/${project_id}`,
+        path: `/orgs/${org}/teams/${teamSlug}/projects/${projectId}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -13757,9 +13752,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove a project from a team
      * @request DELETE:/orgs/{org}/teams/{team_slug}/projects/{project_id}
      */
-    teamsRemoveProjectInOrg: (org: string, team_slug: string, project_id: number, params: RequestParams = {}) =>
+    teamsRemoveProjectInOrg: (org: string, teamSlug: string, projectId: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/orgs/${org}/teams/${team_slug}/projects/${project_id}`,
+        path: `/orgs/${org}/teams/${teamSlug}/projects/${projectId}`,
         method: "DELETE",
         ...params,
       }),
@@ -13774,12 +13769,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsListReposInOrg: (
       org: string,
-      team_slug: string,
+      teamSlug: string,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<MinimalRepository[], any>({
-        path: `/orgs/${org}/teams/${team_slug}/repos`,
+        path: `/orgs/${org}/teams/${teamSlug}/repos`,
         method: "GET",
         query: query,
         format: "json",
@@ -13796,13 +13791,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsCheckPermissionsForRepoInOrg: (
       org: string,
-      team_slug: string,
+      teamSlug: string,
       owner: string,
       repo: string,
       params: RequestParams = {},
     ) =>
       this.request<TeamRepository, void>({
-        path: `/orgs/${org}/teams/${team_slug}/repos/${owner}/${repo}`,
+        path: `/orgs/${org}/teams/${teamSlug}/repos/${owner}/${repo}`,
         method: "GET",
         format: "json",
         ...params,
@@ -13818,14 +13813,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsAddOrUpdateRepoPermissionsInOrg: (
       org: string,
-      team_slug: string,
+      teamSlug: string,
       owner: string,
       repo: string,
       data: { permission?: "pull" | "push" | "admin" | "maintain" | "triage" },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/orgs/${org}/teams/${team_slug}/repos/${owner}/${repo}`,
+        path: `/orgs/${org}/teams/${teamSlug}/repos/${owner}/${repo}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -13840,9 +13835,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove a repository from a team
      * @request DELETE:/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}
      */
-    teamsRemoveRepoInOrg: (org: string, team_slug: string, owner: string, repo: string, params: RequestParams = {}) =>
+    teamsRemoveRepoInOrg: (org: string, teamSlug: string, owner: string, repo: string, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/orgs/${org}/teams/${team_slug}/repos/${owner}/${repo}`,
+        path: `/orgs/${org}/teams/${teamSlug}/repos/${owner}/${repo}`,
         method: "DELETE",
         ...params,
       }),
@@ -13855,9 +13850,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary List IdP groups for a team
      * @request GET:/orgs/{org}/teams/{team_slug}/team-sync/group-mappings
      */
-    teamsListIdpGroupsInOrg: (org: string, team_slug: string, params: RequestParams = {}) =>
+    teamsListIdpGroupsInOrg: (org: string, teamSlug: string, params: RequestParams = {}) =>
       this.request<GroupMapping, any>({
-        path: `/orgs/${org}/teams/${team_slug}/team-sync/group-mappings`,
+        path: `/orgs/${org}/teams/${teamSlug}/team-sync/group-mappings`,
         method: "GET",
         format: "json",
         ...params,
@@ -13873,12 +13868,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsCreateOrUpdateIdpGroupConnectionsInOrg: (
       org: string,
-      team_slug: string,
+      teamSlug: string,
       data: { groups: { group_id: string; group_name: string; group_description: string }[] },
       params: RequestParams = {},
     ) =>
       this.request<GroupMapping, any>({
-        path: `/orgs/${org}/teams/${team_slug}/team-sync/group-mappings`,
+        path: `/orgs/${org}/teams/${teamSlug}/team-sync/group-mappings`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -13896,12 +13891,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsListChildInOrg: (
       org: string,
-      team_slug: string,
+      teamSlug: string,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<Team[], any>({
-        path: `/orgs/${org}/teams/${team_slug}/teams`,
+        path: `/orgs/${org}/teams/${teamSlug}/teams`,
         method: "GET",
         query: query,
         format: "json",
@@ -13917,9 +13912,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a project card
      * @request GET:/projects/columns/cards/{card_id}
      */
-    projectsGetCard: (card_id: number, params: RequestParams = {}) =>
+    projectsGetCard: (cardId: number, params: RequestParams = {}) =>
       this.request<ProjectCard, BasicError>({
-        path: `/projects/columns/cards/${card_id}`,
+        path: `/projects/columns/cards/${cardId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -13934,12 +13929,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/projects/columns/cards/{card_id}
      */
     projectsUpdateCard: (
-      card_id: number,
+      cardId: number,
       data: { note?: string | null; archived?: boolean },
       params: RequestParams = {},
     ) =>
       this.request<ProjectCard, BasicError | ValidationErrorSimple>({
-        path: `/projects/columns/cards/${card_id}`,
+        path: `/projects/columns/cards/${cardId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -13955,9 +13950,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a project card
      * @request DELETE:/projects/columns/cards/{card_id}
      */
-    projectsDeleteCard: (card_id: number, params: RequestParams = {}) =>
+    projectsDeleteCard: (cardId: number, params: RequestParams = {}) =>
       this.request<void, BasicError | { message?: string; documentation_url?: string; errors?: string[] }>({
-        path: `/projects/columns/cards/${card_id}`,
+        path: `/projects/columns/cards/${cardId}`,
         method: "DELETE",
         ...params,
       }),
@@ -13970,7 +13965,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Move a project card
      * @request POST:/projects/columns/cards/{card_id}/moves
      */
-    projectsMoveCard: (card_id: number, data: { position: string; column_id?: number }, params: RequestParams = {}) =>
+    projectsMoveCard: (cardId: number, data: { position: string; column_id?: number }, params: RequestParams = {}) =>
       this.request<
         object,
         | BasicError
@@ -13987,7 +13982,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             errors?: { code?: string; message?: string }[];
           }
       >({
-        path: `/projects/columns/cards/${card_id}/moves`,
+        path: `/projects/columns/cards/${cardId}/moves`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -14003,9 +13998,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a project column
      * @request GET:/projects/columns/{column_id}
      */
-    projectsGetColumn: (column_id: number, params: RequestParams = {}) =>
+    projectsGetColumn: (columnId: number, params: RequestParams = {}) =>
       this.request<ProjectColumn, BasicError>({
-        path: `/projects/columns/${column_id}`,
+        path: `/projects/columns/${columnId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -14019,9 +14014,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update an existing project column
      * @request PATCH:/projects/columns/{column_id}
      */
-    projectsUpdateColumn: (column_id: number, data: { name: string }, params: RequestParams = {}) =>
+    projectsUpdateColumn: (columnId: number, data: { name: string }, params: RequestParams = {}) =>
       this.request<ProjectColumn, BasicError>({
-        path: `/projects/columns/${column_id}`,
+        path: `/projects/columns/${columnId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -14037,9 +14032,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a project column
      * @request DELETE:/projects/columns/{column_id}
      */
-    projectsDeleteColumn: (column_id: number, params: RequestParams = {}) =>
+    projectsDeleteColumn: (columnId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/projects/columns/${column_id}`,
+        path: `/projects/columns/${columnId}`,
         method: "DELETE",
         ...params,
       }),
@@ -14053,12 +14048,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/projects/columns/{column_id}/cards
      */
     projectsListCards: (
-      column_id: number,
+      columnId: number,
       query?: { archived_state?: "all" | "archived" | "not_archived"; per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<ProjectCard[], BasicError>({
-        path: `/projects/columns/${column_id}/cards`,
+        path: `/projects/columns/${columnId}/cards`,
         method: "GET",
         query: query,
         format: "json",
@@ -14074,7 +14069,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/projects/columns/{column_id}/cards
      */
     projectsCreateCard: (
-      column_id: number,
+      columnId: number,
       data: { note: string | null } | { content_id: number; content_type: string },
       params: RequestParams = {},
     ) =>
@@ -14089,7 +14084,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             errors?: { code?: string; message?: string }[];
           }
       >({
-        path: `/projects/columns/${column_id}/cards`,
+        path: `/projects/columns/${columnId}/cards`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -14105,9 +14100,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Move a project column
      * @request POST:/projects/columns/{column_id}/moves
      */
-    projectsMoveColumn: (column_id: number, data: { position: string }, params: RequestParams = {}) =>
+    projectsMoveColumn: (columnId: number, data: { position: string }, params: RequestParams = {}) =>
       this.request<object, BasicError | ValidationErrorSimple>({
-        path: `/projects/columns/${column_id}/moves`,
+        path: `/projects/columns/${columnId}/moves`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -14123,9 +14118,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a project
      * @request GET:/projects/{project_id}
      */
-    projectsGet: (project_id: number, params: RequestParams = {}) =>
+    projectsGet: (projectId: number, params: RequestParams = {}) =>
       this.request<Project, BasicError>({
-        path: `/projects/${project_id}`,
+        path: `/projects/${projectId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -14140,7 +14135,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/projects/{project_id}
      */
     projectsUpdate: (
-      project_id: number,
+      projectId: number,
       data: {
         name?: string;
         body?: string | null;
@@ -14154,7 +14149,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         Project,
         BasicError | { message?: string; documentation_url?: string; errors?: string[] } | void | ValidationErrorSimple
       >({
-        path: `/projects/${project_id}`,
+        path: `/projects/${projectId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -14170,9 +14165,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a project
      * @request DELETE:/projects/{project_id}
      */
-    projectsDelete: (project_id: number, params: RequestParams = {}) =>
+    projectsDelete: (projectId: number, params: RequestParams = {}) =>
       this.request<void, BasicError | { message?: string; documentation_url?: string; errors?: string[] }>({
-        path: `/projects/${project_id}`,
+        path: `/projects/${projectId}`,
         method: "DELETE",
         ...params,
       }),
@@ -14186,12 +14181,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/projects/{project_id}/collaborators
      */
     projectsListCollaborators: (
-      project_id: number,
+      projectId: number,
       query?: { affiliation?: "outside" | "direct" | "all"; per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<SimpleUser[], BasicError | { message: string; documentation_url: string } | ValidationError>({
-        path: `/projects/${project_id}/collaborators`,
+        path: `/projects/${projectId}/collaborators`,
         method: "GET",
         query: query,
         format: "json",
@@ -14207,13 +14202,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/projects/{project_id}/collaborators/{username}
      */
     projectsAddCollaborator: (
-      project_id: number,
+      projectId: number,
       username: string,
       data: { permission?: "read" | "write" | "admin" },
       params: RequestParams = {},
     ) =>
       this.request<void, BasicError | { message: string; documentation_url: string } | ValidationError>({
-        path: `/projects/${project_id}/collaborators/${username}`,
+        path: `/projects/${projectId}/collaborators/${username}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -14228,9 +14223,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove user as a collaborator
      * @request DELETE:/projects/{project_id}/collaborators/{username}
      */
-    projectsRemoveCollaborator: (project_id: number, username: string, params: RequestParams = {}) =>
+    projectsRemoveCollaborator: (projectId: number, username: string, params: RequestParams = {}) =>
       this.request<void, BasicError | { message: string; documentation_url: string } | ValidationError>({
-        path: `/projects/${project_id}/collaborators/${username}`,
+        path: `/projects/${projectId}/collaborators/${username}`,
         method: "DELETE",
         ...params,
       }),
@@ -14243,12 +14238,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get project permission for a user
      * @request GET:/projects/{project_id}/collaborators/{username}/permission
      */
-    projectsGetPermissionForUser: (project_id: number, username: string, params: RequestParams = {}) =>
+    projectsGetPermissionForUser: (projectId: number, username: string, params: RequestParams = {}) =>
       this.request<
         RepositoryCollaboratorPermission,
         BasicError | { message: string; documentation_url: string } | ValidationError
       >({
-        path: `/projects/${project_id}/collaborators/${username}/permission`,
+        path: `/projects/${projectId}/collaborators/${username}/permission`,
         method: "GET",
         format: "json",
         ...params,
@@ -14263,12 +14258,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/projects/{project_id}/columns
      */
     projectsListColumns: (
-      project_id: number,
+      projectId: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<ProjectColumn[], BasicError>({
-        path: `/projects/${project_id}/columns`,
+        path: `/projects/${projectId}/columns`,
         method: "GET",
         query: query,
         format: "json",
@@ -14283,9 +14278,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a project column
      * @request POST:/projects/{project_id}/columns
      */
-    projectsCreateColumn: (project_id: number, data: { name: string }, params: RequestParams = {}) =>
+    projectsCreateColumn: (projectId: number, data: { name: string }, params: RequestParams = {}) =>
       this.request<ProjectColumn, BasicError | ValidationErrorSimple>({
-        path: `/projects/${project_id}/columns`,
+        path: `/projects/${projectId}/columns`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -14319,9 +14314,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a reaction (Legacy)
      * @request DELETE:/reactions/{reaction_id}
      */
-    reactionsDeleteLegacy: (reaction_id: number, params: RequestParams = {}) =>
+    reactionsDeleteLegacy: (reactionId: number, params: RequestParams = {}) =>
       this.request<void, BasicError | { message: string; documentation_url: string }>({
-        path: `/reactions/${reaction_id}`,
+        path: `/reactions/${reactionId}`,
         method: "DELETE",
         ...params,
       }),
@@ -14427,9 +14422,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get an artifact
      * @request GET:/repos/{owner}/{repo}/actions/artifacts/{artifact_id}
      */
-    actionsGetArtifact: (owner: string, repo: string, artifact_id: number, params: RequestParams = {}) =>
+    actionsGetArtifact: (owner: string, repo: string, artifactId: number, params: RequestParams = {}) =>
       this.request<Artifact, any>({
-        path: `/repos/${owner}/${repo}/actions/artifacts/${artifact_id}`,
+        path: `/repos/${owner}/${repo}/actions/artifacts/${artifactId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -14443,9 +14438,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete an artifact
      * @request DELETE:/repos/{owner}/{repo}/actions/artifacts/{artifact_id}
      */
-    actionsDeleteArtifact: (owner: string, repo: string, artifact_id: number, params: RequestParams = {}) =>
+    actionsDeleteArtifact: (owner: string, repo: string, artifactId: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/actions/artifacts/${artifact_id}`,
+        path: `/repos/${owner}/${repo}/actions/artifacts/${artifactId}`,
         method: "DELETE",
         ...params,
       }),
@@ -14461,12 +14456,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsDownloadArtifact: (
       owner: string,
       repo: string,
-      artifact_id: number,
-      archive_format: string,
+      artifactId: number,
+      archiveFormat: string,
       params: RequestParams = {},
     ) =>
       this.request<any, void>({
-        path: `/repos/${owner}/${repo}/actions/artifacts/${artifact_id}/${archive_format}`,
+        path: `/repos/${owner}/${repo}/actions/artifacts/${artifactId}/${archiveFormat}`,
         method: "GET",
         ...params,
       }),
@@ -14479,9 +14474,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a job for a workflow run
      * @request GET:/repos/{owner}/{repo}/actions/jobs/{job_id}
      */
-    actionsGetJobForWorkflowRun: (owner: string, repo: string, job_id: number, params: RequestParams = {}) =>
+    actionsGetJobForWorkflowRun: (owner: string, repo: string, jobId: number, params: RequestParams = {}) =>
       this.request<Job, any>({
-        path: `/repos/${owner}/${repo}/actions/jobs/${job_id}`,
+        path: `/repos/${owner}/${repo}/actions/jobs/${jobId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -14495,9 +14490,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Download job logs for a workflow run
      * @request GET:/repos/{owner}/{repo}/actions/jobs/{job_id}/logs
      */
-    actionsDownloadJobLogsForWorkflowRun: (owner: string, repo: string, job_id: number, params: RequestParams = {}) =>
+    actionsDownloadJobLogsForWorkflowRun: (owner: string, repo: string, jobId: number, params: RequestParams = {}) =>
       this.request<any, void>({
-        path: `/repos/${owner}/${repo}/actions/jobs/${job_id}/logs`,
+        path: `/repos/${owner}/${repo}/actions/jobs/${jobId}/logs`,
         method: "GET",
         ...params,
       }),
@@ -14656,9 +14651,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a self-hosted runner for a repository
      * @request GET:/repos/{owner}/{repo}/actions/runners/{runner_id}
      */
-    actionsGetSelfHostedRunnerForRepo: (owner: string, repo: string, runner_id: number, params: RequestParams = {}) =>
+    actionsGetSelfHostedRunnerForRepo: (owner: string, repo: string, runnerId: number, params: RequestParams = {}) =>
       this.request<Runner, any>({
-        path: `/repos/${owner}/${repo}/actions/runners/${runner_id}`,
+        path: `/repos/${owner}/${repo}/actions/runners/${runnerId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -14675,11 +14670,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsDeleteSelfHostedRunnerFromRepo: (
       owner: string,
       repo: string,
-      runner_id: number,
+      runnerId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/actions/runners/${runner_id}`,
+        path: `/repos/${owner}/${repo}/actions/runners/${runnerId}`,
         method: "DELETE",
         ...params,
       }),
@@ -14721,9 +14716,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a workflow run
      * @request GET:/repos/{owner}/{repo}/actions/runs/{run_id}
      */
-    actionsGetWorkflowRun: (owner: string, repo: string, run_id: number, params: RequestParams = {}) =>
+    actionsGetWorkflowRun: (owner: string, repo: string, runId: number, params: RequestParams = {}) =>
       this.request<WorkflowRun, any>({
-        path: `/repos/${owner}/${repo}/actions/runs/${run_id}`,
+        path: `/repos/${owner}/${repo}/actions/runs/${runId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -14737,9 +14732,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a workflow run
      * @request DELETE:/repos/{owner}/{repo}/actions/runs/{run_id}
      */
-    actionsDeleteWorkflowRun: (owner: string, repo: string, run_id: number, params: RequestParams = {}) =>
+    actionsDeleteWorkflowRun: (owner: string, repo: string, runId: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/actions/runs/${run_id}`,
+        path: `/repos/${owner}/${repo}/actions/runs/${runId}`,
         method: "DELETE",
         ...params,
       }),
@@ -14755,12 +14750,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsListWorkflowRunArtifacts: (
       owner: string,
       repo: string,
-      run_id: number,
+      runId: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<{ total_count: number; artifacts: Artifact[] }, any>({
-        path: `/repos/${owner}/${repo}/actions/runs/${run_id}/artifacts`,
+        path: `/repos/${owner}/${repo}/actions/runs/${runId}/artifacts`,
         method: "GET",
         query: query,
         format: "json",
@@ -14775,9 +14770,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Cancel a workflow run
      * @request POST:/repos/{owner}/{repo}/actions/runs/{run_id}/cancel
      */
-    actionsCancelWorkflowRun: (owner: string, repo: string, run_id: number, params: RequestParams = {}) =>
+    actionsCancelWorkflowRun: (owner: string, repo: string, runId: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/actions/runs/${run_id}/cancel`,
+        path: `/repos/${owner}/${repo}/actions/runs/${runId}/cancel`,
         method: "POST",
         ...params,
       }),
@@ -14793,12 +14788,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsListJobsForWorkflowRun: (
       owner: string,
       repo: string,
-      run_id: number,
+      runId: number,
       query?: { filter?: "latest" | "all"; per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<{ total_count: number; jobs: Job[] }, any>({
-        path: `/repos/${owner}/${repo}/actions/runs/${run_id}/jobs`,
+        path: `/repos/${owner}/${repo}/actions/runs/${runId}/jobs`,
         method: "GET",
         query: query,
         format: "json",
@@ -14813,9 +14808,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Download workflow run logs
      * @request GET:/repos/{owner}/{repo}/actions/runs/{run_id}/logs
      */
-    actionsDownloadWorkflowRunLogs: (owner: string, repo: string, run_id: number, params: RequestParams = {}) =>
+    actionsDownloadWorkflowRunLogs: (owner: string, repo: string, runId: number, params: RequestParams = {}) =>
       this.request<any, void>({
-        path: `/repos/${owner}/${repo}/actions/runs/${run_id}/logs`,
+        path: `/repos/${owner}/${repo}/actions/runs/${runId}/logs`,
         method: "GET",
         ...params,
       }),
@@ -14828,9 +14823,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete workflow run logs
      * @request DELETE:/repos/{owner}/{repo}/actions/runs/{run_id}/logs
      */
-    actionsDeleteWorkflowRunLogs: (owner: string, repo: string, run_id: number, params: RequestParams = {}) =>
+    actionsDeleteWorkflowRunLogs: (owner: string, repo: string, runId: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/actions/runs/${run_id}/logs`,
+        path: `/repos/${owner}/${repo}/actions/runs/${runId}/logs`,
         method: "DELETE",
         ...params,
       }),
@@ -14843,9 +14838,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Re-run a workflow
      * @request POST:/repos/{owner}/{repo}/actions/runs/{run_id}/rerun
      */
-    actionsReRunWorkflow: (owner: string, repo: string, run_id: number, params: RequestParams = {}) =>
+    actionsReRunWorkflow: (owner: string, repo: string, runId: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/actions/runs/${run_id}/rerun`,
+        path: `/repos/${owner}/${repo}/actions/runs/${runId}/rerun`,
         method: "POST",
         ...params,
       }),
@@ -14858,9 +14853,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get workflow run usage
      * @request GET:/repos/{owner}/{repo}/actions/runs/{run_id}/timing
      */
-    actionsGetWorkflowRunUsage: (owner: string, repo: string, run_id: number, params: RequestParams = {}) =>
+    actionsGetWorkflowRunUsage: (owner: string, repo: string, runId: number, params: RequestParams = {}) =>
       this.request<WorkflowRunUsage, any>({
-        path: `/repos/${owner}/${repo}/actions/runs/${run_id}/timing`,
+        path: `/repos/${owner}/${repo}/actions/runs/${runId}/timing`,
         method: "GET",
         format: "json",
         ...params,
@@ -14912,9 +14907,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a repository secret
      * @request GET:/repos/{owner}/{repo}/actions/secrets/{secret_name}
      */
-    actionsGetRepoSecret: (owner: string, repo: string, secret_name: string, params: RequestParams = {}) =>
+    actionsGetRepoSecret: (owner: string, repo: string, secretName: string, params: RequestParams = {}) =>
       this.request<ActionsSecret, any>({
-        path: `/repos/${owner}/${repo}/actions/secrets/${secret_name}`,
+        path: `/repos/${owner}/${repo}/actions/secrets/${secretName}`,
         method: "GET",
         format: "json",
         ...params,
@@ -14931,12 +14926,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsCreateOrUpdateRepoSecret: (
       owner: string,
       repo: string,
-      secret_name: string,
+      secretName: string,
       data: { encrypted_value?: string; key_id?: string },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/actions/secrets/${secret_name}`,
+        path: `/repos/${owner}/${repo}/actions/secrets/${secretName}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -14951,9 +14946,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a repository secret
      * @request DELETE:/repos/{owner}/{repo}/actions/secrets/{secret_name}
      */
-    actionsDeleteRepoSecret: (owner: string, repo: string, secret_name: string, params: RequestParams = {}) =>
+    actionsDeleteRepoSecret: (owner: string, repo: string, secretName: string, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/actions/secrets/${secret_name}`,
+        path: `/repos/${owner}/${repo}/actions/secrets/${secretName}`,
         method: "DELETE",
         ...params,
       }),
@@ -14988,9 +14983,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a workflow
      * @request GET:/repos/{owner}/{repo}/actions/workflows/{workflow_id}
      */
-    actionsGetWorkflow: (owner: string, repo: string, workflow_id: number | string, params: RequestParams = {}) =>
+    actionsGetWorkflow: (owner: string, repo: string, workflowId: number | string, params: RequestParams = {}) =>
       this.request<Workflow, any>({
-        path: `/repos/${owner}/${repo}/actions/workflows/${workflow_id}`,
+        path: `/repos/${owner}/${repo}/actions/workflows/${workflowId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -15004,9 +14999,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Disable a workflow
      * @request PUT:/repos/{owner}/{repo}/actions/workflows/{workflow_id}/disable
      */
-    actionsDisableWorkflow: (owner: string, repo: string, workflow_id: number | string, params: RequestParams = {}) =>
+    actionsDisableWorkflow: (owner: string, repo: string, workflowId: number | string, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/actions/workflows/${workflow_id}/disable`,
+        path: `/repos/${owner}/${repo}/actions/workflows/${workflowId}/disable`,
         method: "PUT",
         ...params,
       }),
@@ -15022,12 +15017,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsCreateWorkflowDispatch: (
       owner: string,
       repo: string,
-      workflow_id: number | string,
+      workflowId: number | string,
       data: { ref: string; inputs?: Record<string, string> },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`,
+        path: `/repos/${owner}/${repo}/actions/workflows/${workflowId}/dispatches`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -15042,9 +15037,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Enable a workflow
      * @request PUT:/repos/{owner}/{repo}/actions/workflows/{workflow_id}/enable
      */
-    actionsEnableWorkflow: (owner: string, repo: string, workflow_id: number | string, params: RequestParams = {}) =>
+    actionsEnableWorkflow: (owner: string, repo: string, workflowId: number | string, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/actions/workflows/${workflow_id}/enable`,
+        path: `/repos/${owner}/${repo}/actions/workflows/${workflowId}/enable`,
         method: "PUT",
         ...params,
       }),
@@ -15060,7 +15055,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsListWorkflowRuns: (
       owner: string,
       repo: string,
-      workflow_id: number | string,
+      workflowId: number | string,
       query?: {
         actor?: string;
         branch?: string;
@@ -15072,7 +15067,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<{ total_count: number; workflow_runs: WorkflowRun[] }, any>({
-        path: `/repos/${owner}/${repo}/actions/workflows/${workflow_id}/runs`,
+        path: `/repos/${owner}/${repo}/actions/workflows/${workflowId}/runs`,
         method: "GET",
         query: query,
         format: "json",
@@ -15087,9 +15082,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get workflow usage
      * @request GET:/repos/{owner}/{repo}/actions/workflows/{workflow_id}/timing
      */
-    actionsGetWorkflowUsage: (owner: string, repo: string, workflow_id: number | string, params: RequestParams = {}) =>
+    actionsGetWorkflowUsage: (owner: string, repo: string, workflowId: number | string, params: RequestParams = {}) =>
       this.request<WorkflowUsage, any>({
-        path: `/repos/${owner}/${repo}/actions/workflows/${workflow_id}/timing`,
+        path: `/repos/${owner}/${repo}/actions/workflows/${workflowId}/timing`,
         method: "GET",
         format: "json",
         ...params,
@@ -15964,9 +15959,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a check run
      * @request GET:/repos/{owner}/{repo}/check-runs/{check_run_id}
      */
-    checksGet: (owner: string, repo: string, check_run_id: number, params: RequestParams = {}) =>
+    checksGet: (owner: string, repo: string, checkRunId: number, params: RequestParams = {}) =>
       this.request<CheckRun, any>({
-        path: `/repos/${owner}/${repo}/check-runs/${check_run_id}`,
+        path: `/repos/${owner}/${repo}/check-runs/${checkRunId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -15983,7 +15978,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     checksUpdate: (
       owner: string,
       repo: string,
-      check_run_id: number,
+      checkRunId: number,
       data: (
         | { status?: "completed"; [key: string]: any }
         | { status?: "queued" | "in_progress"; [key: string]: any }
@@ -16018,7 +16013,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<CheckRun, any>({
-        path: `/repos/${owner}/${repo}/check-runs/${check_run_id}`,
+        path: `/repos/${owner}/${repo}/check-runs/${checkRunId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -16037,12 +16032,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     checksListAnnotations: (
       owner: string,
       repo: string,
-      check_run_id: number,
+      checkRunId: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<CheckAnnotation[], any>({
-        path: `/repos/${owner}/${repo}/check-runs/${check_run_id}/annotations`,
+        path: `/repos/${owner}/${repo}/check-runs/${checkRunId}/annotations`,
         method: "GET",
         query: query,
         format: "json",
@@ -16098,9 +16093,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a check suite
      * @request GET:/repos/{owner}/{repo}/check-suites/{check_suite_id}
      */
-    checksGetSuite: (owner: string, repo: string, check_suite_id: number, params: RequestParams = {}) =>
+    checksGetSuite: (owner: string, repo: string, checkSuiteId: number, params: RequestParams = {}) =>
       this.request<CheckSuite, any>({
-        path: `/repos/${owner}/${repo}/check-suites/${check_suite_id}`,
+        path: `/repos/${owner}/${repo}/check-suites/${checkSuiteId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -16117,7 +16112,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     checksListForSuite: (
       owner: string,
       repo: string,
-      check_suite_id: number,
+      checkSuiteId: number,
       query?: {
         check_name?: string;
         status?: "queued" | "in_progress" | "completed";
@@ -16128,7 +16123,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<{ total_count: number; check_runs: CheckRun[] }, any>({
-        path: `/repos/${owner}/${repo}/check-suites/${check_suite_id}/check-runs`,
+        path: `/repos/${owner}/${repo}/check-suites/${checkSuiteId}/check-runs`,
         method: "GET",
         query: query,
         format: "json",
@@ -16143,9 +16138,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Rerequest a check suite
      * @request POST:/repos/{owner}/{repo}/check-suites/{check_suite_id}/rerequest
      */
-    checksRerequestSuite: (owner: string, repo: string, check_suite_id: number, params: RequestParams = {}) =>
+    checksRerequestSuite: (owner: string, repo: string, checkSuiteId: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/check-suites/${check_suite_id}/rerequest`,
+        path: `/repos/${owner}/${repo}/check-suites/${checkSuiteId}/rerequest`,
         method: "POST",
         ...params,
       }),
@@ -16183,12 +16178,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a code scanning alert
      * @request GET:/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}
      */
-    codeScanningGetAlert: (owner: string, repo: string, alert_number: number, params: RequestParams = {}) =>
+    codeScanningGetAlert: (owner: string, repo: string, alertNumber: number, params: RequestParams = {}) =>
       this.request<
         CodeScanningAlertCodeScanningAlert,
         void | BasicError | { code?: string; message?: string; documentation_url?: string }
       >({
-        path: `/repos/${owner}/${repo}/code-scanning/alerts/${alert_number}`,
+        path: `/repos/${owner}/${repo}/code-scanning/alerts/${alertNumber}`,
         method: "GET",
         format: "json",
         ...params,
@@ -16205,12 +16200,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     codeScanningUpdateAlert: (
       owner: string,
       repo: string,
-      alert_number: AlertNumber,
+      alertNumber: AlertNumber,
       data: { state: CodeScanningAlertSetState; dismissed_reason?: CodeScanningAlertDismissedReason },
       params: RequestParams = {},
     ) =>
       this.request<CodeScanningAlertCodeScanningAlert, void>({
-        path: `/repos/${owner}/${repo}/code-scanning/alerts/${alert_number}`,
+        path: `/repos/${owner}/${repo}/code-scanning/alerts/${alertNumber}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -16391,9 +16386,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a commit comment
      * @request GET:/repos/{owner}/{repo}/comments/{comment_id}
      */
-    reposGetCommitComment: (owner: string, repo: string, comment_id: number, params: RequestParams = {}) =>
+    reposGetCommitComment: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
       this.request<CommitComment, BasicError>({
-        path: `/repos/${owner}/${repo}/comments/${comment_id}`,
+        path: `/repos/${owner}/${repo}/comments/${commentId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -16410,12 +16405,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposUpdateCommitComment: (
       owner: string,
       repo: string,
-      comment_id: number,
+      commentId: number,
       data: { body: string },
       params: RequestParams = {},
     ) =>
       this.request<CommitComment, BasicError>({
-        path: `/repos/${owner}/${repo}/comments/${comment_id}`,
+        path: `/repos/${owner}/${repo}/comments/${commentId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -16431,9 +16426,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a commit comment
      * @request DELETE:/repos/{owner}/{repo}/comments/{comment_id}
      */
-    reposDeleteCommitComment: (owner: string, repo: string, comment_id: number, params: RequestParams = {}) =>
+    reposDeleteCommitComment: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/repos/${owner}/${repo}/comments/${comment_id}`,
+        path: `/repos/${owner}/${repo}/comments/${commentId}`,
         method: "DELETE",
         ...params,
       }),
@@ -16449,7 +16444,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reactionsListForCommitComment: (
       owner: string,
       repo: string,
-      comment_id: number,
+      commentId: number,
       query?: {
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: number;
@@ -16458,7 +16453,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Reaction[], BasicError | { message: string; documentation_url: string }>({
-        path: `/repos/${owner}/${repo}/comments/${comment_id}/reactions`,
+        path: `/repos/${owner}/${repo}/comments/${commentId}/reactions`,
         method: "GET",
         query: query,
         format: "json",
@@ -16476,12 +16471,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reactionsCreateForCommitComment: (
       owner: string,
       repo: string,
-      comment_id: number,
+      commentId: number,
       data: { content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes" },
       params: RequestParams = {},
     ) =>
       this.request<Reaction, { message: string; documentation_url: string } | ValidationError>({
-        path: `/repos/${owner}/${repo}/comments/${comment_id}/reactions`,
+        path: `/repos/${owner}/${repo}/comments/${commentId}/reactions`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -16500,12 +16495,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reactionsDeleteForCommitComment: (
       owner: string,
       repo: string,
-      comment_id: number,
-      reaction_id: number,
+      commentId: number,
+      reactionId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/comments/${comment_id}/reactions/${reaction_id}`,
+        path: `/repos/${owner}/${repo}/comments/${commentId}/reactions/${reactionId}`,
         method: "DELETE",
         ...params,
       }),
@@ -16548,9 +16543,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary List branches for HEAD commit
      * @request GET:/repos/{owner}/{repo}/commits/{commit_sha}/branches-where-head
      */
-    reposListBranchesForHeadCommit: (owner: string, repo: string, commit_sha: string, params: RequestParams = {}) =>
+    reposListBranchesForHeadCommit: (owner: string, repo: string, commitSha: string, params: RequestParams = {}) =>
       this.request<BranchShort[], { message: string; documentation_url: string } | ValidationError>({
-        path: `/repos/${owner}/${repo}/commits/${commit_sha}/branches-where-head`,
+        path: `/repos/${owner}/${repo}/commits/${commitSha}/branches-where-head`,
         method: "GET",
         format: "json",
         ...params,
@@ -16567,12 +16562,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListCommentsForCommit: (
       owner: string,
       repo: string,
-      commit_sha: string,
+      commitSha: string,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<CommitComment[], any>({
-        path: `/repos/${owner}/${repo}/commits/${commit_sha}/comments`,
+        path: `/repos/${owner}/${repo}/commits/${commitSha}/comments`,
         method: "GET",
         query: query,
         format: "json",
@@ -16590,12 +16585,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposCreateCommitComment: (
       owner: string,
       repo: string,
-      commit_sha: string,
+      commitSha: string,
       data: { body: string; path?: string; position?: number; line?: number },
       params: RequestParams = {},
     ) =>
       this.request<CommitComment, BasicError | ValidationError>({
-        path: `/repos/${owner}/${repo}/commits/${commit_sha}/comments`,
+        path: `/repos/${owner}/${repo}/commits/${commitSha}/comments`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -16614,12 +16609,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListPullRequestsAssociatedWithCommit: (
       owner: string,
       repo: string,
-      commit_sha: string,
+      commitSha: string,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<PullRequestSimple[], { message: string; documentation_url: string }>({
-        path: `/repos/${owner}/${repo}/commits/${commit_sha}/pulls`,
+        path: `/repos/${owner}/${repo}/commits/${commitSha}/pulls`,
         method: "GET",
         query: query,
         format: "json",
@@ -16954,9 +16949,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a deployment
      * @request GET:/repos/{owner}/{repo}/deployments/{deployment_id}
      */
-    reposGetDeployment: (owner: string, repo: string, deployment_id: number, params: RequestParams = {}) =>
+    reposGetDeployment: (owner: string, repo: string, deploymentId: number, params: RequestParams = {}) =>
       this.request<Deployment, BasicError>({
-        path: `/repos/${owner}/${repo}/deployments/${deployment_id}`,
+        path: `/repos/${owner}/${repo}/deployments/${deploymentId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -16970,9 +16965,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a deployment
      * @request DELETE:/repos/{owner}/{repo}/deployments/{deployment_id}
      */
-    reposDeleteDeployment: (owner: string, repo: string, deployment_id: number, params: RequestParams = {}) =>
+    reposDeleteDeployment: (owner: string, repo: string, deploymentId: number, params: RequestParams = {}) =>
       this.request<void, BasicError | ValidationErrorSimple>({
-        path: `/repos/${owner}/${repo}/deployments/${deployment_id}`,
+        path: `/repos/${owner}/${repo}/deployments/${deploymentId}`,
         method: "DELETE",
         ...params,
       }),
@@ -16988,12 +16983,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListDeploymentStatuses: (
       owner: string,
       repo: string,
-      deployment_id: number,
+      deploymentId: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<DeploymentStatus[], BasicError>({
-        path: `/repos/${owner}/${repo}/deployments/${deployment_id}/statuses`,
+        path: `/repos/${owner}/${repo}/deployments/${deploymentId}/statuses`,
         method: "GET",
         query: query,
         format: "json",
@@ -17011,7 +17006,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposCreateDeploymentStatus: (
       owner: string,
       repo: string,
-      deployment_id: number,
+      deploymentId: number,
       data: {
         state: "error" | "failure" | "inactive" | "in_progress" | "queued" | "pending" | "success";
         target_url?: string;
@@ -17024,7 +17019,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<DeploymentStatus, ValidationError>({
-        path: `/repos/${owner}/${repo}/deployments/${deployment_id}/statuses`,
+        path: `/repos/${owner}/${repo}/deployments/${deploymentId}/statuses`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -17043,12 +17038,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposGetDeploymentStatus: (
       owner: string,
       repo: string,
-      deployment_id: number,
-      status_id: number,
+      deploymentId: number,
+      statusId: number,
       params: RequestParams = {},
     ) =>
       this.request<DeploymentStatus, BasicError | { message: string; documentation_url: string }>({
-        path: `/repos/${owner}/${repo}/deployments/${deployment_id}/statuses/${status_id}`,
+        path: `/repos/${owner}/${repo}/deployments/${deploymentId}/statuses/${statusId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -17169,9 +17164,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a blob
      * @request GET:/repos/{owner}/{repo}/git/blobs/{file_sha}
      */
-    gitGetBlob: (owner: string, repo: string, file_sha: string, params: RequestParams = {}) =>
+    gitGetBlob: (owner: string, repo: string, fileSha: string, params: RequestParams = {}) =>
       this.request<Blob, BasicError | ValidationError>({
-        path: `/repos/${owner}/${repo}/git/blobs/${file_sha}`,
+        path: `/repos/${owner}/${repo}/git/blobs/${fileSha}`,
         method: "GET",
         format: "json",
         ...params,
@@ -17215,9 +17210,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a commit
      * @request GET:/repos/{owner}/{repo}/git/commits/{commit_sha}
      */
-    gitGetCommit: (owner: string, repo: string, commit_sha: string, params: RequestParams = {}) =>
+    gitGetCommit: (owner: string, repo: string, commitSha: string, params: RequestParams = {}) =>
       this.request<GitCommit, BasicError>({
-        path: `/repos/${owner}/${repo}/git/commits/${commit_sha}`,
+        path: `/repos/${owner}/${repo}/git/commits/${commitSha}`,
         method: "GET",
         format: "json",
         ...params,
@@ -17361,9 +17356,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a tag
      * @request GET:/repos/{owner}/{repo}/git/tags/{tag_sha}
      */
-    gitGetTag: (owner: string, repo: string, tag_sha: string, params: RequestParams = {}) =>
+    gitGetTag: (owner: string, repo: string, tagSha: string, params: RequestParams = {}) =>
       this.request<GitTag, BasicError>({
-        path: `/repos/${owner}/${repo}/git/tags/${tag_sha}`,
+        path: `/repos/${owner}/${repo}/git/tags/${tagSha}`,
         method: "GET",
         format: "json",
         ...params,
@@ -17412,12 +17407,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     gitGetTree: (
       owner: string,
       repo: string,
-      tree_sha: string,
+      treeSha: string,
       query?: { recursive?: string },
       params: RequestParams = {},
     ) =>
       this.request<GitTree, BasicError | ValidationError>({
-        path: `/repos/${owner}/${repo}/git/trees/${tree_sha}`,
+        path: `/repos/${owner}/${repo}/git/trees/${treeSha}`,
         method: "GET",
         query: query,
         format: "json",
@@ -17489,9 +17484,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a repository webhook
      * @request GET:/repos/{owner}/{repo}/hooks/{hook_id}
      */
-    reposGetWebhook: (owner: string, repo: string, hook_id: number, params: RequestParams = {}) =>
+    reposGetWebhook: (owner: string, repo: string, hookId: number, params: RequestParams = {}) =>
       this.request<Hook, BasicError>({
-        path: `/repos/${owner}/${repo}/hooks/${hook_id}`,
+        path: `/repos/${owner}/${repo}/hooks/${hookId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -17508,7 +17503,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposUpdateWebhook: (
       owner: string,
       repo: string,
-      hook_id: number,
+      hookId: number,
       data: {
         config?: {
           url: WebhookConfigUrl;
@@ -17526,7 +17521,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Hook, BasicError | ValidationError>({
-        path: `/repos/${owner}/${repo}/hooks/${hook_id}`,
+        path: `/repos/${owner}/${repo}/hooks/${hookId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -17542,9 +17537,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a repository webhook
      * @request DELETE:/repos/{owner}/{repo}/hooks/{hook_id}
      */
-    reposDeleteWebhook: (owner: string, repo: string, hook_id: number, params: RequestParams = {}) =>
+    reposDeleteWebhook: (owner: string, repo: string, hookId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/repos/${owner}/${repo}/hooks/${hook_id}`,
+        path: `/repos/${owner}/${repo}/hooks/${hookId}`,
         method: "DELETE",
         ...params,
       }),
@@ -17557,9 +17552,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a webhook configuration for a repository
      * @request GET:/repos/{owner}/{repo}/hooks/{hook_id}/config
      */
-    reposGetWebhookConfigForRepo: (owner: string, repo: string, hook_id: number, params: RequestParams = {}) =>
+    reposGetWebhookConfigForRepo: (owner: string, repo: string, hookId: number, params: RequestParams = {}) =>
       this.request<WebhookConfig, any>({
-        path: `/repos/${owner}/${repo}/hooks/${hook_id}/config`,
+        path: `/repos/${owner}/${repo}/hooks/${hookId}/config`,
         method: "GET",
         format: "json",
         ...params,
@@ -17576,7 +17571,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposUpdateWebhookConfigForRepo: (
       owner: string,
       repo: string,
-      hook_id: number,
+      hookId: number,
       data: {
         url?: WebhookConfigUrl;
         content_type?: WebhookConfigContentType;
@@ -17586,7 +17581,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<WebhookConfig, any>({
-        path: `/repos/${owner}/${repo}/hooks/${hook_id}/config`,
+        path: `/repos/${owner}/${repo}/hooks/${hookId}/config`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -17602,9 +17597,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Ping a repository webhook
      * @request POST:/repos/{owner}/{repo}/hooks/{hook_id}/pings
      */
-    reposPingWebhook: (owner: string, repo: string, hook_id: number, params: RequestParams = {}) =>
+    reposPingWebhook: (owner: string, repo: string, hookId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/repos/${owner}/${repo}/hooks/${hook_id}/pings`,
+        path: `/repos/${owner}/${repo}/hooks/${hookId}/pings`,
         method: "POST",
         ...params,
       }),
@@ -17617,9 +17612,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Test the push repository webhook
      * @request POST:/repos/{owner}/{repo}/hooks/{hook_id}/tests
      */
-    reposTestPushWebhook: (owner: string, repo: string, hook_id: number, params: RequestParams = {}) =>
+    reposTestPushWebhook: (owner: string, repo: string, hookId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/repos/${owner}/${repo}/hooks/${hook_id}/tests`,
+        path: `/repos/${owner}/${repo}/hooks/${hookId}/tests`,
         method: "POST",
         ...params,
       }),
@@ -17735,12 +17730,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     migrationsMapCommitAuthor: (
       owner: string,
       repo: string,
-      author_id: number,
+      authorId: number,
       data: { email?: string; name?: string; remote_id?: string },
       params: RequestParams = {},
     ) =>
       this.request<PorterAuthor, BasicError | ValidationError>({
-        path: `/repos/${owner}/${repo}/import/authors/${author_id}`,
+        path: `/repos/${owner}/${repo}/import/authors/${authorId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -17890,12 +17885,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposUpdateInvitation: (
       owner: string,
       repo: string,
-      invitation_id: number,
+      invitationId: number,
       data: { permissions?: "read" | "write" | "maintain" | "triage" | "admin" },
       params: RequestParams = {},
     ) =>
       this.request<RepositoryInvitation, any>({
-        path: `/repos/${owner}/${repo}/invitations/${invitation_id}`,
+        path: `/repos/${owner}/${repo}/invitations/${invitationId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -17911,9 +17906,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a repository invitation
      * @request DELETE:/repos/{owner}/{repo}/invitations/{invitation_id}
      */
-    reposDeleteInvitation: (owner: string, repo: string, invitation_id: number, params: RequestParams = {}) =>
+    reposDeleteInvitation: (owner: string, repo: string, invitationId: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/invitations/${invitation_id}`,
+        path: `/repos/${owner}/${repo}/invitations/${invitationId}`,
         method: "DELETE",
         ...params,
       }),
@@ -18021,9 +18016,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get an issue comment
      * @request GET:/repos/{owner}/{repo}/issues/comments/{comment_id}
      */
-    issuesGetComment: (owner: string, repo: string, comment_id: number, params: RequestParams = {}) =>
+    issuesGetComment: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
       this.request<IssueComment, BasicError>({
-        path: `/repos/${owner}/${repo}/issues/comments/${comment_id}`,
+        path: `/repos/${owner}/${repo}/issues/comments/${commentId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -18040,12 +18035,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesUpdateComment: (
       owner: string,
       repo: string,
-      comment_id: number,
+      commentId: number,
       data: { body: string },
       params: RequestParams = {},
     ) =>
       this.request<IssueComment, ValidationError>({
-        path: `/repos/${owner}/${repo}/issues/comments/${comment_id}`,
+        path: `/repos/${owner}/${repo}/issues/comments/${commentId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -18061,9 +18056,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete an issue comment
      * @request DELETE:/repos/{owner}/{repo}/issues/comments/{comment_id}
      */
-    issuesDeleteComment: (owner: string, repo: string, comment_id: number, params: RequestParams = {}) =>
+    issuesDeleteComment: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/issues/comments/${comment_id}`,
+        path: `/repos/${owner}/${repo}/issues/comments/${commentId}`,
         method: "DELETE",
         ...params,
       }),
@@ -18079,7 +18074,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reactionsListForIssueComment: (
       owner: string,
       repo: string,
-      comment_id: number,
+      commentId: number,
       query?: {
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: number;
@@ -18088,7 +18083,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Reaction[], BasicError | { message: string; documentation_url: string }>({
-        path: `/repos/${owner}/${repo}/issues/comments/${comment_id}/reactions`,
+        path: `/repos/${owner}/${repo}/issues/comments/${commentId}/reactions`,
         method: "GET",
         query: query,
         format: "json",
@@ -18106,12 +18101,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reactionsCreateForIssueComment: (
       owner: string,
       repo: string,
-      comment_id: number,
+      commentId: number,
       data: { content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes" },
       params: RequestParams = {},
     ) =>
       this.request<Reaction, { message: string; documentation_url: string } | ValidationError>({
-        path: `/repos/${owner}/${repo}/issues/comments/${comment_id}/reactions`,
+        path: `/repos/${owner}/${repo}/issues/comments/${commentId}/reactions`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -18130,12 +18125,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reactionsDeleteForIssueComment: (
       owner: string,
       repo: string,
-      comment_id: number,
-      reaction_id: number,
+      commentId: number,
+      reactionId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/issues/comments/${comment_id}/reactions/${reaction_id}`,
+        path: `/repos/${owner}/${repo}/issues/comments/${commentId}/reactions/${reactionId}`,
         method: "DELETE",
         ...params,
       }),
@@ -18170,9 +18165,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get an issue event
      * @request GET:/repos/{owner}/{repo}/issues/events/{event_id}
      */
-    issuesGetEvent: (owner: string, repo: string, event_id: number, params: RequestParams = {}) =>
+    issuesGetEvent: (owner: string, repo: string, eventId: number, params: RequestParams = {}) =>
       this.request<IssueEvent, BasicError>({
-        path: `/repos/${owner}/${repo}/issues/events/${event_id}`,
+        path: `/repos/${owner}/${repo}/issues/events/${eventId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -18186,9 +18181,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get an issue
      * @request GET:/repos/{owner}/{repo}/issues/{issue_number}
      */
-    issuesGet: (owner: string, repo: string, issue_number: number, params: RequestParams = {}) =>
+    issuesGet: (owner: string, repo: string, issueNumber: number, params: RequestParams = {}) =>
       this.request<Issue, BasicError>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}`,
         method: "GET",
         format: "json",
         ...params,
@@ -18205,7 +18200,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesUpdate: (
       owner: string,
       repo: string,
-      issue_number: number,
+      issueNumber: number,
       data: {
         title?: string | number;
         body?: string;
@@ -18221,7 +18216,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         Issue,
         BasicError | ValidationError | { code?: string; message?: string; documentation_url?: string }
       >({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -18240,12 +18235,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesAddAssignees: (
       owner: string,
       repo: string,
-      issue_number: number,
+      issueNumber: number,
       data: { assignees?: string[] },
       params: RequestParams = {},
     ) =>
       this.request<IssueSimple, any>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}/assignees`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}/assignees`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -18264,12 +18259,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesRemoveAssignees: (
       owner: string,
       repo: string,
-      issue_number: number,
+      issueNumber: number,
       data: { assignees?: string[] },
       params: RequestParams = {},
     ) =>
       this.request<IssueSimple, any>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}/assignees`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}/assignees`,
         method: "DELETE",
         body: data,
         type: ContentType.Json,
@@ -18288,12 +18283,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesListComments: (
       owner: string,
       repo: string,
-      issue_number: number,
+      issueNumber: number,
       query?: { since?: string; per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<IssueComment[], BasicError>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}/comments`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}/comments`,
         method: "GET",
         query: query,
         format: "json",
@@ -18311,12 +18306,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesCreateComment: (
       owner: string,
       repo: string,
-      issue_number: number,
+      issueNumber: number,
       data: { body: string },
       params: RequestParams = {},
     ) =>
       this.request<IssueComment, BasicError | ValidationError>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}/comments`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}/comments`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -18335,12 +18330,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesListEvents: (
       owner: string,
       repo: string,
-      issue_number: number,
+      issueNumber: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<IssueEventForIssue[], BasicError>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}/events`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}/events`,
         method: "GET",
         query: query,
         format: "json",
@@ -18358,12 +18353,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesListLabelsOnIssue: (
       owner: string,
       repo: string,
-      issue_number: number,
+      issueNumber: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<Label[], BasicError>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}/labels`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}/labels`,
         method: "GET",
         query: query,
         format: "json",
@@ -18381,12 +18376,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesAddLabels: (
       owner: string,
       repo: string,
-      issue_number: number,
+      issueNumber: number,
       data: { labels: string[] },
       params: RequestParams = {},
     ) =>
       this.request<Label[], BasicError | ValidationError>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}/labels`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}/labels`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -18405,12 +18400,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesSetLabels: (
       owner: string,
       repo: string,
-      issue_number: number,
+      issueNumber: number,
       data: { labels?: string[] },
       params: RequestParams = {},
     ) =>
       this.request<Label[], BasicError | ValidationError>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}/labels`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}/labels`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -18426,9 +18421,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove all labels from an issue
      * @request DELETE:/repos/{owner}/{repo}/issues/{issue_number}/labels
      */
-    issuesRemoveAllLabels: (owner: string, repo: string, issue_number: number, params: RequestParams = {}) =>
+    issuesRemoveAllLabels: (owner: string, repo: string, issueNumber: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}/labels`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}/labels`,
         method: "DELETE",
         ...params,
       }),
@@ -18441,9 +18436,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove a label from an issue
      * @request DELETE:/repos/{owner}/{repo}/issues/{issue_number}/labels/{name}
      */
-    issuesRemoveLabel: (owner: string, repo: string, issue_number: number, name: string, params: RequestParams = {}) =>
+    issuesRemoveLabel: (owner: string, repo: string, issueNumber: number, name: string, params: RequestParams = {}) =>
       this.request<Label[], BasicError>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}/labels/${name}`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}/labels/${name}`,
         method: "DELETE",
         format: "json",
         ...params,
@@ -18460,12 +18455,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesLock: (
       owner: string,
       repo: string,
-      issue_number: number,
+      issueNumber: number,
       data: { lock_reason?: "off-topic" | "too heated" | "resolved" | "spam" },
       params: RequestParams = {},
     ) =>
       this.request<void, BasicError | ValidationError>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}/lock`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}/lock`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -18480,9 +18475,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Unlock an issue
      * @request DELETE:/repos/{owner}/{repo}/issues/{issue_number}/lock
      */
-    issuesUnlock: (owner: string, repo: string, issue_number: number, params: RequestParams = {}) =>
+    issuesUnlock: (owner: string, repo: string, issueNumber: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}/lock`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}/lock`,
         method: "DELETE",
         ...params,
       }),
@@ -18498,7 +18493,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reactionsListForIssue: (
       owner: string,
       repo: string,
-      issue_number: number,
+      issueNumber: number,
       query?: {
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: number;
@@ -18507,7 +18502,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Reaction[], BasicError | { message: string; documentation_url: string }>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}/reactions`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}/reactions`,
         method: "GET",
         query: query,
         format: "json",
@@ -18525,12 +18520,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reactionsCreateForIssue: (
       owner: string,
       repo: string,
-      issue_number: number,
+      issueNumber: number,
       data: { content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes" },
       params: RequestParams = {},
     ) =>
       this.request<Reaction, { message: string; documentation_url: string } | ValidationError>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}/reactions`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}/reactions`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -18549,12 +18544,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reactionsDeleteForIssue: (
       owner: string,
       repo: string,
-      issue_number: number,
-      reaction_id: number,
+      issueNumber: number,
+      reactionId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}/reactions/${reaction_id}`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}/reactions/${reactionId}`,
         method: "DELETE",
         ...params,
       }),
@@ -18570,12 +18565,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesListEventsForTimeline: (
       owner: string,
       repo: string,
-      issue_number: number,
+      issueNumber: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<IssueEventForIssue[], BasicError | { message: string; documentation_url: string }>({
-        path: `/repos/${owner}/${repo}/issues/${issue_number}/timeline`,
+        path: `/repos/${owner}/${repo}/issues/${issueNumber}/timeline`,
         method: "GET",
         query: query,
         format: "json",
@@ -18635,9 +18630,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a deploy key
      * @request GET:/repos/{owner}/{repo}/keys/{key_id}
      */
-    reposGetDeployKey: (owner: string, repo: string, key_id: number, params: RequestParams = {}) =>
+    reposGetDeployKey: (owner: string, repo: string, keyId: number, params: RequestParams = {}) =>
       this.request<DeployKey, BasicError>({
-        path: `/repos/${owner}/${repo}/keys/${key_id}`,
+        path: `/repos/${owner}/${repo}/keys/${keyId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -18651,9 +18646,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a deploy key
      * @request DELETE:/repos/{owner}/{repo}/keys/{key_id}
      */
-    reposDeleteDeployKey: (owner: string, repo: string, key_id: number, params: RequestParams = {}) =>
+    reposDeleteDeployKey: (owner: string, repo: string, keyId: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/keys/${key_id}`,
+        path: `/repos/${owner}/${repo}/keys/${keyId}`,
         method: "DELETE",
         ...params,
       }),
@@ -18872,9 +18867,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a milestone
      * @request GET:/repos/{owner}/{repo}/milestones/{milestone_number}
      */
-    issuesGetMilestone: (owner: string, repo: string, milestone_number: number, params: RequestParams = {}) =>
+    issuesGetMilestone: (owner: string, repo: string, milestoneNumber: number, params: RequestParams = {}) =>
       this.request<Milestone, BasicError>({
-        path: `/repos/${owner}/${repo}/milestones/${milestone_number}`,
+        path: `/repos/${owner}/${repo}/milestones/${milestoneNumber}`,
         method: "GET",
         format: "json",
         ...params,
@@ -18891,12 +18886,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesUpdateMilestone: (
       owner: string,
       repo: string,
-      milestone_number: number,
+      milestoneNumber: number,
       data: { title?: string; state?: "open" | "closed"; description?: string; due_on?: string },
       params: RequestParams = {},
     ) =>
       this.request<Milestone, any>({
-        path: `/repos/${owner}/${repo}/milestones/${milestone_number}`,
+        path: `/repos/${owner}/${repo}/milestones/${milestoneNumber}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -18912,9 +18907,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a milestone
      * @request DELETE:/repos/{owner}/{repo}/milestones/{milestone_number}
      */
-    issuesDeleteMilestone: (owner: string, repo: string, milestone_number: number, params: RequestParams = {}) =>
+    issuesDeleteMilestone: (owner: string, repo: string, milestoneNumber: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/repos/${owner}/${repo}/milestones/${milestone_number}`,
+        path: `/repos/${owner}/${repo}/milestones/${milestoneNumber}`,
         method: "DELETE",
         ...params,
       }),
@@ -18930,12 +18925,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesListLabelsForMilestone: (
       owner: string,
       repo: string,
-      milestone_number: number,
+      milestoneNumber: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<Label[], any>({
-        path: `/repos/${owner}/${repo}/milestones/${milestone_number}/labels`,
+        path: `/repos/${owner}/${repo}/milestones/${milestoneNumber}/labels`,
         method: "GET",
         query: query,
         format: "json",
@@ -19140,9 +19135,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get GitHub Pages build
      * @request GET:/repos/{owner}/{repo}/pages/builds/{build_id}
      */
-    reposGetPagesBuild: (owner: string, repo: string, build_id: number, params: RequestParams = {}) =>
+    reposGetPagesBuild: (owner: string, repo: string, buildId: number, params: RequestParams = {}) =>
       this.request<PageBuild, any>({
-        path: `/repos/${owner}/${repo}/pages/builds/${build_id}`,
+        path: `/repos/${owner}/${repo}/pages/builds/${buildId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -19290,9 +19285,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a review comment for a pull request
      * @request GET:/repos/{owner}/{repo}/pulls/comments/{comment_id}
      */
-    pullsGetReviewComment: (owner: string, repo: string, comment_id: number, params: RequestParams = {}) =>
+    pullsGetReviewComment: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
       this.request<PullRequestReviewComment, BasicError>({
-        path: `/repos/${owner}/${repo}/pulls/comments/${comment_id}`,
+        path: `/repos/${owner}/${repo}/pulls/comments/${commentId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -19309,12 +19304,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsUpdateReviewComment: (
       owner: string,
       repo: string,
-      comment_id: number,
+      commentId: number,
       data: { body: string },
       params: RequestParams = {},
     ) =>
       this.request<PullRequestReviewComment, any>({
-        path: `/repos/${owner}/${repo}/pulls/comments/${comment_id}`,
+        path: `/repos/${owner}/${repo}/pulls/comments/${commentId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -19330,9 +19325,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a review comment for a pull request
      * @request DELETE:/repos/{owner}/{repo}/pulls/comments/{comment_id}
      */
-    pullsDeleteReviewComment: (owner: string, repo: string, comment_id: number, params: RequestParams = {}) =>
+    pullsDeleteReviewComment: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/repos/${owner}/${repo}/pulls/comments/${comment_id}`,
+        path: `/repos/${owner}/${repo}/pulls/comments/${commentId}`,
         method: "DELETE",
         ...params,
       }),
@@ -19348,7 +19343,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reactionsListForPullRequestReviewComment: (
       owner: string,
       repo: string,
-      comment_id: number,
+      commentId: number,
       query?: {
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: number;
@@ -19357,7 +19352,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Reaction[], BasicError | { message: string; documentation_url: string }>({
-        path: `/repos/${owner}/${repo}/pulls/comments/${comment_id}/reactions`,
+        path: `/repos/${owner}/${repo}/pulls/comments/${commentId}/reactions`,
         method: "GET",
         query: query,
         format: "json",
@@ -19375,12 +19370,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reactionsCreateForPullRequestReviewComment: (
       owner: string,
       repo: string,
-      comment_id: number,
+      commentId: number,
       data: { content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes" },
       params: RequestParams = {},
     ) =>
       this.request<Reaction, { message: string; documentation_url: string } | ValidationError>({
-        path: `/repos/${owner}/${repo}/pulls/comments/${comment_id}/reactions`,
+        path: `/repos/${owner}/${repo}/pulls/comments/${commentId}/reactions`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -19399,12 +19394,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reactionsDeleteForPullRequestComment: (
       owner: string,
       repo: string,
-      comment_id: number,
-      reaction_id: number,
+      commentId: number,
+      reactionId: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/pulls/comments/${comment_id}/reactions/${reaction_id}`,
+        path: `/repos/${owner}/${repo}/pulls/comments/${commentId}/reactions/${reactionId}`,
         method: "DELETE",
         ...params,
       }),
@@ -19417,9 +19412,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a pull request
      * @request GET:/repos/{owner}/{repo}/pulls/{pull_number}
      */
-    pullsGet: (owner: string, repo: string, pull_number: number, params: RequestParams = {}) =>
+    pullsGet: (owner: string, repo: string, pullNumber: number, params: RequestParams = {}) =>
       this.request<PullRequest, BasicError>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}`,
         method: "GET",
         format: "json",
         ...params,
@@ -19436,7 +19431,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsUpdate: (
       owner: string,
       repo: string,
-      pull_number: number,
+      pullNumber: number,
       data: {
         title?: string;
         body?: string;
@@ -19447,7 +19442,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<PullRequest, BasicError | ValidationError>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -19466,7 +19461,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsListReviewComments: (
       owner: string,
       repo: string,
-      pull_number: number,
+      pullNumber: number,
       query?: {
         sort?: "created" | "updated";
         direction?: "asc" | "desc";
@@ -19477,7 +19472,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<PullRequestReviewComment[], any>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/comments`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/comments`,
         method: "GET",
         query: query,
         format: "json",
@@ -19495,7 +19490,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsCreateReviewComment: (
       owner: string,
       repo: string,
-      pull_number: number,
+      pullNumber: number,
       data: {
         body: string;
         commit_id?: string;
@@ -19510,7 +19505,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<PullRequestReviewComment, BasicError | ValidationError>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/comments`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/comments`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -19529,13 +19524,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsCreateReplyForReviewComment: (
       owner: string,
       repo: string,
-      pull_number: number,
-      comment_id: number,
+      pullNumber: number,
+      commentId: number,
       data: { body: string },
       params: RequestParams = {},
     ) =>
       this.request<PullRequestReviewComment, BasicError>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/comments/${comment_id}/replies`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/comments/${commentId}/replies`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -19554,12 +19549,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsListCommits: (
       owner: string,
       repo: string,
-      pull_number: number,
+      pullNumber: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<Commit[], any>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/commits`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/commits`,
         method: "GET",
         query: query,
         format: "json",
@@ -19577,12 +19572,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsListFiles: (
       owner: string,
       repo: string,
-      pull_number: number,
+      pullNumber: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<DiffEntry[], ValidationError | BasicError>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/files`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/files`,
         method: "GET",
         query: query,
         format: "json",
@@ -19597,9 +19592,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Check if a pull request has been merged
      * @request GET:/repos/{owner}/{repo}/pulls/{pull_number}/merge
      */
-    pullsCheckIfMerged: (owner: string, repo: string, pull_number: number, params: RequestParams = {}) =>
+    pullsCheckIfMerged: (owner: string, repo: string, pullNumber: number, params: RequestParams = {}) =>
       this.request<void, void>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/merge`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/merge`,
         method: "GET",
         ...params,
       }),
@@ -19615,7 +19610,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsMerge: (
       owner: string,
       repo: string,
-      pull_number: number,
+      pullNumber: number,
       data: {
         commit_title?: string;
         commit_message?: string;
@@ -19628,7 +19623,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         PullRequestMergeResult,
         BasicError | { message?: string; documentation_url?: string } | ValidationError
       >({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/merge`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/merge`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -19647,12 +19642,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsListRequestedReviewers: (
       owner: string,
       repo: string,
-      pull_number: number,
+      pullNumber: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<PullRequestReviewRequest, any>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/requested_reviewers`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/requested_reviewers`,
         method: "GET",
         query: query,
         format: "json",
@@ -19670,12 +19665,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsRequestReviewers: (
       owner: string,
       repo: string,
-      pull_number: number,
+      pullNumber: number,
       data: { reviewers?: string[]; team_reviewers?: string[] },
       params: RequestParams = {},
     ) =>
       this.request<PullRequestSimple, BasicError | void>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/requested_reviewers`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/requested_reviewers`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -19694,12 +19689,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsRemoveRequestedReviewers: (
       owner: string,
       repo: string,
-      pull_number: number,
+      pullNumber: number,
       data: { reviewers?: string[]; team_reviewers?: string[] },
       params: RequestParams = {},
     ) =>
       this.request<void, ValidationError>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/requested_reviewers`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/requested_reviewers`,
         method: "DELETE",
         body: data,
         type: ContentType.Json,
@@ -19717,12 +19712,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsListReviews: (
       owner: string,
       repo: string,
-      pull_number: number,
+      pullNumber: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<PullRequestReview[], any>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/reviews`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/reviews`,
         method: "GET",
         query: query,
         format: "json",
@@ -19740,7 +19735,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsCreateReview: (
       owner: string,
       repo: string,
-      pull_number: number,
+      pullNumber: number,
       data: {
         commit_id?: string;
         body?: string;
@@ -19758,7 +19753,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<PullRequestReview, BasicError | ValidationErrorSimple>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/reviews`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/reviews`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -19774,9 +19769,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a review for a pull request
      * @request GET:/repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}
      */
-    pullsGetReview: (owner: string, repo: string, pull_number: number, review_id: number, params: RequestParams = {}) =>
+    pullsGetReview: (owner: string, repo: string, pullNumber: number, reviewId: number, params: RequestParams = {}) =>
       this.request<PullRequestReview, BasicError>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/reviews/${review_id}`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/reviews/${reviewId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -19793,13 +19788,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsUpdateReview: (
       owner: string,
       repo: string,
-      pull_number: number,
-      review_id: number,
+      pullNumber: number,
+      reviewId: number,
       data: { body: string },
       params: RequestParams = {},
     ) =>
       this.request<PullRequestReview, ValidationErrorSimple>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/reviews/${review_id}`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/reviews/${reviewId}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -19818,12 +19813,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsDeletePendingReview: (
       owner: string,
       repo: string,
-      pull_number: number,
-      review_id: number,
+      pullNumber: number,
+      reviewId: number,
       params: RequestParams = {},
     ) =>
       this.request<PullRequestReview, BasicError | ValidationErrorSimple>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/reviews/${review_id}`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/reviews/${reviewId}`,
         method: "DELETE",
         format: "json",
         ...params,
@@ -19840,13 +19835,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsListCommentsForReview: (
       owner: string,
       repo: string,
-      pull_number: number,
-      review_id: number,
+      pullNumber: number,
+      reviewId: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<ReviewComment[], BasicError>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/reviews/${review_id}/comments`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/reviews/${reviewId}/comments`,
         method: "GET",
         query: query,
         format: "json",
@@ -19864,13 +19859,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsDismissReview: (
       owner: string,
       repo: string,
-      pull_number: number,
-      review_id: number,
+      pullNumber: number,
+      reviewId: number,
       data: { message: string; event?: string },
       params: RequestParams = {},
     ) =>
       this.request<PullRequestReview, BasicError | ValidationErrorSimple>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/reviews/${review_id}/dismissals`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/reviews/${reviewId}/dismissals`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -19889,13 +19884,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsSubmitReview: (
       owner: string,
       repo: string,
-      pull_number: number,
-      review_id: number,
+      pullNumber: number,
+      reviewId: number,
       data: { body?: string; event: "APPROVE" | "REQUEST_CHANGES" | "COMMENT" },
       params: RequestParams = {},
     ) =>
       this.request<PullRequestReview, BasicError | ValidationErrorSimple>({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/reviews/${review_id}/events`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/reviews/${reviewId}/events`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -19914,7 +19909,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsUpdateBranch: (
       owner: string,
       repo: string,
-      pull_number: number,
+      pullNumber: number,
       data: { expected_head_sha?: string },
       params: RequestParams = {},
     ) =>
@@ -19922,7 +19917,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         { message?: string; url?: string },
         BasicError | { message: string; documentation_url: string } | ValidationError
       >({
-        path: `/repos/${owner}/${repo}/pulls/${pull_number}/update-branch`,
+        path: `/repos/${owner}/${repo}/pulls/${pullNumber}/update-branch`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -20007,9 +20002,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a release asset
      * @request GET:/repos/{owner}/{repo}/releases/assets/{asset_id}
      */
-    reposGetReleaseAsset: (owner: string, repo: string, asset_id: number, params: RequestParams = {}) =>
+    reposGetReleaseAsset: (owner: string, repo: string, assetId: number, params: RequestParams = {}) =>
       this.request<ReleaseAsset, BasicError | { message: string; documentation_url: string }>({
-        path: `/repos/${owner}/${repo}/releases/assets/${asset_id}`,
+        path: `/repos/${owner}/${repo}/releases/assets/${assetId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -20026,12 +20021,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposUpdateReleaseAsset: (
       owner: string,
       repo: string,
-      asset_id: number,
+      assetId: number,
       data: { name?: string; label?: string; state?: string },
       params: RequestParams = {},
     ) =>
       this.request<ReleaseAsset, any>({
-        path: `/repos/${owner}/${repo}/releases/assets/${asset_id}`,
+        path: `/repos/${owner}/${repo}/releases/assets/${assetId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -20047,9 +20042,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a release asset
      * @request DELETE:/repos/{owner}/{repo}/releases/assets/{asset_id}
      */
-    reposDeleteReleaseAsset: (owner: string, repo: string, asset_id: number, params: RequestParams = {}) =>
+    reposDeleteReleaseAsset: (owner: string, repo: string, assetId: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/releases/assets/${asset_id}`,
+        path: `/repos/${owner}/${repo}/releases/assets/${assetId}`,
         method: "DELETE",
         ...params,
       }),
@@ -20094,9 +20089,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a release
      * @request GET:/repos/{owner}/{repo}/releases/{release_id}
      */
-    reposGetRelease: (owner: string, repo: string, release_id: number, params: RequestParams = {}) =>
+    reposGetRelease: (owner: string, repo: string, releaseId: number, params: RequestParams = {}) =>
       this.request<Release, BasicError>({
-        path: `/repos/${owner}/${repo}/releases/${release_id}`,
+        path: `/repos/${owner}/${repo}/releases/${releaseId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -20113,7 +20108,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposUpdateRelease: (
       owner: string,
       repo: string,
-      release_id: number,
+      releaseId: number,
       data: {
         tag_name?: string;
         target_commitish?: string;
@@ -20125,7 +20120,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Release, any>({
-        path: `/repos/${owner}/${repo}/releases/${release_id}`,
+        path: `/repos/${owner}/${repo}/releases/${releaseId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -20141,9 +20136,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a release
      * @request DELETE:/repos/{owner}/{repo}/releases/{release_id}
      */
-    reposDeleteRelease: (owner: string, repo: string, release_id: number, params: RequestParams = {}) =>
+    reposDeleteRelease: (owner: string, repo: string, releaseId: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/repos/${owner}/${repo}/releases/${release_id}`,
+        path: `/repos/${owner}/${repo}/releases/${releaseId}`,
         method: "DELETE",
         ...params,
       }),
@@ -20159,12 +20154,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListReleaseAssets: (
       owner: string,
       repo: string,
-      release_id: number,
+      releaseId: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<ReleaseAsset[], any>({
-        path: `/repos/${owner}/${repo}/releases/${release_id}/assets`,
+        path: `/repos/${owner}/${repo}/releases/${releaseId}/assets`,
         method: "GET",
         query: query,
         format: "json",
@@ -20182,13 +20177,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposUploadReleaseAsset: (
       owner: string,
       repo: string,
-      release_id: number,
+      releaseId: number,
       data: WebhookConfigUrl,
       query?: { name?: string; label?: string },
       params: RequestParams = {},
     ) =>
       this.request<ReleaseAsset, any>({
-        path: `/repos/${owner}/${repo}/releases/${release_id}/assets`,
+        path: `/repos/${owner}/${repo}/releases/${releaseId}/assets`,
         method: "POST",
         query: query,
         body: data,
@@ -20226,9 +20221,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a secret scanning alert
      * @request GET:/repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}
      */
-    secretScanningGetAlert: (owner: string, repo: string, alert_number: AlertNumber, params: RequestParams = {}) =>
+    secretScanningGetAlert: (owner: string, repo: string, alertNumber: AlertNumber, params: RequestParams = {}) =>
       this.request<SecretScanningAlert, void | { code?: string; message?: string; documentation_url?: string }>({
-        path: `/repos/${owner}/${repo}/secret-scanning/alerts/${alert_number}`,
+        path: `/repos/${owner}/${repo}/secret-scanning/alerts/${alertNumber}`,
         method: "GET",
         format: "json",
         ...params,
@@ -20245,12 +20240,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     secretScanningUpdateAlert: (
       owner: string,
       repo: string,
-      alert_number: AlertNumber,
+      alertNumber: AlertNumber,
       data: { state: SecretScanningAlertState; resolution?: SecretScanningAlertResolution },
       params: RequestParams = {},
     ) =>
       this.request<SecretScanningAlert, void | { code?: string; message?: string; documentation_url?: string }>({
-        path: `/repos/${owner}/${repo}/secret-scanning/alerts/${alert_number}`,
+        path: `/repos/${owner}/${repo}/secret-scanning/alerts/${alertNumber}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -20716,13 +20711,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{template_owner}/{template_repo}/generate
      */
     reposCreateUsingTemplate: (
-      template_owner: string,
-      template_repo: string,
+      templateOwner: string,
+      templateRepo: string,
       data: { owner?: string; name: string; description?: string; include_all_branches?: boolean; private?: boolean },
       params: RequestParams = {},
     ) =>
       this.request<Repository, any>({
-        path: `/repos/${template_owner}/${template_repo}/generate`,
+        path: `/repos/${templateOwner}/${templateRepo}/generate`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -20802,11 +20797,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminGetProvisioningInformationForEnterpriseGroup: (
       enterprise: string,
-      scim_group_id: string,
+      scimGroupId: string,
       params: RequestParams = {},
     ) =>
       this.request<ScimEnterpriseGroup, any>({
-        path: `/scim/v2/enterprises/${enterprise}/Groups/${scim_group_id}`,
+        path: `/scim/v2/enterprises/${enterprise}/Groups/${scimGroupId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -20822,12 +20817,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminSetInformationForProvisionedEnterpriseGroup: (
       enterprise: string,
-      scim_group_id: string,
+      scimGroupId: string,
       data: { schemas: string[]; displayName: string; members?: { value: string }[] },
       params: RequestParams = {},
     ) =>
       this.request<ScimEnterpriseGroup, any>({
-        path: `/scim/v2/enterprises/${enterprise}/Groups/${scim_group_id}`,
+        path: `/scim/v2/enterprises/${enterprise}/Groups/${scimGroupId}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -20845,12 +20840,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminUpdateAttributeForEnterpriseGroup: (
       enterprise: string,
-      scim_group_id: string,
+      scimGroupId: string,
       data: { schemas: string[]; Operations: object[] },
       params: RequestParams = {},
     ) =>
       this.request<ScimEnterpriseGroup, any>({
-        path: `/scim/v2/enterprises/${enterprise}/Groups/${scim_group_id}`,
+        path: `/scim/v2/enterprises/${enterprise}/Groups/${scimGroupId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -20868,11 +20863,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminDeleteScimGroupFromEnterprise: (
       enterprise: string,
-      scim_group_id: string,
+      scimGroupId: string,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/scim/v2/enterprises/${enterprise}/Groups/${scim_group_id}`,
+        path: `/scim/v2/enterprises/${enterprise}/Groups/${scimGroupId}`,
         method: "DELETE",
         ...params,
       }),
@@ -20936,11 +20931,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminGetProvisioningInformationForEnterpriseUser: (
       enterprise: string,
-      scim_user_id: string,
+      scimUserId: string,
       params: RequestParams = {},
     ) =>
       this.request<ScimEnterpriseUser, any>({
-        path: `/scim/v2/enterprises/${enterprise}/Users/${scim_user_id}`,
+        path: `/scim/v2/enterprises/${enterprise}/Users/${scimUserId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -20956,7 +20951,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminSetInformationForProvisionedEnterpriseUser: (
       enterprise: string,
-      scim_user_id: string,
+      scimUserId: string,
       data: {
         schemas: string[];
         userName: string;
@@ -20967,7 +20962,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<ScimEnterpriseUser, any>({
-        path: `/scim/v2/enterprises/${enterprise}/Users/${scim_user_id}`,
+        path: `/scim/v2/enterprises/${enterprise}/Users/${scimUserId}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -20985,12 +20980,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminUpdateAttributeForEnterpriseUser: (
       enterprise: string,
-      scim_user_id: string,
+      scimUserId: string,
       data: { schemas: string[]; Operations: object[] },
       params: RequestParams = {},
     ) =>
       this.request<ScimEnterpriseUser, any>({
-        path: `/scim/v2/enterprises/${enterprise}/Users/${scim_user_id}`,
+        path: `/scim/v2/enterprises/${enterprise}/Users/${scimUserId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -21006,9 +21001,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a SCIM user from an enterprise
      * @request DELETE:/scim/v2/enterprises/{enterprise}/Users/{scim_user_id}
      */
-    enterpriseAdminDeleteUserFromEnterprise: (enterprise: string, scim_user_id: string, params: RequestParams = {}) =>
+    enterpriseAdminDeleteUserFromEnterprise: (enterprise: string, scimUserId: string, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/scim/v2/enterprises/${enterprise}/Users/${scim_user_id}`,
+        path: `/scim/v2/enterprises/${enterprise}/Users/${scimUserId}`,
         method: "DELETE",
         ...params,
       }),
@@ -21073,9 +21068,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get SCIM provisioning information for a user
      * @request GET:/scim/v2/organizations/{org}/Users/{scim_user_id}
      */
-    scimGetProvisioningInformationForUser: (org: string, scim_user_id: string, params: RequestParams = {}) =>
+    scimGetProvisioningInformationForUser: (org: string, scimUserId: string, params: RequestParams = {}) =>
       this.request<ScimUser, ScimError>({
-        path: `/scim/v2/organizations/${org}/Users/${scim_user_id}`,
+        path: `/scim/v2/organizations/${org}/Users/${scimUserId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -21091,7 +21086,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     scimSetInformationForProvisionedUser: (
       org: string,
-      scim_user_id: string,
+      scimUserId: string,
       data: {
         schemas?: string[];
         displayName?: string;
@@ -21105,7 +21100,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<ScimUser, ScimError>({
-        path: `/scim/v2/organizations/${org}/Users/${scim_user_id}`,
+        path: `/scim/v2/organizations/${org}/Users/${scimUserId}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -21123,7 +21118,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     scimUpdateAttributeForUser: (
       org: string,
-      scim_user_id: string,
+      scimUserId: string,
       data: {
         schemas?: string[];
         Operations: {
@@ -21144,7 +21139,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<ScimUser, ScimError | BasicError>({
-        path: `/scim/v2/organizations/${org}/Users/${scim_user_id}`,
+        path: `/scim/v2/organizations/${org}/Users/${scimUserId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -21160,9 +21155,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a SCIM user from an organization
      * @request DELETE:/scim/v2/organizations/{org}/Users/{scim_user_id}
      */
-    scimDeleteUserFromOrg: (org: string, scim_user_id: string, params: RequestParams = {}) =>
+    scimDeleteUserFromOrg: (org: string, scimUserId: string, params: RequestParams = {}) =>
       this.request<void, ScimError>({
-        path: `/scim/v2/organizations/${org}/Users/${scim_user_id}`,
+        path: `/scim/v2/organizations/${org}/Users/${scimUserId}`,
         method: "DELETE",
         ...params,
       }),
@@ -21370,9 +21365,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a team (Legacy)
      * @request GET:/teams/{team_id}
      */
-    teamsGetLegacy: (team_id: number, params: RequestParams = {}) =>
+    teamsGetLegacy: (teamId: number, params: RequestParams = {}) =>
       this.request<TeamFull, BasicError>({
-        path: `/teams/${team_id}`,
+        path: `/teams/${teamId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -21387,7 +21382,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/teams/{team_id}
      */
     teamsUpdateLegacy: (
-      team_id: number,
+      teamId: number,
       data: {
         name: string;
         description?: string;
@@ -21398,7 +21393,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<TeamFull, BasicError | ValidationError>({
-        path: `/teams/${team_id}`,
+        path: `/teams/${teamId}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -21414,9 +21409,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a team (Legacy)
      * @request DELETE:/teams/{team_id}
      */
-    teamsDeleteLegacy: (team_id: number, params: RequestParams = {}) =>
+    teamsDeleteLegacy: (teamId: number, params: RequestParams = {}) =>
       this.request<void, BasicError | ValidationError>({
-        path: `/teams/${team_id}`,
+        path: `/teams/${teamId}`,
         method: "DELETE",
         ...params,
       }),
@@ -21430,12 +21425,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/teams/{team_id}/discussions
      */
     teamsListDiscussionsLegacy: (
-      team_id: number,
+      teamId: number,
       query?: { direction?: "asc" | "desc"; per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussion[], any>({
-        path: `/teams/${team_id}/discussions`,
+        path: `/teams/${teamId}/discussions`,
         method: "GET",
         query: query,
         format: "json",
@@ -21451,12 +21446,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/teams/{team_id}/discussions
      */
     teamsCreateDiscussionLegacy: (
-      team_id: number,
+      teamId: number,
       data: { title: string; body: string; private?: boolean },
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussion, any>({
-        path: `/teams/${team_id}/discussions`,
+        path: `/teams/${teamId}/discussions`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -21472,9 +21467,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a discussion (Legacy)
      * @request GET:/teams/{team_id}/discussions/{discussion_number}
      */
-    teamsGetDiscussionLegacy: (team_id: number, discussion_number: number, params: RequestParams = {}) =>
+    teamsGetDiscussionLegacy: (teamId: number, discussionNumber: number, params: RequestParams = {}) =>
       this.request<TeamDiscussion, any>({
-        path: `/teams/${team_id}/discussions/${discussion_number}`,
+        path: `/teams/${teamId}/discussions/${discussionNumber}`,
         method: "GET",
         format: "json",
         ...params,
@@ -21489,13 +21484,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/teams/{team_id}/discussions/{discussion_number}
      */
     teamsUpdateDiscussionLegacy: (
-      team_id: number,
-      discussion_number: number,
+      teamId: number,
+      discussionNumber: number,
       data: { title?: string; body?: string },
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussion, any>({
-        path: `/teams/${team_id}/discussions/${discussion_number}`,
+        path: `/teams/${teamId}/discussions/${discussionNumber}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -21511,9 +21506,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a discussion (Legacy)
      * @request DELETE:/teams/{team_id}/discussions/{discussion_number}
      */
-    teamsDeleteDiscussionLegacy: (team_id: number, discussion_number: number, params: RequestParams = {}) =>
+    teamsDeleteDiscussionLegacy: (teamId: number, discussionNumber: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/teams/${team_id}/discussions/${discussion_number}`,
+        path: `/teams/${teamId}/discussions/${discussionNumber}`,
         method: "DELETE",
         ...params,
       }),
@@ -21527,13 +21522,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/teams/{team_id}/discussions/{discussion_number}/comments
      */
     teamsListDiscussionCommentsLegacy: (
-      team_id: number,
-      discussion_number: number,
+      teamId: number,
+      discussionNumber: number,
       query?: { direction?: "asc" | "desc"; per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussionComment[], any>({
-        path: `/teams/${team_id}/discussions/${discussion_number}/comments`,
+        path: `/teams/${teamId}/discussions/${discussionNumber}/comments`,
         method: "GET",
         query: query,
         format: "json",
@@ -21549,13 +21544,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/teams/{team_id}/discussions/{discussion_number}/comments
      */
     teamsCreateDiscussionCommentLegacy: (
-      team_id: number,
-      discussion_number: number,
+      teamId: number,
+      discussionNumber: number,
       data: { body: string },
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussionComment, any>({
-        path: `/teams/${team_id}/discussions/${discussion_number}/comments`,
+        path: `/teams/${teamId}/discussions/${discussionNumber}/comments`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -21572,13 +21567,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}
      */
     teamsGetDiscussionCommentLegacy: (
-      team_id: number,
-      discussion_number: number,
-      comment_number: number,
+      teamId: number,
+      discussionNumber: number,
+      commentNumber: number,
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussionComment, any>({
-        path: `/teams/${team_id}/discussions/${discussion_number}/comments/${comment_number}`,
+        path: `/teams/${teamId}/discussions/${discussionNumber}/comments/${commentNumber}`,
         method: "GET",
         format: "json",
         ...params,
@@ -21593,14 +21588,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}
      */
     teamsUpdateDiscussionCommentLegacy: (
-      team_id: number,
-      discussion_number: number,
-      comment_number: number,
+      teamId: number,
+      discussionNumber: number,
+      commentNumber: number,
       data: { body: string },
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussionComment, any>({
-        path: `/teams/${team_id}/discussions/${discussion_number}/comments/${comment_number}`,
+        path: `/teams/${teamId}/discussions/${discussionNumber}/comments/${commentNumber}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -21617,13 +21612,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}
      */
     teamsDeleteDiscussionCommentLegacy: (
-      team_id: number,
-      discussion_number: number,
-      comment_number: number,
+      teamId: number,
+      discussionNumber: number,
+      commentNumber: number,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/teams/${team_id}/discussions/${discussion_number}/comments/${comment_number}`,
+        path: `/teams/${teamId}/discussions/${discussionNumber}/comments/${commentNumber}`,
         method: "DELETE",
         ...params,
       }),
@@ -21637,9 +21632,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}/reactions
      */
     reactionsListForTeamDiscussionCommentLegacy: (
-      team_id: number,
-      discussion_number: number,
-      comment_number: number,
+      teamId: number,
+      discussionNumber: number,
+      commentNumber: number,
       query?: {
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: number;
@@ -21648,7 +21643,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Reaction[], any>({
-        path: `/teams/${team_id}/discussions/${discussion_number}/comments/${comment_number}/reactions`,
+        path: `/teams/${teamId}/discussions/${discussionNumber}/comments/${commentNumber}/reactions`,
         method: "GET",
         query: query,
         format: "json",
@@ -21664,14 +21659,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}/reactions
      */
     reactionsCreateForTeamDiscussionCommentLegacy: (
-      team_id: number,
-      discussion_number: number,
-      comment_number: number,
+      teamId: number,
+      discussionNumber: number,
+      commentNumber: number,
       data: { content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes" },
       params: RequestParams = {},
     ) =>
       this.request<Reaction, any>({
-        path: `/teams/${team_id}/discussions/${discussion_number}/comments/${comment_number}/reactions`,
+        path: `/teams/${teamId}/discussions/${discussionNumber}/comments/${commentNumber}/reactions`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -21688,8 +21683,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/teams/{team_id}/discussions/{discussion_number}/reactions
      */
     reactionsListForTeamDiscussionLegacy: (
-      team_id: number,
-      discussion_number: number,
+      teamId: number,
+      discussionNumber: number,
       query?: {
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: number;
@@ -21698,7 +21693,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Reaction[], any>({
-        path: `/teams/${team_id}/discussions/${discussion_number}/reactions`,
+        path: `/teams/${teamId}/discussions/${discussionNumber}/reactions`,
         method: "GET",
         query: query,
         format: "json",
@@ -21714,13 +21709,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/teams/{team_id}/discussions/{discussion_number}/reactions
      */
     reactionsCreateForTeamDiscussionLegacy: (
-      team_id: number,
-      discussion_number: number,
+      teamId: number,
+      discussionNumber: number,
       data: { content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes" },
       params: RequestParams = {},
     ) =>
       this.request<Reaction, any>({
-        path: `/teams/${team_id}/discussions/${discussion_number}/reactions`,
+        path: `/teams/${teamId}/discussions/${discussionNumber}/reactions`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -21737,12 +21732,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/teams/{team_id}/invitations
      */
     teamsListPendingInvitationsLegacy: (
-      team_id: number,
+      teamId: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<OrganizationInvitation[], any>({
-        path: `/teams/${team_id}/invitations`,
+        path: `/teams/${teamId}/invitations`,
         method: "GET",
         query: query,
         format: "json",
@@ -21758,12 +21753,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/teams/{team_id}/members
      */
     teamsListMembersLegacy: (
-      team_id: number,
+      teamId: number,
       query?: { role?: "member" | "maintainer" | "all"; per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<SimpleUser[], BasicError>({
-        path: `/teams/${team_id}/members`,
+        path: `/teams/${teamId}/members`,
         method: "GET",
         query: query,
         format: "json",
@@ -21778,9 +21773,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get team member (Legacy)
      * @request GET:/teams/{team_id}/members/{username}
      */
-    teamsGetMemberLegacy: (team_id: number, username: string, params: RequestParams = {}) =>
+    teamsGetMemberLegacy: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
-        path: `/teams/${team_id}/members/${username}`,
+        path: `/teams/${teamId}/members/${username}`,
         method: "GET",
         ...params,
       }),
@@ -21793,7 +21788,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Add team member (Legacy)
      * @request PUT:/teams/{team_id}/members/{username}
      */
-    teamsAddMemberLegacy: (team_id: number, username: string, params: RequestParams = {}) =>
+    teamsAddMemberLegacy: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<
         void,
         | BasicError
@@ -21804,7 +21799,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             documentation_url?: string;
           }
       >({
-        path: `/teams/${team_id}/members/${username}`,
+        path: `/teams/${teamId}/members/${username}`,
         method: "PUT",
         ...params,
       }),
@@ -21817,9 +21812,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove team member (Legacy)
      * @request DELETE:/teams/{team_id}/members/{username}
      */
-    teamsRemoveMemberLegacy: (team_id: number, username: string, params: RequestParams = {}) =>
+    teamsRemoveMemberLegacy: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
-        path: `/teams/${team_id}/members/${username}`,
+        path: `/teams/${teamId}/members/${username}`,
         method: "DELETE",
         ...params,
       }),
@@ -21832,9 +21827,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get team membership for a user (Legacy)
      * @request GET:/teams/{team_id}/memberships/{username}
      */
-    teamsGetMembershipForUserLegacy: (team_id: number, username: string, params: RequestParams = {}) =>
+    teamsGetMembershipForUserLegacy: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<TeamMembership, BasicError>({
-        path: `/teams/${team_id}/memberships/${username}`,
+        path: `/teams/${teamId}/memberships/${username}`,
         method: "GET",
         format: "json",
         ...params,
@@ -21849,7 +21844,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/teams/{team_id}/memberships/{username}
      */
     teamsAddOrUpdateMembershipForUserLegacy: (
-      team_id: number,
+      teamId: number,
       username: string,
       data: { role?: "member" | "maintainer" },
       params: RequestParams = {},
@@ -21864,7 +21859,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             documentation_url?: string;
           }
       >({
-        path: `/teams/${team_id}/memberships/${username}`,
+        path: `/teams/${teamId}/memberships/${username}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -21880,9 +21875,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove team membership for a user (Legacy)
      * @request DELETE:/teams/{team_id}/memberships/{username}
      */
-    teamsRemoveMembershipForUserLegacy: (team_id: number, username: string, params: RequestParams = {}) =>
+    teamsRemoveMembershipForUserLegacy: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
-        path: `/teams/${team_id}/memberships/${username}`,
+        path: `/teams/${teamId}/memberships/${username}`,
         method: "DELETE",
         ...params,
       }),
@@ -21896,12 +21891,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/teams/{team_id}/projects
      */
     teamsListProjectsLegacy: (
-      team_id: number,
+      teamId: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<TeamProject[], BasicError | { message: string; documentation_url: string }>({
-        path: `/teams/${team_id}/projects`,
+        path: `/teams/${teamId}/projects`,
         method: "GET",
         query: query,
         format: "json",
@@ -21916,9 +21911,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Check team permissions for a project (Legacy)
      * @request GET:/teams/{team_id}/projects/{project_id}
      */
-    teamsCheckPermissionsForProjectLegacy: (team_id: number, project_id: number, params: RequestParams = {}) =>
+    teamsCheckPermissionsForProjectLegacy: (teamId: number, projectId: number, params: RequestParams = {}) =>
       this.request<TeamProject, void | { message: string; documentation_url: string }>({
-        path: `/teams/${team_id}/projects/${project_id}`,
+        path: `/teams/${teamId}/projects/${projectId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -21933,8 +21928,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/teams/{team_id}/projects/{project_id}
      */
     teamsAddOrUpdateProjectPermissionsLegacy: (
-      team_id: number,
-      project_id: number,
+      teamId: number,
+      projectId: number,
       data: { permission?: "read" | "write" | "admin" },
       params: RequestParams = {},
     ) =>
@@ -21945,7 +21940,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         | { message: string; documentation_url: string }
         | ValidationError
       >({
-        path: `/teams/${team_id}/projects/${project_id}`,
+        path: `/teams/${teamId}/projects/${projectId}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -21960,9 +21955,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove a project from a team (Legacy)
      * @request DELETE:/teams/{team_id}/projects/{project_id}
      */
-    teamsRemoveProjectLegacy: (team_id: number, project_id: number, params: RequestParams = {}) =>
+    teamsRemoveProjectLegacy: (teamId: number, projectId: number, params: RequestParams = {}) =>
       this.request<void, BasicError | { message: string; documentation_url: string } | ValidationError>({
-        path: `/teams/${team_id}/projects/${project_id}`,
+        path: `/teams/${teamId}/projects/${projectId}`,
         method: "DELETE",
         ...params,
       }),
@@ -21975,9 +21970,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary List team repositories (Legacy)
      * @request GET:/teams/{team_id}/repos
      */
-    teamsListReposLegacy: (team_id: number, query?: { per_page?: number; page?: number }, params: RequestParams = {}) =>
+    teamsListReposLegacy: (teamId: number, query?: { per_page?: number; page?: number }, params: RequestParams = {}) =>
       this.request<MinimalRepository[], BasicError>({
-        path: `/teams/${team_id}/repos`,
+        path: `/teams/${teamId}/repos`,
         method: "GET",
         query: query,
         format: "json",
@@ -21992,9 +21987,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Check team permissions for a repository (Legacy)
      * @request GET:/teams/{team_id}/repos/{owner}/{repo}
      */
-    teamsCheckPermissionsForRepoLegacy: (team_id: number, owner: string, repo: string, params: RequestParams = {}) =>
+    teamsCheckPermissionsForRepoLegacy: (teamId: number, owner: string, repo: string, params: RequestParams = {}) =>
       this.request<TeamRepository, void>({
-        path: `/teams/${team_id}/repos/${owner}/${repo}`,
+        path: `/teams/${teamId}/repos/${owner}/${repo}`,
         method: "GET",
         format: "json",
         ...params,
@@ -22009,14 +22004,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/teams/{team_id}/repos/{owner}/{repo}
      */
     teamsAddOrUpdateRepoPermissionsLegacy: (
-      team_id: number,
+      teamId: number,
       owner: string,
       repo: string,
       data: { permission?: "pull" | "push" | "admin" },
       params: RequestParams = {},
     ) =>
       this.request<void, BasicError | ValidationError>({
-        path: `/teams/${team_id}/repos/${owner}/${repo}`,
+        path: `/teams/${teamId}/repos/${owner}/${repo}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
@@ -22031,9 +22026,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove a repository from a team (Legacy)
      * @request DELETE:/teams/{team_id}/repos/{owner}/{repo}
      */
-    teamsRemoveRepoLegacy: (team_id: number, owner: string, repo: string, params: RequestParams = {}) =>
+    teamsRemoveRepoLegacy: (teamId: number, owner: string, repo: string, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/teams/${team_id}/repos/${owner}/${repo}`,
+        path: `/teams/${teamId}/repos/${owner}/${repo}`,
         method: "DELETE",
         ...params,
       }),
@@ -22046,9 +22041,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary List IdP groups for a team (Legacy)
      * @request GET:/teams/{team_id}/team-sync/group-mappings
      */
-    teamsListIdpGroupsForLegacy: (team_id: number, params: RequestParams = {}) =>
+    teamsListIdpGroupsForLegacy: (teamId: number, params: RequestParams = {}) =>
       this.request<GroupMapping, BasicError>({
-        path: `/teams/${team_id}/team-sync/group-mappings`,
+        path: `/teams/${teamId}/team-sync/group-mappings`,
         method: "GET",
         format: "json",
         ...params,
@@ -22063,7 +22058,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/teams/{team_id}/team-sync/group-mappings
      */
     teamsCreateOrUpdateIdpGroupConnectionsLegacy: (
-      team_id: number,
+      teamId: number,
       data: {
         groups: {
           group_id: string;
@@ -22078,7 +22073,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<GroupMapping, BasicError | ValidationError>({
-        path: `/teams/${team_id}/team-sync/group-mappings`,
+        path: `/teams/${teamId}/team-sync/group-mappings`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
@@ -22094,9 +22089,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary List child teams (Legacy)
      * @request GET:/teams/{team_id}/teams
      */
-    teamsListChildLegacy: (team_id: number, query?: { per_page?: number; page?: number }, params: RequestParams = {}) =>
+    teamsListChildLegacy: (teamId: number, query?: { per_page?: number; page?: number }, params: RequestParams = {}) =>
       this.request<Team[], BasicError | ValidationError>({
-        path: `/teams/${team_id}/teams`,
+        path: `/teams/${teamId}/teams`,
         method: "GET",
         query: query,
         format: "json",
@@ -22409,9 +22404,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a GPG key for the authenticated user
      * @request GET:/user/gpg_keys/{gpg_key_id}
      */
-    usersGetGpgKeyForAuthenticated: (gpg_key_id: number, params: RequestParams = {}) =>
+    usersGetGpgKeyForAuthenticated: (gpgKeyId: number, params: RequestParams = {}) =>
       this.request<GpgKey, BasicError>({
-        path: `/user/gpg_keys/${gpg_key_id}`,
+        path: `/user/gpg_keys/${gpgKeyId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -22425,9 +22420,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a GPG key for the authenticated user
      * @request DELETE:/user/gpg_keys/{gpg_key_id}
      */
-    usersDeleteGpgKeyForAuthenticated: (gpg_key_id: number, params: RequestParams = {}) =>
+    usersDeleteGpgKeyForAuthenticated: (gpgKeyId: number, params: RequestParams = {}) =>
       this.request<void, BasicError | ValidationError>({
-        path: `/user/gpg_keys/${gpg_key_id}`,
+        path: `/user/gpg_keys/${gpgKeyId}`,
         method: "DELETE",
         ...params,
       }),
@@ -22464,12 +22459,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/installations/{installation_id}/repositories
      */
     appsListInstallationReposForAuthenticatedUser: (
-      installation_id: number,
+      installationId: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<{ total_count: number; repository_selection?: string; repositories: Repository[] }, BasicError>({
-        path: `/user/installations/${installation_id}/repositories`,
+        path: `/user/installations/${installationId}/repositories`,
         method: "GET",
         query: query,
         format: "json",
@@ -22484,9 +22479,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Add a repository to an app installation
      * @request PUT:/user/installations/{installation_id}/repositories/{repository_id}
      */
-    appsAddRepoToInstallation: (installation_id: number, repository_id: number, params: RequestParams = {}) =>
+    appsAddRepoToInstallation: (installationId: number, repositoryId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/user/installations/${installation_id}/repositories/${repository_id}`,
+        path: `/user/installations/${installationId}/repositories/${repositoryId}`,
         method: "PUT",
         ...params,
       }),
@@ -22499,9 +22494,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove a repository from an app installation
      * @request DELETE:/user/installations/{installation_id}/repositories/{repository_id}
      */
-    appsRemoveRepoFromInstallation: (installation_id: number, repository_id: number, params: RequestParams = {}) =>
+    appsRemoveRepoFromInstallation: (installationId: number, repositoryId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/user/installations/${installation_id}/repositories/${repository_id}`,
+        path: `/user/installations/${installationId}/repositories/${repositoryId}`,
         method: "DELETE",
         ...params,
       }),
@@ -22630,9 +22625,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Get a public SSH key for the authenticated user
      * @request GET:/user/keys/{key_id}
      */
-    usersGetPublicSshKeyForAuthenticated: (key_id: number, params: RequestParams = {}) =>
+    usersGetPublicSshKeyForAuthenticated: (keyId: number, params: RequestParams = {}) =>
       this.request<Key, BasicError>({
-        path: `/user/keys/${key_id}`,
+        path: `/user/keys/${keyId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -22646,9 +22641,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a public SSH key for the authenticated user
      * @request DELETE:/user/keys/{key_id}
      */
-    usersDeletePublicSshKeyForAuthenticated: (key_id: number, params: RequestParams = {}) =>
+    usersDeletePublicSshKeyForAuthenticated: (keyId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/user/keys/${key_id}`,
+        path: `/user/keys/${keyId}`,
         method: "DELETE",
         ...params,
       }),
@@ -22799,12 +22794,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/migrations/{migration_id}
      */
     migrationsGetStatusForAuthenticatedUser: (
-      migration_id: number,
+      migrationId: number,
       query?: { exclude?: string[] },
       params: RequestParams = {},
     ) =>
       this.request<Migration, BasicError>({
-        path: `/user/migrations/${migration_id}`,
+        path: `/user/migrations/${migrationId}`,
         method: "GET",
         query: query,
         format: "json",
@@ -22819,9 +22814,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Download a user migration archive
      * @request GET:/user/migrations/{migration_id}/archive
      */
-    migrationsGetArchiveForAuthenticatedUser: (migration_id: number, params: RequestParams = {}) =>
+    migrationsGetArchiveForAuthenticatedUser: (migrationId: number, params: RequestParams = {}) =>
       this.request<any, void | BasicError>({
-        path: `/user/migrations/${migration_id}/archive`,
+        path: `/user/migrations/${migrationId}/archive`,
         method: "GET",
         ...params,
       }),
@@ -22834,9 +22829,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a user migration archive
      * @request DELETE:/user/migrations/{migration_id}/archive
      */
-    migrationsDeleteArchiveForAuthenticatedUser: (migration_id: number, params: RequestParams = {}) =>
+    migrationsDeleteArchiveForAuthenticatedUser: (migrationId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/user/migrations/${migration_id}/archive`,
+        path: `/user/migrations/${migrationId}/archive`,
         method: "DELETE",
         ...params,
       }),
@@ -22849,9 +22844,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Unlock a user repository
      * @request DELETE:/user/migrations/{migration_id}/repos/{repo_name}/lock
      */
-    migrationsUnlockRepoForAuthenticatedUser: (migration_id: number, repo_name: string, params: RequestParams = {}) =>
+    migrationsUnlockRepoForAuthenticatedUser: (migrationId: number, repoName: string, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/user/migrations/${migration_id}/repos/${repo_name}/lock`,
+        path: `/user/migrations/${migrationId}/repos/${repoName}/lock`,
         method: "DELETE",
         ...params,
       }),
@@ -22865,12 +22860,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/migrations/{migration_id}/repositories
      */
     migrationsListReposForUser: (
-      migration_id: number,
+      migrationId: number,
       query?: { per_page?: number; page?: number },
       params: RequestParams = {},
     ) =>
       this.request<MinimalRepository[], BasicError>({
-        path: `/user/migrations/${migration_id}/repositories`,
+        path: `/user/migrations/${migrationId}/repositories`,
         method: "GET",
         query: query,
         format: "json",
@@ -23026,9 +23021,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Accept a repository invitation
      * @request PATCH:/user/repository_invitations/{invitation_id}
      */
-    reposAcceptInvitation: (invitation_id: number, params: RequestParams = {}) =>
+    reposAcceptInvitation: (invitationId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/user/repository_invitations/${invitation_id}`,
+        path: `/user/repository_invitations/${invitationId}`,
         method: "PATCH",
         ...params,
       }),
@@ -23041,9 +23036,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Decline a repository invitation
      * @request DELETE:/user/repository_invitations/{invitation_id}
      */
-    reposDeclineInvitation: (invitation_id: number, params: RequestParams = {}) =>
+    reposDeclineInvitation: (invitationId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
-        path: `/user/repository_invitations/${invitation_id}`,
+        path: `/user/repository_invitations/${invitationId}`,
         method: "DELETE",
         ...params,
       }),
@@ -23298,9 +23293,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Check if a user follows another user
      * @request GET:/users/{username}/following/{target_user}
      */
-    usersCheckFollowingForUser: (username: string, target_user: string, params: RequestParams = {}) =>
+    usersCheckFollowingForUser: (username: string, targetUser: string, params: RequestParams = {}) =>
       this.request<void, void>({
-        path: `/users/${username}/following/${target_user}`,
+        path: `/users/${username}/following/${targetUser}`,
         method: "GET",
         ...params,
       }),

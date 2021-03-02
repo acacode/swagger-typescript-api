@@ -56,6 +56,13 @@
       "required": true,
       "type": "string"
     },
+    "BarBaz": {
+      "description": "bar baz",
+      "in": "path",
+      "name": "bar-baz",
+      "required": true,
+      "type": "string"
+    },
     "PushToken": {
       "description": "Push Token.",
       "in": "body",
@@ -187,6 +194,27 @@
           }
         },
         "tags": ["key", "post"]
+      }
+    },
+    "/key/{bar-baz}/{PK}": {
+      "delete": {
+        "description": "Revoke an Identity (Key) with a revocation secret",
+        "operationId": "key_revoke",
+        "parameters": [
+          {
+            "$ref": "#/parameters/BarBaz"
+          },
+          {
+            "$ref": "#/parameters/PK"
+          },
+          {
+            "description": "revokation secret",
+            "in": "query",
+            "name": "secret",
+            "required": true,
+            "type": "string"
+          }
+        ]
       }
     },
     "/key/{PK}": {

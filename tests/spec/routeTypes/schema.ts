@@ -3795,7 +3795,7 @@ export namespace repos {
    * @duplicate
    */
   export namespace ReposDetail2 {
-    export type RequestParams = { owner: string; repo: string; archive_format: "tarball" | "zipball"; path: string };
+    export type RequestParams = { owner: string; repo: string; archiveFormat: "tarball" | "zipball"; path: string };
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = { Accept?: string };

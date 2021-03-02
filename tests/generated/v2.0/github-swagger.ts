@@ -4527,12 +4527,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposDetail2: (
       owner: string,
       repo: string,
-      archive_format: "tarball" | "zipball",
+      archiveFormat: "tarball" | "zipball",
       path: string,
       params: RequestParams = {},
     ) =>
       this.request<any, void>({
-        path: `/repos/${owner}/${repo}/${archive_format}/${path}`,
+        path: `/repos/${owner}/${repo}/${archiveFormat}/${path}`,
         method: "GET",
         ...params,
       }),

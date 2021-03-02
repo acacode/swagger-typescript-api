@@ -139,7 +139,7 @@ const parseRoute = (route) => {
         ...pathParams,
         {
           $match: match,
-          name: paramName,
+          name: _.camelCase(paramName),
           required: true,
           type: "string",
           description: "",
@@ -162,6 +162,7 @@ const parseRoute = (route) => {
   );
 
   return {
+    originalRoute: route || "",
     route: fixedRoute,
     pathParams,
   };
@@ -204,6 +205,10 @@ const getRouteParams = (routeInfo, pathParams) => {
         ...parameter,
         ...(parameter.schema || {}),
       };
+    }
+
+    if (routeParam.in === "path" && routeParam.name) {
+      routeParam.name = _.camelCase(routeParam.name);
     }
 
     if (routeParam) {

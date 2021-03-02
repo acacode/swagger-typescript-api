@@ -299,9 +299,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeyRevoke
      * @request DELETE:/key/{PK}
      */
-    keyRevoke: (PK: string, query: { secret: string }, params: RequestParams = {}) =>
+    keyRevoke: (pk: string, query: { secret: string }, params: RequestParams = {}) =>
       this.request<{ status?: string }, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "DELETE",
         query: query,
         format: "json",
@@ -315,9 +315,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GetKey
      * @request GET:/key/{PK}
      */
-    getKey: (PK: string, params: RequestParams = {}) =>
+    getKey: (pk: string, params: RequestParams = {}) =>
       this.request<{ since?: string; status?: string; sub?: string }, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "GET",
         format: "json",
         ...params,
@@ -330,9 +330,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name HeadKey
      * @request HEAD:/key/{PK}
      */
-    headKey: (PK: string, params: RequestParams = {}) =>
+    headKey: (pk: string, params: RequestParams = {}) =>
       this.request<void, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "HEAD",
         ...params,
       }),
@@ -344,9 +344,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeyUpdate
      * @request POST:/key/{PK}
      */
-    keyUpdate: (PK: string, body: AuthentiqID, params: RequestParams = {}) =>
+    keyUpdate: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
       this.request<{ status?: string }, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "POST",
         body: body,
         format: "json",
@@ -360,9 +360,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeyBind
      * @request PUT:/key/{PK}
      */
-    keyBind: (PK: string, body: AuthentiqID, params: RequestParams = {}) =>
+    keyBind: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
       this.request<{ status?: string }, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "PUT",
         body: body,
         format: "json",

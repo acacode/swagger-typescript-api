@@ -3829,7 +3829,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
     reposDetail2: (
       owner: string,
       repo: string,
-      archive_format: "tarball" | "zipball",
+      archiveFormat: "tarball" | "zipball",
       path: string,
       params?: RequestParams,
     ) => Promise<HttpResponse<any, void>>;

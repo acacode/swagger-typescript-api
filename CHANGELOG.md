@@ -1,5 +1,9 @@
 # next release  
 
+
+Fixes:  
+- Bug with `kebab-case` path params (issue #184, thanks @Mr-sgreen)  
+
 # 6.0.0  
 
 BREAKING_CHANGES:  

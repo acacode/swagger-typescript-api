@@ -653,9 +653,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/dashboards/{dashboard_id}/blocks
      * @secure
      */
-    allBlocks: (username: string, dashboard_id: string, params: RequestParams = {}) =>
+    allBlocks: (username: string, dashboardId: string, params: RequestParams = {}) =>
       this.request<Block[], void>({
-        path: `/${username}/dashboards/${dashboard_id}/blocks`,
+        path: `/${username}/dashboards/${dashboardId}/blocks`,
         method: "GET",
         secure: true,
         format: "json",
@@ -671,9 +671,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/dashboards/{dashboard_id}/blocks
      * @secure
      */
-    createBlock: (username: string, dashboard_id: string, block: Block, params: RequestParams = {}) =>
+    createBlock: (username: string, dashboardId: string, block: Block, params: RequestParams = {}) =>
       this.request<Block, void>({
-        path: `/${username}/dashboards/${dashboard_id}/blocks`,
+        path: `/${username}/dashboards/${dashboardId}/blocks`,
         method: "POST",
         body: block,
         secure: true,
@@ -691,9 +691,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/{username}/dashboards/{dashboard_id}/blocks/{id}
      * @secure
      */
-    destroyBlock: (username: string, dashboard_id: string, id: string, params: RequestParams = {}) =>
+    destroyBlock: (username: string, dashboardId: string, id: string, params: RequestParams = {}) =>
       this.request<string, void>({
-        path: `/${username}/dashboards/${dashboard_id}/blocks/${id}`,
+        path: `/${username}/dashboards/${dashboardId}/blocks/${id}`,
         method: "DELETE",
         secure: true,
         format: "json",
@@ -709,9 +709,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/dashboards/{dashboard_id}/blocks/{id}
      * @secure
      */
-    getBlock: (username: string, dashboard_id: string, id: string, params: RequestParams = {}) =>
+    getBlock: (username: string, dashboardId: string, id: string, params: RequestParams = {}) =>
       this.request<Block, void>({
-        path: `/${username}/dashboards/${dashboard_id}/blocks/${id}`,
+        path: `/${username}/dashboards/${dashboardId}/blocks/${id}`,
         method: "GET",
         secure: true,
         format: "json",
@@ -729,7 +729,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     updateBlock: (
       username: string,
-      dashboard_id: string,
+      dashboardId: string,
       id: string,
       block: {
         block_feeds?: { feed_id?: string; group_id?: string }[];
@@ -747,7 +747,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Block, void>({
-        path: `/${username}/dashboards/${dashboard_id}/blocks/${id}`,
+        path: `/${username}/dashboards/${dashboardId}/blocks/${id}`,
         method: "PATCH",
         body: block,
         secure: true,
@@ -767,7 +767,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     replaceBlock: (
       username: string,
-      dashboard_id: string,
+      dashboardId: string,
       id: string,
       block: {
         block_feeds?: { feed_id?: string; group_id?: string }[];
@@ -785,7 +785,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Block, void>({
-        path: `/${username}/dashboards/${dashboard_id}/blocks/${id}`,
+        path: `/${username}/dashboards/${dashboardId}/blocks/${id}`,
         method: "PUT",
         body: block,
         secure: true,
@@ -928,9 +928,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/{username}/feeds/{feed_key}
      * @secure
      */
-    destroyFeed: (username: string, feed_key: string, params: RequestParams = {}) =>
+    destroyFeed: (username: string, feedKey: string, params: RequestParams = {}) =>
       this.request<void, void>({
-        path: `/${username}/feeds/${feed_key}`,
+        path: `/${username}/feeds/${feedKey}`,
         method: "DELETE",
         secure: true,
         ...params,
@@ -945,9 +945,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/feeds/{feed_key}
      * @secure
      */
-    getFeed: (username: string, feed_key: string, params: RequestParams = {}) =>
+    getFeed: (username: string, feedKey: string, params: RequestParams = {}) =>
       this.request<Feed, void>({
-        path: `/${username}/feeds/${feed_key}`,
+        path: `/${username}/feeds/${feedKey}`,
         method: "GET",
         secure: true,
         format: "json",
@@ -965,12 +965,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     updateFeed: (
       username: string,
-      feed_key: string,
+      feedKey: string,
       feed: { description?: string; key?: string; license?: string; name?: string },
       params: RequestParams = {},
     ) =>
       this.request<Feed, void>({
-        path: `/${username}/feeds/${feed_key}`,
+        path: `/${username}/feeds/${feedKey}`,
         method: "PATCH",
         body: feed,
         secure: true,
@@ -990,12 +990,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     replaceFeed: (
       username: string,
-      feed_key: string,
+      feedKey: string,
       feed: { description?: string; key?: string; license?: string; name?: string },
       params: RequestParams = {},
     ) =>
       this.request<Feed, void>({
-        path: `/${username}/feeds/${feed_key}`,
+        path: `/${username}/feeds/${feedKey}`,
         method: "PUT",
         body: feed,
         secure: true,
@@ -1015,12 +1015,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     allData: (
       username: string,
-      feed_key: string,
+      feedKey: string,
       query?: { start_time?: string; end_time?: string; limit?: number; include?: string },
       params: RequestParams = {},
     ) =>
       this.request<DataResponse[], void>({
-        path: `/${username}/feeds/${feed_key}/data`,
+        path: `/${username}/feeds/${feedKey}/data`,
         method: "GET",
         query: query,
         secure: true,
@@ -1039,12 +1039,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     createData: (
       username: string,
-      feed_key: string,
+      feedKey: string,
       datum: { created_at?: string; ele?: string; epoch?: number; lat?: string; lon?: string; value?: string },
       params: RequestParams = {},
     ) =>
       this.request<Data, void>({
-        path: `/${username}/feeds/${feed_key}/data`,
+        path: `/${username}/feeds/${feedKey}/data`,
         method: "POST",
         body: datum,
         secure: true,
@@ -1062,9 +1062,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/feeds/{feed_key}/data/batch
      * @secure
      */
-    batchCreateData: (username: string, feed_key: string, data: Data, params: RequestParams = {}) =>
+    batchCreateData: (username: string, feedKey: string, data: Data, params: RequestParams = {}) =>
       this.request<DataResponse[], void>({
-        path: `/${username}/feeds/${feed_key}/data/batch`,
+        path: `/${username}/feeds/${feedKey}/data/batch`,
         method: "POST",
         body: data,
         secure: true,
@@ -1084,7 +1084,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     chartData: (
       username: string,
-      feed_key: string,
+      feedKey: string,
       query?: { start_time?: string; end_time?: string; resolution?: number; hours?: number },
       params: RequestParams = {},
     ) =>
@@ -1097,7 +1097,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         },
         void
       >({
-        path: `/${username}/feeds/${feed_key}/data/chart`,
+        path: `/${username}/feeds/${feedKey}/data/chart`,
         method: "GET",
         query: query,
         secure: true,
@@ -1114,9 +1114,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/feeds/{feed_key}/data/first
      * @secure
      */
-    firstData: (username: string, feed_key: string, query?: { include?: string }, params: RequestParams = {}) =>
+    firstData: (username: string, feedKey: string, query?: { include?: string }, params: RequestParams = {}) =>
       this.request<DataResponse, void>({
-        path: `/${username}/feeds/${feed_key}/data/first`,
+        path: `/${username}/feeds/${feedKey}/data/first`,
         method: "GET",
         query: query,
         secure: true,
@@ -1134,9 +1134,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/feeds/{feed_key}/data/last
      * @secure
      */
-    lastData: (username: string, feed_key: string, query?: { include?: string }, params: RequestParams = {}) =>
+    lastData: (username: string, feedKey: string, query?: { include?: string }, params: RequestParams = {}) =>
       this.request<DataResponse, void>({
-        path: `/${username}/feeds/${feed_key}/data/last`,
+        path: `/${username}/feeds/${feedKey}/data/last`,
         method: "GET",
         query: query,
         secure: true,
@@ -1154,9 +1154,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/feeds/{feed_key}/data/next
      * @secure
      */
-    nextData: (username: string, feed_key: string, query?: { include?: string }, params: RequestParams = {}) =>
+    nextData: (username: string, feedKey: string, query?: { include?: string }, params: RequestParams = {}) =>
       this.request<DataResponse, void>({
-        path: `/${username}/feeds/${feed_key}/data/next`,
+        path: `/${username}/feeds/${feedKey}/data/next`,
         method: "GET",
         query: query,
         secure: true,
@@ -1174,9 +1174,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/feeds/{feed_key}/data/previous
      * @secure
      */
-    previousData: (username: string, feed_key: string, query?: { include?: string }, params: RequestParams = {}) =>
+    previousData: (username: string, feedKey: string, query?: { include?: string }, params: RequestParams = {}) =>
       this.request<DataResponse, void>({
-        path: `/${username}/feeds/${feed_key}/data/previous`,
+        path: `/${username}/feeds/${feedKey}/data/previous`,
         method: "GET",
         query: query,
         secure: true,
@@ -1194,9 +1194,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/feeds/{feed_key}/data/retain
      * @secure
      */
-    retainData: (username: string, feed_key: string, params: RequestParams = {}) =>
+    retainData: (username: string, feedKey: string, params: RequestParams = {}) =>
       this.request<string, void>({
-        path: `/${username}/feeds/${feed_key}/data/retain`,
+        path: `/${username}/feeds/${feedKey}/data/retain`,
         method: "GET",
         secure: true,
         type: ContentType.Json,
@@ -1212,9 +1212,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/{username}/feeds/{feed_key}/data/{id}
      * @secure
      */
-    destroyData: (username: string, feed_key: string, id: string, params: RequestParams = {}) =>
+    destroyData: (username: string, feedKey: string, id: string, params: RequestParams = {}) =>
       this.request<string, void>({
-        path: `/${username}/feeds/${feed_key}/data/${id}`,
+        path: `/${username}/feeds/${feedKey}/data/${id}`,
         method: "DELETE",
         secure: true,
         format: "json",
@@ -1232,13 +1232,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     getData: (
       username: string,
-      feed_key: string,
+      feedKey: string,
       id: string,
       query?: { include?: string },
       params: RequestParams = {},
     ) =>
       this.request<DataResponse, void>({
-        path: `/${username}/feeds/${feed_key}/data/${id}`,
+        path: `/${username}/feeds/${feedKey}/data/${id}`,
         method: "GET",
         query: query,
         secure: true,
@@ -1257,13 +1257,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     updateData: (
       username: string,
-      feed_key: string,
+      feedKey: string,
       id: string,
       datum: { created_at?: string; ele?: string; epoch?: number; lat?: string; lon?: string; value?: string },
       params: RequestParams = {},
     ) =>
       this.request<DataResponse, void>({
-        path: `/${username}/feeds/${feed_key}/data/${id}`,
+        path: `/${username}/feeds/${feedKey}/data/${id}`,
         method: "PATCH",
         body: datum,
         secure: true,
@@ -1283,13 +1283,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     replaceData: (
       username: string,
-      feed_key: string,
+      feedKey: string,
       id: string,
       datum: { created_at?: string; ele?: string; epoch?: number; lat?: string; lon?: string; value?: string },
       params: RequestParams = {},
     ) =>
       this.request<DataResponse, void>({
-        path: `/${username}/feeds/${feed_key}/data/${id}`,
+        path: `/${username}/feeds/${feedKey}/data/${id}`,
         method: "PUT",
         body: datum,
         secure: true,
@@ -1307,9 +1307,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/feeds/{feed_key}/details
      * @secure
      */
-    getFeedDetails: (username: string, feed_key: string, params: RequestParams = {}) =>
+    getFeedDetails: (username: string, feedKey: string, params: RequestParams = {}) =>
       this.request<Feed, void>({
-        path: `/${username}/feeds/${feed_key}/details`,
+        path: `/${username}/feeds/${feedKey}/details`,
         method: "GET",
         secure: true,
         format: "json",
@@ -1363,9 +1363,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/{username}/groups/{group_key}
      * @secure
      */
-    destroyGroup: (username: string, group_key: string, params: RequestParams = {}) =>
+    destroyGroup: (username: string, groupKey: string, params: RequestParams = {}) =>
       this.request<string, void>({
-        path: `/${username}/groups/${group_key}`,
+        path: `/${username}/groups/${groupKey}`,
         method: "DELETE",
         secure: true,
         format: "json",
@@ -1381,9 +1381,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/groups/{group_key}
      * @secure
      */
-    getGroup: (username: string, group_key: string, params: RequestParams = {}) =>
+    getGroup: (username: string, groupKey: string, params: RequestParams = {}) =>
       this.request<Group, void>({
-        path: `/${username}/groups/${group_key}`,
+        path: `/${username}/groups/${groupKey}`,
         method: "GET",
         secure: true,
         format: "json",
@@ -1401,12 +1401,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     updateGroup: (
       username: string,
-      group_key: string,
+      groupKey: string,
       group: { description?: string; key?: string; name?: string },
       params: RequestParams = {},
     ) =>
       this.request<Group, void>({
-        path: `/${username}/groups/${group_key}`,
+        path: `/${username}/groups/${groupKey}`,
         method: "PATCH",
         body: group,
         secure: true,
@@ -1426,12 +1426,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     replaceGroup: (
       username: string,
-      group_key: string,
+      groupKey: string,
       group: { description?: string; key?: string; name?: string },
       params: RequestParams = {},
     ) =>
       this.request<Group, void>({
-        path: `/${username}/groups/${group_key}`,
+        path: `/${username}/groups/${groupKey}`,
         method: "PUT",
         body: group,
         secure: true,
@@ -1449,9 +1449,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/groups/{group_key}/add
      * @secure
      */
-    addFeedToGroup: (group_key: string, username: string, query?: { feed_key?: string }, params: RequestParams = {}) =>
+    addFeedToGroup: (groupKey: string, username: string, query?: { feed_key?: string }, params: RequestParams = {}) =>
       this.request<Group, void>({
-        path: `/${username}/groups/${group_key}/add`,
+        path: `/${username}/groups/${groupKey}/add`,
         method: "POST",
         query: query,
         secure: true,
@@ -1470,7 +1470,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     createGroupData: (
       username: string,
-      group_key: string,
+      groupKey: string,
       group_feed_data: {
         created_at?: string;
         feeds: { key: string; value: string }[];
@@ -1479,7 +1479,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<DataResponse[], void>({
-        path: `/${username}/groups/${group_key}/data`,
+        path: `/${username}/groups/${groupKey}/data`,
         method: "POST",
         body: group_feed_data,
         secure: true,
@@ -1497,9 +1497,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/groups/{group_key}/feeds
      * @secure
      */
-    allGroupFeeds: (group_key: string, username: string, params: RequestParams = {}) =>
+    allGroupFeeds: (groupKey: string, username: string, params: RequestParams = {}) =>
       this.request<Feed[], void>({
-        path: `/${username}/groups/${group_key}/feeds`,
+        path: `/${username}/groups/${groupKey}/feeds`,
         method: "GET",
         secure: true,
         format: "json",
@@ -1517,12 +1517,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     createGroupFeed: (
       username: string,
-      group_key: string,
+      groupKey: string,
       feed: { description?: string; key?: string; license?: string; name?: string },
       params: RequestParams = {},
     ) =>
       this.request<Feed, void>({
-        path: `/${username}/groups/${group_key}/feeds`,
+        path: `/${username}/groups/${groupKey}/feeds`,
         method: "POST",
         body: feed,
         secure: true,
@@ -1542,13 +1542,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     allGroupFeedData: (
       username: string,
-      group_key: string,
-      feed_key: string,
+      groupKey: string,
+      feedKey: string,
       query?: { start_time?: string; end_time?: string; limit?: number },
       params: RequestParams = {},
     ) =>
       this.request<DataResponse[], void>({
-        path: `/${username}/groups/${group_key}/feeds/${feed_key}/data`,
+        path: `/${username}/groups/${groupKey}/feeds/${feedKey}/data`,
         method: "GET",
         query: query,
         secure: true,
@@ -1567,13 +1567,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     createGroupFeedData: (
       username: string,
-      group_key: string,
-      feed_key: string,
+      groupKey: string,
+      feedKey: string,
       datum: { created_at?: string; ele?: string; epoch?: number; lat?: string; lon?: string; value?: string },
       params: RequestParams = {},
     ) =>
       this.request<DataResponse, void>({
-        path: `/${username}/groups/${group_key}/feeds/${feed_key}/data`,
+        path: `/${username}/groups/${groupKey}/feeds/${feedKey}/data`,
         method: "POST",
         body: datum,
         secure: true,
@@ -1593,13 +1593,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     batchCreateGroupFeedData: (
       username: string,
-      group_key: string,
-      feed_key: string,
+      groupKey: string,
+      feedKey: string,
       data: { created_at?: string; ele?: string; epoch?: number; lat?: string; lon?: string; value?: string }[],
       params: RequestParams = {},
     ) =>
       this.request<DataResponse[], void>({
-        path: `/${username}/groups/${group_key}/feeds/${feed_key}/data/batch`,
+        path: `/${username}/groups/${groupKey}/feeds/${feedKey}/data/batch`,
         method: "POST",
         body: data,
         secure: true,
@@ -1618,13 +1618,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     removeFeedFromGroup: (
-      group_key: string,
+      groupKey: string,
       username: string,
       query?: { feed_key?: string },
       params: RequestParams = {},
     ) =>
       this.request<Group, void>({
-        path: `/${username}/groups/${group_key}/remove`,
+        path: `/${username}/groups/${groupKey}/remove`,
         method: "POST",
         query: query,
         secure: true,
@@ -1887,9 +1887,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/{type}/{type_id}/acl
      * @secure
      */
-    allPermissions: (username: string, type: string, type_id: string, params: RequestParams = {}) =>
+    allPermissions: (username: string, type: string, typeId: string, params: RequestParams = {}) =>
       this.request<Permission[], void>({
-        path: `/${username}/${type}/${type_id}/acl`,
+        path: `/${username}/${type}/${typeId}/acl`,
         method: "GET",
         secure: true,
         format: "json",
@@ -1908,12 +1908,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     createPermission: (
       username: string,
       type: string,
-      type_id: string,
+      typeId: string,
       permission: Permission,
       params: RequestParams = {},
     ) =>
       this.request<Permission, void>({
-        path: `/${username}/${type}/${type_id}/acl`,
+        path: `/${username}/${type}/${typeId}/acl`,
         method: "POST",
         body: permission,
         secure: true,
@@ -1931,9 +1931,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/{username}/{type}/{type_id}/acl/{id}
      * @secure
      */
-    destroyPermission: (username: string, type: string, type_id: string, id: string, params: RequestParams = {}) =>
+    destroyPermission: (username: string, type: string, typeId: string, id: string, params: RequestParams = {}) =>
       this.request<string, void>({
-        path: `/${username}/${type}/${type_id}/acl/${id}`,
+        path: `/${username}/${type}/${typeId}/acl/${id}`,
         method: "DELETE",
         secure: true,
         format: "json",
@@ -1949,9 +1949,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/{type}/{type_id}/acl/{id}
      * @secure
      */
-    getPermission: (username: string, type: string, type_id: string, id: string, params: RequestParams = {}) =>
+    getPermission: (username: string, type: string, typeId: string, id: string, params: RequestParams = {}) =>
       this.request<Permission, void>({
-        path: `/${username}/${type}/${type_id}/acl/${id}`,
+        path: `/${username}/${type}/${typeId}/acl/${id}`,
         method: "GET",
         secure: true,
         format: "json",
@@ -1970,7 +1970,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     updatePermission: (
       username: string,
       type: string,
-      type_id: string,
+      typeId: string,
       id: string,
       permission: {
         mode?: "r" | "w" | "rw";
@@ -1980,7 +1980,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Permission, void>({
-        path: `/${username}/${type}/${type_id}/acl/${id}`,
+        path: `/${username}/${type}/${typeId}/acl/${id}`,
         method: "PATCH",
         body: permission,
         secure: true,
@@ -2001,7 +2001,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     replacePermission: (
       username: string,
       type: string,
-      type_id: string,
+      typeId: string,
       id: string,
       permission: {
         mode?: "r" | "w" | "rw";
@@ -2011,7 +2011,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Permission, void>({
-        path: `/${username}/${type}/${type_id}/acl/${id}`,
+        path: `/${username}/${type}/${typeId}/acl/${id}`,
         method: "PUT",
         body: permission,
         secure: true,

@@ -2665,9 +2665,9 @@ export class Api extends HttpClient {
        * @originalName reposDetail
        * @duplicate
        */
-      reposDetail2: (owner, repo, archive_format, path, params = {}) =>
+      reposDetail2: (owner, repo, archiveFormat, path, params = {}) =>
         this.request({
-          path: `/repos/${owner}/${repo}/${archive_format}/${path}`,
+          path: `/repos/${owner}/${repo}/${archiveFormat}/${path}`,
           method: "GET",
           ...params,
         }),
