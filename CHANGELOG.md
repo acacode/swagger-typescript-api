@@ -1,5 +1,10 @@
 # next release  
 
+# 6.1.2  
+
+Fixes:  
+- Problems with using both `--axios` and `--modular` options together (TS, `organizeImports` crashed the codegeneration)  
+
 # 6.1.1  
 
 Fixes:  
