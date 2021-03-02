@@ -11,7 +11,7 @@
 
 Generate api via swagger scheme.  
 Supports OA 3.0, 2.0, JSON, yaml  
-Generated api module use [**Fetch Api**](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to make requests.  
+Generated api module use [**Fetch Api**](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) or [**Axios**](https://github.com/axios/axios) to make requests.  
 
 <br>
 <br>

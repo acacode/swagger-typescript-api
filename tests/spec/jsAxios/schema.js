@@ -32,7 +32,9 @@ export class HttpClient {
           ...(requestParams.headers || {}),
         },
         params: query,
+        responseType: format,
         data: body,
+        url: path,
       });
     };
     this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "https://api.github.com" });

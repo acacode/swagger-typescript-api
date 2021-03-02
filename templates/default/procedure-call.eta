@@ -7,6 +7,7 @@ const { type, errorType, contentTypes } = route.response;
 const routeDocs = includeFile("@base/route-docs", { config, route, utils });
 const queryName = (query && query.name) || "query";
 const pathParams = _.values(parameters);
+const isFetchTemplate = config.httpClientType === config.constants.HTTP_CLIENT.FETCH;
 
 const requestConfigParam = {
     name: pathParams.some((pathArg) => pathArg.name === "params") ? "requestParams" : "params",
@@ -51,7 +52,7 @@ const requestContentKind = {
 const responseContentKind = {
     "JSON": '"json"',
     "IMAGE": '"blob"',
-    "FORM_DATA": '"formData"'
+    "FORM_DATA": isFetchTemplate ? '"formData"' : '"document"'
 }
 
 const bodyTmpl = _.get(payload, "name") || null;

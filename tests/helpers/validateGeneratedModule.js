@@ -10,7 +10,7 @@ const compilerOptions = {
   strict: true,
 };
 
-const getDiagnosticsFromPath = pathToFile =>
+const getDiagnosticsFromPath = (pathToFile) =>
   tsc.createProgram([pathToFile], compilerOptions).emit(void 0, void 0, void 0, true).diagnostics;
 // TODO: that's faster but return 0 error kind of "Cannot find name ''"
 // tsc.transpileModule(fs.readFileSync(pathToFile).toString(), {
@@ -35,7 +35,14 @@ module.exports = ({ pathToFile }) => {
     console.error(`${file.fileName} (${line + 1},${character + 1}): ${message}`);
   });
 
-  process.stdout.write(`errors ${diagnostics.length}\r\n`);
+  process.stdout.write(`errors ${diagnostics.length}`);
+
+  if (diagnostics.length) {
+    process.stdout.write(`\r\n`);
+  } else {
+    process.stdout.clearLine(process.stdout);
+    process.stdout.cursorTo(0);
+  }
 
   return diagnostics;
 };

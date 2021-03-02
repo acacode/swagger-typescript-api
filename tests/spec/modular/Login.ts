@@ -26,6 +26,7 @@ export class Login<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       method: "POST",
       query: query,
       body: body,
+      format: "json",
       ...params,
     });
   /**
@@ -39,6 +40,7 @@ export class Login<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     this.request<{ secret?: string; status?: string }, Error>({
       path: `/login`,
       method: "GET",
+      format: "json",
       ...params,
     });
 }

@@ -25,6 +25,7 @@ export class Key<SecurityDataType = unknown> extends HttpClient<SecurityDataType
       path: `/key`,
       method: "DELETE",
       query: query,
+      format: "json",
       ...params,
     });
   /**
@@ -39,6 +40,7 @@ export class Key<SecurityDataType = unknown> extends HttpClient<SecurityDataType
       path: `/key`,
       method: "POST",
       body: body,
+      format: "json",
       ...params,
     });
   /**
@@ -53,6 +55,7 @@ export class Key<SecurityDataType = unknown> extends HttpClient<SecurityDataType
       path: `/key/${pk}`,
       method: "DELETE",
       query: query,
+      format: "json",
       ...params,
     });
   /**
@@ -66,6 +69,7 @@ export class Key<SecurityDataType = unknown> extends HttpClient<SecurityDataType
     this.request<{ since?: string; status?: string; sub?: string }, Error>({
       path: `/key/${pk}`,
       method: "GET",
+      format: "json",
       ...params,
     });
   /**
@@ -93,6 +97,7 @@ export class Key<SecurityDataType = unknown> extends HttpClient<SecurityDataType
       path: `/key/${pk}`,
       method: "POST",
       body: body,
+      format: "json",
       ...params,
     });
   /**
@@ -107,6 +112,7 @@ export class Key<SecurityDataType = unknown> extends HttpClient<SecurityDataType
       path: `/key/${pk}`,
       method: "PUT",
       body: body,
+      format: "json",
       ...params,
     });
 }

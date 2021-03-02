@@ -1434,10 +1434,11 @@ export interface UserUpdate {
 
 export type Users = User[];
 
-export type QueryParamsType = Record<string | number, any>;
-export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";
 
-export interface FullRequestParams extends Omit<RequestInit, "body"> {
+export type QueryParamsType = Record<string | number, any>;
+
+export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "params" | "url" | "responseType"> {
   /** set parameter to `true` for call `securityWorker` for this request */
   secure?: boolean;
   /** request path */
@@ -1447,29 +1448,18 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
   /** query params */
   query?: QueryParamsType;
   /** format of response (i.e. response.json() -> format: "json") */
-  format?: ResponseFormat;
+  format?: ResponseType;
   /** request body */
   body?: unknown;
-  /** base url */
-  baseUrl?: string;
-  /** request cancellation token */
-  cancelToken?: CancelToken;
 }
 
 export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
-export interface ApiConfig<SecurityDataType = unknown> {
-  baseUrl?: string;
-  baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
-  securityWorker?: (securityData: SecurityDataType | null) => Promise<RequestParams | void> | RequestParams | void;
+export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequestConfig, "data" | "cancelToken"> {
+  securityWorker?: (
+    securityData: SecurityDataType | null,
+  ) => Promise<AxiosRequestConfig | void> | AxiosRequestConfig | void;
 }
-
-export interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
-  data: D;
-  error: E;
-}
-
-type CancelToken = Symbol | string | number;
 
 export enum ContentType {
   Json = "application/json",
@@ -1478,214 +1468,113 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "https://api.github.com";
+  private instance: AxiosInstance;
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
-  private abortControllers = new Map<CancelToken, AbortController>();
 
-  private baseApiParams: RequestParams = {
-    credentials: "same-origin",
-    headers: {},
-    redirect: "follow",
-    referrerPolicy: "no-referrer",
-  };
-
-  constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
-    Object.assign(this, apiConfig);
+  constructor({ securityWorker, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
+    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "https://api.github.com" });
+    this.securityWorker = securityWorker;
   }
 
   public setSecurityData = (data: SecurityDataType | null) => {
     this.securityData = data;
   };
 
-  private addQueryParam(query: QueryParamsType, key: string) {
-    const value = query[key];
-
-    return (
-      encodeURIComponent(key) +
-      "=" +
-      encodeURIComponent(Array.isArray(value) ? value.join(",") : typeof value === "number" ? value : `${value}`)
-    );
-  }
-
-  protected toQueryString(rawQuery?: QueryParamsType): string {
-    const query = rawQuery || {};
-    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
-    return keys
-      .map((key) =>
-        typeof query[key] === "object" && !Array.isArray(query[key])
-          ? this.toQueryString(query[key] as QueryParamsType)
-          : this.addQueryParam(query, key),
-      )
-      .join("&");
-  }
-
-  protected addQueryParams(rawQuery?: QueryParamsType): string {
-    const queryString = this.toQueryString(rawQuery);
-    return queryString ? `?${queryString}` : "";
-  }
-
-  private contentFormatters: Record<ContentType, (input: any) => any> = {
-    [ContentType.Json]: (input: any) =>
-      input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
-    [ContentType.FormData]: (input: any) =>
-      Object.keys(input || {}).reduce((data, key) => {
-        data.append(key, input[key]);
-        return data;
-      }, new FormData()),
-    [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
-  };
-
-  private mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
+  private mergeRequestParams(params1: AxiosRequestConfig, params2?: AxiosRequestConfig): AxiosRequestConfig {
     return {
-      ...this.baseApiParams,
       ...params1,
       ...(params2 || {}),
       headers: {
-        ...(this.baseApiParams.headers || {}),
         ...(params1.headers || {}),
         ...((params2 && params2.headers) || {}),
       },
     };
   }
 
-  private createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
-    if (this.abortControllers.has(cancelToken)) {
-      const abortController = this.abortControllers.get(cancelToken);
-      if (abortController) {
-        return abortController.signal;
-      }
-      return void 0;
-    }
-
-    const abortController = new AbortController();
-    this.abortControllers.set(cancelToken, abortController);
-    return abortController.signal;
-  };
-
-  public abortRequest = (cancelToken: CancelToken) => {
-    const abortController = this.abortControllers.get(cancelToken);
-
-    if (abortController) {
-      abortController.abort();
-      this.abortControllers.delete(cancelToken);
-    }
-  };
-
   public request = async <T = any, E = any>({
-    body,
     secure,
     path,
     type,
     query,
     format = "json",
-    baseUrl,
-    cancelToken,
+    body,
     ...params
-  }: FullRequestParams): Promise<HttpResponse<T, E>> => {
+  }: FullRequestParams): Promise<AxiosResponse<T>> => {
     const secureParams = (secure && this.securityWorker && (await this.securityWorker(this.securityData))) || {};
     const requestParams = this.mergeRequestParams(params, secureParams);
-    const queryString = query && this.toQueryString(query);
-    const payloadFormatter = this.contentFormatters[type || ContentType.Json];
 
-    return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
+    return this.instance.request({
       ...requestParams,
       headers: {
         ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
-      body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
-    }).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = (null as unknown) as T;
-      r.error = (null as unknown) as E;
-
-      const data = await response[format]()
-        .then((data) => {
-          if (r.ok) {
-            r.data = data;
-          } else {
-            r.error = data;
-          }
-          return r;
-        })
-        .catch((e) => {
-          r.error = e;
-          return r;
-        });
-
-      if (cancelToken) {
-        this.abortControllers.delete(cancelToken);
-      }
-
-      if (!response.ok) throw data;
-      return data;
+      params: query,
+      responseType: format,
+      data: body,
+      url: path,
     });
   };
 }
 
-/**
- * @title GitHub
- * @version v3
- * @baseUrl https://api.github.com
- * Powerful collaboration, code review, and code management for open source and private projects.
- */
-export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
-  someop = {
-    /**
-     * No description
-     *
-     * @tags someop
-     * @name SomeOp1
-     * @request POST:/someop
-     */
-    someOp1: (
-      data: Events,
-      query?: { queryParam1?: number; queryParam2?: number; queryParam3?: string[] },
-      params: RequestParams = {},
-    ) =>
-      this.request<Events, void>({
-        path: `/someop`,
-        method: "POST",
-        query: query,
-        body: data,
-        format: "json",
-        ...params,
-      }),
+export class Api<SecurityDataType extends unknown> {
+  constructor(private http: HttpClient<SecurityDataType>) {}
 
+  someTest = {
     /**
-     * No description
+     * @description This type should test bug https://github.com/acacode/swagger-typescript-api/issues/156 NOTE: all properties should be required
      *
-     * @tags someop
-     * @name SomeOp
-     * @request POST:/someop/{fooId}/bars/bar-bar
+     * @name SomeTestList
+     * @request GET:/some-test
      */
-    someOp: (
-      fooId: string,
-      data: Events,
-      query?: { page?: number; size?: number; sort?: string[] },
-      params: RequestParams = {},
-    ) =>
-      this.request<Events, void>({
-        path: `/someop/${fooId}/bars/bar-bar`,
-        method: "POST",
-        query: query,
-        body: data,
+    someTestList: (params: RequestParams = {}) =>
+      this.http.request<
+        {
+          user: {
+            foo: number;
+            extra: {
+              id: number;
+              extra: {
+                foo: string;
+                bar: number;
+                baz: string;
+                bad: number;
+                extra: {
+                  foo: string;
+                  bar: number;
+                  baz: string;
+                  bad: number;
+                  extra: {
+                    foo: string;
+                    bar: number;
+                    baz: string;
+                    bad: number;
+                    extra: { foo: string; bar: number; baz: string; bad: number };
+                  };
+                };
+              };
+            };
+          };
+        },
+        any
+      >({
+        path: `/some-test`,
+        method: "GET",
         format: "json",
         ...params,
       }),
   };
-  emojis = {
+  pathParams = {
     /**
      * @description Lists all the emojis available to use on GitHub.
      *
-     * @name EmojisList
-     * @request GET:/emojis
+     * @name PathParamsList
+     * @request GET:/path-params
      */
-    emojisList: (params: RequestParams = {}) =>
-      this.request<Emojis, void>({
-        path: `/emojis`,
+    pathParamsList: (petId: number, params: RequestParams = {}) =>
+      this.http.request<Emojis, void>({
+        path: `/path-params`,
         method: "GET",
         format: "json",
         ...params,
@@ -1699,7 +1588,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/events
      */
     eventsList: (params: RequestParams = {}) =>
-      this.request<Events, void>({
+      this.http.request<Events, void>({
         path: `/events`,
         method: "GET",
         format: "json",
@@ -1714,7 +1603,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/feeds
      */
     feedsList: (params: RequestParams = {}) =>
-      this.request<Feeds, void>({
+      this.http.request<Feeds, void>({
         path: `/feeds`,
         method: "GET",
         format: "json",
@@ -1729,7 +1618,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/gists
      */
     gistsList: (query?: { since?: string }, params: RequestParams = {}) =>
-      this.request<Gists, void>({
+      this.http.request<Gists, void>({
         path: `/gists`,
         method: "GET",
         query: query,
@@ -1744,7 +1633,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/gists
      */
     gistsCreate: (body: PostGist, params: RequestParams = {}) =>
-      this.request<Gist, void>({
+      this.http.request<Gist, void>({
         path: `/gists`,
         method: "POST",
         body: body,
@@ -1760,7 +1649,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/gists/public
      */
     publicList: (query?: { since?: string }, params: RequestParams = {}) =>
-      this.request<Gists, void>({
+      this.http.request<Gists, void>({
         path: `/gists/public`,
         method: "GET",
         query: query,
@@ -1775,7 +1664,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/gists/starred
      */
     starredList: (query?: { since?: string }, params: RequestParams = {}) =>
-      this.request<Gists, void>({
+      this.http.request<Gists, void>({
         path: `/gists/starred`,
         method: "GET",
         query: query,
@@ -1790,7 +1679,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/gists/{id}
      */
     gistsDelete: (id: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/gists/${id}`,
         method: "DELETE",
         ...params,
@@ -1803,7 +1692,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/gists/{id}
      */
     gistsDetail: (id: number, params: RequestParams = {}) =>
-      this.request<Gist, void>({
+      this.http.request<Gist, void>({
         path: `/gists/${id}`,
         method: "GET",
         format: "json",
@@ -1817,7 +1706,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/gists/{id}
      */
     gistsPartialUpdate: (id: number, body: PatchGist, params: RequestParams = {}) =>
-      this.request<Gist, void>({
+      this.http.request<Gist, void>({
         path: `/gists/${id}`,
         method: "PATCH",
         body: body,
@@ -1833,7 +1722,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/gists/{id}/comments
      */
     commentsDetail: (id: number, params: RequestParams = {}) =>
-      this.request<Comments, void>({
+      this.http.request<Comments, void>({
         path: `/gists/${id}/comments`,
         method: "GET",
         format: "json",
@@ -1847,7 +1736,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/gists/{id}/comments
      */
     commentsCreate: (id: number, body: CommentBody, params: RequestParams = {}) =>
-      this.request<Comment, void>({
+      this.http.request<Comment, void>({
         path: `/gists/${id}/comments`,
         method: "POST",
         body: body,
@@ -1862,7 +1751,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/gists/{id}/comments/{commentId}
      */
     commentsDelete: (id: number, commentId: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/gists/${id}/comments/${commentId}`,
         method: "DELETE",
         ...params,
@@ -1877,7 +1766,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     commentsDetail2: (id: number, commentId: number, params: RequestParams = {}) =>
-      this.request<Comment, void>({
+      this.http.request<Comment, void>({
         path: `/gists/${id}/comments/${commentId}`,
         method: "GET",
         format: "json",
@@ -1891,7 +1780,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/gists/{id}/comments/{commentId}
      */
     commentsPartialUpdate: (id: number, commentId: number, body: Comment, params: RequestParams = {}) =>
-      this.request<Comment, void>({
+      this.http.request<Comment, void>({
         path: `/gists/${id}/comments/${commentId}`,
         method: "PATCH",
         body: body,
@@ -1907,7 +1796,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/gists/{id}/forks
      */
     forksCreate: (id: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/gists/${id}/forks`,
         method: "POST",
         ...params,
@@ -1920,7 +1809,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/gists/{id}/star
      */
     starDelete: (id: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/gists/${id}/star`,
         method: "DELETE",
         ...params,
@@ -1933,7 +1822,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/gists/{id}/star
      */
     starDetail: (id: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/gists/${id}/star`,
         method: "GET",
         ...params,
@@ -1946,7 +1835,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/gists/{id}/star
      */
     starUpdate: (id: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/gists/${id}/star`,
         method: "PUT",
         ...params,
@@ -1960,7 +1849,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/gitignore/templates
      */
     templatesList: (params: RequestParams = {}) =>
-      this.request<Gitignore, void>({
+      this.http.request<Gitignore, void>({
         path: `/gitignore/templates`,
         method: "GET",
         format: "json",
@@ -1974,7 +1863,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/gitignore/templates/{language}
      */
     templatesDetail: (language: string, params: RequestParams = {}) =>
-      this.request<GitignoreLang, void>({
+      this.http.request<GitignoreLang, void>({
         path: `/gitignore/templates/${language}`,
         method: "GET",
         format: "json",
@@ -1999,7 +1888,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<Issues, void>({
+      this.http.request<Issues, void>({
         path: `/issues`,
         method: "GET",
         query: query,
@@ -2021,7 +1910,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repository: string,
       params: RequestParams = {},
     ) =>
-      this.request<SearchIssuesByKeyword, void>({
+      this.http.request<SearchIssuesByKeyword, void>({
         path: `/legacy/issues/search/${owner}/${repository}/${state}/${keyword}`,
         method: "GET",
         format: "json",
@@ -2039,7 +1928,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: { order?: "desc" | "asc"; language?: string; start_page?: string; sort?: "updated" | "stars" | "forks" },
       params: RequestParams = {},
     ) =>
-      this.request<SearchRepositoriesByKeyword, void>({
+      this.http.request<SearchRepositoriesByKeyword, void>({
         path: `/legacy/repos/search/${keyword}`,
         method: "GET",
         query: query,
@@ -2054,7 +1943,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/legacy/user/email/{email}
      */
     userEmailDetail: (email: string, params: RequestParams = {}) =>
-      this.request<SearchUserByEmail, void>({
+      this.http.request<SearchUserByEmail, void>({
         path: `/legacy/user/email/${email}`,
         method: "GET",
         format: "json",
@@ -2072,7 +1961,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: { order?: "desc" | "asc"; start_page?: string; sort?: "updated" | "stars" | "forks" },
       params: RequestParams = {},
     ) =>
-      this.request<SearchUsersByKeyword, void>({
+      this.http.request<SearchUsersByKeyword, void>({
         path: `/legacy/user/search/${keyword}`,
         method: "GET",
         query: query,
@@ -2088,7 +1977,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/markdown
      */
     markdownCreate: (body: Markdown, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/markdown`,
         method: "POST",
         body: body,
@@ -2103,7 +1992,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/markdown/raw
      */
     postMarkdown: (params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/markdown/raw`,
         method: "POST",
         ...params,
@@ -2117,7 +2006,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/meta
      */
     metaList: (params: RequestParams = {}) =>
-      this.request<Meta, void>({
+      this.http.request<Meta, void>({
         path: `/meta`,
         method: "GET",
         format: "json",
@@ -2132,7 +2021,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/networks/{owner}/{repo}/events
      */
     eventsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Events, void>({
+      this.http.request<Events, void>({
         path: `/networks/${owner}/${repo}/events`,
         method: "GET",
         format: "json",
@@ -2150,7 +2039,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: { all?: boolean; participating?: boolean; since?: string },
       params: RequestParams = {},
     ) =>
-      this.request<Notifications, void>({
+      this.http.request<Notifications, void>({
         path: `/notifications`,
         method: "GET",
         query: query,
@@ -2165,7 +2054,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/notifications
      */
     notificationsUpdate: (body: NotificationMarkRead, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/notifications`,
         method: "PUT",
         body: body,
@@ -2179,7 +2068,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/notifications/threads/{id}
      */
     threadsDetail: (id: number, params: RequestParams = {}) =>
-      this.request<Notifications, void>({
+      this.http.request<Notifications, void>({
         path: `/notifications/threads/${id}`,
         method: "GET",
         format: "json",
@@ -2193,7 +2082,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/notifications/threads/{id}
      */
     threadsPartialUpdate: (id: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/notifications/threads/${id}`,
         method: "PATCH",
         ...params,
@@ -2206,7 +2095,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/notifications/threads/{id}/subscription
      */
     threadsSubscriptionDelete: (id: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/notifications/threads/${id}/subscription`,
         method: "DELETE",
         ...params,
@@ -2219,7 +2108,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/notifications/threads/{id}/subscription
      */
     threadsSubscriptionDetail: (id: number, params: RequestParams = {}) =>
-      this.request<Subscription, void>({
+      this.http.request<Subscription, void>({
         path: `/notifications/threads/${id}/subscription`,
         method: "GET",
         format: "json",
@@ -2233,7 +2122,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/notifications/threads/{id}/subscription
      */
     threadsSubscriptionUpdate: (id: number, body: PutSubscription, params: RequestParams = {}) =>
-      this.request<Subscription, void>({
+      this.http.request<Subscription, void>({
         path: `/notifications/threads/${id}/subscription`,
         method: "PUT",
         body: body,
@@ -2250,7 +2139,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/orgs/{org}
      */
     orgsDetail: (org: string, params: RequestParams = {}) =>
-      this.request<Organization, void>({
+      this.http.request<Organization, void>({
         path: `/orgs/${org}`,
         method: "GET",
         format: "json",
@@ -2264,7 +2153,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/orgs/{org}
      */
     orgsPartialUpdate: (org: string, body: PatchOrg, params: RequestParams = {}) =>
-      this.request<Organization, void>({
+      this.http.request<Organization, void>({
         path: `/orgs/${org}`,
         method: "PATCH",
         body: body,
@@ -2280,7 +2169,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/orgs/{org}/events
      */
     eventsDetail: (org: string, params: RequestParams = {}) =>
-      this.request<Events, void>({
+      this.http.request<Events, void>({
         path: `/orgs/${org}/events`,
         method: "GET",
         format: "json",
@@ -2305,7 +2194,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<Issues, void>({
+      this.http.request<Issues, void>({
         path: `/orgs/${org}/issues`,
         method: "GET",
         query: query,
@@ -2320,7 +2209,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/orgs/{org}/members
      */
     membersDetail: (org: string, params: RequestParams = {}) =>
-      this.request<Users, void>({
+      this.http.request<Users, void>({
         path: `/orgs/${org}/members`,
         method: "GET",
         format: "json",
@@ -2334,7 +2223,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/orgs/{org}/members/{username}
      */
     membersDelete: (org: string, username: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/orgs/${org}/members/${username}`,
         method: "DELETE",
         ...params,
@@ -2349,7 +2238,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     membersDetail2: (org: string, username: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/orgs/${org}/members/${username}`,
         method: "GET",
         ...params,
@@ -2362,7 +2251,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/orgs/{org}/public_members
      */
     publicMembersDetail: (org: string, params: RequestParams = {}) =>
-      this.request<Users, void>({
+      this.http.request<Users, void>({
         path: `/orgs/${org}/public_members`,
         method: "GET",
         format: "json",
@@ -2376,7 +2265,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/orgs/{org}/public_members/{username}
      */
     publicMembersDelete: (org: string, username: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/orgs/${org}/public_members/${username}`,
         method: "DELETE",
         ...params,
@@ -2391,7 +2280,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     publicMembersDetail2: (org: string, username: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/orgs/${org}/public_members/${username}`,
         method: "GET",
         ...params,
@@ -2404,7 +2293,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/orgs/{org}/public_members/{username}
      */
     publicMembersUpdate: (org: string, username: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/orgs/${org}/public_members/${username}`,
         method: "PUT",
         ...params,
@@ -2421,7 +2310,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: { type?: "all" | "public" | "private" | "forks" | "sources" | "member" },
       params: RequestParams = {},
     ) =>
-      this.request<Repos, void>({
+      this.http.request<Repos, void>({
         path: `/orgs/${org}/repos`,
         method: "GET",
         query: query,
@@ -2436,7 +2325,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/orgs/{org}/repos
      */
     reposCreate: (org: string, body: PostRepo, params: RequestParams = {}) =>
-      this.request<Repos, void>({
+      this.http.request<Repos, void>({
         path: `/orgs/${org}/repos`,
         method: "POST",
         body: body,
@@ -2451,7 +2340,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/orgs/{org}/teams
      */
     teamsDetail: (org: string, params: RequestParams = {}) =>
-      this.request<Teams, void>({
+      this.http.request<Teams, void>({
         path: `/orgs/${org}/teams`,
         method: "GET",
         format: "json",
@@ -2465,7 +2354,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/orgs/{org}/teams
      */
     teamsCreate: (org: string, body: OrgTeamsPost, params: RequestParams = {}) =>
-      this.request<Team, void>({
+      this.http.request<Team, void>({
         path: `/orgs/${org}/teams`,
         method: "POST",
         body: body,
@@ -2482,7 +2371,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/rate_limit
      */
     rateLimitList: (params: RequestParams = {}) =>
-      this.request<RateLimit, void>({
+      this.http.request<RateLimit, void>({
         path: `/rate_limit`,
         method: "GET",
         format: "json",
@@ -2497,7 +2386,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/repos/{owner}/{repo}
      */
     reposDelete: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}`,
         method: "DELETE",
         ...params,
@@ -2510,7 +2399,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}
      */
     reposDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Repo, void>({
+      this.http.request<Repo, void>({
         path: `/repos/${owner}/${repo}`,
         method: "GET",
         format: "json",
@@ -2524,7 +2413,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/repos/{owner}/{repo}
      */
     reposPartialUpdate: (owner: string, repo: string, body: RepoEdit, params: RequestParams = {}) =>
-      this.request<Repo, void>({
+      this.http.request<Repo, void>({
         path: `/repos/${owner}/${repo}`,
         method: "PATCH",
         body: body,
@@ -2540,7 +2429,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/assignees
      */
     assigneesDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Assignees, void>({
+      this.http.request<Assignees, void>({
         path: `/repos/${owner}/${repo}/assignees`,
         method: "GET",
         format: "json",
@@ -2556,7 +2445,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     assigneesDetail2: (owner: string, repo: string, assignee: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/assignees/${assignee}`,
         method: "GET",
         ...params,
@@ -2569,7 +2458,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/branches
      */
     branchesDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Branches, void>({
+      this.http.request<Branches, void>({
         path: `/repos/${owner}/${repo}/branches`,
         method: "GET",
         format: "json",
@@ -2585,7 +2474,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     branchesDetail2: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
-      this.request<Branch, void>({
+      this.http.request<Branch, void>({
         path: `/repos/${owner}/${repo}/branches/${branch}`,
         method: "GET",
         format: "json",
@@ -2599,7 +2488,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/collaborators
      */
     collaboratorsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Users, void>({
+      this.http.request<Users, void>({
         path: `/repos/${owner}/${repo}/collaborators`,
         method: "GET",
         format: "json",
@@ -2613,7 +2502,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/repos/{owner}/{repo}/collaborators/{user}
      */
     collaboratorsDelete: (owner: string, repo: string, user: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/collaborators/${user}`,
         method: "DELETE",
         ...params,
@@ -2628,7 +2517,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     collaboratorsDetail2: (owner: string, repo: string, user: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/collaborators/${user}`,
         method: "GET",
         ...params,
@@ -2641,7 +2530,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/repos/{owner}/{repo}/collaborators/{user}
      */
     collaboratorsUpdate: (owner: string, repo: string, user: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/collaborators/${user}`,
         method: "PUT",
         ...params,
@@ -2654,7 +2543,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/comments
      */
     commentsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<RepoComments, void>({
+      this.http.request<RepoComments, void>({
         path: `/repos/${owner}/${repo}/comments`,
         method: "GET",
         format: "json",
@@ -2668,7 +2557,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/repos/{owner}/{repo}/comments/{commentId}
      */
     commentsDelete: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/comments/${commentId}`,
         method: "DELETE",
         ...params,
@@ -2683,7 +2572,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     commentsDetail2: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
-      this.request<CommitComment, void>({
+      this.http.request<CommitComment, void>({
         path: `/repos/${owner}/${repo}/comments/${commentId}`,
         method: "GET",
         format: "json",
@@ -2703,7 +2592,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       body: CommentBody,
       params: RequestParams = {},
     ) =>
-      this.request<CommitComment, void>({
+      this.http.request<CommitComment, void>({
         path: `/repos/${owner}/${repo}/comments/${commentId}`,
         method: "PATCH",
         body: body,
@@ -2723,7 +2612,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: { since?: string; sha?: string; path?: string; author?: string; until?: string },
       params: RequestParams = {},
     ) =>
-      this.request<Commits, void>({
+      this.http.request<Commits, void>({
         path: `/repos/${owner}/${repo}/commits`,
         method: "GET",
         query: query,
@@ -2738,7 +2627,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/commits/{ref}/status
      */
     commitsStatusDetail: (owner: string, repo: string, ref: string, params: RequestParams = {}) =>
-      this.request<RefStatus, void>({
+      this.http.request<RefStatus, void>({
         path: `/repos/${owner}/${repo}/commits/${ref}/status`,
         method: "GET",
         format: "json",
@@ -2754,7 +2643,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     commitsDetail2: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
-      this.request<Commit, void>({
+      this.http.request<Commit, void>({
         path: `/repos/${owner}/${repo}/commits/${shaCode}`,
         method: "GET",
         format: "json",
@@ -2768,7 +2657,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/commits/{shaCode}/comments
      */
     commitsCommentsDetail: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
-      this.request<RepoComments, void>({
+      this.http.request<RepoComments, void>({
         path: `/repos/${owner}/${repo}/commits/${shaCode}/comments`,
         method: "GET",
         format: "json",
@@ -2788,7 +2677,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       body: CommitCommentBody,
       params: RequestParams = {},
     ) =>
-      this.request<CommitComment, void>({
+      this.http.request<CommitComment, void>({
         path: `/repos/${owner}/${repo}/commits/${shaCode}/comments`,
         method: "POST",
         body: body,
@@ -2804,7 +2693,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/compare/{baseId}...{headId}
      */
     compareDetail: (owner: string, repo: string, baseId: string, headId: string, params: RequestParams = {}) =>
-      this.request<CompareCommits, void>({
+      this.http.request<CompareCommits, void>({
         path: `/repos/${owner}/${repo}/compare/${baseId}...${headId}`,
         method: "GET",
         format: "json",
@@ -2818,7 +2707,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/repos/{owner}/{repo}/contents/{path}
      */
     contentsDelete: (owner: string, repo: string, path: string, body: DeleteFileBody, params: RequestParams = {}) =>
-      this.request<DeleteFile, void>({
+      this.http.request<DeleteFile, void>({
         path: `/repos/${owner}/${repo}/contents/${path}`,
         method: "DELETE",
         body: body,
@@ -2840,7 +2729,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: { path?: string; ref?: string },
       params: RequestParams = {},
     ) =>
-      this.request<ContentsPath, void>({
+      this.http.request<ContentsPath, void>({
         path: `/repos/${owner}/${repo}/contents/${path}`,
         method: "GET",
         query: query,
@@ -2855,7 +2744,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/repos/{owner}/{repo}/contents/{path}
      */
     contentsUpdate: (owner: string, repo: string, path: string, body: CreateFileBody, params: RequestParams = {}) =>
-      this.request<CreateFile, void>({
+      this.http.request<CreateFile, void>({
         path: `/repos/${owner}/${repo}/contents/${path}`,
         method: "PUT",
         body: body,
@@ -2871,7 +2760,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/contributors
      */
     contributorsDetail: (owner: string, repo: string, query: { anon: string }, params: RequestParams = {}) =>
-      this.request<Users, void>({
+      this.http.request<Users, void>({
         path: `/repos/${owner}/${repo}/contributors`,
         method: "GET",
         query: query,
@@ -2886,7 +2775,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/deployments
      */
     deploymentsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<RepoDeployments, void>({
+      this.http.request<RepoDeployments, void>({
         path: `/repos/${owner}/${repo}/deployments`,
         method: "GET",
         format: "json",
@@ -2900,7 +2789,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/deployments
      */
     deploymentsCreate: (owner: string, repo: string, body: Deployment, params: RequestParams = {}) =>
-      this.request<DeploymentResp, void>({
+      this.http.request<DeploymentResp, void>({
         path: `/repos/${owner}/${repo}/deployments`,
         method: "POST",
         body: body,
@@ -2916,7 +2805,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/deployments/{id}/statuses
      */
     deploymentsStatusesDetail: (owner: string, repo: string, id: number, params: RequestParams = {}) =>
-      this.request<DeploymentStatuses, void>({
+      this.http.request<DeploymentStatuses, void>({
         path: `/repos/${owner}/${repo}/deployments/${id}/statuses`,
         method: "GET",
         format: "json",
@@ -2936,7 +2825,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       body: DeploymentStatusesCreate,
       params: RequestParams = {},
     ) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/deployments/${id}/statuses`,
         method: "POST",
         body: body,
@@ -2951,7 +2840,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/downloads
      */
     downloadsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Downloads, void>({
+      this.http.request<Downloads, void>({
         path: `/repos/${owner}/${repo}/downloads`,
         method: "GET",
         format: "json",
@@ -2965,7 +2854,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/repos/{owner}/{repo}/downloads/{downloadId}
      */
     downloadsDelete: (owner: string, repo: string, downloadId: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/downloads/${downloadId}`,
         method: "DELETE",
         ...params,
@@ -2980,7 +2869,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     downloadsDetail2: (owner: string, repo: string, downloadId: number, params: RequestParams = {}) =>
-      this.request<Download, void>({
+      this.http.request<Download, void>({
         path: `/repos/${owner}/${repo}/downloads/${downloadId}`,
         method: "GET",
         format: "json",
@@ -2994,7 +2883,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/events
      */
     eventsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Events, void>({
+      this.http.request<Events, void>({
         path: `/repos/${owner}/${repo}/events`,
         method: "GET",
         format: "json",
@@ -3013,7 +2902,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: { sort?: "newes" | "oldes" | "watchers" },
       params: RequestParams = {},
     ) =>
-      this.request<Forks, void>({
+      this.http.request<Forks, void>({
         path: `/repos/${owner}/${repo}/forks`,
         method: "GET",
         query: query,
@@ -3028,7 +2917,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/forks
      */
     forksCreate: (owner: string, repo: string, body: ForkBody, params: RequestParams = {}) =>
-      this.request<Repo, void>({
+      this.http.request<Repo, void>({
         path: `/repos/${owner}/${repo}/forks`,
         method: "POST",
         body: body,
@@ -3044,7 +2933,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/git/blobs
      */
     gitBlobsCreate: (owner: string, repo: string, body: Blob, params: RequestParams = {}) =>
-      this.request<Blobs, void>({
+      this.http.request<Blobs, void>({
         path: `/repos/${owner}/${repo}/git/blobs`,
         method: "POST",
         body: body,
@@ -3060,7 +2949,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/git/blobs/{shaCode}
      */
     gitBlobsDetail: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
-      this.request<Blob, void>({
+      this.http.request<Blob, void>({
         path: `/repos/${owner}/${repo}/git/blobs/${shaCode}`,
         method: "GET",
         format: "json",
@@ -3074,7 +2963,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/git/commits
      */
     gitCommitsCreate: (owner: string, repo: string, body: RepoCommitBody, params: RequestParams = {}) =>
-      this.request<GitCommit, void>({
+      this.http.request<GitCommit, void>({
         path: `/repos/${owner}/${repo}/git/commits`,
         method: "POST",
         body: body,
@@ -3090,7 +2979,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/git/commits/{shaCode}
      */
     gitCommitsDetail: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
-      this.request<RepoCommit, void>({
+      this.http.request<RepoCommit, void>({
         path: `/repos/${owner}/${repo}/git/commits/${shaCode}`,
         method: "GET",
         format: "json",
@@ -3104,7 +2993,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/git/refs
      */
     gitRefsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Refs, void>({
+      this.http.request<Refs, void>({
         path: `/repos/${owner}/${repo}/git/refs`,
         method: "GET",
         format: "json",
@@ -3118,7 +3007,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/git/refs
      */
     gitRefsCreate: (owner: string, repo: string, body: RefsBody, params: RequestParams = {}) =>
-      this.request<HeadBranch, void>({
+      this.http.request<HeadBranch, void>({
         path: `/repos/${owner}/${repo}/git/refs`,
         method: "POST",
         body: body,
@@ -3134,7 +3023,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/repos/{owner}/{repo}/git/refs/{ref}
      */
     gitRefsDelete: (owner: string, repo: string, ref: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/git/refs/${ref}`,
         method: "DELETE",
         ...params,
@@ -3149,7 +3038,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     gitRefsDetail2: (owner: string, repo: string, ref: string, params: RequestParams = {}) =>
-      this.request<HeadBranch, void>({
+      this.http.request<HeadBranch, void>({
         path: `/repos/${owner}/${repo}/git/refs/${ref}`,
         method: "GET",
         format: "json",
@@ -3163,7 +3052,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/repos/{owner}/{repo}/git/refs/{ref}
      */
     gitRefsPartialUpdate: (owner: string, repo: string, ref: string, body: GitRefPatch, params: RequestParams = {}) =>
-      this.request<HeadBranch, void>({
+      this.http.request<HeadBranch, void>({
         path: `/repos/${owner}/${repo}/git/refs/${ref}`,
         method: "PATCH",
         body: body,
@@ -3179,7 +3068,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/git/tags
      */
     gitTagsCreate: (owner: string, repo: string, body: TagBody, params: RequestParams = {}) =>
-      this.request<Tag, void>({
+      this.http.request<Tag, void>({
         path: `/repos/${owner}/${repo}/git/tags`,
         method: "POST",
         body: body,
@@ -3195,7 +3084,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/git/tags/{shaCode}
      */
     gitTagsDetail: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
-      this.request<Tag, void>({
+      this.http.request<Tag, void>({
         path: `/repos/${owner}/${repo}/git/tags/${shaCode}`,
         method: "GET",
         format: "json",
@@ -3209,7 +3098,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/git/trees
      */
     gitTreesCreate: (owner: string, repo: string, body: Tree, params: RequestParams = {}) =>
-      this.request<Trees, void>({
+      this.http.request<Trees, void>({
         path: `/repos/${owner}/${repo}/git/trees`,
         method: "POST",
         body: body,
@@ -3231,7 +3120,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: { recursive?: number },
       params: RequestParams = {},
     ) =>
-      this.request<Tree, void>({
+      this.http.request<Tree, void>({
         path: `/repos/${owner}/${repo}/git/trees/${shaCode}`,
         method: "GET",
         query: query,
@@ -3246,7 +3135,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/hooks
      */
     hooksDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Hook, void>({
+      this.http.request<Hook, void>({
         path: `/repos/${owner}/${repo}/hooks`,
         method: "GET",
         format: "json",
@@ -3260,7 +3149,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/hooks
      */
     hooksCreate: (owner: string, repo: string, body: HookBody, params: RequestParams = {}) =>
-      this.request<Hook, void>({
+      this.http.request<Hook, void>({
         path: `/repos/${owner}/${repo}/hooks`,
         method: "POST",
         body: body,
@@ -3275,7 +3164,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/repos/{owner}/{repo}/hooks/{hookId}
      */
     hooksDelete: (owner: string, repo: string, hookId: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/hooks/${hookId}`,
         method: "DELETE",
         ...params,
@@ -3290,7 +3179,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     hooksDetail2: (owner: string, repo: string, hookId: number, params: RequestParams = {}) =>
-      this.request<Hook, void>({
+      this.http.request<Hook, void>({
         path: `/repos/${owner}/${repo}/hooks/${hookId}`,
         method: "GET",
         format: "json",
@@ -3304,7 +3193,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/repos/{owner}/{repo}/hooks/{hookId}
      */
     hooksPartialUpdate: (owner: string, repo: string, hookId: number, body: HookBody, params: RequestParams = {}) =>
-      this.request<Hook, void>({
+      this.http.request<Hook, void>({
         path: `/repos/${owner}/${repo}/hooks/${hookId}`,
         method: "PATCH",
         body: body,
@@ -3319,7 +3208,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/hooks/{hookId}/tests
      */
     hooksTestsCreate: (owner: string, repo: string, hookId: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/hooks/${hookId}/tests`,
         method: "POST",
         ...params,
@@ -3344,7 +3233,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<Issues, void>({
+      this.http.request<Issues, void>({
         path: `/repos/${owner}/${repo}/issues`,
         method: "GET",
         query: query,
@@ -3359,7 +3248,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/issues
      */
     issuesCreate: (owner: string, repo: string, body: Issue, params: RequestParams = {}) =>
-      this.request<Issue, void>({
+      this.http.request<Issue, void>({
         path: `/repos/${owner}/${repo}/issues`,
         method: "POST",
         body: body,
@@ -3379,7 +3268,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: { direction?: string; sort?: "created" | "updated"; since?: string },
       params: RequestParams = {},
     ) =>
-      this.request<IssuesComments, void>({
+      this.http.request<IssuesComments, void>({
         path: `/repos/${owner}/${repo}/issues/comments`,
         method: "GET",
         query: query,
@@ -3394,7 +3283,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/repos/{owner}/{repo}/issues/comments/{commentId}
      */
     issuesCommentsDelete: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/issues/comments/${commentId}`,
         method: "DELETE",
         ...params,
@@ -3409,7 +3298,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     issuesCommentsDetail2: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
-      this.request<IssuesComment, void>({
+      this.http.request<IssuesComment, void>({
         path: `/repos/${owner}/${repo}/issues/comments/${commentId}`,
         method: "GET",
         format: "json",
@@ -3429,7 +3318,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       body: CommentBody,
       params: RequestParams = {},
     ) =>
-      this.request<IssuesComment, void>({
+      this.http.request<IssuesComment, void>({
         path: `/repos/${owner}/${repo}/issues/comments/${commentId}`,
         method: "PATCH",
         body: body,
@@ -3444,7 +3333,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/issues/events
      */
     issuesEventsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<IssueEvents, void>({
+      this.http.request<IssueEvents, void>({
         path: `/repos/${owner}/${repo}/issues/events`,
         method: "GET",
         format: "json",
@@ -3460,7 +3349,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     issuesEventsDetail2: (owner: string, repo: string, eventId: number, params: RequestParams = {}) =>
-      this.request<IssueEvent, void>({
+      this.http.request<IssueEvent, void>({
         path: `/repos/${owner}/${repo}/issues/events/${eventId}`,
         method: "GET",
         format: "json",
@@ -3476,7 +3365,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     issuesDetail2: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
-      this.request<Issue, void>({
+      this.http.request<Issue, void>({
         path: `/repos/${owner}/${repo}/issues/${number}`,
         method: "GET",
         format: "json",
@@ -3490,7 +3379,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/repos/{owner}/{repo}/issues/{number}
      */
     issuesPartialUpdate: (owner: string, repo: string, number: number, body: Issue, params: RequestParams = {}) =>
-      this.request<Issue, void>({
+      this.http.request<Issue, void>({
         path: `/repos/${owner}/${repo}/issues/${number}`,
         method: "PATCH",
         body: body,
@@ -3507,7 +3396,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     issuesCommentsDetail3: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
-      this.request<IssuesComments, void>({
+      this.http.request<IssuesComments, void>({
         path: `/repos/${owner}/${repo}/issues/${number}/comments`,
         method: "GET",
         format: "json",
@@ -3527,7 +3416,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       body: CommentBody,
       params: RequestParams = {},
     ) =>
-      this.request<IssuesComment, void>({
+      this.http.request<IssuesComment, void>({
         path: `/repos/${owner}/${repo}/issues/${number}/comments`,
         method: "POST",
         body: body,
@@ -3544,7 +3433,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     issuesEventsDetail3: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
-      this.request<IssueEvents, void>({
+      this.http.request<IssueEvents, void>({
         path: `/repos/${owner}/${repo}/issues/${number}/events`,
         method: "GET",
         format: "json",
@@ -3558,7 +3447,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/repos/{owner}/{repo}/issues/{number}/labels
      */
     issuesLabelsDelete: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/issues/${number}/labels`,
         method: "DELETE",
         ...params,
@@ -3571,7 +3460,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/issues/{number}/labels
      */
     issuesLabelsDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
-      this.request<Labels, void>({
+      this.http.request<Labels, void>({
         path: `/repos/${owner}/${repo}/issues/${number}/labels`,
         method: "GET",
         format: "json",
@@ -3585,7 +3474,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/issues/{number}/labels
      */
     issuesLabelsCreate: (owner: string, repo: string, number: number, body: EmailsPost, params: RequestParams = {}) =>
-      this.request<Label, void>({
+      this.http.request<Label, void>({
         path: `/repos/${owner}/${repo}/issues/${number}/labels`,
         method: "POST",
         body: body,
@@ -3600,7 +3489,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/repos/{owner}/{repo}/issues/{number}/labels
      */
     issuesLabelsUpdate: (owner: string, repo: string, number: number, body: EmailsPost, params: RequestParams = {}) =>
-      this.request<Label, void>({
+      this.http.request<Label, void>({
         path: `/repos/${owner}/${repo}/issues/${number}/labels`,
         method: "PUT",
         body: body,
@@ -3617,7 +3506,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     issuesLabelsDelete2: (owner: string, repo: string, number: number, name: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/issues/${number}/labels/${name}`,
         method: "DELETE",
         ...params,
@@ -3630,7 +3519,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/keys
      */
     keysDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Keys, void>({
+      this.http.request<Keys, void>({
         path: `/repos/${owner}/${repo}/keys`,
         method: "GET",
         format: "json",
@@ -3644,7 +3533,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/keys
      */
     keysCreate: (owner: string, repo: string, body: UserKeysPost, params: RequestParams = {}) =>
-      this.request<UserKeysKeyId, void>({
+      this.http.request<UserKeysKeyId, void>({
         path: `/repos/${owner}/${repo}/keys`,
         method: "POST",
         body: body,
@@ -3659,7 +3548,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/repos/{owner}/{repo}/keys/{keyId}
      */
     keysDelete: (owner: string, repo: string, keyId: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/keys/${keyId}`,
         method: "DELETE",
         ...params,
@@ -3674,7 +3563,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     keysDetail2: (owner: string, repo: string, keyId: number, params: RequestParams = {}) =>
-      this.request<UserKeysKeyId, void>({
+      this.http.request<UserKeysKeyId, void>({
         path: `/repos/${owner}/${repo}/keys/${keyId}`,
         method: "GET",
         format: "json",
@@ -3688,7 +3577,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/labels
      */
     labelsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Labels, void>({
+      this.http.request<Labels, void>({
         path: `/repos/${owner}/${repo}/labels`,
         method: "GET",
         format: "json",
@@ -3702,7 +3591,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/labels
      */
     labelsCreate: (owner: string, repo: string, body: EmailsPost, params: RequestParams = {}) =>
-      this.request<Label, void>({
+      this.http.request<Label, void>({
         path: `/repos/${owner}/${repo}/labels`,
         method: "POST",
         body: body,
@@ -3717,7 +3606,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/repos/{owner}/{repo}/labels/{name}
      */
     labelsDelete: (owner: string, repo: string, name: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/labels/${name}`,
         method: "DELETE",
         ...params,
@@ -3732,7 +3621,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     labelsDetail2: (owner: string, repo: string, name: string, params: RequestParams = {}) =>
-      this.request<Label, void>({
+      this.http.request<Label, void>({
         path: `/repos/${owner}/${repo}/labels/${name}`,
         method: "GET",
         format: "json",
@@ -3746,7 +3635,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/repos/{owner}/{repo}/labels/{name}
      */
     labelsPartialUpdate: (owner: string, repo: string, name: string, body: EmailsPost, params: RequestParams = {}) =>
-      this.request<Label, void>({
+      this.http.request<Label, void>({
         path: `/repos/${owner}/${repo}/labels/${name}`,
         method: "PATCH",
         body: body,
@@ -3761,7 +3650,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/languages
      */
     languagesDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Languages, void>({
+      this.http.request<Languages, void>({
         path: `/repos/${owner}/${repo}/languages`,
         method: "GET",
         format: "json",
@@ -3775,7 +3664,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/merges
      */
     mergesCreate: (owner: string, repo: string, body: MergesBody, params: RequestParams = {}) =>
-      this.request<MergesSuccessful, void | MergesConflict>({
+      this.http.request<MergesSuccessful, void | MergesConflict>({
         path: `/repos/${owner}/${repo}/merges`,
         method: "POST",
         body: body,
@@ -3796,7 +3685,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: { state?: "open" | "closed"; direction?: string; sort?: "due_date" | "completeness" },
       params: RequestParams = {},
     ) =>
-      this.request<Milestone, void>({
+      this.http.request<Milestone, void>({
         path: `/repos/${owner}/${repo}/milestones`,
         method: "GET",
         query: query,
@@ -3811,7 +3700,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/milestones
      */
     milestonesCreate: (owner: string, repo: string, body: MilestoneUpdate, params: RequestParams = {}) =>
-      this.request<Milestone, void>({
+      this.http.request<Milestone, void>({
         path: `/repos/${owner}/${repo}/milestones`,
         method: "POST",
         body: body,
@@ -3826,7 +3715,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/repos/{owner}/{repo}/milestones/{number}
      */
     milestonesDelete: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/milestones/${number}`,
         method: "DELETE",
         ...params,
@@ -3841,7 +3730,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     milestonesDetail2: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
-      this.request<Milestone, void>({
+      this.http.request<Milestone, void>({
         path: `/repos/${owner}/${repo}/milestones/${number}`,
         method: "GET",
         format: "json",
@@ -3861,7 +3750,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       body: MilestoneUpdate,
       params: RequestParams = {},
     ) =>
-      this.request<Milestone, void>({
+      this.http.request<Milestone, void>({
         path: `/repos/${owner}/${repo}/milestones/${number}`,
         method: "PATCH",
         body: body,
@@ -3876,7 +3765,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/milestones/{number}/labels
      */
     milestonesLabelsDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
-      this.request<Labels, void>({
+      this.http.request<Labels, void>({
         path: `/repos/${owner}/${repo}/milestones/${number}/labels`,
         method: "GET",
         format: "json",
@@ -3895,7 +3784,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: { all?: boolean; participating?: boolean; since?: string },
       params: RequestParams = {},
     ) =>
-      this.request<Notifications, void>({
+      this.http.request<Notifications, void>({
         path: `/repos/${owner}/${repo}/notifications`,
         method: "GET",
         query: query,
@@ -3910,7 +3799,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/repos/{owner}/{repo}/notifications
      */
     notificationsUpdate: (owner: string, repo: string, body: NotificationMarkRead, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/notifications`,
         method: "PUT",
         body: body,
@@ -3929,7 +3818,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: { state?: "open" | "closed"; head?: string; base?: string },
       params: RequestParams = {},
     ) =>
-      this.request<Pulls, void>({
+      this.http.request<Pulls, void>({
         path: `/repos/${owner}/${repo}/pulls`,
         method: "GET",
         query: query,
@@ -3944,7 +3833,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/pulls
      */
     pullsCreate: (owner: string, repo: string, body: PullsPost, params: RequestParams = {}) =>
-      this.request<Pulls, void>({
+      this.http.request<Pulls, void>({
         path: `/repos/${owner}/${repo}/pulls`,
         method: "POST",
         body: body,
@@ -3965,7 +3854,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: { direction?: string; sort?: "created" | "updated"; since?: string },
       params: RequestParams = {},
     ) =>
-      this.request<IssuesComments, void>({
+      this.http.request<IssuesComments, void>({
         path: `/repos/${owner}/${repo}/pulls/comments`,
         method: "GET",
         query: query,
@@ -3980,7 +3869,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/repos/{owner}/{repo}/pulls/comments/{commentId}
      */
     pullsCommentsDelete: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/pulls/comments/${commentId}`,
         method: "DELETE",
         ...params,
@@ -3995,7 +3884,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     pullsCommentsDetail2: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
-      this.request<PullsComment, void>({
+      this.http.request<PullsComment, void>({
         path: `/repos/${owner}/${repo}/pulls/comments/${commentId}`,
         method: "GET",
         format: "json",
@@ -4015,7 +3904,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       body: CommentBody,
       params: RequestParams = {},
     ) =>
-      this.request<PullsComment, void>({
+      this.http.request<PullsComment, void>({
         path: `/repos/${owner}/${repo}/pulls/comments/${commentId}`,
         method: "PATCH",
         body: body,
@@ -4032,7 +3921,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     pullsDetail2: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
-      this.request<PullRequest, void>({
+      this.http.request<PullRequest, void>({
         path: `/repos/${owner}/${repo}/pulls/${number}`,
         method: "GET",
         format: "json",
@@ -4046,7 +3935,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/repos/{owner}/{repo}/pulls/{number}
      */
     pullsPartialUpdate: (owner: string, repo: string, number: number, body: PullUpdate, params: RequestParams = {}) =>
-      this.request<Repo, void>({
+      this.http.request<Repo, void>({
         path: `/repos/${owner}/${repo}/pulls/${number}`,
         method: "PATCH",
         body: body,
@@ -4064,7 +3953,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     pullsCommentsDetail3: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
-      this.request<PullsComment, void>({
+      this.http.request<PullsComment, void>({
         path: `/repos/${owner}/${repo}/pulls/${number}/comments`,
         method: "GET",
         format: "json",
@@ -4084,7 +3973,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       body: PullsCommentPost,
       params: RequestParams = {},
     ) =>
-      this.request<PullsComment, void>({
+      this.http.request<PullsComment, void>({
         path: `/repos/${owner}/${repo}/pulls/${number}/comments`,
         method: "POST",
         body: body,
@@ -4100,7 +3989,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/commits
      */
     pullsCommitsDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
-      this.request<Commits, void>({
+      this.http.request<Commits, void>({
         path: `/repos/${owner}/${repo}/pulls/${number}/commits`,
         method: "GET",
         format: "json",
@@ -4114,7 +4003,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/files
      */
     pullsFilesDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
-      this.request<Pulls, void>({
+      this.http.request<Pulls, void>({
         path: `/repos/${owner}/${repo}/pulls/${number}/files`,
         method: "GET",
         format: "json",
@@ -4128,7 +4017,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/merge
      */
     pullsMergeDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/pulls/${number}/merge`,
         method: "GET",
         ...params,
@@ -4141,7 +4030,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/repos/{owner}/{repo}/pulls/{number}/merge
      */
     pullsMergeUpdate: (owner: string, repo: string, number: number, body: MergePullBody, params: RequestParams = {}) =>
-      this.request<Merge, void | Merge>({
+      this.http.request<Merge, void | Merge>({
         path: `/repos/${owner}/${repo}/pulls/${number}/merge`,
         method: "PUT",
         body: body,
@@ -4157,7 +4046,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/readme
      */
     readmeDetail: (owner: string, repo: string, query?: { ref?: string }, params: RequestParams = {}) =>
-      this.request<ContentsPath, void>({
+      this.http.request<ContentsPath, void>({
         path: `/repos/${owner}/${repo}/readme`,
         method: "GET",
         query: query,
@@ -4172,7 +4061,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/releases
      */
     releasesDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Releases, void>({
+      this.http.request<Releases, void>({
         path: `/repos/${owner}/${repo}/releases`,
         method: "GET",
         format: "json",
@@ -4186,7 +4075,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/releases
      */
     releasesCreate: (owner: string, repo: string, body: ReleaseCreate, params: RequestParams = {}) =>
-      this.request<Release, void>({
+      this.http.request<Release, void>({
         path: `/repos/${owner}/${repo}/releases`,
         method: "POST",
         body: body,
@@ -4201,7 +4090,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/repos/{owner}/{repo}/releases/assets/{id}
      */
     releasesAssetsDelete: (owner: string, repo: string, id: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/releases/assets/${id}`,
         method: "DELETE",
         ...params,
@@ -4214,7 +4103,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/releases/assets/{id}
      */
     releasesAssetsDetail: (owner: string, repo: string, id: string, params: RequestParams = {}) =>
-      this.request<Asset, void>({
+      this.http.request<Asset, void>({
         path: `/repos/${owner}/${repo}/releases/assets/${id}`,
         method: "GET",
         format: "json",
@@ -4234,7 +4123,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       body: AssetPatch,
       params: RequestParams = {},
     ) =>
-      this.request<Asset, void>({
+      this.http.request<Asset, void>({
         path: `/repos/${owner}/${repo}/releases/assets/${id}`,
         method: "PATCH",
         body: body,
@@ -4250,7 +4139,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/repos/{owner}/{repo}/releases/{id}
      */
     releasesDelete: (owner: string, repo: string, id: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/releases/${id}`,
         method: "DELETE",
         ...params,
@@ -4265,7 +4154,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     releasesDetail2: (owner: string, repo: string, id: string, params: RequestParams = {}) =>
-      this.request<Release, void>({
+      this.http.request<Release, void>({
         path: `/repos/${owner}/${repo}/releases/${id}`,
         method: "GET",
         format: "json",
@@ -4279,7 +4168,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/repos/{owner}/{repo}/releases/{id}
      */
     releasesPartialUpdate: (owner: string, repo: string, id: string, body: ReleaseCreate, params: RequestParams = {}) =>
-      this.request<Release, void>({
+      this.http.request<Release, void>({
         path: `/repos/${owner}/${repo}/releases/${id}`,
         method: "PATCH",
         body: body,
@@ -4296,7 +4185,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     releasesAssetsDetail2: (owner: string, repo: string, id: string, params: RequestParams = {}) =>
-      this.request<Assets, void>({
+      this.http.request<Assets, void>({
         path: `/repos/${owner}/${repo}/releases/${id}/assets`,
         method: "GET",
         format: "json",
@@ -4310,7 +4199,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/stargazers
      */
     stargazersDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Users, void>({
+      this.http.request<Users, void>({
         path: `/repos/${owner}/${repo}/stargazers`,
         method: "GET",
         format: "json",
@@ -4324,7 +4213,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/stats/code_frequency
      */
     statsCodeFrequencyDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<CodeFrequencyStats, void>({
+      this.http.request<CodeFrequencyStats, void>({
         path: `/repos/${owner}/${repo}/stats/code_frequency`,
         method: "GET",
         format: "json",
@@ -4338,7 +4227,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/stats/commit_activity
      */
     statsCommitActivityDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<CommitActivityStats, void>({
+      this.http.request<CommitActivityStats, void>({
         path: `/repos/${owner}/${repo}/stats/commit_activity`,
         method: "GET",
         format: "json",
@@ -4352,7 +4241,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/stats/contributors
      */
     statsContributorsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<ContributorsStats, void>({
+      this.http.request<ContributorsStats, void>({
         path: `/repos/${owner}/${repo}/stats/contributors`,
         method: "GET",
         format: "json",
@@ -4366,7 +4255,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/stats/participation
      */
     statsParticipationDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<ParticipationStats, void>({
+      this.http.request<ParticipationStats, void>({
         path: `/repos/${owner}/${repo}/stats/participation`,
         method: "GET",
         format: "json",
@@ -4380,7 +4269,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/stats/punch_card
      */
     statsPunchCardDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<CodeFrequencyStats, void>({
+      this.http.request<CodeFrequencyStats, void>({
         path: `/repos/${owner}/${repo}/stats/punch_card`,
         method: "GET",
         format: "json",
@@ -4394,7 +4283,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/statuses/{ref}
      */
     statusesDetail: (owner: string, repo: string, ref: string, params: RequestParams = {}) =>
-      this.request<Ref, void>({
+      this.http.request<Ref, void>({
         path: `/repos/${owner}/${repo}/statuses/${ref}`,
         method: "GET",
         format: "json",
@@ -4408,7 +4297,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/repos/{owner}/{repo}/statuses/{ref}
      */
     statusesCreate: (owner: string, repo: string, ref: string, body: HeadBranch, params: RequestParams = {}) =>
-      this.request<Ref, void>({
+      this.http.request<Ref, void>({
         path: `/repos/${owner}/${repo}/statuses/${ref}`,
         method: "POST",
         body: body,
@@ -4424,7 +4313,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/subscribers
      */
     subscribersDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Users, void>({
+      this.http.request<Users, void>({
         path: `/repos/${owner}/${repo}/subscribers`,
         method: "GET",
         format: "json",
@@ -4438,7 +4327,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/repos/{owner}/{repo}/subscription
      */
     subscriptionDelete: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/repos/${owner}/${repo}/subscription`,
         method: "DELETE",
         ...params,
@@ -4451,7 +4340,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/subscription
      */
     subscriptionDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Subscription, void>({
+      this.http.request<Subscription, void>({
         path: `/repos/${owner}/${repo}/subscription`,
         method: "GET",
         format: "json",
@@ -4465,7 +4354,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/repos/{owner}/{repo}/subscription
      */
     subscriptionUpdate: (owner: string, repo: string, body: SubscriptionBody, params: RequestParams = {}) =>
-      this.request<Subscription, void>({
+      this.http.request<Subscription, void>({
         path: `/repos/${owner}/${repo}/subscription`,
         method: "PUT",
         body: body,
@@ -4481,7 +4370,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/tags
      */
     tagsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Tags, void>({
+      this.http.request<Tags, void>({
         path: `/repos/${owner}/${repo}/tags`,
         method: "GET",
         format: "json",
@@ -4495,7 +4384,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/teams
      */
     teamsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Teams, void>({
+      this.http.request<Teams, void>({
         path: `/repos/${owner}/${repo}/teams`,
         method: "GET",
         format: "json",
@@ -4509,7 +4398,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/watchers
      */
     watchersDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<Users, void>({
+      this.http.request<Users, void>({
         path: `/repos/${owner}/${repo}/watchers`,
         method: "GET",
         format: "json",
@@ -4531,7 +4420,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       path: string,
       params: RequestParams = {},
     ) =>
-      this.request<any, void>({
+      this.http.request<any, void>({
         path: `/repos/${owner}/${repo}/${archiveFormat}/${path}`,
         method: "GET",
         ...params,
@@ -4545,7 +4434,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repositories
      */
     repositoriesList: (query?: { since?: string }, params: RequestParams = {}) =>
-      this.request<Repos, void>({
+      this.http.request<Repos, void>({
         path: `/repositories`,
         method: "GET",
         query: query,
@@ -4561,7 +4450,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/search/code
      */
     codeList: (query: { order?: "desc" | "asc"; q: string; sort?: "indexed" }, params: RequestParams = {}) =>
-      this.request<SearchCode, void>({
+      this.http.request<SearchCode, void>({
         path: `/search/code`,
         method: "GET",
         query: query,
@@ -4579,7 +4468,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query: { order?: "desc" | "asc"; q: string; sort?: "updated" | "created" | "comments" },
       params: RequestParams = {},
     ) =>
-      this.request<SearchIssues, void>({
+      this.http.request<SearchIssues, void>({
         path: `/search/issues`,
         method: "GET",
         query: query,
@@ -4597,7 +4486,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query: { order?: "desc" | "asc"; q: string; sort?: "stars" | "forks" | "updated" },
       params: RequestParams = {},
     ) =>
-      this.request<SearchRepositories, void>({
+      this.http.request<SearchRepositories, void>({
         path: `/search/repositories`,
         method: "GET",
         query: query,
@@ -4615,7 +4504,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query: { order?: "desc" | "asc"; q: string; sort?: "followers" | "repositories" | "joined" },
       params: RequestParams = {},
     ) =>
-      this.request<SearchUsers, void>({
+      this.http.request<SearchUsers, void>({
         path: `/search/users`,
         method: "GET",
         query: query,
@@ -4631,7 +4520,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/teams/{teamId}
      */
     teamsDelete: (teamId: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/teams/${teamId}`,
         method: "DELETE",
         ...params,
@@ -4644,7 +4533,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/teams/{teamId}
      */
     teamsDetail: (teamId: number, params: RequestParams = {}) =>
-      this.request<Team, void>({
+      this.http.request<Team, void>({
         path: `/teams/${teamId}`,
         method: "GET",
         format: "json",
@@ -4658,7 +4547,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/teams/{teamId}
      */
     teamsPartialUpdate: (teamId: number, body: EditTeam, params: RequestParams = {}) =>
-      this.request<Team, void>({
+      this.http.request<Team, void>({
         path: `/teams/${teamId}`,
         method: "PATCH",
         body: body,
@@ -4674,7 +4563,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/teams/{teamId}/members
      */
     membersDetail: (teamId: number, params: RequestParams = {}) =>
-      this.request<Users, void>({
+      this.http.request<Users, void>({
         path: `/teams/${teamId}/members`,
         method: "GET",
         format: "json",
@@ -4688,7 +4577,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/teams/{teamId}/members/{username}
      */
     membersDelete: (teamId: number, username: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/teams/${teamId}/members/${username}`,
         method: "DELETE",
         ...params,
@@ -4703,7 +4592,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     membersDetail2: (teamId: number, username: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/teams/${teamId}/members/${username}`,
         method: "GET",
         ...params,
@@ -4716,7 +4605,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/teams/{teamId}/members/{username}
      */
     membersUpdate: (teamId: number, username: string, params: RequestParams = {}) =>
-      this.request<void, void | OrganizationAsTeamMember>({
+      this.http.request<void, void | OrganizationAsTeamMember>({
         path: `/teams/${teamId}/members/${username}`,
         method: "PUT",
         ...params,
@@ -4729,7 +4618,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/teams/{teamId}/memberships/{username}
      */
     membershipsDelete: (teamId: number, username: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/teams/${teamId}/memberships/${username}`,
         method: "DELETE",
         ...params,
@@ -4742,7 +4631,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/teams/{teamId}/memberships/{username}
      */
     membershipsDetail: (teamId: number, username: string, params: RequestParams = {}) =>
-      this.request<TeamMembership, void>({
+      this.http.request<TeamMembership, void>({
         path: `/teams/${teamId}/memberships/${username}`,
         method: "GET",
         format: "json",
@@ -4756,7 +4645,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/teams/{teamId}/memberships/{username}
      */
     membershipsUpdate: (teamId: number, username: string, params: RequestParams = {}) =>
-      this.request<TeamMembership, void | OrganizationAsTeamMember>({
+      this.http.request<TeamMembership, void | OrganizationAsTeamMember>({
         path: `/teams/${teamId}/memberships/${username}`,
         method: "PUT",
         format: "json",
@@ -4770,7 +4659,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/teams/{teamId}/repos
      */
     reposDetail: (teamId: number, params: RequestParams = {}) =>
-      this.request<TeamRepos, void>({
+      this.http.request<TeamRepos, void>({
         path: `/teams/${teamId}/repos`,
         method: "GET",
         format: "json",
@@ -4784,7 +4673,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/teams/{teamId}/repos/{owner}/{repo}
      */
     reposDelete: (teamId: number, owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/teams/${teamId}/repos/${owner}/${repo}`,
         method: "DELETE",
         ...params,
@@ -4799,7 +4688,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     reposDetail2: (teamId: number, owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<any, void>({
+      this.http.request<any, void>({
         path: `/teams/${teamId}/repos/${owner}/${repo}`,
         method: "GET",
         ...params,
@@ -4812,7 +4701,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/teams/{teamId}/repos/{owner}/{repo}
      */
     reposUpdate: (teamId: number, owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<any, void>({
+      this.http.request<any, void>({
         path: `/teams/${teamId}/repos/${owner}/${repo}`,
         method: "PUT",
         ...params,
@@ -4826,7 +4715,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user
      */
     userList: (params: RequestParams = {}) =>
-      this.request<User, void>({
+      this.http.request<User, void>({
         path: `/user`,
         method: "GET",
         format: "json",
@@ -4840,7 +4729,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/user
      */
     userPartialUpdate: (body: UserUpdate, params: RequestParams = {}) =>
-      this.request<User, void>({
+      this.http.request<User, void>({
         path: `/user`,
         method: "PATCH",
         body: body,
@@ -4856,7 +4745,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/user/emails
      */
     emailsDelete: (body: UserEmails, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/user/emails`,
         method: "DELETE",
         body: body,
@@ -4871,7 +4760,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/emails
      */
     emailsList: (params: RequestParams = {}) =>
-      this.request<UserEmails, void>({
+      this.http.request<UserEmails, void>({
         path: `/user/emails`,
         method: "GET",
         ...params,
@@ -4884,7 +4773,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/user/emails
      */
     emailsCreate: (body: EmailsPost, params: RequestParams = {}) =>
-      this.request<any, void>({
+      this.http.request<any, void>({
         path: `/user/emails`,
         method: "POST",
         body: body,
@@ -4898,7 +4787,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/followers
      */
     followersList: (params: RequestParams = {}) =>
-      this.request<Users, void>({
+      this.http.request<Users, void>({
         path: `/user/followers`,
         method: "GET",
         format: "json",
@@ -4912,7 +4801,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/following
      */
     followingList: (params: RequestParams = {}) =>
-      this.request<Users, void>({
+      this.http.request<Users, void>({
         path: `/user/following`,
         method: "GET",
         format: "json",
@@ -4926,7 +4815,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/user/following/{username}
      */
     followingDelete: (username: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/user/following/${username}`,
         method: "DELETE",
         ...params,
@@ -4939,7 +4828,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/following/{username}
      */
     followingDetail: (username: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/user/following/${username}`,
         method: "GET",
         ...params,
@@ -4952,7 +4841,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/user/following/{username}
      */
     followingUpdate: (username: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/user/following/${username}`,
         method: "PUT",
         ...params,
@@ -4975,7 +4864,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<Issues, void>({
+      this.http.request<Issues, void>({
         path: `/user/issues`,
         method: "GET",
         query: query,
@@ -4990,7 +4879,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/keys
      */
     keysList: (params: RequestParams = {}) =>
-      this.request<Gitignore, void>({
+      this.http.request<Gitignore, void>({
         path: `/user/keys`,
         method: "GET",
         format: "json",
@@ -5004,7 +4893,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/user/keys
      */
     keysCreate: (body: UserKeysPost, params: RequestParams = {}) =>
-      this.request<UserKeysKeyId, void>({
+      this.http.request<UserKeysKeyId, void>({
         path: `/user/keys`,
         method: "POST",
         body: body,
@@ -5019,7 +4908,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/user/keys/{keyId}
      */
     keysDelete: (keyId: number, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/user/keys/${keyId}`,
         method: "DELETE",
         ...params,
@@ -5032,7 +4921,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/keys/{keyId}
      */
     keysDetail: (keyId: number, params: RequestParams = {}) =>
-      this.request<UserKeysKeyId, void>({
+      this.http.request<UserKeysKeyId, void>({
         path: `/user/keys/${keyId}`,
         method: "GET",
         format: "json",
@@ -5046,7 +4935,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/orgs
      */
     orgsList: (params: RequestParams = {}) =>
-      this.request<Gitignore, void>({
+      this.http.request<Gitignore, void>({
         path: `/user/orgs`,
         method: "GET",
         format: "json",
@@ -5063,7 +4952,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: { type?: "all" | "public" | "private" | "forks" | "sources" | "member" },
       params: RequestParams = {},
     ) =>
-      this.request<Repos, void>({
+      this.http.request<Repos, void>({
         path: `/user/repos`,
         method: "GET",
         query: query,
@@ -5078,7 +4967,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/user/repos
      */
     reposCreate: (body: PostRepo, params: RequestParams = {}) =>
-      this.request<Repos, void>({
+      this.http.request<Repos, void>({
         path: `/user/repos`,
         method: "POST",
         body: body,
@@ -5093,7 +4982,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/starred
      */
     starredList: (query?: { direction?: string; sort?: "created" | "updated" }, params: RequestParams = {}) =>
-      this.request<Gitignore, void>({
+      this.http.request<Gitignore, void>({
         path: `/user/starred`,
         method: "GET",
         query: query,
@@ -5108,7 +4997,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/user/starred/{owner}/{repo}
      */
     starredDelete: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/user/starred/${owner}/${repo}`,
         method: "DELETE",
         ...params,
@@ -5121,7 +5010,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/starred/{owner}/{repo}
      */
     starredDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/user/starred/${owner}/${repo}`,
         method: "GET",
         ...params,
@@ -5134,7 +5023,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/user/starred/{owner}/{repo}
      */
     starredUpdate: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/user/starred/${owner}/${repo}`,
         method: "PUT",
         ...params,
@@ -5147,7 +5036,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/subscriptions
      */
     subscriptionsList: (params: RequestParams = {}) =>
-      this.request<Repos, void>({
+      this.http.request<Repos, void>({
         path: `/user/subscriptions`,
         method: "GET",
         format: "json",
@@ -5161,7 +5050,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/user/subscriptions/{owner}/{repo}
      */
     subscriptionsDelete: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/user/subscriptions/${owner}/${repo}`,
         method: "DELETE",
         ...params,
@@ -5174,7 +5063,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/subscriptions/{owner}/{repo}
      */
     subscriptionsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/user/subscriptions/${owner}/${repo}`,
         method: "GET",
         ...params,
@@ -5187,7 +5076,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/user/subscriptions/{owner}/{repo}
      */
     subscriptionsUpdate: (owner: string, repo: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/user/subscriptions/${owner}/${repo}`,
         method: "PUT",
         ...params,
@@ -5200,7 +5089,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/teams
      */
     teamsList: (params: RequestParams = {}) =>
-      this.request<TeamsList, void>({
+      this.http.request<TeamsList, void>({
         path: `/user/teams`,
         method: "GET",
         format: "json",
@@ -5215,7 +5104,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/users
      */
     usersList: (query?: { since?: number }, params: RequestParams = {}) =>
-      this.request<Users, void>({
+      this.http.request<Users, void>({
         path: `/users`,
         method: "GET",
         query: query,
@@ -5230,7 +5119,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/users/{username}
      */
     usersDetail: (username: string, params: RequestParams = {}) =>
-      this.request<User, void>({
+      this.http.request<User, void>({
         path: `/users/${username}`,
         method: "GET",
         format: "json",
@@ -5244,7 +5133,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/users/{username}/events
      */
     eventsDetail: (username: string, params: RequestParams = {}) =>
-      this.request<any, void>({
+      this.http.request<any, void>({
         path: `/users/${username}/events`,
         method: "GET",
         ...params,
@@ -5257,7 +5146,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/users/{username}/events/orgs/{org}
      */
     eventsOrgsDetail: (username: string, org: string, params: RequestParams = {}) =>
-      this.request<any, void>({
+      this.http.request<any, void>({
         path: `/users/${username}/events/orgs/${org}`,
         method: "GET",
         ...params,
@@ -5270,7 +5159,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/users/{username}/followers
      */
     followersDetail: (username: string, params: RequestParams = {}) =>
-      this.request<Users, void>({
+      this.http.request<Users, void>({
         path: `/users/${username}/followers`,
         method: "GET",
         format: "json",
@@ -5284,7 +5173,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/users/{username}/following/{targetUser}
      */
     followingDetail: (username: string, targetUser: string, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.http.request<void, void>({
         path: `/users/${username}/following/${targetUser}`,
         method: "GET",
         ...params,
@@ -5297,7 +5186,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/users/{username}/gists
      */
     gistsDetail: (username: string, query?: { since?: string }, params: RequestParams = {}) =>
-      this.request<Gists, void>({
+      this.http.request<Gists, void>({
         path: `/users/${username}/gists`,
         method: "GET",
         query: query,
@@ -5312,7 +5201,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/users/{username}/keys
      */
     keysDetail: (username: string, params: RequestParams = {}) =>
-      this.request<Gitignore, void>({
+      this.http.request<Gitignore, void>({
         path: `/users/${username}/keys`,
         method: "GET",
         format: "json",
@@ -5326,7 +5215,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/users/{username}/orgs
      */
     orgsDetail: (username: string, params: RequestParams = {}) =>
-      this.request<Gitignore, void>({
+      this.http.request<Gitignore, void>({
         path: `/users/${username}/orgs`,
         method: "GET",
         format: "json",
@@ -5340,7 +5229,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/users/{username}/received_events
      */
     receivedEventsDetail: (username: string, params: RequestParams = {}) =>
-      this.request<any, void>({
+      this.http.request<any, void>({
         path: `/users/${username}/received_events`,
         method: "GET",
         ...params,
@@ -5353,7 +5242,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/users/{username}/received_events/public
      */
     receivedEventsPublicDetail: (username: string, params: RequestParams = {}) =>
-      this.request<any, void>({
+      this.http.request<any, void>({
         path: `/users/${username}/received_events/public`,
         method: "GET",
         ...params,
@@ -5370,7 +5259,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: { type?: "all" | "public" | "private" | "forks" | "sources" | "member" },
       params: RequestParams = {},
     ) =>
-      this.request<Repos, void>({
+      this.http.request<Repos, void>({
         path: `/users/${username}/repos`,
         method: "GET",
         query: query,
@@ -5385,7 +5274,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/users/{username}/starred
      */
     starredDetail: (username: string, params: RequestParams = {}) =>
-      this.request<any, void>({
+      this.http.request<any, void>({
         path: `/users/${username}/starred`,
         method: "GET",
         ...params,
@@ -5398,7 +5287,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/users/{username}/subscriptions
      */
     subscriptionsDetail: (username: string, params: RequestParams = {}) =>
-      this.request<any, void>({
+      this.http.request<any, void>({
         path: `/users/${username}/subscriptions`,
         method: "GET",
         ...params,

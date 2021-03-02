@@ -26,6 +26,7 @@ export class Scope<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       method: "POST",
       query: query,
       body: body,
+      format: "json",
       ...params,
     });
   /**
@@ -39,6 +40,7 @@ export class Scope<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     this.request<{ status?: string }, Error>({
       path: `/scope/${job}`,
       method: "DELETE",
+      format: "json",
       ...params,
     });
   /**
@@ -52,6 +54,7 @@ export class Scope<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     this.request<{ exp?: number; field?: string; sub?: string }, Error>({
       path: `/scope/${job}`,
       method: "GET",
+      format: "json",
       ...params,
     });
   /**
@@ -79,6 +82,7 @@ export class Scope<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       path: `/scope/${job}`,
       method: "POST",
       type: ContentType.Json,
+      format: "json",
       ...params,
     });
   /**
