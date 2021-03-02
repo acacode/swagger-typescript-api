@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const Eta = require("eta");
 const { getFileContent, pathIsExist } = require("./files");
-const { config, addToConfig } = require("./config");
+const { config } = require("./config");
 const { resolve } = require("path");
 
 /**
@@ -38,7 +38,8 @@ const getTemplatePaths = ({ templates, modular }) => {
 };
 
 const getTemplates = ({ templatePaths }) => {
-  console.log(`✨ try to read templates from directory "${templatePaths.custom}"`);
+  if (!config.silent)
+    console.log(`✨ try to read templates from directory "${templatePaths.custom}"`);
 
   const templatesMap = _.reduce(
     TEMPLATE_INFOS,
@@ -53,10 +54,11 @@ const getTemplates = ({ templatePaths }) => {
         if (pathIsExist(baseFullPath)) {
           fileContent = getFileContent(baseFullPath);
         } else {
-          console.log(
-            `❗❗❗ ${_.lowerCase(name)} template not found in ${customFullPath}\n` +
-              `Code generator will use the default template`,
-          );
+          if (!config.silent)
+            console.log(
+              `❗❗❗ ${_.lowerCase(name)} template not found in ${customFullPath}\n` +
+                `Code generator will use the default template`,
+            );
         }
 
         if (pathIsExist(originalFullPath)) {

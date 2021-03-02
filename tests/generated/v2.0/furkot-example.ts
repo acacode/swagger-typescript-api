@@ -296,9 +296,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/trip/{trip_id}/stop
      * @secure
      */
-    stopDetail: (trip_id: string, params: RequestParams = {}) =>
+    stopDetail: (tripId: string, params: RequestParams = {}) =>
       this.request<Step[], any>({
-        path: `/trip/${trip_id}/stop`,
+        path: `/trip/${tripId}/stop`,
         method: "GET",
         secure: true,
         format: "json",

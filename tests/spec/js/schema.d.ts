@@ -1771,7 +1771,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name EmojisList
      * @request GET:/emojis
      */
-    emojisList: (params?: RequestParams) => Promise<HttpResponse<Record<string, string>, void>>;
+    emojisList: (params?: RequestParams) => Promise<HttpResponse<Emojis, void>>;
   };
   events: {
     /**
@@ -2118,14 +2118,18 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name OrgsDetail
      * @request GET:/orgs/{org}
      */
-    orgsDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<any, void>>;
+    orgsDetail: (org: string, params?: RequestParams) => Promise<HttpResponse<Organization, void>>;
     /**
      * @description Edit an Organization.
      *
      * @name OrgsPartialUpdate
      * @request PATCH:/orgs/{org}
      */
-    orgsPartialUpdate: (org: string, body: PatchOrg, params?: RequestParams) => Promise<HttpResponse<any, void>>;
+    orgsPartialUpdate: (
+      org: string,
+      body: PatchOrg,
+      params?: RequestParams,
+    ) => Promise<HttpResponse<Organization, void>>;
     /**
      * @description List public events for an organization.
      *
@@ -2647,7 +2651,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         sort?: "newes" | "oldes" | "watchers";
       },
       params?: RequestParams,
-    ) => Promise<HttpResponse<Repos, void>>;
+    ) => Promise<HttpResponse<Forks, void>>;
     /**
      * @description Create a fork. Forking a Repository happens asynchronously. Therefore, you may have to wai a short period before accessing the git objects. If this takes longer than 5 minutes, be sure to contact Support.
      *
@@ -3240,11 +3244,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name LanguagesDetail
      * @request GET:/repos/{owner}/{repo}/languages
      */
-    languagesDetail: (
-      owner: string,
-      repo: string,
-      params?: RequestParams,
-    ) => Promise<HttpResponse<Record<string, number>, void>>;
+    languagesDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Languages, void>>;
     /**
      * @description Perform a merge.
      *
@@ -3829,7 +3829,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
     reposDetail2: (
       owner: string,
       repo: string,
-      archive_format: "tarball" | "zipball",
+      archiveFormat: "tarball" | "zipball",
       path: string,
       params?: RequestParams,
     ) => Promise<HttpResponse<any, void>>;
@@ -3997,7 +3997,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name ReposDetail
      * @request GET:/teams/{teamId}/repos
      */
-    reposDetail: (teamId: number, params?: RequestParams) => Promise<HttpResponse<Repos, void>>;
+    reposDetail: (teamId: number, params?: RequestParams) => Promise<HttpResponse<TeamRepos, void>>;
     /**
      * @description In order to remove a repository from a team, the authenticated user must be an owner of the org that the team is associated with. NOTE: This does not delete the repository, it just removes it from the team.
      *
@@ -4044,14 +4044,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name UserList
      * @request GET:/user
      */
-    userList: (params?: RequestParams) => Promise<HttpResponse<any, void>>;
+    userList: (params?: RequestParams) => Promise<HttpResponse<User, void>>;
     /**
      * @description Update the authenticated user.
      *
      * @name UserPartialUpdate
      * @request PATCH:/user
      */
-    userPartialUpdate: (body: UserUpdate, params?: RequestParams) => Promise<HttpResponse<any, void>>;
+    userPartialUpdate: (body: UserUpdate, params?: RequestParams) => Promise<HttpResponse<User, void>>;
     /**
      * @description Delete email address(es). You can include a single email address or an array of addresses.
      *
@@ -4268,7 +4268,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @name UsersDetail
      * @request GET:/users/{username}
      */
-    usersDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<any, void>>;
+    usersDetail: (username: string, params?: RequestParams) => Promise<HttpResponse<User, void>>;
     /**
      * @description If you are authenticated as the given user, you will see your private events. Otherwise, you'll only see public events.
      *

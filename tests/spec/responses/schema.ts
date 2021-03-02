@@ -311,9 +311,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `404` `Error` Unknown key `unknown-key`
      * @response `default` `Error`
      */
-    keyRevoke: (PK: string, query: { secret: string }, params: RequestParams = {}) =>
+    keyRevoke: (pk: string, query: { secret: string }, params: RequestParams = {}) =>
       this.request<{ status?: string }, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "DELETE",
         query: query,
         format: "json",
@@ -331,9 +331,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `410` `Error` Key is revoked (gone). `revoked-key`
      * @response `default` `Error`
      */
-    getKey: (PK: string, params: RequestParams = {}) =>
+    getKey: (pk: string, params: RequestParams = {}) =>
       this.request<{ since?: string; status?: string; sub?: string }, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "GET",
         format: "json",
         ...params,
@@ -350,9 +350,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `410` `Error` Key is revoked `revoked-key`
      * @response `default` `Error`
      */
-    headKey: (PK: string, params: RequestParams = {}) =>
+    headKey: (pk: string, params: RequestParams = {}) =>
       this.request<void, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "HEAD",
         ...params,
       }),
@@ -367,9 +367,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `404` `Error` Unknown key `unknown-key`
      * @response `default` `Error`
      */
-    keyUpdate: (PK: string, body: AuthentiqID, params: RequestParams = {}) =>
+    keyUpdate: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
       this.request<{ status?: string }, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "POST",
         body: body,
         format: "json",
@@ -387,9 +387,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `409` `Error` Already bound to another key `duplicate-hash`
      * @response `default` `Error`
      */
-    keyBind: (PK: string, body: AuthentiqID, params: RequestParams = {}) =>
+    keyBind: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
       this.request<{ status?: string }, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "PUT",
         body: body,
         format: "json",

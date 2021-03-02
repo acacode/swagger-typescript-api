@@ -269,13 +269,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     wrongPathParams1: (
       pathParam1: string,
-      path_param2: string,
-      path_param3: string,
+      pathParam2: string,
+      pathParam3: string,
       pathParam4: string,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/wrong-path-params1/${pathParam1}/${path_param2}/${path_param3}/${pathParam4}`,
+        path: `/wrong-path-params1/${pathParam1}/${pathParam2}/${pathParam3}/${pathParam4}`,
         method: "DELETE",
         ...params,
       }),
@@ -288,7 +288,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name WrongPathParams2
      * @request DELETE:/wrong-path-params2
      */
-    wrongPathParams2: (path_param1: string, params: RequestParams = {}) =>
+    wrongPathParams2: (pathParam1: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/wrong-path-params2`,
         method: "DELETE",
@@ -335,9 +335,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeyRevoke
      * @request DELETE:/key/{PK}
      */
-    keyRevoke: (PK: string, query: { secret: string }, params: RequestParams = {}) =>
+    keyRevoke: (pk: string, query: { secret: string }, params: RequestParams = {}) =>
       this.request<{ status?: string }, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "DELETE",
         query: query,
         format: "json",
@@ -351,9 +351,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GetKey
      * @request GET:/key/{PK}
      */
-    getKey: (PK: string, params: RequestParams = {}) =>
+    getKey: (pk: string, params: RequestParams = {}) =>
       this.request<{ since?: string; status?: string; sub?: string }, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "GET",
         format: "json",
         ...params,
@@ -366,9 +366,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name HeadKey
      * @request HEAD:/key/{PK}
      */
-    headKey: (PK: string, params: RequestParams = {}) =>
+    headKey: (pk: string, params: RequestParams = {}) =>
       this.request<void, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "HEAD",
         ...params,
       }),
@@ -380,9 +380,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeyUpdate
      * @request POST:/key/{PK}
      */
-    keyUpdate: (PK: string, body: AuthentiqID, params: RequestParams = {}) =>
+    keyUpdate: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
       this.request<{ status?: string }, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "POST",
         body: body,
         format: "json",
@@ -396,9 +396,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeyBind
      * @request PUT:/key/{PK}
      */
-    keyBind: (PK: string, body: AuthentiqID, params: RequestParams = {}) =>
+    keyBind: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
       this.request<{ status?: string }, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "PUT",
         body: body,
         format: "json",

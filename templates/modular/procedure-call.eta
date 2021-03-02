@@ -59,6 +59,20 @@ const queryTmpl = (query != null && queryName) || null;
 const bodyContentKindTmpl = requestContentKind[requestBodyInfo.contentKind] || null;
 const responseFormatTmpl = responseContentKind[responseBodyInfo.success && responseBodyInfo.success.schema && responseBodyInfo.success.schema.contentKind] || null;
 const securityTmpl = security ? 'true' : null;
+
+const describeReturnType = () => {
+    if (!config.toJS) return "";
+
+    switch(config.httpClientType) {
+        case config.constants.HTTP_CLIENT.AXIOS: {
+          return `Promise<AxiosResponse<${type}>>`
+        }
+        default: {
+          return `Promise<HttpResponse<${type}, ${errorType}>`
+        }
+    }
+}
+
 %>
 /**
 <%~ routeDocs.description %>
@@ -68,7 +82,7 @@ const securityTmpl = security ? 'true' : null;
 <%~ routeDocs.lines %>
 
  */
-<%~ route.routeName.usage %> = (<%~ wrapperArgs %>) =>
+<%~ route.routeName.usage %> = (<%~ wrapperArgs %>)<%~ config.toJS ? `: ${describeReturnType()}` : "" %> =>
     <%~ config.singleHttpClient ? 'this.http.request' : 'this.request' %><<%~ type %>, <%~ errorType %>>({
         path: `<%~ path %>`,
         method: '<%~ _.upperCase(method) %>',

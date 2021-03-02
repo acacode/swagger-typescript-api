@@ -57,6 +57,7 @@ Options:
   --clean-output                clean output folder before generate api. WARNING: May cause data loss (default: false)
   --axios                       generate axios http client (default: false)
   --single-http-client          Ability to send HttpClient instance to Api constructor (default: false)
+  --silent                      Output only errors to console (default: false)
   --default-response <type>     default type for empty response schema (default: "void")
   -h, --help                    display help for command
 ```

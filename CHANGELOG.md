@@ -1,5 +1,12 @@
 # next release  
 
+Features:  
+- `--silent` option. Output only errors to console (default: false)  
+
+Fixes:  
+- Bug with `kebab-case` path params (issue #184, thanks @Mr-sgreen)  
+- Typings for `--js` option  
+
 # 6.0.0  
 
 BREAKING_CHANGES:  

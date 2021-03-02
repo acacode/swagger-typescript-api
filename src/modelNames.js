@@ -1,4 +1,5 @@
 const _ = require("lodash");
+const { config } = require("./config");
 
 const isValidName = (name) => /^([A-Za-z$_]{1,})$/g.test(name);
 
@@ -6,7 +7,7 @@ const formattedModelNamesMap = new Map();
 
 const checkAndRenameModelName = (name) => {
   if (typeof name !== "string") {
-    console.warn("🔨 wrong name of the model name", name);
+    if (!config.silent) console.warn("🔨 wrong name of the model name", name, config.silent);
 
     return name;
   }

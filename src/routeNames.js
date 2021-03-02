@@ -22,12 +22,13 @@ const getRouteName = (routeInfo) => {
       duplicateIdentifier,
       routeNameDuplicatesMap.get(duplicateIdentifier) + 1,
     );
-    console.warn(
-      `🥵  Module "${moduleName}" already have method "${routeName}()"`,
-      `\n🥵  This method has been renamed to "${
-        routeName + routeNameDuplicatesMap.get(duplicateIdentifier)
-      }()" to solve conflict names.`,
-    );
+    if (!config.silent)
+      console.warn(
+        `🥵  Module "${moduleName}" already have method "${routeName}()"`,
+        `\n🥵  This method has been renamed to "${
+          routeName + routeNameDuplicatesMap.get(duplicateIdentifier)
+        }()" to solve conflict names.`,
+      );
   } else {
     routeNameDuplicatesMap.set(duplicateIdentifier, 1);
   }

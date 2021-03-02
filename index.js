@@ -64,6 +64,7 @@ program
   .option("--disableStrictSSL", "disabled strict SSL", false)
   .option("--axios", "generate axios http client", false)
   .option("--single-http-client", "Ability to send HttpClient instance to Api constructor", false)
+  .option("--silent", "Output only errors to console", false)
   .option("--default-response <type>", "default type for empty response schema", TS_KEYWORDS.VOID)
   .option(
     "--clean-output",
@@ -93,6 +94,7 @@ const {
   defaultResponse,
   singleHttpClient,
   axios,
+  silent,
 } = program;
 
 generateApi({
@@ -116,4 +118,5 @@ generateApi({
   disableStrictSSL: !!disableStrictSSL,
   singleHttpClient: !!singleHttpClient,
   cleanOutput: !!cleanOutput,
+  silent: !!silent,
 });

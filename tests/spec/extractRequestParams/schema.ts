@@ -76,8 +76,19 @@ export interface KeyRevokeParams {
   /** revokation secret */
   secret: string;
 
+  /** bar baz */
+  barBaz: string;
+
   /** Public Signing Key - Authentiq ID (43 chars) */
-  PK: string;
+  pk: string;
+}
+
+export interface KeyRevoke2Params {
+  /** revokation secret */
+  secret: string;
+
+  /** Public Signing Key - Authentiq ID (43 chars) */
+  pk: string;
 }
 
 export interface PushLoginRequestParams {
@@ -324,13 +335,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Revoke an Identity (Key) with a revocation secret
      *
-     * @tags key, delete
      * @name KeyRevoke
-     * @request DELETE:/key/{PK}
+     * @request DELETE:/key/{bar-baz}/{PK}
      */
-    keyRevoke: ({ PK, ...query }: KeyRevokeParams, params: RequestParams = {}) =>
+    keyRevoke: ({ barBaz, pk, ...query }: KeyRevokeParams, params: RequestParams = {}) =>
+      this.request<any, void>({
+        path: `/key/${barBaz}/${pk}`,
+        method: "DELETE",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * @description Revoke an Identity (Key) with a revocation secret
+     *
+     * @tags key, delete
+     * @name KeyRevoke2
+     * @request DELETE:/key/{PK}
+     * @originalName keyRevoke
+     * @duplicate
+     */
+    keyRevoke2: ({ pk, ...query }: KeyRevoke2Params, params: RequestParams = {}) =>
       this.request<{ status?: string }, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "DELETE",
         query: query,
         format: "json",
@@ -344,9 +371,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GetKey
      * @request GET:/key/{PK}
      */
-    getKey: (PK: string, params: RequestParams = {}) =>
+    getKey: (pk: string, params: RequestParams = {}) =>
       this.request<{ since?: string; status?: string; sub?: string }, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "GET",
         format: "json",
         ...params,
@@ -359,9 +386,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name HeadKey
      * @request HEAD:/key/{PK}
      */
-    headKey: (PK: string, params: RequestParams = {}) =>
+    headKey: (pk: string, params: RequestParams = {}) =>
       this.request<void, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "HEAD",
         ...params,
       }),
@@ -373,9 +400,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeyUpdate
      * @request POST:/key/{PK}
      */
-    keyUpdate: (PK: string, body: AuthentiqID, params: RequestParams = {}) =>
+    keyUpdate: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
       this.request<{ status?: string }, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "POST",
         body: body,
         format: "json",
@@ -389,9 +416,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeyBind
      * @request PUT:/key/{PK}
      */
-    keyBind: (PK: string, body: AuthentiqID, params: RequestParams = {}) =>
+    keyBind: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
       this.request<{ status?: string }, Error>({
-        path: `/key/${PK}`,
+        path: `/key/${pk}`,
         method: "PUT",
         body: body,
         format: "json",
