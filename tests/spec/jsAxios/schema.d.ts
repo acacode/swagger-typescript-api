@@ -1694,10 +1694,9 @@ export interface UserUpdate {
   name?: string;
 }
 export declare type Users = User[];
-import { AxiosRequestConfig, AxiosResponse } from "axios";
+import { AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";
 export declare type QueryParamsType = Record<string | number, any>;
-export declare type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
-export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "params"> {
+export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "params" | "url" | "responseType"> {
   /** set parameter to `true` for call `securityWorker` for this request */
   secure?: boolean;
   /** request path */
@@ -1707,7 +1706,7 @@ export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "pa
   /** query params */
   query?: QueryParamsType;
   /** format of response (i.e. response.json() -> format: "json") */
-  format?: keyof Omit<Body, "body" | "bodyUsed">;
+  format?: ResponseType;
   /** request body */
   body?: unknown;
 }

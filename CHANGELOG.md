@@ -1,5 +1,14 @@
 # next release  
 
+# 6.1.1  
+
+Fixes:  
+- Problems with `--axios` option  
+  - ignoring `path`, `format`, `type` payload properties in `request()` method of `HttpClient`  
+- Missing `format` property for requests in `--modular` option  
+
+# 6.1.0  
+
 Features:  
 - `--silent` option. Output only errors to console (default: false)  
 
