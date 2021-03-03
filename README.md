@@ -52,6 +52,7 @@ Options:
                                 Also combine path params and query params into one object
   --module-name-index <number>  determines which path index should be used for routes separation (default: 0)
                                 (example: GET:/fruites/getFruit -> index:0 -> moduleName -> fruites)
+  --module-name-first-tag       splits routes based on the first tag
   --modular                     generate separated files for http client, data contracts, and routes (default: false)
   --disableStrictSSL            disabled strict SSL (default: false)
   --clean-output                clean output folder before generate api. WARNING: May cause data loss (default: false)
@@ -172,6 +173,9 @@ Example:
 `GET:/api/vegetables/addVegetable`  
 with `--module-name-index 0` Api class will have one property `api`  
 When we change it to `--module-name-index 1` then Api class have two properties `fruits` and `vegetables`  
+
+### **`--module-name-first-tag`**  
+This option will group your API operations based on their first tag - mirroring how the Swagger UI groups displayed operations
 
 
 ## 📄 Mass media  

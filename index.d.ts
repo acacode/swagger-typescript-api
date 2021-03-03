@@ -64,6 +64,10 @@ interface GenerateApiParams {
    */
   moduleNameIndex?: number;
   /**
+   * users operation's first tag for route separation
+   */
+  moduleNameFirstTag?: boolean;
+  /**
    * disabled SSL check
    */
   disableStrictSSL?: boolean;
@@ -254,6 +258,7 @@ export interface GenerateApiConfiguration {
     componentsMap: Record<string, SchemaComponent>;
     convertedFromSwagger2: boolean;
     moduleNameIndex: number;
+    moduleNameFirstTag: boolean;
     disableStrictSSL: boolean;
     extractRequestParams: boolean;
     fileNames: {
