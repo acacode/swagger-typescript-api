@@ -36,6 +36,7 @@ module.exports = {
     httpClientType = config.httpClientType,
     generateUnionEnums = config.generateUnionEnums,
     moduleNameIndex = config.moduleNameIndex,
+    moduleNameFirstTag = config.moduleNameFirstTag,
     extractRequestParams = config.extractRequestParams,
     defaultResponseType = config.defaultResponseType,
     singleHttpClient = config.singleHttpClient,
@@ -57,6 +58,7 @@ module.exports = {
         templates,
         generateUnionEnums,
         moduleNameIndex,
+        moduleNameFirstTag,
         prettierOptions,
         modular,
         extractRequestParams,
@@ -102,6 +104,7 @@ module.exports = {
             usageSchema,
             parsedSchemas,
             moduleNameIndex,
+            moduleNameFirstTag,
             extractRequestParams,
           });
 

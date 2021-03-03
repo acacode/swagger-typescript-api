@@ -28,6 +28,9 @@ const config = {
 
   /** url index from paths used for merging into modules */
   moduleNameIndex: 0,
+
+  /** use the first tag for the module name */
+  moduleNameFirstTag: false,
   disableStrictSSL: false,
   extractRequestParams: false,
   fileNames: {

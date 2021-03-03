@@ -61,6 +61,7 @@ program
     "determines which path index should be used for routes separation (example: GET:/fruites/getFruit -> index:0 -> moduleName -> fruites)",
     0,
   )
+  .option("--module-name-first-tag", "splits routes based on the first tag", false)
   .option("--disableStrictSSL", "disabled strict SSL", false)
   .option("--axios", "generate axios http client", false)
   .option("--single-http-client", "Ability to send HttpClient instance to Api constructor", false)
@@ -87,6 +88,7 @@ const {
   modular,
   js,
   moduleNameIndex,
+  moduleNameFirstTag,
   extractRequestParams,
   enumNamesAsValues,
   disableStrictSSL,
@@ -115,6 +117,7 @@ generateApi({
   toJS: !!js,
   enumNamesAsValues: enumNamesAsValues,
   moduleNameIndex: +(moduleNameIndex || 0),
+  moduleNameFirstTag: moduleNameFirstTag,
   disableStrictSSL: !!disableStrictSSL,
   singleHttpClient: !!singleHttpClient,
   cleanOutput: !!cleanOutput,

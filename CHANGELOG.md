@@ -1,5 +1,10 @@
 # next release  
 
+# 6.2.0  
+
+Features:  
+- `--module-name-first-tag` option. Splits routes based on the first tag (thanks @jnpoyser)  
+
 # 6.1.2  
 
 Fixes:  
