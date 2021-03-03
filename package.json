@@ -24,6 +24,7 @@
     "test:--responses": "node tests/spec/responses/test.js",
     "test:specProperty": "node tests/spec/specProperty/test.js",
     "test:--module-name-index": "node tests/spec/moduleNameIndex/test.js",
+    "test:--module-name-first-tag": "node tests/spec/moduleNameFirstTag/test.js",
     "test:--modular": "node tests/spec/modular/test.js",
     "test:--single-http-client": "node tests/spec/singleHttpClient/test.js",
     "test:--extract-request-params": "node tests/spec/extractRequestParams/test.js",

@@ -451,7 +451,13 @@ const getResponseBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
   };
 };
 
-const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractRequestParams }) => {
+const parseRoutes = ({
+  usageSchema,
+  parsedSchemas,
+  moduleNameIndex,
+  moduleNameFirstTag,
+  extractRequestParams,
+}) => {
   const { paths, security: globalSecurity } = usageSchema;
   const pathsEntries = _.entries(paths);
 
@@ -480,7 +486,11 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, extractReque
         const { route, pathParams } = parseRoute(rawRoute);
 
         const routeId = nanoid(12);
-        const moduleName = _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
+        const firstTag = tags && tags.length > 0 ? tags[0] : null;
+        const moduleName =
+          moduleNameFirstTag && firstTag
+            ? _.camelCase(firstTag)
+            : _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
         const hasSecurity = !!(
           (globalSecurity && globalSecurity.length) ||
           (security && security.length)
