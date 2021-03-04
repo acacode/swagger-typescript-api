@@ -30,6 +30,11 @@ interface GenerateApiParams {
   templates?: string;
 
   /**
+   * generate all "enum" types as union types (T1 | T2 | TN) (default: false)
+   */
+  generateUnionEnums?: boolean;
+
+  /**
    * generate type definitions for API routes (default: false)
    */
   generateRouteTypes?: boolean;
