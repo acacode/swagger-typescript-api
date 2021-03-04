@@ -198,6 +198,15 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "Nihisil",
+      "name": "Alexey",
+      "avatar_url": "https://avatars.githubusercontent.com/u/475367?v=4",
+      "profile": "http://ru.linkedin.com/in/lisikhin",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
