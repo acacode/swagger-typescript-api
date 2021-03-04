@@ -5,21 +5,7 @@ const isValidName = (name) => /^([A-Za-z$_]{1,})$/g.test(name);
 
 const formattedModelNamesMap = new Map();
 
-const checkAndRenameModelName = (name) => {
-  if (typeof name !== "string") {
-    if (!config.silent) console.warn("🔨 wrong name of the model name", name, config.silent);
-
-    return name;
-  }
-
-  if (formattedModelNamesMap.has(name)) {
-    return formattedModelNamesMap.get(name);
-  }
-
-  if (/^([A-Z_]{1,})$/g.test(name)) {
-    return name;
-  }
-
+const fixModelName = (name) => {
   if (!isValidName(name)) {
     if (!/^[a-zA-Z_$]/g.test(name)) {
       name = `Type ${name}`;
@@ -37,14 +23,39 @@ const checkAndRenameModelName = (name) => {
     if (name.includes("-")) name = _.startCase(name).replace(/ /g, "");
   }
 
-  const formattedModelName = _.replace(_.startCase(name), /\s/g, "");
+  return name;
+};
 
-  formattedModelNamesMap.set(name, formattedModelName);
+const formatModelName = (name) => {
+  if (typeof name !== "string") {
+    if (!config.silent) console.warn("🔨 wrong name of the model name", name);
 
-  return formattedModelName;
+    return name;
+  }
+
+  if (/^([A-Z_]{1,})$/g.test(name)) {
+    return name;
+  }
+
+  if (formattedModelNamesMap.has(name)) {
+    return formattedModelNamesMap.get(name);
+  }
+
+  const fixedModelName = fixModelName(name);
+
+  const formattedModelName = _.replace(
+    _.startCase(`${config.typePrefix}_${fixedModelName}_${config.typeSuffix}`),
+    /\s/g,
+    "",
+  );
+  const modelName = config.hooks.onFormatTypeName(formattedModelName, name) || formattedModelName;
+
+  formattedModelNamesMap.set(name, modelName);
+
+  return modelName;
 };
 
 module.exports = {
-  checkAndRenameModelName,
+  formatModelName: formatModelName,
   isValidName,
 };

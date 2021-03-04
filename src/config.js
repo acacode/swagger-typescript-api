@@ -49,6 +49,7 @@ const config = {
     onPrepareConfig: (apiConfig) => apiConfig,
     onCreateRequestParams: (rawType) => {},
     onCreateRouteName: () => {},
+    onFormatTypeName: (typeName, rawTypeName) => {},
   },
   defaultResponseType: TS_KEYWORDS.VOID,
   singleHttpClient: false,
@@ -69,6 +70,8 @@ const config = {
   templatesToRender: {},
   toJS: false,
   silent: false,
+  typePrefix: "",
+  typeSuffix: "",
 };
 
 /** needs to use data everywhere in project */

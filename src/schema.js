@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const { inlineExtraFormatters } = require("./typeFormatters");
-const { isValidName, checkAndRenameModelName } = require("./modelNames");
+const { isValidName, formatModelName } = require("./modelNames");
 const { formatDescription, internalCase } = require("./common");
 const { JS_PRIMITIVE_TYPES, JS_EMPTY_TYPES, TS_KEYWORDS, SCHEMA_TYPES } = require("./constants");
 const { config } = require("./config");
@@ -95,7 +95,7 @@ const getType = (schema) => {
   const refTypeInfo = getRefType(schema);
 
   if (refTypeInfo) {
-    return checkAndAddNull(schema, checkAndRenameModelName(refTypeInfo.typeName));
+    return checkAndAddNull(schema, formatModelName(refTypeInfo.typeName));
   }
 
   const primitiveType = getTypeAlias(schema);
@@ -230,15 +230,14 @@ const schemaParsers = {
 
     if (enumNamesAsValues && _.size(enumNames)) {
       content = _.map(enumNames, (enumName, index) => ({
-        key: checkAndRenameModelName(enumName),
+        key: formatModelName(enumName),
         type: TS_KEYWORDS.STRING,
         value: `"${enumName}"`,
       }));
     } else if (_.size(enumNames) > _.size(schema.enum)) {
       content = _.map(enumNames, (enumName, index) => ({
         key:
-          (enumNames && enumNames[index]) ||
-          (isIntegerEnum ? enumName : checkAndRenameModelName(enumName)),
+          (enumNames && enumNames[index]) || (isIntegerEnum ? enumName : formatModelName(enumName)),
         type: keyType,
         value: enumName === null ? enumName : isIntegerEnum ? `${enumName}` : `"${enumName}"`,
       }));
@@ -247,7 +246,7 @@ const schemaParsers = {
         const enumName = enumNames && enumNames[index];
 
         return {
-          key: enumName || (isIntegerEnum ? key : checkAndRenameModelName(key)),
+          key: enumName || (isIntegerEnum ? key : formatModelName(key)),
           type: keyType,
           value: key === null ? key : isIntegerEnum ? `${key}` : `"${key}"`,
         };
