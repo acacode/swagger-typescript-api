@@ -42,9 +42,11 @@ export class HttpClient {
   }
   mergeRequestParams(params1, params2) {
     return {
+      ...this.instance.defaults,
       ...params1,
       ...(params2 || {}),
       headers: {
+        ...this.instance.defaults,
         ...(params1.headers || {}),
         ...((params2 && params2.headers) || {}),
       },

@@ -1,5 +1,11 @@
 # next release  
 
+# 6.2.1  
+
+Fixes:  
+- missing `generateUnionEnums?: boolean;` in `index.d.ts` file (thanks @artsaban)  
+- missing default params to axios http client (`--axios`) (issue #192, thanks @Nihisil)  
+
 # 6.2.0  
 
 Features:  
