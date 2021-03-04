@@ -1,5 +1,5 @@
 const { formatters } = require("./typeFormatters");
-const { checkAndRenameModelName } = require("./modelNames");
+const { formatModelName } = require("./modelNames");
 const { config } = require("./config");
 const { getTypeData } = require("./components");
 
@@ -12,7 +12,7 @@ const prepareModelType = (typeInfo) => {
   }
 
   const resultContent = formatters[type] ? formatters[type](content) : content;
-  const name = checkAndRenameModelName(originalName);
+  const name = formatModelName(originalName);
 
   return {
     typeIdentifier,

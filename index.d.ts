@@ -115,6 +115,7 @@ interface GenerateApiParams {
     onCreateRequestParams?: (
       rawType: SchemaComponent["rawTypeData"],
     ) => SchemaComponent["rawTypeData"] | void;
+    onFormatTypeName?: (typeName: string, rawTypeName?: string) => string | void;
   }>;
   /**
    *  extra templates

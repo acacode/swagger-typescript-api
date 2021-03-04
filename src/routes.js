@@ -6,7 +6,7 @@ const {
   getInlineParseContent,
   checkAndAddNull,
 } = require("./schema");
-const { checkAndRenameModelName } = require("./modelNames");
+const { formatModelName } = require("./modelNames");
 const {
   DEFAULT_BODY_ARG_NAME,
   SUCCESS_RESPONSE_STATUS_RANGE,
@@ -49,7 +49,7 @@ const getTypeFromRequestInfo = ({ requestInfo, parsedSchemas, operationId, defau
     const content = getInlineParseContent(schema, "none");
     const foundedSchemaByName = _.find(
       parsedSchemas,
-      (parsedSchema) => checkAndRenameModelName(parsedSchema.name) === content,
+      (parsedSchema) => formatModelName(parsedSchema.name) === content,
     );
     const foundSchemaByContent = _.find(parsedSchemas, (parsedSchema) =>
       _.isEqual(parsedSchema.content, content),
@@ -57,7 +57,7 @@ const getTypeFromRequestInfo = ({ requestInfo, parsedSchemas, operationId, defau
 
     const foundSchema = foundedSchemaByName || foundSchemaByContent;
 
-    return foundSchema ? checkAndRenameModelName(foundSchema.name) : content;
+    return foundSchema ? formatModelName(foundSchema.name) : content;
   }
 
   if (refTypeInfo) {
@@ -67,12 +67,12 @@ const getTypeFromRequestInfo = ({ requestInfo, parsedSchemas, operationId, defau
     // TODO:HACK fix problem of swagger2opeanpi
     const typeNameWithoutOpId = _.replace(refTypeInfo.typeName, operationId, "");
     if (_.find(parsedSchemas, (schema) => schema.name === typeNameWithoutOpId)) {
-      return checkAndRenameModelName(typeNameWithoutOpId);
+      return formatModelName(typeNameWithoutOpId);
     }
 
     switch (refTypeInfo.componentName) {
       case "schemas":
-        return checkAndRenameModelName(refTypeInfo.typeName);
+        return formatModelName(refTypeInfo.typeName);
       case "responses":
       case "requestBodies":
         return getInlineParseContent(getSchemaFromRequestType(refTypeInfo.rawTypeData), "none");

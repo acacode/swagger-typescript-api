@@ -34,6 +34,7 @@
     "test:--js--axios": "node tests/spec/jsAxios/test.js",
     "test:--axios": "node tests/spec/axios/test.js",
     "test:--axios--single-http-client": "node tests/spec/axiosSingleHttpClient/test.js",
+    "test:--type-suffix--type-prefix": "node tests/spec/typeSuffixPrefix/test.js",
     "test:partialBaseTemplate": "node tests/spec/partialBaseTemplate/test.js",
     "test:partialDefaultTemplate": "node tests/spec/partialDefaultTemplate/test.js"
   },

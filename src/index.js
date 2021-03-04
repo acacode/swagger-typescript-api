@@ -47,6 +47,8 @@ module.exports = {
     disableStrictSSL = config.disableStrictSSL,
     cleanOutput,
     silent = config.silent,
+    typePrefix = config.typePrefix,
+    typeSuffix = config.typeSuffix,
   }) =>
     new Promise((resolve, reject) => {
       addToConfig({
@@ -71,6 +73,8 @@ module.exports = {
         constants,
         silent,
         toJS: translateToJavaScript,
+        typePrefix,
+        typeSuffix,
       });
       (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url, disableStrictSSL))
         .then(({ usageSchema, originalSchema }) => {

@@ -67,6 +67,8 @@ program
   .option("--single-http-client", "Ability to send HttpClient instance to Api constructor", false)
   .option("--silent", "Output only errors to console", false)
   .option("--default-response <type>", "default type for empty response schema", TS_KEYWORDS.VOID)
+  .option("--type-prefix <string>", "data contract name prefix", "")
+  .option("--type-suffix <string>", "data contract name suffix", "")
   .option(
     "--clean-output",
     "clean output folder before generate api. WARNING: May cause data loss",
@@ -97,6 +99,8 @@ const {
   singleHttpClient,
   axios,
   silent,
+  typePrefix,
+  typeSuffix,
 } = program;
 
 generateApi({
@@ -122,4 +126,6 @@ generateApi({
   singleHttpClient: !!singleHttpClient,
   cleanOutput: !!cleanOutput,
   silent: !!silent,
+  typePrefix,
+  typeSuffix,
 });

@@ -60,6 +60,8 @@ Options:
   --single-http-client          Ability to send HttpClient instance to Api constructor (default: false)
   --silent                      Output only errors to console (default: false)
   --default-response <type>     default type for empty response schema (default: "void")
+  --type-prefix <string>        data contract name prefix (default: "")
+  --type-suffix <string>        data contract name suffix (default: "")
   -h, --help                    display help for command
 ```
 

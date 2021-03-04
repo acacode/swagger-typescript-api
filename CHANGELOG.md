@@ -1,5 +1,16 @@
 # next release  
 
+# 6.3.0  
+
+Features:  
+- `--type-suffix` option. Allows to set suffix for data contract name. (issue #191, thanks @the-ult)  
+- `--type-prefix` option. Allows to set prefix for data contract name. (issue #191, thanks @the-ult)  
+  Examples [here](./spec/typeSuffixPrefix/schema.ts)  
+- `onFormatTypeName(usageTypeName, rawTypeName)` hook. Allow to format data contract names as you want.  
+
+Internal:  
+- rename and split `checkAndRenameModelName` -> `formatModelName`, `fixModelName`  
+
 # 6.2.1  
 
 Fixes:  
