@@ -49,9 +49,11 @@ export class HttpClient<SecurityDataType = unknown> {
 
     private mergeRequestParams(params1: AxiosRequestConfig, params2?: AxiosRequestConfig): AxiosRequestConfig {
         return {
+            ...this.instance.defaults,
             ...params1,
             ...(params2 || {}),
             headers: {
+                ...this.instance.defaults,
                 ...(params1.headers || {}),
                 ...((params2 && params2.headers) || {}),
             },
