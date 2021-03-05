@@ -92,6 +92,9 @@ Fixes:
 Features:  
 - `onFormatRouteName(routeInfo: RawRouteInfo, templateRouteName: string)` hook. Allows to format route name, as you like :)  
 
+Features:  
+- `onFormatRouteName(routeInfo: RawRouteInfo, templateRouteName: string)` hook. Allows to format route name, as you like :)  
+
 Fixes:
 - Bug with wrong complex types (anyOf, oneOf, allOf) when some child schema contains only description  
   ![example](./assets/changelog_assets/fixComplexTypeAny.jpg)  
