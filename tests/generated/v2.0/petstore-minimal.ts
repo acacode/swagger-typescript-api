@@ -211,7 +211,11 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title Swagger Petstore
  * @version 1.0.0
+ * @license MIT
+ * @termsOfService http://swagger.io/terms/
  * @baseUrl http://petstore.swagger.io/api
+ * @contact Swagger API Team
+ *
  * A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {

@@ -203,7 +203,11 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title Authentiq
  * @version 6
+ * @license Apache 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
+ * @termsOfService http://authentiq.com/terms/
  * @baseUrl https://6-dot-authentiqio.appspot.com
+ * @contact Authentiq team <hello@authentiq.com> (http://authentiq.io/support)
+ *
  * Strong authentication, without the passwords.
  */
 export class Api<SecurityDataType extends unknown> {

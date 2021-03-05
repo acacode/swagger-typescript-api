@@ -46,26 +46,26 @@ export interface Gif {
 
   /** An object containing data for various available formats and sizes of this GIF. */
   images?: {
-    downsized?: Image & any;
-    downsized_large?: Image & any;
-    downsized_medium?: Image & any;
-    downsized_small?: Image & any;
-    downsized_still?: Image & any;
-    fixed_height?: Image & any;
-    fixed_height_downsampled?: Image & any;
-    fixed_height_small?: Image & any;
-    fixed_height_small_still?: Image & any;
-    fixed_height_still?: Image & any;
-    fixed_width?: Image & any;
-    fixed_width_downsampled?: Image & any;
-    fixed_width_small?: Image & any;
-    fixed_width_small_still?: Image & any;
-    fixed_width_still?: Image & any;
-    looping?: Image & any;
-    original?: Image & any;
-    original_still?: Image & any;
-    preview?: Image & any;
-    preview_gif?: Image & any;
+    downsized?: Image;
+    downsized_large?: Image;
+    downsized_medium?: Image;
+    downsized_small?: Image;
+    downsized_still?: Image;
+    fixed_height?: Image;
+    fixed_height_downsampled?: Image;
+    fixed_height_small?: Image;
+    fixed_height_small_still?: Image;
+    fixed_height_still?: Image;
+    fixed_width?: Image;
+    fixed_width_downsampled?: Image;
+    fixed_width_small?: Image;
+    fixed_width_small_still?: Image;
+    fixed_width_still?: Image;
+    looping?: Image;
+    original?: Image;
+    original_still?: Image;
+    preview?: Image;
+    preview_gif?: Image;
   };
 
   /**
@@ -485,7 +485,11 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title Giphy
  * @version 1.0
+ * @termsOfService https://developers.giphy.com/
  * @baseUrl https://api.giphy.com/v1
+ * @externalDocs https://developers.giphy.com/docs/
+ * @contact <support@giphy.com>
+ *
  * Giphy API
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {

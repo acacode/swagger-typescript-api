@@ -29,6 +29,7 @@ const SCHEMA_TYPES = {
   COMPLEX_ANY_OF: "anyOf",
   COMPLEX_ALL_OF: "allOf",
   COMPLEX_NOT: "not",
+  COMPLEX_UNKNOWN: "__unknown",
 };
 
 const HTTP_CLIENT = {

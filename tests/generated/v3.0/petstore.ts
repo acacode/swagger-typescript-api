@@ -220,6 +220,7 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title Swagger Petstore
  * @version 1.0.0
+ * @license MIT
  * @baseUrl http://petstore.swagger.io/v1
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {

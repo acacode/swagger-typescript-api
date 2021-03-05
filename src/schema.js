@@ -131,10 +131,9 @@ const getObjectTypeContent = (schema) => {
       $$raw: property,
       description: _.compact([
         property.description ||
+          _.compact(_.map(property[getComplexType(property)], "description"))[0] ||
           rawTypeData.description ||
-          _.compact(_.map(rawTypeData.allOf, "description"))[0] ||
-          _.compact(_.map(rawTypeData.oneOf, "description"))[0] ||
-          _.compact(_.map(rawTypeData.anyOf, "description"))[0] ||
+          _.compact(_.map(rawTypeData[getComplexType(rawTypeData)], "description"))[0] ||
           "",
         !_.isUndefined(property.format) && `@format ${property.format}`,
         !_.isUndefined(property.minimum) && `@min ${property.minimum}`,
@@ -168,24 +167,34 @@ const getObjectTypeContent = (schema) => {
   return propertiesContent;
 };
 
-const complexTypeGetter = ({ description, ...schema }) => getInlineParseContent(schema);
+const complexTypeGetter = (schema) => getInlineParseContent(schema);
+const filterContents = (contents, types) => _.filter(contents, (type) => !_.includes(types, type));
 
 const complexSchemaParsers = {
   [SCHEMA_TYPES.COMPLEX_ONE_OF]: (schema) => {
     // T1 | T2
     const combined = _.map(schema.oneOf, complexTypeGetter);
-    return checkAndAddNull(schema, combined.join(" | "));
+
+    return checkAndAddNull(schema, filterContents(combined, [TS_KEYWORDS.ANY]).join(" | "));
   },
   [SCHEMA_TYPES.COMPLEX_ALL_OF]: (schema) => {
     // T1 & T2
-    return checkAndAddNull(schema, _.map(schema.allOf, complexTypeGetter).join(" & "));
+    const combined = _.map(schema.allOf, complexTypeGetter);
+    return checkAndAddNull(
+      schema,
+      filterContents(combined, [...JS_EMPTY_TYPES, ...JS_PRIMITIVE_TYPES, TS_KEYWORDS.ANY]).join(
+        " & ",
+      ),
+    );
   },
   [SCHEMA_TYPES.COMPLEX_ANY_OF]: (schema) => {
     // T1 | T2 | (T1 & T2)
     const combined = _.map(schema.anyOf, complexTypeGetter);
-    const nonEmptyTypesCombined = combined.filter(
-      (type) => !JS_EMPTY_TYPES.includes(type) && !JS_PRIMITIVE_TYPES.includes(type),
-    );
+    const nonEmptyTypesCombined = filterContents(combined, [
+      ...JS_EMPTY_TYPES,
+      ...JS_PRIMITIVE_TYPES,
+      TS_KEYWORDS.ANY,
+    ]);
     return checkAndAddNull(
       schema,
       `${combined.join(" | ")}` +
@@ -206,7 +215,7 @@ const getComplexType = (schema) => {
   // TODO :(
   if (schema.not) return SCHEMA_TYPES.COMPLEX_NOT;
 
-  throw new Error("Unknown complex type");
+  return SCHEMA_TYPES.COMPLEX_UNKNOWN;
 };
 
 const attachParsedRef = (originalSchema, parsedSchema) => {
@@ -228,25 +237,29 @@ const schemaParsers = {
     const isIntegerEnum = keyType === types.number;
     let content = null;
 
-    if (enumNamesAsValues && _.size(enumNames)) {
-      content = _.map(enumNames, (enumName, index) => ({
-        key: formatModelName(enumName),
-        type: TS_KEYWORDS.STRING,
-        value: `"${enumName}"`,
-      }));
-    } else if (_.size(enumNames) > _.size(schema.enum)) {
-      content = _.map(enumNames, (enumName, index) => ({
-        key:
-          (enumNames && enumNames[index]) || (isIntegerEnum ? enumName : formatModelName(enumName)),
-        type: keyType,
-        value: enumName === null ? enumName : isIntegerEnum ? `${enumName}` : `"${enumName}"`,
-      }));
-    } else {
-      content = _.map(schema.enum, (key, index) => {
-        const enumName = enumNames && enumNames[index];
+    if (_.isArray(enumNames) && _.size(enumNames)) {
+      content = _.map(enumNames, (enumName, index) => {
+        const enumValue = _.get(schema.enum, index);
+        const formattedKey = (enumName && formatModelName(enumName)) || formatModelName(enumValue);
+
+        if (enumNamesAsValues || _.isUndefined(enumValue)) {
+          return {
+            key: formattedKey,
+            type: TS_KEYWORDS.STRING,
+            value: `"${enumName}"`,
+          };
+        }
 
         return {
-          key: enumName || (isIntegerEnum ? key : formatModelName(key)),
+          key: formattedKey,
+          type: keyType,
+          value: enumValue === null ? enumValue : isIntegerEnum ? `${enumValue}` : `"${enumValue}"`,
+        };
+      });
+    } else {
+      content = _.map(schema.enum, (key) => {
+        return {
+          key: isIntegerEnum ? key : formatModelName(key),
           type: keyType,
           value: key === null ? key : isIntegerEnum ? `${key}` : `"${key}"`,
         };
@@ -292,7 +305,9 @@ const schemaParsers = {
       type: SCHEMA_TYPES.PRIMITIVE,
       typeIdentifier: TS_KEYWORDS.TYPE,
       name: typeName,
-      description: formatDescription(schema.description),
+      description: formatDescription(
+        schema.description || _.compact(_.map(schema[complexType], "description"))[0] || "",
+      ),
       content:
         _.compact([
           complexSchemaContent && `(${complexSchemaContent})`,

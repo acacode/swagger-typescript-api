@@ -732,6 +732,8 @@ export class HttpClient<SecurityDataType = unknown> {
  * @title Up API
  * @version v1
  * @baseUrl https://api.up.com.au/api/v1
+ * @contact API Specification and Support (https://github.com/up-banking/api)
+ *
  * The Up API gives you programmatic access to your balances and
  * transaction data. You can request past transactions or set up
  * webhooks to receive real-time events when new transactions hit your

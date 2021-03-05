@@ -299,6 +299,7 @@ export class HttpClient<SecurityDataType = unknown> {
  * @title Uber API
  * @version 1.0.0
  * @baseUrl https://api.uber.com/v1
+ *
  * Move your app forward with the Uber API
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {

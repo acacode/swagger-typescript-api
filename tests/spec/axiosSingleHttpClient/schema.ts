@@ -763,7 +763,10 @@ export interface OrgTeamsPost {
   repo_names?: string[];
 }
 
-export type Organization = Actor & any;
+/**
+ * A GitHub organization
+ */
+export type Organization = Actor;
 
 export interface OrganizationAsTeamMember {
   errors?: { code?: string; field?: string; resource?: string }[];
@@ -1114,13 +1117,17 @@ export interface Repo {
 
   /** A user or organization */
   owner?: Actor;
-  parent?: Repo & any;
+
+  /** Is present when the repo is a fork. Parent is the repo this repo was forked from. */
+  parent?: Repo;
   private?: boolean;
 
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   pushed_at?: string;
   size?: number;
-  source?: Repo & any;
+
+  /** Is present when the repo is a fork. Source is the ultimate source for the network. */
+  source?: Repo;
   ssh_url?: string;
   svn_url?: string;
 
@@ -1406,7 +1413,10 @@ export interface Trees {
   url?: string;
 }
 
-export type User = Actor & any;
+/**
+ * A GitHub user
+ */
+export type User = Actor;
 
 export type UserEmails = string[];
 
@@ -1523,7 +1533,10 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title GitHub
  * @version v3
+ * @termsOfService https://help.github.com/articles/github-terms-of-service/#b-api-terms
  * @baseUrl https://api.github.com
+ * @externalDocs https://developer.github.com/v3/
+ *
  * Powerful collaboration, code review, and code management for open source and private projects.
  */
 export class Api<SecurityDataType extends unknown> {

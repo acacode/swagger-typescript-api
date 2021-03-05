@@ -9,16 +9,69 @@
  * ---------------------------------------------------------------
  */
 
-/** PARTIAL TEMPLATES */
+export enum OnlyEnumNames {
+  Bla = "Bla",
+  Blabla = "Blabla",
+  Boiler = "Boiler",
+}
+
+export enum StringOnlyEnumNames {
+  Bla = "Bla",
+  Blabla = "Blabla",
+  Boiler = "Boiler",
+}
+
+export enum StringEnums {
+  Bla = "foo",
+  Blabla = "bar",
+  Boiler = "Boiler",
+}
+
+export enum StringCompleteEnums {
+  Bla = "foo",
+  Blabla = "bar",
+  Boiler = "baz",
+}
+
 /**
- * * FOO BAR
+ * @format int32
  */
-export interface Pet {
-  /** @format int64 */
-  id: number;
-  name: string;
-  tag?: string;
-  multiple?: string | number;
+export enum EmptyEnum {
+  Bla = "Bla",
+  Blabla = "Blabla",
+  Boiler = "Boiler",
+}
+
+/**
+ * @format int32
+ */
+export enum EnumWithMoreNames {
+  Bla = 1,
+  Blabla = "Blabla",
+  Boiler = "Boiler",
+}
+
+/**
+ * @format int32
+ */
+export enum SomeInterestEnum {
+  Bla = 6,
+  Blabla = 2,
+  Boiler = 1,
+  Bbabab = 67,
+  Nowadays = 88,
+  FAIL = 122,
+  Vvvvv = 88,
+  ASdasAS = 0,
+  ASDsacZX = 213,
+  Zook = 12378,
+  EnumMm = 123125,
+  VCsa = 32452,
+  Yuuu = 1111,
+  ASddd = 66666,
+  ASdsdsa = "ASdsdsa",
+  ASDds = "ASDds",
+  HSDFDS = "HSDFDS",
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -65,7 +118,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "http://petstore.swagger.io/api";
+  public baseUrl: string = "https://ffff.com";
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private abortControllers = new Map<CancelToken, AbortController>();
@@ -213,29 +266,7 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title Swagger Petstore
- * @version 1.0.0
- * @license MIT
- * @termsOfService http://swagger.io/terms/
- * @baseUrl http://petstore.swagger.io/api
- * @contact Swagger API Team
- *
- * A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
+ * @title No title
+ * @baseUrl https://ffff.com
  */
-export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
-  pets = {
-    /**
-     * @description Returns all pets from the system that the user has access to
-     *
-     * @name PetsList
-     * @request GET:/pets
-     */
-    petsList: (params: RequestParams = {}) =>
-      this.request<Pet[], any>({
-        path: `/pets`,
-        method: "GET",
-        format: "json",
-        ...params,
-      }),
-  };
-}
+export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {}

@@ -929,7 +929,10 @@ export interface OrgTeamsPost {
   permission?: "pull" | "push" | "admin";
   repo_names?: string[];
 }
-export declare type Organization = Actor & any;
+/**
+ * A GitHub organization
+ */
+export declare type Organization = Actor;
 export interface OrganizationAsTeamMember {
   errors?: {
     code?: string;
@@ -1367,12 +1370,14 @@ export interface Repo {
   organization?: Organization;
   /** A user or organization */
   owner?: Actor;
-  parent?: Repo & any;
+  /** Is present when the repo is a fork. Parent is the repo this repo was forked from. */
+  parent?: Repo;
   private?: boolean;
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   pushed_at?: string;
   size?: number;
-  source?: Repo & any;
+  /** Is present when the repo is a fork. Source is the ultimate source for the network. */
+  source?: Repo;
   ssh_url?: string;
   svn_url?: string;
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
@@ -1672,7 +1677,10 @@ export interface Trees {
   tree?: Tree[];
   url?: string;
 }
-export declare type User = Actor & any;
+/**
+ * A GitHub user
+ */
+export declare type User = Actor;
 export declare type UserEmails = string[];
 export interface UserKeysKeyId {
   id?: number;
@@ -1760,7 +1768,10 @@ export declare class HttpClient<SecurityDataType = unknown> {
 /**
  * @title GitHub
  * @version v3
+ * @termsOfService https://help.github.com/articles/github-terms-of-service/#b-api-terms
  * @baseUrl https://api.github.com
+ * @externalDocs https://developer.github.com/v3/
+ *
  * Powerful collaboration, code review, and code management for open source and private projects.
  */
 export declare class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {

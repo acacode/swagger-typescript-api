@@ -40,7 +40,17 @@ const getSwaggerObject = (pathToSwagger, urlToSwagger, disableStrictSSL) =>
 
 const convertSwaggerObject = (swaggerSchema) => {
   return new Promise((resolve) => {
+    swaggerSchema.info = _.merge(
+      {
+        title: "No title",
+        version: "",
+      },
+      swaggerSchema.info,
+    );
+
     if (!swaggerSchema.openapi) {
+      swaggerSchema.paths = _.merge({}, swaggerSchema.paths);
+
       converter.convertObj(
         swaggerSchema,
         {

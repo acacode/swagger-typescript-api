@@ -73,49 +73,53 @@ Also you can use `npx`:
 You can use this package from nodejs:
 ```js
 const { generateApi } = require('swagger-typescript-api');
+const path = require("path");
+const fs = require("fs");
 
-// example with url  
+/* NOTE: all fields are optional expect one of `output`, `url`, `spec` */
 generateApi({
-  name: "MySuperbApi.ts", // name of output typescript file
-  url: 'http://api.com/swagger.json', // url where located swagger schema
-})
-  .then(({ files, configuration }) => {
-    files.forEach(({ content, name }) => {
-      fs.writeFile(path, content);
-    });
-  })
-  .catch(e => console.error(e))
-
-// example with local file  
-generateApi({
-  name: "ApiModule.ts", // name of output typescript file
-  input: resolve(process.cwd(), './foo/swagger.json') // path to swagger schema
-})
-  .then(({ files, configuration }) => {
-    files.forEach(({ content, name }) => {
-      fs.writeFile(path, content);
-    });
-  })
-  .catch(e => console.error(e))
-
-// example with parsed schema  
-generateApi({
-  name: "ApiModule.ts", // name of output typescript file
+  name: "MySuperbApi.ts",
+  output: path.resolve(process.cwd(), "./src/__generated__"),
+  url: 'http://api.com/swagger.json',
+  input: path.resolve(process.cwd(), './foo/swagger.json'),
   spec: {
     swagger: "2.0",
     info: {
       version: "1.0.0",
       title: "Swagger Petstore",
     },
-    host: "petstore.swagger.io",
-    basePath: "/api",
-    schemes: ["http"],
-    consumes: ["application/json"],
-    produces: ["application/json"],
-    paths: {
-      // ...
-    }
     // ...
+  },
+  templates: path.resolve(process.cwd(), './api-templates'),
+  httpClientType: "axios", // or "fetch"
+  defaultResponseAsSuccess: false,
+  generateRouteTypes: false,
+  generateResponses: true,
+  toJS: false,
+  extractRequestParams: false,
+  prettier: {
+    printWidth: 120,
+    tabWidth: 2,
+    trailingComma: "all",
+    parser: "typescript",
+  },
+  defaultResponseType: "void",
+  singleHttpClient: true,
+  cleanOutput: false,
+  enumNamesAsValues: false,
+  moduleNameFirstTag: false,
+  generateUnionEnums: false,
+  extraTemplates: [],
+  hooks: {
+    onCreateComponent: (component) => {},
+    onCreateRequestParams: (rawType) => {},
+    onCreateRoute: (routeData) => {},
+    onCreateRouteName: (routeNameInfo, rawRouteInfo) => {},
+    onFormatRouteName: (routeInfo, templateRouteName) => {},
+    onFormatTypeName: (typeName, rawTypeName) => {},
+    onInit: (configuration) => {},
+    onParseSchema: (originalSchema, parsedSchema) => {},
+    onPrepareConfig: (currentConfiguration) => {},
   }
 })
   .then(({ files, configuration }) => {

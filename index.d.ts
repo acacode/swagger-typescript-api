@@ -84,7 +84,6 @@ interface GenerateApiParams {
    * extract request params to data contract (Also combine path params and query params into one object)
    */
   extractRequestParams?: boolean;
-  prepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C;
   /**
    * prettier configuration
    */
@@ -100,27 +99,30 @@ interface GenerateApiParams {
   cleanOutput?: boolean;
   enumNamesAsValues?: boolean;
 
-  hooks?: Partial<{
-    onCreateComponent: (component: SchemaComponent) => SchemaComponent | void;
-    onParseSchema: (originalSchema: any, parsedSchema: any) => any | void;
-    onCreateRoute: (routeData: ParsedRoute) => ParsedRoute | void;
-    /** Start point of work this tool (after fetching schema) */
-    onInit?: <C extends GenerateApiConfiguration["config"]>(configuration: C) => C | void;
-    /** customize configuration object before sending it to ETA templates */
-    onPrepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C | void;
-    onCreateRouteName?: (
-      routeNameInfo: RouteNameInfo,
-      rawRouteInfo: RawRouteInfo,
-    ) => RouteNameInfo | void;
-    onCreateRequestParams?: (
-      rawType: SchemaComponent["rawTypeData"],
-    ) => SchemaComponent["rawTypeData"] | void;
-    onFormatTypeName?: (typeName: string, rawTypeName?: string) => string | void;
-  }>;
+  hooks?: Partial<Hooks>;
   /**
    *  extra templates
    */
   extraTemplates?: { name: string; path: string }[];
+}
+
+export interface Hooks {
+  onCreateComponent: (component: SchemaComponent) => SchemaComponent | void;
+  onParseSchema: (originalSchema: any, parsedSchema: any) => any | void;
+  onCreateRoute: (routeData: ParsedRoute) => ParsedRoute | void;
+  /** Start point of work this tool (after fetching schema) */
+  onInit?: <C extends GenerateApiConfiguration["config"]>(configuration: C) => C | void;
+  /** customize configuration object before sending it to ETA templates */
+  onPrepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C | void;
+  onCreateRouteName?: (
+    routeNameInfo: RouteNameInfo,
+    rawRouteInfo: RawRouteInfo,
+  ) => RouteNameInfo | void;
+  onCreateRequestParams?: (
+    rawType: SchemaComponent["rawTypeData"],
+  ) => SchemaComponent["rawTypeData"] | void;
+  onFormatTypeName?: (typeName: string, rawTypeName?: string) => string | void;
+  onFormatRouteName?: (routeInfo: RawRouteInfo, templateRouteName: string) => string | void;
 }
 
 export interface RouteNameRouteInfo {}

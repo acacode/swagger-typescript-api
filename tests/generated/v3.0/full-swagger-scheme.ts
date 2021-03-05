@@ -9147,7 +9147,12 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title GitHub v3 REST API
  * @version 1.1.4
+ * @license MIT (https://spdx.org/licenses/MIT)
+ * @termsOfService https://docs.github.com/articles/github-terms-of-service
  * @baseUrl https://api.github.com
+ * @externalDocs https://docs.github.com/rest/
+ * @contact Support (https://support.github.com/contact)
+ *
  * GitHub's v3 REST API.
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
@@ -10600,12 +10605,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     gistsUpdate: (
       gistId: string,
-      data: (any | any | (any & any) | null) & {
+      data: (any | any | null) & {
         description?: string;
-        files?: Record<
-          string,
-          (any | any | object | (any & any & object) | null) & { content?: string; filename?: string | null }
-        >;
+        files?: Record<string, (any | any | object | null) & { content?: string; filename?: string | null }>;
       },
       params: RequestParams = {},
     ) =>

@@ -1,5 +1,20 @@
 # next release  
 
+# 6.4.0  
+
+Features:  
+- `onFormatRouteName(routeInfo: RawRouteInfo, templateRouteName: string)` hook. Allows to format route name, as you like :)  
+
+Fixes:
+- Bug with wrong complex types (anyOf, oneOf, allOf) when some child schema contains only description  
+  ![example](./assets/changelog_assets/fixComplexTypeAny.jpg)  
+- Bug with number enums which have `x-enumNames`  
+- Problem with not existing `title` property in `info`  
+
+Minor:  
+- Improve description for complex types  
+- Improve description in single api file  
+
 # 6.3.0  
 
 Features:  

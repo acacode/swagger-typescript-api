@@ -5,3 +5,9 @@ swagger-test-cli
 swagger-test-cli.*
 templates
 *.md
+.github
+node_modules
+.openapi-generator
+.vscode
+assets
+templates
