@@ -50,6 +50,7 @@ const config = {
     onCreateRequestParams: (rawType) => {},
     onCreateRouteName: () => {},
     onFormatTypeName: (typeName, rawTypeName) => {},
+    onFormatRouteName: (routeInfo, templateRouteName) => {},
   },
   defaultResponseType: TS_KEYWORDS.VOID,
   singleHttpClient: false,

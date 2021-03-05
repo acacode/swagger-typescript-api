@@ -267,6 +267,7 @@ export class HttpClient<SecurityDataType = unknown> {
  * @title Furkot Trips
  * @version 1.0.0
  * @baseUrl https://trips.furkot.com/pub/api
+ * @externalDocs https://help.furkot.com/widgets/furkot-api.html
  * @contact <trips@furkot.com>
  *
  * Furkot provides Rest API to access user trip data.

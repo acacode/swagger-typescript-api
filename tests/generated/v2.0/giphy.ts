@@ -487,6 +487,7 @@ export class HttpClient<SecurityDataType = unknown> {
  * @version 1.0
  * @termsOfService https://developers.giphy.com/
  * @baseUrl https://api.giphy.com/v1
+ * @externalDocs https://developers.giphy.com/docs/
  * @contact <support@giphy.com>
  *
  * Giphy API
