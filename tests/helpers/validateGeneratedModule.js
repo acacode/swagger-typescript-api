@@ -40,8 +40,10 @@ module.exports = ({ pathToFile }) => {
   if (diagnostics.length) {
     process.stdout.write(`\r\n`);
   } else {
-    process.stdout.clearLine(process.stdout);
-    process.stdout.cursorTo(0);
+    if (process.stdout.clearLine && process.stdout.cursorTo) {
+      process.stdout.clearLine(process.stdout);
+      process.stdout.cursorTo(0);
+    }
   }
 
   return diagnostics;
