@@ -769,7 +769,10 @@ export interface SwaggerTypeOrgTeamsPostGeneratedDataContract {
   repo_names?: string[];
 }
 
-export type SwaggerTypeOrganizationGeneratedDataContract = SwaggerTypeActorGeneratedDataContract & any;
+/**
+ * A GitHub organization
+ */
+export type SwaggerTypeOrganizationGeneratedDataContract = SwaggerTypeActorGeneratedDataContract;
 
 export interface SwaggerTypeOrganizationAsTeamMemberGeneratedDataContract {
   errors?: { code?: string; field?: string; resource?: string }[];
@@ -1124,13 +1127,17 @@ export interface SwaggerTypeRepoGeneratedDataContract {
 
   /** A user or organization */
   owner?: SwaggerTypeActorGeneratedDataContract;
-  parent?: SwaggerTypeRepoGeneratedDataContract & any;
+
+  /** Is present when the repo is a fork. Parent is the repo this repo was forked from. */
+  parent?: SwaggerTypeRepoGeneratedDataContract;
   private?: boolean;
 
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   pushed_at?: string;
   size?: number;
-  source?: SwaggerTypeRepoGeneratedDataContract & any;
+
+  /** Is present when the repo is a fork. Source is the ultimate source for the network. */
+  source?: SwaggerTypeRepoGeneratedDataContract;
   ssh_url?: string;
   svn_url?: string;
 
@@ -1416,7 +1423,10 @@ export interface SwaggerTypeTreesGeneratedDataContract {
   url?: string;
 }
 
-export type SwaggerTypeUserGeneratedDataContract = SwaggerTypeActorGeneratedDataContract & any;
+/**
+ * A GitHub user
+ */
+export type SwaggerTypeUserGeneratedDataContract = SwaggerTypeActorGeneratedDataContract;
 
 export type SwaggerTypeUserEmailsGeneratedDataContract = string[];
 

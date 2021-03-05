@@ -1,5 +1,13 @@
 # next release  
 
+# 6.3.1  
+
+Fixes:
+- Bug with wrong complex types (anyOf, oneOf, allOf) when some child schema contains only description  
+  ![example](./assets/changelog_assets/fixComplexTypeAny.jpg)  
+- Bug with number enums which have `x-enumNames`  
+
+
 # 6.3.0  
 
 Features:  

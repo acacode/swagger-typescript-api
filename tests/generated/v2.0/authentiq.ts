@@ -10,6 +10,47 @@
  */
 
 /**
+ * @format int32
+ */
+export enum EmptyEnum {
+  Bla = "Bla",
+  Blabla = "Blabla",
+  Boiler = "Boiler",
+}
+
+/**
+ * @format int32
+ */
+export enum EnumWithMoreNames {
+  Bla = 1,
+  Blabla = "Blabla",
+  Boiler = "Boiler",
+}
+
+/**
+ * @format int32
+ */
+export enum SomeInterestEnum {
+  Bla = 6,
+  Blabla = 2,
+  Boiler = 1,
+  Bbabab = 67,
+  Nowadays = 88,
+  FAIL = 122,
+  Vvvvv = 88,
+  ASdasAS = 0,
+  ASDsacZX = 213,
+  Zook = 12378,
+  EnumMm = 123125,
+  VCsa = 32452,
+  Yuuu = 1111,
+  ASddd = 66666,
+  ASdsdsa = "ASdsdsa",
+  ASDds = "ASDds",
+  HSDFDS = "HSDFDS",
+}
+
+/**
  * Authentiq ID in JWT format, self-signed.
  */
 export interface AuthentiqID {

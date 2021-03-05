@@ -10600,12 +10600,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     gistsUpdate: (
       gistId: string,
-      data: (any | any | (any & any) | null) & {
+      data: (any | any | null) & {
         description?: string;
-        files?: Record<
-          string,
-          (any | any | object | (any & any & object) | null) & { content?: string; filename?: string | null }
-        >;
+        files?: Record<string, (any | any | object | null) & { content?: string; filename?: string | null }>;
       },
       params: RequestParams = {},
     ) =>
