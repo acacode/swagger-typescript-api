@@ -107,6 +107,7 @@ generateApi({
   singleHttpClient: true,
   cleanOutput: false,
   enumNamesAsValues: false,
+  moduleNameFirstTag: false,
   generateUnionEnums: false,
   extraTemplates: [],
   hooks: {
