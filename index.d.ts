@@ -84,7 +84,6 @@ interface GenerateApiParams {
    * extract request params to data contract (Also combine path params and query params into one object)
    */
   extractRequestParams?: boolean;
-  prepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C;
   /**
    * prettier configuration
    */
