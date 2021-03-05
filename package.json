@@ -10,6 +10,7 @@
     "contributors": "all-contributors generate",
     "cli:help": "node index.js -h",
     "test-all": "node ./node_modules/npm-run-all/bin/npm-run-all/index.js generate validate test:* --continue-on-error",
+    "test-specific": "node ./node_modules/npm-run-all/bin/npm-run-all/index.js test:* --continue-on-error",
     "generate": "node tests/generate.js",
     "generate:debug": "node --nolazy tests/generate.js",
     "validate": "node tests/validate.js",
