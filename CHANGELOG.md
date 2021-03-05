@@ -1,6 +1,6 @@
 # next release  
 
-# 6.3.1  
+# 6.4.0  
 
 Features:  
 - `onFormatRouteName(routeInfo: RawRouteInfo, templateRouteName: string)` hook. Allows to format route name, as you like :)  
