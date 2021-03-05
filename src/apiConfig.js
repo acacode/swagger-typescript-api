@@ -3,7 +3,7 @@ const { formatDescription } = require("./common");
 const { TS_KEYWORDS } = require("./constants");
 
 const createApiConfig = (swaggerSchema) => {
-  const { info, servers, host, basePath } = swaggerSchema;
+  const { info, servers, host, basePath, externalDocs, tags } = swaggerSchema;
   const server = (servers && servers[0]) || { url: "" };
   const { title = "No title", version, description: schemaDescription = "" } = info || {};
   const { url: serverUrl } = server;
@@ -27,6 +27,14 @@ const createApiConfig = (swaggerSchema) => {
     servers: servers || [],
     basePath,
     host,
+    externalDocs: _.merge(
+      {
+        url: "",
+        description: "",
+      },
+      externalDocs,
+    ),
+    tags: _.compact(tags),
     // TODO: unused, remove!
     props: _.compact([
       {
@@ -50,7 +58,9 @@ const createApiConfig = (swaggerSchema) => {
     baseUrl: serverUrl,
     title,
     version,
+    // TODO: unused, remove
     description,
+    // TODO: unused, remove
     hasDescription: !!description.length,
   };
 };

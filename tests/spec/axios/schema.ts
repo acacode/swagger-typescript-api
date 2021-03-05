@@ -1533,7 +1533,9 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title GitHub
  * @version v3
+ * @termsOfService https://help.github.com/articles/github-terms-of-service/#b-api-terms
  * @baseUrl https://api.github.com
+ *
  * Powerful collaboration, code review, and code management for open source and private projects.
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {

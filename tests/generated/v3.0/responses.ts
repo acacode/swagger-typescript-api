@@ -203,6 +203,7 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title Title
  * @version latest
+ *
  * Description
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {

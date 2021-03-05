@@ -204,6 +204,7 @@ export class HttpClient<SecurityDataType = unknown> {
  * @title Sample Application Flow OAuth2 Project
  * @version 1.0.0
  * @baseUrl https://virtserver.swaggerhub.com/sdfsdfsffs/sdfff/1.0.0
+ *
  * This is an example of using OAuth2 Application Flow in a specification to describe security to your API.
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {

@@ -203,6 +203,7 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title Query Path Param
  * @version 1.0.0
+ * @license MIT
  * @baseUrl http://unknown.io/v666
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {

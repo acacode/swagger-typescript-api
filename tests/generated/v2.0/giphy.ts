@@ -485,7 +485,10 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title Giphy
  * @version 1.0
+ * @termsOfService https://developers.giphy.com/
  * @baseUrl https://api.giphy.com/v1
+ * @contact <support@giphy.com>
+ *
  * Giphy API
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {

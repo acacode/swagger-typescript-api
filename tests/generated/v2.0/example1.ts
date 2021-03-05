@@ -231,6 +231,7 @@ export class HttpClient<SecurityDataType = unknown> {
  * @title SqlManagementClient
  * @version 2017-10-01-preview
  * @baseUrl https://management.azure.com
+ *
  * The Azure SQL Database management API provides a RESTful set of web APIs that interact with Azure SQL Database services to manage your databases. The API enables users to create, retrieve, update, and delete databases, servers, and other entities.
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {

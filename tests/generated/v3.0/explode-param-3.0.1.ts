@@ -219,6 +219,7 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title API
  * @version 0.1
+ *
  * Documentation
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {

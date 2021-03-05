@@ -10,7 +10,7 @@ Fixes:
 
 Minor:  
 - Improve description for complex types  
-
+- Improve description in single api file  
 
 # 6.3.0  
 

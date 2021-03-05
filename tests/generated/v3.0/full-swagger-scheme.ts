@@ -9147,7 +9147,11 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title GitHub v3 REST API
  * @version 1.1.4
+ * @license MIT (https://spdx.org/licenses/MIT)
+ * @termsOfService https://docs.github.com/articles/github-terms-of-service
  * @baseUrl https://api.github.com
+ * @contact Support (https://support.github.com/contact)
+ *
  * GitHub's v3 REST API.
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
