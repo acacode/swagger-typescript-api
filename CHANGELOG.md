@@ -1,6 +1,9 @@
 # next release  
 
+# 6.4.1  
 
+Fixes:  
+- Bug with axios headers (thanks @mutoe)  
 
 # 6.4.0  
 
