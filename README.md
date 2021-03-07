@@ -1,8 +1,7 @@
 # swagger-typescript-api  
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/acacode/swagger-typescript-api.svg)](https://greenkeeper.io/) 
 [![NPM badge](https://img.shields.io/npm/v/swagger-typescript-api.svg)](https://www.npmjs.com/package/swagger-typescript-api) 
-[![Build Status](https://travis-ci.org/acacode/swagger-typescript-api.svg?branch=master)](https://travis-ci.org/acacode/swagger-typescript-api) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![CI](https://github.com/acacode/swagger-typescript-api/actions/workflows/main.yml/badge.svg?branch=next)](https://github.com/acacode/swagger-typescript-api/actions/workflows/main.yml) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-20-orange.svg)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
