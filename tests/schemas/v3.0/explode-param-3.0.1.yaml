@@ -4,6 +4,38 @@ info:
   description: Documentation
   version: "0.1"
 paths:
+  "/{user}/foos":
+    parameters:
+      - schema:
+          type: string
+        user: blbalbla
+        in: path
+        required: true
+    post:
+      summary: Some summary
+      operationId: createFile
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Floop"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                meme:
+                  type: string
+                  default: ""
+                memeType:
+                  type: string
+              required:
+                - meme
+        required: true
+      description: ""
   /something/:
     get:
       operationId: gets
@@ -17,6 +49,11 @@ paths:
 
 components:
   schemas:
+    Floop:
+      type: object
+      properties:
+        info:
+          type: string
     QueryParams:
       type: object
       properties:

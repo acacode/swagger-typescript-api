@@ -1,5 +1,8 @@
 # next release  
 
+Fixes:  
+- Bug with missing `name` property in in-path requests parameters  
+
 # 6.4.1  
 
 Fixes:  
