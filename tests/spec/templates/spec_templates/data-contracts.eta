@@ -1,30 +1,45 @@
 <%
-  const { modelTypes, utils } = it;
-  const { formatDescription } = utils;
-  
+  const { modelTypes, utils, rawModelTypes, config } = it;
+  const { formatDescription, formatModelName, _ } = utils;
+  const { SCHEMA_TYPES } = config.constants;
 
-  const dataContractTemplates = {
-    enum: (contract) => {
-      return `enum ${contract.name} {\r\n${contract.content} \r\n }`;
-    },
-    interface: (contract) => {
-      return `interface ${contract.name} {\r\n${contract.content}}`;
-    },
-    type: (contract) => {
-      return `type ${contract.name} = ${contract.content}`;
-    },
-  }
+
 %>
-<% modelTypes.forEach((contract) => { %>
-<% if (contract.description) { %>
-/**
-* <%~ formatDescription(contract.description) %>
+<% rawModelTypes.forEach((rawModelType) => { %>
+  <%
+  const { typeIdentifier, type, schemaType, content, description } = rawModelType.typeData;
+  const modelName = formatModelName(rawModelType.typeName);
+  %>
+  <% if (SCHEMA_TYPES.OBJECT === schemaType) { %>
+  <% if (description) { %>
+  /**
+  <%~ description %>
 
-*/
-<% } %>
-export <%~ (dataContractTemplates[contract.typeIdentifier] || dataContractTemplates.type)(contract) %>
+  */
+  <% } %>
+  export interface <%~ modelName %> {
+    <% _.forEach(content, ({ name, value, description, isRequired }) => { %>
+    <% if (description) { %>
+    /**
+    <%~ description %>
 
+    */
+    <% } %>
+    <%~ name %><%~ isRequired ? "" : "?" %>:<%~ value %>
 
+    <% }) %>
+  }
+  <% } else %>
+  <% if (SCHEMA_TYPES.ENUM === schemaType) { %>
+
+  <% } else %>
+  <% if (SCHEMA_TYPES.COMPLEX === schemaType) { %>
+  
+  <% } else %>
+  <% if (SCHEMA_TYPES.PRIMITVE === schemaType) { %>
+
+  <% } else { %>
+  <% } %>
 <% }) %>
 
 /* CUSTOM TEMPLATE */

@@ -16,10 +16,14 @@ const { createComponentsMap, filterComponentsMap } = require("./components");
 const { createFile, pathIsExist, pathIsDir, createDir, cleanDir } = require("./files");
 const { addToConfig, config } = require("./config");
 const { getTemplates, getTemplatePaths } = require("./templates");
+const { formatModelName } = require("./modelNames");
 const constants = require("./constants");
 const { generateOutputFiles } = require("./output");
 
+const { SCHEMA_TYPES } = constants;
+
 module.exports = {
+  constants: constants,
   generateApi: ({
     input,
     output,
@@ -116,10 +120,13 @@ module.exports = {
           const hasQueryRoutes = routes.some((route) => route.hasQuery);
           const hasFormDataRoutes = routes.some((route) => route.hasFormDataParams);
 
+          const componentSchemas = filterComponentsMap(componentsMap, "schemas");
+
           const rawConfiguration = {
             apiConfig: createApiConfig(usageSchema, hasSecurityRoutes),
             config,
-            modelTypes: _.map(filterComponentsMap(componentsMap, "schemas"), prepareModelType),
+            modelTypes: _.map(componentSchemas, prepareModelType),
+            rawModelTypes: componentSchemas,
             hasFormDataRoutes,
             hasSecurityRoutes,
             hasQueryRoutes,
@@ -133,6 +140,63 @@ module.exports = {
               ...require("./common"),
             },
           };
+
+          rawConfiguration.rawModelTypes.forEach((rawModelType) => {
+            const { typeIdentifier, type, schemaType, content } = rawModelType.typeData;
+            const modelName = formatModelName(rawModelType.typeName);
+
+            switch (schemaType) {
+              case SCHEMA_TYPES.OBJECT: {
+                // console.info("OBJECT   : type, typeIdentifier, schemaType", type, typeIdentifier, schemaType)
+                if (!_.isArray(content)) {
+                  console.info("WARN!!!!", rawModelType.typeData);
+                } else {
+                  const bbb = `
+                   interface ${modelName} {
+                     ${content.map(({ name, value }) => `${name}: ${value}`).join(";\n")}
+                   }
+                  `;
+                }
+                break;
+              }
+              case SCHEMA_TYPES.ENUM: {
+                // console.info("ENUM     : type, typeIdentifier, schemaType", type, typeIdentifier, schemaType)
+                if (!_.isArray(content)) {
+                  console.info("WARN!!!!", rawModelType.typeData);
+                } else {
+                  if (typeIdentifier === "enum") {
+                    const bbb = `
+                    enum ${modelName} {
+                      ${_.map(content, ({ key, type, value }) => `${key} = ${value}`).join(",\n")}
+                    }
+                   `;
+                  } else {
+                    const bbb = `
+                    type ${modelName} = ${_.map(content, ({ key, type, value }) => value).join(
+                      " | ",
+                    )}
+                   `;
+                  }
+                }
+                break;
+              }
+              case SCHEMA_TYPES.COMPLEX: {
+                // console.info("COMPLEX  : type, typeIdentifier, schemaType", type, typeIdentifier, schemaType)
+                const bbb = `type ${modelName} = ${content}`;
+                break;
+              }
+              case SCHEMA_TYPES.PRIMITIVE: {
+                // console.info("PRIMITIVE: type, typeIdentifier, schemaType", type, typeIdentifier, schemaType)
+                const bbb = `type ${modelName} = ${content}`;
+                break;
+              }
+              default: {
+                // console.info("DEFAULT  : type, typeIdentifier, schemaType", type, typeIdentifier, schemaType)
+                const bbb = `type ${modelName} = ${content}`;
+                break;
+              }
+            }
+          });
 
           const configuration = config.hooks.onPrepareConfig(rawConfiguration) || rawConfiguration;
 

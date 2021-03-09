@@ -47,31 +47,61 @@ const createMultipleFileInfos = (templatesToRender, configuration) => {
   const { fileNames, generateRouteTypes, generateClient } = configuration.config;
   const modularApiFileInfos = [];
 
-  if (generateClient && routes.$outOfModule) {
-    const outOfModuleApiContent = renderTemplate(templatesToRender.api, {
-      ...configuration,
-      route: configuration.routes.$outOfModule,
-    });
+  if (routes.$outOfModule) {
+    if (generateRouteTypes) {
+      const outOfModuleRouteContent = renderTemplate(templatesToRender.routeTypes, {
+        ...configuration,
+        route: configuration.routes.$outOfModule,
+      });
 
-    modularApiFileInfos.push(
-      createFileInfo(configuration, fileNames.outOfModuleApi, outOfModuleApiContent),
-    );
+      modularApiFileInfos.push(
+        createFileInfo(configuration, fileNames.outOfModuleApi, outOfModuleRouteContent),
+      );
+    }
+    if (generateClient) {
+      const outOfModuleApiContent = renderTemplate(templatesToRender.api, {
+        ...configuration,
+        route: configuration.routes.$outOfModule,
+      });
+
+      modularApiFileInfos.push(
+        createFileInfo(configuration, fileNames.outOfModuleApi, outOfModuleApiContent),
+      );
+    }
   }
 
-  if (generateClient && routes.combined) {
+  if (routes.combined) {
     modularApiFileInfos.push(
       ..._.reduce(
         routes.combined,
         (apiFileInfos, route) => {
-          const apiModuleContent = renderTemplate(templatesToRender.api, {
-            ...configuration,
-            route,
-          });
+          if (generateRouteTypes) {
+            const routeModuleContent = renderTemplate(templatesToRender.routeTypes, {
+              ...configuration,
+              route,
+            });
 
-          return [
-            ...apiFileInfos,
-            createFileInfo(configuration, classNameCase(route.moduleName), apiModuleContent),
-          ];
+            apiFileInfos.push(
+              createFileInfo(
+                configuration,
+                classNameCase(`${route.moduleName}_Route`),
+                routeModuleContent,
+              ),
+            );
+          }
+
+          if (generateClient) {
+            const apiModuleContent = renderTemplate(templatesToRender.api, {
+              ...configuration,
+              route,
+            });
+
+            apiFileInfos.push(
+              createFileInfo(configuration, classNameCase(route.moduleName), apiModuleContent),
+            );
+          }
+
+          return apiFileInfos;
         },
         [],
       ),
@@ -84,12 +114,6 @@ const createMultipleFileInfos = (templatesToRender, configuration) => {
       fileNames.dataContracts,
       renderTemplate(templatesToRender.dataContracts, configuration),
     ),
-    generateRouteTypes &&
-      createFileInfo(
-        configuration,
-        fileNames.routeTypes,
-        renderTemplate(templatesToRender.routeTypes, configuration),
-      ),
     generateClient &&
       createFileInfo(
         configuration,
