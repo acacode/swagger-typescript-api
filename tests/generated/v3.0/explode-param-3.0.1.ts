@@ -9,6 +9,10 @@
  * ---------------------------------------------------------------
  */
 
+export interface Floop {
+  info?: string;
+}
+
 export interface QueryParams {
   /**
    * Page number
@@ -223,6 +227,24 @@ export class HttpClient<SecurityDataType = unknown> {
  * Documentation
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  user = {
+    /**
+     * No description
+     *
+     * @name CreateFile
+     * @summary Some summary
+     * @request POST:/{user}/foos
+     */
+    createFile: (user: string, data: { meme: string; memeType?: string }, params: RequestParams = {}) =>
+      this.request<Floop, any>({
+        path: `/${user}/foos`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+  };
   something = {
     /**
      * No description

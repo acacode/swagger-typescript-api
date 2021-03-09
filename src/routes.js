@@ -207,7 +207,9 @@ const getRouteParams = (routeInfo, pathParams) => {
       };
     }
 
-    if (routeParam.in === "path" && routeParam.name) {
+    if (routeParam.in === "path") {
+      if (!routeParam.name) return;
+
       routeParam.name = _.camelCase(routeParam.name);
     }
 

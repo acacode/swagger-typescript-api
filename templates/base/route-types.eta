@@ -1,6 +1,13 @@
 <%
-const { utils, config, routes } = it;
+const { utils, config, routes, modelTypes } = it;
+const { _ } = utils;
+const dataContracts = config.modular ? _.map(modelTypes, "name") : [];
 %>
+
+<% if (dataContracts.length) { %>
+import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataContracts %>"
+<% } %>
+
 <%
 /* TODO: outOfModule, combined should be attributes of route, which will allow to avoid duplication of code */
 %>
