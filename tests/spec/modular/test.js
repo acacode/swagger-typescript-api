@@ -12,6 +12,7 @@ schemas.forEach(({ absolutePath }) => {
     output: resolve(__dirname, "./"),
     modular: true,
     generateClient: true,
+    generateRouteTypes: true,
   })
     .then(() => {
       const diagnostics = [

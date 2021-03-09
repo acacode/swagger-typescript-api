@@ -2,6 +2,7 @@
 
 Fixes:  
 - Bug with missing `name` property in in-path requests parameters  
+- Problem with usage `--route-types` with `--modular` option (mising import data contracts)  
 
 # 6.4.1  
 
