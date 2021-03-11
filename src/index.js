@@ -16,10 +16,14 @@ const { createComponentsMap, filterComponentsMap } = require("./components");
 const { createFile, pathIsExist, pathIsDir, createDir, cleanDir } = require("./files");
 const { addToConfig, config } = require("./config");
 const { getTemplates, getTemplatePaths } = require("./templates");
+const { formatModelName } = require("./modelNames");
 const constants = require("./constants");
 const { generateOutputFiles } = require("./output");
 
+const { SCHEMA_TYPES } = constants;
+
 module.exports = {
+  constants: constants,
   generateApi: ({
     input,
     output,
@@ -116,10 +120,13 @@ module.exports = {
           const hasQueryRoutes = routes.some((route) => route.hasQuery);
           const hasFormDataRoutes = routes.some((route) => route.hasFormDataParams);
 
+          const componentSchemas = filterComponentsMap(componentsMap, "schemas");
+
           const rawConfiguration = {
             apiConfig: createApiConfig(usageSchema, hasSecurityRoutes),
             config,
-            modelTypes: _.map(filterComponentsMap(componentsMap, "schemas"), prepareModelType),
+            modelTypes: _.map(componentSchemas, prepareModelType),
+            rawModelTypes: componentSchemas,
             hasFormDataRoutes,
             hasSecurityRoutes,
             hasQueryRoutes,
