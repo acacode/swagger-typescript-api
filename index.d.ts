@@ -321,6 +321,7 @@ export interface GenerateApiOutput {
     etaOptions?: import("eta/dist/types/config").PartialConfig,
   ) => string;
   getTemplate: (params: { fileName?: string; name?: string; path?: string }) => string;
+  formatTSContent: (content: string) => string;
 }
 
 export declare function generateApi(

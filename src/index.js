@@ -18,6 +18,7 @@ const { addToConfig, config } = require("./config");
 const { getTemplates, getTemplatePaths, renderTemplate, getTemplate } = require("./templates");
 const constants = require("./constants");
 const { generateOutputFiles } = require("./output");
+const formatFileContent = require("./formatFileContent");
 
 module.exports = {
   constants: constants,
@@ -194,6 +195,7 @@ module.exports = {
             getTemplate,
             renderTemplate,
             createFile,
+            formatTSContent: formatFileContent,
           });
         })
         .catch((e) => {
