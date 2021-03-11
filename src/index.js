@@ -15,12 +15,9 @@ const { getSwaggerObject, fixSwaggerScheme, convertSwaggerObject } = require("./
 const { createComponentsMap, filterComponentsMap } = require("./components");
 const { createFile, pathIsExist, pathIsDir, createDir, cleanDir } = require("./files");
 const { addToConfig, config } = require("./config");
-const { getTemplates, getTemplatePaths } = require("./templates");
-const { formatModelName } = require("./modelNames");
+const { getTemplates, getTemplatePaths, renderTemplate, getTemplate } = require("./templates");
 const constants = require("./constants");
 const { generateOutputFiles } = require("./output");
-
-const { SCHEMA_TYPES } = constants;
 
 module.exports = {
   constants: constants,
@@ -163,12 +160,27 @@ module.exports = {
             if (!isDirPath) return file;
 
             if (translateToJavaScript) {
-              createFile(output, file.name, file.content);
-              createFile(output, file.declaration.name, file.declaration.content);
+              createFile({
+                path: output,
+                fileName: file.name,
+                content: file.content,
+                withPrefix: true,
+              });
+              createFile({
+                path: output,
+                fileName: file.declaration.name,
+                content: file.declaration.content,
+                withPrefix: true,
+              });
               if (!config.silent)
                 console.log(`✔️  your javascript api file created in "${output}"`);
             } else {
-              createFile(output, file.name, file.content);
+              createFile({
+                path: output,
+                fileName: file.name,
+                content: file.content,
+                withPrefix: true,
+              });
               if (!config.silent)
                 console.log(`✔️  your typescript api file created in "${output}"`);
             }
@@ -179,6 +191,9 @@ module.exports = {
           resolve({
             files: generatedFiles,
             configuration,
+            getTemplate,
+            renderTemplate,
+            createFile,
           });
         })
         .catch((e) => {

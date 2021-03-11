@@ -7,6 +7,33 @@ BREAKING_CHANGES:
 Fixes:  
 - Incorrect working the `--route-types` option with `--modular` option (route types should be splitted on files)  
 
+Features:  
+- Add output util functions  
+```ts
+  createFile: (params: {
+    path: string;
+    fileName: string;
+    content: string;
+    withPrefix?: boolean;
+  }) => void;
+  renderTemplate: (
+    templateContent: string,
+    data: Record<string, unknown>,
+    etaOptions?: import("eta/dist/types/config").PartialConfig
+  ) => string;
+  getTemplate: (params: {
+    fileName: string;
+    name?: string
+  }) => string
+
+
+  // ...
+
+  generateApi({ /* ... */ }).then(({ createFile, renderTemplate, getTemplate }) => {
+    // do something
+  })
+```
+
 # 6.4.2  
 
 Fixes:  

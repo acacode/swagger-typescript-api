@@ -308,6 +308,18 @@ export interface GenerateApiConfiguration {
 export interface GenerateApiOutput {
   configuration: GenerateApiConfiguration;
   files: { name: string; content: string; declaration: { name: string; content: string } | null }[];
+  createFile: (params: {
+    path: string;
+    fileName: string;
+    content: string;
+    withPrefix?: boolean;
+  }) => void;
+  renderTemplate: (
+    templateContent: string,
+    data: Record<string, unknown>,
+    etaOptions?: import("eta/dist/types/config").PartialConfig,
+  ) => string;
+  getTemplate: (params: { fileName: string; name?: string }) => string;
 }
 
 export declare function generateApi(
