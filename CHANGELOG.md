@@ -86,8 +86,9 @@ Features:
     etaOptions?: import("eta/dist/types/config").PartialConfig
   ) => string;
   getTemplate: (params: {
-    fileName: string;
-    name?: string
+    fileName?: string;
+    name?: string;
+    path?: string;
   }) => string
 
 
