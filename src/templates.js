@@ -41,7 +41,7 @@ const getTemplate = ({ fileName, name, path }) => {
   const { templatePaths } = config;
 
   if (path) {
-    return getFileContent(resolve(process.cwd(), path));
+    return getFileContent(resolve(__dirname, path));
   }
 
   if (!fileName) return "";
