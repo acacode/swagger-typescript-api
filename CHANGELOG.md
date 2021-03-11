@@ -84,6 +84,7 @@ Features:
     name?: string;
     path?: string;
   }) => string
+  formatTSContent: (content: string) => string;
 
 
   // ...
