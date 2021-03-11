@@ -20,6 +20,8 @@ const constants = require("./constants");
 const { generateOutputFiles } = require("./output");
 const formatFileContent = require("./formatFileContent");
 
+const { SCHEMA_TYPES } = constants;
+
 module.exports = {
   constants: constants,
   generateApi: ({
