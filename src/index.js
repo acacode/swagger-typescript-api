@@ -21,6 +21,8 @@ const { generateOutputFiles } = require("./output");
 const formatFileContent = require("./formatFileContent");
 const { eventLog, successLog } = require("./logger");
 
+const { SCHEMA_TYPES } = constants;
+
 module.exports = {
   constants: constants,
   generateApi: ({
