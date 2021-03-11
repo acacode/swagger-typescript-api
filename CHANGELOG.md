@@ -1,5 +1,12 @@
 # next release  
 
+BREAKING_CHANGES:  
+- format `namespace` name in `--route-types` as camelCase with upper first capitalized letter  
+  `foo_bar` -> `FooBar`  
+
+Fixes:  
+- Incorrect working the `--route-types` option with `--modular` option (route types should be splitted on files)  
+
 # 6.4.2  
 
 Fixes:  

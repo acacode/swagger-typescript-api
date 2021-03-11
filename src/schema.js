@@ -63,7 +63,12 @@ const getTypeAlias = (rawSchema) => {
 };
 
 const getEnumNames = (schema) => {
-  return schema["x-enumNames"] || schema["xEnumNames"] || schema["x-enumnames"];
+  return (
+    schema["x-enumNames"] ||
+    schema["xEnumNames"] ||
+    schema["x-enumnames"] ||
+    schema["x-enum-varnames"]
+  );
 };
 
 const getInternalSchemaType = (schema) => {
