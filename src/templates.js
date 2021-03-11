@@ -37,8 +37,14 @@ const getTemplatePaths = ({ templates, modular }) => {
   };
 };
 
-const getTemplate = ({ fileName, name }) => {
+const getTemplate = ({ fileName, name, path }) => {
   const { templatePaths } = config;
+
+  if (path) {
+    return getFileContent(resolve(process.cwd(), path));
+  }
+
+  if (!fileName) return "";
 
   const customFullPath = resolve(templatePaths.custom, "./", fileName);
   let fileContent = pathIsExist(customFullPath) && getFileContent(customFullPath);
