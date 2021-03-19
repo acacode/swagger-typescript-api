@@ -63,7 +63,12 @@ const getTypeAlias = (rawSchema) => {
 };
 
 const getEnumNames = (schema) => {
-  return schema["x-enumNames"] || schema["xEnumNames"] || schema["x-enumnames"];
+  return (
+    schema["x-enumNames"] ||
+    schema["xEnumNames"] ||
+    schema["x-enumnames"] ||
+    schema["x-enum-varnames"]
+  );
 };
 
 const getInternalSchemaType = (schema) => {
@@ -126,6 +131,8 @@ const getObjectTypeContent = (schema) => {
     const required = isRequired(property, name, requiredProperties);
     const rawTypeData = _.get(getRefType(property), "rawTypeData", {});
     const nullable = !!(rawTypeData.nullable || property.nullable);
+    const fieldName = isValidName(name) ? name : `"${name}"`;
+    const fieldValue = getInlineParseContent(property);
 
     return {
       $$raw: property,
@@ -146,12 +153,9 @@ const getObjectTypeContent = (schema) => {
       ]).join("\n"),
       isRequired: required,
       isNullable: nullable,
-      field: _.compact([
-        isValidName(name) ? name : `"${name}"`,
-        !required && "?",
-        ": ",
-        getInlineParseContent(property),
-      ]).join(""),
+      name: fieldName,
+      value: fieldValue,
+      field: _.compact([fieldName, !required && "?", ": ", fieldValue]).join(""),
     };
   });
 
@@ -234,7 +238,7 @@ const schemaParsers = {
     const enumNamesAsValues = config.enumNamesAsValues;
     const keyType = getType(schema);
     const enumNames = getEnumNames(schema);
-    const isIntegerEnum = keyType === types.number;
+    const isIntegerOrBooleanEnum = keyType === types.number || keyType === types.boolean;
     let content = null;
 
     if (_.isArray(enumNames) && _.size(enumNames)) {
@@ -253,15 +257,20 @@ const schemaParsers = {
         return {
           key: formattedKey,
           type: keyType,
-          value: enumValue === null ? enumValue : isIntegerEnum ? `${enumValue}` : `"${enumValue}"`,
+          value:
+            enumValue === null
+              ? enumValue
+              : isIntegerOrBooleanEnum
+              ? `${enumValue}`
+              : `"${enumValue}"`,
         };
       });
     } else {
       content = _.map(schema.enum, (key) => {
         return {
-          key: isIntegerEnum ? key : formatModelName(key),
+          key: isIntegerOrBooleanEnum ? key : formatModelName(key),
           type: keyType,
-          value: key === null ? key : isIntegerEnum ? `${key}` : `"${key}"`,
+          value: key === null ? key : isIntegerOrBooleanEnum ? `${key}` : `"${key}"`,
         };
       });
     }
@@ -272,7 +281,10 @@ const schemaParsers = {
       schemaType: SCHEMA_TYPES.ENUM,
       type: SCHEMA_TYPES.ENUM,
       keyType: keyType,
-      typeIdentifier: !enumNames && isIntegerEnum ? TS_KEYWORDS.TYPE : TS_KEYWORDS.ENUM,
+      typeIdentifier:
+        config.generateUnionEnums || (!enumNames && isIntegerOrBooleanEnum)
+          ? TS_KEYWORDS.TYPE
+          : TS_KEYWORDS.ENUM,
       name: typeName,
       description: formatDescription(schema.description),
       content,

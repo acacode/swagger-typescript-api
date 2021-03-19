@@ -38,8 +38,12 @@ const cleanDir = (path) => {
 
 const pathIsExist = (path) => path && fs.existsSync(path);
 
-const createFile = (pathTo, fileName, content) =>
-  fs.writeFileSync(resolve(__dirname, pathTo, `./${fileName}`), `${filePrefix}${content}`, _.noop);
+const createFile = ({ path, fileName, content, withPrefix }) =>
+  fs.writeFileSync(
+    resolve(__dirname, path, `./${fileName}`),
+    `${withPrefix ? filePrefix : ""}${content}`,
+    _.noop,
+  );
 
 module.exports = {
   createFile,

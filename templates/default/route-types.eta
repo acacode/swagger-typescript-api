@@ -1,6 +1,6 @@
 <%
 const { utils, config, routes, modelTypes } = it;
-const { _ } = utils;
+const { _, classNameCase } = utils;
 const dataContracts = config.modular ? _.map(modelTypes, "name") : [];
 %>
 
@@ -14,14 +14,14 @@ import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataCont
 
 <% routes.outOfModule && routes.outOfModule.forEach(({ routes = [] }) => { %>
     <% routes.forEach((route) => { %>
-        <%~ includeFile('@base/route-type.eta', { route, utils, config }) %>
+        <%~ includeFile('@base/route-type.eta', { ...it, route }) %>
     <% }) %>
 <% }) %>
 
 <% routes.combined && routes.combined.forEach(({ routes = [], moduleName }) => { %>
-    export namespace <%~ moduleName %> {
+    export namespace <%~ classNameCase(moduleName) %> {
     <% routes.forEach((route) => { %>
-        <%~ includeFile('@base/route-type.eta', { route, utils, config }) %>
+        <%~ includeFile('@base/route-type.eta', { ...it, route }) %>
     <% }) %>
     }
 

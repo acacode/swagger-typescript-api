@@ -1444,7 +1444,7 @@ export interface UserUpdate {
 
 export type Users = User[];
 
-export namespace someTest {
+export namespace SomeTest {
   /**
    * @description This type should test bug https://github.com/acacode/swagger-typescript-api/issues/156 NOTE: all properties should be required
    * @name SomeTestList
@@ -1485,7 +1485,7 @@ export namespace someTest {
   }
 }
 
-export namespace pathParams {
+export namespace PathParams {
   /**
    * @description Lists all the emojis available to use on GitHub.
    * @name PathParamsList
@@ -1500,7 +1500,7 @@ export namespace pathParams {
   }
 }
 
-export namespace events {
+export namespace Events {
   /**
    * @description List public events.
    * @name EventsList
@@ -1515,7 +1515,7 @@ export namespace events {
   }
 }
 
-export namespace feeds {
+export namespace Feeds {
   /**
    * @description List Feeds. GitHub provides several timeline resources in Atom format. The Feeds API lists all the feeds available to the authenticating user.
    * @name FeedsList
@@ -1530,7 +1530,7 @@ export namespace feeds {
   }
 }
 
-export namespace gists {
+export namespace Gists {
   /**
    * @description List the authenticated user's gists or if called anonymously, this will return all public gists.
    * @name GistsList
@@ -1727,7 +1727,7 @@ export namespace gists {
   }
 }
 
-export namespace gitignore {
+export namespace Gitignore {
   /**
    * @description Listing available templates. List all templates available to pass as an option when creating a repository.
    * @name TemplatesList
@@ -1754,7 +1754,7 @@ export namespace gitignore {
   }
 }
 
-export namespace issues {
+export namespace Issues {
   /**
    * @description List issues. List all issues across all the authenticated user's visible repositories.
    * @name IssuesList
@@ -1776,7 +1776,7 @@ export namespace issues {
   }
 }
 
-export namespace legacy {
+export namespace Legacy {
   /**
    * @description Find issues by state and keyword.
    * @name IssuesSearchDetail
@@ -1832,7 +1832,7 @@ export namespace legacy {
   }
 }
 
-export namespace markdown {
+export namespace Markdown {
   /**
    * @description Render an arbitrary Markdown document
    * @name MarkdownCreate
@@ -1859,7 +1859,7 @@ export namespace markdown {
   }
 }
 
-export namespace meta {
+export namespace Meta {
   /**
    * @description This gives some information about GitHub.com, the service.
    * @name MetaList
@@ -1874,7 +1874,7 @@ export namespace meta {
   }
 }
 
-export namespace networks {
+export namespace Networks {
   /**
    * @description List public events for a network of repositories.
    * @name EventsDetail
@@ -1889,7 +1889,7 @@ export namespace networks {
   }
 }
 
-export namespace notifications {
+export namespace Notifications {
   /**
    * @description List your notifications. List all notifications for the current user, grouped by repository.
    * @name NotificationsList
@@ -1976,7 +1976,7 @@ export namespace notifications {
   }
 }
 
-export namespace orgs {
+export namespace Orgs {
   /**
    * @description Get an Organization.
    * @name OrgsDetail
@@ -2170,7 +2170,7 @@ export namespace orgs {
   }
 }
 
-export namespace rateLimit {
+export namespace RateLimit {
   /**
    * @description Get your current rate limit status Note: Accessing this endpoint does not count against your rate limit.
    * @name RateLimitList
@@ -2185,7 +2185,7 @@ export namespace rateLimit {
   }
 }
 
-export namespace repos {
+export namespace Repos {
   /**
    * @description Delete a Repository. Deleting a repository requires admin access. If OAuth is used, the delete_repo scope is required.
    * @name ReposDelete
@@ -3813,7 +3813,7 @@ export namespace repos {
   }
 }
 
-export namespace repositories {
+export namespace Repositories {
   /**
    * @description List all public repositories. This provides a dump of every public repository, in the order that they were created. Note: Pagination is powered exclusively by the since parameter. is the Link header to get the URL for the next page of repositories.
    * @name RepositoriesList
@@ -3828,7 +3828,7 @@ export namespace repositories {
   }
 }
 
-export namespace search {
+export namespace Search {
   /**
    * @description Search code.
    * @name CodeList
@@ -3879,7 +3879,7 @@ export namespace search {
   }
 }
 
-export namespace teams {
+export namespace Teams {
   /**
    * @description Delete team. In order to delete a team, the authenticated user must be an owner of the org that the team is associated with.
    * @name TeamsDelete
@@ -4054,7 +4054,7 @@ export namespace teams {
   }
 }
 
-export namespace user {
+export namespace User {
   /**
    * @description Get the authenticated user.
    * @name UserList
@@ -4388,7 +4388,7 @@ export namespace user {
   }
 }
 
-export namespace users {
+export namespace Users {
   /**
    * @description Get all users. This provides a dump of every user, in the order that they signed up for GitHub. Note: Pagination is powered exclusively by the since parameter. Use the Link header to get the URL for the next page of users.
    * @name UsersList

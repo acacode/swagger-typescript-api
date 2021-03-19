@@ -1,5 +1,45 @@
 # next release  
 
+# 7.0.0  
+
+BREAKING_CHANGES:  
+- format `namespace` name in `--route-types` as camelCase with upper first capitalized letter  
+  `foo_bar` -> `FooBar`  
+
+Fixes:  
+- Incorrect working the `--route-types` option with `--modular` option (route types should be splitted on files)  
+- Fix critical bug linked with enums with boolean type (thanks @haedaal)  
+
+Features:  
+- Ability to return `false` in `onCreateRoute` hook, it allow to ignore route  
+- Add output util functions  
+```ts
+  createFile: (params: {
+    path: string;
+    fileName: string;
+    content: string;
+    withPrefix?: boolean;
+  }) => void;
+  renderTemplate: (
+    templateContent: string,
+    data: Record<string, unknown>,
+    etaOptions?: import("eta/dist/types/config").PartialConfig
+  ) => string;
+  getTemplate: (params: {
+    fileName?: string;
+    name?: string;
+    path?: string;
+  }) => string
+  formatTSContent: (content: string) => string;
+
+
+  // ...
+
+  generateApi({ /* ... */ }).then(({ createFile, renderTemplate, getTemplate }) => {
+    // do something
+  })
+```
+
 # 6.4.2  
 
 Fixes:  

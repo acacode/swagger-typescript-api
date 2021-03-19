@@ -107,21 +107,28 @@ interface GenerateApiParams {
 }
 
 export interface Hooks {
+  /** calls after parse schema component */
   onCreateComponent: (component: SchemaComponent) => SchemaComponent | void;
+  /** calls after parse any kind of schema */
   onParseSchema: (originalSchema: any, parsedSchema: any) => any | void;
-  onCreateRoute: (routeData: ParsedRoute) => ParsedRoute | void;
+  /** calls after parse route (return type: customized route (ParsedRoute), nothing change (void), false (ignore this route)) */
+  onCreateRoute: (routeData: ParsedRoute) => ParsedRoute | void | false;
   /** Start point of work this tool (after fetching schema) */
   onInit?: <C extends GenerateApiConfiguration["config"]>(configuration: C) => C | void;
   /** customize configuration object before sending it to ETA templates */
   onPrepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C | void;
+  /** customize route name as you need */
   onCreateRouteName?: (
     routeNameInfo: RouteNameInfo,
     rawRouteInfo: RawRouteInfo,
   ) => RouteNameInfo | void;
+  /** customize request params (path params, query params) */
   onCreateRequestParams?: (
     rawType: SchemaComponent["rawTypeData"],
   ) => SchemaComponent["rawTypeData"] | void;
+  /** customize name of model type */
   onFormatTypeName?: (typeName: string, rawTypeName?: string) => string | void;
+  /** customize name of route (operationId), you can do it with using onCreateRouteName too */
   onFormatRouteName?: (routeInfo: RawRouteInfo, templateRouteName: string) => string | void;
 }
 
@@ -291,6 +298,7 @@ export interface GenerateApiConfiguration {
     description: string;
     content: string;
   }[];
+  modelTypes: SchemaComponent[];
   hasFormDataRoutes: boolean;
   hasSecurityRoutes: boolean;
   hasQueryRoutes: boolean;
@@ -308,6 +316,19 @@ export interface GenerateApiConfiguration {
 export interface GenerateApiOutput {
   configuration: GenerateApiConfiguration;
   files: { name: string; content: string; declaration: { name: string; content: string } | null }[];
+  createFile: (params: {
+    path: string;
+    fileName: string;
+    content: string;
+    withPrefix?: boolean;
+  }) => void;
+  renderTemplate: (
+    templateContent: string,
+    data: Record<string, unknown>,
+    etaOptions?: import("eta/dist/types/config").PartialConfig,
+  ) => string;
+  getTemplate: (params: { fileName?: string; name?: string; path?: string }) => string;
+  formatTSContent: (content: string) => string;
 }
 
 export declare function generateApi(
