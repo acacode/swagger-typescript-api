@@ -238,7 +238,7 @@ const schemaParsers = {
     const enumNamesAsValues = config.enumNamesAsValues;
     const keyType = getType(schema);
     const enumNames = getEnumNames(schema);
-    const isIntegerEnum = keyType === types.number;
+    const isIntegerOrBooleanEnum = keyType === types.number || keyType === types.boolean;
     let content = null;
 
     if (_.isArray(enumNames) && _.size(enumNames)) {
@@ -257,15 +257,20 @@ const schemaParsers = {
         return {
           key: formattedKey,
           type: keyType,
-          value: enumValue === null ? enumValue : isIntegerEnum ? `${enumValue}` : `"${enumValue}"`,
+          value:
+            enumValue === null
+              ? enumValue
+              : isIntegerOrBooleanEnum
+              ? `${enumValue}`
+              : `"${enumValue}"`,
         };
       });
     } else {
       content = _.map(schema.enum, (key) => {
         return {
-          key: isIntegerEnum ? key : formatModelName(key),
+          key: isIntegerOrBooleanEnum ? key : formatModelName(key),
           type: keyType,
-          value: key === null ? key : isIntegerEnum ? `${key}` : `"${key}"`,
+          value: key === null ? key : isIntegerOrBooleanEnum ? `${key}` : `"${key}"`,
         };
       });
     }
@@ -277,7 +282,7 @@ const schemaParsers = {
       type: SCHEMA_TYPES.ENUM,
       keyType: keyType,
       typeIdentifier:
-        config.generateUnionEnums || (!enumNames && isIntegerEnum)
+        config.generateUnionEnums || (!enumNames && isIntegerOrBooleanEnum)
           ? TS_KEYWORDS.TYPE
           : TS_KEYWORDS.ENUM,
       name: typeName,
