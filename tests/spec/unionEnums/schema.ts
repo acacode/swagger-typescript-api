@@ -13,7 +13,7 @@ export type StringEnum = "String1" | "String2" | "String3" | "String4";
 
 export type NumberEnum = 1 | 2 | 3 | 4;
 
-export type BooleanEnum = "true" | "false";
+export type BooleanEnum = true | false;
 
 /**
  * FooBar
