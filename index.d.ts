@@ -107,21 +107,28 @@ interface GenerateApiParams {
 }
 
 export interface Hooks {
+  /** calls after parse schema component */
   onCreateComponent: (component: SchemaComponent) => SchemaComponent | void;
+  /** calls after parse any kind of schema */
   onParseSchema: (originalSchema: any, parsedSchema: any) => any | void;
-  onCreateRoute: (routeData: ParsedRoute) => ParsedRoute | void;
+  /** calls after parse route (return type: customized route (ParsedRoute), nothing change (void), false (ignore this route)) */
+  onCreateRoute: (routeData: ParsedRoute) => ParsedRoute | void | false;
   /** Start point of work this tool (after fetching schema) */
   onInit?: <C extends GenerateApiConfiguration["config"]>(configuration: C) => C | void;
   /** customize configuration object before sending it to ETA templates */
   onPrepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C | void;
+  /** customize route name as you need */
   onCreateRouteName?: (
     routeNameInfo: RouteNameInfo,
     rawRouteInfo: RawRouteInfo,
   ) => RouteNameInfo | void;
+  /** customize request params (path params, query params) */
   onCreateRequestParams?: (
     rawType: SchemaComponent["rawTypeData"],
   ) => SchemaComponent["rawTypeData"] | void;
+  /** customize name of model type */
   onFormatTypeName?: (typeName: string, rawTypeName?: string) => string | void;
+  /** customize name of route (operationId), you can do it with using onCreateRouteName too */
   onFormatRouteName?: (routeInfo: RawRouteInfo, templateRouteName: string) => string | void;
 }
 

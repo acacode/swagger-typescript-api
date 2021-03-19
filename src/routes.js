@@ -470,192 +470,196 @@ const parseRoutes = ({
 
     return [
       ...routes,
-      ..._.map(routeInfosMap, (routeInfo, method) => {
-        const {
-          operationId,
-          requestBody,
-          security,
-          parameters,
-          summary,
-          description,
-          tags,
-          responses,
-          requestBodyName,
-          produces,
-          consumes,
-          ...otherInfo
-        } = routeInfo;
-        const { route, pathParams } = parseRoute(rawRoute);
+      ..._.compact(
+        _.map(routeInfosMap, (routeInfo, method) => {
+          const {
+            operationId,
+            requestBody,
+            security,
+            parameters,
+            summary,
+            description,
+            tags,
+            responses,
+            requestBodyName,
+            produces,
+            consumes,
+            ...otherInfo
+          } = routeInfo;
+          const { route, pathParams } = parseRoute(rawRoute);
 
-        const routeId = nanoid(12);
-        const firstTag = tags && tags.length > 0 ? tags[0] : null;
-        const moduleName =
-          moduleNameFirstTag && firstTag
-            ? _.camelCase(firstTag)
-            : _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
-        const hasSecurity = !!(
-          (globalSecurity && globalSecurity.length) ||
-          (security && security.length)
-        );
-
-        const routeParams = getRouteParams(routeInfo, pathParams);
-
-        const pathArgs = routeParams.path.map((pathArgSchema) => ({
-          name: pathArgSchema.name,
-          optional: !pathArgSchema.required,
-          type: getInlineParseContent(pathArgSchema.schema),
-          description: pathArgSchema.description,
-        }));
-
-        const requestBodyInfo = getRequestBodyInfo(routeInfo, routeParams, parsedSchemas);
-        const responseBodyInfo = getResponseBodyInfo(routeInfo, routeParams, parsedSchemas);
-
-        const rawRouteInfo = {
-          pathArgs,
-          operationId,
-          method,
-          route: rawRoute,
-          moduleName,
-          responsesTypes: responseBodyInfo.responses,
-          description,
-          tags,
-          summary,
-          responses,
-          produces,
-          requestBody,
-          consumes,
-          ...otherInfo,
-        };
-
-        const queryObjectSchema = convertRouteParamsIntoObject(routeParams.query);
-        const pathObjectSchema = convertRouteParamsIntoObject(routeParams.path);
-        const headersObjectSchema = convertRouteParamsIntoObject(routeParams.header);
-
-        const routeName = getRouteName(rawRouteInfo);
-
-        const requestParamsSchema = createRequestParamsSchema({
-          queryParams: routeParams.query,
-          pathArgsSchemas: routeParams.path,
-          queryObjectSchema,
-          extractRequestParams,
-          routeName,
-        });
-
-        const queryType = routeParams.query.length
-          ? getInlineParseContent(queryObjectSchema)
-          : null;
-        const pathType = routeParams.path.length ? getInlineParseContent(pathObjectSchema) : null;
-        const headersType = routeParams.header.length
-          ? getInlineParseContent(headersObjectSchema)
-          : null;
-
-        const specificArgs = {
-          query: queryType
-            ? {
-                name: pathArgs.some((pathArg) => pathArg.name === "query")
-                  ? "queryParams"
-                  : "query",
-                optional: parseSchema(queryObjectSchema, null).allFieldsAreOptional,
-                type: queryType,
-              }
-            : void 0,
-          body: requestBodyInfo.type
-            ? {
-                name: requestBodyInfo.paramName,
-                optional: !requestBodyInfo.required,
-                type: requestBodyInfo.type,
-              }
-            : void 0,
-          requestParams: {
-            name: pathArgs.some((pathArg) => pathArg.name === "params")
-              ? "requestParams"
-              : "params",
-            optional: true,
-            type: "RequestParams",
-            defaultValue: "{}",
-          },
-          pathParams: pathType
-            ? {
-                name: pathArgs.some((pathArg) => pathArg.name === "path") ? "pathParams" : "path",
-                optional: parseSchema(pathObjectSchema, null).allFieldsAreOptional,
-                type: pathType,
-              }
-            : void 0,
-          headers: headersType
-            ? {
-                name: pathArgs.some((pathArg) => pathArg.name === "headers")
-                  ? "headersParams"
-                  : "headers",
-                optional: parseSchema(headersObjectSchema, null).allFieldsAreOptional,
-                type: headersType,
-              }
-            : void 0,
-        };
-
-        let routeArgs = _.compact([...pathArgs, specificArgs.query, specificArgs.body]);
-
-        if (routeArgs.some((pathArg) => pathArg.optional)) {
-          const { optionalArgs, requiredArgs } = _.reduce(
-            [...routeArgs],
-            (acc, pathArg) => {
-              if (pathArg.optional) {
-                acc.optionalArgs.push(pathArg);
-              } else {
-                acc.requiredArgs.push(pathArg);
-              }
-
-              return acc;
-            },
-            {
-              optionalArgs: [],
-              requiredArgs: [],
-            },
+          const routeId = nanoid(12);
+          const firstTag = tags && tags.length > 0 ? tags[0] : null;
+          const moduleName =
+            moduleNameFirstTag && firstTag
+              ? _.camelCase(firstTag)
+              : _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
+          const hasSecurity = !!(
+            (globalSecurity && globalSecurity.length) ||
+            (security && security.length)
           );
 
-          routeArgs = [...requiredArgs, ...optionalArgs];
-        }
+          const routeParams = getRouteParams(routeInfo, pathParams);
 
-        routeArgs.push(specificArgs.requestParams);
+          const pathArgs = routeParams.path.map((pathArgSchema) => ({
+            name: pathArgSchema.name,
+            optional: !pathArgSchema.required,
+            type: getInlineParseContent(pathArgSchema.schema),
+            description: pathArgSchema.description,
+          }));
 
-        const routeData = {
-          id: routeId,
-          namespace: _.replace(moduleName, /^(\d)/, "v$1"),
-          routeName,
-          routeParams,
-          requestBodyInfo,
-          responseBodyInfo,
-          specificArgs,
-          queryObjectSchema,
-          pathObjectSchema,
-          headersObjectSchema,
-          responseBodySchema: responseBodyInfo.success.schema,
-          requestBodySchema: requestBodyInfo.schema,
-          request: {
-            contentTypes: requestBodyInfo.contentTypes,
-            parameters: pathArgs,
-            path: route,
-            formData: requestBodyInfo.contentKind === CONTENT_KIND.FORM_DATA,
-            isQueryBody: requestBodyInfo.contentKind === CONTENT_KIND.URL_ENCODED,
-            security: hasSecurity,
-            method: method,
-            requestParams: requestParamsSchema,
+          const requestBodyInfo = getRequestBodyInfo(routeInfo, routeParams, parsedSchemas);
+          const responseBodyInfo = getResponseBodyInfo(routeInfo, routeParams, parsedSchemas);
 
-            payload: specificArgs.body,
-            params: specificArgs.requestParams,
-            query: specificArgs.query,
-            pathParams: specificArgs.pathParams,
-            headers: specificArgs.headers,
-          },
-          response: {
-            contentTypes: responseBodyInfo.contentTypes,
-            type: responseBodyInfo.success.type,
-            errorType: responseBodyInfo.error.type,
-          },
-          raw: rawRouteInfo,
-        };
+          const rawRouteInfo = {
+            pathArgs,
+            operationId,
+            method,
+            route: rawRoute,
+            moduleName,
+            responsesTypes: responseBodyInfo.responses,
+            description,
+            tags,
+            summary,
+            responses,
+            produces,
+            requestBody,
+            consumes,
+            ...otherInfo,
+          };
 
-        return config.hooks.onCreateRoute(routeData) || routeData;
-      }),
+          const queryObjectSchema = convertRouteParamsIntoObject(routeParams.query);
+          const pathObjectSchema = convertRouteParamsIntoObject(routeParams.path);
+          const headersObjectSchema = convertRouteParamsIntoObject(routeParams.header);
+
+          const routeName = getRouteName(rawRouteInfo);
+
+          const requestParamsSchema = createRequestParamsSchema({
+            queryParams: routeParams.query,
+            pathArgsSchemas: routeParams.path,
+            queryObjectSchema,
+            extractRequestParams,
+            routeName,
+          });
+
+          const queryType = routeParams.query.length
+            ? getInlineParseContent(queryObjectSchema)
+            : null;
+          const pathType = routeParams.path.length ? getInlineParseContent(pathObjectSchema) : null;
+          const headersType = routeParams.header.length
+            ? getInlineParseContent(headersObjectSchema)
+            : null;
+
+          const specificArgs = {
+            query: queryType
+              ? {
+                  name: pathArgs.some((pathArg) => pathArg.name === "query")
+                    ? "queryParams"
+                    : "query",
+                  optional: parseSchema(queryObjectSchema, null).allFieldsAreOptional,
+                  type: queryType,
+                }
+              : void 0,
+            body: requestBodyInfo.type
+              ? {
+                  name: requestBodyInfo.paramName,
+                  optional: !requestBodyInfo.required,
+                  type: requestBodyInfo.type,
+                }
+              : void 0,
+            requestParams: {
+              name: pathArgs.some((pathArg) => pathArg.name === "params")
+                ? "requestParams"
+                : "params",
+              optional: true,
+              type: "RequestParams",
+              defaultValue: "{}",
+            },
+            pathParams: pathType
+              ? {
+                  name: pathArgs.some((pathArg) => pathArg.name === "path") ? "pathParams" : "path",
+                  optional: parseSchema(pathObjectSchema, null).allFieldsAreOptional,
+                  type: pathType,
+                }
+              : void 0,
+            headers: headersType
+              ? {
+                  name: pathArgs.some((pathArg) => pathArg.name === "headers")
+                    ? "headersParams"
+                    : "headers",
+                  optional: parseSchema(headersObjectSchema, null).allFieldsAreOptional,
+                  type: headersType,
+                }
+              : void 0,
+          };
+
+          let routeArgs = _.compact([...pathArgs, specificArgs.query, specificArgs.body]);
+
+          if (routeArgs.some((pathArg) => pathArg.optional)) {
+            const { optionalArgs, requiredArgs } = _.reduce(
+              [...routeArgs],
+              (acc, pathArg) => {
+                if (pathArg.optional) {
+                  acc.optionalArgs.push(pathArg);
+                } else {
+                  acc.requiredArgs.push(pathArg);
+                }
+
+                return acc;
+              },
+              {
+                optionalArgs: [],
+                requiredArgs: [],
+              },
+            );
+
+            routeArgs = [...requiredArgs, ...optionalArgs];
+          }
+
+          routeArgs.push(specificArgs.requestParams);
+
+          const routeData = {
+            id: routeId,
+            namespace: _.replace(moduleName, /^(\d)/, "v$1"),
+            routeName,
+            routeParams,
+            requestBodyInfo,
+            responseBodyInfo,
+            specificArgs,
+            queryObjectSchema,
+            pathObjectSchema,
+            headersObjectSchema,
+            responseBodySchema: responseBodyInfo.success.schema,
+            requestBodySchema: requestBodyInfo.schema,
+            request: {
+              contentTypes: requestBodyInfo.contentTypes,
+              parameters: pathArgs,
+              path: route,
+              formData: requestBodyInfo.contentKind === CONTENT_KIND.FORM_DATA,
+              isQueryBody: requestBodyInfo.contentKind === CONTENT_KIND.URL_ENCODED,
+              security: hasSecurity,
+              method: method,
+              requestParams: requestParamsSchema,
+
+              payload: specificArgs.body,
+              params: specificArgs.requestParams,
+              query: specificArgs.query,
+              pathParams: specificArgs.pathParams,
+              headers: specificArgs.headers,
+            },
+            response: {
+              contentTypes: responseBodyInfo.contentTypes,
+              type: responseBodyInfo.success.type,
+              errorType: responseBodyInfo.error.type,
+            },
+            raw: rawRouteInfo,
+          };
+
+          const usageRouteData = config.hooks.onCreateRoute(routeData);
+
+          return usageRouteData === false ? null : usageRouteData || routeData;
+        }),
+      ),
     ];
   }, []);
 };

@@ -1,13 +1,17 @@
 # next release  
 
+# 7.0.0  
+
 BREAKING_CHANGES:  
 - format `namespace` name in `--route-types` as camelCase with upper first capitalized letter  
   `foo_bar` -> `FooBar`  
 
 Fixes:  
 - Incorrect working the `--route-types` option with `--modular` option (route types should be splitted on files)  
+- Fix critical bug linked with enums with boolean type (thanks @haedaal)  
 
 Features:  
+- Ability to return `false` in `onCreateRoute` hook, it allow to ignore route  
 - Add output util functions  
 ```ts
   createFile: (params: {
