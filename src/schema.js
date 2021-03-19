@@ -63,7 +63,12 @@ const getTypeAlias = (rawSchema) => {
 };
 
 const getEnumNames = (schema) => {
-  return schema["x-enumNames"] || schema["xEnumNames"] || schema["x-enumnames"];
+  return (
+    schema["x-enumNames"] ||
+    schema["xEnumNames"] ||
+    schema["x-enumnames"] ||
+    schema["x-enum-varnames"]
+  );
 };
 
 const getInternalSchemaType = (schema) => {
@@ -126,6 +131,8 @@ const getObjectTypeContent = (schema) => {
     const required = isRequired(property, name, requiredProperties);
     const rawTypeData = _.get(getRefType(property), "rawTypeData", {});
     const nullable = !!(rawTypeData.nullable || property.nullable);
+    const fieldName = isValidName(name) ? name : `"${name}"`;
+    const fieldValue = getInlineParseContent(property);
 
     return {
       $$raw: property,
@@ -146,12 +153,9 @@ const getObjectTypeContent = (schema) => {
       ]).join("\n"),
       isRequired: required,
       isNullable: nullable,
-      field: _.compact([
-        isValidName(name) ? name : `"${name}"`,
-        !required && "?",
-        ": ",
-        getInlineParseContent(property),
-      ]).join(""),
+      name: fieldName,
+      value: fieldValue,
+      field: _.compact([fieldName, !required && "?", ": ", fieldValue]).join(""),
     };
   });
 
@@ -277,7 +281,10 @@ const schemaParsers = {
       schemaType: SCHEMA_TYPES.ENUM,
       type: SCHEMA_TYPES.ENUM,
       keyType: keyType,
-      typeIdentifier: !enumNames && isIntegerOrBooleanEnum ? TS_KEYWORDS.TYPE : TS_KEYWORDS.ENUM,
+      typeIdentifier:
+        config.generateUnionEnums || (!enumNames && isIntegerOrBooleanEnum)
+          ? TS_KEYWORDS.TYPE
+          : TS_KEYWORDS.ENUM,
       name: typeName,
       description: formatDescription(schema.description),
       content,

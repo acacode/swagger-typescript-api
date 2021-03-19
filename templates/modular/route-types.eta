@@ -1,0 +1,18 @@
+<%
+const { utils, config, route, modelTypes } = it;
+const { _, classNameCase } = utils;
+const { routes, moduleName } = route;
+const dataContracts = config.modular ? _.map(modelTypes, "name") : [];
+
+%>
+<% if (dataContracts.length) { %>
+import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataContracts %>"
+<% } %>
+
+export namespace <%~ classNameCase(moduleName) %> {
+    <% _.forEach(routes, (route) => { %>
+
+        <%~ includeFile('@base/route-type.eta', { ...it, route }) %>
+
+    <% }) %>
+}

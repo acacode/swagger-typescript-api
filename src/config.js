@@ -68,7 +68,13 @@ const config = {
     custom: "",
   },
   /** Record<templateName, templateContent> */
-  templatesToRender: {},
+  templatesToRender: {
+    api: "",
+    dataContracts: "",
+    httpClient: "",
+    routeTypes: "",
+    routeName: "",
+  },
   toJS: false,
   silent: false,
   typePrefix: "",

@@ -37,39 +37,50 @@ const getTemplatePaths = ({ templates, modular }) => {
   };
 };
 
+const getTemplate = ({ fileName, name, path }) => {
+  const { templatePaths } = config;
+
+  if (path) {
+    return getFileContent(path);
+  }
+
+  if (!fileName) return "";
+
+  const customFullPath = resolve(templatePaths.custom, "./", fileName);
+  let fileContent = pathIsExist(customFullPath) && getFileContent(customFullPath);
+
+  if (!fileContent) {
+    const baseFullPath = resolve(templatePaths.base, "./", fileName);
+    const originalFullPath = resolve(templatePaths.original, "./", fileName);
+
+    if (pathIsExist(baseFullPath)) {
+      fileContent = getFileContent(baseFullPath);
+    } else {
+      if (!config.silent)
+        console.log(
+          `❗❗❗ ${_.lowerCase(name)} template not found in ${customFullPath}\n` +
+            `Code generator will use the default template`,
+        );
+    }
+
+    if (pathIsExist(originalFullPath)) {
+      fileContent = getFileContent(originalFullPath);
+    }
+  }
+
+  return fileContent;
+};
+
 const getTemplates = ({ templatePaths }) => {
   if (!config.silent)
     console.log(`✨ try to read templates from directory "${templatePaths.custom}"`);
 
   const templatesMap = _.reduce(
     TEMPLATE_INFOS,
-    (acc, { fileName, name }) => {
-      const customFullPath = resolve(templatePaths.custom, "./", fileName);
-      let fileContent = pathIsExist(customFullPath) && getFileContent(customFullPath);
-
-      if (!fileContent) {
-        const baseFullPath = resolve(templatePaths.base, "./", fileName);
-        const originalFullPath = resolve(templatePaths.original, "./", fileName);
-
-        if (pathIsExist(baseFullPath)) {
-          fileContent = getFileContent(baseFullPath);
-        } else {
-          if (!config.silent)
-            console.log(
-              `❗❗❗ ${_.lowerCase(name)} template not found in ${customFullPath}\n` +
-                `Code generator will use the default template`,
-            );
-        }
-
-        if (pathIsExist(originalFullPath)) {
-          fileContent = getFileContent(originalFullPath);
-        }
-      }
-
-      acc[name] = fileContent;
-
-      return acc;
-    },
+    (acc, { fileName, name }) => ({
+      ...acc,
+      [name]: getTemplate({ fileName, name }),
+    }),
     {},
   );
 
@@ -115,6 +126,7 @@ const renderTemplate = (template, configuration, options) => {
 };
 
 module.exports = {
+  getTemplate,
   getTemplates,
   getTemplatePaths,
   renderTemplate,

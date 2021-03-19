@@ -3,6 +3,7 @@ const path = require("path");
 const { classNameCase, formatDescription, internalCase } = require("../../common");
 const { getComponentByRef } = require("../../components");
 const { config } = require("../../config");
+const { formatModelName } = require("../../modelNames");
 const { getInlineParseContent, getParseContent, parseSchema } = require("../../schema");
 const { formatters, inlineExtraFormatters } = require("../../typeFormatters");
 
@@ -16,6 +17,7 @@ module.exports = {
   parseSchema,
   formatters,
   inlineExtraFormatters,
+  formatModelName,
   fmtToJSDocLine: require("./fmtToJSDocLine"),
   _: _,
   require: (packageOrPath) => {
