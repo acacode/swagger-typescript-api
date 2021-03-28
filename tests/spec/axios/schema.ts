@@ -1469,6 +1469,7 @@ export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequest
   securityWorker?: (
     securityData: SecurityDataType | null,
   ) => Promise<AxiosRequestConfig | void> | AxiosRequestConfig | void;
+  secure?: boolean;
 }
 
 export enum ContentType {
@@ -1481,9 +1482,11 @@ export class HttpClient<SecurityDataType = unknown> {
   private instance: AxiosInstance;
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
+  private secure?: boolean;
 
-  constructor({ securityWorker, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
+  constructor({ securityWorker, secure, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
     this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "https://api.github.com" });
+    this.secure = secure;
     this.securityWorker = securityWorker;
   }
 
@@ -1514,7 +1517,7 @@ export class HttpClient<SecurityDataType = unknown> {
     ...params
   }: FullRequestParams): Promise<AxiosResponse<T>> => {
     const secureParams =
-      ((typeof secure === "boolean" ? secure : this.baseApiParams.secure) &&
+      ((typeof secure === "boolean" ? secure : this.secure) &&
         this.securityWorker &&
         (await this.securityWorker(this.securityData))) ||
       {};
