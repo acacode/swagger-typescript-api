@@ -23,7 +23,11 @@ export class HttpClient {
       this.securityData = data;
     };
     this.request = async ({ secure, path, type, query, format = "json", body, ...params }) => {
-      const secureParams = (secure && this.securityWorker && (await this.securityWorker(this.securityData))) || {};
+      const secureParams =
+        ((typeof secure === "boolean" ? secure : this.baseApiParams.secure) &&
+          this.securityWorker &&
+          (await this.securityWorker(this.securityData))) ||
+        {};
       const requestParams = this.mergeRequestParams(params, secureParams);
       return this.instance.request({
         ...requestParams,
