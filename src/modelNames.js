@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const { config } = require("./config");
+const { warnLog } = require("./logger");
 
 const isValidName = (name) => /^([A-Za-z$_]{1,})$/g.test(name);
 
@@ -28,8 +29,7 @@ const fixModelName = (name) => {
 
 const formatModelName = (name) => {
   if (typeof name !== "string") {
-    if (!config.silent) console.warn("🔨 wrong name of the model name", name);
-
+    warnLog("wrong name of the model name", name);
     return name;
   }
 

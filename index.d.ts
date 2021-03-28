@@ -298,7 +298,7 @@ export interface GenerateApiConfiguration {
     description: string;
     content: string;
   }[];
-  modelTypes: SchemaComponent[];
+  rawModelTypes: SchemaComponent[];
   hasFormDataRoutes: boolean;
   hasSecurityRoutes: boolean;
   hasQueryRoutes: boolean;

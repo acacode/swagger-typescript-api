@@ -1723,6 +1723,7 @@ export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequest
   securityWorker?: (
     securityData: SecurityDataType | null,
   ) => Promise<AxiosRequestConfig | void> | AxiosRequestConfig | void;
+  secure?: boolean;
 }
 export declare enum ContentType {
   Json = "application/json",
@@ -1733,7 +1734,8 @@ export declare class HttpClient<SecurityDataType = unknown> {
   private instance;
   private securityData;
   private securityWorker?;
-  constructor({ securityWorker, ...axiosConfig }?: ApiConfig<SecurityDataType>);
+  private secure?;
+  constructor({ securityWorker, secure, ...axiosConfig }?: ApiConfig<SecurityDataType>);
   setSecurityData: (data: SecurityDataType | null) => void;
   private mergeRequestParams;
   request: <T = any, E = any>({

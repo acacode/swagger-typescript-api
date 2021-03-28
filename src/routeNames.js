@@ -1,4 +1,5 @@
 const { config } = require("./config");
+const { warnLog } = require("./logger");
 const { renderTemplate } = require("./templates");
 
 const getRouteName = (routeInfo) => {
@@ -22,13 +23,13 @@ const getRouteName = (routeInfo) => {
       duplicateIdentifier,
       routeNameDuplicatesMap.get(duplicateIdentifier) + 1,
     );
-    if (!config.silent)
-      console.warn(
-        `🥵  Module "${moduleName}" already have method "${routeName}()"`,
-        `\n🥵  This method has been renamed to "${
-          routeName + routeNameDuplicatesMap.get(duplicateIdentifier)
-        }()" to solve conflict names.`,
-      );
+
+    warnLog(
+      `Module "${moduleName}" already have method "${routeName}()"`,
+      `\nThis method has been renamed to "${
+        routeName + routeNameDuplicatesMap.get(duplicateIdentifier)
+      }()" to solve conflict names.`,
+    );
   } else {
     routeNameDuplicatesMap.set(duplicateIdentifier, 1);
   }

@@ -1,5 +1,12 @@
 # next release  
 
+# 7.0.1  
+
+Fixes:  
+- "securityWorker" is only used if "secure" option is specified on each request (issue #212, thanks @dkamyshov)  
+  NOTE: added global `secure` option for `axios` http client  
+- `index.d.ts` file (add `rawModelTypes`)  
+
 # 7.0.0  
 
 BREAKING_CHANGES:  

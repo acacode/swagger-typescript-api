@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "Generate typescript/javascript api from swagger schema",
   "scripts": {
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
@@ -57,7 +57,8 @@
     "js-yaml": "^4.0.0",
     "lodash": "^4.17.21",
     "make-dir": "^3.1.0",
-    "nanoid": "^3.1.20",
+    "nanoid": "^3.1.22",
+    "node-emoji": "^1.10.0",
     "prettier": "^2.2.1",
     "swagger-schema-official": "2.0.0-bab6bed",
     "swagger2openapi": "^7.0.5",
