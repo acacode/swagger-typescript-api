@@ -5,6 +5,7 @@ const converter = require("swagger2openapi");
 const https = require("https");
 const { addToConfig, config } = require("./config");
 const { pathIsExist, getFileContent } = require("./files");
+const { log } = require("./logger");
 
 const parseSwaggerFile = (file) => {
   if (typeof file !== "string") return file;
@@ -19,10 +20,10 @@ const parseSwaggerFile = (file) => {
 const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL) =>
   new Promise((resolve) => {
     if (pathIsExist(pathToSwagger)) {
-      if (!config.silent) console.log(`✨ try to get swagger by path "${pathToSwagger}"`);
+      log(`try to get swagger by path "${pathToSwagger}"`);
       resolve(getFileContent(pathToSwagger));
     } else {
-      if (!config.silent) console.log(`✨ try to get swagger by url "${urlToSwagger}"`);
+      log(`try to get swagger by url "${urlToSwagger}"`);
       let agent = undefined;
       if (disableStrictSSL) {
         agent = new https.Agent({

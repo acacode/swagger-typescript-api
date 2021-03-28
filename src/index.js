@@ -19,6 +19,7 @@ const { getTemplates, getTemplatePaths, renderTemplate, getTemplate } = require(
 const constants = require("./constants");
 const { generateOutputFiles } = require("./output");
 const formatFileContent = require("./formatFileContent");
+const { eventLog, successLog } = require("./logger");
 
 module.exports = {
   constants: constants,
@@ -86,7 +87,7 @@ module.exports = {
 
           const templatesToRender = getTemplates(config);
 
-          if (!config.silent) console.log("☄️  start generating your typescript api");
+          eventLog("start generating your typescript api");
 
           fixSwaggerScheme(usageSchema, originalSchema);
 
@@ -173,8 +174,7 @@ module.exports = {
                 content: file.declaration.content,
                 withPrefix: true,
               });
-              if (!config.silent)
-                console.log(`✔️  your javascript api file created in "${output}"`);
+              successLog(`javascript api file`, file.name, `created in ${output}`);
             } else {
               createFile({
                 path: output,
@@ -182,8 +182,7 @@ module.exports = {
                 content: file.content,
                 withPrefix: true,
               });
-              if (!config.silent)
-                console.log(`✔️  your typescript api file created in "${output}"`);
+              successLog(`typescript api file`, file.name, `created in ${output}`);
             }
 
             return file;

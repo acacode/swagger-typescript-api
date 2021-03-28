@@ -17,6 +17,7 @@ const { config } = require("./config");
 const { nanoid } = require("nanoid");
 const { getRouteName } = require("./routeNames");
 const { createComponent } = require("./components");
+const { warnLog } = require("./logger");
 
 const formDataTypes = _.uniq([types.file, types.string.binary]);
 
@@ -132,7 +133,7 @@ const parseRoute = (route) => {
       if (!paramName) return pathParams;
 
       if (_.includes(paramName, "-")) {
-        if (!config.silent) console.warn("🔨 wrong path param name", paramName);
+        warnLog("wrong path param name", paramName);
       }
 
       return [
