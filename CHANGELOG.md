@@ -1,5 +1,8 @@
 # next release  
 
+Fixes:  
+- "securityWorker" is only used if "secure" option is specified on each request (issue #212, thanks @dkamyshov)  
+
 # 7.0.0  
 
 BREAKING_CHANGES:  
