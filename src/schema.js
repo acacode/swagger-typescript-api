@@ -235,6 +235,8 @@ const attachParsedRef = (originalSchema, parsedSchema) => {
 
 const schemaParsers = {
   [SCHEMA_TYPES.ENUM]: (schema, typeName) => {
+    const refType = getRefType(schema);
+    const $ref = (refType && refType.$ref) || null;
     const enumNamesAsValues = config.enumNamesAsValues;
     const keyType = getType(schema);
     const enumNames = getEnumNames(schema);
@@ -277,6 +279,8 @@ const schemaParsers = {
 
     return attachParsedRef(schema, {
       ...(_.isObject(schema) ? schema : {}),
+      $ref: $ref,
+      typeName: ($ref && refType.typeName) || null,
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.ENUM,
       type: SCHEMA_TYPES.ENUM,

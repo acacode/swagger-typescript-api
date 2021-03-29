@@ -22,6 +22,12 @@
       }
     },
     "schemas": {
+      "SomeEnumName": {
+        "enum": ["Foo", "Bar", "Baz", "Bad"],
+        "type": "string",
+        "description": "Bla bla bla foo bar baz",
+        "x-enumNames": ["Foo", "Bar", "Baz", "Bad"]
+      },
       "AccountTypeEnum": {
         "enum": ["SAVER", "TRANSACTIONAL"],
         "description": "Specifies the type of bank account. Currently returned values are `SAVER`\nand `TRANSACTIONAL`.\n"
@@ -1903,6 +1909,15 @@
             "required": false,
             "example": "good-life",
             "description": "The category identifier for which to filter transactions.\nBoth parent and child categories can be filtered through\nthis parameter. Providing an invalid category identifier\nresults in a `404` response.\n"
+          },
+          {
+            "name": "someEnumName",
+            "in": "query",
+            "description": "Blablabla bla",
+            "schema": {
+              "$ref": "#/components/schemas/SomeEnumName"
+            },
+            "x-enumNames": ["Foo", "Bar", "Baz", "Bad"]
           },
           {
             "name": "filter[tag]",

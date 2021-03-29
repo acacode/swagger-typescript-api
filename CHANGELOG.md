@@ -2,6 +2,7 @@
 
 BREAKING_CHANGES:  
 - remove default `json` format of the response type (both for `axios` and `fetch` http clients)  
+
 Features:  
 - Allow to set global response type format through `HttpClient` constructor  
   Example:  
@@ -9,6 +10,8 @@ Features:
     const httpClient = new HttpClient({ format: 'json' });
     // all request responses will been formatted as json  
 ```
+Fixes:  
+- Missing `schema.$ref` in inline enum schemas  
 
 # 7.0.1  
 

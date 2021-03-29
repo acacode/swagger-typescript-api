@@ -10,6 +10,16 @@
  */
 
 /**
+ * Bla bla bla foo bar baz
+ */
+export enum SomeEnumName {
+  Foo = "Foo",
+  Bar = "Bar",
+  Baz = "Baz",
+  Bad = "Bad",
+}
+
+/**
 * Specifies the type of bank account. Currently returned values are `SAVER`
 and `TRANSACTIONAL`.
 */
@@ -947,6 +957,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         "filter[since]"?: string;
         "filter[until]"?: string;
         "filter[category]"?: string;
+        someEnumName?: SomeEnumName;
         "filter[tag]"?: string;
       },
       params: RequestParams = {},
