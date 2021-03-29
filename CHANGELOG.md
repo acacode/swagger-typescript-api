@@ -1,5 +1,15 @@
 # next release  
 
+BREAKING_CHANGES:  
+- remove default `json` format of the response type (both for `axios` and `fetch` http clients)  
+Features:  
+- Allow to set global response type format through `HttpClient` constructor  
+  Example:  
+```ts
+    const httpClient = new HttpClient({ format: 'json' });
+    // all request responses will been formatted as json  
+```
+
 # 7.0.1  
 
 Fixes:  

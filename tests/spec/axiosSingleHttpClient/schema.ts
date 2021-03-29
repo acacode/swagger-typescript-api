@@ -1512,7 +1512,7 @@ export class HttpClient<SecurityDataType = unknown> {
     path,
     type,
     query,
-    format = "json",
+    format,
     body,
     ...params
   }: FullRequestParams): Promise<AxiosResponse<T>> => {
@@ -1522,6 +1522,7 @@ export class HttpClient<SecurityDataType = unknown> {
         (await this.securityWorker(this.securityData))) ||
       {};
     const requestParams = this.mergeRequestParams(params, secureParams);
+    const responseFormat = format && requestParams.format;
 
     return this.instance.request({
       ...requestParams,
@@ -1530,7 +1531,7 @@ export class HttpClient<SecurityDataType = unknown> {
         ...(requestParams.headers || {}),
       },
       params: query,
-      responseType: format,
+      responseType: responseFormat,
       data: body,
       url: path,
     });

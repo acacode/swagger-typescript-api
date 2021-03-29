@@ -58,7 +58,7 @@ export class HttpClient {
         this.abortControllers.delete(cancelToken);
       }
     };
-    this.request = async ({ body, secure, path, type, query, format = "json", baseUrl, cancelToken, ...params }) => {
+    this.request = async ({ body, secure, path, type, query, format, baseUrl, cancelToken, ...params }) => {
       const secureParams =
         ((typeof secure === "boolean" ? secure : this.baseApiParams.secure) &&
           this.securityWorker &&
@@ -67,6 +67,7 @@ export class HttpClient {
       const requestParams = this.mergeRequestParams(params, secureParams);
       const queryString = query && this.toQueryString(query);
       const payloadFormatter = this.contentFormatters[type || ContentType.Json];
+      const responseFormat = format && requestParams.format;
       return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
         ...requestParams,
         headers: {
@@ -79,19 +80,21 @@ export class HttpClient {
         const r = response;
         r.data = null;
         r.error = null;
-        const data = await response[format]()
-          .then((data) => {
-            if (r.ok) {
-              r.data = data;
-            } else {
-              r.error = data;
-            }
-            return r;
-          })
-          .catch((e) => {
-            r.error = e;
-            return r;
-          });
+        const data = !responseFormat
+          ? r
+          : await response[responseFormat]()
+              .then((data) => {
+                if (r.ok) {
+                  r.data = data;
+                } else {
+                  r.error = data;
+                }
+                return r;
+              })
+              .catch((e) => {
+                r.error = e;
+                return r;
+              });
         if (cancelToken) {
           this.abortControllers.delete(cancelToken);
         }
