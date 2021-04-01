@@ -31,6 +31,7 @@ export interface ApiConfig<SecurityDataType = unknown> {
     baseUrl?: string;
     baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
     securityWorker?: (securityData: SecurityDataType | null) => Promise<RequestParams | void> | RequestParams | void;
+    customFetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>
 }
 
 export interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
@@ -60,9 +61,8 @@ export class HttpClient<SecurityDataType = unknown> {
         referrerPolicy: 'no-referrer',
     }
 
-    constructor(apiConfig: ApiConfig<SecurityDataType> = {}, customFetch = fetch) {
+    constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
         Object.assign(this, apiConfig);
-        this.customFetch = customFetch;
     }
 
     public setSecurityData = (data: SecurityDataType | null) => {
@@ -120,7 +120,7 @@ export class HttpClient<SecurityDataType = unknown> {
             },
         };
     }
-    
+
     private createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
         if (this.abortControllers.has(cancelToken)) {
             const abortController = this.abortControllers.get(cancelToken);
@@ -129,7 +129,7 @@ export class HttpClient<SecurityDataType = unknown> {
             }
             return void 0;
         }
-        
+
         const abortController = new AbortController();
         this.abortControllers.set(cancelToken, abortController);
         return abortController.signal;
@@ -143,7 +143,7 @@ export class HttpClient<SecurityDataType = unknown> {
             this.abortControllers.delete(cancelToken);
         }
     }
-    
+
     public request = async <T = any, E = any>({
         body,
         secure,
@@ -189,7 +189,7 @@ export class HttpClient<SecurityDataType = unknown> {
                     r.error = e;
                     return r;
                 });
-      
+
             if (cancelToken) {
                 this.abortControllers.delete(cancelToken);
             }
