@@ -62,7 +62,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
     constructor(apiConfig: ApiConfig<SecurityDataType> = {}, customFetch = fetch) {
         Object.assign(this, apiConfig);
-        this.customFetch = fetch;
+        this.customFetch = customFetch;
     }
 
     public setSecurityData = (data: SecurityDataType | null) => {
