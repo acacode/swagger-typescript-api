@@ -1,5 +1,7 @@
 # next release  
 
+# 8.0.0  
+
 BREAKING_CHANGES:  
 - remove default `json` format of the response type (both for `axios` and `fetch` http clients) (issue #213, thanks @po5i)  
 
