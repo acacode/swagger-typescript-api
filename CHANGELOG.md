@@ -1,7 +1,7 @@
 # next release  
 
 BREAKING_CHANGES:  
-- remove default `json` format of the response type (both for `axios` and `fetch` http clients)  
+- remove default `json` format of the response type (both for `axios` and `fetch` http clients) (issue #213, thanks @po5i)  
 
 Features:  
 - Allow passing custom fetch function (`fetch` http client only)  
@@ -14,6 +14,7 @@ Features:
 Fixes:  
 - Missing `schema.$ref` in inline enum schemas  
 - Array query param values are serialized with the (non-default) comma separated style (issue #222, thanks @Styn, PR #223)  
+- TypeScript error "TS6133: 'E' is declared but its value is never read." (`axios` http client) (issue #220, thanks @pmbednarczyk )  
 
 # 7.0.1  
 

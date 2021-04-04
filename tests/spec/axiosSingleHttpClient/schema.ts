@@ -1510,7 +1510,7 @@ export class HttpClient<SecurityDataType = unknown> {
     };
   }
 
-  public request = async <T = any, E = any>({
+  public request = async <T = any, _E = any>({
     secure,
     path,
     type,
