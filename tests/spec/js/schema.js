@@ -105,13 +105,12 @@ export class HttpClient {
     };
     Object.assign(this, apiConfig);
   }
-  addQueryParam(query, key) {
+  addArrayQueryParam(query, key) {
     const value = query[key];
-    return (
-      encodeURIComponent(key) +
-      "=" +
-      encodeURIComponent(Array.isArray(value) ? value.join(",") : typeof value === "number" ? value : `${value}`)
-    );
+    const encodedKey = encodeURIComponent(key);
+    return `${value
+      .map((val) => `${encodedKey}=${encodeURIComponent(typeof val === "number" ? val : `${val}`)}`)
+      .join("&")}`;
   }
   toQueryString(rawQuery) {
     const query = rawQuery || {};
@@ -120,7 +119,7 @@ export class HttpClient {
       .map((key) =>
         typeof query[key] === "object" && !Array.isArray(query[key])
           ? this.toQueryString(query[key])
-          : this.addQueryParam(query, key),
+          : this.addArrayQueryParam(query, key),
       )
       .join("&");
   }

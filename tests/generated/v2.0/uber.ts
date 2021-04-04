@@ -170,14 +170,12 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  private addQueryParam(query: QueryParamsType, key: string) {
+  private addArrayQueryParam(query: QueryParamsType, key: string) {
     const value = query[key];
-
-    return (
-      encodeURIComponent(key) +
-      "=" +
-      encodeURIComponent(Array.isArray(value) ? value.join(",") : typeof value === "number" ? value : `${value}`)
-    );
+    const encodedKey = encodeURIComponent(key);
+    return `${value
+      .map((val: any) => `${encodedKey}=${encodeURIComponent(typeof val === "number" ? val : `${val}`)}`)
+      .join("&")}`;
   }
 
   protected toQueryString(rawQuery?: QueryParamsType): string {
@@ -187,7 +185,7 @@ export class HttpClient<SecurityDataType = unknown> {
       .map((key) =>
         typeof query[key] === "object" && !Array.isArray(query[key])
           ? this.toQueryString(query[key] as QueryParamsType)
-          : this.addQueryParam(query, key),
+          : this.addArrayQueryParam(query, key),
       )
       .join("&");
   }
