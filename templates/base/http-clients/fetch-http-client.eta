@@ -72,7 +72,7 @@ export class HttpClient<SecurityDataType = unknown> {
     private addArrayQueryParam(query: QueryParamsType, key: string) {
         const value = query[key];
         const encodedKey = encodeURIComponent(key);
-        return `${value.map((val: any) => `${encodedKey}=${typeof val === "number" ? val : `${val}`}`).join('&')}`;
+        return `${value.map((val: any) => `${encodedKey}=${encodeURIComponent(typeof val === "number" ? val : `${val}`)}`).join('&')}`;
     }
 
     protected toQueryString(rawQuery?: QueryParamsType): string {
