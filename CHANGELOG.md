@@ -13,6 +13,7 @@ Features:
 ```
 Fixes:  
 - Missing `schema.$ref` in inline enum schemas  
+- Array query param values are serialized with the (non-default) comma separated style (issue #222, thanks @Styn, PR #223)  
 
 # 7.0.1  
 
