@@ -4,6 +4,7 @@ BREAKING_CHANGES:
 - remove default `json` format of the response type (both for `axios` and `fetch` http clients)  
 
 Features:  
+- Allow passing custom fetch function (`fetch` http client only)  
 - Allow to set global response type format through `HttpClient` constructor  
   Example:  
 ```ts

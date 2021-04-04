@@ -20,6 +20,7 @@ export class HttpClient {
     this.baseUrl = "https://api.github.com";
     this.securityData = null;
     this.abortControllers = new Map();
+    this.customFetch = fetch;
     this.baseApiParams = {
       credentials: "same-origin",
       headers: {},
@@ -68,7 +69,7 @@ export class HttpClient {
       const queryString = query && this.toQueryString(query);
       const payloadFormatter = this.contentFormatters[type || ContentType.Json];
       const responseFormat = format && requestParams.format;
-      return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
+      return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
         ...requestParams,
         headers: {
           ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
