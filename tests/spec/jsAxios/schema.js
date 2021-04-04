@@ -17,7 +17,7 @@ export var ContentType;
   ContentType["UrlEncoded"] = "application/x-www-form-urlencoded";
 })(ContentType || (ContentType = {}));
 export class HttpClient {
-  constructor({ securityWorker, secure, ...axiosConfig } = {}) {
+  constructor({ securityWorker, secure, format, ...axiosConfig } = {}) {
     this.securityData = null;
     this.setSecurityData = (data) => {
       this.securityData = data;
@@ -29,7 +29,7 @@ export class HttpClient {
           (await this.securityWorker(this.securityData))) ||
         {};
       const requestParams = this.mergeRequestParams(params, secureParams);
-      const responseFormat = format && requestParams.format;
+      const responseFormat = (format && this.format) || void 0;
       return this.instance.request({
         ...requestParams,
         headers: {
@@ -44,6 +44,7 @@ export class HttpClient {
     };
     this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "https://api.github.com" });
     this.secure = secure;
+    this.format = format;
     this.securityWorker = securityWorker;
   }
   mergeRequestParams(params1, params2) {

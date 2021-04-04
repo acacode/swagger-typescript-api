@@ -1579,7 +1579,7 @@ export class HttpClient<SecurityDataType = unknown> {
   };
 }
 
-/* CUSTOM TEMPLATE */
+/* HTTP CLIENT TEMPLATE */
 /**
  * @title GitHub
  * @version v3

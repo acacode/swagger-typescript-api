@@ -26,6 +26,7 @@ export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" 
 export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequestConfig, "data" | "cancelToken"> {
   securityWorker?: (securityData: SecurityDataType | null) => Promise<AxiosRequestConfig | void> | AxiosRequestConfig | void;
   secure?: boolean;
+  format?: ResponseType;
 }
 
 export enum ContentType {
@@ -39,10 +40,12 @@ export class HttpClient<SecurityDataType = unknown> {
     private securityData: SecurityDataType | null = null;
     private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
     private secure?: boolean;
+    private format?: ResponseType;
 
-    constructor({ securityWorker, secure, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
+    constructor({ securityWorker, secure, format, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
         this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "<%~ apiConfig.baseUrl %>" })
         this.secure = secure;
+        this.format = format;
         this.securityWorker = securityWorker;
     }
 
@@ -74,7 +77,7 @@ export class HttpClient<SecurityDataType = unknown> {
     }: FullRequestParams): Promise<AxiosResponse<T>> => {
         const secureParams = ((typeof secure === 'boolean' ? secure : this.secure) && this.securityWorker && (await this.securityWorker(this.securityData))) || {};
         const requestParams = this.mergeRequestParams(params, secureParams);
-        const responseFormat = format && requestParams.format;
+        const responseFormat = (format && this.format) || void 0;
 
         return this.instance.request({
             ...requestParams,
