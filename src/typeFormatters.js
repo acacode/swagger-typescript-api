@@ -57,12 +57,14 @@ const inlineExtraFormatters = {
   [SCHEMA_TYPES.ENUM]: (parsedSchema) => {
     return {
       ...parsedSchema,
-      content: _.uniq(
-        _.compact([
-          ..._.map(parsedSchema.content, ({ value }) => `${value}`),
-          parsedSchema.nullable && TS_KEYWORDS.NULL,
-        ]),
-      ).join(" | "),
+      content: parsedSchema.$ref
+        ? parsedSchema.typeName
+        : _.uniq(
+            _.compact([
+              ..._.map(parsedSchema.content, ({ value }) => `${value}`),
+              parsedSchema.nullable && TS_KEYWORDS.NULL,
+            ]),
+          ).join(" | "),
     };
   },
 };

@@ -137,4 +137,4 @@ export class HttpClient<<%~ apiConfig.generic.map(g => `${g.name} = unknown`).jo
     }
 }
 
-/* CUSTOM TEMPLATE */
+/* HTTP CLIENT TEMPLATE */

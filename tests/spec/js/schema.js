@@ -20,6 +20,7 @@ export class HttpClient {
     this.baseUrl = "https://api.github.com";
     this.securityData = null;
     this.abortControllers = new Map();
+    this.customFetch = fetch;
     this.baseApiParams = {
       credentials: "same-origin",
       headers: {},
@@ -58,7 +59,7 @@ export class HttpClient {
         this.abortControllers.delete(cancelToken);
       }
     };
-    this.request = async ({ body, secure, path, type, query, format = "json", baseUrl, cancelToken, ...params }) => {
+    this.request = async ({ body, secure, path, type, query, format, baseUrl, cancelToken, ...params }) => {
       const secureParams =
         ((typeof secure === "boolean" ? secure : this.baseApiParams.secure) &&
           this.securityWorker &&
@@ -67,7 +68,8 @@ export class HttpClient {
       const requestParams = this.mergeRequestParams(params, secureParams);
       const queryString = query && this.toQueryString(query);
       const payloadFormatter = this.contentFormatters[type || ContentType.Json];
-      return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
+      const responseFormat = format && requestParams.format;
+      return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
         ...requestParams,
         headers: {
           ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
@@ -79,19 +81,21 @@ export class HttpClient {
         const r = response;
         r.data = null;
         r.error = null;
-        const data = await response[format]()
-          .then((data) => {
-            if (r.ok) {
-              r.data = data;
-            } else {
-              r.error = data;
-            }
-            return r;
-          })
-          .catch((e) => {
-            r.error = e;
-            return r;
-          });
+        const data = !responseFormat
+          ? r
+          : await response[responseFormat]()
+              .then((data) => {
+                if (r.ok) {
+                  r.data = data;
+                } else {
+                  r.error = data;
+                }
+                return r;
+              })
+              .catch((e) => {
+                r.error = e;
+                return r;
+              });
         if (cancelToken) {
           this.abortControllers.delete(cancelToken);
         }
@@ -101,13 +105,12 @@ export class HttpClient {
     };
     Object.assign(this, apiConfig);
   }
-  addQueryParam(query, key) {
+  addArrayQueryParam(query, key) {
     const value = query[key];
-    return (
-      encodeURIComponent(key) +
-      "=" +
-      encodeURIComponent(Array.isArray(value) ? value.join(",") : typeof value === "number" ? value : `${value}`)
-    );
+    const encodedKey = encodeURIComponent(key);
+    return `${value
+      .map((val) => `${encodedKey}=${encodeURIComponent(typeof val === "number" ? val : `${val}`)}`)
+      .join("&")}`;
   }
   toQueryString(rawQuery) {
     const query = rawQuery || {};
@@ -116,7 +119,7 @@ export class HttpClient {
       .map((key) =>
         typeof query[key] === "object" && !Array.isArray(query[key])
           ? this.toQueryString(query[key])
-          : this.addQueryParam(query, key),
+          : this.addArrayQueryParam(query, key),
       )
       .join("&");
   }

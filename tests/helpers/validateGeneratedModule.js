@@ -21,30 +21,22 @@ const getDiagnosticsFromPath = (pathToFile) =>
 // }).diagnostics
 
 module.exports = ({ pathToFile }) => {
-  process.stdout.write(`validating ${relative("", pathToFile)}: `);
-
   const diagnostics = getDiagnosticsFromPath(pathToFile);
+  const relativePathToFile = relative("", pathToFile);
 
+  console.log(`validating ${relativePathToFile}: errors ${diagnostics.length}`);
   diagnostics.forEach(({ messageText, file, start }) => {
     var message = tsc.flattenDiagnosticMessageText(messageText, "\n");
     if (!file) {
-      console.error(message);
+      console.error(`${relativePathToFile}\r\n`, message);
       return;
     }
     var { line, character } = file.getLineAndCharacterOfPosition(start);
-    console.error(`${file.fileName} (${line + 1},${character + 1}): ${message}`);
+    console.error(
+      `${relativePathToFile}\r\n`,
+      `${file.fileName} (${line + 1},${character + 1}): ${message}`,
+    );
   });
-
-  process.stdout.write(`errors ${diagnostics.length}`);
-
-  if (diagnostics.length) {
-    process.stdout.write(`\r\n`);
-  } else {
-    if (process.stdout.clearLine && process.stdout.cursorTo) {
-      process.stdout.clearLine(process.stdout);
-      process.stdout.cursorTo(0);
-    }
-  }
 
   return diagnostics;
 };

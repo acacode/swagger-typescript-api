@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "7.0.1",
+  "version": "8.0.0",
   "description": "Generate typescript/javascript api from swagger schema",
   "scripts": {
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
@@ -9,8 +9,8 @@
     "node:debug": "node --nolazy swagger-test-cli/generate.js",
     "contributors": "all-contributors generate",
     "cli:help": "node index.js -h",
-    "test-all": "node ./node_modules/npm-run-all/bin/npm-run-all/index.js generate validate test:* --continue-on-error",
-    "test-specific": "node ./node_modules/npm-run-all/bin/npm-run-all/index.js test:* --continue-on-error",
+    "test-all": "node ./node_modules/npm-run-all/bin/npm-run-all/index.js generate validate test:*",
+    "test-specific": "node ./node_modules/npm-run-all/bin/npm-run-all/index.js generate validate test:*",
     "generate": "node tests/generate.js",
     "generate:debug": "node --nolazy tests/generate.js",
     "validate": "node tests/validate.js",

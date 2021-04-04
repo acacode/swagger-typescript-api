@@ -8981,6 +8981,7 @@ export interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
   baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
   securityWorker?: (securityData: SecurityDataType | null) => Promise<RequestParams | void> | RequestParams | void;
+  customFetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 }
 
 export interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
@@ -9001,6 +9002,7 @@ export class HttpClient<SecurityDataType = unknown> {
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private abortControllers = new Map<CancelToken, AbortController>();
+  private customFetch = fetch;
 
   private baseApiParams: RequestParams = {
     credentials: "same-origin",
@@ -9017,14 +9019,12 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  private addQueryParam(query: QueryParamsType, key: string) {
+  private addArrayQueryParam(query: QueryParamsType, key: string) {
     const value = query[key];
-
-    return (
-      encodeURIComponent(key) +
-      "=" +
-      encodeURIComponent(Array.isArray(value) ? value.join(",") : typeof value === "number" ? value : `${value}`)
-    );
+    const encodedKey = encodeURIComponent(key);
+    return `${value
+      .map((val: any) => `${encodedKey}=${encodeURIComponent(typeof val === "number" ? val : `${val}`)}`)
+      .join("&")}`;
   }
 
   protected toQueryString(rawQuery?: QueryParamsType): string {
@@ -9034,7 +9034,7 @@ export class HttpClient<SecurityDataType = unknown> {
       .map((key) =>
         typeof query[key] === "object" && !Array.isArray(query[key])
           ? this.toQueryString(query[key] as QueryParamsType)
-          : this.addQueryParam(query, key),
+          : this.addArrayQueryParam(query, key),
       )
       .join("&");
   }
@@ -9097,7 +9097,7 @@ export class HttpClient<SecurityDataType = unknown> {
     path,
     type,
     query,
-    format = "json",
+    format,
     baseUrl,
     cancelToken,
     ...params
@@ -9110,8 +9110,9 @@ export class HttpClient<SecurityDataType = unknown> {
     const requestParams = this.mergeRequestParams(params, secureParams);
     const queryString = query && this.toQueryString(query);
     const payloadFormatter = this.contentFormatters[type || ContentType.Json];
+    const responseFormat = format && requestParams.format;
 
-    return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
+    return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
         ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
@@ -9124,19 +9125,21 @@ export class HttpClient<SecurityDataType = unknown> {
       r.data = (null as unknown) as T;
       r.error = (null as unknown) as E;
 
-      const data = await response[format]()
-        .then((data) => {
-          if (r.ok) {
-            r.data = data;
-          } else {
-            r.error = data;
-          }
-          return r;
-        })
-        .catch((e) => {
-          r.error = e;
-          return r;
-        });
+      const data = !responseFormat
+        ? r
+        : await response[responseFormat]()
+            .then((data) => {
+              if (r.ok) {
+                r.data = data;
+              } else {
+                r.error = data;
+              }
+              return r;
+            })
+            .catch((e) => {
+              r.error = e;
+              return r;
+            });
 
       if (cancelToken) {
         this.abortControllers.delete(cancelToken);

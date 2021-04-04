@@ -1,5 +1,23 @@
 # next release  
 
+# 8.0.0  
+
+BREAKING_CHANGES:  
+- remove default `json` format of the response type (both for `axios` and `fetch` http clients) (issue #213, thanks @po5i)  
+
+Features:  
+- Allow passing custom fetch function (`fetch` http client only)  
+- Allow to set global response type format through `HttpClient` constructor  
+  Example:  
+```ts
+    const httpClient = new HttpClient({ format: 'json' });
+    // all request responses will been formatted as json  
+```
+Fixes:  
+- Missing `schema.$ref` in inline enum schemas  
+- Array query param values are serialized with the (non-default) comma separated style (issue #222, thanks @Styn, PR #223)  
+- TypeScript error "TS6133: 'E' is declared but its value is never read." (`axios` http client) (issue #220, thanks @pmbednarczyk )  
+
 # 7.0.1  
 
 Fixes:  

@@ -1727,6 +1727,7 @@ export interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
   baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
   securityWorker?: (securityData: SecurityDataType | null) => Promise<RequestParams | void> | RequestParams | void;
+  customFetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 }
 export interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
   data: D;
@@ -1743,10 +1744,11 @@ export declare class HttpClient<SecurityDataType = unknown> {
   private securityData;
   private securityWorker?;
   private abortControllers;
+  private customFetch;
   private baseApiParams;
   constructor(apiConfig?: ApiConfig<SecurityDataType>);
   setSecurityData: (data: SecurityDataType | null) => void;
-  private addQueryParam;
+  private addArrayQueryParam;
   protected toQueryString(rawQuery?: QueryParamsType): string;
   protected addQueryParams(rawQuery?: QueryParamsType): string;
   private contentFormatters;
