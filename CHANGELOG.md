@@ -1,5 +1,10 @@
 # next release  
 
+# 8.0.2  
+
+Fixes:  
+- Wrong working the `format` option in `fetch` http client  
+
 # 8.0.1  
 
 Fixes:  
