@@ -20,7 +20,7 @@ export class HttpClient {
     this.baseUrl = "https://api.github.com";
     this.securityData = null;
     this.abortControllers = new Map();
-    this.customFetch = fetch;
+    this.customFetch = (...fetchParams) => fetch(...fetchParams);
     this.baseApiParams = {
       credentials: "same-origin",
       headers: {},

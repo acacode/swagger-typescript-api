@@ -1727,7 +1727,7 @@ export interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
   baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
   securityWorker?: (securityData: SecurityDataType | null) => Promise<RequestParams | void> | RequestParams | void;
-  customFetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+  customFetch?: typeof fetch;
 }
 export interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
   data: D;

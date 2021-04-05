@@ -1,5 +1,11 @@
 # next release  
 
+# 8.0.1  
+
+Fixes:  
+- Not working `customFetch` 
+  Error: `Failed to execute 'fetch' on 'Window': Illegal invocation`   
+
 # 8.0.0  
 
 BREAKING_CHANGES:  
