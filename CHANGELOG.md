@@ -1,5 +1,10 @@
 # next release  
 
+
+# 8.0.3  
+
+- Fixes encoding array query params in `fetch` http templates (thanks @prog13)  
+
 # 8.0.2  
 
 Fixes:  
