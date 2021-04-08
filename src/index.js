@@ -48,6 +48,7 @@ module.exports = {
     extraTemplates,
     enumNamesAsValues,
     disableStrictSSL = config.disableStrictSSL,
+    disableProxy = config.disableProxy,
     cleanOutput,
     silent = config.silent,
     typePrefix = config.typePrefix,
@@ -70,6 +71,7 @@ module.exports = {
         hooks: _.merge(config.hooks, rawHooks || {}),
         enumNamesAsValues,
         disableStrictSSL,
+        disableProxy,
         cleanOutput,
         defaultResponseType,
         singleHttpClient,
@@ -79,7 +81,10 @@ module.exports = {
         typePrefix,
         typeSuffix,
       });
-      (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url, disableStrictSSL))
+      (spec
+        ? convertSwaggerObject(spec)
+        : getSwaggerObject(input, url, disableStrictSSL, disableProxy)
+      )
         .then(({ usageSchema, originalSchema }) => {
           const templatePaths = getTemplatePaths(config);
 
