@@ -117,7 +117,8 @@ const getRequestInfoTypes = ({ requestInfos, parsedSchemas, operationId, default
 
 const isSuccessStatus = (status) =>
   (config.defaultResponseAsSuccess && status === "default") ||
-  (+status >= SUCCESS_RESPONSE_STATUS_RANGE[0] && +status < SUCCESS_RESPONSE_STATUS_RANGE[1]);
+  (+status >= SUCCESS_RESPONSE_STATUS_RANGE[0] && +status < SUCCESS_RESPONSE_STATUS_RANGE[1]) ||
+  status === "2xx";
 
 const parseRoute = (route) => {
   const pathParamMatches = (route || "").match(
