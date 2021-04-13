@@ -79,7 +79,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
     private addArrayQueryParam(query: QueryParamsType, key: string) {
         const value = query[key];
-        return `${value.map(this.addQueryParam).join('&')}`;
+        return value.map((v) => `${key}=${v}`).join("&");
     }
 
     protected toQueryString(rawQuery?: QueryParamsType): string {
