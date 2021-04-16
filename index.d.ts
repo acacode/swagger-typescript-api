@@ -89,6 +89,10 @@ interface GenerateApiParams {
    */
   prettier?: object;
   /**
+   * Output only errors to console (default: false)
+   */
+  silent?: boolean;
+  /**
    * default type for empty response schema (default: "void")
    */
   defaultResponseType?: boolean;
