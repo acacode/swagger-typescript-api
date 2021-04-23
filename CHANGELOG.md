@@ -1,5 +1,17 @@
 # next release  
 
+# next release  
+
+Fixes:  
+- Consider 2xx a successful status (thanks @wyozi)  
+- GET method query option bug (thanks @rhkdgns95, @SaschaGalley)  
+- `silent` property missed in `.d.ts` file (thanks @mastermatt)  
+- axios file upload `formData` type (thanks @guhyeon)  
+
+
+Features:  
+- `--disableProxy` option (thanks @kel666)  
+
 
 # 8.0.3  
 
