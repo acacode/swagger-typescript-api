@@ -7,7 +7,7 @@ Fixes:
 - GET method query option bug (thanks @rhkdgns95, @SaschaGalley)  
 - `silent` property missed in `.d.ts` file (thanks @mastermatt)  
 - axios file upload `formData` type (thanks @guhyeon)  
-
+- make property `instance` to public in axios http client (It can be helpful in #226)  
 
 Features:  
 - `--disableProxy` option (thanks @kel666)  

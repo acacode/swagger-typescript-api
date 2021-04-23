@@ -36,7 +36,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-    private instance: AxiosInstance;
+    public instance: AxiosInstance;
     private securityData: SecurityDataType | null = null;
     private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
     private secure?: boolean;
