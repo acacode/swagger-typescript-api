@@ -77,6 +77,10 @@ interface GenerateApiParams {
    */
   disableStrictSSL?: boolean;
   /**
+   * disabled Proxy
+   */
+  disableProxy?: boolean;
+  /**
    * generate separated files for http client, data contracts, and routes (default: false)
    */
   modular?: boolean;
@@ -275,6 +279,7 @@ export interface GenerateApiConfiguration {
     moduleNameIndex: number;
     moduleNameFirstTag: boolean;
     disableStrictSSL: boolean;
+    disableProxy: boolean;
     extractRequestParams: boolean;
     fileNames: {
       dataContracts: string;

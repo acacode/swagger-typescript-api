@@ -32,6 +32,7 @@ const config = {
   /** use the first tag for the module name */
   moduleNameFirstTag: false,
   disableStrictSSL: false,
+  disableProxy: false,
   extractRequestParams: false,
   fileNames: {
     dataContracts: "data-contracts",

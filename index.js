@@ -63,6 +63,7 @@ program
   )
   .option("--module-name-first-tag", "splits routes based on the first tag", false)
   .option("--disableStrictSSL", "disabled strict SSL", false)
+  .option("--disableProxy", "disabled proxy", false)
   .option("--axios", "generate axios http client", false)
   .option("--single-http-client", "Ability to send HttpClient instance to Api constructor", false)
   .option("--silent", "Output only errors to console", false)
@@ -94,6 +95,7 @@ const {
   extractRequestParams,
   enumNamesAsValues,
   disableStrictSSL,
+  disableProxy,
   cleanOutput,
   defaultResponse,
   singleHttpClient,
@@ -123,6 +125,7 @@ generateApi({
   moduleNameIndex: +(moduleNameIndex || 0),
   moduleNameFirstTag: moduleNameFirstTag,
   disableStrictSSL: !!disableStrictSSL,
+  disableProxy: !!disableProxy,
   singleHttpClient: !!singleHttpClient,
   cleanOutput: !!cleanOutput,
   silent: !!silent,
