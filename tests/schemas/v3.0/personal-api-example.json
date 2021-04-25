@@ -378,6 +378,7 @@
         ],
         "requestBody": {
           "required": true,
+          "name": "params",
           "content": {
             "application/json": { "schema": { "$ref": "#/components/schemas/JobUpdateType" } }
           }

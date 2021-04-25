@@ -11,6 +11,9 @@ const {
   DEFAULT_BODY_ARG_NAME,
   SUCCESS_RESPONSE_STATUS_RANGE,
   TS_KEYWORDS,
+  RESERVED_QUERY_ARG_NAMES,
+  RESERVED_BODY_ARG_NAMES,
+  RESERVED_REQ_PARAMS_ARG_NAMES,
 } = require("./constants");
 const { formatDescription, classNameCase } = require("./common");
 const { config } = require("./config");
@@ -18,6 +21,7 @@ const { nanoid } = require("nanoid");
 const { getRouteName } = require("./routeNames");
 const { createComponent } = require("./components");
 const { warnLog } = require("./logger");
+const { defineSpecificArgName } = require("./utils/defineSpecificArgName");
 
 const formDataTypes = _.uniq([types.file, types.string.binary]);
 
@@ -509,6 +513,7 @@ const parseRoutes = ({
             type: getInlineParseContent(pathArgSchema.schema),
             description: pathArgSchema.description,
           }));
+          const pathArgsNames = pathArgs.map((arg) => arg.name);
 
           const requestBodyInfo = getRequestBodyInfo(routeInfo, routeParams, parsedSchemas);
           const responseBodyInfo = getResponseBodyInfo(routeInfo, routeParams, parsedSchemas);
@@ -552,31 +557,38 @@ const parseRoutes = ({
             ? getInlineParseContent(headersObjectSchema)
             : null;
 
+          const querySpecificArg = queryType
+            ? {
+                name: defineSpecificArgName(RESERVED_QUERY_ARG_NAMES, pathArgsNames),
+                optional: parseSchema(queryObjectSchema, null).allFieldsAreOptional,
+                type: queryType,
+              }
+            : void 0;
+          const bodySpecificArg = requestBodyInfo.type
+            ? {
+                name: defineSpecificArgName(
+                  [requestBodyInfo.paramName, ...RESERVED_BODY_ARG_NAMES],
+                  [...pathArgsNames, querySpecificArg && querySpecificArg.name],
+                ),
+                optional: !requestBodyInfo.required,
+                type: requestBodyInfo.type,
+              }
+            : void 0;
+          const requestParamsSpecificArg = {
+            name: defineSpecificArgName(RESERVED_REQ_PARAMS_ARG_NAMES, [
+              ...pathArgsNames,
+              querySpecificArg && querySpecificArg.name,
+              bodySpecificArg && bodySpecificArg.name,
+            ]),
+            optional: true,
+            type: "RequestParams",
+            defaultValue: "{}",
+          };
+
           const specificArgs = {
-            query: queryType
-              ? {
-                  name: pathArgs.some((pathArg) => pathArg.name === "query")
-                    ? "queryParams"
-                    : "query",
-                  optional: parseSchema(queryObjectSchema, null).allFieldsAreOptional,
-                  type: queryType,
-                }
-              : void 0,
-            body: requestBodyInfo.type
-              ? {
-                  name: requestBodyInfo.paramName,
-                  optional: !requestBodyInfo.required,
-                  type: requestBodyInfo.type,
-                }
-              : void 0,
-            requestParams: {
-              name: pathArgs.some((pathArg) => pathArg.name === "params")
-                ? "requestParams"
-                : "params",
-              optional: true,
-              type: "RequestParams",
-              defaultValue: "{}",
-            },
+            query: querySpecificArg,
+            body: bodySpecificArg,
+            requestParams: requestParamsSpecificArg,
             pathParams: pathType
               ? {
                   name: pathArgs.some((pathArg) => pathArg.name === "path") ? "pathParams" : "path",

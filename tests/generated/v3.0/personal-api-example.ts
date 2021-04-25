@@ -512,15 +512,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/jobs/{id}
      * @secure
      */
-    updateJob: (id: string, data: JobUpdateType, params: RequestParams = {}) =>
+    updateJob: (id: string, params: JobUpdateType, requestParams: RequestParams = {}) =>
       this.request<JobType, any>({
         path: `/jobs/${id}`,
         method: "PATCH",
-        body: data,
+        body: params,
         secure: true,
         type: ContentType.Json,
         format: "json",
-        ...params,
+        ...requestParams,
       }),
 
     /**

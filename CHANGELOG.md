@@ -8,6 +8,7 @@ Fixes:
 - `silent` property missed in `.d.ts` file (thanks @mastermatt)  
 - axios file upload `formData` type (thanks @guhyeon)  
 - make property `instance` to public in axios http client (It can be helpful in #226)  
+- variable name "params" doesn't uniq (thanks @mixalbl4-127 )  
 
 Features:  
 - `--disableProxy` option (thanks @kel666)  
