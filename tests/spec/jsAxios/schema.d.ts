@@ -1702,7 +1702,7 @@ export interface UserUpdate {
   name?: string;
 }
 export declare type Users = User[];
-import { AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";
+import { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";
 export declare type QueryParamsType = Record<string | number, any>;
 export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "params" | "url" | "responseType"> {
   /** set parameter to `true` for call `securityWorker` for this request */
@@ -1732,7 +1732,7 @@ export declare enum ContentType {
   UrlEncoded = "application/x-www-form-urlencoded",
 }
 export declare class HttpClient<SecurityDataType = unknown> {
-  private instance;
+  instance: AxiosInstance;
   private securityData;
   private securityWorker?;
   private secure?;

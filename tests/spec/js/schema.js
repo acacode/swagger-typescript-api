@@ -105,14 +105,16 @@ export class HttpClient {
     };
     Object.assign(this, apiConfig);
   }
-  addQueryParam(query, key) {
-    const value = query[key];
+  encodeQueryParam(key, value) {
     const encodedKey = encodeURIComponent(key);
     return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
   }
+  addQueryParam(query, key) {
+    return this.encodeQueryParam(key, query[key]);
+  }
   addArrayQueryParam(query, key) {
     const value = query[key];
-    return `${value.map(this.addQueryParam).join("&")}`;
+    return value.map((v) => this.encodeQueryParam(key, v)).join("&");
   }
   toQueryString(rawQuery) {
     const query = rawQuery || {};

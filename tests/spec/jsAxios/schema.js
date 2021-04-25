@@ -30,6 +30,17 @@ export class HttpClient {
         {};
       const requestParams = this.mergeRequestParams(params, secureParams);
       const responseFormat = (format && this.format) || void 0;
+      if (type === ContentType.FormData) {
+        requestParams.headers.common = { Accept: "*/*" };
+        requestParams.headers.post = {};
+        requestParams.headers.put = {};
+        const formData = new FormData();
+        const fromBody = body;
+        for (const property in fromBody) {
+          formData.append(property, fromBody[property]);
+        }
+        body = formData;
+      }
       return this.instance.request({
         ...requestParams,
         headers: {

@@ -1480,7 +1480,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  private instance: AxiosInstance;
+  public instance: AxiosInstance;
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private secure?: boolean;
@@ -1526,6 +1526,19 @@ export class HttpClient<SecurityDataType = unknown> {
       {};
     const requestParams = this.mergeRequestParams(params, secureParams);
     const responseFormat = (format && this.format) || void 0;
+
+    if (type === ContentType.FormData) {
+      requestParams.headers.common = { Accept: "*/*" };
+      requestParams.headers.post = {};
+      requestParams.headers.put = {};
+
+      const formData = new FormData();
+      const fromBody = body as any;
+      for (const property in fromBody) {
+        formData.append(property, fromBody[property]);
+      }
+      body = formData;
+    }
 
     return this.instance.request({
       ...requestParams,
