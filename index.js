@@ -50,6 +50,7 @@ program
     "extract request params to data contract (Also combine path params and query params into one object)",
     false,
   )
+  .option("--extract-request-body", "extract request body type to data contract", false)
   .option(
     "--modular",
     "generate separated files for http client, data contracts, and routes",
@@ -93,6 +94,7 @@ const {
   moduleNameIndex,
   moduleNameFirstTag,
   extractRequestParams,
+  extractRequestBody,
   enumNamesAsValues,
   disableStrictSSL,
   disableProxy,
@@ -115,7 +117,8 @@ generateApi({
   defaultResponseType: defaultResponse,
   generateUnionEnums: unionEnums,
   generateResponses: responses,
-  extractRequestParams: extractRequestParams,
+  extractRequestParams: !!extractRequestParams,
+  extractRequestBody: !!extractRequestBody,
   input: resolve(process.cwd(), path),
   output: resolve(process.cwd(), output || "."),
   templates,

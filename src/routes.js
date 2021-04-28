@@ -21,7 +21,7 @@ const { config } = require("./config");
 const { nanoid } = require("nanoid");
 const { getRouteName } = require("./routeNames");
 const { createComponent } = require("./components");
-const { warnLog } = require("./logger");
+const { logger } = require("./logger");
 const { SpecificArgNameResolver } = require("./utils/resolveName");
 
 const formDataTypes = _.uniq([types.file, types.string.binary]);
@@ -139,7 +139,7 @@ const parseRoute = (route) => {
       if (!paramName) return pathParams;
 
       if (_.includes(paramName, "-")) {
-        warnLog("wrong path param name", paramName);
+        logger.warn("wrong path param name", paramName);
       }
 
       return [
@@ -334,7 +334,11 @@ const createRequestParamsSchema = ({
   if (fixedSchema) return fixedSchema;
 
   if (extractRequestParams) {
-    return createComponent("schemas", classNameCase(`${routeName.usage} Params`), { ...schema });
+    const typeName = config.componentTypeNameResolver.resolve([
+      classNameCase(`${routeName.usage} Params`),
+    ]);
+
+    return createComponent("schemas", typeName, { ...schema });
   }
 
   return schema;
@@ -381,7 +385,7 @@ const getContentKind = (contentTypes) => {
   return CONTENT_KIND.OTHER;
 };
 
-const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
+const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas, routeName) => {
   const { requestBody, consumes, requestBodyName, operationId } = routeInfo;
   let schema = null;
   let type = null;
@@ -400,7 +404,7 @@ const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
     schema = getSchemaFromRequestType(requestBody);
     type = getInlineParseContent(schema);
   } else if (requestBody) {
-    schema = requestBody;
+    schema = getSchemaFromRequestType(requestBody);
     type = checkAndAddNull(
       requestBody,
       getTypeFromRequestInfo({
@@ -416,6 +420,16 @@ const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
     if (formDataTypes.some((dataType) => _.includes(type, `: ${dataType}`))) {
       contentKind = CONTENT_KIND.FORM_DATA;
     }
+  }
+
+  if (schema && !schema.$ref && config.extractRequestBody) {
+    const typeName = config.componentTypeNameResolver.resolve([
+      classNameCase(`${routeName.usage} Payload`),
+      classNameCase(`${routeName.usage} Body`),
+      classNameCase(`${routeName.usage} Input`),
+    ]);
+    schema = createComponent("schemas", typeName, { ...schema });
+    type = typeName;
   }
 
   return {
@@ -516,7 +530,6 @@ const parseRoutes = ({
           }));
           const pathArgsNames = pathArgs.map((arg) => arg.name);
 
-          const requestBodyInfo = getRequestBodyInfo(routeInfo, routeParams, parsedSchemas);
           const responseBodyInfo = getResponseBodyInfo(routeInfo, routeParams, parsedSchemas);
 
           const rawRouteInfo = {
@@ -541,6 +554,13 @@ const parseRoutes = ({
           const headersObjectSchema = convertRouteParamsIntoObject(routeParams.header);
 
           const routeName = getRouteName(rawRouteInfo);
+
+          const requestBodyInfo = getRequestBodyInfo(
+            routeInfo,
+            routeParams,
+            parsedSchemas,
+            routeName,
+          );
 
           const requestParamsSchema = createRequestParamsSchema({
             queryParams: routeParams.query,

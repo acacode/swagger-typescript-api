@@ -1,22 +1,51 @@
 <%
 const { apiConfig, routes, utils, config } = it;
+const { info, servers, externalDocs } = apiConfig;
+const { _, require, formatDescription } = utils;
+
+const server = (servers && servers[0]) || { url: "" };
+
+const descriptionLines = _.compact([
+  `@title ${info.title || "No title"}`,
+  info.version && `@version ${info.version}`,
+  info.license && `@license ${_.compact([
+    info.license.name,
+    info.license.url && `(${info.license.url})`,
+  ]).join(" ")}`,
+  info.termsOfService && `@termsOfService ${info.termsOfService}`,
+  server.url && `@baseUrl ${server.url}`,
+  externalDocs.url && `@externalDocs ${externalDocs.url}`,
+  info.contact && `@contact ${_.compact([
+    info.contact.name,
+    info.contact.email && `<${info.contact.email}>`,
+    info.contact.url && `(${info.contact.url})`,
+  ]).join(" ")}`,
+  info.description && " ",
+  info.description && _.replace(formatDescription(info.description), /\n/g, "\n * "),
+]);
+
 %>
-<% if (apiConfig.hasDescription) { %>
+
+<% if (config.httpClientType === config.constants.HTTP_CLIENT.AXIOS) { %> import { AxiosRequestConfig, AxiosResponse } from "axios"; <% } %>
+
+<% if (descriptionLines.length) { %>
 /**
-<% apiConfig.description.forEach((jsDocLine) => { %>
-* <%~ jsDocLine %>
+<% descriptionLines.forEach((descriptionLine) => { %>
+* <%~ descriptionLine %>
 
 <% }) %>
 */
 <% } %>
-export class Api<<%~ apiConfig.generic.map(g => `${g.name} = ${g.defaultValue}`).join(', ') %>> extends HttpClient<<%~ apiConfig.generic.map(g => g.name).join(', ') %>>{
-<%
-/* TODO: outOfModule, combined should be attributes of route, which will allow to avoid duplication of code */
-%>
+export class Api<SecurityDataType extends unknown><% if (!config.singleHttpClient) { %> extends HttpClient<SecurityDataType> <% } %> {
+
+<% if(config.singleHttpClient) { %>
+  constructor (private http: HttpClient<SecurityDataType>) {}
+<% } %>
+
 
 <% routes.outOfModule && routes.outOfModule.forEach((route) => { %>
 
-        <%~ includeFile('./procedure-call.eta', { route, utils, config }) %>
+        <%~ includeFile('./procedure-call.eta', { ...it, route }) %>
 
 <% }) %>
 
@@ -24,7 +53,7 @@ export class Api<<%~ apiConfig.generic.map(g => `${g.name} = ${g.defaultValue}`)
     <%~ moduleName %> = {
     <% routes.forEach((route) => { %>
 
-        <%~ includeFile('./procedure-call.eta', { route, utils, config }) %>
+        <%~ includeFile('./procedure-call.eta', { ...it, route }) %>
 
     <% }) %>
     }

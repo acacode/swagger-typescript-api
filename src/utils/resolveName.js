@@ -54,6 +54,10 @@ class NameResolver {
 }
 
 class SpecificArgNameResolver extends NameResolver {
+  /**
+   *
+   * @param {string[]} reservedNames
+   */
   constructor(reservedNames) {
     super(reservedNames, (variants) => {
       return (variants[0] && `${variants[0]}${getRandomInt(1, 10)}`) || `arg${getRandomInt(1, 10)}`;
@@ -61,7 +65,23 @@ class SpecificArgNameResolver extends NameResolver {
   }
 }
 
+class ComponentTypeNameResolver extends NameResolver {
+  /**
+   *
+   * @param {string[]} reservedNames
+   */
+  constructor(reservedNames) {
+    super(reservedNames, (variants) => {
+      return (
+        (variants[0] && `${variants[0]}${getRandomInt(1, 10)}`) ||
+        `ComponentType${getRandomInt(1, 10)}`
+      );
+    });
+  }
+}
+
 module.exports = {
   NameResolver,
   SpecificArgNameResolver,
+  ComponentTypeNameResolver,
 };

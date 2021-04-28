@@ -2,6 +2,26 @@ const _ = require("lodash");
 const { parseSchema } = require("./schema");
 const { config } = require("./config");
 
+/**
+ * @typedef {"schemas" | "examples" | "headers" | "parameters" | "requestBodies" | "responses" | "securitySchemes"} ComponentName
+ * @typedef {object} RawTypeData
+ * @typedef {{ type, typeIdentifier, name, description, content }} TypeData
+ *
+ * @typedef {{
+ *  typeName: string;
+ *  componentName: ComponentName;
+ *  rawTypeData: RawTypeData;
+ *  typeData: TypeData | null;
+ * }} TypeInfo
+ */
+
+/**
+ *
+ * @param {ComponentName} componentName
+ * @param {string} typeName
+ * @param {RawTypeData} rawTypeData
+ * @returns {TypeInfo}
+ */
 const createComponent = (componentName, typeName, rawTypeData) => {
   const $ref = `#/components/${componentName}/${typeName}`;
 
@@ -13,23 +33,15 @@ const createComponent = (componentName, typeName, rawTypeData) => {
     typeData: null,
   };
 
-  return (config.componentsMap[$ref] =
-    config.hooks.onCreateComponent(componentSchema) || componentSchema);
+  const usageComponent = config.hooks.onCreateComponent(componentSchema) || componentSchema;
+
+  config.componentsMap[$ref] = usageComponent;
+
+  return usageComponent;
 };
 
 /**
- *
- * @typedef TypeInfo
- * {
- *    typeName: "Foo",
- *    componentName: "schemas",
- *    rawTypeData: {...},
- *    typeData: {...} (result parseSchema())
- * }
- */
-
-/**
- * @returns {{ "#/components/schemas/Foo": TypeInfo, ... }}
+ * @returns {{ [key: string]: TypeInfo }}
  */
 const createComponentsMap = (components) => {
   config.componentsMap = {};
@@ -44,12 +56,19 @@ const createComponentsMap = (components) => {
 };
 
 /**
+ *
+ * @param {{ [key: string]: TypeInfo }} componentsMap
+ * @param {ComponentName} componentName
  * @returns {TypeInfo[]}
  */
 const filterComponentsMap = (componentsMap, componentName) =>
   _.filter(componentsMap, (v, ref) => _.startsWith(ref, `#/components/${componentName}`));
 
-/** @returns {{ type, typeIdentifier, name, description, content }} */
+/**
+ *
+ * @param {TypeInfo} typeInfo
+ * @returns {TypeData}
+ */
 const getTypeData = (typeInfo) => {
   if (!typeInfo.typeData) {
     typeInfo.typeData = parseSchema(typeInfo.rawTypeData, typeInfo.typeName);
@@ -58,6 +77,11 @@ const getTypeData = (typeInfo) => {
   return typeInfo.typeData;
 };
 
+/**
+ *
+ * @param {string} ref
+ * @returns {TypeInfo | undefined}
+ */
 const getComponentByRef = (ref) => config.componentsMap[ref];
 
 module.exports = {

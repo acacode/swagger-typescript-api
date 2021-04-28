@@ -2,7 +2,7 @@
 
 # next release  
 
-NOTE: This version is not compatible with previous templates (removed `route.request.params`)  
+NOTE: This version is not compatible with previous templates (removed `route.request.params`, `apiConfig.props`, `apiConfig.generic`, `apiConfig.description`, `apiConfig.hasDescription`)  
 
 Fixes:  
 - Consider 2xx a successful status (thanks @wyozi)  
@@ -14,6 +14,7 @@ Fixes:
 
 Features:  
 - `--disableProxy` option (thanks @kel666)  
+- `--extract-request-body` option. Allows to extract request body type to data contract
 
 
 # 8.0.3  

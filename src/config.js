@@ -1,4 +1,5 @@
 const { HTTP_CLIENT, TS_KEYWORDS, PRETTIER_OPTIONS } = require("./constants");
+const { NameResolver } = require("./utils/resolveName");
 
 const config = {
   /** CLI flag */
@@ -34,6 +35,7 @@ const config = {
   disableStrictSSL: false,
   disableProxy: false,
   extractRequestParams: false,
+  extractRequestBody: false,
   fileNames: {
     dataContracts: "data-contracts",
     routeTypes: "route-types",
@@ -80,6 +82,7 @@ const config = {
   silent: false,
   typePrefix: "",
   typeSuffix: "",
+  componentTypeNameResolver: new NameResolver([]),
 };
 
 /** needs to use data everywhere in project */

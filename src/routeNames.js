@@ -1,5 +1,5 @@
 const { config } = require("./config");
-const { warnLog } = require("./logger");
+const { logger } = require("./logger");
 const { renderTemplate } = require("./templates");
 
 const getRouteName = (routeInfo) => {
@@ -24,7 +24,7 @@ const getRouteName = (routeInfo) => {
       routeNameDuplicatesMap.get(duplicateIdentifier) + 1,
     );
 
-    warnLog(
+    logger.warn(
       `Module "${moduleName}" already have method "${routeName}()"`,
       `\nThis method has been renamed to "${
         routeName + routeNameDuplicatesMap.get(duplicateIdentifier)

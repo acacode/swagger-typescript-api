@@ -1,20 +1,18 @@
 const _ = require("lodash");
 const { config } = require("./config");
-const { emojify } = require("node-emoji");
+const { emojify, emoji } = require("node-emoji");
 
 /**
  *
- * @param {"warn" | "log" | "error"} kind
- * @param {keyof emoji} emojiName
- * @param  {...any} messages
- * @returns
+ * @param {{ type: "warn" | "log" | "error", emojiName: keyof emoji, messages: unknown[] }} payload
+ * @returns {void}
  */
-const createLogMessage = ({ kind, emojiName, messages }) => {
+const createLogMessage = ({ type, emojiName, messages }) => {
   if (config.silent) return;
 
   const emoji = emojify(emojiName);
 
-  console[kind](
+  console[type](
     emoji,
     " ",
     ..._.map(messages, (message) =>
@@ -23,41 +21,39 @@ const createLogMessage = ({ kind, emojiName, messages }) => {
   );
 };
 
-const log = (...messages) =>
-  createLogMessage({
-    kind: "log",
-    emojiName: ":sparkles:",
-    messages,
-  });
-const eventLog = (...messages) =>
-  createLogMessage({
-    kind: "log",
-    emojiName: ":comet: ",
-    messages,
-  });
-const successLog = (...messages) =>
-  createLogMessage({
-    kind: "log",
-    emojiName: ":white_check_mark:",
-    messages,
-  });
-const warnLog = (...messages) =>
-  createLogMessage({
-    kind: "warn",
-    emojiName: ":warning: ",
-    messages,
-  });
-const errorLog = (...messages) =>
-  createLogMessage({
-    kind: "error",
-    emojiName: ":exclamation:",
-    messages,
-  });
+const logger = {
+  log: (...messages) =>
+    createLogMessage({
+      type: "log",
+      emojiName: ":sparkles:",
+      messages,
+    }),
+  event: (...messages) =>
+    createLogMessage({
+      type: "log",
+      emojiName: ":comet: ",
+      messages,
+    }),
+  success: (...messages) =>
+    createLogMessage({
+      type: "log",
+      emojiName: ":white_check_mark:",
+      messages,
+    }),
+  warn: (...messages) =>
+    createLogMessage({
+      type: "warn",
+      emojiName: ":warning: ",
+      messages,
+    }),
+  error: (...messages) =>
+    createLogMessage({
+      type: "error",
+      emojiName: ":exclamation:",
+      messages,
+    }),
+};
 
 module.exports = {
-  log,
-  eventLog,
-  successLog,
-  warnLog,
-  errorLog,
+  logger,
 };
