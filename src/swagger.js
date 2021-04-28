@@ -5,7 +5,7 @@ const converter = require("swagger2openapi");
 const https = require("https");
 const { addToConfig, config } = require("./config");
 const { pathIsExist, getFileContent } = require("./files");
-const { log } = require("./logger");
+const { log, errorLog } = require("./logger");
 
 const parseSwaggerFile = (file) => {
   if (typeof file !== "string") return file;
@@ -23,7 +23,7 @@ const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL, disablePr
       log(`try to get swagger by path "${pathToSwagger}"`);
       resolve(getFileContent(pathToSwagger));
     } else {
-      log(`try to get swagger by url "${urlToSwagger}"`);
+      log(`try to get swagger by URL "${urlToSwagger}"`);
       // setup options for Axios
       const axiosOptions = {};
       //
@@ -38,9 +38,7 @@ const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL, disablePr
       axios
         .get(urlToSwagger, axiosOptions)
         .then((res) => resolve(res.data))
-        .catch((err) =>
-          log(`error while getting swagger by URL ${urlToSwagger}: ${JSON.stringify(err)}`),
-        );
+        .catch((err) => errorLog(`error while getting swagger by URL ${urlToSwagger}:`, err));
     }
   });
 
