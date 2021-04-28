@@ -2,6 +2,8 @@
 
 # next release  
 
+NOTE: This version is not compatible with previous templates (removed `route.request.params`)  
+
 Fixes:  
 - Consider 2xx a successful status (thanks @wyozi)  
 - GET method query option bug (thanks @rhkdgns95, @SaschaGalley)  
