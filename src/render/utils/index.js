@@ -3,7 +3,7 @@ const { getComponentByRef } = require("../../components");
 const { formatModelName } = require("../../modelNames");
 const { getInlineParseContent, getParseContent, parseSchema } = require("../../schema");
 const { formatters, inlineExtraFormatters } = require("../../typeFormatters");
-const { defineSpecificArgName } = require("../../utils/defineSpecificArgName");
+const { NameResolver } = require("../../utils/resolveName");
 
 module.exports = {
   formatDescription,
@@ -17,7 +17,7 @@ module.exports = {
   inlineExtraFormatters,
   formatModelName,
   fmtToJSDocLine: require("./fmtToJSDocLine"),
-  defineSpecificArgName,
+  NameResolver: NameResolver,
   _: require("lodash"),
   require: require("./templateRequire"),
 };

@@ -1,7 +1,7 @@
 <%
 const { utils, route, config } = it;
-const { requestBodyInfo, responseBodyInfo } = route;
-const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef, require, defineSpecificArgName } = utils;
+const { requestBodyInfo, responseBodyInfo, specificArgNameResolver } = route;
+const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef, require } = utils;
 const { parameters, path, method, payload, query, formData, security, requestParams } = route.request;
 const { type, errorType, contentTypes } = route.response;
 const { HTTP_CLIENT, RESERVED_REQ_PARAMS_ARG_NAMES } = config.constants;
@@ -13,14 +13,7 @@ const pathParamsNames = _.map(pathParams, "name");
 const isFetchTemplate = config.httpClientType === HTTP_CLIENT.FETCH;
 
 const requestConfigParam = {
-    name: defineSpecificArgName(
-        RESERVED_REQ_PARAMS_ARG_NAMES,
-        [
-            ...pathParamsNames,
-            query && query.name,
-            payload && payload.name,
-        ]
-    ),
+    name: specificArgNameResolver.resolve(RESERVED_REQ_PARAMS_ARG_NAMES),
     optional: true,
     type: "RequestParams",
     defaultValue: "{}",

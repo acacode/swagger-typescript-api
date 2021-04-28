@@ -13,7 +13,8 @@ const {
   TS_KEYWORDS,
   RESERVED_QUERY_ARG_NAMES,
   RESERVED_BODY_ARG_NAMES,
-  RESERVED_REQ_PARAMS_ARG_NAMES,
+  RESERVED_PATH_ARG_NAMES,
+  RESERVED_HEADER_ARG_NAMES,
 } = require("./constants");
 const { formatDescription, classNameCase } = require("./common");
 const { config } = require("./config");
@@ -21,7 +22,7 @@ const { nanoid } = require("nanoid");
 const { getRouteName } = require("./routeNames");
 const { createComponent } = require("./components");
 const { warnLog } = require("./logger");
-const { defineSpecificArgName } = require("./utils/defineSpecificArgName");
+const { SpecificArgNameResolver } = require("./utils/resolveName");
 
 const formDataTypes = _.uniq([types.file, types.string.binary]);
 
@@ -557,50 +558,36 @@ const parseRoutes = ({
             ? getInlineParseContent(headersObjectSchema)
             : null;
 
-          const querySpecificArg = queryType
-            ? {
-                name: defineSpecificArgName(RESERVED_QUERY_ARG_NAMES, pathArgsNames),
-                optional: parseSchema(queryObjectSchema, null).allFieldsAreOptional,
-                type: queryType,
-              }
-            : void 0;
-          const bodySpecificArg = requestBodyInfo.type
-            ? {
-                name: defineSpecificArgName(
-                  [requestBodyInfo.paramName, ...RESERVED_BODY_ARG_NAMES],
-                  [...pathArgsNames, querySpecificArg && querySpecificArg.name],
-                ),
-                optional: !requestBodyInfo.required,
-                type: requestBodyInfo.type,
-              }
-            : void 0;
-          const requestParamsSpecificArg = {
-            name: defineSpecificArgName(RESERVED_REQ_PARAMS_ARG_NAMES, [
-              ...pathArgsNames,
-              querySpecificArg && querySpecificArg.name,
-              bodySpecificArg && bodySpecificArg.name,
-            ]),
-            optional: true,
-            type: "RequestParams",
-            defaultValue: "{}",
-          };
+          const nameResolver = new SpecificArgNameResolver(pathArgsNames);
 
           const specificArgs = {
-            query: querySpecificArg,
-            body: bodySpecificArg,
-            requestParams: requestParamsSpecificArg,
+            query: queryType
+              ? {
+                  name: nameResolver.resolve(RESERVED_QUERY_ARG_NAMES),
+                  optional: parseSchema(queryObjectSchema, null).allFieldsAreOptional,
+                  type: queryType,
+                }
+              : void 0,
+            body: requestBodyInfo.type
+              ? {
+                  name: nameResolver.resolve([
+                    requestBodyInfo.paramName,
+                    ...RESERVED_BODY_ARG_NAMES,
+                  ]),
+                  optional: !requestBodyInfo.required,
+                  type: requestBodyInfo.type,
+                }
+              : void 0,
             pathParams: pathType
               ? {
-                  name: pathArgs.some((pathArg) => pathArg.name === "path") ? "pathParams" : "path",
+                  name: nameResolver.resolve(RESERVED_PATH_ARG_NAMES),
                   optional: parseSchema(pathObjectSchema, null).allFieldsAreOptional,
                   type: pathType,
                 }
               : void 0,
             headers: headersType
               ? {
-                  name: pathArgs.some((pathArg) => pathArg.name === "headers")
-                    ? "headersParams"
-                    : "headers",
+                  name: nameResolver.resolve(RESERVED_HEADER_ARG_NAMES),
                   optional: parseSchema(headersObjectSchema, null).allFieldsAreOptional,
                   type: headersType,
                 }
@@ -630,8 +617,6 @@ const parseRoutes = ({
             routeArgs = [...requiredArgs, ...optionalArgs];
           }
 
-          routeArgs.push(specificArgs.requestParams);
-
           const routeData = {
             id: routeId,
             namespace: _.replace(moduleName, /^(\d)/, "v$1"),
@@ -645,6 +630,7 @@ const parseRoutes = ({
             headersObjectSchema,
             responseBodySchema: responseBodyInfo.success.schema,
             requestBodySchema: requestBodyInfo.schema,
+            specificArgNameResolver: nameResolver,
             request: {
               contentTypes: requestBodyInfo.contentTypes,
               parameters: pathArgs,
@@ -656,7 +642,6 @@ const parseRoutes = ({
               requestParams: requestParamsSchema,
 
               payload: specificArgs.body,
-              params: specificArgs.requestParams,
               query: specificArgs.query,
               pathParams: specificArgs.pathParams,
               headers: specificArgs.headers,
