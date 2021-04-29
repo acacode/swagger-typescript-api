@@ -463,6 +463,7 @@ export class Api extends HttpClient {
        *
        * @name IssuesSearchDetail
        * @request GET:/legacy/issues/search/{owner}/{repository}/{state}/{keyword}
+       * @deprecated
        */
       issuesSearchDetail: (keyword, state, owner, repository, params = {}) =>
         this.request({
@@ -476,6 +477,7 @@ export class Api extends HttpClient {
        *
        * @name ReposSearchDetail
        * @request GET:/legacy/repos/search/{keyword}
+       * @deprecated
        */
       reposSearchDetail: (keyword, query, params = {}) =>
         this.request({
@@ -490,6 +492,7 @@ export class Api extends HttpClient {
        *
        * @name UserEmailDetail
        * @request GET:/legacy/user/email/{email}
+       * @deprecated
        */
       userEmailDetail: (email, params = {}) =>
         this.request({
@@ -503,6 +506,7 @@ export class Api extends HttpClient {
        *
        * @name UserSearchDetail
        * @request GET:/legacy/user/search/{keyword}
+       * @deprecated
        */
       userSearchDetail: (keyword, query, params = {}) =>
         this.request({
@@ -1285,6 +1289,7 @@ export class Api extends HttpClient {
        *
        * @name DownloadsDetail
        * @request GET:/repos/{owner}/{repo}/downloads
+       * @deprecated
        */
       downloadsDetail: (owner, repo, params = {}) =>
         this.request({
@@ -1298,6 +1303,7 @@ export class Api extends HttpClient {
        *
        * @name DownloadsDelete
        * @request DELETE:/repos/{owner}/{repo}/downloads/{downloadId}
+       * @deprecated
        */
       downloadsDelete: (owner, repo, downloadId, params = {}) =>
         this.request({
@@ -1310,6 +1316,7 @@ export class Api extends HttpClient {
        *
        * @name DownloadsDetail2
        * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
+       * @deprecated
        * @originalName downloadsDetail
        * @duplicate
        */
@@ -2815,6 +2822,7 @@ export class Api extends HttpClient {
        *
        * @name MembersDelete
        * @request DELETE:/teams/{teamId}/members/{username}
+       * @deprecated
        */
       membersDelete: (teamId, username, params = {}) =>
         this.request({
@@ -2827,6 +2835,7 @@ export class Api extends HttpClient {
        *
        * @name MembersDetail2
        * @request GET:/teams/{teamId}/members/{username}
+       * @deprecated
        * @originalName membersDetail
        * @duplicate
        */
@@ -2841,6 +2850,7 @@ export class Api extends HttpClient {
        *
        * @name MembersUpdate
        * @request PUT:/teams/{teamId}/members/{username}
+       * @deprecated
        */
       membersUpdate: (teamId, username, params = {}) =>
         this.request({
@@ -3243,6 +3253,7 @@ export class Api extends HttpClient {
        *
        * @name SubscriptionsDelete
        * @request DELETE:/user/subscriptions/{owner}/{repo}
+       * @deprecated
        */
       subscriptionsDelete: (owner, repo, params = {}) =>
         this.request({
@@ -3255,6 +3266,7 @@ export class Api extends HttpClient {
        *
        * @name SubscriptionsDetail
        * @request GET:/user/subscriptions/{owner}/{repo}
+       * @deprecated
        */
       subscriptionsDetail: (owner, repo, params = {}) =>
         this.request({
@@ -3267,6 +3279,7 @@ export class Api extends HttpClient {
        *
        * @name SubscriptionsUpdate
        * @request PUT:/user/subscriptions/{owner}/{repo}
+       * @deprecated
        */
       subscriptionsUpdate: (owner, repo, params = {}) =>
         this.request({

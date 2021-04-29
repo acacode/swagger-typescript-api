@@ -2035,6 +2035,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name IssuesSearchDetail
      * @request GET:/legacy/issues/search/{owner}/{repository}/{state}/{keyword}
+     * @deprecated
      */
     issuesSearchDetail: (
       keyword: string,
@@ -2055,6 +2056,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name ReposSearchDetail
      * @request GET:/legacy/repos/search/{keyword}
+     * @deprecated
      */
     reposSearchDetail: (
       keyword: string,
@@ -2074,6 +2076,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name UserEmailDetail
      * @request GET:/legacy/user/email/{email}
+     * @deprecated
      */
     userEmailDetail: (email: string, params: RequestParams = {}) =>
       this.request<SearchUserByEmail, void>({
@@ -2088,6 +2091,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name UserSearchDetail
      * @request GET:/legacy/user/search/{keyword}
+     * @deprecated
      */
     userSearchDetail: (
       keyword: string,
@@ -2971,6 +2975,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name DownloadsDetail
      * @request GET:/repos/{owner}/{repo}/downloads
+     * @deprecated
      */
     downloadsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Downloads, void>({
@@ -2985,6 +2990,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name DownloadsDelete
      * @request DELETE:/repos/{owner}/{repo}/downloads/{downloadId}
+     * @deprecated
      */
     downloadsDelete: (owner: string, repo: string, downloadId: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -2998,6 +3004,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name DownloadsDetail2
      * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
+     * @deprecated
      * @originalName downloadsDetail
      * @duplicate
      */
@@ -4708,6 +4715,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name MembersDelete
      * @request DELETE:/teams/{teamId}/members/{username}
+     * @deprecated
      */
     membersDelete: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -4721,6 +4729,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name MembersDetail2
      * @request GET:/teams/{teamId}/members/{username}
+     * @deprecated
      * @originalName membersDetail
      * @duplicate
      */
@@ -4736,6 +4745,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name MembersUpdate
      * @request PUT:/teams/{teamId}/members/{username}
+     * @deprecated
      */
     membersUpdate: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<void, void | OrganizationAsTeamMember>({
@@ -5181,6 +5191,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name SubscriptionsDelete
      * @request DELETE:/user/subscriptions/{owner}/{repo}
+     * @deprecated
      */
     subscriptionsDelete: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -5194,6 +5205,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name SubscriptionsDetail
      * @request GET:/user/subscriptions/{owner}/{repo}
+     * @deprecated
      */
     subscriptionsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -5207,6 +5219,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name SubscriptionsUpdate
      * @request PUT:/user/subscriptions/{owner}/{repo}
+     * @deprecated
      */
     subscriptionsUpdate: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<void, void>({

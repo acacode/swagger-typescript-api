@@ -14,7 +14,8 @@ Fixes:
 
 Features:  
 - `--disableProxy` option (thanks @kel666)  
-- `--extract-request-body` option. Allows to extract request body type to data contract
+- `--extract-request-body` option. Allows to extract request body type to data contract  
+- Add TSDoc tag for deprecated route (thanks @wyozi)  
 
 
 # 8.0.3  

@@ -428,6 +428,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name FindPetsByTags
      * @summary Finds Pets by tags
      * @request GET:/pet/findByTags
+     * @deprecated
      * @secure
      */
     findPetsByTags: (query: { tags: string[] }, params: RequestParams = {}) =>

@@ -1983,6 +1983,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      *
      * @name IssuesSearchDetail
      * @request GET:/legacy/issues/search/{owner}/{repository}/{state}/{keyword}
+     * @deprecated
      */
     issuesSearchDetail: (
       keyword: string,
@@ -1996,6 +1997,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      *
      * @name ReposSearchDetail
      * @request GET:/legacy/repos/search/{keyword}
+     * @deprecated
      */
     reposSearchDetail: (
       keyword: string,
@@ -2012,6 +2014,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      *
      * @name UserEmailDetail
      * @request GET:/legacy/user/email/{email}
+     * @deprecated
      */
     userEmailDetail: (email: string, params?: RequestParams) => Promise<HttpResponse<SearchUserByEmail, void>>;
     /**
@@ -2019,6 +2022,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      *
      * @name UserSearchDetail
      * @request GET:/legacy/user/search/{keyword}
+     * @deprecated
      */
     userSearchDetail: (
       keyword: string,
@@ -2618,6 +2622,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      *
      * @name DownloadsDetail
      * @request GET:/repos/{owner}/{repo}/downloads
+     * @deprecated
      */
     downloadsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<Downloads, void>>;
     /**
@@ -2625,6 +2630,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      *
      * @name DownloadsDelete
      * @request DELETE:/repos/{owner}/{repo}/downloads/{downloadId}
+     * @deprecated
      */
     downloadsDelete: (
       owner: string,
@@ -2637,6 +2643,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      *
      * @name DownloadsDetail2
      * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
+     * @deprecated
      * @originalName downloadsDetail
      * @duplicate
      */
@@ -3955,6 +3962,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      *
      * @name MembersDelete
      * @request DELETE:/teams/{teamId}/members/{username}
+     * @deprecated
      */
     membersDelete: (teamId: number, username: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
@@ -3962,6 +3970,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      *
      * @name MembersDetail2
      * @request GET:/teams/{teamId}/members/{username}
+     * @deprecated
      * @originalName membersDetail
      * @duplicate
      */
@@ -3971,6 +3980,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      *
      * @name MembersUpdate
      * @request PUT:/teams/{teamId}/members/{username}
+     * @deprecated
      */
     membersUpdate: (
       teamId: number,
@@ -4240,6 +4250,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      *
      * @name SubscriptionsDelete
      * @request DELETE:/user/subscriptions/{owner}/{repo}
+     * @deprecated
      */
     subscriptionsDelete: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
@@ -4247,6 +4258,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      *
      * @name SubscriptionsDetail
      * @request GET:/user/subscriptions/{owner}/{repo}
+     * @deprecated
      */
     subscriptionsDetail: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
@@ -4254,6 +4266,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      *
      * @name SubscriptionsUpdate
      * @request PUT:/user/subscriptions/{owner}/{repo}
+     * @deprecated
      */
     subscriptionsUpdate: (owner: string, repo: string, params?: RequestParams) => Promise<HttpResponse<void, void>>;
     /**
