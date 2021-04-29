@@ -9019,15 +9019,18 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  private addQueryParam(query: QueryParamsType, key: string) {
-    const value = query[key];
+  private encodeQueryParam(key: string, value: any) {
     const encodedKey = encodeURIComponent(key);
     return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
   }
 
+  private addQueryParam(query: QueryParamsType, key: string) {
+    return this.encodeQueryParam(key, query[key]);
+  }
+
   private addArrayQueryParam(query: QueryParamsType, key: string) {
     const value = query[key];
-    return `${value.map(this.addQueryParam).join("&")}`;
+    return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
   }
 
   protected toQueryString(rawQuery?: QueryParamsType): string {
@@ -9411,6 +9414,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name OauthAuthorizationsListGrants
      * @summary List your grants
      * @request GET:/applications/grants
+     * @deprecated
      */
     oauthAuthorizationsListGrants: (query?: { per_page?: number; page?: number }, params: RequestParams = {}) =>
       this.request<ApplicationGrant[], BasicError>({
@@ -9428,6 +9432,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name OauthAuthorizationsGetGrant
      * @summary Get a single grant
      * @request GET:/applications/grants/{grant_id}
+     * @deprecated
      */
     oauthAuthorizationsGetGrant: (grantId: number, params: RequestParams = {}) =>
       this.request<ApplicationGrant, BasicError>({
@@ -9444,6 +9449,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name OauthAuthorizationsDeleteGrant
      * @summary Delete a grant
      * @request DELETE:/applications/grants/{grant_id}
+     * @deprecated
      */
     oauthAuthorizationsDeleteGrant: (grantId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
@@ -9476,6 +9482,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name AppsRevokeGrantForApplication
      * @summary Revoke a grant for an application
      * @request DELETE:/applications/{client_id}/grants/{access_token}
+     * @deprecated
      */
     appsRevokeGrantForApplication: (clientId: string, accessToken: string, params: RequestParams = {}) =>
       this.request<void, any>({
@@ -9573,6 +9580,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name AppsCheckAuthorization
      * @summary Check an authorization
      * @request GET:/applications/{client_id}/tokens/{access_token}
+     * @deprecated
      */
     appsCheckAuthorization: (clientId: string, accessToken: string, params: RequestParams = {}) =>
       this.request<Authorization | null, BasicError>({
@@ -9589,6 +9597,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name AppsResetAuthorization
      * @summary Reset an authorization
      * @request POST:/applications/{client_id}/tokens/{access_token}
+     * @deprecated
      */
     appsResetAuthorization: (clientId: string, accessToken: string, params: RequestParams = {}) =>
       this.request<Authorization, any>({
@@ -9605,6 +9614,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name AppsRevokeAuthorizationForApplication
      * @summary Revoke an authorization for an application
      * @request DELETE:/applications/{client_id}/tokens/{access_token}
+     * @deprecated
      */
     appsRevokeAuthorizationForApplication: (clientId: string, accessToken: string, params: RequestParams = {}) =>
       this.request<void, any>({
@@ -9638,6 +9648,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name OauthAuthorizationsListAuthorizations
      * @summary List your authorizations
      * @request GET:/authorizations
+     * @deprecated
      */
     oauthAuthorizationsListAuthorizations: (query?: { per_page?: number; page?: number }, params: RequestParams = {}) =>
       this.request<Authorization[], BasicError>({
@@ -9655,6 +9666,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name OauthAuthorizationsCreateAuthorization
      * @summary Create a new authorization
      * @request POST:/authorizations
+     * @deprecated
      */
     oauthAuthorizationsCreateAuthorization: (
       data: {
@@ -9683,6 +9695,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name OauthAuthorizationsGetOrCreateAuthorizationForApp
      * @summary Get-or-create an authorization for a specific app
      * @request PUT:/authorizations/clients/{client_id}
+     * @deprecated
      */
     oauthAuthorizationsGetOrCreateAuthorizationForApp: (
       clientId: string,
@@ -9705,6 +9718,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name OauthAuthorizationsGetOrCreateAuthorizationForAppAndFingerprint
      * @summary Get-or-create an authorization for a specific app and fingerprint
      * @request PUT:/authorizations/clients/{client_id}/{fingerprint}
+     * @deprecated
      */
     oauthAuthorizationsGetOrCreateAuthorizationForAppAndFingerprint: (
       clientId: string,
@@ -9728,6 +9742,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name OauthAuthorizationsGetAuthorization
      * @summary Get a single authorization
      * @request GET:/authorizations/{authorization_id}
+     * @deprecated
      */
     oauthAuthorizationsGetAuthorization: (authorizationId: number, params: RequestParams = {}) =>
       this.request<Authorization, BasicError>({
@@ -9744,6 +9759,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name OauthAuthorizationsUpdateAuthorization
      * @summary Update an existing authorization
      * @request PATCH:/authorizations/{authorization_id}
+     * @deprecated
      */
     oauthAuthorizationsUpdateAuthorization: (
       authorizationId: number,
@@ -9773,6 +9789,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name OauthAuthorizationsDeleteAuthorization
      * @summary Delete an authorization
      * @request DELETE:/authorizations/{authorization_id}
+     * @deprecated
      */
     oauthAuthorizationsDeleteAuthorization: (authorizationId: number, params: RequestParams = {}) =>
       this.request<void, BasicError>({
@@ -14321,6 +14338,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ReactionsDeleteLegacy
      * @summary Delete a reaction (Legacy)
      * @request DELETE:/reactions/{reaction_id}
+     * @deprecated
      */
     reactionsDeleteLegacy: (reactionId: number, params: RequestParams = {}) =>
       this.request<void, BasicError | { message: string; documentation_url: string }>({
@@ -21372,6 +21390,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsGetLegacy
      * @summary Get a team (Legacy)
      * @request GET:/teams/{team_id}
+     * @deprecated
      */
     teamsGetLegacy: (teamId: number, params: RequestParams = {}) =>
       this.request<TeamFull, BasicError>({
@@ -21388,6 +21407,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsUpdateLegacy
      * @summary Update a team (Legacy)
      * @request PATCH:/teams/{team_id}
+     * @deprecated
      */
     teamsUpdateLegacy: (
       teamId: number,
@@ -21416,6 +21436,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsDeleteLegacy
      * @summary Delete a team (Legacy)
      * @request DELETE:/teams/{team_id}
+     * @deprecated
      */
     teamsDeleteLegacy: (teamId: number, params: RequestParams = {}) =>
       this.request<void, BasicError | ValidationError>({
@@ -21431,6 +21452,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsListDiscussionsLegacy
      * @summary List discussions (Legacy)
      * @request GET:/teams/{team_id}/discussions
+     * @deprecated
      */
     teamsListDiscussionsLegacy: (
       teamId: number,
@@ -21452,6 +21474,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsCreateDiscussionLegacy
      * @summary Create a discussion (Legacy)
      * @request POST:/teams/{team_id}/discussions
+     * @deprecated
      */
     teamsCreateDiscussionLegacy: (
       teamId: number,
@@ -21474,6 +21497,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsGetDiscussionLegacy
      * @summary Get a discussion (Legacy)
      * @request GET:/teams/{team_id}/discussions/{discussion_number}
+     * @deprecated
      */
     teamsGetDiscussionLegacy: (teamId: number, discussionNumber: number, params: RequestParams = {}) =>
       this.request<TeamDiscussion, any>({
@@ -21490,6 +21514,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsUpdateDiscussionLegacy
      * @summary Update a discussion (Legacy)
      * @request PATCH:/teams/{team_id}/discussions/{discussion_number}
+     * @deprecated
      */
     teamsUpdateDiscussionLegacy: (
       teamId: number,
@@ -21513,6 +21538,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsDeleteDiscussionLegacy
      * @summary Delete a discussion (Legacy)
      * @request DELETE:/teams/{team_id}/discussions/{discussion_number}
+     * @deprecated
      */
     teamsDeleteDiscussionLegacy: (teamId: number, discussionNumber: number, params: RequestParams = {}) =>
       this.request<void, any>({
@@ -21528,6 +21554,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsListDiscussionCommentsLegacy
      * @summary List discussion comments (Legacy)
      * @request GET:/teams/{team_id}/discussions/{discussion_number}/comments
+     * @deprecated
      */
     teamsListDiscussionCommentsLegacy: (
       teamId: number,
@@ -21550,6 +21577,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsCreateDiscussionCommentLegacy
      * @summary Create a discussion comment (Legacy)
      * @request POST:/teams/{team_id}/discussions/{discussion_number}/comments
+     * @deprecated
      */
     teamsCreateDiscussionCommentLegacy: (
       teamId: number,
@@ -21573,6 +21601,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsGetDiscussionCommentLegacy
      * @summary Get a discussion comment (Legacy)
      * @request GET:/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}
+     * @deprecated
      */
     teamsGetDiscussionCommentLegacy: (
       teamId: number,
@@ -21594,6 +21623,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsUpdateDiscussionCommentLegacy
      * @summary Update a discussion comment (Legacy)
      * @request PATCH:/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}
+     * @deprecated
      */
     teamsUpdateDiscussionCommentLegacy: (
       teamId: number,
@@ -21618,6 +21648,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsDeleteDiscussionCommentLegacy
      * @summary Delete a discussion comment (Legacy)
      * @request DELETE:/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}
+     * @deprecated
      */
     teamsDeleteDiscussionCommentLegacy: (
       teamId: number,
@@ -21638,6 +21669,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ReactionsListForTeamDiscussionCommentLegacy
      * @summary List reactions for a team discussion comment (Legacy)
      * @request GET:/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}/reactions
+     * @deprecated
      */
     reactionsListForTeamDiscussionCommentLegacy: (
       teamId: number,
@@ -21665,6 +21697,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ReactionsCreateForTeamDiscussionCommentLegacy
      * @summary Create reaction for a team discussion comment (Legacy)
      * @request POST:/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}/reactions
+     * @deprecated
      */
     reactionsCreateForTeamDiscussionCommentLegacy: (
       teamId: number,
@@ -21689,6 +21722,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ReactionsListForTeamDiscussionLegacy
      * @summary List reactions for a team discussion (Legacy)
      * @request GET:/teams/{team_id}/discussions/{discussion_number}/reactions
+     * @deprecated
      */
     reactionsListForTeamDiscussionLegacy: (
       teamId: number,
@@ -21715,6 +21749,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ReactionsCreateForTeamDiscussionLegacy
      * @summary Create reaction for a team discussion (Legacy)
      * @request POST:/teams/{team_id}/discussions/{discussion_number}/reactions
+     * @deprecated
      */
     reactionsCreateForTeamDiscussionLegacy: (
       teamId: number,
@@ -21738,6 +21773,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsListPendingInvitationsLegacy
      * @summary List pending team invitations (Legacy)
      * @request GET:/teams/{team_id}/invitations
+     * @deprecated
      */
     teamsListPendingInvitationsLegacy: (
       teamId: number,
@@ -21759,6 +21795,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsListMembersLegacy
      * @summary List team members (Legacy)
      * @request GET:/teams/{team_id}/members
+     * @deprecated
      */
     teamsListMembersLegacy: (
       teamId: number,
@@ -21780,6 +21817,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsGetMemberLegacy
      * @summary Get team member (Legacy)
      * @request GET:/teams/{team_id}/members/{username}
+     * @deprecated
      */
     teamsGetMemberLegacy: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -21795,6 +21833,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsAddMemberLegacy
      * @summary Add team member (Legacy)
      * @request PUT:/teams/{team_id}/members/{username}
+     * @deprecated
      */
     teamsAddMemberLegacy: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<
@@ -21819,6 +21858,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsRemoveMemberLegacy
      * @summary Remove team member (Legacy)
      * @request DELETE:/teams/{team_id}/members/{username}
+     * @deprecated
      */
     teamsRemoveMemberLegacy: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -21834,6 +21874,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsGetMembershipForUserLegacy
      * @summary Get team membership for a user (Legacy)
      * @request GET:/teams/{team_id}/memberships/{username}
+     * @deprecated
      */
     teamsGetMembershipForUserLegacy: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<TeamMembership, BasicError>({
@@ -21850,6 +21891,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsAddOrUpdateMembershipForUserLegacy
      * @summary Add or update team membership for a user (Legacy)
      * @request PUT:/teams/{team_id}/memberships/{username}
+     * @deprecated
      */
     teamsAddOrUpdateMembershipForUserLegacy: (
       teamId: number,
@@ -21882,6 +21924,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsRemoveMembershipForUserLegacy
      * @summary Remove team membership for a user (Legacy)
      * @request DELETE:/teams/{team_id}/memberships/{username}
+     * @deprecated
      */
     teamsRemoveMembershipForUserLegacy: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -21897,6 +21940,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsListProjectsLegacy
      * @summary List team projects (Legacy)
      * @request GET:/teams/{team_id}/projects
+     * @deprecated
      */
     teamsListProjectsLegacy: (
       teamId: number,
@@ -21918,6 +21962,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsCheckPermissionsForProjectLegacy
      * @summary Check team permissions for a project (Legacy)
      * @request GET:/teams/{team_id}/projects/{project_id}
+     * @deprecated
      */
     teamsCheckPermissionsForProjectLegacy: (teamId: number, projectId: number, params: RequestParams = {}) =>
       this.request<TeamProject, void | { message: string; documentation_url: string }>({
@@ -21934,6 +21979,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsAddOrUpdateProjectPermissionsLegacy
      * @summary Add or update team project permissions (Legacy)
      * @request PUT:/teams/{team_id}/projects/{project_id}
+     * @deprecated
      */
     teamsAddOrUpdateProjectPermissionsLegacy: (
       teamId: number,
@@ -21962,6 +22008,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsRemoveProjectLegacy
      * @summary Remove a project from a team (Legacy)
      * @request DELETE:/teams/{team_id}/projects/{project_id}
+     * @deprecated
      */
     teamsRemoveProjectLegacy: (teamId: number, projectId: number, params: RequestParams = {}) =>
       this.request<void, BasicError | { message: string; documentation_url: string } | ValidationError>({
@@ -21977,6 +22024,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsListReposLegacy
      * @summary List team repositories (Legacy)
      * @request GET:/teams/{team_id}/repos
+     * @deprecated
      */
     teamsListReposLegacy: (teamId: number, query?: { per_page?: number; page?: number }, params: RequestParams = {}) =>
       this.request<MinimalRepository[], BasicError>({
@@ -21994,6 +22042,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsCheckPermissionsForRepoLegacy
      * @summary Check team permissions for a repository (Legacy)
      * @request GET:/teams/{team_id}/repos/{owner}/{repo}
+     * @deprecated
      */
     teamsCheckPermissionsForRepoLegacy: (teamId: number, owner: string, repo: string, params: RequestParams = {}) =>
       this.request<TeamRepository, void>({
@@ -22010,6 +22059,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsAddOrUpdateRepoPermissionsLegacy
      * @summary Add or update team repository permissions (Legacy)
      * @request PUT:/teams/{team_id}/repos/{owner}/{repo}
+     * @deprecated
      */
     teamsAddOrUpdateRepoPermissionsLegacy: (
       teamId: number,
@@ -22033,6 +22083,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsRemoveRepoLegacy
      * @summary Remove a repository from a team (Legacy)
      * @request DELETE:/teams/{team_id}/repos/{owner}/{repo}
+     * @deprecated
      */
     teamsRemoveRepoLegacy: (teamId: number, owner: string, repo: string, params: RequestParams = {}) =>
       this.request<void, any>({
@@ -22048,6 +22099,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsListIdpGroupsForLegacy
      * @summary List IdP groups for a team (Legacy)
      * @request GET:/teams/{team_id}/team-sync/group-mappings
+     * @deprecated
      */
     teamsListIdpGroupsForLegacy: (teamId: number, params: RequestParams = {}) =>
       this.request<GroupMapping, BasicError>({
@@ -22064,6 +22116,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsCreateOrUpdateIdpGroupConnectionsLegacy
      * @summary Create or update IdP group connections (Legacy)
      * @request PATCH:/teams/{team_id}/team-sync/group-mappings
+     * @deprecated
      */
     teamsCreateOrUpdateIdpGroupConnectionsLegacy: (
       teamId: number,
@@ -22096,6 +22149,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsListChildLegacy
      * @summary List child teams (Legacy)
      * @request GET:/teams/{team_id}/teams
+     * @deprecated
      */
     teamsListChildLegacy: (teamId: number, query?: { per_page?: number; page?: number }, params: RequestParams = {}) =>
       this.request<Team[], BasicError | ValidationError>({

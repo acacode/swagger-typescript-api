@@ -1520,15 +1520,18 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  private addQueryParam(query: QueryParamsType, key: string) {
-    const value = query[key];
+  private encodeQueryParam(key: string, value: any) {
     const encodedKey = encodeURIComponent(key);
     return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
   }
 
+  private addQueryParam(query: QueryParamsType, key: string) {
+    return this.encodeQueryParam(key, query[key]);
+  }
+
   private addArrayQueryParam(query: QueryParamsType, key: string) {
     const value = query[key];
-    return `${value.map(this.addQueryParam).join("&")}`;
+    return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
   }
 
   protected toQueryString(rawQuery?: QueryParamsType): string {
@@ -2094,6 +2097,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name IssuesSearchDetail
      * @request GET:/legacy/issues/search/{owner}/{repository}/{state}/{keyword}
+     * @deprecated
      * @response `200` `SwaggerTypeSearchIssuesByKeywordGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
@@ -2116,6 +2120,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name ReposSearchDetail
      * @request GET:/legacy/repos/search/{keyword}
+     * @deprecated
      * @response `200` `SwaggerTypeSearchRepositoriesByKeywordGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
@@ -2137,6 +2142,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name UserEmailDetail
      * @request GET:/legacy/user/email/{email}
+     * @deprecated
      * @response `200` `SwaggerTypeSearchUserByEmailGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
@@ -2153,6 +2159,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name UserSearchDetail
      * @request GET:/legacy/user/search/{keyword}
+     * @deprecated
      * @response `200` `SwaggerTypeSearchUsersByKeywordGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
@@ -3182,6 +3189,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name DownloadsDetail
      * @request GET:/repos/{owner}/{repo}/downloads
+     * @deprecated
      * @response `200` `SwaggerTypeDownloadsGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
@@ -3198,6 +3206,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name DownloadsDelete
      * @request DELETE:/repos/{owner}/{repo}/downloads/{downloadId}
+     * @deprecated
      * @response `204` `void` No content.
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
@@ -3213,6 +3222,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name DownloadsDetail2
      * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
+     * @deprecated
      * @originalName downloadsDetail
      * @duplicate
      * @response `200` `SwaggerTypeDownloadGeneratedDataContract` OK
@@ -5289,6 +5299,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name MembersDelete
      * @request DELETE:/teams/{teamId}/members/{username}
+     * @deprecated
      * @response `204` `void` Team member removed.
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
@@ -5304,6 +5315,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name MembersDetail2
      * @request GET:/teams/{teamId}/members/{username}
+     * @deprecated
      * @originalName membersDetail
      * @duplicate
      * @response `204` `void` User is a member.
@@ -5322,6 +5334,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name MembersUpdate
      * @request PUT:/teams/{teamId}/members/{username}
+     * @deprecated
      * @response `204` `void` Team member added.
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      * @response `422` `SwaggerTypeOrganizationAsTeamMemberGeneratedDataContract` If you attempt to add an organization to a team, you will get this.
@@ -5834,6 +5847,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name SubscriptionsDelete
      * @request DELETE:/user/subscriptions/{owner}/{repo}
+     * @deprecated
      * @response `204` `void` Unwatched.
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
@@ -5849,6 +5863,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name SubscriptionsDetail
      * @request GET:/user/subscriptions/{owner}/{repo}
+     * @deprecated
      * @response `204` `void` Repository is watched by you.
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      * @response `404` `void` Repository is not watched by you.
@@ -5865,6 +5880,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name SubscriptionsUpdate
      * @request PUT:/user/subscriptions/{owner}/{repo}
+     * @deprecated
      * @response `204` `void` Repository is watched.
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */

@@ -19,7 +19,8 @@ const { getTemplates, getTemplatePaths, renderTemplate, getTemplate } = require(
 const constants = require("./constants");
 const { generateOutputFiles } = require("./output");
 const formatFileContent = require("./formatFileContent");
-const { eventLog, successLog } = require("./logger");
+const { logger } = require("./logger");
+const { ComponentTypeNameResolver } = require("./utils/resolveName");
 
 module.exports = {
   constants: constants,
@@ -41,6 +42,7 @@ module.exports = {
     moduleNameIndex = config.moduleNameIndex,
     moduleNameFirstTag = config.moduleNameFirstTag,
     extractRequestParams = config.extractRequestParams,
+    extractRequestBody = config.extractRequestBody,
     defaultResponseType = config.defaultResponseType,
     singleHttpClient = config.singleHttpClient,
     prettier: prettierOptions = constants.PRETTIER_OPTIONS,
@@ -48,6 +50,7 @@ module.exports = {
     extraTemplates,
     enumNamesAsValues,
     disableStrictSSL = config.disableStrictSSL,
+    disableProxy = config.disableProxy,
     cleanOutput,
     silent = config.silent,
     typePrefix = config.typePrefix,
@@ -67,9 +70,11 @@ module.exports = {
         prettierOptions,
         modular,
         extractRequestParams,
+        extractRequestBody,
         hooks: _.merge(config.hooks, rawHooks || {}),
         enumNamesAsValues,
         disableStrictSSL,
+        disableProxy,
         cleanOutput,
         defaultResponseType,
         singleHttpClient,
@@ -79,7 +84,10 @@ module.exports = {
         typePrefix,
         typeSuffix,
       });
-      (spec ? convertSwaggerObject(spec) : getSwaggerObject(input, url, disableStrictSSL))
+      (spec
+        ? convertSwaggerObject(spec)
+        : getSwaggerObject(input, url, disableStrictSSL, disableProxy)
+      )
         .then(({ usageSchema, originalSchema }) => {
           const templatePaths = getTemplatePaths(config);
 
@@ -87,7 +95,7 @@ module.exports = {
 
           const templatesToRender = getTemplates(config);
 
-          eventLog("start generating your typescript api");
+          logger.event("start generating your typescript api");
 
           fixSwaggerScheme(usageSchema, originalSchema);
 
@@ -102,6 +110,14 @@ module.exports = {
           addToConfig(config.hooks.onInit(config) || config);
 
           const componentsMap = createComponentsMap(components);
+
+          const componentSchemasNames = filterComponentsMap(componentsMap, "schemas").map(
+            (c) => c.typeName,
+          );
+
+          addToConfig({
+            componentTypeNameResolver: new ComponentTypeNameResolver(componentSchemasNames),
+          });
 
           const parsedSchemas = parseSchemas(components);
 
@@ -119,13 +135,13 @@ module.exports = {
           const hasQueryRoutes = routes.some((route) => route.hasQuery);
           const hasFormDataRoutes = routes.some((route) => route.hasFormDataParams);
 
-          const componentSchemas = filterComponentsMap(componentsMap, "schemas");
+          const usageComponentSchemas = filterComponentsMap(componentsMap, "schemas");
 
           const rawConfiguration = {
-            apiConfig: createApiConfig(usageSchema, hasSecurityRoutes),
+            apiConfig: createApiConfig(usageSchema),
             config,
-            modelTypes: _.map(componentSchemas, prepareModelType),
-            rawModelTypes: componentSchemas,
+            modelTypes: _.map(usageComponentSchemas, prepareModelType),
+            rawModelTypes: usageComponentSchemas,
             hasFormDataRoutes,
             hasSecurityRoutes,
             hasQueryRoutes,
@@ -174,7 +190,7 @@ module.exports = {
                 content: file.declaration.content,
                 withPrefix: true,
               });
-              successLog(`javascript api file`, file.name, `created in ${output}`);
+              logger.success(`javascript api file`, file.name, `created in ${output}`);
             } else {
               createFile({
                 path: output,
@@ -182,7 +198,7 @@ module.exports = {
                 content: file.content,
                 withPrefix: true,
               });
-              successLog(`typescript api file`, file.name, `created in ${output}`);
+              logger.success(`typescript api file`, file.name, `created in ${output}`);
             }
 
             return file;

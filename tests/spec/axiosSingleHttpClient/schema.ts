@@ -1480,7 +1480,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  private instance: AxiosInstance;
+  public instance: AxiosInstance;
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private secure?: boolean;
@@ -1526,6 +1526,18 @@ export class HttpClient<SecurityDataType = unknown> {
       {};
     const requestParams = this.mergeRequestParams(params, secureParams);
     const responseFormat = (format && this.format) || void 0;
+
+    if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
+      requestParams.headers.common = { Accept: "*/*" };
+      requestParams.headers.post = {};
+      requestParams.headers.put = {};
+
+      const formData = new FormData();
+      for (const key in body) {
+        formData.append(key, body[key]);
+      }
+      body = formData;
+    }
 
     return this.instance.request({
       ...requestParams,
@@ -1934,6 +1946,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @name IssuesSearchDetail
      * @request GET:/legacy/issues/search/{owner}/{repository}/{state}/{keyword}
+     * @deprecated
      */
     issuesSearchDetail: (
       keyword: string,
@@ -1954,6 +1967,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @name ReposSearchDetail
      * @request GET:/legacy/repos/search/{keyword}
+     * @deprecated
      */
     reposSearchDetail: (
       keyword: string,
@@ -1973,6 +1987,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @name UserEmailDetail
      * @request GET:/legacy/user/email/{email}
+     * @deprecated
      */
     userEmailDetail: (email: string, params: RequestParams = {}) =>
       this.http.request<SearchUserByEmail, void>({
@@ -1987,6 +2002,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @name UserSearchDetail
      * @request GET:/legacy/user/search/{keyword}
+     * @deprecated
      */
     userSearchDetail: (
       keyword: string,
@@ -2870,6 +2886,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @name DownloadsDetail
      * @request GET:/repos/{owner}/{repo}/downloads
+     * @deprecated
      */
     downloadsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.http.request<Downloads, void>({
@@ -2884,6 +2901,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @name DownloadsDelete
      * @request DELETE:/repos/{owner}/{repo}/downloads/{downloadId}
+     * @deprecated
      */
     downloadsDelete: (owner: string, repo: string, downloadId: number, params: RequestParams = {}) =>
       this.http.request<void, void>({
@@ -2897,6 +2915,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @name DownloadsDetail2
      * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
+     * @deprecated
      * @originalName downloadsDetail
      * @duplicate
      */
@@ -4607,6 +4626,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @name MembersDelete
      * @request DELETE:/teams/{teamId}/members/{username}
+     * @deprecated
      */
     membersDelete: (teamId: number, username: string, params: RequestParams = {}) =>
       this.http.request<void, void>({
@@ -4620,6 +4640,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @name MembersDetail2
      * @request GET:/teams/{teamId}/members/{username}
+     * @deprecated
      * @originalName membersDetail
      * @duplicate
      */
@@ -4635,6 +4656,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @name MembersUpdate
      * @request PUT:/teams/{teamId}/members/{username}
+     * @deprecated
      */
     membersUpdate: (teamId: number, username: string, params: RequestParams = {}) =>
       this.http.request<void, void | OrganizationAsTeamMember>({
@@ -5080,6 +5102,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @name SubscriptionsDelete
      * @request DELETE:/user/subscriptions/{owner}/{repo}
+     * @deprecated
      */
     subscriptionsDelete: (owner: string, repo: string, params: RequestParams = {}) =>
       this.http.request<void, void>({
@@ -5093,6 +5116,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @name SubscriptionsDetail
      * @request GET:/user/subscriptions/{owner}/{repo}
+     * @deprecated
      */
     subscriptionsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.http.request<void, void>({
@@ -5106,6 +5130,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @name SubscriptionsUpdate
      * @request PUT:/user/subscriptions/{owner}/{repo}
+     * @deprecated
      */
     subscriptionsUpdate: (owner: string, repo: string, params: RequestParams = {}) =>
       this.http.request<void, void>({

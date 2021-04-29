@@ -50,6 +50,7 @@ program
     "extract request params to data contract (Also combine path params and query params into one object)",
     false,
   )
+  .option("--extract-request-body", "extract request body type to data contract", false)
   .option(
     "--modular",
     "generate separated files for http client, data contracts, and routes",
@@ -63,6 +64,7 @@ program
   )
   .option("--module-name-first-tag", "splits routes based on the first tag", false)
   .option("--disableStrictSSL", "disabled strict SSL", false)
+  .option("--disableProxy", "disabled proxy", false)
   .option("--axios", "generate axios http client", false)
   .option("--single-http-client", "Ability to send HttpClient instance to Api constructor", false)
   .option("--silent", "Output only errors to console", false)
@@ -92,8 +94,10 @@ const {
   moduleNameIndex,
   moduleNameFirstTag,
   extractRequestParams,
+  extractRequestBody,
   enumNamesAsValues,
   disableStrictSSL,
+  disableProxy,
   cleanOutput,
   defaultResponse,
   singleHttpClient,
@@ -113,7 +117,8 @@ generateApi({
   defaultResponseType: defaultResponse,
   generateUnionEnums: unionEnums,
   generateResponses: responses,
-  extractRequestParams: extractRequestParams,
+  extractRequestParams: !!extractRequestParams,
+  extractRequestBody: !!extractRequestBody,
   input: resolve(process.cwd(), path),
   output: resolve(process.cwd(), output || "."),
   templates,
@@ -123,6 +128,7 @@ generateApi({
   moduleNameIndex: +(moduleNameIndex || 0),
   moduleNameFirstTag: moduleNameFirstTag,
   disableStrictSSL: !!disableStrictSSL,
+  disableProxy: !!disableProxy,
   singleHttpClient: !!singleHttpClient,
   cleanOutput: !!cleanOutput,
   silent: !!silent,

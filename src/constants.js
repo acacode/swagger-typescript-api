@@ -18,6 +18,12 @@ const TS_KEYWORDS = {
 const JS_PRIMITIVE_TYPES = [TS_KEYWORDS.NUMBER, TS_KEYWORDS.STRING, TS_KEYWORDS.BOOLEAN];
 const JS_EMPTY_TYPES = [TS_KEYWORDS.NULL, TS_KEYWORDS.UNDEFINED];
 
+const RESERVED_QUERY_ARG_NAMES = ["query", "queryParams", "queryArg"];
+const RESERVED_BODY_ARG_NAMES = ["data", "body", "reqBody"];
+const RESERVED_REQ_PARAMS_ARG_NAMES = ["params", "requestParams", "reqParams", "httpParams"];
+const RESERVED_PATH_ARG_NAMES = ["path", "pathParams"];
+const RESERVED_HEADER_ARG_NAMES = ["headers", "headersParams"];
+
 const SCHEMA_TYPES = {
   ARRAY: "array",
   OBJECT: "object",
@@ -45,6 +51,11 @@ module.exports = {
   TS_KEYWORDS,
   SCHEMA_TYPES,
   HTTP_CLIENT,
+  RESERVED_QUERY_ARG_NAMES,
+  RESERVED_BODY_ARG_NAMES,
+  RESERVED_REQ_PARAMS_ARG_NAMES,
+  RESERVED_PATH_ARG_NAMES,
+  RESERVED_HEADER_ARG_NAMES,
   PRETTIER_OPTIONS: {
     printWidth: 120,
     tabWidth: 2,

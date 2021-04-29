@@ -11,6 +11,7 @@ const jsDocLines = _.compact([
     ` * @name ${classNameCase(routeName.usage)}`,
     raw.summary && ` * @summary ${raw.summary}`,
     ` * @request ${_.upperCase(request.method)}:${raw.route}`,
+    raw.deprecated && ` * @deprecated`,
     routeName.duplicate && ` * @originalName ${routeName.original}`,
     routeName.duplicate && ` * @duplicate`,
     request.security && ` * @secure`,

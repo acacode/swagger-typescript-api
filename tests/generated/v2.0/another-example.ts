@@ -206,15 +206,18 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  private addQueryParam(query: QueryParamsType, key: string) {
-    const value = query[key];
+  private encodeQueryParam(key: string, value: any) {
     const encodedKey = encodeURIComponent(key);
     return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
   }
 
+  private addQueryParam(query: QueryParamsType, key: string) {
+    return this.encodeQueryParam(key, query[key]);
+  }
+
   private addArrayQueryParam(query: QueryParamsType, key: string) {
     const value = query[key];
-    return `${value.map(this.addQueryParam).join("&")}`;
+    return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
   }
 
   protected toQueryString(rawQuery?: QueryParamsType): string {
@@ -467,6 +470,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name FindPetsByTags
      * @summary Finds Pets by tags
      * @request GET:/pet/findByTags
+     * @deprecated
      * @secure
      */
     findPetsByTags: (query: { tags: string[] }, params: RequestParams = {}) =>

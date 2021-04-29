@@ -11,13 +11,18 @@ const {
   DEFAULT_BODY_ARG_NAME,
   SUCCESS_RESPONSE_STATUS_RANGE,
   TS_KEYWORDS,
+  RESERVED_QUERY_ARG_NAMES,
+  RESERVED_BODY_ARG_NAMES,
+  RESERVED_PATH_ARG_NAMES,
+  RESERVED_HEADER_ARG_NAMES,
 } = require("./constants");
 const { formatDescription, classNameCase } = require("./common");
 const { config } = require("./config");
 const { nanoid } = require("nanoid");
 const { getRouteName } = require("./routeNames");
 const { createComponent } = require("./components");
-const { warnLog } = require("./logger");
+const { logger } = require("./logger");
+const { SpecificArgNameResolver } = require("./utils/resolveName");
 
 const formDataTypes = _.uniq([types.file, types.string.binary]);
 
@@ -117,7 +122,8 @@ const getRequestInfoTypes = ({ requestInfos, parsedSchemas, operationId, default
 
 const isSuccessStatus = (status) =>
   (config.defaultResponseAsSuccess && status === "default") ||
-  (+status >= SUCCESS_RESPONSE_STATUS_RANGE[0] && +status < SUCCESS_RESPONSE_STATUS_RANGE[1]);
+  (+status >= SUCCESS_RESPONSE_STATUS_RANGE[0] && +status < SUCCESS_RESPONSE_STATUS_RANGE[1]) ||
+  status === "2xx";
 
 const parseRoute = (route) => {
   const pathParamMatches = (route || "").match(
@@ -133,7 +139,7 @@ const parseRoute = (route) => {
       if (!paramName) return pathParams;
 
       if (_.includes(paramName, "-")) {
-        warnLog("wrong path param name", paramName);
+        logger.warn("wrong path param name", paramName);
       }
 
       return [
@@ -328,7 +334,11 @@ const createRequestParamsSchema = ({
   if (fixedSchema) return fixedSchema;
 
   if (extractRequestParams) {
-    return createComponent("schemas", classNameCase(`${routeName.usage} Params`), { ...schema });
+    const typeName = config.componentTypeNameResolver.resolve([
+      classNameCase(`${routeName.usage} Params`),
+    ]);
+
+    return createComponent("schemas", typeName, { ...schema });
   }
 
   return schema;
@@ -375,7 +385,7 @@ const getContentKind = (contentTypes) => {
   return CONTENT_KIND.OTHER;
 };
 
-const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
+const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas, routeName) => {
   const { requestBody, consumes, requestBodyName, operationId } = routeInfo;
   let schema = null;
   let type = null;
@@ -394,7 +404,7 @@ const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
     schema = getSchemaFromRequestType(requestBody);
     type = getInlineParseContent(schema);
   } else if (requestBody) {
-    schema = requestBody;
+    schema = getSchemaFromRequestType(requestBody);
     type = checkAndAddNull(
       requestBody,
       getTypeFromRequestInfo({
@@ -410,6 +420,16 @@ const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
     if (formDataTypes.some((dataType) => _.includes(type, `: ${dataType}`))) {
       contentKind = CONTENT_KIND.FORM_DATA;
     }
+  }
+
+  if (schema && !schema.$ref && config.extractRequestBody) {
+    const typeName = config.componentTypeNameResolver.resolve([
+      classNameCase(`${routeName.usage} Payload`),
+      classNameCase(`${routeName.usage} Body`),
+      classNameCase(`${routeName.usage} Input`),
+    ]);
+    schema = createComponent("schemas", typeName, { ...schema });
+    type = typeName;
   }
 
   return {
@@ -508,8 +528,8 @@ const parseRoutes = ({
             type: getInlineParseContent(pathArgSchema.schema),
             description: pathArgSchema.description,
           }));
+          const pathArgsNames = pathArgs.map((arg) => arg.name);
 
-          const requestBodyInfo = getRequestBodyInfo(routeInfo, routeParams, parsedSchemas);
           const responseBodyInfo = getResponseBodyInfo(routeInfo, routeParams, parsedSchemas);
 
           const rawRouteInfo = {
@@ -535,6 +555,13 @@ const parseRoutes = ({
 
           const routeName = getRouteName(rawRouteInfo);
 
+          const requestBodyInfo = getRequestBodyInfo(
+            routeInfo,
+            routeParams,
+            parsedSchemas,
+            routeName,
+          );
+
           const requestParamsSchema = createRequestParamsSchema({
             queryParams: routeParams.query,
             pathArgsSchemas: routeParams.path,
@@ -551,43 +578,36 @@ const parseRoutes = ({
             ? getInlineParseContent(headersObjectSchema)
             : null;
 
+          const nameResolver = new SpecificArgNameResolver(pathArgsNames);
+
           const specificArgs = {
             query: queryType
               ? {
-                  name: pathArgs.some((pathArg) => pathArg.name === "query")
-                    ? "queryParams"
-                    : "query",
+                  name: nameResolver.resolve(RESERVED_QUERY_ARG_NAMES),
                   optional: parseSchema(queryObjectSchema, null).allFieldsAreOptional,
                   type: queryType,
                 }
               : void 0,
             body: requestBodyInfo.type
               ? {
-                  name: requestBodyInfo.paramName,
+                  name: nameResolver.resolve([
+                    requestBodyInfo.paramName,
+                    ...RESERVED_BODY_ARG_NAMES,
+                  ]),
                   optional: !requestBodyInfo.required,
                   type: requestBodyInfo.type,
                 }
               : void 0,
-            requestParams: {
-              name: pathArgs.some((pathArg) => pathArg.name === "params")
-                ? "requestParams"
-                : "params",
-              optional: true,
-              type: "RequestParams",
-              defaultValue: "{}",
-            },
             pathParams: pathType
               ? {
-                  name: pathArgs.some((pathArg) => pathArg.name === "path") ? "pathParams" : "path",
+                  name: nameResolver.resolve(RESERVED_PATH_ARG_NAMES),
                   optional: parseSchema(pathObjectSchema, null).allFieldsAreOptional,
                   type: pathType,
                 }
               : void 0,
             headers: headersType
               ? {
-                  name: pathArgs.some((pathArg) => pathArg.name === "headers")
-                    ? "headersParams"
-                    : "headers",
+                  name: nameResolver.resolve(RESERVED_HEADER_ARG_NAMES),
                   optional: parseSchema(headersObjectSchema, null).allFieldsAreOptional,
                   type: headersType,
                 }
@@ -617,8 +637,6 @@ const parseRoutes = ({
             routeArgs = [...requiredArgs, ...optionalArgs];
           }
 
-          routeArgs.push(specificArgs.requestParams);
-
           const routeData = {
             id: routeId,
             namespace: _.replace(moduleName, /^(\d)/, "v$1"),
@@ -632,6 +650,7 @@ const parseRoutes = ({
             headersObjectSchema,
             responseBodySchema: responseBodyInfo.success.schema,
             requestBodySchema: requestBodyInfo.schema,
+            specificArgNameResolver: nameResolver,
             request: {
               contentTypes: requestBodyInfo.contentTypes,
               parameters: pathArgs,
@@ -643,7 +662,6 @@ const parseRoutes = ({
               requestParams: requestParamsSchema,
 
               payload: specificArgs.body,
-              params: specificArgs.requestParams,
               query: specificArgs.query,
               pathParams: specificArgs.pathParams,
               headers: specificArgs.headers,

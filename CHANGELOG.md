@@ -1,5 +1,22 @@
 # next release  
 
+# 9.0.0  
+
+NOTE: This version is not compatible with previous templates (removed `route.request.params`, `apiConfig.props`, `apiConfig.generic`, `apiConfig.description`, `apiConfig.hasDescription`)  
+
+Fixes:  
+- Consider 2xx a successful status (thanks @wyozi)  
+- GET method query option bug (thanks @rhkdgns95, @SaschaGalley)  
+- `silent` property missed in `.d.ts` file (thanks @mastermatt)  
+- axios file upload `formData` type (thanks @guhyeon)  
+- make property `instance` to public in axios http client (It can be helpful in #226)  
+- variable name "params" doesn't uniq (thanks @mixalbl4-127 )  
+
+Features:  
+- `--disableProxy` option (thanks @kel666)  
+- `--extract-request-body` option. Allows to extract request body type to data contract  
+- Add TSDoc tag for deprecated route (thanks @wyozi)  
+
 
 # 8.0.3  
 

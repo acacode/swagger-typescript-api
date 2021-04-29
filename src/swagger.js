@@ -5,7 +5,7 @@ const converter = require("swagger2openapi");
 const https = require("https");
 const { addToConfig, config } = require("./config");
 const { pathIsExist, getFileContent } = require("./files");
-const { log } = require("./logger");
+const { logger } = require("./logger");
 
 const parseSwaggerFile = (file) => {
   if (typeof file !== "string") return file;
@@ -17,25 +17,33 @@ const parseSwaggerFile = (file) => {
   }
 };
 
-const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL) =>
+const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy) =>
   new Promise((resolve) => {
     if (pathIsExist(pathToSwagger)) {
-      log(`try to get swagger by path "${pathToSwagger}"`);
+      logger.log(`try to get swagger by path "${pathToSwagger}"`);
       resolve(getFileContent(pathToSwagger));
     } else {
-      log(`try to get swagger by url "${urlToSwagger}"`);
-      let agent = undefined;
+      logger.log(`try to get swagger by URL "${urlToSwagger}"`);
+      // setup options for Axios
+      const axiosOptions = {};
+      //
       if (disableStrictSSL) {
-        agent = new https.Agent({
+        axiosOptions.httpsAgent = new https.Agent({
           rejectUnauthorized: false,
         });
       }
-      axios.get(urlToSwagger, { httpsAgent: agent }).then((res) => resolve(res.data));
+      //
+      if (disableProxy) axiosOptions.proxy = false;
+      //
+      axios
+        .get(urlToSwagger, axiosOptions)
+        .then((res) => resolve(res.data))
+        .catch((err) => logger.error(`error while getting swagger by URL ${urlToSwagger}:`, err));
     }
   });
 
-const getSwaggerObject = (pathToSwagger, urlToSwagger, disableStrictSSL) =>
-  getSwaggerFile(pathToSwagger, urlToSwagger, disableStrictSSL).then((file) =>
+const getSwaggerObject = (pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy) =>
+  getSwaggerFile(pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy).then((file) =>
     convertSwaggerObject(parseSwaggerFile(file)),
   );
 

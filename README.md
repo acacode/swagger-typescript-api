@@ -49,11 +49,13 @@ Options:
   --js                          generate js api module with declaration file (default: false)
   --extract-request-params      extract request params to data contract (default: false)
                                 Also combine path params and query params into one object
+  --extract-request-body        extract request body type to data contract (default: false)                         
   --module-name-index <number>  determines which path index should be used for routes separation (default: 0)
                                 (example: GET:/fruites/getFruit -> index:0 -> moduleName -> fruites)
   --module-name-first-tag       splits routes based on the first tag
   --modular                     generate separated files for http client, data contracts, and routes (default: false)
   --disableStrictSSL            disabled strict SSL (default: false)
+  --disableProxy                disabled proxy (default: false)
   --clean-output                clean output folder before generate api. WARNING: May cause data loss (default: false)
   --axios                       generate axios http client (default: false)
   --single-http-client          Ability to send HttpClient instance to Api constructor (default: false)
@@ -96,6 +98,7 @@ generateApi({
   generateResponses: true,
   toJS: false,
   extractRequestParams: false,
+  extractRequestBody: false,
   prettier: {
     printWidth: 120,
     tabWidth: 2,

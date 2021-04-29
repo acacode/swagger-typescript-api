@@ -1781,6 +1781,7 @@ export namespace Legacy {
    * @description Find issues by state and keyword.
    * @name IssuesSearchDetail
    * @request GET:/legacy/issues/search/{owner}/{repository}/{state}/{keyword}
+   * @deprecated
    */
   export namespace IssuesSearchDetail {
     export type RequestParams = { keyword: string; state: "open" | "closed"; owner: string; repository: string };
@@ -1793,6 +1794,7 @@ export namespace Legacy {
    * @description Find repositories by keyword. Note, this legacy method does not follow the v3 pagination pattern. This method returns up to 100 results per page and pages can be fetched using the start_page parameter.
    * @name ReposSearchDetail
    * @request GET:/legacy/repos/search/{keyword}
+   * @deprecated
    */
   export namespace ReposSearchDetail {
     export type RequestParams = { keyword: string };
@@ -1810,6 +1812,7 @@ export namespace Legacy {
    * @description This API call is added for compatibility reasons only.
    * @name UserEmailDetail
    * @request GET:/legacy/user/email/{email}
+   * @deprecated
    */
   export namespace UserEmailDetail {
     export type RequestParams = { email: string };
@@ -1822,6 +1825,7 @@ export namespace Legacy {
    * @description Find users by keyword.
    * @name UserSearchDetail
    * @request GET:/legacy/user/search/{keyword}
+   * @deprecated
    */
   export namespace UserSearchDetail {
     export type RequestParams = { keyword: string };
@@ -2548,6 +2552,7 @@ export namespace Repos {
    * @description Deprecated. List downloads for a repository.
    * @name DownloadsDetail
    * @request GET:/repos/{owner}/{repo}/downloads
+   * @deprecated
    */
   export namespace DownloadsDetail {
     export type RequestParams = { owner: string; repo: string };
@@ -2560,6 +2565,7 @@ export namespace Repos {
    * @description Deprecated. Delete a download.
    * @name DownloadsDelete
    * @request DELETE:/repos/{owner}/{repo}/downloads/{downloadId}
+   * @deprecated
    */
   export namespace DownloadsDelete {
     export type RequestParams = { owner: string; repo: string; downloadId: number };
@@ -2572,6 +2578,7 @@ export namespace Repos {
    * @description Deprecated. Get a single download.
    * @name DownloadsDetail2
    * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
+   * @deprecated
    * @originalName downloadsDetail
    * @duplicate
    */
@@ -3932,6 +3939,7 @@ export namespace Teams {
    * @description The "Remove team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Remove team membership API instead. It allows you to remove both active and pending memberships. Remove team member. In order to remove a user from a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with. NOTE This does not delete the user, it just remove them from the team.
    * @name MembersDelete
    * @request DELETE:/teams/{teamId}/members/{username}
+   * @deprecated
    */
   export namespace MembersDelete {
     export type RequestParams = { teamId: number; username: string };
@@ -3944,6 +3952,7 @@ export namespace Teams {
    * @description The "Get team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Get team membership API instead. It allows you to get both active and pending memberships. Get team member. In order to get if a user is a member of a team, the authenticated user mus be a member of the team.
    * @name MembersDetail2
    * @request GET:/teams/{teamId}/members/{username}
+   * @deprecated
    * @originalName membersDetail
    * @duplicate
    */
@@ -3958,6 +3967,7 @@ export namespace Teams {
    * @description The API (described below) is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Add team membership API instead. It allows you to invite new organization members to your teams. Add team member. In order to add a user to a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with.
    * @name MembersUpdate
    * @request PUT:/teams/{teamId}/members/{username}
+   * @deprecated
    */
   export namespace MembersUpdate {
     export type RequestParams = { teamId: number; username: string };
@@ -4342,6 +4352,7 @@ export namespace User {
    * @description Stop watching a repository
    * @name SubscriptionsDelete
    * @request DELETE:/user/subscriptions/{owner}/{repo}
+   * @deprecated
    */
   export namespace SubscriptionsDelete {
     export type RequestParams = { owner: string; repo: string };
@@ -4354,6 +4365,7 @@ export namespace User {
    * @description Check if you are watching a repository.
    * @name SubscriptionsDetail
    * @request GET:/user/subscriptions/{owner}/{repo}
+   * @deprecated
    */
   export namespace SubscriptionsDetail {
     export type RequestParams = { owner: string; repo: string };
@@ -4366,6 +4378,7 @@ export namespace User {
    * @description Watch a repository.
    * @name SubscriptionsUpdate
    * @request PUT:/user/subscriptions/{owner}/{repo}
+   * @deprecated
    */
   export namespace SubscriptionsUpdate {
     export type RequestParams = { owner: string; repo: string };

@@ -3,7 +3,7 @@ const Eta = require("eta");
 const { getFileContent, pathIsExist } = require("./files");
 const { config } = require("./config");
 const { resolve } = require("path");
-const { warnLog, log } = require("./logger");
+const { logger } = require("./logger");
 
 /**
  * name - project template name,
@@ -57,7 +57,7 @@ const getTemplate = ({ fileName, name, path }) => {
     if (pathIsExist(baseFullPath)) {
       fileContent = getFileContent(baseFullPath);
     } else {
-      warnLog(
+      logger.warn(
         `${_.lowerCase(name)} template not found in ${customFullPath}`,
         `\nCode generator will use the default template`,
       );
@@ -72,7 +72,7 @@ const getTemplate = ({ fileName, name, path }) => {
 };
 
 const getTemplates = ({ templatePaths }) => {
-  log(`try to read templates from directory "${templatePaths.custom}"`);
+  logger.log(`try to read templates from directory "${templatePaths.custom}"`);
 
   const templatesMap = _.reduce(
     TEMPLATE_INFOS,

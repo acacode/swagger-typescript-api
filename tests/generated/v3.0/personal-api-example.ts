@@ -276,15 +276,18 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  private addQueryParam(query: QueryParamsType, key: string) {
-    const value = query[key];
+  private encodeQueryParam(key: string, value: any) {
     const encodedKey = encodeURIComponent(key);
     return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
   }
 
+  private addQueryParam(query: QueryParamsType, key: string) {
+    return this.encodeQueryParam(key, query[key]);
+  }
+
   private addArrayQueryParam(query: QueryParamsType, key: string) {
     const value = query[key];
-    return `${value.map(this.addQueryParam).join("&")}`;
+    return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
   }
 
   protected toQueryString(rawQuery?: QueryParamsType): string {
@@ -509,15 +512,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/jobs/{id}
      * @secure
      */
-    updateJob: (id: string, data: JobUpdateType, params: RequestParams = {}) =>
+    updateJob: (id: string, params: JobUpdateType, requestParams: RequestParams = {}) =>
       this.request<JobType, any>({
         path: `/jobs/${id}`,
         method: "PATCH",
-        body: data,
+        body: params,
         secure: true,
         type: ContentType.Json,
         format: "json",
-        ...params,
+        ...requestParams,
       }),
 
     /**

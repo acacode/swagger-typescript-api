@@ -1,16 +1,19 @@
 <%
 const { utils, route, config } = it;
-const { requestBodyInfo, responseBodyInfo } = route;
+const { requestBodyInfo, responseBodyInfo, specificArgNameResolver } = route;
 const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef, require } = utils;
-const { parameters, path, method, payload, params, query, formData, security, requestParams } = route.request;
+const { parameters, path, method, payload, query, formData, security, requestParams } = route.request;
 const { type, errorType, contentTypes } = route.response;
+const { HTTP_CLIENT, RESERVED_REQ_PARAMS_ARG_NAMES } = config.constants;
 const routeDocs = includeFile("@base/route-docs", { config, route, utils });
 const queryName = (query && query.name) || "query";
 const pathParams = _.values(parameters);
-const isFetchTemplate = config.httpClientType === config.constants.HTTP_CLIENT.FETCH;
+const pathParamsNames = _.map(pathParams, "name");
+
+const isFetchTemplate = config.httpClientType === HTTP_CLIENT.FETCH;
 
 const requestConfigParam = {
-    name: pathParams.some((pathArg) => pathArg.name === "params") ? "requestParams" : "params",
+    name: specificArgNameResolver.resolve(RESERVED_REQ_PARAMS_ARG_NAMES),
     optional: true,
     type: "RequestParams",
     defaultValue: "{}",
@@ -21,7 +24,7 @@ const argToTmpl = ({ name, optional, type, defaultValue }) => `${name}${!default
 const rawWrapperArgs = config.extractRequestParams ?
     _.compact([
         requestParams && {
-          name: pathParams.length ? `{ ${_.join(_.map(pathParams, "name"), ", ")}, ...${queryName} }` : queryName,
+          name: pathParams.length ? `{ ${_.join(pathParamsNames, ", ")}, ...${queryName} }` : queryName,
           optional: false,
           type: getInlineParseContent(requestParams),
         },
@@ -65,7 +68,7 @@ const describeReturnType = () => {
     if (!config.toJS) return "";
 
     switch(config.httpClientType) {
-        case config.constants.HTTP_CLIENT.AXIOS: {
+        case HTTP_CLIENT.AXIOS: {
           return `Promise<AxiosResponse<${type}>>`
         }
         default: {
