@@ -262,6 +262,30 @@ export interface ParsedRoute {
   raw: RawRouteInfo;
 }
 
+export type ModelType = {
+  typeIdentifier: string;
+  name: string;
+  rawContent: string;
+  description: string;
+  content: string;
+};
+
+const enum SCHEMA_TYPES {
+  ARRAY = "array",
+  OBJECT = "object",
+  ENUM = "enum",
+  REF = "$ref",
+  PRIMITIVE = "primitive",
+  COMPLEX = "complex",
+  COMPLEX_ONE_OF = "oneOf",
+  COMPLEX_ANY_OF = "anyOf",
+  COMPLEX_ALL_OF = "allOf",
+  COMPLEX_NOT = "not",
+  COMPLEX_UNKNOWN = "__unknown",
+}
+
+type MAIN_SCHEMA_TYPES = SCHEMA_TYPES.PRIMITIVE | SCHEMA_TYPES.OBJECT | SCHEMA_TYPES.ENUM;
+
 export interface GenerateApiConfiguration {
   apiConfig: {
     baseUrl: string;
@@ -300,13 +324,7 @@ export interface GenerateApiConfiguration {
     };
     routeNameDuplicatesMap: Map<string, string>;
   };
-  modelTypes: {
-    typeIdentifier: string;
-    name: string;
-    rawContent: string;
-    description: string;
-    content: string;
-  }[];
+  modelTypes: ModelType[];
   rawModelTypes: SchemaComponent[];
   hasFormDataRoutes: boolean;
   hasSecurityRoutes: boolean;
@@ -319,7 +337,34 @@ export interface GenerateApiConfiguration {
       routes: ParsedRoute[];
     }[];
   };
-  utils: typeof import("./src/render/utils");
+  utils: {
+    formatDescription: (description: string, inline?: boolean) => string;
+    internalCase: (value: string) => string;
+    classNameCase: (value: string) => string;
+    getInlineParseContent: (
+      rawTypeData: SchemaComponent["rawTypeData"],
+      typeName?: string,
+    ) => string;
+    getParseContent: (rawTypeData: SchemaComponent["rawTypeData"], typeName?: string) => ModelType;
+    getComponentByRef: (ref: string) => SchemaComponent;
+    parseSchema: (
+      rawSchema: string | SchemaComponent["rawTypeData"],
+      typeName?: string,
+      formattersMap?: Record<MAIN_SCHEMA_TYPES, (content: ModelType) => string>,
+    ) => ModelType;
+    formatters: Record<
+      MAIN_SCHEMA_TYPES,
+      (content: string | object | string[] | object[]) => string
+    >;
+    inlineExtraFormatters: Record<
+      Exclude<MAIN_SCHEMA_TYPES, SCHEMA_TYPES.PRIMITIVE>,
+      (schema: ModelType) => string
+    >;
+    formatModelName: (name: string) => string;
+    fmtToJSDocLine: (line: string, params?: { eol?: boolean }) => string;
+    _: import("lodash").LoDashStatic;
+    require: (path: string) => unknown;
+  };
 }
 
 export interface GenerateApiOutput {
