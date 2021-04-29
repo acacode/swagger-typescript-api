@@ -189,7 +189,8 @@ This option will group your API operations based on their first tag - mirroring 
 ## 📄 Mass media  
 
 - [Why Swagger schemes are needed in frontend development ?](https://dev.to/js2me/why-swagger-schemes-are-needed-in-frontend-development-2cb4)  
-- [Migration en douceur vers TypeScript](https://www.premieroctet.com/blog/migration-typescript/)  
+- [Migration en douceur vers TypeScript (French)](https://www.premieroctet.com/blog/migration-typescript/)  
+- [swagger-typescript-api usage (Japanese)](https://zenn.dev/watahaya/articles/2f4a716c47903b)   
 
 ## 🛠️ Contribution  
 
