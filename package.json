@@ -9,8 +9,8 @@
     "node:debug": "node --nolazy swagger-test-cli/generate.js",
     "contributors": "all-contributors generate",
     "cli:help": "node index.js -h",
-    "test-all": "node ./node_modules/npm-run-all/bin/npm-run-all/index.js generate validate test:*",
-    "test-specific": "node ./node_modules/npm-run-all/bin/npm-run-all/index.js generate validate test:*",
+    "test-all": "node ./scriptsRunner.js generate validate test:*",
+    "test-specific": "node ./scriptsRunner.js generate validate test:*",
     "generate": "node tests/generate.js",
     "generate:debug": "node --nolazy tests/generate.js",
     "validate": "node tests/validate.js",
@@ -46,7 +46,6 @@
     "@types/prettier": "^2.1.6",
     "all-contributors-cli": "^6.19.0",
     "husky": "^4.3.6",
-    "npm-run-all": "^4.1.5",
     "pretty-quick": "^3.1.0"
   },
   "dependencies": {

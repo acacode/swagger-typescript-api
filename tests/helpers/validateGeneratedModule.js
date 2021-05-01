@@ -32,10 +32,12 @@ function compile(fileNames) {
     }
   });
 
-  let exitCode = emitResult.emitSkipped ? 1 : 0;
+  let exitCode = allDiagnostics.length || emitResult.emitSkipped ? 1 : 0;
 
   if (exitCode) {
     console.log(`Process exiting with code '${exitCode}'.`);
+    // process.kill(process.pid, "SIGABRT");
+    // throw "FFFFFFFFFFFFF"
     process.exit(exitCode);
   }
 
