@@ -1,5 +1,10 @@
 # next release  
 
+# 9.0.1  
+
+Fixes:  
+- Can't compile 9.0.0 version (thanks @Nihisil )  
+
 # 9.0.0  
 
 NOTE: This version is not compatible with previous templates (removed `route.request.params`, `apiConfig.props`, `apiConfig.generic`, `apiConfig.description`, `apiConfig.hasDescription`)  

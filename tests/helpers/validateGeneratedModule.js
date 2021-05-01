@@ -1,6 +1,5 @@
-const { relative } = require("path");
-const fs = require("fs");
 const ts = require("typescript");
+const tsconfig = require("../../tsconfig.json");
 
 /** @type {ts.CompilerOptions} */
 const compilerOptions = {
@@ -36,8 +35,6 @@ function compile(fileNames) {
 
   if (exitCode) {
     console.log(`Process exiting with code '${exitCode}'.`);
-    // process.kill(process.pid, "SIGABRT");
-    // throw "FFFFFFFFFFFFF"
     process.exit(exitCode);
   }
 
@@ -46,16 +43,6 @@ function compile(fileNames) {
     diagnostics: allDiagnostics,
   };
 }
-
-const getDiagnosticsFromPath = (pathToFile) =>
-  ts.createProgram([pathToFile], compilerOptions).emit(void 0, void 0, void 0, true).diagnostics;
-// TODO: that's faster but return 0 error kind of "Cannot find name ''"
-// tsc.transpileModule(fs.readFileSync(pathToFile).toString(), {
-//   compilerOptions,
-//   reportDiagnostics: true,
-//   moduleName:"TEST",
-//   fileName: relative('', pathToFile),
-// }).diagnostics
 
 module.exports = ({ pathToFile }) => {
   const { diagnostics, code } = compile([pathToFile]);
