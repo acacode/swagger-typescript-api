@@ -86,7 +86,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
           const formData = new FormData();
           for (const key in body) {
-            formData.append(key, body[key]);
+            formData.append(key, body[key as keyof typeof body]);
           }
           body = formData;
         }
