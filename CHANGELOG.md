@@ -1,5 +1,10 @@
 # next release  
 
+# 9.0.2  
+
+Fixes:  
+- 9.0.1 won't build with tsc when imported (thanks @mastermatt)  
+
 # 9.0.1  
 
 Fixes:  

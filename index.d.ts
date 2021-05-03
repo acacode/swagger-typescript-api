@@ -270,7 +270,7 @@ export type ModelType = {
   content: string;
 };
 
-const enum SCHEMA_TYPES {
+export enum SCHEMA_TYPES {
   ARRAY = "array",
   OBJECT = "object",
   ENUM = "enum",
