@@ -7,13 +7,13 @@ const schemas = createSchemaInfos({ absolutePathToSchemas: resolve(__dirname, ".
 
 schemas.forEach(({ absolutePath, apiFileName }) => {
   generateApiForTest({
-    testName: "--route-types option test",
+    testName: "--extract-request-body option test",
     silent: true,
     name: apiFileName,
     input: absolutePath,
     output: resolve(__dirname, "./"),
-    generateRouteTypes: true,
-    generateClient: false,
+    extractRequestBody: true,
+    typeSuffix: "TTT",
   }).then(() => {
     validateGeneratedModule(resolve(__dirname, `./${apiFileName}`));
   });

@@ -27,7 +27,13 @@ const fixModelName = (name) => {
   return name;
 };
 
-const formatModelName = (name) => {
+/**
+ *
+ * @param {string} name
+ * @param {{ ignorePrefix?: boolean; ignoreSuffix?: boolean }} options
+ * @returns
+ */
+const formatModelName = (name, options) => {
   if (typeof name !== "string") {
     logger.warn("wrong name of the model name", name);
     return name;
@@ -43,8 +49,11 @@ const formatModelName = (name) => {
 
   const fixedModelName = fixModelName(name);
 
+  const typePrefix = options && options.ignorePrefix ? "" : config.typePrefix;
+  const typeSuffix = options && options.ignoreSuffix ? "" : config.typeSuffix;
+
   const formattedModelName = _.replace(
-    _.startCase(`${config.typePrefix}_${fixedModelName}_${config.typeSuffix}`),
+    _.startCase(`${typePrefix}_${fixedModelName}_${typeSuffix}`),
     /\s/g,
     "",
   );
@@ -55,7 +64,14 @@ const formatModelName = (name) => {
   return modelName;
 };
 
+const formatEnumKey = (key) =>
+  formatModelName(key, {
+    ignorePrefix: true,
+    ignoreSuffix: true,
+  });
+
 module.exports = {
   formatModelName: formatModelName,
+  formatEnumKey: formatEnumKey,
   isValidName,
 };

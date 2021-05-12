@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const { inlineExtraFormatters } = require("./typeFormatters");
-const { isValidName, formatModelName } = require("./modelNames");
+const { isValidName, formatModelName, formatEnumKey } = require("./modelNames");
 const { formatDescription, internalCase } = require("./common");
 const { JS_PRIMITIVE_TYPES, JS_EMPTY_TYPES, TS_KEYWORDS, SCHEMA_TYPES } = require("./constants");
 const { config } = require("./config");
@@ -87,6 +87,10 @@ const checkAndAddNull = (schema, value) => {
     !value.includes(`${TS_KEYWORDS.NULL} `)
     ? `${value} | ${TS_KEYWORDS.NULL}`
     : value;
+};
+
+const isRef = (property) => {
+  return !!(property && property["$ref"]);
 };
 
 const getRefType = (property) => {
@@ -246,7 +250,7 @@ const schemaParsers = {
     if (_.isArray(enumNames) && _.size(enumNames)) {
       content = _.map(enumNames, (enumName, index) => {
         const enumValue = _.get(schema.enum, index);
-        const formattedKey = (enumName && formatModelName(enumName)) || formatModelName(enumValue);
+        const formattedKey = (enumName && formatEnumKey(enumName)) || formatEnumKey(enumValue);
 
         if (enumNamesAsValues || _.isUndefined(enumValue)) {
           return {
@@ -270,7 +274,7 @@ const schemaParsers = {
     } else {
       content = _.map(schema.enum, (key) => {
         return {
-          key: isIntegerOrBooleanEnum ? key : formatModelName(key),
+          key: isIntegerOrBooleanEnum ? key : formatEnumKey(key),
           type: keyType,
           value: key === null ? key : isIntegerOrBooleanEnum ? `${key}` : `"${key}"`,
         };
@@ -280,7 +284,7 @@ const schemaParsers = {
     return attachParsedRef(schema, {
       ...(_.isObject(schema) ? schema : {}),
       $ref: $ref,
-      typeName: ($ref && refType.typeName) || null,
+      typeName: typeName || ($ref && refType.typeName) || null,
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.ENUM,
       type: SCHEMA_TYPES.ENUM,
@@ -387,6 +391,10 @@ const parseSchema = (rawSchema, typeName, formattersMap) => {
     schemaType = rawSchema.$parsed.schemaType;
     parsedSchema = rawSchema.$parsed;
   } else {
+    if (!typeName && isRef(rawSchema)) {
+      typeName = getType(rawSchema);
+    }
+
     const fixedRawSchema = checkAndFixSchema(rawSchema);
     schemaType = getInternalSchemaType(fixedRawSchema);
     parsedSchema = schemaParsers[schemaType](fixedRawSchema, typeName);

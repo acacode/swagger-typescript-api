@@ -13,7 +13,7 @@ const prepareModelType = (typeInfo) => {
   let { typeIdentifier, name: originalName, content, type, description } = typeData;
 
   const resultContent = formatters[type] ? formatters[type](content) : content;
-  const name = formatModelName(originalName || typeInfo.typeName);
+  const name = formatModelName(originalName);
 
   return {
     typeIdentifier,

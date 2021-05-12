@@ -34,8 +34,9 @@ function compile(fileNames) {
   let exitCode = allDiagnostics.length || emitResult.emitSkipped ? 1 : 0;
 
   if (exitCode) {
-    console.log(`Process exiting with code '${exitCode}'.`);
+    console.error(`Process exiting with code '${exitCode}'.`);
     process.exit(exitCode);
+    throw "TS validation failed";
   }
 
   return {
@@ -44,7 +45,7 @@ function compile(fileNames) {
   };
 }
 
-module.exports = ({ pathToFile }) => {
+module.exports = (pathToFile) => {
   const { diagnostics, code } = compile([pathToFile]);
   // const relativePathToFile = relative("", pathToFile);
 
