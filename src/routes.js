@@ -481,9 +481,9 @@ const parseRoutes = ({
   moduleNameFirstTag,
   extractRequestParams,
 }) => {
-  const { paths, security: globalSecurity } = usageSchema;
+  const { paths, security: globalSecurity, tags: globalTags } = usageSchema;
   const pathsEntries = _.entries(paths);
-
+  const isValidName = (name) => /^[a-zA-Z_-][-\w\s]*$/g.test(name);
   return pathsEntries.reduce((routes, [rawRoute, routeInfoByMethodsMap]) => {
     if (rawRoute.startsWith("x-")) return routes;
 
@@ -510,7 +510,16 @@ const parseRoutes = ({
           const { route, pathParams } = parseRoute(rawRoute);
 
           const routeId = nanoid(12);
-          const firstTag = tags && tags.length > 0 ? tags[0] : null;
+          let firstTag = tags && tags.length > 0 ? tags[0] : null;
+
+          !isValidName(firstTag) &&
+            globalTags.forEach((el) => {
+              if (el.name == firstTag && isValidName(el.description)) {
+                firstTag = el.description;
+              }
+            });
+          !isValidName(firstTag) && (firstTag = null);
+
           const moduleName =
             moduleNameFirstTag && firstTag
               ? _.camelCase(firstTag)
