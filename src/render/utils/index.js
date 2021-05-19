@@ -19,5 +19,5 @@ module.exports = {
   fmtToJSDocLine: require("./fmtToJSDocLine"),
   NameResolver: NameResolver,
   _: require("lodash"),
-  require: require("./templateRequire"),
+  require: require("./templateRequire").templateRequire,
 };
