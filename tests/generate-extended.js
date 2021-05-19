@@ -45,6 +45,13 @@ allSchemas.forEach(async ({ absolutePath, apiFileName, outputPath }) => {
             name,
           );
         }
+        if (!modelType.name.startsWith("IMySuperPrefix")) {
+          throw new GenerateExtendedError(
+            `modelType has not prefix/suffix - ${modelType.name}`,
+            output,
+            name,
+          );
+        }
       }
     });
   });

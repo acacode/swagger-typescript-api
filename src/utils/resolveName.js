@@ -33,6 +33,7 @@ class NameResolver {
   /**
    *
    * @param {string[]} variants
+   * @param {((variant: string) => string) | undefined} onSelectMutation
    * @returns {string | null}
    */
   resolve(variants, onSelectMutation) {

@@ -343,10 +343,9 @@ const createRequestParamsSchema = ({
   if (fixedSchema) return fixedSchema;
 
   if (extractRequestParams) {
-    const typeName = config.componentTypeNameResolver.resolve(
-      [classNameCase(`${routeName.usage} Params`)],
-      formatModelName,
-    );
+    const typeName = config.componentTypeNameResolver.resolve([
+      classNameCase(`${routeName.usage} Params`),
+    ]);
 
     return createComponent("schemas", typeName, { ...schema });
   }
