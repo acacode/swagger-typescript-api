@@ -11,41 +11,51 @@ class NameResolver {
    */
   constructor(reservedNames, getDefaultName) {
     this.getDefaultName = getDefaultName;
-    this.addReservedNames(reservedNames);
+    this.reserve(reservedNames);
   }
 
   /**
    *
    * @param {string[]} names
    */
-  addReservedNames(names) {
+  reserve(names) {
     this.reservedNames.push(..._.uniq(_.compact(names)));
+  }
+
+  unreserve(names) {
+    this.reservedNames.filter((reservedName) => !names.some((name) => name === reservedName));
+  }
+
+  isReserved(name) {
+    return _.some(this.reservedNames, (reservedName) => reservedName === name);
   }
 
   /**
    *
    * @param {string[]} variants
+   * @param {((variant: string) => string) | undefined} onSelectMutation
    * @returns {string | null}
    */
-  resolve(variants) {
+  resolve(variants, onSelectMutation) {
     let usageName = null;
     const uniqVariants = _.uniq(_.compact(variants));
 
     _.forEach(uniqVariants, (variant) => {
-      if (!usageName && !_.some(this.reservedNames, (name) => name === variant)) {
-        usageName = variant;
+      const mutatedVariant = onSelectMutation ? onSelectMutation(variant) : variant;
+      if (!usageName && !this.isReserved(mutatedVariant)) {
+        usageName = mutatedVariant;
       }
     });
 
     if (usageName) {
-      this.reservedNames.push(usageName);
+      this.reserve([usageName]);
       return usageName;
     }
 
     const defaultName = this.getDefaultName && this.getDefaultName(variants);
 
     if (defaultName) {
-      this.reservedNames.push(defaultName);
+      this.reserve([onSelectMutation ? onSelectMutation(defaultName) : defaultName]);
       return defaultName;
     }
 

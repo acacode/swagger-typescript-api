@@ -46,13 +46,19 @@ const getSchemaFromRequestType = (requestInfo) => {
   return null;
 };
 
-const getTypeFromRequestInfo = ({ requestInfo, parsedSchemas, operationId, defaultType }) => {
+const getTypeFromRequestInfo = ({
+  requestInfo,
+  parsedSchemas,
+  operationId,
+  defaultType,
+  typeName,
+}) => {
   // TODO: make more flexible pick schema without content type
   const schema = getSchemaFromRequestType(requestInfo);
   const refTypeInfo = getRefType(requestInfo);
 
   if (schema) {
-    const content = getInlineParseContent(schema, "none");
+    const content = getInlineParseContent(schema, typeName);
     const foundedSchemaByName = _.find(
       parsedSchemas,
       (parsedSchema) => formatModelName(parsedSchema.name) === content,
@@ -81,9 +87,12 @@ const getTypeFromRequestInfo = ({ requestInfo, parsedSchemas, operationId, defau
         return formatModelName(refTypeInfo.typeName);
       case "responses":
       case "requestBodies":
-        return getInlineParseContent(getSchemaFromRequestType(refTypeInfo.rawTypeData), "none");
+        return getInlineParseContent(
+          getSchemaFromRequestType(refTypeInfo.rawTypeData),
+          refTypeInfo.typeName || null,
+        );
       default:
-        return getInlineParseContent(refTypeInfo.rawTypeData, "none");
+        return getInlineParseContent(refTypeInfo.rawTypeData, refTypeInfo.typeName || null);
     }
   }
 
@@ -396,13 +405,23 @@ const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas, routeName) =>
   );
   let contentKind = getContentKind(contentTypes);
 
+  let typeName = null;
+
+  if (config.extractRequestBody) {
+    typeName = config.componentTypeNameResolver.resolve([
+      classNameCase(`${routeName.usage} Payload`),
+      classNameCase(`${routeName.usage} Body`),
+      classNameCase(`${routeName.usage} Input`),
+    ]);
+  }
+
   if (routeParams.formData.length) {
     contentKind = CONTENT_KIND.FORM_DATA;
     schema = convertRouteParamsIntoObject(routeParams.formData);
-    type = getInlineParseContent(schema);
+    type = getInlineParseContent(schema, typeName);
   } else if (contentKind === CONTENT_KIND.FORM_DATA) {
     schema = getSchemaFromRequestType(requestBody);
-    type = getInlineParseContent(schema);
+    type = getInlineParseContent(schema, typeName);
   } else if (requestBody) {
     schema = getSchemaFromRequestType(requestBody);
     type = checkAndAddNull(
@@ -411,6 +430,7 @@ const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas, routeName) =>
         requestInfo: requestBody,
         parsedSchemas,
         operationId,
+        typeName,
       }),
     );
 
@@ -423,13 +443,8 @@ const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas, routeName) =>
   }
 
   if (schema && !schema.$ref && config.extractRequestBody) {
-    const typeName = config.componentTypeNameResolver.resolve([
-      classNameCase(`${routeName.usage} Payload`),
-      classNameCase(`${routeName.usage} Body`),
-      classNameCase(`${routeName.usage} Input`),
-    ]);
     schema = createComponent("schemas", typeName, { ...schema });
-    type = typeName;
+    type = getInlineParseContent(schema);
   }
 
   return {

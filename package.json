@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "9.0.2",
+  "version": "9.1.0",
   "description": "Generate typescript/javascript api from swagger schema",
   "scripts": {
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
@@ -9,9 +9,12 @@
     "node:debug": "node --nolazy swagger-test-cli/generate.js",
     "contributors": "all-contributors generate",
     "cli:help": "node index.js -h",
-    "test-all": "node ./scriptsRunner.js generate validate test:*",
+    "test-all": "node --unhandled-rejections=strict ./scriptsRunner.js generate validate test:*",
+    "test-all-extended": "node --unhandled-rejections=strict ./scriptsRunner.js generate-extended validate generate validate test:*",
     "test-specific": "node ./scriptsRunner.js generate validate test:*",
+    "prepare": "npm run test-all-extended",
     "generate": "node tests/generate.js",
+    "generate-extended": "node tests/generate-extended.js",
     "generate:debug": "node --nolazy tests/generate.js",
     "validate": "node tests/validate.js",
     "validate:debug": "node --nolazy tests/validate.js",
@@ -27,6 +30,7 @@
     "test:--modular": "node tests/spec/modular/test.js",
     "test:--single-http-client": "node tests/spec/singleHttpClient/test.js",
     "test:--extract-request-params": "node tests/spec/extractRequestParams/test.js",
+    "test:--extract-request-body": "node tests/spec/extractRequestBody/test.js",
     "test:--enum-names-as-values": "node tests/spec/enumNamesAsValues/test.js",
     "test:--default-response": "node tests/spec/defaultResponse/test.js",
     "test:--js": "node tests/spec/js/test.js",
@@ -43,6 +47,7 @@
   "main": "src/index.js",
   "devDependencies": {
     "@types/lodash": "^4.14.166",
+    "@types/node": "^15.0.2",
     "@types/prettier": "^2.1.6",
     "all-contributors-cli": "^6.19.0",
     "husky": "^4.3.6",

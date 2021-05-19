@@ -18,6 +18,14 @@ const execute = (scriptName) =>
       process.stderr.write(data);
     });
 
+    spawned.on("error", (error) => {
+      console.error(error);
+    });
+
+    spawned.on("message", (message) => {
+      console.log(message);
+    });
+
     spawned.on("close", (code) => {
       if (code) {
         reject(code);
@@ -28,18 +36,22 @@ const execute = (scriptName) =>
   });
 
 const run = async () => {
-  for (const scriptName of packageScripts) {
-    for (const command of commands) {
-      if (scriptName === command) {
-        await execute(scriptName);
-      }
-
-      if (command.includes("*")) {
-        const commandPart = command.replace("*", "");
-        // TODO: refactor
-        if (scriptName.startsWith(commandPart) || scriptName.endsWith(commandPart)) {
+  for (const command of commands) {
+    for (const scriptName of packageScripts) {
+      try {
+        if (scriptName === command) {
           await execute(scriptName);
         }
+
+        if (command.includes("*")) {
+          const commandPart = command.replace("*", "");
+          // TODO: refactor
+          if (scriptName.startsWith(commandPart) || scriptName.endsWith(commandPart)) {
+            await execute(scriptName);
+          }
+        }
+      } catch (e) {
+        process.exit(1);
       }
     }
   }

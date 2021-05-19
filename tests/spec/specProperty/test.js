@@ -1,27 +1,20 @@
-const { generateApi } = require("../../../src");
+const { generateApiForTest } = require("../../helpers/generateApiForTest");
 const { resolve } = require("path");
 const validateGeneratedModule = require("../../helpers/validateGeneratedModule");
-const createSchemasInfos = require("../../helpers/createSchemaInfos");
+const createSchemaInfos = require("../../helpers/createSchemaInfos");
 
-const schemas = createSchemasInfos({ absolutePathToSchemas: resolve(__dirname, "./") });
+const schemas = createSchemaInfos({ absolutePathToSchemas: resolve(__dirname, "./") });
 
 schemas.forEach(({ absolutePath, apiFileName }) => {
-  generateApi({
+  generateApiForTest({
+    testName: "specProperty test",
     silent: true,
     name: apiFileName,
     spec: require(absolutePath),
     output: resolve(__dirname, "./"),
     generateRouteTypes: true,
     generateClient: false,
-  })
-    .then(() => {
-      const diagnostics = validateGeneratedModule({
-        pathToFile: resolve(__dirname, `./${apiFileName}`),
-      });
-      if (diagnostics.length) throw "Failed";
-    })
-    .catch((e) => {
-      console.error("specProperty option test failed.");
-      throw e;
-    });
+  }).then(() => {
+    validateGeneratedModule(resolve(__dirname, `./${apiFileName}`));
+  });
 });

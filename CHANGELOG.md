@@ -1,5 +1,14 @@
 # next release  
 
+# 9.1.0  
+
+Fixes:  
+- Critical bug linked with `templateRequire` in ETA templates  
+- Critical bugs linked with `--type-prefix`, `--type-suffix`  
+
+Internal:  
+- Improve manual testing scripts  
+
 # 9.0.2  
 
 Fixes:  

@@ -1,12 +1,12 @@
-const { generateApi } = require("../../../src");
+const { generateApiForTest } = require("../../helpers/generateApiForTest");
 const { resolve } = require("path");
 const validateGeneratedModule = require("../../helpers/validateGeneratedModule");
-const createSchemasInfos = require("../../helpers/createSchemaInfos");
+const createSchemaInfos = require("../../helpers/createSchemaInfos");
 
-const schemas = createSchemasInfos({ absolutePathToSchemas: resolve(__dirname, "./") });
+const schemas = createSchemaInfos({ absolutePathToSchemas: resolve(__dirname, "./") });
 
 schemas.forEach(({ absolutePath, apiFileName }) => {
-  generateApi({
+  generateApiForTest({
     silent: true,
     name: apiFileName,
     input: absolutePath,
@@ -14,10 +14,7 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
     generateResponses: true,
   })
     .then(() => {
-      const diagnostics = validateGeneratedModule({
-        pathToFile: resolve(__dirname, `./${apiFileName}`),
-      });
-      if (diagnostics.length) throw "Failed";
+      validateGeneratedModule(resolve(__dirname, `./${apiFileName}`));
     })
     .catch((e) => {
       console.error("responses option test failed.");

@@ -59,6 +59,30 @@
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run-script", "test-all"]
+    },
+    {
+      "name": "Debug test-all-extended",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run-script", "test-all-extended"]
+    },
+    {
+      "name": "Debug test:--extract-request-body",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run-script", "test:--extract-request-body"]
+    },
+    {
+      "name": "Debug test:--type-suffix--type-prefix",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run-script", "test:--type-suffix--type-prefix"]
     }
   ]
 }

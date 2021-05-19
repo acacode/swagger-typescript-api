@@ -1,20 +1,18 @@
-const { generateApi } = require("../../../src");
+const { generateApiForTest } = require("../../helpers/generateApiForTest");
 const { resolve } = require("path");
 const validateGeneratedModule = require("../../helpers/validateGeneratedModule");
-const createSchemasInfos = require("../../helpers/createSchemaInfos");
+const createSchemaInfos = require("../../helpers/createSchemaInfos");
 
-const schemas = createSchemasInfos({ absolutePathToSchemas: resolve(__dirname, "./") });
+const schemas = createSchemaInfos({ absolutePathToSchemas: resolve(__dirname, "./") });
 
 schemas.forEach(({ absolutePath, apiFileName }) => {
-  generateApi({
+  generateApiForTest({
+    testName: "--js --axios option test",
     silent: true,
     name: apiFileName,
     input: absolutePath,
     output: resolve(__dirname, "./"),
     toJS: true,
     httpClientType: "axios",
-  }).catch((e) => {
-    console.error("--js --axios option test failed.");
-    throw e;
   });
 });
