@@ -84,7 +84,7 @@ export type SwaggerTypeAssetsGeneratedDataContract = SwaggerTypeAssetGeneratedDa
 
 export type SwaggerTypeAssigneesGeneratedDataContract = SwaggerTypeUserGeneratedDataContract[];
 
-export interface Blob {
+export interface SwaggerTypeBlobGeneratedDataContract {
   content?: string;
   encoding?: "utf-8" | "base64";
   sha?: string;
@@ -134,7 +134,7 @@ export type SwaggerTypeCommentsGeneratedDataContract = {
   user?: SwaggerTypeUserGeneratedDataContract;
 }[];
 
-export interface Commit {
+export interface SwaggerTypeCommitGeneratedDataContract {
   /** A GitHub user */
   author?: SwaggerTypeUserGeneratedDataContract;
   commit?: {
@@ -588,7 +588,7 @@ export interface SwaggerTypeIssueEventGeneratedDataContract {
 
 export type SwaggerTypeIssueEventsGeneratedDataContract = SwaggerTypeIssueEventGeneratedDataContract[];
 
-export type Issues = {
+export type SwaggerTypeIssuesGeneratedDataContract = {
   assignee?: SwaggerTypeUserGeneratedDataContract;
   body?: string;
   closed_at?: string;
@@ -1401,7 +1401,7 @@ export type SwaggerTypeTeamsListGeneratedDataContract = {
   url?: string;
 }[];
 
-export interface Tree {
+export interface SwaggerTypeTreeGeneratedDataContract {
   sha?: string;
   tree?: {
     mode?: "100644" | "100755" | "040000" | "160000" | "120000";
@@ -1419,7 +1419,7 @@ export interface SwaggerTypeTreesGeneratedDataContract {
 
   /** SHA1 checksum ID of the object in the tree. */
   sha?: string;
-  tree?: Tree[];
+  tree?: SwaggerTypeTreeGeneratedDataContract[];
   url?: string;
 }
 
@@ -2069,7 +2069,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name IssuesList
      * @request GET:/issues
-     * @response `200` `Issues` OK
+     * @response `200` `SwaggerTypeIssuesGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
     issuesList: (
@@ -2083,7 +2083,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<Issues, void>({
+      this.request<SwaggerTypeIssuesGeneratedDataContract, void>({
         path: `/issues`,
         method: "GET",
         query: query,
@@ -2420,7 +2420,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name IssuesDetail
      * @request GET:/orgs/{org}/issues
-     * @response `200` `Issues` OK
+     * @response `200` `SwaggerTypeIssuesGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
     issuesDetail: (
@@ -2435,7 +2435,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<Issues, void>({
+      this.request<SwaggerTypeIssuesGeneratedDataContract, void>({
         path: `/orgs/${org}/issues`,
         method: "GET",
         query: query,
@@ -2951,11 +2951,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repos/{owner}/{repo}/commits/{shaCode}
      * @originalName commitsDetail
      * @duplicate
-     * @response `200` `Commit` OK
+     * @response `200` `SwaggerTypeCommitGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
     commitsDetail2: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
-      this.request<Commit, void>({
+      this.request<SwaggerTypeCommitGeneratedDataContract, void>({
         path: `/repos/${owner}/${repo}/commits/${shaCode}`,
         method: "GET",
         format: "json",
@@ -3305,7 +3305,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `201` `SwaggerTypeBlobsGeneratedDataContract` Created
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
-    gitBlobsCreate: (owner: string, repo: string, body: Blob, params: RequestParams = {}) =>
+    gitBlobsCreate: (
+      owner: string,
+      repo: string,
+      body: SwaggerTypeBlobGeneratedDataContract,
+      params: RequestParams = {},
+    ) =>
       this.request<SwaggerTypeBlobsGeneratedDataContract, void>({
         path: `/repos/${owner}/${repo}/git/blobs`,
         method: "POST",
@@ -3320,11 +3325,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name GitBlobsDetail
      * @request GET:/repos/{owner}/{repo}/git/blobs/{shaCode}
-     * @response `200` `Blob` OK
+     * @response `200` `SwaggerTypeBlobGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
     gitBlobsDetail: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
-      this.request<Blob, void>({
+      this.request<SwaggerTypeBlobGeneratedDataContract, void>({
         path: `/repos/${owner}/${repo}/git/blobs/${shaCode}`,
         method: "GET",
         format: "json",
@@ -3513,7 +3518,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `201` `SwaggerTypeTreesGeneratedDataContract` Created
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
-    gitTreesCreate: (owner: string, repo: string, body: Tree, params: RequestParams = {}) =>
+    gitTreesCreate: (
+      owner: string,
+      repo: string,
+      body: SwaggerTypeTreeGeneratedDataContract,
+      params: RequestParams = {},
+    ) =>
       this.request<SwaggerTypeTreesGeneratedDataContract, void>({
         path: `/repos/${owner}/${repo}/git/trees`,
         method: "POST",
@@ -3528,7 +3538,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name GitTreesDetail
      * @request GET:/repos/{owner}/{repo}/git/trees/{shaCode}
-     * @response `200` `Tree` OK
+     * @response `200` `SwaggerTypeTreeGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
     gitTreesDetail: (
@@ -3538,7 +3548,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: { recursive?: number },
       params: RequestParams = {},
     ) =>
-      this.request<Tree, void>({
+      this.request<SwaggerTypeTreeGeneratedDataContract, void>({
         path: `/repos/${owner}/${repo}/git/trees/${shaCode}`,
         method: "GET",
         query: query,
@@ -3660,7 +3670,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name IssuesDetail
      * @request GET:/repos/{owner}/{repo}/issues
-     * @response `200` `Issues` OK
+     * @response `200` `SwaggerTypeIssuesGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
     issuesDetail: (
@@ -3676,7 +3686,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<Issues, void>({
+      this.request<SwaggerTypeIssuesGeneratedDataContract, void>({
         path: `/repos/${owner}/${repo}/issues`,
         method: "GET",
         query: query,
@@ -5614,7 +5624,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @name IssuesList
      * @request GET:/user/issues
-     * @response `200` `Issues` OK
+     * @response `200` `SwaggerTypeIssuesGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
     issuesList: (
@@ -5628,7 +5638,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<Issues, void>({
+      this.request<SwaggerTypeIssuesGeneratedDataContract, void>({
         path: `/user/issues`,
         method: "GET",
         query: query,

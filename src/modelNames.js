@@ -34,23 +34,24 @@ const fixModelName = (name) => {
  * @returns
  */
 const formatModelName = (name, options) => {
+  const typePrefix = options && options.ignorePrefix ? "" : config.typePrefix;
+  const typeSuffix = options && options.ignoreSuffix ? "" : config.typeSuffix;
+  const hashKey = `${typePrefix}_${name}_${typeSuffix}`;
+
   if (typeof name !== "string") {
     logger.warn("wrong name of the model name", name);
     return name;
   }
 
   if (/^([A-Z_]{1,})$/g.test(name)) {
-    return name;
+    return _.compact([typePrefix, name, typeSuffix]).join("_");
   }
 
-  if (formattedModelNamesMap.has(name)) {
-    return formattedModelNamesMap.get(name);
+  if (formattedModelNamesMap.has(hashKey)) {
+    return formattedModelNamesMap.get(hashKey);
   }
 
   const fixedModelName = fixModelName(name);
-
-  const typePrefix = options && options.ignorePrefix ? "" : config.typePrefix;
-  const typeSuffix = options && options.ignoreSuffix ? "" : config.typeSuffix;
 
   const formattedModelName = _.replace(
     _.startCase(`${typePrefix}_${fixedModelName}_${typeSuffix}`),
@@ -59,7 +60,7 @@ const formatModelName = (name, options) => {
   );
   const modelName = config.hooks.onFormatTypeName(formattedModelName, name) || formattedModelName;
 
-  formattedModelNamesMap.set(name, modelName);
+  formattedModelNamesMap.set(hashKey, modelName);
 
   return modelName;
 };
