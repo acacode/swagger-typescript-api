@@ -34,11 +34,7 @@ export class HttpClient {
         requestParams.headers.common = { Accept: "*/*" };
         requestParams.headers.post = {};
         requestParams.headers.put = {};
-        const formData = new FormData();
-        for (const key in body) {
-          formData.append(key, body[key]);
-        }
-        body = formData;
+        const formData = this.createFormData(body);
       }
       return this.instance.request({
         ...requestParams,
@@ -68,6 +64,20 @@ export class HttpClient {
         ...((params2 && params2.headers) || {}),
       },
     };
+  }
+  createFormData(input) {
+    return Object.keys(input || {}).reduce((formData, key) => {
+      const property = input[key];
+      formData.append(
+        key,
+        property instanceof Blob
+          ? property
+          : typeof property === "object" && property !== null
+          ? JSON.stringify(property)
+          : `${property}`,
+      );
+      return formData;
+    }, new FormData());
   }
 }
 /**
