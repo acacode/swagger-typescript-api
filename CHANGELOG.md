@@ -1,5 +1,10 @@
 # next release  
 
+# 9.1.1  
+
+Fixes:  
+- Bug with nested objects in FormData (issue #262, thanks @avlnche64)  
+
 # 9.1.0  
 
 Fixes:  
