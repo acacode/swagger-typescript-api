@@ -1740,6 +1740,7 @@ export declare class HttpClient<SecurityDataType = unknown> {
   constructor({ securityWorker, secure, format, ...axiosConfig }?: ApiConfig<SecurityDataType>);
   setSecurityData: (data: SecurityDataType | null) => void;
   private mergeRequestParams;
+  private createFormData;
   request: <T = any, _E = any>({
     secure,
     path,

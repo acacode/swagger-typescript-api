@@ -34,9 +34,17 @@ export class HttpClient {
       [ContentType.Json]: (input) =>
         input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
       [ContentType.FormData]: (input) =>
-        Object.keys(input || {}).reduce((data, key) => {
-          data.append(key, input[key]);
-          return data;
+        Object.keys(input || {}).reduce((formData, key) => {
+          const property = input[key];
+          formData.append(
+            key,
+            property instanceof Blob
+              ? property
+              : typeof property === "object" && property !== null
+              ? JSON.stringify(property)
+              : `${property}`,
+          );
+          return formData;
         }, new FormData()),
       [ContentType.UrlEncoded]: (input) => this.toQueryString(input),
     };
