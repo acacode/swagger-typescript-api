@@ -1574,7 +1574,11 @@ export class HttpClient<SecurityDataType = unknown> {
  * Powerful collaboration, code review, and code management for open source and private projects.
  */
 export class Api<SecurityDataType extends unknown> {
-  constructor(private http: HttpClient<SecurityDataType>) {}
+  http: HttpClient<SecurityDataType>;
+
+  constructor(http: HttpClient<SecurityDataType>) {
+    this.http = http;
+  }
 
   someTest = {
     /**

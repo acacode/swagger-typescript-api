@@ -14,9 +14,12 @@ import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataCont
 <% } %>
 
 export class <%= apiClassName %><SecurityDataType = unknown><% if (!config.singleHttpClient) { %> extends HttpClient<SecurityDataType> <% } %> {
-
 <% if(config.singleHttpClient) { %>
-  constructor (private http: HttpClient<SecurityDataType>) {}
+  http: HttpClient<SecurityDataType>;
+
+  constructor (http: HttpClient<SecurityDataType>) {
+    this.http = http;
+  }
 <% } %>
 
     <% routes.forEach((route) => { %>
