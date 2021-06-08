@@ -1,5 +1,10 @@
 # next release  
 
+# 9.1.2
+
+Fixes:  
+- Bug with --single-http-client and private `http` property  
+
 # 9.1.1  
 
 Fixes:  
