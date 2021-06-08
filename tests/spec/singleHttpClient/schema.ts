@@ -228,7 +228,11 @@ export class HttpClient<SecurityDataType = unknown> {
  * Strong authentication, without the passwords.
  */
 export class Api<SecurityDataType extends unknown> {
-  constructor(private http: HttpClient<SecurityDataType>) {}
+  http: HttpClient<SecurityDataType>;
+
+  constructor(http: HttpClient<SecurityDataType>) {
+    this.http = http;
+  }
 
   key = {
     /**

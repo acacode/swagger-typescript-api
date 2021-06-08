@@ -39,7 +39,11 @@ const descriptionLines = _.compact([
 export class Api<SecurityDataType extends unknown><% if (!config.singleHttpClient) { %> extends HttpClient<SecurityDataType> <% } %> {
 
 <% if(config.singleHttpClient) { %>
-  constructor (private http: HttpClient<SecurityDataType>) {}
+  http: HttpClient<SecurityDataType>;
+
+  constructor (http: HttpClient<SecurityDataType>) {
+    this.http = http;
+  }
 <% } %>
 
 
