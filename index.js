@@ -66,6 +66,7 @@ program
   .option("--disableStrictSSL", "disabled strict SSL", false)
   .option("--disableProxy", "disabled proxy", false)
   .option("--axios", "generate axios http client", false)
+  .option("--unwrap-response-data", "unwrap the data item from the response", false)
   .option("--single-http-client", "Ability to send HttpClient instance to Api constructor", false)
   .option("--silent", "Output only errors to console", false)
   .option("--default-response <type>", "default type for empty response schema", TS_KEYWORDS.VOID)
@@ -100,6 +101,7 @@ const {
   disableProxy,
   cleanOutput,
   defaultResponse,
+  unwrapResponseData,
   singleHttpClient,
   axios,
   silent,
@@ -115,6 +117,7 @@ generateApi({
   httpClientType: axios ? HTTP_CLIENT.AXIOS : HTTP_CLIENT.FETCH,
   defaultResponseAsSuccess: defaultAsSuccess,
   defaultResponseType: defaultResponse,
+  unwrapResponseData: unwrapResponseData,
   generateUnionEnums: unionEnums,
   generateResponses: responses,
   extractRequestParams: !!extractRequestParams,

@@ -58,6 +58,7 @@ const config = {
   defaultResponseType: TS_KEYWORDS.VOID,
   singleHttpClient: false,
   httpClientType: HTTP_CLIENT.FETCH,
+  unwrapResponseData: false,
   templatePaths: {
     /** `templates/base` */
     base: "",

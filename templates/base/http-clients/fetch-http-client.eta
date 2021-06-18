@@ -1,5 +1,5 @@
 <%
-const { apiConfig, generateResponses } = it;
+const { apiConfig, generateResponses, config } = it;
 %>
 
 export type QueryParamsType = Record<string | number, any>;
@@ -164,7 +164,11 @@ export class HttpClient<SecurityDataType = unknown> {
         baseUrl,
         cancelToken,
         ...params
+<% if (config.unwrapResponseData) { %>
+    }: FullRequestParams): Promise<T> => {
+<% } else { %>
     }: FullRequestParams): Promise<HttpResponse<T, E>> => {
+<% } %>
         const secureParams = ((typeof secure === 'boolean' ? secure : this.baseApiParams.secure) && this.securityWorker && await this.securityWorker(this.securityData)) || {};
         const requestParams = this.mergeRequestParams(params, secureParams);
         const queryString = query && this.toQueryString(query);
@@ -206,7 +210,11 @@ export class HttpClient<SecurityDataType = unknown> {
             }
 
             if (!response.ok) throw data;
+<% if (config.unwrapResponseData) { %>
+            return data.data;
+<% } else { %>
             return data;
+<% } %>
         });
     };
 }
