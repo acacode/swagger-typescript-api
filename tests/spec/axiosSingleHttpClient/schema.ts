@@ -1547,7 +1547,7 @@ export class HttpClient<SecurityDataType = unknown> {
       requestParams.headers.post = {};
       requestParams.headers.put = {};
 
-      const formData = this.createFormData(body as Record<string, unknown>);
+      body = this.createFormData(body as Record<string, unknown>);
     }
 
     return this.instance.request({
