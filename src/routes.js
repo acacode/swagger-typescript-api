@@ -2,6 +2,7 @@ const _ = require("lodash");
 const {
   types,
   parseSchema,
+  getType,
   getRefType,
   getInlineParseContent,
   checkAndAddNull,
@@ -475,6 +476,21 @@ const getResponseBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
     (response) => !response.isSuccess && response.type !== TS_KEYWORDS.ANY,
   );
 
+  const handleResponseHeaders = (src) => {
+    if (!src) {
+      return "headers: {},";
+    }
+    const headerTypes = Object.fromEntries(
+      Object.entries(src).map(([k, v]) => {
+        return [k, getType(v)];
+      }),
+    );
+    const r = `headers: { ${Object.entries(headerTypes)
+      .map(([k, v]) => `"${k}": ${v}`)
+      .join(",")} },`;
+    return r;
+  };
+
   return {
     contentTypes,
     responses: responseInfos,
@@ -485,6 +501,19 @@ const getResponseBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
     error: {
       schemas: errorResponses,
       type: _.uniq(errorResponses.map((response) => response.type)).join(" | ") || TS_KEYWORDS.ANY,
+    },
+    full: {
+      types:
+        responseInfos
+          .map(
+            (response) => `{
+      data: ${response.type}, status: ${response.status}, statusCode: ${
+              response.status
+            }, statusText: "${response.description}", ${handleResponseHeaders(
+              response.headers,
+            )} config: {} }`,
+          )
+          .join(" | ") || TS_KEYWORDS.ANY,
     },
   };
 };
@@ -685,6 +714,7 @@ const parseRoutes = ({
               contentTypes: responseBodyInfo.contentTypes,
               type: responseBodyInfo.success.type,
               errorType: responseBodyInfo.error.type,
+              fullTypes: responseBodyInfo.full.types,
             },
             raw: rawRouteInfo,
           };
