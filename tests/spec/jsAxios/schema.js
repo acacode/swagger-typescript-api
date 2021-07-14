@@ -34,7 +34,7 @@ export class HttpClient {
         requestParams.headers.common = { Accept: "*/*" };
         requestParams.headers.post = {};
         requestParams.headers.put = {};
-        const formData = this.createFormData(body);
+        body = this.createFormData(body);
       }
       return this.instance.request({
         ...requestParams,

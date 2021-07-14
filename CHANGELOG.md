@@ -1,5 +1,14 @@
 # next release  
 
+# 9.2.0  
+
+Features:  
+- full response typing for status code, data and headers. (#272, thanks @rustyconover)  
+- --unwrap-response-data to unwrap the data item from the response (#268, thanks @laktak)  
+
+Fixes:  
+- fix: formdata in axios template (#277, thanks @tiagoskaneta)  
+
 # 9.1.2
 
 Fixes:  

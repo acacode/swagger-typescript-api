@@ -1,5 +1,5 @@
 <%
-const { apiConfig, generateResponses } = it;
+const { apiConfig, generateResponses, config } = it;
 %>
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";
@@ -89,7 +89,11 @@ export class HttpClient<SecurityDataType = unknown> {
         format,
         body,
         ...params
+<% if (config.unwrapResponseData) { %>
+    }: FullRequestParams): Promise<T> => {
+<% } else { %>
     }: FullRequestParams): Promise<AxiosResponse<T>> => {
+<% } %>
         const secureParams = ((typeof secure === 'boolean' ? secure : this.secure) && this.securityWorker && (await this.securityWorker(this.securityData))) || {};
         const requestParams = this.mergeRequestParams(params, secureParams);
         const responseFormat = (format && this.format) || void 0;
@@ -99,7 +103,7 @@ export class HttpClient<SecurityDataType = unknown> {
           requestParams.headers.post = {};
           requestParams.headers.put = {};
 
-          const formData = this.createFormData(body as Record<string, unknown>);
+          body = this.createFormData(body as Record<string, unknown>);
         }
 
         return this.instance.request({
@@ -112,6 +116,10 @@ export class HttpClient<SecurityDataType = unknown> {
             responseType: responseFormat,
             data: body,
             url: path,
+<% if (config.unwrapResponseData) { %>
+        }).then(response => response.data);
+<% } else { %>
         });
+<% } %>
     };
 }

@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "9.1.2",
+  "version": "9.2.0",
   "description": "Generate typescript/javascript api from swagger schema",
   "scripts": {
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
