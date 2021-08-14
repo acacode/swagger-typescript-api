@@ -21,6 +21,7 @@ const { generateOutputFiles } = require("./output");
 const formatFileContent = require("./formatFileContent");
 const { logger } = require("./logger");
 const { ComponentTypeNameResolver } = require("./utils/resolveName");
+const { getPrettierOptions } = require("./prettierOptions");
 
 module.exports = {
   constants: constants,
@@ -46,7 +47,7 @@ module.exports = {
     defaultResponseType = config.defaultResponseType,
     unwrapResponseData = config.unwrapResponseData,
     singleHttpClient = config.singleHttpClient,
-    prettier: prettierOptions = constants.PRETTIER_OPTIONS,
+    prettier: prettierOptions = getPrettierOptions(),
     hooks: rawHooks,
     extraTemplates,
     enumNamesAsValues,

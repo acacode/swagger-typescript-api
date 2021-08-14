@@ -57,6 +57,7 @@
     "@types/swagger-schema-official": "2.0.21",
     "axios": "^0.21.1",
     "commander": "^6.2.1",
+    "cosmiconfig": "^7.0.0",
     "eta": "^1.12.1",
     "js-yaml": "^4.0.0",
     "lodash": "^4.17.21",
