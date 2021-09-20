@@ -63,6 +63,7 @@ Options:
   --default-response <type>     default type for empty response schema (default: "void")
   --type-prefix <string>        data contract name prefix (default: "")
   --type-suffix <string>        data contract name suffix (default: "")
+  --patch                       fix up small errors in the swagger source definition (default: false)
   -h, --help                    display help for command
 ```
 
