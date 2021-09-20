@@ -112,6 +112,11 @@ interface GenerateApiParams {
    *  extra templates
    */
   extraTemplates?: { name: string; path: string }[];
+
+  /**
+   * fix up small errors in the swagger source definition
+   */
+  patch?: boolean;
 }
 
 export interface Hooks {
