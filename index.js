@@ -137,4 +137,9 @@ generateApi({
   silent: !!silent,
   typePrefix,
   typeSuffix,
+}).catch((err) => {
+  // NOTE collect all errors on top level and shows to users in any case
+  console.log(err);
+
+  process.exit(1);
 });
