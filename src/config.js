@@ -59,6 +59,7 @@ const config = {
   singleHttpClient: false,
   httpClientType: HTTP_CLIENT.FETCH,
   unwrapResponseData: false,
+  sortTypes: false,
   templatePaths: {
     /** `templates/base` */
     base: "",
