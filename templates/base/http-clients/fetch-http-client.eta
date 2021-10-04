@@ -209,7 +209,9 @@ export class HttpClient<SecurityDataType = unknown> {
                 this.abortControllers.delete(cancelToken);
             }
 
+<% if (!config.disableThrowOnError) { %>
             if (!response.ok) throw data;
+<% } %>
 <% if (config.unwrapResponseData) { %>
             return data.data;
 <% } else { %>
