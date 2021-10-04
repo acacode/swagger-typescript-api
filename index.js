@@ -58,6 +58,7 @@ program
   .option("--disableProxy", "disabled proxy", false)
   .option("--axios", "generate axios http client", false)
   .option("--unwrap-response-data", "unwrap the data item from the response", false)
+  .option("--disable-throw-on-error", "Do not throw an error when response.ok is not true", false)
   .option("--single-http-client", "Ability to send HttpClient instance to Api constructor", false)
   .option("--silent", "Output only errors to console", false)
   .option("--default-response <type>", "default type for empty response schema", TS_KEYWORDS.VOID)
@@ -90,6 +91,7 @@ const {
   cleanOutput,
   defaultResponse,
   unwrapResponseData,
+  disableThrowOnError,
   sortTypes,
   singleHttpClient,
   axios,
@@ -108,6 +110,7 @@ generateApi({
   defaultResponseAsSuccess: defaultAsSuccess,
   defaultResponseType: defaultResponse,
   unwrapResponseData: unwrapResponseData,
+  disableThrowOnError: disableThrowOnError,
   sortTypes: sortTypes,
   generateUnionEnums: unionEnums,
   generateResponses: responses,
