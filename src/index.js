@@ -46,6 +46,7 @@ module.exports = {
     extractRequestBody = config.extractRequestBody,
     defaultResponseType = config.defaultResponseType,
     unwrapResponseData = config.unwrapResponseData,
+    sortTypes = config.sortTypes,
     singleHttpClient = config.singleHttpClient,
     prettier: prettierOptions = getPrettierOptions(),
     hooks: rawHooks,
@@ -81,6 +82,7 @@ module.exports = {
         cleanOutput,
         defaultResponseType,
         unwrapResponseData,
+        sortTypes,
         singleHttpClient,
         constants,
         silent,
@@ -141,11 +143,41 @@ module.exports = {
           const hasFormDataRoutes = routes.some((route) => route.hasFormDataParams);
 
           const usageComponentSchemas = filterComponentsMap(componentsMap, "schemas");
+          const sortByProperty = (o1, o2, propertyName) => {
+            if(o1[propertyName] > o2[propertyName]) {
+              return 1;
+            }
+            if(o1[propertyName] < o2[propertyName]) {
+              return -1;
+            }
+            return 0;
+          }
+          const sortByTypeName = (o1, o2) => sortByProperty(o1, o2, 'typeName');
+
+          const sortByName = (o1, o2) => sortByProperty(o1, o2, 'name');
+
+          const sortSchemas = (schemas) => {
+            if(config.sortTypes) {
+              return schemas.sort(sortByTypeName).map((schema) => {
+                if(schema.rawTypeData?.properties) {
+                  return {
+                    ...schema,
+                    rawTypeData: {
+                      ...schema.rawTypeData,
+                      '$parsed': {...schema.rawTypeData['$parsed'], content: schema.rawTypeData['$parsed'].content.sort(sortByName)}
+                    }
+                  }
+                }
+                return schema;
+              });
+            }
+            return schemas;
+          };
 
           const rawConfiguration = {
             apiConfig: createApiConfig(usageSchema),
             config,
-            modelTypes: _.map(usageComponentSchemas, prepareModelType),
+            modelTypes: _.map(sortSchemas(usageComponentSchemas), prepareModelType),
             rawModelTypes: usageComponentSchemas,
             hasFormDataRoutes,
             hasSecurityRoutes,
