@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "9.3.0",
+  "version": "9.3.1",
   "description": "Generate typescript/javascript api from swagger schema",
   "scripts": {
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
@@ -52,11 +52,11 @@
     "@types/node": "^15.0.2",
     "@types/prettier": "^2.1.6",
     "all-contributors-cli": "^6.19.0",
-    "axios": "^0.21.4",
     "husky": "^4.3.6",
     "pretty-quick": "^3.1.0"
   },
   "dependencies": {
+    "axios": "^0.21.4",
     "@types/swagger-schema-official": "2.0.21",
     "commander": "^6.2.1",
     "cosmiconfig": "^7.0.0",
