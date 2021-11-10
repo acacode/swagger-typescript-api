@@ -58,6 +58,7 @@ Options:
   --disableProxy                disabled proxy (default: false)
   --clean-output                clean output folder before generate api. WARNING: May cause data loss (default: false)
   --axios                       generate axios http client (default: false)
+  --unwrap-response-data        unwrap the data item from the response
   --single-http-client          Ability to send HttpClient instance to Api constructor (default: false)
   --silent                      Output only errors to console (default: false)
   --default-response <type>     default type for empty response schema (default: "void")
@@ -99,6 +100,7 @@ generateApi({
   toJS: false,
   extractRequestParams: false,
   extractRequestBody: false,
+  unwrapResponseData: false,
   prettier: {
     printWidth: 120,
     tabWidth: 2,

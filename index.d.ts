@@ -60,6 +60,11 @@ interface GenerateApiParams {
   generateResponses?: boolean;
 
   /**
+   * unwrap the data item from the response
+   */
+  unwrapResponseData?: boolean;
+
+  /**
    * generate js api module with declaration file (default: false)
    */
   toJS?: boolean;
@@ -309,6 +314,7 @@ export interface GenerateApiConfiguration {
     disableStrictSSL: boolean;
     disableProxy: boolean;
     extractRequestParams: boolean;
+    unwrapResponseData: boolean;
     fileNames: {
       dataContracts: string;
       routeTypes: string;
