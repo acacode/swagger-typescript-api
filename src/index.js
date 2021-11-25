@@ -56,6 +56,7 @@ module.exports = {
     silent = config.silent,
     typePrefix = config.typePrefix,
     typeSuffix = config.typeSuffix,
+    apiClassName = config.apiClassName,
   }) =>
     new Promise((resolve, reject) => {
       addToConfig({
@@ -85,6 +86,7 @@ module.exports = {
         toJS: translateToJavaScript,
         typePrefix,
         typeSuffix,
+        apiClassName,
       });
       (spec
         ? convertSwaggerObject(spec)
