@@ -323,6 +323,7 @@ export interface GenerateApiConfiguration {
       routeName: string;
     };
     routeNameDuplicatesMap: Map<string, string>;
+    apiClassName: string
   };
   modelTypes: ModelType[];
   rawModelTypes: SchemaComponent[];
