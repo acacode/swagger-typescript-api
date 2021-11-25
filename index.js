@@ -72,6 +72,7 @@ program
   .option("--default-response <type>", "default type for empty response schema", TS_KEYWORDS.VOID)
   .option("--type-prefix <string>", "data contract name prefix", "")
   .option("--type-suffix <string>", "data contract name suffix", "")
+  .option("--api-class-name <string>", "name of the main exported class", "Api")
   .option(
     "--clean-output",
     "clean output folder before generate api. WARNING: May cause data loss",
@@ -107,6 +108,7 @@ const {
   silent,
   typePrefix,
   typeSuffix,
+  apiClassName,
 } = program;
 
 generateApi({
@@ -137,4 +139,5 @@ generateApi({
   silent: !!silent,
   typePrefix,
   typeSuffix,
+  apiClassName,
 });
