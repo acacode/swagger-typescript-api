@@ -36,7 +36,7 @@ const descriptionLines = _.compact([
 <% }) %>
 */
 <% } %>
-export class Api<SecurityDataType extends unknown><% if (!config.singleHttpClient) { %> extends HttpClient<SecurityDataType> <% } %> {
+export class <%~ config.apiClassName %><SecurityDataType extends unknown><% if (!config.singleHttpClient) { %> extends HttpClient<SecurityDataType> <% } %> {
 
 <% if(config.singleHttpClient) { %>
   http: HttpClient<SecurityDataType>;
