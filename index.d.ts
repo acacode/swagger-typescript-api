@@ -20,9 +20,12 @@ interface GenerateApiParams {
   name?: string;
 
   /**
-   * path to folder where will been located the created api module
+   * path to folder where will been located the created api module.
+   *
+   * may set to `false` to skip writing content to disk. in this case,
+   * you may access the `files` on the return value.
    */
-  output?: string;
+  output?: string | false;
 
   /**
    * path to folder containing templates (default: ./scr/templates)
