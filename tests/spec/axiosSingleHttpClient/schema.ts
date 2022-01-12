@@ -1512,6 +1512,23 @@ export class HttpClient<SecurityDataType = unknown> {
 
   private createFormData(input: Record<string, unknown>): FormData {
     return Object.keys(input || {}).reduce((formData, key) => {
+      let property = input[key];
+      let propertyContent: Iterable<any> = property instanceof Array ? property : [property];
+
+      for (const formItem of propertyContent) {
+        formData.append(
+          key,
+          formItem instanceof Blob || formItem instanceof File
+            ? formItem
+            : typeof formItem === "object" && formItem !== null
+            ? JSON.stringify(formItem)
+            : `${formItem}`,
+        );
+      }
+
+      return formData;
+    }, new FormData());
+    return Object.keys(input || {}).reduce((formData, key) => {
       const property = input[key];
       formData.append(
         key,
@@ -1540,7 +1557,7 @@ export class HttpClient<SecurityDataType = unknown> {
         (await this.securityWorker(this.securityData))) ||
       {};
     const requestParams = this.mergeRequestParams(params, secureParams);
-    const responseFormat = (format && this.format) || void 0;
+    const responseFormat = format || this.format || void 0;
 
     if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
       requestParams.headers.common = { Accept: "*/*" };
