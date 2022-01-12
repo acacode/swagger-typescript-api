@@ -9,6 +9,7 @@ const TS_KEYWORDS = {
   UNDEFINED: "undefined",
   OBJECT: "object",
   FILE: "File",
+  ARRAY_BUFFER: "ArrayBuffer",
   DATE: "Date",
   TYPE: "type",
   ENUM: "enum",

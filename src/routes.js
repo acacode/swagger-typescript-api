@@ -369,6 +369,7 @@ const CONTENT_KIND = {
   URL_ENCODED: "URL_ENCODED",
   FORM_DATA: "FORM_DATA",
   IMAGE: "IMAGE",
+  OCTET_STREAM: "OCTET_STREAM",
   OTHER: "OTHER",
 };
 
@@ -390,6 +391,10 @@ const getContentKind = (contentTypes) => {
 
   if (_.some(contentTypes, (contentType) => _.includes(contentType, "image/"))) {
     return CONTENT_KIND.IMAGE;
+  }
+
+  if (contentTypes.includes("application/octet-stream")) {
+    return CONTENT_KIND.OCTET_STREAM;
   }
 
   return CONTENT_KIND.OTHER;
