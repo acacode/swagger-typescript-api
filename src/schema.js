@@ -17,7 +17,7 @@ const types = {
     $default: TS_KEYWORDS.STRING,
 
     /** formats */
-    binary: TS_KEYWORDS.FILE,
+    binary: TS_KEYWORDS.ARRAY_BUFFER,
   },
   array: ({ items, ...schemaPart }) => {
     const content = getInlineParseContent(items);

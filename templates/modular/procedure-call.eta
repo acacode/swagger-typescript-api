@@ -55,7 +55,8 @@ const requestContentKind = {
 const responseContentKind = {
     "JSON": '"json"',
     "IMAGE": '"blob"',
-    "FORM_DATA": isFetchTemplate ? '"formData"' : '"document"'
+    "FORM_DATA": isFetchTemplate ? '"formData"' : '"document"',
+    "OCTET_STREAM": '"arraybuffer"',
 }
 
 const bodyTmpl = _.get(payload, "name") || null;
