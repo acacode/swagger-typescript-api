@@ -187,7 +187,7 @@ const complexSchemaParsers = {
   },
   [SCHEMA_TYPES.COMPLEX_ALL_OF]: (schema) => {
     // T1 & T2
-    const combined = _.map(schema.allOf, complexTypeGetter);
+    const combined = _.map(schema.allOf.map(s => _.merge({ required: schema.required }, s)), complexTypeGetter);
     return checkAndAddNull(
       schema,
       filterContents(combined, [...JS_EMPTY_TYPES, ...JS_PRIMITIVE_TYPES, TS_KEYWORDS.ANY]).join(

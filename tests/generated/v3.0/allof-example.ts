@@ -13,7 +13,7 @@ export interface Pet {
   pet_type: string;
 }
 
-export type Dog = Pet & { bark?: boolean; breed?: "Dingo" | "Husky" | "Retriever" | "Shepherd" };
+export type Dog = Pet & { bark?: boolean; breed: "Dingo" | "Husky" | "Retriever" | "Shepherd" };
 
 export type Cat = Pet & { hunts?: boolean; age?: number };
 
