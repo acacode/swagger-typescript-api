@@ -15947,13 +15947,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         | { status?: "queued" | "in_progress"; [key: string]: any }
         | ({ status?: "completed"; [key: string]: any } & { status?: "queued" | "in_progress"; [key: string]: any })
       ) & {
-        name: string;
+        name?: string;
         head_sha: string;
         details_url?: string;
         external_id?: string;
         status?: "queued" | "in_progress" | "completed";
         started_at?: string;
-        conclusion?: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+        conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
         completed_at?: string;
         output?: {
           title: string;

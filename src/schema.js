@@ -181,13 +181,19 @@ const filterContents = (contents, types) => _.filter(contents, (type) => !_.incl
 const complexSchemaParsers = {
   [SCHEMA_TYPES.COMPLEX_ONE_OF]: (schema) => {
     // T1 | T2
-    const combined = _.map(schema.oneOf, complexTypeGetter);
+    const combined = _.map(
+      schema.oneOf.map((s) => _.merge({ required: schema.required }, s)),
+      complexTypeGetter,
+    );
 
     return checkAndAddNull(schema, filterContents(combined, [TS_KEYWORDS.ANY]).join(" | "));
   },
   [SCHEMA_TYPES.COMPLEX_ALL_OF]: (schema) => {
     // T1 & T2
-    const combined = _.map(schema.allOf.map(s => _.merge({ required: schema.required }, s)), complexTypeGetter);
+    const combined = _.map(
+      schema.allOf.map((s) => _.merge({ required: schema.required }, s)),
+      complexTypeGetter,
+    );
     return checkAndAddNull(
       schema,
       filterContents(combined, [...JS_EMPTY_TYPES, ...JS_PRIMITIVE_TYPES, TS_KEYWORDS.ANY]).join(
@@ -197,7 +203,10 @@ const complexSchemaParsers = {
   },
   [SCHEMA_TYPES.COMPLEX_ANY_OF]: (schema) => {
     // T1 | T2 | (T1 & T2)
-    const combined = _.map(schema.anyOf, complexTypeGetter);
+    const combined = _.map(
+      schema.anyOf.map((s) => _.merge({ required: schema.required }, s)),
+      complexTypeGetter,
+    );
     const nonEmptyTypesCombined = filterContents(combined, [
       ...JS_EMPTY_TYPES,
       ...JS_PRIMITIVE_TYPES,
