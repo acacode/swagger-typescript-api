@@ -10636,9 +10636,41 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     gistsUpdate: (
       gistId: string,
-      data: (any | any | null) & {
+      data: (
+        | { description: string }
+        | {
+            files: Record<
+              string,
+              (
+                | { content: string }
+                | { filename: string | null }
+                | object
+                | ({ content: string } & { filename: string | null } & object)
+              ) & { content?: string; filename?: string | null }
+            >;
+          }
+        | ({ description: string } & {
+            files: Record<
+              string,
+              (
+                | { content: string }
+                | { filename: string | null }
+                | object
+                | ({ content: string } & { filename: string | null } & object)
+              ) & { content?: string; filename?: string | null }
+            >;
+          })
+      ) & {
         description?: string;
-        files?: Record<string, (any | any | object | null) & { content?: string; filename?: string | null }>;
+        files?: Record<
+          string,
+          (
+            | { content: string }
+            | { filename: string | null }
+            | object
+            | ({ content: string } & { filename: string | null } & object)
+          ) & { content?: string; filename?: string | null }
+        >;
       },
       params: RequestParams = {},
     ) =>
@@ -15943,17 +15975,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       data: (
-        | { status?: "completed"; [key: string]: any }
-        | { status?: "queued" | "in_progress"; [key: string]: any }
-        | ({ status?: "completed"; [key: string]: any } & { status?: "queued" | "in_progress"; [key: string]: any })
+        | {
+            status?: "completed";
+            conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+            name: string;
+            head_sha: string;
+            [key: string]: any;
+          }
+        | { status?: "queued" | "in_progress"; name: string; head_sha: string; [key: string]: any }
+        | ({
+            status?: "completed";
+            conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+            name: string;
+            head_sha: string;
+            [key: string]: any;
+          } & { status?: "queued" | "in_progress"; name: string; head_sha: string; [key: string]: any })
       ) & {
-        name?: string;
+        name: string;
         head_sha: string;
         details_url?: string;
         external_id?: string;
         status?: "queued" | "in_progress" | "completed";
         started_at?: string;
-        conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+        conclusion?: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
         completed_at?: string;
         output?: {
           title: string;
@@ -16014,9 +16058,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       checkRunId: number,
       data: (
-        | { status?: "completed"; [key: string]: any }
+        | {
+            status?: "completed";
+            conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+            [key: string]: any;
+          }
         | { status?: "queued" | "in_progress"; [key: string]: any }
-        | ({ status?: "completed"; [key: string]: any } & { status?: "queued" | "in_progress"; [key: string]: any })
+        | ({
+            status?: "completed";
+            conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+            [key: string]: any;
+          } & { status?: "queued" | "in_progress"; [key: string]: any })
       ) & {
         name?: string;
         details_url?: string;

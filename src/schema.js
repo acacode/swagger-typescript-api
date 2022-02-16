@@ -178,22 +178,57 @@ const getObjectTypeContent = (schema) => {
 const complexTypeGetter = (schema) => getInlineParseContent(schema);
 const filterContents = (contents, types) => _.filter(contents, (type) => !_.includes(types, type));
 
+const makeAddRequiredToChildSchema = (parentSchema) => (childSchema) => {
+  let required = childSchema.required || [];
+  let properties = childSchema.properties || {};
+
+  // Inherit all the required fields from the parent schema that are defined
+  // either on the parent schema or on the child schema
+  // TODO: any that are defined at grandparents or higher are ignored
+  required = required.concat(
+    (parentSchema.required || []).filter(
+      (key) =>
+        !required.includes(key) && (_.keys(properties).includes(key) || _.keys(parentSchema.properties).includes(key)),
+    ),
+  );
+
+  // Identify properties that are required in the child schema, but
+  // defined only in the parent schema (TODO: this only works one level deep)
+  const parentPropertiesRequiredByChild = required.filter(
+    (key) => !_.keys(childSchema.properties).includes(key) && _.keys(parentSchema.properties).includes(key),
+  );
+
+  // Add such properties to the child so that they can be overriden and made required
+  properties = {
+    ...properties,
+    ...parentPropertiesRequiredByChild.reduce(
+      (additionalProperties, key) => ({
+        ...additionalProperties,
+        [key]: (parentSchema.properties || {})[key],
+      }),
+      {},
+    ),
+  };
+
+  return _.merge(
+    {
+      required: required,
+      properties: properties,
+    },
+    childSchema,
+  );
+};
+
 const complexSchemaParsers = {
   [SCHEMA_TYPES.COMPLEX_ONE_OF]: (schema) => {
     // T1 | T2
-    const combined = _.map(
-      schema.oneOf.map((s) => _.merge({ required: schema.required }, s)),
-      complexTypeGetter,
-    );
+    const combined = _.map(schema.oneOf.map(makeAddRequiredToChildSchema(schema)), complexTypeGetter);
 
     return checkAndAddNull(schema, filterContents(combined, [TS_KEYWORDS.ANY]).join(" | "));
   },
   [SCHEMA_TYPES.COMPLEX_ALL_OF]: (schema) => {
     // T1 & T2
-    const combined = _.map(
-      schema.allOf.map((s) => _.merge({ required: schema.required }, s)),
-      complexTypeGetter,
-    );
+    const combined = _.map(schema.allOf.map(makeAddRequiredToChildSchema(schema)), complexTypeGetter);
     return checkAndAddNull(
       schema,
       filterContents(combined, [...JS_EMPTY_TYPES, ...JS_PRIMITIVE_TYPES, TS_KEYWORDS.ANY]).join(
@@ -203,10 +238,7 @@ const complexSchemaParsers = {
   },
   [SCHEMA_TYPES.COMPLEX_ANY_OF]: (schema) => {
     // T1 | T2 | (T1 & T2)
-    const combined = _.map(
-      schema.anyOf.map((s) => _.merge({ required: schema.required }, s)),
-      complexTypeGetter,
-    );
+    const combined = _.map(makeAddRequiredToChildSchema(schema), complexTypeGetter);
     const nonEmptyTypesCombined = filterContents(combined, [
       ...JS_EMPTY_TYPES,
       ...JS_PRIMITIVE_TYPES,
