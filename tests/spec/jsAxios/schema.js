@@ -29,7 +29,7 @@ export class HttpClient {
           (await this.securityWorker(this.securityData))) ||
         {};
       const requestParams = this.mergeRequestParams(params, secureParams);
-      const responseFormat = format || this.format || void 0;
+      const responseFormat = format || this.format || undefined;
       if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
         requestParams.headers.common = { Accept: "*/*" };
         requestParams.headers.post = {};
@@ -65,19 +65,20 @@ export class HttpClient {
       },
     };
   }
+  stringifyFormItem(formItem) {
+    if (typeof formItem === "object" && formItem !== null) {
+      return JSON.stringify(formItem);
+    } else {
+      return `${formItem}`;
+    }
+  }
   createFormData(input) {
     return Object.keys(input || {}).reduce((formData, key) => {
-      let property = input[key];
-      let propertyContent = property instanceof Array ? property : [property];
+      const property = input[key];
+      const propertyContent = property instanceof Array ? property : [property];
       for (const formItem of propertyContent) {
-        formData.append(
-          key,
-          formItem instanceof Blob || formItem instanceof File
-            ? formItem
-            : typeof formItem === "object" && formItem !== null
-            ? JSON.stringify(formItem)
-            : `${formItem}`,
-        );
+        const isFileType = formItem instanceof Blob || formItem instanceof File;
+        formData.append(key, isFileType ? formItem : stringifyFormItem(formItem));
       }
       return formData;
     }, new FormData());

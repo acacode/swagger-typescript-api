@@ -1510,20 +1510,22 @@ export class HttpClient<SecurityDataType = unknown> {
     };
   }
 
+  private stringifyFormItem(formItem: any): string {
+    if (typeof formItem === "object" && formItem !== null) {
+      return JSON.stringify(formItem);
+    } else {
+      return `${formItem}`;
+    }
+  }
+
   private createFormData(input: Record<string, unknown>): FormData {
     return Object.keys(input || {}).reduce((formData, key) => {
-      let property = input[key];
-      let propertyContent: Iterable<any> = property instanceof Array ? property : [property];
+      const property = input[key];
+      const propertyContent: Iterable<any> = property instanceof Array ? property : [property];
 
       for (const formItem of propertyContent) {
-        formData.append(
-          key,
-          formItem instanceof Blob || formItem instanceof File
-            ? formItem
-            : typeof formItem === "object" && formItem !== null
-            ? JSON.stringify(formItem)
-            : `${formItem}`,
-        );
+        const isFileType = formItem instanceof Blob || formItem instanceof File;
+        formData.append(key, isFileType ? formItem : this.stringifyFormItem(formItem));
       }
 
       return formData;
@@ -1557,7 +1559,7 @@ export class HttpClient<SecurityDataType = unknown> {
         (await this.securityWorker(this.securityData))) ||
       {};
     const requestParams = this.mergeRequestParams(params, secureParams);
-    const responseFormat = format || this.format || void 0;
+    const responseFormat = format || this.format || undefined;
 
     if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
       requestParams.headers.common = { Accept: "*/*" };
