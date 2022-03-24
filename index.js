@@ -38,6 +38,10 @@ program
     false,
   )
   .option("--union-enums", 'generate all "enum" types as union types (T1 | T2 | TN)', false)
+  .option(
+    "-i --interface-extend <interfaceExtend>",
+    "if chosendefines a class that all interfaces will extend ",
+  )
   .option("--route-types", "generate type definitions for API routes", false)
   .option("--no-client", "do not generate an API class", false)
   .option(
@@ -86,6 +90,7 @@ const {
   name,
   templates,
   unionEnums,
+  interfaceExtend,
   routeTypes,
   client,
   defaultAsSuccess,
@@ -119,6 +124,7 @@ generateApi({
   defaultResponseType: defaultResponse,
   unwrapResponseData: unwrapResponseData,
   generateUnionEnums: unionEnums,
+  interfaceExtend: interfaceExtend,
   generateResponses: responses,
   extractRequestParams: !!extractRequestParams,
   extractRequestBody: !!extractRequestBody,

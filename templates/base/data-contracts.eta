@@ -8,7 +8,10 @@
       return `enum ${contract.name} {\r\n${contract.content} \r\n }`;
     },
     interface: (contract) => {
-      return `interface ${contract.name} {\r\n${contract.content}}`;
+      if (contract.interfaceExtend.length > 1) 
+        return `interface ${contract.name} extends ${contract.interfaceExtend} {\r\ntype:"${contract.name}";${contract.content}}`;
+      else
+        return `interface ${contract.name} {\r\n${contract.content}}`;
     },
     type: (contract) => {
       return `type ${contract.name} = ${contract.content}`;
@@ -30,10 +33,16 @@
     ]);
   }
 %>
+
 <% modelTypes.forEach((contract) => { %>
 <% const description = createDescription(contract); %>
+/**
+<%~ JSON.stringify(contract) %>
+*/
 <% if (description.length) { %>
 /**
+
+<%~ contract.interfaceExtend %>
 <%~ description.map(part => `* ${part}`).join("\n") %>
 
 */
