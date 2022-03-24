@@ -35,6 +35,16 @@ interface GenerateApiParams {
   generateUnionEnums?: boolean;
 
   /**
+   * Extend the interfaces with this class
+   */
+  interfaceExtend: "";
+
+  /**
+   * A custom import string to be used with interface extend
+   */
+  customImport: "";
+
+  /**
    * generate type definitions for API routes (default: false)
    */
   generateRouteTypes?: boolean;
@@ -300,6 +310,7 @@ export interface GenerateApiConfiguration {
     generateRouteTypes: boolean;
     generateClient: boolean;
     generateUnionEnums: boolean;
+    interfaceExtend: string;
     swaggerSchema: object;
     originalSchema: object;
     componentsMap: Record<string, SchemaComponent>;
