@@ -294,7 +294,6 @@ const schemaParsers = {
           ? TS_KEYWORDS.TYPE
           : TS_KEYWORDS.ENUM,
       name: typeName,
-      interfaceExtend: config.interfaceExtend,
       description: formatDescription(schema.description),
       content,
     });
@@ -309,7 +308,6 @@ const schemaParsers = {
       type: SCHEMA_TYPES.OBJECT,
       typeIdentifier: TS_KEYWORDS.INTERFACE,
       name: typeName,
-      interfaceExtend: config.interfaceExtend,
       description: formatDescription(schema.description),
       allFieldsAreOptional: !_.some(_.values(content), (part) => part.isRequired),
       content: content,
@@ -327,7 +325,6 @@ const schemaParsers = {
       type: SCHEMA_TYPES.PRIMITIVE,
       typeIdentifier: TS_KEYWORDS.TYPE,
       name: typeName,
-      interfaceExtend: config.interfaceExtend,
       description: formatDescription(
         schema.description || _.compact(_.map(schema[complexType], "description"))[0] || "",
       ),

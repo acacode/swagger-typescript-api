@@ -40,6 +40,11 @@ interface GenerateApiParams {
   interfaceExtend: "";
 
   /**
+   * A custom import string to be used with interface extend
+   */
+  customImport: "";
+
+  /**
    * generate type definitions for API routes (default: false)
    */
   generateRouteTypes?: boolean;

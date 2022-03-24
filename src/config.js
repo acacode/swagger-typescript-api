@@ -16,6 +16,8 @@ const config = {
   generateUnionEnums: false,
   /** CLI flag */
   interfaceExtend: "",
+  /** CLI flag */
+  customImport: "",
   enumNamesAsValues: false,
   /** parsed swagger schema from getSwaggerObject() */
 

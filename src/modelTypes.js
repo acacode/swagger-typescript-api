@@ -21,7 +21,6 @@ const prepareModelType = (typeInfo) => {
     description,
     rawContent: content,
     content: resultContent,
-    interfaceExtend: config.interfaceExtend,
     typeData,
   };
 };

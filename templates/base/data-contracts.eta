@@ -1,5 +1,5 @@
 <%
-  const { modelTypes, utils } = it;
+  const { modelTypes, utils, config} = it;
   const { formatDescription, require, _ } = utils;
   
 
@@ -8,8 +8,8 @@
       return `enum ${contract.name} {\r\n${contract.content} \r\n }`;
     },
     interface: (contract) => {
-      if (contract.interfaceExtend.length > 1) 
-        return `interface ${contract.name} extends ${contract.interfaceExtend} {\r\ntype:"${contract.name}";${contract.content}}`;
+      if (config.interfaceExtend.length > 1) 
+        return `interface ${contract.name} extends ${config.interfaceExtend} {\r\ntype:"${contract.name}";${contract.content}}`;
       else
         return `interface ${contract.name} {\r\n${contract.content}}`;
     },
@@ -34,11 +34,11 @@
   }
 %>
 
+<%~ config.customImport %>
+
+
 <% modelTypes.forEach((contract) => { %>
 <% const description = createDescription(contract); %>
-/**
-<%~ JSON.stringify(contract) %>
-*/
 <% if (description.length) { %>
 /**
 
