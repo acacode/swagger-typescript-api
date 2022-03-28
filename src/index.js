@@ -56,6 +56,7 @@ module.exports = {
     silent = config.silent,
     typePrefix = config.typePrefix,
     typeSuffix = config.typeSuffix,
+    authorizationToken,
   }) =>
     new Promise((resolve, reject) => {
       addToConfig({
@@ -88,7 +89,7 @@ module.exports = {
       });
       (spec
         ? convertSwaggerObject(spec)
-        : getSwaggerObject(input, url, disableStrictSSL, disableProxy)
+        : getSwaggerObject(input, url, disableStrictSSL, disableProxy, authorizationToken)
       )
         .then(({ usageSchema, originalSchema }) => {
           const templatePaths = getTemplatePaths(config);

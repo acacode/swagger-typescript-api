@@ -112,6 +112,10 @@ interface GenerateApiParams {
    *  extra templates
    */
   extraTemplates?: { name: string; path: string }[];
+  /**
+   *  authorization token
+   */
+  authorizationToken?: string
 }
 
 export interface Hooks {
