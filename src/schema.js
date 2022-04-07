@@ -211,7 +211,7 @@ const complexSchemaParsers = {
     );
   },
   // TODO
-  [SCHEMA_TYPES.COMPLEX_NOT_OF]: (schema) => {
+  [SCHEMA_TYPES.COMPLEX_NOT]: (schema) => {
     // TODO
     return TS_KEYWORDS.ANY;
   },
