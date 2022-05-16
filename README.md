@@ -24,6 +24,7 @@ Any questions you can ask [**here**](https://github.com/grandsilence/swagger-typ
 ## ✨ The fork key differences
 
 - Axios v0.27.2+ support
+- Updated dependencies to eliminate vulnerabilities
 - Merged features and fixes from `next` to `master`:
   - Fix: missing `title` of object type (#303)
   - Feature: add an option to disable throwing an error when request.ok is not true (#297)
