@@ -1748,7 +1748,7 @@ export declare class HttpClient<SecurityDataType = unknown> {
     format,
     body,
     ...params
-  }: FullRequestParams) => Promise<any>;
+  }: FullRequestParams) => Promise<AxiosResponse<T>>;
 }
 /**
  * @title GitHub
