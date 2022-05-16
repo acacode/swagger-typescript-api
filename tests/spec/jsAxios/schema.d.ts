@@ -1,12 +1,11 @@
 /* eslint-disable */
 /* tslint:disable */
 /*
- * ---------------------------------------------------------------
- * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
- * ##                                                           ##
- * ## AUTHOR: acacode                                           ##
- * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
- * ---------------------------------------------------------------
+ * ------------------------------------------------------------------
+ * # THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API-NEXTGEN     #
+ * # AUTHORS: acacode & grandsilence                                #
+ * # https://github.com/grandsilence/swagger-typescript-api-nextgen #
+ * ------------------------------------------------------------------
  */
 
 /**
@@ -1702,7 +1701,7 @@ export interface UserUpdate {
   name?: string;
 }
 export declare type Users = User[];
-import { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";
 export declare type QueryParamsType = Record<string | number, any>;
 export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "params" | "url" | "responseType"> {
   /** set parameter to `true` for call `securityWorker` for this request */

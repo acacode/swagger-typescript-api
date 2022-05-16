@@ -1,12 +1,11 @@
 /* eslint-disable */
 /* tslint:disable */
 /*
- * ---------------------------------------------------------------
- * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
- * ##                                                           ##
- * ## AUTHOR: acacode                                           ##
- * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
- * ---------------------------------------------------------------
+ * ------------------------------------------------------------------
+ * # THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API-NEXTGEN     #
+ * # AUTHORS: acacode & grandsilence                                #
+ * # https://github.com/grandsilence/swagger-typescript-api-nextgen #
+ * ------------------------------------------------------------------
  */
 
 export type StringEnum = "String1" | "String2" | "String3" | "String4";

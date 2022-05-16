@@ -1,12 +1,11 @@
 /* eslint-disable */
 /* tslint:disable */
 /*
- * ---------------------------------------------------------------
- * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
- * ##                                                           ##
- * ## AUTHOR: acacode                                           ##
- * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
- * ---------------------------------------------------------------
+ * ------------------------------------------------------------------
+ * # THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API-NEXTGEN     #
+ * # AUTHORS: acacode & grandsilence                                #
+ * # https://github.com/grandsilence/swagger-typescript-api-nextgen #
+ * ------------------------------------------------------------------
  */
 
 import axios from "axios";
@@ -30,10 +29,7 @@ export class HttpClient {
         {};
       const requestParams = this.mergeRequestParams(params, secureParams);
       const responseFormat = (format && this.format) || void 0;
-      if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
-        requestParams.headers.common = { Accept: "*/*" };
-        requestParams.headers.post = {};
-        requestParams.headers.put = {};
+      if (type === ContentType.FormData && body && typeof body === "object") {
         body = this.createFormData(body);
       }
       return this.instance.request({
@@ -55,11 +51,9 @@ export class HttpClient {
   }
   mergeRequestParams(params1, params2) {
     return {
-      ...this.instance.defaults,
       ...params1,
       ...(params2 || {}),
       headers: {
-        ...(this.instance.defaults.headers || {}),
         ...(params1.headers || {}),
         ...((params2 && params2.headers) || {}),
       },
