@@ -1,7 +1,7 @@
-# swagger-typescript-api  
+# swagger-typescript-api-nextgen 
 
-[![NPM badge](https://img.shields.io/npm/v/swagger-typescript-api.svg)](https://www.npmjs.com/package/swagger-typescript-api) 
-[![CI](https://github.com/acacode/swagger-typescript-api/actions/workflows/main.yml/badge.svg?branch=next)](https://github.com/acacode/swagger-typescript-api/actions/workflows/main.yml) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![NPM badge](https://img.shields.io/npm/v/swagger-typescript-api-nextgen.svg)](https://www.npmjs.com/package/swagger-typescript-api-nextgen) 
+[![CI](https://github.com/grandsilence/swagger-typescript-api-nextgen/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/grandsilence/swagger-typescript-api-nextgen/actions/workflows/main.yml) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-20-orange.svg)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
@@ -15,15 +15,28 @@ Generated api module use [**Fetch Api**](https://developer.mozilla.org/en-US/doc
 <br>
 <br>
 
-Any questions you can ask [**here**](https://github.com/acacode/swagger-typescript-api/issues) or in [**our slack**](https://join.slack.com/t/acacode/shared_invite/enQtOTQ5ODgyODQzMzYwLWYxOGI1MzQ3Yzg1ZWI5ZTI5NzNiZjExZTE5OWI1YjQ4NjBiNTk4NWVlNjM5YmU1ZWI2ZDkyMzZkZGIxNjA5NTQ)(**#swagger-typescript-api** channel)
+Any questions you can ask [**here**](https://github.com/grandsilence/swagger-typescript-api-nextgen/issues) or in [**our slack**](https://join.slack.com/t/acacode/shared_invite/enQtOTQ5ODgyODQzMzYwLWYxOGI1MzQ3Yzg1ZWI5ZTI5NzNiZjExZTE5OWI1YjQ4NjBiNTk4NWVlNjM5YmU1ZWI2ZDkyMzZkZGIxNjA5NTQ)(**#swagger-typescript-api** channel)
   
 <br>  
 
-![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/components-converter-example.jpg)  
+![](https://raw.githubusercontent.com/grandsilence/swagger-typescript-api-nextgen/master/assets/components-converter-example.jpg)  
+
+## ✨ The fork key differences
+
+- Axios v0.27.2+ support
+- Merged features and fixes from `next` to `master`:
+  - Fix: missing `title` of object type (#303)
+  - Feature: add an option to disable throwing an error when request.ok is not true (#297)
+  - Feature: add a parameter to sort types and types properties (#299)
+  - Fix: reject and exit with code 1 if error (#295)
+  - Fix: missing extractRequestBody field in type 
+  - Fix: problem with missing HttpResponse type with --to-js option
+  - Load prettier config from your project by default (#286)
+  - Feature: allow passing "patch" option to "swagger2openapi" (#283)
 
 ## 👀 Examples  
 
-All examples you can find [**here**](https://github.com/acacode/swagger-typescript-api/tree/master/tests)  
+All examples you can find [**here**](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/master/tests)  
 
 ## 📄 Usage  
 
@@ -140,29 +153,29 @@ generateApi({
 This option needed for cases when you don't want to use the default `swagger-typescript-api` output structure  
 
 Templates:  
-- `api.eta` - Api class module (locations: [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default/api.eta), [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular/api.eta))  
-- `data-contracts.eta` - all types (data contracts) from swagger schema (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/data-contracts.eta))  
-- `http-client.eta` - HttpClient class module (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/http-client.eta))  
-- `procedure-call.eta` - route in Api class (locations: [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default/procedure-call.eta), [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular/procedure-call.eta))  
-- `route-docs.eta` - documentation for route in Api class (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-docs.eta))  
-- `route-name.eta` - route name for route in Api class (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-name.eta))  
-- `route-type.eta` - *(`--route-types` option)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-type.eta))  
-- `route-types.eta` - *(`--route-types` option)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-types.eta))  
+- `api.eta` - Api class module (locations: [/templates/default](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/default/api.eta), [/templates/modular](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/modular/api.eta))  
+- `data-contracts.eta` - all types (data contracts) from swagger schema (locations: [/templates/base](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/base/data-contracts.eta))  
+- `http-client.eta` - HttpClient class module (locations: [/templates/base](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/base/http-client.eta))  
+- `procedure-call.eta` - route in Api class (locations: [/templates/default](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/default/procedure-call.eta), [/templates/modular](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/modular/procedure-call.eta))  
+- `route-docs.eta` - documentation for route in Api class (locations: [/templates/base](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/base/route-docs.eta))  
+- `route-name.eta` - route name for route in Api class (locations: [/templates/base](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/base/route-name.eta))  
+- `route-type.eta` - *(`--route-types` option)* (locations: [/templates/base](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/base/route-type.eta))  
+- `route-types.eta` - *(`--route-types` option)* (locations: [/templates/base](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/base/route-types.eta))  
 
 How to use it:  
 1. copy `swagger-typescript-api` templates into your place in project
-    - from [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default) for single api file  
-    - from [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular) for multiple api files (with `--modular` option)  
-    - from [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base) for base templates (templates using both in default and modular)  
+    - from [/templates/default](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/default) for single api file  
+    - from [/templates/modular](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/modular) for multiple api files (with `--modular` option)  
+    - from [/templates/base](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/base) for base templates (templates using both in default and modular)  
 1. add `--templates PATH_TO_YOUR_TEMPLATES` option  
 2. modify [ETA](https://eta.js.org/docs/syntax) templates as you like  
 
 NOTE:  
   Eta has special directive to render template in your Eta templates - `includeFile(pathToTemplate, payload)`  
   If you want to use some default templates from this tool you can use path prefixes: `@base`, `@default`, `@modular`.  
-    `@base` - [path to base templates](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base)  
-    `@default` - [path to single api file templates](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default)  
-    `@modular` - [path to multiple api files templates](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular)  
+    `@base` - [path to base templates](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/base)  
+    `@default` - [path to single api file templates](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/default)  
+    `@modular` - [path to multiple api files templates](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/modular)  
   Examples:  
     - `includeFile("@base/data-contracts.eta", configuration)`  
     - `includeFile("@default/api.eta", configuration)`  
