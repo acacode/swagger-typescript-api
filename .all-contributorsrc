@@ -207,12 +207,25 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "grandsilence",
+      "name": "Grand Silence",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9817522?v=4",
+      "profile": "https://telegram.me/kelog",
+      "contributions": [
+        "code",
+        "security",
+        "doc",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
-  "projectName": "swagger-typescript-api",
-  "projectOwner": "acacode",
+  "projectName": "swagger-typescript-api-nextgen",
+  "projectOwner": "grandsilence",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "none"
 }
