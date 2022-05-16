@@ -25,15 +25,17 @@ Any questions you can ask [**here**](https://github.com/grandsilence/swagger-typ
 
 - Axios v0.27.2+ support
 - Updated dependencies to eliminate vulnerabilities
-- Merged features and fixes from `next` to `master`:
-  - Fix: missing `title` of object type (#303)
+- Merged features and fixes from `next` to `master` and some commits from origin pull requests:
+  - Docs: added "generateClient", "typePrefix", "typeSuffix" options to readme for NodeJS usage (#335)
   - Feature: add an option to disable throwing an error when request.ok is not true (#297)
   - Feature: add a parameter to sort types and types properties (#299)
-  - Fix: reject and exit with code 1 if error (#295)
-  - Fix: missing extractRequestBody field in type 
-  - Fix: problem with missing HttpResponse type with --to-js option
-  - Load prettier config from your project by default (#286)
+  - Feature: load prettier config from your project by default (#286)
   - Feature: allow passing "patch" option to "swagger2openapi" (#283)
+  - Fix: missing `title` of object type (#303)
+  - Fix: reject and exit with code 1 if error (#295)
+  - Fix: missing extractRequestBody field in type
+  - Fix: problem with missing HttpResponse type with --to-js option
+  - Fix: unable to cancel fetch request with AbortSignal (#329)
 
 ## 👀 Examples  
 
