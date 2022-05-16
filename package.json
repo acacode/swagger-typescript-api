@@ -42,7 +42,7 @@
     "test:partialDefaultTemplate": "node tests/spec/partialDefaultTemplate/test.js",
     "test:--patch": "node tests/spec/patch/test.js"
   },
-  "author": "acacode",
+  "author": "grandsilence",
   "license": "MIT",
   "typings": "./index.d.ts",
   "main": "src/index.js",
