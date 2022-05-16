@@ -51,12 +51,12 @@
     "@types/node": "^15.0.2",
     "@types/prettier": "^2.1.6",
     "all-contributors-cli": "^6.19.0",
+    "axios": "^0.27.2",
     "husky": "^4.3.6",
     "pretty-quick": "^3.1.0"
   },
   "dependencies": {
     "@types/swagger-schema-official": "2.0.21",
-    "axios": "^0.27.2",
     "commander": "^6.2.1",
     "cosmiconfig": "^7.0.0",
     "eta": "^1.12.1",
