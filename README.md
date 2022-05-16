@@ -43,7 +43,7 @@ All examples you can find [**here**](https://github.com/grandsilence/swagger-typ
 
 ```muse
 Usage: sta [options]
-Usage: swagger-typescript-api [options]
+Usage: swagger-typescript-api-nextgen [options]
 
 Options:
   -v, --version                 output the current version
@@ -83,12 +83,12 @@ Options:
 
 Also you can use `npx`:  
 ```
- npx swagger-typescript-api -p ./swagger.json -o ./src -n myApi.ts
+ npx swagger-typescript-api-nextgen -p ./swagger.json -o ./src -n myApi.ts
 ```
 
 You can use this package from nodejs:
 ```js
-const { generateApi } = require('swagger-typescript-api');
+const { generateApi } = require('swagger-typescript-api-nextgen');
 const path = require("path");
 const fs = require("fs");
 
