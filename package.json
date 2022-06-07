@@ -23,6 +23,7 @@
     "test:--default-as-success": "node tests/spec/defaultAsSuccess/test.js",
     "test:--templates": "node tests/spec/templates/test.js",
     "test:--union-enums": "node tests/spec/unionEnums/test.js",
+    "test:--add-readonly": "node tests/spec/readonly/test.js",
     "test:--responses": "node tests/spec/responses/test.js",
     "test:specProperty": "node tests/spec/specProperty/test.js",
     "test:--module-name-index": "node tests/spec/moduleNameIndex/test.js",

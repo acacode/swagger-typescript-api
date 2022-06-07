@@ -14,6 +14,8 @@ const config = {
   generateClient: true,
   /** CLI flag */
   generateUnionEnums: false,
+  /** CLI flag */
+  addReadonly: false,
   enumNamesAsValues: false,
   /** parsed swagger schema from getSwaggerObject() */
 
