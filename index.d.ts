@@ -25,7 +25,7 @@ interface GenerateApiParams {
   output?: string;
 
   /**
-   * path to folder containing templates (default: ./scr/templates)
+   * path to folder containing templates (default: ./src/templates)
    */
   templates?: string;
 
