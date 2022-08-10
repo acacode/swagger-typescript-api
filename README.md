@@ -1,8 +1,8 @@
-# swagger-typescript-api  
+# swagger-typescript-api-nextgen 
 
-[![NPM badge](https://img.shields.io/npm/v/swagger-typescript-api.svg)](https://www.npmjs.com/package/swagger-typescript-api) 
-[![CI](https://github.com/acacode/swagger-typescript-api/actions/workflows/main.yml/badge.svg?branch=next)](https://github.com/acacode/swagger-typescript-api/actions/workflows/main.yml) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-20-orange.svg)](#contributors)
+[![NPM badge](https://img.shields.io/npm/v/swagger-typescript-api-nextgen.svg)](https://www.npmjs.com/package/swagger-typescript-api-nextgen) 
+[![CI](https://github.com/grandsilence/swagger-typescript-api-nextgen/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/grandsilence/swagger-typescript-api-nextgen/actions/workflows/main.yml) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-21-orange.svg)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <img src="https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/swagger-typescript-api-logo.png" align="left"
@@ -15,21 +15,37 @@ Generated api module use [**Fetch Api**](https://developer.mozilla.org/en-US/doc
 <br>
 <br>
 
-Any questions you can ask [**here**](https://github.com/acacode/swagger-typescript-api/issues) or in [**our slack**](https://join.slack.com/t/acacode/shared_invite/enQtOTQ5ODgyODQzMzYwLWYxOGI1MzQ3Yzg1ZWI5ZTI5NzNiZjExZTE5OWI1YjQ4NjBiNTk4NWVlNjM5YmU1ZWI2ZDkyMzZkZGIxNjA5NTQ)(**#swagger-typescript-api** channel)
+Any questions you can ask [**here**](https://github.com/grandsilence/swagger-typescript-api-nextgen/issues) or in [**our slack**](https://join.slack.com/t/acacode/shared_invite/enQtOTQ5ODgyODQzMzYwLWYxOGI1MzQ3Yzg1ZWI5ZTI5NzNiZjExZTE5OWI1YjQ4NjBiNTk4NWVlNjM5YmU1ZWI2ZDkyMzZkZGIxNjA5NTQ)(**#swagger-typescript-api** channel)
   
 <br>  
 
-![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/components-converter-example.jpg)  
+![](https://raw.githubusercontent.com/grandsilence/swagger-typescript-api-nextgen/master/assets/components-converter-example.jpg)  
+
+## ✨ The fork key differences
+
+- Axios v0.27.2+ support
+- Updated dependencies to eliminate vulnerabilities
+- Merged features and fixes from `next` to `master` and some commits from origin pull requests:
+  - Docs: added "generateClient", "typePrefix", "typeSuffix" options to readme for NodeJS usage (#335)
+  - Feature: add an option to disable throwing an error when request.ok is not true (#297)
+  - Feature: add a parameter to sort types and types properties (#299)
+  - Feature: load prettier config from your project by default (#286)
+  - Feature: allow passing "patch" option to "swagger2openapi" (#283)
+  - Fix: missing `title` of object type (#303)
+  - Fix: reject and exit with code 1 if error (#295)
+  - Fix: missing extractRequestBody field in type
+  - Fix: problem with missing HttpResponse type with --to-js option
+  - Fix: unable to cancel fetch request with AbortSignal (#329)
 
 ## 👀 Examples  
 
-All examples you can find [**here**](https://github.com/acacode/swagger-typescript-api/tree/master/tests)  
+All examples you can find [**here**](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/master/tests)  
 
 ## 📄 Usage  
 
 ```muse
 Usage: sta [options]
-Usage: swagger-typescript-api [options]
+Usage: swagger-typescript-api-nextgen [options]
 
 Options:
   -v, --version                 output the current version
@@ -63,17 +79,18 @@ Options:
   --default-response <type>     default type for empty response schema (default: "void")
   --type-prefix <string>        data contract name prefix (default: "")
   --type-suffix <string>        data contract name suffix (default: "")
+  --patch                       fix up small errors in the swagger source definition (default: false)
   -h, --help                    display help for command
 ```
 
 Also you can use `npx`:  
 ```
- npx swagger-typescript-api -p ./swagger.json -o ./src -n myApi.ts
+ npx swagger-typescript-api-nextgen -p ./swagger.json -o ./src -n myApi.ts
 ```
 
 You can use this package from nodejs:
 ```js
-const { generateApi } = require('swagger-typescript-api');
+const { generateApi } = require('swagger-typescript-api-nextgen');
 const path = require("path");
 const fs = require("fs");
 
@@ -94,12 +111,13 @@ generateApi({
   templates: path.resolve(process.cwd(), './api-templates'),
   httpClientType: "axios", // or "fetch"
   defaultResponseAsSuccess: false,
+  generateClient: true,
   generateRouteTypes: false,
   generateResponses: true,
   toJS: false,
   extractRequestParams: false,
   extractRequestBody: false,
-  prettier: {
+  prettier: { // By default prettier config is load from your project
     printWidth: 120,
     tabWidth: 2,
     trailingComma: "all",
@@ -111,6 +129,8 @@ generateApi({
   enumNamesAsValues: false,
   moduleNameFirstTag: false,
   generateUnionEnums: false,
+  typePrefix: '',
+  typeSuffix: '',
   extraTemplates: [],
   hooks: {
     onCreateComponent: (component) => {},
@@ -139,29 +159,29 @@ generateApi({
 This option needed for cases when you don't want to use the default `swagger-typescript-api` output structure  
 
 Templates:  
-- `api.eta` - Api class module (locations: [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default/api.eta), [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular/api.eta))  
-- `data-contracts.eta` - all types (data contracts) from swagger schema (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/data-contracts.eta))  
-- `http-client.eta` - HttpClient class module (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/http-client.eta))  
-- `procedure-call.eta` - route in Api class (locations: [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default/procedure-call.eta), [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular/procedure-call.eta))  
-- `route-docs.eta` - documentation for route in Api class (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-docs.eta))  
-- `route-name.eta` - route name for route in Api class (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-name.eta))  
-- `route-type.eta` - *(`--route-types` option)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-type.eta))  
-- `route-types.eta` - *(`--route-types` option)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-types.eta))  
+- `api.eta` - Api class module (locations: [/templates/default](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/default/api.eta), [/templates/modular](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/modular/api.eta))  
+- `data-contracts.eta` - all types (data contracts) from swagger schema (locations: [/templates/base](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/base/data-contracts.eta))  
+- `http-client.eta` - HttpClient class module (locations: [/templates/base](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/base/http-client.eta))  
+- `procedure-call.eta` - route in Api class (locations: [/templates/default](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/default/procedure-call.eta), [/templates/modular](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/modular/procedure-call.eta))  
+- `route-docs.eta` - documentation for route in Api class (locations: [/templates/base](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/base/route-docs.eta))  
+- `route-name.eta` - route name for route in Api class (locations: [/templates/base](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/base/route-name.eta))  
+- `route-type.eta` - *(`--route-types` option)* (locations: [/templates/base](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/base/route-type.eta))  
+- `route-types.eta` - *(`--route-types` option)* (locations: [/templates/base](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/base/route-types.eta))  
 
 How to use it:  
 1. copy `swagger-typescript-api` templates into your place in project
-    - from [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default) for single api file  
-    - from [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular) for multiple api files (with `--modular` option)  
-    - from [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base) for base templates (templates using both in default and modular)  
+    - from [/templates/default](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/default) for single api file  
+    - from [/templates/modular](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/modular) for multiple api files (with `--modular` option)  
+    - from [/templates/base](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/base) for base templates (templates using both in default and modular)  
 1. add `--templates PATH_TO_YOUR_TEMPLATES` option  
 2. modify [ETA](https://eta.js.org/docs/syntax) templates as you like  
 
 NOTE:  
   Eta has special directive to render template in your Eta templates - `includeFile(pathToTemplate, payload)`  
   If you want to use some default templates from this tool you can use path prefixes: `@base`, `@default`, `@modular`.  
-    `@base` - [path to base templates](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base)  
-    `@default` - [path to single api file templates](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default)  
-    `@modular` - [path to multiple api files templates](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular)  
+    `@base` - [path to base templates](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/base)  
+    `@default` - [path to single api file templates](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/default)  
+    `@modular` - [path to multiple api files templates](https://github.com/grandsilence/swagger-typescript-api-nextgen/tree/next/templates/modular)  
   Examples:  
     - `includeFile("@base/data-contracts.eta", configuration)`  
     - `includeFile("@default/api.eta", configuration)`  
@@ -207,30 +227,31 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/js2me"><img src="https://avatars1.githubusercontent.com/u/16340911?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sergey S. Volkov</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=js2me" title="Code">💻</a> <a href="https://github.com/acacode/swagger-typescript-api/commits?author=js2me" title="Documentation">📖</a> <a href="#design-js2me" title="Design">🎨</a> <a href="#example-js2me" title="Examples">💡</a> <a href="#maintenance-js2me" title="Maintenance">🚧</a> <a href="#ideas-js2me" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Ajs2me" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/andrefilimono"><img src="https://avatars0.githubusercontent.com/u/7794526?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Filimonov Andrey</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=andrefilimono" title="Code">💻</a> <a href="#ideas-andrefilimono" title="Ideas, Planning, & Feedback">🤔</a> <a href="#design-andrefilimono" title="Design">🎨</a></td>
-    <td align="center"><a href="https://github.com/Fl0pZz"><img src="https://avatars2.githubusercontent.com/u/9510124?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rafael Fakhreev</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=Fl0pZz" title="Code">💻</a> <a href="#ideas-Fl0pZz" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://azzola.dev"><img src="https://avatars3.githubusercontent.com/u/1297597?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Lucas Azzola</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=azz" title="Code">💻</a> <a href="#ideas-azz" title="Ideas, Planning, & Feedback">🤔</a> <a href="#design-azz" title="Design">🎨</a></td>
-    <td align="center"><a href="https://github.com/JennieJi"><img src="https://avatars3.githubusercontent.com/u/1913045?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jennie</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=JennieJi" title="Code">💻</a> <a href="#ideas-JennieJi" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://github.com/jomarquez21"><img src="https://avatars1.githubusercontent.com/u/16705169?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jose Enrique Marquez</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=jomarquez21" title="Code">💻</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Ajomarquez21" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://glassechidna.com.au"><img src="https://avatars1.githubusercontent.com/u/482276?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Benjamin Dobell</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=Benjamin-Dobell" title="Code">💻</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3ABenjamin-Dobell" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/js2me"><img src="https://avatars1.githubusercontent.com/u/16340911?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sergey S. Volkov</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=js2me" title="Code">💻</a> <a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=js2me" title="Documentation">📖</a> <a href="#design-js2me" title="Design">🎨</a> <a href="#example-js2me" title="Examples">💡</a> <a href="#maintenance-js2me" title="Maintenance">🚧</a> <a href="#ideas-js2me" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/issues?q=author%3Ajs2me" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/andrefilimono"><img src="https://avatars0.githubusercontent.com/u/7794526?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Filimonov Andrey</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=andrefilimono" title="Code">💻</a> <a href="#ideas-andrefilimono" title="Ideas, Planning, & Feedback">🤔</a> <a href="#design-andrefilimono" title="Design">🎨</a></td>
+    <td align="center"><a href="https://github.com/Fl0pZz"><img src="https://avatars2.githubusercontent.com/u/9510124?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rafael Fakhreev</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=Fl0pZz" title="Code">💻</a> <a href="#ideas-Fl0pZz" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://azzola.dev"><img src="https://avatars3.githubusercontent.com/u/1297597?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Lucas Azzola</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=azz" title="Code">💻</a> <a href="#ideas-azz" title="Ideas, Planning, & Feedback">🤔</a> <a href="#design-azz" title="Design">🎨</a></td>
+    <td align="center"><a href="https://github.com/JennieJi"><img src="https://avatars3.githubusercontent.com/u/1913045?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jennie</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=JennieJi" title="Code">💻</a> <a href="#ideas-JennieJi" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/jomarquez21"><img src="https://avatars1.githubusercontent.com/u/16705169?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jose Enrique Marquez</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=jomarquez21" title="Code">💻</a> <a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/issues?q=author%3Ajomarquez21" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://glassechidna.com.au"><img src="https://avatars1.githubusercontent.com/u/482276?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Benjamin Dobell</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=Benjamin-Dobell" title="Code">💻</a> <a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/issues?q=author%3ABenjamin-Dobell" title="Bug reports">🐛</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="http://fixate.it"><img src="https://avatars0.githubusercontent.com/u/1510520?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Larry Botha</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=larrybotha" title="Code">💻</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Alarrybotha" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/nikalun"><img src="https://avatars3.githubusercontent.com/u/13102962?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nikolay Lukinykh</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=nikalun" title="Code">💻</a> <a href="#ideas-nikalun" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Anikalun" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="http://fixate.it"><img src="https://avatars0.githubusercontent.com/u/1510520?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Larry Botha</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=larrybotha" title="Code">💻</a> <a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/issues?q=author%3Alarrybotha" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/nikalun"><img src="https://avatars3.githubusercontent.com/u/13102962?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nikolay Lukinykh</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=nikalun" title="Code">💻</a> <a href="#ideas-nikalun" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/issues?q=author%3Anikalun" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/Mvbraathen"><img src="https://avatars0.githubusercontent.com/u/16756739?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Marius Bråthen</b></sub></a><br /><a href="#security-Mvbraathen" title="Security">🛡️</a></td>
     <td align="center"><a href="https://github.com/xesjkeee"><img src="https://avatars2.githubusercontent.com/u/17751886?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Evgeny Vlasov</b></sub></a><br /><a href="#ideas-xesjkeee" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://github.com/kel666"><img src="https://avatars1.githubusercontent.com/u/2040661?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Fabio</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Akel666" title="Bug reports">🐛</a> <a href="https://github.com/acacode/swagger-typescript-api/commits?author=kel666" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/Fabiencdp"><img src="https://avatars.githubusercontent.com/u/6182473?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Fabien</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3AFabiencdp" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://about.me/julienrousseau"><img src="https://avatars.githubusercontent.com/u/3296671?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rousseau Julien</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3ARoXuS" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/kel666"><img src="https://avatars1.githubusercontent.com/u/2040661?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Fabio</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/issues?q=author%3Akel666" title="Bug reports">🐛</a> <a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=kel666" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Fabiencdp"><img src="https://avatars.githubusercontent.com/u/6182473?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Fabien</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/issues?q=author%3AFabiencdp" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://about.me/julienrousseau"><img src="https://avatars.githubusercontent.com/u/3296671?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rousseau Julien</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/issues?q=author%3ARoXuS" title="Bug reports">🐛</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="http://sebastianarias.dev"><img src="https://avatars.githubusercontent.com/u/9751266?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sebastián Arias</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3ALarox" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/Styn"><img src="https://avatars.githubusercontent.com/u/6705137?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Stijn Lammens</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3AStyn" title="Bug reports">🐛</a> <a href="https://github.com/acacode/swagger-typescript-api/commits?author=Styn" title="Code">💻</a></td>
-    <td align="center"><a href="http://emilecantin.com"><img src="https://avatars.githubusercontent.com/u/885486?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Emile Cantin</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Aemilecantin" title="Bug reports">🐛</a> <a href="https://github.com/acacode/swagger-typescript-api/commits?author=emilecantin" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/armsnyder"><img src="https://avatars.githubusercontent.com/u/9969202?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Adam Snyder</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=armsnyder" title="Code">💻</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Aarmsnyder" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/jnpoyser"><img src="https://avatars.githubusercontent.com/u/7920428?v=4?s=100" width="100px;" alt=""/><br /><sub><b>James Poyser</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=jnpoyser" title="Code">💻</a> <a href="#ideas-jnpoyser" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="http://ru.linkedin.com/in/lisikhin"><img src="https://avatars.githubusercontent.com/u/475367?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alexey</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3ANihisil" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="http://sebastianarias.dev"><img src="https://avatars.githubusercontent.com/u/9751266?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sebastián Arias</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/issues?q=author%3ALarox" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/Styn"><img src="https://avatars.githubusercontent.com/u/6705137?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Stijn Lammens</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/issues?q=author%3AStyn" title="Bug reports">🐛</a> <a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=Styn" title="Code">💻</a></td>
+    <td align="center"><a href="http://emilecantin.com"><img src="https://avatars.githubusercontent.com/u/885486?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Emile Cantin</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/issues?q=author%3Aemilecantin" title="Bug reports">🐛</a> <a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=emilecantin" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/armsnyder"><img src="https://avatars.githubusercontent.com/u/9969202?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Adam Snyder</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=armsnyder" title="Code">💻</a> <a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/issues?q=author%3Aarmsnyder" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/jnpoyser"><img src="https://avatars.githubusercontent.com/u/7920428?v=4?s=100" width="100px;" alt=""/><br /><sub><b>James Poyser</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=jnpoyser" title="Code">💻</a> <a href="#ideas-jnpoyser" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="http://ru.linkedin.com/in/lisikhin"><img src="https://avatars.githubusercontent.com/u/475367?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alexey</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/issues?q=author%3ANihisil" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://telegram.me/kelog"><img src="https://avatars.githubusercontent.com/u/9817522?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Grand Silence</b></sub></a><br /><a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=grandsilence" title="Code">💻</a> <a href="#security-grandsilence" title="Security">🛡️</a> <a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/commits?author=grandsilence" title="Documentation">📖</a> <a href="https://github.com/grandsilence/swagger-typescript-api-nextgen/issues?q=author%3Agrandsilence" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 

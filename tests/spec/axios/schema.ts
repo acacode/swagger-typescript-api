@@ -1,12 +1,11 @@
 /* eslint-disable */
 /* tslint:disable */
 /*
- * ---------------------------------------------------------------
- * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
- * ##                                                           ##
- * ## AUTHOR: acacode                                           ##
- * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
- * ---------------------------------------------------------------
+ * ------------------------------------------------------------------
+ * # THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API-NEXTGEN     #
+ * # AUTHORS: acacode & grandsilence                                #
+ * # https://github.com/grandsilence/swagger-typescript-api-nextgen #
+ * ------------------------------------------------------------------
  */
 
 /**
@@ -1444,7 +1443,8 @@ export interface UserUpdate {
 
 export type Users = User[];
 
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";
+import axios from "axios";
 
 export type QueryParamsType = Record<string | number, any>;
 
@@ -1499,11 +1499,9 @@ export class HttpClient<SecurityDataType = unknown> {
 
   private mergeRequestParams(params1: AxiosRequestConfig, params2?: AxiosRequestConfig): AxiosRequestConfig {
     return {
-      ...this.instance.defaults,
       ...params1,
       ...(params2 || {}),
       headers: {
-        ...(this.instance.defaults.headers || {}),
         ...(params1.headers || {}),
         ...((params2 && params2.headers) || {}),
       },
@@ -1542,11 +1540,7 @@ export class HttpClient<SecurityDataType = unknown> {
     const requestParams = this.mergeRequestParams(params, secureParams);
     const responseFormat = (format && this.format) || void 0;
 
-    if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
-      requestParams.headers.common = { Accept: "*/*" };
-      requestParams.headers.post = {};
-      requestParams.headers.put = {};
-
+    if (type === ContentType.FormData && body && typeof body === "object") {
       body = this.createFormData(body as Record<string, unknown>);
     }
 

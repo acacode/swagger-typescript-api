@@ -1,12 +1,11 @@
 /* eslint-disable */
 /* tslint:disable */
 /*
- * ---------------------------------------------------------------
- * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
- * ##                                                           ##
- * ## AUTHOR: acacode                                           ##
- * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
- * ---------------------------------------------------------------
+ * ------------------------------------------------------------------
+ * # THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API-NEXTGEN     #
+ * # AUTHORS: acacode & grandsilence                                #
+ * # https://github.com/grandsilence/swagger-typescript-api-nextgen #
+ * ------------------------------------------------------------------
  */
 
 export interface Pet {
@@ -192,12 +191,12 @@ export class HttpClient<SecurityDataType = unknown> {
         ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
+      signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
-      r.data = (null as unknown) as T;
-      r.error = (null as unknown) as E;
+      r.data = null as unknown as T;
+      r.error = null as unknown as E;
 
       const data = !responseFormat
         ? r

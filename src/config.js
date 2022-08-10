@@ -59,6 +59,8 @@ const config = {
   singleHttpClient: false,
   httpClientType: HTTP_CLIENT.FETCH,
   unwrapResponseData: false,
+  disableThrowOnError: false,
+  sortTypes: false,
   templatePaths: {
     /** `templates/base` */
     base: "",
@@ -83,6 +85,7 @@ const config = {
   silent: false,
   typePrefix: "",
   typeSuffix: "",
+  patch: false,
   componentTypeNameResolver: new NameResolver([]),
 };
 

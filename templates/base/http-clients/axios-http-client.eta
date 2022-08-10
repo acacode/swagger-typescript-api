@@ -2,7 +2,8 @@
 const { apiConfig, generateResponses, config } = it;
 %>
 
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";
+import axios from "axios";
 
 export type QueryParamsType = Record<string | number, any>;
 
@@ -55,11 +56,9 @@ export class HttpClient<SecurityDataType = unknown> {
 
     private mergeRequestParams(params1: AxiosRequestConfig, params2?: AxiosRequestConfig): AxiosRequestConfig {
         return {
-            ...this.instance.defaults,
             ...params1,
             ...(params2 || {}),
             headers: {
-                ...(this.instance.defaults.headers || {}),
                 ...(params1.headers || {}),
                 ...((params2 && params2.headers) || {}),
             },
@@ -96,13 +95,9 @@ export class HttpClient<SecurityDataType = unknown> {
 <% } %>
         const secureParams = ((typeof secure === 'boolean' ? secure : this.secure) && this.securityWorker && (await this.securityWorker(this.securityData))) || {};
         const requestParams = this.mergeRequestParams(params, secureParams);
-        const responseFormat = (format && this.format) || void 0;
+        const responseFormat = format || this.format || void 0;
 
-        if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
-          requestParams.headers.common = { Accept: "*/*" };
-          requestParams.headers.post = {};
-          requestParams.headers.put = {};
-
+        if (type === ContentType.FormData && body && typeof body === "object") {
           body = this.createFormData(body as Record<string, unknown>);
         }
 
