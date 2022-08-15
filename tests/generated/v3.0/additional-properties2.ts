@@ -9,9 +9,9 @@
  * ---------------------------------------------------------------
  */
 
-export type IMySuperPrefixPrimitiveMySuperSuffix = string | number | boolean | null;
+export type Primitive = string | number | boolean | null;
 
-export type IMySuperPrefixPrimitiveMapMySuperSuffix = Record<string, IMySuperPrefixPrimitiveMySuperSuffix>;
+export type PrimitiveMap = Record<string, Primitive>;
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -188,7 +188,7 @@ export class HttpClient<SecurityDataType = unknown> {
         ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
+      signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;

@@ -48,6 +48,7 @@ program
   )
   .option("--extract-request-body", "extract request body type to data contract", false)
   .option("--extract-response-body", "extract response body type to data contract", false)
+  .option("--extract-response-error", "extract response error type to data contract", false)
   .option("--modular", "generate separated files for http client, data contracts, and routes", false)
   .option("--js", "generate js api module with declaration file", false)
   .option(
@@ -88,6 +89,7 @@ generateApi({
   extractRequestParams: !!program.extractRequestParams,
   extractRequestBody: !!program.extractRequestBody,
   extractResponseBody: !!program.extractResponseBody,
+  extractResponseError: !!program.extractResponseError,
   input: resolve(process.cwd(), program.path),
   output: resolve(process.cwd(), program.output || "."),
   templates: program.templates,

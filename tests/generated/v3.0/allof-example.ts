@@ -9,20 +9,13 @@
  * ---------------------------------------------------------------
  */
 
-export interface IMySuperPrefixPetMySuperSuffix {
+export interface Pet {
   pet_type: string;
 }
 
-export type IMySuperPrefixDogMySuperSuffix = IMySuperPrefixPetMySuperSuffix & {
-  bark?: boolean;
-  breed: "Dingo" | "Husky" | "Retriever" | "Shepherd";
-};
+export type Dog = Pet & { bark?: boolean; breed: "Dingo" | "Husky" | "Retriever" | "Shepherd" };
 
-export type IMySuperPrefixCatMySuperSuffix = IMySuperPrefixPetMySuperSuffix & { hunts?: boolean; age?: number };
-
-export type IMySuperPrefixPetsPartialUpdatePayloadMySuperSuffix =
-  | IMySuperPrefixCatMySuperSuffix
-  | IMySuperPrefixDogMySuperSuffix;
+export type Cat = Pet & { hunts?: boolean; age?: number };
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -199,7 +192,7 @@ export class HttpClient<SecurityDataType = unknown> {
         ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
+      signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
@@ -244,7 +237,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name PetsPartialUpdate
      * @request PATCH:/pets
      */
-    petsPartialUpdate: (data: IMySuperPrefixPetsPartialUpdatePayloadMySuperSuffix, params: RequestParams = {}) =>
+    petsPartialUpdate: (data: Cat | Dog, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/pets`,
         method: "PATCH",
