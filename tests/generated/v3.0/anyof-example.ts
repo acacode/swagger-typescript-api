@@ -9,20 +9,15 @@
  * ---------------------------------------------------------------
  */
 
-export interface IMySuperPrefixPetByAgeMySuperSuffix {
+export interface PetByAge {
   age: number;
   nickname?: string;
 }
 
-export interface IMySuperPrefixPetByTypeMySuperSuffix {
+export interface PetByType {
   pet_type: "Cat" | "Dog";
   hunts?: boolean;
 }
-
-export type IMySuperPrefixPetsPartialUpdatePayloadMySuperSuffix =
-  | IMySuperPrefixPetByAgeMySuperSuffix
-  | IMySuperPrefixPetByTypeMySuperSuffix
-  | (IMySuperPrefixPetByAgeMySuperSuffix & IMySuperPrefixPetByTypeMySuperSuffix);
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -199,7 +194,7 @@ export class HttpClient<SecurityDataType = unknown> {
         ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
+      signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
@@ -244,7 +239,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name PetsPartialUpdate
      * @request PATCH:/pets
      */
-    petsPartialUpdate: (data: IMySuperPrefixPetsPartialUpdatePayloadMySuperSuffix, params: RequestParams = {}) =>
+    petsPartialUpdate: (data: PetByAge | PetByType | (PetByAge & PetByType), params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/pets`,
         method: "PATCH",

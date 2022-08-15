@@ -9,9 +9,9 @@
  * ---------------------------------------------------------------
  */
 
-export type IMySuperPrefixMessagesMySuperSuffix = Record<string, IMySuperPrefixMessageMySuperSuffix>;
+export type Messages = Record<string, Message>;
 
-export interface IMySuperPrefixMessageMySuperSuffix {
+export interface Message {
   code?: number;
   text?: string;
 }
@@ -191,7 +191,7 @@ export class HttpClient<SecurityDataType = unknown> {
         ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
+      signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
