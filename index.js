@@ -37,6 +37,7 @@ program
     false,
   )
   .option("--union-enums", 'generate all "enum" types as union types (T1 | T2 | TN)', false)
+  .option("--add-readonly", "generate readonly properties", false)
   .option("--route-types", "generate type definitions for API routes", false)
   .option("--no-client", "do not generate an API class", false)
   .option("--enum-names-as-values", "use values in 'x-enumNames' as enum values (not only as keys)", false)
@@ -75,6 +76,7 @@ const {
   name,
   templates,
   unionEnums,
+  addReadonly,
   routeTypes,
   client,
   defaultAsSuccess,
@@ -113,6 +115,7 @@ generateApi({
   disableThrowOnError: disableThrowOnError,
   sortTypes: sortTypes,
   generateUnionEnums: unionEnums,
+  addReadonly,
   generateResponses: responses,
   extractRequestParams: !!extractRequestParams,
   extractRequestBody: !!extractRequestBody,
