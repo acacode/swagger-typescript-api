@@ -110,6 +110,10 @@ interface GenerateApiParamsBase {
    * fix up small errors in the swagger source definition
    */
   patch?: boolean;
+  /**
+   *  authorization token
+   */
+  authorizationToken?: string;
 }
 
 interface GenerateApiParamsFromPath extends GenerateApiParamsBase {
@@ -133,10 +137,7 @@ interface GenerateApiParamsFromSpecLiteral extends GenerateApiParamsBase {
   spec: import("swagger-schema-official").Spec;
 }
 
-export type GenerateApiParams =
-  | GenerateApiParamsFromPath
-  | GenerateApiParamsFromUrl
-  | GenerateApiParamsFromSpecLiteral;
+export type GenerateApiParams = GenerateApiParamsFromPath | GenerateApiParamsFromUrl | GenerateApiParamsFromSpecLiteral;
 
 export interface Hooks {
   /** calls after parse schema component */
