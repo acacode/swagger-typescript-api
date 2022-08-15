@@ -57,7 +57,7 @@ export class HttpClient {
       const propertyContent = property instanceof Array ? property : [property];
       for (const formItem of propertyContent) {
         const isFileType = formItem instanceof Blob || formItem instanceof File;
-        formData.append(key, isFileType ? formItem : stringifyFormItem(formItem));
+        formData.append(key, isFileType ? formItem : this.stringifyFormItem(formItem));
       }
       return formData;
     }, new FormData());
@@ -81,7 +81,7 @@ export class HttpClient {
         (await this.securityWorker(this.securityData))) ||
       {};
     const requestParams = this.mergeRequestParams(params, secureParams);
-    const responseFormat = (format && this.format) || void 0;
+    const responseFormat = format || this.format || undefined;
     if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
       body = this.createFormData(body);
     }

@@ -2,8 +2,17 @@
 
 # 10.0.0  
 
-- `--extract-response-body` option
-- `--extract-response-error` option
+- `--extract-response-body` option - extract response body type to data contract  
+- `--extract-response-error` option - extract response error type to data contract   
+- `--add-readonly` option - generate readonly properties  
+- `authorizationToken` for axios fetch swagger schema request  
+- fix: change COMPLEX_NOT_OF to COMPLEX_NOT (internal)
+- feat: improve `@deprecated` jsdoc info
+- feat: improve `required` field in complex data schemas (anyOf, oneOf, allOf etc)  
+- feat: abortSignal for fetch http client
+- chore: improve typings in index.d.ts
+- fixed [Request falls if FormData attachment is File instance](https://github.com/acacode/swagger-typescript-api/issues/293)
+- fixed [Response format - global default or override ?](https://github.com/acacode/swagger-typescript-api/issues/251)
 
 > Co-authored-by: Sergey S. Volkov <js2me@outlook.com>  
 > Co-authored-by: Xavier Cassel <57092100+xcassel@users.noreply.github.com>  
