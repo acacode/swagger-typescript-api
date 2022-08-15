@@ -91,6 +91,8 @@ const config = {
   typeSuffix: "",
   patch: false,
   componentTypeNameResolver: new NameResolver([]),
+  /** name of the main exported class */
+  apiClassName: "Api",
 };
 
 /** needs to use data everywhere in project */

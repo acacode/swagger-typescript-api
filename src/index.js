@@ -64,6 +64,7 @@ module.exports = {
     typeSuffix = config.typeSuffix,
     patch = config.patch,
     authorizationToken,
+    apiClassName = config.apiClassName,
   }) =>
     new Promise((resolve, reject) => {
       addToConfig({
@@ -99,6 +100,7 @@ module.exports = {
         typePrefix,
         typeSuffix,
         patch,
+        apiClassName,
       });
       (spec
         ? convertSwaggerObject(spec, { patch })

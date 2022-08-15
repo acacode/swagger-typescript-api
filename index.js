@@ -106,6 +106,7 @@ generateApi({
   typePrefix: program.typePrefix,
   typeSuffix: program.typeSuffix,
   patch: !!program.patch,
+  apiClassName,
 }).catch((err) => {
   // NOTE collect all errors on top level and shows to users in any case
   console.error(err);
