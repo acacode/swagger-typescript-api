@@ -14,13 +14,11 @@ const { TS_KEYWORDS, HTTP_CLIENT } = require("./src/constants");
 
 const program = new Command(packageName);
 
-program.storeOptionsAsProperties(true);
-
 program
+  .storeOptionsAsProperties(true)
+  .nameFromFilename(packageName)
   .version(version, "-v, --version", "output the current version")
-  .description("Generate api via swagger scheme.\nSupports OA 3.0, 2.0, JSON, yaml.");
-
-program
+  .description("Generate api via swagger scheme.\nSupports OA 3.0, 2.0, JSON, yaml.")
   .requiredOption("-p, --path <path>", "path/url to swagger scheme")
   .option("-o, --output <output>", "output path of typescript api file", "./")
   .option("-n, --name <name>", "name of output typescript api file", "Api.ts")
@@ -68,6 +66,7 @@ program
   .option("--type-prefix <string>", "data contract name prefix", "")
   .option("--type-suffix <string>", "data contract name suffix", "")
   .option("--clean-output", "clean output folder before generate api. WARNING: May cause data loss", false)
+  .option("--api-class-name", "name of the api class")
   .option("--patch", "fix up small errors in the swagger source definition", false);
 
 program.parse(process.argv);
@@ -106,7 +105,7 @@ generateApi({
   typePrefix: program.typePrefix,
   typeSuffix: program.typeSuffix,
   patch: !!program.patch,
-  apiClassName,
+  apiClassName: program.apiClassName,
 }).catch((err) => {
   // NOTE collect all errors on top level and shows to users in any case
   console.error(err);
