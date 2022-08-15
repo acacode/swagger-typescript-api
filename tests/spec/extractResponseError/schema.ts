@@ -104,17 +104,6 @@ export interface PetTTT {
 }
 
 /**
- * Describes the result of uploading an image resource
- * @example {"code":0,"type":"type","message":"message"}
- */
-export interface ApiResponseTTT {
-  /** @format int32 */
-  code?: number;
-  type?: string;
-  message?: string;
-}
-
-/**
  * some description
  */
 export interface AmountTTT {
@@ -140,27 +129,15 @@ export interface AmountTTT {
  */
 export type CurrencyTTT = string;
 
-export interface SingleFormUrlEncodedRequestPayloadTTT {
-  /** @format string */
-  param1: string;
-  param2: string;
-}
-
-export interface UpdatePetWithFormPayloadTTT {
-  /** Updated name of the pet */
-  name?: string;
-
-  /** Updated status of the pet */
-  status?: string;
-}
-
-export interface UploadFilePayloadTTT {
-  /** Additional data to pass to server */
-  additionalMetadata?: string;
-
-  /** file to upload */
-  file?: File;
-}
+/**
+ * asd asd asd asd asd
+ */
+export type FormUrlEncodedRequest2ErrorTTT =
+  | { detail: string }
+  | { detail: string }
+  | { detail: string; retry_after: number }
+  | Record<string, string[]>
+  | { detail: string };
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -337,7 +314,7 @@ export class HttpClient<SecurityDataType = unknown> {
         ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
+      signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
@@ -448,7 +425,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary summary
      * @request POST:/pet/single-form-url-encoded
      */
-    singleFormUrlEncodedRequest: (data: SingleFormUrlEncodedRequestPayloadTTT, params: RequestParams = {}) =>
+    singleFormUrlEncodedRequest: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/pet/single-form-url-encoded`,
         method: "POST",
@@ -485,11 +462,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     formUrlEncodedRequest2: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.request<{ id: string }, FormUrlEncodedRequest2ErrorTTT>({
         path: `/pet/end-form-url-encoded`,
         method: "POST",
         body: data,
         type: ContentType.UrlEncoded,
+        format: "json",
         ...params,
       }),
 
@@ -540,7 +518,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/pet/{petId}
      * @secure
      */
-    updatePetWithForm: (petId: number, data: UpdatePetWithFormPayloadTTT, params: RequestParams = {}) =>
+    updatePetWithForm: (petId: number, data: { name?: string; status?: string }, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/pet/${petId}`,
         method: "POST",
@@ -576,8 +554,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/pet/{petId}/uploadImage
      * @secure
      */
-    uploadFile: (petId: number, data: UploadFilePayloadTTT, params: RequestParams = {}) =>
-      this.request<ApiResponseTTT, any>({
+    uploadFile: (petId: number, data: { additionalMetadata?: string; file?: File }, params: RequestParams = {}) =>
+      this.request<{ code?: number; type?: string; message?: string }, any>({
         path: `/pet/${petId}/uploadImage`,
         method: "POST",
         body: data,

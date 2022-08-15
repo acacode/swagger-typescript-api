@@ -13,19 +13,15 @@ const getRouteName = (routeInfo) => {
     config,
   });
 
-  const routeName =
-    config.hooks.onFormatRouteName(routeInfo, routeNameFromTemplate) || routeNameFromTemplate;
+  const routeName = config.hooks.onFormatRouteName(routeInfo, routeNameFromTemplate) || routeNameFromTemplate;
 
   const duplicateIdentifier = `${moduleName}|${routeName}`;
 
   if (routeNameDuplicatesMap.has(duplicateIdentifier)) {
-    routeNameDuplicatesMap.set(
-      duplicateIdentifier,
-      routeNameDuplicatesMap.get(duplicateIdentifier) + 1,
-    );
+    routeNameDuplicatesMap.set(duplicateIdentifier, routeNameDuplicatesMap.get(duplicateIdentifier) + 1);
 
     logger.warn(
-      `Module "${moduleName}" already have method "${routeName}()"`,
+      `Module "${moduleName}" already has method "${routeName}()"`,
       `\nThis method has been renamed to "${
         routeName + routeNameDuplicatesMap.get(duplicateIdentifier)
       }()" to solve conflict names.`,
