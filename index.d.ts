@@ -1,19 +1,4 @@
-interface GenerateApiParams {
-  /**
-   * path to swagger schema
-   */
-  input: string;
-
-  /**
-   * url to swagger schema
-   */
-  url: string;
-
-  /**
-   * swagger schema JSON
-   */
-  spec: import("swagger-schema-official").Spec;
-
+interface GenerateApiParamsBase {
   /**
    * default 'api.ts'
    */
@@ -126,6 +111,32 @@ interface GenerateApiParams {
    */
   patch?: boolean;
 }
+
+interface GenerateApiParamsFromPath extends GenerateApiParamsBase {
+  /**
+   * path to swagger schema
+   */
+  input: string;
+}
+
+interface GenerateApiParamsFromUrl extends GenerateApiParamsBase {
+  /**
+   * url to swagger schema
+   */
+  url: string;
+}
+
+interface GenerateApiParamsFromSpecLiteral extends GenerateApiParamsBase {
+  /**
+   * swagger schema JSON
+   */
+  spec: import("swagger-schema-official").Spec;
+}
+
+export type GenerateApiParams =
+  | GenerateApiParamsFromPath
+  | GenerateApiParamsFromUrl
+  | GenerateApiParamsFromSpecLiteral;
 
 export interface Hooks {
   /** calls after parse schema component */
@@ -375,6 +386,4 @@ export interface GenerateApiOutput {
   formatTSContent: (content: string) => string;
 }
 
-export declare function generateApi(params: Omit<GenerateApiParams, "url" | "spec">): Promise<GenerateApiOutput>;
-export declare function generateApi(params: Omit<GenerateApiParams, "input" | "spec">): Promise<GenerateApiOutput>;
-export declare function generateApi(params: Omit<GenerateApiParams, "input" | "url">): Promise<GenerateApiOutput>;
+export declare function generateApi(params: GenerateApiParams): Promise<GenerateApiOutput>;
