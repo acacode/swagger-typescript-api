@@ -1739,8 +1739,8 @@ export declare class HttpClient<SecurityDataType = unknown> {
   private format?;
   constructor({ securityWorker, secure, format, ...axiosConfig }?: ApiConfig<SecurityDataType>);
   setSecurityData: (data: SecurityDataType | null) => void;
-  private mergeRequestParams;
-  private createFormData;
+  protected mergeRequestParams(params1: AxiosRequestConfig, params2?: AxiosRequestConfig): AxiosRequestConfig;
+  protected createFormData(input: Record<string, unknown>): FormData;
   request: <T = any, _E = any>({
     secure,
     path,
@@ -1749,7 +1749,7 @@ export declare class HttpClient<SecurityDataType = unknown> {
     format,
     body,
     ...params
-  }: FullRequestParams) => Promise<any>;
+  }: FullRequestParams) => Promise<AxiosResponse<T>>;
 }
 /**
  * @title GitHub

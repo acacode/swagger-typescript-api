@@ -1073,52 +1073,34 @@ export interface CodeOfConduct {
    * @example # Contributor Covenant Code of Conduct
    *
    * ## Our Pledge
-   *
    * In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
-   *
    * ## Our Standards
-   *
    * Examples of behavior that contributes to creating a positive environment include:
-   *
    * * Using welcoming and inclusive language
    * * Being respectful of differing viewpoints and experiences
    * * Gracefully accepting constructive criticism
    * * Focusing on what is best for the community
    * * Showing empathy towards other community members
-   *
    * Examples of unacceptable behavior by participants include:
-   *
    * * The use of sexualized language or imagery and unwelcome sexual attention or advances
    * * Trolling, insulting/derogatory comments, and personal or political attacks
    * * Public or private harassment
    * * Publishing others' private information, such as a physical or electronic address, without explicit permission
    * * Other conduct which could reasonably be considered inappropriate in a professional setting
-   *
    * ## Our Responsibilities
-   *
    * Project maintainers are responsible for clarifying the standards of acceptable behavior and are expected to take appropriate and fair corrective action in response
    *                   to any instances of unacceptable behavior.
-   *
    * Project maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, or to ban temporarily or permanently any contributor for other behaviors that they deem inappropriate, threatening, offensive, or harmful.
-   *
    * ## Scope
-   *
    * This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community. Examples of representing a project or community include using an official project e-mail address,
    *                   posting via an official social media account, or acting as an appointed representative at an online or offline event. Representation of a project may be further defined and clarified by project maintainers.
-   *
    * ## Enforcement
-   *
    * Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at [EMAIL]. The project team will review and investigate all complaints, and will respond in a way that it deems appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident. Further details of specific enforcement policies may be posted separately.
-   *
    * Project maintainers who do not follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions as determined by other members of the project's leadership.
-   *
    * ## Attribution
-   *
    * This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4, available at [http://contributor-covenant.org/version/1/4][version]
-   *
    * [homepage]: http://contributor-covenant.org
    * [version]: http://contributor-covenant.org/version/1/4/
-   *
    */
   body?: string;
 
@@ -1978,18 +1960,15 @@ export interface GitignoreTemplate {
    * # Libraries
    * *.lib
    * *.a
-   *
    * # Shared objects (inc. Windows DLLs)
    * *.dll
    * *.so
    * *.so.*
    * *.dylib
-   *
    * # Executables
    * *.exe
    * *.out
    * *.app
-   *
    */
   source: string;
 }
@@ -2147,19 +2126,15 @@ export interface License {
    * @example
    *
    * The MIT License (MIT)
-   *
    * Copyright (c) [year] [fullname]
-   *
    * Permission is hereby granted, free of charge, to any person obtaining a copy
    * of this software and associated documentation files (the "Software"), to deal
    * in the Software without restriction, including without limitation the rights
    * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
    * copies of the Software, and to permit persons to whom the Software is
    * furnished to do so, subject to the following conditions:
-   *
    * The above copyright notice and this permission notice shall be included in all
    * copies or substantial portions of the Software.
-   *
    * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
    * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
    * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -2167,7 +2142,6 @@ export interface License {
    * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
    * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
    * SOFTWARE.
-   *
    */
   body: string;
 
@@ -9019,16 +8993,16 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  private encodeQueryParam(key: string, value: any) {
+  protected encodeQueryParam(key: string, value: any) {
     const encodedKey = encodeURIComponent(key);
     return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
   }
 
-  private addQueryParam(query: QueryParamsType, key: string) {
+  protected addQueryParam(query: QueryParamsType, key: string) {
     return this.encodeQueryParam(key, query[key]);
   }
 
-  private addArrayQueryParam(query: QueryParamsType, key: string) {
+  protected addArrayQueryParam(query: QueryParamsType, key: string) {
     const value = query[key];
     return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
   }
@@ -9065,7 +9039,7 @@ export class HttpClient<SecurityDataType = unknown> {
     [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
   };
 
-  private mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
+  protected mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
     return {
       ...this.baseApiParams,
       ...params1,
@@ -9078,7 +9052,7 @@ export class HttpClient<SecurityDataType = unknown> {
     };
   }
 
-  private createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
+  protected createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
     if (this.abortControllers.has(cancelToken)) {
       const abortController = this.abortControllers.get(cancelToken);
       if (abortController) {
@@ -9128,12 +9102,12 @@ export class HttpClient<SecurityDataType = unknown> {
         ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
+      signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
-      r.data = (null as unknown) as T;
-      r.error = (null as unknown) as E;
+      r.data = null as unknown as T;
+      r.error = null as unknown as E;
 
       const data = !responseFormat
         ? r
@@ -10636,9 +10610,41 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     gistsUpdate: (
       gistId: string,
-      data: (any | any | null) & {
+      data: (
+        | { description: string }
+        | {
+            files: Record<
+              string,
+              (
+                | { content: string }
+                | { filename: string | null }
+                | object
+                | ({ content: string } & { filename: string | null } & object)
+              ) & { content?: string; filename?: string | null }
+            >;
+          }
+        | ({ description: string } & {
+            files: Record<
+              string,
+              (
+                | { content: string }
+                | { filename: string | null }
+                | object
+                | ({ content: string } & { filename: string | null } & object)
+              ) & { content?: string; filename?: string | null }
+            >;
+          })
+      ) & {
         description?: string;
-        files?: Record<string, (any | any | object | null) & { content?: string; filename?: string | null }>;
+        files?: Record<
+          string,
+          (
+            | { content: string }
+            | { filename: string | null }
+            | object
+            | ({ content: string } & { filename: string | null } & object)
+          ) & { content?: string; filename?: string | null }
+        >;
       },
       params: RequestParams = {},
     ) =>
@@ -15943,9 +15949,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       data: (
-        | { status?: "completed"; [key: string]: any }
-        | { status?: "queued" | "in_progress"; [key: string]: any }
-        | ({ status?: "completed"; [key: string]: any } & { status?: "queued" | "in_progress"; [key: string]: any })
+        | {
+            status?: "completed";
+            conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+            name: string;
+            head_sha: string;
+            [key: string]: any;
+          }
+        | { status?: "queued" | "in_progress"; name: string; head_sha: string; [key: string]: any }
+        | ({
+            status?: "completed";
+            conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+            name: string;
+            head_sha: string;
+            [key: string]: any;
+          } & { status?: "queued" | "in_progress"; name: string; head_sha: string; [key: string]: any })
       ) & {
         name: string;
         head_sha: string;
@@ -16014,9 +16032,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       checkRunId: number,
       data: (
-        | { status?: "completed"; [key: string]: any }
+        | {
+            status?: "completed";
+            conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+            [key: string]: any;
+          }
         | { status?: "queued" | "in_progress"; [key: string]: any }
-        | ({ status?: "completed"; [key: string]: any } & { status?: "queued" | "in_progress"; [key: string]: any })
+        | ({
+            status?: "completed";
+            conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+            [key: string]: any;
+          } & { status?: "queued" | "in_progress"; [key: string]: any })
       ) & {
         name?: string;
         details_url?: string;

@@ -1,12 +1,5 @@
 const _ = require("lodash");
-const {
-  types,
-  parseSchema,
-  getType,
-  getRefType,
-  getInlineParseContent,
-  checkAndAddNull,
-} = require("./schema");
+const { types, parseSchema, getType, getRefType, getInlineParseContent, checkAndAddNull } = require("./schema");
 const { formatModelName } = require("./modelNames");
 const {
   DEFAULT_BODY_ARG_NAME,
@@ -19,7 +12,7 @@ const {
 } = require("./constants");
 const { formatDescription, classNameCase } = require("./common");
 const { config } = require("./config");
-const { nanoid } = require("nanoid");
+const { generateId } = require("./utils/id");
 const { getRouteName } = require("./routeNames");
 const { createComponent } = require("./components");
 const { logger } = require("./logger");
@@ -47,26 +40,15 @@ const getSchemaFromRequestType = (requestInfo) => {
   return null;
 };
 
-const getTypeFromRequestInfo = ({
-  requestInfo,
-  parsedSchemas,
-  operationId,
-  defaultType,
-  typeName,
-}) => {
+const getTypeFromRequestInfo = ({ requestInfo, parsedSchemas, operationId, defaultType, typeName }) => {
   // TODO: make more flexible pick schema without content type
   const schema = getSchemaFromRequestType(requestInfo);
   const refTypeInfo = getRefType(requestInfo);
 
   if (schema) {
     const content = getInlineParseContent(schema, typeName);
-    const foundedSchemaByName = _.find(
-      parsedSchemas,
-      (parsedSchema) => formatModelName(parsedSchema.name) === content,
-    );
-    const foundSchemaByContent = _.find(parsedSchemas, (parsedSchema) =>
-      _.isEqual(parsedSchema.content, content),
-    );
+    const foundedSchemaByName = _.find(parsedSchemas, (parsedSchema) => formatModelName(parsedSchema.name) === content);
+    const foundSchemaByContent = _.find(parsedSchemas, (parsedSchema) => _.isEqual(parsedSchema.content, content));
 
     const foundSchema = foundedSchemaByName || foundSchemaByContent;
 
@@ -88,10 +70,7 @@ const getTypeFromRequestInfo = ({
         return formatModelName(refTypeInfo.typeName);
       case "responses":
       case "requestBodies":
-        return getInlineParseContent(
-          getSchemaFromRequestType(refTypeInfo.rawTypeData),
-          refTypeInfo.typeName || null,
-        );
+        return getInlineParseContent(getSchemaFromRequestType(refTypeInfo.rawTypeData), refTypeInfo.typeName || null);
       default:
         return getInlineParseContent(refTypeInfo.rawTypeData, refTypeInfo.typeName || null);
     }
@@ -344,9 +323,7 @@ const createRequestParamsSchema = ({
   if (fixedSchema) return fixedSchema;
 
   if (extractRequestParams) {
-    const typeName = config.componentTypeNameResolver.resolve([
-      classNameCase(`${routeName.usage} Params`),
-    ]);
+    const typeName = config.componentTypeNameResolver.resolve([classNameCase(`${routeName.usage} Params`)]);
 
     return createComponent("schemas", typeName, { ...schema });
   }
@@ -358,9 +335,7 @@ const getContentTypes = (requestInfo, extraContentTypes) =>
   _.uniq(
     _.compact([
       ...(extraContentTypes || []),
-      ..._.flatten(
-        _.map(requestInfo, (requestInfoData) => requestInfoData && _.keys(requestInfoData.content)),
-      ),
+      ..._.flatten(_.map(requestInfo, (requestInfoData) => requestInfoData && _.keys(requestInfoData.content))),
     ]),
   );
 
@@ -400,10 +375,7 @@ const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas, routeName) =>
   let schema = null;
   let type = null;
 
-  const contentTypes = getContentTypes(
-    [requestBody],
-    [...(consumes || []), routeInfo["x-contentType"]],
-  );
+  const contentTypes = getContentTypes([requestBody], [...(consumes || []), routeInfo["x-contentType"]]);
   let contentKind = getContentKind(contentTypes);
 
   let typeName = null;
@@ -454,8 +426,7 @@ const getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas, routeName) =>
     contentKind,
     schema,
     type,
-    required:
-      requestBody && (typeof requestBody.required === "undefined" || !!requestBody.required),
+    required: requestBody && (typeof requestBody.required === "undefined" || !!requestBody.required),
   };
 };
 
@@ -472,9 +443,7 @@ const getResponseBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
   });
 
   const successResponse = responseInfos.find((response) => response.isSuccess);
-  const errorResponses = responseInfos.filter(
-    (response) => !response.isSuccess && response.type !== TS_KEYWORDS.ANY,
-  );
+  const errorResponses = responseInfos.filter((response) => !response.isSuccess && response.type !== TS_KEYWORDS.ANY);
 
   const handleResponseHeaders = (src) => {
     if (!src) {
@@ -507,24 +476,16 @@ const getResponseBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
         responseInfos
           .map(
             (response) => `{
-      data: ${response.type}, status: ${response.status}, statusCode: ${
-              response.status
-            }, statusText: "${response.description}", ${handleResponseHeaders(
-              response.headers,
-            )} config: {} }`,
+      data: ${response.type}, status: ${response.status}, statusCode: ${response.status}, statusText: "${
+              response.description
+            }", ${handleResponseHeaders(response.headers)} config: {} }`,
           )
           .join(" | ") || TS_KEYWORDS.ANY,
     },
   };
 };
 
-const parseRoutes = ({
-  usageSchema,
-  parsedSchemas,
-  moduleNameIndex,
-  moduleNameFirstTag,
-  extractRequestParams,
-}) => {
+const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, moduleNameFirstTag, extractRequestParams }) => {
   const { paths, security: globalSecurity } = usageSchema;
   const pathsEntries = _.entries(paths);
 
@@ -553,16 +514,13 @@ const parseRoutes = ({
           } = routeInfo;
           const { route, pathParams } = parseRoute(rawRoute);
 
-          const routeId = nanoid(12);
+          const routeId = generateId();
           const firstTag = tags && tags.length > 0 ? tags[0] : null;
           const moduleName =
             moduleNameFirstTag && firstTag
               ? _.camelCase(firstTag)
               : _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
-          const hasSecurity = !!(
-            (globalSecurity && globalSecurity.length) ||
-            (security && security.length)
-          );
+          const hasSecurity = !!((globalSecurity && globalSecurity.length) || (security && security.length));
 
           const routeParams = getRouteParams(routeInfo, pathParams);
 
@@ -599,12 +557,7 @@ const parseRoutes = ({
 
           const routeName = getRouteName(rawRouteInfo);
 
-          const requestBodyInfo = getRequestBodyInfo(
-            routeInfo,
-            routeParams,
-            parsedSchemas,
-            routeName,
-          );
+          const requestBodyInfo = getRequestBodyInfo(routeInfo, routeParams, parsedSchemas, routeName);
 
           const requestParamsSchema = createRequestParamsSchema({
             queryParams: routeParams.query,
@@ -614,13 +567,12 @@ const parseRoutes = ({
             routeName,
           });
 
-          const queryType = routeParams.query.length
-            ? getInlineParseContent(queryObjectSchema)
-            : null;
+          extractResponseBodyIfItNeeded(routeInfo, responseBodyInfo, routeParams, rawRouteInfo, routeName);
+          extractResponseErrorIfItNeeded(routeInfo, responseBodyInfo, routeParams, rawRouteInfo, routeName);
+
+          const queryType = routeParams.query.length ? getInlineParseContent(queryObjectSchema) : null;
           const pathType = routeParams.path.length ? getInlineParseContent(pathObjectSchema) : null;
-          const headersType = routeParams.header.length
-            ? getInlineParseContent(headersObjectSchema)
-            : null;
+          const headersType = routeParams.header.length ? getInlineParseContent(headersObjectSchema) : null;
 
           const nameResolver = new SpecificArgNameResolver(pathArgsNames);
 
@@ -634,10 +586,7 @@ const parseRoutes = ({
               : void 0,
             body: requestBodyInfo.type
               ? {
-                  name: nameResolver.resolve([
-                    requestBodyInfo.paramName,
-                    ...RESERVED_BODY_ARG_NAMES,
-                  ]),
+                  name: nameResolver.resolve([requestBodyInfo.paramName, ...RESERVED_BODY_ARG_NAMES]),
                   optional: !requestBodyInfo.required,
                   type: requestBodyInfo.type,
                 }
@@ -764,10 +713,7 @@ const groupRoutes = (routes) => {
             if (
               packRoutes.length > 1 &&
               usageName !== originalName &&
-              !_.some(
-                packRoutes,
-                ({ routeName, id }) => id !== route.id && originalName === routeName.original,
-              )
+              !_.some(packRoutes, ({ routeName, id }) => id !== route.id && originalName === routeName.original)
             ) {
               return {
                 ...route,
@@ -786,6 +732,72 @@ const groupRoutes = (routes) => {
     },
     {},
   );
+};
+
+const extractResponseBodyIfItNeeded = (routeInfo, responseBodyInfo, routeParams, rawRouteInfo, routeName) => {
+  if (
+    config.extractResponseBody &&
+    responseBodyInfo.responses.length &&
+    responseBodyInfo.success &&
+    responseBodyInfo.success.schema
+  ) {
+    const typeName = config.componentTypeNameResolver.resolve([
+      classNameCase(`${routeName.usage} Data`),
+      classNameCase(`${routeName.usage} Result`),
+      classNameCase(`${routeName.usage} Output`),
+    ]);
+
+    const idx = responseBodyInfo.responses.indexOf(responseBodyInfo.success.schema);
+
+    let successResponse = responseBodyInfo.success;
+
+    if (successResponse.schema && !successResponse.schema.$ref) {
+      const schema = getSchemaFromRequestType(successResponse.schema);
+      successResponse.schema = createComponent("schemas", typeName, { ...schema });
+      successResponse.type = getInlineParseContent(successResponse.schema);
+
+      if (idx > -1) {
+        responseBodyInfo.responses[idx] = successResponse.schema;
+      }
+    }
+  }
+};
+
+const extractResponseErrorIfItNeeded = (routeInfo, responseBodyInfo, routeParams, rawRouteInfo, routeName) => {
+  if (
+    config.extractResponseError &&
+    responseBodyInfo.responses.length &&
+    responseBodyInfo.error.schemas &&
+    responseBodyInfo.error.schemas.length
+  ) {
+    const typeName = config.componentTypeNameResolver.resolve([
+      classNameCase(`${routeName.usage} Error`),
+      classNameCase(`${routeName.usage} Fail`),
+      classNameCase(`${routeName.usage} Fails`),
+      classNameCase(`${routeName.usage} ErrorData`),
+      classNameCase(`${routeName.usage} HttpError`),
+      classNameCase(`${routeName.usage} BadResponse`),
+    ]);
+
+    const errorSchemas = responseBodyInfo.error.schemas.map(getSchemaFromRequestType).filter(Boolean);
+
+    if (!errorSchemas.length) return;
+
+    const schema = parseSchema({
+      oneOf: errorSchemas,
+      title: errorSchemas
+        .map((schema) => schema.title)
+        .filter(Boolean)
+        .join(" "),
+      description: errorSchemas
+        .map((schema) => schema.description)
+        .filter(Boolean)
+        .join("\n"),
+    });
+    const component = createComponent("schemas", typeName, { ...schema });
+    responseBodyInfo.error.schemas = [component];
+    responseBodyInfo.error.type = formatModelName(component.typeName);
+  }
 };
 
 module.exports = {

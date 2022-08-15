@@ -1,5 +1,11 @@
 # next release  
 
+# 9.4.0  
+
+- `--extract-response-body` option
+
+
+
 # 9.2.0  
 
 Features:  

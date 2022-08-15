@@ -17,8 +17,8 @@ const parseSwaggerFile = (file) => {
   }
 };
 
-const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy) =>
-  new Promise((resolve) => {
+const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy, authorizationToken) =>
+  new Promise((resolve, reject) => {
     if (pathIsExist(pathToSwagger)) {
       logger.log(`try to get swagger by path "${pathToSwagger}"`);
       resolve(getFileContent(pathToSwagger));
@@ -33,21 +33,40 @@ const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL, disablePr
         });
       }
       //
+      if (authorizationToken) {
+        axiosOptions.headers = {
+          Authorization: authorizationToken,
+        };
+      }
+      //
       if (disableProxy) axiosOptions.proxy = false;
       //
       axios
         .get(urlToSwagger, axiosOptions)
         .then((res) => resolve(res.data))
-        .catch((err) => logger.error(`error while getting swagger by URL ${urlToSwagger}:`, err));
+        .catch((error) => {
+          const message = `error while getting swagger by URL ${urlToSwagger}`;
+
+          logger.error(message, "response" in error ? error.response : error);
+
+          reject(message);
+        });
     }
   });
 
-const getSwaggerObject = (pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy) =>
-  getSwaggerFile(pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy).then((file) =>
-    convertSwaggerObject(parseSwaggerFile(file)),
+const getSwaggerObject = (
+  pathToSwagger,
+  urlToSwagger,
+  disableStrictSSL,
+  disableProxy,
+  authorizationToken,
+  converterOptions,
+) =>
+  getSwaggerFile(pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy, authorizationToken).then((file) =>
+    convertSwaggerObject(parseSwaggerFile(file), converterOptions),
   );
 
-const convertSwaggerObject = (swaggerSchema) => {
+const convertSwaggerObject = (swaggerSchema, converterOptions) => {
   return new Promise((resolve) => {
     swaggerSchema.info = _.merge(
       {
@@ -63,6 +82,7 @@ const convertSwaggerObject = (swaggerSchema) => {
       converter.convertObj(
         swaggerSchema,
         {
+          ...converterOptions,
           warnOnly: true,
           refSiblings: "preserve",
           rbname: "requestBodyName",

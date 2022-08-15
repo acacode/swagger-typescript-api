@@ -29,7 +29,9 @@ components:
       discriminator:
         propertyName: pet_type
     Dog:     # "Dog" is a value for the pet_type property (the discriminator value)
-      allOf: # Combines the main `Pet` schema with `Dog`-specific properties 
+      required:
+        - breed
+      allOf: # Combines the main `Pet` schema with `Dog`-specific properties
         - $ref: '#/components/schemas/Pet'
         - type: object
           # all other properties specific to a `Dog`
