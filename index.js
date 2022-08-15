@@ -14,17 +14,14 @@ const { TS_KEYWORDS, HTTP_CLIENT } = require("./src/constants");
 
 const program = new Command(packageName);
 
-program.storeOptionsAsProperties(true);
-
-program
+const options = program
+  .alias("sta")
   .version(version, "-v, --version", "output the current version")
-  .description("Generate api via swagger scheme.\nSupports OA 3.0, 2.0, JSON, yaml.");
-
-program
-  .requiredOption("-p, --path <path>", "path/url to swagger scheme")
-  .option("-o, --output <output>", "output path of typescript api file", "./")
-  .option("-n, --name <name>", "name of output typescript api file", "Api.ts")
-  .option("-t, --templates <path>", "path to folder containing templates")
+  .description("Generate api via swagger scheme.\nSupports OA 3.0, 2.0, JSON, yaml.")
+  .requiredOption("-p, --path <string>", "path/url to swagger scheme")
+  .option("-o, --output <string>", "output path of typescript api file", "./")
+  .option("-n, --name <string>", "name of output typescript api file", "Api.ts")
+  .option("-t, --templates <string>", "path to folder containing templates")
   .option(
     "-d, --default-as-success",
     'use "default" response status code as success response too.\n' +
@@ -39,7 +36,7 @@ program
   .option("--union-enums", 'generate all "enum" types as union types (T1 | T2 | TN)', false)
   .option("--add-readonly", "generate readonly properties", false)
   .option("--route-types", "generate type definitions for API routes", false)
-  .option("--no-client", "do not generate an API class", false)
+  .option("--no-client", "do not generate an API class", true)
   .option("--enum-names-as-values", "use values in 'x-enumNames' as enum values (not only as keys)", false)
   .option(
     "--extract-request-params",
@@ -68,45 +65,46 @@ program
   .option("--type-prefix <string>", "data contract name prefix", "")
   .option("--type-suffix <string>", "data contract name suffix", "")
   .option("--clean-output", "clean output folder before generate api. WARNING: May cause data loss", false)
-  .option("--patch", "fix up small errors in the swagger source definition", false);
-
-program.parse(process.argv);
+  .option("--api-class-name <string>", "name of the api class")
+  .option("--patch", "fix up small errors in the swagger source definition", false)
+  .parse(process.argv)
+  .opts();
 
 generateApi({
-  name: program.name,
-  url: program.path,
-  generateRouteTypes: program.routeTypes,
-  generateClient: !!(program.axios || program.client),
-  httpClientType: program.axios ? HTTP_CLIENT.AXIOS : HTTP_CLIENT.FETCH,
-  defaultResponseAsSuccess: program.defaultAsSuccess,
-  defaultResponseType: program.defaultResponse,
-  unwrapResponseData: program.unwrapResponseData,
-  disableThrowOnError: program.disableThrowOnError,
-  sortTypes: program.sortTypes,
-  generateUnionEnums: program.unionEnums,
-  addReadonly: program.addReadonly,
-  generateResponses: program.responses,
-  extractRequestParams: !!program.extractRequestParams,
-  extractRequestBody: !!program.extractRequestBody,
-  extractResponseBody: !!program.extractResponseBody,
-  extractResponseError: !!program.extractResponseError,
-  input: resolve(process.cwd(), program.path),
-  output: resolve(process.cwd(), program.output || "."),
-  templates: program.templates,
-  modular: !!program.modular,
-  toJS: !!program.js,
-  enumNamesAsValues: program.enumNamesAsValues,
-  moduleNameIndex: +(program.moduleNameIndex || 0),
-  moduleNameFirstTag: program.moduleNameFirstTag,
-  disableStrictSSL: !!program.disableStrictSSL,
-  disableProxy: !!program.disableProxy,
-  singleHttpClient: !!program.singleHttpClient,
-  cleanOutput: !!program.cleanOutput,
-  silent: !!program.silent,
-  typePrefix: program.typePrefix,
-  typeSuffix: program.typeSuffix,
-  patch: !!program.patch,
-  apiClassName,
+  name: options.name,
+  url: options.path,
+  generateRouteTypes: options.routeTypes,
+  generateClient: !!(options.axios || options.client),
+  httpClientType: options.axios ? HTTP_CLIENT.AXIOS : HTTP_CLIENT.FETCH,
+  defaultResponseAsSuccess: options.defaultAsSuccess,
+  defaultResponseType: options.defaultResponse,
+  unwrapResponseData: options.unwrapResponseData,
+  disableThrowOnError: options.disableThrowOnError,
+  sortTypes: options.sortTypes,
+  generateUnionEnums: options.unionEnums,
+  addReadonly: options.addReadonly,
+  generateResponses: options.responses,
+  extractRequestParams: !!options.extractRequestParams,
+  extractRequestBody: !!options.extractRequestBody,
+  extractResponseBody: !!options.extractResponseBody,
+  extractResponseError: !!options.extractResponseError,
+  input: resolve(process.cwd(), options.path),
+  output: resolve(process.cwd(), options.output || "."),
+  templates: options.templates,
+  modular: !!options.modular,
+  toJS: !!options.js,
+  enumNamesAsValues: options.enumNamesAsValues,
+  moduleNameIndex: +(options.moduleNameIndex || 0),
+  moduleNameFirstTag: options.moduleNameFirstTag,
+  disableStrictSSL: !!options.disableStrictSSL,
+  disableProxy: !!options.disableProxy,
+  singleHttpClient: !!options.singleHttpClient,
+  cleanOutput: !!options.cleanOutput,
+  silent: !!options.silent,
+  typePrefix: options.typePrefix,
+  typeSuffix: options.typeSuffix,
+  patch: !!options.patch,
+  apiClassName: options.apiClassName,
 }).catch((err) => {
   // NOTE collect all errors on top level and shows to users in any case
   console.error(err);

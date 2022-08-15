@@ -1,4 +1,10 @@
-# next release  
+# next release
+
+# 10.0.1  
+
+- fix problem linked with [this.name is not a function](https://github.com/acacode/swagger-typescript-api/issues/381)  
+- [internal] add cli tests  
+- fix problem with not correct working the `--no-client` option
 
 # 10.0.0  
 
