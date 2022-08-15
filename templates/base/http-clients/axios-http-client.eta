@@ -68,6 +68,14 @@ export class HttpClient<SecurityDataType = unknown> {
       };
     }
 
+    protected stringifyFormItem(formItem: unknown) {
+      if (typeof formItem === "object" && formItem !== null) {
+        return JSON.stringify(formItem);
+      } else {
+        return `${formItem}`;
+      }
+    }
+
     protected createFormData(input: Record<string, unknown>): FormData {
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
