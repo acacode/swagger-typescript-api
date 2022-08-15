@@ -19,7 +19,11 @@ Any questions you can ask [**here**](https://github.com/acacode/swagger-typescri
   
 <br>  
 
-![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/components-converter-example.jpg)  
+![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/components-converter-example.jpg)    
+
+👀 This project is looking for a code maintainer 👀    
+P.S. If you are creating the PR, please check your changes with using command `npm run prepare`  
+P.S. If you want to contribute please use branch `next`. All PRs which will have target `master` will be declined  
 
 ## 👀 Examples  
 
@@ -38,32 +42,34 @@ Options:
   -n, --name <name>             name of output typescript api file (default: "Api.ts")
   -t, --templates <path>        path to folder containing templates
   -d, --default-as-success      use "default" response status code as success response too.
-                                some swagger schemas use "default" response status code
-                                as success response type by default. (default: false)
+                                some swagger schemas use "default" response status code as success response type by default. (default: false)
   -r, --responses               generate additional information about request responses
                                 also add typings for bad responses (default: false)
   --union-enums                 generate all "enum" types as union types (T1 | T2 | TN) (default: false)
+  --add-readonly                generate readonly properties (default: false)
   --route-types                 generate type definitions for API routes (default: false)
   --no-client                   do not generate an API class
   --enum-names-as-values        use values in 'x-enumNames' as enum values (not only as keys) (default: false)
-  --js                          generate js api module with declaration file (default: false)
-  --extract-request-params      extract request params to data contract (default: false)
-                                Also combine path params and query params into one object
-  --extract-request-body        extract request body type to data contract (default: false)                         
-  --module-name-index <number>  determines which path index should be used for routes separation (default: 0)
-                                (example: GET:/fruites/getFruit -> index:0 -> moduleName -> fruites)
-  --module-name-first-tag       splits routes based on the first tag
+  --extract-request-params      extract request params to data contract (Also combine path params and query params into one object) (default: false)
+  --extract-request-body        extract request body type to data contract (default: false)
+  --extract-response-body       extract response body type to data contract (default: false)
+  --extract-response-error      extract response error type to data contract (default: false)
   --modular                     generate separated files for http client, data contracts, and routes (default: false)
+  --js                          generate js api module with declaration file (default: false)
+  --module-name-index <number>  determines which path index should be used for routes separation (example: GET:/fruites/getFruit -> index:0 -> moduleName -> fruites) (default: 0)
+  --module-name-first-tag       splits routes based on the first tag (default: false)
   --disableStrictSSL            disabled strict SSL (default: false)
   --disableProxy                disabled proxy (default: false)
-  --clean-output                clean output folder before generate api. WARNING: May cause data loss (default: false)
   --axios                       generate axios http client (default: false)
+  --unwrap-response-data        unwrap the data item from the response (default: false)
+  --disable-throw-on-error      Do not throw an error when response.ok is not true (default: false)
   --single-http-client          Ability to send HttpClient instance to Api constructor (default: false)
   --silent                      Output only errors to console (default: false)
   --default-response <type>     default type for empty response schema (default: "void")
   --type-prefix <string>        data contract name prefix (default: "")
   --type-suffix <string>        data contract name suffix (default: "")
-  -h, --help                    display help for command
+  --clean-output                clean output folder before generate api. WARNING: May cause data loss (default: false)
+  --patch                       fix up small errors in the swagger source definition (default: false)
 ```
 
 Also you can use `npx`:  
@@ -99,7 +105,7 @@ generateApi({
   toJS: false,
   extractRequestParams: false,
   extractRequestBody: false,
-  prettier: {
+  prettier: { // By default prettier config is load from your project
     printWidth: 120,
     tabWidth: 2,
     trailingComma: "all",

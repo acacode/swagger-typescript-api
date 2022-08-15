@@ -63,12 +63,7 @@ const getTypeAlias = (rawSchema) => {
 };
 
 const getEnumNames = (schema) => {
-  return (
-    schema["x-enumNames"] ||
-    schema["xEnumNames"] ||
-    schema["x-enumnames"] ||
-    schema["x-enum-varnames"]
-  );
+  return schema["x-enumNames"] || schema["xEnumNames"] || schema["x-enumnames"] || schema["x-enum-varnames"];
 };
 
 const getInternalSchemaType = (schema) => {
@@ -137,9 +132,11 @@ const getObjectTypeContent = (schema) => {
     const nullable = !!(rawTypeData.nullable || property.nullable);
     const fieldName = isValidName(name) ? name : `"${name}"`;
     const fieldValue = getInlineParseContent(property);
+    const readOnly = property.readOnly;
 
     return {
       $$raw: property,
+      title: property.title,
       description: _.compact([
         property.description ||
           _.compact(_.map(property[getComplexType(property)], "description"))[0] ||
@@ -152,15 +149,19 @@ const getObjectTypeContent = (schema) => {
         !_.isUndefined(property.maximum) && `@max ${property.maximum}`,
         !_.isUndefined(property.pattern) && `@pattern ${property.pattern}`,
         !_.isUndefined(property.example) &&
-          `@example ${
-            _.isObject(property.example) ? JSON.stringify(property.example) : property.example
-          }`,
+          `@example ${_.isObject(property.example) ? JSON.stringify(property.example) : property.example}`,
       ]).join("\n"),
       isRequired: required,
       isNullable: nullable,
       name: fieldName,
       value: fieldValue,
-      field: _.compact([fieldName, !required && "?", ": ", fieldValue]).join(""),
+      field: _.compact([
+        readOnly && config.addReadonly && "readonly ",
+        fieldName,
+        !required && "?",
+        ": ",
+        fieldValue,
+      ]).join(""),
     };
   });
 
@@ -179,39 +180,73 @@ const getObjectTypeContent = (schema) => {
 const complexTypeGetter = (schema) => getInlineParseContent(schema);
 const filterContents = (contents, types) => _.filter(contents, (type) => !_.includes(types, type));
 
+const makeAddRequiredToChildSchema = (parentSchema) => (childSchema) => {
+  let required = childSchema.required || [];
+  let properties = childSchema.properties || {};
+
+  // Inherit all the required fields from the parent schema that are defined
+  // either on the parent schema or on the child schema
+  // TODO: any that are defined at grandparents or higher are ignored
+  required = required.concat(
+    (parentSchema.required || []).filter(
+      (key) =>
+        !required.includes(key) && (_.keys(properties).includes(key) || _.keys(parentSchema.properties).includes(key)),
+    ),
+  );
+
+  // Identify properties that are required in the child schema, but
+  // defined only in the parent schema (TODO: this only works one level deep)
+  const parentPropertiesRequiredByChild = required.filter(
+    (key) => !_.keys(childSchema.properties).includes(key) && _.keys(parentSchema.properties).includes(key),
+  );
+
+  // Add such properties to the child so that they can be overriden and made required
+  properties = {
+    ...properties,
+    ...parentPropertiesRequiredByChild.reduce(
+      (additionalProperties, key) => ({
+        ...additionalProperties,
+        [key]: (parentSchema.properties || {})[key],
+      }),
+      {},
+    ),
+  };
+
+  return _.merge(
+    {
+      required: required,
+      properties: properties,
+    },
+    childSchema,
+  );
+};
+
 const complexSchemaParsers = {
   [SCHEMA_TYPES.COMPLEX_ONE_OF]: (schema) => {
     // T1 | T2
-    const combined = _.map(schema.oneOf, complexTypeGetter);
+    const combined = _.map(_.map(schema.oneOf, makeAddRequiredToChildSchema(schema)), complexTypeGetter);
 
     return checkAndAddNull(schema, filterContents(combined, [TS_KEYWORDS.ANY]).join(" | "));
   },
   [SCHEMA_TYPES.COMPLEX_ALL_OF]: (schema) => {
     // T1 & T2
-    const combined = _.map(schema.allOf, complexTypeGetter);
+    const combined = _.map(_.map(schema.allOf, makeAddRequiredToChildSchema(schema)), complexTypeGetter);
     return checkAndAddNull(
       schema,
-      filterContents(combined, [...JS_EMPTY_TYPES, ...JS_PRIMITIVE_TYPES, TS_KEYWORDS.ANY]).join(
-        " & ",
-      ),
+      filterContents(combined, [...JS_EMPTY_TYPES, ...JS_PRIMITIVE_TYPES, TS_KEYWORDS.ANY]).join(" & "),
     );
   },
   [SCHEMA_TYPES.COMPLEX_ANY_OF]: (schema) => {
     // T1 | T2 | (T1 & T2)
-    const combined = _.map(schema.anyOf, complexTypeGetter);
-    const nonEmptyTypesCombined = filterContents(combined, [
-      ...JS_EMPTY_TYPES,
-      ...JS_PRIMITIVE_TYPES,
-      TS_KEYWORDS.ANY,
-    ]);
+    const combined = _.map(_.map(schema.anyOf, makeAddRequiredToChildSchema(schema)), complexTypeGetter);
+    const nonEmptyTypesCombined = filterContents(combined, [...JS_EMPTY_TYPES, ...JS_PRIMITIVE_TYPES, TS_KEYWORDS.ANY]);
     return checkAndAddNull(
       schema,
-      `${combined.join(" | ")}` +
-        (nonEmptyTypesCombined.length > 1 ? ` | (${nonEmptyTypesCombined.join(" & ")})` : ""),
+      `${combined.join(" | ")}` + (nonEmptyTypesCombined.length > 1 ? ` | (${nonEmptyTypesCombined.join(" & ")})` : ""),
     );
   },
   // TODO
-  [SCHEMA_TYPES.COMPLEX_NOT_OF]: (schema) => {
+  [SCHEMA_TYPES.COMPLEX_NOT]: (schema) => {
     // TODO
     return TS_KEYWORDS.ANY;
   },
@@ -228,8 +263,7 @@ const getComplexType = (schema) => {
 };
 
 const attachParsedRef = (originalSchema, parsedSchema) => {
-  const parsedSchemaAfterHook =
-    config.hooks.onParseSchema(originalSchema, parsedSchema) || parsedSchema;
+  const parsedSchemaAfterHook = config.hooks.onParseSchema(originalSchema, parsedSchema) || parsedSchema;
 
   if (originalSchema) {
     originalSchema.$parsed = parsedSchemaAfterHook;
@@ -264,12 +298,7 @@ const schemaParsers = {
         return {
           key: formattedKey,
           type: keyType,
-          value:
-            enumValue === null
-              ? enumValue
-              : isIntegerOrBooleanEnum
-              ? `${enumValue}`
-              : `"${enumValue}"`,
+          value: enumValue === null ? enumValue : isIntegerOrBooleanEnum ? `${enumValue}` : `"${enumValue}"`,
         };
       });
     } else {
@@ -291,9 +320,7 @@ const schemaParsers = {
       type: SCHEMA_TYPES.ENUM,
       keyType: keyType,
       typeIdentifier:
-        config.generateUnionEnums || (!enumNames && isIntegerOrBooleanEnum)
-          ? TS_KEYWORDS.TYPE
-          : TS_KEYWORDS.ENUM,
+        config.generateUnionEnums || (!enumNames && isIntegerOrBooleanEnum) ? TS_KEYWORDS.TYPE : TS_KEYWORDS.ENUM,
       name: typeName,
       description: formatDescription(schema.description),
       content,
@@ -332,8 +359,7 @@ const schemaParsers = {
       content:
         _.compact([
           complexSchemaContent && `(${complexSchemaContent})`,
-          getInternalSchemaType(simpleSchema) === TS_KEYWORDS.OBJECT &&
-            getInlineParseContent(simpleSchema),
+          getInternalSchemaType(simpleSchema) === TS_KEYWORDS.OBJECT && getInlineParseContent(simpleSchema),
         ]).join(" & ") || TS_KEYWORDS.ANY,
     });
   },
@@ -401,10 +427,7 @@ const parseSchema = (rawSchema, typeName, formattersMap) => {
     parsedSchema = schemaParsers[schemaType](fixedRawSchema, typeName);
   }
 
-  return (
-    (formattersMap && formattersMap[schemaType] && formattersMap[schemaType](parsedSchema)) ||
-    parsedSchema
-  );
+  return (formattersMap && formattersMap[schemaType] && formattersMap[schemaType](parsedSchema)) || parsedSchema;
 };
 
 const parseSchemas = (components) =>
@@ -413,8 +436,7 @@ const parseSchemas = (components) =>
 const getInlineParseContent = (rawTypeData, typeName = null) =>
   parseSchema(rawTypeData, typeName, inlineExtraFormatters).content;
 
-const getParseContent = (rawTypeData, typeName = null) =>
-  parseSchema(rawTypeData, typeName).content;
+const getParseContent = (rawTypeData, typeName = null) => parseSchema(rawTypeData, typeName).content;
 
 module.exports = {
   types,

@@ -14,6 +14,8 @@ const config = {
   generateClient: true,
   /** CLI flag */
   generateUnionEnums: false,
+  /** CLI flag */
+  addReadonly: false,
   enumNamesAsValues: false,
   /** parsed swagger schema from getSwaggerObject() */
 
@@ -36,6 +38,8 @@ const config = {
   disableProxy: false,
   extractRequestParams: false,
   extractRequestBody: false,
+  extractResponseBody: false,
+  extractResponseError: false,
   fileNames: {
     dataContracts: "data-contracts",
     routeTypes: "route-types",
@@ -59,6 +63,8 @@ const config = {
   singleHttpClient: false,
   httpClientType: HTTP_CLIENT.FETCH,
   unwrapResponseData: false,
+  disableThrowOnError: false,
+  sortTypes: false,
   templatePaths: {
     /** `templates/base` */
     base: "",
@@ -83,7 +89,10 @@ const config = {
   silent: false,
   typePrefix: "",
   typeSuffix: "",
+  patch: false,
   componentTypeNameResolver: new NameResolver([]),
+  /** name of the main exported class */
+  apiClassName: "Api",
 };
 
 /** needs to use data everywhere in project */
