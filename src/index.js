@@ -40,10 +40,13 @@ module.exports = {
     generateClient = config.generateClient,
     httpClientType = config.httpClientType,
     generateUnionEnums = config.generateUnionEnums,
+    addReadonly = config.addReadonly,
     moduleNameIndex = config.moduleNameIndex,
     moduleNameFirstTag = config.moduleNameFirstTag,
     extractRequestParams = config.extractRequestParams,
     extractRequestBody = config.extractRequestBody,
+    extractResponseBody = config.extractResponseBody,
+    extractResponseError = config.extractResponseError,
     defaultResponseType = config.defaultResponseType,
     unwrapResponseData = config.unwrapResponseData,
     disableThrowOnError = config.disableThrowOnError,
@@ -60,6 +63,7 @@ module.exports = {
     typePrefix = config.typePrefix,
     typeSuffix = config.typeSuffix,
     patch = config.patch,
+    authorizationToken,
   }) =>
     new Promise((resolve, reject) => {
       addToConfig({
@@ -70,12 +74,15 @@ module.exports = {
         generateResponses,
         templates,
         generateUnionEnums,
+        addReadonly,
         moduleNameIndex,
         moduleNameFirstTag,
         prettierOptions,
         modular,
         extractRequestParams,
         extractRequestBody,
+        extractResponseBody,
+        extractResponseError,
         hooks: _.merge(config.hooks, rawHooks || {}),
         enumNamesAsValues,
         disableStrictSSL,
@@ -95,7 +102,7 @@ module.exports = {
       });
       (spec
         ? convertSwaggerObject(spec, { patch })
-        : getSwaggerObject(input, url, disableStrictSSL, disableProxy, { patch })
+        : getSwaggerObject(input, url, disableStrictSSL, disableProxy, authorizationToken, { patch })
       )
         .then(({ usageSchema, originalSchema }) => {
           const templatePaths = getTemplatePaths(config);
@@ -120,9 +127,7 @@ module.exports = {
 
           const componentsMap = createComponentsMap(components);
 
-          const componentSchemasNames = filterComponentsMap(componentsMap, "schemas").map(
-            (c) => c.typeName,
-          );
+          const componentSchemasNames = filterComponentsMap(componentsMap, "schemas").map((c) => c.typeName);
 
           addToConfig({
             componentTypeNameResolver: new ComponentTypeNameResolver(componentSchemasNames),
@@ -146,29 +151,32 @@ module.exports = {
 
           const usageComponentSchemas = filterComponentsMap(componentsMap, "schemas");
           const sortByProperty = (o1, o2, propertyName) => {
-            if(o1[propertyName] > o2[propertyName]) {
+            if (o1[propertyName] > o2[propertyName]) {
               return 1;
             }
-            if(o1[propertyName] < o2[propertyName]) {
+            if (o1[propertyName] < o2[propertyName]) {
               return -1;
             }
             return 0;
-          }
-          const sortByTypeName = (o1, o2) => sortByProperty(o1, o2, 'typeName');
+          };
+          const sortByTypeName = (o1, o2) => sortByProperty(o1, o2, "typeName");
 
-          const sortByName = (o1, o2) => sortByProperty(o1, o2, 'name');
+          const sortByName = (o1, o2) => sortByProperty(o1, o2, "name");
 
           const sortSchemas = (schemas) => {
-            if(config.sortTypes) {
+            if (config.sortTypes) {
               return schemas.sort(sortByTypeName).map((schema) => {
-                if(schema.rawTypeData?.properties) {
+                if (schema.rawTypeData?.properties) {
                   return {
                     ...schema,
                     rawTypeData: {
                       ...schema.rawTypeData,
-                      '$parsed': {...schema.rawTypeData['$parsed'], content: schema.rawTypeData['$parsed'].content.sort(sortByName)}
-                    }
-                  }
+                      $parsed: {
+                        ...schema.rawTypeData["$parsed"],
+                        content: schema.rawTypeData["$parsed"].content.sort(sortByName),
+                      },
+                    },
+                  };
                 }
                 return schema;
               });

@@ -17,7 +17,7 @@ const parseSwaggerFile = (file) => {
   }
 };
 
-const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy) =>
+const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy, authorizationToken) =>
   new Promise((resolve, reject) => {
     if (pathIsExist(pathToSwagger)) {
       logger.log(`try to get swagger by path "${pathToSwagger}"`);
@@ -33,15 +33,21 @@ const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL, disablePr
         });
       }
       //
+      if (authorizationToken) {
+        axiosOptions.headers = {
+          Authorization: authorizationToken,
+        };
+      }
+      //
       if (disableProxy) axiosOptions.proxy = false;
       //
       axios
         .get(urlToSwagger, axiosOptions)
         .then((res) => resolve(res.data))
-        .catch(() => {
+        .catch((error) => {
           const message = `error while getting swagger by URL ${urlToSwagger}`;
 
-          logger.error(message);
+          logger.error(message, "response" in error ? error.response : error);
 
           reject(message);
         });
@@ -53,9 +59,10 @@ const getSwaggerObject = (
   urlToSwagger,
   disableStrictSSL,
   disableProxy,
+  authorizationToken,
   converterOptions,
 ) =>
-  getSwaggerFile(pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy).then((file) =>
+  getSwaggerFile(pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy, authorizationToken).then((file) =>
     convertSwaggerObject(parseSwaggerFile(file), converterOptions),
   );
 

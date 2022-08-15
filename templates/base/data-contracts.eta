@@ -1,7 +1,7 @@
 <%
   const { modelTypes, utils } = it;
   const { formatDescription, require, _ } = utils;
-  
+
 
   const dataContractTemplates = {
     enum: (contract) => {

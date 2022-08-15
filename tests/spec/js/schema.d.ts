@@ -1748,14 +1748,14 @@ export declare class HttpClient<SecurityDataType = unknown> {
   private baseApiParams;
   constructor(apiConfig?: ApiConfig<SecurityDataType>);
   setSecurityData: (data: SecurityDataType | null) => void;
-  private encodeQueryParam;
-  private addQueryParam;
-  private addArrayQueryParam;
+  protected encodeQueryParam(key: string, value: any): string;
+  protected addQueryParam(query: QueryParamsType, key: string): string;
+  protected addArrayQueryParam(query: QueryParamsType, key: string): any;
   protected toQueryString(rawQuery?: QueryParamsType): string;
   protected addQueryParams(rawQuery?: QueryParamsType): string;
   private contentFormatters;
-  private mergeRequestParams;
-  private createAbortSignal;
+  protected mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams;
+  protected createAbortSignal: (cancelToken: CancelToken) => AbortSignal | undefined;
   abortRequest: (cancelToken: CancelToken) => void;
   request: <T = any, E = any>({
     body,
