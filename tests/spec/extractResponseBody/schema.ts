@@ -104,17 +104,6 @@ export interface PetTTT {
 }
 
 /**
- * Describes the result of uploading an image resource
- * @example {"code":0,"type":"type","message":"message"}
- */
-export interface ApiResponseTTT {
-  /** @format int32 */
-  code?: number;
-  type?: string;
-  message?: string;
-}
-
-/**
  * some description
  */
 export interface AmountTTT {
@@ -140,27 +129,38 @@ export interface AmountTTT {
  */
 export type CurrencyTTT = string;
 
-export interface SingleFormUrlEncodedRequestPayloadTTT {
-  /** @format string */
-  param1: string;
-  param2: string;
+export type FindPetsByStatusDataTTT = PetTTT[];
+
+export type SingleFormUrlEncodedRequestDataTTT = any;
+
+export type FormUrlEncodedRequestDataTTT = any;
+
+export type FormUrlEncodedRequest2DataTTT = any;
+
+export type FindPetsByTagsDataTTT = PetTTT[];
+
+export type GetPetByIdDataTTT = PetTTT;
+
+/**
+ * Describes the result of uploading an image resource
+ * @example {"code":0,"type":"type","message":"message"}
+ */
+export interface UploadFileDataTTT {
+  /** @format int32 */
+  code?: number;
+  type?: string;
+  message?: string;
 }
 
-export interface UpdatePetWithFormPayloadTTT {
-  /** Updated name of the pet */
-  name?: string;
+export type GetInventoryDataTTT = Record<string, number>;
 
-  /** Updated status of the pet */
-  status?: string;
-}
+export type PlaceOrderDataTTT = OrderTTT;
 
-export interface UploadFilePayloadTTT {
-  /** Additional data to pass to server */
-  additionalMetadata?: string;
+export type GetOrderByIdDataTTT = OrderTTT;
 
-  /** file to upload */
-  file?: File;
-}
+export type LoginUserDataTTT = string;
+
+export type GetUserByNameDataTTT = UserTTT;
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -431,12 +431,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     findPetsByStatus: (query: { status: ("available" | "pending" | "sold")[] }, params: RequestParams = {}) =>
-      this.request<PetTTT[], void>({
+      this.request<FindPetsByStatusDataTTT, void>({
         path: `/pet/findByStatus`,
         method: "GET",
         query: query,
         secure: true,
-        format: "json",
         ...params,
       }),
 
@@ -448,8 +447,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary summary
      * @request POST:/pet/single-form-url-encoded
      */
-    singleFormUrlEncodedRequest: (data: SingleFormUrlEncodedRequestPayloadTTT, params: RequestParams = {}) =>
-      this.request<void, void>({
+    singleFormUrlEncodedRequest: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
+      this.request<SingleFormUrlEncodedRequestDataTTT, void>({
         path: `/pet/single-form-url-encoded`,
         method: "POST",
         body: data,
@@ -466,7 +465,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/pet/form-url-encoded
      */
     formUrlEncodedRequest: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.request<FormUrlEncodedRequestDataTTT, void>({
         path: `/pet/form-url-encoded`,
         method: "POST",
         body: data,
@@ -485,7 +484,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @duplicate
      */
     formUrlEncodedRequest2: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.request<FormUrlEncodedRequest2DataTTT, void>({
         path: `/pet/end-form-url-encoded`,
         method: "POST",
         body: data,
@@ -504,12 +503,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     findPetsByTags: (query: { tags: string[] }, params: RequestParams = {}) =>
-      this.request<PetTTT[], void>({
+      this.request<FindPetsByTagsDataTTT, void>({
         path: `/pet/findByTags`,
         method: "GET",
         query: query,
         secure: true,
-        format: "json",
         ...params,
       }),
 
@@ -523,11 +521,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     getPetById: (petId: number, params: RequestParams = {}) =>
-      this.request<PetTTT, void>({
+      this.request<GetPetByIdDataTTT, void>({
         path: `/pet/${petId}`,
         method: "GET",
         secure: true,
-        format: "json",
         ...params,
       }),
 
@@ -540,7 +537,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/pet/{petId}
      * @secure
      */
-    updatePetWithForm: (petId: number, data: UpdatePetWithFormPayloadTTT, params: RequestParams = {}) =>
+    updatePetWithForm: (petId: number, data: { name?: string; status?: string }, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/pet/${petId}`,
         method: "POST",
@@ -576,14 +573,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/pet/{petId}/uploadImage
      * @secure
      */
-    uploadFile: (petId: number, data: UploadFilePayloadTTT, params: RequestParams = {}) =>
-      this.request<ApiResponseTTT, any>({
+    uploadFile: (petId: number, data: { additionalMetadata?: string; file?: File }, params: RequestParams = {}) =>
+      this.request<UploadFileDataTTT, any>({
         path: `/pet/${petId}/uploadImage`,
         method: "POST",
         body: data,
         secure: true,
         type: ContentType.FormData,
-        format: "json",
         ...params,
       }),
   };
@@ -598,11 +594,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     getInventory: (params: RequestParams = {}) =>
-      this.request<Record<string, number>, any>({
+      this.request<GetInventoryDataTTT, any>({
         path: `/store/inventory`,
         method: "GET",
         secure: true,
-        format: "json",
         ...params,
       }),
 
@@ -615,12 +610,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/store/order
      */
     placeOrder: (body: OrderTTT, params: RequestParams = {}) =>
-      this.request<OrderTTT, void>({
+      this.request<PlaceOrderDataTTT, void>({
         path: `/store/order`,
         method: "POST",
         body: body,
         type: ContentType.Json,
-        format: "json",
         ...params,
       }),
 
@@ -633,10 +627,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/store/order/{orderId}
      */
     getOrderById: (orderId: number, params: RequestParams = {}) =>
-      this.request<OrderTTT, void>({
+      this.request<GetOrderByIdDataTTT, void>({
         path: `/store/order/${orderId}`,
         method: "GET",
-        format: "json",
         ...params,
       }),
 
@@ -716,11 +709,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/login
      */
     loginUser: (query: { username: string; password: string }, params: RequestParams = {}) =>
-      this.request<CurrencyTTT, void>({
+      this.request<LoginUserDataTTT, void>({
         path: `/user/login`,
         method: "GET",
         query: query,
-        format: "json",
         ...params,
       }),
 
@@ -748,10 +740,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/{username}
      */
     getUserByName: (username: string, params: RequestParams = {}) =>
-      this.request<UserTTT, void>({
+      this.request<GetUserByNameDataTTT, void>({
         path: `/user/${username}`,
         method: "GET",
-        format: "json",
         ...params,
       }),
 

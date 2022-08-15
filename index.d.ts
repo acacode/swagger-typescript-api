@@ -93,6 +93,10 @@ interface GenerateApiParams {
    */
   extractRequestBody?: boolean;
   /**
+   * extract response body type to data contract
+   */
+  extractResponseBody?: boolean;
+  /**
    * prettier configuration
    */
   prettier?: object;

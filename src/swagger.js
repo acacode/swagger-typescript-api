@@ -38,23 +38,17 @@ const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL, disablePr
       axios
         .get(urlToSwagger, axiosOptions)
         .then((res) => resolve(res.data))
-        .catch(() => {
+        .catch((error) => {
           const message = `error while getting swagger by URL ${urlToSwagger}`;
 
-          logger.error(message);
+          logger.error(message, "response" in error ? error.response : error);
 
           reject(message);
         });
     }
   });
 
-const getSwaggerObject = (
-  pathToSwagger,
-  urlToSwagger,
-  disableStrictSSL,
-  disableProxy,
-  converterOptions,
-) =>
+const getSwaggerObject = (pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy, converterOptions) =>
   getSwaggerFile(pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy).then((file) =>
     convertSwaggerObject(parseSwaggerFile(file), converterOptions),
   );

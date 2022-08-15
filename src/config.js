@@ -38,6 +38,7 @@ const config = {
   disableProxy: false,
   extractRequestParams: false,
   extractRequestBody: false,
+  extractResponseBody: false,
   fileNames: {
     dataContracts: "data-contracts",
     routeTypes: "route-types",
