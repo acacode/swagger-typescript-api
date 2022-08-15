@@ -1515,6 +1515,17 @@ export class HttpClient<SecurityDataType = unknown> {
   protected createFormData(input: Record<string, unknown>): FormData {
     return Object.keys(input || {}).reduce((formData, key) => {
       const property = input[key];
+      const propertyContent: Iterable<any> = property instanceof Array ? property : [property];
+
+      for (const formItem of propertyContent) {
+        const isFileType = formItem instanceof Blob || formItem instanceof File;
+        formData.append(key, isFileType ? formItem : this.stringifyFormItem(formItem));
+      }
+
+      return formData;
+    }, new FormData());
+    return Object.keys(input || {}).reduce((formData, key) => {
+      const property = input[key];
       formData.append(
         key,
         property instanceof Blob
@@ -1542,7 +1553,7 @@ export class HttpClient<SecurityDataType = unknown> {
         (await this.securityWorker(this.securityData))) ||
       {};
     const requestParams = this.mergeRequestParams(params, secureParams);
-    const responseFormat = (format && this.format) || void 0;
+    const responseFormat = format || this.format || undefined;
 
     if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
       body = this.createFormData(body as Record<string, unknown>);
