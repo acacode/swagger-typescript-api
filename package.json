@@ -33,6 +33,7 @@
     "test:--extract-request-params": "node tests/spec/extractRequestParams/test.js",
     "test:--extract-request-body": "node tests/spec/extractRequestBody/test.js",
     "test:--extract-response-body": "node tests/spec/extractResponseBody/test.js",
+    "test:--extract-response-error": "node tests/spec/extractResponseError/test.js",
     "test:--enum-names-as-values": "node tests/spec/enumNamesAsValues/test.js",
     "test:--default-response": "node tests/spec/defaultResponse/test.js",
     "test:--js": "node tests/spec/js/test.js",

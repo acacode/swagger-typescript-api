@@ -82,6 +82,10 @@ interface GenerateApiParamsBase {
    */
   extractResponseBody?: boolean;
   /**
+   * extract response error type to data contract
+   */
+  extractResponseError?: boolean;
+  /**
    * prettier configuration
    */
   prettier?: object;

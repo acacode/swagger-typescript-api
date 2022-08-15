@@ -39,6 +39,7 @@ const config = {
   extractRequestParams: false,
   extractRequestBody: false,
   extractResponseBody: false,
+  extractResponseError: false,
   fileNames: {
     dataContracts: "data-contracts",
     routeTypes: "route-types",

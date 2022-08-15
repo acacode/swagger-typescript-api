@@ -567,7 +567,8 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, moduleNameFi
             routeName,
           });
 
-          extractResponseBodyIfThatNeeded(routeInfo, responseBodyInfo, routeParams, rawRouteInfo, routeName);
+          extractResponseBodyIfItNeeded(routeInfo, responseBodyInfo, routeParams, rawRouteInfo, routeName);
+          extractResponseErrorIfItNeeded(routeInfo, responseBodyInfo, routeParams, rawRouteInfo, routeName);
 
           const queryType = routeParams.query.length ? getInlineParseContent(queryObjectSchema) : null;
           const pathType = routeParams.path.length ? getInlineParseContent(pathObjectSchema) : null;
@@ -733,7 +734,7 @@ const groupRoutes = (routes) => {
   );
 };
 
-const extractResponseBodyIfThatNeeded = (routeInfo, responseBodyInfo, routeParams, rawRouteInfo, routeName) => {
+const extractResponseBodyIfItNeeded = (routeInfo, responseBodyInfo, routeParams, rawRouteInfo, routeName) => {
   if (
     config.extractResponseBody &&
     responseBodyInfo.responses.length &&
@@ -759,6 +760,43 @@ const extractResponseBodyIfThatNeeded = (routeInfo, responseBodyInfo, routeParam
         responseBodyInfo.responses[idx] = successResponse.schema;
       }
     }
+  }
+};
+
+const extractResponseErrorIfItNeeded = (routeInfo, responseBodyInfo, routeParams, rawRouteInfo, routeName) => {
+  if (
+    config.extractResponseError &&
+    responseBodyInfo.responses.length &&
+    responseBodyInfo.error.schemas &&
+    responseBodyInfo.error.schemas.length
+  ) {
+    const typeName = config.componentTypeNameResolver.resolve([
+      classNameCase(`${routeName.usage} Error`),
+      classNameCase(`${routeName.usage} Fail`),
+      classNameCase(`${routeName.usage} Fails`),
+      classNameCase(`${routeName.usage} ErrorData`),
+      classNameCase(`${routeName.usage} HttpError`),
+      classNameCase(`${routeName.usage} BadResponse`),
+    ]);
+
+    const errorSchemas = responseBodyInfo.error.schemas.map(getSchemaFromRequestType).filter(Boolean);
+
+    if (!errorSchemas.length) return;
+
+    const schema = parseSchema({
+      oneOf: errorSchemas,
+      title: errorSchemas
+        .map((schema) => schema.title)
+        .filter(Boolean)
+        .join(" "),
+      description: errorSchemas
+        .map((schema) => schema.description)
+        .filter(Boolean)
+        .join("\n"),
+    });
+    const component = createComponent("schemas", typeName, { ...schema });
+    responseBodyInfo.error.schemas = [component];
+    responseBodyInfo.error.type = formatModelName(component.typeName);
   }
 };
 
