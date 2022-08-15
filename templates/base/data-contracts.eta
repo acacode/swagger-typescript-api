@@ -1,7 +1,7 @@
 <%
   const { modelTypes, utils } = it;
   const { formatDescription, require, _ } = utils;
-  
+
 
   const dataContractTemplates = {
     enum: (contract) => {
@@ -20,6 +20,7 @@
 
     return _.compact([
         contract.description && formatDescription(contract.description),
+        contract.typeData.deprecated === true && '@deprecated',
         !_.isUndefined(contract.typeData.format) && `@format ${contract.typeData.format}`,
         !_.isUndefined(contract.typeData.minimum) && `@min ${contract.typeData.minimum}`,
         !_.isUndefined(contract.typeData.maximum) && `@max ${contract.typeData.maximum}`,

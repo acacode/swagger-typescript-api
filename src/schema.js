@@ -146,6 +146,7 @@ const getObjectTypeContent = (schema) => {
           rawTypeData.description ||
           _.compact(_.map(rawTypeData[getComplexType(rawTypeData)], "description"))[0] ||
           "",
+        !_.isUndefined(property.deprecated) && `@deprecated`,
         !_.isUndefined(property.format) && `@format ${property.format}`,
         !_.isUndefined(property.minimum) && `@min ${property.minimum}`,
         !_.isUndefined(property.maximum) && `@max ${property.maximum}`,
