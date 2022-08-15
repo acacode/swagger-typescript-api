@@ -14,6 +14,8 @@ const config = {
   generateClient: true,
   /** CLI flag */
   generateUnionEnums: false,
+  /** CLI flag */
+  addReadonly: false,
   enumNamesAsValues: false,
   /** parsed swagger schema from getSwaggerObject() */
 
@@ -59,6 +61,8 @@ const config = {
   singleHttpClient: false,
   httpClientType: HTTP_CLIENT.FETCH,
   unwrapResponseData: false,
+  disableThrowOnError: false,
+  sortTypes: false,
   templatePaths: {
     /** `templates/base` */
     base: "",
@@ -83,6 +87,7 @@ const config = {
   silent: false,
   typePrefix: "",
   typeSuffix: "",
+  patch: false,
   componentTypeNameResolver: new NameResolver([]),
 };
 

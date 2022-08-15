@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "9.2.0",
+  "version": "9.3.1",
   "description": "Generate typescript/javascript api from swagger schema",
   "scripts": {
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
@@ -23,6 +23,7 @@
     "test:--default-as-success": "node tests/spec/defaultAsSuccess/test.js",
     "test:--templates": "node tests/spec/templates/test.js",
     "test:--union-enums": "node tests/spec/unionEnums/test.js",
+    "test:--add-readonly": "node tests/spec/readonly/test.js",
     "test:--responses": "node tests/spec/responses/test.js",
     "test:specProperty": "node tests/spec/specProperty/test.js",
     "test:--module-name-index": "node tests/spec/moduleNameIndex/test.js",
@@ -39,13 +40,15 @@
     "test:--axios--single-http-client": "node tests/spec/axiosSingleHttpClient/test.js",
     "test:--type-suffix--type-prefix": "node tests/spec/typeSuffixPrefix/test.js",
     "test:partialBaseTemplate": "node tests/spec/partialBaseTemplate/test.js",
-    "test:partialDefaultTemplate": "node tests/spec/partialDefaultTemplate/test.js"
+    "test:partialDefaultTemplate": "node tests/spec/partialDefaultTemplate/test.js",
+    "test:--patch": "node tests/spec/patch/test.js"
   },
   "author": "acacode",
   "license": "MIT",
   "typings": "./index.d.ts",
   "main": "src/index.js",
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/lodash": "^4.14.166",
     "@types/node": "^15.0.2",
     "@types/prettier": "^2.1.6",
@@ -54,9 +57,10 @@
     "pretty-quick": "^3.1.0"
   },
   "dependencies": {
+    "axios": "^0.21.4",
     "@types/swagger-schema-official": "2.0.21",
-    "axios": "^0.21.1",
     "commander": "^6.2.1",
+    "cosmiconfig": "^7.0.0",
     "eta": "^1.12.1",
     "js-yaml": "^4.0.0",
     "lodash": "^4.17.21",

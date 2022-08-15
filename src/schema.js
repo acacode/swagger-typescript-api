@@ -137,9 +137,11 @@ const getObjectTypeContent = (schema) => {
     const nullable = !!(rawTypeData.nullable || property.nullable);
     const fieldName = isValidName(name) ? name : `"${name}"`;
     const fieldValue = getInlineParseContent(property);
+    const readOnly = property.readOnly;
 
     return {
       $$raw: property,
+      title: property.title,
       description: _.compact([
         property.description ||
           _.compact(_.map(property[getComplexType(property)], "description"))[0] ||
@@ -159,7 +161,13 @@ const getObjectTypeContent = (schema) => {
       isNullable: nullable,
       name: fieldName,
       value: fieldValue,
-      field: _.compact([fieldName, !required && "?", ": ", fieldValue]).join(""),
+      field: _.compact([
+        readOnly && config.addReadonly && "readonly ",
+        fieldName,
+        !required && "?",
+        ": ",
+        fieldValue,
+      ]).join(""),
     };
   });
 

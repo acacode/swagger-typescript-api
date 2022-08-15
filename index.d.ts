@@ -10,7 +10,7 @@ interface GenerateApiParamsBase {
   output?: string;
 
   /**
-   * path to folder containing templates (default: ./scr/templates)
+   * path to folder containing templates (default: ./src/templates)
    */
   templates?: string;
 
@@ -74,6 +74,10 @@ interface GenerateApiParamsBase {
    */
   extractRequestParams?: boolean;
   /**
+   * extract request body type to data contract
+   */
+  extractRequestBody?: boolean;
+  /**
    * prettier configuration
    */
   prettier?: object;
@@ -97,6 +101,11 @@ interface GenerateApiParamsBase {
    *  extra templates
    */
   extraTemplates?: { name: string; path: string }[];
+
+  /**
+   * fix up small errors in the swagger source definition
+   */
+  patch?: boolean;
 }
 
 interface GenerateApiParamsFromPath extends GenerateApiParamsBase {
@@ -137,14 +146,9 @@ export interface Hooks {
   /** customize configuration object before sending it to ETA templates */
   onPrepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C | void;
   /** customize route name as you need */
-  onCreateRouteName?: (
-    routeNameInfo: RouteNameInfo,
-    rawRouteInfo: RawRouteInfo,
-  ) => RouteNameInfo | void;
+  onCreateRouteName?: (routeNameInfo: RouteNameInfo, rawRouteInfo: RawRouteInfo) => RouteNameInfo | void;
   /** customize request params (path params, query params) */
-  onCreateRequestParams?: (
-    rawType: SchemaComponent["rawTypeData"],
-  ) => SchemaComponent["rawTypeData"] | void;
+  onCreateRequestParams?: (rawType: SchemaComponent["rawTypeData"]) => SchemaComponent["rawTypeData"] | void;
   /** customize name of model type */
   onFormatTypeName?: (typeName: string, rawTypeName?: string) => string | void;
   /** customize name of route (operationId), you can do it with using onCreateRouteName too */
@@ -221,14 +225,10 @@ export interface SchemaComponent {
     discriminator?: {
       propertyName?: string;
     };
-    $parsed: ParsedSchema<
-      SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent
-    >;
+    $parsed: ParsedSchema<SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent>;
   };
   componentName: string;
-  typeData: ParsedSchema<
-    SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent
-  > | null;
+  typeData: ParsedSchema<SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent> | null;
 }
 
 export enum RequestContentKind {
@@ -352,10 +352,7 @@ export interface GenerateApiConfiguration {
     formatDescription: (description: string, inline?: boolean) => string;
     internalCase: (value: string) => string;
     classNameCase: (value: string) => string;
-    getInlineParseContent: (
-      rawTypeData: SchemaComponent["rawTypeData"],
-      typeName?: string,
-    ) => string;
+    getInlineParseContent: (rawTypeData: SchemaComponent["rawTypeData"], typeName?: string) => string;
     getParseContent: (rawTypeData: SchemaComponent["rawTypeData"], typeName?: string) => ModelType;
     getComponentByRef: (ref: string) => SchemaComponent;
     parseSchema: (
@@ -363,14 +360,8 @@ export interface GenerateApiConfiguration {
       typeName?: string,
       formattersMap?: Record<MAIN_SCHEMA_TYPES, (content: ModelType) => string>,
     ) => ModelType;
-    formatters: Record<
-      MAIN_SCHEMA_TYPES,
-      (content: string | object | string[] | object[]) => string
-    >;
-    inlineExtraFormatters: Record<
-      Exclude<MAIN_SCHEMA_TYPES, SCHEMA_TYPES.PRIMITIVE>,
-      (schema: ModelType) => string
-    >;
+    formatters: Record<MAIN_SCHEMA_TYPES, (content: string | object | string[] | object[]) => string>;
+    inlineExtraFormatters: Record<Exclude<MAIN_SCHEMA_TYPES, SCHEMA_TYPES.PRIMITIVE>, (schema: ModelType) => string>;
     formatModelName: (name: string) => string;
     fmtToJSDocLine: (line: string, params?: { eol?: boolean }) => string;
     _: import("lodash").LoDashStatic;
@@ -381,12 +372,7 @@ export interface GenerateApiConfiguration {
 export interface GenerateApiOutput {
   configuration: GenerateApiConfiguration;
   files: { name: string; content: string; declaration: { name: string; content: string } | null }[];
-  createFile: (params: {
-    path: string;
-    fileName: string;
-    content: string;
-    withPrefix?: boolean;
-  }) => void;
+  createFile: (params: { path: string; fileName: string; content: string; withPrefix?: boolean }) => void;
   renderTemplate: (
     templateContent: string,
     data: Record<string, unknown>,
