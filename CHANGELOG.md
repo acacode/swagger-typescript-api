@@ -1,5 +1,9 @@
 # next release
 
+# 10.0.*  
+
+fix: problem with default http request headers in axios client
+
 # 10.0.1  
 
 - fix problem linked with [this.name is not a function](https://github.com/acacode/swagger-typescript-api/issues/381)  
