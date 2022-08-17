@@ -145,6 +145,7 @@ generateApi({
 ## 💎 options   
 ### **`--templates`**  
 This option needed for cases when you don't want to use the default `swagger-typescript-api` output structure  
+You can create custom templates with extensions `.ejs` or `.eta`  
 
 Templates:  
 - `api.ejs` - Api class module (locations: [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default/api.ejs), [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular/api.ejs))  
