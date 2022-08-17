@@ -207,6 +207,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "jiangmaniu",
+      "name": "江麻妞",
+      "avatar_url": "https://avatars.githubusercontent.com/u/50100681?v=4",
+      "profile": "http://imaniu.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
