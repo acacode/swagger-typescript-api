@@ -255,6 +255,15 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "PatrickShaw",
+      "name": "Patrick Shaw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5153619?v=4",
+      "profile": "https://www.linkedin.com/in/patrick-shaw/",
+      "contributions": [
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
