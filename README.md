@@ -2,7 +2,7 @@
 
 [![NPM badge](https://img.shields.io/npm/v/swagger-typescript-api.svg)](https://www.npmjs.com/package/swagger-typescript-api) 
 [![CI](https://github.com/acacode/swagger-typescript-api/actions/workflows/main.yml/badge.svg?branch=next)](https://github.com/acacode/swagger-typescript-api/actions/workflows/main.yml) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-22-orange.svg)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-23-orange.svg)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <img src="https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/swagger-typescript-api-logo.png" align="left"
@@ -239,6 +239,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/armsnyder"><img src="https://avatars.githubusercontent.com/u/9969202?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Adam Snyder</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=armsnyder" title="Code">💻</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Aarmsnyder" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/jnpoyser"><img src="https://avatars.githubusercontent.com/u/7920428?v=4?s=100" width="100px;" alt=""/><br /><sub><b>James Poyser</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=jnpoyser" title="Code">💻</a> <a href="#ideas-jnpoyser" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="http://ru.linkedin.com/in/lisikhin"><img src="https://avatars.githubusercontent.com/u/475367?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alexey</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3ANihisil" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/baggoedw"><img src="https://avatars.githubusercontent.com/u/92381702?v=4?s=100" width="100px;" alt=""/><br /><sub><b>baggoedw</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=baggoedw" title="Code">💻</a></td>
+  </tr>
+  <tr>
     <td align="center"><a href="https://kspr.dev"><img src="https://avatars.githubusercontent.com/u/5294519?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kasper Moskwiak</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=kmoskwiak" title="Code">💻</a> <a href="#ideas-kmoskwiak" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="http://imaniu.com"><img src="https://avatars.githubusercontent.com/u/50100681?v=4?s=100" width="100px;" alt=""/><br /><sub><b>江麻妞</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=jiangmaniu" title="Code">💻</a></td>
   </tr>
