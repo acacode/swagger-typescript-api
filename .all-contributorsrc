@@ -264,6 +264,15 @@
       "contributions": [
         "review"
       ]
+    },
+    {
+      "login": "jinkwon",
+      "name": "JK",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1798916?v=4",
+      "profile": "https://www.linkedin.com/in/jinkwon-lee",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
