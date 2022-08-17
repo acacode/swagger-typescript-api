@@ -235,6 +235,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "MarcusDunn",
+      "name": "Marcus Dunn",
+      "avatar_url": "https://avatars.githubusercontent.com/u/51931484?v=4",
+      "profile": "https://marcusdunn.github.io",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
