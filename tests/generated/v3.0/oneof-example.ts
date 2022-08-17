@@ -9,14 +9,14 @@
  * ---------------------------------------------------------------
  */
 
+export interface Cat {
+  age?: number;
+  hunts?: boolean;
+}
+
 export interface Dog {
   bark?: boolean;
   breed?: "Dingo" | "Husky" | "Retriever" | "Shepherd";
-}
-
-export interface Cat {
-  hunts?: boolean;
-  age?: number;
 }
 
 export type QueryParamsType = Record<string | number, any>;

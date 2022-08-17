@@ -13,15 +13,15 @@ export interface Bar {
   A?: string;
   /** @format int32 */
   B: number;
+  Baz?: Baz;
   /** @format date-time */
   C: string;
-  Baz?: Baz;
 }
 
 export interface Baz {
+  Color: Color;
   /** @format decimal */
   D: number;
-  Color: Color;
 }
 
 export enum Color {

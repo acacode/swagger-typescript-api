@@ -9,6 +9,12 @@
  * ---------------------------------------------------------------
  */
 
+export interface Error {
+  /** @format int32 */
+  code: number;
+  message: string;
+}
+
 export interface Pet {
   /** @format int64 */
   id: number;
@@ -17,12 +23,6 @@ export interface Pet {
 }
 
 export type Pets = Pet[];
-
-export interface Error {
-  /** @format int32 */
-  code: number;
-  message: string;
-}
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;

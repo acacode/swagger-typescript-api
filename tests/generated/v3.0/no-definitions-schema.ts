@@ -10,13 +10,13 @@
  */
 
 export interface BasicErrorModel {
-  message: string;
-  field?: string | null;
   /**
    * @min 100
    * @max 600
    */
   code: number;
+  field?: string | null;
+  message: string;
 }
 
 export type ExtendedErrorModel = BasicErrorModel & {

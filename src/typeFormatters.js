@@ -44,16 +44,20 @@ const formatters = {
 /** transform content of parsed schema to string or compact size */
 const inlineExtraFormatters = {
   [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
+    if (_.isString(parsedSchema.content)) {
+      return {
+        ...parsedSchema,
+        typeIdentifier: TS_KEYWORDS.TYPE,
+        content: checkAndAddNull(parsedSchema.content),
+      };
+    }
+
     return {
       ...parsedSchema,
       typeIdentifier: TS_KEYWORDS.TYPE,
       content: checkAndAddNull(
         parsedSchema,
-        _.isString(parsedSchema.content)
-          ? parsedSchema.content
-          : parsedSchema.content.length
-          ? `{\n${formatObjectContent(parsedSchema.content)}\n}`
-          : TS_EXTERNAL.RECORD,
+        parsedSchema.content.length ? `{\n${formatObjectContent(parsedSchema.content)}\n}` : TS_EXTERNAL.RECORD,
       ),
     };
   },

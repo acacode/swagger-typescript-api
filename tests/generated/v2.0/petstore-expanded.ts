@@ -9,20 +9,15 @@
  * ---------------------------------------------------------------
  */
 
-export type Pet = NewPet & {
-  /** @format int64 */
-  id: number;
-};
-
-export interface NewPet {
-  name: string;
-  tag?: string;
-}
-
 export interface Error {
   /** @format int32 */
   code: number;
   message: string;
+}
+
+export interface NewPet {
+  name: string;
+  tag?: string;
 }
 
 export interface PageTemplateResponseDto {
@@ -43,6 +38,11 @@ export interface PageTemplateResponseDto {
   /** @format int32 */
   totalPages?: number;
 }
+
+export type Pet = NewPet & {
+  /** @format int64 */
+  id: number;
+};
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;

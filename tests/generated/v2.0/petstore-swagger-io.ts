@@ -9,38 +9,21 @@
  * ---------------------------------------------------------------
  */
 
+export interface ApiResponse {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+  type?: string;
+}
+
 export interface Category {
   /** @format int64 */
   id?: number;
   name?: string;
 }
 
-export interface Pet {
-  /** @format int64 */
-  id?: number;
-  category?: Category;
-  /** @example doggie */
-  name: string;
-  photoUrls: string[];
-  tags?: Tag[];
-  /** pet status in the store */
-  status?: "available" | "pending" | "sold";
-}
-
-export interface Tag {
-  /** @format int64 */
-  id?: number;
-  name?: string;
-}
-
-export interface ApiResponse {
-  /** @format int32 */
-  code?: number;
-  type?: string;
-  message?: string;
-}
-
 export interface Order {
+  complete?: boolean;
   /** @format int64 */
   id?: number;
   /** @format int64 */
@@ -51,16 +34,32 @@ export interface Order {
   shipDate?: string;
   /** Order Status */
   status?: "placed" | "approved" | "delivered";
-  complete?: boolean;
+}
+
+export interface Pet {
+  category?: Category;
+  /** @format int64 */
+  id?: number;
+  /** @example doggie */
+  name: string;
+  photoUrls: string[];
+  /** pet status in the store */
+  status?: "available" | "pending" | "sold";
+  tags?: Tag[];
+}
+
+export interface Tag {
+  /** @format int64 */
+  id?: number;
+  name?: string;
 }
 
 export interface User {
+  email?: string;
+  firstName?: string;
   /** @format int64 */
   id?: number;
-  username?: string;
-  firstName?: string;
   lastName?: string;
-  email?: string;
   password?: string;
   phone?: string;
   /**
@@ -68,6 +67,7 @@ export interface User {
    * @format int32
    */
   userStatus?: number;
+  username?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;

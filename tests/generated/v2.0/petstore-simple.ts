@@ -9,6 +9,17 @@
  * ---------------------------------------------------------------
  */
 
+export interface ErrorModel {
+  /** @format int32 */
+  code: number;
+  message: string;
+}
+
+export interface NewPet {
+  name: string;
+  tag?: string;
+}
+
 export type Pet = NewPet & {
   /** @format int64 */
   id: number;
@@ -22,17 +33,6 @@ export type Test = NewPet;
 export interface Test2 {
   /** Field description */
   data?: NewPet;
-}
-
-export interface NewPet {
-  name: string;
-  tag?: string;
-}
-
-export interface ErrorModel {
-  /** @format int32 */
-  code: number;
-  message: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;

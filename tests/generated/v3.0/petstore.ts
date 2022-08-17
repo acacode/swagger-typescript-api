@@ -9,7 +9,11 @@
  * ---------------------------------------------------------------
  */
 
-export type StringNullable = string | null;
+export interface Error {
+  /** @format int32 */
+  code: number;
+  message: string;
+}
 
 export interface Pet {
   /** @format int64 */
@@ -20,11 +24,7 @@ export interface Pet {
 
 export type Pets = Pet[];
 
-export interface Error {
-  /** @format int32 */
-  code: number;
-  message: string;
-}
+export type StringNullable = string | null;
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;

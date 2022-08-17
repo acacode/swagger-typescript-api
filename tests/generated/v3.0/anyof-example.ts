@@ -15,8 +15,8 @@ export interface PetByAge {
 }
 
 export interface PetByType {
-  pet_type: "Cat" | "Dog";
   hunts?: boolean;
+  pet_type: "Cat" | "Dog";
 }
 
 export type QueryParamsType = Record<string | number, any>;

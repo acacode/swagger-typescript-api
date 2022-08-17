@@ -15,17 +15,17 @@ export interface Floop {
 
 export interface QueryParams {
   /**
-   * Page number
-   * @format int32
-   * @min 0
-   */
-  page?: number | null;
-  /**
    * Page size
    * @format int32
    * @min 0
    */
   "page-size"?: number | null;
+  /**
+   * Page number
+   * @format int32
+   * @min 0
+   */
+  page?: number | null;
 }
 
 export type QueryParamsType = Record<string | number, any>;

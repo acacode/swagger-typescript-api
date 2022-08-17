@@ -9,19 +9,19 @@
  * ---------------------------------------------------------------
  */
 
+export type OtherObject = object;
+
 export interface TestObject {
-  stringMaybeUndefined?: string;
-  stringMaybeNullA: string | null;
-  stringMaybeNullB: string | null;
-  stringMaybeNullAndUndefined?: string | null;
-  otherObjectMaybeUndefined?: OtherObject;
   otherObjectMaybeNullA: OtherObject | null;
   otherObjectMaybeNullB: OtherObject | null;
   otherObjectMaybeNullC: OtherObject | null;
   otherObjectMaybeNullD: OtherObject | null;
+  otherObjectMaybeUndefined?: OtherObject;
+  stringMaybeNullA: string | null;
+  stringMaybeNullAndUndefined?: string | null;
+  stringMaybeNullB: string | null;
+  stringMaybeUndefined?: string;
 }
-
-export type OtherObject = object;
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;

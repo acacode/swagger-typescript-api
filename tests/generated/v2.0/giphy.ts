@@ -147,16 +147,6 @@ export interface Gif {
 
 export interface Image {
   /**
-   * The number of frames in this GIF.
-   * @example 15
-   */
-  frames?: string;
-  /**
-   * The height of this GIF in pixels.
-   * @example 200
-   */
-  height?: string;
-  /**
    * The URL for this GIF in .MP4 format.
    * @example https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy.mp4
    */
@@ -166,6 +156,16 @@ export interface Image {
    * @example 25123
    */
   mp4_size?: string;
+  /**
+   * The number of frames in this GIF.
+   * @example 15
+   */
+  frames?: string;
+  /**
+   * The height of this GIF in pixels.
+   * @example 200
+   */
+  height?: string;
   /**
    * The size of this GIF in bytes.
    * @example 32381

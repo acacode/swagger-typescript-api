@@ -9,21 +9,21 @@
  * ---------------------------------------------------------------
  */
 
-export interface User {
-  username?: string;
-  uuid?: string;
+export interface Pullrequest {
+  author?: User;
+  id?: number;
+  repository?: Repository;
+  title?: string;
 }
 
 export interface Repository {
-  slug?: string;
   owner?: User;
+  slug?: string;
 }
 
-export interface Pullrequest {
-  id?: number;
-  title?: string;
-  repository?: Repository;
-  author?: User;
+export interface User {
+  username?: string;
+  uuid?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;

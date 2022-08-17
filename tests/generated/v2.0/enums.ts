@@ -9,30 +9,6 @@
  * ---------------------------------------------------------------
  */
 
-export enum OnlyEnumNames {
-  Bla = "Bla",
-  Blabla = "Blabla",
-  Boiler = "Boiler",
-}
-
-export enum StringOnlyEnumNames {
-  Bla = "Bla",
-  Blabla = "Blabla",
-  Boiler = "Boiler",
-}
-
-export enum StringEnums {
-  Bla = "foo",
-  Blabla = "bar",
-  Boiler = "Boiler",
-}
-
-export enum StringCompleteEnums {
-  Bla = "foo",
-  Blabla = "bar",
-  Boiler = "baz",
-}
-
 /**
  * @format int32
  */
@@ -47,6 +23,12 @@ export enum EmptyEnum {
  */
 export enum EnumWithMoreNames {
   Bla = 1,
+  Blabla = "Blabla",
+  Boiler = "Boiler",
+}
+
+export enum OnlyEnumNames {
+  Bla = "Bla",
   Blabla = "Blabla",
   Boiler = "Boiler",
 }
@@ -72,6 +54,24 @@ export enum SomeInterestEnum {
   ASdsdsa = "ASdsdsa",
   ASDds = "ASDds",
   HSDFDS = "HSDFDS",
+}
+
+export enum StringCompleteEnums {
+  Bla = "foo",
+  Blabla = "bar",
+  Boiler = "baz",
+}
+
+export enum StringEnums {
+  Bla = "foo",
+  Blabla = "bar",
+  Boiler = "Boiler",
+}
+
+export enum StringOnlyEnumNames {
+  Bla = "Bla",
+  Blabla = "Blabla",
+  Boiler = "Boiler",
 }
 
 export type QueryParamsType = Record<string | number, any>;

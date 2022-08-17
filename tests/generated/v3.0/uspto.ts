@@ -9,20 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-export enum SomeEnum {
-  Foo = "Foo",
-  Bar = "Bar",
-  FooBar = "Foo Bar",
-}
-
-export enum Status {
-  Resolved = "resolved",
-  New = "new",
-  InProgress = "in progress",
-}
-
 export interface DataSetList {
-  total?: number;
   apis?: {
     /** To be used as a dataset parameter value */
     apiKey?: string;
@@ -39,6 +26,19 @@ export interface DataSetList {
      */
     apiDocumentationUrl?: string;
   }[];
+  total?: number;
+}
+
+export enum SomeEnum {
+  Foo = "Foo",
+  Bar = "Bar",
+  FooBar = "Foo Bar",
+}
+
+export enum Status {
+  Resolved = "resolved",
+  New = "new",
+  InProgress = "in progress",
 }
 
 export type QueryParamsType = Record<string | number, any>;

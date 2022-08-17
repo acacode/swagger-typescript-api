@@ -13,13 +13,13 @@
  * RECURSIVE
  */
 export interface RecursiveObject {
+  /** RECURSIVE */
+  bar?: RecursiveObject;
   /**
    * Unique identifier of the GitHub app
    * @example 37
    */
   id?: number;
-  /** RECURSIVE */
-  bar?: RecursiveObject;
 }
 
 export type QueryParamsType = Record<string | number, any>;

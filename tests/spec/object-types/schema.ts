@@ -36,6 +36,10 @@ export type Test1 = {
   multiple: string | number;
 } | null;
 
-export interface Test2 {
+export interface AdditionalObjectProperties {
+  id?: string;
+}
+
+export interface AdditionalIntProperties {
   id?: string;
 }

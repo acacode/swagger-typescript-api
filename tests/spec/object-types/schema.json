@@ -49,7 +49,7 @@
         }
       }
     },
-    "Test2": {
+    "AdditionalObjectProperties": {
       "type": "object",
       "properties": {
         "id": {
@@ -58,6 +58,18 @@
       },
       "additionalProperties": {
         "type": "object"
+      }
+    },
+    "AdditionalIntProperties": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {
+        "type": "integer",
+        "format": "int32"
       }
     }
   }

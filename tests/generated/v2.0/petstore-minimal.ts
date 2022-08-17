@@ -12,9 +12,9 @@
 export interface Pet {
   /** @format int64 */
   id: number;
+  multiple?: string | number;
   name: string;
   tag?: string;
-  multiple?: string | number;
 }
 
 export type QueryParamsType = Record<string | number, any>;
