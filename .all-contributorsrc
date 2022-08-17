@@ -245,6 +245,16 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "hedgepigdaniel",
+      "name": "Daniel Playfair Cal",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1217649?v=4",
+      "profile": "https://www.danielplayfaircal.com/",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
