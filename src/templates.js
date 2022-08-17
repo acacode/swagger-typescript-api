@@ -14,6 +14,10 @@ const TEMPLATE_EXTENSIONS = [".eta", ".ejs"];
 const TEMPLATE_INFOS = [
   { name: "api", fileName: "api" },
   { name: "dataContracts", fileName: "data-contracts" },
+  { name: "dataContractJsDoc", fileName: "data-contract-jsdoc" },
+  { name: "interfaceDataContract", fileName: "interface-data-contract" },
+  { name: "typeDataContract", fileName: "type-data-contract" },
+  { name: "enumDataContract", fileName: "enum-data-contract" },
   { name: "httpClient", fileName: "http-client" },
   { name: "routeTypes", fileName: "route-types" },
   { name: "routeName", fileName: "route-name" },

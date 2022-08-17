@@ -148,14 +148,19 @@ This option needed for cases when you don't want to use the default `swagger-typ
 You can create custom templates with extensions `.ejs` or `.eta`  
 
 Templates:  
-- `api.ejs` - Api class module (locations: [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default/api.ejs), [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular/api.ejs))  
-- `data-contracts.ejs` - all types (data contracts) from swagger schema (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/data-contracts.ejs))  
-- `http-client.ejs` - HttpClient class module (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/http-client.ejs))  
-- `procedure-call.ejs` - route in Api class (locations: [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default/procedure-call.ejs), [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular/procedure-call.ejs))  
-- `route-docs.ejs` - documentation for route in Api class (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-docs.ejs))  
-- `route-name.ejs` - route name for route in Api class (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-name.ejs))  
-- `route-type.ejs` - *(`--route-types` option)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-type.ejs))  
-- `route-types.ejs` - *(`--route-types` option)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-types.ejs))  
+- `api.ejs` - *(generates file)* Api class module (locations: [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default/api.ejs), [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular/api.ejs))  
+- `data-contracts.ejs` - *(generates file)* all types (data contracts) from swagger schema (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/data-contracts.ejs))  
+- `http-client.ejs` - *(generates file)* HttpClient class module (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/http-client.ejs))  
+- `procedure-call.ejs` - *(subtemplate)* route in Api class (locations: [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default/procedure-call.ejs), [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular/procedure-call.ejs))  
+- `route-docs.ejs` - *(generates file)* documentation for route in Api class (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-docs.ejs))  
+- `route-name.ejs` - *(subtemplate)*   route name for route in Api class (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-name.ejs))  
+- `route-type.ejs` - *(`--route-types` option)* *(subtemplate)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-type.ejs))  
+- `route-types.ejs` - *(`--route-types` option)* *(subtemplate)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-types.ejs))  
+- `enum-data-contract.ejs` - *(subtemplate)* generates `enum` data contract (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/enum-data-contract.ejs))
+- `interface-data-contract.ejs` - *(subtemplate)* generates `interface` data contract (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/interface-data-contract.ejs))
+- `type-data-contract.ejs` - *(subtemplate)* generates `type` data contract (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/type-data-contract.ejs))
+- `data-contract-jsdoc.ejs` - *(subtemplate)* generates JSDOC for data contract (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/data-contract-jsdoc.ejs))
+
 
 How to use it:  
 1. copy `swagger-typescript-api` templates into your place in project
@@ -172,15 +177,15 @@ NOTE:
     `@default` - [path to single api file templates](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default)  
     `@modular` - [path to multiple api files templates](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular)  
   Examples:  
-    - `includeFile("@base/data-contracts.ejs", configuration)`  
-    - `includeFile("@default/api.ejs", configuration)`  
-    - `includeFile("@default/procedure-call.ejs", configuration)`  
-    - `includeFile("@modular/api.ejs", configuration)`  
-    - `includeFile("@modular/procedure-call.ejs", configuration)`  
-    - `includeFile("@base/route-docs.ejs", configuration)`  
-    - `includeFile("@base/route-name.ejs", configuration)`  
-    - `includeFile("@base/route-type.ejs", configuration)`  
-    - `includeFile("@base/route-types.ejs", configuration)`  
+    - `includeFile("@base/data-contracts.ejs", { ...yourData, ...it })`  
+    - `includeFile("@default/api.ejs", { ...yourData, ...it })`  
+    - `includeFile("@default/procedure-call.ejs", { ...yourData, ...it })`  
+    - `includeFile("@modular/api.ejs", { ...yourData, ...it })`  
+    - `includeFile("@modular/procedure-call.ejs", { ...yourData, ...it })`  
+    - `includeFile("@base/route-docs.ejs", { ...yourData, ...it })`  
+    - `includeFile("@base/route-name.ejs", { ...yourData, ...it })`  
+    - `includeFile("@base/route-type.ejs", { ...yourData, ...it })`  
+    - `includeFile("@base/route-types.ejs", { ...yourData, ...it })`  
 
 ### **`--module-name-index`**  
 This option should be used in cases when you have api with one global prefix like `/api`   
