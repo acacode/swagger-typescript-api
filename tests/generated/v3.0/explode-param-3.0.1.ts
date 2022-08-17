@@ -20,7 +20,6 @@ export interface QueryParams {
    * @min 0
    */
   page?: number | null;
-
   /**
    * Page size
    * @format int32
@@ -252,7 +251,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Some summary
      * @request POST:/{user}/foos
      */
-    createFile: (user: string, data: { meme: string; memeType?: string }, params: RequestParams = {}) =>
+    createFile: (
+      user: string,
+      data: {
+        meme: string;
+        memeType?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Floop, any>({
         path: `/${user}/foos`,
         method: "POST",
@@ -269,7 +275,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name Gets
      * @request GET:/something/
      */
-    gets: (query?: { params?: QueryParams }, params: RequestParams = {}) =>
+    gets: (
+      query?: {
+        params?: QueryParams;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<any, any>({
         path: `/something/`,
         method: "GET",

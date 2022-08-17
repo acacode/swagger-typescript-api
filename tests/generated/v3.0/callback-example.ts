@@ -229,8 +229,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name StreamsCreate
      * @request POST:/streams
      */
-    streamsCreate: (query: { callbackUrl: string }, params: RequestParams = {}) =>
-      this.request<{ subscriptionId: string }, any>({
+    streamsCreate: (
+      query: {
+        /**
+         * the location where data will be sent.  Must be network accessible
+         * by the source server
+         *
+         * @format uri
+         * @example https://tonys-server.com
+         */
+        callbackUrl: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /**
+           * this unique identifier allows management of the subscription
+           * @example 2531329f-fb09-4ef7-887e-84e648214436
+           */
+          subscriptionId: string;
+        },
+        any
+      >({
         path: `/streams`,
         method: "POST",
         query: query,

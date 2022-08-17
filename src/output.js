@@ -5,6 +5,7 @@ const { renderTemplate } = require("./templates");
 const { translate: translateToJS } = require("./translators/JavaScript");
 const ts = require("typescript");
 const formatFileContent = require("./formatFileContent");
+const { config } = require("./config");
 
 const getFileNameWithoutExt = (fileName) => {
   const fileNameParts = _.split(fileName, ".");
@@ -20,10 +21,17 @@ const createFileInfo = (configuration, fileName, content) => {
   const fixedFileName = getFileNameWithoutExt(fileName);
 
   if (configuration.translateToJavaScript) {
-    const { sourceContent, declarationContent } = translateToJS(
-      `${fixedFileName}${ts.Extension.Ts}`,
-      content,
-    );
+    const { sourceContent, declarationContent } = translateToJS(`${fixedFileName}${ts.Extension.Ts}`, content);
+
+    if (config.debug) {
+      console.info("generating output for", `${fixedFileName}${ts.Extension.Js}`);
+      console.info(sourceContent);
+    }
+
+    if (config.debug) {
+      console.info("generating output for", `${fixedFileName}${ts.Extension.Dts}`);
+      console.info(declarationContent);
+    }
 
     return {
       name: `${fixedFileName}${ts.Extension.Js}`,
@@ -33,6 +41,11 @@ const createFileInfo = (configuration, fileName, content) => {
         content: formatFileContent(declarationContent),
       },
     };
+  }
+
+  if (config.debug) {
+    console.info("generating output for", `${fixedFileName}${ts.Extension.Ts}`);
+    console.info(content);
   }
 
   return {
@@ -54,9 +67,7 @@ const createMultipleFileInfos = (templatesToRender, configuration) => {
         route: configuration.routes.$outOfModule,
       });
 
-      modularApiFileInfos.push(
-        createFileInfo(configuration, fileNames.outOfModuleApi, outOfModuleRouteContent),
-      );
+      modularApiFileInfos.push(createFileInfo(configuration, fileNames.outOfModuleApi, outOfModuleRouteContent));
     }
     if (generateClient) {
       const outOfModuleApiContent = renderTemplate(templatesToRender.api, {
@@ -64,9 +75,7 @@ const createMultipleFileInfos = (templatesToRender, configuration) => {
         route: configuration.routes.$outOfModule,
       });
 
-      modularApiFileInfos.push(
-        createFileInfo(configuration, fileNames.outOfModuleApi, outOfModuleApiContent),
-      );
+      modularApiFileInfos.push(createFileInfo(configuration, fileNames.outOfModuleApi, outOfModuleApiContent));
     }
   }
 
@@ -82,11 +91,7 @@ const createMultipleFileInfos = (templatesToRender, configuration) => {
             });
 
             apiFileInfos.push(
-              createFileInfo(
-                configuration,
-                classNameCase(`${route.moduleName}_Route`),
-                routeModuleContent,
-              ),
+              createFileInfo(configuration, classNameCase(`${route.moduleName}_Route`), routeModuleContent),
             );
           }
 
@@ -96,9 +101,7 @@ const createMultipleFileInfos = (templatesToRender, configuration) => {
               route,
             });
 
-            apiFileInfos.push(
-              createFileInfo(configuration, classNameCase(route.moduleName), apiModuleContent),
-            );
+            apiFileInfos.push(createFileInfo(configuration, classNameCase(route.moduleName), apiModuleContent));
           }
 
           return apiFileInfos;
@@ -115,11 +118,7 @@ const createMultipleFileInfos = (templatesToRender, configuration) => {
       renderTemplate(templatesToRender.dataContracts, configuration),
     ),
     generateClient &&
-      createFileInfo(
-        configuration,
-        fileNames.httpClient,
-        renderTemplate(templatesToRender.httpClient, configuration),
-      ),
+      createFileInfo(configuration, fileNames.httpClient, renderTemplate(templatesToRender.httpClient, configuration)),
     ...modularApiFileInfos,
   ];
 };

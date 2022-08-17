@@ -20,10 +20,16 @@ export namespace Login {
    */
   export namespace PushLoginRequest {
     export type RequestParams = {};
-    export type RequestQuery = { callback: string };
+    export type RequestQuery = {
+      /** URI App will connect to */
+      callback: string;
+    };
     export type RequestBody = PushToken;
     export type RequestHeaders = {};
-    export type ResponseBody = { status?: string };
+    export type ResponseBody = {
+      /** sent */
+      status?: string;
+    };
   }
 
   /**
@@ -37,6 +43,11 @@ export namespace Login {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = { secret?: string; status?: string };
+    export type ResponseBody = {
+      /** revoke key */
+      secret?: string;
+      /** registered */
+      status?: string;
+    };
   }
 }

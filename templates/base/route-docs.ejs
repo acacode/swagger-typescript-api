@@ -18,7 +18,7 @@ const jsDocLines = _.compact([
     ...(config.generateResponses && raw.responsesTypes.length
     ? raw.responsesTypes.map(
         ({ type, status, description, isSuccess }) =>
-            ` * @response \`${status}\` \`${type}\` ${description}`,
+            ` * @response \`${status}\` \`${_.replace(_.replace(type, /\/\*/g, "\\*"), /\*\//g, "*\\")}\` ${description}`,
         )
     : []),
 ]).join("\n");

@@ -298,7 +298,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getPullRequestsByRepository: (
       username: string,
       slug: string,
-      query?: { state?: "open" | "merged" | "declined" },
+      query?: {
+        state?: "open" | "merged" | "declined";
+      },
       params: RequestParams = {},
     ) =>
       this.request<any[], any>({

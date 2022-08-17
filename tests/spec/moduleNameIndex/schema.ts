@@ -16,16 +16,12 @@
 export interface Order {
   /** @format int64 */
   id?: number;
-
   /** @format int64 */
   petId?: number;
-
   /** @format int32 */
   quantity?: number;
-
   /** @format date-time */
   shipDate?: string;
-
   /** Order Status */
   status?: "placed" | "approved" | "delivered";
   complete?: boolean;
@@ -54,7 +50,6 @@ export interface User {
   email?: string;
   password?: string;
   phone?: string;
-
   /**
    * User Status
    * @format int32
@@ -87,15 +82,12 @@ export type PetIds = 10 | 20 | 30 | 40;
 export interface Pet {
   /** @format int64 */
   id?: number;
-
   /** A category for a pet */
   category?: Category;
-
   /** @example doggie */
   name: string;
   photoUrls: string[];
   tags?: Tag[];
-
   /** pet status in the store */
   status?: "available" | "pending" | "sold";
 }
@@ -123,7 +115,6 @@ export interface Amount {
    * @max 1000000000000000
    */
   value: number;
-
   /**
    * some description
    *
@@ -405,7 +396,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:api/v1/pet/findByStatus
      * @secure
      */
-    findPetsByStatus: (query: { status: ("available" | "pending" | "sold")[] }, params: RequestParams = {}) =>
+    findPetsByStatus: (
+      query: {
+        /** Status values that need to be considered for filter */
+        status: ("available" | "pending" | "sold")[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Pet[], void>({
         path: `api/v1/pet/findByStatus`,
         method: "GET",
@@ -425,7 +422,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @deprecated
      * @secure
      */
-    findPetsByTags: (query: { tags: string[] }, params: RequestParams = {}) =>
+    findPetsByTags: (
+      query: {
+        /** Tags to filter by */
+        tags: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Pet[], void>({
         path: `api/v1/pet/findByTags`,
         method: "GET",
@@ -462,7 +465,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:api/v1/pet/{petId}
      * @secure
      */
-    updatePetWithForm: (petId: number, data: { name?: string; status?: string }, params: RequestParams = {}) =>
+    updatePetWithForm: (
+      petId: number,
+      data: {
+        /** Updated name of the pet */
+        name?: string;
+        /** Updated status of the pet */
+        status?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<any, void>({
         path: `api/v1/pet/${petId}`,
         method: "POST",
@@ -498,7 +510,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:api/v1/pet/{petId}/uploadImage
      * @secure
      */
-    uploadFile: (petId: number, data: { additionalMetadata?: string; file?: File }, params: RequestParams = {}) =>
+    uploadFile: (
+      petId: number,
+      data: {
+        /** Additional data to pass to server */
+        additionalMetadata?: string;
+        /** file to upload */
+        file?: File;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ApiResponse, any>({
         path: `api/v1/pet/${petId}/uploadImage`,
         method: "POST",
@@ -637,7 +658,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Logs user into the system
      * @request GET:api/v1/user/login
      */
-    loginUser: (query: { username: string; password: string }, params: RequestParams = {}) =>
+    loginUser: (
+      query: {
+        /** The user name for login */
+        username: string;
+        /** The password for login in clear text */
+        password: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Currency, void>({
         path: `api/v1/user/login`,
         method: "GET",

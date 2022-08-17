@@ -9,7 +9,10 @@
  * ---------------------------------------------------------------
  */
 
-export type Pet = NewPet & { id: number };
+export type Pet = NewPet & {
+  /** @format int64 */
+  id: number;
+};
 
 export interface NewPet {
   name: string;
@@ -27,21 +30,16 @@ export interface PageTemplateResponseDto {
   empty?: boolean;
   first?: boolean;
   last?: boolean;
-
   /** @format int32 */
   number?: number;
-
   /** @format int32 */
   numberOfElements?: number;
   pageable?: any;
-
   /** @format int32 */
   size?: number;
   sort?: any;
-
   /** @format int64 */
   totalElements?: number;
-
   /** @format int32 */
   totalPages?: number;
 }
@@ -54,7 +52,15 @@ export namespace Pets {
    */
   export namespace FindPets {
     export type RequestParams = {};
-    export type RequestQuery = { tags?: string[]; limit?: number };
+    export type RequestQuery = {
+      /** tags to filter by */
+      tags?: string[];
+      /**
+       * maximum number of results to return
+       * @format int32
+       */
+      limit?: number;
+    };
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = Pet[];
@@ -77,7 +83,13 @@ export namespace Pets {
    * @request GET:/pets/{id}
    */
   export namespace FindPetById {
-    export type RequestParams = { id: number };
+    export type RequestParams = {
+      /**
+       * ID of pet to fetch
+       * @format int64
+       */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -89,7 +101,13 @@ export namespace Pets {
    * @request DELETE:/pets/{id}
    */
   export namespace DeletePet {
-    export type RequestParams = { id: number };
+    export type RequestParams = {
+      /**
+       * ID of pet to delete
+       * @format int64
+       */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};

@@ -19,6 +19,7 @@
     if (!contract.typeData) return _.compact([contract.description]);
 
     return _.compact([
+        contract.title && contract.title,
         contract.description && formatDescription(contract.description),
         contract.typeData.deprecated === true && '@deprecated',
         !_.isUndefined(contract.typeData.format) && `@format ${contract.typeData.format}`,

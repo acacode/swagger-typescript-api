@@ -88,8 +88,8 @@ export class HttpClient {
     return this.instance.request({
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       params: query,
       responseType: responseFormat,

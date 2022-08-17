@@ -20,8 +20,23 @@ export class Scope<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @name SignRequest
    * @request POST:/scope
    */
-  signRequest = (body: Claims, query?: { test?: number }, params: RequestParams = {}) =>
-    this.request<{ job?: string; status?: string }, Error>({
+  signRequest = (
+    body: Claims,
+    query?: {
+      /** test only mode, using test issuer */
+      test?: number;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      {
+        /** 20-character ID */
+        job?: string;
+        /** waiting */
+        status?: string;
+      },
+      Error
+    >({
       path: `/scope`,
       method: "POST",
       query: query,
@@ -37,7 +52,13 @@ export class Scope<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @request DELETE:/scope/{job}
    */
   signDelete = (job: string, params: RequestParams = {}) =>
-    this.request<{ status?: string }, Error>({
+    this.request<
+      {
+        /** done */
+        status?: string;
+      },
+      Error
+    >({
       path: `/scope/${job}`,
       method: "DELETE",
       format: "json",
@@ -51,7 +72,15 @@ export class Scope<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @request GET:/scope/{job}
    */
   signRetrieve = (job: string, params: RequestParams = {}) =>
-    this.request<{ exp?: number; field?: string; sub?: string }, Error>({
+    this.request<
+      {
+        exp?: number;
+        field?: string;
+        /** base64safe encoded public signing key */
+        sub?: string;
+      },
+      Error
+    >({
       path: `/scope/${job}`,
       method: "GET",
       format: "json",
@@ -78,7 +107,13 @@ export class Scope<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @request POST:/scope/{job}
    */
   signConfirm = (job: string, params: RequestParams = {}) =>
-    this.request<{ status?: string }, Error>({
+    this.request<
+      {
+        /** confirmed */
+        status?: string;
+      },
+      Error
+    >({
       path: `/scope/${job}`,
       method: "POST",
       type: ContentType.Json,
@@ -93,7 +128,15 @@ export class Scope<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @request PUT:/scope/{job}
    */
   signUpdate = (job: string, params: RequestParams = {}) =>
-    this.request<{ jwt?: string; status?: string }, Error>({
+    this.request<
+      {
+        /** result is JWT or JSON?? */
+        jwt?: string;
+        /** ready */
+        status?: string;
+      },
+      Error
+    >({
       path: `/scope/${job}`,
       method: "PUT",
       ...params,

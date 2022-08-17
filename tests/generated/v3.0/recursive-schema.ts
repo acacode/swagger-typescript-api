@@ -18,7 +18,6 @@ export interface RecursiveObject {
    * @example 37
    */
   id?: number;
-
   /** RECURSIVE */
   bar?: RecursiveObject;
 }

@@ -232,7 +232,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api
      */
     getData: (params: RequestParams = {}) =>
-      this.request<{ data?: string }, any>({
+      this.request<
+        {
+          data?: string;
+        },
+        any
+      >({
         path: `/api`,
         method: "GET",
         format: "json",

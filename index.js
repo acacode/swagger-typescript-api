@@ -67,6 +67,7 @@ const options = program
   .option("--clean-output", "clean output folder before generate api. WARNING: May cause data loss", false)
   .option("--api-class-name <string>", "name of the api class")
   .option("--patch", "fix up small errors in the swagger source definition", false)
+  .option("--debug", "additional information about processes inside this tool", false)
   .parse(process.argv)
   .opts();
 
@@ -105,6 +106,7 @@ generateApi({
   typeSuffix: options.typeSuffix,
   patch: !!options.patch,
   apiClassName: options.apiClassName,
+  debug: options.debug,
 }).catch((err) => {
   // NOTE collect all errors on top level and shows to users in any case
   console.error(err);

@@ -11,10 +11,8 @@
 
 export interface Bar {
   A?: string;
-
   /** @format int32 */
   B: number;
-
   /** @format date-time */
   C: string;
   Baz?: Baz;
@@ -267,7 +265,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name FooGetBar
      * @request GET:/api/Foo/GetBar
      */
-    fooGetBar: (query: { id: number }, params: RequestParams = {}) =>
+    fooGetBar: (
+      query: {
+        /** @format int32 */
+        id: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Bar | null, any>({
         path: `/api/Foo/GetBar`,
         method: "GET",

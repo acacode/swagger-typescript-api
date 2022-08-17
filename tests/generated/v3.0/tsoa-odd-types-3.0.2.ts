@@ -66,7 +66,6 @@ export type JobUpdate = OmitJobId | PickJobGithub | Record<string, any>;
 
 export interface Project {
   id: string;
-
   /** @format double */
   year: number;
   description: string;
@@ -87,7 +86,6 @@ export interface PickProjectExcludeKeysIdOrjob {
   prefix?: string;
   notImportant?: boolean;
   description: string;
-
   /** @format double */
   year: number;
   name?: string;
@@ -95,7 +93,6 @@ export interface PickProjectExcludeKeysIdOrjob {
 
 export interface ProjectUpdate {
   name?: string | null;
-
   /** @format double */
   year: number;
   description: string;
@@ -108,7 +105,6 @@ export interface ProjectUpdate {
 
 export interface UpdatedProject {
   id: string;
-
   /** @format double */
   year: number;
   description: string;

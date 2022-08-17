@@ -9,7 +9,11 @@
  * ---------------------------------------------------------------
  */
 
-export type Test = { x?: "A-B"[] } & { y?: string };
+export type Test = {
+  x?: "A-B"[];
+} & {
+  y?: string;
+};
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;

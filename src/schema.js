@@ -359,7 +359,7 @@ const schemaParsers = {
       content:
         _.compact([
           complexSchemaContent && `(${complexSchemaContent})`,
-          getInternalSchemaType(simpleSchema) === TS_KEYWORDS.OBJECT && getInlineParseContent(simpleSchema),
+          getInternalSchemaType(simpleSchema) === SCHEMA_TYPES.OBJECT && getInlineParseContent(simpleSchema),
         ]).join(" & ") || TS_KEYWORDS.ANY,
     });
   },

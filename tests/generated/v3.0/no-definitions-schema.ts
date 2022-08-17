@@ -12,7 +12,6 @@
 export interface BasicErrorModel {
   message: string;
   field?: string | null;
-
   /**
    * @min 100
    * @max 600
@@ -20,7 +19,9 @@ export interface BasicErrorModel {
   code: number;
 }
 
-export type ExtendedErrorModel = BasicErrorModel & { rootCause: string };
+export type ExtendedErrorModel = BasicErrorModel & {
+  rootCause: string;
+};
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;

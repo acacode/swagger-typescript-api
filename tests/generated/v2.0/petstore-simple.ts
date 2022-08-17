@@ -9,7 +9,10 @@
  * ---------------------------------------------------------------
  */
 
-export type Pet = NewPet & { id: number };
+export type Pet = NewPet & {
+  /** @format int64 */
+  id: number;
+};
 
 /**
  * Description of Test type
@@ -258,7 +261,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name FindPets
      * @request GET:/pets
      */
-    findPets: (query?: { tags?: string[]; limit?: number }, params: RequestParams = {}) =>
+    findPets: (
+      query?: {
+        /** tags to filter by */
+        tags?: string[];
+        /**
+         * maximum number of results to return
+         * @format int32
+         */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Pet[], ErrorModel>({
         path: `/pets`,
         method: "GET",

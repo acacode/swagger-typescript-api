@@ -12,7 +12,7 @@ import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataCont
 export namespace <%~ classNameCase(moduleName) %> {
     <% _.forEach(routes, (route) => { %>
 
-        <%~ includeFile('@base/route-type.eta', { ...it, route }) %>
+        <%~ includeFile('@base/route-type.ejs', { ...it, route }) %>
 
     <% }) %>
 }

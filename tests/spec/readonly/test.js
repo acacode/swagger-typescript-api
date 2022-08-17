@@ -7,7 +7,7 @@ const schemas = createSchemaInfos({ absolutePathToSchemas: resolve(__dirname, ".
 
 schemas.forEach(({ absolutePath, apiFileName }) => {
   generateApiForTest({
-    testName: "--route-types option test",
+    testName: "readonly option test",
     silent: true,
     name: apiFileName,
     input: absolutePath,

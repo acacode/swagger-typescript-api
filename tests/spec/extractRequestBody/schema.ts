@@ -16,16 +16,12 @@
 export interface OrderTTT {
   /** @format int64 */
   id?: number;
-
   /** @format int64 */
   petId?: number;
-
   /** @format int32 */
   quantity?: number;
-
   /** @format date-time */
   shipDate?: string;
-
   /** Order Status */
   status?: "placed" | "approved" | "delivered" | null;
   complete?: boolean;
@@ -54,7 +50,6 @@ export interface UserTTT {
   email?: string;
   password?: string;
   phone?: string;
-
   /**
    * User Status
    * @format int32
@@ -90,15 +85,12 @@ export type PetIdsWithWrongEnumTTT = 10 | 20 | 30 | 40;
 export interface PetTTT {
   /** @format int64 */
   id?: number;
-
   /** A category for a pet */
   category?: CategoryTTT;
-
   /** @example doggie */
   name: string;
   photoUrls: string[];
   tags?: TagTTT[];
-
   /** pet status in the store */
   status?: "available" | "pending" | "sold";
 }
@@ -126,7 +118,6 @@ export interface AmountTTT {
    * @max 1000000000000000
    */
   value: number;
-
   /**
    * some description
    *
@@ -149,7 +140,6 @@ export interface SingleFormUrlEncodedRequestPayloadTTT {
 export interface UpdatePetWithFormPayloadTTT {
   /** Updated name of the pet */
   name?: string;
-
   /** Updated status of the pet */
   status?: string;
 }
@@ -157,7 +147,6 @@ export interface UpdatePetWithFormPayloadTTT {
 export interface UploadFilePayloadTTT {
   /** Additional data to pass to server */
   additionalMetadata?: string;
-
   /** file to upload */
   file?: File;
 }
@@ -430,7 +419,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/pet/findByStatus
      * @secure
      */
-    findPetsByStatus: (query: { status: ("available" | "pending" | "sold")[] }, params: RequestParams = {}) =>
+    findPetsByStatus: (
+      query: {
+        /** Status values that need to be considered for filter */
+        status: ("available" | "pending" | "sold")[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<PetTTT[], void>({
         path: `/pet/findByStatus`,
         method: "GET",
@@ -465,7 +460,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary summary
      * @request POST:/pet/form-url-encoded
      */
-    formUrlEncodedRequest: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
+    formUrlEncodedRequest: (
+      data: {
+        /** @format string */
+        param1: string;
+        param2: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, void>({
         path: `/pet/form-url-encoded`,
         method: "POST",
@@ -484,7 +486,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @originalName formUrlEncodedRequest
      * @duplicate
      */
-    formUrlEncodedRequest2: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
+    formUrlEncodedRequest2: (
+      data: {
+        /** @format string */
+        param1: string;
+        param2: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, void>({
         path: `/pet/end-form-url-encoded`,
         method: "POST",
@@ -503,7 +512,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @deprecated
      * @secure
      */
-    findPetsByTags: (query: { tags: string[] }, params: RequestParams = {}) =>
+    findPetsByTags: (
+      query: {
+        /** Tags to filter by */
+        tags: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<PetTTT[], void>({
         path: `/pet/findByTags`,
         method: "GET",
@@ -715,7 +730,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Logs user into the system
      * @request GET:/user/login
      */
-    loginUser: (query: { username: string; password: string }, params: RequestParams = {}) =>
+    loginUser: (
+      query: {
+        /** The user name for login */
+        username: string;
+        /** The password for login in clear text */
+        password: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<CurrencyTTT, void>({
         path: `/user/login`,
         method: "GET",
