@@ -216,6 +216,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "kmoskwiak",
+      "name": "Kasper Moskwiak",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5294519?v=4",
+      "profile": "https://kspr.dev",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
