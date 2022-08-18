@@ -273,6 +273,17 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "RoCat",
+      "name": "RoCat",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3562317?v=4",
+      "profile": "https://github.com/RoCat",
+      "contributions": [
+        "code",
+        "ideas",
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 7,
