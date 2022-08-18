@@ -284,6 +284,16 @@
         "ideas",
         "design"
       ]
+    },
+    {
+      "login": "ApacheEx",
+      "name": "Oleg Kuzava",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1918108?v=4",
+      "profile": "https://github.com/ApacheEx",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
