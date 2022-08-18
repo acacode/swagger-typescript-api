@@ -2,7 +2,7 @@
 
 [![NPM badge](https://img.shields.io/npm/v/swagger-typescript-api.svg)](https://www.npmjs.com/package/swagger-typescript-api) 
 [![CI](https://github.com/acacode/swagger-typescript-api/actions/workflows/main.yml/badge.svg?branch=next)](https://github.com/acacode/swagger-typescript-api/actions/workflows/main.yml) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-28-orange.svg)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-29-orange.svg)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <img src="https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/swagger-typescript-api-logo.png" align="left"
@@ -249,6 +249,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://www.linkedin.com/in/patrick-shaw/"><img src="https://avatars.githubusercontent.com/u/5153619?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Patrick Shaw</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/pulls?q=is%3Apr+reviewed-by%3APatrickShaw" title="Reviewed Pull Requests">👀</a></td>
     <td align="center"><a href="https://www.linkedin.com/in/jinkwon-lee"><img src="https://avatars.githubusercontent.com/u/1798916?v=4?s=100" width="100px;" alt=""/><br /><sub><b>JK</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=jinkwon" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/RoCat"><img src="https://avatars.githubusercontent.com/u/3562317?v=4?s=100" width="100px;" alt=""/><br /><sub><b>RoCat</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=RoCat" title="Code">💻</a> <a href="#ideas-RoCat" title="Ideas, Planning, & Feedback">🤔</a> <a href="#design-RoCat" title="Design">🎨</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/ApacheEx"><img src="https://avatars.githubusercontent.com/u/1918108?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Oleg Kuzava</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=ApacheEx" title="Code">💻</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3AApacheEx" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
