@@ -74,7 +74,7 @@ generateApi({
   name: options.name,
   url: options.path,
   generateRouteTypes: options.routeTypes,
-  generateClient: !!(options.axios || options.client),
+  generateClient: !!(options.axios || options.client) && options.client,
   httpClientType: options.axios ? HTTP_CLIENT.AXIOS : HTTP_CLIENT.FETCH,
   defaultResponseAsSuccess: options.defaultAsSuccess,
   defaultResponseType: options.defaultResponse,
