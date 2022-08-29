@@ -73,7 +73,7 @@
     "prettier": "^2.7.1",
     "swagger-schema-official": "2.0.0-bab6bed",
     "swagger2openapi": "^7.0.8",
-    "typescript": "^4.7.4"
+    "typescript": "~4.7.4"
   },
   "bin": {
     "swagger-typescript-api": "index.js",
