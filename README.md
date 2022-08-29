@@ -2,7 +2,7 @@
 
 [![NPM badge](https://img.shields.io/npm/v/swagger-typescript-api.svg)](https://www.npmjs.com/package/swagger-typescript-api) 
 [![CI](https://github.com/acacode/swagger-typescript-api/actions/workflows/main.yml/badge.svg?branch=next)](https://github.com/acacode/swagger-typescript-api/actions/workflows/main.yml) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-29-orange.svg)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-30-orange.svg)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <img src="https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/swagger-typescript-api-logo.png" align="left"
@@ -252,6 +252,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/ApacheEx"><img src="https://avatars.githubusercontent.com/u/1918108?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Oleg Kuzava</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=ApacheEx" title="Code">💻</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3AApacheEx" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="http://nikz.se"><img src="https://avatars.githubusercontent.com/u/7352072?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Niklas Frank</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=nksfrank" title="Code">💻</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Anksfrank" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 

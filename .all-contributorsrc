@@ -294,6 +294,16 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "nksfrank",
+      "name": "Niklas Frank",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7352072?v=4",
+      "profile": "http://nikz.se",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
