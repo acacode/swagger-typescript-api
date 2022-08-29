@@ -18,6 +18,7 @@ const TEMPLATE_INFOS = [
   { name: "interfaceDataContract", fileName: "interface-data-contract" },
   { name: "typeDataContract", fileName: "type-data-contract" },
   { name: "enumDataContract", fileName: "enum-data-contract" },
+  { name: "objectFieldJsDoc", fileName: "object-field-jsdoc" },
   { name: "httpClient", fileName: "http-client" },
   { name: "routeTypes", fileName: "route-types" },
   { name: "routeName", fileName: "route-name" },

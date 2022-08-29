@@ -74,6 +74,14 @@ const getInternalSchemaType = (schema) => {
   return SCHEMA_TYPES.PRIMITIVE;
 };
 
+const isNeedToAddNull = (contract, value) => {
+  const { nullable, type } = contract || {};
+  return (
+    (nullable || !!_.get(contract, "x-nullable") || type === TS_KEYWORDS.NULL) &&
+    (!_.isString(value) || (!value.includes(` ${TS_KEYWORDS.NULL}`) && !value.includes(`${TS_KEYWORDS.NULL} `)))
+  );
+};
+
 const checkAndAddNull = (schema, value) => {
   const { nullable, type } = schema || {};
   return (nullable || !!_.get(schema, "x-nullable") || type === TS_KEYWORDS.NULL) &&
@@ -444,6 +452,7 @@ module.exports = {
   parseSchemas,
   getInlineParseContent,
   getParseContent,
+  isNeedToAddNull,
   getType,
   getRefType,
   SCHEMA_TYPES,

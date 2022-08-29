@@ -155,11 +155,12 @@ Templates:
 - `route-docs.ejs` - *(generates file)* documentation for route in Api class (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-docs.ejs))  
 - `route-name.ejs` - *(subtemplate)*   route name for route in Api class (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-name.ejs))  
 - `route-type.ejs` - *(`--route-types` option)* *(subtemplate)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-type.ejs))  
-- `route-types.ejs` - *(`--route-types` option)* *(subtemplate)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-types.ejs))  
-- `enum-data-contract.ejs` - *(subtemplate)* generates `enum` data contract (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/enum-data-contract.ejs))
-- `interface-data-contract.ejs` - *(subtemplate)* generates `interface` data contract (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/interface-data-contract.ejs))
-- `type-data-contract.ejs` - *(subtemplate)* generates `type` data contract (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/type-data-contract.ejs))
-- `data-contract-jsdoc.ejs` - *(subtemplate)* generates JSDOC for data contract (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/data-contract-jsdoc.ejs))
+- `route-types.ejs` - *(`--route-types` option)* *(subtemplate)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-types.ejs))
+- `data-contract-jsdoc.ejs` - *(subtemplate)* generates JSDOC for data contract (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/data-contract-jsdoc.ejs))  
+
+[//]: # (- `enum-data-contract.ejs` - *&#40;subtemplate&#41;* generates `enum` data contract &#40;locations: [/templates/base]&#40;https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/enum-data-contract.ejs&#41;&#41;)
+[//]: # (- `interface-data-contract.ejs` - *&#40;subtemplate&#41;* generates `interface` data contract &#40;locations: [/templates/base]&#40;https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/interface-data-contract.ejs&#41;&#41;)
+[//]: # (- `type-data-contract.ejs` - *&#40;subtemplate&#41;* generates `type` data contract &#40;locations: [/templates/base]&#40;https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/type-data-contract.ejs&#41;&#41;)
 
 
 How to use it:  

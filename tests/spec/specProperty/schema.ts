@@ -25,6 +25,9 @@ export interface Error {
   message: string;
 }
 
+/**
+ * Page«TemplateResponseDto»
+ */
 export interface PageTemplateResponseDto {
   content?: any[];
   empty?: boolean;

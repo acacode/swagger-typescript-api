@@ -54,6 +54,7 @@ export interface ActionsOrganizationPermissions {
 }
 
 /**
+ * ActionsPublicKey
  * The public key used for setting Actions Secrets.
  */
 export interface ActionsPublicKey {
@@ -87,6 +88,7 @@ export interface ActionsRepositoryPermissions {
 }
 
 /**
+ * Actions Secret
  * Set secrets for GitHub Actions.
  */
 export interface ActionsSecret {
@@ -102,6 +104,7 @@ export interface ActionsSecret {
 }
 
 /**
+ * Actor
  * Actor
  */
 export interface Actor {
@@ -149,6 +152,7 @@ export enum AllowedActions {
 
 /**
  * Api Overview
+ * Api Overview
  */
 export interface ApiOverview {
   /** @example ["13.64.0.0/16","13.65.0.0/16"] */
@@ -174,6 +178,7 @@ export interface ApiOverview {
 }
 
 /**
+ * App Permissions
  * The permissions granted to the user-to-server access token.
  * @example {"contents":"read","issues":"read","deployments":"write","single_file":"read"}
  */
@@ -241,6 +246,7 @@ export interface AppPermissions {
 }
 
 /**
+ * Application Grant
  * The authorization associated with an OAuth Access.
  */
 export interface ApplicationGrant {
@@ -273,6 +279,7 @@ export interface ApplicationGrant {
 }
 
 /**
+ * Artifact
  * An artifact
  */
 export interface Artifact {
@@ -355,6 +362,7 @@ export interface AuditLogEvent {
 
 /**
  * Authentication Token
+ * Authentication Token
  */
 export interface AuthenticationToken {
   /**
@@ -379,6 +387,7 @@ export interface AuthenticationToken {
 }
 
 /**
+ * author_association
  * How the author is associated with the repository.
  * @example OWNER
  */
@@ -394,6 +403,7 @@ export enum AuthorAssociation {
 }
 
 /**
+ * Authorization
  * The authorization for an OAuth app, GitHub App, or a Personal Access Token.
  */
 export interface Authorization {
@@ -424,6 +434,7 @@ export interface Authorization {
 }
 
 /**
+ * Auto merge
  * The status of auto merging a pull request.
  */
 export type AutoMerge = {
@@ -438,6 +449,7 @@ export type AutoMerge = {
 } | null;
 
 /**
+ * Base Gist
  * Base Gist
  */
 export interface BaseGist {
@@ -483,6 +495,7 @@ export interface BaseGist {
 
 /**
  * Basic Error
+ * Basic Error
  */
 export interface BasicError {
   documentation_url?: string;
@@ -490,6 +503,7 @@ export interface BasicError {
 }
 
 /**
+ * Blob
  * Blob
  */
 export interface Blob {
@@ -504,6 +518,7 @@ export interface Blob {
 }
 
 /**
+ * Branch Protection
  * Branch Protection
  */
 export interface BranchProtection {
@@ -537,6 +552,7 @@ export interface BranchProtection {
 }
 
 /**
+ * Branch Restriction Policy
  * Branch Restriction Policy
  */
 export interface BranchRestrictionPolicy {
@@ -638,6 +654,7 @@ export interface BranchRestrictionPolicy {
 
 /**
  * Branch Short
+ * Branch Short
  */
 export interface BranchShort {
   commit: {
@@ -649,6 +666,7 @@ export interface BranchShort {
 }
 
 /**
+ * Branch With Protection
  * Branch With Protection
  */
 export interface BranchWithProtection {
@@ -672,6 +690,7 @@ export interface BranchWithProtection {
 }
 
 /**
+ * Check Annotation
  * Check Annotation
  */
 export interface CheckAnnotation {
@@ -697,6 +716,7 @@ export interface CheckAnnotation {
 }
 
 /**
+ * CheckRun
  * A check performed on the code of a given code change
  */
 export interface CheckRun {
@@ -758,6 +778,7 @@ export interface CheckRun {
 }
 
 /**
+ * CheckSuite
  * A suite of checks performed on the code of a given code change
  */
 export interface CheckSuite {
@@ -797,6 +818,7 @@ export interface CheckSuite {
 }
 
 /**
+ * Check Suite Preference
  * Check suite configuration preferences for a repository.
  */
 export interface CheckSuitePreference {
@@ -812,6 +834,7 @@ export interface CheckSuitePreference {
 
 /**
  * Clone Traffic
+ * Clone Traffic
  */
 export interface CloneTraffic {
   clones: Traffic[];
@@ -823,10 +846,12 @@ export interface CloneTraffic {
 
 /**
  * Code Frequency Stat
+ * Code Frequency Stat
  */
 export type CodeFrequencyStat = number[];
 
 /**
+ * Code Of Conduct
  * Code Of Conduct
  */
 export interface CodeOfConduct {
@@ -878,6 +903,7 @@ export interface CodeOfConduct {
 }
 
 /**
+ * Code Of Conduct Simple
  * Code of Conduct Simple
  */
 export interface CodeOfConductSimple {
@@ -1059,6 +1085,7 @@ export type CodeScanningAnalysisToolName = string;
 
 /**
  * Code Search Result Item
+ * Code Search Result Item
  */
 export interface CodeSearchResultItem {
   file_size?: number;
@@ -1083,6 +1110,7 @@ export interface CodeSearchResultItem {
 }
 
 /**
+ * Collaborator
  * Collaborator
  */
 export interface Collaborator {
@@ -1163,6 +1191,7 @@ export interface CombinedBillingUsage {
 
 /**
  * Combined Commit Status
+ * Combined Commit Status
  */
 export interface CombinedCommitStatus {
   /** @format uri */
@@ -1178,6 +1207,7 @@ export interface CombinedCommitStatus {
 }
 
 /**
+ * Commit
  * Commit
  */
 export interface Commit {
@@ -1264,6 +1294,7 @@ export interface Commit {
 
 /**
  * Commit Activity
+ * Commit Activity
  */
 export interface CommitActivity {
   /** @example [0,3,26,20,39,1,0] */
@@ -1275,6 +1306,7 @@ export interface CommitActivity {
 }
 
 /**
+ * Commit Comment
  * Commit Comment
  */
 export interface CommitComment {
@@ -1300,6 +1332,7 @@ export interface CommitComment {
 }
 
 /**
+ * Commit Comparison
  * Commit Comparison
  */
 export interface CommitComparison {
@@ -1346,6 +1379,7 @@ export interface CommitComparison {
 
 /**
  * Commit Search Result Item
+ * Commit Search Result Item
  */
 export interface CommitSearchResultItem {
   author: SimpleUser | null;
@@ -1388,6 +1422,9 @@ export interface CommitSearchResultItem {
   url: string;
 }
 
+/**
+ * Community Health File
+ */
 export interface CommunityHealthFile {
   /** @format uri */
   html_url: string;
@@ -1396,6 +1433,7 @@ export interface CommunityHealthFile {
 }
 
 /**
+ * Community Profile
  * Community Profile
  */
 export interface CommunityProfile {
@@ -1423,6 +1461,7 @@ export interface CommunityProfile {
 }
 
 /**
+ * Content Directory
  * A list of directory items
  */
 export type ContentDirectory = {
@@ -1451,6 +1490,7 @@ export type ContentDirectory = {
 }[];
 
 /**
+ * Content File
  * Content File
  */
 export interface ContentFile {
@@ -1484,6 +1524,7 @@ export interface ContentFile {
 }
 
 /**
+ * ContentReferenceAttachment
  * Content Reference attachments allow you to provide context around URLs posted in comments
  */
 export interface ContentReferenceAttachment {
@@ -1510,6 +1551,7 @@ export interface ContentReferenceAttachment {
 }
 
 /**
+ * Symlink Content
  * An object describing a symlink
  */
 export interface ContentSubmodule {
@@ -1539,6 +1581,7 @@ export interface ContentSubmodule {
 }
 
 /**
+ * Symlink Content
  * An object describing a symlink
  */
 export interface ContentSymlink {
@@ -1568,6 +1611,7 @@ export interface ContentSymlink {
 
 /**
  * Content Traffic
+ * Content Traffic
  */
 export interface ContentTraffic {
   /** @example 3542 */
@@ -1581,6 +1625,7 @@ export interface ContentTraffic {
 }
 
 /**
+ * Content Tree
  * Content Tree
  */
 export interface ContentTree {
@@ -1633,6 +1678,7 @@ export interface ContentTree {
 
 /**
  * Contributor
+ * Contributor
  */
 export interface Contributor {
   /** @format uri */
@@ -1668,6 +1714,7 @@ export interface Contributor {
 
 /**
  * Contributor Activity
+ * Contributor Activity
  */
 export interface ContributorActivity {
   author: SimpleUser | null;
@@ -1683,6 +1730,7 @@ export interface ContributorActivity {
 }
 
 /**
+ * Credential Authorization
  * Credential Authorization
  */
 export interface CredentialAuthorization {
@@ -1743,6 +1791,7 @@ export interface CredentialAuthorization {
 }
 
 /**
+ * Deploy Key
  * An SSH key granting access to a single repository.
  */
 export interface DeployKey {
@@ -1756,6 +1805,7 @@ export interface DeployKey {
 }
 
 /**
+ * Deployment
  * A request for a specific ref(branch,sha,tag) to be deployed
  */
 export interface Deployment {
@@ -1828,6 +1878,7 @@ export interface Deployment {
 }
 
 /**
+ * Deployment Status
  * The status of a deployment.
  */
 export interface DeploymentStatus {
@@ -1899,6 +1950,7 @@ export interface DeploymentStatus {
 
 /**
  * Diff Entry
+ * Diff Entry
  */
 export interface DiffEntry {
   /** @example 103 */
@@ -1936,6 +1988,7 @@ export interface DiffEntry {
 
 /**
  * Email
+ * Email
  */
 export interface Email {
   /**
@@ -1970,6 +2023,7 @@ export enum EnabledRepositories {
 }
 
 /**
+ * Enterprise
  * An enterprise account
  */
 export interface Enterprise {
@@ -2018,6 +2072,7 @@ export interface Enterprise {
 
 /**
  * Event
+ * Event
  */
 export interface Event {
   /** Actor */
@@ -2053,6 +2108,7 @@ export interface Event {
 }
 
 /**
+ * Feed
  * Feed
  */
 export interface Feed {
@@ -2092,6 +2148,7 @@ export interface Feed {
 }
 
 /**
+ * File Commit
  * File Commit
  */
 export interface FileCommit {
@@ -2146,6 +2203,7 @@ export interface FileCommit {
 }
 
 /**
+ * Full Repository
  * Full Repository
  */
 export interface FullRepository {
@@ -2387,6 +2445,7 @@ export interface FullRepository {
 }
 
 /**
+ * Gist Comment
  * A comment made to a gist.
  */
 export interface GistComment {
@@ -2421,6 +2480,7 @@ export interface GistComment {
 
 /**
  * Gist Commit
+ * Gist Commit
  */
 export interface GistCommit {
   change_status: {
@@ -2444,6 +2504,7 @@ export interface GistCommit {
 }
 
 /**
+ * Gist Simple
  * Gist Simple
  */
 export interface GistSimple {
@@ -2480,6 +2541,7 @@ export interface GistSimple {
 }
 
 /**
+ * Git Commit
  * Low-level Git commit operations within a repository
  */
 export interface GitCommit {
@@ -2565,6 +2627,7 @@ export interface GitCommit {
 }
 
 /**
+ * Git Reference
  * Git references within a repository
  */
 export interface GitRef {
@@ -2585,6 +2648,7 @@ export interface GitRef {
 }
 
 /**
+ * Git Tag
  * Metadata for a Git tag
  */
 export interface GitTag {
@@ -2623,6 +2687,7 @@ export interface GitTag {
 }
 
 /**
+ * Git Tree
  * The hierarchy between files in a Git repository.
  */
 export interface GitTree {
@@ -2651,6 +2716,7 @@ export interface GitTree {
 }
 
 /**
+ * Git User
  * Metaproperties for Git author/committer information.
  */
 export interface GitUser {
@@ -2663,6 +2729,7 @@ export interface GitUser {
 }
 
 /**
+ * Gitignore Template
  * Gitignore Template
  */
 export interface GitignoreTemplate {
@@ -2689,6 +2756,7 @@ export interface GitignoreTemplate {
 }
 
 /**
+ * GPG Key
  * A unique encryption key
  */
 export interface GpgKey {
@@ -2737,6 +2805,7 @@ export interface GpgKey {
 }
 
 /**
+ * GroupMapping
  * External Groups to be mapped to a team for membership
  */
 export interface GroupMapping {
@@ -2789,6 +2858,7 @@ export interface GroupMapping {
 }
 
 /**
+ * Webhook
  * Webhooks for repositories.
  */
 export interface Hook {
@@ -2863,6 +2933,9 @@ export interface Hook {
   url: string;
 }
 
+/**
+ * Hook Response
+ */
 export interface HookResponse {
   code: number | null;
   message: string | null;
@@ -2870,6 +2943,7 @@ export interface HookResponse {
 }
 
 /**
+ * Hovercard
  * Hovercard
  */
 export interface Hovercard {
@@ -2880,6 +2954,7 @@ export interface Hovercard {
 }
 
 /**
+ * Import
  * A repository import from an external source.
  */
 export interface Import {
@@ -2934,6 +3009,7 @@ export interface Import {
 }
 
 /**
+ * Installation
  * Installation
  */
 export interface Installation {
@@ -3000,6 +3076,7 @@ export interface Installation {
 }
 
 /**
+ * Installation Token
  * Authentication token for a GitHub App installed on a user or org.
  */
 export interface InstallationToken {
@@ -3024,6 +3101,7 @@ export interface InstallationToken {
 }
 
 /**
+ * GitHub app
  * GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
  */
 export interface Integration {
@@ -3122,6 +3200,7 @@ export enum InteractionGroup {
 }
 
 /**
+ * Interaction Restrictions
  * Limit interactions to a specific type of user for a specified duration
  */
 export interface InteractionLimit {
@@ -3132,6 +3211,7 @@ export interface InteractionLimit {
 }
 
 /**
+ * Interaction Limits
  * Interaction limit settings.
  */
 export interface InteractionLimitResponse {
@@ -3147,6 +3227,7 @@ export interface InteractionLimitResponse {
 }
 
 /**
+ * Issue
  * Issues are a great way to keep track of tasks, enhancements, and bugs for your projects.
  */
 export interface Issue {
@@ -3243,6 +3324,7 @@ export interface Issue {
 }
 
 /**
+ * Issue Comment
  * Comments provide a way for people to collaborate on an issue.
  */
 export interface IssueComment {
@@ -3287,6 +3369,7 @@ export interface IssueComment {
 }
 
 /**
+ * Issue Event
  * Issue Event
  */
 export interface IssueEvent {
@@ -3333,6 +3416,9 @@ export interface IssueEvent {
   url: string;
 }
 
+/**
+ * Issue Event Dismissed Review
+ */
 export interface IssueEventDismissedReview {
   dismissal_commit_id?: string | null;
   dismissal_message: string | null;
@@ -3341,6 +3427,7 @@ export interface IssueEventDismissedReview {
 }
 
 /**
+ * Issue Event for Issue
  * Issue Event for Issue
  */
 export interface IssueEventForIssue {
@@ -3383,6 +3470,7 @@ export interface IssueEventForIssue {
 
 /**
  * Issue Event Label
+ * Issue Event Label
  */
 export interface IssueEventLabel {
   color: string | null;
@@ -3391,12 +3479,14 @@ export interface IssueEventLabel {
 
 /**
  * Issue Event Milestone
+ * Issue Event Milestone
  */
 export interface IssueEventMilestone {
   title: string;
 }
 
 /**
+ * Issue Event Project Card
  * Issue Event Project Card
  */
 export interface IssueEventProjectCard {
@@ -3412,6 +3502,7 @@ export interface IssueEventProjectCard {
 
 /**
  * Issue Event Rename
+ * Issue Event Rename
  */
 export interface IssueEventRename {
   from: string;
@@ -3419,6 +3510,7 @@ export interface IssueEventRename {
 }
 
 /**
+ * Issue Search Result Item
  * Issue Search Result Item
  */
 export interface IssueSearchResultItem {
@@ -3488,6 +3580,7 @@ export interface IssueSearchResultItem {
 }
 
 /**
+ * Issue Simple
  * Issue Simple
  */
 export interface IssueSimple {
@@ -3577,6 +3670,7 @@ export interface IssueSimple {
 }
 
 /**
+ * Job
  * Information of a job execution in a workflow run
  */
 export interface Job {
@@ -3668,6 +3762,7 @@ export interface Job {
 
 /**
  * Key
+ * Key
  */
 export interface Key {
   /** @format date-time */
@@ -3683,6 +3778,7 @@ export interface Key {
 
 /**
  * Key Simple
+ * Key Simple
  */
 export interface KeySimple {
   id: number;
@@ -3690,6 +3786,7 @@ export interface KeySimple {
 }
 
 /**
+ * Label
  * Color-coded labels help you categorize and filter your issues (just like labels in Gmail).
  */
 export interface Label {
@@ -3721,6 +3818,7 @@ export interface Label {
 
 /**
  * Label Search Result Item
+ * Label Search Result Item
  */
 export interface LabelSearchResultItem {
   color: string;
@@ -3737,10 +3835,12 @@ export interface LabelSearchResultItem {
 
 /**
  * Language
+ * Language
  */
 export type Language = Record<string, number>;
 
 /**
+ * License
  * License
  */
 export interface License {
@@ -3800,6 +3900,7 @@ export interface License {
 
 /**
  * License Content
+ * License Content
  */
 export interface LicenseContent {
   _links: {
@@ -3830,6 +3931,7 @@ export interface LicenseContent {
 
 /**
  * License Simple
+ * License Simple
  */
 export interface LicenseSimple {
   /** @format uri */
@@ -3850,6 +3952,7 @@ export interface LicenseSimple {
 }
 
 /**
+ * Link
  * Hypermedia Link
  */
 export interface Link {
@@ -3857,6 +3960,7 @@ export interface Link {
 }
 
 /**
+ * Link With Type
  * Hypermedia Link with Type
  */
 export interface LinkWithType {
@@ -3864,6 +3968,9 @@ export interface LinkWithType {
   type: string;
 }
 
+/**
+ * Marketplace Account
+ */
 export interface MarketplaceAccount {
   /** @format email */
   email?: string | null;
@@ -3878,6 +3985,7 @@ export interface MarketplaceAccount {
 }
 
 /**
+ * Marketplace Listing Plan
  * Marketplace Listing Plan
  */
 export interface MarketplaceListingPlan {
@@ -3916,6 +4024,7 @@ export interface MarketplaceListingPlan {
 
 /**
  * Marketplace Purchase
+ * Marketplace Purchase
  */
 export interface MarketplacePurchase {
   id: number;
@@ -3945,6 +4054,7 @@ export interface MarketplacePurchase {
 }
 
 /**
+ * Migration
  * A migration.
  */
 export interface Migration {
@@ -3981,6 +4091,7 @@ export interface Migration {
 }
 
 /**
+ * Milestone
  * A collection of related issues and pull requests.
  */
 export interface Milestone {
@@ -4048,6 +4159,7 @@ export interface Milestone {
 }
 
 /**
+ * Minimal Repository
  * Minimal Repository
  */
 export interface MinimalRepository {
@@ -4250,6 +4362,7 @@ export interface MinimalRepository {
 
 /**
  * Org Hook
+ * Org Hook
  */
 export interface OrgHook {
   /** @example true */
@@ -4295,6 +4408,7 @@ export interface OrgHook {
 
 /**
  * Org Membership
+ * Org Membership
  */
 export interface OrgMembership {
   /** Organization Simple */
@@ -4320,6 +4434,7 @@ export interface OrgMembership {
 }
 
 /**
+ * Actions Secret for an Organization
  * Secrets for GitHub Actions for an organization.
  */
 export interface OrganizationActionsSecret {
@@ -4342,6 +4457,7 @@ export interface OrganizationActionsSecret {
 }
 
 /**
+ * Organization Full
  * Organization Full
  */
 export interface OrganizationFull {
@@ -4465,6 +4581,7 @@ export interface OrganizationFull {
 
 /**
  * Organization Invitation
+ * Organization Invitation
  */
 export interface OrganizationInvitation {
   created_at: string;
@@ -4485,6 +4602,7 @@ export interface OrganizationInvitation {
 }
 
 /**
+ * Organization Simple
  * Organization Simple
  */
 export interface OrganizationSimple {
@@ -4533,6 +4651,7 @@ export interface PackagesBillingUsage {
 }
 
 /**
+ * GitHub Pages
  * The configuration for GitHub Pages for a repository.
  */
 export interface Page {
@@ -4573,6 +4692,7 @@ export interface Page {
 
 /**
  * Page Build
+ * Page Build
  */
 export interface PageBuild {
   commit: string;
@@ -4592,6 +4712,7 @@ export interface PageBuild {
 
 /**
  * Page Build Status
+ * Page Build Status
  */
 export interface PageBuildStatus {
   /** @example queued */
@@ -4603,17 +4724,24 @@ export interface PageBuildStatus {
   url: string;
 }
 
+/**
+ * Pages Source Hash
+ */
 export interface PagesSourceHash {
   branch: string;
   path: string;
 }
 
+/**
+ * Participation Stats
+ */
 export interface ParticipationStats {
   all: number[];
   owner: number[];
 }
 
 /**
+ * Porter Author
  * Porter Author
  */
 export interface PorterAuthor {
@@ -4630,6 +4758,7 @@ export interface PorterAuthor {
 
 /**
  * Porter Large File
+ * Porter Large File
  */
 export interface PorterLargeFile {
   oid: string;
@@ -4639,6 +4768,7 @@ export interface PorterLargeFile {
 }
 
 /**
+ * Private User
  * Private User
  */
 export interface PrivateUser {
@@ -4762,6 +4892,7 @@ export interface PrivateUser {
 }
 
 /**
+ * Project
  * Projects are a way to organize columns and cards of work.
  */
 export interface Project {
@@ -4824,6 +4955,7 @@ export interface Project {
 }
 
 /**
+ * Project Card
  * Project cards represent a scope of work.
  */
 export interface ProjectCard {
@@ -4875,6 +5007,7 @@ export interface ProjectCard {
 }
 
 /**
+ * Project Column
  * Project columns contain cards of work.
  */
 export interface ProjectColumn {
@@ -4918,6 +5051,7 @@ export interface ProjectColumn {
 }
 
 /**
+ * Protected Branch
  * Branch protections protect branches
  */
 export interface ProtectedBranch {
@@ -4971,6 +5105,7 @@ export interface ProtectedBranch {
 
 /**
  * Protected Branch Admin Enforced
+ * Protected Branch Admin Enforced
  */
 export interface ProtectedBranchAdminEnforced {
   /** @example true */
@@ -4983,6 +5118,7 @@ export interface ProtectedBranchAdminEnforced {
 }
 
 /**
+ * Protected Branch Pull Request Review
  * Protected Branch Pull Request Review
  */
 export interface ProtectedBranchPullRequestReview {
@@ -5016,6 +5152,7 @@ export interface ProtectedBranchPullRequestReview {
 }
 
 /**
+ * Public User
  * Public User
  */
 export interface PublicUser {
@@ -5083,6 +5220,7 @@ export interface PublicUser {
 }
 
 /**
+ * Pull Request
  * Pull requests let you tell others about changes you've pushed to a repository on GitHub. Once a pull request is sent, interested parties can review the set of changes, discuss potential modifications, and even push follow-up commits if necessary.
  */
 export interface PullRequest {
@@ -5592,6 +5730,7 @@ export interface PullRequest {
 
 /**
  * Pull Request Merge Result
+ * Pull Request Merge Result
  */
 export interface PullRequestMergeResult {
   merged: boolean;
@@ -5599,6 +5738,9 @@ export interface PullRequestMergeResult {
   sha: string;
 }
 
+/**
+ * Pull Request Minimal
+ */
 export interface PullRequestMinimal {
   base: {
     ref: string;
@@ -5624,6 +5766,7 @@ export interface PullRequestMinimal {
 }
 
 /**
+ * Pull Request Review
  * Pull Request Reviews are reviews on pull requests.
  */
 export interface PullRequestReview {
@@ -5674,6 +5817,7 @@ export interface PullRequestReview {
 }
 
 /**
+ * Pull Request Review Comment
  * Pull Request Review Comments are comments on a portion of the Pull Request's diff.
  */
 export interface PullRequestReviewComment {
@@ -5819,6 +5963,7 @@ export interface PullRequestReviewComment {
 
 /**
  * Pull Request Review Request
+ * Pull Request Review Request
  */
 export interface PullRequestReviewRequest {
   teams: TeamSimple[];
@@ -5826,6 +5971,7 @@ export interface PullRequestReviewRequest {
 }
 
 /**
+ * Pull Request Simple
  * Pull Request Simple
  */
 export interface PullRequestSimple {
@@ -5974,6 +6120,9 @@ export interface PullRequestSimple {
   user: SimpleUser | null;
 }
 
+/**
+ * Rate Limit
+ */
 export interface RateLimit {
   limit: number;
   remaining: number;
@@ -5981,6 +6130,7 @@ export interface RateLimit {
 }
 
 /**
+ * Rate Limit Overview
  * Rate Limit Overview
  */
 export interface RateLimitOverview {
@@ -5996,6 +6146,7 @@ export interface RateLimitOverview {
 }
 
 /**
+ * Reaction
  * Reactions to conversations provide a way to help people express their feelings more simply and effectively.
  */
 export interface Reaction {
@@ -6016,6 +6167,9 @@ export interface Reaction {
   user: SimpleUser | null;
 }
 
+/**
+ * Reaction Rollup
+ */
 export interface ReactionRollup {
   "+1": number;
   "-1": number;
@@ -6032,6 +6186,7 @@ export interface ReactionRollup {
 
 /**
  * Referrer Traffic
+ * Referrer Traffic
  */
 export interface ReferrerTraffic {
   /** @example 4 */
@@ -6043,6 +6198,7 @@ export interface ReferrerTraffic {
 }
 
 /**
+ * Release
  * A release.
  */
 export interface Release {
@@ -6093,6 +6249,7 @@ export interface Release {
 }
 
 /**
+ * Release Asset
  * Data related to a release.
  */
 export interface ReleaseAsset {
@@ -6121,6 +6278,7 @@ export interface ReleaseAsset {
 }
 
 /**
+ * Repo Search Result Item
  * Repo Search Result Item
  */
 export interface RepoSearchResultItem {
@@ -6236,6 +6394,7 @@ export interface RepoSearchResultItem {
 }
 
 /**
+ * Repository
  * A git repository
  */
 export interface Repository {
@@ -6611,6 +6770,7 @@ export interface Repository {
 
 /**
  * Repository Collaborator Permission
+ * Repository Collaborator Permission
  */
 export interface RepositoryCollaboratorPermission {
   permission: string;
@@ -6618,6 +6778,7 @@ export interface RepositoryCollaboratorPermission {
 }
 
 /**
+ * Repository Invitation
  * Repository invitations let you manage who you collaborate with.
  */
 export interface RepositoryInvitation {
@@ -6653,6 +6814,7 @@ export interface RepositoryInvitation {
 }
 
 /**
+ * Repository Invitation
  * Repository invitations let you manage who you collaborate with.
  */
 export interface RepositorySubscription {
@@ -6682,6 +6844,7 @@ export interface RepositorySubscription {
 }
 
 /**
+ * Legacy Review Comment
  * Legacy Review Comment
  */
 export interface ReviewComment {
@@ -6772,6 +6935,7 @@ export interface ReviewComment {
 }
 
 /**
+ * Self hosted runners
  * A self hosted runner
  */
 export interface Runner {
@@ -6807,6 +6971,7 @@ export interface Runner {
 }
 
 /**
+ * Runner Application
  * Runner Application
  */
 export interface RunnerApplication {
@@ -6885,6 +7050,7 @@ export interface ScimEnterpriseUser {
 
 /**
  * Scim Error
+ * Scim Error
  */
 export interface ScimError {
   detail?: string | null;
@@ -6920,6 +7086,7 @@ export interface ScimGroupListEnterprise {
 }
 
 /**
+ * SCIM /Users
  * SCIM /Users provisioning endpoints
  */
 export interface ScimUser {
@@ -7003,6 +7170,7 @@ export interface ScimUser {
 
 /**
  * SCIM User List
+ * SCIM User List
  */
 export interface ScimUserList {
   Resources: ScimUser[];
@@ -7048,6 +7216,9 @@ export interface ScimUserListEnterprise {
   totalResults: number;
 }
 
+/**
+ * Scoped Installation
+ */
 export interface ScopedInstallation {
   /** Simple User */
   account: SimpleUser;
@@ -7068,6 +7239,9 @@ export interface ScopedInstallation {
   single_file_paths?: string[];
 }
 
+/**
+ * Search Result Text Matches
+ */
 export type SearchResultTextMatches = {
   object_url?: string;
   object_type?: string | null;
@@ -7134,6 +7308,7 @@ export type SelectedActionsUrl = string;
 
 /**
  * Short Blob
+ * Short Blob
  */
 export interface ShortBlob {
   sha: string;
@@ -7141,6 +7316,7 @@ export interface ShortBlob {
 }
 
 /**
+ * Short Branch
  * Short Branch
  */
 export interface ShortBranch {
@@ -7159,6 +7335,7 @@ export interface ShortBranch {
 
 /**
  * Simple Commit
+ * Simple Commit
  */
 export interface SimpleCommit {
   author: {
@@ -7176,6 +7353,9 @@ export interface SimpleCommit {
   tree_id: string;
 }
 
+/**
+ * Simple Commit Status
+ */
 export interface SimpleCommitStatus {
   /** @format uri */
   avatar_url: string | null;
@@ -7196,6 +7376,7 @@ export interface SimpleCommitStatus {
 }
 
 /**
+ * Simple User
  * Simple User
  */
 export type SimpleUser = {
@@ -7264,6 +7445,7 @@ export type SimpleUser = {
 
 /**
  * Stargazer
+ * Stargazer
  */
 export interface Stargazer {
   /** @format date-time */
@@ -7272,6 +7454,7 @@ export interface Stargazer {
 }
 
 /**
+ * Starred Repository
  * Starred Repository
  */
 export interface StarredRepository {
@@ -7282,6 +7465,7 @@ export interface StarredRepository {
 }
 
 /**
+ * Status
  * The status of a commit.
  */
 export interface Status {
@@ -7300,6 +7484,7 @@ export interface Status {
 }
 
 /**
+ * Status Check Policy
  * Status Check Policy
  */
 export interface StatusCheckPolicy {
@@ -7320,6 +7505,7 @@ export interface StatusCheckPolicy {
 }
 
 /**
+ * Tag
  * Tag
  */
 export interface Tag {
@@ -7344,6 +7530,7 @@ export interface Tag {
 }
 
 /**
+ * Team
  * Groups of organization members that gives permissions on specified repositories.
  */
 export interface Team {
@@ -7368,6 +7555,7 @@ export interface Team {
 }
 
 /**
+ * Team Discussion
  * A team discussion is a persistent record of a free-form conversation within a team.
  */
 export interface TeamDiscussion {
@@ -7444,6 +7632,7 @@ export interface TeamDiscussion {
 }
 
 /**
+ * Team Discussion Comment
  * A reply to a discussion within a team.
  */
 export interface TeamDiscussionComment {
@@ -7498,6 +7687,7 @@ export interface TeamDiscussionComment {
 }
 
 /**
+ * Full Team
  * Groups of organization members that gives permissions on specified repositories.
  */
 export interface TeamFull {
@@ -7571,6 +7761,7 @@ export interface TeamFull {
 
 /**
  * Team Membership
+ * Team Membership
  */
 export interface TeamMembership {
   /**
@@ -7584,6 +7775,7 @@ export interface TeamMembership {
 }
 
 /**
+ * Team Project
  * A team's access to a project.
  */
 export interface TeamProject {
@@ -7613,6 +7805,7 @@ export interface TeamProject {
 }
 
 /**
+ * Team Repository
  * A team's access to a repository.
  */
 export interface TeamRepository {
@@ -7881,6 +8074,7 @@ export interface TeamRepository {
 }
 
 /**
+ * Team Simple
  * Groups of organization members that gives permissions on specified repositories.
  */
 export type TeamSimple = {
@@ -7940,6 +8134,7 @@ export type TeamSimple = {
 
 /**
  * Thread
+ * Thread
  */
 export interface Thread {
   id: string;
@@ -7961,6 +8156,7 @@ export interface Thread {
 }
 
 /**
+ * Thread Subscription
  * Thread Subscription
  */
 export interface ThreadSubscription {
@@ -7991,6 +8187,7 @@ export interface ThreadSubscription {
 }
 
 /**
+ * Topic
  * A topic aggregates entities that are related to a subject.
  */
 export interface Topic {
@@ -7998,6 +8195,7 @@ export interface Topic {
 }
 
 /**
+ * Topic Search Result Item
  * Topic Search Result Item
  */
 export interface TopicSearchResultItem {
@@ -8040,6 +8238,9 @@ export interface TopicSearchResultItem {
   updated_at: string;
 }
 
+/**
+ * Traffic
+ */
 export interface Traffic {
   count: number;
   /** @format date-time */
@@ -8048,6 +8249,7 @@ export interface Traffic {
 }
 
 /**
+ * User Marketplace Purchase
  * User Marketplace Purchase
  */
 export interface UserMarketplacePurchase {
@@ -8077,6 +8279,7 @@ export interface UserMarketplacePurchase {
 }
 
 /**
+ * User Search Result Item
  * User Search Result Item
  */
 export interface UserSearchResultItem {
@@ -8130,6 +8333,7 @@ export interface UserSearchResultItem {
 
 /**
  * Validation Error
+ * Validation Error
  */
 export interface ValidationError {
   documentation_url: string;
@@ -8146,6 +8350,7 @@ export interface ValidationError {
 
 /**
  * Validation Error Simple
+ * Validation Error Simple
  */
 export interface ValidationErrorSimple {
   documentation_url: string;
@@ -8153,6 +8358,9 @@ export interface ValidationErrorSimple {
   message: string;
 }
 
+/**
+ * Verification
+ */
 export interface Verification {
   payload: string | null;
   reason: string;
@@ -8161,6 +8369,7 @@ export interface Verification {
 }
 
 /**
+ * View Traffic
  * View Traffic
  */
 export interface ViewTraffic {
@@ -8172,6 +8381,7 @@ export interface ViewTraffic {
 }
 
 /**
+ * Webhook Configuration
  * Configuration object of the webhook
  */
 export interface WebhookConfig {
@@ -8211,6 +8421,7 @@ export type WebhookConfigSecret = string;
 export type WebhookConfigUrl = string;
 
 /**
+ * Workflow
  * A GitHub Actions workflow
  */
 export interface Workflow {
@@ -8248,6 +8459,7 @@ export interface Workflow {
 }
 
 /**
+ * Workflow Run
  * An invocation of a workflow
  */
 export interface WorkflowRun {
@@ -8345,6 +8557,7 @@ export interface WorkflowRun {
 
 /**
  * Workflow Run Usage
+ * Workflow Run Usage
  */
 export interface WorkflowRunUsage {
   billable: {
@@ -8365,6 +8578,7 @@ export interface WorkflowRunUsage {
 }
 
 /**
+ * Workflow Usage
  * Workflow Usage
  */
 export interface WorkflowUsage {

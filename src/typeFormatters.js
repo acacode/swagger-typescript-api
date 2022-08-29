@@ -20,12 +20,14 @@ const formatters = {
     if (formatAsUnionType) {
       return {
         ...parsedSchema,
+        $content: parsedSchema.content,
         content: _.map(parsedSchema.content, ({ value }) => value).join(" | "),
       };
     }
 
     return {
       ...parsedSchema,
+      $content: parsedSchema.content,
       content: _.map(parsedSchema.content, ({ key, value }) => `  ${key} = ${value}`).join(",\n"),
     };
   },
@@ -33,11 +35,15 @@ const formatters = {
     if (parsedSchema.nullable) return inlineExtraFormatters[SCHEMA_TYPES.OBJECT](parsedSchema);
     return {
       ...parsedSchema,
+      $content: parsedSchema.content,
       content: formatObjectContent(parsedSchema.content),
     };
   },
   [SCHEMA_TYPES.PRIMITIVE]: (parsedSchema) => {
-    return parsedSchema;
+    return {
+      ...parsedSchema,
+      $content: parsedSchema.content,
+    };
   },
 };
 
@@ -77,12 +83,6 @@ const inlineExtraFormatters = {
 };
 
 const formatObjectContent = (content) => {
-  // !_.isUndefined(part.minimum) && `@min ${part.minimum}`,
-  // !_.isUndefined(part.maximum) && `@max ${part.maximum}`,
-  // !_.isUndefined(part.pattern) && `@pattern ${part.pattern}`,
-  // !_.isUndefined(part.example) && `@example ${
-  //   _.isObject(part.example) ? JSON.stringify(part.example) : part.example
-  // }`
   return _.map(content, (part) => {
     const extraSpace = "  ";
     const result = `${extraSpace}${part.field},\n`;

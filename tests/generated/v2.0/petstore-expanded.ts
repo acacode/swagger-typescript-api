@@ -20,6 +20,9 @@ export interface NewPet {
   tag?: string;
 }
 
+/**
+ * Page«TemplateResponseDto»
+ */
 export interface PageTemplateResponseDto {
   content?: any[];
   empty?: boolean;

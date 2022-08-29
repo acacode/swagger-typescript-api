@@ -6,6 +6,7 @@ const createSchemaInfos = require("../../helpers/createSchemaInfos");
 const schemas = createSchemaInfos({ absolutePathToSchemas: resolve(__dirname, "./") });
 
 const expectedCode = `/**
+ * It is a Pet title
  * It is a Pet description
  */
 export type Test1 = {

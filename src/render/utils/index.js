@@ -1,7 +1,13 @@
 const { classNameCase, formatDescription, internalCase } = require("../../common");
 const { getComponentByRef } = require("../../components");
 const { formatModelName } = require("../../modelNames");
-const { getInlineParseContent, getParseContent, parseSchema } = require("../../schema");
+const {
+  getInlineParseContent,
+  getParseContent,
+  parseSchema,
+  checkAndAddNull,
+  isNeedToAddNull,
+} = require("../../schema");
 const { formatters, inlineExtraFormatters } = require("../../typeFormatters");
 const { NameResolver } = require("../../utils/resolveName");
 
@@ -14,6 +20,8 @@ module.exports = {
   getComponentByRef,
   parseSchema,
   formatters,
+  checkAndAddNull,
+  isNeedToAddNull,
   inlineExtraFormatters,
   formatModelName,
   fmtToJSDocLine: require("./fmtToJSDocLine"),

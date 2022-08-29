@@ -78,6 +78,9 @@ export interface PrefixKeyRevokeData {
 
 export type PrefixKeyRevokeError = PrefixError | PrefixError;
 
+/**
+ * JWT
+ */
 export interface PrefixGetKeyData {
   /** @format date-time */
   since?: string;
@@ -129,6 +132,9 @@ export interface PrefixSignDeleteData {
 
 export type PrefixSignDeleteError = PrefixError;
 
+/**
+ * JWT
+ */
 export interface PrefixSignRetrieveData {
   exp?: number;
   field?: string;

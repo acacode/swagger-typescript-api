@@ -15,9 +15,11 @@ const prepareModelType = (typeInfo) => {
   const name = formatModelName(originalName);
 
   return {
+    ...typeData,
     typeIdentifier,
     name,
     description,
+    $content: rawTypeData.content,
     rawContent: rawTypeData.content,
     content: content,
     typeData,

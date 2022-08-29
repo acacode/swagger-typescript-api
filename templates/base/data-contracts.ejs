@@ -1,11 +1,23 @@
 <%
-  // this template is generate 'data-contracts.ts' file
-  const { modelTypes, utils } = it;
-  const { formatDescription, require, _ } = utils;
+const { modelTypes, utils } = it;
+const { formatDescription, require, _ } = utils;
+
+
+const dataContractTemplates = {
+  enum: (contract) => {
+    return `enum ${contract.name} {\r\n${contract.content} \r\n }`;
+  },
+  interface: (contract) => {
+    return `interface ${contract.name} {\r\n${contract.content}}`;
+  },
+  type: (contract) => {
+    return `type ${contract.name} = ${contract.content}`;
+  },
+}
 %>
 <% modelTypes.forEach((contract) => { %>
+  <%~ includeFile('@base/data-contract-jsdoc.ejs', { ...it, contract }) %>
+  export <%~ (dataContractTemplates[contract.typeIdentifier] || dataContractTemplates.type)(contract) %>
 
-<%~ includeFile('@base/data-contract-jsdoc.ejs', { ...it, contract }) %>
-<%~ includeFile(`@base/${contract.typeIdentifier}-data-contract.ejs`, { ...it, contract }) %>
 
 <% }) %>

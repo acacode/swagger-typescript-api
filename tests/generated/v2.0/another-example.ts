@@ -29,6 +29,7 @@ export interface Amount {
 }
 
 /**
+ * An uploaded response
  * Describes the result of uploading an image resource
  * @example {"code":0,"type":"type","message":"message"}
  */
@@ -40,6 +41,7 @@ export interface ApiResponse {
 }
 
 /**
+ * Pet category
  * A category for a pet
  * @example {"name":"name","id":6}
  */
@@ -56,6 +58,7 @@ export interface Category {
 export type Currency = string;
 
 /**
+ * Pet Order
  * An order for a pets from the pet store
  * @example {"petId":6,"quantity":1,"id":0,"shipDate":"2000-01-23T04:56:07.000+00:00","complete":false,"status":"placed"}
  */
@@ -74,6 +77,7 @@ export interface Order {
 }
 
 /**
+ * a Pet
  * A pet for sale in the pet store
  * @example {"photoUrls":["photoUrls","photoUrls"],"name":"doggie","id":0,"category":{"name":"name","id":6},"tags":[{"name":"name","id":1},{"name":"name","id":1}],"status":"available"}
  */
@@ -102,6 +106,7 @@ export enum PetNames {
 }
 
 /**
+ * Pet Tag
  * A tag for a pet
  * @example {"name":"name","id":1}
  */
@@ -112,6 +117,7 @@ export interface Tag {
 }
 
 /**
+ * a User
  * A User who is purchasing from the pet store
  * @example {"firstName":"firstName","lastName":"lastName","password":"password","userStatus":6,"phone":"phone","id":0,"email":"email","username":"username"}
  */
