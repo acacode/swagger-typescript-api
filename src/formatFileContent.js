@@ -4,6 +4,8 @@ const { config } = require("./config");
 const ts = require("typescript");
 
 class LanguageServiceHost {
+  fileExists = ts.sys.fileExists;
+  
   constructor(fileName, content) {
     const tsconfig = ts.findConfigFile(fileName, ts.sys.fileExists);
 
