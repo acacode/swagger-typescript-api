@@ -39,6 +39,9 @@ class LanguageServiceHost {
   getScriptSnapshot() {
     return ts.ScriptSnapshot.fromString(this.content);
   }
+  fileExists(filename) {
+    return true;
+  }
 }
 
 const removeUnusedImports = (content) => {
