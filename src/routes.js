@@ -345,6 +345,7 @@ const CONTENT_KIND = {
   FORM_DATA: "FORM_DATA",
   IMAGE: "IMAGE",
   OTHER: "OTHER",
+  TEXT: "TEXT"
 };
 
 const getContentKind = (contentTypes) => {
@@ -361,6 +362,10 @@ const getContentKind = (contentTypes) => {
 
   if (contentTypes.includes("multipart/form-data")) {
     return CONTENT_KIND.FORM_DATA;
+  }
+
+  if (/text/.test(contentTypes)) {
+    return CONTENT_KIND.TEXT;
   }
 
   if (_.some(contentTypes, (contentType) => _.includes(contentType, "image/"))) {

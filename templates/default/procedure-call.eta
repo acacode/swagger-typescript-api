@@ -56,6 +56,7 @@ const responseContentKind = {
     "JSON": '"json"',
     "IMAGE": '"blob"',
     "FORM_DATA": isFetchTemplate ? '"formData"' : '"document"'
+    "TEXT": '"text"',
 }
 
 const bodyTmpl = _.get(payload, "name") || null;
