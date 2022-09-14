@@ -2,7 +2,7 @@
 
 name: Run tests
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   pull_request:
@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [11.x, 13.x, 15.x]
+        node-version: [12.x, 14.x, 16.x, 18.x]
 
     name: Node.js (test-all) ${{ matrix.node-version }}
 
