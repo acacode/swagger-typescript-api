@@ -18,10 +18,9 @@ const formatters = {
       const extraSpace = "  ";
       const result = `${extraSpace}${part.field};\n`;
 
-      const comments = _.uniq(_.compact([part.title, part.description]).reduce(
-        (acc, comment) => [...acc, ...comment.split(/\n/g)],
-        [],
-      ));
+      const comments = _.uniq(
+        _.compact([part.title, part.description]).reduce((acc, comment) => [...acc, ...comment.split(/\n/g)], []),
+      );
 
       const commonText = comments.length
         ? [

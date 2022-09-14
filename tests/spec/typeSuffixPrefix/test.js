@@ -36,10 +36,7 @@ schemas.forEach(({ absolutePath, apiFileName, Exception }) => {
         const typeName = _.split(_.split(line, " ")[2], "<")[0] || "";
 
         if (!_.includes(reservedTypes, typeName)) {
-          if (
-            !_.startsWith(typeName, "SwaggerType") ||
-            !_.endsWith(typeName, "GeneratedDataContract")
-          ) {
+          if (!_.startsWith(typeName, "SwaggerType") || !_.endsWith(typeName, "GeneratedDataContract")) {
             throw new Exception(
               `Not at all data contracts have type prefix and type suffix`,
               `\n${content.indexOf(line) + 1}: ${line} ->`,

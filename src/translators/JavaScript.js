@@ -7,20 +7,9 @@ function translate(fileName, content, options) {
   const originalSourceFileGet = host.getSourceFile.bind(host);
   host.getSourceFile = (sourceFileName, languageVersion, onError, shouldCreateNewSourceFile) => {
     if (sourceFileName !== fileName)
-      return originalSourceFileGet(
-        sourceFileName,
-        languageVersion,
-        onError,
-        shouldCreateNewSourceFile,
-      );
+      return originalSourceFileGet(sourceFileName, languageVersion, onError, shouldCreateNewSourceFile);
 
-    return ts.createSourceFile(
-      sourceFileName,
-      content,
-      languageVersion,
-      true,
-      ts.ScriptKind.External,
-    );
+    return ts.createSourceFile(sourceFileName, content, languageVersion, true, ts.ScriptKind.External);
   };
 
   host.writeFile = (fileName, contents) => {

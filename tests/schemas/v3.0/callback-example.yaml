@@ -18,7 +18,7 @@ paths:
             format: uri
             example: https://tonys-server.com
       responses:
-        '201':
+        "201":
           description: subscription successfully created
           content:
             application/json:
@@ -36,7 +36,7 @@ paths:
         onData:
           # when data is sent, it will be sent to the `callbackUrl` provided
           # when making the subscription PLUS the suffix `/data`
-          '{$request.query.callbackUrl}/data':
+          "{$request.query.callbackUrl}/data":
             post:
               requestBody:
                 description: subscription payload
@@ -51,11 +51,11 @@ paths:
                         userData:
                           type: string
               responses:
-                '202':
+                "202":
                   description: |
                     Your server implementation should return this HTTP status code
                     if the data was received successfully
-                '204':
+                "204":
                   description: |
                     Your server should return this HTTP status code if no longer interested
                     in further updates

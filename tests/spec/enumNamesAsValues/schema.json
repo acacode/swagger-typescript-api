@@ -349,9 +349,7 @@
         },
         "tags": ["Jobs"],
         "security": [{ "jwt": [] }],
-        "parameters": [
-          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
-        ]
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }]
       },
       "patch": {
         "operationId": "UpdateJob",
@@ -365,9 +363,7 @@
         },
         "tags": ["Jobs"],
         "security": [{ "jwt": [] }],
-        "parameters": [
-          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
-        ],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
         "requestBody": {
           "required": true,
           "content": {
@@ -382,9 +378,7 @@
         },
         "tags": ["Jobs"],
         "security": [{ "jwt": [] }],
-        "parameters": [
-          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
-        ]
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }]
       }
     },
     "/projects": {
@@ -439,9 +433,7 @@
         },
         "tags": ["Projects"],
         "security": [{ "jwt": [] }],
-        "parameters": [
-          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
-        ],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
         "requestBody": {
           "required": true,
           "content": {
@@ -456,9 +448,7 @@
         },
         "tags": ["Projects"],
         "security": [],
-        "parameters": [
-          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
-        ]
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }]
       }
     }
   },

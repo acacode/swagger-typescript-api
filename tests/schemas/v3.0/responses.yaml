@@ -1,19 +1,19 @@
-openapi: '3.0.0'
+openapi: "3.0.0"
 
 info:
-  description: 'Description'
-  version: 'latest'
-  title: 'Title'
+  description: "Description"
+  version: "latest"
+  title: "Title"
 
 paths:
-  '/api':
+  "/api":
     get:
       operationId: getData
       responses:
         200:
           description: OK
           content:
-            'application/json':
+            "application/json":
               schema:
                 type: object
                 properties:

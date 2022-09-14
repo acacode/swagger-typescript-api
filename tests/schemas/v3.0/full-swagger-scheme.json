@@ -5080,15 +5080,7 @@
                     "type": "string"
                   }
                 },
-                "example": [
-                  "Actionscript",
-                  "Android",
-                  "AppceleratorTitanium",
-                  "Autotools",
-                  "Bancha",
-                  "C",
-                  "C++"
-                ]
+                "example": ["Actionscript", "Android", "AppceleratorTitanium", "Autotools", "Bancha", "C", "C++"]
               }
             }
           },
@@ -20232,15 +20224,7 @@
                   "conclusion": {
                     "type": "string",
                     "description": "**Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `skipped`, `timed_out`, or `action_required`. When the conclusion is `action_required`, additional details should be provided on the site specified by `details_url`.  \n**Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`. Only GitHub can change a check run conclusion to `stale`.",
-                    "enum": [
-                      "success",
-                      "failure",
-                      "neutral",
-                      "cancelled",
-                      "skipped",
-                      "timed_out",
-                      "action_required"
-                    ]
+                    "enum": ["success", "failure", "neutral", "cancelled", "skipped", "timed_out", "action_required"]
                   },
                   "completed_at": {
                     "type": "string",
@@ -20309,13 +20293,7 @@
                               "description": "Details about this annotation. The maximum size is 64 KB."
                             }
                           },
-                          "required": [
-                            "path",
-                            "start_line",
-                            "end_line",
-                            "annotation_level",
-                            "message"
-                          ]
+                          "required": ["path", "start_line", "end_line", "annotation_level", "message"]
                         }
                       },
                       "images": {
@@ -20585,15 +20563,7 @@
                   "conclusion": {
                     "type": "string",
                     "description": "**Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `skipped`, `timed_out`, or `action_required`.  \n**Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`. Only GitHub can change a check run conclusion to `stale`.",
-                    "enum": [
-                      "success",
-                      "failure",
-                      "neutral",
-                      "cancelled",
-                      "skipped",
-                      "timed_out",
-                      "action_required"
-                    ]
+                    "enum": ["success", "failure", "neutral", "cancelled", "skipped", "timed_out", "action_required"]
                   },
                   "completed_at": {
                     "type": "string",
@@ -20662,13 +20632,7 @@
                               "description": "Details about this annotation. The maximum size is 64 KB."
                             }
                           },
-                          "required": [
-                            "path",
-                            "start_line",
-                            "end_line",
-                            "annotation_level",
-                            "message"
-                          ]
+                          "required": ["path", "start_line", "end_line", "annotation_level", "message"]
                         }
                       },
                       "images": {
@@ -24157,15 +24121,7 @@
                   "state": {
                     "type": "string",
                     "description": "The state of the status. Can be one of `error`, `failure`, `inactive`, `in_progress`, `queued` `pending`, or `success`. **Note:** To use the `inactive` state, you must provide the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type. To use the `in_progress` and `queued` states, you must provide the [`application/vnd.github.flash-preview+json`](https://docs.github.com/rest/overview/api-previews#deployment-statuses) custom media type. When you set a transient deployment to `inactive`, the deployment will be shown as `destroyed` in GitHub.",
-                    "enum": [
-                      "error",
-                      "failure",
-                      "inactive",
-                      "in_progress",
-                      "queued",
-                      "pending",
-                      "success"
-                    ]
+                    "enum": ["error", "failure", "inactive", "in_progress", "queued", "pending", "success"]
                   },
                   "target_url": {
                     "type": "string",
@@ -45558,16 +45514,7 @@
             "format": "uri"
           }
         },
-        "required": [
-          "id",
-          "node_id",
-          "name",
-          "slug",
-          "html_url",
-          "created_at",
-          "updated_at",
-          "avatar_url"
-        ]
+        "required": ["id", "node_id", "name", "slug", "html_url", "created_at", "updated_at", "avatar_url"]
       },
       "installation": {
         "title": "Installation",
@@ -46947,13 +46894,7 @@
             "$ref": "#/components/schemas/simple-user"
           }
         },
-        "required": [
-          "permissions",
-          "repository_selection",
-          "single_file_name",
-          "repositories_url",
-          "account"
-        ]
+        "required": ["permissions", "repository_selection", "single_file_name", "repositories_url", "account"]
       },
       "authorization": {
         "title": "Authorization",
@@ -47267,14 +47208,7 @@
             "type": "boolean"
           }
         },
-        "required": [
-          "id",
-          "name",
-          "visibility",
-          "allows_public_repositories",
-          "default",
-          "runners_url"
-        ]
+        "required": ["id", "name", "visibility", "allows_public_repositories", "default", "runners_url"]
       },
       "runner": {
         "title": "Self hosted runners",
@@ -47545,12 +47479,7 @@
             }
           }
         },
-        "required": [
-          "total_minutes_used",
-          "total_paid_minutes_used",
-          "included_minutes",
-          "minutes_used_breakdown"
-        ]
+        "required": ["total_minutes_used", "total_paid_minutes_used", "included_minutes", "minutes_used_breakdown"]
       },
       "packages-billing-usage": {
         "type": "object",
@@ -47590,11 +47519,7 @@
             "description": "Estimated sum of free and paid storage space (GB) used in billing cycle."
           }
         },
-        "required": [
-          "days_left_in_billing_cycle",
-          "estimated_paid_storage_for_month",
-          "estimated_storage_for_month"
-        ]
+        "required": ["days_left_in_billing_cycle", "estimated_paid_storage_for_month", "estimated_storage_for_month"]
       },
       "actor": {
         "title": "Actor",
@@ -48029,18 +47954,7 @@
             "type": "integer"
           }
         },
-        "required": [
-          "url",
-          "total_count",
-          "+1",
-          "-1",
-          "laugh",
-          "confused",
-          "heart",
-          "hooray",
-          "eyes",
-          "rocket"
-        ]
+        "required": ["url", "total_count", "+1", "-1", "laugh", "confused", "heart", "hooray", "eyes", "rocket"]
       },
       "issue-comment": {
         "title": "Issue Comment",
@@ -48257,9 +48171,7 @@
           },
           "current_user_organization_urls": {
             "type": "array",
-            "example": [
-              "https://github.com/organizations/github/octocat.private.atom?token=abc123"
-            ],
+            "example": ["https://github.com/organizations/github/octocat.private.atom?token=abc123"],
             "items": {
               "type": "string",
               "format": "uri"
@@ -48568,16 +48480,7 @@
             "$ref": "#/components/schemas/author_association"
           }
         },
-        "required": [
-          "url",
-          "id",
-          "node_id",
-          "user",
-          "body",
-          "author_association",
-          "created_at",
-          "updated_at"
-        ]
+        "required": ["url", "id", "node_id", "user", "body", "author_association", "created_at", "updated_at"]
       },
       "gist-commit": {
         "title": "Gist Commit",
@@ -48924,13 +48827,7 @@
           },
           "permissions": {
             "type": "array",
-            "example": [
-              "commercial-use",
-              "modifications",
-              "distribution",
-              "sublicense",
-              "private-use"
-            ],
+            "example": ["commercial-use", "modifications", "distribution", "sublicense", "private-use"],
             "items": {
               "type": "string"
             }
@@ -50019,15 +49916,7 @@
             "type": "boolean"
           }
         },
-        "required": [
-          "id",
-          "name",
-          "visibility",
-          "default",
-          "runners_url",
-          "inherited",
-          "allows_public_repositories"
-        ]
+        "required": ["id", "name", "visibility", "default", "runners_url", "inherited", "allows_public_repositories"]
       },
       "organization-actions-secret": {
         "title": "Actions Secret for an Organization",
@@ -50292,18 +50181,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "id",
-          "url",
-          "type",
-          "name",
-          "active",
-          "events",
-          "config",
-          "ping_url",
-          "created_at",
-          "updated_at"
-        ]
+        "required": ["id", "url", "type", "name", "active", "events", "config", "ping_url", "created_at", "updated_at"]
       },
       "interaction-group": {
         "type": "string",
@@ -51803,17 +51681,7 @@
             "example": "https://api.github.com/projects/120"
           }
         },
-        "required": [
-          "id",
-          "node_id",
-          "note",
-          "url",
-          "column_url",
-          "project_url",
-          "creator",
-          "created_at",
-          "updated_at"
-        ]
+        "required": ["id", "node_id", "note", "url", "column_url", "project_url", "creator", "created_at", "updated_at"]
       },
       "project-column": {
         "title": "Project Column",
@@ -51860,16 +51728,7 @@
             "example": "2016-09-05T14:22:28Z"
           }
         },
-        "required": [
-          "id",
-          "node_id",
-          "url",
-          "project_url",
-          "cards_url",
-          "name",
-          "created_at",
-          "updated_at"
-        ]
+        "required": ["id", "node_id", "url", "project_url", "cards_url", "name", "created_at", "updated_at"]
       },
       "repository-collaborator-permission": {
         "title": "Repository Collaborator Permission",
@@ -53769,17 +53628,7 @@
             }
           }
         },
-        "required": [
-          "url",
-          "sha",
-          "node_id",
-          "html_url",
-          "comments_url",
-          "commit",
-          "author",
-          "committer",
-          "parents"
-        ]
+        "required": ["url", "sha", "node_id", "html_url", "comments_url", "commit", "author", "committer", "parents"]
       },
       "branch-with-protection": {
         "title": "Branch With Protection",
@@ -54028,15 +53877,7 @@
           "conclusion": {
             "type": "string",
             "example": "neutral",
-            "enum": [
-              "success",
-              "failure",
-              "neutral",
-              "cancelled",
-              "skipped",
-              "timed_out",
-              "action_required"
-            ],
+            "enum": ["success", "failure", "neutral", "cancelled", "skipped", "timed_out", "action_required"],
             "nullable": true
           },
           "started_at": {
@@ -54220,15 +54061,7 @@
           "conclusion": {
             "type": "string",
             "example": "neutral",
-            "enum": [
-              "success",
-              "failure",
-              "neutral",
-              "cancelled",
-              "skipped",
-              "timed_out",
-              "action_required"
-            ],
+            "enum": ["success", "failure", "neutral", "cancelled", "skipped", "timed_out", "action_required"],
             "nullable": true
           },
           "url": {
@@ -54611,15 +54444,7 @@
             "$ref": "#/components/schemas/code-scanning-analysis-environment"
           }
         },
-        "required": [
-          "ref",
-          "commit_sha",
-          "analysis_key",
-          "tool_name",
-          "environment",
-          "error",
-          "created_at"
-        ]
+        "required": ["ref", "commit_sha", "analysis_key", "tool_name", "environment", "error", "created_at"]
       },
       "code-scanning-analysis-sarif-file": {
         "description": "A Base64 string representing the SARIF file to upload. You must first compress your SARIF file using [`gzip`](http://www.gnu.org/software/gzip/manual/gzip.html) and then translate the contents of the file into a Base64 encoding string.",
@@ -55957,18 +55782,7 @@
               "required": ["git", "html", "self"]
             }
           },
-          "required": [
-            "_links",
-            "git_url",
-            "html_url",
-            "download_url",
-            "name",
-            "path",
-            "sha",
-            "size",
-            "type",
-            "url"
-          ]
+          "required": ["_links", "git_url", "html_url", "download_url", "name", "path", "sha", "size", "type", "url"]
         }
       },
       "content-file": {
@@ -57547,16 +57361,7 @@
             "nullable": true
           }
         },
-        "required": [
-          "id",
-          "node_id",
-          "url",
-          "actor",
-          "event",
-          "commit_id",
-          "commit_url",
-          "created_at"
-        ]
+        "required": ["id", "node_id", "url", "actor", "event", "commit_id", "commit_url", "created_at"]
       },
       "issue-event-for-issue": {
         "title": "Issue Event for Issue",
@@ -57874,16 +57679,7 @@
             "format": "date-time"
           }
         },
-        "required": [
-          "url",
-          "status",
-          "error",
-          "pusher",
-          "commit",
-          "duration",
-          "created_at",
-          "updated_at"
-        ]
+        "required": ["url", "status", "error", "pusher", "commit", "duration", "created_at", "updated_at"]
       },
       "page-build-status": {
         "title": "Page Build Status",
@@ -64546,13 +64342,7 @@
           "html_url": "http://choosealicense.com/licenses/mit/",
           "description": "A permissive license that is short and to the point. It lets people do anything with your code with proper attribution and without warranty.",
           "implementation": "Create a text file (typically named LICENSE or LICENSE.txt) in the root of your source code and copy the text of the license into the file. Replace [year] with the current year and [fullname] with the name (or names) of the copyright holders.",
-          "permissions": [
-            "commercial-use",
-            "modifications",
-            "distribution",
-            "sublicense",
-            "private-use"
-          ],
+          "permissions": ["commercial-use", "modifications", "distribution", "sublicense", "private-use"],
           "conditions": ["include-copyright"],
           "limitations": ["no-liability"],
           "body": "\n\nThe MIT License (MIT)\n\nCopyright (c) [year] [fullname]\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
@@ -77261,112 +77051,12 @@
       "participation-stats": {
         "value": {
           "all": [
-            11,
-            21,
-            15,
-            2,
-            8,
-            1,
-            8,
-            23,
-            17,
-            21,
-            11,
-            10,
-            33,
-            91,
-            38,
-            34,
-            22,
-            23,
-            32,
-            3,
-            43,
-            87,
-            71,
-            18,
-            13,
-            5,
-            13,
-            16,
-            66,
-            27,
-            12,
-            45,
-            110,
-            117,
-            13,
-            8,
-            18,
-            9,
-            19,
-            26,
-            39,
-            12,
-            20,
-            31,
-            46,
-            91,
-            45,
-            10,
-            24,
-            9,
-            29,
-            7
+            11, 21, 15, 2, 8, 1, 8, 23, 17, 21, 11, 10, 33, 91, 38, 34, 22, 23, 32, 3, 43, 87, 71, 18, 13, 5, 13, 16,
+            66, 27, 12, 45, 110, 117, 13, 8, 18, 9, 19, 26, 39, 12, 20, 31, 46, 91, 45, 10, 24, 9, 29, 7
           ],
           "owner": [
-            3,
-            2,
-            3,
-            0,
-            2,
-            0,
-            5,
-            14,
-            7,
-            9,
-            1,
-            5,
-            0,
-            48,
-            19,
-            2,
-            0,
-            1,
-            10,
-            2,
-            23,
-            40,
-            35,
-            8,
-            8,
-            2,
-            10,
-            6,
-            30,
-            0,
-            2,
-            9,
-            53,
-            104,
-            3,
-            3,
-            10,
-            4,
-            7,
-            11,
-            21,
-            4,
-            4,
-            22,
-            26,
-            63,
-            11,
-            2,
-            14,
-            1,
-            10,
-            3
+            3, 2, 3, 0, 2, 0, 5, 14, 7, 9, 1, 5, 0, 48, 19, 2, 0, 1, 10, 2, 23, 40, 35, 8, 8, 2, 10, 6, 30, 0, 2, 9, 53,
+            104, 3, 3, 10, 4, 7, 11, 21, 4, 4, 22, 26, 63, 11, 2, 14, 1, 10, 3
           ]
         }
       },

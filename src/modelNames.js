@@ -53,11 +53,7 @@ const formatModelName = (name, options) => {
 
   const fixedModelName = fixModelName(name);
 
-  const formattedModelName = _.replace(
-    _.startCase(`${typePrefix}_${fixedModelName}_${typeSuffix}`),
-    /\s/g,
-    "",
-  );
+  const formattedModelName = _.replace(_.startCase(`${typePrefix}_${fixedModelName}_${typeSuffix}`), /\s/g, "");
   const modelName = config.hooks.onFormatTypeName(formattedModelName, name) || formattedModelName;
 
   formattedModelNamesMap.set(hashKey, modelName);

@@ -47,9 +47,7 @@ const createComponentsMap = (components) => {
   config.componentsMap = {};
 
   _.each(components, (component, componentName) =>
-    _.each(component, (rawTypeData, typeName) =>
-      createComponent(componentName, typeName, rawTypeData),
-    ),
+    _.each(component, (rawTypeData, typeName) => createComponent(componentName, typeName, rawTypeData)),
   );
 
   return config.componentsMap;
