@@ -53,15 +53,15 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/lodash": "^4.14.182",
-    "@types/node": "^15.0.2",
+    "@types/node": "^18.7.18",
     "@types/prettier": "^2.7.0",
     "all-contributors-cli": "^6.20.0",
     "husky": "^4.3.6",
     "pretty-quick": "^3.1.0"
   },
   "dependencies": {
-    "axios": "^0.27.2",
     "@types/swagger-schema-official": "2.0.22",
+    "axios": "^0.27.2",
     "commander": "^9.4.0",
     "cosmiconfig": "^7.0.1",
     "eta": "^1.12.3",
