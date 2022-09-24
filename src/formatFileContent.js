@@ -19,7 +19,7 @@ class LanguageServiceHost {
   }
 
   getNewLine() {
-    return "\n";
+    return ts.sys.newLine;
   }
   getScriptFileNames() {
     return [this.fileName];
@@ -39,7 +39,21 @@ class LanguageServiceHost {
   getScriptSnapshot() {
     return ts.ScriptSnapshot.fromString(this.content);
   }
-}
+  readFile(fileName, encoding) {
+      if (fileName === this.fileName) {
+        return this.content
+      } else {
+        return ts.sys.readFile(fileName, encoding);
+      }
+  }
+  fileExists(fileName) {
+      if (fileName === this.fileName) {
+        return true;
+      } else {
+        return ts.sys.fileExists(fileName);
+      }
+  }
+} 
 
 const removeUnusedImports = (content) => {
   const tempFileName = "file.ts";
