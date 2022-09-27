@@ -42,9 +42,9 @@ class LanguageServiceHost {
   readFile(fileName, encoding) {
       if (fileName === this.fileName) {
         return this.content
-      } else {
-        return ts.sys.readFile(fileName, encoding);
       }
+      
+      return ts.sys.readFile(fileName, encoding);
   }
   fileExists(fileName) {
       if (fileName === this.fileName) {
