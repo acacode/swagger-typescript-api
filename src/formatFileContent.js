@@ -49,9 +49,9 @@ class LanguageServiceHost {
   fileExists(fileName) {
       if (fileName === this.fileName) {
         return true;
-      } else {
-        return ts.sys.fileExists(fileName);
       }
+      
+      return ts.sys.fileExists(fileName);
   }
 } 
 
