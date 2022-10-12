@@ -1,0 +1,39 @@
+openapi: "3.0.0"
+info:
+  title: Local Security Policy Overriding Global Example
+  version: 1.0.0
+
+security:
+  - Bearer: []
+
+paths:
+  /globally_secure:
+    get:
+      responses:
+        "200":
+          description: OK
+
+  /locally_secure:
+    get:
+      security:
+        - Basic: []
+      responses:
+        "200":
+          description: OK
+
+  /not_secure:
+    get:
+      security: []
+      responses:
+        "200":
+          description: OK
+
+components:
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+
+    Basic:
+      type: http
+      scheme: basic

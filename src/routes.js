@@ -520,7 +520,10 @@ const parseRoutes = ({ usageSchema, parsedSchemas, moduleNameIndex, moduleNameFi
             moduleNameFirstTag && firstTag
               ? _.camelCase(firstTag)
               : _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
-          const hasSecurity = !!((globalSecurity && globalSecurity.length) || (security && security.length));
+          let hasSecurity = !!(globalSecurity && globalSecurity.length);
+          if (security) {
+            hasSecurity = security.length > 0;
+          }
 
           const routeParams = getRouteParams(routeInfo, pathParams);
 
