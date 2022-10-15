@@ -61,20 +61,20 @@
     "pretty-quick": "^3.1.0"
   },
   "dependencies": {
-    "axios": "^0.27.2",
+    "axios": "0.27.2",
     "@types/swagger-schema-official": "2.0.22",
-    "commander": "^9.4.0",
-    "cosmiconfig": "^7.0.1",
-    "eta": "^1.12.3",
-    "js-yaml": "^4.1.0",
-    "lodash": "^4.17.21",
-    "make-dir": "^3.1.0",
-    "nanoid": "^3.3.4",
-    "node-emoji": "^1.11.0",
-    "prettier": "^2.7.1",
+    "commander": "9.4.1",
+    "cosmiconfig": "7.0.1",
+    "eta": "1.12.3",
+    "js-yaml": "4.1.0",
+    "lodash": "4.17.21",
+    "make-dir": "3.1.0",
+    "nanoid": "3.3.4",
+    "node-emoji": "1.11.0",
+    "prettier": "2.7.1",
     "swagger-schema-official": "2.0.0-bab6bed",
-    "swagger2openapi": "^7.0.8",
-    "typescript": "^4.7.4"
+    "swagger2openapi": "7.0.8",
+    "typescript": "4.8.4"
   },
   "bin": {
     "swagger-typescript-api": "index.js",

@@ -11,9 +11,7 @@ class LanguageServiceHost {
       fileName,
       content,
       compilerOptions: tsconfig
-        ? ts.convertCompilerOptionsFromJson(
-            ts.readConfigFile(tsconfig, ts.sys.readFile).config.compilerOptions,
-          ).options
+        ? ts.convertCompilerOptionsFromJson(ts.readConfigFile(tsconfig, ts.sys.readFile).config.compilerOptions).options
         : ts.getDefaultCompilerOptions(),
     });
   }
@@ -38,6 +36,9 @@ class LanguageServiceHost {
   }
   getScriptSnapshot() {
     return ts.ScriptSnapshot.fromString(this.content);
+  }
+  fileExists(path) {
+    return ts.sys.fileExists(path);
   }
 }
 
@@ -70,5 +71,4 @@ const prettierFormat = (content) => {
 
 const formatters = [removeUnusedImports, prettierFormat];
 
-module.exports = (content) =>
-  formatters.reduce((fixedContent, formatter) => formatter(fixedContent), content);
+module.exports = (content) => formatters.reduce((fixedContent, formatter) => formatter(fixedContent), content);
