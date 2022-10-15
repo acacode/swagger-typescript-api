@@ -8767,8 +8767,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -10671,85 +10671,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     gistsUpdate: (
       gistId: string,
-      data: (
-        | {
-            /**
-             * Description of the gist
-             * @example Example Ruby script
-             */
-            description: string;
-          }
-        | {
-            /**
-             * Names of files to be updated
-             * @example {"hello.rb":{"content":"blah","filename":"goodbye.rb"}}
-             */
-            files: Record<
-              string,
-              (
-                | {
-                    /** The new content of the file */
-                    content: string;
-                  }
-                | {
-                    /** The new filename for the file */
-                    filename: string | null;
-                  }
-                | object
-                | ({
-                    /** The new content of the file */
-                    content: string;
-                  } & {
-                    /** The new filename for the file */
-                    filename: string | null;
-                  } & object)
-              ) & {
-                /** The new content of the file */
-                content?: string;
-                /** The new filename for the file */
-                filename?: string | null;
-              }
-            >;
-          }
-        | ({
-            /**
-             * Description of the gist
-             * @example Example Ruby script
-             */
-            description: string;
-          } & {
-            /**
-             * Names of files to be updated
-             * @example {"hello.rb":{"content":"blah","filename":"goodbye.rb"}}
-             */
-            files: Record<
-              string,
-              (
-                | {
-                    /** The new content of the file */
-                    content: string;
-                  }
-                | {
-                    /** The new filename for the file */
-                    filename: string | null;
-                  }
-                | object
-                | ({
-                    /** The new content of the file */
-                    content: string;
-                  } & {
-                    /** The new filename for the file */
-                    filename: string | null;
-                  } & object)
-              ) & {
-                /** The new content of the file */
-                content?: string;
-                /** The new filename for the file */
-                filename?: string | null;
-              }
-            >;
-          })
-      ) & {
+      data: null & {
         /**
          * Description of the gist
          * @example Example Ruby script
@@ -10761,24 +10683,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         files?: Record<
           string,
-          (
-            | {
-                /** The new content of the file */
-                content: string;
-              }
-            | {
-                /** The new filename for the file */
-                filename: string | null;
-              }
-            | object
-            | ({
-                /** The new content of the file */
-                content: string;
-              } & {
-                /** The new filename for the file */
-                filename: string | null;
-              } & object)
-          ) & {
+          (object | null) & {
             /** The new content of the file */
             content?: string;
             /** The new filename for the file */
@@ -17299,43 +17204,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: (
         | {
             status?: "completed";
-            /**
-             * **Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `skipped`, `timed_out`, or `action_required`. When the conclusion is `action_required`, additional details should be provided on the site specified by `details_url`.
-             * **Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`. Only GitHub can change a check run conclusion to `stale`.
-             */
-            conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
-            /** The name of the check. For example, "code-coverage". */
-            name: string;
-            /** The SHA of the commit. */
-            head_sha: string;
             [key: string]: any;
           }
         | {
             status?: "queued" | "in_progress";
-            /** The name of the check. For example, "code-coverage". */
-            name: string;
-            /** The SHA of the commit. */
-            head_sha: string;
             [key: string]: any;
           }
         | ({
             status?: "completed";
-            /**
-             * **Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `skipped`, `timed_out`, or `action_required`. When the conclusion is `action_required`, additional details should be provided on the site specified by `details_url`.
-             * **Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`. Only GitHub can change a check run conclusion to `stale`.
-             */
-            conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
-            /** The name of the check. For example, "code-coverage". */
-            name: string;
-            /** The SHA of the commit. */
-            head_sha: string;
             [key: string]: any;
           } & {
             status?: "queued" | "in_progress";
-            /** The name of the check. For example, "code-coverage". */
-            name: string;
-            /** The SHA of the commit. */
-            head_sha: string;
             [key: string]: any;
           })
       ) & {
@@ -17449,11 +17328,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: (
         | {
             status?: "completed";
-            /**
-             * **Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `skipped`, `timed_out`, or `action_required`.
-             * **Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`. Only GitHub can change a check run conclusion to `stale`.
-             */
-            conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
             [key: string]: any;
           }
         | {
@@ -17462,11 +17336,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
           }
         | ({
             status?: "completed";
-            /**
-             * **Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `skipped`, `timed_out`, or `action_required`.
-             * **Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`. Only GitHub can change a check run conclusion to `stale`.
-             */
-            conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
             [key: string]: any;
           } & {
             status?: "queued" | "in_progress";

@@ -60,7 +60,7 @@ export interface PrefixKeyRevokeNosecretData {
   status?: string;
 }
 
-export type PrefixKeyRevokeNosecretError = PrefixError | PrefixError | PrefixError;
+export type PrefixKeyRevokeNosecretError = PrefixError;
 
 export interface PrefixKeyRegisterData {
   /** revoke key */
@@ -76,7 +76,7 @@ export interface PrefixKeyRevokeData {
   status?: string;
 }
 
-export type PrefixKeyRevokeError = PrefixError | PrefixError;
+export type PrefixKeyRevokeError = PrefixError;
 
 /**
  * JWT
@@ -89,11 +89,11 @@ export interface PrefixGetKeyData {
   sub?: string;
 }
 
-export type PrefixGetKeyError = PrefixError | PrefixError;
+export type PrefixGetKeyError = PrefixError;
 
 export type PrefixHeadKeyData = any;
 
-export type PrefixHeadKeyError = PrefixError | PrefixError;
+export type PrefixHeadKeyError = PrefixError;
 
 export interface PrefixKeyUpdateData {
   /** confirmed */
@@ -107,7 +107,7 @@ export interface PrefixKeyBindData {
   status?: string;
 }
 
-export type PrefixKeyBindError = PrefixError | PrefixError;
+export type PrefixKeyBindError = PrefixError;
 
 export interface PrefixPushLoginRequestData {
   /** sent */
@@ -153,7 +153,7 @@ export interface PrefixSignConfirmData {
   status?: string;
 }
 
-export type PrefixSignConfirmError = PrefixError | PrefixError | PrefixError;
+export type PrefixSignConfirmError = PrefixError;
 
 export interface PrefixSignUpdateData {
   /** result is JWT or JSON?? */
@@ -162,4 +162,4 @@ export interface PrefixSignUpdateData {
   status?: string;
 }
 
-export type PrefixSignUpdateError = PrefixError | PrefixError;
+export type PrefixSignUpdateError = PrefixError;

@@ -71,6 +71,61 @@
         "type": "integer",
         "format": "int32"
       }
+    },
+    "ABCOptional": {
+      "required": [],
+      "properties": {
+        "a": {
+          "type": "string",
+          "description": "a"
+        },
+        "b": {
+          "type": "string",
+          "description": "b"
+        },
+        "c": {
+          "type": "integer",
+          "description": "c"
+        }
+      }
+    },
+    "ABCOptionalWithRequiredId": {
+      "required": [
+        "id",
+        "b"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "id"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ABCOptional"
+        }
+      ]
+    },
+    "NestedObjectWithRequiredId": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id1": {
+          "type": "integer",
+          "description": "id"
+        }
+      },
+      "allOf": [
+        {
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "id"
+            }
+          }
+        }
+      ]
     }
   }
 }

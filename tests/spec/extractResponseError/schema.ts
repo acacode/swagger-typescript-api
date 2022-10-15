@@ -141,14 +141,6 @@ export type FormUrlEncodedRequest2ErrorTTT =
   | {
       /**
        * Detail
-       * asdsad asd asd sa dsa
-       * @example asdasd sad sa dsad
-       */
-      detail: string;
-    }
-  | {
-      /**
-       * Detail
        * sadas das dasd asd
        * @example sadasd sads adsad asd
        */
@@ -160,15 +152,7 @@ export type FormUrlEncodedRequest2ErrorTTT =
        */
       retry_after: number;
     }
-  | Record<string, string[]>
-  | {
-      /**
-       * Detail
-       * asdsad asd asd sa dsa
-       * @example asdasd sad sa dsad
-       */
-      detail: string;
-    };
+  | Record<string, string[]>;
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -342,8 +326,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
