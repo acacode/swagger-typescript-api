@@ -13,6 +13,8 @@ const TS_KEYWORDS = {
   TYPE: "type",
   ENUM: "enum",
   INTERFACE: "interface",
+  TYPE_AND_OPERATOR: " & ",
+  TYPE_OR_OPERATOR: " | ",
 };
 
 const TS_EXTERNAL = {
