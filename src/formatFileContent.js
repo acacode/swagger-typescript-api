@@ -17,7 +17,7 @@ class LanguageServiceHost {
   }
 
   getNewLine() {
-    return "\n";
+    return "newLine" in ts.sys ? ts.sys.newLine : "\n";
   }
   getScriptFileNames() {
     return [this.fileName];
@@ -36,6 +36,13 @@ class LanguageServiceHost {
   }
   getScriptSnapshot() {
     return ts.ScriptSnapshot.fromString(this.content);
+  }
+  readFile(fileName, encoding) {
+    if (fileName === this.fileName) {
+      return this.content;
+    }
+
+    return ts.sys.readFile(fileName, encoding);
   }
   fileExists(path) {
     return ts.sys.fileExists(path);
