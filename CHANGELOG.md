@@ -1,6 +1,6 @@
 # next release
 
-# 10.0.3  
+# 10.0.2  
 
 fix: host.fileExists is not a function  
 fix: other problems linked with new typescript version (4.8.*) (thanks @elkeis, @Jnig)  
@@ -9,12 +9,12 @@ fix: fetch http client headers content type priority
 fix: fs.rmSync (thanks @smorimoto)
 fix: locally overridden security schemes (security flag) (#418, thanks @EdwardSalter)  
 docs: add documentation for `unwrapResponseData` nodejs option (thanks @simowe)  
+BREAKING_CHANGE: rename `.eta` file extensions to `.ejs`. Backward capability should be existed.  
+fix: problem with `--sort-types` option  
 
 # 10.0.*  
 
 fix: problem with default http request headers in axios client  
-fix: problem with `--sort-types` option  
-BREAKING_CHANGE: rename `.eta` file extensions to `.ejs`. Backward capability should be existed.
 
 # 10.0.1  
 
