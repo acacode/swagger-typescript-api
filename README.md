@@ -107,6 +107,7 @@ generateApi({
   toJS: false,
   extractRequestParams: false,
   extractRequestBody: false,
+  unwrapResponseData: false,
   prettier: { // By default prettier config is load from your project
     printWidth: 120,
     tabWidth: 2,
