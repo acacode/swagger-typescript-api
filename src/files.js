@@ -21,7 +21,11 @@ const pathIsDir = (path) => {
 
 const removeDir = (path) => {
   try {
-    fs.rmdirSync(path, { recursive: true });
+    if (typeof fs.rmSync === "function") {
+      fs.rmSync(path, { recursive: true });
+    } else {
+      fs.rmdirSync(path, { recursive: true });
+    }
   } catch (e) {}
 };
 
@@ -39,11 +43,7 @@ const cleanDir = (path) => {
 const pathIsExist = (path) => path && fs.existsSync(path);
 
 const createFile = ({ path, fileName, content, withPrefix }) =>
-  fs.writeFileSync(
-    resolve(__dirname, path, `./${fileName}`),
-    `${withPrefix ? filePrefix : ""}${content}`,
-    _.noop,
-  );
+  fs.writeFileSync(resolve(__dirname, path, `./${fileName}`), `${withPrefix ? filePrefix : ""}${content}`, _.noop);
 
 module.exports = {
   createFile,
