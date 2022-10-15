@@ -15,18 +15,17 @@ export interface Floop {
 
 export interface QueryParams {
   /**
-   * Page number
-   * @format int32
-   * @min 0
-   */
-  page?: number | null;
-
-  /**
    * Page size
    * @format int32
    * @min 0
    */
   "page-size"?: number | null;
+  /**
+   * Page number
+   * @format int32
+   * @min 0
+   */
+  page?: number | null;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -201,8 +200,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -252,7 +251,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Some summary
      * @request POST:/{user}/foos
      */
-    createFile: (user: string, data: { meme: string; memeType?: string }, params: RequestParams = {}) =>
+    createFile: (
+      user: string,
+      data: {
+        meme: string;
+        memeType?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Floop, any>({
         path: `/${user}/foos`,
         method: "POST",
@@ -269,7 +275,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name Gets
      * @request GET:/something/
      */
-    gets: (query?: { params?: QueryParams }, params: RequestParams = {}) =>
+    gets: (
+      query?: {
+        params?: QueryParams;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<any, any>({
         path: `/something/`,
         method: "GET",

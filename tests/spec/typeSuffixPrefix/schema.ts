@@ -15,16 +15,13 @@
 export interface SwaggerTypeActorGeneratedDataContract {
   avatar_url?: string;
   bio?: string;
-
   /** The website URL from the profile page */
   blog?: string;
   collaborators?: number;
   company?: string;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   disk_usage?: number;
-
   /** Note: The returned email is the user’s publicly visible email address (or null if the user has not specified a public email address in their profile). */
   email?: string;
   followers?: number;
@@ -37,15 +34,18 @@ export interface SwaggerTypeActorGeneratedDataContract {
   html_url?: string;
   id?: number;
   location?: string;
-
   /** The account username */
   login?: string;
-
   /** The full account name */
   name?: string;
   organizations_url?: string;
   owned_private_repos?: number;
-  plan?: { collaborators?: number; name?: string; private_repos?: number; space?: number };
+  plan?: {
+    collaborators?: number;
+    name?: string;
+    private_repos?: number;
+    space?: number;
+  };
   private_gists?: number;
   public_gists?: number;
   public_repos?: number;
@@ -53,7 +53,6 @@ export interface SwaggerTypeActorGeneratedDataContract {
   subscriptions_url?: string;
   total_private_repos?: number;
   type?: "User" | "Organization";
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
@@ -69,7 +68,6 @@ export interface SwaggerTypeAssetGeneratedDataContract {
   size?: number;
   state?: string;
   updated_at?: string;
-
   /** A GitHub user */
   uploader?: SwaggerTypeUserGeneratedDataContract;
   url?: string;
@@ -96,25 +94,52 @@ export interface SwaggerTypeBlobsGeneratedDataContract {
 }
 
 export interface SwaggerTypeBranchGeneratedDataContract {
-  _links?: { html?: string; self?: string };
+  _links?: {
+    html?: string;
+    self?: string;
+  };
   commit?: {
+    /** A GitHub user */
     author?: SwaggerTypeUserGeneratedDataContract;
     commit?: {
-      author?: { date?: string; email?: string; name?: string };
-      committer?: { date?: string; email?: string; name?: string };
+      author?: {
+        /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+        date?: string;
+        email?: string;
+        name?: string;
+      };
+      committer?: {
+        /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+        date?: string;
+        email?: string;
+        name?: string;
+      };
       message?: string;
-      tree?: { sha?: string; url?: string };
+      tree?: {
+        sha?: string;
+        url?: string;
+      };
       url?: string;
     };
+    /** A GitHub user */
     committer?: SwaggerTypeUserGeneratedDataContract;
-    parents?: { sha?: string; url?: string }[];
+    parents?: {
+      sha?: string;
+      url?: string;
+    }[];
     sha?: string;
     url?: string;
   };
   name?: string;
 }
 
-export type SwaggerTypeBranchesGeneratedDataContract = { commit?: { sha?: string; url?: string }; name?: string }[];
+export type SwaggerTypeBranchesGeneratedDataContract = {
+  commit?: {
+    sha?: string;
+    url?: string;
+  };
+  name?: string;
+}[];
 
 export type SwaggerTypeCodeFrequencyStatsGeneratedDataContract = number[];
 
@@ -128,9 +153,11 @@ export interface SwaggerTypeCommentBodyGeneratedDataContract {
 
 export type SwaggerTypeCommentsGeneratedDataContract = {
   body?: string;
+  /** ISO 8601. */
   created_at?: string;
   id?: number;
   url?: string;
+  /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }[];
 
@@ -138,13 +165,25 @@ export interface SwaggerTypeCommitGeneratedDataContract {
   /** A GitHub user */
   author?: SwaggerTypeUserGeneratedDataContract;
   commit?: {
-    author?: { date?: string; email?: string; name?: string };
-    committer?: { date?: string; email?: string; name?: string };
+    author?: {
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+      date?: string;
+      email?: string;
+      name?: string;
+    };
+    committer?: {
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+      date?: string;
+      email?: string;
+      name?: string;
+    };
     message?: string;
-    tree?: { sha?: string; url?: string };
+    tree?: {
+      sha?: string;
+      url?: string;
+    };
     url?: string;
   };
-
   /** A GitHub user */
   committer?: SwaggerTypeUserGeneratedDataContract;
   files?: {
@@ -157,18 +196,28 @@ export interface SwaggerTypeCommitGeneratedDataContract {
     raw_url?: string;
     status?: string;
   }[];
-  parents?: { sha?: string; url?: string }[];
+  parents?: {
+    sha?: string;
+    url?: string;
+  }[];
   sha?: string;
-  stats?: { additions?: number; deletions?: number; total?: number };
+  stats?: {
+    additions?: number;
+    deletions?: number;
+    total?: number;
+  };
   url?: string;
 }
 
-export type SwaggerTypeCommitActivityStatsGeneratedDataContract = { days?: number[]; total?: number; week?: number }[];
+export type SwaggerTypeCommitActivityStatsGeneratedDataContract = {
+  days?: number[];
+  total?: number;
+  week?: number;
+}[];
 
 export interface SwaggerTypeCommitCommentGeneratedDataContract {
   body?: string;
   commit_id?: string;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   html_url?: string;
@@ -176,45 +225,56 @@ export interface SwaggerTypeCommitCommentGeneratedDataContract {
   line?: number;
   path?: string;
   position?: number;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-
   /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }
 
 export interface SwaggerTypeCommitCommentBodyGeneratedDataContract {
   body: string;
-
   /** Deprecated - Use position parameter instead. */
   line?: string;
-
   /** Line number in the file to comment on. Defaults to null. */
   number?: string;
-
   /** Relative path of the file to comment on. */
   path?: string;
-
   /** Line index in the diff to comment on. */
   position?: number;
-
   /** SHA of the commit to comment on. */
   sha: string;
 }
 
 export type SwaggerTypeCommitsGeneratedDataContract = {
+  /** A GitHub user */
   author?: SwaggerTypeUserGeneratedDataContract;
   commit?: {
-    author?: { date?: string; email?: string; name?: string };
-    committer?: { date?: string; email?: string; name?: string };
+    author?: {
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+      date?: string;
+      email?: string;
+      name?: string;
+    };
+    committer?: {
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+      date?: string;
+      email?: string;
+      name?: string;
+    };
     message?: string;
-    tree?: { sha?: string; url?: string };
+    tree?: {
+      sha?: string;
+      url?: string;
+    };
     url?: string;
   };
+  /** A GitHub user */
   committer?: SwaggerTypeUserGeneratedDataContract;
-  parents?: { sha?: string; url?: string }[];
+  parents?: {
+    sha?: string;
+    url?: string;
+  }[];
   sha?: string;
   url?: string;
 }[];
@@ -222,31 +282,63 @@ export type SwaggerTypeCommitsGeneratedDataContract = {
 export interface SwaggerTypeCompareCommitsGeneratedDataContract {
   ahead_by?: number;
   base_commit?: {
+    /** A GitHub user */
     author?: SwaggerTypeUserGeneratedDataContract;
     commit?: {
-      author?: { date?: string; email?: string; name?: string };
-      committer?: { date?: string; email?: string; name?: string };
+      author?: {
+        date?: string;
+        email?: string;
+        name?: string;
+      };
+      committer?: {
+        date?: string;
+        email?: string;
+        name?: string;
+      };
       message?: string;
-      tree?: { sha?: string; url?: string };
+      tree?: {
+        sha?: string;
+        url?: string;
+      };
       url?: string;
     };
+    /** A GitHub user */
     committer?: SwaggerTypeUserGeneratedDataContract;
-    parents?: { sha?: string; url?: string }[];
+    parents?: {
+      sha?: string;
+      url?: string;
+    }[];
     sha?: string;
     url?: string;
   };
   behind_by?: number;
   commits?: {
+    /** A GitHub user */
     author?: SwaggerTypeUserGeneratedDataContract;
     commit?: {
-      author?: { date?: string; email?: string; name?: string };
-      committer?: { date?: string; email?: string; name?: string };
+      author?: {
+        date?: string;
+        email?: string;
+        name?: string;
+      };
+      committer?: {
+        date?: string;
+        email?: string;
+        name?: string;
+      };
       message?: string;
-      tree?: { sha?: string; url?: string };
+      tree?: {
+        sha?: string;
+        url?: string;
+      };
       url?: string;
     };
+    /** A GitHub user */
     committer?: SwaggerTypeUserGeneratedDataContract;
-    parents?: { sha?: string; url?: string }[];
+    parents?: {
+      sha?: string;
+      url?: string;
+    }[];
     sha?: string;
     url?: string;
   }[];
@@ -272,7 +364,11 @@ export interface SwaggerTypeCompareCommitsGeneratedDataContract {
 }
 
 export interface SwaggerTypeContentsPathGeneratedDataContract {
-  _links?: { git?: string; html?: string; self?: string };
+  _links?: {
+    git?: string;
+    html?: string;
+    self?: string;
+  };
   content?: string;
   encoding?: string;
   git_url?: string;
@@ -286,24 +382,59 @@ export interface SwaggerTypeContentsPathGeneratedDataContract {
 }
 
 export type SwaggerTypeContributorsStatsGeneratedDataContract = {
-  author?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+  author?: {
+    avatar_url?: string;
+    gravatar_id?: string;
+    id?: number;
+    login?: string;
+    url?: string;
+  };
+  /** The Total number of commits authored by the contributor. */
   total?: number;
-  weeks?: { a?: number; c?: number; d?: number; w?: string }[];
+  weeks?: {
+    /** Number of additions. */
+    a?: number;
+    /** Number of commits. */
+    c?: number;
+    /** Number of deletions. */
+    d?: number;
+    /** Start of the week. */
+    w?: string;
+  }[];
 }[];
 
 export interface SwaggerTypeCreateFileGeneratedDataContract {
   commit?: {
-    author?: { date?: string; email?: string; name?: string };
-    committer?: { date?: string; email?: string; name?: string };
+    author?: {
+      date?: string;
+      email?: string;
+      name?: string;
+    };
+    committer?: {
+      date?: string;
+      email?: string;
+      name?: string;
+    };
     html_url?: string;
     message?: string;
-    parents?: { html_url?: string; sha?: string; url?: string }[];
+    parents?: {
+      html_url?: string;
+      sha?: string;
+      url?: string;
+    }[];
     sha?: string;
-    tree?: { sha?: string; url?: string };
+    tree?: {
+      sha?: string;
+      url?: string;
+    };
     url?: string;
   };
   content?: {
-    _links?: { git?: string; html?: string; self?: string };
+    _links?: {
+      git?: string;
+      html?: string;
+      self?: string;
+    };
     git_url?: string;
     html_url?: string;
     name?: string;
@@ -316,40 +447,64 @@ export interface SwaggerTypeCreateFileGeneratedDataContract {
 }
 
 export interface SwaggerTypeCreateFileBodyGeneratedDataContract {
-  committer?: { email?: string; name?: string };
+  committer?: {
+    email?: string;
+    name?: string;
+  };
   content?: string;
   message?: string;
 }
 
 export interface SwaggerTypeDeleteFileGeneratedDataContract {
   commit?: {
-    author?: { date?: string; email?: string; name?: string };
-    committer?: { date?: string; email?: string; name?: string };
+    author?: {
+      date?: string;
+      email?: string;
+      name?: string;
+    };
+    committer?: {
+      date?: string;
+      email?: string;
+      name?: string;
+    };
     html_url?: string;
     message?: string;
-    parents?: { html_url?: string; sha?: string; url?: string };
+    parents?: {
+      html_url?: string;
+      sha?: string;
+      url?: string;
+    };
     sha?: string;
-    tree?: { sha?: string; url?: string };
+    tree?: {
+      sha?: string;
+      url?: string;
+    };
     url?: string;
   };
   content?: string;
 }
 
 export interface SwaggerTypeDeleteFileBodyGeneratedDataContract {
-  committer?: { email?: string; name?: string };
+  committer?: {
+    email?: string;
+    name?: string;
+  };
   message?: string;
   sha?: string;
 }
 
 export interface SwaggerTypeDeploymentGeneratedDataContract {
   description?: string;
-  payload?: { deploy_user?: string; environment?: string; room_id?: number };
+  payload?: {
+    deploy_user?: string;
+    environment?: string;
+    room_id?: number;
+  };
   ref?: string;
 }
 
 export interface SwaggerTypeDeploymentRespGeneratedDataContract {
   created_at?: string;
-
   /** A GitHub user */
   creator?: SwaggerTypeUserGeneratedDataContract;
   description?: string;
@@ -363,6 +518,7 @@ export interface SwaggerTypeDeploymentRespGeneratedDataContract {
 
 export type SwaggerTypeDeploymentStatusesGeneratedDataContract = {
   created_at?: string;
+  /** A GitHub user */
   creator?: SwaggerTypeUserGeneratedDataContract;
   description?: string;
   id?: number;
@@ -406,12 +562,15 @@ export interface SwaggerTypeEventGeneratedDataContract {
   actor?: SwaggerTypeActorGeneratedDataContract;
   created_at?: object;
   id?: number;
-
   /** A GitHub organization */
   org?: SwaggerTypeOrganizationGeneratedDataContract;
   payload?: object;
   public?: boolean;
-  repo?: { id?: number; name?: string; url?: string };
+  repo?: {
+    id?: number;
+    name?: string;
+    url?: string;
+  };
   type?: string;
 }
 
@@ -419,12 +578,30 @@ export type SwaggerTypeEventsGeneratedDataContract = SwaggerTypeEventGeneratedDa
 
 export interface SwaggerTypeFeedsGeneratedDataContract {
   _links?: {
-    current_user?: { href?: string; type?: string };
-    current_user_actor?: { href?: string; type?: string };
-    current_user_organization?: { href?: string; type?: string };
-    current_user_public?: { href?: string; type?: string };
-    timeline?: { href?: string; type?: string };
-    user?: { href?: string; type?: string };
+    current_user?: {
+      href?: string;
+      type?: string;
+    };
+    current_user_actor?: {
+      href?: string;
+      type?: string;
+    };
+    current_user_organization?: {
+      href?: string;
+      type?: string;
+    };
+    current_user_public?: {
+      href?: string;
+      type?: string;
+    };
+    timeline?: {
+      href?: string;
+      type?: string;
+    };
+    user?: {
+      href?: string;
+      type?: string;
+    };
   };
   current_user_actor_url?: string;
   current_user_organization_url?: string;
@@ -443,18 +620,35 @@ export type SwaggerTypeForksGeneratedDataContract = SwaggerTypeReposGeneratedDat
 export interface SwaggerTypeGistGeneratedDataContract {
   comments?: number;
   comments_url?: string;
-
   /** Timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ. */
   created_at?: string;
   description?: string;
-  files?: { "ring.erl"?: { filename?: string; raw_url?: string; size?: number } };
-  forks?: { created_at?: string; url?: string; user?: SwaggerTypeUserGeneratedDataContract }[];
+  files?: {
+    "ring.erl"?: {
+      filename?: string;
+      raw_url?: string;
+      size?: number;
+    };
+  };
+  forks?: {
+    /** Timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ. */
+    created_at?: string;
+    url?: string;
+    /** A GitHub user */
+    user?: SwaggerTypeUserGeneratedDataContract;
+  }[];
   git_pull_url?: string;
   git_push_url?: string;
   history?: {
-    change_status?: { additions?: number; deletions?: number; total?: number };
+    change_status?: {
+      additions?: number;
+      deletions?: number;
+      total?: number;
+    };
+    /** Timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ. */
     committed_at?: string;
     url?: string;
+    /** A GitHub user */
     user?: SwaggerTypeUserGeneratedDataContract;
     version?: string;
   }[];
@@ -462,7 +656,6 @@ export interface SwaggerTypeGistGeneratedDataContract {
   id?: string;
   public?: boolean;
   url?: string;
-
   /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }
@@ -472,18 +665,29 @@ export type SwaggerTypeGistsGeneratedDataContract = {
   comments_url?: string;
   created_at?: string;
   description?: string;
-  files?: { "ring.erl"?: { filename?: string; raw_url?: string; size?: number } };
+  files?: {
+    "ring.erl"?: {
+      filename?: string;
+      raw_url?: string;
+      size?: number;
+    };
+  };
   git_pull_url?: string;
   git_push_url?: string;
   html_url?: string;
   id?: string;
   public?: boolean;
   url?: string;
+  /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }[];
 
 export interface SwaggerTypeGitCommitGeneratedDataContract {
-  author?: { date?: string; email?: string; name?: string };
+  author?: {
+    date?: string;
+    email?: string;
+    name?: string;
+  };
   message?: string;
   parents?: string;
   tree?: string;
@@ -502,14 +706,22 @@ export interface SwaggerTypeGitignoreLangGeneratedDataContract {
 }
 
 export interface SwaggerTypeHeadBranchGeneratedDataContract {
-  object?: { sha?: string; type?: string; url?: string };
+  object?: {
+    sha?: string;
+    type?: string;
+    url?: string;
+  };
   ref?: string;
   url?: string;
 }
 
 export type SwaggerTypeHookGeneratedDataContract = {
   active?: boolean;
-  config?: { content_type?: string; url?: string };
+  config?: {
+    content_type?: string;
+    url?: string;
+  };
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   events?: (
     | "push"
@@ -530,6 +742,7 @@ export type SwaggerTypeHookGeneratedDataContract = {
   )[];
   id?: number;
   name?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
 }[];
@@ -551,23 +764,32 @@ export interface SwaggerTypeIssueEventGeneratedDataContract {
   /** A user or organization */
   actor?: SwaggerTypeActorGeneratedDataContract;
   commit_id?: string;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   event?: string;
   issue?: {
+    /** A GitHub user */
     assignee?: SwaggerTypeUserGeneratedDataContract;
     body?: string;
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     closed_at?: string;
     comments?: number;
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     created_at?: string;
     html_url?: string;
-    labels?: { color?: string; name?: string; url?: string }[];
+    labels?: {
+      color?: string;
+      name?: string;
+      url?: string;
+    }[];
     milestone?: {
       closed_issues?: number;
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
       created_at?: string;
+      /** A GitHub user */
       creator?: SwaggerTypeUserGeneratedDataContract;
       description?: string;
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
       due_on?: string;
       number?: number;
       open_issues?: number;
@@ -576,11 +798,17 @@ export interface SwaggerTypeIssueEventGeneratedDataContract {
       url?: string;
     };
     number?: number;
-    pull_request?: { diff_url?: string; html_url?: string; patch_url?: string };
+    pull_request?: {
+      diff_url?: string;
+      html_url?: string;
+      patch_url?: string;
+    };
     state?: "open" | "closed";
     title?: string;
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     updated_at?: string;
     url?: string;
+    /** A GitHub user */
     user?: SwaggerTypeUserGeneratedDataContract;
   };
   url?: string;
@@ -589,18 +817,28 @@ export interface SwaggerTypeIssueEventGeneratedDataContract {
 export type SwaggerTypeIssueEventsGeneratedDataContract = SwaggerTypeIssueEventGeneratedDataContract[];
 
 export type SwaggerTypeIssuesGeneratedDataContract = {
+  /** A GitHub user */
   assignee?: SwaggerTypeUserGeneratedDataContract;
   body?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   closed_at?: string;
   comments?: number;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   html_url?: string;
-  labels?: { color?: string; name?: string; url?: string }[];
+  labels?: {
+    color?: string;
+    name?: string;
+    url?: string;
+  }[];
   milestone?: {
     closed_issues?: number;
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     created_at?: string;
+    /** A GitHub user */
     creator?: SwaggerTypeUserGeneratedDataContract;
     description?: string;
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     due_on?: string;
     number?: number;
     open_issues?: number;
@@ -609,44 +847,65 @@ export type SwaggerTypeIssuesGeneratedDataContract = {
     url?: string;
   };
   number?: number;
-  pull_request?: { diff_url?: string; html_url?: string; patch_url?: string };
+  pull_request?: {
+    diff_url?: string;
+    html_url?: string;
+    patch_url?: string;
+  };
   state?: "open" | "closed";
   title?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
+  /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }[];
 
 export interface SwaggerTypeIssuesCommentGeneratedDataContract {
   body?: string;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   html_url?: string;
   id?: number;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-
   /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }
 
 export type SwaggerTypeIssuesCommentsGeneratedDataContract = {
-  _links?: { html?: { href?: string }; pull_request?: { href?: string }; self?: { href?: string } };
+  _links?: {
+    html?: {
+      href?: string;
+    };
+    pull_request?: {
+      href?: string;
+    };
+    self?: {
+      href?: string;
+    };
+  };
   body?: string;
   commit_id?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   id?: number;
   path?: string;
   position?: number;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
+  /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }[];
 
-export type SwaggerTypeKeysGeneratedDataContract = { id?: number; key?: string; title?: string; url?: string }[];
+export type SwaggerTypeKeysGeneratedDataContract = {
+  id?: number;
+  key?: string;
+  title?: string;
+  url?: string;
+}[];
 
 export interface SwaggerTypeLabelGeneratedDataContract {
   color?: string;
@@ -654,7 +913,11 @@ export interface SwaggerTypeLabelGeneratedDataContract {
   url?: string;
 }
 
-export type SwaggerTypeLabelsGeneratedDataContract = { color?: string; name?: string; url?: string }[];
+export type SwaggerTypeLabelsGeneratedDataContract = {
+  color?: string;
+  name?: string;
+  url?: string;
+}[];
 
 export type SwaggerTypeLanguagesGeneratedDataContract = Record<string, number>;
 
@@ -690,19 +953,32 @@ export interface SwaggerTypeMergesSuccessfulGeneratedDataContract {
   author?: SwaggerTypeUserGeneratedDataContract;
   comments_url?: string;
   commit?: {
-    author?: { date?: string; email?: string; name?: string };
+    author?: {
+      date?: string;
+      email?: string;
+      name?: string;
+    };
     comment_count?: number;
-    committer?: { date?: string; email?: string; name?: string };
+    committer?: {
+      date?: string;
+      email?: string;
+      name?: string;
+    };
     message?: string;
-    tree?: { sha?: string; url?: string };
+    tree?: {
+      sha?: string;
+      url?: string;
+    };
     url?: string;
   };
-
   /** A GitHub user */
   committer?: SwaggerTypeUserGeneratedDataContract;
   merged?: boolean;
   message?: string;
-  parents?: { sha?: string; url?: string }[];
+  parents?: {
+    sha?: string;
+    url?: string;
+  }[];
   sha?: string;
   url?: string;
 }
@@ -714,14 +990,11 @@ export interface SwaggerTypeMetaGeneratedDataContract {
 
 export interface SwaggerTypeMilestoneGeneratedDataContract {
   closed_issues?: number;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
-
   /** A GitHub user */
   creator?: SwaggerTypeUserGeneratedDataContract;
   description?: string;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   due_on?: string;
   number?: number;
@@ -753,11 +1026,17 @@ export interface SwaggerTypeNotificationsGeneratedDataContract {
     html_url?: string;
     id?: number;
     name?: string;
+    /** A user or organization */
     owner?: SwaggerTypeActorGeneratedDataContract;
     private?: boolean;
     url?: string;
   };
-  subject?: { latest_comment_url?: string; title?: string; type?: string; url?: string };
+  subject?: {
+    latest_comment_url?: string;
+    title?: string;
+    type?: string;
+    url?: string;
+  };
   unread?: boolean;
   updated_at?: string;
   url?: string;
@@ -775,7 +1054,11 @@ export interface SwaggerTypeOrgTeamsPostGeneratedDataContract {
 export type SwaggerTypeOrganizationGeneratedDataContract = SwaggerTypeActorGeneratedDataContract;
 
 export interface SwaggerTypeOrganizationAsTeamMemberGeneratedDataContract {
-  errors?: { code?: string; field?: string; resource?: string }[];
+  errors?: {
+    code?: string;
+    field?: string;
+    resource?: string;
+  }[];
   message?: string;
 }
 
@@ -788,9 +1071,16 @@ export interface SwaggerTypePatchGistGeneratedDataContract {
   description?: string;
   files?: {
     "delete_this_file.txt"?: string;
-    "file1.txt"?: { content?: string };
-    "new_file.txt"?: { content?: string };
-    "old_name.txt"?: { content?: string; filename?: string };
+    "file1.txt"?: {
+      content?: string;
+    };
+    "new_file.txt"?: {
+      content?: string;
+    };
+    "old_name.txt"?: {
+      content?: string;
+      filename?: string;
+    };
   };
 }
 
@@ -798,7 +1088,6 @@ export interface SwaggerTypePatchOrgGeneratedDataContract {
   /** Billing email address. This address is not publicized. */
   billing_email?: string;
   company?: string;
-
   /** Publicly visible email address. */
   email?: string;
   location?: string;
@@ -807,7 +1096,11 @@ export interface SwaggerTypePatchOrgGeneratedDataContract {
 
 export interface SwaggerTypePostGistGeneratedDataContract {
   description?: string;
-  files?: { "file1.txt"?: { content?: string } };
+  files?: {
+    "file1.txt"?: {
+      content?: string;
+    };
+  };
   public?: boolean;
 }
 
@@ -815,34 +1108,36 @@ export interface SwaggerTypePostRepoGeneratedDataContract {
   /** True to create an initial commit with empty README. Default is false. */
   auto_init?: boolean;
   description?: string;
-
   /** Desired language or platform .gitignore template to apply. Use the name of the template without the extension. For example, "Haskell" Ignored if auto_init parameter is not provided.  */
   gitignore_template?: string;
-
   /** True to enable downloads for this repository, false to disable them. Default is true. */
   has_downloads?: boolean;
-
   /** True to enable issues for this repository, false to disable them. Default is true. */
   has_issues?: boolean;
-
   /** True to enable the wiki for this repository, false to disable it. Default is true. */
   has_wiki?: boolean;
   homepage?: string;
   name: string;
-
   /** True to create a private repository, false to create a public one. Creating private repositories requires a paid GitHub account. */
   private?: boolean;
-
   /** The id of the team that will be granted access to this repository. This is only valid when creating a repo in an organization. */
   team_id?: number;
 }
 
 export interface SwaggerTypePullRequestGeneratedDataContract {
   _links?: {
-    comments?: { href?: string };
-    html?: { href?: string };
-    review_comments?: { href?: string };
-    self?: { href?: string };
+    comments?: {
+      href?: string;
+    };
+    html?: {
+      href?: string;
+    };
+    review_comments?: {
+      href?: string;
+    };
+    self?: {
+      href?: string;
+    };
   };
   additions?: number;
   base?: {
@@ -850,7 +1145,13 @@ export interface SwaggerTypePullRequestGeneratedDataContract {
     ref?: string;
     repo?: SwaggerTypeRepoGeneratedDataContract;
     sha?: string;
-    user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+    user?: {
+      avatar_url?: string;
+      gravatar_id?: string;
+      id?: number;
+      login?: string;
+      url?: string;
+    };
   };
   body?: string;
   changed_files?: number;
@@ -865,7 +1166,13 @@ export interface SwaggerTypePullRequestGeneratedDataContract {
     ref?: string;
     repo?: SwaggerTypeRepoGeneratedDataContract;
     sha?: string;
-    user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+    user?: {
+      avatar_url?: string;
+      gravatar_id?: string;
+      id?: number;
+      login?: string;
+      url?: string;
+    };
   };
   html_url?: string;
   issue_url?: string;
@@ -873,14 +1180,26 @@ export interface SwaggerTypePullRequestGeneratedDataContract {
   mergeable?: boolean;
   merged?: boolean;
   merged_at?: string;
-  merged_by?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+  merged_by?: {
+    avatar_url?: string;
+    gravatar_id?: string;
+    id?: number;
+    login?: string;
+    url?: string;
+  };
   number?: number;
   patch_url?: string;
   state?: string;
   title?: string;
   updated_at?: string;
   url?: string;
-  user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+  user?: {
+    avatar_url?: string;
+    gravatar_id?: string;
+    id?: number;
+    login?: string;
+    url?: string;
+  };
 }
 
 export interface SwaggerTypePullUpdateGeneratedDataContract {
@@ -891,20 +1210,36 @@ export interface SwaggerTypePullUpdateGeneratedDataContract {
 
 export type SwaggerTypePullsGeneratedDataContract = {
   _links?: {
-    comments?: { href?: string };
-    html?: { href?: string };
-    review_comments?: { href?: string };
-    self?: { href?: string };
+    comments?: {
+      href?: string;
+    };
+    html?: {
+      href?: string;
+    };
+    review_comments?: {
+      href?: string;
+    };
+    self?: {
+      href?: string;
+    };
   };
   base?: {
     label?: string;
     ref?: string;
     repo?: SwaggerTypeRepoGeneratedDataContract;
     sha?: string;
-    user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+    user?: {
+      avatar_url?: string;
+      gravatar_id?: string;
+      id?: number;
+      login?: string;
+      url?: string;
+    };
   };
   body?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   closed_at?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   diff_url?: string;
   head?: {
@@ -912,35 +1247,63 @@ export type SwaggerTypePullsGeneratedDataContract = {
     ref?: string;
     repo?: SwaggerTypeRepoGeneratedDataContract;
     sha?: string;
-    user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+    user?: {
+      avatar_url?: string;
+      gravatar_id?: string;
+      id?: number;
+      login?: string;
+      url?: string;
+    };
   };
   html_url?: string;
   issue_url?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   merged_at?: string;
   number?: number;
   patch_url?: string;
   state?: "open" | "closed";
   title?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-  user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+  user?: {
+    avatar_url?: string;
+    gravatar_id?: string;
+    id?: number;
+    login?: string;
+    url?: string;
+  };
 }[];
 
 export interface SwaggerTypePullsCommentGeneratedDataContract {
-  _links?: { html?: { href?: string }; pull_request?: { href?: string }; self?: { href?: string } };
+  _links?: {
+    html?: {
+      href?: string;
+    };
+    pull_request?: {
+      href?: string;
+    };
+    self?: {
+      href?: string;
+    };
+  };
   body?: string;
   commit_id?: string;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   id?: number;
   path?: string;
   position?: number;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-  user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+  user?: {
+    avatar_url?: string;
+    gravatar_id?: string;
+    id?: number;
+    login?: string;
+    url?: string;
+  };
 }
 
 export interface SwaggerTypePullsCommentPostGeneratedDataContract {
@@ -951,16 +1314,34 @@ export interface SwaggerTypePullsCommentPostGeneratedDataContract {
 }
 
 export type SwaggerTypePullsCommentsGeneratedDataContract = {
-  _links?: { html?: { href?: string }; pull_request?: { href?: string }; self?: { href?: string } };
+  _links?: {
+    html?: {
+      href?: string;
+    };
+    pull_request?: {
+      href?: string;
+    };
+    self?: {
+      href?: string;
+    };
+  };
   body?: string;
   commit_id?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   id?: number;
   path?: string;
   position?: number;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-  user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+  user?: {
+    avatar_url?: string;
+    gravatar_id?: string;
+    id?: number;
+    login?: string;
+    url?: string;
+  };
 }[];
 
 export interface SwaggerTypePullsPostGeneratedDataContract {
@@ -980,16 +1361,28 @@ export interface SwaggerTypePutSubscriptionGeneratedDataContract {
 }
 
 export interface SwaggerTypeRateLimitGeneratedDataContract {
-  rate?: { limit?: number; remaining?: number; reset?: number };
+  rate?: {
+    limit?: number;
+    remaining?: number;
+    reset?: number;
+  };
 }
 
 export type SwaggerTypeRefGeneratedDataContract = {
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
-  creator?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+  creator?: {
+    avatar_url?: string;
+    gravatar_id?: string;
+    id?: number;
+    login?: string;
+    url?: string;
+  };
   description?: string;
   id?: number;
   state?: string;
   target_url?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
 }[];
@@ -1013,7 +1406,11 @@ export type SwaggerTypeRefStatusGeneratedDataContract = {
 }[];
 
 export type SwaggerTypeRefsGeneratedDataContract = {
-  object?: { sha?: string; type?: string; url?: string };
+  object?: {
+    sha?: string;
+    type?: string;
+    url?: string;
+  };
   ref?: string;
   url?: string;
 }[];
@@ -1034,11 +1431,11 @@ export interface SwaggerTypeReleaseGeneratedDataContract {
     size?: number;
     state?: string;
     updated_at?: string;
+    /** A GitHub user */
     uploader?: SwaggerTypeUserGeneratedDataContract;
     url?: string;
   }[];
   assets_url?: string;
-
   /** A GitHub user */
   author?: SwaggerTypeUserGeneratedDataContract;
   body?: string;
@@ -1077,10 +1474,12 @@ export type SwaggerTypeReleasesGeneratedDataContract = {
     size?: number;
     state?: string;
     updated_at?: string;
+    /** A GitHub user */
     uploader?: SwaggerTypeUserGeneratedDataContract;
     url?: string;
   }[];
   assets_url?: string;
+  /** A GitHub user */
   author?: SwaggerTypeUserGeneratedDataContract;
   body?: string;
   created_at?: string;
@@ -1100,7 +1499,6 @@ export type SwaggerTypeReleasesGeneratedDataContract = {
 
 export interface SwaggerTypeRepoGeneratedDataContract {
   clone_url?: string;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   description?: string;
@@ -1121,26 +1519,20 @@ export interface SwaggerTypeRepoGeneratedDataContract {
   name?: string;
   open_issues?: number;
   open_issues_count?: number;
-
   /** A GitHub organization */
   organization?: SwaggerTypeOrganizationGeneratedDataContract;
-
   /** A user or organization */
   owner?: SwaggerTypeActorGeneratedDataContract;
-
   /** Is present when the repo is a fork. Parent is the repo this repo was forked from. */
   parent?: SwaggerTypeRepoGeneratedDataContract;
   private?: boolean;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   pushed_at?: string;
   size?: number;
-
   /** Is present when the repo is a fork. Source is the ultimate source for the network. */
   source?: SwaggerTypeRepoGeneratedDataContract;
   ssh_url?: string;
   svn_url?: string;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
@@ -1150,6 +1542,7 @@ export interface SwaggerTypeRepoGeneratedDataContract {
 
 export type SwaggerTypeRepoDeploymentsGeneratedDataContract = {
   created_at?: string;
+  /** A GitHub user */
   creator?: SwaggerTypeUserGeneratedDataContract;
   description?: string;
   id?: number;
@@ -1163,29 +1556,52 @@ export type SwaggerTypeRepoDeploymentsGeneratedDataContract = {
 export type SwaggerTypeRepoCommentsGeneratedDataContract = {
   body?: string;
   commit_id?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   html_url?: string;
   id?: number;
   line?: number;
   path?: string;
   position?: number;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
+  /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }[];
 
 export interface SwaggerTypeRepoCommitGeneratedDataContract {
-  author?: { date?: string; email?: string; name?: string };
-  committer?: { date?: string; email?: string; name?: string };
+  author?: {
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+    date?: string;
+    email?: string;
+    name?: string;
+  };
+  committer?: {
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+    date?: string;
+    email?: string;
+    name?: string;
+  };
   message?: string;
-  parents?: { sha?: string; url?: string }[];
+  parents?: {
+    sha?: string;
+    url?: string;
+  }[];
   sha?: string;
-  tree?: { sha?: string; url?: string };
+  tree?: {
+    sha?: string;
+    url?: string;
+  };
   url?: string;
 }
 
 export interface SwaggerTypeRepoCommitBodyGeneratedDataContract {
-  author?: { date?: string; email?: string; name?: string };
+  author?: {
+    date?: string;
+    email?: string;
+    name?: string;
+  };
   message: string;
   parents: string[];
   tree: string;
@@ -1242,6 +1658,7 @@ export interface SwaggerTypeSearchCodeGeneratedDataContract {
       milestones_url?: string;
       name?: string;
       notifications_url?: string;
+      /** A user or organization */
       owner?: SwaggerTypeActorGeneratedDataContract;
       private?: boolean;
       pulls_url?: string;
@@ -1272,16 +1689,25 @@ export interface SwaggerTypeSearchIssuesGeneratedDataContract {
     events_url?: string;
     html_url?: string;
     id?: number;
-    labels?: { color?: string; name?: string; url?: string }[];
+    labels?: {
+      color?: string;
+      name?: string;
+      url?: string;
+    }[];
     labels_url?: string;
     milestone?: any;
     number?: number;
-    pull_request?: { diff_url?: any; html_url?: any; patch_url?: any };
+    pull_request?: {
+      diff_url?: any;
+      html_url?: any;
+      patch_url?: any;
+    };
     score?: number;
     state?: string;
     title?: string;
     updated_at?: string;
     url?: string;
+    /** A GitHub user */
     user?: SwaggerTypeUserGeneratedDataContract;
   }[];
   total_count?: number;
@@ -1347,26 +1773,41 @@ export interface SwaggerTypeSubscriptionBodyGeneratedDataContract {
 export interface SwaggerTypeTagGeneratedDataContract {
   /** String of the tag message. */
   message?: string;
-  object?: { sha?: string; type?: "commit" | "tree" | "blob"; url?: string };
+  object?: {
+    sha?: string;
+    /** String of the type of the tagged object. Normally this is a commit but it can also be a tree or a blob. */
+    type?: "commit" | "tree" | "blob";
+    url?: string;
+  };
   sha?: string;
-
   /** The tag's name. This is typically a version (e.g., "v0.0.1"). */
   tag?: string;
-  tagger?: { date?: string; email?: string; name?: string };
+  tagger?: {
+    /** Timestamp of when this object was tagged, in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+    date?: string;
+    /** String of the email of the author of the tag. */
+    email?: string;
+    /** String of the name of the author of the tag. */
+    name?: string;
+  };
   url?: string;
 }
 
 export interface SwaggerTypeTagBodyGeneratedDataContract {
   /** String of the tag message. */
   message: string;
-
   /** String of the SHA of the git object this is tagging. */
   object: string;
-
   /** The tag's name. This is typically a version (e.g., "v0.0.1"). */
   tag: string;
-  tagger: { date?: string; email?: string; name?: string };
-
+  tagger: {
+    /** Timestamp of when this object was tagged, in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+    date?: string;
+    /** String of the email of the author of the tag. */
+    email?: string;
+    /** String of the name of the author of the tag. */
+    name?: string;
+  };
   /** String of the type of the object we’re tagging. Normally this is a commit but it can also be a tree or a blob. */
   type: "commit" | "tree" | "blob";
 }
@@ -1389,13 +1830,22 @@ export interface SwaggerTypeTeamMembershipGeneratedDataContract {
 
 export type SwaggerTypeTeamReposGeneratedDataContract = SwaggerTypeReposGeneratedDataContract;
 
-export type SwaggerTypeTeamsGeneratedDataContract = { id?: number; name?: string; url?: string }[];
+export type SwaggerTypeTeamsGeneratedDataContract = {
+  id?: number;
+  name?: string;
+  url?: string;
+}[];
 
 export type SwaggerTypeTeamsListGeneratedDataContract = {
   id?: number;
   members_count?: number;
   name?: string;
-  organization?: { avatar_url?: string; id?: number; login?: string; url?: string };
+  organization?: {
+    avatar_url?: string;
+    id?: number;
+    login?: string;
+    url?: string;
+  };
   permission?: string;
   repos_count?: number;
   url?: string;
@@ -1404,8 +1854,10 @@ export type SwaggerTypeTeamsListGeneratedDataContract = {
 export interface SwaggerTypeTreeGeneratedDataContract {
   sha?: string;
   tree?: {
+    /** One of 100644 for file (blob), 100755 for executable (blob), 040000 for subdirectory (tree), 160000 for submodule (commit) or 120000 for a blob that specifies the path of a symlink. */
     mode?: "100644" | "100755" | "040000" | "160000" | "120000";
     path?: string;
+    /** SHA1 checksum ID of the object in the tree. */
     sha?: string;
     size?: number;
     type?: "blob" | "tree" | "commit";
@@ -1416,7 +1868,6 @@ export interface SwaggerTypeTreeGeneratedDataContract {
 
 export interface SwaggerTypeTreesGeneratedDataContract {
   base_tree?: string;
-
   /** SHA1 checksum ID of the object in the tree. */
   sha?: string;
   tree?: SwaggerTypeTreeGeneratedDataContract[];
@@ -1626,8 +2077,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -1674,12 +2125,50 @@ export class HttpClient<SecurityDataType = unknown> {
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   someTest = {
     /**
-     * @description This type should test bug https://github.com/acacode/swagger-typescript-api/issues/156 NOTE: all properties should be required
-     *
-     * @name SomeTestList
-     * @request GET:/some-test
-     * @response `200` `{ user: { foo: number, extra: { id: number, extra: { foo: string, bar: number, baz: string, bad: number, extra: { foo: string, bar: number, baz: string, bad: number, extra: { foo: string, bar: number, baz: string, bad: number, extra: { foo: string, bar: number, baz: string, bad: number } } } } } } }` Success
-     */
+ * @description This type should test bug https://github.com/acacode/swagger-typescript-api/issues/156 NOTE: all properties should be required
+ * 
+ * @name SomeTestList
+ * @request GET:/some-test
+ * @response `200` `{
+  user: {
+  foo: number,
+  extra: {
+  id: number,
+  extra: {
+  foo: string,
+  bar: number,
+  baz: string,
+  bad: number,
+  extra: {
+  foo: string,
+  bar: number,
+  baz: string,
+  bad: number,
+  extra: {
+  foo: string,
+  bar: number,
+  baz: string,
+  bad: number,
+  extra: {
+  foo: string,
+  bar: number,
+  baz: string,
+  bad: number,
+
+},
+
+},
+
+},
+
+},
+
+},
+
+},
+
+}` Success
+ */
     someTestList: (params: RequestParams = {}) =>
       this.request<
         {
@@ -1702,7 +2191,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
                     bar: number;
                     baz: string;
                     bad: number;
-                    extra: { foo: string; bar: number; baz: string; bad: number };
+                    extra: {
+                      foo: string;
+                      bar: number;
+                      baz: string;
+                      bad: number;
+                    };
                   };
                 };
               };
@@ -1777,7 +2271,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `200` `SwaggerTypeGistsGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
-    gistsList: (query?: { since?: string }, params: RequestParams = {}) =>
+    gistsList: (
+      query?: {
+        /**
+         * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
+         * Only gists updated at or after this time are returned.
+         *
+         */
+        since?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<SwaggerTypeGistsGeneratedDataContract, void>({
         path: `/gists`,
         method: "GET",
@@ -1812,7 +2316,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `200` `SwaggerTypeGistsGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
-    publicList: (query?: { since?: string }, params: RequestParams = {}) =>
+    publicList: (
+      query?: {
+        /**
+         * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
+         * Only gists updated at or after this time are returned.
+         *
+         */
+        since?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<SwaggerTypeGistsGeneratedDataContract, void>({
         path: `/gists/public`,
         method: "GET",
@@ -1829,7 +2343,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `200` `SwaggerTypeGistsGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
-    starredList: (query?: { since?: string }, params: RequestParams = {}) =>
+    starredList: (
+      query?: {
+        /**
+         * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
+         * Only gists updated at or after this time are returned.
+         *
+         */
+        since?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<SwaggerTypeGistsGeneratedDataContract, void>({
         path: `/gists/starred`,
         method: "GET",
@@ -2082,11 +2606,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     issuesList: (
       query: {
+        /**
+         * Issues assigned to you / created by you / mentioning you / you're
+         * subscribed to updates for / All issues the authenticated user can see
+         *
+         */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
         state: "open" | "closed";
+        /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
         sort: "created" | "updated" | "comments";
         direction: "asc" | "desc";
+        /**
+         * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Only issues updated at or after this time are returned.
+         *
+         */
         since?: string;
       },
       params: RequestParams = {},
@@ -2134,7 +2669,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reposSearchDetail: (
       keyword: string,
-      query?: { order?: "desc" | "asc"; language?: string; start_page?: string; sort?: "updated" | "stars" | "forks" },
+      query?: {
+        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        order?: "desc" | "asc";
+        /** Filter results by language */
+        language?: string;
+        /** The page number to fetch */
+        start_page?: string;
+        /** The sort field. One of stars, forks, or updated. Default: results are sorted by best match. */
+        sort?: "updated" | "stars" | "forks";
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeSearchRepositoriesByKeywordGeneratedDataContract, void>({
@@ -2173,7 +2717,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     userSearchDetail: (
       keyword: string,
-      query?: { order?: "desc" | "asc"; start_page?: string; sort?: "updated" | "stars" | "forks" },
+      query?: {
+        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        order?: "desc" | "asc";
+        /** The page number to fetch */
+        start_page?: string;
+        /** The sort field. One of stars, forks, or updated. Default: results are sorted by best match. */
+        sort?: "updated" | "stars" | "forks";
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeSearchUsersByKeywordGeneratedDataContract, void>({
@@ -2261,7 +2812,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
     notificationsList: (
-      query?: { all?: boolean; participating?: boolean; since?: string },
+      query?: {
+        /** True to show notifications marked as read. */
+        all?: boolean;
+        /**
+         * True to show only notifications in which the user is directly participating
+         * or mentioned.
+         *
+         */
+        participating?: boolean;
+        /**
+         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Example: "2012-10-09T23:39:01Z".
+         *
+         */
+        since?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeNotificationsGeneratedDataContract, void>({
@@ -2434,11 +3000,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesDetail: (
       org: string,
       query: {
+        /**
+         * Issues assigned to you / created by you / mentioning you / you're
+         * subscribed to updates for / All issues the authenticated user can see
+         *
+         */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
         state: "open" | "closed";
+        /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
         sort: "created" | "updated" | "comments";
         direction: "asc" | "desc";
+        /**
+         * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Only issues updated at or after this time are returned.
+         *
+         */
         since?: string;
       },
       params: RequestParams = {},
@@ -2576,7 +3153,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reposDetail: (
       org: string,
-      query?: { type?: "all" | "public" | "private" | "forks" | "sources" | "member" },
+      query?: {
+        type?: "all" | "public" | "private" | "forks" | "sources" | "member";
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeReposGeneratedDataContract, void>({
@@ -2925,7 +3504,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     commitsDetail: (
       owner: string,
       repo: string,
-      query?: { since?: string; sha?: string; path?: string; author?: string; until?: string },
+      query?: {
+        /**
+         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Example: "2012-10-09T23:39:01Z".
+         *
+         */
+        since?: string;
+        /** Sha or branch to start listing commits from. */
+        sha?: string;
+        /** Only commits containing this file path will be returned. */
+        path?: string;
+        /** GitHub login, name, or email by which to filter by commit author. */
+        author?: string;
+        /** ISO 8601 Date - Only commits before this date will be returned. */
+        until?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeCommitsGeneratedDataContract, void>({
@@ -3062,7 +3656,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       path: string,
-      query?: { path?: string; ref?: string },
+      query?: {
+        /** The content path. */
+        path?: string;
+        /** The String name of the Commit/Branch/Tag. Defaults to 'master'. */
+        ref?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeContentsPathGeneratedDataContract, void>({
@@ -3105,7 +3704,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `200` `SwaggerTypeUsersGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
-    contributorsDetail: (owner: string, repo: string, query: { anon: string }, params: RequestParams = {}) =>
+    contributorsDetail: (
+      owner: string,
+      repo: string,
+      query: {
+        /** Set to 1 or true to include anonymous contributors in results. */
+        anon: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<SwaggerTypeUsersGeneratedDataContract, void>({
         path: `/repos/${owner}/${repo}/contributors`,
         method: "GET",
@@ -3271,7 +3878,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     forksDetail: (
       owner: string,
       repo: string,
-      query?: { sort?: "newes" | "oldes" | "watchers" },
+      query?: {
+        sort?: "newes" | "oldes" | "watchers";
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeForksGeneratedDataContract, void>({
@@ -3553,7 +4162,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       shaCode: string,
-      query?: { recursive?: number },
+      query?: {
+        /** Get a Tree Recursively. (0 or 1) */
+        recursive?: number;
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeTreeGeneratedDataContract, void>({
@@ -3685,11 +4297,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query: {
+        /**
+         * Issues assigned to you / created by you / mentioning you / you're
+         * subscribed to updates for / All issues the authenticated user can see
+         *
+         */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
         state: "open" | "closed";
+        /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
         sort: "created" | "updated" | "comments";
         direction: "asc" | "desc";
+        /**
+         * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Only issues updated at or after this time are returned.
+         *
+         */
         since?: string;
       },
       params: RequestParams = {},
@@ -3735,7 +4358,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesCommentsDetail: (
       owner: string,
       repo: string,
-      query?: { direction?: string; sort?: "created" | "updated"; since?: string },
+      query?: {
+        /** Ignored without 'sort' parameter. */
+        direction?: string;
+        sort?: "created" | "updated";
+        /**
+         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Example: "2012-10-09T23:39:01Z".
+         *
+         */
+        since?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeIssuesCommentsGeneratedDataContract, void>({
@@ -4251,7 +4884,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     milestonesDetail: (
       owner: string,
       repo: string,
-      query?: { state?: "open" | "closed"; direction?: string; sort?: "due_date" | "completeness" },
+      query?: {
+        /** String to filter by state. */
+        state?: "open" | "closed";
+        /** Ignored without 'sort' parameter. */
+        direction?: string;
+        sort?: "due_date" | "completeness";
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeMilestoneGeneratedDataContract, void>({
@@ -4367,7 +5006,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     notificationsDetail: (
       owner: string,
       repo: string,
-      query?: { all?: boolean; participating?: boolean; since?: string },
+      query?: {
+        /** True to show notifications marked as read. */
+        all?: boolean;
+        /**
+         * True to show only notifications in which the user is directly participating
+         * or mentioned.
+         *
+         */
+        participating?: boolean;
+        /**
+         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Example: "2012-10-09T23:39:01Z".
+         *
+         */
+        since?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeNotificationsGeneratedDataContract, void>({
@@ -4410,7 +5064,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsDetail: (
       owner: string,
       repo: string,
-      query?: { state?: "open" | "closed"; head?: string; base?: string },
+      query?: {
+        /** String to filter by state. */
+        state?: "open" | "closed";
+        /**
+         * Filter pulls by head user and branch name in the format of 'user:ref-name'.
+         * Example: github:new-script-format.
+         *
+         */
+        head?: string;
+        /** Filter pulls by base branch name. Example - gh-pages. */
+        base?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypePullsGeneratedDataContract, void>({
@@ -4455,7 +5120,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsCommentsDetail: (
       owner: string,
       repo: string,
-      query?: { direction?: string; sort?: "created" | "updated"; since?: string },
+      query?: {
+        /** Ignored without 'sort' parameter. */
+        direction?: string;
+        sort?: "created" | "updated";
+        /**
+         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Example: "2012-10-09T23:39:01Z".
+         *
+         */
+        since?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeIssuesCommentsGeneratedDataContract, void>({
@@ -4687,7 +5362,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `200` `SwaggerTypeContentsPathGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
-    readmeDetail: (owner: string, repo: string, query?: { ref?: string }, params: RequestParams = {}) =>
+    readmeDetail: (
+      owner: string,
+      repo: string,
+      query?: {
+        /** The String name of the Commit/Branch/Tag. Defaults to master. */
+        ref?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<SwaggerTypeContentsPathGeneratedDataContract, void>({
         path: `/repos/${owner}/${repo}/readme`,
         method: "GET",
@@ -5149,7 +5832,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `200` `SwaggerTypeReposGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
-    repositoriesList: (query?: { since?: string }, params: RequestParams = {}) =>
+    repositoriesList: (
+      query?: {
+        /**
+         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Example: "2012-10-09T23:39:01Z".
+         *
+         */
+        since?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<SwaggerTypeReposGeneratedDataContract, void>({
         path: `/repositories`,
         method: "GET",
@@ -5167,7 +5860,37 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `200` `SwaggerTypeSearchCodeGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
-    codeList: (query: { order?: "desc" | "asc"; q: string; sort?: "indexed" }, params: RequestParams = {}) =>
+    codeList: (
+      query: {
+        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        order?: "desc" | "asc";
+        /**
+         * The search terms. This can be any combination of the supported code
+         * search parameters:
+         * 'Search In' Qualifies which fields are searched. With this qualifier
+         * you can restrict the search to just the file contents, the file path,
+         * or both.
+         * 'Languages' Searches code based on the language it's written in.
+         * 'Forks' Filters repositories based on the number of forks, and/or
+         * whether code from forked repositories should be included in the results
+         * at all.
+         * 'Size' Finds files that match a certain size (in bytes).
+         * 'Path' Specifies the path that the resulting file must be at.
+         * 'Extension' Matches files with a certain extension.
+         * 'Users' or 'Repositories' Limits searches to a specific user or repository.
+         *
+         */
+        q: string;
+        /**
+         * Can only be 'indexed', which indicates how recently a file has been indexed
+         * by the GitHub search infrastructure. If not provided, results are sorted
+         * by best match.
+         *
+         */
+        sort?: "indexed";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<SwaggerTypeSearchCodeGeneratedDataContract, void>({
         path: `/search/code`,
         method: "GET",
@@ -5185,7 +5908,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
     issuesList: (
-      query: { order?: "desc" | "asc"; q: string; sort?: "updated" | "created" | "comments" },
+      query: {
+        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        order?: "desc" | "asc";
+        /** The q search term can also contain any combination of the supported issue search qualifiers: */
+        q: string;
+        /** The sort field. Can be comments, created, or updated. Default: results are sorted by best match. */
+        sort?: "updated" | "created" | "comments";
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeSearchIssuesGeneratedDataContract, void>({
@@ -5205,7 +5935,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
     repositoriesList: (
-      query: { order?: "desc" | "asc"; q: string; sort?: "stars" | "forks" | "updated" },
+      query: {
+        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        order?: "desc" | "asc";
+        /**
+         * The search terms. This can be any combination of the supported repository
+         * search parameters:
+         * 'Search In' Qualifies which fields are searched. With this qualifier you
+         * can restrict the search to just the repository name, description, readme,
+         * or any combination of these.
+         * 'Size' Finds repositories that match a certain size (in kilobytes).
+         * 'Forks' Filters repositories based on the number of forks, and/or whether
+         * forked repositories should be included in the results at all.
+         * 'Created' and 'Last Updated' Filters repositories based on times of
+         * creation, or when they were last updated.
+         * 'Users or Repositories' Limits searches to a specific user or repository.
+         * 'Languages' Searches repositories based on the language they are written in.
+         * 'Stars' Searches repositories based on the number of stars.
+         *
+         */
+        q: string;
+        /** If not provided, results are sorted by best match. */
+        sort?: "stars" | "forks" | "updated";
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeSearchRepositoriesGeneratedDataContract, void>({
@@ -5225,7 +5977,28 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
     usersList: (
-      query: { order?: "desc" | "asc"; q: string; sort?: "followers" | "repositories" | "joined" },
+      query: {
+        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        order?: "desc" | "asc";
+        /**
+         * The search terms. This can be any combination of the supported user
+         * search parameters:
+         * 'Search In' Qualifies which fields are searched. With this qualifier you
+         * can restrict the search to just the username, public email, full name,
+         * location, or any combination of these.
+         * 'Repository count' Filters users based on the number of repositories they
+         * have.
+         * 'Location' Filter users by the location indicated in their profile.
+         * 'Language' Search for users that have repositories that match a certain
+         * language.
+         * 'Created' Filter users based on when they joined.
+         * 'Followers' Filter users based on the number of followers they have.
+         *
+         */
+        q: string;
+        /** If not provided, results are sorted by best match. */
+        sort?: "followers" | "repositories" | "joined";
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeSearchUsersGeneratedDataContract, void>({
@@ -5637,11 +6410,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     issuesList: (
       query: {
+        /**
+         * Issues assigned to you / created by you / mentioning you / you're
+         * subscribed to updates for / All issues the authenticated user can see
+         *
+         */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
         state: "open" | "closed";
+        /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
         sort: "created" | "updated" | "comments";
         direction: "asc" | "desc";
+        /**
+         * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Only issues updated at or after this time are returned.
+         *
+         */
         since?: string;
       },
       params: RequestParams = {},
@@ -5743,7 +6527,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
     reposList: (
-      query?: { type?: "all" | "public" | "private" | "forks" | "sources" | "member" },
+      query?: {
+        type?: "all" | "public" | "private" | "forks" | "sources" | "member";
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeReposGeneratedDataContract, void>({
@@ -5779,7 +6565,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `200` `SwaggerTypeGitignoreGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
-    starredList: (query?: { direction?: string; sort?: "created" | "updated" }, params: RequestParams = {}) =>
+    starredList: (
+      query?: {
+        /** Ignored without 'sort' parameter. */
+        direction?: string;
+        sort?: "created" | "updated";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<SwaggerTypeGitignoreGeneratedDataContract, void>({
         path: `/user/starred`,
         method: "GET",
@@ -5924,7 +6717,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `200` `SwaggerTypeUsersGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
-    usersList: (query?: { since?: number }, params: RequestParams = {}) =>
+    usersList: (
+      query?: {
+        /** The integer ID of the last user that you've seen. */
+        since?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<SwaggerTypeUsersGeneratedDataContract, void>({
         path: `/users`,
         method: "GET",
@@ -6017,7 +6816,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `200` `SwaggerTypeGistsGeneratedDataContract` OK
      * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
      */
-    gistsDetail: (username: string, query?: { since?: string }, params: RequestParams = {}) =>
+    gistsDetail: (
+      username: string,
+      query?: {
+        /**
+         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Example: "2012-10-09T23:39:01Z".
+         *
+         */
+        since?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<SwaggerTypeGistsGeneratedDataContract, void>({
         path: `/users/${username}/gists`,
         method: "GET",
@@ -6096,7 +6906,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reposDetail: (
       username: string,
-      query?: { type?: "all" | "public" | "private" | "forks" | "sources" | "member" },
+      query?: {
+        type?: "all" | "public" | "private" | "forks" | "sources" | "member";
+      },
       params: RequestParams = {},
     ) =>
       this.request<SwaggerTypeReposGeneratedDataContract, void>({

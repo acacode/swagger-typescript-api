@@ -9,13 +9,21 @@
  * ---------------------------------------------------------------
  */
 
-export type TestAllOfDc = (FooBarBaz & FooBar) & { prop?: string };
+export type TestAllOfDc = (FooBarBaz & FooBar) & {
+  prop?: string;
+};
 
-export type TestAllOfDc2 = FooBarBaz & { prop?: string };
+export type TestAllOfDc2 = FooBarBaz & {
+  prop?: string;
+};
 
-export type TestAnyOfDc = (FooBarBaz | FooBar | (FooBarBaz & FooBar)) & { prop?: string };
+export type TestAnyOfDc = (FooBarBaz | FooBar | (FooBarBaz & FooBar)) & {
+  prop?: string;
+};
 
-export type TestOneOfDc = (FooBarBaz | FooBar) & { prop?: string };
+export type TestOneOfDc = (FooBarBaz | FooBar) & {
+  prop?: string;
+};
 
 /**
  * FooBar
@@ -92,25 +100,21 @@ export interface JobType {
   kind: JobKind;
   name?: string;
   link?: string;
-
   /**
    * Exist only in open source jobs
    * Format: `${username}/${projectName}`
    */
   github?: string;
-
   /**
    * Exist only in open source jobs
    * Format: `${orgname}/${projectName}`
    */
   npm?: string;
-
   /**
    * Exist only in open source jobs
    * Means project is dev. tool (like swagger code generator)
    */
   isTool?: boolean;
-
   /** web site address */
   address?: string;
 }
@@ -122,25 +126,21 @@ export interface PickJobTypeExcludeKeysIdOrId {
   kind: JobKind;
   name?: string;
   link?: string;
-
   /**
    * Exist only in open source jobs
    * Format: `${username}/${projectName}`
    */
   github?: string;
-
   /**
    * Exist only in open source jobs
    * Format: `${orgname}/${projectName}`
    */
   npm?: string;
-
   /**
    * Exist only in open source jobs
    * Means project is dev. tool (like swagger code generator)
    */
   isTool?: boolean;
-
   /** web site address */
   address?: string;
 }
@@ -157,7 +157,6 @@ export type JobUpdateType = OmitIdJobType;
 export interface PickProjectTypeExcludeKeysJob {
   id: string;
   name?: string;
-
   /** @format double */
   year: number;
   description: string;
@@ -169,7 +168,10 @@ export interface PickProjectTypeExcludeKeysJob {
 
 export type OmitProjectTypeJob = PickProjectTypeExcludeKeysJob;
 
-export type ExtractedProjectType = OmitProjectTypeJob & { job: JobType };
+export type ExtractedProjectType = OmitProjectTypeJob & {
+  /** Information about job */
+  job: JobType;
+};
 
 /**
  * From T, pick a set of properties whose keys are in the union K
@@ -177,7 +179,6 @@ export type ExtractedProjectType = OmitProjectTypeJob & { job: JobType };
 export interface PickProjectTypeExcludeKeysIdOrId {
   name?: string;
   job: string;
-
   /** @format double */
   year: number;
   description: string;
@@ -195,7 +196,6 @@ export type ProjectUpdateType = OmitIdProjectType;
 
 export interface ProjectType {
   id: string;
-
   /** @format double */
   year: number;
   description: string;
@@ -379,8 +379,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),

@@ -9,66 +9,23 @@
  * ---------------------------------------------------------------
  */
 
-export interface Product {
-  /** Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles. */
-  product_id?: string;
-
-  /** Description of product. */
-  description?: string;
-
-  /** Display name of product. */
-  display_name?: string;
-
-  /** Capacity of product. For example, 4 people. */
-  capacity?: number;
-
-  /** Image URL representing the product. */
-  image?: string;
-}
-
-export interface ProductList {
-  /** Contains the list of products */
-  products?: Product[];
-}
-
-export interface PriceEstimate {
-  /** Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles */
-  product_id?: string;
-
-  /** [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code. */
-  currency_code?: string;
-
-  /** Display name of product. */
-  display_name?: string;
-
-  /** Formatted string of estimate in local currency of the start location. Estimate could be a range, a single number (flat rate) or "Metered" for TAXI. */
-  estimate?: string;
-
-  /** Lower bound of the estimated price. */
-  low_estimate?: number;
-
-  /** Upper bound of the estimated price. */
-  high_estimate?: number;
-
-  /** Expected surge multiplier. Surge is active if surge_multiplier is greater than 1. Price estimate already factors in the surge multiplier. */
-  surge_multiplier?: number;
-}
-
-export interface Profile {
-  /** First name of the Uber user. */
-  first_name?: string;
-
-  /** Last name of the Uber user. */
-  last_name?: string;
-
-  /** Email address of the Uber user */
-  email?: string;
-
-  /** Image URL of the Uber user. */
-  picture?: string;
-
-  /** Promo code of the Uber user. */
-  promo_code?: string;
+export interface Activities {
+  /**
+   * Total number of items available.
+   * @format int32
+   */
+  count?: number;
+  history?: Activity[];
+  /**
+   * Number of items to retrieve (100 max).
+   * @format int32
+   */
+  limit?: number;
+  /**
+   * Position in pagination.
+   * @format int32
+   */
+  offset?: number;
 }
 
 export interface Activity {
@@ -76,32 +33,59 @@ export interface Activity {
   uuid?: string;
 }
 
-export interface Activities {
-  /**
-   * Position in pagination.
-   * @format int32
-   */
-  offset?: number;
-
-  /**
-   * Number of items to retrieve (100 max).
-   * @format int32
-   */
-  limit?: number;
-
-  /**
-   * Total number of items available.
-   * @format int32
-   */
-  count?: number;
-  history?: Activity[];
-}
-
 export interface Error {
   /** @format int32 */
   code?: number;
-  message?: string;
   fields?: string;
+  message?: string;
+}
+
+export interface PriceEstimate {
+  /** [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code. */
+  currency_code?: string;
+  /** Display name of product. */
+  display_name?: string;
+  /** Formatted string of estimate in local currency of the start location. Estimate could be a range, a single number (flat rate) or "Metered" for TAXI. */
+  estimate?: string;
+  /** Upper bound of the estimated price. */
+  high_estimate?: number;
+  /** Lower bound of the estimated price. */
+  low_estimate?: number;
+  /** Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles */
+  product_id?: string;
+  /** Expected surge multiplier. Surge is active if surge_multiplier is greater than 1. Price estimate already factors in the surge multiplier. */
+  surge_multiplier?: number;
+}
+
+export interface Product {
+  /** Capacity of product. For example, 4 people. */
+  capacity?: number;
+  /** Description of product. */
+  description?: string;
+  /** Display name of product. */
+  display_name?: string;
+  /** Image URL representing the product. */
+  image?: string;
+  /** Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles. */
+  product_id?: string;
+}
+
+export interface ProductList {
+  /** Contains the list of products */
+  products?: Product[];
+}
+
+export interface Profile {
+  /** Email address of the Uber user */
+  email?: string;
+  /** First name of the Uber user. */
+  first_name?: string;
+  /** Last name of the Uber user. */
+  last_name?: string;
+  /** Image URL of the Uber user. */
+  picture?: string;
+  /** Promo code of the Uber user. */
+  promo_code?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -276,8 +260,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -330,7 +314,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/products
      * @secure
      */
-    productsList: (query: { latitude: number; longitude: number }, params: RequestParams = {}) =>
+    productsList: (
+      query: {
+        /**
+         * Latitude component of location.
+         * @format double
+         */
+        latitude: number;
+        /**
+         * Longitude component of location.
+         * @format double
+         */
+        longitude: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Product[], Error>({
         path: `/products`,
         method: "GET",
@@ -350,7 +348,28 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/estimates/price
      */
     priceList: (
-      query: { start_latitude: number; start_longitude: number; end_latitude?: number; end_longitude: number },
+      query: {
+        /**
+         * Latitude component of start location.
+         * @format double
+         */
+        start_latitude: number;
+        /**
+         * Longitude component of start location.
+         * @format double
+         */
+        start_longitude: number;
+        /**
+         * Latitude component of end location.
+         * @format double
+         */
+        end_latitude?: number;
+        /**
+         * Longitude component of end location.
+         * @format double
+         */
+        end_longitude: number;
+      },
       params: RequestParams = {},
     ) =>
       this.request<PriceEstimate[], Error>({
@@ -370,7 +389,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/estimates/time
      */
     timeList: (
-      query: { start_latitude: number; start_longitude: number; customer_uuid?: string; product_id?: string },
+      query: {
+        /**
+         * Latitude component of start location.
+         * @format double
+         */
+        start_latitude: number;
+        /**
+         * Longitude component of start location.
+         * @format double
+         */
+        start_longitude: number;
+        /**
+         * Unique customer identifier to be used for experience customization.
+         * @format uuid
+         */
+        customer_uuid?: string;
+        /** Unique identifier representing a specific product for a given latitude & longitude. */
+        product_id?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<Product[], Error>({
@@ -407,7 +444,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary User Activity
      * @request GET:/history
      */
-    historyList: (query?: { offset?: number; limit?: number }, params: RequestParams = {}) =>
+    historyList: (
+      query?: {
+        /**
+         * Offset the list of returned results by this amount. Default is zero.
+         * @format int32
+         */
+        offset?: number;
+        /**
+         * Number of items to retrieve. Default is 5, maximum is 100.
+         * @format int32
+         */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Activities, Error>({
         path: `/history`,
         method: "GET",

@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "10.0.1",
+  "version": "10.0.2",
   "description": "Generate typescript/javascript api from swagger schema",
   "scripts": {
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
@@ -39,6 +39,7 @@
     "test:--js": "node tests/spec/js/test.js",
     "test:--js--axios": "node tests/spec/jsAxios/test.js",
     "test:--axios": "node tests/spec/axios/test.js",
+    "test:--object-types": "node tests/spec/object-types/test.js",
     "test:--axios--single-http-client": "node tests/spec/axiosSingleHttpClient/test.js",
     "test:--type-suffix--type-prefix": "node tests/spec/typeSuffixPrefix/test.js",
     "test:--cli": "node index.js -p tests/spec/cli/schema.json -o tests/spec/cli -n schema.ts --extract-response-body --extract-response-error --type-prefix Prefix --api-class-name MySuperApi --no-client",
@@ -56,24 +57,25 @@
     "@types/node": "^15.0.2",
     "@types/prettier": "^2.7.0",
     "all-contributors-cli": "^6.20.0",
+    "git-diff": "^2.0.6",
     "husky": "^4.3.6",
     "pretty-quick": "^3.1.0"
   },
   "dependencies": {
-    "axios": "^0.27.2",
     "@types/swagger-schema-official": "2.0.22",
-    "commander": "^9.4.0",
-    "cosmiconfig": "^7.0.1",
-    "eta": "^1.12.3",
-    "js-yaml": "^4.1.0",
-    "lodash": "^4.17.21",
-    "make-dir": "^3.1.0",
-    "nanoid": "^3.3.4",
-    "node-emoji": "^1.11.0",
-    "prettier": "^2.7.1",
+    "axios": "0.27.2",
+    "commander": "9.4.1",
+    "cosmiconfig": "7.0.1",
+    "eta": "1.12.3",
+    "js-yaml": "4.1.0",
+    "lodash": "4.17.21",
+    "make-dir": "3.1.0",
+    "nanoid": "3.3.4",
+    "node-emoji": "1.11.0",
+    "prettier": "2.7.1",
     "swagger-schema-official": "2.0.0-bab6bed",
-    "swagger2openapi": "^7.0.8",
-    "typescript": "^4.7.4"
+    "swagger2openapi": "7.0.8",
+    "typescript": "4.8.4"
   },
   "bin": {
     "swagger-typescript-api": "index.js",

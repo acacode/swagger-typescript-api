@@ -9,7 +9,11 @@
  * ---------------------------------------------------------------
  */
 
-export type Test = { x?: "A-B"[] } & { y?: string };
+export type Test = {
+  x?: "A-B"[];
+} & {
+  y?: string;
+};
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -183,8 +187,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),

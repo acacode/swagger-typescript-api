@@ -15,7 +15,6 @@
 export interface PrefixAuthentiqID {
   /** device token for push messages */
   devtoken?: string;
-
   /** UUID and public signing key */
   sub: string;
 }
@@ -26,10 +25,8 @@ export interface PrefixAuthentiqID {
 export interface PrefixClaims {
   email?: string;
   phone?: string;
-
   /** claim scope */
   scope: string;
-
   /** UUID */
   sub: string;
   type?: string;
@@ -39,7 +36,6 @@ export interface PrefixError {
   detail?: string;
   error: number;
   title?: string;
-
   /** unique uri for this error */
   type?: string;
 }
@@ -52,11 +48,9 @@ export interface PrefixPushToken {
   aud: string;
   exp?: number;
   iat?: number;
-
   /** issuer (URI) */
   iss: string;
   nbf?: number;
-
   /** UUID and public signing key */
   sub: string;
 }
@@ -66,12 +60,11 @@ export interface PrefixKeyRevokeNosecretData {
   status?: string;
 }
 
-export type PrefixKeyRevokeNosecretError = PrefixError | PrefixError | PrefixError;
+export type PrefixKeyRevokeNosecretError = PrefixError;
 
 export interface PrefixKeyRegisterData {
   /** revoke key */
   secret?: string;
-
   /** registered */
   status?: string;
 }
@@ -83,22 +76,24 @@ export interface PrefixKeyRevokeData {
   status?: string;
 }
 
-export type PrefixKeyRevokeError = PrefixError | PrefixError;
+export type PrefixKeyRevokeError = PrefixError;
 
+/**
+ * JWT
+ */
 export interface PrefixGetKeyData {
   /** @format date-time */
   since?: string;
   status?: string;
-
   /** base64safe encoded public signing key */
   sub?: string;
 }
 
-export type PrefixGetKeyError = PrefixError | PrefixError;
+export type PrefixGetKeyError = PrefixError;
 
 export type PrefixHeadKeyData = any;
 
-export type PrefixHeadKeyError = PrefixError | PrefixError;
+export type PrefixHeadKeyError = PrefixError;
 
 export interface PrefixKeyUpdateData {
   /** confirmed */
@@ -112,7 +107,7 @@ export interface PrefixKeyBindData {
   status?: string;
 }
 
-export type PrefixKeyBindError = PrefixError | PrefixError;
+export type PrefixKeyBindError = PrefixError;
 
 export interface PrefixPushLoginRequestData {
   /** sent */
@@ -124,7 +119,6 @@ export type PrefixPushLoginRequestError = PrefixError;
 export interface PrefixSignRequestData {
   /** 20-character ID */
   job?: string;
-
   /** waiting */
   status?: string;
 }
@@ -138,10 +132,12 @@ export interface PrefixSignDeleteData {
 
 export type PrefixSignDeleteError = PrefixError;
 
+/**
+ * JWT
+ */
 export interface PrefixSignRetrieveData {
   exp?: number;
   field?: string;
-
   /** base64safe encoded public signing key */
   sub?: string;
 }
@@ -157,14 +153,13 @@ export interface PrefixSignConfirmData {
   status?: string;
 }
 
-export type PrefixSignConfirmError = PrefixError | PrefixError | PrefixError;
+export type PrefixSignConfirmError = PrefixError;
 
 export interface PrefixSignUpdateData {
   /** result is JWT or JSON?? */
   jwt?: string;
-
   /** ready */
   status?: string;
 }
 
-export type PrefixSignUpdateError = PrefixError | PrefixError;
+export type PrefixSignUpdateError = PrefixError;

@@ -25,7 +25,10 @@ const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL, disablePr
     } else {
       logger.log(`try to get swagger by URL "${urlToSwagger}"`);
       // setup options for Axios
-      const axiosOptions = {};
+      const axiosOptions = {
+        maxContentLength: Infinity,
+        maxBodyLength: Infinity,
+      };
       //
       if (disableStrictSSL) {
         axiosOptions.httpsAgent = new https.Agent({

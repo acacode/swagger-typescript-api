@@ -181,8 +181,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -249,13 +249,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name PingList
      * @summary Server heartbeat operation
      * @request GET:/ping
-     * @secure
      */
     pingList: (params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/ping`,
         method: "GET",
-        secure: true,
         ...params,
       }),
   };

@@ -74,6 +74,23 @@ const getInternalSchemaType = (schema) => {
   return SCHEMA_TYPES.PRIMITIVE;
 };
 
+const isNeedToAddNull = (contract, value) => {
+  const { nullable, type } = contract || {};
+  return (
+    (nullable || !!_.get(contract, "x-nullable") || type === TS_KEYWORDS.NULL) &&
+    (!_.isString(value) || (!value.includes(` ${TS_KEYWORDS.NULL}`) && !value.includes(`${TS_KEYWORDS.NULL} `)))
+  );
+};
+
+const checkAndAddRequiredKeys = (schema, resultType) => {
+  if ("$$requiredKeys" in schema && schema.$$requiredKeys.length) {
+    config.internalTemplateOptions.addUtilRequiredKeysType = true;
+    return `UtilRequiredKeys<${resultType}, ${schema.$$requiredKeys.map((k) => `"${k}"`).join(" | ")}>`;
+  }
+
+  return resultType;
+};
+
 const checkAndAddNull = (schema, value) => {
   const { nullable, type } = schema || {};
   return (nullable || !!_.get(schema, "x-nullable") || type === TS_KEYWORDS.NULL) &&
@@ -88,9 +105,9 @@ const isRef = (property) => {
   return !!(property && property["$ref"]);
 };
 
-const getRefType = (property) => {
-  const ref = property && property["$ref"];
-  return (ref && config.componentsMap[ref]) || null;
+const getRefType = (schema) => {
+  const ref = schema && schema["$ref"];
+  return config.componentsMap[ref] || null;
 };
 
 const getType = (schema) => {
@@ -99,11 +116,11 @@ const getType = (schema) => {
   const refTypeInfo = getRefType(schema);
 
   if (refTypeInfo) {
-    return checkAndAddNull(schema, formatModelName(refTypeInfo.typeName));
+    return checkAndAddRequiredKeys(schema, checkAndAddNull(schema, formatModelName(refTypeInfo.typeName)));
   }
 
   const primitiveType = getTypeAlias(schema);
-  return primitiveType ? checkAndAddNull(schema, primitiveType) : TS_KEYWORDS.ANY;
+  return primitiveType ? checkAndAddRequiredKeys(schema, checkAndAddNull(schema, primitiveType)) : TS_KEYWORDS.ANY;
 };
 
 const isRequired = (property, name, requiredProperties) => {
@@ -177,73 +194,76 @@ const getObjectTypeContent = (schema) => {
   return propertiesContent;
 };
 
-const complexTypeGetter = (schema) => getInlineParseContent(schema);
-const filterContents = (contents, types) => _.filter(contents, (type) => !_.includes(types, type));
+const filterContents = (contents, types) => _.uniq(_.filter(contents, (type) => !_.includes(types, type)));
 
-const makeAddRequiredToChildSchema = (parentSchema) => (childSchema) => {
-  let required = childSchema.required || [];
-  let properties = childSchema.properties || {};
+const makeAddRequiredToChildSchema = (parentSchema, childSchema) => {
+  if (!childSchema) return childSchema;
 
-  // Inherit all the required fields from the parent schema that are defined
-  // either on the parent schema or on the child schema
-  // TODO: any that are defined at grandparents or higher are ignored
-  required = required.concat(
-    (parentSchema.required || []).filter(
-      (key) =>
-        !required.includes(key) && (_.keys(properties).includes(key) || _.keys(parentSchema.properties).includes(key)),
-    ),
-  );
+  const required = _.uniq([...(parentSchema.required || []), ...(childSchema.required || [])]);
 
-  // Identify properties that are required in the child schema, but
-  // defined only in the parent schema (TODO: this only works one level deep)
-  const parentPropertiesRequiredByChild = required.filter(
-    (key) => !_.keys(childSchema.properties).includes(key) && _.keys(parentSchema.properties).includes(key),
-  );
+  const refData = getRefType(childSchema);
 
-  // Add such properties to the child so that they can be overriden and made required
-  properties = {
-    ...properties,
-    ...parentPropertiesRequiredByChild.reduce(
-      (additionalProperties, key) => ({
-        ...additionalProperties,
-        [key]: (parentSchema.properties || {})[key],
-      }),
-      {},
-    ),
-  };
+  if (refData) {
+    const refObjectProperties = _.keys((refData.rawTypeData && refData.rawTypeData.properties) || {});
+    const existedRequiredKeys = refObjectProperties.filter((key) => required.includes(key));
 
-  return _.merge(
-    {
-      required: required,
-      properties: properties,
-    },
-    childSchema,
-  );
+    if (!existedRequiredKeys.length) return childSchema;
+
+    return {
+      ...childSchema,
+      $$requiredKeys: existedRequiredKeys,
+    };
+  } else if (childSchema.properties) {
+    const childSchemaProperties = _.keys(childSchema.properties);
+    const existedRequiredKeys = childSchemaProperties.filter((key) => required.includes(key));
+
+    if (!existedRequiredKeys.length) return childSchema;
+
+    return {
+      required: _.uniq([...(childSchema.required || []), ...existedRequiredKeys]),
+      ...childSchema,
+    };
+  }
+
+  return childSchema;
 };
 
 const complexSchemaParsers = {
+  // T1 | T2
   [SCHEMA_TYPES.COMPLEX_ONE_OF]: (schema) => {
-    // T1 | T2
-    const combined = _.map(_.map(schema.oneOf, makeAddRequiredToChildSchema(schema)), complexTypeGetter);
+    const combined = _.map(schema.oneOf, (childSchema) =>
+      getInlineParseContent(makeAddRequiredToChildSchema(schema, childSchema)),
+    );
+    const filtered = filterContents(combined, [TS_KEYWORDS.ANY]);
 
-    return checkAndAddNull(schema, filterContents(combined, [TS_KEYWORDS.ANY]).join(" | "));
+    const type = filtered.join(" | ");
+
+    return checkAndAddNull(schema, type);
   },
+  // T1 & T2
   [SCHEMA_TYPES.COMPLEX_ALL_OF]: (schema) => {
-    // T1 & T2
-    const combined = _.map(_.map(schema.allOf, makeAddRequiredToChildSchema(schema)), complexTypeGetter);
-    return checkAndAddNull(
-      schema,
-      filterContents(combined, [...JS_EMPTY_TYPES, ...JS_PRIMITIVE_TYPES, TS_KEYWORDS.ANY]).join(" & "),
+    const combined = _.map(schema.allOf, (childSchema) =>
+      getInlineParseContent(makeAddRequiredToChildSchema(schema, childSchema)),
     );
+    const filtered = filterContents(combined, [...JS_PRIMITIVE_TYPES, TS_KEYWORDS.ANY]);
+
+    const type = filtered.join(TS_KEYWORDS.TYPE_AND_OPERATOR);
+
+    return checkAndAddNull(schema, type);
   },
+  // T1 | T2 | (T1 & T2)
   [SCHEMA_TYPES.COMPLEX_ANY_OF]: (schema) => {
-    // T1 | T2 | (T1 & T2)
-    const combined = _.map(_.map(schema.anyOf, makeAddRequiredToChildSchema(schema)), complexTypeGetter);
-    const nonEmptyTypesCombined = filterContents(combined, [...JS_EMPTY_TYPES, ...JS_PRIMITIVE_TYPES, TS_KEYWORDS.ANY]);
-    return checkAndAddNull(
-      schema,
-      `${combined.join(" | ")}` + (nonEmptyTypesCombined.length > 1 ? ` | (${nonEmptyTypesCombined.join(" & ")})` : ""),
+    const combined = _.map(schema.anyOf, (childSchema) =>
+      getInlineParseContent(makeAddRequiredToChildSchema(schema, childSchema)),
     );
+    const filtered = filterContents(combined, [...JS_PRIMITIVE_TYPES, TS_KEYWORDS.ANY]);
+
+    const type = _.compact([
+      ...filtered,
+      filtered.length > 1 && `(${filtered.join(TS_KEYWORDS.TYPE_AND_OPERATOR)})`,
+    ]).join(TS_KEYWORDS.TYPE_OR_OPERATOR);
+
+    return checkAndAddNull(schema, type);
   },
   // TODO
   [SCHEMA_TYPES.COMPLEX_NOT]: (schema) => {
@@ -357,15 +377,17 @@ const schemaParsers = {
         schema.description || _.compact(_.map(schema[complexType], "description"))[0] || "",
       ),
       content:
-        _.compact([
-          complexSchemaContent && `(${complexSchemaContent})`,
-          getInternalSchemaType(simpleSchema) === TS_KEYWORDS.OBJECT && getInlineParseContent(simpleSchema),
-        ]).join(" & ") || TS_KEYWORDS.ANY,
+        _.uniq(
+          _.compact([
+            complexSchemaContent && `(${complexSchemaContent})`,
+            getInternalSchemaType(simpleSchema) === SCHEMA_TYPES.OBJECT && `(${getInlineParseContent(simpleSchema)})`,
+          ]),
+        ).join(" & ") || TS_KEYWORDS.ANY,
     });
   },
   [SCHEMA_TYPES.PRIMITIVE]: (schema, typeName) => {
     let contentType = null;
-    const { additionalProperties, type, description } = schema || {};
+    const { additionalProperties, type, description, $$requiredKeys } = schema || {};
 
     if (type === TS_KEYWORDS.OBJECT && additionalProperties) {
       const fieldType = _.isObject(additionalProperties)
@@ -444,6 +466,7 @@ module.exports = {
   parseSchemas,
   getInlineParseContent,
   getParseContent,
+  isNeedToAddNull,
   getType,
   getRefType,
   SCHEMA_TYPES,

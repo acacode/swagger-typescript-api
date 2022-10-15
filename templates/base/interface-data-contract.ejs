@@ -1,0 +1,10 @@
+<%
+const { contract, utils } = it;
+const { formatDescription, require, _ } = utils;
+%>
+export interface <%~ contract.name %> {
+  <% _.forEach(contract.$content, (field) => { %>
+    <%~ includeFile('@base/object-field-jsdoc.ejs', { ...it, field }) %>
+    <%~ field.name %><%~ field.isRequired ? '' : '?' %>: <%~ field.value %><%~ field.isNullable ? ' | null' : ''%>;
+  <% }) %>
+}

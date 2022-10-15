@@ -1,10 +1,27 @@
 # next release
 
+# 10.0.2  
+
+fix: host.fileExists is not a function  
+fix: other problems linked with new typescript version (4.8.*) (thanks @elkeis, @Jnig)  
+fix: problem with required nested properties based on root required properties list  
+fix: fetch http client headers content type priority   
+fix: fs.rmSync (thanks @smorimoto)
+fix: locally overridden security schemes (security flag) (#418, thanks @EdwardSalter)  
+docs: add documentation for `unwrapResponseData` nodejs option (thanks @simowe)  
+BREAKING_CHANGE: rename `.eta` file extensions to `.ejs`. Backward capability should be existed.  
+fix: problem with `--sort-types` option  
+
+# 10.0.*  
+
+fix: problem with default http request headers in axios client  
+
 # 10.0.1  
 
 - fix problem linked with [this.name is not a function](https://github.com/acacode/swagger-typescript-api/issues/381)  
 - [internal] add cli tests  
-- fix problem with not correct working the `--no-client` option
+- fix problem with not correct working the `--no-client` option  
+- separate data-contracts.ejs onto 4 pieces (enum, interface, type, jsdoc)  
 
 # 10.0.0  
 

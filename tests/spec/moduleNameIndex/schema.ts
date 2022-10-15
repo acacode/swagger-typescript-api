@@ -10,28 +10,26 @@
  */
 
 /**
+ * Pet Order
  * An order for a pets from the pet store
  * @example {"petId":6,"quantity":1,"id":0,"shipDate":"2000-01-23T04:56:07.000+00:00","complete":false,"status":"placed"}
  */
 export interface Order {
   /** @format int64 */
   id?: number;
-
   /** @format int64 */
   petId?: number;
-
   /** @format int32 */
   quantity?: number;
-
   /** @format date-time */
   shipDate?: string;
-
   /** Order Status */
   status?: "placed" | "approved" | "delivered";
   complete?: boolean;
 }
 
 /**
+ * Pet category
  * A category for a pet
  * @example {"name":"name","id":6}
  */
@@ -42,6 +40,7 @@ export interface Category {
 }
 
 /**
+ * a User
  * A User who is purchasing from the pet store
  * @example {"firstName":"firstName","lastName":"lastName","password":"password","userStatus":6,"phone":"phone","id":0,"email":"email","username":"username"}
  */
@@ -54,7 +53,6 @@ export interface User {
   email?: string;
   password?: string;
   phone?: string;
-
   /**
    * User Status
    * @format int32
@@ -63,6 +61,7 @@ export interface User {
 }
 
 /**
+ * Pet Tag
  * A tag for a pet
  * @example {"name":"name","id":1}
  */
@@ -81,26 +80,25 @@ export enum PetNames {
 export type PetIds = 10 | 20 | 30 | 40;
 
 /**
+ * a Pet
  * A pet for sale in the pet store
  * @example {"photoUrls":["photoUrls","photoUrls"],"name":"doggie","id":0,"category":{"name":"name","id":6},"tags":[{"name":"name","id":1},{"name":"name","id":1}],"status":"available"}
  */
 export interface Pet {
   /** @format int64 */
   id?: number;
-
   /** A category for a pet */
   category?: Category;
-
   /** @example doggie */
   name: string;
   photoUrls: string[];
   tags?: Tag[];
-
   /** pet status in the store */
   status?: "available" | "pending" | "sold";
 }
 
 /**
+ * An uploaded response
  * Describes the result of uploading an image resource
  * @example {"code":0,"type":"type","message":"message"}
  */
@@ -123,7 +121,6 @@ export interface Amount {
    * @max 1000000000000000
    */
   value: number;
-
   /**
    * some description
    *
@@ -309,8 +306,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -405,7 +402,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:api/v1/pet/findByStatus
      * @secure
      */
-    findPetsByStatus: (query: { status: ("available" | "pending" | "sold")[] }, params: RequestParams = {}) =>
+    findPetsByStatus: (
+      query: {
+        /** Status values that need to be considered for filter */
+        status: ("available" | "pending" | "sold")[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Pet[], void>({
         path: `api/v1/pet/findByStatus`,
         method: "GET",
@@ -425,7 +428,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @deprecated
      * @secure
      */
-    findPetsByTags: (query: { tags: string[] }, params: RequestParams = {}) =>
+    findPetsByTags: (
+      query: {
+        /** Tags to filter by */
+        tags: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Pet[], void>({
         path: `api/v1/pet/findByTags`,
         method: "GET",
@@ -462,7 +471,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:api/v1/pet/{petId}
      * @secure
      */
-    updatePetWithForm: (petId: number, data: { name?: string; status?: string }, params: RequestParams = {}) =>
+    updatePetWithForm: (
+      petId: number,
+      data: {
+        /** Updated name of the pet */
+        name?: string;
+        /** Updated status of the pet */
+        status?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<any, void>({
         path: `api/v1/pet/${petId}`,
         method: "POST",
@@ -498,7 +516,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:api/v1/pet/{petId}/uploadImage
      * @secure
      */
-    uploadFile: (petId: number, data: { additionalMetadata?: string; file?: File }, params: RequestParams = {}) =>
+    uploadFile: (
+      petId: number,
+      data: {
+        /** Additional data to pass to server */
+        additionalMetadata?: string;
+        /** file to upload */
+        file?: File;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ApiResponse, any>({
         path: `api/v1/pet/${petId}/uploadImage`,
         method: "POST",
@@ -637,7 +664,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Logs user into the system
      * @request GET:api/v1/user/login
      */
-    loginUser: (query: { username: string; password: string }, params: RequestParams = {}) =>
+    loginUser: (
+      query: {
+        /** The user name for login */
+        username: string;
+        /** The password for login in clear text */
+        password: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Currency, void>({
         path: `api/v1/user/login`,
         method: "GET",

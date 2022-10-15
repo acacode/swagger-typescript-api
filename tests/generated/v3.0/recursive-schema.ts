@@ -13,14 +13,13 @@
  * RECURSIVE
  */
 export interface RecursiveObject {
+  /** RECURSIVE */
+  bar?: RecursiveObject;
   /**
    * Unique identifier of the GitHub app
    * @example 37
    */
   id?: number;
-
-  /** RECURSIVE */
-  bar?: RecursiveObject;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -195,8 +194,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),

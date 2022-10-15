@@ -49,7 +49,7 @@ export class <%~ config.apiClassName %><SecurityDataType extends unknown><% if (
 
 <% routes.outOfModule && routes.outOfModule.forEach((route) => { %>
 
-        <%~ includeFile('./procedure-call.eta', { ...it, route }) %>
+        <%~ includeFile('./procedure-call.ejs', { ...it, route }) %>
 
 <% }) %>
 
@@ -57,7 +57,7 @@ export class <%~ config.apiClassName %><SecurityDataType extends unknown><% if (
     <%~ moduleName %> = {
     <% routes.forEach((route) => { %>
 
-        <%~ includeFile('./procedure-call.eta', { ...it, route }) %>
+        <%~ includeFile('./procedure-call.ejs', { ...it, route }) %>
 
     <% }) %>
     }

@@ -5,16 +5,23 @@ const { config } = require("./config");
 const { resolve } = require("path");
 const { logger } = require("./logger");
 
+const TEMPLATE_EXTENSIONS = [".eta", ".ejs"];
+
 /**
  * name - project template name,
  * fileName - template file name,
  */
 const TEMPLATE_INFOS = [
-  { name: "api", fileName: "api.eta" },
-  { name: "dataContracts", fileName: "data-contracts.eta" },
-  { name: "httpClient", fileName: "http-client.eta" },
-  { name: "routeTypes", fileName: "route-types.eta" },
-  { name: "routeName", fileName: "route-name.eta" },
+  { name: "api", fileName: "api" },
+  { name: "dataContracts", fileName: "data-contracts" },
+  { name: "dataContractJsDoc", fileName: "data-contract-jsdoc" },
+  { name: "interfaceDataContract", fileName: "interface-data-contract" },
+  { name: "typeDataContract", fileName: "type-data-contract" },
+  { name: "enumDataContract", fileName: "enum-data-contract" },
+  { name: "objectFieldJsDoc", fileName: "object-field-jsdoc" },
+  { name: "httpClient", fileName: "http-client" },
+  { name: "routeTypes", fileName: "route-types" },
+  { name: "routeName", fileName: "route-name" },
 ];
 
 const getTemplatePaths = ({ templates, modular }) => {
@@ -38,6 +45,16 @@ const getTemplatePaths = ({ templates, modular }) => {
   };
 };
 
+const cropExtension = (path) =>
+  TEMPLATE_EXTENSIONS.reduce((path, ext) => (_.endsWith(path, ext) ? path.replace(ext, "") : path), path);
+
+const getTemplateFullPath = (path, fileName) => {
+  const raw = resolve(path, "./", cropExtension(fileName));
+  const pathVariants = TEMPLATE_EXTENSIONS.map((extension) => `${raw}${extension}`);
+
+  return pathVariants.find((variant) => !!pathIsExist(variant));
+};
+
 const getTemplate = ({ fileName, name, path }) => {
   const { templatePaths } = config;
 
@@ -47,14 +64,13 @@ const getTemplate = ({ fileName, name, path }) => {
 
   if (!fileName) return "";
 
-  const customFullPath = resolve(templatePaths.custom, "./", fileName);
-  let fileContent = pathIsExist(customFullPath) && getFileContent(customFullPath);
+  const customFullPath = getTemplateFullPath(templatePaths.custom, fileName);
+  let fileContent = customFullPath && getFileContent(customFullPath);
 
   if (!fileContent) {
-    const baseFullPath = resolve(templatePaths.base, "./", fileName);
-    const originalFullPath = resolve(templatePaths.original, "./", fileName);
+    const baseFullPath = getTemplateFullPath(templatePaths.base, fileName);
 
-    if (pathIsExist(baseFullPath)) {
+    if (baseFullPath) {
       fileContent = getFileContent(baseFullPath);
     } else {
       logger.warn(
@@ -63,7 +79,9 @@ const getTemplate = ({ fileName, name, path }) => {
       );
     }
 
-    if (pathIsExist(originalFullPath)) {
+    const originalFullPath = getTemplateFullPath(templatePaths.original, fileName);
+
+    if (originalFullPath) {
       fileContent = getFileContent(originalFullPath);
     }
   }
@@ -87,27 +105,30 @@ const getTemplates = ({ templatePaths }) => {
 };
 
 const getTemplateContent = (path) => {
-  let fixedPath = _.endsWith(path, ".eta") ? path : `${path}.eta`;
+  const foundTemplatePathKey = _.keys(config.templatePaths).find((key) => _.startsWith(path, `@${key}`));
 
-  _.keys(config.templatePaths).forEach((key) => {
-    if (_.startsWith(fixedPath, `@${key}`)) {
-      fixedPath = resolve(_.replace(fixedPath, `@${key}`, config.templatePaths[key]));
-    }
-  });
+  const findPathWithExt = (path) => {
+    const raw = cropExtension(path);
+    const pathVariants = TEMPLATE_EXTENSIONS.map((extension) => `${raw}${extension}`);
+    return pathVariants.find((variant) => pathIsExist(variant));
+  };
 
-  if (pathIsExist(fixedPath)) {
+  const rawPath = resolve(_.replace(path, `@${foundTemplatePathKey}`, config.templatePaths[foundTemplatePathKey]));
+  const fixedPath = findPathWithExt(rawPath);
+
+  if (fixedPath) {
     return getFileContent(fixedPath);
   }
 
-  const customPath = resolve(config.templatePaths.custom, fixedPath);
+  const customPath = findPathWithExt(resolve(config.templatePaths.custom, path));
 
-  if (pathIsExist(customPath)) {
+  if (customPath) {
     return getFileContent(customPath);
   }
 
-  const originalPath = resolve(config.templatePaths.original, fixedPath);
+  const originalPath = findPathWithExt(resolve(config.templatePaths.original, path));
 
-  if (pathIsExist(originalPath)) {
+  if (originalPath) {
     return getFileContent(originalPath);
   }
 
@@ -120,7 +141,9 @@ const renderTemplate = (template, configuration, options) => {
   return Eta.render(template, configuration, {
     async: false,
     ...(options || {}),
-    includeFile: (path, payload) => renderTemplate(getTemplateContent(path), payload),
+    includeFile: (path, payload, options) => {
+      return renderTemplate(getTemplateContent(path), payload, options);
+    },
   });
 };
 

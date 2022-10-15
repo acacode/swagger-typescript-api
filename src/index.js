@@ -65,6 +65,7 @@ module.exports = {
     patch = config.patch,
     authorizationToken,
     apiClassName = config.apiClassName,
+    debug = config.debug,
   }) =>
     new Promise((resolve, reject) => {
       addToConfig({
@@ -101,6 +102,7 @@ module.exports = {
         typeSuffix,
         patch,
         apiClassName,
+        debug,
       });
       (spec
         ? convertSwaggerObject(spec, { patch })
@@ -152,7 +154,7 @@ module.exports = {
           const hasFormDataRoutes = routes.some((route) => route.hasFormDataParams);
 
           const usageComponentSchemas = filterComponentsMap(componentsMap, "schemas");
-          const sortByProperty = (o1, o2, propertyName) => {
+          const sortByProperty = (propertyName) => (o1, o2) => {
             if (o1[propertyName] > o2[propertyName]) {
               return 1;
             }
@@ -161,21 +163,20 @@ module.exports = {
             }
             return 0;
           };
-          const sortByTypeName = (o1, o2) => sortByProperty(o1, o2, "typeName");
-
-          const sortByName = (o1, o2) => sortByProperty(o1, o2, "name");
 
           const sortSchemas = (schemas) => {
             if (config.sortTypes) {
-              return schemas.sort(sortByTypeName).map((schema) => {
+              return schemas.sort(sortByProperty("typeName")).map((schema) => {
                 if (schema.rawTypeData?.properties) {
                   return {
                     ...schema,
                     rawTypeData: {
                       ...schema.rawTypeData,
-                      $parsed: {
+                      $parsed: schema.rawTypeData["$parsed"] && {
                         ...schema.rawTypeData["$parsed"],
-                        content: schema.rawTypeData["$parsed"].content.sort(sortByName),
+                        content: Array.isArray(schema.rawTypeData["$parsed"].content)
+                          ? schema.rawTypeData["$parsed"].content.sort(sortByProperty("name"))
+                          : schema.rawTypeData["$parsed"].content,
                       },
                     },
                   };

@@ -93,6 +93,10 @@ const config = {
   componentTypeNameResolver: new NameResolver([]),
   /** name of the main exported class */
   apiClassName: "Api",
+  debug: false,
+  internalTemplateOptions: {
+    addUtilRequiredKeysType: false,
+  },
 };
 
 /** needs to use data everywhere in project */

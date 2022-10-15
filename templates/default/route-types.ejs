@@ -14,14 +14,14 @@ import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataCont
 
 <% routes.outOfModule && routes.outOfModule.forEach(({ routes = [] }) => { %>
     <% routes.forEach((route) => { %>
-        <%~ includeFile('@base/route-type.eta', { ...it, route }) %>
+        <%~ includeFile('@base/route-type.ejs', { ...it, route }) %>
     <% }) %>
 <% }) %>
 
 <% routes.combined && routes.combined.forEach(({ routes = [], moduleName }) => { %>
     export namespace <%~ classNameCase(moduleName) %> {
     <% routes.forEach((route) => { %>
-        <%~ includeFile('@base/route-type.eta', { ...it, route }) %>
+        <%~ includeFile('@base/route-type.ejs', { ...it, route }) %>
     <% }) %>
     }
 

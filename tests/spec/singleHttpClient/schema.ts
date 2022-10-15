@@ -181,8 +181,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -243,7 +243,15 @@ export class Api<SecurityDataType extends unknown> {
      * @request POST:/key
      */
     keyRegister: (body: any, params: RequestParams = {}) =>
-      this.http.request<{ secret?: string; status?: string }, any>({
+      this.http.request<
+        {
+          /** revoke key */
+          secret?: string;
+          /** registered */
+          status?: string;
+        },
+        any
+      >({
         path: `/key`,
         method: "POST",
         body: body,

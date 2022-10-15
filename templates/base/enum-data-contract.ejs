@@ -1,0 +1,15 @@
+<%
+const { contract, utils, config } = it;
+const { formatDescription, require, _ } = utils;
+const { name, $content } = contract;
+
+const isNumberEnum = _.some($content, (content) => typeof content.key === "number");
+const formatAsUnionType = !!(isNumberEnum || config.generateUnionEnums);
+%>
+<% if (formatAsUnionType) { %>
+  export type <%~ name %> = <%~ _.map($content, ({ value }) => value).join(" | ") %>
+<% } else { %>
+  export enum <%~ name %> {
+    <%~ _.map($content, ({ key, value }) => `${key} = ${value}`).join(",\n") %>
+  }
+<% } %>

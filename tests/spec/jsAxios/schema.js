@@ -61,18 +61,6 @@ export class HttpClient {
       }
       return formData;
     }, new FormData());
-    return Object.keys(input || {}).reduce((formData, key) => {
-      const property = input[key];
-      formData.append(
-        key,
-        property instanceof Blob
-          ? property
-          : typeof property === "object" && property !== null
-          ? JSON.stringify(property)
-          : `${property}`,
-      );
-      return formData;
-    }, new FormData());
   }
   request = async ({ secure, path, type, query, format, body, ...params }) => {
     const secureParams =
@@ -88,8 +76,8 @@ export class HttpClient {
     return this.instance.request({
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       params: query,
       responseType: responseFormat,

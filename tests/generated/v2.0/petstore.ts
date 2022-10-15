@@ -9,6 +9,12 @@
  * ---------------------------------------------------------------
  */
 
+export interface Error {
+  /** @format int32 */
+  code: number;
+  message: string;
+}
+
 export interface Pet {
   /** @format int64 */
   id: number;
@@ -17,12 +23,6 @@ export interface Pet {
 }
 
 export type Pets = Pet[];
-
-export interface Error {
-  /** @format int32 */
-  code: number;
-  message: string;
-}
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -196,8 +196,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -248,7 +248,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary List all pets
      * @request GET:/pets
      */
-    listPets: (query?: { limit?: number }, params: RequestParams = {}) =>
+    listPets: (
+      query?: {
+        /**
+         * How many items to return at one time (max 100)
+         * @format int32
+         */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Pets, Error>({
         path: `/pets`,
         method: "GET",

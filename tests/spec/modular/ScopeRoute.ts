@@ -20,10 +20,18 @@ export namespace Scope {
    */
   export namespace SignRequest {
     export type RequestParams = {};
-    export type RequestQuery = { test?: number };
+    export type RequestQuery = {
+      /** test only mode, using test issuer */
+      test?: number;
+    };
     export type RequestBody = Claims;
     export type RequestHeaders = {};
-    export type ResponseBody = { job?: string; status?: string };
+    export type ResponseBody = {
+      /** 20-character ID */
+      job?: string;
+      /** waiting */
+      status?: string;
+    };
   }
 
   /**
@@ -33,11 +41,17 @@ export namespace Scope {
    * @request DELETE:/scope/{job}
    */
   export namespace SignDelete {
-    export type RequestParams = { job: string };
+    export type RequestParams = {
+      /** Job ID (20 chars) */
+      job: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = { status?: string };
+    export type ResponseBody = {
+      /** done */
+      status?: string;
+    };
   }
 
   /**
@@ -47,11 +61,19 @@ export namespace Scope {
    * @request GET:/scope/{job}
    */
   export namespace SignRetrieve {
-    export type RequestParams = { job: string };
+    export type RequestParams = {
+      /** Job ID (20 chars) */
+      job: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = { exp?: number; field?: string; sub?: string };
+    export type ResponseBody = {
+      exp?: number;
+      field?: string;
+      /** base64safe encoded public signing key */
+      sub?: string;
+    };
   }
 
   /**
@@ -61,7 +83,10 @@ export namespace Scope {
    * @request HEAD:/scope/{job}
    */
   export namespace SignRetrieveHead {
-    export type RequestParams = { job: string };
+    export type RequestParams = {
+      /** Job ID (20 chars) */
+      job: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -75,11 +100,17 @@ export namespace Scope {
    * @request POST:/scope/{job}
    */
   export namespace SignConfirm {
-    export type RequestParams = { job: string };
+    export type RequestParams = {
+      /** Job ID (20 chars) */
+      job: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = { status?: string };
+    export type ResponseBody = {
+      /** confirmed */
+      status?: string;
+    };
   }
 
   /**
@@ -89,10 +120,18 @@ export namespace Scope {
    * @request PUT:/scope/{job}
    */
   export namespace SignUpdate {
-    export type RequestParams = { job: string };
+    export type RequestParams = {
+      /** Job ID (20 chars) */
+      job: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = { jwt?: string; status?: string };
+    export type ResponseBody = {
+      /** result is JWT or JSON?? */
+      jwt?: string;
+      /** ready */
+      status?: string;
+    };
   }
 }

@@ -13,6 +13,12 @@ const TS_KEYWORDS = {
   TYPE: "type",
   ENUM: "enum",
   INTERFACE: "interface",
+  TYPE_AND_OPERATOR: " & ",
+  TYPE_OR_OPERATOR: " | ",
+};
+
+const TS_EXTERNAL = {
+  RECORD: "Record<string, any>",
 };
 
 const JS_PRIMITIVE_TYPES = [TS_KEYWORDS.NUMBER, TS_KEYWORDS.STRING, TS_KEYWORDS.BOOLEAN];
@@ -49,6 +55,7 @@ module.exports = {
   JS_PRIMITIVE_TYPES,
   JS_EMPTY_TYPES,
   TS_KEYWORDS,
+  TS_EXTERNAL,
   SCHEMA_TYPES,
   HTTP_CLIENT,
   RESERVED_QUERY_ARG_NAMES,

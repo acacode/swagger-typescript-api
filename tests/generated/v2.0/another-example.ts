@@ -10,28 +10,38 @@
  */
 
 /**
- * An order for a pets from the pet store
- * @example {"petId":6,"quantity":1,"id":0,"shipDate":"2000-01-23T04:56:07.000+00:00","complete":false,"status":"placed"}
+ * some description
  */
-export interface Order {
-  /** @format int64 */
-  id?: number;
-
-  /** @format int64 */
-  petId?: number;
-
-  /** @format int32 */
-  quantity?: number;
-
-  /** @format date-time */
-  shipDate?: string;
-
-  /** Order Status */
-  status?: "placed" | "approved" | "delivered" | null;
-  complete?: boolean;
+export interface Amount {
+  /**
+   * some description
+   *
+   */
+  currency: Currency;
+  /**
+   * some description
+   *
+   * @format double
+   * @min 0.01
+   * @max 1000000000000000
+   */
+  value: number;
 }
 
 /**
+ * An uploaded response
+ * Describes the result of uploading an image resource
+ * @example {"code":0,"type":"type","message":"message"}
+ */
+export interface ApiResponse {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+  type?: string;
+}
+
+/**
+ * Pet category
  * A category for a pet
  * @example {"name":"name","id":6}
  */
@@ -42,27 +52,61 @@ export interface Category {
 }
 
 /**
- * A User who is purchasing from the pet store
- * @example {"firstName":"firstName","lastName":"lastName","password":"password","userStatus":6,"phone":"phone","id":0,"email":"email","username":"username"}
+ * some description
+ * @pattern ^[A-Z]{3,3}$
  */
-export interface User {
+export type Currency = string;
+
+/**
+ * Pet Order
+ * An order for a pets from the pet store
+ * @example {"petId":6,"quantity":1,"id":0,"shipDate":"2000-01-23T04:56:07.000+00:00","complete":false,"status":"placed"}
+ */
+export interface Order {
+  complete?: boolean;
   /** @format int64 */
   id?: number;
-  username?: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  password?: string;
-  phone?: string;
-
-  /**
-   * User Status
-   * @format int32
-   */
-  userStatus?: number;
+  /** @format int64 */
+  petId?: number;
+  /** @format int32 */
+  quantity?: number;
+  /** @format date-time */
+  shipDate?: string;
+  /** Order Status */
+  status?: "placed" | "approved" | "delivered" | null;
 }
 
 /**
+ * a Pet
+ * A pet for sale in the pet store
+ * @example {"photoUrls":["photoUrls","photoUrls"],"name":"doggie","id":0,"category":{"name":"name","id":6},"tags":[{"name":"name","id":1},{"name":"name","id":1}],"status":"available"}
+ */
+export interface Pet {
+  /** A category for a pet */
+  category?: Category;
+  /** @format int64 */
+  id?: number;
+  /** @example doggie */
+  name: string;
+  photoUrls: string[];
+  /** pet status in the store */
+  status?: "available" | "pending" | "sold";
+  tags?: Tag[];
+}
+
+export type PetIds = 10 | 20 | 30 | 40;
+
+export type PetIdsWithWrongEnum = 10 | 20 | 30 | 40;
+
+export enum PetNames {
+  FluffyHero = "Fluffy Hero",
+  PiggyPo = "Piggy Po",
+  SwaggerTypescriptApi = "Swagger Typescript Api",
+  UPPER_CASE = "UPPER_CASE",
+}
+
+/**
+ * Pet Tag
  * A tag for a pet
  * @example {"name":"name","id":1}
  */
@@ -72,73 +116,26 @@ export interface Tag {
   name?: string;
 }
 
-export enum PetNames {
-  FluffyHero = "Fluffy Hero",
-  PiggyPo = "Piggy Po",
-  SwaggerTypescriptApi = "Swagger Typescript Api",
-  UPPER_CASE = "UPPER_CASE",
-}
-
-export type PetIds = 10 | 20 | 30 | 40;
-
-export type PetIdsWithWrongEnum = 10 | 20 | 30 | 40;
-
 /**
- * A pet for sale in the pet store
- * @example {"photoUrls":["photoUrls","photoUrls"],"name":"doggie","id":0,"category":{"name":"name","id":6},"tags":[{"name":"name","id":1},{"name":"name","id":1}],"status":"available"}
+ * a User
+ * A User who is purchasing from the pet store
+ * @example {"firstName":"firstName","lastName":"lastName","password":"password","userStatus":6,"phone":"phone","id":0,"email":"email","username":"username"}
  */
-export interface Pet {
+export interface User {
+  email?: string;
+  firstName?: string;
   /** @format int64 */
   id?: number;
-
-  /** A category for a pet */
-  category?: Category;
-
-  /** @example doggie */
-  name: string;
-  photoUrls: string[];
-  tags?: Tag[];
-
-  /** pet status in the store */
-  status?: "available" | "pending" | "sold";
-}
-
-/**
- * Describes the result of uploading an image resource
- * @example {"code":0,"type":"type","message":"message"}
- */
-export interface ApiResponse {
-  /** @format int32 */
-  code?: number;
-  type?: string;
-  message?: string;
-}
-
-/**
- * some description
- */
-export interface Amount {
+  lastName?: string;
+  password?: string;
+  phone?: string;
   /**
-   * some description
-   *
-   * @format double
-   * @min 0.01
-   * @max 1000000000000000
+   * User Status
+   * @format int32
    */
-  value: number;
-
-  /**
-   * some description
-   *
-   */
-  currency: Currency;
+  userStatus?: number;
+  username?: string;
 }
-
-/**
- * some description
- * @pattern ^[A-Z]{3,3}$
- */
-export type Currency = string;
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -312,8 +309,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -408,7 +405,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/pet/findByStatus
      * @secure
      */
-    findPetsByStatus: (query: { status: ("available" | "pending" | "sold")[] }, params: RequestParams = {}) =>
+    findPetsByStatus: (
+      query: {
+        /** Status values that need to be considered for filter */
+        status: ("available" | "pending" | "sold")[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Pet[], void>({
         path: `/pet/findByStatus`,
         method: "GET",
@@ -426,7 +429,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary summary
      * @request POST:/pet/single-form-url-encoded
      */
-    singleFormUrlEncodedRequest: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
+    singleFormUrlEncodedRequest: (
+      data: {
+        /** @format string */
+        param1: string;
+        param2: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, void>({
         path: `/pet/single-form-url-encoded`,
         method: "POST",
@@ -443,7 +453,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary summary
      * @request POST:/pet/form-url-encoded
      */
-    formUrlEncodedRequest: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
+    formUrlEncodedRequest: (
+      data: {
+        /** @format string */
+        param1: string;
+        param2: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, void>({
         path: `/pet/form-url-encoded`,
         method: "POST",
@@ -462,7 +479,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @originalName formUrlEncodedRequest
      * @duplicate
      */
-    formUrlEncodedRequest2: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
+    formUrlEncodedRequest2: (
+      data: {
+        /** @format string */
+        param1: string;
+        param2: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, void>({
         path: `/pet/end-form-url-encoded`,
         method: "POST",
@@ -481,7 +505,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @deprecated
      * @secure
      */
-    findPetsByTags: (query: { tags: string[] }, params: RequestParams = {}) =>
+    findPetsByTags: (
+      query: {
+        /** Tags to filter by */
+        tags: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Pet[], void>({
         path: `/pet/findByTags`,
         method: "GET",
@@ -518,7 +548,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/pet/{petId}
      * @secure
      */
-    updatePetWithForm: (petId: number, data: { name?: string; status?: string }, params: RequestParams = {}) =>
+    updatePetWithForm: (
+      petId: number,
+      data: {
+        /** Updated name of the pet */
+        name?: string;
+        /** Updated status of the pet */
+        status?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<any, void>({
         path: `/pet/${petId}`,
         method: "POST",
@@ -554,7 +593,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/pet/{petId}/uploadImage
      * @secure
      */
-    uploadFile: (petId: number, data: { additionalMetadata?: string; file?: File }, params: RequestParams = {}) =>
+    uploadFile: (
+      petId: number,
+      data: {
+        /** Additional data to pass to server */
+        additionalMetadata?: string;
+        /** file to upload */
+        file?: File;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ApiResponse, any>({
         path: `/pet/${petId}/uploadImage`,
         method: "POST",
@@ -693,7 +741,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Logs user into the system
      * @request GET:/user/login
      */
-    loginUser: (query: { username: string; password: string }, params: RequestParams = {}) =>
+    loginUser: (
+      query: {
+        /** The user name for login */
+        username: string;
+        /** The password for login in clear text */
+        password: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Currency, void>({
         path: `/user/login`,
         method: "GET",

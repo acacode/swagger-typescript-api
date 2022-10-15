@@ -9,21 +9,21 @@
  * ---------------------------------------------------------------
  */
 
-export interface User {
-  username?: string;
-  uuid?: string;
+export interface Pullrequest {
+  author?: User;
+  id?: number;
+  repository?: Repository;
+  title?: string;
 }
 
 export interface Repository {
-  slug?: string;
   owner?: User;
+  slug?: string;
 }
 
-export interface Pullrequest {
-  id?: number;
-  title?: string;
-  repository?: Repository;
-  author?: User;
+export interface User {
+  username?: string;
+  uuid?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -198,8 +198,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -291,7 +291,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getPullRequestsByRepository: (
       username: string,
       slug: string,
-      query?: { state?: "open" | "merged" | "declined" },
+      query?: {
+        state?: "open" | "merged" | "declined";
+      },
       params: RequestParams = {},
     ) =>
       this.request<Pullrequest[], any>({

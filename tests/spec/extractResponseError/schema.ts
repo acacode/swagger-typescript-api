@@ -10,28 +10,26 @@
  */
 
 /**
+ * Pet Order
  * An order for a pets from the pet store
  * @example {"petId":6,"quantity":1,"id":0,"shipDate":"2000-01-23T04:56:07.000+00:00","complete":false,"status":"placed"}
  */
 export interface OrderTTT {
   /** @format int64 */
   id?: number;
-
   /** @format int64 */
   petId?: number;
-
   /** @format int32 */
   quantity?: number;
-
   /** @format date-time */
   shipDate?: string;
-
   /** Order Status */
   status?: "placed" | "approved" | "delivered" | null;
   complete?: boolean;
 }
 
 /**
+ * Pet category
  * A category for a pet
  * @example {"name":"name","id":6}
  */
@@ -42,6 +40,7 @@ export interface CategoryTTT {
 }
 
 /**
+ * a User
  * A User who is purchasing from the pet store
  * @example {"firstName":"firstName","lastName":"lastName","password":"password","userStatus":6,"phone":"phone","id":0,"email":"email","username":"username"}
  */
@@ -54,7 +53,6 @@ export interface UserTTT {
   email?: string;
   password?: string;
   phone?: string;
-
   /**
    * User Status
    * @format int32
@@ -63,6 +61,7 @@ export interface UserTTT {
 }
 
 /**
+ * Pet Tag
  * A tag for a pet
  * @example {"name":"name","id":1}
  */
@@ -84,21 +83,19 @@ export type PetIdsTTT = 10 | 20 | 30 | 40;
 export type PetIdsWithWrongEnumTTT = 10 | 20 | 30 | 40;
 
 /**
+ * a Pet
  * A pet for sale in the pet store
  * @example {"photoUrls":["photoUrls","photoUrls"],"name":"doggie","id":0,"category":{"name":"name","id":6},"tags":[{"name":"name","id":1},{"name":"name","id":1}],"status":"available"}
  */
 export interface PetTTT {
   /** @format int64 */
   id?: number;
-
   /** A category for a pet */
   category?: CategoryTTT;
-
   /** @example doggie */
   name: string;
   photoUrls: string[];
   tags?: TagTTT[];
-
   /** pet status in the store */
   status?: "available" | "pending" | "sold";
 }
@@ -115,7 +112,6 @@ export interface AmountTTT {
    * @max 1000000000000000
    */
   value: number;
-
   /**
    * some description
    *
@@ -130,14 +126,33 @@ export interface AmountTTT {
 export type CurrencyTTT = string;
 
 /**
+ * HttpError HttpError HttpErrorRetry HttpValidationError HttpError
  * asd asd asd asd asd
  */
 export type FormUrlEncodedRequest2ErrorTTT =
-  | { detail: string }
-  | { detail: string }
-  | { detail: string; retry_after: number }
-  | Record<string, string[]>
-  | { detail: string };
+  | {
+      /**
+       * Detail
+       * asdsad asd asd sa dsa
+       * @example asdasd sad sa dsad
+       */
+      detail: string;
+    }
+  | {
+      /**
+       * Detail
+       * sadas das dasd asd
+       * @example sadasd sads adsad asd
+       */
+      detail: string;
+      /**
+       * sadsa dsa dsa das
+       * sadas dasd as dasd asd
+       * @example 600
+       */
+      retry_after: number;
+    }
+  | Record<string, string[]>;
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -311,8 +326,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -407,7 +422,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/pet/findByStatus
      * @secure
      */
-    findPetsByStatus: (query: { status: ("available" | "pending" | "sold")[] }, params: RequestParams = {}) =>
+    findPetsByStatus: (
+      query: {
+        /** Status values that need to be considered for filter */
+        status: ("available" | "pending" | "sold")[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<PetTTT[], void>({
         path: `/pet/findByStatus`,
         method: "GET",
@@ -425,7 +446,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary summary
      * @request POST:/pet/single-form-url-encoded
      */
-    singleFormUrlEncodedRequest: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
+    singleFormUrlEncodedRequest: (
+      data: {
+        /** @format string */
+        param1: string;
+        param2: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, void>({
         path: `/pet/single-form-url-encoded`,
         method: "POST",
@@ -442,7 +470,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary summary
      * @request POST:/pet/form-url-encoded
      */
-    formUrlEncodedRequest: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
+    formUrlEncodedRequest: (
+      data: {
+        /** @format string */
+        param1: string;
+        param2: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, void>({
         path: `/pet/form-url-encoded`,
         method: "POST",
@@ -461,8 +496,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @originalName formUrlEncodedRequest
      * @duplicate
      */
-    formUrlEncodedRequest2: (data: { param1: string; param2: string }, params: RequestParams = {}) =>
-      this.request<{ id: string }, FormUrlEncodedRequest2ErrorTTT>({
+    formUrlEncodedRequest2: (
+      data: {
+        /** @format string */
+        param1: string;
+        param2: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /**
+           * Id
+           * asd asdsad asd as
+           */
+          id: string;
+        },
+        FormUrlEncodedRequest2ErrorTTT
+      >({
         path: `/pet/end-form-url-encoded`,
         method: "POST",
         body: data,
@@ -481,7 +532,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @deprecated
      * @secure
      */
-    findPetsByTags: (query: { tags: string[] }, params: RequestParams = {}) =>
+    findPetsByTags: (
+      query: {
+        /** Tags to filter by */
+        tags: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<PetTTT[], void>({
         path: `/pet/findByTags`,
         method: "GET",
@@ -518,7 +575,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/pet/{petId}
      * @secure
      */
-    updatePetWithForm: (petId: number, data: { name?: string; status?: string }, params: RequestParams = {}) =>
+    updatePetWithForm: (
+      petId: number,
+      data: {
+        /** Updated name of the pet */
+        name?: string;
+        /** Updated status of the pet */
+        status?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<any, void>({
         path: `/pet/${petId}`,
         method: "POST",
@@ -554,8 +620,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/pet/{petId}/uploadImage
      * @secure
      */
-    uploadFile: (petId: number, data: { additionalMetadata?: string; file?: File }, params: RequestParams = {}) =>
-      this.request<{ code?: number; type?: string; message?: string }, any>({
+    uploadFile: (
+      petId: number,
+      data: {
+        /** Additional data to pass to server */
+        additionalMetadata?: string;
+        /** file to upload */
+        file?: File;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** @format int32 */
+          code?: number;
+          type?: string;
+          message?: string;
+        },
+        any
+      >({
         path: `/pet/${petId}/uploadImage`,
         method: "POST",
         body: data,
@@ -693,7 +776,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Logs user into the system
      * @request GET:/user/login
      */
-    loginUser: (query: { username: string; password: string }, params: RequestParams = {}) =>
+    loginUser: (
+      query: {
+        /** The user name for login */
+        username: string;
+        /** The password for login in clear text */
+        password: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<CurrencyTTT, void>({
         path: `/user/login`,
         method: "GET",

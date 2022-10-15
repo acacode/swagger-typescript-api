@@ -13,7 +13,13 @@
  * Not found response
  * @example Not found
  */
-export type Type404 = string;
+export type FF = string;
+
+/**
+ * Not found response
+ * @example Not found
+ */
+export type TypeFF = string;
 
 /**
  * Not found response
@@ -25,13 +31,7 @@ export type Type405 = string;
  * Not found response
  * @example Not found
  */
-export type FF = string;
-
-/**
- * Not found response
- * @example Not found
- */
-export type TypeFF = string;
+export type Type404 = string;
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -205,8 +205,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -298,7 +298,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getPullRequestsByRepository: (
       username: string,
       slug: string,
-      query?: { state?: "open" | "merged" | "declined" },
+      query?: {
+        state?: "open" | "merged" | "declined";
+      },
       params: RequestParams = {},
     ) =>
       this.request<any[], any>({

@@ -15,7 +15,6 @@
 export interface AuthentiqID {
   /** device token for push messages */
   devtoken?: string;
-
   /** UUID and public signing key */
   sub: string;
 }
@@ -26,10 +25,8 @@ export interface AuthentiqID {
 export interface Claims {
   email?: string;
   phone?: string;
-
   /** claim scope */
   scope: string;
-
   /** UUID */
   sub: string;
   type?: string;
@@ -39,7 +36,6 @@ export interface Error {
   detail?: string;
   error: number;
   title?: string;
-
   /** unique uri for this error */
   type?: string;
 }
@@ -52,11 +48,9 @@ export interface PushToken {
   aud: string;
   exp?: number;
   iat?: number;
-
   /** issuer (URI) */
   iss: string;
   nbf?: number;
-
   /** UUID and public signing key */
   sub: string;
 }
@@ -233,8 +227,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -282,19 +276,39 @@ export class HttpClient<SecurityDataType = unknown> {
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   key = {
     /**
-     * @description Revoke an Authentiq ID using email & phone. If called with `email` and `phone` only, a verification code will be sent by email. Do a second call adding `code` to complete the revocation.
-     *
-     * @tags key, delete
-     * @name KeyRevokeNosecret
-     * @request DELETE:/key
-     * @response `200` `{ status?: string }` Successfully deleted
-     * @response `401` `Error` Authentication error `auth-error`
-     * @response `404` `Error` Unknown key `unknown-key`
-     * @response `409` `Error` Confirm with code sent `confirm-first`
-     * @response `default` `Error`
-     */
-    keyRevokeNosecret: (query: { email: string; phone: string; code?: string }, params: RequestParams = {}) =>
-      this.request<{ status?: string }, Error>({
+ * @description Revoke an Authentiq ID using email & phone. If called with `email` and `phone` only, a verification code will be sent by email. Do a second call adding `code` to complete the revocation.
+ * 
+ * @tags key, delete
+ * @name KeyRevokeNosecret
+ * @request DELETE:/key
+ * @response `200` `{
+  \** pending or done *\
+  status?: string,
+
+}` Successfully deleted
+ * @response `401` `Error` Authentication error `auth-error`
+ * @response `404` `Error` Unknown key `unknown-key`
+ * @response `409` `Error` Confirm with code sent `confirm-first`
+ * @response `default` `Error` 
+ */
+    keyRevokeNosecret: (
+      query: {
+        /** primary email associated to Key (ID) */
+        email: string;
+        /** primary phone number, international representation */
+        phone: string;
+        /** verification code sent by email */
+        code?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** pending or done */
+          status?: string;
+        },
+        Error
+      >({
         path: `/key`,
         method: "DELETE",
         query: query,
@@ -303,17 +317,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Register a new ID `JWT(sub, devtoken)` v5: `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
-     *
-     * @tags key, post
-     * @name KeyRegister
-     * @request POST:/key
-     * @response `201` `{ secret?: string, status?: string }` Successfully registered
-     * @response `409` `Error` Key already registered `duplicate-key`
-     * @response `default` `Error`
-     */
+ * @description Register a new ID `JWT(sub, devtoken)` v5: `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
+ * 
+ * @tags key, post
+ * @name KeyRegister
+ * @request POST:/key
+ * @response `201` `{
+  \** revoke key *\
+  secret?: string,
+  \** registered *\
+  status?: string,
+
+}` Successfully registered
+ * @response `409` `Error` Key already registered `duplicate-key`
+ * @response `default` `Error` 
+ */
     keyRegister: (body: AuthentiqID, params: RequestParams = {}) =>
-      this.request<{ secret?: string; status?: string }, Error>({
+      this.request<
+        {
+          /** revoke key */
+          secret?: string;
+          /** registered */
+          status?: string;
+        },
+        Error
+      >({
         path: `/key`,
         method: "POST",
         body: body,
@@ -322,18 +350,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Revoke an Identity (Key) with a revocation secret
-     *
-     * @tags key, delete
-     * @name KeyRevoke
-     * @request DELETE:/key/{PK}
-     * @response `200` `{ status?: string }` Successful response
-     * @response `401` `Error` Key not found / wrong code `auth-error`
-     * @response `404` `Error` Unknown key `unknown-key`
-     * @response `default` `Error`
-     */
-    keyRevoke: (pk: string, query: { secret: string }, params: RequestParams = {}) =>
-      this.request<{ status?: string }, Error>({
+ * @description Revoke an Identity (Key) with a revocation secret
+ * 
+ * @tags key, delete
+ * @name KeyRevoke
+ * @request DELETE:/key/{PK}
+ * @response `200` `{
+  \** done *\
+  status?: string,
+
+}` Successful response
+ * @response `401` `Error` Key not found / wrong code `auth-error`
+ * @response `404` `Error` Unknown key `unknown-key`
+ * @response `default` `Error` 
+ */
+    keyRevoke: (
+      pk: string,
+      query: {
+        /** revokation secret */
+        secret: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** done */
+          status?: string;
+        },
+        Error
+      >({
         path: `/key/${pk}`,
         method: "DELETE",
         query: query,
@@ -342,18 +387,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get public details of an Authentiq ID.
-     *
-     * @tags key, get
-     * @name GetKey
-     * @request GET:/key/{PK}
-     * @response `200` `{ since?: string, status?: string, sub?: string }` Successfully retrieved
-     * @response `404` `Error` Unknown key `unknown-key`
-     * @response `410` `Error` Key is revoked (gone). `revoked-key`
-     * @response `default` `Error`
-     */
+ * @description Get public details of an Authentiq ID.
+ * 
+ * @tags key, get
+ * @name GetKey
+ * @request GET:/key/{PK}
+ * @response `200` `{
+  \** @format date-time *\
+  since?: string,
+  status?: string,
+  \** base64safe encoded public signing key *\
+  sub?: string,
+
+}` Successfully retrieved
+ * @response `404` `Error` Unknown key `unknown-key`
+ * @response `410` `Error` Key is revoked (gone). `revoked-key`
+ * @response `default` `Error` 
+ */
     getKey: (pk: string, params: RequestParams = {}) =>
-      this.request<{ since?: string; status?: string; sub?: string }, Error>({
+      this.request<
+        {
+          /** @format date-time */
+          since?: string;
+          status?: string;
+          /** base64safe encoded public signing key */
+          sub?: string;
+        },
+        Error
+      >({
         path: `/key/${pk}`,
         method: "GET",
         format: "json",
@@ -379,17 +440,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description update properties of an Authentiq ID. (not operational in v4; use PUT for now) v5: POST issuer-signed email & phone scopes in a self-signed JWT See: https://github.com/skion/authentiq/wiki/JWT-Examples
-     *
-     * @tags key, post
-     * @name KeyUpdate
-     * @request POST:/key/{PK}
-     * @response `200` `{ status?: string }` Successfully updated
-     * @response `404` `Error` Unknown key `unknown-key`
-     * @response `default` `Error`
-     */
+ * @description update properties of an Authentiq ID. (not operational in v4; use PUT for now) v5: POST issuer-signed email & phone scopes in a self-signed JWT See: https://github.com/skion/authentiq/wiki/JWT-Examples
+ * 
+ * @tags key, post
+ * @name KeyUpdate
+ * @request POST:/key/{PK}
+ * @response `200` `{
+  \** confirmed *\
+  status?: string,
+
+}` Successfully updated
+ * @response `404` `Error` Unknown key `unknown-key`
+ * @response `default` `Error` 
+ */
     keyUpdate: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
-      this.request<{ status?: string }, Error>({
+      this.request<
+        {
+          /** confirmed */
+          status?: string;
+        },
+        Error
+      >({
         path: `/key/${pk}`,
         method: "POST",
         body: body,
@@ -398,18 +469,28 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Update Authentiq ID by replacing the object. v4: `JWT(sub,email,phone)` to bind email/phone hash; v5: POST issuer-signed email & phone scopes and PUT to update registration `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
-     *
-     * @tags key, put
-     * @name KeyBind
-     * @request PUT:/key/{PK}
-     * @response `200` `{ status?: string }` Successfully updated
-     * @response `404` `Error` Unknown key `unknown-key`
-     * @response `409` `Error` Already bound to another key `duplicate-hash`
-     * @response `default` `Error`
-     */
+ * @description Update Authentiq ID by replacing the object. v4: `JWT(sub,email,phone)` to bind email/phone hash; v5: POST issuer-signed email & phone scopes and PUT to update registration `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
+ * 
+ * @tags key, put
+ * @name KeyBind
+ * @request PUT:/key/{PK}
+ * @response `200` `{
+  \** confirmed *\
+  status?: string,
+
+}` Successfully updated
+ * @response `404` `Error` Unknown key `unknown-key`
+ * @response `409` `Error` Already bound to another key `duplicate-hash`
+ * @response `default` `Error` 
+ */
     keyBind: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
-      this.request<{ status?: string }, Error>({
+      this.request<
+        {
+          /** confirmed */
+          status?: string;
+        },
+        Error
+      >({
         path: `/key/${pk}`,
         method: "PUT",
         body: body,
@@ -419,17 +500,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   login = {
     /**
-     * @description push sign-in request See: https://github.com/skion/authentiq/wiki/JWT-Examples
-     *
-     * @tags login, post
-     * @name PushLoginRequest
-     * @request POST:/login
-     * @response `200` `{ status?: string }` Successful response
-     * @response `401` `Error` Unauthorized for this callback audience `aud-error` or JWT should be self-signed `auth-error`
-     * @response `default` `Error`
-     */
-    pushLoginRequest: (query: { callback: string }, body: PushToken, params: RequestParams = {}) =>
-      this.request<{ status?: string }, Error>({
+ * @description push sign-in request See: https://github.com/skion/authentiq/wiki/JWT-Examples
+ * 
+ * @tags login, post
+ * @name PushLoginRequest
+ * @request POST:/login
+ * @response `200` `{
+  \** sent *\
+  status?: string,
+
+}` Successful response
+ * @response `401` `Error` Unauthorized for this callback audience `aud-error` or JWT should be self-signed `auth-error`
+ * @response `default` `Error` 
+ */
+    pushLoginRequest: (
+      query: {
+        /** URI App will connect to */
+        callback: string;
+      },
+      body: PushToken,
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** sent */
+          status?: string;
+        },
+        Error
+      >({
         path: `/login`,
         method: "POST",
         query: query,
@@ -440,17 +538,38 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   scope = {
     /**
-     * @description scope verification request See: https://github.com/skion/authentiq/wiki/JWT-Examples
-     *
-     * @tags scope, post
-     * @name SignRequest
-     * @request POST:/scope
-     * @response `201` `{ job?: string, status?: string }` Successful response
-     * @response `429` `Error` Too Many Requests on same address / number `rate-limit`
-     * @response `default` `Error`
-     */
-    signRequest: (body: Claims, query?: { test?: number }, params: RequestParams = {}) =>
-      this.request<{ job?: string; status?: string }, Error>({
+ * @description scope verification request See: https://github.com/skion/authentiq/wiki/JWT-Examples
+ * 
+ * @tags scope, post
+ * @name SignRequest
+ * @request POST:/scope
+ * @response `201` `{
+  \** 20-character ID *\
+  job?: string,
+  \** waiting *\
+  status?: string,
+
+}` Successful response
+ * @response `429` `Error` Too Many Requests on same address / number `rate-limit`
+ * @response `default` `Error` 
+ */
+    signRequest: (
+      body: Claims,
+      query?: {
+        /** test only mode, using test issuer */
+        test?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** 20-character ID */
+          job?: string;
+          /** waiting */
+          status?: string;
+        },
+        Error
+      >({
         path: `/scope`,
         method: "POST",
         query: query,
@@ -460,17 +579,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description delete a verification job
-     *
-     * @tags scope, delete
-     * @name SignDelete
-     * @request DELETE:/scope/{job}
-     * @response `200` `{ status?: string }` Successfully deleted
-     * @response `404` `Error` Job not found `unknown-job`
-     * @response `default` `Error`
-     */
+ * @description delete a verification job
+ * 
+ * @tags scope, delete
+ * @name SignDelete
+ * @request DELETE:/scope/{job}
+ * @response `200` `{
+  \** done *\
+  status?: string,
+
+}` Successfully deleted
+ * @response `404` `Error` Job not found `unknown-job`
+ * @response `default` `Error` 
+ */
     signDelete: (job: string, params: RequestParams = {}) =>
-      this.request<{ status?: string }, Error>({
+      this.request<
+        {
+          /** done */
+          status?: string;
+        },
+        Error
+      >({
         path: `/scope/${job}`,
         method: "DELETE",
         format: "json",
@@ -478,18 +607,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description get the status / current content of a verification job
-     *
-     * @tags scope, get
-     * @name SignRetrieve
-     * @request GET:/scope/{job}
-     * @response `200` `{ exp?: number, field?: string, sub?: string }` Successful response (JWT)
-     * @response `204` `void` Confirmed, waiting for signing
-     * @response `404` `Error` Job not found `unknown-job`
-     * @response `default` `Error`
-     */
+ * @description get the status / current content of a verification job
+ * 
+ * @tags scope, get
+ * @name SignRetrieve
+ * @request GET:/scope/{job}
+ * @response `200` `{
+  exp?: number,
+  field?: string,
+  \** base64safe encoded public signing key *\
+  sub?: string,
+
+}` Successful response (JWT)
+ * @response `204` `void` Confirmed, waiting for signing
+ * @response `404` `Error` Job not found `unknown-job`
+ * @response `default` `Error` 
+ */
     signRetrieve: (job: string, params: RequestParams = {}) =>
-      this.request<{ exp?: number; field?: string; sub?: string }, Error>({
+      this.request<
+        {
+          exp?: number;
+          field?: string;
+          /** base64safe encoded public signing key */
+          sub?: string;
+        },
+        Error
+      >({
         path: `/scope/${job}`,
         method: "GET",
         format: "json",
@@ -515,19 +658,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description this is a scope confirmation
-     *
-     * @tags scope, post
-     * @name SignConfirm
-     * @request POST:/scope/{job}
-     * @response `202` `{ status?: string }` Successfully confirmed
-     * @response `401` `Error` Confirmation error `auth-error`
-     * @response `404` `Error` Job not found `unknown-job`
-     * @response `405` `Error` JWT POSTed to scope `not-supported`
-     * @response `default` `Error`
-     */
+ * @description this is a scope confirmation
+ * 
+ * @tags scope, post
+ * @name SignConfirm
+ * @request POST:/scope/{job}
+ * @response `202` `{
+  \** confirmed *\
+  status?: string,
+
+}` Successfully confirmed
+ * @response `401` `Error` Confirmation error `auth-error`
+ * @response `404` `Error` Job not found `unknown-job`
+ * @response `405` `Error` JWT POSTed to scope `not-supported`
+ * @response `default` `Error` 
+ */
     signConfirm: (job: string, params: RequestParams = {}) =>
-      this.request<{ status?: string }, Error>({
+      this.request<
+        {
+          /** confirmed */
+          status?: string;
+        },
+        Error
+      >({
         path: `/scope/${job}`,
         method: "POST",
         type: ContentType.Json,
@@ -536,18 +689,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description authority updates a JWT with its signature See: https://github.com/skion/authentiq/wiki/JWT-Examples
-     *
-     * @tags scope, put
-     * @name SignUpdate
-     * @request PUT:/scope/{job}
-     * @response `200` `{ jwt?: string, status?: string }` Successfully updated
-     * @response `404` `Error` Job not found `unknown-job`
-     * @response `409` `Error` Job not confirmed yet `confirm-first`
-     * @response `default` `Error`
-     */
+ * @description authority updates a JWT with its signature See: https://github.com/skion/authentiq/wiki/JWT-Examples
+ * 
+ * @tags scope, put
+ * @name SignUpdate
+ * @request PUT:/scope/{job}
+ * @response `200` `{
+  \** result is JWT or JSON?? *\
+  jwt?: string,
+  \** ready *\
+  status?: string,
+
+}` Successfully updated
+ * @response `404` `Error` Job not found `unknown-job`
+ * @response `409` `Error` Job not confirmed yet `confirm-first`
+ * @response `default` `Error` 
+ */
     signUpdate: (job: string, params: RequestParams = {}) =>
-      this.request<{ jwt?: string; status?: string }, Error>({
+      this.request<
+        {
+          /** result is JWT or JSON?? */
+          jwt?: string;
+          /** ready */
+          status?: string;
+        },
+        Error
+      >({
         path: `/scope/${job}`,
         method: "PUT",
         ...params,

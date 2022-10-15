@@ -20,8 +20,24 @@ export class Key<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @name KeyRevokeNosecret
    * @request DELETE:/key
    */
-  keyRevokeNosecret = (query: { email: string; phone: string; code?: string }, params: RequestParams = {}) =>
-    this.request<{ status?: string }, Error>({
+  keyRevokeNosecret = (
+    query: {
+      /** primary email associated to Key (ID) */
+      email: string;
+      /** primary phone number, international representation */
+      phone: string;
+      /** verification code sent by email */
+      code?: string;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      {
+        /** pending or done */
+        status?: string;
+      },
+      Error
+    >({
       path: `/key`,
       method: "DELETE",
       query: query,
@@ -36,7 +52,15 @@ export class Key<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @request POST:/key
    */
   keyRegister = (body: AuthentiqID, params: RequestParams = {}) =>
-    this.request<{ secret?: string; status?: string }, Error>({
+    this.request<
+      {
+        /** revoke key */
+        secret?: string;
+        /** registered */
+        status?: string;
+      },
+      Error
+    >({
       path: `/key`,
       method: "POST",
       body: body,
@@ -50,8 +74,21 @@ export class Key<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @name KeyRevoke
    * @request DELETE:/key/{PK}
    */
-  keyRevoke = (pk: string, query: { secret: string }, params: RequestParams = {}) =>
-    this.request<{ status?: string }, Error>({
+  keyRevoke = (
+    pk: string,
+    query: {
+      /** revokation secret */
+      secret: string;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      {
+        /** done */
+        status?: string;
+      },
+      Error
+    >({
       path: `/key/${pk}`,
       method: "DELETE",
       query: query,
@@ -66,7 +103,16 @@ export class Key<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @request GET:/key/{PK}
    */
   getKey = (pk: string, params: RequestParams = {}) =>
-    this.request<{ since?: string; status?: string; sub?: string }, Error>({
+    this.request<
+      {
+        /** @format date-time */
+        since?: string;
+        status?: string;
+        /** base64safe encoded public signing key */
+        sub?: string;
+      },
+      Error
+    >({
       path: `/key/${pk}`,
       method: "GET",
       format: "json",
@@ -93,7 +139,13 @@ export class Key<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @request POST:/key/{PK}
    */
   keyUpdate = (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
-    this.request<{ status?: string }, Error>({
+    this.request<
+      {
+        /** confirmed */
+        status?: string;
+      },
+      Error
+    >({
       path: `/key/${pk}`,
       method: "POST",
       body: body,
@@ -108,7 +160,13 @@ export class Key<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @request PUT:/key/{PK}
    */
   keyBind = (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
-    this.request<{ status?: string }, Error>({
+    this.request<
+      {
+        /** confirmed */
+        status?: string;
+      },
+      Error
+    >({
       path: `/key/${pk}`,
       method: "PUT",
       body: body,

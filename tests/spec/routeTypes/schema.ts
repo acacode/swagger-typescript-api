@@ -15,16 +15,13 @@
 export interface Actor {
   avatar_url?: string;
   bio?: string;
-
   /** The website URL from the profile page */
   blog?: string;
   collaborators?: number;
   company?: string;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   disk_usage?: number;
-
   /** Note: The returned email is the user’s publicly visible email address (or null if the user has not specified a public email address in their profile). */
   email?: string;
   followers?: number;
@@ -37,15 +34,18 @@ export interface Actor {
   html_url?: string;
   id?: number;
   location?: string;
-
   /** The account username */
   login?: string;
-
   /** The full account name */
   name?: string;
   organizations_url?: string;
   owned_private_repos?: number;
-  plan?: { collaborators?: number; name?: string; private_repos?: number; space?: number };
+  plan?: {
+    collaborators?: number;
+    name?: string;
+    private_repos?: number;
+    space?: number;
+  };
   private_gists?: number;
   public_gists?: number;
   public_repos?: number;
@@ -53,7 +53,6 @@ export interface Actor {
   subscriptions_url?: string;
   total_private_repos?: number;
   type?: "User" | "Organization";
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
@@ -69,7 +68,6 @@ export interface Asset {
   size?: number;
   state?: string;
   updated_at?: string;
-
   /** A GitHub user */
   uploader?: User;
   url?: string;
@@ -96,25 +94,52 @@ export interface Blobs {
 }
 
 export interface Branch {
-  _links?: { html?: string; self?: string };
+  _links?: {
+    html?: string;
+    self?: string;
+  };
   commit?: {
+    /** A GitHub user */
     author?: User;
     commit?: {
-      author?: { date?: string; email?: string; name?: string };
-      committer?: { date?: string; email?: string; name?: string };
+      author?: {
+        /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+        date?: string;
+        email?: string;
+        name?: string;
+      };
+      committer?: {
+        /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+        date?: string;
+        email?: string;
+        name?: string;
+      };
       message?: string;
-      tree?: { sha?: string; url?: string };
+      tree?: {
+        sha?: string;
+        url?: string;
+      };
       url?: string;
     };
+    /** A GitHub user */
     committer?: User;
-    parents?: { sha?: string; url?: string }[];
+    parents?: {
+      sha?: string;
+      url?: string;
+    }[];
     sha?: string;
     url?: string;
   };
   name?: string;
 }
 
-export type Branches = { commit?: { sha?: string; url?: string }; name?: string }[];
+export type Branches = {
+  commit?: {
+    sha?: string;
+    url?: string;
+  };
+  name?: string;
+}[];
 
 export type CodeFrequencyStats = number[];
 
@@ -126,19 +151,39 @@ export interface CommentBody {
   body: string;
 }
 
-export type Comments = { body?: string; created_at?: string; id?: number; url?: string; user?: User }[];
+export type Comments = {
+  body?: string;
+  /** ISO 8601. */
+  created_at?: string;
+  id?: number;
+  url?: string;
+  /** A GitHub user */
+  user?: User;
+}[];
 
 export interface Commit {
   /** A GitHub user */
   author?: User;
   commit?: {
-    author?: { date?: string; email?: string; name?: string };
-    committer?: { date?: string; email?: string; name?: string };
+    author?: {
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+      date?: string;
+      email?: string;
+      name?: string;
+    };
+    committer?: {
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+      date?: string;
+      email?: string;
+      name?: string;
+    };
     message?: string;
-    tree?: { sha?: string; url?: string };
+    tree?: {
+      sha?: string;
+      url?: string;
+    };
     url?: string;
   };
-
   /** A GitHub user */
   committer?: User;
   files?: {
@@ -151,18 +196,28 @@ export interface Commit {
     raw_url?: string;
     status?: string;
   }[];
-  parents?: { sha?: string; url?: string }[];
+  parents?: {
+    sha?: string;
+    url?: string;
+  }[];
   sha?: string;
-  stats?: { additions?: number; deletions?: number; total?: number };
+  stats?: {
+    additions?: number;
+    deletions?: number;
+    total?: number;
+  };
   url?: string;
 }
 
-export type CommitActivityStats = { days?: number[]; total?: number; week?: number }[];
+export type CommitActivityStats = {
+  days?: number[];
+  total?: number;
+  week?: number;
+}[];
 
 export interface CommitComment {
   body?: string;
   commit_id?: string;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   html_url?: string;
@@ -170,45 +225,56 @@ export interface CommitComment {
   line?: number;
   path?: string;
   position?: number;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-
   /** A GitHub user */
   user?: User;
 }
 
 export interface CommitCommentBody {
   body: string;
-
   /** Deprecated - Use position parameter instead. */
   line?: string;
-
   /** Line number in the file to comment on. Defaults to null. */
   number?: string;
-
   /** Relative path of the file to comment on. */
   path?: string;
-
   /** Line index in the diff to comment on. */
   position?: number;
-
   /** SHA of the commit to comment on. */
   sha: string;
 }
 
 export type Commits = {
+  /** A GitHub user */
   author?: User;
   commit?: {
-    author?: { date?: string; email?: string; name?: string };
-    committer?: { date?: string; email?: string; name?: string };
+    author?: {
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+      date?: string;
+      email?: string;
+      name?: string;
+    };
+    committer?: {
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+      date?: string;
+      email?: string;
+      name?: string;
+    };
     message?: string;
-    tree?: { sha?: string; url?: string };
+    tree?: {
+      sha?: string;
+      url?: string;
+    };
     url?: string;
   };
+  /** A GitHub user */
   committer?: User;
-  parents?: { sha?: string; url?: string }[];
+  parents?: {
+    sha?: string;
+    url?: string;
+  }[];
   sha?: string;
   url?: string;
 }[];
@@ -216,31 +282,63 @@ export type Commits = {
 export interface CompareCommits {
   ahead_by?: number;
   base_commit?: {
+    /** A GitHub user */
     author?: User;
     commit?: {
-      author?: { date?: string; email?: string; name?: string };
-      committer?: { date?: string; email?: string; name?: string };
+      author?: {
+        date?: string;
+        email?: string;
+        name?: string;
+      };
+      committer?: {
+        date?: string;
+        email?: string;
+        name?: string;
+      };
       message?: string;
-      tree?: { sha?: string; url?: string };
+      tree?: {
+        sha?: string;
+        url?: string;
+      };
       url?: string;
     };
+    /** A GitHub user */
     committer?: User;
-    parents?: { sha?: string; url?: string }[];
+    parents?: {
+      sha?: string;
+      url?: string;
+    }[];
     sha?: string;
     url?: string;
   };
   behind_by?: number;
   commits?: {
+    /** A GitHub user */
     author?: User;
     commit?: {
-      author?: { date?: string; email?: string; name?: string };
-      committer?: { date?: string; email?: string; name?: string };
+      author?: {
+        date?: string;
+        email?: string;
+        name?: string;
+      };
+      committer?: {
+        date?: string;
+        email?: string;
+        name?: string;
+      };
       message?: string;
-      tree?: { sha?: string; url?: string };
+      tree?: {
+        sha?: string;
+        url?: string;
+      };
       url?: string;
     };
+    /** A GitHub user */
     committer?: User;
-    parents?: { sha?: string; url?: string }[];
+    parents?: {
+      sha?: string;
+      url?: string;
+    }[];
     sha?: string;
     url?: string;
   }[];
@@ -266,7 +364,11 @@ export interface CompareCommits {
 }
 
 export interface ContentsPath {
-  _links?: { git?: string; html?: string; self?: string };
+  _links?: {
+    git?: string;
+    html?: string;
+    self?: string;
+  };
   content?: string;
   encoding?: string;
   git_url?: string;
@@ -280,24 +382,59 @@ export interface ContentsPath {
 }
 
 export type ContributorsStats = {
-  author?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+  author?: {
+    avatar_url?: string;
+    gravatar_id?: string;
+    id?: number;
+    login?: string;
+    url?: string;
+  };
+  /** The Total number of commits authored by the contributor. */
   total?: number;
-  weeks?: { a?: number; c?: number; d?: number; w?: string }[];
+  weeks?: {
+    /** Number of additions. */
+    a?: number;
+    /** Number of commits. */
+    c?: number;
+    /** Number of deletions. */
+    d?: number;
+    /** Start of the week. */
+    w?: string;
+  }[];
 }[];
 
 export interface CreateFile {
   commit?: {
-    author?: { date?: string; email?: string; name?: string };
-    committer?: { date?: string; email?: string; name?: string };
+    author?: {
+      date?: string;
+      email?: string;
+      name?: string;
+    };
+    committer?: {
+      date?: string;
+      email?: string;
+      name?: string;
+    };
     html_url?: string;
     message?: string;
-    parents?: { html_url?: string; sha?: string; url?: string }[];
+    parents?: {
+      html_url?: string;
+      sha?: string;
+      url?: string;
+    }[];
     sha?: string;
-    tree?: { sha?: string; url?: string };
+    tree?: {
+      sha?: string;
+      url?: string;
+    };
     url?: string;
   };
   content?: {
-    _links?: { git?: string; html?: string; self?: string };
+    _links?: {
+      git?: string;
+      html?: string;
+      self?: string;
+    };
     git_url?: string;
     html_url?: string;
     name?: string;
@@ -310,40 +447,64 @@ export interface CreateFile {
 }
 
 export interface CreateFileBody {
-  committer?: { email?: string; name?: string };
+  committer?: {
+    email?: string;
+    name?: string;
+  };
   content?: string;
   message?: string;
 }
 
 export interface DeleteFile {
   commit?: {
-    author?: { date?: string; email?: string; name?: string };
-    committer?: { date?: string; email?: string; name?: string };
+    author?: {
+      date?: string;
+      email?: string;
+      name?: string;
+    };
+    committer?: {
+      date?: string;
+      email?: string;
+      name?: string;
+    };
     html_url?: string;
     message?: string;
-    parents?: { html_url?: string; sha?: string; url?: string };
+    parents?: {
+      html_url?: string;
+      sha?: string;
+      url?: string;
+    };
     sha?: string;
-    tree?: { sha?: string; url?: string };
+    tree?: {
+      sha?: string;
+      url?: string;
+    };
     url?: string;
   };
   content?: string;
 }
 
 export interface DeleteFileBody {
-  committer?: { email?: string; name?: string };
+  committer?: {
+    email?: string;
+    name?: string;
+  };
   message?: string;
   sha?: string;
 }
 
 export interface Deployment {
   description?: string;
-  payload?: { deploy_user?: string; environment?: string; room_id?: number };
+  payload?: {
+    deploy_user?: string;
+    environment?: string;
+    room_id?: number;
+  };
   ref?: string;
 }
 
 export interface DeploymentResp {
   created_at?: string;
-
   /** A GitHub user */
   creator?: User;
   description?: string;
@@ -357,6 +518,7 @@ export interface DeploymentResp {
 
 export type DeploymentStatuses = {
   created_at?: string;
+  /** A GitHub user */
   creator?: User;
   description?: string;
   id?: number;
@@ -400,12 +562,15 @@ export interface Event {
   actor?: Actor;
   created_at?: object;
   id?: number;
-
   /** A GitHub organization */
   org?: Organization;
   payload?: object;
   public?: boolean;
-  repo?: { id?: number; name?: string; url?: string };
+  repo?: {
+    id?: number;
+    name?: string;
+    url?: string;
+  };
   type?: string;
 }
 
@@ -413,12 +578,30 @@ export type Events = Event[];
 
 export interface Feeds {
   _links?: {
-    current_user?: { href?: string; type?: string };
-    current_user_actor?: { href?: string; type?: string };
-    current_user_organization?: { href?: string; type?: string };
-    current_user_public?: { href?: string; type?: string };
-    timeline?: { href?: string; type?: string };
-    user?: { href?: string; type?: string };
+    current_user?: {
+      href?: string;
+      type?: string;
+    };
+    current_user_actor?: {
+      href?: string;
+      type?: string;
+    };
+    current_user_organization?: {
+      href?: string;
+      type?: string;
+    };
+    current_user_public?: {
+      href?: string;
+      type?: string;
+    };
+    timeline?: {
+      href?: string;
+      type?: string;
+    };
+    user?: {
+      href?: string;
+      type?: string;
+    };
   };
   current_user_actor_url?: string;
   current_user_organization_url?: string;
@@ -437,18 +620,35 @@ export type Forks = Repos;
 export interface Gist {
   comments?: number;
   comments_url?: string;
-
   /** Timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ. */
   created_at?: string;
   description?: string;
-  files?: { "ring.erl"?: { filename?: string; raw_url?: string; size?: number } };
-  forks?: { created_at?: string; url?: string; user?: User }[];
+  files?: {
+    "ring.erl"?: {
+      filename?: string;
+      raw_url?: string;
+      size?: number;
+    };
+  };
+  forks?: {
+    /** Timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ. */
+    created_at?: string;
+    url?: string;
+    /** A GitHub user */
+    user?: User;
+  }[];
   git_pull_url?: string;
   git_push_url?: string;
   history?: {
-    change_status?: { additions?: number; deletions?: number; total?: number };
+    change_status?: {
+      additions?: number;
+      deletions?: number;
+      total?: number;
+    };
+    /** Timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ. */
     committed_at?: string;
     url?: string;
+    /** A GitHub user */
     user?: User;
     version?: string;
   }[];
@@ -456,7 +656,6 @@ export interface Gist {
   id?: string;
   public?: boolean;
   url?: string;
-
   /** A GitHub user */
   user?: User;
 }
@@ -466,18 +665,29 @@ export type Gists = {
   comments_url?: string;
   created_at?: string;
   description?: string;
-  files?: { "ring.erl"?: { filename?: string; raw_url?: string; size?: number } };
+  files?: {
+    "ring.erl"?: {
+      filename?: string;
+      raw_url?: string;
+      size?: number;
+    };
+  };
   git_pull_url?: string;
   git_push_url?: string;
   html_url?: string;
   id?: string;
   public?: boolean;
   url?: string;
+  /** A GitHub user */
   user?: User;
 }[];
 
 export interface GitCommit {
-  author?: { date?: string; email?: string; name?: string };
+  author?: {
+    date?: string;
+    email?: string;
+    name?: string;
+  };
   message?: string;
   parents?: string;
   tree?: string;
@@ -496,14 +706,22 @@ export interface GitignoreLang {
 }
 
 export interface HeadBranch {
-  object?: { sha?: string; type?: string; url?: string };
+  object?: {
+    sha?: string;
+    type?: string;
+    url?: string;
+  };
   ref?: string;
   url?: string;
 }
 
 export type Hook = {
   active?: boolean;
-  config?: { content_type?: string; url?: string };
+  config?: {
+    content_type?: string;
+    url?: string;
+  };
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   events?: (
     | "push"
@@ -524,6 +742,7 @@ export type Hook = {
   )[];
   id?: number;
   name?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
 }[];
@@ -545,23 +764,32 @@ export interface IssueEvent {
   /** A user or organization */
   actor?: Actor;
   commit_id?: string;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   event?: string;
   issue?: {
+    /** A GitHub user */
     assignee?: User;
     body?: string;
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     closed_at?: string;
     comments?: number;
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     created_at?: string;
     html_url?: string;
-    labels?: { color?: string; name?: string; url?: string }[];
+    labels?: {
+      color?: string;
+      name?: string;
+      url?: string;
+    }[];
     milestone?: {
       closed_issues?: number;
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
       created_at?: string;
+      /** A GitHub user */
       creator?: User;
       description?: string;
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
       due_on?: string;
       number?: number;
       open_issues?: number;
@@ -570,11 +798,17 @@ export interface IssueEvent {
       url?: string;
     };
     number?: number;
-    pull_request?: { diff_url?: string; html_url?: string; patch_url?: string };
+    pull_request?: {
+      diff_url?: string;
+      html_url?: string;
+      patch_url?: string;
+    };
     state?: "open" | "closed";
     title?: string;
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     updated_at?: string;
     url?: string;
+    /** A GitHub user */
     user?: User;
   };
   url?: string;
@@ -583,18 +817,28 @@ export interface IssueEvent {
 export type IssueEvents = IssueEvent[];
 
 export type Issues = {
+  /** A GitHub user */
   assignee?: User;
   body?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   closed_at?: string;
   comments?: number;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   html_url?: string;
-  labels?: { color?: string; name?: string; url?: string }[];
+  labels?: {
+    color?: string;
+    name?: string;
+    url?: string;
+  }[];
   milestone?: {
     closed_issues?: number;
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     created_at?: string;
+    /** A GitHub user */
     creator?: User;
     description?: string;
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     due_on?: string;
     number?: number;
     open_issues?: number;
@@ -603,44 +847,65 @@ export type Issues = {
     url?: string;
   };
   number?: number;
-  pull_request?: { diff_url?: string; html_url?: string; patch_url?: string };
+  pull_request?: {
+    diff_url?: string;
+    html_url?: string;
+    patch_url?: string;
+  };
   state?: "open" | "closed";
   title?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
+  /** A GitHub user */
   user?: User;
 }[];
 
 export interface IssuesComment {
   body?: string;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   html_url?: string;
   id?: number;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-
   /** A GitHub user */
   user?: User;
 }
 
 export type IssuesComments = {
-  _links?: { html?: { href?: string }; pull_request?: { href?: string }; self?: { href?: string } };
+  _links?: {
+    html?: {
+      href?: string;
+    };
+    pull_request?: {
+      href?: string;
+    };
+    self?: {
+      href?: string;
+    };
+  };
   body?: string;
   commit_id?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   id?: number;
   path?: string;
   position?: number;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
+  /** A GitHub user */
   user?: User;
 }[];
 
-export type Keys = { id?: number; key?: string; title?: string; url?: string }[];
+export type Keys = {
+  id?: number;
+  key?: string;
+  title?: string;
+  url?: string;
+}[];
 
 export interface Label {
   color?: string;
@@ -648,7 +913,11 @@ export interface Label {
   url?: string;
 }
 
-export type Labels = { color?: string; name?: string; url?: string }[];
+export type Labels = {
+  color?: string;
+  name?: string;
+  url?: string;
+}[];
 
 export type Languages = Record<string, number>;
 
@@ -684,19 +953,32 @@ export interface MergesSuccessful {
   author?: User;
   comments_url?: string;
   commit?: {
-    author?: { date?: string; email?: string; name?: string };
+    author?: {
+      date?: string;
+      email?: string;
+      name?: string;
+    };
     comment_count?: number;
-    committer?: { date?: string; email?: string; name?: string };
+    committer?: {
+      date?: string;
+      email?: string;
+      name?: string;
+    };
     message?: string;
-    tree?: { sha?: string; url?: string };
+    tree?: {
+      sha?: string;
+      url?: string;
+    };
     url?: string;
   };
-
   /** A GitHub user */
   committer?: User;
   merged?: boolean;
   message?: string;
-  parents?: { sha?: string; url?: string }[];
+  parents?: {
+    sha?: string;
+    url?: string;
+  }[];
   sha?: string;
   url?: string;
 }
@@ -708,14 +990,11 @@ export interface Meta {
 
 export interface Milestone {
   closed_issues?: number;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
-
   /** A GitHub user */
   creator?: User;
   description?: string;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   due_on?: string;
   number?: number;
@@ -747,11 +1026,17 @@ export interface Notifications {
     html_url?: string;
     id?: number;
     name?: string;
+    /** A user or organization */
     owner?: Actor;
     private?: boolean;
     url?: string;
   };
-  subject?: { latest_comment_url?: string; title?: string; type?: string; url?: string };
+  subject?: {
+    latest_comment_url?: string;
+    title?: string;
+    type?: string;
+    url?: string;
+  };
   unread?: boolean;
   updated_at?: string;
   url?: string;
@@ -769,7 +1054,11 @@ export interface OrgTeamsPost {
 export type Organization = Actor;
 
 export interface OrganizationAsTeamMember {
-  errors?: { code?: string; field?: string; resource?: string }[];
+  errors?: {
+    code?: string;
+    field?: string;
+    resource?: string;
+  }[];
   message?: string;
 }
 
@@ -782,9 +1071,16 @@ export interface PatchGist {
   description?: string;
   files?: {
     "delete_this_file.txt"?: string;
-    "file1.txt"?: { content?: string };
-    "new_file.txt"?: { content?: string };
-    "old_name.txt"?: { content?: string; filename?: string };
+    "file1.txt"?: {
+      content?: string;
+    };
+    "new_file.txt"?: {
+      content?: string;
+    };
+    "old_name.txt"?: {
+      content?: string;
+      filename?: string;
+    };
   };
 }
 
@@ -792,7 +1088,6 @@ export interface PatchOrg {
   /** Billing email address. This address is not publicized. */
   billing_email?: string;
   company?: string;
-
   /** Publicly visible email address. */
   email?: string;
   location?: string;
@@ -801,7 +1096,11 @@ export interface PatchOrg {
 
 export interface PostGist {
   description?: string;
-  files?: { "file1.txt"?: { content?: string } };
+  files?: {
+    "file1.txt"?: {
+      content?: string;
+    };
+  };
   public?: boolean;
 }
 
@@ -809,34 +1108,36 @@ export interface PostRepo {
   /** True to create an initial commit with empty README. Default is false. */
   auto_init?: boolean;
   description?: string;
-
   /** Desired language or platform .gitignore template to apply. Use the name of the template without the extension. For example, "Haskell" Ignored if auto_init parameter is not provided.  */
   gitignore_template?: string;
-
   /** True to enable downloads for this repository, false to disable them. Default is true. */
   has_downloads?: boolean;
-
   /** True to enable issues for this repository, false to disable them. Default is true. */
   has_issues?: boolean;
-
   /** True to enable the wiki for this repository, false to disable it. Default is true. */
   has_wiki?: boolean;
   homepage?: string;
   name: string;
-
   /** True to create a private repository, false to create a public one. Creating private repositories requires a paid GitHub account. */
   private?: boolean;
-
   /** The id of the team that will be granted access to this repository. This is only valid when creating a repo in an organization. */
   team_id?: number;
 }
 
 export interface PullRequest {
   _links?: {
-    comments?: { href?: string };
-    html?: { href?: string };
-    review_comments?: { href?: string };
-    self?: { href?: string };
+    comments?: {
+      href?: string;
+    };
+    html?: {
+      href?: string;
+    };
+    review_comments?: {
+      href?: string;
+    };
+    self?: {
+      href?: string;
+    };
   };
   additions?: number;
   base?: {
@@ -844,7 +1145,13 @@ export interface PullRequest {
     ref?: string;
     repo?: Repo;
     sha?: string;
-    user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+    user?: {
+      avatar_url?: string;
+      gravatar_id?: string;
+      id?: number;
+      login?: string;
+      url?: string;
+    };
   };
   body?: string;
   changed_files?: number;
@@ -859,7 +1166,13 @@ export interface PullRequest {
     ref?: string;
     repo?: Repo;
     sha?: string;
-    user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+    user?: {
+      avatar_url?: string;
+      gravatar_id?: string;
+      id?: number;
+      login?: string;
+      url?: string;
+    };
   };
   html_url?: string;
   issue_url?: string;
@@ -867,14 +1180,26 @@ export interface PullRequest {
   mergeable?: boolean;
   merged?: boolean;
   merged_at?: string;
-  merged_by?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+  merged_by?: {
+    avatar_url?: string;
+    gravatar_id?: string;
+    id?: number;
+    login?: string;
+    url?: string;
+  };
   number?: number;
   patch_url?: string;
   state?: string;
   title?: string;
   updated_at?: string;
   url?: string;
-  user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+  user?: {
+    avatar_url?: string;
+    gravatar_id?: string;
+    id?: number;
+    login?: string;
+    url?: string;
+  };
 }
 
 export interface PullUpdate {
@@ -885,20 +1210,36 @@ export interface PullUpdate {
 
 export type Pulls = {
   _links?: {
-    comments?: { href?: string };
-    html?: { href?: string };
-    review_comments?: { href?: string };
-    self?: { href?: string };
+    comments?: {
+      href?: string;
+    };
+    html?: {
+      href?: string;
+    };
+    review_comments?: {
+      href?: string;
+    };
+    self?: {
+      href?: string;
+    };
   };
   base?: {
     label?: string;
     ref?: string;
     repo?: Repo;
     sha?: string;
-    user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+    user?: {
+      avatar_url?: string;
+      gravatar_id?: string;
+      id?: number;
+      login?: string;
+      url?: string;
+    };
   };
   body?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   closed_at?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   diff_url?: string;
   head?: {
@@ -906,35 +1247,63 @@ export type Pulls = {
     ref?: string;
     repo?: Repo;
     sha?: string;
-    user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+    user?: {
+      avatar_url?: string;
+      gravatar_id?: string;
+      id?: number;
+      login?: string;
+      url?: string;
+    };
   };
   html_url?: string;
   issue_url?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   merged_at?: string;
   number?: number;
   patch_url?: string;
   state?: "open" | "closed";
   title?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-  user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+  user?: {
+    avatar_url?: string;
+    gravatar_id?: string;
+    id?: number;
+    login?: string;
+    url?: string;
+  };
 }[];
 
 export interface PullsComment {
-  _links?: { html?: { href?: string }; pull_request?: { href?: string }; self?: { href?: string } };
+  _links?: {
+    html?: {
+      href?: string;
+    };
+    pull_request?: {
+      href?: string;
+    };
+    self?: {
+      href?: string;
+    };
+  };
   body?: string;
   commit_id?: string;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   id?: number;
   path?: string;
   position?: number;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-  user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+  user?: {
+    avatar_url?: string;
+    gravatar_id?: string;
+    id?: number;
+    login?: string;
+    url?: string;
+  };
 }
 
 export interface PullsCommentPost {
@@ -945,16 +1314,34 @@ export interface PullsCommentPost {
 }
 
 export type PullsComments = {
-  _links?: { html?: { href?: string }; pull_request?: { href?: string }; self?: { href?: string } };
+  _links?: {
+    html?: {
+      href?: string;
+    };
+    pull_request?: {
+      href?: string;
+    };
+    self?: {
+      href?: string;
+    };
+  };
   body?: string;
   commit_id?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   id?: number;
   path?: string;
   position?: number;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-  user?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+  user?: {
+    avatar_url?: string;
+    gravatar_id?: string;
+    id?: number;
+    login?: string;
+    url?: string;
+  };
 }[];
 
 export interface PullsPost {
@@ -974,16 +1361,28 @@ export interface PutSubscription {
 }
 
 export interface RateLimit {
-  rate?: { limit?: number; remaining?: number; reset?: number };
+  rate?: {
+    limit?: number;
+    remaining?: number;
+    reset?: number;
+  };
 }
 
 export type Ref = {
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
-  creator?: { avatar_url?: string; gravatar_id?: string; id?: number; login?: string; url?: string };
+  creator?: {
+    avatar_url?: string;
+    gravatar_id?: string;
+    id?: number;
+    login?: string;
+    url?: string;
+  };
   description?: string;
   id?: number;
   state?: string;
   target_url?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
 }[];
@@ -1006,7 +1405,15 @@ export type RefStatus = {
   }[];
 }[];
 
-export type Refs = { object?: { sha?: string; type?: string; url?: string }; ref?: string; url?: string }[];
+export type Refs = {
+  object?: {
+    sha?: string;
+    type?: string;
+    url?: string;
+  };
+  ref?: string;
+  url?: string;
+}[];
 
 export interface RefsBody {
   ref?: string;
@@ -1024,11 +1431,11 @@ export interface Release {
     size?: number;
     state?: string;
     updated_at?: string;
+    /** A GitHub user */
     uploader?: User;
     url?: string;
   }[];
   assets_url?: string;
-
   /** A GitHub user */
   author?: User;
   body?: string;
@@ -1067,10 +1474,12 @@ export type Releases = {
     size?: number;
     state?: string;
     updated_at?: string;
+    /** A GitHub user */
     uploader?: User;
     url?: string;
   }[];
   assets_url?: string;
+  /** A GitHub user */
   author?: User;
   body?: string;
   created_at?: string;
@@ -1090,7 +1499,6 @@ export type Releases = {
 
 export interface Repo {
   clone_url?: string;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   description?: string;
@@ -1111,26 +1519,20 @@ export interface Repo {
   name?: string;
   open_issues?: number;
   open_issues_count?: number;
-
   /** A GitHub organization */
   organization?: Organization;
-
   /** A user or organization */
   owner?: Actor;
-
   /** Is present when the repo is a fork. Parent is the repo this repo was forked from. */
   parent?: Repo;
   private?: boolean;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   pushed_at?: string;
   size?: number;
-
   /** Is present when the repo is a fork. Source is the ultimate source for the network. */
   source?: Repo;
   ssh_url?: string;
   svn_url?: string;
-
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
@@ -1140,6 +1542,7 @@ export interface Repo {
 
 export type RepoDeployments = {
   created_at?: string;
+  /** A GitHub user */
   creator?: User;
   description?: string;
   id?: number;
@@ -1153,29 +1556,52 @@ export type RepoDeployments = {
 export type RepoComments = {
   body?: string;
   commit_id?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   html_url?: string;
   id?: number;
   line?: number;
   path?: string;
   position?: number;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
+  /** A GitHub user */
   user?: User;
 }[];
 
 export interface RepoCommit {
-  author?: { date?: string; email?: string; name?: string };
-  committer?: { date?: string; email?: string; name?: string };
+  author?: {
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+    date?: string;
+    email?: string;
+    name?: string;
+  };
+  committer?: {
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+    date?: string;
+    email?: string;
+    name?: string;
+  };
   message?: string;
-  parents?: { sha?: string; url?: string }[];
+  parents?: {
+    sha?: string;
+    url?: string;
+  }[];
   sha?: string;
-  tree?: { sha?: string; url?: string };
+  tree?: {
+    sha?: string;
+    url?: string;
+  };
   url?: string;
 }
 
 export interface RepoCommitBody {
-  author?: { date?: string; email?: string; name?: string };
+  author?: {
+    date?: string;
+    email?: string;
+    name?: string;
+  };
   message: string;
   parents: string[];
   tree: string;
@@ -1232,6 +1658,7 @@ export interface SearchCode {
       milestones_url?: string;
       name?: string;
       notifications_url?: string;
+      /** A user or organization */
       owner?: Actor;
       private?: boolean;
       pulls_url?: string;
@@ -1262,16 +1689,25 @@ export interface SearchIssues {
     events_url?: string;
     html_url?: string;
     id?: number;
-    labels?: { color?: string; name?: string; url?: string }[];
+    labels?: {
+      color?: string;
+      name?: string;
+      url?: string;
+    }[];
     labels_url?: string;
     milestone?: any;
     number?: number;
-    pull_request?: { diff_url?: any; html_url?: any; patch_url?: any };
+    pull_request?: {
+      diff_url?: any;
+      html_url?: any;
+      patch_url?: any;
+    };
     score?: number;
     state?: string;
     title?: string;
     updated_at?: string;
     url?: string;
+    /** A GitHub user */
     user?: User;
   }[];
   total_count?: number;
@@ -1337,26 +1773,41 @@ export interface SubscriptionBody {
 export interface Tag {
   /** String of the tag message. */
   message?: string;
-  object?: { sha?: string; type?: "commit" | "tree" | "blob"; url?: string };
+  object?: {
+    sha?: string;
+    /** String of the type of the tagged object. Normally this is a commit but it can also be a tree or a blob. */
+    type?: "commit" | "tree" | "blob";
+    url?: string;
+  };
   sha?: string;
-
   /** The tag's name. This is typically a version (e.g., "v0.0.1"). */
   tag?: string;
-  tagger?: { date?: string; email?: string; name?: string };
+  tagger?: {
+    /** Timestamp of when this object was tagged, in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+    date?: string;
+    /** String of the email of the author of the tag. */
+    email?: string;
+    /** String of the name of the author of the tag. */
+    name?: string;
+  };
   url?: string;
 }
 
 export interface TagBody {
   /** String of the tag message. */
   message: string;
-
   /** String of the SHA of the git object this is tagging. */
   object: string;
-
   /** The tag's name. This is typically a version (e.g., "v0.0.1"). */
   tag: string;
-  tagger: { date?: string; email?: string; name?: string };
-
+  tagger: {
+    /** Timestamp of when this object was tagged, in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
+    date?: string;
+    /** String of the email of the author of the tag. */
+    email?: string;
+    /** String of the name of the author of the tag. */
+    name?: string;
+  };
   /** String of the type of the object we’re tagging. Normally this is a commit but it can also be a tree or a blob. */
   type: "commit" | "tree" | "blob";
 }
@@ -1379,13 +1830,22 @@ export interface TeamMembership {
 
 export type TeamRepos = Repos;
 
-export type Teams = { id?: number; name?: string; url?: string }[];
+export type Teams = {
+  id?: number;
+  name?: string;
+  url?: string;
+}[];
 
 export type TeamsList = {
   id?: number;
   members_count?: number;
   name?: string;
-  organization?: { avatar_url?: string; id?: number; login?: string; url?: string };
+  organization?: {
+    avatar_url?: string;
+    id?: number;
+    login?: string;
+    url?: string;
+  };
   permission?: string;
   repos_count?: number;
   url?: string;
@@ -1394,8 +1854,10 @@ export type TeamsList = {
 export interface Tree {
   sha?: string;
   tree?: {
+    /** One of 100644 for file (blob), 100755 for executable (blob), 040000 for subdirectory (tree), 160000 for submodule (commit) or 120000 for a blob that specifies the path of a symlink. */
     mode?: "100644" | "100755" | "040000" | "160000" | "120000";
     path?: string;
+    /** SHA1 checksum ID of the object in the tree. */
     sha?: string;
     size?: number;
     type?: "blob" | "tree" | "commit";
@@ -1406,7 +1868,6 @@ export interface Tree {
 
 export interface Trees {
   base_tree?: string;
-
   /** SHA1 checksum ID of the object in the tree. */
   sha?: string;
   tree?: Tree[];
@@ -1475,7 +1936,12 @@ export namespace SomeTest {
                 bar: number;
                 baz: string;
                 bad: number;
-                extra: { foo: string; bar: number; baz: string; bad: number };
+                extra: {
+                  foo: string;
+                  bar: number;
+                  baz: string;
+                  bad: number;
+                };
               };
             };
           };
@@ -1492,10 +1958,21 @@ export namespace PathParams {
    * @request GET:/path-params
    */
   export namespace PathParamsList {
-    export type RequestParams = { petId: number };
+    export type RequestParams = {
+      /**
+       * ID of pet to return
+       * @format int64
+       */
+      petId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string; "X-Auth": string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+      /** Tik Token */
+      "X-Auth": string;
+    };
     export type ResponseBody = Emojis;
   }
 }
@@ -1510,7 +1987,10 @@ export namespace Events {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Events;
   }
 }
@@ -1525,7 +2005,10 @@ export namespace Feeds {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Feeds;
   }
 }
@@ -1538,9 +2021,19 @@ export namespace Gists {
    */
   export namespace GistsList {
     export type RequestParams = {};
-    export type RequestQuery = { since?: string };
+    export type RequestQuery = {
+      /**
+       * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
+       * Only gists updated at or after this time are returned.
+       *
+       */
+      since?: string;
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Gists;
   }
   /**
@@ -1552,7 +2045,10 @@ export namespace Gists {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = PostGist;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Gist;
   }
   /**
@@ -1562,9 +2058,19 @@ export namespace Gists {
    */
   export namespace PublicList {
     export type RequestParams = {};
-    export type RequestQuery = { since?: string };
+    export type RequestQuery = {
+      /**
+       * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
+       * Only gists updated at or after this time are returned.
+       *
+       */
+      since?: string;
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Gists;
   }
   /**
@@ -1574,9 +2080,19 @@ export namespace Gists {
    */
   export namespace StarredList {
     export type RequestParams = {};
-    export type RequestQuery = { since?: string };
+    export type RequestQuery = {
+      /**
+       * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
+       * Only gists updated at or after this time are returned.
+       *
+       */
+      since?: string;
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Gists;
   }
   /**
@@ -1585,10 +2101,16 @@ export namespace Gists {
    * @request DELETE:/gists/{id}
    */
   export namespace GistsDelete {
-    export type RequestParams = { id: number };
+    export type RequestParams = {
+      /** Id of gist. */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -1597,10 +2119,16 @@ export namespace Gists {
    * @request GET:/gists/{id}
    */
   export namespace GistsDetail {
-    export type RequestParams = { id: number };
+    export type RequestParams = {
+      /** Id of gist. */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Gist;
   }
   /**
@@ -1609,10 +2137,16 @@ export namespace Gists {
    * @request PATCH:/gists/{id}
    */
   export namespace GistsPartialUpdate {
-    export type RequestParams = { id: number };
+    export type RequestParams = {
+      /** Id of gist. */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = PatchGist;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Gist;
   }
   /**
@@ -1621,10 +2155,16 @@ export namespace Gists {
    * @request GET:/gists/{id}/comments
    */
   export namespace CommentsDetail {
-    export type RequestParams = { id: number };
+    export type RequestParams = {
+      /** Id of gist. */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Comments;
   }
   /**
@@ -1633,10 +2173,16 @@ export namespace Gists {
    * @request POST:/gists/{id}/comments
    */
   export namespace CommentsCreate {
-    export type RequestParams = { id: number };
+    export type RequestParams = {
+      /** Id of gist. */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = CommentBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Comment;
   }
   /**
@@ -1645,10 +2191,18 @@ export namespace Gists {
    * @request DELETE:/gists/{id}/comments/{commentId}
    */
   export namespace CommentsDelete {
-    export type RequestParams = { id: number; commentId: number };
+    export type RequestParams = {
+      /** Id of gist. */
+      id: number;
+      /** Id of comment. */
+      commentId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -1659,10 +2213,18 @@ export namespace Gists {
    * @duplicate
    */
   export namespace CommentsDetail2 {
-    export type RequestParams = { id: number; commentId: number };
+    export type RequestParams = {
+      /** Id of gist. */
+      id: number;
+      /** Id of comment. */
+      commentId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Comment;
   }
   /**
@@ -1671,10 +2233,18 @@ export namespace Gists {
    * @request PATCH:/gists/{id}/comments/{commentId}
    */
   export namespace CommentsPartialUpdate {
-    export type RequestParams = { id: number; commentId: number };
+    export type RequestParams = {
+      /** Id of gist. */
+      id: number;
+      /** Id of comment. */
+      commentId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = Comment;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Comment;
   }
   /**
@@ -1683,10 +2253,16 @@ export namespace Gists {
    * @request POST:/gists/{id}/forks
    */
   export namespace ForksCreate {
-    export type RequestParams = { id: number };
+    export type RequestParams = {
+      /** Id of gist. */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -1695,10 +2271,16 @@ export namespace Gists {
    * @request DELETE:/gists/{id}/star
    */
   export namespace StarDelete {
-    export type RequestParams = { id: number };
+    export type RequestParams = {
+      /** Id of gist. */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -1707,10 +2289,16 @@ export namespace Gists {
    * @request GET:/gists/{id}/star
    */
   export namespace StarDetail {
-    export type RequestParams = { id: number };
+    export type RequestParams = {
+      /** Id of gist. */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -1719,10 +2307,16 @@ export namespace Gists {
    * @request PUT:/gists/{id}/star
    */
   export namespace StarUpdate {
-    export type RequestParams = { id: number };
+    export type RequestParams = {
+      /** Id of gist. */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
 }
@@ -1737,7 +2331,10 @@ export namespace Gitignore {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Gitignore;
   }
   /**
@@ -1746,10 +2343,15 @@ export namespace Gitignore {
    * @request GET:/gitignore/templates/{language}
    */
   export namespace TemplatesDetail {
-    export type RequestParams = { language: string };
+    export type RequestParams = {
+      language: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = GitignoreLang;
   }
 }
@@ -1763,15 +2365,29 @@ export namespace Issues {
   export namespace IssuesList {
     export type RequestParams = {};
     export type RequestQuery = {
+      /**
+       * Issues assigned to you / created by you / mentioning you / you're
+       * subscribed to updates for / All issues the authenticated user can see
+       *
+       */
       filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
       state: "open" | "closed";
+      /** String list of comma separated Label names. Example - bug,ui,@high. */
       labels: string;
       sort: "created" | "updated" | "comments";
       direction: "asc" | "desc";
+      /**
+       * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+       * Only issues updated at or after this time are returned.
+       *
+       */
       since?: string;
     };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Issues;
   }
 }
@@ -1784,10 +2400,20 @@ export namespace Legacy {
    * @deprecated
    */
   export namespace IssuesSearchDetail {
-    export type RequestParams = { keyword: string; state: "open" | "closed"; owner: string; repository: string };
+    export type RequestParams = {
+      /** The search term. */
+      keyword: string;
+      /** Indicates the state of the issues to return. Can be either open or closed. */
+      state: "open" | "closed";
+      owner: string;
+      repository: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = SearchIssuesByKeyword;
   }
   /**
@@ -1797,15 +2423,25 @@ export namespace Legacy {
    * @deprecated
    */
   export namespace ReposSearchDetail {
-    export type RequestParams = { keyword: string };
+    export type RequestParams = {
+      /** The search term */
+      keyword: string;
+    };
     export type RequestQuery = {
+      /** The sort field. if sort param is provided. Can be either asc or desc. */
       order?: "desc" | "asc";
+      /** Filter results by language */
       language?: string;
+      /** The page number to fetch */
       start_page?: string;
+      /** The sort field. One of stars, forks, or updated. Default: results are sorted by best match. */
       sort?: "updated" | "stars" | "forks";
     };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = SearchRepositoriesByKeyword;
   }
   /**
@@ -1815,10 +2451,16 @@ export namespace Legacy {
    * @deprecated
    */
   export namespace UserEmailDetail {
-    export type RequestParams = { email: string };
+    export type RequestParams = {
+      /** The email address */
+      email: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = SearchUserByEmail;
   }
   /**
@@ -1828,10 +2470,23 @@ export namespace Legacy {
    * @deprecated
    */
   export namespace UserSearchDetail {
-    export type RequestParams = { keyword: string };
-    export type RequestQuery = { order?: "desc" | "asc"; start_page?: string; sort?: "updated" | "stars" | "forks" };
+    export type RequestParams = {
+      /** The search term */
+      keyword: string;
+    };
+    export type RequestQuery = {
+      /** The sort field. if sort param is provided. Can be either asc or desc. */
+      order?: "desc" | "asc";
+      /** The page number to fetch */
+      start_page?: string;
+      /** The sort field. One of stars, forks, or updated. Default: results are sorted by best match. */
+      sort?: "updated" | "stars" | "forks";
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = SearchUsersByKeyword;
   }
 }
@@ -1846,7 +2501,10 @@ export namespace Markdown {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = Markdown;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -1858,7 +2516,10 @@ export namespace Markdown {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
 }
@@ -1873,7 +2534,10 @@ export namespace Meta {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Meta;
   }
 }
@@ -1885,10 +2549,18 @@ export namespace Networks {
    * @request GET:/networks/{owner}/{repo}/events
    */
   export namespace EventsDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of the owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Events;
   }
 }
@@ -1901,9 +2573,27 @@ export namespace Notifications {
    */
   export namespace NotificationsList {
     export type RequestParams = {};
-    export type RequestQuery = { all?: boolean; participating?: boolean; since?: string };
+    export type RequestQuery = {
+      /** True to show notifications marked as read. */
+      all?: boolean;
+      /**
+       * True to show only notifications in which the user is directly participating
+       * or mentioned.
+       *
+       */
+      participating?: boolean;
+      /**
+       * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+       * Example: "2012-10-09T23:39:01Z".
+       *
+       */
+      since?: string;
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Notifications;
   }
   /**
@@ -1915,7 +2605,10 @@ export namespace Notifications {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = NotificationMarkRead;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -1924,10 +2617,16 @@ export namespace Notifications {
    * @request GET:/notifications/threads/{id}
    */
   export namespace ThreadsDetail {
-    export type RequestParams = { id: number };
+    export type RequestParams = {
+      /** Id of thread. */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Notifications;
   }
   /**
@@ -1936,10 +2635,16 @@ export namespace Notifications {
    * @request PATCH:/notifications/threads/{id}
    */
   export namespace ThreadsPartialUpdate {
-    export type RequestParams = { id: number };
+    export type RequestParams = {
+      /** Id of thread. */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -1948,10 +2653,16 @@ export namespace Notifications {
    * @request DELETE:/notifications/threads/{id}/subscription
    */
   export namespace ThreadsSubscriptionDelete {
-    export type RequestParams = { id: number };
+    export type RequestParams = {
+      /** Id of thread. */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -1960,10 +2671,16 @@ export namespace Notifications {
    * @request GET:/notifications/threads/{id}/subscription
    */
   export namespace ThreadsSubscriptionDetail {
-    export type RequestParams = { id: number };
+    export type RequestParams = {
+      /** Id of thread. */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Subscription;
   }
   /**
@@ -1972,10 +2689,16 @@ export namespace Notifications {
    * @request PUT:/notifications/threads/{id}/subscription
    */
   export namespace ThreadsSubscriptionUpdate {
-    export type RequestParams = { id: number };
+    export type RequestParams = {
+      /** Id of thread. */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = PutSubscription;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Subscription;
   }
 }
@@ -1987,10 +2710,16 @@ export namespace Orgs {
    * @request GET:/orgs/{org}
    */
   export namespace OrgsDetail {
-    export type RequestParams = { org: string };
+    export type RequestParams = {
+      /** Name of organisation. */
+      org: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Organization;
   }
   /**
@@ -1999,10 +2728,16 @@ export namespace Orgs {
    * @request PATCH:/orgs/{org}
    */
   export namespace OrgsPartialUpdate {
-    export type RequestParams = { org: string };
+    export type RequestParams = {
+      /** Name of organisation. */
+      org: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = PatchOrg;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Organization;
   }
   /**
@@ -2011,10 +2746,16 @@ export namespace Orgs {
    * @request GET:/orgs/{org}/events
    */
   export namespace EventsDetail {
-    export type RequestParams = { org: string };
+    export type RequestParams = {
+      /** Name of organisation. */
+      org: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Events;
   }
   /**
@@ -2023,17 +2764,34 @@ export namespace Orgs {
    * @request GET:/orgs/{org}/issues
    */
   export namespace IssuesDetail {
-    export type RequestParams = { org: string };
+    export type RequestParams = {
+      /** Name of organisation. */
+      org: string;
+    };
     export type RequestQuery = {
+      /**
+       * Issues assigned to you / created by you / mentioning you / you're
+       * subscribed to updates for / All issues the authenticated user can see
+       *
+       */
       filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
       state: "open" | "closed";
+      /** String list of comma separated Label names. Example - bug,ui,@high. */
       labels: string;
       sort: "created" | "updated" | "comments";
       direction: "asc" | "desc";
+      /**
+       * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+       * Only issues updated at or after this time are returned.
+       *
+       */
       since?: string;
     };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Issues;
   }
   /**
@@ -2042,10 +2800,16 @@ export namespace Orgs {
    * @request GET:/orgs/{org}/members
    */
   export namespace MembersDetail {
-    export type RequestParams = { org: string };
+    export type RequestParams = {
+      /** Name of organisation. */
+      org: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Users;
   }
   /**
@@ -2054,10 +2818,18 @@ export namespace Orgs {
    * @request DELETE:/orgs/{org}/members/{username}
    */
   export namespace MembersDelete {
-    export type RequestParams = { org: string; username: string };
+    export type RequestParams = {
+      /** Name of organisation. */
+      org: string;
+      /** Name of the user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2068,10 +2840,18 @@ export namespace Orgs {
    * @duplicate
    */
   export namespace MembersDetail2 {
-    export type RequestParams = { org: string; username: string };
+    export type RequestParams = {
+      /** Name of organisation. */
+      org: string;
+      /** Name of the user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2080,10 +2860,16 @@ export namespace Orgs {
    * @request GET:/orgs/{org}/public_members
    */
   export namespace PublicMembersDetail {
-    export type RequestParams = { org: string };
+    export type RequestParams = {
+      /** Name of organisation. */
+      org: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Users;
   }
   /**
@@ -2092,10 +2878,18 @@ export namespace Orgs {
    * @request DELETE:/orgs/{org}/public_members/{username}
    */
   export namespace PublicMembersDelete {
-    export type RequestParams = { org: string; username: string };
+    export type RequestParams = {
+      /** Name of organisation. */
+      org: string;
+      /** Name of the user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2106,10 +2900,18 @@ export namespace Orgs {
    * @duplicate
    */
   export namespace PublicMembersDetail2 {
-    export type RequestParams = { org: string; username: string };
+    export type RequestParams = {
+      /** Name of organisation. */
+      org: string;
+      /** Name of the user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2118,10 +2920,18 @@ export namespace Orgs {
    * @request PUT:/orgs/{org}/public_members/{username}
    */
   export namespace PublicMembersUpdate {
-    export type RequestParams = { org: string; username: string };
+    export type RequestParams = {
+      /** Name of organisation. */
+      org: string;
+      /** Name of the user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2130,10 +2940,18 @@ export namespace Orgs {
    * @request GET:/orgs/{org}/repos
    */
   export namespace ReposDetail {
-    export type RequestParams = { org: string };
-    export type RequestQuery = { type?: "all" | "public" | "private" | "forks" | "sources" | "member" };
+    export type RequestParams = {
+      /** Name of organisation. */
+      org: string;
+    };
+    export type RequestQuery = {
+      type?: "all" | "public" | "private" | "forks" | "sources" | "member";
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Repos;
   }
   /**
@@ -2142,10 +2960,16 @@ export namespace Orgs {
    * @request POST:/orgs/{org}/repos
    */
   export namespace ReposCreate {
-    export type RequestParams = { org: string };
+    export type RequestParams = {
+      /** Name of organisation. */
+      org: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = PostRepo;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Repos;
   }
   /**
@@ -2154,10 +2978,16 @@ export namespace Orgs {
    * @request GET:/orgs/{org}/teams
    */
   export namespace TeamsDetail {
-    export type RequestParams = { org: string };
+    export type RequestParams = {
+      /** Name of organisation. */
+      org: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Teams;
   }
   /**
@@ -2166,10 +2996,16 @@ export namespace Orgs {
    * @request POST:/orgs/{org}/teams
    */
   export namespace TeamsCreate {
-    export type RequestParams = { org: string };
+    export type RequestParams = {
+      /** Name of organisation. */
+      org: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = OrgTeamsPost;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Team;
   }
 }
@@ -2184,7 +3020,10 @@ export namespace RateLimit {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = RateLimit;
   }
 }
@@ -2196,10 +3035,18 @@ export namespace Repos {
    * @request DELETE:/repos/{owner}/{repo}
    */
   export namespace ReposDelete {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2208,10 +3055,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}
    */
   export namespace ReposDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Repo;
   }
   /**
@@ -2220,10 +3075,18 @@ export namespace Repos {
    * @request PATCH:/repos/{owner}/{repo}
    */
   export namespace ReposPartialUpdate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = RepoEdit;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Repo;
   }
   /**
@@ -2232,10 +3095,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/assignees
    */
   export namespace AssigneesDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Assignees;
   }
   /**
@@ -2246,10 +3117,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace AssigneesDetail2 {
-    export type RequestParams = { owner: string; repo: string; assignee: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Login of the assignee. */
+      assignee: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2258,10 +3139,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/branches
    */
   export namespace BranchesDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Branches;
   }
   /**
@@ -2272,10 +3161,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace BranchesDetail2 {
-    export type RequestParams = { owner: string; repo: string; branch: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Name of the branch. */
+      branch: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Branch;
   }
   /**
@@ -2284,10 +3183,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/collaborators
    */
   export namespace CollaboratorsDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Users;
   }
   /**
@@ -2296,10 +3203,20 @@ export namespace Repos {
    * @request DELETE:/repos/{owner}/{repo}/collaborators/{user}
    */
   export namespace CollaboratorsDelete {
-    export type RequestParams = { owner: string; repo: string; user: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Login of the user. */
+      user: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2310,10 +3227,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace CollaboratorsDetail2 {
-    export type RequestParams = { owner: string; repo: string; user: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Login of the user. */
+      user: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2322,10 +3249,20 @@ export namespace Repos {
    * @request PUT:/repos/{owner}/{repo}/collaborators/{user}
    */
   export namespace CollaboratorsUpdate {
-    export type RequestParams = { owner: string; repo: string; user: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Login of the user. */
+      user: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2334,10 +3271,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/comments
    */
   export namespace CommentsDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = RepoComments;
   }
   /**
@@ -2346,10 +3291,20 @@ export namespace Repos {
    * @request DELETE:/repos/{owner}/{repo}/comments/{commentId}
    */
   export namespace CommentsDelete {
-    export type RequestParams = { owner: string; repo: string; commentId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of comment. */
+      commentId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2360,10 +3315,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace CommentsDetail2 {
-    export type RequestParams = { owner: string; repo: string; commentId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of comment. */
+      commentId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = CommitComment;
   }
   /**
@@ -2372,10 +3337,20 @@ export namespace Repos {
    * @request PATCH:/repos/{owner}/{repo}/comments/{commentId}
    */
   export namespace CommentsPartialUpdate {
-    export type RequestParams = { owner: string; repo: string; commentId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of comment. */
+      commentId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = CommentBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = CommitComment;
   }
   /**
@@ -2384,10 +3359,33 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/commits
    */
   export namespace CommitsDetail {
-    export type RequestParams = { owner: string; repo: string };
-    export type RequestQuery = { since?: string; sha?: string; path?: string; author?: string; until?: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
+    export type RequestQuery = {
+      /**
+       * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+       * Example: "2012-10-09T23:39:01Z".
+       *
+       */
+      since?: string;
+      /** Sha or branch to start listing commits from. */
+      sha?: string;
+      /** Only commits containing this file path will be returned. */
+      path?: string;
+      /** GitHub login, name, or email by which to filter by commit author. */
+      author?: string;
+      /** ISO 8601 Date - Only commits before this date will be returned. */
+      until?: string;
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Commits;
   }
   /**
@@ -2396,10 +3394,19 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/commits/{ref}/status
    */
   export namespace CommitsStatusDetail {
-    export type RequestParams = { owner: string; repo: string; ref: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      ref: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = RefStatus;
   }
   /**
@@ -2410,10 +3417,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace CommitsDetail2 {
-    export type RequestParams = { owner: string; repo: string; shaCode: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** SHA-1 code of the commit. */
+      shaCode: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Commit;
   }
   /**
@@ -2422,10 +3439,20 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/commits/{shaCode}/comments
    */
   export namespace CommitsCommentsDetail {
-    export type RequestParams = { owner: string; repo: string; shaCode: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** SHA-1 code of the commit. */
+      shaCode: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = RepoComments;
   }
   /**
@@ -2434,10 +3461,20 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/commits/{shaCode}/comments
    */
   export namespace CommitsCommentsCreate {
-    export type RequestParams = { owner: string; repo: string; shaCode: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** SHA-1 code of the commit. */
+      shaCode: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = CommitCommentBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = CommitComment;
   }
   /**
@@ -2446,10 +3483,20 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/compare/{baseId}...{headId}
    */
   export namespace CompareDetail {
-    export type RequestParams = { owner: string; repo: string; baseId: string; headId: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      baseId: string;
+      headId: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = CompareCommits;
   }
   /**
@@ -2458,10 +3505,19 @@ export namespace Repos {
    * @request DELETE:/repos/{owner}/{repo}/contents/{path}
    */
   export namespace ContentsDelete {
-    export type RequestParams = { owner: string; repo: string; path: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      path: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = DeleteFileBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = DeleteFile;
   }
   /**
@@ -2470,10 +3526,24 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/contents/{path}
    */
   export namespace ContentsDetail {
-    export type RequestParams = { owner: string; repo: string; path: string };
-    export type RequestQuery = { path?: string; ref?: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      path: string;
+    };
+    export type RequestQuery = {
+      /** The content path. */
+      path?: string;
+      /** The String name of the Commit/Branch/Tag. Defaults to 'master'. */
+      ref?: string;
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = ContentsPath;
   }
   /**
@@ -2482,10 +3552,19 @@ export namespace Repos {
    * @request PUT:/repos/{owner}/{repo}/contents/{path}
    */
   export namespace ContentsUpdate {
-    export type RequestParams = { owner: string; repo: string; path: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      path: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = CreateFileBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = CreateFile;
   }
   /**
@@ -2494,10 +3573,21 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/contributors
    */
   export namespace ContributorsDetail {
-    export type RequestParams = { owner: string; repo: string };
-    export type RequestQuery = { anon: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
+    export type RequestQuery = {
+      /** Set to 1 or true to include anonymous contributors in results. */
+      anon: string;
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Users;
   }
   /**
@@ -2506,10 +3596,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/deployments
    */
   export namespace DeploymentsDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = RepoDeployments;
   }
   /**
@@ -2518,10 +3616,18 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/deployments
    */
   export namespace DeploymentsCreate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = Deployment;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = DeploymentResp;
   }
   /**
@@ -2530,10 +3636,20 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/deployments/{id}/statuses
    */
   export namespace DeploymentsStatusesDetail {
-    export type RequestParams = { owner: string; repo: string; id: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** The Deployment ID to list the statuses from. */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = DeploymentStatuses;
   }
   /**
@@ -2542,10 +3658,20 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/deployments/{id}/statuses
    */
   export namespace DeploymentsStatusesCreate {
-    export type RequestParams = { owner: string; repo: string; id: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** The Deployment ID to list the statuses from. */
+      id: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = DeploymentStatusesCreate;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2555,10 +3681,18 @@ export namespace Repos {
    * @deprecated
    */
   export namespace DownloadsDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Downloads;
   }
   /**
@@ -2568,10 +3702,20 @@ export namespace Repos {
    * @deprecated
    */
   export namespace DownloadsDelete {
-    export type RequestParams = { owner: string; repo: string; downloadId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of download. */
+      downloadId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2583,10 +3727,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace DownloadsDetail2 {
-    export type RequestParams = { owner: string; repo: string; downloadId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of download. */
+      downloadId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Download;
   }
   /**
@@ -2595,10 +3749,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/events
    */
   export namespace EventsDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Events;
   }
   /**
@@ -2607,10 +3769,20 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/forks
    */
   export namespace ForksDetail {
-    export type RequestParams = { owner: string; repo: string };
-    export type RequestQuery = { sort?: "newes" | "oldes" | "watchers" };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
+    export type RequestQuery = {
+      sort?: "newes" | "oldes" | "watchers";
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Forks;
   }
   /**
@@ -2619,10 +3791,18 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/forks
    */
   export namespace ForksCreate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = ForkBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Repo;
   }
   /**
@@ -2631,10 +3811,18 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/git/blobs
    */
   export namespace GitBlobsCreate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = Blob;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Blobs;
   }
   /**
@@ -2643,10 +3831,20 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/git/blobs/{shaCode}
    */
   export namespace GitBlobsDetail {
-    export type RequestParams = { owner: string; repo: string; shaCode: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** SHA-1 code. */
+      shaCode: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Blob;
   }
   /**
@@ -2655,10 +3853,18 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/git/commits
    */
   export namespace GitCommitsCreate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = RepoCommitBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = GitCommit;
   }
   /**
@@ -2667,10 +3873,20 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/git/commits/{shaCode}
    */
   export namespace GitCommitsDetail {
-    export type RequestParams = { owner: string; repo: string; shaCode: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** SHA-1 code. */
+      shaCode: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = RepoCommit;
   }
   /**
@@ -2679,10 +3895,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/git/refs
    */
   export namespace GitRefsDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Refs;
   }
   /**
@@ -2691,10 +3915,18 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/git/refs
    */
   export namespace GitRefsCreate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = RefsBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = HeadBranch;
   }
   /**
@@ -2703,10 +3935,19 @@ export namespace Repos {
    * @request DELETE:/repos/{owner}/{repo}/git/refs/{ref}
    */
   export namespace GitRefsDelete {
-    export type RequestParams = { owner: string; repo: string; ref: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      ref: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2717,10 +3958,19 @@ export namespace Repos {
    * @duplicate
    */
   export namespace GitRefsDetail2 {
-    export type RequestParams = { owner: string; repo: string; ref: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      ref: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = HeadBranch;
   }
   /**
@@ -2729,10 +3979,19 @@ export namespace Repos {
    * @request PATCH:/repos/{owner}/{repo}/git/refs/{ref}
    */
   export namespace GitRefsPartialUpdate {
-    export type RequestParams = { owner: string; repo: string; ref: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      ref: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = GitRefPatch;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = HeadBranch;
   }
   /**
@@ -2741,10 +4000,18 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/git/tags
    */
   export namespace GitTagsCreate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = TagBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Tag;
   }
   /**
@@ -2753,10 +4020,19 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/git/tags/{shaCode}
    */
   export namespace GitTagsDetail {
-    export type RequestParams = { owner: string; repo: string; shaCode: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      shaCode: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Tag;
   }
   /**
@@ -2765,10 +4041,18 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/git/trees
    */
   export namespace GitTreesCreate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = Tree;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Trees;
   }
   /**
@@ -2777,10 +4061,23 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/git/trees/{shaCode}
    */
   export namespace GitTreesDetail {
-    export type RequestParams = { owner: string; repo: string; shaCode: string };
-    export type RequestQuery = { recursive?: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Tree SHA. */
+      shaCode: string;
+    };
+    export type RequestQuery = {
+      /** Get a Tree Recursively. (0 or 1) */
+      recursive?: number;
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Tree;
   }
   /**
@@ -2789,10 +4086,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/hooks
    */
   export namespace HooksDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Hook;
   }
   /**
@@ -2801,10 +4106,18 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/hooks
    */
   export namespace HooksCreate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = HookBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Hook;
   }
   /**
@@ -2813,10 +4126,20 @@ export namespace Repos {
    * @request DELETE:/repos/{owner}/{repo}/hooks/{hookId}
    */
   export namespace HooksDelete {
-    export type RequestParams = { owner: string; repo: string; hookId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of hook. */
+      hookId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2827,10 +4150,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace HooksDetail2 {
-    export type RequestParams = { owner: string; repo: string; hookId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of hook. */
+      hookId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Hook;
   }
   /**
@@ -2839,10 +4172,20 @@ export namespace Repos {
    * @request PATCH:/repos/{owner}/{repo}/hooks/{hookId}
    */
   export namespace HooksPartialUpdate {
-    export type RequestParams = { owner: string; repo: string; hookId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of hook. */
+      hookId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = HookBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Hook;
   }
   /**
@@ -2851,10 +4194,20 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/hooks/{hookId}/tests
    */
   export namespace HooksTestsCreate {
-    export type RequestParams = { owner: string; repo: string; hookId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of hook. */
+      hookId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2863,17 +4216,36 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/issues
    */
   export namespace IssuesDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {
+      /**
+       * Issues assigned to you / created by you / mentioning you / you're
+       * subscribed to updates for / All issues the authenticated user can see
+       *
+       */
       filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
       state: "open" | "closed";
+      /** String list of comma separated Label names. Example - bug,ui,@high. */
       labels: string;
       sort: "created" | "updated" | "comments";
       direction: "asc" | "desc";
+      /**
+       * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+       * Only issues updated at or after this time are returned.
+       *
+       */
       since?: string;
     };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Issues;
   }
   /**
@@ -2882,10 +4254,18 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/issues
    */
   export namespace IssuesCreate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = Issue;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Issue;
   }
   /**
@@ -2894,10 +4274,28 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/issues/comments
    */
   export namespace IssuesCommentsDetail {
-    export type RequestParams = { owner: string; repo: string };
-    export type RequestQuery = { direction?: string; sort?: "created" | "updated"; since?: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
+    export type RequestQuery = {
+      /** Ignored without 'sort' parameter. */
+      direction?: string;
+      sort?: "created" | "updated";
+      /**
+       * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+       * Example: "2012-10-09T23:39:01Z".
+       *
+       */
+      since?: string;
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = IssuesComments;
   }
   /**
@@ -2906,10 +4304,20 @@ export namespace Repos {
    * @request DELETE:/repos/{owner}/{repo}/issues/comments/{commentId}
    */
   export namespace IssuesCommentsDelete {
-    export type RequestParams = { owner: string; repo: string; commentId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** ID of comment. */
+      commentId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -2920,10 +4328,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace IssuesCommentsDetail2 {
-    export type RequestParams = { owner: string; repo: string; commentId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** ID of comment. */
+      commentId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = IssuesComment;
   }
   /**
@@ -2932,10 +4350,20 @@ export namespace Repos {
    * @request PATCH:/repos/{owner}/{repo}/issues/comments/{commentId}
    */
   export namespace IssuesCommentsPartialUpdate {
-    export type RequestParams = { owner: string; repo: string; commentId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** ID of comment. */
+      commentId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = CommentBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = IssuesComment;
   }
   /**
@@ -2944,10 +4372,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/issues/events
    */
   export namespace IssuesEventsDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = IssueEvents;
   }
   /**
@@ -2958,10 +4394,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace IssuesEventsDetail2 {
-    export type RequestParams = { owner: string; repo: string; eventId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of the event. */
+      eventId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = IssueEvent;
   }
   /**
@@ -2972,10 +4418,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace IssuesDetail2 {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Number of issue. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Issue;
   }
   /**
@@ -2984,10 +4440,20 @@ export namespace Repos {
    * @request PATCH:/repos/{owner}/{repo}/issues/{number}
    */
   export namespace IssuesPartialUpdate {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Number of issue. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = Issue;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Issue;
   }
   /**
@@ -2998,10 +4464,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace IssuesCommentsDetail3 {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Number of issue. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = IssuesComments;
   }
   /**
@@ -3010,10 +4486,20 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/issues/{number}/comments
    */
   export namespace IssuesCommentsCreate {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Number of issue. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = CommentBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = IssuesComment;
   }
   /**
@@ -3024,10 +4510,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace IssuesEventsDetail3 {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Number of issue. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = IssueEvents;
   }
   /**
@@ -3036,10 +4532,20 @@ export namespace Repos {
    * @request DELETE:/repos/{owner}/{repo}/issues/{number}/labels
    */
   export namespace IssuesLabelsDelete {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Number of issue. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -3048,10 +4554,20 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/issues/{number}/labels
    */
   export namespace IssuesLabelsDetail {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Number of issue. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Labels;
   }
   /**
@@ -3060,10 +4576,20 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/issues/{number}/labels
    */
   export namespace IssuesLabelsCreate {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Number of issue. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = EmailsPost;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Label;
   }
   /**
@@ -3072,10 +4598,20 @@ export namespace Repos {
    * @request PUT:/repos/{owner}/{repo}/issues/{number}/labels
    */
   export namespace IssuesLabelsUpdate {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Number of issue. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = EmailsPost;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Label;
   }
   /**
@@ -3086,10 +4622,22 @@ export namespace Repos {
    * @duplicate
    */
   export namespace IssuesLabelsDelete2 {
-    export type RequestParams = { owner: string; repo: string; number: number; name: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Number of issue. */
+      number: number;
+      /** Name of the label. */
+      name: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -3098,10 +4646,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/keys
    */
   export namespace KeysDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Keys;
   }
   /**
@@ -3110,10 +4666,18 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/keys
    */
   export namespace KeysCreate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = UserKeysPost;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = UserKeysKeyId;
   }
   /**
@@ -3122,10 +4686,20 @@ export namespace Repos {
    * @request DELETE:/repos/{owner}/{repo}/keys/{keyId}
    */
   export namespace KeysDelete {
-    export type RequestParams = { owner: string; repo: string; keyId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of key. */
+      keyId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -3136,10 +4710,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace KeysDetail2 {
-    export type RequestParams = { owner: string; repo: string; keyId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of key. */
+      keyId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = UserKeysKeyId;
   }
   /**
@@ -3148,10 +4732,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/labels
    */
   export namespace LabelsDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Labels;
   }
   /**
@@ -3160,10 +4752,18 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/labels
    */
   export namespace LabelsCreate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = EmailsPost;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Label;
   }
   /**
@@ -3172,10 +4772,20 @@ export namespace Repos {
    * @request DELETE:/repos/{owner}/{repo}/labels/{name}
    */
   export namespace LabelsDelete {
-    export type RequestParams = { owner: string; repo: string; name: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Name of the label. */
+      name: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -3186,10 +4796,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace LabelsDetail2 {
-    export type RequestParams = { owner: string; repo: string; name: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Name of the label. */
+      name: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Label;
   }
   /**
@@ -3198,10 +4818,20 @@ export namespace Repos {
    * @request PATCH:/repos/{owner}/{repo}/labels/{name}
    */
   export namespace LabelsPartialUpdate {
-    export type RequestParams = { owner: string; repo: string; name: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Name of the label. */
+      name: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = EmailsPost;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Label;
   }
   /**
@@ -3210,10 +4840,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/languages
    */
   export namespace LanguagesDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Languages;
   }
   /**
@@ -3222,10 +4860,18 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/merges
    */
   export namespace MergesCreate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = MergesBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = MergesSuccessful;
   }
   /**
@@ -3234,10 +4880,24 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/milestones
    */
   export namespace MilestonesDetail {
-    export type RequestParams = { owner: string; repo: string };
-    export type RequestQuery = { state?: "open" | "closed"; direction?: string; sort?: "due_date" | "completeness" };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
+    export type RequestQuery = {
+      /** String to filter by state. */
+      state?: "open" | "closed";
+      /** Ignored without 'sort' parameter. */
+      direction?: string;
+      sort?: "due_date" | "completeness";
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Milestone;
   }
   /**
@@ -3246,10 +4906,18 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/milestones
    */
   export namespace MilestonesCreate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = MilestoneUpdate;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Milestone;
   }
   /**
@@ -3258,10 +4926,20 @@ export namespace Repos {
    * @request DELETE:/repos/{owner}/{repo}/milestones/{number}
    */
   export namespace MilestonesDelete {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Number of milestone. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -3272,10 +4950,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace MilestonesDetail2 {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Number of milestone. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Milestone;
   }
   /**
@@ -3284,10 +4972,20 @@ export namespace Repos {
    * @request PATCH:/repos/{owner}/{repo}/milestones/{number}
    */
   export namespace MilestonesPartialUpdate {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Number of milestone. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = MilestoneUpdate;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Milestone;
   }
   /**
@@ -3296,10 +4994,20 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/milestones/{number}/labels
    */
   export namespace MilestonesLabelsDetail {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Number of milestone. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Labels;
   }
   /**
@@ -3308,10 +5016,33 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/notifications
    */
   export namespace NotificationsDetail {
-    export type RequestParams = { owner: string; repo: string };
-    export type RequestQuery = { all?: boolean; participating?: boolean; since?: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
+    export type RequestQuery = {
+      /** True to show notifications marked as read. */
+      all?: boolean;
+      /**
+       * True to show only notifications in which the user is directly participating
+       * or mentioned.
+       *
+       */
+      participating?: boolean;
+      /**
+       * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+       * Example: "2012-10-09T23:39:01Z".
+       *
+       */
+      since?: string;
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Notifications;
   }
   /**
@@ -3320,10 +5051,18 @@ export namespace Repos {
    * @request PUT:/repos/{owner}/{repo}/notifications
    */
   export namespace NotificationsUpdate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = NotificationMarkRead;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -3332,10 +5071,29 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/pulls
    */
   export namespace PullsDetail {
-    export type RequestParams = { owner: string; repo: string };
-    export type RequestQuery = { state?: "open" | "closed"; head?: string; base?: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
+    export type RequestQuery = {
+      /** String to filter by state. */
+      state?: "open" | "closed";
+      /**
+       * Filter pulls by head user and branch name in the format of 'user:ref-name'.
+       * Example: github:new-script-format.
+       *
+       */
+      head?: string;
+      /** Filter pulls by base branch name. Example - gh-pages. */
+      base?: string;
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Pulls;
   }
   /**
@@ -3344,10 +5102,18 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/pulls
    */
   export namespace PullsCreate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = PullsPost;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Pulls;
   }
   /**
@@ -3356,10 +5122,28 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/pulls/comments
    */
   export namespace PullsCommentsDetail {
-    export type RequestParams = { owner: string; repo: string };
-    export type RequestQuery = { direction?: string; sort?: "created" | "updated"; since?: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
+    export type RequestQuery = {
+      /** Ignored without 'sort' parameter. */
+      direction?: string;
+      sort?: "created" | "updated";
+      /**
+       * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+       * Example: "2012-10-09T23:39:01Z".
+       *
+       */
+      since?: string;
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = IssuesComments;
   }
   /**
@@ -3368,10 +5152,20 @@ export namespace Repos {
    * @request DELETE:/repos/{owner}/{repo}/pulls/comments/{commentId}
    */
   export namespace PullsCommentsDelete {
-    export type RequestParams = { owner: string; repo: string; commentId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of comment. */
+      commentId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -3382,10 +5176,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace PullsCommentsDetail2 {
-    export type RequestParams = { owner: string; repo: string; commentId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of comment. */
+      commentId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = PullsComment;
   }
   /**
@@ -3394,10 +5198,20 @@ export namespace Repos {
    * @request PATCH:/repos/{owner}/{repo}/pulls/comments/{commentId}
    */
   export namespace PullsCommentsPartialUpdate {
-    export type RequestParams = { owner: string; repo: string; commentId: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of comment. */
+      commentId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = CommentBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = PullsComment;
   }
   /**
@@ -3408,10 +5222,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace PullsDetail2 {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of pull. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = PullRequest;
   }
   /**
@@ -3420,10 +5244,20 @@ export namespace Repos {
    * @request PATCH:/repos/{owner}/{repo}/pulls/{number}
    */
   export namespace PullsPartialUpdate {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of pull. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = PullUpdate;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Repo;
   }
   /**
@@ -3434,10 +5268,20 @@ export namespace Repos {
    * @duplicate
    */
   export namespace PullsCommentsDetail3 {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of pull. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = PullsComment;
   }
   /**
@@ -3446,10 +5290,20 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/pulls/{number}/comments
    */
   export namespace PullsCommentsCreate {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of pull. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = PullsCommentPost;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = PullsComment;
   }
   /**
@@ -3458,10 +5312,20 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/pulls/{number}/commits
    */
   export namespace PullsCommitsDetail {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of pull. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Commits;
   }
   /**
@@ -3470,10 +5334,20 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/pulls/{number}/files
    */
   export namespace PullsFilesDetail {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of pull. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Pulls;
   }
   /**
@@ -3482,10 +5356,20 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/pulls/{number}/merge
    */
   export namespace PullsMergeDetail {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of pull. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -3494,10 +5378,20 @@ export namespace Repos {
    * @request PUT:/repos/{owner}/{repo}/pulls/{number}/merge
    */
   export namespace PullsMergeUpdate {
-    export type RequestParams = { owner: string; repo: string; number: number };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /** Id of pull. */
+      number: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = MergePullBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Merge;
   }
   /**
@@ -3506,10 +5400,21 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/readme
    */
   export namespace ReadmeDetail {
-    export type RequestParams = { owner: string; repo: string };
-    export type RequestQuery = { ref?: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
+    export type RequestQuery = {
+      /** The String name of the Commit/Branch/Tag. Defaults to master. */
+      ref?: string;
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = ContentsPath;
   }
   /**
@@ -3518,10 +5423,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/releases
    */
   export namespace ReleasesDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Releases;
   }
   /**
@@ -3530,10 +5443,18 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/releases
    */
   export namespace ReleasesCreate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = ReleaseCreate;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Release;
   }
   /**
@@ -3542,10 +5463,19 @@ export namespace Repos {
    * @request DELETE:/repos/{owner}/{repo}/releases/assets/{id}
    */
   export namespace ReleasesAssetsDelete {
-    export type RequestParams = { owner: string; repo: string; id: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      id: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -3554,10 +5484,19 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/releases/assets/{id}
    */
   export namespace ReleasesAssetsDetail {
-    export type RequestParams = { owner: string; repo: string; id: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      id: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Asset;
   }
   /**
@@ -3566,10 +5505,19 @@ export namespace Repos {
    * @request PATCH:/repos/{owner}/{repo}/releases/assets/{id}
    */
   export namespace ReleasesAssetsPartialUpdate {
-    export type RequestParams = { owner: string; repo: string; id: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      id: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = AssetPatch;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Asset;
   }
   /**
@@ -3578,10 +5526,19 @@ export namespace Repos {
    * @request DELETE:/repos/{owner}/{repo}/releases/{id}
    */
   export namespace ReleasesDelete {
-    export type RequestParams = { owner: string; repo: string; id: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      id: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -3592,10 +5549,19 @@ export namespace Repos {
    * @duplicate
    */
   export namespace ReleasesDetail2 {
-    export type RequestParams = { owner: string; repo: string; id: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      id: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Release;
   }
   /**
@@ -3604,10 +5570,19 @@ export namespace Repos {
    * @request PATCH:/repos/{owner}/{repo}/releases/{id}
    */
   export namespace ReleasesPartialUpdate {
-    export type RequestParams = { owner: string; repo: string; id: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      id: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = ReleaseCreate;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Release;
   }
   /**
@@ -3618,10 +5593,19 @@ export namespace Repos {
    * @duplicate
    */
   export namespace ReleasesAssetsDetail2 {
-    export type RequestParams = { owner: string; repo: string; id: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      id: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Assets;
   }
   /**
@@ -3630,10 +5614,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/stargazers
    */
   export namespace StargazersDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Users;
   }
   /**
@@ -3642,10 +5634,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/stats/code_frequency
    */
   export namespace StatsCodeFrequencyDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = CodeFrequencyStats;
   }
   /**
@@ -3654,10 +5654,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/stats/commit_activity
    */
   export namespace StatsCommitActivityDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = CommitActivityStats;
   }
   /**
@@ -3666,10 +5674,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/stats/contributors
    */
   export namespace StatsContributorsDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = ContributorsStats;
   }
   /**
@@ -3678,10 +5694,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/stats/participation
    */
   export namespace StatsParticipationDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = ParticipationStats;
   }
   /**
@@ -3690,10 +5714,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/stats/punch_card
    */
   export namespace StatsPunchCardDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = CodeFrequencyStats;
   }
   /**
@@ -3702,10 +5734,23 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/statuses/{ref}
    */
   export namespace StatusesDetail {
-    export type RequestParams = { owner: string; repo: string; ref: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /**
+       * Ref to list the statuses from. It can be a SHA, a branch name, or a tag name.
+       *
+       */
+      ref: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Ref;
   }
   /**
@@ -3714,10 +5759,23 @@ export namespace Repos {
    * @request POST:/repos/{owner}/{repo}/statuses/{ref}
    */
   export namespace StatusesCreate {
-    export type RequestParams = { owner: string; repo: string; ref: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      /**
+       * Ref to list the statuses from. It can be a SHA, a branch name, or a tag name.
+       *
+       */
+      ref: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = HeadBranch;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Ref;
   }
   /**
@@ -3726,10 +5784,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/subscribers
    */
   export namespace SubscribersDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Users;
   }
   /**
@@ -3738,10 +5804,18 @@ export namespace Repos {
    * @request DELETE:/repos/{owner}/{repo}/subscription
    */
   export namespace SubscriptionDelete {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -3750,10 +5824,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/subscription
    */
   export namespace SubscriptionDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Subscription;
   }
   /**
@@ -3762,10 +5844,18 @@ export namespace Repos {
    * @request PUT:/repos/{owner}/{repo}/subscription
    */
   export namespace SubscriptionUpdate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = SubscriptionBody;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Subscription;
   }
   /**
@@ -3774,10 +5864,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/tags
    */
   export namespace TagsDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Tags;
   }
   /**
@@ -3786,10 +5884,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/teams
    */
   export namespace TeamsDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Teams;
   }
   /**
@@ -3798,10 +5904,18 @@ export namespace Repos {
    * @request GET:/repos/{owner}/{repo}/watchers
    */
   export namespace WatchersDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Users;
   }
   /**
@@ -3812,10 +5926,21 @@ export namespace Repos {
    * @duplicate
    */
   export namespace ReposDetail2 {
-    export type RequestParams = { owner: string; repo: string; archiveFormat: "tarball" | "zipball"; path: string };
+    export type RequestParams = {
+      /** Name of repository owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+      archiveFormat: "tarball" | "zipball";
+      /** Valid Git reference, defaults to 'master'. */
+      path: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = any;
   }
 }
@@ -3828,9 +5953,19 @@ export namespace Repositories {
    */
   export namespace RepositoriesList {
     export type RequestParams = {};
-    export type RequestQuery = { since?: string };
+    export type RequestQuery = {
+      /**
+       * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+       * Example: "2012-10-09T23:39:01Z".
+       *
+       */
+      since?: string;
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Repos;
   }
 }
@@ -3843,9 +5978,39 @@ export namespace Search {
    */
   export namespace CodeList {
     export type RequestParams = {};
-    export type RequestQuery = { order?: "desc" | "asc"; q: string; sort?: "indexed" };
+    export type RequestQuery = {
+      /** The sort field. if sort param is provided. Can be either asc or desc. */
+      order?: "desc" | "asc";
+      /**
+       * The search terms. This can be any combination of the supported code
+       * search parameters:
+       * 'Search In' Qualifies which fields are searched. With this qualifier
+       * you can restrict the search to just the file contents, the file path,
+       * or both.
+       * 'Languages' Searches code based on the language it's written in.
+       * 'Forks' Filters repositories based on the number of forks, and/or
+       * whether code from forked repositories should be included in the results
+       * at all.
+       * 'Size' Finds files that match a certain size (in bytes).
+       * 'Path' Specifies the path that the resulting file must be at.
+       * 'Extension' Matches files with a certain extension.
+       * 'Users' or 'Repositories' Limits searches to a specific user or repository.
+       *
+       */
+      q: string;
+      /**
+       * Can only be 'indexed', which indicates how recently a file has been indexed
+       * by the GitHub search infrastructure. If not provided, results are sorted
+       * by best match.
+       *
+       */
+      sort?: "indexed";
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = SearchCode;
   }
   /**
@@ -3855,9 +6020,19 @@ export namespace Search {
    */
   export namespace IssuesList {
     export type RequestParams = {};
-    export type RequestQuery = { order?: "desc" | "asc"; q: string; sort?: "updated" | "created" | "comments" };
+    export type RequestQuery = {
+      /** The sort field. if sort param is provided. Can be either asc or desc. */
+      order?: "desc" | "asc";
+      /** The q search term can also contain any combination of the supported issue search qualifiers: */
+      q: string;
+      /** The sort field. Can be comments, created, or updated. Default: results are sorted by best match. */
+      sort?: "updated" | "created" | "comments";
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = SearchIssues;
   }
   /**
@@ -3867,9 +6042,34 @@ export namespace Search {
    */
   export namespace RepositoriesList {
     export type RequestParams = {};
-    export type RequestQuery = { order?: "desc" | "asc"; q: string; sort?: "stars" | "forks" | "updated" };
+    export type RequestQuery = {
+      /** The sort field. if sort param is provided. Can be either asc or desc. */
+      order?: "desc" | "asc";
+      /**
+       * The search terms. This can be any combination of the supported repository
+       * search parameters:
+       * 'Search In' Qualifies which fields are searched. With this qualifier you
+       * can restrict the search to just the repository name, description, readme,
+       * or any combination of these.
+       * 'Size' Finds repositories that match a certain size (in kilobytes).
+       * 'Forks' Filters repositories based on the number of forks, and/or whether
+       * forked repositories should be included in the results at all.
+       * 'Created' and 'Last Updated' Filters repositories based on times of
+       * creation, or when they were last updated.
+       * 'Users or Repositories' Limits searches to a specific user or repository.
+       * 'Languages' Searches repositories based on the language they are written in.
+       * 'Stars' Searches repositories based on the number of stars.
+       *
+       */
+      q: string;
+      /** If not provided, results are sorted by best match. */
+      sort?: "stars" | "forks" | "updated";
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = SearchRepositories;
   }
   /**
@@ -3879,9 +6079,33 @@ export namespace Search {
    */
   export namespace UsersList {
     export type RequestParams = {};
-    export type RequestQuery = { order?: "desc" | "asc"; q: string; sort?: "followers" | "repositories" | "joined" };
+    export type RequestQuery = {
+      /** The sort field. if sort param is provided. Can be either asc or desc. */
+      order?: "desc" | "asc";
+      /**
+       * The search terms. This can be any combination of the supported user
+       * search parameters:
+       * 'Search In' Qualifies which fields are searched. With this qualifier you
+       * can restrict the search to just the username, public email, full name,
+       * location, or any combination of these.
+       * 'Repository count' Filters users based on the number of repositories they
+       * have.
+       * 'Location' Filter users by the location indicated in their profile.
+       * 'Language' Search for users that have repositories that match a certain
+       * language.
+       * 'Created' Filter users based on when they joined.
+       * 'Followers' Filter users based on the number of followers they have.
+       *
+       */
+      q: string;
+      /** If not provided, results are sorted by best match. */
+      sort?: "followers" | "repositories" | "joined";
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = SearchUsers;
   }
 }
@@ -3893,10 +6117,16 @@ export namespace Teams {
    * @request DELETE:/teams/{teamId}
    */
   export namespace TeamsDelete {
-    export type RequestParams = { teamId: number };
+    export type RequestParams = {
+      /** Id of team. */
+      teamId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -3905,10 +6135,16 @@ export namespace Teams {
    * @request GET:/teams/{teamId}
    */
   export namespace TeamsDetail {
-    export type RequestParams = { teamId: number };
+    export type RequestParams = {
+      /** Id of team. */
+      teamId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Team;
   }
   /**
@@ -3917,10 +6153,16 @@ export namespace Teams {
    * @request PATCH:/teams/{teamId}
    */
   export namespace TeamsPartialUpdate {
-    export type RequestParams = { teamId: number };
+    export type RequestParams = {
+      /** Id of team. */
+      teamId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = EditTeam;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Team;
   }
   /**
@@ -3929,10 +6171,16 @@ export namespace Teams {
    * @request GET:/teams/{teamId}/members
    */
   export namespace MembersDetail {
-    export type RequestParams = { teamId: number };
+    export type RequestParams = {
+      /** Id of team. */
+      teamId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Users;
   }
   /**
@@ -3942,10 +6190,18 @@ export namespace Teams {
    * @deprecated
    */
   export namespace MembersDelete {
-    export type RequestParams = { teamId: number; username: string };
+    export type RequestParams = {
+      /** Id of team. */
+      teamId: number;
+      /** Name of a member. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -3957,10 +6213,18 @@ export namespace Teams {
    * @duplicate
    */
   export namespace MembersDetail2 {
-    export type RequestParams = { teamId: number; username: string };
+    export type RequestParams = {
+      /** Id of team. */
+      teamId: number;
+      /** Name of a member. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -3970,10 +6234,18 @@ export namespace Teams {
    * @deprecated
    */
   export namespace MembersUpdate {
-    export type RequestParams = { teamId: number; username: string };
+    export type RequestParams = {
+      /** Id of team. */
+      teamId: number;
+      /** Name of a member. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -3982,10 +6254,18 @@ export namespace Teams {
    * @request DELETE:/teams/{teamId}/memberships/{username}
    */
   export namespace MembershipsDelete {
-    export type RequestParams = { teamId: number; username: string };
+    export type RequestParams = {
+      /** Id of team. */
+      teamId: number;
+      /** Name of a member. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -3994,10 +6274,18 @@ export namespace Teams {
    * @request GET:/teams/{teamId}/memberships/{username}
    */
   export namespace MembershipsDetail {
-    export type RequestParams = { teamId: number; username: string };
+    export type RequestParams = {
+      /** Id of team. */
+      teamId: number;
+      /** Name of a member. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = TeamMembership;
   }
   /**
@@ -4006,10 +6294,18 @@ export namespace Teams {
    * @request PUT:/teams/{teamId}/memberships/{username}
    */
   export namespace MembershipsUpdate {
-    export type RequestParams = { teamId: number; username: string };
+    export type RequestParams = {
+      /** Id of team. */
+      teamId: number;
+      /** Name of a member. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = TeamMembership;
   }
   /**
@@ -4018,10 +6314,16 @@ export namespace Teams {
    * @request GET:/teams/{teamId}/repos
    */
   export namespace ReposDetail {
-    export type RequestParams = { teamId: number };
+    export type RequestParams = {
+      /** Id of team. */
+      teamId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = TeamRepos;
   }
   /**
@@ -4030,10 +6332,20 @@ export namespace Teams {
    * @request DELETE:/teams/{teamId}/repos/{owner}/{repo}
    */
   export namespace ReposDelete {
-    export type RequestParams = { teamId: number; owner: string; repo: string };
+    export type RequestParams = {
+      /** Id of team. */
+      teamId: number;
+      /** Name of a repository owner. */
+      owner: string;
+      /** Name of a repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -4044,10 +6356,20 @@ export namespace Teams {
    * @duplicate
    */
   export namespace ReposDetail2 {
-    export type RequestParams = { teamId: number; owner: string; repo: string };
+    export type RequestParams = {
+      /** Id of team. */
+      teamId: number;
+      /** Name of a repository owner. */
+      owner: string;
+      /** Name of a repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = any;
   }
   /**
@@ -4056,10 +6378,20 @@ export namespace Teams {
    * @request PUT:/teams/{teamId}/repos/{owner}/{repo}
    */
   export namespace ReposUpdate {
-    export type RequestParams = { teamId: number; owner: string; repo: string };
+    export type RequestParams = {
+      /** Id of team. */
+      teamId: number;
+      /** Name of a organization. */
+      owner: string;
+      /** Name of a repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = any;
   }
 }
@@ -4074,7 +6406,10 @@ export namespace User {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = User;
   }
   /**
@@ -4086,7 +6421,10 @@ export namespace User {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = UserUpdate;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = User;
   }
   /**
@@ -4098,7 +6436,10 @@ export namespace User {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = UserEmails;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -4110,7 +6451,10 @@ export namespace User {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = UserEmails;
   }
   /**
@@ -4122,7 +6466,10 @@ export namespace User {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = EmailsPost;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = any;
   }
   /**
@@ -4134,7 +6481,10 @@ export namespace User {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Users;
   }
   /**
@@ -4146,7 +6496,10 @@ export namespace User {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Users;
   }
   /**
@@ -4155,10 +6508,16 @@ export namespace User {
    * @request DELETE:/user/following/{username}
    */
   export namespace FollowingDelete {
-    export type RequestParams = { username: string };
+    export type RequestParams = {
+      /** Name of user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -4167,10 +6526,16 @@ export namespace User {
    * @request GET:/user/following/{username}
    */
   export namespace FollowingDetail {
-    export type RequestParams = { username: string };
+    export type RequestParams = {
+      /** Name of user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -4179,10 +6544,16 @@ export namespace User {
    * @request PUT:/user/following/{username}
    */
   export namespace FollowingUpdate {
-    export type RequestParams = { username: string };
+    export type RequestParams = {
+      /** Name of user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -4193,15 +6564,29 @@ export namespace User {
   export namespace IssuesList {
     export type RequestParams = {};
     export type RequestQuery = {
+      /**
+       * Issues assigned to you / created by you / mentioning you / you're
+       * subscribed to updates for / All issues the authenticated user can see
+       *
+       */
       filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
       state: "open" | "closed";
+      /** String list of comma separated Label names. Example - bug,ui,@high. */
       labels: string;
       sort: "created" | "updated" | "comments";
       direction: "asc" | "desc";
+      /**
+       * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+       * Only issues updated at or after this time are returned.
+       *
+       */
       since?: string;
     };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Issues;
   }
   /**
@@ -4213,7 +6598,10 @@ export namespace User {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Gitignore;
   }
   /**
@@ -4225,7 +6613,10 @@ export namespace User {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = UserKeysPost;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = UserKeysKeyId;
   }
   /**
@@ -4234,10 +6625,16 @@ export namespace User {
    * @request DELETE:/user/keys/{keyId}
    */
   export namespace KeysDelete {
-    export type RequestParams = { keyId: number };
+    export type RequestParams = {
+      /** ID of key. */
+      keyId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -4246,10 +6643,16 @@ export namespace User {
    * @request GET:/user/keys/{keyId}
    */
   export namespace KeysDetail {
-    export type RequestParams = { keyId: number };
+    export type RequestParams = {
+      /** ID of key. */
+      keyId: number;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = UserKeysKeyId;
   }
   /**
@@ -4261,7 +6664,10 @@ export namespace User {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Gitignore;
   }
   /**
@@ -4271,9 +6677,14 @@ export namespace User {
    */
   export namespace ReposList {
     export type RequestParams = {};
-    export type RequestQuery = { type?: "all" | "public" | "private" | "forks" | "sources" | "member" };
+    export type RequestQuery = {
+      type?: "all" | "public" | "private" | "forks" | "sources" | "member";
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Repos;
   }
   /**
@@ -4285,7 +6696,10 @@ export namespace User {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = PostRepo;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Repos;
   }
   /**
@@ -4295,9 +6709,16 @@ export namespace User {
    */
   export namespace StarredList {
     export type RequestParams = {};
-    export type RequestQuery = { direction?: string; sort?: "created" | "updated" };
+    export type RequestQuery = {
+      /** Ignored without 'sort' parameter. */
+      direction?: string;
+      sort?: "created" | "updated";
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Gitignore;
   }
   /**
@@ -4306,10 +6727,18 @@ export namespace User {
    * @request DELETE:/user/starred/{owner}/{repo}
    */
   export namespace StarredDelete {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of a repository owner. */
+      owner: string;
+      /** Name of a repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -4318,10 +6747,18 @@ export namespace User {
    * @request GET:/user/starred/{owner}/{repo}
    */
   export namespace StarredDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of a repository owner. */
+      owner: string;
+      /** Name of a repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -4330,10 +6767,18 @@ export namespace User {
    * @request PUT:/user/starred/{owner}/{repo}
    */
   export namespace StarredUpdate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of a repository owner. */
+      owner: string;
+      /** Name of a repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -4345,7 +6790,10 @@ export namespace User {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Repos;
   }
   /**
@@ -4355,10 +6803,18 @@ export namespace User {
    * @deprecated
    */
   export namespace SubscriptionsDelete {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of the owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -4368,10 +6824,18 @@ export namespace User {
    * @deprecated
    */
   export namespace SubscriptionsDetail {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of the owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -4381,10 +6845,18 @@ export namespace User {
    * @deprecated
    */
   export namespace SubscriptionsUpdate {
-    export type RequestParams = { owner: string; repo: string };
+    export type RequestParams = {
+      /** Name of the owner. */
+      owner: string;
+      /** Name of repository. */
+      repo: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -4396,7 +6868,10 @@ export namespace User {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = TeamsList;
   }
 }
@@ -4409,9 +6884,15 @@ export namespace Users {
    */
   export namespace UsersList {
     export type RequestParams = {};
-    export type RequestQuery = { since?: number };
+    export type RequestQuery = {
+      /** The integer ID of the last user that you've seen. */
+      since?: number;
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Users;
   }
   /**
@@ -4420,10 +6901,16 @@ export namespace Users {
    * @request GET:/users/{username}
    */
   export namespace UsersDetail {
-    export type RequestParams = { username: string };
+    export type RequestParams = {
+      /** Name of user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = User;
   }
   /**
@@ -4432,10 +6919,16 @@ export namespace Users {
    * @request GET:/users/{username}/events
    */
   export namespace EventsDetail {
-    export type RequestParams = { username: string };
+    export type RequestParams = {
+      /** Name of user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = any;
   }
   /**
@@ -4444,10 +6937,17 @@ export namespace Users {
    * @request GET:/users/{username}/events/orgs/{org}
    */
   export namespace EventsOrgsDetail {
-    export type RequestParams = { username: string; org: string };
+    export type RequestParams = {
+      /** Name of user. */
+      username: string;
+      org: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = any;
   }
   /**
@@ -4456,10 +6956,16 @@ export namespace Users {
    * @request GET:/users/{username}/followers
    */
   export namespace FollowersDetail {
-    export type RequestParams = { username: string };
+    export type RequestParams = {
+      /** Name of user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Users;
   }
   /**
@@ -4468,10 +6974,18 @@ export namespace Users {
    * @request GET:/users/{username}/following/{targetUser}
    */
   export namespace FollowingDetail {
-    export type RequestParams = { username: string; targetUser: string };
+    export type RequestParams = {
+      /** Name of user. */
+      username: string;
+      /** Name of user. */
+      targetUser: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = void;
   }
   /**
@@ -4480,10 +6994,23 @@ export namespace Users {
    * @request GET:/users/{username}/gists
    */
   export namespace GistsDetail {
-    export type RequestParams = { username: string };
-    export type RequestQuery = { since?: string };
+    export type RequestParams = {
+      /** Name of user. */
+      username: string;
+    };
+    export type RequestQuery = {
+      /**
+       * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+       * Example: "2012-10-09T23:39:01Z".
+       *
+       */
+      since?: string;
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Gists;
   }
   /**
@@ -4492,10 +7019,16 @@ export namespace Users {
    * @request GET:/users/{username}/keys
    */
   export namespace KeysDetail {
-    export type RequestParams = { username: string };
+    export type RequestParams = {
+      /** Name of user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Gitignore;
   }
   /**
@@ -4504,10 +7037,16 @@ export namespace Users {
    * @request GET:/users/{username}/orgs
    */
   export namespace OrgsDetail {
-    export type RequestParams = { username: string };
+    export type RequestParams = {
+      /** Name of user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Gitignore;
   }
   /**
@@ -4516,10 +7055,16 @@ export namespace Users {
    * @request GET:/users/{username}/received_events
    */
   export namespace ReceivedEventsDetail {
-    export type RequestParams = { username: string };
+    export type RequestParams = {
+      /** Name of user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = any;
   }
   /**
@@ -4528,10 +7073,16 @@ export namespace Users {
    * @request GET:/users/{username}/received_events/public
    */
   export namespace ReceivedEventsPublicDetail {
-    export type RequestParams = { username: string };
+    export type RequestParams = {
+      /** Name of user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = any;
   }
   /**
@@ -4540,10 +7091,18 @@ export namespace Users {
    * @request GET:/users/{username}/repos
    */
   export namespace ReposDetail {
-    export type RequestParams = { username: string };
-    export type RequestQuery = { type?: "all" | "public" | "private" | "forks" | "sources" | "member" };
+    export type RequestParams = {
+      /** Name of user. */
+      username: string;
+    };
+    export type RequestQuery = {
+      type?: "all" | "public" | "private" | "forks" | "sources" | "member";
+    };
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = Repos;
   }
   /**
@@ -4552,10 +7111,16 @@ export namespace Users {
    * @request GET:/users/{username}/starred
    */
   export namespace StarredDetail {
-    export type RequestParams = { username: string };
+    export type RequestParams = {
+      /** Name of user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = any;
   }
   /**
@@ -4564,10 +7129,16 @@ export namespace Users {
    * @request GET:/users/{username}/subscriptions
    */
   export namespace SubscriptionsDetail {
-    export type RequestParams = { username: string };
+    export type RequestParams = {
+      /** Name of user. */
+      username: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
-    export type RequestHeaders = { Accept?: string };
+    export type RequestHeaders = {
+      /** Is used to set specified media type. */
+      Accept?: string;
+    };
     export type ResponseBody = any;
   }
 }

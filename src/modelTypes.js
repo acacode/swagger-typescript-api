@@ -9,18 +9,19 @@ const { getTypeData } = require("./components");
  * @returns
  */
 const prepareModelType = (typeInfo) => {
-  const typeData = getTypeData(typeInfo);
-  let { typeIdentifier, name: originalName, content, type, description } = typeData;
-
-  const resultContent = formatters[type] ? formatters[type](content) : content;
+  const rawTypeData = getTypeData(typeInfo);
+  const typeData = formatters[rawTypeData.type] ? formatters[rawTypeData.type](rawTypeData) : rawTypeData;
+  let { typeIdentifier, name: originalName, content, description } = typeData;
   const name = formatModelName(originalName);
 
   return {
+    ...typeData,
     typeIdentifier,
     name,
     description,
-    rawContent: content,
-    content: resultContent,
+    $content: rawTypeData.content,
+    rawContent: rawTypeData.content,
+    content: content,
     typeData,
   };
 };

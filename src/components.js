@@ -47,9 +47,7 @@ const createComponentsMap = (components) => {
   config.componentsMap = {};
 
   _.each(components, (component, componentName) =>
-    _.each(component, (rawTypeData, typeName) =>
-      createComponent(componentName, typeName, rawTypeData),
-    ),
+    _.each(component, (rawTypeData, typeName) => createComponent(componentName, typeName, rawTypeData)),
   );
 
   return config.componentsMap;
@@ -80,9 +78,9 @@ const getTypeData = (typeInfo) => {
 /**
  *
  * @param {string} ref
- * @returns {TypeInfo | undefined}
+ * @returns {TypeInfo | null}
  */
-const getComponentByRef = (ref) => config.componentsMap[ref];
+const getComponentByRef = (ref) => config.componentsMap[ref] || null;
 
 module.exports = {
   getTypeData,

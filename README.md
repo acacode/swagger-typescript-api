@@ -107,6 +107,7 @@ generateApi({
   toJS: false,
   extractRequestParams: false,
   extractRequestBody: false,
+  unwrapResponseData: false,
   prettier: { // By default prettier config is load from your project
     printWidth: 120,
     tabWidth: 2,
@@ -145,16 +146,23 @@ generateApi({
 ## 💎 options   
 ### **`--templates`**  
 This option needed for cases when you don't want to use the default `swagger-typescript-api` output structure  
+You can create custom templates with extensions `.ejs` or `.eta`  
 
 Templates:  
-- `api.eta` - Api class module (locations: [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default/api.eta), [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular/api.eta))  
-- `data-contracts.eta` - all types (data contracts) from swagger schema (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/data-contracts.eta))  
-- `http-client.eta` - HttpClient class module (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/http-client.eta))  
-- `procedure-call.eta` - route in Api class (locations: [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default/procedure-call.eta), [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular/procedure-call.eta))  
-- `route-docs.eta` - documentation for route in Api class (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-docs.eta))  
-- `route-name.eta` - route name for route in Api class (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-name.eta))  
-- `route-type.eta` - *(`--route-types` option)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-type.eta))  
-- `route-types.eta` - *(`--route-types` option)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-types.eta))  
+- `api.ejs` - *(generates file)* Api class module (locations: [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default/api.ejs), [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular/api.ejs))  
+- `data-contracts.ejs` - *(generates file)* all types (data contracts) from swagger schema (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/data-contracts.ejs))  
+- `http-client.ejs` - *(generates file)* HttpClient class module (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/http-client.ejs))  
+- `procedure-call.ejs` - *(subtemplate)* route in Api class (locations: [/templates/default](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default/procedure-call.ejs), [/templates/modular](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular/procedure-call.ejs))  
+- `route-docs.ejs` - *(generates file)* documentation for route in Api class (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-docs.ejs))  
+- `route-name.ejs` - *(subtemplate)*   route name for route in Api class (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-name.ejs))  
+- `route-type.ejs` - *(`--route-types` option)* *(subtemplate)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-type.ejs))  
+- `route-types.ejs` - *(`--route-types` option)* *(subtemplate)* (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/route-types.ejs))
+- `data-contract-jsdoc.ejs` - *(subtemplate)* generates JSDOC for data contract (locations: [/templates/base](https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/data-contract-jsdoc.ejs))  
+
+[//]: # (- `enum-data-contract.ejs` - *&#40;subtemplate&#41;* generates `enum` data contract &#40;locations: [/templates/base]&#40;https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/enum-data-contract.ejs&#41;&#41;)
+[//]: # (- `interface-data-contract.ejs` - *&#40;subtemplate&#41;* generates `interface` data contract &#40;locations: [/templates/base]&#40;https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/interface-data-contract.ejs&#41;&#41;)
+[//]: # (- `type-data-contract.ejs` - *&#40;subtemplate&#41;* generates `type` data contract &#40;locations: [/templates/base]&#40;https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/type-data-contract.ejs&#41;&#41;)
+
 
 How to use it:  
 1. copy `swagger-typescript-api` templates into your place in project
@@ -171,15 +179,15 @@ NOTE:
     `@default` - [path to single api file templates](https://github.com/acacode/swagger-typescript-api/tree/next/templates/default)  
     `@modular` - [path to multiple api files templates](https://github.com/acacode/swagger-typescript-api/tree/next/templates/modular)  
   Examples:  
-    - `includeFile("@base/data-contracts.eta", configuration)`  
-    - `includeFile("@default/api.eta", configuration)`  
-    - `includeFile("@default/procedure-call.eta", configuration)`  
-    - `includeFile("@modular/api.eta", configuration)`  
-    - `includeFile("@modular/procedure-call.eta", configuration)`  
-    - `includeFile("@base/route-docs.eta", configuration)`  
-    - `includeFile("@base/route-name.eta", configuration)`  
-    - `includeFile("@base/route-type.eta", configuration)`  
-    - `includeFile("@base/route-types.eta", configuration)`  
+    - `includeFile("@base/data-contracts.ejs", { ...yourData, ...it })`  
+    - `includeFile("@default/api.ejs", { ...yourData, ...it })`  
+    - `includeFile("@default/procedure-call.ejs", { ...yourData, ...it })`  
+    - `includeFile("@modular/api.ejs", { ...yourData, ...it })`  
+    - `includeFile("@modular/procedure-call.ejs", { ...yourData, ...it })`  
+    - `includeFile("@base/route-docs.ejs", { ...yourData, ...it })`  
+    - `includeFile("@base/route-name.ejs", { ...yourData, ...it })`  
+    - `includeFile("@base/route-type.ejs", { ...yourData, ...it })`  
+    - `includeFile("@base/route-types.ejs", { ...yourData, ...it })`  
 
 ### **`--module-name-index`**  
 This option should be used in cases when you have api with one global prefix like `/api`   

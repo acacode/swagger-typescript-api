@@ -181,8 +181,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -231,7 +231,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Upload file
      * @request POST:/upload-file
      */
-    uploadFile: (data: { file?: File; someFlag?: boolean }, params: RequestParams = {}) =>
+    uploadFile: (
+      data: {
+        /**
+         * File description
+         * @format binary
+         */
+        file?: File;
+        /** Boolean flag */
+        someFlag?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, any>({
         path: `/upload-file`,
         method: "POST",

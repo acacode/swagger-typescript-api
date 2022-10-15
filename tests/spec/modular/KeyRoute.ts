@@ -20,10 +20,20 @@ export namespace Key {
    */
   export namespace KeyRevokeNosecret {
     export type RequestParams = {};
-    export type RequestQuery = { email: string; phone: string; code?: string };
+    export type RequestQuery = {
+      /** primary email associated to Key (ID) */
+      email: string;
+      /** primary phone number, international representation */
+      phone: string;
+      /** verification code sent by email */
+      code?: string;
+    };
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = { status?: string };
+    export type ResponseBody = {
+      /** pending or done */
+      status?: string;
+    };
   }
 
   /**
@@ -37,7 +47,12 @@ export namespace Key {
     export type RequestQuery = {};
     export type RequestBody = AuthentiqID;
     export type RequestHeaders = {};
-    export type ResponseBody = { secret?: string; status?: string };
+    export type ResponseBody = {
+      /** revoke key */
+      secret?: string;
+      /** registered */
+      status?: string;
+    };
   }
 
   /**
@@ -47,11 +62,20 @@ export namespace Key {
    * @request DELETE:/key/{PK}
    */
   export namespace KeyRevoke {
-    export type RequestParams = { pk: string };
-    export type RequestQuery = { secret: string };
+    export type RequestParams = {
+      /** Public Signing Key - Authentiq ID (43 chars) */
+      pk: string;
+    };
+    export type RequestQuery = {
+      /** revokation secret */
+      secret: string;
+    };
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = { status?: string };
+    export type ResponseBody = {
+      /** done */
+      status?: string;
+    };
   }
 
   /**
@@ -61,11 +85,20 @@ export namespace Key {
    * @request GET:/key/{PK}
    */
   export namespace GetKey {
-    export type RequestParams = { pk: string };
+    export type RequestParams = {
+      /** Public Signing Key - Authentiq ID (43 chars) */
+      pk: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = { since?: string; status?: string; sub?: string };
+    export type ResponseBody = {
+      /** @format date-time */
+      since?: string;
+      status?: string;
+      /** base64safe encoded public signing key */
+      sub?: string;
+    };
   }
 
   /**
@@ -75,7 +108,10 @@ export namespace Key {
    * @request HEAD:/key/{PK}
    */
   export namespace HeadKey {
-    export type RequestParams = { pk: string };
+    export type RequestParams = {
+      /** Public Signing Key - Authentiq ID (43 chars) */
+      pk: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -89,11 +125,17 @@ export namespace Key {
    * @request POST:/key/{PK}
    */
   export namespace KeyUpdate {
-    export type RequestParams = { pk: string };
+    export type RequestParams = {
+      /** Public Signing Key - Authentiq ID (43 chars) */
+      pk: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = AuthentiqID;
     export type RequestHeaders = {};
-    export type ResponseBody = { status?: string };
+    export type ResponseBody = {
+      /** confirmed */
+      status?: string;
+    };
   }
 
   /**
@@ -103,10 +145,16 @@ export namespace Key {
    * @request PUT:/key/{PK}
    */
   export namespace KeyBind {
-    export type RequestParams = { pk: string };
+    export type RequestParams = {
+      /** Public Signing Key - Authentiq ID (43 chars) */
+      pk: string;
+    };
     export type RequestQuery = {};
     export type RequestBody = AuthentiqID;
     export type RequestHeaders = {};
-    export type ResponseBody = { status?: string };
+    export type ResponseBody = {
+      /** confirmed */
+      status?: string;
+    };
   }
 }

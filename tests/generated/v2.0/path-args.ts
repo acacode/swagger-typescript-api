@@ -181,8 +181,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -237,7 +237,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       param3: number,
       param1?: number,
       param2?: number,
-      query?: { queryParam?: number },
+      query?: {
+        /**
+         * How many items to return at one time (max 100)
+         * @format int32
+         */
+        queryParam?: number;
+      },
       params: RequestParams = {},
     ) =>
       this.request<object, any>({

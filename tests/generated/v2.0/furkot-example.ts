@@ -12,39 +12,53 @@
 export interface Step {
   /** address of the stop */
   address?: string;
-
   /**
    * arrival at the stop in its local timezone as YYYY-MM-DDThh:mm
    * @format date-time
    */
   arrival?: string;
-
   /** geographical coordinates of the stop */
-  coordinates?: { lat?: number; lon?: number };
-
+  coordinates?: {
+    /**
+     * latitude
+     * @format float
+     */
+    lat?: number;
+    /**
+     * longitude
+     * @format float
+     */
+    lon?: number;
+  };
   /**
    * departure from the stop in its local timezone as YYYY-MM-DDThh:mm
    * @format date-time
    */
   departure?: string;
-
   /** name of the stop */
   name?: string;
-
   /**
    * number of nights
    * @format int64
    */
   nights?: number;
-
   /** route leading to the stop */
   route?: {
+    /**
+     * route distance in meters
+     * @format int64
+     */
     distance?: number;
+    /**
+     * route duration in seconds
+     * @format int64
+     */
     duration?: number;
+    /** travel mode */
     mode?: "car" | "motorcycle" | "bicycle" | "walk" | "other";
+    /** route path compatible with Google polyline encoding algorithm */
     polyline?: string;
   };
-
   /** url of the page with more information about the stop */
   url?: string;
 }
@@ -55,19 +69,15 @@ export interface Trip {
    * @format date-time
    */
   begin?: string;
-
   /** description of the trip (truncated to 200 characters) */
   description?: string;
-
   /**
    * end of the trip in its local timezone as YYYY-MM-DDThh:mm
    * @format date-time
    */
   end?: string;
-
   /** Unique ID of the trip */
   id?: string;
-
   /** name of the trip */
   name?: string;
 }
@@ -244,8 +254,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),

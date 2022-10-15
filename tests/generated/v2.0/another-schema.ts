@@ -11,19 +11,17 @@
 
 export interface Bar {
   A?: string;
-
   /** @format int32 */
   B: number;
-
+  Baz?: Baz;
   /** @format date-time */
   C: string;
-  Baz?: Baz;
 }
 
 export interface Baz {
+  Color: Color;
   /** @format decimal */
   D: number;
-  Color: Color;
 }
 
 export enum Color {
@@ -204,8 +202,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -267,7 +265,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name FooGetBar
      * @request GET:/api/Foo/GetBar
      */
-    fooGetBar: (query: { id: number }, params: RequestParams = {}) =>
+    fooGetBar: (
+      query: {
+        /** @format int32 */
+        id: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Bar | null, any>({
         path: `/api/Foo/GetBar`,
         method: "GET",

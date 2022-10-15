@@ -9,18 +9,21 @@
  * ---------------------------------------------------------------
  */
 
-export type Pet = NewPet & { id: number };
+export interface Error {
+  /** @format int32 */
+  code: number;
+  message: string;
+}
 
 export interface NewPet {
   name: string;
   tag?: string;
 }
 
-export interface Error {
-  /** @format int32 */
-  code: number;
-  message: string;
-}
+export type Pet = NewPet & {
+  /** @format int64 */
+  id: number;
+};
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -194,8 +197,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -248,7 +251,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name FindPets
      * @request GET:/pets
      */
-    findPets: (query?: { tags?: string[]; limit?: number }, params: RequestParams = {}) =>
+    findPets: (
+      query?: {
+        /** tags to filter by */
+        tags?: string[];
+        /**
+         * maximum number of results to return
+         * @format int32
+         */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Pet[], Error>({
         path: `/pets`,
         method: "GET",

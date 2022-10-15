@@ -20,8 +20,21 @@ export class Login<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @name PushLoginRequest
    * @request POST:/login
    */
-  pushLoginRequest = (query: { callback: string }, body: PushToken, params: RequestParams = {}) =>
-    this.request<{ status?: string }, Error>({
+  pushLoginRequest = (
+    query: {
+      /** URI App will connect to */
+      callback: string;
+    },
+    body: PushToken,
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      {
+        /** sent */
+        status?: string;
+      },
+      Error
+    >({
       path: `/login`,
       method: "POST",
       query: query,
@@ -37,7 +50,15 @@ export class Login<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @request GET:/login
    */
   keyRegister = (params: RequestParams = {}) =>
-    this.request<{ secret?: string; status?: string }, Error>({
+    this.request<
+      {
+        /** revoke key */
+        secret?: string;
+        /** registered */
+        status?: string;
+      },
+      Error
+    >({
       path: `/login`,
       method: "GET",
       format: "json",

@@ -92,14 +92,17 @@ export interface Branch {
     self?: string;
   };
   commit?: {
+    /** A GitHub user */
     author?: User;
     commit?: {
       author?: {
+        /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
         date?: string;
         email?: string;
         name?: string;
       };
       committer?: {
+        /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
         date?: string;
         email?: string;
         name?: string;
@@ -111,6 +114,7 @@ export interface Branch {
       };
       url?: string;
     };
+    /** A GitHub user */
     committer?: User;
     parents?: {
       sha?: string;
@@ -137,9 +141,11 @@ export interface CommentBody {
 }
 export declare type Comments = {
   body?: string;
+  /** ISO 8601. */
   created_at?: string;
   id?: number;
   url?: string;
+  /** A GitHub user */
   user?: User;
 }[];
 export interface Commit {
@@ -147,11 +153,13 @@ export interface Commit {
   author?: User;
   commit?: {
     author?: {
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
       date?: string;
       email?: string;
       name?: string;
     };
     committer?: {
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
       date?: string;
       email?: string;
       name?: string;
@@ -222,14 +230,17 @@ export interface CommitCommentBody {
   sha: string;
 }
 export declare type Commits = {
+  /** A GitHub user */
   author?: User;
   commit?: {
     author?: {
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
       date?: string;
       email?: string;
       name?: string;
     };
     committer?: {
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
       date?: string;
       email?: string;
       name?: string;
@@ -241,6 +252,7 @@ export declare type Commits = {
     };
     url?: string;
   };
+  /** A GitHub user */
   committer?: User;
   parents?: {
     sha?: string;
@@ -252,6 +264,7 @@ export declare type Commits = {
 export interface CompareCommits {
   ahead_by?: number;
   base_commit?: {
+    /** A GitHub user */
     author?: User;
     commit?: {
       author?: {
@@ -271,6 +284,7 @@ export interface CompareCommits {
       };
       url?: string;
     };
+    /** A GitHub user */
     committer?: User;
     parents?: {
       sha?: string;
@@ -281,6 +295,7 @@ export interface CompareCommits {
   };
   behind_by?: number;
   commits?: {
+    /** A GitHub user */
     author?: User;
     commit?: {
       author?: {
@@ -300,6 +315,7 @@ export interface CompareCommits {
       };
       url?: string;
     };
+    /** A GitHub user */
     committer?: User;
     parents?: {
       sha?: string;
@@ -353,11 +369,16 @@ export declare type ContributorsStats = {
     login?: string;
     url?: string;
   };
+  /** The Total number of commits authored by the contributor. */
   total?: number;
   weeks?: {
+    /** Number of additions. */
     a?: number;
+    /** Number of commits. */
     c?: number;
+    /** Number of deletions. */
     d?: number;
+    /** Start of the week. */
     w?: string;
   }[];
 }[];
@@ -470,6 +491,7 @@ export interface DeploymentResp {
 }
 export declare type DeploymentStatuses = {
   created_at?: string;
+  /** A GitHub user */
   creator?: User;
   description?: string;
   id?: number;
@@ -570,8 +592,10 @@ export interface Gist {
     };
   };
   forks?: {
+    /** Timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ. */
     created_at?: string;
     url?: string;
+    /** A GitHub user */
     user?: User;
   }[];
   git_pull_url?: string;
@@ -582,8 +606,10 @@ export interface Gist {
       deletions?: number;
       total?: number;
     };
+    /** Timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ. */
     committed_at?: string;
     url?: string;
+    /** A GitHub user */
     user?: User;
     version?: string;
   }[];
@@ -612,6 +638,7 @@ export declare type Gists = {
   id?: string;
   public?: boolean;
   url?: string;
+  /** A GitHub user */
   user?: User;
 }[];
 export interface GitCommit {
@@ -648,6 +675,7 @@ export declare type Hook = {
     content_type?: string;
     url?: string;
   };
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   events?: (
     | "push"
@@ -668,6 +696,7 @@ export declare type Hook = {
   )[];
   id?: number;
   name?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
 }[];
@@ -690,10 +719,13 @@ export interface IssueEvent {
   created_at?: string;
   event?: string;
   issue?: {
+    /** A GitHub user */
     assignee?: User;
     body?: string;
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     closed_at?: string;
     comments?: number;
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     created_at?: string;
     html_url?: string;
     labels?: {
@@ -703,9 +735,12 @@ export interface IssueEvent {
     }[];
     milestone?: {
       closed_issues?: number;
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
       created_at?: string;
+      /** A GitHub user */
       creator?: User;
       description?: string;
+      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
       due_on?: string;
       number?: number;
       open_issues?: number;
@@ -721,18 +756,23 @@ export interface IssueEvent {
     };
     state?: "open" | "closed";
     title?: string;
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     updated_at?: string;
     url?: string;
+    /** A GitHub user */
     user?: User;
   };
   url?: string;
 }
 export declare type IssueEvents = IssueEvent[];
 export declare type Issues = {
+  /** A GitHub user */
   assignee?: User;
   body?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   closed_at?: string;
   comments?: number;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   html_url?: string;
   labels?: {
@@ -742,9 +782,12 @@ export declare type Issues = {
   }[];
   milestone?: {
     closed_issues?: number;
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     created_at?: string;
+    /** A GitHub user */
     creator?: User;
     description?: string;
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     due_on?: string;
     number?: number;
     open_issues?: number;
@@ -760,8 +803,10 @@ export declare type Issues = {
   };
   state?: "open" | "closed";
   title?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
+  /** A GitHub user */
   user?: User;
 }[];
 export interface IssuesComment {
@@ -790,12 +835,15 @@ export declare type IssuesComments = {
   };
   body?: string;
   commit_id?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   id?: number;
   path?: string;
   position?: number;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
+  /** A GitHub user */
   user?: User;
 }[];
 export declare type Keys = {
@@ -910,6 +958,7 @@ export interface Notifications {
     html_url?: string;
     id?: number;
     name?: string;
+    /** A user or organization */
     owner?: Actor;
     private?: boolean;
     url?: string;
@@ -1109,7 +1158,9 @@ export declare type Pulls = {
     };
   };
   body?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   closed_at?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   diff_url?: string;
   head?: {
@@ -1127,11 +1178,13 @@ export declare type Pulls = {
   };
   html_url?: string;
   issue_url?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   merged_at?: string;
   number?: number;
   patch_url?: string;
   state?: "open" | "closed";
   title?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
   user?: {
@@ -1192,10 +1245,12 @@ export declare type PullsComments = {
   };
   body?: string;
   commit_id?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   id?: number;
   path?: string;
   position?: number;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
   user?: {
@@ -1228,6 +1283,7 @@ export interface RateLimit {
   };
 }
 export declare type Ref = {
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   creator?: {
     avatar_url?: string;
@@ -1240,6 +1296,7 @@ export declare type Ref = {
   id?: number;
   state?: string;
   target_url?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
 }[];
@@ -1284,6 +1341,7 @@ export interface Release {
     size?: number;
     state?: string;
     updated_at?: string;
+    /** A GitHub user */
     uploader?: User;
     url?: string;
   }[];
@@ -1324,10 +1382,12 @@ export declare type Releases = {
     size?: number;
     state?: string;
     updated_at?: string;
+    /** A GitHub user */
     uploader?: User;
     url?: string;
   }[];
   assets_url?: string;
+  /** A GitHub user */
   author?: User;
   body?: string;
   created_at?: string;
@@ -1388,6 +1448,7 @@ export interface Repo {
 }
 export declare type RepoDeployments = {
   created_at?: string;
+  /** A GitHub user */
   creator?: User;
   description?: string;
   id?: number;
@@ -1400,23 +1461,28 @@ export declare type RepoDeployments = {
 export declare type RepoComments = {
   body?: string;
   commit_id?: string;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   html_url?: string;
   id?: number;
   line?: number;
   path?: string;
   position?: number;
+  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
+  /** A GitHub user */
   user?: User;
 }[];
 export interface RepoCommit {
   author?: {
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     date?: string;
     email?: string;
     name?: string;
   };
   committer?: {
+    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     date?: string;
     email?: string;
     name?: string;
@@ -1492,6 +1558,7 @@ export interface SearchCode {
       milestones_url?: string;
       name?: string;
       notifications_url?: string;
+      /** A user or organization */
       owner?: Actor;
       private?: boolean;
       pulls_url?: string;
@@ -1539,6 +1606,7 @@ export interface SearchIssues {
     title?: string;
     updated_at?: string;
     url?: string;
+    /** A GitHub user */
     user?: User;
   }[];
   total_count?: number;
@@ -1597,6 +1665,7 @@ export interface Tag {
   message?: string;
   object?: {
     sha?: string;
+    /** String of the type of the tagged object. Normally this is a commit but it can also be a tree or a blob. */
     type?: "commit" | "tree" | "blob";
     url?: string;
   };
@@ -1604,8 +1673,11 @@ export interface Tag {
   /** The tag's name. This is typically a version (e.g., "v0.0.1"). */
   tag?: string;
   tagger?: {
+    /** Timestamp of when this object was tagged, in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     date?: string;
+    /** String of the email of the author of the tag. */
     email?: string;
+    /** String of the name of the author of the tag. */
     name?: string;
   };
   url?: string;
@@ -1618,8 +1690,11 @@ export interface TagBody {
   /** The tag's name. This is typically a version (e.g., "v0.0.1"). */
   tag: string;
   tagger: {
+    /** Timestamp of when this object was tagged, in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     date?: string;
+    /** String of the email of the author of the tag. */
     email?: string;
+    /** String of the name of the author of the tag. */
     name?: string;
   };
   /** String of the type of the object we’re tagging. Normally this is a commit but it can also be a tree or a blob. */
@@ -1661,8 +1736,10 @@ export declare type TeamsList = {
 export interface Tree {
   sha?: string;
   tree?: {
+    /** One of 100644 for file (blob), 100755 for executable (blob), 040000 for subdirectory (tree), 160000 for submodule (commit) or 120000 for a blob that specifies the path of a symlink. */
     mode?: "100644" | "100755" | "040000" | "160000" | "120000";
     path?: string;
+    /** SHA1 checksum ID of the object in the tree. */
     sha?: string;
     size?: number;
     type?: "blob" | "tree" | "commit";
@@ -1815,6 +1892,11 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     gistsList: (
       query?: {
+        /**
+         * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
+         * Only gists updated at or after this time are returned.
+         *
+         */
         since?: string;
       },
       params?: RequestParams,
@@ -1834,6 +1916,11 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     publicList: (
       query?: {
+        /**
+         * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
+         * Only gists updated at or after this time are returned.
+         *
+         */
         since?: string;
       },
       params?: RequestParams,
@@ -1846,6 +1933,11 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     starredList: (
       query?: {
+        /**
+         * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
+         * Only gists updated at or after this time are returned.
+         *
+         */
         since?: string;
       },
       params?: RequestParams,
@@ -1967,11 +2059,22 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     issuesList: (
       query: {
+        /**
+         * Issues assigned to you / created by you / mentioning you / you're
+         * subscribed to updates for / All issues the authenticated user can see
+         *
+         */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
         state: "open" | "closed";
+        /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
         sort: "created" | "updated" | "comments";
         direction: "asc" | "desc";
+        /**
+         * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Only issues updated at or after this time are returned.
+         *
+         */
         since?: string;
       },
       params?: RequestParams,
@@ -2002,9 +2105,13 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
     reposSearchDetail: (
       keyword: string,
       query?: {
+        /** The sort field. if sort param is provided. Can be either asc or desc. */
         order?: "desc" | "asc";
+        /** Filter results by language */
         language?: string;
+        /** The page number to fetch */
         start_page?: string;
+        /** The sort field. One of stars, forks, or updated. Default: results are sorted by best match. */
         sort?: "updated" | "stars" | "forks";
       },
       params?: RequestParams,
@@ -2027,8 +2134,11 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
     userSearchDetail: (
       keyword: string,
       query?: {
+        /** The sort field. if sort param is provided. Can be either asc or desc. */
         order?: "desc" | "asc";
+        /** The page number to fetch */
         start_page?: string;
+        /** The sort field. One of stars, forks, or updated. Default: results are sorted by best match. */
         sort?: "updated" | "stars" | "forks";
       },
       params?: RequestParams,
@@ -2077,8 +2187,19 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     notificationsList: (
       query?: {
+        /** True to show notifications marked as read. */
         all?: boolean;
+        /**
+         * True to show only notifications in which the user is directly participating
+         * or mentioned.
+         *
+         */
         participating?: boolean;
+        /**
+         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Example: "2012-10-09T23:39:01Z".
+         *
+         */
         since?: string;
       },
       params?: RequestParams,
@@ -2165,11 +2286,22 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
     issuesDetail: (
       org: string,
       query: {
+        /**
+         * Issues assigned to you / created by you / mentioning you / you're
+         * subscribed to updates for / All issues the authenticated user can see
+         *
+         */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
         state: "open" | "closed";
+        /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
         sort: "created" | "updated" | "comments";
         direction: "asc" | "desc";
+        /**
+         * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Only issues updated at or after this time are returned.
+         *
+         */
         since?: string;
       },
       params?: RequestParams,
@@ -2441,10 +2573,19 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       query?: {
+        /**
+         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Example: "2012-10-09T23:39:01Z".
+         *
+         */
         since?: string;
+        /** Sha or branch to start listing commits from. */
         sha?: string;
+        /** Only commits containing this file path will be returned. */
         path?: string;
+        /** GitHub login, name, or email by which to filter by commit author. */
         author?: string;
+        /** ISO 8601 Date - Only commits before this date will be returned. */
         until?: string;
       },
       params?: RequestParams,
@@ -2537,7 +2678,9 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       path: string,
       query?: {
+        /** The content path. */
         path?: string;
+        /** The String name of the Commit/Branch/Tag. Defaults to 'master'. */
         ref?: string;
       },
       params?: RequestParams,
@@ -2565,6 +2708,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       query: {
+        /** Set to 1 or true to include anonymous contributors in results. */
         anon: string;
       },
       params?: RequestParams,
@@ -2839,6 +2983,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       repo: string,
       shaCode: string,
       query?: {
+        /** Get a Tree Recursively. (0 or 1) */
         recursive?: number;
       },
       params?: RequestParams,
@@ -2923,11 +3068,22 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       query: {
+        /**
+         * Issues assigned to you / created by you / mentioning you / you're
+         * subscribed to updates for / All issues the authenticated user can see
+         *
+         */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
         state: "open" | "closed";
+        /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
         sort: "created" | "updated" | "comments";
         direction: "asc" | "desc";
+        /**
+         * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Only issues updated at or after this time are returned.
+         *
+         */
         since?: string;
       },
       params?: RequestParams,
@@ -2954,8 +3110,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       query?: {
+        /** Ignored without 'sort' parameter. */
         direction?: string;
         sort?: "created" | "updated";
+        /**
+         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Example: "2012-10-09T23:39:01Z".
+         *
+         */
         since?: string;
       },
       params?: RequestParams,
@@ -3289,7 +3451,9 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       query?: {
+        /** String to filter by state. */
         state?: "open" | "closed";
+        /** Ignored without 'sort' parameter. */
         direction?: string;
         sort?: "due_date" | "completeness";
       },
@@ -3368,8 +3532,19 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       query?: {
+        /** True to show notifications marked as read. */
         all?: boolean;
+        /**
+         * True to show only notifications in which the user is directly participating
+         * or mentioned.
+         *
+         */
         participating?: boolean;
+        /**
+         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Example: "2012-10-09T23:39:01Z".
+         *
+         */
         since?: string;
       },
       params?: RequestParams,
@@ -3396,8 +3571,15 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       query?: {
+        /** String to filter by state. */
         state?: "open" | "closed";
+        /**
+         * Filter pulls by head user and branch name in the format of 'user:ref-name'.
+         * Example: github:new-script-format.
+         *
+         */
         head?: string;
+        /** Filter pulls by base branch name. Example - gh-pages. */
         base?: string;
       },
       params?: RequestParams,
@@ -3424,8 +3606,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       query?: {
+        /** Ignored without 'sort' parameter. */
         direction?: string;
         sort?: "created" | "updated";
+        /**
+         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Example: "2012-10-09T23:39:01Z".
+         *
+         */
         since?: string;
       },
       params?: RequestParams,
@@ -3582,6 +3770,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       query?: {
+        /** The String name of the Commit/Branch/Tag. Defaults to master. */
         ref?: string;
       },
       params?: RequestParams,
@@ -3865,6 +4054,11 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     repositoriesList: (
       query?: {
+        /**
+         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Example: "2012-10-09T23:39:01Z".
+         *
+         */
         since?: string;
       },
       params?: RequestParams,
@@ -3879,8 +4073,31 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     codeList: (
       query: {
+        /** The sort field. if sort param is provided. Can be either asc or desc. */
         order?: "desc" | "asc";
+        /**
+         * The search terms. This can be any combination of the supported code
+         * search parameters:
+         * 'Search In' Qualifies which fields are searched. With this qualifier
+         * you can restrict the search to just the file contents, the file path,
+         * or both.
+         * 'Languages' Searches code based on the language it's written in.
+         * 'Forks' Filters repositories based on the number of forks, and/or
+         * whether code from forked repositories should be included in the results
+         * at all.
+         * 'Size' Finds files that match a certain size (in bytes).
+         * 'Path' Specifies the path that the resulting file must be at.
+         * 'Extension' Matches files with a certain extension.
+         * 'Users' or 'Repositories' Limits searches to a specific user or repository.
+         *
+         */
         q: string;
+        /**
+         * Can only be 'indexed', which indicates how recently a file has been indexed
+         * by the GitHub search infrastructure. If not provided, results are sorted
+         * by best match.
+         *
+         */
         sort?: "indexed";
       },
       params?: RequestParams,
@@ -3893,8 +4110,11 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     issuesList: (
       query: {
+        /** The sort field. if sort param is provided. Can be either asc or desc. */
         order?: "desc" | "asc";
+        /** The q search term can also contain any combination of the supported issue search qualifiers: */
         q: string;
+        /** The sort field. Can be comments, created, or updated. Default: results are sorted by best match. */
         sort?: "updated" | "created" | "comments";
       },
       params?: RequestParams,
@@ -3907,8 +4127,26 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     repositoriesList: (
       query: {
+        /** The sort field. if sort param is provided. Can be either asc or desc. */
         order?: "desc" | "asc";
+        /**
+         * The search terms. This can be any combination of the supported repository
+         * search parameters:
+         * 'Search In' Qualifies which fields are searched. With this qualifier you
+         * can restrict the search to just the repository name, description, readme,
+         * or any combination of these.
+         * 'Size' Finds repositories that match a certain size (in kilobytes).
+         * 'Forks' Filters repositories based on the number of forks, and/or whether
+         * forked repositories should be included in the results at all.
+         * 'Created' and 'Last Updated' Filters repositories based on times of
+         * creation, or when they were last updated.
+         * 'Users or Repositories' Limits searches to a specific user or repository.
+         * 'Languages' Searches repositories based on the language they are written in.
+         * 'Stars' Searches repositories based on the number of stars.
+         *
+         */
         q: string;
+        /** If not provided, results are sorted by best match. */
         sort?: "stars" | "forks" | "updated";
       },
       params?: RequestParams,
@@ -3921,8 +4159,25 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     usersList: (
       query: {
+        /** The sort field. if sort param is provided. Can be either asc or desc. */
         order?: "desc" | "asc";
+        /**
+         * The search terms. This can be any combination of the supported user
+         * search parameters:
+         * 'Search In' Qualifies which fields are searched. With this qualifier you
+         * can restrict the search to just the username, public email, full name,
+         * location, or any combination of these.
+         * 'Repository count' Filters users based on the number of repositories they
+         * have.
+         * 'Location' Filter users by the location indicated in their profile.
+         * 'Language' Search for users that have repositories that match a certain
+         * language.
+         * 'Created' Filter users based on when they joined.
+         * 'Followers' Filter users based on the number of followers they have.
+         *
+         */
         q: string;
+        /** If not provided, results are sorted by best match. */
         sort?: "followers" | "repositories" | "joined";
       },
       params?: RequestParams,
@@ -4141,11 +4396,22 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     issuesList: (
       query: {
+        /**
+         * Issues assigned to you / created by you / mentioning you / you're
+         * subscribed to updates for / All issues the authenticated user can see
+         *
+         */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
         state: "open" | "closed";
+        /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
         sort: "created" | "updated" | "comments";
         direction: "asc" | "desc";
+        /**
+         * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Only issues updated at or after this time are returned.
+         *
+         */
         since?: string;
       },
       params?: RequestParams,
@@ -4212,6 +4478,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     starredList: (
       query?: {
+        /** Ignored without 'sort' parameter. */
         direction?: string;
         sort?: "created" | "updated";
       },
@@ -4286,6 +4553,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     usersList: (
       query?: {
+        /** The integer ID of the last user that you've seen. */
         since?: number;
       },
       params?: RequestParams,
@@ -4338,6 +4606,11 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
     gistsDetail: (
       username: string,
       query?: {
+        /**
+         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+         * Example: "2012-10-09T23:39:01Z".
+         *
+         */
         since?: string;
       },
       params?: RequestParams,

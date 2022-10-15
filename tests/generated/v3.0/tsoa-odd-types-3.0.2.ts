@@ -9,16 +9,29 @@
  * ---------------------------------------------------------------
  */
 
+export interface AuthUser {
+  password: string;
+  username: string;
+}
+
 export interface GetProfileBioDTO {
   /** @format int32 */
   candidateId?: number;
   cityName?: string | null;
 }
 
-export interface AuthUser {
-  username: string;
-  password: string;
+export interface Job {
+  address?: string | null;
+  github?: string | null;
+  id: string;
+  isTool?: boolean | null;
+  kind: Kind;
+  link?: string | null;
+  name?: string | null;
+  npm?: string | null;
 }
+
+export type JobUpdate = OmitJobId | PickJobGithub | Record<string, any>;
 
 export enum Kind {
   COMPANY = "COMPANY",
@@ -27,16 +40,7 @@ export enum Kind {
   OPEN_SOURCE = "OPEN_SOURCE",
 }
 
-export interface Job {
-  id: string;
-  kind: Kind;
-  name?: string | null;
-  link?: string | null;
-  github?: string | null;
-  npm?: string | null;
-  isTool?: boolean | null;
-  address?: string | null;
-}
+export type OmitJobId = PickJobExcludeKeysId;
 
 /**
  * From T, pick a set of properties whose keys are in the union K
@@ -45,79 +49,71 @@ export interface PickJobGithub {
   github?: string;
 }
 
-export type UpdatedJob = Job;
-
 /**
  * From T, pick a set of properties whose keys are in the union K
  */
 export interface PickJobExcludeKeysId {
   address?: string;
+  github?: string;
   isTool?: boolean;
-  npm?: string;
+  kind: Kind;
   link?: string;
   name?: string;
-  kind: Kind;
-  github?: string;
-}
-
-export type OmitJobId = PickJobExcludeKeysId;
-
-export type JobUpdate = OmitJobId | PickJobGithub | Record<string, any>;
-
-export interface Project {
-  id: string;
-
-  /** @format double */
-  year: number;
-  description: string;
-  job: Job;
-  name?: string | null;
-  notImportant?: boolean | null;
-  prefix?: string | null;
-  tags: string[];
-  teamSize: string;
+  npm?: string;
 }
 
 /**
  * From T, pick a set of properties whose keys are in the union K
  */
 export interface PickProjectExcludeKeysIdOrjob {
-  teamSize: string;
-  tags: string[];
-  prefix?: string;
-  notImportant?: boolean;
   description: string;
-
+  name?: string;
+  notImportant?: boolean;
+  prefix?: string;
+  tags: string[];
+  teamSize: string;
   /** @format double */
   year: number;
-  name?: string;
+}
+
+export interface Project {
+  description: string;
+  id: string;
+  job: Job;
+  name?: string | null;
+  notImportant?: boolean | null;
+  prefix?: string | null;
+  tags: string[];
+  teamSize: string;
+  /** @format double */
+  year: number;
 }
 
 export interface ProjectUpdate {
-  name?: string | null;
-
-  /** @format double */
-  year: number;
   description: string;
+  job: string;
+  name?: string | null;
   notImportant?: boolean | null;
   prefix?: string | null;
   tags: string[];
   teamSize: string;
-  job: string;
+  /** @format double */
+  year: number;
 }
 
-export interface UpdatedProject {
-  id: string;
+export type UpdatedJob = Job;
 
-  /** @format double */
-  year: number;
+export interface UpdatedProject {
   description: string;
+  id: string;
+  job: string;
   name?: string | null;
   notImportant?: boolean | null;
   prefix?: string | null;
   tags: string[];
   teamSize: string;
-  job: string;
+  /** @format double */
+  year: number;
 }
 
 export interface User {
@@ -126,8 +122,8 @@ export interface User {
 }
 
 export interface UserUpdate {
-  username?: string | null;
   id?: string | null;
+  username?: string | null;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -302,8 +298,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),

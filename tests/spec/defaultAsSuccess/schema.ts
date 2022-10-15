@@ -15,7 +15,6 @@
 export interface AuthentiqID {
   /** device token for push messages */
   devtoken?: string;
-
   /** UUID and public signing key */
   sub: string;
 }
@@ -26,10 +25,8 @@ export interface AuthentiqID {
 export interface Claims {
   email?: string;
   phone?: string;
-
   /** claim scope */
   scope: string;
-
   /** UUID */
   sub: string;
   type?: string;
@@ -39,7 +36,6 @@ export interface Error {
   detail?: string;
   error: number;
   title?: string;
-
   /** unique uri for this error */
   type?: string;
 }
@@ -52,11 +48,9 @@ export interface PushToken {
   aud: string;
   exp?: number;
   iat?: number;
-
   /** issuer (URI) */
   iss: string;
   nbf?: number;
-
   /** UUID and public signing key */
   sub: string;
 }
@@ -233,8 +227,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -288,8 +282,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeyRevokeNosecret
      * @request DELETE:/key
      */
-    keyRevokeNosecret: (query: { email: string; phone: string; code?: string }, params: RequestParams = {}) =>
-      this.request<{ status?: string }, Error>({
+    keyRevokeNosecret: (
+      query: {
+        /** primary email associated to Key (ID) */
+        email: string;
+        /** primary phone number, international representation */
+        phone: string;
+        /** verification code sent by email */
+        code?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** pending or done */
+          status?: string;
+        },
+        Error
+      >({
         path: `/key`,
         method: "DELETE",
         query: query,
@@ -305,7 +315,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/key
      */
     keyRegister: (body: AuthentiqID, params: RequestParams = {}) =>
-      this.request<{ secret?: string; status?: string }, Error>({
+      this.request<
+        {
+          /** revoke key */
+          secret?: string;
+          /** registered */
+          status?: string;
+        },
+        Error
+      >({
         path: `/key`,
         method: "POST",
         body: body,
@@ -320,8 +338,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeyRevoke
      * @request DELETE:/key/{PK}
      */
-    keyRevoke: (pk: string, query: { secret: string }, params: RequestParams = {}) =>
-      this.request<{ status?: string }, Error>({
+    keyRevoke: (
+      pk: string,
+      query: {
+        /** revokation secret */
+        secret: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** done */
+          status?: string;
+        },
+        Error
+      >({
         path: `/key/${pk}`,
         method: "DELETE",
         query: query,
@@ -337,7 +368,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/key/{PK}
      */
     getKey: (pk: string, params: RequestParams = {}) =>
-      this.request<{ since?: string; status?: string; sub?: string }, Error>({
+      this.request<
+        {
+          /** @format date-time */
+          since?: string;
+          status?: string;
+          /** base64safe encoded public signing key */
+          sub?: string;
+        },
+        Error
+      >({
         path: `/key/${pk}`,
         method: "GET",
         format: "json",
@@ -366,7 +406,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/key/{PK}
      */
     keyUpdate: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
-      this.request<{ status?: string }, Error>({
+      this.request<
+        {
+          /** confirmed */
+          status?: string;
+        },
+        Error
+      >({
         path: `/key/${pk}`,
         method: "POST",
         body: body,
@@ -382,7 +428,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/key/{PK}
      */
     keyBind: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
-      this.request<{ status?: string }, Error>({
+      this.request<
+        {
+          /** confirmed */
+          status?: string;
+        },
+        Error
+      >({
         path: `/key/${pk}`,
         method: "PUT",
         body: body,
@@ -398,8 +450,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name PushLoginRequest
      * @request POST:/login
      */
-    pushLoginRequest: (query: { callback: string }, body: PushToken, params: RequestParams = {}) =>
-      this.request<{ status?: string }, Error>({
+    pushLoginRequest: (
+      query: {
+        /** URI App will connect to */
+        callback: string;
+      },
+      body: PushToken,
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** sent */
+          status?: string;
+        },
+        Error
+      >({
         path: `/login`,
         method: "POST",
         query: query,
@@ -416,8 +481,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name SignRequest
      * @request POST:/scope
      */
-    signRequest: (body: Claims, query?: { test?: number }, params: RequestParams = {}) =>
-      this.request<{ job?: string; status?: string }, Error>({
+    signRequest: (
+      body: Claims,
+      query?: {
+        /** test only mode, using test issuer */
+        test?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** 20-character ID */
+          job?: string;
+          /** waiting */
+          status?: string;
+        },
+        Error
+      >({
         path: `/scope`,
         method: "POST",
         query: query,
@@ -434,7 +514,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/scope/{job}
      */
     signDelete: (job: string, params: RequestParams = {}) =>
-      this.request<{ status?: string }, Error>({
+      this.request<
+        {
+          /** done */
+          status?: string;
+        },
+        Error
+      >({
         path: `/scope/${job}`,
         method: "DELETE",
         format: "json",
@@ -449,7 +535,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/scope/{job}
      */
     signRetrieve: (job: string, params: RequestParams = {}) =>
-      this.request<{ exp?: number; field?: string; sub?: string }, Error>({
+      this.request<
+        {
+          exp?: number;
+          field?: string;
+          /** base64safe encoded public signing key */
+          sub?: string;
+        },
+        Error
+      >({
         path: `/scope/${job}`,
         method: "GET",
         format: "json",
@@ -478,7 +572,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/scope/{job}
      */
     signConfirm: (job: string, params: RequestParams = {}) =>
-      this.request<{ status?: string }, Error>({
+      this.request<
+        {
+          /** confirmed */
+          status?: string;
+        },
+        Error
+      >({
         path: `/scope/${job}`,
         method: "POST",
         type: ContentType.Json,
@@ -494,7 +594,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/scope/{job}
      */
     signUpdate: (job: string, params: RequestParams = {}) =>
-      this.request<{ jwt?: string; status?: string }, Error>({
+      this.request<
+        {
+          /** result is JWT or JSON?? */
+          jwt?: string;
+          /** ready */
+          status?: string;
+        },
+        Error
+      >({
         path: `/scope/${job}`,
         method: "PUT",
         ...params,

@@ -15,7 +15,6 @@
 export interface AuthentiqID {
   /** device token for push messages */
   devtoken?: string;
-
   /** UUID and public signing key */
   sub: string;
 }
@@ -26,10 +25,8 @@ export interface AuthentiqID {
 export interface Claims {
   email?: string;
   phone?: string;
-
   /** claim scope */
   scope: string;
-
   /** UUID */
   sub: string;
   type?: string;
@@ -39,7 +36,6 @@ export interface Error {
   detail?: string;
   error: number;
   title?: string;
-
   /** unique uri for this error */
   type?: string;
 }
@@ -52,11 +48,9 @@ export interface PushToken {
   aud: string;
   exp?: number;
   iat?: number;
-
   /** issuer (URI) */
   iss: string;
   nbf?: number;
-
   /** UUID and public signing key */
   sub: string;
 }

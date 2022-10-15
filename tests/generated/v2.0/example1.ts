@@ -18,12 +18,29 @@ export type Currency = string;
 /**
  * A TDE certificate that can be uploaded into a server.
  */
-export type TdeCertificate = { id?: string; name?: string; type?: string } & { properties?: TdeCertificateProperties };
+export type TdeCertificate = {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+} & {
+  /** Resource properties. */
+  properties?: TdeCertificateProperties;
+};
 
 /**
  * A TDE certificate that can be uploaded into a server.
  */
-export type TdeCertificate2 = { id?: string; name?: string; type?: string };
+export type TdeCertificate2 = {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+};
 
 /**
  * Properties of a TDE certificate.
@@ -31,7 +48,6 @@ export type TdeCertificate2 = { id?: string; name?: string; type?: string };
 export interface TdeCertificateProperties {
   /** The certificate password. */
   certPassword?: string;
-
   /** The base64 encoded certificate private blob. */
   privateBlob: string;
 }
@@ -208,8 +224,8 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
@@ -264,7 +280,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       resourceGroupName: string,
       managedInstanceName: string,
       subscriptionId: string,
-      query: { "api-version": string },
+      query: {
+        /** The API version to use for the request. */
+        "api-version": string;
+      },
       parameters: TdeCertificate,
       params: RequestParams = {},
     ) =>

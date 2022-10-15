@@ -1,0 +1,32 @@
+<%
+const { contract, utils } = it;
+const { formatDescription, require, _ } = utils;
+
+let jsDocLines = [];
+
+jsDocLines.push(
+    contract.title,
+    contract.description && formatDescription(contract.description),
+)
+
+if (contract.typeData) {
+  jsDocLines.push(
+      contract.typeData.deprecated === true && '@deprecated',
+      !_.isUndefined(contract.typeData.format) && `@format ${contract.typeData.format}`,
+      !_.isUndefined(contract.typeData.minimum) && `@min ${contract.typeData.minimum}`,
+      !_.isUndefined(contract.typeData.maximum) && `@max ${contract.typeData.maximum}`,
+      !_.isUndefined(contract.typeData.pattern) && `@pattern ${contract.typeData.pattern}`,
+      !_.isUndefined(contract.typeData.example) && `@example ${
+              _.isObject(contract.typeData.example) ? JSON.stringify(contract.typeData.example) : contract.typeData.example
+      }`
+  )
+}
+
+jsDocLines = _.compact(jsDocLines);
+%>
+<% if (jsDocLines.length) { %>
+/**
+<%~ jsDocLines.map(part => `* ${part}`).join("\n") %>
+
+*/
+<% } %>
