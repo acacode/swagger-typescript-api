@@ -1,5 +1,15 @@
 # next release
 
+# 10.0.3  
+
+fix: host.fileExists is not a function  
+fix: other problems linked with new typescript version (4.8.*) (thanks @elkeis, @Jnig)  
+fix: problem with required nested properties based on root required properties list  
+fix: fetch http client headers content type priority   
+fix: fs.rmSync (thanks @smorimoto)
+fix: locally overridden security schemes (security flag) (#418, thanks @EdwardSalter)  
+docs: add documentation for `unwrapResponseData` nodejs option (thanks @simowe)  
+
 # 10.0.*  
 
 fix: problem with default http request headers in axios client  
