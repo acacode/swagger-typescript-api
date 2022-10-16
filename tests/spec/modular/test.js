@@ -2,6 +2,7 @@ const { generateApiForTest } = require("../../helpers/generateApiForTest");
 const { resolve } = require("path");
 const validateGeneratedModule = require("../../helpers/validateGeneratedModule");
 const createSchemaInfos = require("../../helpers/createSchemaInfos");
+const assertGeneratedModule = require("../../helpers/assertGeneratedModule");
 
 const schemas = createSchemaInfos({ absolutePathToSchemas: resolve(__dirname, "./") });
 
@@ -10,18 +11,29 @@ schemas.forEach(({ absolutePath, Exception }) => {
     testName: "--modular option test",
     silent: true,
     input: absolutePath,
-    output: resolve(__dirname, "./"),
+    output: resolve(__dirname, "./generated"),
     modular: true,
     generateClient: true,
     generateRouteTypes: true,
   }).then(() => {
-    const diagnostics = [
-      ...validateGeneratedModule(resolve(__dirname, `./data-contracts.ts`)),
-      ...validateGeneratedModule(resolve(__dirname, `./http-client.ts`)),
-      ...validateGeneratedModule(resolve(__dirname, `./Key`)),
-      ...validateGeneratedModule(resolve(__dirname, `./Login`)),
-      ...validateGeneratedModule(resolve(__dirname, `./Scope`)),
+    const outputFileNames = [
+      "data-contracts",
+      "http-client",
+      "Key",
+      "KeyRoute",
+      "Login",
+      "LoginRoute",
+      "route-types",
+      "Scope",
+      "ScopeRoute",
     ];
-    if (diagnostics.length) throw new Exception("Failed");
+
+    for (const fileName of outputFileNames) {
+      validateGeneratedModule(resolve(__dirname, `./generated/${fileName}.ts`));
+      assertGeneratedModule(
+        resolve(__dirname, `./generated/${fileName}.ts`),
+        resolve(__dirname, `./expected/${fileName}.ts`),
+      );
+    }
   });
 });

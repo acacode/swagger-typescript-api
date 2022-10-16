@@ -47,13 +47,16 @@
           "format": "int64"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "tag": {
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "multiple": {
-          "type": ["string", "number"]
+          "type": ["string", "number"],
+          "readOnly": true
         }
       }
     }
