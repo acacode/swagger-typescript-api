@@ -63,6 +63,7 @@ module.exports = {
     typePrefix = config.typePrefix,
     typeSuffix = config.typeSuffix,
     patch = config.patch,
+    queryParamsWithBrackets = config.queryParamsWithBrackets,
     authorizationToken,
     apiClassName = config.apiClassName,
     debug = config.debug,
@@ -101,6 +102,7 @@ module.exports = {
         typePrefix,
         typeSuffix,
         patch,
+        queryParamsWithBrackets,
         apiClassName,
         debug,
       });

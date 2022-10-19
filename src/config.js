@@ -90,6 +90,7 @@ const config = {
   typePrefix: "",
   typeSuffix: "",
   patch: false,
+  queryParamsWithBrackets: false,
   componentTypeNameResolver: new NameResolver([]),
   /** name of the main exported class */
   apiClassName: "Api",

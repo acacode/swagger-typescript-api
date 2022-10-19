@@ -71,6 +71,7 @@ Options:
   --clean-output                clean output folder before generate api. WARNING: May cause data loss (default: false)
   --api-class-name <string>     name of the api class
   --patch                       fix up small errors in the swagger source definition (default: false)
+  --query-params-with-brackets  use the `brackets` convention for array in query params: `?a[]=foo&a[]=bar` instead of `repeat` convention: `?a=foo&a=bar`
   -h, --help                    display help for command
 ```
 

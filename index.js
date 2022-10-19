@@ -68,6 +68,10 @@ const options = program
   .option("--api-class-name <string>", "name of the api class")
   .option("--patch", "fix up small errors in the swagger source definition", false)
   .option("--debug", "additional information about processes inside this tool", false)
+  .option(
+    "--query-params-with-brackets",
+    'use the brackets convention for array in query params: "?a[]=foo&a[]=bar" instead of repeat convention: "?a=foo&a=bar"',
+  )
   .parse(process.argv)
   .opts();
 
@@ -105,6 +109,7 @@ generateApi({
   typePrefix: options.typePrefix,
   typeSuffix: options.typeSuffix,
   patch: !!options.patch,
+  queryParamsWithBrackets: !!options.queryParamsWithBrackets,
   apiClassName: options.apiClassName,
   debug: options.debug,
 }).catch((err) => {

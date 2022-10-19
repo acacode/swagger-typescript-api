@@ -119,6 +119,12 @@ interface GenerateApiParamsBase {
    * fix up small errors in the swagger source definition
    */
   patch?: boolean;
+
+  /**
+   * use the brackets convention for array in query params: "?a[]=foo&a[]=bar" instead of repeat convention: "?a=foo&a=bar"
+   */
+  queryParamsWithBrackets?: boolean;
+
   /**
    *  authorization token
    */
@@ -350,6 +356,7 @@ export interface GenerateApiConfiguration {
     };
     routeNameDuplicatesMap: Map<string, string>;
     apiClassName: string;
+    queryParamsWithBrackets: boolean;
   };
   modelTypes: ModelType[];
   rawModelTypes: SchemaComponent[];

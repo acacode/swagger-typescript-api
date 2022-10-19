@@ -33,9 +33,11 @@ export class HttpClient {
   setSecurityData = (data) => {
     this.securityData = data;
   };
-  encodeQueryParam(key, value) {
+  encodeQueryParam(key, value, withBrackets = false) {
     const encodedKey = encodeURIComponent(key);
-    return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
+    return `${encodedKey}${withBrackets ? "[]" : ""}=${encodeURIComponent(
+      typeof value === "number" ? value : `${value}`,
+    )}`;
   }
   addQueryParam(query, key) {
     return this.encodeQueryParam(key, query[key]);
