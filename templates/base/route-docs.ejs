@@ -21,8 +21,7 @@ const jsDocLines = _.compact([
             ` * @response \`${status}\` \`${_.replace(_.replace(type, /\/\*/g, "\\*"), /\*\//g, "*\\")}\` ${description}`,
         )
     : []),
-]).join("\n");
-
+]).map(str => str.trimEnd()).join("\n");
 
 return {
   description: jsDocDescription,
