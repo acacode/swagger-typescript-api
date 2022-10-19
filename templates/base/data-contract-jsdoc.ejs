@@ -5,7 +5,7 @@ const { formatDescription, require, _ } = utils;
 const jsDocLines = _.compact([
     data.title,
     data.description && formatDescription(data.description),
-    data.deprecated === true && '@deprecated',
+    !_.isUndefined(data.deprecated) && data.deprecated && '@deprecated',
     !_.isUndefined(data.format) && `@format ${data.format}`,
     !_.isUndefined(data.minimum) && `@min ${data.minimum}`,
     !_.isUndefined(data.multipleOf) && `@multipleOf ${data.multipleOf}`,

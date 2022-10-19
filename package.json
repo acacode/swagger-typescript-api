@@ -50,7 +50,8 @@
     "test:--cli": "node index.js -p tests/spec/cli/schema.json -o tests/spec/cli -n schema.ts --extract-response-body --extract-response-error --type-prefix Prefix --api-class-name MySuperApi --no-client",
     "test:partialBaseTemplate": "node tests/spec/partialBaseTemplate/test.js",
     "test:partialDefaultTemplate": "node tests/spec/partialDefaultTemplate/test.js",
-    "test:--patch": "node tests/spec/patch/test.js"
+    "test:--patch": "node tests/spec/patch/test.js",
+    "test:deprecated": "node tests/spec/deprecated/test.js"
   },
   "author": "acacode",
   "license": "MIT",
