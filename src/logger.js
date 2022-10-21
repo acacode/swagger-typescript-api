@@ -2,6 +2,8 @@ const _ = require("lodash");
 const { config } = require("./config");
 const { emojify, emoji } = require("node-emoji");
 
+let firstLog = true;
+
 /**
  *
  * @param {{ type: "warn" | "log" | "error", emojiName: keyof emoji, messages: unknown[] }} payload
@@ -11,6 +13,13 @@ const createLogMessage = ({ type, emojiName, messages }) => {
   if (config.silent) return;
 
   const emoji = emojify(emojiName);
+
+  if (firstLog) {
+    firstLog = false;
+    logger.log(
+      `swagger-typescript-api(${config.version}),${process.env.npm_config_user_agent || `nodejs(${process.version})`}`,
+    );
+  }
 
   console[type](
     emoji,

@@ -1,7 +1,9 @@
 const { HTTP_CLIENT, TS_KEYWORDS, PRETTIER_OPTIONS } = require("./constants");
 const { NameResolver } = require("./utils/resolveName");
+const packageJson = require("../package.json");
 
 const config = {
+  version: packageJson.version,
   /** CLI flag */
   templates: "../templates/default",
   /** CLI flag */
