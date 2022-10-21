@@ -304,6 +304,15 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "qboot",
+      "name": "Quentin Brunet",
+      "avatar_url": "https://avatars.githubusercontent.com/u/20137632?v=4",
+      "profile": "https://quentinbrunet.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -311,5 +320,6 @@
   "projectOwner": "acacode",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "angular"
 }
