@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "10.0.2",
+  "version": "10.0.3",
   "description": "Generate typescript/javascript api from swagger schema",
   "scripts": {
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
@@ -10,8 +10,10 @@
     "contributors": "all-contributors generate",
     "cli:help": "node index.js -h",
     "test-all": "node --unhandled-rejections=strict ./scriptsRunner.js generate validate test:*",
+    "test-all(update-snapshots)": "cross-env UPDATE_SNAPSHOTS=true node --unhandled-rejections=strict ./scriptsRunner.js generate validate test:*",
     "test-all-extended": "node --unhandled-rejections=strict ./scriptsRunner.js generate-extended validate generate validate test:*",
     "test-specific": "node ./scriptsRunner.js generate validate test:*",
+    "test-specific-only": "node ./scriptsRunner.js test:*",
     "prepare": "npm run test-all-extended",
     "generate": "node tests/generate.js",
     "generate-extended": "node tests/generate-extended.js",
@@ -52,6 +54,7 @@
   "typings": "./index.d.ts",
   "main": "src/index.js",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "@types/axios": "^0.14.0",
     "@types/lodash": "^4.14.182",
     "@types/node": "^15.0.2",

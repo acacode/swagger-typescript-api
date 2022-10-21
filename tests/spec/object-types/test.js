@@ -1,9 +1,8 @@
 const { generateApiForTest } = require("../../helpers/generateApiForTest");
 const { resolve } = require("path");
 const validateGeneratedModule = require("../../helpers/validateGeneratedModule");
+const assertGeneratedModule = require("../../helpers/assertGeneratedModule");
 const createSchemaInfos = require("../../helpers/createSchemaInfos");
-const fs = require("fs");
-const gitDiff = require("git-diff");
 
 const schemas = createSchemaInfos({ absolutePathToSchemas: resolve(__dirname, "./") });
 
@@ -18,20 +17,6 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
     generateClient: false,
   }).then(() => {
     validateGeneratedModule(resolve(__dirname, `./${apiFileName}`));
-
-    const output = fs.readFileSync(resolve(__dirname, `./${apiFileName}`)).toString("utf8");
-    const expected = fs.readFileSync(resolve(__dirname, `./expected.ts`)).toString("utf8");
-
-    const diff = gitDiff(output, expected, {
-      color: true,
-      flags: "--diff-algorithm=default",
-    });
-
-    if (diff && diff.length) {
-      console.error("\n" + diff);
-      throw new Error("expected another output");
-    }
-
-    return void 0;
+    assertGeneratedModule(resolve(__dirname, `./${apiFileName}`), resolve(__dirname, `./expected.ts`));
   });
 });

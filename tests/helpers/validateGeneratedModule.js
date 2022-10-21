@@ -63,5 +63,10 @@ module.exports = (pathToFile) => {
   //   );
   // });
 
+  if (diagnostics.length) {
+    console.error(diagnostics);
+    throw new Error("Failed");
+  }
+
   return diagnostics;
 };
