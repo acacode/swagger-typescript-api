@@ -120,6 +120,7 @@ generateApi({
   enumNamesAsValues: false,
   moduleNameFirstTag: false,
   generateUnionEnums: false,
+  addReadonly: false,
   extraTemplates: [],
   hooks: {
     onCreateComponent: (component) => {},

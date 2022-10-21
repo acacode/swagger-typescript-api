@@ -123,6 +123,10 @@ interface GenerateApiParamsBase {
    *  authorization token
    */
   authorizationToken?: string;
+  /**
+   * generate readonly properties (default: false)
+   */
+  addReadonly?: boolean;
 }
 
 interface GenerateApiParamsFromPath extends GenerateApiParamsBase {
