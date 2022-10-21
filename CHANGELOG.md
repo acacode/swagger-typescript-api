@@ -1,4 +1,11 @@
-# next release
+# next release  
+
+# 10.0.3  
+fix: CRLF -> LF (#423)  
+docs: add docs for addReadonly nodeJS api flag (#425)  
+chore: remove useless trailing whitespaces which make test edit harder (thanks @qboot, #422)  
+internal: add test snapshots (git diff + nodejs assertions)  
+chore: add logging (project version, node version, npm version)  
 
 # 10.0.2  
 
