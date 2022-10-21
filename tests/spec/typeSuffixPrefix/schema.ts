@@ -2126,7 +2126,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   someTest = {
     /**
  * @description This type should test bug https://github.com/acacode/swagger-typescript-api/issues/156 NOTE: all properties should be required
- * 
+ *
  * @name SomeTestList
  * @request GET:/some-test
  * @response `200` `{

@@ -277,7 +277,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   key = {
     /**
  * @description Revoke an Authentiq ID using email & phone. If called with `email` and `phone` only, a verification code will be sent by email. Do a second call adding `code` to complete the revocation.
- * 
+ *
  * @tags key, delete
  * @name KeyRevokeNosecret
  * @request DELETE:/key
@@ -289,7 +289,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
  * @response `401` `Error` Authentication error `auth-error`
  * @response `404` `Error` Unknown key `unknown-key`
  * @response `409` `Error` Confirm with code sent `confirm-first`
- * @response `default` `Error` 
+ * @response `default` `Error`
  */
     keyRevokeNosecret: (
       query: {
@@ -318,7 +318,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 
     /**
  * @description Register a new ID `JWT(sub, devtoken)` v5: `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
- * 
+ *
  * @tags key, post
  * @name KeyRegister
  * @request POST:/key
@@ -330,7 +330,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 
 }` Successfully registered
  * @response `409` `Error` Key already registered `duplicate-key`
- * @response `default` `Error` 
+ * @response `default` `Error`
  */
     keyRegister: (body: AuthentiqID, params: RequestParams = {}) =>
       this.request<
@@ -351,7 +351,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 
     /**
  * @description Revoke an Identity (Key) with a revocation secret
- * 
+ *
  * @tags key, delete
  * @name KeyRevoke
  * @request DELETE:/key/{PK}
@@ -362,7 +362,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 }` Successful response
  * @response `401` `Error` Key not found / wrong code `auth-error`
  * @response `404` `Error` Unknown key `unknown-key`
- * @response `default` `Error` 
+ * @response `default` `Error`
  */
     keyRevoke: (
       pk: string,
@@ -388,7 +388,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 
     /**
  * @description Get public details of an Authentiq ID.
- * 
+ *
  * @tags key, get
  * @name GetKey
  * @request GET:/key/{PK}
@@ -402,7 +402,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 }` Successfully retrieved
  * @response `404` `Error` Unknown key `unknown-key`
  * @response `410` `Error` Key is revoked (gone). `revoked-key`
- * @response `default` `Error` 
+ * @response `default` `Error`
  */
     getKey: (pk: string, params: RequestParams = {}) =>
       this.request<
@@ -441,7 +441,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 
     /**
  * @description update properties of an Authentiq ID. (not operational in v4; use PUT for now) v5: POST issuer-signed email & phone scopes in a self-signed JWT See: https://github.com/skion/authentiq/wiki/JWT-Examples
- * 
+ *
  * @tags key, post
  * @name KeyUpdate
  * @request POST:/key/{PK}
@@ -451,7 +451,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 
 }` Successfully updated
  * @response `404` `Error` Unknown key `unknown-key`
- * @response `default` `Error` 
+ * @response `default` `Error`
  */
     keyUpdate: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
       this.request<
@@ -470,7 +470,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 
     /**
  * @description Update Authentiq ID by replacing the object. v4: `JWT(sub,email,phone)` to bind email/phone hash; v5: POST issuer-signed email & phone scopes and PUT to update registration `JWT(sub, pk, devtoken, ...)` See: https://github.com/skion/authentiq/wiki/JWT-Examples
- * 
+ *
  * @tags key, put
  * @name KeyBind
  * @request PUT:/key/{PK}
@@ -481,7 +481,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 }` Successfully updated
  * @response `404` `Error` Unknown key `unknown-key`
  * @response `409` `Error` Already bound to another key `duplicate-hash`
- * @response `default` `Error` 
+ * @response `default` `Error`
  */
     keyBind: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
       this.request<
@@ -501,7 +501,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   login = {
     /**
  * @description push sign-in request See: https://github.com/skion/authentiq/wiki/JWT-Examples
- * 
+ *
  * @tags login, post
  * @name PushLoginRequest
  * @request POST:/login
@@ -511,7 +511,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 
 }` Successful response
  * @response `401` `Error` Unauthorized for this callback audience `aud-error` or JWT should be self-signed `auth-error`
- * @response `default` `Error` 
+ * @response `default` `Error`
  */
     pushLoginRequest: (
       query: {
@@ -539,7 +539,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   scope = {
     /**
  * @description scope verification request See: https://github.com/skion/authentiq/wiki/JWT-Examples
- * 
+ *
  * @tags scope, post
  * @name SignRequest
  * @request POST:/scope
@@ -551,7 +551,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 
 }` Successful response
  * @response `429` `Error` Too Many Requests on same address / number `rate-limit`
- * @response `default` `Error` 
+ * @response `default` `Error`
  */
     signRequest: (
       body: Claims,
@@ -580,7 +580,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 
     /**
  * @description delete a verification job
- * 
+ *
  * @tags scope, delete
  * @name SignDelete
  * @request DELETE:/scope/{job}
@@ -590,7 +590,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 
 }` Successfully deleted
  * @response `404` `Error` Job not found `unknown-job`
- * @response `default` `Error` 
+ * @response `default` `Error`
  */
     signDelete: (job: string, params: RequestParams = {}) =>
       this.request<
@@ -608,7 +608,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 
     /**
  * @description get the status / current content of a verification job
- * 
+ *
  * @tags scope, get
  * @name SignRetrieve
  * @request GET:/scope/{job}
@@ -621,7 +621,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 }` Successful response (JWT)
  * @response `204` `void` Confirmed, waiting for signing
  * @response `404` `Error` Job not found `unknown-job`
- * @response `default` `Error` 
+ * @response `default` `Error`
  */
     signRetrieve: (job: string, params: RequestParams = {}) =>
       this.request<
@@ -659,7 +659,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 
     /**
  * @description this is a scope confirmation
- * 
+ *
  * @tags scope, post
  * @name SignConfirm
  * @request POST:/scope/{job}
@@ -671,7 +671,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
  * @response `401` `Error` Confirmation error `auth-error`
  * @response `404` `Error` Job not found `unknown-job`
  * @response `405` `Error` JWT POSTed to scope `not-supported`
- * @response `default` `Error` 
+ * @response `default` `Error`
  */
     signConfirm: (job: string, params: RequestParams = {}) =>
       this.request<
@@ -690,7 +690,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 
     /**
  * @description authority updates a JWT with its signature See: https://github.com/skion/authentiq/wiki/JWT-Examples
- * 
+ *
  * @tags scope, put
  * @name SignUpdate
  * @request PUT:/scope/{job}
@@ -703,7 +703,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 }` Successfully updated
  * @response `404` `Error` Job not found `unknown-job`
  * @response `409` `Error` Job not confirmed yet `confirm-first`
- * @response `default` `Error` 
+ * @response `default` `Error`
  */
     signUpdate: (job: string, params: RequestParams = {}) =>
       this.request<
