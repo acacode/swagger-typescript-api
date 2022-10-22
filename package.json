@@ -44,6 +44,7 @@
     "test:--object-types": "node tests/spec/object-types/test.js",
     "test:--axios--single-http-client": "node tests/spec/axiosSingleHttpClient/test.js",
     "test:--type-suffix--type-prefix": "node tests/spec/typeSuffixPrefix/test.js",
+    "test:--dot-path-params": "node tests/spec/dot-path-params/test.js",
     "test:--cli": "node index.js -p tests/spec/cli/schema.json -o tests/spec/cli -n schema.ts --extract-response-body --extract-response-error --type-prefix Prefix --api-class-name MySuperApi --no-client",
     "test:partialBaseTemplate": "node tests/spec/partialBaseTemplate/test.js",
     "test:partialDefaultTemplate": "node tests/spec/partialDefaultTemplate/test.js",

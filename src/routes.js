@@ -116,7 +116,7 @@ const isSuccessStatus = (status) =>
 
 const parseRoute = (route) => {
   const pathParamMatches = (route || "").match(
-    /({(([a-zA-Z]-?_?){1,})([0-9]{1,})?})|(:(([a-zA-Z]-?_?){1,})([0-9]{1,})?:?)/g,
+    /({(([a-zA-Z]-?_?\.?){1,})([0-9]{1,})?})|(:(([a-zA-Z]-?_?\.?){1,})([0-9]{1,})?:?)/g,
   );
 
   // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
