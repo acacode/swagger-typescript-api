@@ -22,6 +22,7 @@ const formatFileContent = require("./formatFileContent");
 const { logger } = require("./logger");
 const { ComponentTypeNameResolver } = require("./utils/resolveName");
 const { getPrettierOptions } = require("./prettierOptions");
+const CodeGenConstructs = require("./code-gen-constructs");
 
 module.exports = {
   constants: constants,
@@ -66,8 +67,18 @@ module.exports = {
     authorizationToken,
     apiClassName = config.apiClassName,
     debug = config.debug,
+    anotherArrayType = config.anotherArrayType,
+    codeGenConstructs,
   }) =>
     new Promise((resolve, reject) => {
+      const patchedCodeGenConstructs = codeGenConstructs ? codeGenConstructs(CodeGenConstructs) : CodeGenConstructs;
+      if (patchedCodeGenConstructs.Ts) {
+        Object.assign(CodeGenConstructs.Ts, patchedCodeGenConstructs.Ts);
+      }
+      if (patchedCodeGenConstructs.JsDoc) {
+        Object.assign(CodeGenConstructs.JsDoc, patchedCodeGenConstructs.JsDoc);
+      }
+
       addToConfig({
         defaultResponseAsSuccess,
         generateRouteTypes,
@@ -103,6 +114,7 @@ module.exports = {
         patch,
         apiClassName,
         debug,
+        anotherArrayType,
       });
       (spec
         ? convertSwaggerObject(spec, { patch })

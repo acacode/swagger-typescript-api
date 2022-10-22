@@ -1,14 +1,15 @@
 const _ = require("lodash");
 const { config } = require("./config");
-const { TS_KEYWORDS, SCHEMA_TYPES, TS_EXTERNAL } = require("./constants");
+const { SCHEMA_TYPES } = require("./constants");
+const { Ts } = require("./code-gen-constructs");
 
 const checkAndAddNull = (schema, value) => {
   const { nullable, type } = schema || {};
-  return (nullable || !!_.get(schema, "x-nullable") || type === TS_KEYWORDS.NULL) &&
+  return (nullable || !!_.get(schema, "x-nullable") || type === Ts.Keyword.Null) &&
     _.isString(value) &&
-    !value.includes(` ${TS_KEYWORDS.NULL}`) &&
-    !value.includes(`${TS_KEYWORDS.NULL} `)
-    ? `${value} | ${TS_KEYWORDS.NULL}`
+    !value.includes(` ${Ts.Keyword.Null}`) &&
+    !value.includes(`${Ts.Keyword.Null} `)
+    ? Ts.UnionType([value, Ts.Keyword.Null])
     : value;
 };
 
@@ -21,14 +22,14 @@ const formatters = {
       return {
         ...parsedSchema,
         $content: parsedSchema.content,
-        content: _.map(parsedSchema.content, ({ value }) => value).join(" | "),
+        content: Ts.UnionType(_.map(parsedSchema.content, ({ value }) => value)),
       };
     }
 
     return {
       ...parsedSchema,
       $content: parsedSchema.content,
-      content: _.map(parsedSchema.content, ({ key, value }) => `  ${key} = ${value}`).join(",\n"),
+      content: Ts.EnumFieldsWrapper(parsedSchema.content),
     };
   },
   [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
@@ -53,17 +54,19 @@ const inlineExtraFormatters = {
     if (_.isString(parsedSchema.content)) {
       return {
         ...parsedSchema,
-        typeIdentifier: TS_KEYWORDS.TYPE,
+        typeIdentifier: Ts.Keyword.Type,
         content: checkAndAddNull(parsedSchema.content),
       };
     }
 
     return {
       ...parsedSchema,
-      typeIdentifier: TS_KEYWORDS.TYPE,
+      typeIdentifier: Ts.Keyword.Type,
       content: checkAndAddNull(
         parsedSchema,
-        parsedSchema.content.length ? `{\n${formatObjectContent(parsedSchema.content)}\n}` : TS_EXTERNAL.RECORD,
+        parsedSchema.content.length
+          ? Ts.ObjectWrapper(formatObjectContent(parsedSchema.content))
+          : Ts.RecordType(Ts.Keyword.String, Ts.Keyword.Any),
       ),
     };
   },
@@ -72,12 +75,12 @@ const inlineExtraFormatters = {
       ...parsedSchema,
       content: parsedSchema.$ref
         ? parsedSchema.typeName
-        : _.uniq(
+        : Ts.UnionType(
             _.compact([
               ..._.map(parsedSchema.content, ({ value }) => `${value}`),
-              parsedSchema.nullable && TS_KEYWORDS.NULL,
+              parsedSchema.nullable && Ts.Keyword.Null,
             ]),
-          ).join(" | "),
+          ),
     };
   },
 };
@@ -102,13 +105,7 @@ const formatObjectContent = (content) => {
     );
 
     const commonText = comments.length
-      ? [
-          ...(comments.length === 1
-            ? [`/** ${comments[0]} */`]
-            : ["/**", ...comments.map((commentPart) => ` * ${commentPart}`), " */"]),
-        ]
-          .map((part) => `${extraSpace}${part}\n`)
-          .join("")
+      ? Ts.MultilineComment(comments, (comment) => `${extraSpace}${comment}`).join("")
       : "";
 
     return `${commonText}${result}`;

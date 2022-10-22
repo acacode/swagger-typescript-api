@@ -71,6 +71,8 @@ Options:
   --clean-output                clean output folder before generate api. WARNING: May cause data loss (default: false)
   --api-class-name <string>     name of the api class
   --patch                       fix up small errors in the swagger source definition (default: false)
+  --debug                       additional information about processes inside this tool (default: false)
+  --another-array-type          generate array types as Array<Type> (by default Type[]) (default: false)
   -h, --help                    display help for command
 ```
 
@@ -122,6 +124,11 @@ generateApi({
   generateUnionEnums: false,
   addReadonly: false,
   extraTemplates: [],
+  anotherArrayType: false, 
+  codeGenConstructs: ({ Ts, JsDoc }) => ({
+    Ts: { ...Ts, RecordType: (key, value) => `MyRecord<key, value>` },
+    JsDoc: { ...JsDoc },
+  }),
   hooks: {
     onCreateComponent: (component) => {},
     onCreateRequestParams: (rawType) => {},

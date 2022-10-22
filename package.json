@@ -41,6 +41,7 @@
     "test:--js": "node tests/spec/js/test.js",
     "test:--js--axios": "node tests/spec/jsAxios/test.js",
     "test:--axios": "node tests/spec/axios/test.js",
+    "test:--another-array-type": "node tests/spec/another-array-type/test.js",
     "test:--object-types": "node tests/spec/object-types/test.js",
     "test:--axios--single-http-client": "node tests/spec/axiosSingleHttpClient/test.js",
     "test:--type-suffix--type-prefix": "node tests/spec/typeSuffixPrefix/test.js",

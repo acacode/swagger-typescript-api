@@ -2,26 +2,28 @@ const _ = require("lodash");
 const { inlineExtraFormatters } = require("./typeFormatters");
 const { isValidName, formatModelName, formatEnumKey } = require("./modelNames");
 const { formatDescription, internalCase } = require("./common");
-const { JS_PRIMITIVE_TYPES, JS_EMPTY_TYPES, TS_KEYWORDS, SCHEMA_TYPES } = require("./constants");
+const { JS_PRIMITIVE_TYPES, SCHEMA_TYPES } = require("./constants");
 const { config } = require("./config");
 const { isObject } = require("lodash");
+const { Ts, JsDoc } = require("./code-gen-constructs");
 
 const types = {
+  // swagger schema type -> typescript type
   /** { type: "integer" } -> { type: "number" } */
-  integer: TS_KEYWORDS.NUMBER,
-  number: TS_KEYWORDS.NUMBER,
-  boolean: TS_KEYWORDS.BOOLEAN,
-  object: TS_KEYWORDS.OBJECT,
-  file: TS_KEYWORDS.FILE,
+  integer: Ts.Keyword.Number,
+  number: Ts.Keyword.Number,
+  boolean: Ts.Keyword.Boolean,
+  object: Ts.Keyword.Object,
+  file: Ts.Keyword.File,
   string: {
-    $default: TS_KEYWORDS.STRING,
+    $default: Ts.Keyword.String,
 
     /** formats */
-    binary: TS_KEYWORDS.FILE,
+    binary: Ts.Keyword.File,
   },
   array: ({ items, ...schemaPart }) => {
     const content = getInlineParseContent(items);
-    return checkAndAddNull(schemaPart, `(${content})[]`);
+    return checkAndAddNull(schemaPart, Ts.ArrayType(content));
   },
 
   // TODO: probably it can be needed
@@ -37,7 +39,7 @@ const stealTypeFromSchema = (rawSchema) => {
   }
   if (schema.enum) {
     const enumFieldType = typeof schema.enum[0];
-    if (enumFieldType === TS_KEYWORDS.UNDEFINED) return;
+    if (enumFieldType === Ts.Keyword.Undefined) return;
 
     return enumFieldType;
   }
@@ -77,15 +79,18 @@ const getInternalSchemaType = (schema) => {
 const isNeedToAddNull = (contract, value) => {
   const { nullable, type } = contract || {};
   return (
-    (nullable || !!_.get(contract, "x-nullable") || type === TS_KEYWORDS.NULL) &&
-    (!_.isString(value) || (!value.includes(` ${TS_KEYWORDS.NULL}`) && !value.includes(`${TS_KEYWORDS.NULL} `)))
+    (nullable || !!_.get(contract, "x-nullable") || type === Ts.Keyword.Null) &&
+    (!_.isString(value) || (!value.includes(` ${Ts.Keyword.Null}`) && !value.includes(`${Ts.Keyword.Null} `)))
   );
 };
 
 const checkAndAddRequiredKeys = (schema, resultType) => {
   if ("$$requiredKeys" in schema && schema.$$requiredKeys.length) {
     config.internalTemplateOptions.addUtilRequiredKeysType = true;
-    return `UtilRequiredKeys<${resultType}, ${schema.$$requiredKeys.map((k) => `"${k}"`).join(" | ")}>`;
+    return Ts.TypeWithGeneric(Ts.CodeGenKeyword.UtilRequiredKeys, [
+      resultType,
+      Ts.UnionType(schema.$$requiredKeys.map(Ts.StringValue)),
+    ]);
   }
 
   return resultType;
@@ -93,11 +98,11 @@ const checkAndAddRequiredKeys = (schema, resultType) => {
 
 const checkAndAddNull = (schema, value) => {
   const { nullable, type } = schema || {};
-  return (nullable || !!_.get(schema, "x-nullable") || type === TS_KEYWORDS.NULL) &&
+  return (nullable || !!_.get(schema, "x-nullable") || type === Ts.Keyword.Null) &&
     _.isString(value) &&
-    !value.includes(` ${TS_KEYWORDS.NULL}`) &&
-    !value.includes(`${TS_KEYWORDS.NULL} `)
-    ? `${value} | ${TS_KEYWORDS.NULL}`
+    !value.includes(` ${Ts.Keyword.Null}`) &&
+    !value.includes(`${Ts.Keyword.Null} `)
+    ? Ts.UnionType([value, Ts.Keyword.Null])
     : value;
 };
 
@@ -111,7 +116,7 @@ const getRefType = (schema) => {
 };
 
 const getType = (schema) => {
-  if (!schema) return TS_KEYWORDS.ANY;
+  if (!schema) return Ts.Keyword.Any;
 
   const refTypeInfo = getRefType(schema);
 
@@ -120,7 +125,7 @@ const getType = (schema) => {
   }
 
   const primitiveType = getTypeAlias(schema);
-  return primitiveType ? checkAndAddRequiredKeys(schema, checkAndAddNull(schema, primitiveType)) : TS_KEYWORDS.ANY;
+  return primitiveType ? checkAndAddRequiredKeys(schema, checkAndAddNull(schema, primitiveType)) : Ts.Keyword.Any;
 };
 
 const isRequired = (property, name, requiredProperties) => {
@@ -135,7 +140,7 @@ const isRequired = (property, name, requiredProperties) => {
     : !!requiredProperties;
 
   if (config.convertedFromSwagger2) {
-    return typeof property.nullable === TS_KEYWORDS.UNDEFINED ? isRequired : !property.nullable;
+    return typeof property.nullable === Ts.Keyword.Undefined ? isRequired : !property.nullable;
   }
   return isRequired;
 };
@@ -147,38 +152,32 @@ const getObjectTypeContent = (schema) => {
     const required = isRequired(property, name, requiredProperties);
     const rawTypeData = _.get(getRefType(property), "rawTypeData", {});
     const nullable = !!(rawTypeData.nullable || property.nullable);
-    const fieldName = isValidName(name) ? name : `"${name}"`;
+    const fieldName = isValidName(name) ? name : Ts.StringValue(name);
     const fieldValue = getInlineParseContent(property);
     const readOnly = property.readOnly;
 
     return {
       $$raw: property,
       title: property.title,
-      description: _.compact([
-        property.description ||
+      description: JsDoc.ObjectFieldDescription({
+        ...property,
+        description:
+          property.description ||
           _.compact(_.map(property[getComplexType(property)], "description"))[0] ||
           rawTypeData.description ||
           _.compact(_.map(rawTypeData[getComplexType(rawTypeData)], "description"))[0] ||
           "",
-        !_.isUndefined(property.deprecated) && `@deprecated`,
-        !_.isUndefined(property.format) && `@format ${property.format}`,
-        !_.isUndefined(property.minimum) && `@min ${property.minimum}`,
-        !_.isUndefined(property.maximum) && `@max ${property.maximum}`,
-        !_.isUndefined(property.pattern) && `@pattern ${property.pattern}`,
-        !_.isUndefined(property.example) &&
-          `@example ${_.isObject(property.example) ? JSON.stringify(property.example) : property.example}`,
-      ]).join("\n"),
+      }),
       isRequired: required,
       isNullable: nullable,
       name: fieldName,
       value: fieldValue,
-      field: _.compact([
-        readOnly && config.addReadonly && "readonly ",
-        fieldName,
-        !required && "?",
-        ": ",
-        fieldValue,
-      ]).join(""),
+      field: Ts.TypeField({
+        readonly: readOnly && config.addReadonly,
+        optional: !required,
+        key: fieldName,
+        value: fieldValue,
+      }),
     };
   });
 
@@ -187,7 +186,7 @@ const getObjectTypeContent = (schema) => {
       $$raw: { additionalProperties },
       description: "",
       isRequired: false,
-      field: `[key: ${TS_KEYWORDS.STRING}]: ${TS_KEYWORDS.ANY}`,
+      field: Ts.InterfaceDynamicField(Ts.Keyword.String, Ts.Keyword.Any),
     });
   }
 
@@ -234,9 +233,9 @@ const complexSchemaParsers = {
     const combined = _.map(schema.oneOf, (childSchema) =>
       getInlineParseContent(makeAddRequiredToChildSchema(schema, childSchema)),
     );
-    const filtered = filterContents(combined, [TS_KEYWORDS.ANY]);
+    const filtered = filterContents(combined, [Ts.Keyword.Any]);
 
-    const type = filtered.join(" | ");
+    const type = Ts.UnionType(filtered);
 
     return checkAndAddNull(schema, type);
   },
@@ -245,9 +244,9 @@ const complexSchemaParsers = {
     const combined = _.map(schema.allOf, (childSchema) =>
       getInlineParseContent(makeAddRequiredToChildSchema(schema, childSchema)),
     );
-    const filtered = filterContents(combined, [...JS_PRIMITIVE_TYPES, TS_KEYWORDS.ANY]);
+    const filtered = filterContents(combined, [...JS_PRIMITIVE_TYPES, Ts.Keyword.Any]);
 
-    const type = filtered.join(TS_KEYWORDS.TYPE_AND_OPERATOR);
+    const type = Ts.IntersectionType(filtered);
 
     return checkAndAddNull(schema, type);
   },
@@ -256,19 +255,18 @@ const complexSchemaParsers = {
     const combined = _.map(schema.anyOf, (childSchema) =>
       getInlineParseContent(makeAddRequiredToChildSchema(schema, childSchema)),
     );
-    const filtered = filterContents(combined, [...JS_PRIMITIVE_TYPES, TS_KEYWORDS.ANY]);
+    const filtered = filterContents(combined, [...JS_PRIMITIVE_TYPES, Ts.Keyword.Any]);
 
-    const type = _.compact([
-      ...filtered,
-      filtered.length > 1 && `(${filtered.join(TS_KEYWORDS.TYPE_AND_OPERATOR)})`,
-    ]).join(TS_KEYWORDS.TYPE_OR_OPERATOR);
+    const type = Ts.UnionType(
+      _.compact([...filtered, filtered.length > 1 && Ts.ExpressionGroup(Ts.IntersectionType(filtered))]),
+    );
 
     return checkAndAddNull(schema, type);
   },
   // TODO
   [SCHEMA_TYPES.COMPLEX_NOT]: (schema) => {
     // TODO
-    return TS_KEYWORDS.ANY;
+    return Ts.Keyword.Any;
   },
 };
 
@@ -302,6 +300,20 @@ const schemaParsers = {
     const isIntegerOrBooleanEnum = keyType === types.number || keyType === types.boolean;
     let content = null;
 
+    const formatValue = (value) => {
+      if (value === null) {
+        return Ts.NullValue(value);
+      }
+      if (keyType === types.number) {
+        return Ts.NumberValue(value);
+      }
+      if (keyType === types.boolean) {
+        return Ts.BooleanValue(value);
+      }
+
+      return Ts.StringValue(value);
+    };
+
     if (_.isArray(enumNames) && _.size(enumNames)) {
       content = _.map(enumNames, (enumName, index) => {
         const enumValue = _.get(schema.enum, index);
@@ -310,15 +322,15 @@ const schemaParsers = {
         if (enumNamesAsValues || _.isUndefined(enumValue)) {
           return {
             key: formattedKey,
-            type: TS_KEYWORDS.STRING,
-            value: `"${enumName}"`,
+            type: Ts.Keyword.String,
+            value: Ts.StringValue(enumName),
           };
         }
 
         return {
           key: formattedKey,
           type: keyType,
-          value: enumValue === null ? enumValue : isIntegerOrBooleanEnum ? `${enumValue}` : `"${enumValue}"`,
+          value: formatValue(enumValue),
         };
       });
     } else {
@@ -326,7 +338,7 @@ const schemaParsers = {
         return {
           key: isIntegerOrBooleanEnum ? key : formatEnumKey(key),
           type: keyType,
-          value: key === null ? key : isIntegerOrBooleanEnum ? `${key}` : `"${key}"`,
+          value: formatValue(key),
         };
       });
     }
@@ -340,7 +352,7 @@ const schemaParsers = {
       type: SCHEMA_TYPES.ENUM,
       keyType: keyType,
       typeIdentifier:
-        config.generateUnionEnums || (!enumNames && isIntegerOrBooleanEnum) ? TS_KEYWORDS.TYPE : TS_KEYWORDS.ENUM,
+        config.generateUnionEnums || (!enumNames && isIntegerOrBooleanEnum) ? Ts.Keyword.Type : Ts.Keyword.Enum,
       name: typeName,
       description: formatDescription(schema.description),
       content,
@@ -354,7 +366,7 @@ const schemaParsers = {
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.OBJECT,
       type: SCHEMA_TYPES.OBJECT,
-      typeIdentifier: TS_KEYWORDS.INTERFACE,
+      typeIdentifier: Ts.Keyword.Interface,
       name: typeName,
       description: formatDescription(schema.description),
       allFieldsAreOptional: !_.some(_.values(content), (part) => part.isRequired),
@@ -371,29 +383,28 @@ const schemaParsers = {
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.COMPLEX,
       type: SCHEMA_TYPES.PRIMITIVE,
-      typeIdentifier: TS_KEYWORDS.TYPE,
+      typeIdentifier: Ts.Keyword.Type,
       name: typeName,
       description: formatDescription(
         schema.description || _.compact(_.map(schema[complexType], "description"))[0] || "",
       ),
       content:
-        _.uniq(
+        Ts.IntersectionType(
           _.compact([
-            complexSchemaContent && `(${complexSchemaContent})`,
-            getInternalSchemaType(simpleSchema) === SCHEMA_TYPES.OBJECT && `(${getInlineParseContent(simpleSchema)})`,
+            Ts.ExpressionGroup(complexSchemaContent),
+            getInternalSchemaType(simpleSchema) === SCHEMA_TYPES.OBJECT &&
+              Ts.ExpressionGroup(getInlineParseContent(simpleSchema)),
           ]),
-        ).join(" & ") || TS_KEYWORDS.ANY,
+        ) || Ts.Keyword.Any,
     });
   },
   [SCHEMA_TYPES.PRIMITIVE]: (schema, typeName) => {
     let contentType = null;
     const { additionalProperties, type, description, $$requiredKeys } = schema || {};
 
-    if (type === TS_KEYWORDS.OBJECT && additionalProperties) {
-      const fieldType = _.isObject(additionalProperties)
-        ? getInlineParseContent(additionalProperties)
-        : TS_KEYWORDS.ANY;
-      contentType = `Record<${TS_KEYWORDS.STRING}, ${fieldType}>`;
+    if (type === Ts.Keyword.Object && additionalProperties) {
+      const fieldType = _.isObject(additionalProperties) ? getInlineParseContent(additionalProperties) : Ts.Keyword.Any;
+      contentType = Ts.RecordType(Ts.Keyword.String, fieldType);
     }
 
     if (_.isArray(type) && type.length) {
@@ -408,11 +419,11 @@ const schemaParsers = {
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.PRIMITIVE,
       type: SCHEMA_TYPES.PRIMITIVE,
-      typeIdentifier: TS_KEYWORDS.TYPE,
+      typeIdentifier: Ts.Keyword.Type,
       name: typeName,
       description: formatDescription(description),
       // TODO: probably it should be refactored. `type === 'null'` is not flexible
-      content: type === TS_KEYWORDS.NULL ? type : contentType || getType(schema),
+      content: type === Ts.Keyword.Null ? type : contentType || getType(schema),
     });
   },
 };

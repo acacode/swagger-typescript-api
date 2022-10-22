@@ -1,6 +1,7 @@
-const { HTTP_CLIENT, TS_KEYWORDS, PRETTIER_OPTIONS } = require("./constants");
+const { HTTP_CLIENT, PRETTIER_OPTIONS } = require("./constants");
 const { NameResolver } = require("./utils/resolveName");
 const packageJson = require("../package.json");
+const { Ts } = require("./code-gen-constructs");
 
 const config = {
   version: packageJson.version,
@@ -61,7 +62,7 @@ const config = {
     onFormatTypeName: (typeName, rawTypeName) => {},
     onFormatRouteName: (routeInfo, templateRouteName) => {},
   },
-  defaultResponseType: TS_KEYWORDS.VOID,
+  defaultResponseType: Ts.Keyword.Void,
   singleHttpClient: false,
   httpClientType: HTTP_CLIENT.FETCH,
   unwrapResponseData: false,
@@ -96,6 +97,7 @@ const config = {
   /** name of the main exported class */
   apiClassName: "Api",
   debug: false,
+  anotherArrayType: false,
   internalTemplateOptions: {
     addUtilRequiredKeysType: false,
   },

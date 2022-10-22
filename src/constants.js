@@ -1,28 +1,7 @@
-const TS_KEYWORDS = {
-  NUMBER: "number",
-  STRING: "string",
-  BOOLEAN: "boolean",
-  ANY: "any",
-  VOID: "void",
-  UNKNOWN: "unknown",
-  NULL: "null",
-  UNDEFINED: "undefined",
-  OBJECT: "object",
-  FILE: "File",
-  DATE: "Date",
-  TYPE: "type",
-  ENUM: "enum",
-  INTERFACE: "interface",
-  TYPE_AND_OPERATOR: " & ",
-  TYPE_OR_OPERATOR: " | ",
-};
+const { Ts } = require("./code-gen-constructs");
 
-const TS_EXTERNAL = {
-  RECORD: "Record<string, any>",
-};
-
-const JS_PRIMITIVE_TYPES = [TS_KEYWORDS.NUMBER, TS_KEYWORDS.STRING, TS_KEYWORDS.BOOLEAN];
-const JS_EMPTY_TYPES = [TS_KEYWORDS.NULL, TS_KEYWORDS.UNDEFINED];
+const JS_PRIMITIVE_TYPES = [Ts.Keyword.Number, Ts.Keyword.String, Ts.Keyword.Boolean];
+const JS_EMPTY_TYPES = [Ts.Keyword.Null, Ts.Keyword.Undefined];
 
 const RESERVED_QUERY_ARG_NAMES = ["query", "queryParams", "queryArg"];
 const RESERVED_BODY_ARG_NAMES = ["data", "body", "reqBody"];
@@ -51,11 +30,9 @@ const HTTP_CLIENT = {
 
 module.exports = {
   DEFAULT_BODY_ARG_NAME: "data",
-  SUCCESS_RESPONSE_STATUS_RANGE: [200, 300],
+  SUCCESS_RESPONSE_STATUS_RANGE: [200, 299],
   JS_PRIMITIVE_TYPES,
   JS_EMPTY_TYPES,
-  TS_KEYWORDS,
-  TS_EXTERNAL,
   SCHEMA_TYPES,
   HTTP_CLIENT,
   RESERVED_QUERY_ARG_NAMES,

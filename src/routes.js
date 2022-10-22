@@ -4,7 +4,6 @@ const { formatModelName } = require("./modelNames");
 const {
   DEFAULT_BODY_ARG_NAME,
   SUCCESS_RESPONSE_STATUS_RANGE,
-  TS_KEYWORDS,
   RESERVED_QUERY_ARG_NAMES,
   RESERVED_BODY_ARG_NAMES,
   RESERVED_PATH_ARG_NAMES,
@@ -17,6 +16,7 @@ const { getRouteName } = require("./routeNames");
 const { createComponent } = require("./components");
 const { logger } = require("./logger");
 const { SpecificArgNameResolver } = require("./utils/resolveName");
+const { Ts } = require("./code-gen-constructs");
 
 const formDataTypes = _.uniq([types.file, types.string.binary]);
 
@@ -76,7 +76,7 @@ const getTypeFromRequestInfo = ({ requestInfo, parsedSchemas, operationId, defau
     }
   }
 
-  return defaultType || TS_KEYWORDS.ANY;
+  return defaultType || Ts.Keyword.Any;
 };
 
 const getRequestInfoTypes = ({ requestInfos, parsedSchemas, operationId, defaultType }) =>
@@ -111,7 +111,7 @@ const getRequestInfoTypes = ({ requestInfos, parsedSchemas, operationId, default
 
 const isSuccessStatus = (status) =>
   (config.defaultResponseAsSuccess && status === "default") ||
-  (+status >= SUCCESS_RESPONSE_STATUS_RANGE[0] && +status < SUCCESS_RESPONSE_STATUS_RANGE[1]) ||
+  (+status >= SUCCESS_RESPONSE_STATUS_RANGE[0] && +status <= SUCCESS_RESPONSE_STATUS_RANGE[1]) ||
   status === "2xx";
 
 const parseRoute = (route) => {
@@ -439,11 +439,11 @@ const getResponseBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
     requestInfos: responses,
     parsedSchemas,
     operationId,
-    defaultType: config.defaultResponseType || TS_KEYWORDS.VOID,
+    defaultType: config.defaultResponseType,
   });
 
   const successResponse = responseInfos.find((response) => response.isSuccess);
-  const errorResponses = responseInfos.filter((response) => !response.isSuccess && response.type !== TS_KEYWORDS.ANY);
+  const errorResponses = responseInfos.filter((response) => !response.isSuccess && response.type !== Ts.Keyword.Any);
 
   const handleResponseHeaders = (src) => {
     if (!src) {
@@ -465,22 +465,22 @@ const getResponseBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
     responses: responseInfos,
     success: {
       schema: successResponse,
-      type: (successResponse && successResponse.type) || TS_KEYWORDS.ANY,
+      type: (successResponse && successResponse.type) || Ts.Keyword.Any,
     },
     error: {
       schemas: errorResponses,
-      type: _.uniq(errorResponses.map((response) => response.type)).join(" | ") || TS_KEYWORDS.ANY,
+      type: Ts.UnionType(errorResponses.map((response) => response.type)) || Ts.Keyword.Any,
     },
     full: {
       types:
-        responseInfos
-          .map(
+        Ts.UnionType(
+          responseInfos.map(
             (response) => `{
       data: ${response.type}, status: ${response.status}, statusCode: ${response.status}, statusText: "${
               response.description
             }", ${handleResponseHeaders(response.headers)} config: {} }`,
-          )
-          .join(" | ") || TS_KEYWORDS.ANY,
+          ),
+        ) || Ts.Keyword.Any,
     },
   };
 };

@@ -1,5 +1,16 @@
 # next release  
 
+# 10.1.0
+**feature**  
+everything which generate code gen about output typescript code now contains in [`src/code-gen-constructs`](src/code-gen-constructs.js).
+And this thing is available for end user modifications with using NodeJS Cli option `codeGenConstructs`.  
+It contains almost all which is not contains in `.eta`\ `.ejs` templates. For example: `Record<string, any>`, `readonly typeField?: value`, etc  
+
+feat: `--another-array-type` cli option (#414)  
+fix: path params with dot style (truck.id) (#413)  
+
+
+
 # 10.0.3  
 fix: CRLF -> LF (#423)  
 docs: add docs for addReadonly nodeJS api flag (#425)  

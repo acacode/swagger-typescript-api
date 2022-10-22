@@ -10,7 +10,8 @@ const { Command } = require("commander");
 const { resolve } = require("path");
 const { generateApi } = require("./src");
 const { version, name: packageName } = require("./package.json");
-const { TS_KEYWORDS, HTTP_CLIENT } = require("./src/constants");
+const { HTTP_CLIENT } = require("./src/constants");
+const { Ts } = require("./src/code-gen-constructs");
 
 const program = new Command(packageName);
 
@@ -61,13 +62,14 @@ const options = program
   .option("--disable-throw-on-error", "Do not throw an error when response.ok is not true", false)
   .option("--single-http-client", "Ability to send HttpClient instance to Api constructor", false)
   .option("--silent", "Output only errors to console", false)
-  .option("--default-response <type>", "default type for empty response schema", TS_KEYWORDS.VOID)
+  .option("--default-response <type>", "default type for empty response schema", Ts.Keyword.Void)
   .option("--type-prefix <string>", "data contract name prefix", "")
   .option("--type-suffix <string>", "data contract name suffix", "")
   .option("--clean-output", "clean output folder before generate api. WARNING: May cause data loss", false)
   .option("--api-class-name <string>", "name of the api class")
   .option("--patch", "fix up small errors in the swagger source definition", false)
   .option("--debug", "additional information about processes inside this tool", false)
+  .option("--another-array-type", "generate array types as Array<Type> (by default Type[])", false)
   .parse(process.argv)
   .opts();
 
@@ -107,6 +109,7 @@ generateApi({
   patch: !!options.patch,
   apiClassName: options.apiClassName,
   debug: options.debug,
+  anotherArrayType: options.anotherArrayType,
 }).catch((err) => {
   // NOTE collect all errors on top level and shows to users in any case
   console.error(err);

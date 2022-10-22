@@ -10,8 +10,11 @@ const {
 } = require("../../schema");
 const { formatters, inlineExtraFormatters } = require("../../typeFormatters");
 const { NameResolver } = require("../../utils/resolveName");
+const { Ts, JsDoc } = require("../../code-gen-constructs");
 
 module.exports = {
+  Ts,
+  JsDoc,
   formatDescription,
   internalCase,
   classNameCase,
