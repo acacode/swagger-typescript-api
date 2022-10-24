@@ -11,7 +11,6 @@ const { resolve } = require("path");
 const { generateApi } = require("./src");
 const { version, name: packageName } = require("./package.json");
 const { HTTP_CLIENT } = require("./src/constants");
-const { Ts } = require("./src/code-gen-constructs");
 
 const program = new Command(packageName);
 
@@ -62,7 +61,7 @@ const options = program
   .option("--disable-throw-on-error", "Do not throw an error when response.ok is not true", false)
   .option("--single-http-client", "Ability to send HttpClient instance to Api constructor", false)
   .option("--silent", "Output only errors to console", false)
-  .option("--default-response <type>", "default type for empty response schema", Ts.Keyword.Void)
+  .option("--default-response <type>", "default type for empty response schema", "void")
   .option("--type-prefix <string>", "data contract name prefix", "")
   .option("--type-suffix <string>", "data contract name suffix", "")
   .option("--clean-output", "clean output folder before generate api. WARNING: May cause data loss", false)

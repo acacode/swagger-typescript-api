@@ -1,6 +1,6 @@
 <%
 const { utils, config, routes, modelTypes } = it;
-const { _, classNameCase } = utils;
+const { _, pascalCase } = utils;
 const dataContracts = config.modular ? _.map(modelTypes, "name") : [];
 %>
 
@@ -19,7 +19,7 @@ import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataCont
 <% }) %>
 
 <% routes.combined && routes.combined.forEach(({ routes = [], moduleName }) => { %>
-    export namespace <%~ classNameCase(moduleName) %> {
+    export namespace <%~ pascalCase(moduleName) %> {
     <% routes.forEach((route) => { %>
         <%~ includeFile('@base/route-type.ejs', { ...it, route }) %>
     <% }) %>

@@ -16,16 +16,12 @@ export type ExtractedProjectType = OmitProjectTypeJob & {
   job: JobType;
 };
 
-/**
- * Information about job
- */
+/** Information about job */
 export interface FooBar {
   kind?: JobKind;
 }
 
-/**
- * Information about job
- */
+/** Information about job */
 export interface FooBarBaz {
   id?: string;
   kind?: JobKind;
@@ -34,9 +30,7 @@ export interface FooBarBaz {
   [key: string]: any;
 }
 
-/**
- * Information about job
- */
+/** Information about job */
 export interface FooBaz {
   link?: string;
   name?: string;
@@ -66,9 +60,7 @@ export enum JobKind {
   OPEN_SOURCE = "OPEN_SOURCE",
 }
 
-/**
- * Information about job
- */
+/** Information about job */
 export interface JobType {
   /** web site address */
   address?: string;
@@ -115,9 +107,7 @@ export type OmitProjectTypeJob = PickProjectTypeExcludeKeysJob;
 
 export type OmitUserTypeIdOrId = PickUserTypeExcludeKeysIdOrId;
 
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
+/** From T, pick a set of properties whose keys are in the union K */
 export interface PickJobTypeExcludeKeysIdOrId {
   /** web site address */
   address?: string;
@@ -141,9 +131,7 @@ export interface PickJobTypeExcludeKeysIdOrId {
   npm?: string;
 }
 
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
+/** From T, pick a set of properties whose keys are in the union K */
 export interface PickProjectTypeExcludeKeysIdOrId {
   description: string;
   job: string;
@@ -156,9 +144,7 @@ export interface PickProjectTypeExcludeKeysIdOrId {
   year: number;
 }
 
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
+/** From T, pick a set of properties whose keys are in the union K */
 export interface PickProjectTypeExcludeKeysJob {
   description: string;
   id: string;
@@ -171,9 +157,7 @@ export interface PickProjectTypeExcludeKeysJob {
   year: number;
 }
 
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
+/** From T, pick a set of properties whose keys are in the union K */
 export interface PickUserTypeExcludeKeysIdOrId {
   password: string;
   username: string;

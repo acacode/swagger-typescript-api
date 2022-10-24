@@ -42,16 +42,12 @@ export enum Kind {
 
 export type OmitJobId = PickJobExcludeKeysId;
 
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
+/** From T, pick a set of properties whose keys are in the union K */
 export interface PickJobGithub {
   github?: string;
 }
 
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
+/** From T, pick a set of properties whose keys are in the union K */
 export interface PickJobExcludeKeysId {
   address?: string;
   github?: string;
@@ -62,9 +58,7 @@ export interface PickJobExcludeKeysId {
   npm?: string;
 }
 
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
+/** From T, pick a set of properties whose keys are in the union K */
 export interface PickProjectExcludeKeysIdOrjob {
   description: string;
   name?: string;
@@ -460,6 +454,43 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/jobs/${id}`,
         method: "DELETE",
         secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
+  xRoute = {
+    /**
+     * No description
+     *
+     * @tags Jobs
+     * @name GetJobs
+     * @request GET:x-route
+     * @secure
+     */
+    getJobs: (params: RequestParams = {}) =>
+      this.request<Job[], any>({
+        path: `x-route`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Jobs
+     * @name AddJob
+     * @request POST:x-route
+     * @secure
+     */
+    addJob: (data: PickJobGithub, params: RequestParams = {}) =>
+      this.request<string, any>({
+        path: `x-route`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

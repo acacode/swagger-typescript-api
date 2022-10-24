@@ -9,9 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-/**
- * Authentiq ID in JWT format, self-signed.
- */
+/** Authentiq ID in JWT format, self-signed. */
 export interface AuthentiqID {
   /** device token for push messages */
   devtoken?: string;
@@ -19,9 +17,7 @@ export interface AuthentiqID {
   sub: string;
 }
 
-/**
- * Claim in JWT format, self- or issuer-signed.
- */
+/** Claim in JWT format, self- or issuer-signed.  */
 export interface Claims {
   email?: string;
   phone?: string;
@@ -40,9 +36,7 @@ export interface Error {
   type?: string;
 }
 
-/**
- * PushToken in JWT format, self-signed.
- */
+/** PushToken in JWT format, self-signed.  */
 export interface PushToken {
   /** audience (URI) */
   aud: string;

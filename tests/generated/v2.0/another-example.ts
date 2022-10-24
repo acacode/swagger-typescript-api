@@ -9,18 +9,12 @@
  * ---------------------------------------------------------------
  */
 
-/**
- * some description
- */
+/** some description */
 export interface Amount {
-  /**
-   * some description
-   *
-   */
+  /** some description */
   currency: Currency;
   /**
    * some description
-   *
    * @format double
    * @min 0.01
    * @max 1000000000000000

@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const { getRandomInt } = require("./random");
+const { getRandomInt } = require("./random.js");
 
 class NameResolver {
   reservedNames = [];

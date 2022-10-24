@@ -1,11 +1,195 @@
 # next release  
 
-# 10.1.0
-**feature**  
-everything which generate code gen about output typescript code now contains in [`src/code-gen-constructs`](src/code-gen-constructs.js).
+# 11.0.0  
+
+## Breaking changes  
+
+ - `data-contract-jsdoc.ejs` file uses new input structure. Please update your local copy.   
+ - new codebase (class way)  
+ - ability to change everything in codegen process configuration with using NodeJS Api  
+ - ability to call `generateApi` function 2 and more times per 1 NodeJS process.  
+
+## [feature] Ability to modify internal codegen typescript structs     
+Everything which creates codegen about output typescript code now contains in `Ts` field in [`src/configuration`](src/configuration.js).
 And this thing is available for end user modifications with using NodeJS Cli option `codeGenConstructs`.  
 It contains almost all which is not contains in `.eta`\ `.ejs` templates. For example: `Record<string, any>`, `readonly typeField?: value`, etc  
 
+Structure of `Ts` property
+```ts
+ const Ts = {
+    Keyword: {
+      Number: "number",
+      String: "string",
+      Boolean: "boolean",
+      Any: "any",
+      Void: "void",
+      Unknown: "unknown",
+      Null: "null",
+      Undefined: "undefined",
+      Object: "object",
+      File: "File",
+      Date: "Date",
+      Type: "type",
+      Enum: "enum",
+      Interface: "interface",
+      Array: "Array",
+      Record: "Record",
+      Intersection: "&",
+      Union: "|",
+    },
+    CodeGenKeyword: {
+      UtilRequiredKeys: "UtilRequiredKeys",
+    },
+    /**
+     * $A[] or Array<$A>
+     */
+    ArrayType: (content) => {
+      if (this.anotherArrayType) {
+        return Ts.TypeWithGeneric(Ts.Keyword.Array, [content]);
+      }
+
+      return `${Ts.ExpressionGroup(content)}[]`;
+    },
+    /**
+     * "$A"
+     */
+    StringValue: (content) => `"${content}"`,
+    /**
+     * $A
+     */
+    BooleanValue: (content) => `${content}`,
+    /**
+     * $A
+     */
+    NumberValue: (content) => `${content}`,
+    /**
+     * $A
+     */
+    NullValue: (content) => content,
+    /**
+     * $A1 | $A2
+     */
+    UnionType: (contents) => _.join(_.uniq(contents), ` ${Ts.Keyword.Union} `),
+    /**
+     * ($A1)
+     */
+    ExpressionGroup: (content) => (content ? `(${content})` : ""),
+    /**
+     * $A1 & $A2
+     */
+    IntersectionType: (contents) => _.join(_.uniq(contents), ` ${Ts.Keyword.Intersection} `),
+    /**
+     * Record<$A1, $A2>
+     */
+    RecordType: (key, value) => Ts.TypeWithGeneric(Ts.Keyword.Record, [key, value]),
+    /**
+     * readonly $key?:$value
+     */
+    TypeField: ({ readonly, key, optional, value }) =>
+      _.compact([readonly && "readonly ", key, optional && "?", ": ", value]).join(""),
+    /**
+     * [key: $A1]: $A2
+     */
+    InterfaceDynamicField: (key, value) => `[key: ${key}]: ${value}`,
+    /**
+     * $A1 = $A2
+     */
+    EnumField: (key, value) => `${key} = ${value}`,
+    /**
+     * $A0.key = $A0.value,
+     * $A1.key = $A1.value,
+     * $AN.key = $AN.value,
+     */
+    EnumFieldsWrapper: (contents) =>
+      _.map(contents, ({ key, value }) => `  ${Ts.EnumField(key, value)}`).join(",\n"),
+    /**
+     * {\n $A \n}
+     */
+    ObjectWrapper: (content) => `{\n${content}\n}`,
+    /**
+     * /** $A *\/
+     */
+    MultilineComment: (contents, formatFn) =>
+      [
+        ...(contents.length === 1
+          ? [`/** ${contents[0]} */`]
+          : ["/**", ...contents.map((content) => ` * ${content}`), " */"]),
+      ].map((part) => `${formatFn ? formatFn(part) : part}\n`),
+    /**
+     * $A1<...$A2.join(,)>
+     */
+    TypeWithGeneric: (typeName, genericArgs) => {
+      return `${typeName}${genericArgs.length ? `<${genericArgs.join(",")}>` : ""}`;
+    },
+  }
+``` 
+
+## [feature] Ability to modify swagger schema type/format to typescript construction translators  
+Swagger schema has constructions like `{ "type": "string" | "integer" | etc, "format": "date-time" | "float" | "etc" }` where field `type` is not "readable" for TypeScript.  
+And because of this `swagger-typescript-api` has key value group to translate swagger schema fields `type`/`format` to TypeScript constructions.  
+See more about [swagger schema type/format data here](https://json-schema.org/understanding-json-schema/reference/string.html#dates-and-times)  
+For example, current version of default configuration translates this schema  
+```json
+{
+  "type": "string",
+  "format": "date-time"
+}
+```
+translates to  
+```ts
+string
+```
+If you need to see `Date` otherwise `string` you are able to change it with using `primitiveTypeConstructs`   
+```ts
+generateApiForTest({
+  // ...
+  primitiveTypeConstructs: (construct) => ({
+    string: {
+        'date-time': 'Date'
+    }
+  })
+})
+```
+
+Structure of `primitiveTypes` property  
+```ts
+const primitiveTypes = {
+    integer: () => Ts.Keyword.Number,
+    number: () => Ts.Keyword.Number,
+    boolean: () => Ts.Keyword.Boolean,
+    object: () => Ts.Keyword.Object,
+    file: () => Ts.Keyword.File,
+    string: {
+      $default: () => Ts.Keyword.String,
+
+      /** formats */
+      binary: () => Ts.Keyword.File,
+      file: () => Ts.Keyword.File,
+      "date-time": () => Ts.Keyword.String,
+      time: () => Ts.Keyword.String,
+      date: () => Ts.Keyword.String,
+      duration: () => Ts.Keyword.String,
+      email: () => Ts.Keyword.String,
+      "idn-email": () => Ts.Keyword.String,
+      "idn-hostname": () => Ts.Keyword.String,
+      ipv4: () => Ts.Keyword.String,
+      ipv6: () => Ts.Keyword.String,
+      uuid: () => Ts.Keyword.String,
+      uri: () => Ts.Keyword.String,
+      "uri-reference": () => Ts.Keyword.String,
+      "uri-template": () => Ts.Keyword.String,
+      "json-pointer": () => Ts.Keyword.String,
+      "relative-json-pointer": () => Ts.Keyword.String,
+      regex: () => Ts.Keyword.String,
+    },
+    array: ({ items, ...schemaPart }, parser) => {
+      const content = parser.getInlineParseContent(items);
+      return parser.checkAndAddNull(schemaPart, Ts.ArrayType(content));
+    },
+  }
+```
+
+## Other  
 feat: `--another-array-type` cli option (#414)  
 fix: path params with dot style (truck.id) (#413)  
 

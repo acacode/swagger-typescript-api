@@ -1,6 +1,6 @@
 <%
 const { config, route, utils } = it;
-const { _, formatDescription, fmtToJSDocLine, classNameCase, require } = utils;
+const { _, formatDescription, fmtToJSDocLine, pascalCase, require } = utils;
 const { raw, request, routeName } = route;
 
 const jsDocDescription = raw.description ?
@@ -8,7 +8,7 @@ const jsDocDescription = raw.description ?
     fmtToJSDocLine('No description', { eol: false });
 const jsDocLines = _.compact([
     _.size(raw.tags) && ` * @tags ${raw.tags.join(", ")}`,
-    ` * @name ${classNameCase(routeName.usage)}`,
+    ` * @name ${pascalCase(routeName.usage)}`,
     raw.summary && ` * @summary ${raw.summary}`,
     ` * @request ${_.upperCase(request.method)}:${raw.route}`,
     raw.deprecated && ` * @deprecated`,

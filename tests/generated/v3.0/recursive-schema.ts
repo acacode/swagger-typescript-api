@@ -9,9 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-/**
- * RECURSIVE
- */
+/** RECURSIVE */
 export interface RecursiveObject {
   /** RECURSIVE */
   bar?: RecursiveObject;

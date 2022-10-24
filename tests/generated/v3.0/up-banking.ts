@@ -9,53 +9,34 @@
  * ---------------------------------------------------------------
  */
 
-/**
- * Provides information about an Up bank account.
- */
+/** Provides information about an Up bank account. */
 export interface AccountResource {
   attributes: {
-    /**
-     * The name associated with the account in the Up application.
-     *
-     */
+    /** The name associated with the account in the Up application. */
     displayName: string;
-    /**
-     * The bank account type of this account.
-     *
-     */
+    /** The bank account type of this account. */
     accountType: AccountTypeEnum;
     /**
      * The available balance of the account, taking into account any amounts
      * that are currently on hold.
-     *
      */
     balance: MoneyObject;
     /**
      * The date-time at which this account was first opened.
-     *
      * @format date-time
      */
     createdAt: string;
   };
-  /**
-   * The unique identifier for this account.
-   *
-   */
+  /** The unique identifier for this account. */
   id: string;
   links?: {
-    /**
-     * The canonical link to this resource within the API.
-     *
-     */
+    /** The canonical link to this resource within the API. */
     self: string;
   };
   relationships: {
     transactions: {
       links?: {
-        /**
-         * The link to retrieve the related resource(s) in this relationship.
-         *
-         */
+        /** The link to retrieve the related resource(s) in this relationship. */
         related: string;
       };
     };
@@ -65,53 +46,38 @@ export interface AccountResource {
 }
 
 /**
-* Specifies the type of bank account. Currently returned values are `SAVER`
-and `TRANSACTIONAL`.
-*/
+ * Specifies the type of bank account. Currently returned values are `SAVER`
+ * and `TRANSACTIONAL`.
+ */
 export enum AccountTypeEnum {
   SAVER = "SAVER",
   TRANSACTIONAL = "TRANSACTIONAL",
 }
 
 /**
-* Provides information about an instant reimbursement in the form of
-cashback.
-*/
+ * Provides information about an instant reimbursement in the form of
+ * cashback.
+ */
 export interface CashbackObject {
-  /**
-   * The total amount of cashback paid, represented as a positive value.
-   *
-   */
+  /** The total amount of cashback paid, represented as a positive value. */
   amount: MoneyObject;
-  /**
-   * A brief description of why this cashback was paid.
-   *
-   */
+  /** A brief description of why this cashback was paid. */
   description: string;
 }
 
-/**
- * Provides information about a category and its ancestry.
- */
+/** Provides information about a category and its ancestry. */
 export interface CategoryResource {
   attributes: {
-    /**
-     * The name of this category as seen in the Up application.
-     *
-     */
+    /** The name of this category as seen in the Up application. */
     name: string;
   };
   /**
    * The unique identifier for this category. This is a human-readable but
    * URL-safe value.
-   *
    */
   id: string;
   links?: {
-    /**
-     * The canonical link to this resource within the API.
-     *
-     */
+    /** The canonical link to this resource within the API. */
     self: string;
   };
   relationships: {
@@ -119,17 +85,11 @@ export interface CategoryResource {
       data: {
         /** The type of this resource: `categories` */
         type: string;
-        /**
-         * The unique identifier of the resource within its type.
-         *
-         */
+        /** The unique identifier of the resource within its type. */
         id: string;
       } | null;
       links?: {
-        /**
-         * The link to retrieve the related resource(s) in this relationship.
-         *
-         */
+        /** The link to retrieve the related resource(s) in this relationship. */
         related: string;
       };
     };
@@ -137,17 +97,11 @@ export interface CategoryResource {
       data: {
         /** The type of this resource: `categories` */
         type: string;
-        /**
-         * The unique identifier of the resource within its type.
-         *
-         */
+        /** The unique identifier of the resource within its type. */
         id: string;
       }[];
       links?: {
-        /**
-         * The link to retrieve the related resource(s) in this relationship.
-         *
-         */
+        /** The link to retrieve the related resource(s) in this relationship. */
         related: string;
       };
     };
@@ -157,56 +111,42 @@ export interface CategoryResource {
 }
 
 /**
-* Request to create a new webhook. This currently only requires a `url`
-attribute.
-*/
+ * Request to create a new webhook. This currently only requires a `url`
+ * attribute.
+ */
 export interface CreateWebhookRequest {
-  /**
-   * The webhook resource to create.
-   *
-   */
+  /** The webhook resource to create. */
   data: WebhookInputResource;
 }
 
-/**
- * Successful response after creating a webhook.
- */
+/** Successful response after creating a webhook. */
 export interface CreateWebhookResponse {
-  /**
-   * The webhook that was created.
-   *
-   */
+  /** The webhook that was created. */
   data: WebhookResource;
 }
 
-/**
- * Provides information about an error processing a request.
- */
+/** Provides information about an error processing a request. */
 export interface ErrorObject {
   /**
    * A detailed description of this error. This should be considered unique
    * to individual occurrences of an error and subject to change. It is
    * useful for debugging purposes.
-   *
    */
   detail: string;
   /**
    * If applicable, location in the request that this error relates to. This
    * may be a parameter in the query string, or a an attribute in the
    * request body.
-   *
    */
   source?: {
     /**
      * If this error relates to a query parameter, the name of the
      * parameter.
-     *
      */
     parameter?: string;
     /**
      * If this error relates to an attribute in the request body, a
      * rfc-6901 JSON pointer to the attribute.
-     *
      */
     pointer?: string;
   };
@@ -214,306 +154,230 @@ export interface ErrorObject {
    * The HTTP status code associated with this error. This can also be
    * obtained from the response headers. The status indicates the broad type
    * of error according to HTTP semantics.
-   *
    */
   status: string;
   /**
    * A short description of this error. This should be stable across
    * multiple occurrences of this type of error and typically expands on the
    * reason for the status code.
-   *
    */
   title: string;
 }
 
-/**
- * Generic error response that returns one or more errors.
- */
+/** Generic error response that returns one or more errors. */
 export interface ErrorResponse {
-  /**
-   * The list of errors returned in this response.
-   *
-   */
+  /** The list of errors returned in this response. */
   errors: ErrorObject[];
 }
 
-/**
- * Successful response to get a single account.
- */
+/** Successful response to get a single account. */
 export interface GetAccountResponse {
-  /**
-   * The account returned in this response.
-   *
-   */
+  /** The account returned in this response. */
   data: AccountResource;
 }
 
-/**
- * Successful response to get a single category and its ancestry.
- */
+/** Successful response to get a single category and its ancestry. */
 export interface GetCategoryResponse {
-  /**
-   * The category returned in this response.
-   *
-   */
+  /** The category returned in this response. */
   data: CategoryResource;
 }
 
-/**
- * Successful response to get a single transaction.
- */
+/** Successful response to get a single transaction. */
 export interface GetTransactionResponse {
-  /**
-   * The transaction returned in this response.
-   *
-   */
+  /** The transaction returned in this response. */
   data: TransactionResource;
 }
 
-/**
- * Successful response to get a single webhook.
- */
+/** Successful response to get a single webhook. */
 export interface GetWebhookResponse {
-  /**
-   * The webhook returned in this response.
-   *
-   */
+  /** The webhook returned in this response. */
   data: WebhookResource;
 }
 
 /**
-* Provides information about the amount at which a transaction was in the
-`HELD` status.
-*/
+ * Provides information about the amount at which a transaction was in the
+ * `HELD` status.
+ */
 export interface HoldInfoObject {
   /**
    * The amount of this transaction while in the `HELD` status, in
    * Australian dollars.
-   *
    */
   amount: MoneyObject;
   /**
    * The foreign currency amount of this transaction while in the `HELD`
    * status. This field will be `null` for domestic transactions. The amount
    * was converted to the AUD amount reflected in the `amount` field.
-   *
    */
   foreignAmount: MoneyObject | null;
 }
 
 /**
-* Successful response to get all accounts. This returns a paginated list of
-accounts, which can be scrolled by following the `prev` and `next` links
-if present.
-*/
+ * Successful response to get all accounts. This returns a paginated list of
+ * accounts, which can be scrolled by following the `prev` and `next` links
+ * if present.
+ */
 export interface ListAccountsResponse {
-  /**
-   * The list of accounts returned in this response.
-   *
-   */
+  /** The list of accounts returned in this response. */
   data: AccountResource[];
   links: {
     /**
      * The link to the previous page in the results. If this value is `null`
      * there is no previous page.
-     *
      */
     prev: string | null;
     /**
      * The link to the next page in the results. If this value is `null`
      * there is no next page.
-     *
      */
     next: string | null;
   };
 }
 
 /**
-* Successful response to get all categories and their ancestry. The
-returned list is not paginated.
-*/
+ * Successful response to get all categories and their ancestry. The
+ * returned list is not paginated.
+ */
 export interface ListCategoriesResponse {
-  /**
-   * The list of categories returned in this response.
-   *
-   */
+  /** The list of categories returned in this response. */
   data: CategoryResource[];
 }
 
 /**
-* Successful response to get all tags. This returns a paginated list of
-tags, which can be scrolled by following the `prev` and `next` links if
-present.
-*/
+ * Successful response to get all tags. This returns a paginated list of
+ * tags, which can be scrolled by following the `prev` and `next` links if
+ * present.
+ */
 export interface ListTagsResponse {
-  /**
-   * The list of tags returned in this response.
-   *
-   */
+  /** The list of tags returned in this response. */
   data: TagResource[];
   links: {
     /**
      * The link to the previous page in the results. If this value is `null`
      * there is no previous page.
-     *
      */
     prev: string | null;
     /**
      * The link to the next page in the results. If this value is `null`
      * there is no next page.
-     *
      */
     next: string | null;
   };
 }
 
 /**
-* Successful response to get all transactions. This returns a paginated
-list of transactions, which can be scrolled by following the `prev` and
-`next` links if present.
-*/
+ * Successful response to get all transactions. This returns a paginated
+ * list of transactions, which can be scrolled by following the `prev` and
+ * `next` links if present.
+ */
 export interface ListTransactionsResponse {
-  /**
-   * The list of transactions returned in this response.
-   *
-   */
+  /** The list of transactions returned in this response. */
   data: TransactionResource[];
   links: {
     /**
      * The link to the previous page in the results. If this value is `null`
      * there is no previous page.
-     *
      */
     prev: string | null;
     /**
      * The link to the next page in the results. If this value is `null`
      * there is no next page.
-     *
      */
     next: string | null;
   };
 }
 
 /**
-* Successful response to get all delivery logs for a webhook. This returns
-a paginated list of delivery logs, which can be scrolled by following the
-`next` and `prev` links if present.
-*/
+ * Successful response to get all delivery logs for a webhook. This returns
+ * a paginated list of delivery logs, which can be scrolled by following the
+ * `next` and `prev` links if present.
+ */
 export interface ListWebhookDeliveryLogsResponse {
-  /**
-   * The list of delivery logs returned in this response.
-   *
-   */
+  /** The list of delivery logs returned in this response. */
   data: WebhookDeliveryLogResource[];
   links: {
     /**
      * The link to the previous page in the results. If this value is `null`
      * there is no previous page.
-     *
      */
     prev: string | null;
     /**
      * The link to the next page in the results. If this value is `null`
      * there is no next page.
-     *
      */
     next: string | null;
   };
 }
 
 /**
-* Successful response to get all webhooks. This returns a paginated list of
-webhooks, which can be scrolled by following the `prev` and `next` links
-if present.
-*/
+ * Successful response to get all webhooks. This returns a paginated list of
+ * webhooks, which can be scrolled by following the `prev` and `next` links
+ * if present.
+ */
 export interface ListWebhooksResponse {
-  /**
-   * The list of webhooks returned in this response.
-   *
-   */
+  /** The list of webhooks returned in this response. */
   data: WebhookResource[];
   links: {
     /**
      * The link to the previous page in the results. If this value is `null`
      * there is no previous page.
-     *
      */
     prev: string | null;
     /**
      * The link to the next page in the results. If this value is `null`
      * there is no next page.
-     *
      */
     next: string | null;
   };
 }
 
-/**
- * Provides information about a value of money.
- */
+/** Provides information about a value of money. */
 export interface MoneyObject {
-  /**
-   * The ISO 4217 currency code.
-   *
-   */
+  /** The ISO 4217 currency code. */
   currencyCode: string;
   /**
    * The amount of money, formatted as a string in the relevant currency.
    * For example, for an Australian dollar value of $10.56, this field will
    * be `"10.56"`. The currency symbol is not included in the string.
-   *
    */
   value: string;
   /**
    * The amount of money in the smallest denomination for the currency, as a
    * 64-bit integer.  For example, for an Australian dollar value of $10.56,
    * this field will be `1056`.
-   *
    */
   valueInBaseUnits: number;
 }
 
-/**
- * Basic ping response to verify authentication.
- */
+/** Basic ping response to verify authentication. */
 export interface PingResponse {
   meta: {
-    /**
-     * The unique identifier of the authenticated customer.
-     *
-     */
+    /** The unique identifier of the authenticated customer. */
     id: string;
-    /**
-     * A cute emoji that represents the response status.
-     *
-     */
+    /** A cute emoji that represents the response status. */
     statusEmoji: string;
   };
 }
 
 /**
-* Provides information about how a Round Up was applied, such as whether or
-not a boost was included in the Round Up.
-*/
+ * Provides information about how a Round Up was applied, such as whether or
+ * not a boost was included in the Round Up.
+ */
 export interface RoundUpObject {
   /**
    * The total amount of this Round Up, including any boosts, represented as
    * a negative value.
-   *
    */
   amount: MoneyObject;
   /**
    * The portion of the Round Up `amount` owing to boosted Round Ups,
    * represented as a negative value. If no boost was added to the Round Up
    * this field will be `null`.
-   *
    */
   boostPortion: MoneyObject | null;
 }
 
-/**
- * Bla bla bla foo bar baz
- */
+/** Bla bla bla foo bar baz */
 export enum SomeEnumName {
   Foo = "Foo",
   Bar = "Bar",
@@ -521,35 +385,22 @@ export enum SomeEnumName {
   Bad = "Bad",
 }
 
-/**
- * Uniquely identifies a single tag in the API.
- */
+/** Uniquely identifies a single tag in the API. */
 export interface TagInputResourceIdentifier {
-  /**
-   * The label of the tag, which also acts as the tag’s unique identifier.
-   *
-   */
+  /** The label of the tag, which also acts as the tag’s unique identifier. */
   id: string;
   /** The type of this resource: `tags` */
   type: string;
 }
 
-/**
- * Provides information about a tag.
- */
+/** Provides information about a tag. */
 export interface TagResource {
-  /**
-   * The label of the tag, which also acts as the tag’s unique identifier.
-   *
-   */
+  /** The label of the tag, which also acts as the tag’s unique identifier. */
   id: string;
   relationships: {
     transactions: {
       links?: {
-        /**
-         * The link to retrieve the related resource(s) in this relationship.
-         *
-         */
+        /** The link to retrieve the related resource(s) in this relationship. */
         related: string;
       };
     };
@@ -563,45 +414,38 @@ export interface TransactionResource {
     /**
      * The current processing status of this transaction, according to
      * whether or not this transaction has settled or is still held.
-     *
      */
     status: TransactionStatusEnum;
     /**
      * The original, unprocessed text of the transaction. This is often not
      * a perfect indicator of the actual merchant, but it is useful for
      * reconciliation purposes in some cases.
-     *
      */
     rawText: string | null;
     /**
      * A short description for this transaction. Usually the merchant name
      * for purchases.
-     *
      */
     description: string;
     /**
      * Attached message for this transaction, such as a payment message, or a
      * transfer note.
-     *
      */
     message: string | null;
     /**
      * If this transaction is currently in the `HELD` status, or was ever in
      * the `HELD` status, the `amount` and `foreignAmount` of the
      * transaction while `HELD`.
-     *
      */
     holdInfo: HoldInfoObject | null;
     /**
      * Details of how this transaction was rounded-up. If no Round Up was
      * applied this field will be `null`.
-     *
      */
     roundUp: RoundUpObject | null;
     /**
      * If all or part of this transaction was instantly reimbursed in the
      * form of cashback, details of the reimbursement.
-     *
      */
     cashback: CashbackObject | null;
     /**
@@ -609,7 +453,6 @@ export interface TransactionResource {
      * transactions that were once `HELD` but are now `SETTLED`, refer to
      * the `holdInfo` field for the original `amount` the transaction was
      * `HELD` at.
-     *
      */
     amount: MoneyObject;
     /**
@@ -618,33 +461,24 @@ export interface TransactionResource {
      * amount reflected in the `amount` of this transaction. Refer to the
      * `holdInfo` field for the original `foreignAmount` the transaction was
      * `HELD` at.
-     *
      */
     foreignAmount: MoneyObject | null;
     /**
      * The date-time at which this transaction settled. This field will be
      * `null` for transactions that are currently in the `HELD` status.
-     *
      * @format date-time
      */
     settledAt: string | null;
     /**
      * The date-time at which this transaction was first encountered.
-     *
      * @format date-time
      */
     createdAt: string;
   };
-  /**
-   * The unique identifier for this transaction.
-   *
-   */
+  /** The unique identifier for this transaction. */
   id: string;
   links?: {
-    /**
-     * The canonical link to this resource within the API.
-     *
-     */
+    /** The canonical link to this resource within the API. */
     self: string;
   };
   relationships: {
@@ -652,17 +486,11 @@ export interface TransactionResource {
       data: {
         /** The type of this resource: `accounts` */
         type: string;
-        /**
-         * The unique identifier of the resource within its type.
-         *
-         */
+        /** The unique identifier of the resource within its type. */
         id: string;
       };
       links?: {
-        /**
-         * The link to retrieve the related resource(s) in this relationship.
-         *
-         */
+        /** The link to retrieve the related resource(s) in this relationship. */
         related: string;
       };
     };
@@ -670,17 +498,11 @@ export interface TransactionResource {
       data: {
         /** The type of this resource: `categories` */
         type: string;
-        /**
-         * The unique identifier of the resource within its type.
-         *
-         */
+        /** The unique identifier of the resource within its type. */
         id: string;
       } | null;
       links?: {
-        /**
-         * The link to retrieve the related resource(s) in this relationship.
-         *
-         */
+        /** The link to retrieve the related resource(s) in this relationship. */
         related: string;
       };
     };
@@ -688,17 +510,11 @@ export interface TransactionResource {
       data: {
         /** The type of this resource: `categories` */
         type: string;
-        /**
-         * The unique identifier of the resource within its type.
-         *
-         */
+        /** The unique identifier of the resource within its type. */
         id: string;
       } | null;
       links?: {
-        /**
-         * The link to retrieve the related resource(s) in this relationship.
-         *
-         */
+        /** The link to retrieve the related resource(s) in this relationship. */
         related: string;
       };
     };
@@ -706,17 +522,13 @@ export interface TransactionResource {
       data: {
         /** The type of this resource: `tags` */
         type: string;
-        /**
-         * The label of the tag, which also acts as the tag’s unique identifier.
-         *
-         */
+        /** The label of the tag, which also acts as the tag’s unique identifier. */
         id: string;
       }[];
       links?: {
         /**
          * The link to retrieve or modify linkage between this resources and the
          * related resource(s) in this relationship.
-         *
          */
         self: string;
       };
@@ -727,86 +539,56 @@ export interface TransactionResource {
 }
 
 /**
-* Specifies which stage of processing a transaction is currently at.
-Currently returned values are `HELD` and `SETTLED`. When a transaction is
-held, its account’s `availableBalance` is affected. When a transaction is
-settled, its account’s `currentBalance` is affected.
-*/
+ * Specifies which stage of processing a transaction is currently at.
+ * Currently returned values are `HELD` and `SETTLED`. When a transaction is
+ * held, its account’s `availableBalance` is affected. When a transaction is
+ * settled, its account’s `currentBalance` is affected.
+ */
 export enum TransactionStatusEnum {
   HELD = "HELD",
   SETTLED = "SETTLED",
 }
 
-/**
- * Request to add or remove tags associated with a transaction.
- */
+/** Request to add or remove tags associated with a transaction. */
 export interface UpdateTransactionTagsRequest {
-  /**
-   * The tags to add to or remove from the transaction.
-   *
-   */
+  /** The tags to add to or remove from the transaction. */
   data: TagInputResourceIdentifier[];
 }
 
 /**
-* Provides historical webhook event delivery information for analysis and
-debugging purposes.
-*/
+ * Provides historical webhook event delivery information for analysis and
+ * debugging purposes.
+ */
 export interface WebhookDeliveryLogResource {
   attributes: {
-    /**
-     * Information about the request that was sent to the webhook URL.
-     *
-     */
+    /** Information about the request that was sent to the webhook URL. */
     request: {
-      /**
-       * The payload that was sent in the request body.
-       *
-       */
+      /** The payload that was sent in the request body. */
       body: string;
     };
-    /**
-     * Information about the response that was received from the webhook URL.
-     *
-     */
+    /** Information about the response that was received from the webhook URL. */
     response: {
-      /**
-       * The HTTP status code received in the response.
-       *
-       */
+      /** The HTTP status code received in the response. */
       statusCode: number;
-      /**
-       * The payload that was received in the response body.
-       *
-       */
+      /** The payload that was received in the response body. */
       body: string;
     } | null;
-    /**
-     * The success or failure status of this delivery attempt.
-     *
-     */
+    /** The success or failure status of this delivery attempt. */
     deliveryStatus: WebhookDeliveryStatusEnum;
     /**
      * The date-time at which this log entry was created.
-     *
      * @format date-time
      */
     createdAt: string;
   };
-  /**
-   * The unique identifier for this log entry.
-   *
-   */
+  /** The unique identifier for this log entry. */
   id: string;
   relationships: {
     webhookEvent: {
       data: {
         /** The type of this resource: `webhook-events` */
         type: string;
-        /**
-         * The unique identifier of the resource within its type.
-         *
-         */
+        /** The unique identifier of the resource within its type. */
         id: string;
       };
     };
@@ -816,49 +598,42 @@ export interface WebhookDeliveryLogResource {
 }
 
 /**
-* Specifies the nature of the success or failure of a webhook delivery
-attempt to the subscribed webhook URL. The currently returned values are
-described below:
-
-- **`DELIVERED`**: The event was delivered to the webhook URL
-  successfully and a `200` response was received.
-- **`UNDELIVERABLE`**: The webhook URL was not reachable, or timed out.
-- **`BAD_RESPONSE_CODE`**: The event was delivered to the webhook URL
-  but a non-`200` response was received.
-*/
+ * Specifies the nature of the success or failure of a webhook delivery
+ * attempt to the subscribed webhook URL. The currently returned values are
+ * described below:
+ *
+ * - **`DELIVERED`**: The event was delivered to the webhook URL
+ *   successfully and a `200` response was received.
+ * - **`UNDELIVERABLE`**: The webhook URL was not reachable, or timed out.
+ * - **`BAD_RESPONSE_CODE`**: The event was delivered to the webhook URL
+ *   but a non-`200` response was received.
+ */
 export enum WebhookDeliveryStatusEnum {
   DELIVERED = "DELIVERED",
   UNDELIVERABLE = "UNDELIVERABLE",
   BAD_RESPONSE_CODE = "BAD_RESPONSE_CODE",
 }
 
-/**
- * Asynchronous callback request used for webhook event delivery.
- */
+/** Asynchronous callback request used for webhook event delivery. */
 export interface WebhookEventCallback {
-  /**
-   * The webhook event data sent to the subscribed webhook.
-   *
-   */
+  /** The webhook event data sent to the subscribed webhook. */
   data: WebhookEventResource;
 }
 
 /**
-* Provides the event data used in asynchronous webhook event callbacks to
-subscribed endpoints. Webhooks events have defined `eventType`s and may
-optionally relate to other resources within the Up API.
-*/
+ * Provides the event data used in asynchronous webhook event callbacks to
+ * subscribed endpoints. Webhooks events have defined `eventType`s and may
+ * optionally relate to other resources within the Up API.
+ */
 export interface WebhookEventResource {
   attributes: {
     /**
      * The type of this event. This can be used to determine what action to
      * take in response to the event.
-     *
      */
     eventType: WebhookEventTypeEnum;
     /**
      * The date-time at which this event was generated.
-     *
      * @format date-time
      */
     createdAt: string;
@@ -866,7 +641,6 @@ export interface WebhookEventResource {
   /**
    * The unique identifier for this event. This will remain constant across
    * delivery retries.
-   *
    */
   id: string;
   relationships: {
@@ -874,17 +648,11 @@ export interface WebhookEventResource {
       data: {
         /** The type of this resource: `webhooks` */
         type: string;
-        /**
-         * The unique identifier of the resource within its type.
-         *
-         */
+        /** The unique identifier of the resource within its type. */
         id: string;
       };
       links?: {
-        /**
-         * The link to retrieve the related resource(s) in this relationship.
-         *
-         */
+        /** The link to retrieve the related resource(s) in this relationship. */
         related: string;
       };
     };
@@ -892,17 +660,11 @@ export interface WebhookEventResource {
       data: {
         /** The type of this resource: `transactions` */
         type: string;
-        /**
-         * The unique identifier of the resource within its type.
-         *
-         */
+        /** The unique identifier of the resource within its type. */
         id: string;
       };
       links?: {
-        /**
-         * The link to retrieve the related resource(s) in this relationship.
-         *
-         */
+        /** The link to retrieve the related resource(s) in this relationship. */
         related: string;
       };
     };
@@ -912,10 +674,10 @@ export interface WebhookEventResource {
 }
 
 /**
-* Specifies the type of a webhook event. This can be used to determine what
-action to take in response to the event, such as which relationships to
-expect.
-*/
+ * Specifies the type of a webhook event. This can be used to determine what
+ * action to take in response to the event, such as which relationships to
+ * expect.
+ */
 export enum WebhookEventTypeEnum {
   TRANSACTION_CREATED = "TRANSACTION_CREATED",
   TRANSACTION_SETTLED = "TRANSACTION_SETTLED",
@@ -923,41 +685,31 @@ export enum WebhookEventTypeEnum {
   PING = "PING",
 }
 
-/**
- * Represents a webhook specified as request input.
- */
+/** Represents a webhook specified as request input. */
 export interface WebhookInputResource {
   attributes: {
     /**
      * The URL that this webhook should post events to. This must be a valid
      * HTTP or HTTPS URL that does not exceed 300 characters in length.
-     *
      * @format uri
      */
     url: string;
     /**
      * An optional description for this webhook, up to 64 characters in
      * length.
-     *
      */
     description?: string | null;
   };
 }
 
-/**
- * Provides information about a webhook.
- */
+/** Provides information about a webhook. */
 export interface WebhookResource {
   attributes: {
-    /**
-     * The URL that this webhook is configured to `POST` events to.
-     *
-     */
+    /** The URL that this webhook is configured to `POST` events to. */
     url: string;
     /**
      * An optional description that was provided at the time the webhook was
      * created.
-     *
      */
     description: string | null;
     /**
@@ -977,30 +729,20 @@ export interface WebhookResource {
     secretKey?: string;
     /**
      * The date-time at which this webhook was created.
-     *
      * @format date-time
      */
     createdAt: string;
   };
-  /**
-   * The unique identifier for this webhook.
-   *
-   */
+  /** The unique identifier for this webhook. */
   id: string;
   links?: {
-    /**
-     * The canonical link to this resource within the API.
-     *
-     */
+    /** The canonical link to this resource within the API. */
     self: string;
   };
   relationships: {
     logs: {
       links?: {
-        /**
-         * The link to retrieve the related resource(s) in this relationship.
-         *
-         */
+        /** The link to retrieve the related resource(s) in this relationship. */
         related: string;
       };
     };
@@ -1243,7 +985,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /**
          * The number of records to return in each page.
-         *
          * @example 30
          */
         "page[size]"?: number;
@@ -1291,7 +1032,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /**
          * The number of records to return in each page.
-         *
          * @example 30
          */
         "page[size]"?: number;
@@ -1299,7 +1039,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * The transaction status for which to return records. This
          * can be used to filter `HELD` transactions from those
          * that are `SETTLED`.
-         *
          * @example HELD
          */
         "filter[status]"?: TransactionStatusEnum;
@@ -1307,7 +1046,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * The start date-time from which to return records,
          * formatted according to rfc-3339. Not to be used for
          * pagination purposes.
-         *
          * @format date-time
          * @example 2020-01-01T01:02:03+10:00
          */
@@ -1316,7 +1054,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * The end date-time up to which to return records,
          * formatted according to rfc-3339. Not to be used for
          * pagination purposes.
-         *
          * @format date-time
          * @example 2020-02-01T01:02:03+10:00
          */
@@ -1326,7 +1063,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * Both parent and child categories can be filtered through
          * this parameter. Providing an invalid category identifier
          * results in a `404` response.
-         *
          * @example good-life
          */
         "filter[category]"?: string;
@@ -1334,7 +1070,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * A transaction tag to filter for which to return records.
          * If the tag does not exist, zero records are returned and
          * a success response is given.
-         *
          * @example Holiday
          */
         "filter[tag]"?: string;
@@ -1366,7 +1101,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * The unique identifier of a parent category for which to
          * return only its children. Providing an invalid category
          * identifier results in a `404` response.
-         *
          * @example good-life
          */
         "filter[parent]"?: string;
@@ -1433,7 +1167,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /**
          * The number of records to return in each page.
-         *
          * @example 50
          */
         "page[size]"?: number;
@@ -1501,7 +1234,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /**
          * The number of records to return in each page.
-         *
          * @example 30
          */
         "page[size]"?: number;
@@ -1509,7 +1241,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * The transaction status for which to return records. This
          * can be used to filter `HELD` transactions from those
          * that are `SETTLED`.
-         *
          * @example HELD
          */
         "filter[status]"?: TransactionStatusEnum;
@@ -1517,7 +1248,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * The start date-time from which to return records,
          * formatted according to rfc-3339. Not to be used for
          * pagination purposes.
-         *
          * @format date-time
          * @example 2020-01-01T01:02:03+10:00
          */
@@ -1526,7 +1256,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * The end date-time up to which to return records,
          * formatted according to rfc-3339. Not to be used for
          * pagination purposes.
-         *
          * @format date-time
          * @example 2020-02-01T01:02:03+10:00
          */
@@ -1536,7 +1265,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * Both parent and child categories can be filtered through
          * this parameter. Providing an invalid category identifier
          * results in a `404` response.
-         *
          * @example good-life
          */
         "filter[category]"?: string;
@@ -1546,7 +1274,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * A transaction tag to filter for which to return records.
          * If the tag does not exist, zero records are returned and
          * a success response is given.
-         *
          * @example Holiday
          */
         "filter[tag]"?: string;
@@ -1594,7 +1321,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /**
          * The number of records to return in each page.
-         *
          * @example 30
          */
         "page[size]"?: number;
@@ -1697,7 +1423,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /**
          * The number of records to return in each page.
-         *
          * @example 30
          */
         "page[size]"?: number;

@@ -1,5 +1,4 @@
-module.exports = {
-  filePrefix: `/* eslint-disable */
+/* eslint-disable */
 /* tslint:disable */
 /*
  * ---------------------------------------------------------------
@@ -10,5 +9,13 @@ module.exports = {
  * ---------------------------------------------------------------
  */
 
-`,
-};
+export type Type1 = Array<Date>;
+
+export type Type2 = Array<Date>;
+
+/** @format date-time */
+export type Type3 = Date;
+
+export type Type4 = String;
+
+export type Type5 = Record<string, any>;

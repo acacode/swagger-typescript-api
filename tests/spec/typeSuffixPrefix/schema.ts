@@ -9,20 +9,14 @@
  * ---------------------------------------------------------------
  */
 
-/**
- * A user or organization
- */
 export interface SwaggerTypeActorGeneratedDataContract {
   avatar_url?: string;
   bio?: string;
-  /** The website URL from the profile page */
   blog?: string;
   collaborators?: number;
   company?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   disk_usage?: number;
-  /** Note: The returned email is the user’s publicly visible email address (or null if the user has not specified a public email address in their profile). */
   email?: string;
   followers?: number;
   followers_url?: string;
@@ -34,9 +28,7 @@ export interface SwaggerTypeActorGeneratedDataContract {
   html_url?: string;
   id?: number;
   location?: string;
-  /** The account username */
   login?: string;
-  /** The full account name */
   name?: string;
   organizations_url?: string;
   owned_private_repos?: number;
@@ -53,7 +45,6 @@ export interface SwaggerTypeActorGeneratedDataContract {
   subscriptions_url?: string;
   total_private_repos?: number;
   type?: "User" | "Organization";
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
 }
@@ -68,7 +59,6 @@ export interface SwaggerTypeAssetGeneratedDataContract {
   size?: number;
   state?: string;
   updated_at?: string;
-  /** A GitHub user */
   uploader?: SwaggerTypeUserGeneratedDataContract;
   url?: string;
 }
@@ -99,17 +89,14 @@ export interface SwaggerTypeBranchGeneratedDataContract {
     self?: string;
   };
   commit?: {
-    /** A GitHub user */
     author?: SwaggerTypeUserGeneratedDataContract;
     commit?: {
       author?: {
-        /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
         date?: string;
         email?: string;
         name?: string;
       };
       committer?: {
-        /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
         date?: string;
         email?: string;
         name?: string;
@@ -121,7 +108,6 @@ export interface SwaggerTypeBranchGeneratedDataContract {
       };
       url?: string;
     };
-    /** A GitHub user */
     committer?: SwaggerTypeUserGeneratedDataContract;
     parents?: {
       sha?: string;
@@ -153,26 +139,21 @@ export interface SwaggerTypeCommentBodyGeneratedDataContract {
 
 export type SwaggerTypeCommentsGeneratedDataContract = {
   body?: string;
-  /** ISO 8601. */
   created_at?: string;
   id?: number;
   url?: string;
-  /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }[];
 
 export interface SwaggerTypeCommitGeneratedDataContract {
-  /** A GitHub user */
   author?: SwaggerTypeUserGeneratedDataContract;
   commit?: {
     author?: {
-      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
       date?: string;
       email?: string;
       name?: string;
     };
     committer?: {
-      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
       date?: string;
       email?: string;
       name?: string;
@@ -184,7 +165,6 @@ export interface SwaggerTypeCommitGeneratedDataContract {
     };
     url?: string;
   };
-  /** A GitHub user */
   committer?: SwaggerTypeUserGeneratedDataContract;
   files?: {
     additions?: number;
@@ -218,46 +198,35 @@ export type SwaggerTypeCommitActivityStatsGeneratedDataContract = {
 export interface SwaggerTypeCommitCommentGeneratedDataContract {
   body?: string;
   commit_id?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   html_url?: string;
   id?: number;
   line?: number;
   path?: string;
   position?: number;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-  /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }
 
 export interface SwaggerTypeCommitCommentBodyGeneratedDataContract {
   body: string;
-  /** Deprecated - Use position parameter instead. */
   line?: string;
-  /** Line number in the file to comment on. Defaults to null. */
   number?: string;
-  /** Relative path of the file to comment on. */
   path?: string;
-  /** Line index in the diff to comment on. */
   position?: number;
-  /** SHA of the commit to comment on. */
   sha: string;
 }
 
 export type SwaggerTypeCommitsGeneratedDataContract = {
-  /** A GitHub user */
   author?: SwaggerTypeUserGeneratedDataContract;
   commit?: {
     author?: {
-      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
       date?: string;
       email?: string;
       name?: string;
     };
     committer?: {
-      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
       date?: string;
       email?: string;
       name?: string;
@@ -269,7 +238,6 @@ export type SwaggerTypeCommitsGeneratedDataContract = {
     };
     url?: string;
   };
-  /** A GitHub user */
   committer?: SwaggerTypeUserGeneratedDataContract;
   parents?: {
     sha?: string;
@@ -282,7 +250,6 @@ export type SwaggerTypeCommitsGeneratedDataContract = {
 export interface SwaggerTypeCompareCommitsGeneratedDataContract {
   ahead_by?: number;
   base_commit?: {
-    /** A GitHub user */
     author?: SwaggerTypeUserGeneratedDataContract;
     commit?: {
       author?: {
@@ -302,7 +269,6 @@ export interface SwaggerTypeCompareCommitsGeneratedDataContract {
       };
       url?: string;
     };
-    /** A GitHub user */
     committer?: SwaggerTypeUserGeneratedDataContract;
     parents?: {
       sha?: string;
@@ -313,7 +279,6 @@ export interface SwaggerTypeCompareCommitsGeneratedDataContract {
   };
   behind_by?: number;
   commits?: {
-    /** A GitHub user */
     author?: SwaggerTypeUserGeneratedDataContract;
     commit?: {
       author?: {
@@ -333,7 +298,6 @@ export interface SwaggerTypeCompareCommitsGeneratedDataContract {
       };
       url?: string;
     };
-    /** A GitHub user */
     committer?: SwaggerTypeUserGeneratedDataContract;
     parents?: {
       sha?: string;
@@ -389,16 +353,11 @@ export type SwaggerTypeContributorsStatsGeneratedDataContract = {
     login?: string;
     url?: string;
   };
-  /** The Total number of commits authored by the contributor. */
   total?: number;
   weeks?: {
-    /** Number of additions. */
     a?: number;
-    /** Number of commits. */
     c?: number;
-    /** Number of deletions. */
     d?: number;
-    /** Start of the week. */
     w?: string;
   }[];
 }[];
@@ -505,7 +464,6 @@ export interface SwaggerTypeDeploymentGeneratedDataContract {
 
 export interface SwaggerTypeDeploymentRespGeneratedDataContract {
   created_at?: string;
-  /** A GitHub user */
   creator?: SwaggerTypeUserGeneratedDataContract;
   description?: string;
   id?: number;
@@ -518,7 +476,6 @@ export interface SwaggerTypeDeploymentRespGeneratedDataContract {
 
 export type SwaggerTypeDeploymentStatusesGeneratedDataContract = {
   created_at?: string;
-  /** A GitHub user */
   creator?: SwaggerTypeUserGeneratedDataContract;
   description?: string;
   id?: number;
@@ -558,11 +515,9 @@ export type SwaggerTypeEmailsPostGeneratedDataContract = string[];
 export type SwaggerTypeEmojisGeneratedDataContract = Record<string, string>;
 
 export interface SwaggerTypeEventGeneratedDataContract {
-  /** A user or organization */
   actor?: SwaggerTypeActorGeneratedDataContract;
   created_at?: object;
   id?: number;
-  /** A GitHub organization */
   org?: SwaggerTypeOrganizationGeneratedDataContract;
   payload?: object;
   public?: boolean;
@@ -620,7 +575,6 @@ export type SwaggerTypeForksGeneratedDataContract = SwaggerTypeReposGeneratedDat
 export interface SwaggerTypeGistGeneratedDataContract {
   comments?: number;
   comments_url?: string;
-  /** Timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ. */
   created_at?: string;
   description?: string;
   files?: {
@@ -631,10 +585,8 @@ export interface SwaggerTypeGistGeneratedDataContract {
     };
   };
   forks?: {
-    /** Timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ. */
     created_at?: string;
     url?: string;
-    /** A GitHub user */
     user?: SwaggerTypeUserGeneratedDataContract;
   }[];
   git_pull_url?: string;
@@ -645,10 +597,8 @@ export interface SwaggerTypeGistGeneratedDataContract {
       deletions?: number;
       total?: number;
     };
-    /** Timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ. */
     committed_at?: string;
     url?: string;
-    /** A GitHub user */
     user?: SwaggerTypeUserGeneratedDataContract;
     version?: string;
   }[];
@@ -656,7 +606,6 @@ export interface SwaggerTypeGistGeneratedDataContract {
   id?: string;
   public?: boolean;
   url?: string;
-  /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }
 
@@ -678,7 +627,6 @@ export type SwaggerTypeGistsGeneratedDataContract = {
   id?: string;
   public?: boolean;
   url?: string;
-  /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }[];
 
@@ -721,7 +669,6 @@ export type SwaggerTypeHookGeneratedDataContract = {
     content_type?: string;
     url?: string;
   };
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   events?: (
     | "push"
@@ -742,7 +689,6 @@ export type SwaggerTypeHookGeneratedDataContract = {
   )[];
   id?: number;
   name?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
 }[];
@@ -761,20 +707,15 @@ export interface SwaggerTypeIssueGeneratedDataContract {
 }
 
 export interface SwaggerTypeIssueEventGeneratedDataContract {
-  /** A user or organization */
   actor?: SwaggerTypeActorGeneratedDataContract;
   commit_id?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   event?: string;
   issue?: {
-    /** A GitHub user */
     assignee?: SwaggerTypeUserGeneratedDataContract;
     body?: string;
-    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     closed_at?: string;
     comments?: number;
-    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     created_at?: string;
     html_url?: string;
     labels?: {
@@ -784,12 +725,9 @@ export interface SwaggerTypeIssueEventGeneratedDataContract {
     }[];
     milestone?: {
       closed_issues?: number;
-      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
       created_at?: string;
-      /** A GitHub user */
       creator?: SwaggerTypeUserGeneratedDataContract;
       description?: string;
-      /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
       due_on?: string;
       number?: number;
       open_issues?: number;
@@ -805,10 +743,8 @@ export interface SwaggerTypeIssueEventGeneratedDataContract {
     };
     state?: "open" | "closed";
     title?: string;
-    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     updated_at?: string;
     url?: string;
-    /** A GitHub user */
     user?: SwaggerTypeUserGeneratedDataContract;
   };
   url?: string;
@@ -817,13 +753,10 @@ export interface SwaggerTypeIssueEventGeneratedDataContract {
 export type SwaggerTypeIssueEventsGeneratedDataContract = SwaggerTypeIssueEventGeneratedDataContract[];
 
 export type SwaggerTypeIssuesGeneratedDataContract = {
-  /** A GitHub user */
   assignee?: SwaggerTypeUserGeneratedDataContract;
   body?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   closed_at?: string;
   comments?: number;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   html_url?: string;
   labels?: {
@@ -833,12 +766,9 @@ export type SwaggerTypeIssuesGeneratedDataContract = {
   }[];
   milestone?: {
     closed_issues?: number;
-    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     created_at?: string;
-    /** A GitHub user */
     creator?: SwaggerTypeUserGeneratedDataContract;
     description?: string;
-    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     due_on?: string;
     number?: number;
     open_issues?: number;
@@ -854,23 +784,18 @@ export type SwaggerTypeIssuesGeneratedDataContract = {
   };
   state?: "open" | "closed";
   title?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-  /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }[];
 
 export interface SwaggerTypeIssuesCommentGeneratedDataContract {
   body?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   html_url?: string;
   id?: number;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-  /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }
 
@@ -888,15 +813,12 @@ export type SwaggerTypeIssuesCommentsGeneratedDataContract = {
   };
   body?: string;
   commit_id?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   id?: number;
   path?: string;
   position?: number;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-  /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }[];
 
@@ -908,12 +830,20 @@ export type SwaggerTypeKeysGeneratedDataContract = {
 }[];
 
 export interface SwaggerTypeLabelGeneratedDataContract {
+  /**
+   * @minLength 6
+   * @maxLength 6
+   */
   color?: string;
   name?: string;
   url?: string;
 }
 
 export type SwaggerTypeLabelsGeneratedDataContract = {
+  /**
+   * @minLength 6
+   * @maxLength 6
+   */
   color?: string;
   name?: string;
   url?: string;
@@ -944,12 +874,10 @@ export interface SwaggerTypeMergesBodyGeneratedDataContract {
 }
 
 export interface SwaggerTypeMergesConflictGeneratedDataContract {
-  /** Error message */
   message?: string;
 }
 
 export interface SwaggerTypeMergesSuccessfulGeneratedDataContract {
-  /** A GitHub user */
   author?: SwaggerTypeUserGeneratedDataContract;
   comments_url?: string;
   commit?: {
@@ -971,7 +899,6 @@ export interface SwaggerTypeMergesSuccessfulGeneratedDataContract {
     };
     url?: string;
   };
-  /** A GitHub user */
   committer?: SwaggerTypeUserGeneratedDataContract;
   merged?: boolean;
   message?: string;
@@ -990,12 +917,9 @@ export interface SwaggerTypeMetaGeneratedDataContract {
 
 export interface SwaggerTypeMilestoneGeneratedDataContract {
   closed_issues?: number;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
-  /** A GitHub user */
   creator?: SwaggerTypeUserGeneratedDataContract;
   description?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   due_on?: string;
   number?: number;
   open_issues?: number;
@@ -1026,7 +950,6 @@ export interface SwaggerTypeNotificationsGeneratedDataContract {
     html_url?: string;
     id?: number;
     name?: string;
-    /** A user or organization */
     owner?: SwaggerTypeActorGeneratedDataContract;
     private?: boolean;
     url?: string;
@@ -1048,9 +971,6 @@ export interface SwaggerTypeOrgTeamsPostGeneratedDataContract {
   repo_names?: string[];
 }
 
-/**
- * A GitHub organization
- */
 export type SwaggerTypeOrganizationGeneratedDataContract = SwaggerTypeActorGeneratedDataContract;
 
 export interface SwaggerTypeOrganizationAsTeamMemberGeneratedDataContract {
@@ -1085,10 +1005,8 @@ export interface SwaggerTypePatchGistGeneratedDataContract {
 }
 
 export interface SwaggerTypePatchOrgGeneratedDataContract {
-  /** Billing email address. This address is not publicized. */
   billing_email?: string;
   company?: string;
-  /** Publicly visible email address. */
   email?: string;
   location?: string;
   name?: string;
@@ -1105,22 +1023,15 @@ export interface SwaggerTypePostGistGeneratedDataContract {
 }
 
 export interface SwaggerTypePostRepoGeneratedDataContract {
-  /** True to create an initial commit with empty README. Default is false. */
   auto_init?: boolean;
   description?: string;
-  /** Desired language or platform .gitignore template to apply. Use the name of the template without the extension. For example, "Haskell" Ignored if auto_init parameter is not provided.  */
   gitignore_template?: string;
-  /** True to enable downloads for this repository, false to disable them. Default is true. */
   has_downloads?: boolean;
-  /** True to enable issues for this repository, false to disable them. Default is true. */
   has_issues?: boolean;
-  /** True to enable the wiki for this repository, false to disable it. Default is true. */
   has_wiki?: boolean;
   homepage?: string;
   name: string;
-  /** True to create a private repository, false to create a public one. Creating private repositories requires a paid GitHub account. */
   private?: boolean;
-  /** The id of the team that will be granted access to this repository. This is only valid when creating a repo in an organization. */
   team_id?: number;
 }
 
@@ -1237,9 +1148,7 @@ export type SwaggerTypePullsGeneratedDataContract = {
     };
   };
   body?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   closed_at?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   diff_url?: string;
   head?: {
@@ -1257,13 +1166,11 @@ export type SwaggerTypePullsGeneratedDataContract = {
   };
   html_url?: string;
   issue_url?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   merged_at?: string;
   number?: number;
   patch_url?: string;
   state?: "open" | "closed";
   title?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
   user?: {
@@ -1289,12 +1196,10 @@ export interface SwaggerTypePullsCommentGeneratedDataContract {
   };
   body?: string;
   commit_id?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   id?: number;
   path?: string;
   position?: number;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
   user?: {
@@ -1327,12 +1232,10 @@ export type SwaggerTypePullsCommentsGeneratedDataContract = {
   };
   body?: string;
   commit_id?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   id?: number;
   path?: string;
   position?: number;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
   user?: {
@@ -1369,7 +1272,6 @@ export interface SwaggerTypeRateLimitGeneratedDataContract {
 }
 
 export type SwaggerTypeRefGeneratedDataContract = {
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   creator?: {
     avatar_url?: string;
@@ -1382,7 +1284,6 @@ export type SwaggerTypeRefGeneratedDataContract = {
   id?: number;
   state?: string;
   target_url?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
 }[];
@@ -1431,12 +1332,10 @@ export interface SwaggerTypeReleaseGeneratedDataContract {
     size?: number;
     state?: string;
     updated_at?: string;
-    /** A GitHub user */
     uploader?: SwaggerTypeUserGeneratedDataContract;
     url?: string;
   }[];
   assets_url?: string;
-  /** A GitHub user */
   author?: SwaggerTypeUserGeneratedDataContract;
   body?: string;
   created_at?: string;
@@ -1474,12 +1373,10 @@ export type SwaggerTypeReleasesGeneratedDataContract = {
     size?: number;
     state?: string;
     updated_at?: string;
-    /** A GitHub user */
     uploader?: SwaggerTypeUserGeneratedDataContract;
     url?: string;
   }[];
   assets_url?: string;
-  /** A GitHub user */
   author?: SwaggerTypeUserGeneratedDataContract;
   body?: string;
   created_at?: string;
@@ -1499,7 +1396,6 @@ export type SwaggerTypeReleasesGeneratedDataContract = {
 
 export interface SwaggerTypeRepoGeneratedDataContract {
   clone_url?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   description?: string;
   fork?: boolean;
@@ -1519,21 +1415,15 @@ export interface SwaggerTypeRepoGeneratedDataContract {
   name?: string;
   open_issues?: number;
   open_issues_count?: number;
-  /** A GitHub organization */
   organization?: SwaggerTypeOrganizationGeneratedDataContract;
-  /** A user or organization */
   owner?: SwaggerTypeActorGeneratedDataContract;
-  /** Is present when the repo is a fork. Parent is the repo this repo was forked from. */
   parent?: SwaggerTypeRepoGeneratedDataContract;
   private?: boolean;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   pushed_at?: string;
   size?: number;
-  /** Is present when the repo is a fork. Source is the ultimate source for the network. */
   source?: SwaggerTypeRepoGeneratedDataContract;
   ssh_url?: string;
   svn_url?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
   watchers?: number;
@@ -1542,7 +1432,6 @@ export interface SwaggerTypeRepoGeneratedDataContract {
 
 export type SwaggerTypeRepoDeploymentsGeneratedDataContract = {
   created_at?: string;
-  /** A GitHub user */
   creator?: SwaggerTypeUserGeneratedDataContract;
   description?: string;
   id?: number;
@@ -1556,29 +1445,24 @@ export type SwaggerTypeRepoDeploymentsGeneratedDataContract = {
 export type SwaggerTypeRepoCommentsGeneratedDataContract = {
   body?: string;
   commit_id?: string;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   html_url?: string;
   id?: number;
   line?: number;
   path?: string;
   position?: number;
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   updated_at?: string;
   url?: string;
-  /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }[];
 
 export interface SwaggerTypeRepoCommitGeneratedDataContract {
   author?: {
-    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     date?: string;
     email?: string;
     name?: string;
   };
   committer?: {
-    /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     date?: string;
     email?: string;
     name?: string;
@@ -1658,7 +1542,6 @@ export interface SwaggerTypeSearchCodeGeneratedDataContract {
       milestones_url?: string;
       name?: string;
       notifications_url?: string;
-      /** A user or organization */
       owner?: SwaggerTypeActorGeneratedDataContract;
       private?: boolean;
       pulls_url?: string;
@@ -1707,7 +1590,6 @@ export interface SwaggerTypeSearchIssuesGeneratedDataContract {
     title?: string;
     updated_at?: string;
     url?: string;
-    /** A GitHub user */
     user?: SwaggerTypeUserGeneratedDataContract;
   }[];
   total_count?: number;
@@ -1741,7 +1623,6 @@ export interface SwaggerTypeSearchRepositoriesByKeywordGeneratedDataContract {
 }
 
 export interface SwaggerTypeSearchUserByEmailGeneratedDataContract {
-  /** A GitHub user */
   user?: SwaggerTypeUserGeneratedDataContract;
 }
 
@@ -1755,7 +1636,6 @@ export interface SwaggerTypeSearchUsersByKeywordGeneratedDataContract {
 }
 
 export interface SwaggerTypeSubscriptionGeneratedDataContract {
-  /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   ignored?: boolean;
   reason?: string;
@@ -1771,44 +1651,31 @@ export interface SwaggerTypeSubscriptionBodyGeneratedDataContract {
 }
 
 export interface SwaggerTypeTagGeneratedDataContract {
-  /** String of the tag message. */
   message?: string;
   object?: {
     sha?: string;
-    /** String of the type of the tagged object. Normally this is a commit but it can also be a tree or a blob. */
     type?: "commit" | "tree" | "blob";
     url?: string;
   };
   sha?: string;
-  /** The tag's name. This is typically a version (e.g., "v0.0.1"). */
   tag?: string;
   tagger?: {
-    /** Timestamp of when this object was tagged, in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     date?: string;
-    /** String of the email of the author of the tag. */
     email?: string;
-    /** String of the name of the author of the tag. */
     name?: string;
   };
   url?: string;
 }
 
 export interface SwaggerTypeTagBodyGeneratedDataContract {
-  /** String of the tag message. */
   message: string;
-  /** String of the SHA of the git object this is tagging. */
   object: string;
-  /** The tag's name. This is typically a version (e.g., "v0.0.1"). */
   tag: string;
   tagger: {
-    /** Timestamp of when this object was tagged, in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
     date?: string;
-    /** String of the email of the author of the tag. */
     email?: string;
-    /** String of the name of the author of the tag. */
     name?: string;
   };
-  /** String of the type of the object we’re tagging. Normally this is a commit but it can also be a tree or a blob. */
   type: "commit" | "tree" | "blob";
 }
 
@@ -1854,10 +1721,8 @@ export type SwaggerTypeTeamsListGeneratedDataContract = {
 export interface SwaggerTypeTreeGeneratedDataContract {
   sha?: string;
   tree?: {
-    /** One of 100644 for file (blob), 100755 for executable (blob), 040000 for subdirectory (tree), 160000 for submodule (commit) or 120000 for a blob that specifies the path of a symlink. */
     mode?: "100644" | "100755" | "040000" | "160000" | "120000";
     path?: string;
-    /** SHA1 checksum ID of the object in the tree. */
     sha?: string;
     size?: number;
     type?: "blob" | "tree" | "commit";
@@ -1868,15 +1733,11 @@ export interface SwaggerTypeTreeGeneratedDataContract {
 
 export interface SwaggerTypeTreesGeneratedDataContract {
   base_tree?: string;
-  /** SHA1 checksum ID of the object in the tree. */
   sha?: string;
   tree?: SwaggerTypeTreeGeneratedDataContract[];
   url?: string;
 }
 
-/**
- * A GitHub user
- */
 export type SwaggerTypeUserGeneratedDataContract = SwaggerTypeActorGeneratedDataContract;
 
 export type SwaggerTypeUserEmailsGeneratedDataContract = string[];
@@ -2119,41 +1980,39 @@ export class HttpClient<SecurityDataType = unknown> {
  * @termsOfService https://help.github.com/articles/github-terms-of-service/#b-api-terms
  * @baseUrl https://api.github.com
  * @externalDocs https://developer.github.com/v3/
- *
- * Powerful collaboration, code review, and code management for open source and private projects.
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   someTest = {
     /**
- * @description This type should test bug https://github.com/acacode/swagger-typescript-api/issues/156 NOTE: all properties should be required
+ * No description
  *
  * @name SomeTestList
  * @request GET:/some-test
  * @response `200` `{
-  user: {
-  foo: number,
-  extra: {
-  id: number,
-  extra: {
-  foo: string,
-  bar: number,
-  baz: string,
-  bad: number,
-  extra: {
-  foo: string,
-  bar: number,
-  baz: string,
-  bad: number,
-  extra: {
-  foo: string,
-  bar: number,
-  baz: string,
-  bad: number,
-  extra: {
-  foo: string,
-  bar: number,
-  baz: string,
-  bad: number,
+    user: {
+    foo: number,
+    extra: {
+    id: number,
+    extra: {
+    foo: string,
+    bar: number,
+    baz: string,
+    bad: number,
+    extra: {
+    foo: string,
+    bar: number,
+    baz: string,
+    bad: number,
+    extra: {
+    foo: string,
+    bar: number,
+    baz: string,
+    bad: number,
+    extra: {
+    foo: string,
+    bar: number,
+    baz: string,
+    bad: number,
 
 },
 
@@ -2167,7 +2026,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 
 },
 
-}` Success
+}`
  */
     someTestList: (params: RequestParams = {}) =>
       this.request<
@@ -2213,12 +2072,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   pathParams = {
     /**
-     * @description Lists all the emojis available to use on GitHub.
+     * No description
      *
      * @name PathParamsList
      * @request GET:/path-params
-     * @response `200` `SwaggerTypeEmojisGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeEmojisGeneratedDataContract`
+     * @response `403` `void`
      */
     pathParamsList: (petId: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeEmojisGeneratedDataContract, void>({
@@ -2230,12 +2089,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   events = {
     /**
-     * @description List public events.
+     * No description
      *
      * @name EventsList
      * @request GET:/events
-     * @response `200` `SwaggerTypeEventsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeEventsGeneratedDataContract`
+     * @response `403` `void`
      */
     eventsList: (params: RequestParams = {}) =>
       this.request<SwaggerTypeEventsGeneratedDataContract, void>({
@@ -2247,12 +2106,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   feeds = {
     /**
-     * @description List Feeds. GitHub provides several timeline resources in Atom format. The Feeds API lists all the feeds available to the authenticating user.
+     * No description
      *
      * @name FeedsList
      * @request GET:/feeds
-     * @response `200` `SwaggerTypeFeedsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeFeedsGeneratedDataContract`
+     * @response `403` `void`
      */
     feedsList: (params: RequestParams = {}) =>
       this.request<SwaggerTypeFeedsGeneratedDataContract, void>({
@@ -2264,20 +2123,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   gists = {
     /**
-     * @description List the authenticated user's gists or if called anonymously, this will return all public gists.
+     * No description
      *
      * @name GistsList
      * @request GET:/gists
-     * @response `200` `SwaggerTypeGistsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeGistsGeneratedDataContract`
+     * @response `403` `void`
      */
     gistsList: (
       query?: {
-        /**
-         * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
-         * Only gists updated at or after this time are returned.
-         *
-         */
         since?: string;
       },
       params: RequestParams = {},
@@ -2291,12 +2145,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a gist.
+     * No description
      *
      * @name GistsCreate
      * @request POST:/gists
-     * @response `201` `SwaggerTypeGistGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeGistGeneratedDataContract`
+     * @response `403` `void`
      */
     gistsCreate: (body: SwaggerTypePostGistGeneratedDataContract, params: RequestParams = {}) =>
       this.request<SwaggerTypeGistGeneratedDataContract, void>({
@@ -2309,20 +2163,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List all public gists.
+     * No description
      *
      * @name PublicList
      * @request GET:/gists/public
-     * @response `200` `SwaggerTypeGistsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeGistsGeneratedDataContract`
+     * @response `403` `void`
      */
     publicList: (
       query?: {
-        /**
-         * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
-         * Only gists updated at or after this time are returned.
-         *
-         */
         since?: string;
       },
       params: RequestParams = {},
@@ -2336,20 +2185,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List the authenticated user's starred gists.
+     * No description
      *
      * @name StarredList
      * @request GET:/gists/starred
-     * @response `200` `SwaggerTypeGistsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeGistsGeneratedDataContract`
+     * @response `403` `void`
      */
     starredList: (
       query?: {
-        /**
-         * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
-         * Only gists updated at or after this time are returned.
-         *
-         */
         since?: string;
       },
       params: RequestParams = {},
@@ -2363,12 +2207,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete a gist.
+     * No description
      *
      * @name GistsDelete
      * @request DELETE:/gists/{id}
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     gistsDelete: (id: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -2378,12 +2222,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a single gist.
+     * No description
      *
      * @name GistsDetail
      * @request GET:/gists/{id}
-     * @response `200` `SwaggerTypeGistGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeGistGeneratedDataContract`
+     * @response `403` `void`
      */
     gistsDetail: (id: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeGistGeneratedDataContract, void>({
@@ -2394,12 +2238,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Edit a gist.
+     * No description
      *
      * @name GistsPartialUpdate
      * @request PATCH:/gists/{id}
-     * @response `200` `SwaggerTypeGistGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeGistGeneratedDataContract`
+     * @response `403` `void`
      */
     gistsPartialUpdate: (id: number, body: SwaggerTypePatchGistGeneratedDataContract, params: RequestParams = {}) =>
       this.request<SwaggerTypeGistGeneratedDataContract, void>({
@@ -2412,12 +2256,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List comments on a gist.
+     * No description
      *
      * @name CommentsDetail
      * @request GET:/gists/{id}/comments
-     * @response `200` `SwaggerTypeCommentsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeCommentsGeneratedDataContract`
+     * @response `403` `void`
      */
     commentsDetail: (id: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeCommentsGeneratedDataContract, void>({
@@ -2428,12 +2272,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a commen
+     * No description
      *
      * @name CommentsCreate
      * @request POST:/gists/{id}/comments
-     * @response `201` `SwaggerTypeCommentGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeCommentGeneratedDataContract`
+     * @response `403` `void`
      */
     commentsCreate: (id: number, body: SwaggerTypeCommentBodyGeneratedDataContract, params: RequestParams = {}) =>
       this.request<SwaggerTypeCommentGeneratedDataContract, void>({
@@ -2445,12 +2289,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete a comment.
+     * No description
      *
      * @name CommentsDelete
      * @request DELETE:/gists/{id}/comments/{commentId}
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     commentsDelete: (id: number, commentId: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -2460,14 +2304,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a single comment.
+     * No description
      *
      * @name CommentsDetail2
      * @request GET:/gists/{id}/comments/{commentId}
      * @originalName commentsDetail
      * @duplicate
-     * @response `200` `SwaggerTypeCommentGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeCommentGeneratedDataContract`
+     * @response `403` `void`
      */
     commentsDetail2: (id: number, commentId: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeCommentGeneratedDataContract, void>({
@@ -2478,12 +2322,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Edit a comment.
+     * No description
      *
      * @name CommentsPartialUpdate
      * @request PATCH:/gists/{id}/comments/{commentId}
-     * @response `200` `SwaggerTypeCommentGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeCommentGeneratedDataContract`
+     * @response `403` `void`
      */
     commentsPartialUpdate: (
       id: number,
@@ -2501,13 +2345,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Fork a gist.
+     * No description
      *
      * @name ForksCreate
      * @request POST:/gists/{id}/forks
-     * @response `204` `void` Exists.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `404` `void` Not exists.
+     * @response `204` `void`
+     * @response `403` `void`
+     * @response `404` `void`
      */
     forksCreate: (id: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -2517,12 +2361,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Unstar a gist.
+     * No description
      *
      * @name StarDelete
      * @request DELETE:/gists/{id}/star
-     * @response `204` `void` Item removed.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     starDelete: (id: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -2532,13 +2376,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Check if a gist is starred.
+     * No description
      *
      * @name StarDetail
      * @request GET:/gists/{id}/star
-     * @response `204` `void` Exists.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `404` `void` Not exists.
+     * @response `204` `void`
+     * @response `403` `void`
+     * @response `404` `void`
      */
     starDetail: (id: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -2548,12 +2392,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Star a gist.
+     * No description
      *
      * @name StarUpdate
      * @request PUT:/gists/{id}/star
-     * @response `204` `void` Starred.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     starUpdate: (id: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -2564,12 +2408,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   gitignore = {
     /**
-     * @description Listing available templates. List all templates available to pass as an option when creating a repository.
+     * No description
      *
      * @name TemplatesList
      * @request GET:/gitignore/templates
-     * @response `200` `SwaggerTypeGitignoreGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeGitignoreGeneratedDataContract`
+     * @response `403` `void`
      */
     templatesList: (params: RequestParams = {}) =>
       this.request<SwaggerTypeGitignoreGeneratedDataContract, void>({
@@ -2580,12 +2424,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a single template.
+     * No description
      *
      * @name TemplatesDetail
      * @request GET:/gitignore/templates/{language}
-     * @response `200` `SwaggerTypeGitignoreLangGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeGitignoreLangGeneratedDataContract`
+     * @response `403` `void`
      */
     templatesDetail: (language: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeGitignoreLangGeneratedDataContract, void>({
@@ -2597,31 +2441,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   issues = {
     /**
-     * @description List issues. List all issues across all the authenticated user's visible repositories.
+     * No description
      *
      * @name IssuesList
      * @request GET:/issues
-     * @response `200` `SwaggerTypeIssuesGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeIssuesGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesList: (
       query: {
-        /**
-         * Issues assigned to you / created by you / mentioning you / you're
-         * subscribed to updates for / All issues the authenticated user can see
-         *
-         */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
         state: "open" | "closed";
-        /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
         sort: "created" | "updated" | "comments";
         direction: "asc" | "desc";
-        /**
-         * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
-         * Only issues updated at or after this time are returned.
-         *
-         */
         since?: string;
       },
       params: RequestParams = {},
@@ -2636,13 +2469,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   legacy = {
     /**
-     * @description Find issues by state and keyword.
+     * No description
      *
      * @name IssuesSearchDetail
      * @request GET:/legacy/issues/search/{owner}/{repository}/{state}/{keyword}
      * @deprecated
-     * @response `200` `SwaggerTypeSearchIssuesByKeywordGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeSearchIssuesByKeywordGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesSearchDetail: (
       keyword: string,
@@ -2659,24 +2492,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Find repositories by keyword. Note, this legacy method does not follow the v3 pagination pattern. This method returns up to 100 results per page and pages can be fetched using the start_page parameter.
+     * No description
      *
      * @name ReposSearchDetail
      * @request GET:/legacy/repos/search/{keyword}
      * @deprecated
-     * @response `200` `SwaggerTypeSearchRepositoriesByKeywordGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeSearchRepositoriesByKeywordGeneratedDataContract`
+     * @response `403` `void`
      */
     reposSearchDetail: (
       keyword: string,
       query?: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
         order?: "desc" | "asc";
-        /** Filter results by language */
         language?: string;
-        /** The page number to fetch */
         start_page?: string;
-        /** The sort field. One of stars, forks, or updated. Default: results are sorted by best match. */
         sort?: "updated" | "stars" | "forks";
       },
       params: RequestParams = {},
@@ -2690,13 +2519,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description This API call is added for compatibility reasons only.
+     * No description
      *
      * @name UserEmailDetail
      * @request GET:/legacy/user/email/{email}
      * @deprecated
-     * @response `200` `SwaggerTypeSearchUserByEmailGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeSearchUserByEmailGeneratedDataContract`
+     * @response `403` `void`
      */
     userEmailDetail: (email: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeSearchUserByEmailGeneratedDataContract, void>({
@@ -2707,22 +2536,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Find users by keyword.
+     * No description
      *
      * @name UserSearchDetail
      * @request GET:/legacy/user/search/{keyword}
      * @deprecated
-     * @response `200` `SwaggerTypeSearchUsersByKeywordGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeSearchUsersByKeywordGeneratedDataContract`
+     * @response `403` `void`
      */
     userSearchDetail: (
       keyword: string,
       query?: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
         order?: "desc" | "asc";
-        /** The page number to fetch */
         start_page?: string;
-        /** The sort field. One of stars, forks, or updated. Default: results are sorted by best match. */
         sort?: "updated" | "stars" | "forks";
       },
       params: RequestParams = {},
@@ -2737,12 +2563,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   markdown = {
     /**
-     * @description Render an arbitrary Markdown document
+     * No description
      *
      * @name MarkdownCreate
      * @request POST:/markdown
-     * @response `200` `void` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `void`
+     * @response `403` `void`
      */
     markdownCreate: (body: SwaggerTypeMarkdownGeneratedDataContract, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -2754,12 +2580,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Render a Markdown document in raw mode
+     * No description
      *
      * @name PostMarkdown
      * @request POST:/markdown/raw
-     * @response `200` `void` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `void`
+     * @response `403` `void`
      */
     postMarkdown: (params: RequestParams = {}) =>
       this.request<void, void>({
@@ -2770,12 +2596,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   meta = {
     /**
-     * @description This gives some information about GitHub.com, the service.
+     * No description
      *
      * @name MetaList
      * @request GET:/meta
-     * @response `200` `SwaggerTypeMetaGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeMetaGeneratedDataContract`
+     * @response `403` `void`
      */
     metaList: (params: RequestParams = {}) =>
       this.request<SwaggerTypeMetaGeneratedDataContract, void>({
@@ -2787,12 +2613,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   networks = {
     /**
-     * @description List public events for a network of repositories.
+     * No description
      *
      * @name EventsDetail
      * @request GET:/networks/{owner}/{repo}/events
-     * @response `200` `SwaggerTypeEventsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeEventsGeneratedDataContract`
+     * @response `403` `void`
      */
     eventsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeEventsGeneratedDataContract, void>({
@@ -2804,28 +2630,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   notifications = {
     /**
-     * @description List your notifications. List all notifications for the current user, grouped by repository.
+     * No description
      *
      * @name NotificationsList
      * @request GET:/notifications
-     * @response `200` `SwaggerTypeNotificationsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeNotificationsGeneratedDataContract`
+     * @response `403` `void`
      */
     notificationsList: (
       query?: {
-        /** True to show notifications marked as read. */
         all?: boolean;
-        /**
-         * True to show only notifications in which the user is directly participating
-         * or mentioned.
-         *
-         */
         participating?: boolean;
-        /**
-         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
-         * Example: "2012-10-09T23:39:01Z".
-         *
-         */
         since?: string;
       },
       params: RequestParams = {},
@@ -2839,12 +2654,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Mark as read. Marking a notification as "read" removes it from the default view on GitHub.com.
+     * No description
      *
      * @name NotificationsUpdate
      * @request PUT:/notifications
-     * @response `205` `void` Marked as read.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `205` `void`
+     * @response `403` `void`
      */
     notificationsUpdate: (body: SwaggerTypeNotificationMarkReadGeneratedDataContract, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -2855,12 +2670,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description View a single thread.
+     * No description
      *
      * @name ThreadsDetail
      * @request GET:/notifications/threads/{id}
-     * @response `200` `SwaggerTypeNotificationsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeNotificationsGeneratedDataContract`
+     * @response `403` `void`
      */
     threadsDetail: (id: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeNotificationsGeneratedDataContract, void>({
@@ -2871,12 +2686,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Mark a thread as read
+     * No description
      *
      * @name ThreadsPartialUpdate
      * @request PATCH:/notifications/threads/{id}
-     * @response `205` `void` Thread marked as read.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `205` `void`
+     * @response `403` `void`
      */
     threadsPartialUpdate: (id: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -2886,12 +2701,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete a Thread Subscription.
+     * No description
      *
      * @name ThreadsSubscriptionDelete
      * @request DELETE:/notifications/threads/{id}/subscription
-     * @response `204` `void` No Content
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     threadsSubscriptionDelete: (id: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -2901,12 +2716,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a Thread Subscription.
+     * No description
      *
      * @name ThreadsSubscriptionDetail
      * @request GET:/notifications/threads/{id}/subscription
-     * @response `200` `SwaggerTypeSubscriptionGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeSubscriptionGeneratedDataContract`
+     * @response `403` `void`
      */
     threadsSubscriptionDetail: (id: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeSubscriptionGeneratedDataContract, void>({
@@ -2917,12 +2732,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Set a Thread Subscription. This lets you subscribe to a thread, or ignore it. Subscribing to a thread is unnecessary if the user is already subscribed to the repository. Ignoring a thread will mute all future notifications (until you comment or get @mentioned).
+     * No description
      *
      * @name ThreadsSubscriptionUpdate
      * @request PUT:/notifications/threads/{id}/subscription
-     * @response `200` `SwaggerTypeSubscriptionGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeSubscriptionGeneratedDataContract`
+     * @response `403` `void`
      */
     threadsSubscriptionUpdate: (
       id: number,
@@ -2940,12 +2755,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   orgs = {
     /**
-     * @description Get an Organization.
+     * No description
      *
      * @name OrgsDetail
      * @request GET:/orgs/{org}
-     * @response `200` `SwaggerTypeOrganizationGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeOrganizationGeneratedDataContract`
+     * @response `403` `void`
      */
     orgsDetail: (org: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeOrganizationGeneratedDataContract, void>({
@@ -2956,12 +2771,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Edit an Organization.
+     * No description
      *
      * @name OrgsPartialUpdate
      * @request PATCH:/orgs/{org}
-     * @response `200` `SwaggerTypeOrganizationGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeOrganizationGeneratedDataContract`
+     * @response `403` `void`
      */
     orgsPartialUpdate: (org: string, body: SwaggerTypePatchOrgGeneratedDataContract, params: RequestParams = {}) =>
       this.request<SwaggerTypeOrganizationGeneratedDataContract, void>({
@@ -2974,12 +2789,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List public events for an organization.
+     * No description
      *
      * @name EventsDetail
      * @request GET:/orgs/{org}/events
-     * @response `200` `SwaggerTypeEventsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeEventsGeneratedDataContract`
+     * @response `403` `void`
      */
     eventsDetail: (org: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeEventsGeneratedDataContract, void>({
@@ -2990,32 +2805,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List issues. List all issues for a given organization for the authenticated user.
+     * No description
      *
      * @name IssuesDetail
      * @request GET:/orgs/{org}/issues
-     * @response `200` `SwaggerTypeIssuesGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeIssuesGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesDetail: (
       org: string,
       query: {
-        /**
-         * Issues assigned to you / created by you / mentioning you / you're
-         * subscribed to updates for / All issues the authenticated user can see
-         *
-         */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
         state: "open" | "closed";
-        /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
         sort: "created" | "updated" | "comments";
         direction: "asc" | "desc";
-        /**
-         * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
-         * Only issues updated at or after this time are returned.
-         *
-         */
         since?: string;
       },
       params: RequestParams = {},
@@ -3029,13 +2833,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Members list. List all users who are members of an organization. A member is a user tha belongs to at least 1 team in the organization. If the authenticated user is also an owner of this organization then both concealed and public members will be returned. If the requester is not an owner of the organization the query will be redirected to the public members list.
+     * No description
      *
      * @name MembersDetail
      * @request GET:/orgs/{org}/members
-     * @response `200` `SwaggerTypeUsersGeneratedDataContract` OK
-     * @response `302` `void` Response if requester is not an organization member.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUsersGeneratedDataContract`
+     * @response `302` `void`
+     * @response `403` `void`
      */
     membersDetail: (org: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeUsersGeneratedDataContract, void>({
@@ -3046,12 +2850,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Remove a member. Removing a user from this list will remove them from all teams and they will no longer have any access to the organization's repositories.
+     * No description
      *
      * @name MembersDelete
      * @request DELETE:/orgs/{org}/members/{username}
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     membersDelete: (org: string, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -3061,16 +2865,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Check if a user is, publicly or privately, a member of the organization.
+     * No description
      *
      * @name MembersDetail2
      * @request GET:/orgs/{org}/members/{username}
      * @originalName membersDetail
      * @duplicate
-     * @response `204` `void` No content. Response if requester is an organization member and user is a member
-     * @response `302` `void` Found. Response if requester is not an organization member
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `404` `void` Not Found. a. Response if requester is an organization member and user is not a member b. Response if requester is not an organization member and is inquiring about themselves
+     * @response `204` `void`
+     * @response `302` `void`
+     * @response `403` `void`
+     * @response `404` `void`
      */
     membersDetail2: (org: string, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -3080,12 +2884,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Public members list. Members of an organization can choose to have their membership publicized or not.
+     * No description
      *
      * @name PublicMembersDetail
      * @request GET:/orgs/{org}/public_members
-     * @response `200` `SwaggerTypeUsersGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUsersGeneratedDataContract`
+     * @response `403` `void`
      */
     publicMembersDetail: (org: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeUsersGeneratedDataContract, void>({
@@ -3096,12 +2900,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Conceal a user's membership.
+     * No description
      *
      * @name PublicMembersDelete
      * @request DELETE:/orgs/{org}/public_members/{username}
-     * @response `204` `void` Concealed.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     publicMembersDelete: (org: string, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -3111,15 +2915,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Check public membership.
+     * No description
      *
      * @name PublicMembersDetail2
      * @request GET:/orgs/{org}/public_members/{username}
      * @originalName publicMembersDetail
      * @duplicate
-     * @response `204` `void` User is a public member.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `404` `void` User is not a public member.
+     * @response `204` `void`
+     * @response `403` `void`
+     * @response `404` `void`
      */
     publicMembersDetail2: (org: string, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -3129,12 +2933,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Publicize a user's membership.
+     * No description
      *
      * @name PublicMembersUpdate
      * @request PUT:/orgs/{org}/public_members/{username}
-     * @response `204` `void` Publicized.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     publicMembersUpdate: (org: string, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -3144,12 +2948,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List repositories for the specified org.
+     * No description
      *
      * @name ReposDetail
      * @request GET:/orgs/{org}/repos
-     * @response `200` `SwaggerTypeReposGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeReposGeneratedDataContract`
+     * @response `403` `void`
      */
     reposDetail: (
       org: string,
@@ -3167,12 +2971,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a new repository for the authenticated user. OAuth users must supply repo scope.
+     * No description
      *
      * @name ReposCreate
      * @request POST:/orgs/{org}/repos
-     * @response `201` `SwaggerTypeReposGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeReposGeneratedDataContract`
+     * @response `403` `void`
      */
     reposCreate: (org: string, body: SwaggerTypePostRepoGeneratedDataContract, params: RequestParams = {}) =>
       this.request<SwaggerTypeReposGeneratedDataContract, void>({
@@ -3184,12 +2988,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List teams.
+     * No description
      *
      * @name TeamsDetail
      * @request GET:/orgs/{org}/teams
-     * @response `200` `SwaggerTypeTeamsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeTeamsGeneratedDataContract`
+     * @response `403` `void`
      */
     teamsDetail: (org: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeTeamsGeneratedDataContract, void>({
@@ -3200,12 +3004,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create team. In order to create a team, the authenticated user must be an owner of organization.
+     * No description
      *
      * @name TeamsCreate
      * @request POST:/orgs/{org}/teams
-     * @response `201` `SwaggerTypeTeamGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeTeamGeneratedDataContract`
+     * @response `403` `void`
      */
     teamsCreate: (org: string, body: SwaggerTypeOrgTeamsPostGeneratedDataContract, params: RequestParams = {}) =>
       this.request<SwaggerTypeTeamGeneratedDataContract, void>({
@@ -3219,12 +3023,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   rateLimit = {
     /**
-     * @description Get your current rate limit status Note: Accessing this endpoint does not count against your rate limit.
+     * No description
      *
      * @name RateLimitList
      * @request GET:/rate_limit
-     * @response `200` `SwaggerTypeRateLimitGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeRateLimitGeneratedDataContract`
+     * @response `403` `void`
      */
     rateLimitList: (params: RequestParams = {}) =>
       this.request<SwaggerTypeRateLimitGeneratedDataContract, void>({
@@ -3236,12 +3040,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   repos = {
     /**
-     * @description Delete a Repository. Deleting a repository requires admin access. If OAuth is used, the delete_repo scope is required.
+     * No description
      *
      * @name ReposDelete
      * @request DELETE:/repos/{owner}/{repo}
-     * @response `204` `void` Item removed.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     reposDelete: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -3251,12 +3055,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get repository.
+     * No description
      *
      * @name ReposDetail
      * @request GET:/repos/{owner}/{repo}
-     * @response `200` `SwaggerTypeRepoGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeRepoGeneratedDataContract`
+     * @response `403` `void`
      */
     reposDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeRepoGeneratedDataContract, void>({
@@ -3267,12 +3071,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Edit repository.
+     * No description
      *
      * @name ReposPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}
-     * @response `200` `SwaggerTypeRepoGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeRepoGeneratedDataContract`
+     * @response `403` `void`
      */
     reposPartialUpdate: (
       owner: string,
@@ -3290,12 +3094,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List assignees. This call lists all the available assignees (owner + collaborators) to which issues may be assigned.
+     * No description
      *
      * @name AssigneesDetail
      * @request GET:/repos/{owner}/{repo}/assignees
-     * @response `200` `SwaggerTypeAssigneesGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeAssigneesGeneratedDataContract`
+     * @response `403` `void`
      */
     assigneesDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeAssigneesGeneratedDataContract, void>({
@@ -3306,15 +3110,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Check assignee. You may also check to see if a particular user is an assignee for a repository.
+     * No description
      *
      * @name AssigneesDetail2
      * @request GET:/repos/{owner}/{repo}/assignees/{assignee}
      * @originalName assigneesDetail
      * @duplicate
-     * @response `204` `void` User is an assignee.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `404` `void` User isn't an assignee.
+     * @response `204` `void`
+     * @response `403` `void`
+     * @response `404` `void`
      */
     assigneesDetail2: (owner: string, repo: string, assignee: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -3324,12 +3128,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get list of branches
+     * No description
      *
      * @name BranchesDetail
      * @request GET:/repos/{owner}/{repo}/branches
-     * @response `200` `SwaggerTypeBranchesGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeBranchesGeneratedDataContract`
+     * @response `403` `void`
      */
     branchesDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeBranchesGeneratedDataContract, void>({
@@ -3340,14 +3144,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get Branch
+     * No description
      *
      * @name BranchesDetail2
      * @request GET:/repos/{owner}/{repo}/branches/{branch}
      * @originalName branchesDetail
      * @duplicate
-     * @response `200` `SwaggerTypeBranchGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeBranchGeneratedDataContract`
+     * @response `403` `void`
      */
     branchesDetail2: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeBranchGeneratedDataContract, void>({
@@ -3358,12 +3162,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List. When authenticating as an organization owner of an organization-owned repository, all organization owners are included in the list of collaborators. Otherwise, only users with access to the repository are returned in the collaborators list.
+     * No description
      *
      * @name CollaboratorsDetail
      * @request GET:/repos/{owner}/{repo}/collaborators
-     * @response `200` `SwaggerTypeUsersGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUsersGeneratedDataContract`
+     * @response `403` `void`
      */
     collaboratorsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeUsersGeneratedDataContract, void>({
@@ -3374,12 +3178,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Remove collaborator.
+     * No description
      *
      * @name CollaboratorsDelete
      * @request DELETE:/repos/{owner}/{repo}/collaborators/{user}
-     * @response `204` `void` Collaborator removed.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     collaboratorsDelete: (owner: string, repo: string, user: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -3389,15 +3193,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Check if user is a collaborator
+     * No description
      *
      * @name CollaboratorsDetail2
      * @request GET:/repos/{owner}/{repo}/collaborators/{user}
      * @originalName collaboratorsDetail
      * @duplicate
-     * @response `204` `void` User is a collaborator.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `404` `void` User is not a collaborator.
+     * @response `204` `void`
+     * @response `403` `void`
+     * @response `404` `void`
      */
     collaboratorsDetail2: (owner: string, repo: string, user: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -3407,12 +3211,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Add collaborator.
+     * No description
      *
      * @name CollaboratorsUpdate
      * @request PUT:/repos/{owner}/{repo}/collaborators/{user}
-     * @response `204` `void` Collaborator added.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     collaboratorsUpdate: (owner: string, repo: string, user: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -3422,12 +3226,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List commit comments for a repository. Comments are ordered by ascending ID.
+     * No description
      *
      * @name CommentsDetail
      * @request GET:/repos/{owner}/{repo}/comments
-     * @response `200` `SwaggerTypeRepoCommentsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeRepoCommentsGeneratedDataContract`
+     * @response `403` `void`
      */
     commentsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeRepoCommentsGeneratedDataContract, void>({
@@ -3438,12 +3242,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete a commit comment
+     * No description
      *
      * @name CommentsDelete
      * @request DELETE:/repos/{owner}/{repo}/comments/{commentId}
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     commentsDelete: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -3453,14 +3257,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a single commit comment.
+     * No description
      *
      * @name CommentsDetail2
      * @request GET:/repos/{owner}/{repo}/comments/{commentId}
      * @originalName commentsDetail
      * @duplicate
-     * @response `200` `SwaggerTypeCommitCommentGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeCommitCommentGeneratedDataContract`
+     * @response `403` `void`
      */
     commentsDetail2: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeCommitCommentGeneratedDataContract, void>({
@@ -3471,12 +3275,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Update a commit comment.
+     * No description
      *
      * @name CommentsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/comments/{commentId}
-     * @response `200` `SwaggerTypeCommitCommentGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeCommitCommentGeneratedDataContract`
+     * @response `403` `void`
      */
     commentsPartialUpdate: (
       owner: string,
@@ -3494,30 +3298,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List commits on a repository.
+     * No description
      *
      * @name CommitsDetail
      * @request GET:/repos/{owner}/{repo}/commits
-     * @response `200` `SwaggerTypeCommitsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeCommitsGeneratedDataContract`
+     * @response `403` `void`
      */
     commitsDetail: (
       owner: string,
       repo: string,
       query?: {
-        /**
-         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
-         * Example: "2012-10-09T23:39:01Z".
-         *
-         */
         since?: string;
-        /** Sha or branch to start listing commits from. */
         sha?: string;
-        /** Only commits containing this file path will be returned. */
         path?: string;
-        /** GitHub login, name, or email by which to filter by commit author. */
         author?: string;
-        /** ISO 8601 Date - Only commits before this date will be returned. */
         until?: string;
       },
       params: RequestParams = {},
@@ -3531,12 +3326,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get the combined Status for a specific Ref The Combined status endpoint is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the blog post for full details. To access this endpoint during the preview period, you must provide a custom media type in the Accept header: application/vnd.github.she-hulk-preview+json
+     * No description
      *
      * @name CommitsStatusDetail
      * @request GET:/repos/{owner}/{repo}/commits/{ref}/status
-     * @response `200` `SwaggerTypeRefStatusGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeRefStatusGeneratedDataContract`
+     * @response `403` `void`
      */
     commitsStatusDetail: (owner: string, repo: string, ref: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeRefStatusGeneratedDataContract, void>({
@@ -3547,14 +3342,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a single commit.
+     * No description
      *
      * @name CommitsDetail2
      * @request GET:/repos/{owner}/{repo}/commits/{shaCode}
      * @originalName commitsDetail
      * @duplicate
-     * @response `200` `SwaggerTypeCommitGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeCommitGeneratedDataContract`
+     * @response `403` `void`
      */
     commitsDetail2: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeCommitGeneratedDataContract, void>({
@@ -3565,12 +3360,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List comments for a single commitList comments for a single commit.
+     * No description
      *
      * @name CommitsCommentsDetail
      * @request GET:/repos/{owner}/{repo}/commits/{shaCode}/comments
-     * @response `200` `SwaggerTypeRepoCommentsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeRepoCommentsGeneratedDataContract`
+     * @response `403` `void`
      */
     commitsCommentsDetail: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeRepoCommentsGeneratedDataContract, void>({
@@ -3581,12 +3376,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a commit comment.
+     * No description
      *
      * @name CommitsCommentsCreate
      * @request POST:/repos/{owner}/{repo}/commits/{shaCode}/comments
-     * @response `201` `SwaggerTypeCommitCommentGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeCommitCommentGeneratedDataContract`
+     * @response `403` `void`
      */
     commitsCommentsCreate: (
       owner: string,
@@ -3605,12 +3400,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Compare two commits
+     * No description
      *
      * @name CompareDetail
      * @request GET:/repos/{owner}/{repo}/compare/{baseId}...{headId}
-     * @response `200` `SwaggerTypeCompareCommitsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeCompareCommitsGeneratedDataContract`
+     * @response `403` `void`
      */
     compareDetail: (owner: string, repo: string, baseId: string, headId: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeCompareCommitsGeneratedDataContract, void>({
@@ -3621,12 +3416,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete a file. This method deletes a file in a repository.
+     * No description
      *
      * @name ContentsDelete
      * @request DELETE:/repos/{owner}/{repo}/contents/{path}
-     * @response `200` `SwaggerTypeDeleteFileGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeDeleteFileGeneratedDataContract`
+     * @response `403` `void`
      */
     contentsDelete: (
       owner: string,
@@ -3645,21 +3440,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get contents. This method returns the contents of a file or directory in a repository. Files and symlinks support a custom media type for getting the raw content. Directories and submodules do not support custom media types. Note: This API supports files up to 1 megabyte in size. Here can be many outcomes. For details see "http://developer.github.com/v3/repos/contents/"
+     * No description
      *
      * @name ContentsDetail
      * @request GET:/repos/{owner}/{repo}/contents/{path}
-     * @response `200` `SwaggerTypeContentsPathGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeContentsPathGeneratedDataContract`
+     * @response `403` `void`
      */
     contentsDetail: (
       owner: string,
       repo: string,
       path: string,
       query?: {
-        /** The content path. */
         path?: string;
-        /** The String name of the Commit/Branch/Tag. Defaults to 'master'. */
         ref?: string;
       },
       params: RequestParams = {},
@@ -3673,12 +3466,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a file.
+     * No description
      *
      * @name ContentsUpdate
      * @request PUT:/repos/{owner}/{repo}/contents/{path}
-     * @response `200` `SwaggerTypeCreateFileGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeCreateFileGeneratedDataContract`
+     * @response `403` `void`
      */
     contentsUpdate: (
       owner: string,
@@ -3697,18 +3490,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get list of contributors.
+     * No description
      *
      * @name ContributorsDetail
      * @request GET:/repos/{owner}/{repo}/contributors
-     * @response `200` `SwaggerTypeUsersGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUsersGeneratedDataContract`
+     * @response `403` `void`
      */
     contributorsDetail: (
       owner: string,
       repo: string,
       query: {
-        /** Set to 1 or true to include anonymous contributors in results. */
         anon: string;
       },
       params: RequestParams = {},
@@ -3722,12 +3514,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Users with pull access can view deployments for a repository
+     * No description
      *
      * @name DeploymentsDetail
      * @request GET:/repos/{owner}/{repo}/deployments
-     * @response `200` `SwaggerTypeRepoDeploymentsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeRepoDeploymentsGeneratedDataContract`
+     * @response `403` `void`
      */
     deploymentsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeRepoDeploymentsGeneratedDataContract, void>({
@@ -3738,12 +3530,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Users with push access can create a deployment for a given ref
+     * No description
      *
      * @name DeploymentsCreate
      * @request POST:/repos/{owner}/{repo}/deployments
-     * @response `201` `SwaggerTypeDeploymentRespGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeDeploymentRespGeneratedDataContract`
+     * @response `403` `void`
      */
     deploymentsCreate: (
       owner: string,
@@ -3761,12 +3553,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Users with pull access can view deployment statuses for a deployment
+     * No description
      *
      * @name DeploymentsStatusesDetail
      * @request GET:/repos/{owner}/{repo}/deployments/{id}/statuses
-     * @response `200` `SwaggerTypeDeploymentStatusesGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeDeploymentStatusesGeneratedDataContract`
+     * @response `403` `void`
      */
     deploymentsStatusesDetail: (owner: string, repo: string, id: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeDeploymentStatusesGeneratedDataContract, void>({
@@ -3777,12 +3569,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a Deployment Status Users with push access can create deployment statuses for a given deployment:
+     * No description
      *
      * @name DeploymentsStatusesCreate
      * @request POST:/repos/{owner}/{repo}/deployments/{id}/statuses
-     * @response `201` `void` ok
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `void`
+     * @response `403` `void`
      */
     deploymentsStatusesCreate: (
       owner: string,
@@ -3800,13 +3592,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Deprecated. List downloads for a repository.
+     * No description
      *
      * @name DownloadsDetail
      * @request GET:/repos/{owner}/{repo}/downloads
      * @deprecated
-     * @response `200` `SwaggerTypeDownloadsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeDownloadsGeneratedDataContract`
+     * @response `403` `void`
      */
     downloadsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeDownloadsGeneratedDataContract, void>({
@@ -3817,13 +3609,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Deprecated. Delete a download.
+     * No description
      *
      * @name DownloadsDelete
      * @request DELETE:/repos/{owner}/{repo}/downloads/{downloadId}
      * @deprecated
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     downloadsDelete: (owner: string, repo: string, downloadId: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -3833,15 +3625,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Deprecated. Get a single download.
+     * No description
      *
      * @name DownloadsDetail2
      * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
      * @deprecated
      * @originalName downloadsDetail
      * @duplicate
-     * @response `200` `SwaggerTypeDownloadGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeDownloadGeneratedDataContract`
+     * @response `403` `void`
      */
     downloadsDetail2: (owner: string, repo: string, downloadId: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeDownloadGeneratedDataContract, void>({
@@ -3852,12 +3644,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get list of repository events.
+     * No description
      *
      * @name EventsDetail
      * @request GET:/repos/{owner}/{repo}/events
-     * @response `200` `SwaggerTypeEventsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeEventsGeneratedDataContract`
+     * @response `403` `void`
      */
     eventsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeEventsGeneratedDataContract, void>({
@@ -3868,12 +3660,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List forks.
+     * No description
      *
      * @name ForksDetail
      * @request GET:/repos/{owner}/{repo}/forks
-     * @response `200` `SwaggerTypeForksGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeForksGeneratedDataContract`
+     * @response `403` `void`
      */
     forksDetail: (
       owner: string,
@@ -3892,12 +3684,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a fork. Forking a Repository happens asynchronously. Therefore, you may have to wai a short period before accessing the git objects. If this takes longer than 5 minutes, be sure to contact Support.
+     * No description
      *
      * @name ForksCreate
      * @request POST:/repos/{owner}/{repo}/forks
-     * @response `201` `SwaggerTypeRepoGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeRepoGeneratedDataContract`
+     * @response `403` `void`
      */
     forksCreate: (
       owner: string,
@@ -3915,12 +3707,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a Blob.
+     * No description
      *
      * @name GitBlobsCreate
      * @request POST:/repos/{owner}/{repo}/git/blobs
-     * @response `201` `SwaggerTypeBlobsGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeBlobsGeneratedDataContract`
+     * @response `403` `void`
      */
     gitBlobsCreate: (
       owner: string,
@@ -3938,12 +3730,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a Blob. Since blobs can be any arbitrary binary data, the input and responses for the blob API takes an encoding parameter that can be either utf-8 or base64. If your data cannot be losslessly sent as a UTF-8 string, you can base64 encode it.
+     * No description
      *
      * @name GitBlobsDetail
      * @request GET:/repos/{owner}/{repo}/git/blobs/{shaCode}
-     * @response `200` `SwaggerTypeBlobGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeBlobGeneratedDataContract`
+     * @response `403` `void`
      */
     gitBlobsDetail: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeBlobGeneratedDataContract, void>({
@@ -3954,12 +3746,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a Commit.
+     * No description
      *
      * @name GitCommitsCreate
      * @request POST:/repos/{owner}/{repo}/git/commits
-     * @response `201` `SwaggerTypeGitCommitGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeGitCommitGeneratedDataContract`
+     * @response `403` `void`
      */
     gitCommitsCreate: (
       owner: string,
@@ -3977,12 +3769,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a Commit.
+     * No description
      *
      * @name GitCommitsDetail
      * @request GET:/repos/{owner}/{repo}/git/commits/{shaCode}
-     * @response `200` `SwaggerTypeRepoCommitGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeRepoCommitGeneratedDataContract`
+     * @response `403` `void`
      */
     gitCommitsDetail: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeRepoCommitGeneratedDataContract, void>({
@@ -3993,12 +3785,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get all References
+     * No description
      *
      * @name GitRefsDetail
      * @request GET:/repos/{owner}/{repo}/git/refs
-     * @response `200` `SwaggerTypeRefsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeRefsGeneratedDataContract`
+     * @response `403` `void`
      */
     gitRefsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeRefsGeneratedDataContract, void>({
@@ -4009,12 +3801,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a Reference
+     * No description
      *
      * @name GitRefsCreate
      * @request POST:/repos/{owner}/{repo}/git/refs
-     * @response `201` `SwaggerTypeHeadBranchGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeHeadBranchGeneratedDataContract`
+     * @response `403` `void`
      */
     gitRefsCreate: (
       owner: string,
@@ -4032,12 +3824,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete a Reference Example: Deleting a branch: DELETE /repos/octocat/Hello-World/git/refs/heads/feature-a Example: Deleting a tag:        DELETE /repos/octocat/Hello-World/git/refs/tags/v1.0
+     * No description
      *
      * @name GitRefsDelete
      * @request DELETE:/repos/{owner}/{repo}/git/refs/{ref}
-     * @response `204` `void` No Content
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     gitRefsDelete: (owner: string, repo: string, ref: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -4047,14 +3839,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a Reference
+     * No description
      *
      * @name GitRefsDetail2
      * @request GET:/repos/{owner}/{repo}/git/refs/{ref}
      * @originalName gitRefsDetail
      * @duplicate
-     * @response `200` `SwaggerTypeHeadBranchGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeHeadBranchGeneratedDataContract`
+     * @response `403` `void`
      */
     gitRefsDetail2: (owner: string, repo: string, ref: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeHeadBranchGeneratedDataContract, void>({
@@ -4065,12 +3857,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Update a Reference
+     * No description
      *
      * @name GitRefsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/git/refs/{ref}
-     * @response `200` `SwaggerTypeHeadBranchGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeHeadBranchGeneratedDataContract`
+     * @response `403` `void`
      */
     gitRefsPartialUpdate: (
       owner: string,
@@ -4089,12 +3881,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a Tag Object. Note that creating a tag object does not create the reference that makes a tag in Git. If you want to create an annotated tag in Git, you have to do this call to create the tag object, and then create the refs/tags/[tag] reference. If you want to create a lightweight tag, you only have to create the tag reference - this call would be unnecessary.
+     * No description
      *
      * @name GitTagsCreate
      * @request POST:/repos/{owner}/{repo}/git/tags
-     * @response `201` `SwaggerTypeTagGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeTagGeneratedDataContract`
+     * @response `403` `void`
      */
     gitTagsCreate: (
       owner: string,
@@ -4112,12 +3904,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a Tag.
+     * No description
      *
      * @name GitTagsDetail
      * @request GET:/repos/{owner}/{repo}/git/tags/{shaCode}
-     * @response `200` `SwaggerTypeTagGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeTagGeneratedDataContract`
+     * @response `403` `void`
      */
     gitTagsDetail: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeTagGeneratedDataContract, void>({
@@ -4128,12 +3920,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a Tree. The tree creation API will take nested entries as well. If both a tree and a nested path modifying that tree are specified, it will overwrite the contents of that tree with the new path contents and write a new tree out.
+     * No description
      *
      * @name GitTreesCreate
      * @request POST:/repos/{owner}/{repo}/git/trees
-     * @response `201` `SwaggerTypeTreesGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeTreesGeneratedDataContract`
+     * @response `403` `void`
      */
     gitTreesCreate: (
       owner: string,
@@ -4151,19 +3943,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a Tree.
+     * No description
      *
      * @name GitTreesDetail
      * @request GET:/repos/{owner}/{repo}/git/trees/{shaCode}
-     * @response `200` `SwaggerTypeTreeGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeTreeGeneratedDataContract`
+     * @response `403` `void`
      */
     gitTreesDetail: (
       owner: string,
       repo: string,
       shaCode: string,
       query?: {
-        /** Get a Tree Recursively. (0 or 1) */
         recursive?: number;
       },
       params: RequestParams = {},
@@ -4177,12 +3968,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get list of hooks.
+     * No description
      *
      * @name HooksDetail
      * @request GET:/repos/{owner}/{repo}/hooks
-     * @response `200` `SwaggerTypeHookGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeHookGeneratedDataContract`
+     * @response `403` `void`
      */
     hooksDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeHookGeneratedDataContract, void>({
@@ -4193,12 +3984,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a hook.
+     * No description
      *
      * @name HooksCreate
      * @request POST:/repos/{owner}/{repo}/hooks
-     * @response `201` `SwaggerTypeHookGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeHookGeneratedDataContract`
+     * @response `403` `void`
      */
     hooksCreate: (
       owner: string,
@@ -4215,12 +4006,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete a hook.
+     * No description
      *
      * @name HooksDelete
      * @request DELETE:/repos/{owner}/{repo}/hooks/{hookId}
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     hooksDelete: (owner: string, repo: string, hookId: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -4230,14 +4021,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get single hook.
+     * No description
      *
      * @name HooksDetail2
      * @request GET:/repos/{owner}/{repo}/hooks/{hookId}
      * @originalName hooksDetail
      * @duplicate
-     * @response `200` `SwaggerTypeHookGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeHookGeneratedDataContract`
+     * @response `403` `void`
      */
     hooksDetail2: (owner: string, repo: string, hookId: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeHookGeneratedDataContract, void>({
@@ -4248,12 +4039,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Edit a hook.
+     * No description
      *
      * @name HooksPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/hooks/{hookId}
-     * @response `200` `SwaggerTypeHookGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeHookGeneratedDataContract`
+     * @response `403` `void`
      */
     hooksPartialUpdate: (
       owner: string,
@@ -4271,12 +4062,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Test a push hook. This will trigger the hook with the latest push to the current repository if the hook is subscribed to push events. If the hook is not subscribed to push events, the server will respond with 204 but no test POST will be generated. Note: Previously /repos/:owner/:repo/hooks/:id/tes
+     * No description
      *
      * @name HooksTestsCreate
      * @request POST:/repos/{owner}/{repo}/hooks/{hookId}/tests
-     * @response `204` `void` Hook is triggered.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     hooksTestsCreate: (owner: string, repo: string, hookId: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -4286,33 +4077,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List issues for a repository.
+     * No description
      *
      * @name IssuesDetail
      * @request GET:/repos/{owner}/{repo}/issues
-     * @response `200` `SwaggerTypeIssuesGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeIssuesGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesDetail: (
       owner: string,
       repo: string,
       query: {
-        /**
-         * Issues assigned to you / created by you / mentioning you / you're
-         * subscribed to updates for / All issues the authenticated user can see
-         *
-         */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
         state: "open" | "closed";
-        /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
         sort: "created" | "updated" | "comments";
         direction: "asc" | "desc";
-        /**
-         * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
-         * Only issues updated at or after this time are returned.
-         *
-         */
         since?: string;
       },
       params: RequestParams = {},
@@ -4326,12 +4106,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create an issue. Any user with pull access to a repository can create an issue.
+     * No description
      *
      * @name IssuesCreate
      * @request POST:/repos/{owner}/{repo}/issues
-     * @response `201` `SwaggerTypeIssueGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeIssueGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesCreate: (
       owner: string,
@@ -4348,25 +4128,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List comments in a repository.
+     * No description
      *
      * @name IssuesCommentsDetail
      * @request GET:/repos/{owner}/{repo}/issues/comments
-     * @response `200` `SwaggerTypeIssuesCommentsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeIssuesCommentsGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesCommentsDetail: (
       owner: string,
       repo: string,
       query?: {
-        /** Ignored without 'sort' parameter. */
         direction?: string;
         sort?: "created" | "updated";
-        /**
-         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
-         * Example: "2012-10-09T23:39:01Z".
-         *
-         */
         since?: string;
       },
       params: RequestParams = {},
@@ -4380,12 +4154,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete a comment.
+     * No description
      *
      * @name IssuesCommentsDelete
      * @request DELETE:/repos/{owner}/{repo}/issues/comments/{commentId}
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     issuesCommentsDelete: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -4395,14 +4169,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a single comment.
+     * No description
      *
      * @name IssuesCommentsDetail2
      * @request GET:/repos/{owner}/{repo}/issues/comments/{commentId}
      * @originalName issuesCommentsDetail
      * @duplicate
-     * @response `200` `SwaggerTypeIssuesCommentGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeIssuesCommentGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesCommentsDetail2: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeIssuesCommentGeneratedDataContract, void>({
@@ -4413,12 +4187,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Edit a comment.
+     * No description
      *
      * @name IssuesCommentsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/issues/comments/{commentId}
-     * @response `200` `SwaggerTypeIssuesCommentGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeIssuesCommentGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesCommentsPartialUpdate: (
       owner: string,
@@ -4436,12 +4210,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List issue events for a repository.
+     * No description
      *
      * @name IssuesEventsDetail
      * @request GET:/repos/{owner}/{repo}/issues/events
-     * @response `200` `SwaggerTypeIssueEventsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeIssueEventsGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesEventsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeIssueEventsGeneratedDataContract, void>({
@@ -4452,14 +4226,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a single event.
+     * No description
      *
      * @name IssuesEventsDetail2
      * @request GET:/repos/{owner}/{repo}/issues/events/{eventId}
      * @originalName issuesEventsDetail
      * @duplicate
-     * @response `200` `SwaggerTypeIssueEventGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeIssueEventGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesEventsDetail2: (owner: string, repo: string, eventId: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeIssueEventGeneratedDataContract, void>({
@@ -4470,14 +4244,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a single issue
+     * No description
      *
      * @name IssuesDetail2
      * @request GET:/repos/{owner}/{repo}/issues/{number}
      * @originalName issuesDetail
      * @duplicate
-     * @response `200` `SwaggerTypeIssueGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeIssueGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesDetail2: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeIssueGeneratedDataContract, void>({
@@ -4488,12 +4262,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Edit an issue. Issue owners and users with push access can edit an issue.
+     * No description
      *
      * @name IssuesPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/issues/{number}
-     * @response `200` `SwaggerTypeIssueGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeIssueGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesPartialUpdate: (
       owner: string,
@@ -4511,14 +4285,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List comments on an issue.
+     * No description
      *
      * @name IssuesCommentsDetail3
      * @request GET:/repos/{owner}/{repo}/issues/{number}/comments
      * @originalName issuesCommentsDetail
      * @duplicate
-     * @response `200` `SwaggerTypeIssuesCommentsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeIssuesCommentsGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesCommentsDetail3: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeIssuesCommentsGeneratedDataContract, void>({
@@ -4529,12 +4303,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a comment.
+     * No description
      *
      * @name IssuesCommentsCreate
      * @request POST:/repos/{owner}/{repo}/issues/{number}/comments
-     * @response `201` `SwaggerTypeIssuesCommentGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeIssuesCommentGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesCommentsCreate: (
       owner: string,
@@ -4552,14 +4326,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List events for an issue.
+     * No description
      *
      * @name IssuesEventsDetail3
      * @request GET:/repos/{owner}/{repo}/issues/{number}/events
      * @originalName issuesEventsDetail
      * @duplicate
-     * @response `200` `SwaggerTypeIssueEventsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeIssueEventsGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesEventsDetail3: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeIssueEventsGeneratedDataContract, void>({
@@ -4570,12 +4344,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Remove all labels from an issue.
+     * No description
      *
      * @name IssuesLabelsDelete
      * @request DELETE:/repos/{owner}/{repo}/issues/{number}/labels
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     issuesLabelsDelete: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -4585,12 +4359,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List labels on an issue.
+     * No description
      *
      * @name IssuesLabelsDetail
      * @request GET:/repos/{owner}/{repo}/issues/{number}/labels
-     * @response `200` `SwaggerTypeLabelsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeLabelsGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesLabelsDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeLabelsGeneratedDataContract, void>({
@@ -4601,12 +4375,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Add labels to an issue.
+     * No description
      *
      * @name IssuesLabelsCreate
      * @request POST:/repos/{owner}/{repo}/issues/{number}/labels
-     * @response `201` `SwaggerTypeLabelGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeLabelGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesLabelsCreate: (
       owner: string,
@@ -4624,12 +4398,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Replace all labels for an issue. Sending an empty array ([]) will remove all Labels from the Issue.
+     * No description
      *
      * @name IssuesLabelsUpdate
      * @request PUT:/repos/{owner}/{repo}/issues/{number}/labels
-     * @response `201` `SwaggerTypeLabelGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeLabelGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesLabelsUpdate: (
       owner: string,
@@ -4647,14 +4421,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Remove a label from an issue.
+     * No description
      *
      * @name IssuesLabelsDelete2
      * @request DELETE:/repos/{owner}/{repo}/issues/{number}/labels/{name}
      * @originalName issuesLabelsDelete
      * @duplicate
-     * @response `204` `void` Item removed.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     issuesLabelsDelete2: (owner: string, repo: string, number: number, name: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -4664,12 +4438,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get list of keys.
+     * No description
      *
      * @name KeysDetail
      * @request GET:/repos/{owner}/{repo}/keys
-     * @response `200` `SwaggerTypeKeysGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeKeysGeneratedDataContract`
+     * @response `403` `void`
      */
     keysDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeKeysGeneratedDataContract, void>({
@@ -4680,12 +4454,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a key.
+     * No description
      *
      * @name KeysCreate
      * @request POST:/repos/{owner}/{repo}/keys
-     * @response `201` `SwaggerTypeUserKeysKeyIdGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeUserKeysKeyIdGeneratedDataContract`
+     * @response `403` `void`
      */
     keysCreate: (
       owner: string,
@@ -4702,12 +4476,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete a key.
+     * No description
      *
      * @name KeysDelete
      * @request DELETE:/repos/{owner}/{repo}/keys/{keyId}
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     keysDelete: (owner: string, repo: string, keyId: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -4717,14 +4491,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a key
+     * No description
      *
      * @name KeysDetail2
      * @request GET:/repos/{owner}/{repo}/keys/{keyId}
      * @originalName keysDetail
      * @duplicate
-     * @response `200` `SwaggerTypeUserKeysKeyIdGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUserKeysKeyIdGeneratedDataContract`
+     * @response `403` `void`
      */
     keysDetail2: (owner: string, repo: string, keyId: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeUserKeysKeyIdGeneratedDataContract, void>({
@@ -4735,12 +4509,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List all labels for this repository.
+     * No description
      *
      * @name LabelsDetail
      * @request GET:/repos/{owner}/{repo}/labels
-     * @response `200` `SwaggerTypeLabelsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeLabelsGeneratedDataContract`
+     * @response `403` `void`
      */
     labelsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeLabelsGeneratedDataContract, void>({
@@ -4751,12 +4525,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a label.
+     * No description
      *
      * @name LabelsCreate
      * @request POST:/repos/{owner}/{repo}/labels
-     * @response `201` `SwaggerTypeLabelGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeLabelGeneratedDataContract`
+     * @response `403` `void`
      */
     labelsCreate: (
       owner: string,
@@ -4773,12 +4547,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete a label.
+     * No description
      *
      * @name LabelsDelete
      * @request DELETE:/repos/{owner}/{repo}/labels/{name}
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     labelsDelete: (owner: string, repo: string, name: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -4788,14 +4562,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a single label.
+     * No description
      *
      * @name LabelsDetail2
      * @request GET:/repos/{owner}/{repo}/labels/{name}
      * @originalName labelsDetail
      * @duplicate
-     * @response `200` `SwaggerTypeLabelGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeLabelGeneratedDataContract`
+     * @response `403` `void`
      */
     labelsDetail2: (owner: string, repo: string, name: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeLabelGeneratedDataContract, void>({
@@ -4806,12 +4580,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Update a label.
+     * No description
      *
      * @name LabelsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/labels/{name}
-     * @response `200` `SwaggerTypeLabelGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeLabelGeneratedDataContract`
+     * @response `403` `void`
      */
     labelsPartialUpdate: (
       owner: string,
@@ -4829,12 +4603,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List languages. List languages for the specified repository. The value on the right of a language is the number of bytes of code written in that language.
+     * No description
      *
      * @name LanguagesDetail
      * @request GET:/repos/{owner}/{repo}/languages
-     * @response `200` `SwaggerTypeLanguagesGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeLanguagesGeneratedDataContract`
+     * @response `403` `void`
      */
     languagesDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeLanguagesGeneratedDataContract, void>({
@@ -4845,15 +4619,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Perform a merge.
+     * No description
      *
      * @name MergesCreate
      * @request POST:/repos/{owner}/{repo}/merges
-     * @response `201` `SwaggerTypeMergesSuccessfulGeneratedDataContract` Successful Response (The resulting merge commit)
-     * @response `204` `void` No-op response (base already contains the head, nothing to merge)
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `404` `SwaggerTypeMergesConflictGeneratedDataContract` Missing base response or missing head response
-     * @response `409` `SwaggerTypeMergesConflictGeneratedDataContract` Merge conflict response.
+     * @response `201` `SwaggerTypeMergesSuccessfulGeneratedDataContract`
+     * @response `204` `void`
+     * @response `403` `void`
+     * @response `404` `SwaggerTypeMergesConflictGeneratedDataContract`
+     * @response `409` `SwaggerTypeMergesConflictGeneratedDataContract`
      */
     mergesCreate: (
       owner: string,
@@ -4874,20 +4648,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List milestones for a repository.
+     * No description
      *
      * @name MilestonesDetail
      * @request GET:/repos/{owner}/{repo}/milestones
-     * @response `200` `SwaggerTypeMilestoneGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeMilestoneGeneratedDataContract`
+     * @response `403` `void`
      */
     milestonesDetail: (
       owner: string,
       repo: string,
       query?: {
-        /** String to filter by state. */
         state?: "open" | "closed";
-        /** Ignored without 'sort' parameter. */
         direction?: string;
         sort?: "due_date" | "completeness";
       },
@@ -4902,12 +4674,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a milestone.
+     * No description
      *
      * @name MilestonesCreate
      * @request POST:/repos/{owner}/{repo}/milestones
-     * @response `201` `SwaggerTypeMilestoneGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeMilestoneGeneratedDataContract`
+     * @response `403` `void`
      */
     milestonesCreate: (
       owner: string,
@@ -4924,12 +4696,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete a milestone.
+     * No description
      *
      * @name MilestonesDelete
      * @request DELETE:/repos/{owner}/{repo}/milestones/{number}
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     milestonesDelete: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -4939,14 +4711,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a single milestone.
+     * No description
      *
      * @name MilestonesDetail2
      * @request GET:/repos/{owner}/{repo}/milestones/{number}
      * @originalName milestonesDetail
      * @duplicate
-     * @response `200` `SwaggerTypeMilestoneGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeMilestoneGeneratedDataContract`
+     * @response `403` `void`
      */
     milestonesDetail2: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeMilestoneGeneratedDataContract, void>({
@@ -4957,12 +4729,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Update a milestone.
+     * No description
      *
      * @name MilestonesPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/milestones/{number}
-     * @response `200` `SwaggerTypeMilestoneGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeMilestoneGeneratedDataContract`
+     * @response `403` `void`
      */
     milestonesPartialUpdate: (
       owner: string,
@@ -4980,12 +4752,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get labels for every issue in a milestone.
+     * No description
      *
      * @name MilestonesLabelsDetail
      * @request GET:/repos/{owner}/{repo}/milestones/{number}/labels
-     * @response `200` `SwaggerTypeLabelsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeLabelsGeneratedDataContract`
+     * @response `403` `void`
      */
     milestonesLabelsDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeLabelsGeneratedDataContract, void>({
@@ -4996,30 +4768,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List your notifications in a repository List all notifications for the current user.
+     * No description
      *
      * @name NotificationsDetail
      * @request GET:/repos/{owner}/{repo}/notifications
-     * @response `200` `SwaggerTypeNotificationsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeNotificationsGeneratedDataContract`
+     * @response `403` `void`
      */
     notificationsDetail: (
       owner: string,
       repo: string,
       query?: {
-        /** True to show notifications marked as read. */
         all?: boolean;
-        /**
-         * True to show only notifications in which the user is directly participating
-         * or mentioned.
-         *
-         */
         participating?: boolean;
-        /**
-         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
-         * Example: "2012-10-09T23:39:01Z".
-         *
-         */
         since?: string;
       },
       params: RequestParams = {},
@@ -5033,12 +4794,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Mark notifications as read in a repository. Marking all notifications in a repository as "read" removes them from the default view on GitHub.com.
+     * No description
      *
      * @name NotificationsUpdate
      * @request PUT:/repos/{owner}/{repo}/notifications
-     * @response `205` `void` Marked as read.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `205` `void`
+     * @response `403` `void`
      */
     notificationsUpdate: (
       owner: string,
@@ -5054,26 +4815,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List pull requests.
+     * No description
      *
      * @name PullsDetail
      * @request GET:/repos/{owner}/{repo}/pulls
-     * @response `200` `SwaggerTypePullsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypePullsGeneratedDataContract`
+     * @response `403` `void`
      */
     pullsDetail: (
       owner: string,
       repo: string,
       query?: {
-        /** String to filter by state. */
         state?: "open" | "closed";
-        /**
-         * Filter pulls by head user and branch name in the format of 'user:ref-name'.
-         * Example: github:new-script-format.
-         *
-         */
         head?: string;
-        /** Filter pulls by base branch name. Example - gh-pages. */
         base?: string;
       },
       params: RequestParams = {},
@@ -5087,12 +4841,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a pull request.
+     * No description
      *
      * @name PullsCreate
      * @request POST:/repos/{owner}/{repo}/pulls
-     * @response `201` `SwaggerTypePullsGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypePullsGeneratedDataContract`
+     * @response `403` `void`
      */
     pullsCreate: (
       owner: string,
@@ -5110,25 +4864,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List comments in a repository. By default, Review Comments are ordered by ascending ID.
+     * No description
      *
      * @name PullsCommentsDetail
      * @request GET:/repos/{owner}/{repo}/pulls/comments
-     * @response `200` `SwaggerTypeIssuesCommentsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeIssuesCommentsGeneratedDataContract`
+     * @response `403` `void`
      */
     pullsCommentsDetail: (
       owner: string,
       repo: string,
       query?: {
-        /** Ignored without 'sort' parameter. */
         direction?: string;
         sort?: "created" | "updated";
-        /**
-         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
-         * Example: "2012-10-09T23:39:01Z".
-         *
-         */
         since?: string;
       },
       params: RequestParams = {},
@@ -5142,12 +4890,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete a comment.
+     * No description
      *
      * @name PullsCommentsDelete
      * @request DELETE:/repos/{owner}/{repo}/pulls/comments/{commentId}
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     pullsCommentsDelete: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -5157,14 +4905,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a single comment.
+     * No description
      *
      * @name PullsCommentsDetail2
      * @request GET:/repos/{owner}/{repo}/pulls/comments/{commentId}
      * @originalName pullsCommentsDetail
      * @duplicate
-     * @response `200` `SwaggerTypePullsCommentGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypePullsCommentGeneratedDataContract`
+     * @response `403` `void`
      */
     pullsCommentsDetail2: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
       this.request<SwaggerTypePullsCommentGeneratedDataContract, void>({
@@ -5175,12 +4923,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Edit a comment.
+     * No description
      *
      * @name PullsCommentsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/pulls/comments/{commentId}
-     * @response `200` `SwaggerTypePullsCommentGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypePullsCommentGeneratedDataContract`
+     * @response `403` `void`
      */
     pullsCommentsPartialUpdate: (
       owner: string,
@@ -5198,14 +4946,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a single pull request.
+     * No description
      *
      * @name PullsDetail2
      * @request GET:/repos/{owner}/{repo}/pulls/{number}
      * @originalName pullsDetail
      * @duplicate
-     * @response `200` `SwaggerTypePullRequestGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypePullRequestGeneratedDataContract`
+     * @response `403` `void`
      */
     pullsDetail2: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<SwaggerTypePullRequestGeneratedDataContract, void>({
@@ -5216,12 +4964,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Update a pull request.
+     * No description
      *
      * @name PullsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/pulls/{number}
-     * @response `200` `SwaggerTypeRepoGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeRepoGeneratedDataContract`
+     * @response `403` `void`
      */
     pullsPartialUpdate: (
       owner: string,
@@ -5240,14 +4988,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List comments on a pull request.
+     * No description
      *
      * @name PullsCommentsDetail3
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/comments
      * @originalName pullsCommentsDetail
      * @duplicate
-     * @response `200` `SwaggerTypePullsCommentGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypePullsCommentGeneratedDataContract`
+     * @response `403` `void`
      */
     pullsCommentsDetail3: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<SwaggerTypePullsCommentGeneratedDataContract, void>({
@@ -5258,12 +5006,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a comment. #TODO Alternative input ( http://developer.github.com/v3/pulls/comments/ ) description: | Alternative Input. Instead of passing commit_id, path, and position you can reply to an existing Pull Request Comment like this: body Required string in_reply_to Required number - Comment id to reply to.
+     * No description
      *
      * @name PullsCommentsCreate
      * @request POST:/repos/{owner}/{repo}/pulls/{number}/comments
-     * @response `201` `SwaggerTypePullsCommentGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypePullsCommentGeneratedDataContract`
+     * @response `403` `void`
      */
     pullsCommentsCreate: (
       owner: string,
@@ -5282,12 +5030,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List commits on a pull request.
+     * No description
      *
      * @name PullsCommitsDetail
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/commits
-     * @response `200` `SwaggerTypeCommitsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeCommitsGeneratedDataContract`
+     * @response `403` `void`
      */
     pullsCommitsDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeCommitsGeneratedDataContract, void>({
@@ -5298,12 +5046,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List pull requests files.
+     * No description
      *
      * @name PullsFilesDetail
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/files
-     * @response `200` `SwaggerTypePullsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypePullsGeneratedDataContract`
+     * @response `403` `void`
      */
     pullsFilesDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<SwaggerTypePullsGeneratedDataContract, void>({
@@ -5314,13 +5062,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get if a pull request has been merged.
+     * No description
      *
      * @name PullsMergeDetail
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/merge
-     * @response `204` `void` Pull request has been merged.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `404` `void` Pull request has not been merged.
+     * @response `204` `void`
+     * @response `403` `void`
+     * @response `404` `void`
      */
     pullsMergeDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -5330,13 +5078,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Merge a pull request (Merge Button's)
+     * No description
      *
      * @name PullsMergeUpdate
      * @request PUT:/repos/{owner}/{repo}/pulls/{number}/merge
-     * @response `200` `SwaggerTypeMergeGeneratedDataContract` Response if merge was successful.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `405` `SwaggerTypeMergeGeneratedDataContract` Response if merge cannot be performed.
+     * @response `200` `SwaggerTypeMergeGeneratedDataContract`
+     * @response `403` `void`
+     * @response `405` `SwaggerTypeMergeGeneratedDataContract`
      */
     pullsMergeUpdate: (
       owner: string,
@@ -5355,18 +5103,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get the README. This method returns the preferred README for a repository.
+     * No description
      *
      * @name ReadmeDetail
      * @request GET:/repos/{owner}/{repo}/readme
-     * @response `200` `SwaggerTypeContentsPathGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeContentsPathGeneratedDataContract`
+     * @response `403` `void`
      */
     readmeDetail: (
       owner: string,
       repo: string,
       query?: {
-        /** The String name of the Commit/Branch/Tag. Defaults to master. */
         ref?: string;
       },
       params: RequestParams = {},
@@ -5380,12 +5127,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Users with push access to the repository will receive all releases (i.e., published releases and draft releases). Users with pull access will receive published releases only
+     * No description
      *
      * @name ReleasesDetail
      * @request GET:/repos/{owner}/{repo}/releases
-     * @response `200` `SwaggerTypeReleasesGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeReleasesGeneratedDataContract`
+     * @response `403` `void`
      */
     releasesDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeReleasesGeneratedDataContract, void>({
@@ -5396,12 +5143,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a release Users with push access to the repository can create a release.
+     * No description
      *
      * @name ReleasesCreate
      * @request POST:/repos/{owner}/{repo}/releases
-     * @response `201` `SwaggerTypeReleaseGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeReleaseGeneratedDataContract`
+     * @response `403` `void`
      */
     releasesCreate: (
       owner: string,
@@ -5418,12 +5165,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete a release asset
+     * No description
      *
      * @name ReleasesAssetsDelete
      * @request DELETE:/repos/{owner}/{repo}/releases/assets/{id}
-     * @response `204` `void` No Content
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     releasesAssetsDelete: (owner: string, repo: string, id: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -5433,12 +5180,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a single release asset
+     * No description
      *
      * @name ReleasesAssetsDetail
      * @request GET:/repos/{owner}/{repo}/releases/assets/{id}
-     * @response `200` `SwaggerTypeAssetGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeAssetGeneratedDataContract`
+     * @response `403` `void`
      */
     releasesAssetsDetail: (owner: string, repo: string, id: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeAssetGeneratedDataContract, void>({
@@ -5449,12 +5196,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Edit a release asset Users with push access to the repository can edit a release asset.
+     * No description
      *
      * @name ReleasesAssetsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/releases/assets/{id}
-     * @response `200` `SwaggerTypeAssetGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeAssetGeneratedDataContract`
+     * @response `403` `void`
      */
     releasesAssetsPartialUpdate: (
       owner: string,
@@ -5473,12 +5220,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Users with push access to the repository can delete a release.
+     * No description
      *
      * @name ReleasesDelete
      * @request DELETE:/repos/{owner}/{repo}/releases/{id}
-     * @response `204` `void` No Content
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     releasesDelete: (owner: string, repo: string, id: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -5488,14 +5235,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a single release
+     * No description
      *
      * @name ReleasesDetail2
      * @request GET:/repos/{owner}/{repo}/releases/{id}
      * @originalName releasesDetail
      * @duplicate
-     * @response `200` `SwaggerTypeReleaseGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeReleaseGeneratedDataContract`
+     * @response `403` `void`
      */
     releasesDetail2: (owner: string, repo: string, id: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeReleaseGeneratedDataContract, void>({
@@ -5506,12 +5253,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Users with push access to the repository can edit a release
+     * No description
      *
      * @name ReleasesPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/releases/{id}
-     * @response `200` `SwaggerTypeReleaseGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeReleaseGeneratedDataContract`
+     * @response `403` `void`
      */
     releasesPartialUpdate: (
       owner: string,
@@ -5529,14 +5276,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List assets for a release
+     * No description
      *
      * @name ReleasesAssetsDetail2
      * @request GET:/repos/{owner}/{repo}/releases/{id}/assets
      * @originalName releasesAssetsDetail
      * @duplicate
-     * @response `200` `SwaggerTypeAssetsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeAssetsGeneratedDataContract`
+     * @response `403` `void`
      */
     releasesAssetsDetail2: (owner: string, repo: string, id: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeAssetsGeneratedDataContract, void>({
@@ -5547,12 +5294,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List Stargazers.
+     * No description
      *
      * @name StargazersDetail
      * @request GET:/repos/{owner}/{repo}/stargazers
-     * @response `200` `SwaggerTypeUsersGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUsersGeneratedDataContract`
+     * @response `403` `void`
      */
     stargazersDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeUsersGeneratedDataContract, void>({
@@ -5563,12 +5310,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get the number of additions and deletions per week. Returns a weekly aggregate of the number of additions and deletions pushed to a repository.
+     * No description
      *
      * @name StatsCodeFrequencyDetail
      * @request GET:/repos/{owner}/{repo}/stats/code_frequency
-     * @response `200` `SwaggerTypeCodeFrequencyStatsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeCodeFrequencyStatsGeneratedDataContract`
+     * @response `403` `void`
      */
     statsCodeFrequencyDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeCodeFrequencyStatsGeneratedDataContract, void>({
@@ -5579,12 +5326,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get the last year of commit activity data. Returns the last year of commit activity grouped by week. The days array is a group of commits per day, starting on Sunday.
+     * No description
      *
      * @name StatsCommitActivityDetail
      * @request GET:/repos/{owner}/{repo}/stats/commit_activity
-     * @response `200` `SwaggerTypeCommitActivityStatsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeCommitActivityStatsGeneratedDataContract`
+     * @response `403` `void`
      */
     statsCommitActivityDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeCommitActivityStatsGeneratedDataContract, void>({
@@ -5595,12 +5342,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get contributors list with additions, deletions, and commit counts.
+     * No description
      *
      * @name StatsContributorsDetail
      * @request GET:/repos/{owner}/{repo}/stats/contributors
-     * @response `200` `SwaggerTypeContributorsStatsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeContributorsStatsGeneratedDataContract`
+     * @response `403` `void`
      */
     statsContributorsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeContributorsStatsGeneratedDataContract, void>({
@@ -5611,12 +5358,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get the weekly commit count for the repo owner and everyone else.
+     * No description
      *
      * @name StatsParticipationDetail
      * @request GET:/repos/{owner}/{repo}/stats/participation
-     * @response `200` `SwaggerTypeParticipationStatsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeParticipationStatsGeneratedDataContract`
+     * @response `403` `void`
      */
     statsParticipationDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeParticipationStatsGeneratedDataContract, void>({
@@ -5627,12 +5374,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get the number of commits per hour in each day. Each array contains the day number, hour number, and number of commits 0-6 Sunday - Saturday 0-23 Hour of day Number of commits For example, [2, 14, 25] indicates that there were 25 total commits, during the 2.00pm hour on Tuesdays. All times are based on the time zone of individual commits.
+     * No description
      *
      * @name StatsPunchCardDetail
      * @request GET:/repos/{owner}/{repo}/stats/punch_card
-     * @response `200` `SwaggerTypeCodeFrequencyStatsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeCodeFrequencyStatsGeneratedDataContract`
+     * @response `403` `void`
      */
     statsPunchCardDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeCodeFrequencyStatsGeneratedDataContract, void>({
@@ -5643,12 +5390,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List Statuses for a specific Ref.
+     * No description
      *
      * @name StatusesDetail
      * @request GET:/repos/{owner}/{repo}/statuses/{ref}
-     * @response `200` `SwaggerTypeRefGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeRefGeneratedDataContract`
+     * @response `403` `void`
      */
     statusesDetail: (owner: string, repo: string, ref: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeRefGeneratedDataContract, void>({
@@ -5659,12 +5406,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a Status.
+     * No description
      *
      * @name StatusesCreate
      * @request POST:/repos/{owner}/{repo}/statuses/{ref}
-     * @response `201` `SwaggerTypeRefGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeRefGeneratedDataContract`
+     * @response `403` `void`
      */
     statusesCreate: (
       owner: string,
@@ -5683,12 +5430,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List watchers.
+     * No description
      *
      * @name SubscribersDetail
      * @request GET:/repos/{owner}/{repo}/subscribers
-     * @response `200` `SwaggerTypeUsersGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUsersGeneratedDataContract`
+     * @response `403` `void`
      */
     subscribersDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeUsersGeneratedDataContract, void>({
@@ -5699,12 +5446,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete a Repository Subscription.
+     * No description
      *
      * @name SubscriptionDelete
      * @request DELETE:/repos/{owner}/{repo}/subscription
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     subscriptionDelete: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -5714,12 +5461,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a Repository Subscription.
+     * No description
      *
      * @name SubscriptionDetail
      * @request GET:/repos/{owner}/{repo}/subscription
-     * @response `200` `SwaggerTypeSubscriptionGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeSubscriptionGeneratedDataContract`
+     * @response `403` `void`
      */
     subscriptionDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeSubscriptionGeneratedDataContract, void>({
@@ -5730,12 +5477,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Set a Repository Subscription
+     * No description
      *
      * @name SubscriptionUpdate
      * @request PUT:/repos/{owner}/{repo}/subscription
-     * @response `200` `SwaggerTypeSubscriptionGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeSubscriptionGeneratedDataContract`
+     * @response `403` `void`
      */
     subscriptionUpdate: (
       owner: string,
@@ -5753,12 +5500,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get list of tags.
+     * No description
      *
      * @name TagsDetail
      * @request GET:/repos/{owner}/{repo}/tags
-     * @response `200` `SwaggerTypeTagsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeTagsGeneratedDataContract`
+     * @response `403` `void`
      */
     tagsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeTagsGeneratedDataContract, void>({
@@ -5769,12 +5516,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get list of teams
+     * No description
      *
      * @name TeamsDetail
      * @request GET:/repos/{owner}/{repo}/teams
-     * @response `200` `SwaggerTypeTeamsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeTeamsGeneratedDataContract`
+     * @response `403` `void`
      */
     teamsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeTeamsGeneratedDataContract, void>({
@@ -5785,12 +5532,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List Stargazers. New implementation.
+     * No description
      *
      * @name WatchersDetail
      * @request GET:/repos/{owner}/{repo}/watchers
-     * @response `200` `SwaggerTypeUsersGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUsersGeneratedDataContract`
+     * @response `403` `void`
      */
     watchersDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeUsersGeneratedDataContract, void>({
@@ -5801,14 +5548,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get archive link. This method will return a 302 to a URL to download a tarball or zipball archive for a repository. Please make sure your HTTP framework is configured to follow redirects or you will need to use the Location header to make a second GET request. Note: For private repositories, these links are temporary and expire quickly.
+     * No description
      *
      * @name ReposDetail2
      * @request GET:/repos/{owner}/{repo}/{archive_format}/{path}
      * @originalName reposDetail
      * @duplicate
-     * @response `302` `void` Found.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `302` `void`
+     * @response `403` `void`
      */
     reposDetail2: (
       owner: string,
@@ -5825,20 +5572,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   repositories = {
     /**
-     * @description List all public repositories. This provides a dump of every public repository, in the order that they were created. Note: Pagination is powered exclusively by the since parameter. is the Link header to get the URL for the next page of repositories.
+     * No description
      *
      * @name RepositoriesList
      * @request GET:/repositories
-     * @response `200` `SwaggerTypeReposGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeReposGeneratedDataContract`
+     * @response `403` `void`
      */
     repositoriesList: (
       query?: {
-        /**
-         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
-         * Example: "2012-10-09T23:39:01Z".
-         *
-         */
         since?: string;
       },
       params: RequestParams = {},
@@ -5853,40 +5595,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   search = {
     /**
-     * @description Search code.
+     * No description
      *
      * @name CodeList
      * @request GET:/search/code
-     * @response `200` `SwaggerTypeSearchCodeGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeSearchCodeGeneratedDataContract`
+     * @response `403` `void`
      */
     codeList: (
       query: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
         order?: "desc" | "asc";
-        /**
-         * The search terms. This can be any combination of the supported code
-         * search parameters:
-         * 'Search In' Qualifies which fields are searched. With this qualifier
-         * you can restrict the search to just the file contents, the file path,
-         * or both.
-         * 'Languages' Searches code based on the language it's written in.
-         * 'Forks' Filters repositories based on the number of forks, and/or
-         * whether code from forked repositories should be included in the results
-         * at all.
-         * 'Size' Finds files that match a certain size (in bytes).
-         * 'Path' Specifies the path that the resulting file must be at.
-         * 'Extension' Matches files with a certain extension.
-         * 'Users' or 'Repositories' Limits searches to a specific user or repository.
-         *
-         */
         q: string;
-        /**
-         * Can only be 'indexed', which indicates how recently a file has been indexed
-         * by the GitHub search infrastructure. If not provided, results are sorted
-         * by best match.
-         *
-         */
         sort?: "indexed";
       },
       params: RequestParams = {},
@@ -5900,20 +5619,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Find issues by state and keyword. (This method returns up to 100 results per page.)
+     * No description
      *
      * @name IssuesList
      * @request GET:/search/issues
-     * @response `200` `SwaggerTypeSearchIssuesGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeSearchIssuesGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesList: (
       query: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
         order?: "desc" | "asc";
-        /** The q search term can also contain any combination of the supported issue search qualifiers: */
         q: string;
-        /** The sort field. Can be comments, created, or updated. Default: results are sorted by best match. */
         sort?: "updated" | "created" | "comments";
       },
       params: RequestParams = {},
@@ -5927,35 +5643,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Search repositories.
+     * No description
      *
      * @name RepositoriesList
      * @request GET:/search/repositories
-     * @response `200` `SwaggerTypeSearchRepositoriesGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeSearchRepositoriesGeneratedDataContract`
+     * @response `403` `void`
      */
     repositoriesList: (
       query: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
         order?: "desc" | "asc";
-        /**
-         * The search terms. This can be any combination of the supported repository
-         * search parameters:
-         * 'Search In' Qualifies which fields are searched. With this qualifier you
-         * can restrict the search to just the repository name, description, readme,
-         * or any combination of these.
-         * 'Size' Finds repositories that match a certain size (in kilobytes).
-         * 'Forks' Filters repositories based on the number of forks, and/or whether
-         * forked repositories should be included in the results at all.
-         * 'Created' and 'Last Updated' Filters repositories based on times of
-         * creation, or when they were last updated.
-         * 'Users or Repositories' Limits searches to a specific user or repository.
-         * 'Languages' Searches repositories based on the language they are written in.
-         * 'Stars' Searches repositories based on the number of stars.
-         *
-         */
         q: string;
-        /** If not provided, results are sorted by best match. */
         sort?: "stars" | "forks" | "updated";
       },
       params: RequestParams = {},
@@ -5969,34 +5667,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Search users.
+     * No description
      *
      * @name UsersList
      * @request GET:/search/users
-     * @response `200` `SwaggerTypeSearchUsersGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeSearchUsersGeneratedDataContract`
+     * @response `403` `void`
      */
     usersList: (
       query: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
         order?: "desc" | "asc";
-        /**
-         * The search terms. This can be any combination of the supported user
-         * search parameters:
-         * 'Search In' Qualifies which fields are searched. With this qualifier you
-         * can restrict the search to just the username, public email, full name,
-         * location, or any combination of these.
-         * 'Repository count' Filters users based on the number of repositories they
-         * have.
-         * 'Location' Filter users by the location indicated in their profile.
-         * 'Language' Search for users that have repositories that match a certain
-         * language.
-         * 'Created' Filter users based on when they joined.
-         * 'Followers' Filter users based on the number of followers they have.
-         *
-         */
         q: string;
-        /** If not provided, results are sorted by best match. */
         sort?: "followers" | "repositories" | "joined";
       },
       params: RequestParams = {},
@@ -6011,12 +5692,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   teams = {
     /**
-     * @description Delete team. In order to delete a team, the authenticated user must be an owner of the org that the team is associated with.
+     * No description
      *
      * @name TeamsDelete
      * @request DELETE:/teams/{teamId}
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     teamsDelete: (teamId: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6026,12 +5707,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get team.
+     * No description
      *
      * @name TeamsDetail
      * @request GET:/teams/{teamId}
-     * @response `200` `SwaggerTypeTeamGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeTeamGeneratedDataContract`
+     * @response `403` `void`
      */
     teamsDetail: (teamId: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeTeamGeneratedDataContract, void>({
@@ -6042,12 +5723,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Edit team. In order to edit a team, the authenticated user must be an owner of the org that the team is associated with.
+     * No description
      *
      * @name TeamsPartialUpdate
      * @request PATCH:/teams/{teamId}
-     * @response `200` `SwaggerTypeTeamGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeTeamGeneratedDataContract`
+     * @response `403` `void`
      */
     teamsPartialUpdate: (teamId: number, body: SwaggerTypeEditTeamGeneratedDataContract, params: RequestParams = {}) =>
       this.request<SwaggerTypeTeamGeneratedDataContract, void>({
@@ -6060,12 +5741,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List team members. In order to list members in a team, the authenticated user must be a member of the team.
+     * No description
      *
      * @name MembersDetail
      * @request GET:/teams/{teamId}/members
-     * @response `200` `SwaggerTypeUsersGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUsersGeneratedDataContract`
+     * @response `403` `void`
      */
     membersDetail: (teamId: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeUsersGeneratedDataContract, void>({
@@ -6076,13 +5757,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description The "Remove team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Remove team membership API instead. It allows you to remove both active and pending memberships. Remove team member. In order to remove a user from a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with. NOTE This does not delete the user, it just remove them from the team.
+     * No description
      *
      * @name MembersDelete
      * @request DELETE:/teams/{teamId}/members/{username}
      * @deprecated
-     * @response `204` `void` Team member removed.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     membersDelete: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6092,16 +5773,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description The "Get team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Get team membership API instead. It allows you to get both active and pending memberships. Get team member. In order to get if a user is a member of a team, the authenticated user mus be a member of the team.
+     * No description
      *
      * @name MembersDetail2
      * @request GET:/teams/{teamId}/members/{username}
      * @deprecated
      * @originalName membersDetail
      * @duplicate
-     * @response `204` `void` User is a member.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `404` `void` User is not a member.
+     * @response `204` `void`
+     * @response `403` `void`
+     * @response `404` `void`
      */
     membersDetail2: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6111,14 +5792,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description The API (described below) is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Add team membership API instead. It allows you to invite new organization members to your teams. Add team member. In order to add a user to a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with.
+     * No description
      *
      * @name MembersUpdate
      * @request PUT:/teams/{teamId}/members/{username}
      * @deprecated
-     * @response `204` `void` Team member added.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `422` `SwaggerTypeOrganizationAsTeamMemberGeneratedDataContract` If you attempt to add an organization to a team, you will get this.
+     * @response `204` `void`
+     * @response `403` `void`
+     * @response `422` `SwaggerTypeOrganizationAsTeamMemberGeneratedDataContract`
      */
     membersUpdate: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<void, void | SwaggerTypeOrganizationAsTeamMemberGeneratedDataContract>({
@@ -6128,12 +5809,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Remove team membership. In order to remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. NOTE: This does not delete the user, it just removes their membership from the team.
+     * No description
      *
      * @name MembershipsDelete
      * @request DELETE:/teams/{teamId}/memberships/{username}
-     * @response `204` `void` Team member removed.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     membershipsDelete: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6143,13 +5824,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get team membership. In order to get a user's membership with a team, the authenticated user must be a member of the team or an owner of the team's organization.
+     * No description
      *
      * @name MembershipsDetail
      * @request GET:/teams/{teamId}/memberships/{username}
-     * @response `200` `SwaggerTypeTeamMembershipGeneratedDataContract` User is a member.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `404` `void` User has no membership with team
+     * @response `200` `SwaggerTypeTeamMembershipGeneratedDataContract`
+     * @response `403` `void`
+     * @response `404` `void`
      */
     membershipsDetail: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeTeamMembershipGeneratedDataContract, void>({
@@ -6160,13 +5841,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Add team membership. In order to add a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. If the user is already a part of the team's organization (meaning they're on at least one other team in the organization), this endpoint will add the user to the team. If the user is completely unaffiliated with the team's organization (meaning they're on none of the organization's teams), this endpoint will send an invitation to the user via email. This newly-created membership will be in the 'pending' state until the user accepts the invitation, at which point the membership will transition to the 'active' state and the user will be added as a member of the team.
+     * No description
      *
      * @name MembershipsUpdate
      * @request PUT:/teams/{teamId}/memberships/{username}
-     * @response `200` `SwaggerTypeTeamMembershipGeneratedDataContract` Team member added.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `422` `SwaggerTypeOrganizationAsTeamMemberGeneratedDataContract` If you attempt to add an organization to a team, you will get this.
+     * @response `200` `SwaggerTypeTeamMembershipGeneratedDataContract`
+     * @response `403` `void`
+     * @response `422` `SwaggerTypeOrganizationAsTeamMemberGeneratedDataContract`
      */
     membershipsUpdate: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<
@@ -6180,12 +5861,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List team repos
+     * No description
      *
      * @name ReposDetail
      * @request GET:/teams/{teamId}/repos
-     * @response `200` `SwaggerTypeTeamReposGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeTeamReposGeneratedDataContract`
+     * @response `403` `void`
      */
     reposDetail: (teamId: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeTeamReposGeneratedDataContract, void>({
@@ -6196,12 +5877,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description In order to remove a repository from a team, the authenticated user must be an owner of the org that the team is associated with. NOTE: This does not delete the repository, it just removes it from the team.
+     * No description
      *
      * @name ReposDelete
      * @request DELETE:/teams/{teamId}/repos/{owner}/{repo}
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     reposDelete: (teamId: number, owner: string, repo: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6211,13 +5892,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Check if a team manages a repository
+     * No description
      *
      * @name ReposDetail2
      * @request GET:/teams/{teamId}/repos/{owner}/{repo}
      * @originalName reposDetail
      * @duplicate
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `403` `void`
      */
     reposDetail2: (teamId: number, owner: string, repo: string, params: RequestParams = {}) =>
       this.request<any, void>({
@@ -6227,11 +5908,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description In order to add a repository to a team, the authenticated user must be an owner of the org that the team is associated with. Also, the repository must be owned by the organization, or a direct fork of a repository owned by the organization.
+     * No description
      *
      * @name ReposUpdate
      * @request PUT:/teams/{teamId}/repos/{owner}/{repo}
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `403` `void`
      */
     reposUpdate: (teamId: number, owner: string, repo: string, params: RequestParams = {}) =>
       this.request<any, void>({
@@ -6242,12 +5923,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   user = {
     /**
-     * @description Get the authenticated user.
+     * No description
      *
      * @name UserList
      * @request GET:/user
-     * @response `200` `SwaggerTypeUserGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUserGeneratedDataContract`
+     * @response `403` `void`
      */
     userList: (params: RequestParams = {}) =>
       this.request<SwaggerTypeUserGeneratedDataContract, void>({
@@ -6258,12 +5939,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Update the authenticated user.
+     * No description
      *
      * @name UserPartialUpdate
      * @request PATCH:/user
-     * @response `200` `SwaggerTypeUserGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUserGeneratedDataContract`
+     * @response `403` `void`
      */
     userPartialUpdate: (body: SwaggerTypeUserUpdateGeneratedDataContract, params: RequestParams = {}) =>
       this.request<SwaggerTypeUserGeneratedDataContract, void>({
@@ -6276,12 +5957,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete email address(es). You can include a single email address or an array of addresses.
+     * No description
      *
      * @name EmailsDelete
      * @request DELETE:/user/emails
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     emailsDelete: (body: SwaggerTypeUserEmailsGeneratedDataContract, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6293,12 +5974,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List email addresses for a user. In the final version of the API, this method will return an array of hashes with extended information for each email address indicating if the address has been verified and if it's primary email address for GitHub. Until API v3 is finalized, use the application/vnd.github.v3 media type to get other response format.
+     * No description
      *
      * @name EmailsList
      * @request GET:/user/emails
-     * @response `200` `SwaggerTypeUserEmailsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUserEmailsGeneratedDataContract`
+     * @response `403` `void`
      */
     emailsList: (params: RequestParams = {}) =>
       this.request<SwaggerTypeUserEmailsGeneratedDataContract, void>({
@@ -6308,11 +5989,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Add email address(es). You can post a single email address or an array of addresses.
+     * No description
      *
      * @name EmailsCreate
      * @request POST:/user/emails
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `403` `void`
      */
     emailsCreate: (body: SwaggerTypeEmailsPostGeneratedDataContract, params: RequestParams = {}) =>
       this.request<any, void>({
@@ -6323,12 +6004,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List the authenticated user's followers
+     * No description
      *
      * @name FollowersList
      * @request GET:/user/followers
-     * @response `200` `SwaggerTypeUsersGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUsersGeneratedDataContract`
+     * @response `403` `void`
      */
     followersList: (params: RequestParams = {}) =>
       this.request<SwaggerTypeUsersGeneratedDataContract, void>({
@@ -6339,12 +6020,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List who the authenticated user is following.
+     * No description
      *
      * @name FollowingList
      * @request GET:/user/following
-     * @response `200` `SwaggerTypeUsersGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUsersGeneratedDataContract`
+     * @response `403` `void`
      */
     followingList: (params: RequestParams = {}) =>
       this.request<SwaggerTypeUsersGeneratedDataContract, void>({
@@ -6355,12 +6036,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Unfollow a user. Unfollowing a user requires the user to be logged in and authenticated with basic auth or OAuth with the user:follow scope.
+     * No description
      *
      * @name FollowingDelete
      * @request DELETE:/user/following/{username}
-     * @response `204` `void` User unfollowed.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     followingDelete: (username: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6370,13 +6051,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Check if you are following a user.
+     * No description
      *
      * @name FollowingDetail
      * @request GET:/user/following/{username}
-     * @response `204` `void` Response if you are following this user.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `404` `void` Response if you are not following this user.
+     * @response `204` `void`
+     * @response `403` `void`
+     * @response `404` `void`
      */
     followingDetail: (username: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6386,12 +6067,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Follow a user. Following a user requires the user to be logged in and authenticated with basic auth or OAuth with the user:follow scope.
+     * No description
      *
      * @name FollowingUpdate
      * @request PUT:/user/following/{username}
-     * @response `204` `void` You are now following the user.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     followingUpdate: (username: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6401,31 +6082,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List issues. List all issues across owned and member repositories for the authenticated user.
+     * No description
      *
      * @name IssuesList
      * @request GET:/user/issues
-     * @response `200` `SwaggerTypeIssuesGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeIssuesGeneratedDataContract`
+     * @response `403` `void`
      */
     issuesList: (
       query: {
-        /**
-         * Issues assigned to you / created by you / mentioning you / you're
-         * subscribed to updates for / All issues the authenticated user can see
-         *
-         */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
         state: "open" | "closed";
-        /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
         sort: "created" | "updated" | "comments";
         direction: "asc" | "desc";
-        /**
-         * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
-         * Only issues updated at or after this time are returned.
-         *
-         */
         since?: string;
       },
       params: RequestParams = {},
@@ -6439,12 +6109,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List your public keys. Lists the current user's keys. Management of public keys via the API requires that you are authenticated through basic auth, or OAuth with the 'user', 'write:public_key' scopes.
+     * No description
      *
      * @name KeysList
      * @request GET:/user/keys
-     * @response `200` `SwaggerTypeGitignoreGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeGitignoreGeneratedDataContract`
+     * @response `403` `void`
      */
     keysList: (params: RequestParams = {}) =>
       this.request<SwaggerTypeGitignoreGeneratedDataContract, void>({
@@ -6455,12 +6125,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a public key.
+     * No description
      *
      * @name KeysCreate
      * @request POST:/user/keys
-     * @response `201` `SwaggerTypeUserKeysKeyIdGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeUserKeysKeyIdGeneratedDataContract`
+     * @response `403` `void`
      */
     keysCreate: (body: SwaggerTypeUserKeysPostGeneratedDataContract, params: RequestParams = {}) =>
       this.request<SwaggerTypeUserKeysKeyIdGeneratedDataContract, void>({
@@ -6472,12 +6142,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete a public key. Removes a public key. Requires that you are authenticated via Basic Auth or via OAuth with at least admin:public_key scope.
+     * No description
      *
      * @name KeysDelete
      * @request DELETE:/user/keys/{keyId}
-     * @response `204` `void` No content.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     keysDelete: (keyId: number, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6487,12 +6157,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a single public key.
+     * No description
      *
      * @name KeysDetail
      * @request GET:/user/keys/{keyId}
-     * @response `200` `SwaggerTypeUserKeysKeyIdGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUserKeysKeyIdGeneratedDataContract`
+     * @response `403` `void`
      */
     keysDetail: (keyId: number, params: RequestParams = {}) =>
       this.request<SwaggerTypeUserKeysKeyIdGeneratedDataContract, void>({
@@ -6503,12 +6173,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List public and private organizations for the authenticated user.
+     * No description
      *
      * @name OrgsList
      * @request GET:/user/orgs
-     * @response `200` `SwaggerTypeGitignoreGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeGitignoreGeneratedDataContract`
+     * @response `403` `void`
      */
     orgsList: (params: RequestParams = {}) =>
       this.request<SwaggerTypeGitignoreGeneratedDataContract, void>({
@@ -6519,12 +6189,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List repositories for the authenticated user. Note that this does not include repositories owned by organizations which the user can access. You can lis user organizations and list organization repositories separately.
+     * No description
      *
      * @name ReposList
      * @request GET:/user/repos
-     * @response `200` `SwaggerTypeReposGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeReposGeneratedDataContract`
+     * @response `403` `void`
      */
     reposList: (
       query?: {
@@ -6541,12 +6211,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create a new repository for the authenticated user. OAuth users must supply repo scope.
+     * No description
      *
      * @name ReposCreate
      * @request POST:/user/repos
-     * @response `201` `SwaggerTypeReposGeneratedDataContract` Created
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `201` `SwaggerTypeReposGeneratedDataContract`
+     * @response `403` `void`
      */
     reposCreate: (body: SwaggerTypePostRepoGeneratedDataContract, params: RequestParams = {}) =>
       this.request<SwaggerTypeReposGeneratedDataContract, void>({
@@ -6558,16 +6228,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List repositories being starred by the authenticated user.
+     * No description
      *
      * @name StarredList
      * @request GET:/user/starred
-     * @response `200` `SwaggerTypeGitignoreGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeGitignoreGeneratedDataContract`
+     * @response `403` `void`
      */
     starredList: (
       query?: {
-        /** Ignored without 'sort' parameter. */
         direction?: string;
         sort?: "created" | "updated";
       },
@@ -6582,12 +6251,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Unstar a repository
+     * No description
      *
      * @name StarredDelete
      * @request DELETE:/user/starred/{owner}/{repo}
-     * @response `204` `void` Unstarred.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     starredDelete: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6597,13 +6266,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Check if you are starring a repository.
+     * No description
      *
      * @name StarredDetail
      * @request GET:/user/starred/{owner}/{repo}
-     * @response `204` `void` This repository is starred by you.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `404` `void` This repository is not starred by you.
+     * @response `204` `void`
+     * @response `403` `void`
+     * @response `404` `void`
      */
     starredDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6613,12 +6282,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Star a repository.
+     * No description
      *
      * @name StarredUpdate
      * @request PUT:/user/starred/{owner}/{repo}
-     * @response `204` `void` Repository starred.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     starredUpdate: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6628,12 +6297,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List repositories being watched by the authenticated user.
+     * No description
      *
      * @name SubscriptionsList
      * @request GET:/user/subscriptions
-     * @response `200` `SwaggerTypeReposGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeReposGeneratedDataContract`
+     * @response `403` `void`
      */
     subscriptionsList: (params: RequestParams = {}) =>
       this.request<SwaggerTypeReposGeneratedDataContract, void>({
@@ -6644,13 +6313,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Stop watching a repository
+     * No description
      *
      * @name SubscriptionsDelete
      * @request DELETE:/user/subscriptions/{owner}/{repo}
      * @deprecated
-     * @response `204` `void` Unwatched.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     subscriptionsDelete: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6660,14 +6329,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Check if you are watching a repository.
+     * No description
      *
      * @name SubscriptionsDetail
      * @request GET:/user/subscriptions/{owner}/{repo}
      * @deprecated
-     * @response `204` `void` Repository is watched by you.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `404` `void` Repository is not watched by you.
+     * @response `204` `void`
+     * @response `403` `void`
+     * @response `404` `void`
      */
     subscriptionsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6677,13 +6346,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Watch a repository.
+     * No description
      *
      * @name SubscriptionsUpdate
      * @request PUT:/user/subscriptions/{owner}/{repo}
      * @deprecated
-     * @response `204` `void` Repository is watched.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `204` `void`
+     * @response `403` `void`
      */
     subscriptionsUpdate: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6693,12 +6362,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List all of the teams across all of the organizations to which the authenticated user belongs. This method requires user or repo scope when authenticating via OAuth.
+     * No description
      *
      * @name TeamsList
      * @request GET:/user/teams
-     * @response `200` `SwaggerTypeTeamsListGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeTeamsListGeneratedDataContract`
+     * @response `403` `void`
      */
     teamsList: (params: RequestParams = {}) =>
       this.request<SwaggerTypeTeamsListGeneratedDataContract, void>({
@@ -6710,16 +6379,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   users = {
     /**
-     * @description Get all users. This provides a dump of every user, in the order that they signed up for GitHub. Note: Pagination is powered exclusively by the since parameter. Use the Link header to get the URL for the next page of users.
+     * No description
      *
      * @name UsersList
      * @request GET:/users
-     * @response `200` `SwaggerTypeUsersGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUsersGeneratedDataContract`
+     * @response `403` `void`
      */
     usersList: (
       query?: {
-        /** The integer ID of the last user that you've seen. */
         since?: number;
       },
       params: RequestParams = {},
@@ -6733,12 +6401,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Get a single user.
+     * No description
      *
      * @name UsersDetail
      * @request GET:/users/{username}
-     * @response `200` `SwaggerTypeUserGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUserGeneratedDataContract`
+     * @response `403` `void`
      */
     usersDetail: (username: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeUserGeneratedDataContract, void>({
@@ -6749,11 +6417,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description If you are authenticated as the given user, you will see your private events. Otherwise, you'll only see public events.
+     * No description
      *
      * @name EventsDetail
      * @request GET:/users/{username}/events
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `403` `void`
      */
     eventsDetail: (username: string, params: RequestParams = {}) =>
       this.request<any, void>({
@@ -6763,11 +6431,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description This is the user's organization dashboard. You must be authenticated as the user to view this.
+     * No description
      *
      * @name EventsOrgsDetail
      * @request GET:/users/{username}/events/orgs/{org}
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `403` `void`
      */
     eventsOrgsDetail: (username: string, org: string, params: RequestParams = {}) =>
       this.request<any, void>({
@@ -6777,12 +6445,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List a user's followers
+     * No description
      *
      * @name FollowersDetail
      * @request GET:/users/{username}/followers
-     * @response `200` `SwaggerTypeUsersGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeUsersGeneratedDataContract`
+     * @response `403` `void`
      */
     followersDetail: (username: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeUsersGeneratedDataContract, void>({
@@ -6793,13 +6461,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Check if one user follows another.
+     * No description
      *
      * @name FollowingDetail
      * @request GET:/users/{username}/following/{targetUser}
-     * @response `204` `void` Response if user follows target user.
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
-     * @response `404` `void` Response if user does not follow target user.
+     * @response `204` `void`
+     * @response `403` `void`
+     * @response `404` `void`
      */
     followingDetail: (username: string, targetUser: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6809,21 +6477,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List a users gists.
+     * No description
      *
      * @name GistsDetail
      * @request GET:/users/{username}/gists
-     * @response `200` `SwaggerTypeGistsGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeGistsGeneratedDataContract`
+     * @response `403` `void`
      */
     gistsDetail: (
       username: string,
       query?: {
-        /**
-         * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
-         * Example: "2012-10-09T23:39:01Z".
-         *
-         */
         since?: string;
       },
       params: RequestParams = {},
@@ -6837,12 +6500,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List public keys for a user. Lists the verified public keys for a user. This is accessible by anyone.
+     * No description
      *
      * @name KeysDetail
      * @request GET:/users/{username}/keys
-     * @response `200` `SwaggerTypeGitignoreGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeGitignoreGeneratedDataContract`
+     * @response `403` `void`
      */
     keysDetail: (username: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeGitignoreGeneratedDataContract, void>({
@@ -6853,12 +6516,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List all public organizations for a user.
+     * No description
      *
      * @name OrgsDetail
      * @request GET:/users/{username}/orgs
-     * @response `200` `SwaggerTypeGitignoreGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeGitignoreGeneratedDataContract`
+     * @response `403` `void`
      */
     orgsDetail: (username: string, params: RequestParams = {}) =>
       this.request<SwaggerTypeGitignoreGeneratedDataContract, void>({
@@ -6869,11 +6532,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description These are events that you'll only see public events.
+     * No description
      *
      * @name ReceivedEventsDetail
      * @request GET:/users/{username}/received_events
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `403` `void`
      */
     receivedEventsDetail: (username: string, params: RequestParams = {}) =>
       this.request<any, void>({
@@ -6883,11 +6546,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List public events that a user has received
+     * No description
      *
      * @name ReceivedEventsPublicDetail
      * @request GET:/users/{username}/received_events/public
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `403` `void`
      */
     receivedEventsPublicDetail: (username: string, params: RequestParams = {}) =>
       this.request<any, void>({
@@ -6897,12 +6560,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List public repositories for the specified user.
+     * No description
      *
      * @name ReposDetail
      * @request GET:/users/{username}/repos
-     * @response `200` `SwaggerTypeReposGeneratedDataContract` OK
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `200` `SwaggerTypeReposGeneratedDataContract`
+     * @response `403` `void`
      */
     reposDetail: (
       username: string,
@@ -6920,11 +6583,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List repositories being starred by a user.
+     * No description
      *
      * @name StarredDetail
      * @request GET:/users/{username}/starred
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `403` `void`
      */
     starredDetail: (username: string, params: RequestParams = {}) =>
       this.request<any, void>({
@@ -6934,11 +6597,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description List repositories being watched by a user.
+     * No description
      *
      * @name SubscriptionsDetail
      * @request GET:/users/{username}/subscriptions
-     * @response `403` `void` API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting for details.
+     * @response `403` `void`
      */
     subscriptionsDetail: (username: string, params: RequestParams = {}) =>
       this.request<any, void>({

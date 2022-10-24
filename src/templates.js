@@ -1,155 +1,174 @@
+const { resolve } = require("path");
 const _ = require("lodash");
 const Eta = require("eta");
-const { getFileContent, pathIsExist } = require("./files");
-const { config } = require("./config");
-const { resolve } = require("path");
-const { logger } = require("./logger");
+const path = require("path");
 
-const TEMPLATE_EXTENSIONS = [".eta", ".ejs"];
+class Templates {
+  /**
+   * @type {Configuration}
+   */
+  config;
 
-/**
- * name - project template name,
- * fileName - template file name,
- */
-const TEMPLATE_INFOS = [
-  { name: "api", fileName: "api" },
-  { name: "dataContracts", fileName: "data-contracts" },
-  { name: "dataContractJsDoc", fileName: "data-contract-jsdoc" },
-  { name: "interfaceDataContract", fileName: "interface-data-contract" },
-  { name: "typeDataContract", fileName: "type-data-contract" },
-  { name: "enumDataContract", fileName: "enum-data-contract" },
-  { name: "objectFieldJsDoc", fileName: "object-field-jsdoc" },
-  { name: "httpClient", fileName: "http-client" },
-  { name: "routeTypes", fileName: "route-types" },
-  { name: "routeName", fileName: "route-name" },
-];
+  /**
+   * @type {Logger}
+   */
+  logger;
 
-const getTemplatePaths = ({ templates, modular }) => {
-  const baseTemplatesPath = resolve(__dirname, "../templates/base");
-  const defaultTemplatesPath = resolve(__dirname, "../templates/default");
-  const modularTemplatesPath = resolve(__dirname, "../templates/modular");
-  const originalTemplatesPath = modular ? modularTemplatesPath : defaultTemplatesPath;
-  const customTemplatesPath = templates ? resolve(process.cwd(), templates) : originalTemplatesPath;
+  /**
+   * @type {FileSystem}
+   */
+  fileSystem;
 
-  return {
-    /** `templates/base` */
-    base: baseTemplatesPath,
-    /** `templates/default` */
-    default: defaultTemplatesPath,
-    /** `templates/modular` */
-    modular: modularTemplatesPath,
-    /** usage path if `--templates` option is not set */
-    original: originalTemplatesPath,
-    /** custom path to templates (`--templates`) */
-    custom: customTemplatesPath,
-  };
-};
+  getRenderTemplateData;
 
-const cropExtension = (path) =>
-  TEMPLATE_EXTENSIONS.reduce((path, ext) => (_.endsWith(path, ext) ? path.replace(ext, "") : path), path);
-
-const getTemplateFullPath = (path, fileName) => {
-  const raw = resolve(path, "./", cropExtension(fileName));
-  const pathVariants = TEMPLATE_EXTENSIONS.map((extension) => `${raw}${extension}`);
-
-  return pathVariants.find((variant) => !!pathIsExist(variant));
-};
-
-const getTemplate = ({ fileName, name, path }) => {
-  const { templatePaths } = config;
-
-  if (path) {
-    return getFileContent(path);
+  constructor(config, logger, fileSystem, getRenderTemplateData) {
+    this.config = config;
+    this.logger = logger;
+    this.fileSystem = fileSystem;
+    this.getRenderTemplateData = getRenderTemplateData;
   }
 
-  if (!fileName) return "";
+  getTemplatePaths = ({ templates, modular }) => {
+    const baseTemplatesPath = resolve(__dirname, "../templates/base");
+    const defaultTemplatesPath = resolve(__dirname, "../templates/default");
+    const modularTemplatesPath = resolve(__dirname, "../templates/modular");
+    const originalTemplatesPath = modular ? modularTemplatesPath : defaultTemplatesPath;
+    const customTemplatesPath = templates ? resolve(process.cwd(), templates) : originalTemplatesPath;
 
-  const customFullPath = getTemplateFullPath(templatePaths.custom, fileName);
-  let fileContent = customFullPath && getFileContent(customFullPath);
-
-  if (!fileContent) {
-    const baseFullPath = getTemplateFullPath(templatePaths.base, fileName);
-
-    if (baseFullPath) {
-      fileContent = getFileContent(baseFullPath);
-    } else {
-      logger.warn(
-        `${_.lowerCase(name)} template not found in ${customFullPath}`,
-        `\nCode generator will use the default template`,
-      );
-    }
-
-    const originalFullPath = getTemplateFullPath(templatePaths.original, fileName);
-
-    if (originalFullPath) {
-      fileContent = getFileContent(originalFullPath);
-    }
-  }
-
-  return fileContent;
-};
-
-const getTemplates = ({ templatePaths }) => {
-  logger.log(`try to read templates from directory "${templatePaths.custom}"`);
-
-  const templatesMap = _.reduce(
-    TEMPLATE_INFOS,
-    (acc, { fileName, name }) => ({
-      ...acc,
-      [name]: getTemplate({ fileName, name }),
-    }),
-    {},
-  );
-
-  return templatesMap;
-};
-
-const getTemplateContent = (path) => {
-  const foundTemplatePathKey = _.keys(config.templatePaths).find((key) => _.startsWith(path, `@${key}`));
-
-  const findPathWithExt = (path) => {
-    const raw = cropExtension(path);
-    const pathVariants = TEMPLATE_EXTENSIONS.map((extension) => `${raw}${extension}`);
-    return pathVariants.find((variant) => pathIsExist(variant));
+    return {
+      /** `templates/base` */
+      base: baseTemplatesPath,
+      /** `templates/default` */
+      default: defaultTemplatesPath,
+      /** `templates/modular` */
+      modular: modularTemplatesPath,
+      /** usage path if `--templates` option is not set */
+      original: originalTemplatesPath,
+      /** custom path to templates (`--templates`) */
+      custom: customTemplatesPath,
+    };
   };
 
-  const rawPath = resolve(_.replace(path, `@${foundTemplatePathKey}`, config.templatePaths[foundTemplatePathKey]));
-  const fixedPath = findPathWithExt(rawPath);
+  cropExtension = (path) =>
+    this.config.templateExtensions.reduce((path, ext) => (_.endsWith(path, ext) ? path.replace(ext, "") : path), path);
 
-  if (fixedPath) {
-    return getFileContent(fixedPath);
-  }
+  getTemplateFullPath = (path, fileName) => {
+    const raw = resolve(path, "./", this.cropExtension(fileName));
+    const pathVariants = this.config.templateExtensions.map((extension) => `${raw}${extension}`);
 
-  const customPath = findPathWithExt(resolve(config.templatePaths.custom, path));
+    return pathVariants.find((variant) => !!this.fileSystem.pathIsExist(variant));
+  };
 
-  if (customPath) {
-    return getFileContent(customPath);
-  }
+  requireFnFromTemplate = (packageOrPath) => {
+    const isPath = _.startsWith(packageOrPath, "./") || _.startsWith(packageOrPath, "../");
 
-  const originalPath = findPathWithExt(resolve(config.templatePaths.original, path));
+    if (isPath) {
+      return require(path.resolve(this.config.templates, packageOrPath));
+    }
 
-  if (originalPath) {
-    return getFileContent(originalPath);
-  }
+    return require(packageOrPath);
+  };
 
-  return "";
-};
+  getTemplate = ({ fileName, name, path }) => {
+    const { templatePaths } = this.config;
 
-const renderTemplate = (template, configuration, options) => {
-  if (!template) return "";
+    if (path) {
+      return this.fileSystem.getFileContent(path);
+    }
 
-  return Eta.render(template, configuration, {
-    async: false,
-    ...(options || {}),
-    includeFile: (path, payload, options) => {
-      return renderTemplate(getTemplateContent(path), payload, options);
-    },
-  });
-};
+    if (!fileName) return "";
+
+    const customFullPath = this.getTemplateFullPath(templatePaths.custom, fileName);
+    let fileContent = customFullPath && this.fileSystem.getFileContent(customFullPath);
+
+    if (!fileContent) {
+      const baseFullPath = this.getTemplateFullPath(templatePaths.base, fileName);
+
+      if (baseFullPath) {
+        fileContent = this.fileSystem.getFileContent(baseFullPath);
+      } else {
+        this.logger.warn(
+          `${_.lowerCase(name)} template not found in ${customFullPath}`,
+          `\nCode generator will use the default template`,
+        );
+      }
+
+      const originalFullPath = this.getTemplateFullPath(templatePaths.original, fileName);
+
+      if (originalFullPath) {
+        fileContent = this.fileSystem.getFileContent(originalFullPath);
+      }
+    }
+
+    return fileContent;
+  };
+
+  getTemplates = ({ templatePaths }) => {
+    this.logger.log(`try to read templates from directory "${templatePaths.custom}"`);
+
+    return _.reduce(
+      this.config.templateInfos,
+      (acc, { fileName, name }) => ({
+        ...acc,
+        [name]: this.getTemplate({ fileName, name }),
+      }),
+      {},
+    );
+  };
+
+  getTemplateContent = (path) => {
+    const foundTemplatePathKey = _.keys(this.config.templatePaths).find((key) => _.startsWith(path, `@${key}`));
+
+    const findPathWithExt = (path) => {
+      const raw = this.cropExtension(path);
+      const pathVariants = this.config.templateExtensions.map((extension) => `${raw}${extension}`);
+      return pathVariants.find((variant) => this.fileSystem.pathIsExist(variant));
+    };
+
+    const rawPath = resolve(
+      _.replace(path, `@${foundTemplatePathKey}`, this.config.templatePaths[foundTemplatePathKey]),
+    );
+    const fixedPath = findPathWithExt(rawPath);
+
+    if (fixedPath) {
+      return this.fileSystem.getFileContent(fixedPath);
+    }
+
+    const customPath = findPathWithExt(resolve(this.config.templatePaths.custom, path));
+
+    if (customPath) {
+      return this.fileSystem.getFileContent(customPath);
+    }
+
+    const originalPath = findPathWithExt(resolve(this.config.templatePaths.original, path));
+
+    if (originalPath) {
+      return this.fileSystem.getFileContent(originalPath);
+    }
+
+    return "";
+  };
+
+  renderTemplate = (template, configuration, options) => {
+    if (!template) return "";
+
+    return Eta.render(
+      template,
+      {
+        ...this.getRenderTemplateData(),
+        ...configuration,
+      },
+      {
+        async: false,
+        ...(options || {}),
+        includeFile: (path, payload, options) => {
+          return this.renderTemplate(this.getTemplateContent(path), payload, options);
+        },
+      },
+    );
+  };
+}
 
 module.exports = {
-  getTemplate,
-  getTemplates,
-  getTemplatePaths,
-  renderTemplate,
+  Templates,
 };

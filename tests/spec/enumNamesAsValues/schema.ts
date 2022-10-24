@@ -46,9 +46,7 @@ export type PetIds = 10 | 20 | 30 | 40;
 
 export type PetIdsWithWrongEnum = 10 | 20 | 30 | 40;
 
-/**
- * Information about job
- */
+/** Information about job */
 export interface FooBarBaz {
   id?: string;
   kind?: JobKind;
@@ -56,24 +54,18 @@ export interface FooBarBaz {
   link?: string;
 }
 
-/**
- * Information about job
- */
+/** Information about job */
 export interface FooBar {
   kind?: JobKind;
 }
 
-/**
- * Information about job
- */
+/** Information about job */
 export interface FooBaz {
   name?: string;
   link?: string;
 }
 
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
+/** From T, pick a set of properties whose keys are in the union K */
 export interface PickUserTypeExcludeKeysIdOrId {
   username: string;
   password: string;
@@ -92,9 +84,7 @@ export enum JobKind {
   OPEN_SOURCE = "OPEN_SOURCE",
 }
 
-/**
- * Information about job
- */
+/** Information about job */
 export interface JobType {
   id: string;
   kind: JobKind;
@@ -119,9 +109,7 @@ export interface JobType {
   address?: string;
 }
 
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
+/** From T, pick a set of properties whose keys are in the union K */
 export interface PickJobTypeExcludeKeysIdOrId {
   kind: JobKind;
   name?: string;
@@ -151,9 +139,7 @@ export type OmitIdJobType = OmitJobTypeIdOrId;
 
 export type JobUpdateType = OmitIdJobType;
 
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
+/** From T, pick a set of properties whose keys are in the union K */
 export interface PickProjectTypeExcludeKeysJob {
   id: string;
   name?: string;
@@ -173,9 +159,7 @@ export type ExtractedProjectType = OmitProjectTypeJob & {
   job: JobType;
 };
 
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
+/** From T, pick a set of properties whose keys are in the union K */
 export interface PickProjectTypeExcludeKeysIdOrId {
   name?: string;
   job: string;

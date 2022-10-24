@@ -234,7 +234,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /**
          * the location where data will be sent.  Must be network accessible
          * by the source server
-         *
          * @format uri
          * @example https://tonys-server.com
          */

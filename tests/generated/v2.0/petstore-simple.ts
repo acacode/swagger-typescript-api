@@ -25,9 +25,7 @@ export type Pet = NewPet & {
   id: number;
 };
 
-/**
- * Description of Test type
- */
+/** Description of Test type */
 export type Test = NewPet;
 
 export interface Test2 {

@@ -125,9 +125,15 @@ generateApi({
   addReadonly: false,
   extraTemplates: [],
   anotherArrayType: false, 
-  codeGenConstructs: ({ Ts, JsDoc }) => ({
-    Ts: { ...Ts, RecordType: (key, value) => `MyRecord<key, value>` },
-    JsDoc: { ...JsDoc },
+  codeGenConstructs: (constructs) => ({
+    ...constructs,
+    RecordType: (key, value) => `MyRecord<key, value>`
+  }),
+  primitiveTypeConstructs: (constructs) => ({
+      ...constructs,
+      string: {
+        'date-time': 'Date'
+      }
   }),
   hooks: {
     onCreateComponent: (component) => {},

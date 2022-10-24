@@ -100,22 +100,16 @@ export interface PetTTT {
   status?: "available" | "pending" | "sold";
 }
 
-/**
- * some description
- */
+/** some description */
 export interface AmountTTT {
   /**
    * some description
-   *
    * @format double
    * @min 0.01
    * @max 1000000000000000
    */
   value: number;
-  /**
-   * some description
-   *
-   */
+  /** some description */
   currency: CurrencyTTT;
 }
 

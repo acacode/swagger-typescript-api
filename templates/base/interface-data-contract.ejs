@@ -1,6 +1,7 @@
 <%
 const { contract, utils } = it;
 const { formatDescription, require, _ } = utils;
+console.info('contract', contract.name, contract)
 %>
 export interface <%~ contract.name %> {
   <% _.forEach(contract.$content, (field) => { %>

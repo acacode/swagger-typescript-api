@@ -109,22 +109,16 @@ export interface ApiResponse {
   message?: string;
 }
 
-/**
- * some description
- */
+/** some description */
 export interface Amount {
   /**
    * some description
-   *
    * @format double
    * @min 0.01
    * @max 1000000000000000
    */
   value: number;
-  /**
-   * some description
-   *
-   */
+  /** some description */
   currency: Currency;
 }
 

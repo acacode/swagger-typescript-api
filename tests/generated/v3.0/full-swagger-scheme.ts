@@ -26,9 +26,7 @@ export interface ActionsBillingUsage {
   total_paid_minutes_used: number;
 }
 
-/**
- * Whether GitHub Actions is enabled on the repository.
- */
+/** Whether GitHub Actions is enabled on the repository. */
 export type ActionsEnabled = boolean;
 
 export interface ActionsEnterprisePermissions {
@@ -130,9 +128,7 @@ export type AlertCreatedAt = string;
  */
 export type AlertHtmlUrl = string;
 
-/**
- * The security alert number.
- */
+/** The security alert number. */
 export type AlertNumber = number;
 
 /**
@@ -141,9 +137,7 @@ export type AlertNumber = number;
  */
 export type AlertUrl = string;
 
-/**
- * The permissions policy that controls the actions that are allowed to run. Can be one of: `all`, `local_only`, or `selected`.
- */
+/** The permissions policy that controls the actions that are allowed to run. Can be one of: `all`, `local_only`, or `selected`. */
 export enum AllowedActions {
   All = "all",
   LocalOnly = "local_only",
@@ -859,34 +853,52 @@ export interface CodeOfConduct {
    * @example # Contributor Covenant Code of Conduct
    *
    * ## Our Pledge
+   *
    * In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
+   *
    * ## Our Standards
+   *
    * Examples of behavior that contributes to creating a positive environment include:
+   *
    * * Using welcoming and inclusive language
    * * Being respectful of differing viewpoints and experiences
    * * Gracefully accepting constructive criticism
    * * Focusing on what is best for the community
    * * Showing empathy towards other community members
+   *
    * Examples of unacceptable behavior by participants include:
+   *
    * * The use of sexualized language or imagery and unwelcome sexual attention or advances
    * * Trolling, insulting/derogatory comments, and personal or political attacks
    * * Public or private harassment
    * * Publishing others' private information, such as a physical or electronic address, without explicit permission
    * * Other conduct which could reasonably be considered inappropriate in a professional setting
+   *
    * ## Our Responsibilities
+   *
    * Project maintainers are responsible for clarifying the standards of acceptable behavior and are expected to take appropriate and fair corrective action in response
    *                   to any instances of unacceptable behavior.
+   *
    * Project maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, or to ban temporarily or permanently any contributor for other behaviors that they deem inappropriate, threatening, offensive, or harmful.
+   *
    * ## Scope
+   *
    * This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community. Examples of representing a project or community include using an official project e-mail address,
    *                   posting via an official social media account, or acting as an appointed representative at an online or offline event. Representation of a project may be further defined and clarified by project maintainers.
+   *
    * ## Enforcement
+   *
    * Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at [EMAIL]. The project team will review and investigate all complaints, and will respond in a way that it deems appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident. Further details of specific enforcement policies may be posted separately.
+   *
    * Project maintainers who do not follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions as determined by other members of the project's leadership.
+   *
    * ## Attribution
+   *
    * This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4, available at [http://contributor-covenant.org/version/1/4][version]
+   *
    * [homepage]: http://contributor-covenant.org
    * [version]: http://contributor-covenant.org/version/1/4/
+   *
    */
   body?: string;
   /** @format uri */
@@ -969,14 +981,10 @@ export interface CodeScanningAlertCodeScanningAlertItems {
  */
 export type CodeScanningAlertDismissedAt = string | null;
 
-/**
- * **Required when the state is dismissed.** The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`.
- */
+/** **Required when the state is dismissed.** The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`. */
 export type CodeScanningAlertDismissedReason = "false positive" | "won't fix" | "used in tests" | null;
 
-/**
- * Identifies the variable values associated with the environment in which the analysis that generated this alert instance was performed, such as the language that was analyzed.
- */
+/** Identifies the variable values associated with the environment in which the analysis that generated this alert instance was performed, such as the language that was analyzed. */
 export type CodeScanningAlertEnvironment = string;
 
 export type CodeScanningAlertInstances = {
@@ -991,9 +999,7 @@ export type CodeScanningAlertInstances = {
   state?: CodeScanningAlertState;
 }[];
 
-/**
- * The full Git reference, formatted as `refs/heads/<branch name>`.
- */
+/** The full Git reference, formatted as `refs/heads/<branch name>`. */
 export type CodeScanningAlertRef = string;
 
 export interface CodeScanningAlertRule {
@@ -1005,26 +1011,20 @@ export interface CodeScanningAlertRule {
   severity?: "none" | "note" | "warning" | "error" | null;
 }
 
-/**
- * Sets the state of the code scanning alert. Can be one of `open` or `dismissed`. You must provide `dismissed_reason` when you set the state to `dismissed`.
- */
+/** Sets the state of the code scanning alert. Can be one of `open` or `dismissed`. You must provide `dismissed_reason` when you set the state to `dismissed`. */
 export enum CodeScanningAlertSetState {
   Open = "open",
   Dismissed = "dismissed",
 }
 
-/**
- * State of a code scanning alert.
- */
+/** State of a code scanning alert. */
 export enum CodeScanningAlertState {
   Open = "open",
   Dismissed = "dismissed",
   Fixed = "fixed",
 }
 
-/**
- * Identifies the configuration under which the analysis was executed. For example, in GitHub Actions this includes the workflow filename and job name.
- */
+/** Identifies the configuration under which the analysis was executed. For example, in GitHub Actions this includes the workflow filename and job name. */
 export type CodeScanningAnalysisAnalysisKey = string;
 
 export interface CodeScanningAnalysisCodeScanningAnalysis {
@@ -1046,6 +1046,8 @@ export interface CodeScanningAnalysisCodeScanningAnalysis {
 
 /**
  * The commit SHA of the code scanning analysis file.
+ * @minLength 40
+ * @maxLength 40
  * @pattern ^[0-9a-fA-F]+$
  */
 export type CodeScanningAnalysisCommitSha = string;
@@ -1056,19 +1058,13 @@ export type CodeScanningAnalysisCommitSha = string;
  */
 export type CodeScanningAnalysisCreatedAt = string;
 
-/**
- * Identifies the variable values associated with the environment in which this analysis was performed.
- */
+/** Identifies the variable values associated with the environment in which this analysis was performed. */
 export type CodeScanningAnalysisEnvironment = string;
 
-/**
- * The full Git reference of the code scanning analysis file, formatted as `refs/heads/<branch name>`.
- */
+/** The full Git reference of the code scanning analysis file, formatted as `refs/heads/<branch name>`. */
 export type CodeScanningAnalysisRef = string;
 
-/**
- * A Base64 string representing the SARIF file to upload. You must first compress your SARIF file using [`gzip`](http://www.gnu.org/software/gzip/manual/gzip.html) and then translate the contents of the file into a Base64 encoding string.
- */
+/** A Base64 string representing the SARIF file to upload. You must first compress your SARIF file using [`gzip`](http://www.gnu.org/software/gzip/manual/gzip.html) and then translate the contents of the file into a Base64 encoding string. */
 export type CodeScanningAnalysisSarifFile = string;
 
 export interface CodeScanningAnalysisTool {
@@ -1078,9 +1074,7 @@ export interface CodeScanningAnalysisTool {
   version?: string | null;
 }
 
-/**
- * The name of the tool used to generate the code scanning analysis alert.
- */
+/** The name of the tool used to generate the code scanning analysis alert. */
 export type CodeScanningAnalysisToolName = string;
 
 /**
@@ -1422,9 +1416,7 @@ export interface CommitSearchResultItem {
   url: string;
 }
 
-/**
- * Community Health File
- */
+/** Community Health File */
 export interface CommunityHealthFile {
   /** @format uri */
   html_url: string;
@@ -1530,6 +1522,7 @@ export interface ContentFile {
 export interface ContentReferenceAttachment {
   /**
    * The body of the attachment
+   * @maxLength 262144
    * @example Body of the attachment
    */
   body: string;
@@ -1545,6 +1538,7 @@ export interface ContentReferenceAttachment {
   node_id?: string;
   /**
    * The title of the attachment
+   * @maxLength 1024
    * @example Title of the attachment
    */
   title: string;
@@ -1895,6 +1889,7 @@ export interface DeploymentStatus {
   deployment_url: string;
   /**
    * A short description of the status.
+   * @maxLength 140
    * @example Deployment finished successfully.
    */
   description: string;
@@ -2004,18 +1999,14 @@ export interface Email {
   visibility: string | null;
 }
 
-/**
- * The policy that controls the organizations in the enterprise that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`.
- */
+/** The policy that controls the organizations in the enterprise that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`. */
 export enum EnabledOrganizations {
   All = "all",
   None = "none",
   Selected = "selected",
 }
 
-/**
- * The policy that controls the repositories in the organization that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`.
- */
+/** The policy that controls the repositories in the organization that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`. */
 export enum EnabledRepositories {
   All = "all",
   None = "none",
@@ -2453,6 +2444,7 @@ export interface GistComment {
   author_association: AuthorAssociation;
   /**
    * The comment text.
+   * @maxLength 65535
    * @example Body of the attachment
    */
   body: string;
@@ -2636,6 +2628,8 @@ export interface GitRef {
     type: string;
     /**
      * SHA for the reference
+     * @minLength 40
+     * @maxLength 40
      * @example 7638417db6d59f3c431d3e1f261cc637155684cd
      */
     sha: string;
@@ -2742,15 +2736,18 @@ export interface GitignoreTemplate {
    * # Libraries
    * *.lib
    * *.a
+   *
    * # Shared objects (inc. Windows DLLs)
    * *.dll
    * *.so
    * *.so.*
    * *.dylib
+   *
    * # Executables
    * *.exe
    * *.out
    * *.app
+   *
    */
   source: string;
 }
@@ -2933,9 +2930,7 @@ export interface Hook {
   url: string;
 }
 
-/**
- * Hook Response
- */
+/** Hook Response */
 export interface HookResponse {
   code: number | null;
   message: string | null;
@@ -3416,9 +3411,7 @@ export interface IssueEvent {
   url: string;
 }
 
-/**
- * Issue Event Dismissed Review
- */
+/** Issue Event Dismissed Review */
 export interface IssueEventDismissedReview {
   dismissal_commit_id?: string | null;
   dismissal_message: string | null;
@@ -3848,15 +3841,19 @@ export interface License {
    * @example
    *
    * The MIT License (MIT)
+   *
    * Copyright (c) [year] [fullname]
+   *
    * Permission is hereby granted, free of charge, to any person obtaining a copy
    * of this software and associated documentation files (the "Software"), to deal
    * in the Software without restriction, including without limitation the rights
    * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
    * copies of the Software, and to permit persons to whom the Software is
    * furnished to do so, subject to the following conditions:
+   *
    * The above copyright notice and this permission notice shall be included in all
    * copies or substantial portions of the Software.
+   *
    * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
    * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
    * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -3864,6 +3861,7 @@ export interface License {
    * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
    * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
    * SOFTWARE.
+   *
    */
   body: string;
   /** @example ["include-copyright"] */
@@ -3968,9 +3966,7 @@ export interface LinkWithType {
   type: string;
 }
 
-/**
- * Marketplace Account
- */
+/** Marketplace Account */
 export interface MarketplaceAccount {
   /** @format email */
   email?: string | null;
@@ -4724,17 +4720,13 @@ export interface PageBuildStatus {
   url: string;
 }
 
-/**
- * Pages Source Hash
- */
+/** Pages Source Hash */
 export interface PagesSourceHash {
   branch: string;
   path: string;
 }
 
-/**
- * Participation Stats
- */
+/** Participation Stats */
 export interface ParticipationStats {
   all: number[];
   owner: number[];
@@ -5738,9 +5730,7 @@ export interface PullRequestMergeResult {
   sha: string;
 }
 
-/**
- * Pull Request Minimal
- */
+/** Pull Request Minimal */
 export interface PullRequestMinimal {
   base: {
     ref: string;
@@ -6120,9 +6110,7 @@ export interface PullRequestSimple {
   user: SimpleUser | null;
 }
 
-/**
- * Rate Limit
- */
+/** Rate Limit */
 export interface RateLimit {
   limit: number;
   remaining: number;
@@ -6167,9 +6155,7 @@ export interface Reaction {
   user: SimpleUser | null;
 }
 
-/**
- * Reaction Rollup
- */
+/** Reaction Rollup */
 export interface ReactionRollup {
   "+1": number;
   "-1": number;
@@ -7216,9 +7202,7 @@ export interface ScimUserListEnterprise {
   totalResults: number;
 }
 
-/**
- * Scoped Installation
- */
+/** Scoped Installation */
 export interface ScopedInstallation {
   /** Simple User */
   account: SimpleUser;
@@ -7239,9 +7223,7 @@ export interface ScopedInstallation {
   single_file_paths?: string[];
 }
 
-/**
- * Search Result Text Matches
- */
+/** Search Result Text Matches */
 export type SearchResultTextMatches = {
   object_url?: string;
   object_type?: string | null;
@@ -7279,14 +7261,10 @@ export interface SecretScanningAlert {
   url?: AlertUrl;
 }
 
-/**
- * **Required when the `state` is `resolved`.** The reason for resolving the alert. Can be one of `false_positive`, `wont_fix`, `revoked`, or `used_in_tests`.
- */
+/** **Required when the `state` is `resolved`.** The reason for resolving the alert. Can be one of `false_positive`, `wont_fix`, `revoked`, or `used_in_tests`. */
 export type SecretScanningAlertResolution = "false_positive" | "wont_fix" | "revoked" | "used_in_tests" | null;
 
-/**
- * Sets the state of the secret scanning alert. Can be either `open` or `resolved`. You must provide `resolution` when you set the state to `resolved`.
- */
+/** Sets the state of the secret scanning alert. Can be either `open` or `resolved`. You must provide `resolution` when you set the state to `resolved`. */
 export enum SecretScanningAlertState {
   Open = "open",
   Resolved = "resolved",
@@ -7301,9 +7279,7 @@ export interface SelectedActions {
   verified_allowed: boolean;
 }
 
-/**
- * The API URL to use to get or set the actions that are allowed to run, when `allowed_actions` is set to `selected`.
- */
+/** The API URL to use to get or set the actions that are allowed to run, when `allowed_actions` is set to `selected`. */
 export type SelectedActionsUrl = string;
 
 /**
@@ -7353,9 +7329,7 @@ export interface SimpleCommit {
   tree_id: string;
 }
 
-/**
- * Simple Commit Status
- */
+/** Simple Commit Status */
 export interface SimpleCommitStatus {
   /** @format uri */
   avatar_url: string | null;
@@ -8238,9 +8212,7 @@ export interface TopicSearchResultItem {
   updated_at: string;
 }
 
-/**
- * Traffic
- */
+/** Traffic */
 export interface Traffic {
   count: number;
   /** @format date-time */
@@ -8358,9 +8330,7 @@ export interface ValidationErrorSimple {
   message: string;
 }
 
-/**
- * Verification
- */
+/** Verification */
 export interface Verification {
   payload: string | null;
   reason: string;
@@ -9471,9 +9441,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         note?: string;
         /** A URL to remind you what app the OAuth token is for. */
         note_url?: string;
-        /** The OAuth app client key for which to create the token. */
+        /**
+         * The OAuth app client key for which to create the token.
+         * @maxLength 20
+         */
         client_id?: string;
-        /** The OAuth app client secret for which to create the token. */
+        /**
+         * The OAuth app client secret for which to create the token.
+         * @maxLength 40
+         */
         client_secret?: string;
         /** A unique string to distinguish an authorization from others created for the same client ID and user. */
         fingerprint?: string;
@@ -9501,7 +9477,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     oauthAuthorizationsGetOrCreateAuthorizationForApp: (
       clientId: string,
       data: {
-        /** The OAuth app client secret for which to create the token. */
+        /**
+         * The OAuth app client secret for which to create the token.
+         * @maxLength 40
+         */
         client_secret: string;
         /**
          * A list of scopes that this authorization is in.
@@ -9542,7 +9521,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       clientId: string,
       fingerprint: string,
       data: {
-        /** The OAuth app client secret for which to create the token. */
+        /**
+         * The OAuth app client secret for which to create the token.
+         * @maxLength 40
+         */
         client_secret: string;
         /**
          * A list of scopes that this authorization is in.
@@ -9703,11 +9685,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * The title of the attachment
+         * @maxLength 1024
          * @example Title of the attachment
          */
         title: string;
         /**
          * The body of the attachment
+         * @maxLength 262144
          * @example Body of the attachment
          */
         body: string;
@@ -10386,6 +10370,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * - `web` - returns web (non-Git) events
          * - `git` - returns Git events
          * - `all` - returns both web and Git events
+         *
          * The default is `web`.
          */
         include?: "web" | "git" | "all";
@@ -10756,6 +10741,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * The comment text.
+         * @maxLength 65535
          * @example Body of the attachment
          */
         body: string;
@@ -10813,6 +10799,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * The comment text.
+         * @maxLength 65535
          * @example Body of the attachment
          */
         body: string;
@@ -12526,6 +12513,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * - `web` - returns web (non-Git) events
          * - `git` - returns Git events
          * - `all` - returns both web and Git events
+         *
          * The default is `web`.
          */
         include?: "web" | "git" | "all";
@@ -13846,6 +13834,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `closed` - visible to all members of this organization.
          * Default: `secret`
          * **For a parent or child team:**
+         * \* `closed` - visible to all members of this organization.
          * Default for child team: `closed`
          */
         privacy?: "secret" | "closed";
@@ -17241,9 +17230,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         output?: {
           /** The title of the check run. */
           title: string;
-          /** The summary of the check run. This parameter supports Markdown. */
+          /**
+           * The summary of the check run. This parameter supports Markdown.
+           * @maxLength 65535
+           */
           summary: string;
-          /** The details of the check run. This parameter supports Markdown. */
+          /**
+           * The details of the check run. This parameter supports Markdown.
+           * @maxLength 65535
+           */
           text?: string;
           /** Adds information from your analysis to specific lines of code. Annotations are visible on GitHub in the **Checks** and **Files changed** tab of the pull request. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://docs.github.com/rest/reference/checks#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. For details about how you can view annotations on GitHub, see "[About status checks](https://help.github.com/articles/about-status-checks#checks)". See the [`annotations` object](https://docs.github.com/rest/reference/checks#annotations-object) description for details about how to use this parameter. */
           annotations?: {
@@ -17278,11 +17273,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         };
         /** Displays a button on GitHub that can be clicked to alert your app to do additional tasks. For example, a code linting app can display a button that automatically fixes detected errors. The button created in this object is displayed after the check run completes. When a user clicks the button, GitHub sends the [`check_run.requested_action` webhook](https://docs.github.com/webhooks/event-payloads/#check_run) to your app. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](https://docs.github.com/rest/reference/checks#actions-object) description. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)." To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)." */
         actions?: {
-          /** The text to be displayed on a button in the web UI. The maximum size is 20 characters. */
+          /**
+           * The text to be displayed on a button in the web UI. The maximum size is 20 characters.
+           * @maxLength 20
+           */
           label: string;
-          /** A short explanation of what this action would do. The maximum size is 40 characters. */
+          /**
+           * A short explanation of what this action would do. The maximum size is 40 characters.
+           * @maxLength 40
+           */
           description: string;
-          /** A reference for the action on the integrator's system. The maximum size is 20 characters. */
+          /**
+           * A reference for the action on the integrator's system. The maximum size is 20 characters.
+           * @maxLength 20
+           */
           identifier: string;
         }[];
       },
@@ -17363,9 +17367,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         output?: {
           /** **Required**. */
           title?: string;
-          /** Can contain Markdown. */
+          /**
+           * Can contain Markdown.
+           * @maxLength 65535
+           */
           summary: string;
-          /** Can contain Markdown. */
+          /**
+           * Can contain Markdown.
+           * @maxLength 65535
+           */
           text?: string;
           /** Adds information from your analysis to specific lines of code. Annotations are visible in GitHub's pull request UI. Annotations are visible in GitHub's pull request UI. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://docs.github.com/rest/reference/checks#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. For details about annotations in the UI, see "[About status checks](https://help.github.com/articles/about-status-checks#checks)". See the [`annotations` object](https://docs.github.com/rest/reference/checks#annotations-object-1) description for details. */
           annotations?: {
@@ -17400,11 +17410,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         };
         /** Possible further actions the integrator can perform, which a user may trigger. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](https://docs.github.com/rest/reference/checks#actions-object) description. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)." */
         actions?: {
-          /** The text to be displayed on a button in the web UI. The maximum size is 20 characters. */
+          /**
+           * The text to be displayed on a button in the web UI. The maximum size is 20 characters.
+           * @maxLength 20
+           */
           label: string;
-          /** A short explanation of what this action would do. The maximum size is 40 characters. */
+          /**
+           * A short explanation of what this action would do. The maximum size is 40 characters.
+           * @maxLength 40
+           */
           description: string;
-          /** A reference for the action on the integrator's system. The maximum size is 20 characters. */
+          /**
+           * A reference for the action on the integrator's system. The maximum size is 20 characters.
+           * @maxLength 20
+           */
           identifier: string;
         }[];
       },
@@ -19190,7 +19209,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /**
          * The SHA1 of an existing Git tree object which will be used as the base for the new tree. If provided, a new Git tree object will be created from entries in the Git tree object pointed to by `base_tree` and entries defined in the `tree` parameter. Entries defined in the `tree` parameter will overwrite items from `base_tree` with the same `path`. If you're creating new changes on a branch, then normally you'd set `base_tree` to the SHA1 of the Git tree object of the current latest commit on the branch you're working on.
          * If not provided, GitHub will create a new Git tree object from only the entries defined in the `tree` parameter. If you create a new commit pointing to such a tree, then all files which were a part of the parent commit's tree and were not defined in the `tree` parameter will be listed as deleted by the new commit.
-         *
          */
         base_tree?: string;
       },
@@ -23604,7 +23622,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * Filters results using the equals query parameter operator (`eq`). You can filter results that are equal to `id`, `userName`, `emails`, and `external_id`. For example, to search for an identity with the `userName` Octocat, you would use this query:
          *
          * `?filter=userName%20eq%20\"Octocat\"`.
+         *
          * To filter results for the identity with the email `octocat@github.com`, you would use this query:
+         *
          * `?filter=emails%20eq%20\"octocat@github.com\"`.
          */
         filter?: string;

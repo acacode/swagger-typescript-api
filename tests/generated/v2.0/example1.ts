@@ -15,9 +15,7 @@
  */
 export type Currency = string;
 
-/**
- * A TDE certificate that can be uploaded into a server.
- */
+/** A TDE certificate that can be uploaded into a server. */
 export type TdeCertificate = {
   /** Resource ID. */
   id?: string;
@@ -30,9 +28,7 @@ export type TdeCertificate = {
   properties?: TdeCertificateProperties;
 };
 
-/**
- * A TDE certificate that can be uploaded into a server.
- */
+/** A TDE certificate that can be uploaded into a server. */
 export type TdeCertificate2 = {
   /** Resource ID. */
   id?: string;
@@ -42,9 +38,7 @@ export type TdeCertificate2 = {
   type?: string;
 };
 
-/**
- * Properties of a TDE certificate.
- */
+/** Properties of a TDE certificate. */
 export interface TdeCertificateProperties {
   /** The certificate password. */
   certPassword?: string;

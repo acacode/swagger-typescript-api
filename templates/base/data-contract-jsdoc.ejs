@@ -1,32 +1,31 @@
 <%
-const { contract, utils } = it;
+const { data, utils } = it;
 const { formatDescription, require, _ } = utils;
 
-let jsDocLines = [];
-
-jsDocLines.push(
-    contract.title,
-    contract.description && formatDescription(contract.description),
-)
-
-if (contract.typeData) {
-  jsDocLines.push(
-      contract.typeData.deprecated === true && '@deprecated',
-      !_.isUndefined(contract.typeData.format) && `@format ${contract.typeData.format}`,
-      !_.isUndefined(contract.typeData.minimum) && `@min ${contract.typeData.minimum}`,
-      !_.isUndefined(contract.typeData.maximum) && `@max ${contract.typeData.maximum}`,
-      !_.isUndefined(contract.typeData.pattern) && `@pattern ${contract.typeData.pattern}`,
-      !_.isUndefined(contract.typeData.example) && `@example ${
-              _.isObject(contract.typeData.example) ? JSON.stringify(contract.typeData.example) : contract.typeData.example
-      }`
-  )
-}
-
-jsDocLines = _.compact(jsDocLines);
+const jsDocLines = _.compact([
+    data.title,
+    data.description && formatDescription(data.description),
+    data.deprecated === true && '@deprecated',
+    !_.isUndefined(data.format) && `@format ${data.format}`,
+    !_.isUndefined(data.minimum) && `@min ${data.minimum}`,
+    !_.isUndefined(data.multipleOf) && `@multipleOf ${data.multipleOf}`,
+    !_.isUndefined(data.exclusiveMinimum) && `@exclusiveMin ${data.exclusiveMinimum}`,
+    !_.isUndefined(data.maximum) && `@max ${data.maximum}`,
+    !_.isUndefined(data.minLength) && `@minLength ${data.minLength}`,
+    !_.isUndefined(data.maxLength) && `@maxLength ${data.maxLength}`,
+    !_.isUndefined(data.exclusiveMax) && `@exclusiveMax ${data.exclusiveMax}`,
+    !_.isUndefined(data.pattern) && `@pattern ${data.pattern}`,
+    !_.isUndefined(data.example) && `@example ${_.isObject(data.example) ? JSON.stringify(data.example) : data.example}`
+]).join('\n').split('\n');
 %>
-<% if (jsDocLines.length) { %>
+<% if (jsDocLines.every(_.isEmpty)) { %>
+<% } else if (jsDocLines.length === 1) { %>
+/** <%~ jsDocLines[0] %> */
+<% } else if (jsDocLines.length) { %>
 /**
-<%~ jsDocLines.map(part => `* ${part}`).join("\n") %>
+<% for (jsDocLine of jsDocLines) { %>
+ * <%~ jsDocLine %>
 
-*/
+<% } %>
+ */
 <% } %>

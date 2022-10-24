@@ -9,6 +9,6 @@ const getRandomInt = (min = 0, max = 1) => {
 };
 
 module.exports = {
-  getRandomFloat,
   getRandomInt,
+  getRandomFloat,
 };

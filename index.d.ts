@@ -127,7 +127,62 @@ interface GenerateApiParamsBase {
    * generate readonly properties (default: false)
    */
   addReadonly?: boolean;
+
+  primitiveTypeConstructs?: (struct: PrimitiveTypeStruct) => Partial<PrimitiveTypeStruct>;
+
+  codeGenConstructs?: (struct: CodeGenConstruct) => Partial<CodeGenConstruct>;
 }
+
+type CodeGenConstruct = {
+  Keyword: {
+    Number: string;
+    String: string;
+    Boolean: string;
+    Any: string;
+    Void: string;
+    Unknown: string;
+    Null: string;
+    Undefined: string;
+    Object: string;
+    File: string;
+    Date: string;
+    Type: string;
+    Enum: string;
+    Interface: string;
+    Array: string;
+    Record: string;
+    Intersection: string;
+    Union: string;
+  };
+  CodeGenKeyword: {
+    UtilRequiredKeys: string;
+  };
+  ArrayType: (content: any) => string;
+  StringValue: (content: any) => string;
+  BooleanValue: (content: any) => string;
+  NumberValue: (content: any) => string;
+  NullValue: (content: any) => string;
+  UnionType: (content: any) => string;
+  ExpressionGroup: (content: any) => string;
+  IntersectionType: (content: any) => string;
+  RecordType: (content: any) => string;
+  TypeField: (content: any) => string;
+  InterfaceDynamicField: (content: any) => string;
+  EnumField: (content: any) => string;
+  EnumFieldsWrapper: (content: any) => string;
+  ObjectWrapper: (content: any) => string;
+  MultilineComment: (content: any) => string;
+  TypeWithGeneric: (content: any) => string;
+};
+
+type PrimitiveTypeStructValue =
+  | string
+  | ((schema: Record<string, any>, parser: import("./src/schema-parser/schema-parser").SchemaParser) => string);
+
+type PrimitiveTypeStruct = Record<
+  "integer" | "number" | "boolean" | "object" | "file" | "string" | "array",
+  string | ({ $default: PrimitiveTypeStructValue } & Record<string, PrimitiveTypeStructValue>)
+>;
 
 interface GenerateApiParamsFromPath extends GenerateApiParamsBase {
   /**
@@ -324,6 +379,12 @@ export interface GenerateApiConfiguration {
     hasDescription: boolean;
   };
   config: {
+    input: string;
+    output: string;
+    url: string;
+    spec: any;
+    fileName: string;
+    authorizationToken?: string;
     generateResponses: boolean;
     defaultResponseAsSuccess: boolean;
     generateRouteTypes: boolean;
@@ -335,10 +396,35 @@ export interface GenerateApiConfiguration {
     convertedFromSwagger2: boolean;
     moduleNameIndex: number;
     moduleNameFirstTag: boolean;
+    extraTemplates: { name: string; path: string }[];
     disableStrictSSL: boolean;
     disableProxy: boolean;
     extractRequestParams: boolean;
     unwrapResponseData: boolean;
+    sortTypes: boolean;
+    singleHttpClient: boolean;
+    typePrefix: string;
+    typeSuffix: string;
+    patch: boolean;
+    cleanOutput: boolean;
+    debug: boolean;
+    anotherArrayType: boolean;
+    extractRequestBody: boolean;
+    httpClientType: "axios" | "fetch";
+    addReadonly: boolean;
+    extractResponseBody: boolean;
+    extractResponseError: boolean;
+    defaultResponseType: boolean;
+    toJS: boolean;
+    disableThrowOnError: boolean;
+    silent: boolean;
+    hooks: Hooks;
+    enumNamesAsValues: boolean;
+    version: string;
+    internalTemplateOptions: {
+      addUtilRequiredKeysType: boolean;
+    };
+    componentTypeNameResolver: typeof import("./src/util/name-resolver").ComponentTypeNameResolver;
     fileNames: {
       dataContracts: string;
       routeTypes: string;
@@ -351,6 +437,11 @@ export interface GenerateApiConfiguration {
       httpClient: string;
       routeTypes: string;
       routeName: string;
+      dataContractJsDoc: string;
+      interfaceDataContract: string;
+      typeDataContract: string;
+      enumDataContract: string;
+      objectFieldJsDoc: string;
     };
     routeNameDuplicatesMap: Map<string, string>;
     apiClassName: string;
@@ -371,7 +462,9 @@ export interface GenerateApiConfiguration {
   utils: {
     formatDescription: (description: string, inline?: boolean) => string;
     internalCase: (value: string) => string;
+    /** @deprecated */
     classNameCase: (value: string) => string;
+    pascalCase: (value: string) => string;
     getInlineParseContent: (rawTypeData: SchemaComponent["rawTypeData"], typeName?: string) => string;
     getParseContent: (rawTypeData: SchemaComponent["rawTypeData"], typeName?: string) => ModelType;
     getComponentByRef: (ref: string) => SchemaComponent;

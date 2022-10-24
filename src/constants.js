@@ -1,8 +1,3 @@
-const { Ts } = require("./code-gen-constructs");
-
-const JS_PRIMITIVE_TYPES = [Ts.Keyword.Number, Ts.Keyword.String, Ts.Keyword.Boolean];
-const JS_EMPTY_TYPES = [Ts.Keyword.Null, Ts.Keyword.Undefined];
-
 const RESERVED_QUERY_ARG_NAMES = ["query", "queryParams", "queryArg"];
 const RESERVED_BODY_ARG_NAMES = ["data", "body", "reqBody"];
 const RESERVED_REQ_PARAMS_ARG_NAMES = ["params", "requestParams", "reqParams", "httpParams"];
@@ -28,11 +23,22 @@ const HTTP_CLIENT = {
   AXIOS: "axios",
 };
 
+const FILE_PREFIX = `/* eslint-disable */
+/* tslint:disable */
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+`;
+
 module.exports = {
+  FILE_PREFIX,
   DEFAULT_BODY_ARG_NAME: "data",
-  SUCCESS_RESPONSE_STATUS_RANGE: [200, 299],
-  JS_PRIMITIVE_TYPES,
-  JS_EMPTY_TYPES,
   SCHEMA_TYPES,
   HTTP_CLIENT,
   RESERVED_QUERY_ARG_NAMES,
