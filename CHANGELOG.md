@@ -139,7 +139,7 @@ translates to
 ```ts
 string
 ```
-If you need to see `Date` otherwise `string` you are able to change it with using `primitiveTypeConstructs`   
+If you need to see `Date` instead of `string` you are able to change it with using `primitiveTypeConstructs`   
 ```ts
 generateApiForTest({
   // ...
