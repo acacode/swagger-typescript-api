@@ -2521,12 +2521,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /**
          * Issues assigned to you / created by you / mentioning you / you're
          * subscribed to updates for / All issues the authenticated user can see
+         * @default "all"
          */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
+        /** @default "open" */
         state: "open" | "closed";
         /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
+        /** @default "created" */
         sort: "created" | "updated" | "comments";
+        /** @default "desc" */
         direction: "asc" | "desc";
         /**
          * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
@@ -2580,7 +2584,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposSearchDetail: (
       keyword: string,
       query?: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        /**
+         * The sort field. if sort param is provided. Can be either asc or desc.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
         /** Filter results by language */
         language?: string;
@@ -2628,7 +2635,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     userSearchDetail: (
       keyword: string,
       query?: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        /**
+         * The sort field. if sort param is provided. Can be either asc or desc.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
         /** The page number to fetch */
         start_page?: string;
@@ -2907,12 +2917,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /**
          * Issues assigned to you / created by you / mentioning you / you're
          * subscribed to updates for / All issues the authenticated user can see
+         * @default "all"
          */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
+        /** @default "open" */
         state: "open" | "closed";
         /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
+        /** @default "created" */
         sort: "created" | "updated" | "comments";
+        /** @default "desc" */
         direction: "asc" | "desc";
         /**
          * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
@@ -3052,6 +3066,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposDetail: (
       org: string,
       query?: {
+        /** @default "all" */
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
       params: RequestParams = {},
@@ -3752,6 +3767,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
+        /** @default "newes" */
         sort?: "newes" | "oldes" | "watchers";
       },
       params: RequestParams = {},
@@ -4126,12 +4142,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /**
          * Issues assigned to you / created by you / mentioning you / you're
          * subscribed to updates for / All issues the authenticated user can see
+         * @default "all"
          */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
+        /** @default "open" */
         state: "open" | "closed";
         /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
+        /** @default "created" */
         sort: "created" | "updated" | "comments";
+        /** @default "desc" */
         direction: "asc" | "desc";
         /**
          * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
@@ -4658,10 +4678,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** String to filter by state. */
+        /**
+         * String to filter by state.
+         * @default "open"
+         */
         state?: "open" | "closed";
         /** Ignored without 'sort' parameter. */
         direction?: string;
+        /** @default "due_date" */
         sort?: "due_date" | "completeness";
       },
       params: RequestParams = {},
@@ -4826,7 +4850,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** String to filter by state. */
+        /**
+         * String to filter by state.
+         * @default "open"
+         */
         state?: "open" | "closed";
         /**
          * Filter pulls by head user and branch name in the format of 'user:ref-name'.
@@ -5579,7 +5606,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     codeList: (
       query: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        /**
+         * The sort field. if sort param is provided. Can be either asc or desc.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
         /**
          * The search terms. This can be any combination of the supported code
@@ -5624,7 +5654,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     issuesList: (
       query: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        /**
+         * The sort field. if sort param is provided. Can be either asc or desc.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
         /** The q search term can also contain any combination of the supported issue search qualifiers: */
         q: string;
@@ -5651,7 +5684,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     repositoriesList: (
       query: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        /**
+         * The sort field. if sort param is provided. Can be either asc or desc.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
         /**
          * The search terms. This can be any combination of the supported repository
@@ -5692,7 +5728,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     usersList: (
       query: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        /**
+         * The sort field. if sort param is provided. Can be either asc or desc.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
         /**
          * The search terms. This can be any combination of the supported user
@@ -6121,12 +6160,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /**
          * Issues assigned to you / created by you / mentioning you / you're
          * subscribed to updates for / All issues the authenticated user can see
+         * @default "all"
          */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
+        /** @default "open" */
         state: "open" | "closed";
         /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
+        /** @default "created" */
         sort: "created" | "updated" | "comments";
+        /** @default "desc" */
         direction: "asc" | "desc";
         /**
          * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
@@ -6234,6 +6277,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reposList: (
       query?: {
+        /** @default "all" */
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
       params: RequestParams = {},
@@ -6275,6 +6319,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Ignored without 'sort' parameter. */
         direction?: string;
+        /** @default "created" */
         sort?: "created" | "updated";
       },
       params: RequestParams = {},
@@ -6613,6 +6658,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposDetail: (
       username: string,
       query?: {
+        /** @default "all" */
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
       params: RequestParams = {},

@@ -11,25 +11,25 @@
 
 /**
  * Not found response
- * @example Not found
+ * @example "Not found"
  */
 export type FF = string;
 
 /**
  * Not found response
- * @example Not found
+ * @example "Not found"
  */
 export type TypeFF = string;
 
 /**
  * Not found response
- * @example Not found
+ * @example "Not found"
  */
 export type Type405 = string;
 
 /**
  * Not found response
- * @example Not found
+ * @example "Not found"
  */
 export type Type404 = string;
 

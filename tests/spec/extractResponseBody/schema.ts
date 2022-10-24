@@ -25,6 +25,7 @@ export interface OrderTTT {
   shipDate?: string;
   /** Order Status */
   status?: "placed" | "approved" | "delivered" | null;
+  /** @default false */
   complete?: boolean;
 }
 
@@ -92,7 +93,7 @@ export interface PetTTT {
   id?: number;
   /** A category for a pet */
   category?: CategoryTTT;
-  /** @example doggie */
+  /** @example "doggie" */
   name: string;
   photoUrls: string[];
   tags?: TagTTT[];

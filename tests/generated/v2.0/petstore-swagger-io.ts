@@ -40,7 +40,7 @@ export interface Pet {
   category?: Category;
   /** @format int64 */
   id?: number;
-  /** @example doggie */
+  /** @example "doggie" */
   name: string;
   photoUrls: string[];
   /** pet status in the store */

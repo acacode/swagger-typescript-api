@@ -25,6 +25,7 @@ export interface Order {
   shipDate?: string;
   /** Order Status */
   status?: "placed" | "approved" | "delivered";
+  /** @default false */
   complete?: boolean;
 }
 
@@ -42,7 +43,8 @@ export interface Category {
 /**
  * a User
  * A User who is purchasing from the pet store
- * @example {"firstName":"firstName","lastName":"lastName","password":"password","userStatus":6,"phone":"phone","id":0,"email":"email","username":"username"}
+ * @example
+ * // {"firstName":"firstName","lastName":"lastName","password":"password","userStatus":6,"phone":"phone","id":0,"email":"email","username":"username"}
  */
 export interface User {
   /** @format int64 */
@@ -89,7 +91,7 @@ export interface Pet {
   id?: number;
   /** A category for a pet */
   category?: Category;
-  /** @example doggie */
+  /** @example "doggie" */
   name: string;
   photoUrls: string[];
   tags?: Tag[];

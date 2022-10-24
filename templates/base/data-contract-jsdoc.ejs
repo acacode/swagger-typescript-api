@@ -2,6 +2,8 @@
 const { data, utils } = it;
 const { formatDescription, require, _ } = utils;
 
+const stringify = (value) => _.isObject(value) ? JSON.stringify(value) : _.isString(value) ? `"${value}"` : value
+
 const jsDocLines = _.compact([
     data.title,
     data.description && formatDescription(data.description),
@@ -13,9 +15,13 @@ const jsDocLines = _.compact([
     !_.isUndefined(data.maximum) && `@max ${data.maximum}`,
     !_.isUndefined(data.minLength) && `@minLength ${data.minLength}`,
     !_.isUndefined(data.maxLength) && `@maxLength ${data.maxLength}`,
-    !_.isUndefined(data.exclusiveMax) && `@exclusiveMax ${data.exclusiveMax}`,
+    !_.isUndefined(data.exclusiveMaximum) && `@exclusiveMax ${data.exclusiveMaximum}`,
+    !_.isUndefined(data.maxItems) && `@maxItems ${data.maxItems}`,
+    !_.isUndefined(data.minItems) && `@minItems ${data.minItems}`,
+    !_.isUndefined(data.uniqueItems) && `@uniqueItems ${data.uniqueItems}`,
+    !_.isUndefined(data.default) && `@default ${stringify(data.default)}`,
     !_.isUndefined(data.pattern) && `@pattern ${data.pattern}`,
-    !_.isUndefined(data.example) && `@example ${_.isObject(data.example) ? JSON.stringify(data.example) : data.example}`
+    !_.isUndefined(data.example) && `@example ${stringify(data.example)}`
 ]).join('\n').split('\n');
 %>
 <% if (jsDocLines.every(_.isEmpty)) { %>

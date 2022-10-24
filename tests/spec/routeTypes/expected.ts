@@ -2367,12 +2367,16 @@ export namespace Issues {
       /**
        * Issues assigned to you / created by you / mentioning you / you're
        * subscribed to updates for / All issues the authenticated user can see
+       * @default "all"
        */
       filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
+      /** @default "open" */
       state: "open" | "closed";
       /** String list of comma separated Label names. Example - bug,ui,@high. */
       labels: string;
+      /** @default "created" */
       sort: "created" | "updated" | "comments";
+      /** @default "desc" */
       direction: "asc" | "desc";
       /**
        * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
@@ -2425,7 +2429,10 @@ export namespace Legacy {
       keyword: string;
     };
     export type RequestQuery = {
-      /** The sort field. if sort param is provided. Can be either asc or desc. */
+      /**
+       * The sort field. if sort param is provided. Can be either asc or desc.
+       * @default "desc"
+       */
       order?: "desc" | "asc";
       /** Filter results by language */
       language?: string;
@@ -2472,7 +2479,10 @@ export namespace Legacy {
       keyword: string;
     };
     export type RequestQuery = {
-      /** The sort field. if sort param is provided. Can be either asc or desc. */
+      /**
+       * The sort field. if sort param is provided. Can be either asc or desc.
+       * @default "desc"
+       */
       order?: "desc" | "asc";
       /** The page number to fetch */
       start_page?: string;
@@ -2767,12 +2777,16 @@ export namespace Orgs {
       /**
        * Issues assigned to you / created by you / mentioning you / you're
        * subscribed to updates for / All issues the authenticated user can see
+       * @default "all"
        */
       filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
+      /** @default "open" */
       state: "open" | "closed";
       /** String list of comma separated Label names. Example - bug,ui,@high. */
       labels: string;
+      /** @default "created" */
       sort: "created" | "updated" | "comments";
+      /** @default "desc" */
       direction: "asc" | "desc";
       /**
        * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
@@ -2938,6 +2952,7 @@ export namespace Orgs {
       org: string;
     };
     export type RequestQuery = {
+      /** @default "all" */
       type?: "all" | "public" | "private" | "forks" | "sources" | "member";
     };
     export type RequestBody = never;
@@ -3768,6 +3783,7 @@ export namespace Repos {
       repo: string;
     };
     export type RequestQuery = {
+      /** @default "newes" */
       sort?: "newes" | "oldes" | "watchers";
     };
     export type RequestBody = never;
@@ -4218,12 +4234,16 @@ export namespace Repos {
       /**
        * Issues assigned to you / created by you / mentioning you / you're
        * subscribed to updates for / All issues the authenticated user can see
+       * @default "all"
        */
       filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
+      /** @default "open" */
       state: "open" | "closed";
       /** String list of comma separated Label names. Example - bug,ui,@high. */
       labels: string;
+      /** @default "created" */
       sort: "created" | "updated" | "comments";
+      /** @default "desc" */
       direction: "asc" | "desc";
       /**
        * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
@@ -4876,10 +4896,14 @@ export namespace Repos {
       repo: string;
     };
     export type RequestQuery = {
-      /** String to filter by state. */
+      /**
+       * String to filter by state.
+       * @default "open"
+       */
       state?: "open" | "closed";
       /** Ignored without 'sort' parameter. */
       direction?: string;
+      /** @default "due_date" */
       sort?: "due_date" | "completeness";
     };
     export type RequestBody = never;
@@ -5065,7 +5089,10 @@ export namespace Repos {
       repo: string;
     };
     export type RequestQuery = {
-      /** String to filter by state. */
+      /**
+       * String to filter by state.
+       * @default "open"
+       */
       state?: "open" | "closed";
       /**
        * Filter pulls by head user and branch name in the format of 'user:ref-name'.
@@ -5957,7 +5984,10 @@ export namespace Search {
   export namespace CodeList {
     export type RequestParams = {};
     export type RequestQuery = {
-      /** The sort field. if sort param is provided. Can be either asc or desc. */
+      /**
+       * The sort field. if sort param is provided. Can be either asc or desc.
+       * @default "desc"
+       */
       order?: "desc" | "asc";
       /**
        * The search terms. This can be any combination of the supported code
@@ -5997,7 +6027,10 @@ export namespace Search {
   export namespace IssuesList {
     export type RequestParams = {};
     export type RequestQuery = {
-      /** The sort field. if sort param is provided. Can be either asc or desc. */
+      /**
+       * The sort field. if sort param is provided. Can be either asc or desc.
+       * @default "desc"
+       */
       order?: "desc" | "asc";
       /** The q search term can also contain any combination of the supported issue search qualifiers: */
       q: string;
@@ -6019,7 +6052,10 @@ export namespace Search {
   export namespace RepositoriesList {
     export type RequestParams = {};
     export type RequestQuery = {
-      /** The sort field. if sort param is provided. Can be either asc or desc. */
+      /**
+       * The sort field. if sort param is provided. Can be either asc or desc.
+       * @default "desc"
+       */
       order?: "desc" | "asc";
       /**
        * The search terms. This can be any combination of the supported repository
@@ -6055,7 +6091,10 @@ export namespace Search {
   export namespace UsersList {
     export type RequestParams = {};
     export type RequestQuery = {
-      /** The sort field. if sort param is provided. Can be either asc or desc. */
+      /**
+       * The sort field. if sort param is provided. Can be either asc or desc.
+       * @default "desc"
+       */
       order?: "desc" | "asc";
       /**
        * The search terms. This can be any combination of the supported user
@@ -6541,12 +6580,16 @@ export namespace User {
       /**
        * Issues assigned to you / created by you / mentioning you / you're
        * subscribed to updates for / All issues the authenticated user can see
+       * @default "all"
        */
       filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
+      /** @default "open" */
       state: "open" | "closed";
       /** String list of comma separated Label names. Example - bug,ui,@high. */
       labels: string;
+      /** @default "created" */
       sort: "created" | "updated" | "comments";
+      /** @default "desc" */
       direction: "asc" | "desc";
       /**
        * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
@@ -6650,6 +6693,7 @@ export namespace User {
   export namespace ReposList {
     export type RequestParams = {};
     export type RequestQuery = {
+      /** @default "all" */
       type?: "all" | "public" | "private" | "forks" | "sources" | "member";
     };
     export type RequestBody = never;
@@ -6684,6 +6728,7 @@ export namespace User {
     export type RequestQuery = {
       /** Ignored without 'sort' parameter. */
       direction?: string;
+      /** @default "created" */
       sort?: "created" | "updated";
     };
     export type RequestBody = never;
@@ -7067,6 +7112,7 @@ export namespace Users {
       username: string;
     };
     export type RequestQuery = {
+      /** @default "all" */
       type?: "all" | "public" | "private" | "forks" | "sources" | "member";
     };
     export type RequestBody = never;

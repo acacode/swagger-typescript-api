@@ -303,11 +303,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       version: string,
       dataset: string,
       data: {
-        /** Uses Lucene Query Syntax in the format of propertyName:value, propertyName:[num1 TO num2] and date range format: propertyName:[yyyyMMdd TO yyyyMMdd]. In the response please see the 'docs' element which has the list of record objects. Each record structure would consist of all the fields and their corresponding values. */
+        /**
+         * Uses Lucene Query Syntax in the format of propertyName:value, propertyName:[num1 TO num2] and date range format: propertyName:[yyyyMMdd TO yyyyMMdd]. In the response please see the 'docs' element which has the list of record objects. Each record structure would consist of all the fields and their corresponding values.
+         * @default "*:*"
+         */
         criteria: string;
-        /** Starting record number. Default value is 0. */
+        /**
+         * Starting record number. Default value is 0.
+         * @default 0
+         */
         start?: number;
-        /** Specify number of rows to be returned. If you run the search with default values, in the response you will see 'numFound' attribute which will tell the number of records available in the dataset. */
+        /**
+         * Specify number of rows to be returned. If you run the search with default values, in the response you will see 'numFound' attribute which will tell the number of records available in the dataset.
+         * @default 100
+         */
         rows?: number;
       },
       params: RequestParams = {},

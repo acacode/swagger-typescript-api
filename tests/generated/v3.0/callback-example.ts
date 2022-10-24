@@ -235,7 +235,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * the location where data will be sent.  Must be network accessible
          * by the source server
          * @format uri
-         * @example https://tonys-server.com
+         * @example "https://tonys-server.com"
          */
         callbackUrl: string;
       },
@@ -245,7 +245,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         {
           /**
            * this unique identifier allows management of the subscription
-           * @example 2531329f-fb09-4ef7-887e-84e648214436
+           * @example "2531329f-fb09-4ef7-887e-84e648214436"
            */
           subscriptionId: string;
         },

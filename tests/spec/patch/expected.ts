@@ -2360,10 +2360,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     issuesList: (
       query: {
+        /** @default "all" */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
+        /** @default "open" */
         state: "open" | "closed";
         labels: string;
+        /** @default "created" */
         sort: "created" | "updated" | "comments";
+        /** @default "desc" */
         direction: "asc" | "desc";
         since?: string;
       },
@@ -2409,6 +2413,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposSearchDetail: (
       keyword: string,
       query?: {
+        /** @default "desc" */
         order?: "desc" | "asc";
         language?: string;
         start_page?: string;
@@ -2449,6 +2454,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     userSearchDetail: (
       keyword: string,
       query?: {
+        /** @default "desc" */
         order?: "desc" | "asc";
         start_page?: string;
         sort?: "updated" | "stars" | "forks";
@@ -2683,10 +2689,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesDetail: (
       org: string,
       query: {
+        /** @default "all" */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
+        /** @default "open" */
         state: "open" | "closed";
         labels: string;
+        /** @default "created" */
         sort: "created" | "updated" | "comments";
+        /** @default "desc" */
         direction: "asc" | "desc";
         since?: string;
       },
@@ -2806,6 +2816,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposDetail: (
       org: string,
       query?: {
+        /** @default "all" */
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
       params: RequestParams = {},
@@ -3419,6 +3430,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
+        /** @default "newes" */
         sort?: "newes" | "oldes" | "watchers";
       },
       params: RequestParams = {},
@@ -3747,10 +3759,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query: {
+        /** @default "all" */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
+        /** @default "open" */
         state: "open" | "closed";
         labels: string;
+        /** @default "created" */
         sort: "created" | "updated" | "comments";
+        /** @default "desc" */
         direction: "asc" | "desc";
         since?: string;
       },
@@ -4210,8 +4226,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
+        /** @default "open" */
         state?: "open" | "closed";
         direction?: string;
+        /** @default "due_date" */
         sort?: "due_date" | "completeness";
       },
       params: RequestParams = {},
@@ -4351,6 +4369,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
+        /** @default "open" */
         state?: "open" | "closed";
         head?: string;
         base?: string;
@@ -5006,6 +5025,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     codeList: (
       query: {
+        /** @default "desc" */
         order?: "desc" | "asc";
         q: string;
         sort?: "indexed";
@@ -5028,6 +5048,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     issuesList: (
       query: {
+        /** @default "desc" */
         order?: "desc" | "asc";
         q: string;
         sort?: "updated" | "created" | "comments";
@@ -5050,6 +5071,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     repositoriesList: (
       query: {
+        /** @default "desc" */
         order?: "desc" | "asc";
         q: string;
         sort?: "stars" | "forks" | "updated";
@@ -5072,6 +5094,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     usersList: (
       query: {
+        /** @default "desc" */
         order?: "desc" | "asc";
         q: string;
         sort?: "followers" | "repositories" | "joined";
@@ -5432,10 +5455,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     issuesList: (
       query: {
+        /** @default "all" */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
+        /** @default "open" */
         state: "open" | "closed";
         labels: string;
+        /** @default "created" */
         sort: "created" | "updated" | "comments";
+        /** @default "desc" */
         direction: "asc" | "desc";
         since?: string;
       },
@@ -5527,6 +5554,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reposList: (
       query?: {
+        /** @default "all" */
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
       params: RequestParams = {},
@@ -5563,6 +5591,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     starredList: (
       query?: {
         direction?: string;
+        /** @default "created" */
         sort?: "created" | "updated";
       },
       params: RequestParams = {},
@@ -5856,6 +5885,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposDetail: (
       username: string,
       query?: {
+        /** @default "all" */
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
       params: RequestParams = {},

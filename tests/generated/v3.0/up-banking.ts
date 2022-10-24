@@ -1039,7 +1039,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * The transaction status for which to return records. This
          * can be used to filter `HELD` transactions from those
          * that are `SETTLED`.
-         * @example HELD
+         * @example "HELD"
          */
         "filter[status]"?: TransactionStatusEnum;
         /**
@@ -1047,7 +1047,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * formatted according to rfc-3339. Not to be used for
          * pagination purposes.
          * @format date-time
-         * @example 2020-01-01T01:02:03+10:00
+         * @example "2020-01-01T01:02:03+10:00"
          */
         "filter[since]"?: string;
         /**
@@ -1055,7 +1055,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * formatted according to rfc-3339. Not to be used for
          * pagination purposes.
          * @format date-time
-         * @example 2020-02-01T01:02:03+10:00
+         * @example "2020-02-01T01:02:03+10:00"
          */
         "filter[until]"?: string;
         /**
@@ -1063,14 +1063,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * Both parent and child categories can be filtered through
          * this parameter. Providing an invalid category identifier
          * results in a `404` response.
-         * @example good-life
+         * @example "good-life"
          */
         "filter[category]"?: string;
         /**
          * A transaction tag to filter for which to return records.
          * If the tag does not exist, zero records are returned and
          * a success response is given.
-         * @example Holiday
+         * @example "Holiday"
          */
         "filter[tag]"?: string;
       },
@@ -1101,7 +1101,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * The unique identifier of a parent category for which to
          * return only its children. Providing an invalid category
          * identifier results in a `404` response.
-         * @example good-life
+         * @example "good-life"
          */
         "filter[parent]"?: string;
       },
@@ -1241,7 +1241,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * The transaction status for which to return records. This
          * can be used to filter `HELD` transactions from those
          * that are `SETTLED`.
-         * @example HELD
+         * @example "HELD"
          */
         "filter[status]"?: TransactionStatusEnum;
         /**
@@ -1249,7 +1249,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * formatted according to rfc-3339. Not to be used for
          * pagination purposes.
          * @format date-time
-         * @example 2020-01-01T01:02:03+10:00
+         * @example "2020-01-01T01:02:03+10:00"
          */
         "filter[since]"?: string;
         /**
@@ -1257,7 +1257,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * formatted according to rfc-3339. Not to be used for
          * pagination purposes.
          * @format date-time
-         * @example 2020-02-01T01:02:03+10:00
+         * @example "2020-02-01T01:02:03+10:00"
          */
         "filter[until]"?: string;
         /**
@@ -1265,7 +1265,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * Both parent and child categories can be filtered through
          * this parameter. Providing an invalid category identifier
          * results in a `404` response.
-         * @example good-life
+         * @example "good-life"
          */
         "filter[category]"?: string;
         /** Blablabla bla */
@@ -1274,7 +1274,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * A transaction tag to filter for which to return records.
          * If the tag does not exist, zero records are returned and
          * a success response is given.
-         * @example Holiday
+         * @example "Holiday"
          */
         "filter[tag]"?: string;
       },

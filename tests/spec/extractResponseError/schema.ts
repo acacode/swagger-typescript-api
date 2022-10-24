@@ -25,6 +25,7 @@ export interface OrderTTT {
   shipDate?: string;
   /** Order Status */
   status?: "placed" | "approved" | "delivered" | null;
+  /** @default false */
   complete?: boolean;
 }
 
@@ -92,7 +93,7 @@ export interface PetTTT {
   id?: number;
   /** A category for a pet */
   category?: CategoryTTT;
-  /** @example doggie */
+  /** @example "doggie" */
   name: string;
   photoUrls: string[];
   tags?: TagTTT[];
@@ -128,7 +129,7 @@ export type FormUrlEncodedRequest2ErrorTTT =
       /**
        * Detail
        * asdsad asd asd sa dsa
-       * @example asdasd sad sa dsad
+       * @example "asdasd sad sa dsad"
        */
       detail: string;
     }
@@ -136,7 +137,7 @@ export type FormUrlEncodedRequest2ErrorTTT =
       /**
        * Detail
        * sadas das dasd asd
-       * @example sadasd sads adsad asd
+       * @example "sadasd sads adsad asd "
        */
       detail: string;
       /**
