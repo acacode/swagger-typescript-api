@@ -216,6 +216,210 @@ When we change it to `--module-name-index 1` then Api class have two properties 
 This option will group your API operations based on their first tag - mirroring how the Swagger UI groups displayed operations
 
 
+## Modification internal codegen structs with NodeJS API:  
+
+You are able to modify TypeScript internal structs using for generating output with using `generateApi` options `codeGenConstructs` and `primitiveTypeConstructs`.  
+
+### `codeGenConstructs`  
+
+This option has type `(struct: CodeGenConstruct) => Partial<CodeGenConstruct>`.
+
+```ts
+generateApi({
+  // ...
+  codeGenConstructs: (struct) => ({
+      Keyword: {
+          Number: "number",
+          String: "string",
+          Boolean: "boolean",
+          Any: "any",
+          Void: "void",
+          Unknown: "unknown",
+          Null: "null",
+          Undefined: "undefined",
+          Object: "object",
+          File: "File",
+          Date: "Date",
+          Type: "type",
+          Enum: "enum",
+          Interface: "interface",
+          Array: "Array",
+          Record: "Record",
+          Intersection: "&",
+          Union: "|",
+      },
+      CodeGenKeyword: {
+          UtilRequiredKeys: "UtilRequiredKeys",
+      },
+      /**
+       * $A[] or Array<$A>
+       */
+      ArrayType: (content) => {
+          if (this.anotherArrayType) {
+              return `Array<${content}>`;
+          }
+
+          return `(${content})[]`;
+      },
+      /**
+       * "$A"
+       */
+      StringValue: (content) => `"${content}"`,
+      /**
+       * $A
+       */
+      BooleanValue: (content) => `${content}`,
+      /**
+       * $A
+       */
+      NumberValue: (content) => `${content}`,
+      /**
+       * $A
+       */
+      NullValue: (content) => content,
+      /**
+       * $A1 | $A2
+       */
+      UnionType: (contents) => _.join(_.uniq(contents), ` | `),
+      /**
+       * ($A1)
+       */
+      ExpressionGroup: (content) => (content ? `(${content})` : ""),
+      /**
+       * $A1 & $A2
+       */
+      IntersectionType: (contents) => _.join(_.uniq(contents), ` & `),
+      /**
+       * Record<$A1, $A2>
+       */
+      RecordType: (key, value) => `Record<${key}, ${value}>`,
+      /**
+       * readonly $key?:$value
+       */
+      TypeField: ({ readonly, key, optional, value }) =>
+          _.compact([readonly && "readonly ", key, optional && "?", ": ", value]).join(""),
+      /**
+       * [key: $A1]: $A2
+       */
+      InterfaceDynamicField: (key, value) => `[key: ${key}]: ${value}`,
+      /**
+       * $A1 = $A2
+       */
+      EnumField: (key, value) => `${key} = ${value}`,
+      /**
+       * $A0.key = $A0.value,
+       * $A1.key = $A1.value,
+       * $AN.key = $AN.value,
+       */
+      EnumFieldsWrapper: (contents) =>
+          _.map(contents, ({ key, value }) => `  ${key} = ${value}`).join(",\n"),
+      /**
+       * {\n $A \n}
+       */
+      ObjectWrapper: (content) => `{\n${content}\n}`,
+      /**
+       * /** $A *\/
+       */
+      MultilineComment: (contents, formatFn) =>
+          [
+              ...(contents.length === 1
+                  ? [`/** ${contents[0]} */`]
+                  : ["/**", ...contents.map((content) => ` * ${content}`), " */"]),
+          ].map((part) => `${formatFn ? formatFn(part) : part}\n`),
+      /**
+       * $A1<...$A2.join(,)>
+       */
+      TypeWithGeneric: (typeName, genericArgs) => {
+          return `${typeName}${genericArgs.length ? `<${genericArgs.join(",")}>` : ""}`;
+      },
+  })
+})
+```  
+
+For example, if you need to generate output `Record<string, any>` instead of `object` you can do it with using following code:  
+
+```ts
+generateApi({
+    // ...
+    codeGenConstructs: (struct) => ({
+        Keyword: {
+            Object: "Record<string, any>",
+        }
+    })
+})
+```
+
+### `primitiveTypeConstructs`  
+
+It is type mapper or translator swagger schema objects. `primitiveTypeConstructs` translates `type`/`format` schema fields to typescript structs.  
+This option has type  
+```ts
+type PrimitiveTypeStructValue =
+  | string
+  | ((schema: Record<string, any>, parser: import("./src/schema-parser/schema-parser").SchemaParser) => string);
+
+type PrimitiveTypeStruct = Record<
+  "integer" | "number" | "boolean" | "object" | "file" | "string" | "array",
+  string | ({ $default: PrimitiveTypeStructValue } & Record<string, PrimitiveTypeStructValue>)
+>
+
+declare const primitiveTypeConstructs: (struct: PrimitiveTypeStruct) => Partial<PrimitiveTypeStruct>
+
+generateApi({
+    // ...
+    primitiveTypeConstructs: (struct) => ({
+        integer: () => "number",
+        number: () => "number",
+        boolean: () => "boolean",
+        object: () => "object",
+        file: () => "File",
+        string: {
+            $default: () => "string",
+
+            /** formats */
+            binary: () => "File",
+            file: () => "File",
+            "date-time": () => "string",
+            time: () => "string",
+            date: () => "string",
+            duration: () => "string",
+            email: () => "string",
+            "idn-email": () => "string",
+            "idn-hostname": () => "string",
+            ipv4: () => "string",
+            ipv6: () => "string",
+            uuid: () => "string",
+            uri: () => "string",
+            "uri-reference": () => "string",
+            "uri-template": () => "string",
+            "json-pointer": () => "string",
+            "relative-json-pointer": () => "string",
+            regex: () => "string",
+        },
+        array: (schema, parser) => {
+            const content = parser.getInlineParseContent(schema.items);
+            return parser.checkAndAddNull(schema, `(${content})[]`);
+        },
+    })
+})
+```
+
+For example, if you need to change `"string"/"date-time"` default output as `string` to `Date` you can do it with using following code:  
+
+```ts
+
+generateApi({
+    primitiveTypeConstructs: (struct) => ({
+        string: {
+            "date-time": "Date",
+        },
+    })
+})
+
+```
+
+See more about [swagger schema type/format data here](https://json-schema.org/understanding-json-schema/reference/string.html#dates-and-times)  
+
 ## 📄 Mass media  
 
 - [5 Lessons learned about swagger-typescript-api](https://christo8989.medium.com/5-lessons-learned-about-swagger-typescript-api-511240b34c1)  
