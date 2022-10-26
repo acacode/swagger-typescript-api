@@ -2,8 +2,12 @@ const _ = require("lodash");
 
 const objectAssign = (target, updaterFn) => {
   if (!updaterFn) return;
-  const updated = typeof updaterFn === "function" ? updaterFn(target) : updaterFn;
-  Object.assign(target, _.merge(target, updated));
+  const update = typeof updaterFn === "function" ? updaterFn(target) : updaterFn;
+  const undefinedKeys = _.map(update, (value, key) => value === undefined && key).filter(Boolean);
+  Object.assign(target, _.merge(target, update));
+  undefinedKeys.forEach((key) => {
+    target[key] = undefined;
+  });
 };
 
 module.exports = {

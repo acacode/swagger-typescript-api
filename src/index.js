@@ -12,8 +12,13 @@ const { CodeGenProcess } = require("./code-gen-process.js");
 
 module.exports = {
   constants: constants,
-  generateApi: async (config) => {
-    const codeGenProcess = new CodeGenProcess(config);
+  generateApi: async ({ name, prettier, ...config }) => {
+    const codeGenProcess = new CodeGenProcess({
+      ...config,
+      fileName: name,
+      prettierOptions: prettier,
+    });
     return await codeGenProcess.start();
   },
+  generateTemplates: (config) => {},
 };

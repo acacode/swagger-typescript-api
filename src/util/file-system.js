@@ -61,8 +61,8 @@ class FileSystem {
   };
 
   cleanDir = (path) => {
-    removeDir(path);
-    createDir(path);
+    this.removeDir(path);
+    this.createDir(path);
   };
 
   pathIsExist = (path) => path && fs.existsSync(path);

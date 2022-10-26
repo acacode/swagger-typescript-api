@@ -43,8 +43,7 @@ export interface Category {
 /**
  * a User
  * A User who is purchasing from the pet store
- * @example
- * // {"firstName":"firstName","lastName":"lastName","password":"password","userStatus":6,"phone":"phone","id":0,"email":"email","username":"username"}
+ * @example {"firstName":"firstName","lastName":"lastName","password":"password","userStatus":6,"phone":"phone","id":0,"email":"email","username":"username"}
  */
 export interface User {
   /** @format int64 */

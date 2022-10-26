@@ -57,12 +57,12 @@
   "typings": "./index.d.ts",
   "main": "src/index.js",
   "devDependencies": {
-    "cross-env": "^7.0.3",
     "@types/axios": "^0.14.0",
     "@types/lodash": "^4.14.182",
     "@types/node": "^15.0.2",
     "@types/prettier": "^2.7.0",
     "all-contributors-cli": "^6.20.0",
+    "cross-env": "^7.0.3",
     "git-diff": "^2.0.6",
     "husky": "^4.3.6",
     "pretty-quick": "^3.1.0"
@@ -70,8 +70,8 @@
   "dependencies": {
     "@types/swagger-schema-official": "2.0.22",
     "axios": "0.27.2",
-    "commander": "9.4.1",
     "cosmiconfig": "7.0.1",
+    "didyoumean": "^1.2.2",
     "eta": "1.12.3",
     "js-yaml": "4.1.0",
     "lodash": "4.17.21",
@@ -109,6 +109,7 @@
     "index.js",
     "index.d.ts",
     "templates",
+    "cli",
     "LICENSE"
   ],
   "bugs": {

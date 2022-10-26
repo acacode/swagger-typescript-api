@@ -53,6 +53,10 @@ class CodeGenProcess {
    */
   codeFormatter;
 
+  /**
+   *
+   * @param config {Partial<import("../index.d.ts").GenerateApiConfiguration['config']>}
+   */
   constructor(config) {
     this.config = new Configuration(config);
     this.logger = new Logger(this.config);

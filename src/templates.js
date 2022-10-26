@@ -81,23 +81,26 @@ class Templates {
     const customFullPath = this.getTemplateFullPath(templatePaths.custom, fileName);
     let fileContent = customFullPath && this.fileSystem.getFileContent(customFullPath);
 
-    if (!fileContent) {
-      const baseFullPath = this.getTemplateFullPath(templatePaths.base, fileName);
+    if (fileContent) {
+      this.logger.log(`"${_.lowerCase(name)}" template found in "${templatePaths.custom}"`);
+      return fileContent;
+    }
 
-      if (baseFullPath) {
-        fileContent = this.fileSystem.getFileContent(baseFullPath);
-      } else {
-        this.logger.warn(
-          `${_.lowerCase(name)} template not found in ${customFullPath}`,
-          `\nCode generator will use the default template`,
-        );
-      }
+    const baseFullPath = this.getTemplateFullPath(templatePaths.base, fileName);
 
-      const originalFullPath = this.getTemplateFullPath(templatePaths.original, fileName);
+    if (baseFullPath) {
+      fileContent = this.fileSystem.getFileContent(baseFullPath);
+    } else {
+      this.logger.warn(
+        `"${_.lowerCase(name)}" template not found in "${templatePaths.custom}"`,
+        `\nCode generator will use the default template`,
+      );
+    }
 
-      if (originalFullPath) {
-        fileContent = this.fileSystem.getFileContent(originalFullPath);
-      }
+    const originalFullPath = this.getTemplateFullPath(templatePaths.original, fileName);
+
+    if (originalFullPath) {
+      fileContent = this.fileSystem.getFileContent(originalFullPath);
     }
 
     return fileContent;
