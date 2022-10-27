@@ -105,6 +105,7 @@ generateApi({
   templates: path.resolve(process.cwd(), './api-templates'),
   httpClientType: "axios", // or "fetch"
   defaultResponseAsSuccess: false,
+  generateClient: true,
   generateRouteTypes: false,
   generateResponses: true,
   toJS: false,
@@ -123,6 +124,8 @@ generateApi({
   enumNamesAsValues: false,
   moduleNameFirstTag: false,
   generateUnionEnums: false,
+  typePrefix: '',
+  typeSuffix: '',
   addReadonly: false,
   extraTemplates: [],
   anotherArrayType: false, 
