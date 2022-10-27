@@ -266,10 +266,10 @@
       ]
     },
     {
-      "login": "jinkwon",
-      "name": "JK",
-      "avatar_url": "https://avatars.githubusercontent.com/u/1798916?v=4",
-      "profile": "https://www.linkedin.com/in/jinkwon-lee",
+      "login": "brookjordan",
+      "name": "Brook Jordan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9323190?v=4",
+      "profile": "http://brook.dev",
       "contributions": [
         "code"
       ]
@@ -310,15 +310,6 @@
       "name": "Quentin Brunet",
       "avatar_url": "https://avatars.githubusercontent.com/u/20137632?v=4",
       "profile": "https://quentinbrunet.com",
-      "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "brookjordan",
-      "name": "Brook Jordan",
-      "avatar_url": "https://avatars.githubusercontent.com/u/9323190?v=4",
-      "profile": "http://brook.dev",
       "contributions": [
         "code"
       ]
