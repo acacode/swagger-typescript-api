@@ -290,7 +290,14 @@ const main = async () => {
         break;
       }
       case "generate-templates": {
-        await generateTemplates(options);
+        await generateTemplates({
+          cleanOutput: options.cleanOutput,
+          output: options.output,
+          httpClientType: options.httpClient,
+          modular: options.modular,
+          silent: options.silent,
+          rewrite: options.rewrite,
+        });
         break;
       }
       default: {

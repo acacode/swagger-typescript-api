@@ -56,16 +56,36 @@ class TemplatesGenProcess {
       }
 
       templates.forEach((template) => {
-        const templateExist = this.fileSystem.pathIsExist(path.resolve(outputPath, template.name));
-        if (!templateExist || this.config.rewrite) {
+        const templateName = this.fileSystem.cropExtension(template.name);
+        const templateEjsPath = path.resolve(outputPath, `${templateName}.ejs`);
+        const templateEtaPath = path.resolve(outputPath, `${templateName}.eta`);
+        const templateEjsPathExist = this.fileSystem.pathIsExist(templateEjsPath);
+        const templateEtaPathExist = this.fileSystem.pathIsExist(templateEtaPath);
+
+        if (this.config.rewrite || (!templateEjsPathExist && !templateEtaPathExist)) {
           this.fileSystem.createFile({
             path: outputPath,
             fileName: template.name,
             content: template.content,
             withPrefix: false,
           });
+        } else if (templateEjsPathExist) {
+          this.fileSystem.createFile({
+            path: outputPath,
+            fileName: `${templateName}.ejs`,
+            content: template.content,
+            withPrefix: false,
+          });
+        } else if (templateEtaPathExist) {
+          this.fileSystem.createFile({
+            path: outputPath,
+            fileName: `${templateName}.eta`,
+            content: template.content,
+            withPrefix: false,
+          });
         }
       });
+
       this.logger.success(`source templates has been successfully created in "${outputPath}"`);
     }
 
@@ -83,23 +103,26 @@ class TemplatesGenProcess {
     const apiTemplatesPath = this.config.modular ? this.paths.moduleApiTemplates : this.paths.defaultApiTemplates;
     const apiTemplates = this.getTemplateNamesFromDir(apiTemplatesPath);
 
-    for (const fileName of baseTemplates) {
-      outputFiles.push({
-        name: fileName,
-        content: this.fixTemplateContent(this.getTemplateContent(`${this.paths.baseTemplates}/${fileName}`)),
-      });
-    }
-
     const usingHttpClientTemplate = httpClientTemplates.find((template) =>
       template.startsWith(`${this.config.httpClientType}-`),
     );
 
+    let httpClientTemplateContent = "";
+
     if (usingHttpClientTemplate) {
+      httpClientTemplateContent = this.fixTemplateContent(
+        this.getTemplateContent(`${this.paths.httpClientTemplates}/${usingHttpClientTemplate}`),
+      );
+    }
+
+    for (const fileName of baseTemplates) {
+      const templateContent =
+        (fileName === "http-client.ejs" && httpClientTemplateContent) ||
+        this.fixTemplateContent(this.getTemplateContent(`${this.paths.baseTemplates}/${fileName}`));
+
       outputFiles.push({
-        name: usingHttpClientTemplate,
-        content: this.fixTemplateContent(
-          this.getTemplateContent(`${this.paths.httpClientTemplates}/${usingHttpClientTemplate}`),
-        ),
+        name: fileName,
+        content: templateContent,
       });
     }
 
