@@ -1,5 +1,10 @@
 # next release  
 
+# 11.0.2  
+
+- fix: problems with --http-client option in `generate-templates` command  
+- fix: rewrite file content in `generate-templates` command (`--rewrite` flag)  
+
 # 11.0.0  
 
 ## Breaking changes  
