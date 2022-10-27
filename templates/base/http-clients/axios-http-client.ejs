@@ -79,7 +79,7 @@ export class HttpClient<SecurityDataType = unknown> {
     protected createFormData(input: Record<string, unknown>): FormData {
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        const propertyContent: Iterable<any> = (property instanceof Array) ? property : [property]
+        const propertyContent: any[] = (property instanceof Array) ? property : [property]
 
         for (const formItem of propertyContent) {
           const isFileType = formItem instanceof Blob || formItem instanceof File;
