@@ -26,9 +26,7 @@ export interface ActionsBillingUsage {
   total_paid_minutes_used: number;
 }
 
-/**
- * Whether GitHub Actions is enabled on the repository.
- */
+/** Whether GitHub Actions is enabled on the repository. */
 export type ActionsEnabled = boolean;
 
 export interface ActionsEnterprisePermissions {
@@ -58,23 +56,23 @@ export interface ActionsOrganizationPermissions {
  * The public key used for setting Actions Secrets.
  */
 export interface ActionsPublicKey {
-  /** @example 2011-01-26T19:01:12Z */
+  /** @example "2011-01-26T19:01:12Z" */
   created_at?: string;
   /** @example 2 */
   id?: number;
   /**
    * The Base64 encoded public key.
-   * @example hBT5WZEj8ZoOv6TYJsfWq7MxTEQopZO5/IT3ZCVQPzs=
+   * @example "hBT5WZEj8ZoOv6TYJsfWq7MxTEQopZO5/IT3ZCVQPzs="
    */
   key: string;
   /**
    * The identifier for the key.
-   * @example 1234567
+   * @example "1234567"
    */
   key_id: string;
-  /** @example ssh-rsa AAAAB3NzaC1yc2EAAA */
+  /** @example "ssh-rsa AAAAB3NzaC1yc2EAAA" */
   title?: string;
-  /** @example https://api.github.com/user/keys/2 */
+  /** @example "https://api.github.com/user/keys/2" */
   url?: string;
 }
 
@@ -96,7 +94,7 @@ export interface ActionsSecret {
   created_at: string;
   /**
    * The name of the secret.
-   * @example SECRET_TOKEN
+   * @example "SECRET_TOKEN"
    */
   name: string;
   /** @format date-time */
@@ -130,9 +128,7 @@ export type AlertCreatedAt = string;
  */
 export type AlertHtmlUrl = string;
 
-/**
- * The security alert number.
- */
+/** The security alert number. */
 export type AlertNumber = number;
 
 /**
@@ -141,9 +137,7 @@ export type AlertNumber = number;
  */
 export type AlertUrl = string;
 
-/**
- * The permissions policy that controls the actions that are allowed to run. Can be one of: `all`, `local_only`, or `selected`.
- */
+/** The permissions policy that controls the actions that are allowed to run. Can be one of: `all`, `local_only`, or `selected`. */
 export enum AllowedActions {
   All = "all",
   LocalOnly = "local_only",
@@ -258,7 +252,7 @@ export interface ApplicationGrant {
   };
   /**
    * @format date-time
-   * @example 2011-09-06T17:26:27Z
+   * @example "2011-09-06T17:26:27Z"
    */
   created_at: string;
   /** @example 1 */
@@ -267,12 +261,12 @@ export interface ApplicationGrant {
   scopes: string[];
   /**
    * @format date-time
-   * @example 2011-09-06T20:39:23Z
+   * @example "2011-09-06T20:39:23Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/applications/grants/1
+   * @example "https://api.github.com/applications/grants/1"
    */
   url: string;
   user?: SimpleUser | null;
@@ -283,7 +277,7 @@ export interface ApplicationGrant {
  * An artifact
  */
 export interface Artifact {
-  /** @example https://api.github.com/repos/github/hello-world/actions/artifacts/5/zip */
+  /** @example "https://api.github.com/repos/github/hello-world/actions/artifacts/5/zip" */
   archive_download_url: string;
   /** @format date-time */
   created_at: string | null;
@@ -295,10 +289,10 @@ export interface Artifact {
   id: number;
   /**
    * The name of the artifact.
-   * @example AdventureWorks.Framework
+   * @example "AdventureWorks.Framework"
    */
   name: string;
-  /** @example MDEwOkNoZWNrU3VpdGU1 */
+  /** @example "MDEwOkNoZWNrU3VpdGU1" */
   node_id: string;
   /**
    * The size in bytes of the artifact.
@@ -307,7 +301,7 @@ export interface Artifact {
   size_in_bytes: number;
   /** @format date-time */
   updated_at: string | null;
-  /** @example https://api.github.com/repos/github/hello-world/actions/artifacts/5 */
+  /** @example "https://api.github.com/repos/github/hello-world/actions/artifacts/5" */
   url: string;
 }
 
@@ -368,7 +362,7 @@ export interface AuthenticationToken {
   /**
    * The time this token expires
    * @format date-time
-   * @example 2016-07-11T22:14:10Z
+   * @example "2016-07-11T22:14:10Z"
    */
   expires_at: string;
   /** @example {"issues":"read","deployments":"write"} */
@@ -377,11 +371,11 @@ export interface AuthenticationToken {
   repositories?: Repository[];
   /** Describe whether all repositories have been selected or there's a selection involved */
   repository_selection?: "all" | "selected";
-  /** @example config.yaml */
+  /** @example "config.yaml" */
   single_file?: string | null;
   /**
    * The token used for authentication
-   * @example v1.1f699f1069f60xxx
+   * @example "v1.1f699f1069f60xxx"
    */
   token: string;
 }
@@ -389,7 +383,7 @@ export interface AuthenticationToken {
 /**
  * author_association
  * How the author is associated with the repository.
- * @example OWNER
+ * @example "OWNER"
  */
 export enum AuthorAssociation {
   COLLABORATOR = "COLLABORATOR",
@@ -531,9 +525,9 @@ export interface BranchProtection {
   enabled: boolean;
   /** Protected Branch Admin Enforced */
   enforce_admins?: ProtectedBranchAdminEnforced;
-  /** @example "branch/with/protection" */
+  /** @example ""branch/with/protection"" */
   name?: string;
-  /** @example "https://api.github.com/repos/owner-79e94e2d36b3fd06a32bb213/AAA_Public_Repo/branches/branch/with/protection/protection" */
+  /** @example ""https://api.github.com/repos/owner-79e94e2d36b3fd06a32bb213/AAA_Public_Repo/branches/branch/with/protection/protection"" */
   protection_url?: string;
   required_linear_history?: {
     enabled?: boolean;
@@ -573,25 +567,25 @@ export interface BranchRestrictionPolicy {
       public_members_url?: string;
       avatar_url?: string;
       description?: string;
-      /** @example "" */
+      /** @example """" */
       gravatar_id?: string;
-      /** @example "https://github.com/testorg-ea8ec76d71c3af4b" */
+      /** @example ""https://github.com/testorg-ea8ec76d71c3af4b"" */
       html_url?: string;
-      /** @example "https://api.github.com/users/testorg-ea8ec76d71c3af4b/followers" */
+      /** @example ""https://api.github.com/users/testorg-ea8ec76d71c3af4b/followers"" */
       followers_url?: string;
-      /** @example "https://api.github.com/users/testorg-ea8ec76d71c3af4b/following{/other_user}" */
+      /** @example ""https://api.github.com/users/testorg-ea8ec76d71c3af4b/following{/other_user}"" */
       following_url?: string;
-      /** @example "https://api.github.com/users/testorg-ea8ec76d71c3af4b/gists{/gist_id}" */
+      /** @example ""https://api.github.com/users/testorg-ea8ec76d71c3af4b/gists{/gist_id}"" */
       gists_url?: string;
-      /** @example "https://api.github.com/users/testorg-ea8ec76d71c3af4b/starred{/owner}{/repo}" */
+      /** @example ""https://api.github.com/users/testorg-ea8ec76d71c3af4b/starred{/owner}{/repo}"" */
       starred_url?: string;
-      /** @example "https://api.github.com/users/testorg-ea8ec76d71c3af4b/subscriptions" */
+      /** @example ""https://api.github.com/users/testorg-ea8ec76d71c3af4b/subscriptions"" */
       subscriptions_url?: string;
-      /** @example "https://api.github.com/users/testorg-ea8ec76d71c3af4b/orgs" */
+      /** @example ""https://api.github.com/users/testorg-ea8ec76d71c3af4b/orgs"" */
       organizations_url?: string;
-      /** @example "https://api.github.com/users/testorg-ea8ec76d71c3af4b/received_events" */
+      /** @example ""https://api.github.com/users/testorg-ea8ec76d71c3af4b/received_events"" */
       received_events_url?: string;
-      /** @example "Organization" */
+      /** @example ""Organization"" */
       type?: string;
     };
     name?: string;
@@ -678,7 +672,7 @@ export interface BranchWithProtection {
   /** Commit */
   commit: Commit;
   name: string;
-  /** @example "mas*" */
+  /** @example ""mas*"" */
   pattern?: string;
   protected: boolean;
   /** Branch Protection */
@@ -694,24 +688,24 @@ export interface BranchWithProtection {
  * Check Annotation
  */
 export interface CheckAnnotation {
-  /** @example warning */
+  /** @example "warning" */
   annotation_level: string | null;
   blob_href: string;
   /** @example 10 */
   end_column: number | null;
   /** @example 2 */
   end_line: number;
-  /** @example Check your spelling for 'banaas'. */
+  /** @example "Check your spelling for 'banaas'." */
   message: string | null;
-  /** @example README.md */
+  /** @example "README.md" */
   path: string;
-  /** @example Do you mean 'bananas' or 'banana'? */
+  /** @example "Do you mean 'bananas' or 'banana'?" */
   raw_details: string | null;
   /** @example 5 */
   start_column: number | null;
   /** @example 2 */
   start_line: number;
-  /** @example Spell Checker */
+  /** @example "Spell Checker" */
   title: string | null;
 }
 
@@ -726,21 +720,21 @@ export interface CheckRun {
   } | null;
   /**
    * @format date-time
-   * @example 2018-05-04T01:14:52Z
+   * @example "2018-05-04T01:14:52Z"
    */
   completed_at: string | null;
-  /** @example neutral */
+  /** @example "neutral" */
   conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | null;
-  /** @example https://example.com */
+  /** @example "https://example.com" */
   details_url: string | null;
-  /** @example 42 */
+  /** @example "42" */
   external_id: string | null;
   /**
    * The SHA of the commit that is being checked.
-   * @example 009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d
+   * @example "009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d"
    */
   head_sha: string;
-  /** @example https://github.com/github/hello-world/runs/4 */
+  /** @example "https://github.com/github/hello-world/runs/4" */
   html_url: string | null;
   /**
    * The id of the check.
@@ -749,10 +743,10 @@ export interface CheckRun {
   id: number;
   /**
    * The name of the check.
-   * @example test-coverage
+   * @example "test-coverage"
    */
   name: string;
-  /** @example MDg6Q2hlY2tSdW40 */
+  /** @example "MDg6Q2hlY2tSdW40" */
   node_id: string;
   output: {
     title: string | null;
@@ -765,15 +759,15 @@ export interface CheckRun {
   pull_requests: PullRequestMinimal[];
   /**
    * @format date-time
-   * @example 2018-05-04T01:14:52Z
+   * @example "2018-05-04T01:14:52Z"
    */
   started_at: string | null;
   /**
    * The phase of the lifecycle that the check is currently in.
-   * @example queued
+   * @example "queued"
    */
   status: "queued" | "in_progress" | "completed";
-  /** @example https://api.github.com/repos/github/hello-world/check-runs/4 */
+  /** @example "https://api.github.com/repos/github/hello-world/check-runs/4" */
   url: string;
 }
 
@@ -782,38 +776,38 @@ export interface CheckRun {
  * A suite of checks performed on the code of a given code change
  */
 export interface CheckSuite {
-  /** @example d6fde92930d4715a2b49857d24b940956b26d2d3 */
+  /** @example "d6fde92930d4715a2b49857d24b940956b26d2d3" */
   after: string | null;
   app: Integration | null;
-  /** @example 146e867f55c26428e5f9fade55a9bbf5e95a7912 */
+  /** @example "146e867f55c26428e5f9fade55a9bbf5e95a7912" */
   before: string | null;
   check_runs_url: string;
-  /** @example neutral */
+  /** @example "neutral" */
   conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | null;
   /** @format date-time */
   created_at: string | null;
-  /** @example master */
+  /** @example "master" */
   head_branch: string | null;
   /** Simple Commit */
   head_commit: SimpleCommit;
   /**
    * The SHA of the head commit that is being checked.
-   * @example 009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d
+   * @example "009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d"
    */
   head_sha: string;
   /** @example 5 */
   id: number;
   latest_check_runs_count: number;
-  /** @example MDEwOkNoZWNrU3VpdGU1 */
+  /** @example "MDEwOkNoZWNrU3VpdGU1" */
   node_id: string;
   pull_requests: PullRequestMinimal[] | null;
   /** Minimal Repository */
   repository: MinimalRepository;
-  /** @example completed */
+  /** @example "completed" */
   status: "queued" | "in_progress" | "completed" | null;
   /** @format date-time */
   updated_at: string | null;
-  /** @example https://api.github.com/repos/github/hello-world/check-suites/5 */
+  /** @example "https://api.github.com/repos/github/hello-world/check-suites/5" */
   url: string | null;
 }
 
@@ -856,48 +850,66 @@ export type CodeFrequencyStat = number[];
  */
 export interface CodeOfConduct {
   /**
-   * @example # Contributor Covenant Code of Conduct
+   * @example "# Contributor Covenant Code of Conduct
    *
    * ## Our Pledge
+   *
    * In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
+   *
    * ## Our Standards
+   *
    * Examples of behavior that contributes to creating a positive environment include:
+   *
    * * Using welcoming and inclusive language
    * * Being respectful of differing viewpoints and experiences
    * * Gracefully accepting constructive criticism
    * * Focusing on what is best for the community
    * * Showing empathy towards other community members
+   *
    * Examples of unacceptable behavior by participants include:
+   *
    * * The use of sexualized language or imagery and unwelcome sexual attention or advances
    * * Trolling, insulting/derogatory comments, and personal or political attacks
    * * Public or private harassment
    * * Publishing others' private information, such as a physical or electronic address, without explicit permission
    * * Other conduct which could reasonably be considered inappropriate in a professional setting
+   *
    * ## Our Responsibilities
+   *
    * Project maintainers are responsible for clarifying the standards of acceptable behavior and are expected to take appropriate and fair corrective action in response
    *                   to any instances of unacceptable behavior.
+   *
    * Project maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, or to ban temporarily or permanently any contributor for other behaviors that they deem inappropriate, threatening, offensive, or harmful.
+   *
    * ## Scope
+   *
    * This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community. Examples of representing a project or community include using an official project e-mail address,
    *                   posting via an official social media account, or acting as an appointed representative at an online or offline event. Representation of a project may be further defined and clarified by project maintainers.
+   *
    * ## Enforcement
+   *
    * Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at [EMAIL]. The project team will review and investigate all complaints, and will respond in a way that it deems appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident. Further details of specific enforcement policies may be posted separately.
+   *
    * Project maintainers who do not follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions as determined by other members of the project's leadership.
+   *
    * ## Attribution
+   *
    * This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4, available at [http://contributor-covenant.org/version/1/4][version]
+   *
    * [homepage]: http://contributor-covenant.org
    * [version]: http://contributor-covenant.org/version/1/4/
+   * "
    */
   body?: string;
   /** @format uri */
   html_url: string | null;
-  /** @example contributor_covenant */
+  /** @example "contributor_covenant" */
   key: string;
-  /** @example Contributor Covenant */
+  /** @example "Contributor Covenant" */
   name: string;
   /**
    * @format uri
-   * @example https://api.github.com/codes_of_conduct/contributor_covenant
+   * @example "https://api.github.com/codes_of_conduct/contributor_covenant"
    */
   url: string;
 }
@@ -909,13 +921,13 @@ export interface CodeOfConduct {
 export interface CodeOfConductSimple {
   /** @format uri */
   html_url: string | null;
-  /** @example citizen_code_of_conduct */
+  /** @example "citizen_code_of_conduct" */
   key: string;
-  /** @example Citizen Code of Conduct */
+  /** @example "Citizen Code of Conduct" */
   name: string;
   /**
    * @format uri
-   * @example https://api.github.com/codes_of_conduct/citizen_code_of_conduct
+   * @example "https://api.github.com/codes_of_conduct/citizen_code_of_conduct"
    */
   url: string;
 }
@@ -969,14 +981,10 @@ export interface CodeScanningAlertCodeScanningAlertItems {
  */
 export type CodeScanningAlertDismissedAt = string | null;
 
-/**
- * **Required when the state is dismissed.** The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`.
- */
+/** **Required when the state is dismissed.** The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`. */
 export type CodeScanningAlertDismissedReason = "false positive" | "won't fix" | "used in tests" | null;
 
-/**
- * Identifies the variable values associated with the environment in which the analysis that generated this alert instance was performed, such as the language that was analyzed.
- */
+/** Identifies the variable values associated with the environment in which the analysis that generated this alert instance was performed, such as the language that was analyzed. */
 export type CodeScanningAlertEnvironment = string;
 
 export type CodeScanningAlertInstances = {
@@ -991,9 +999,7 @@ export type CodeScanningAlertInstances = {
   state?: CodeScanningAlertState;
 }[];
 
-/**
- * The full Git reference, formatted as `refs/heads/<branch name>`.
- */
+/** The full Git reference, formatted as `refs/heads/<branch name>`. */
 export type CodeScanningAlertRef = string;
 
 export interface CodeScanningAlertRule {
@@ -1005,26 +1011,20 @@ export interface CodeScanningAlertRule {
   severity?: "none" | "note" | "warning" | "error" | null;
 }
 
-/**
- * Sets the state of the code scanning alert. Can be one of `open` or `dismissed`. You must provide `dismissed_reason` when you set the state to `dismissed`.
- */
+/** Sets the state of the code scanning alert. Can be one of `open` or `dismissed`. You must provide `dismissed_reason` when you set the state to `dismissed`. */
 export enum CodeScanningAlertSetState {
   Open = "open",
   Dismissed = "dismissed",
 }
 
-/**
- * State of a code scanning alert.
- */
+/** State of a code scanning alert. */
 export enum CodeScanningAlertState {
   Open = "open",
   Dismissed = "dismissed",
   Fixed = "fixed",
 }
 
-/**
- * Identifies the configuration under which the analysis was executed. For example, in GitHub Actions this includes the workflow filename and job name.
- */
+/** Identifies the configuration under which the analysis was executed. For example, in GitHub Actions this includes the workflow filename and job name. */
 export type CodeScanningAnalysisAnalysisKey = string;
 
 export interface CodeScanningAnalysisCodeScanningAnalysis {
@@ -1036,7 +1036,7 @@ export interface CodeScanningAnalysisCodeScanningAnalysis {
   created_at: CodeScanningAnalysisCreatedAt;
   /** Identifies the variable values associated with the environment in which this analysis was performed. */
   environment: CodeScanningAnalysisEnvironment;
-  /** @example error reading field xyz */
+  /** @example "error reading field xyz" */
   error: string;
   /** The full Git reference of the code scanning analysis file, formatted as `refs/heads/<branch name>`. */
   ref: CodeScanningAnalysisRef;
@@ -1046,6 +1046,8 @@ export interface CodeScanningAnalysisCodeScanningAnalysis {
 
 /**
  * The commit SHA of the code scanning analysis file.
+ * @minLength 40
+ * @maxLength 40
  * @pattern ^[0-9a-fA-F]+$
  */
 export type CodeScanningAnalysisCommitSha = string;
@@ -1056,19 +1058,13 @@ export type CodeScanningAnalysisCommitSha = string;
  */
 export type CodeScanningAnalysisCreatedAt = string;
 
-/**
- * Identifies the variable values associated with the environment in which this analysis was performed.
- */
+/** Identifies the variable values associated with the environment in which this analysis was performed. */
 export type CodeScanningAnalysisEnvironment = string;
 
-/**
- * The full Git reference of the code scanning analysis file, formatted as `refs/heads/<branch name>`.
- */
+/** The full Git reference of the code scanning analysis file, formatted as `refs/heads/<branch name>`. */
 export type CodeScanningAnalysisRef = string;
 
-/**
- * A Base64 string representing the SARIF file to upload. You must first compress your SARIF file using [`gzip`](http://www.gnu.org/software/gzip/manual/gzip.html) and then translate the contents of the file into a Base64 encoding string.
- */
+/** A Base64 string representing the SARIF file to upload. You must first compress your SARIF file using [`gzip`](http://www.gnu.org/software/gzip/manual/gzip.html) and then translate the contents of the file into a Base64 encoding string. */
 export type CodeScanningAnalysisSarifFile = string;
 
 export interface CodeScanningAnalysisTool {
@@ -1078,9 +1074,7 @@ export interface CodeScanningAnalysisTool {
   version?: string | null;
 }
 
-/**
- * The name of the tool used to generate the code scanning analysis alert.
- */
+/** The name of the tool used to generate the code scanning analysis alert. */
 export type CodeScanningAnalysisToolName = string;
 
 /**
@@ -1116,36 +1110,36 @@ export interface CodeSearchResultItem {
 export interface Collaborator {
   /**
    * @format uri
-   * @example https://github.com/images/error/octocat_happy.gif
+   * @example "https://github.com/images/error/octocat_happy.gif"
    */
   avatar_url: string;
-  /** @example https://api.github.com/users/octocat/events{/privacy} */
+  /** @example "https://api.github.com/users/octocat/events{/privacy}" */
   events_url: string;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat/followers
+   * @example "https://api.github.com/users/octocat/followers"
    */
   followers_url: string;
-  /** @example https://api.github.com/users/octocat/following{/other_user} */
+  /** @example "https://api.github.com/users/octocat/following{/other_user}" */
   following_url: string;
-  /** @example https://api.github.com/users/octocat/gists{/gist_id} */
+  /** @example "https://api.github.com/users/octocat/gists{/gist_id}" */
   gists_url: string;
-  /** @example 41d064eb2195891e12d0413f63227ea7 */
+  /** @example "41d064eb2195891e12d0413f63227ea7" */
   gravatar_id: string | null;
   /**
    * @format uri
-   * @example https://github.com/octocat
+   * @example "https://github.com/octocat"
    */
   html_url: string;
   /** @example 1 */
   id: number;
-  /** @example octocat */
+  /** @example "octocat" */
   login: string;
-  /** @example MDQ6VXNlcjE= */
+  /** @example "MDQ6VXNlcjE=" */
   node_id: string;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat/orgs
+   * @example "https://api.github.com/users/octocat/orgs"
    */
   organizations_url: string;
   permissions?: {
@@ -1155,27 +1149,27 @@ export interface Collaborator {
   };
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat/received_events
+   * @example "https://api.github.com/users/octocat/received_events"
    */
   received_events_url: string;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat/repos
+   * @example "https://api.github.com/users/octocat/repos"
    */
   repos_url: string;
   site_admin: boolean;
-  /** @example https://api.github.com/users/octocat/starred{/owner}{/repo} */
+  /** @example "https://api.github.com/users/octocat/starred{/owner}{/repo}" */
   starred_url: string;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat/subscriptions
+   * @example "https://api.github.com/users/octocat/subscriptions"
    */
   subscriptions_url: string;
-  /** @example User */
+  /** @example "User" */
   type: string;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat
+   * @example "https://api.github.com/users/octocat"
    */
   url: string;
 }
@@ -1214,27 +1208,27 @@ export interface Commit {
   author: SimpleUser | null;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments
+   * @example "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments"
    */
   comments_url: string;
   commit: {
     /**
      * @format uri
-     * @example https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e
+     * @example "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e"
      */
     url: string;
     author: GitUser | null;
     committer: GitUser | null;
-    /** @example Fix all the bugs */
+    /** @example "Fix all the bugs" */
     message: string;
     /** @example 0 */
     comment_count: number;
     tree: {
-      /** @example 827efc6d56897b048c772eb4087f854f46256132 */
+      /** @example "827efc6d56897b048c772eb4087f854f46256132" */
       sha: string;
       /**
        * @format uri
-       * @example https://api.github.com/repos/octocat/Hello-World/tree/827efc6d56897b048c772eb4087f854f46256132
+       * @example "https://api.github.com/repos/octocat/Hello-World/tree/827efc6d56897b048c772eb4087f854f46256132"
        */
       url: string;
     };
@@ -1250,35 +1244,35 @@ export interface Commit {
     raw_url?: string;
     blob_url?: string;
     patch?: string;
-    /** @example "1e8e60ce9733d5283f7836fa602b6365a66b2567" */
+    /** @example ""1e8e60ce9733d5283f7836fa602b6365a66b2567"" */
     sha?: string;
-    /** @example "https://api.github.com/repos/owner-3d68404b07d25daeb2d4a6bf/AAA_Public_Repo/contents/geometry.js?ref=c3956841a7cb7e8ba4a6fd923568d86958f01573" */
+    /** @example ""https://api.github.com/repos/owner-3d68404b07d25daeb2d4a6bf/AAA_Public_Repo/contents/geometry.js?ref=c3956841a7cb7e8ba4a6fd923568d86958f01573"" */
     contents_url?: string;
-    /** @example "subdir/before_name.txt" */
+    /** @example ""subdir/before_name.txt"" */
     previous_filename?: string;
   }[];
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e
+   * @example "https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e"
    */
   html_url: string;
-  /** @example MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ== */
+  /** @example "MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==" */
   node_id: string;
   parents: {
-    /** @example 7638417db6d59f3c431d3e1f261cc637155684cd */
+    /** @example "7638417db6d59f3c431d3e1f261cc637155684cd" */
     sha: string;
     /**
      * @format uri
-     * @example https://api.github.com/repos/octocat/Hello-World/commits/7638417db6d59f3c431d3e1f261cc637155684cd
+     * @example "https://api.github.com/repos/octocat/Hello-World/commits/7638417db6d59f3c431d3e1f261cc637155684cd"
      */
     url: string;
     /**
      * @format uri
-     * @example https://github.com/octocat/Hello-World/commit/7638417db6d59f3c431d3e1f261cc637155684cd
+     * @example "https://github.com/octocat/Hello-World/commit/7638417db6d59f3c431d3e1f261cc637155684cd"
      */
     html_url?: string;
   }[];
-  /** @example 6dcb09b5b57875f334f61aebed695e2e4193db5e */
+  /** @example "6dcb09b5b57875f334f61aebed695e2e4193db5e" */
   sha: string;
   stats?: {
     additions?: number;
@@ -1287,7 +1281,7 @@ export interface Commit {
   };
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e
+   * @example "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e"
    */
   url: string;
 }
@@ -1345,34 +1339,34 @@ export interface CommitComparison {
   commits: Commit[];
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/compare/master...topic.diff
+   * @example "https://github.com/octocat/Hello-World/compare/master...topic.diff"
    */
   diff_url: string;
   files: DiffEntry[];
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/compare/master...topic
+   * @example "https://github.com/octocat/Hello-World/compare/master...topic"
    */
   html_url: string;
   /** Commit */
   merge_base_commit: Commit;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/compare/master...topic.patch
+   * @example "https://github.com/octocat/Hello-World/compare/master...topic.patch"
    */
   patch_url: string;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/compare/octocat:bbcd538c8e72b8c175046e27cc8f907076331401...octocat:0328041d1152db8ae77652d1618a02e57f745f17
+   * @example "https://github.com/octocat/Hello-World/compare/octocat:bbcd538c8e72b8c175046e27cc8f907076331401...octocat:0328041d1152db8ae77652d1618a02e57f745f17"
    */
   permalink_url: string;
-  /** @example ahead */
+  /** @example "ahead" */
   status: "diverged" | "ahead" | "behind" | "identical";
   /** @example 6 */
   total_commits: number;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/compare/master...topic
+   * @example "https://api.github.com/repos/octocat/Hello-World/compare/master...topic"
    */
   url: string;
 }
@@ -1422,9 +1416,7 @@ export interface CommitSearchResultItem {
   url: string;
 }
 
-/**
- * Community Health File
- */
+/** Community Health File */
 export interface CommunityHealthFile {
   /** @format uri */
   html_url: string;
@@ -1439,9 +1431,9 @@ export interface CommunityHealthFile {
 export interface CommunityProfile {
   /** @example true */
   content_reports_enabled?: boolean;
-  /** @example My first repository on GitHub! */
+  /** @example "My first repository on GitHub!" */
   description: string | null;
-  /** @example example.com */
+  /** @example "example.com" */
   documentation: string | null;
   files: {
     code_of_conduct: CodeOfConductSimple | null;
@@ -1455,7 +1447,7 @@ export interface CommunityProfile {
   health_percentage: number;
   /**
    * @format date-time
-   * @example 2017-02-28T19:09:29Z
+   * @example "2017-02-28T19:09:29Z"
    */
   updated_at: string | null;
 }
@@ -1514,9 +1506,9 @@ export interface ContentFile {
   path: string;
   sha: string;
   size: number;
-  /** @example "git://example.com/defunkt/dotjs.git" */
+  /** @example ""git://example.com/defunkt/dotjs.git"" */
   submodule_git_url?: string;
-  /** @example "actual/actual.md" */
+  /** @example ""actual/actual.md"" */
   target?: string;
   type: string;
   /** @format uri */
@@ -1530,7 +1522,8 @@ export interface ContentFile {
 export interface ContentReferenceAttachment {
   /**
    * The body of the attachment
-   * @example Body of the attachment
+   * @maxLength 262144
+   * @example "Body of the attachment"
    */
   body: string;
   /**
@@ -1540,12 +1533,13 @@ export interface ContentReferenceAttachment {
   id: number;
   /**
    * The node_id of the content attachment
-   * @example MDE3OkNvbnRlbnRBdHRhY2htZW50MjE=
+   * @example "MDE3OkNvbnRlbnRBdHRhY2htZW50MjE="
    */
   node_id?: string;
   /**
    * The title of the attachment
-   * @example Title of the attachment
+   * @maxLength 1024
+   * @example "Title of the attachment"
    */
   title: string;
 }
@@ -1616,9 +1610,9 @@ export interface ContentSymlink {
 export interface ContentTraffic {
   /** @example 3542 */
   count: number;
-  /** @example /github/hubot */
+  /** @example "/github/hubot" */
   path: string;
-  /** @example github/hubot: A customizable life embetterment robot. */
+  /** @example "github/hubot: A customizable life embetterment robot." */
   title: string;
   /** @example 2225 */
   uniques: number;
@@ -1738,24 +1732,24 @@ export interface CredentialAuthorization {
   authorized_credential_id?: number | null;
   /**
    * The note given to the token. This will only be present when the credential is a token.
-   * @example my token
+   * @example "my token"
    */
   authorized_credential_note?: string | null;
   /**
    * The title given to the ssh key. This will only be present when the credential is an ssh key.
-   * @example my ssh key
+   * @example "my ssh key"
    */
   authorized_credential_title?: string | null;
   /**
    * Date when the credential was last accessed. May be null if it was never accessed
    * @format date-time
-   * @example 2011-01-26T19:06:43Z
+   * @example "2011-01-26T19:06:43Z"
    */
   credential_accessed_at?: string | null;
   /**
    * Date when the credential was authorized for use.
    * @format date-time
-   * @example 2011-01-26T19:06:43Z
+   * @example "2011-01-26T19:06:43Z"
    */
   credential_authorized_at: string;
   /**
@@ -1765,17 +1759,17 @@ export interface CredentialAuthorization {
   credential_id: number;
   /**
    * Human-readable description of the credential type.
-   * @example SSH Key
+   * @example "SSH Key"
    */
   credential_type: string;
   /**
    * Unique string to distinguish the credential. Only included in responses with credential_type of SSH Key.
-   * @example jklmnop12345678
+   * @example "jklmnop12345678"
    */
   fingerprint?: string;
   /**
    * User login that owns the underlying credential.
-   * @example monalisa
+   * @example "monalisa"
    */
   login: string;
   /**
@@ -1785,7 +1779,7 @@ export interface CredentialAuthorization {
   scopes?: string[];
   /**
    * Last eight characters of the credential. Only included in responses with credential_type of personal access token.
-   * @example 12345678
+   * @example "12345678"
    */
   token_last_eight?: string;
 }
@@ -1811,15 +1805,15 @@ export interface DeployKey {
 export interface Deployment {
   /**
    * @format date-time
-   * @example 2012-07-20T01:19:13Z
+   * @example "2012-07-20T01:19:13Z"
    */
   created_at: string;
   creator: SimpleUser | null;
-  /** @example Deploy request from hubot */
+  /** @example "Deploy request from hubot" */
   description: string | null;
   /**
    * Name for the target deployment environment.
-   * @example production
+   * @example "production"
    */
   environment: string;
   /**
@@ -1827,9 +1821,9 @@ export interface Deployment {
    * @example 42
    */
   id: number;
-  /** @example MDEwOkRlcGxveW1lbnQx */
+  /** @example "MDEwOkRlcGxveW1lbnQx" */
   node_id: string;
-  /** @example staging */
+  /** @example "staging" */
   original_environment?: string;
   payload: object;
   performed_via_github_app?: Integration | null;
@@ -1840,24 +1834,24 @@ export interface Deployment {
   production_environment?: boolean;
   /**
    * The ref to deploy. This can be a branch, tag, or sha.
-   * @example topic-branch
+   * @example "topic-branch"
    */
   ref: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/example
+   * @example "https://api.github.com/repos/octocat/example"
    */
   repository_url: string;
-  /** @example a84d88e7554fc1fa21bcbc4efae3c782a70d2b9d */
+  /** @example "a84d88e7554fc1fa21bcbc4efae3c782a70d2b9d" */
   sha: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/example/deployments/1/statuses
+   * @example "https://api.github.com/repos/octocat/example/deployments/1/statuses"
    */
   statuses_url: string;
   /**
    * Parameter to specify a task to execute
-   * @example deploy
+   * @example "deploy"
    */
   task: string;
   /**
@@ -1867,12 +1861,12 @@ export interface Deployment {
   transient_environment?: boolean;
   /**
    * @format date-time
-   * @example 2012-07-20T01:19:13Z
+   * @example "2012-07-20T01:19:13Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/example/deployments/1
+   * @example "https://api.github.com/repos/octocat/example/deployments/1"
    */
   url: string;
 }
@@ -1884,29 +1878,33 @@ export interface Deployment {
 export interface DeploymentStatus {
   /**
    * @format date-time
-   * @example 2012-07-20T01:19:13Z
+   * @example "2012-07-20T01:19:13Z"
    */
   created_at: string;
   creator: SimpleUser | null;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/example/deployments/42
+   * @example "https://api.github.com/repos/octocat/example/deployments/42"
    */
   deployment_url: string;
   /**
    * A short description of the status.
-   * @example Deployment finished successfully.
+   * @maxLength 140
+   * @default ""
+   * @example "Deployment finished successfully."
    */
   description: string;
   /**
    * The environment of the deployment that the status is for.
-   * @example production
+   * @default ""
+   * @example "production"
    */
   environment?: string;
   /**
    * The URL for accessing your environment.
    * @format uri
-   * @example https://staging.example.com/
+   * @default ""
+   * @example "https://staging.example.com/"
    */
   environment_url?: string;
   /** @example 1 */
@@ -1914,36 +1912,38 @@ export interface DeploymentStatus {
   /**
    * The URL to associate with this status.
    * @format uri
-   * @example https://example.com/deployment/42/output
+   * @default ""
+   * @example "https://example.com/deployment/42/output"
    */
   log_url?: string;
-  /** @example MDE2OkRlcGxveW1lbnRTdGF0dXMx */
+  /** @example "MDE2OkRlcGxveW1lbnRTdGF0dXMx" */
   node_id: string;
   performed_via_github_app?: Integration | null;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/example
+   * @example "https://api.github.com/repos/octocat/example"
    */
   repository_url: string;
   /**
    * The state of the status.
-   * @example success
+   * @example "success"
    */
   state: "error" | "failure" | "inactive" | "pending" | "success" | "queued" | "in_progress";
   /**
    * Deprecated: the URL to associate with this status.
    * @format uri
-   * @example https://example.com/deployment/42/output
+   * @default ""
+   * @example "https://example.com/deployment/42/output"
    */
   target_url: string;
   /**
    * @format date-time
-   * @example 2012-07-20T01:19:13Z
+   * @example "2012-07-20T01:19:13Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/example/deployments/42/statuses/1
+   * @example "https://api.github.com/repos/octocat/example/deployments/42/statuses/1"
    */
   url: string;
 }
@@ -1957,32 +1957,32 @@ export interface DiffEntry {
   additions: number;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt
+   * @example "https://github.com/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt"
    */
   blob_url: string;
   /** @example 124 */
   changes: number;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/contents/file1.txt?ref=6dcb09b5b57875f334f61aebed695e2e4193db5e
+   * @example "https://api.github.com/repos/octocat/Hello-World/contents/file1.txt?ref=6dcb09b5b57875f334f61aebed695e2e4193db5e"
    */
   contents_url: string;
   /** @example 21 */
   deletions: number;
-  /** @example file1.txt */
+  /** @example "file1.txt" */
   filename: string;
-  /** @example @@ -132,7 +132,7 @@ module Test @@ -1000,7 +1000,7 @@ module Test */
+  /** @example "@@ -132,7 +132,7 @@ module Test @@ -1000,7 +1000,7 @@ module Test" */
   patch?: string;
-  /** @example file.txt */
+  /** @example "file.txt" */
   previous_filename?: string;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt
+   * @example "https://github.com/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt"
    */
   raw_url: string;
-  /** @example bbcd538c8e72b8c175046e27cc8f907076331401 */
+  /** @example "bbcd538c8e72b8c175046e27cc8f907076331401" */
   sha: string;
-  /** @example added */
+  /** @example "added" */
   status: string;
 }
 
@@ -1993,29 +1993,25 @@ export interface DiffEntry {
 export interface Email {
   /**
    * @format email
-   * @example octocat@github.com
+   * @example "octocat@github.com"
    */
   email: string;
   /** @example true */
   primary: boolean;
   /** @example true */
   verified: boolean;
-  /** @example public */
+  /** @example "public" */
   visibility: string | null;
 }
 
-/**
- * The policy that controls the organizations in the enterprise that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`.
- */
+/** The policy that controls the organizations in the enterprise that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`. */
 export enum EnabledOrganizations {
   All = "all",
   None = "none",
   Selected = "selected",
 }
 
-/**
- * The policy that controls the repositories in the organization that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`.
- */
+/** The policy that controls the repositories in the organization that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`. */
 export enum EnabledRepositories {
   All = "all",
   None = "none",
@@ -2031,14 +2027,14 @@ export interface Enterprise {
   avatar_url: string;
   /**
    * @format date-time
-   * @example 2019-01-26T19:01:12Z
+   * @example "2019-01-26T19:01:12Z"
    */
   created_at: string | null;
   /** A short description of the enterprise. */
   description?: string | null;
   /**
    * @format uri
-   * @example https://github.com/enterprises/octo-business
+   * @example "https://github.com/enterprises/octo-business"
    */
   html_url: string;
   /**
@@ -2048,19 +2044,19 @@ export interface Enterprise {
   id: number;
   /**
    * The name of the enterprise.
-   * @example Octo Business
+   * @example "Octo Business"
    */
   name: string;
-  /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
+  /** @example "MDEwOlJlcG9zaXRvcnkxMjk2MjY5" */
   node_id: string;
   /**
    * The slug url identifier for the enterprise.
-   * @example octo-business
+   * @example "octo-business"
    */
   slug: string;
   /**
    * @format date-time
-   * @example 2019-01-26T19:14:43Z
+   * @example "2019-01-26T19:14:43Z"
    */
   updated_at: string | null;
   /**
@@ -2129,21 +2125,21 @@ export interface Feed {
     current_user_organization?: LinkWithType;
     current_user_organizations?: LinkWithType[];
   };
-  /** @example https://github.com/octocat.private.actor?token=abc123 */
+  /** @example "https://github.com/octocat.private.actor?token=abc123" */
   current_user_actor_url?: string;
-  /** @example https://github.com/octocat-org */
+  /** @example "https://github.com/octocat-org" */
   current_user_organization_url?: string;
   /** @example ["https://github.com/organizations/github/octocat.private.atom?token=abc123"] */
   current_user_organization_urls?: string[];
-  /** @example https://github.com/octocat */
+  /** @example "https://github.com/octocat" */
   current_user_public_url?: string;
-  /** @example https://github.com/octocat.private?token=abc123 */
+  /** @example "https://github.com/octocat.private?token=abc123" */
   current_user_url?: string;
-  /** @example https://github.com/security-advisories */
+  /** @example "https://github.com/security-advisories" */
   security_advisories_url?: string;
-  /** @example https://github.com/timeline */
+  /** @example "https://github.com/timeline" */
   timeline_url: string;
-  /** @example https://github.com/{user} */
+  /** @example "https://github.com/{user}" */
   user_url: string;
 }
 
@@ -2213,60 +2209,63 @@ export interface FullRepository {
   allow_rebase_merge?: boolean;
   /** @example true */
   allow_squash_merge?: boolean;
-  /** Whether anonymous git access is allowed. */
+  /**
+   * Whether anonymous git access is allowed.
+   * @default true
+   */
   anonymous_access_enabled?: boolean;
-  /** @example http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}" */
   archive_url: string;
   archived: boolean;
-  /** @example http://api.github.com/repos/octocat/Hello-World/assignees{/user} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/assignees{/user}" */
   assignees_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}" */
   blobs_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/branches{/branch} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/branches{/branch}" */
   branches_url: string;
-  /** @example https://github.com/octocat/Hello-World.git */
+  /** @example "https://github.com/octocat/Hello-World.git" */
   clone_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}" */
   collaborators_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/comments{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/comments{/number}" */
   comments_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/commits{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/commits{/sha}" */
   commits_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}" */
   compare_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/contents/{+path} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/contents/{+path}" */
   contents_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/contributors
+   * @example "http://api.github.com/repos/octocat/Hello-World/contributors"
    */
   contributors_url: string;
   /**
    * @format date-time
-   * @example 2011-01-26T19:01:12Z
+   * @example "2011-01-26T19:01:12Z"
    */
   created_at: string;
-  /** @example master */
+  /** @example "master" */
   default_branch: string;
   /** @example false */
   delete_branch_on_merge?: boolean;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/deployments
+   * @example "http://api.github.com/repos/octocat/Hello-World/deployments"
    */
   deployments_url: string;
-  /** @example This your first repo! */
+  /** @example "This your first repo!" */
   description: string | null;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/downloads
+   * @example "http://api.github.com/repos/octocat/Hello-World/downloads"
    */
   downloads_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/events
+   * @example "http://api.github.com/repos/octocat/Hello-World/events"
    */
   events_url: string;
   fork: boolean;
@@ -2275,18 +2274,18 @@ export interface FullRepository {
   forks_count: number;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/forks
+   * @example "http://api.github.com/repos/octocat/Hello-World/forks"
    */
   forks_url: string;
-  /** @example octocat/Hello-World */
+  /** @example "octocat/Hello-World" */
   full_name: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/commits{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}" */
   git_commits_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/refs{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}" */
   git_refs_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/tags{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}" */
   git_tags_url: string;
-  /** @example git:github.com/octocat/Hello-World.git */
+  /** @example "git:github.com/octocat/Hello-World.git" */
   git_url: string;
   /** @example true */
   has_downloads: boolean;
@@ -2299,60 +2298,60 @@ export interface FullRepository {
   has_wiki: boolean;
   /**
    * @format uri
-   * @example https://github.com
+   * @example "https://github.com"
    */
   homepage: string | null;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/hooks
+   * @example "http://api.github.com/repos/octocat/Hello-World/hooks"
    */
   hooks_url: string;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World
+   * @example "https://github.com/octocat/Hello-World"
    */
   html_url: string;
   /** @example 1296269 */
   id: number;
   /** @example true */
   is_template?: boolean;
-  /** @example http://api.github.com/repos/octocat/Hello-World/issues/comments{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}" */
   issue_comment_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/issues/events{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/issues/events{/number}" */
   issue_events_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/issues{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/issues{/number}" */
   issues_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/keys{/key_id} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/keys{/key_id}" */
   keys_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/labels{/name} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/labels{/name}" */
   labels_url: string;
   language: string | null;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/languages
+   * @example "http://api.github.com/repos/octocat/Hello-World/languages"
    */
   languages_url: string;
   license: LicenseSimple | null;
   master_branch?: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/merges
+   * @example "http://api.github.com/repos/octocat/Hello-World/merges"
    */
   merges_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/milestones{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/milestones{/number}" */
   milestones_url: string;
   /**
    * @format uri
-   * @example git:git.example.com/octocat/Hello-World
+   * @example "git:git.example.com/octocat/Hello-World"
    */
   mirror_url: string | null;
-  /** @example Hello-World */
+  /** @example "Hello-World" */
   name: string;
   /** @example 0 */
   network_count: number;
-  /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
+  /** @example "MDEwOlJlcG9zaXRvcnkxMjk2MjY5" */
   node_id: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}" */
   notifications_url: string;
   open_issues: number;
   /** @example 0 */
@@ -2367,76 +2366,76 @@ export interface FullRepository {
     push: boolean;
   };
   private: boolean;
-  /** @example http://api.github.com/repos/octocat/Hello-World/pulls{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/pulls{/number}" */
   pulls_url: string;
   /**
    * @format date-time
-   * @example 2011-01-26T19:06:43Z
+   * @example "2011-01-26T19:06:43Z"
    */
   pushed_at: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/releases{/id} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/releases{/id}" */
   releases_url: string;
   /** @example 108 */
   size: number;
   /** A git repository */
   source?: Repository;
-  /** @example git@github.com:octocat/Hello-World.git */
+  /** @example "git@github.com:octocat/Hello-World.git" */
   ssh_url: string;
   /** @example 80 */
   stargazers_count: number;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/stargazers
+   * @example "http://api.github.com/repos/octocat/Hello-World/stargazers"
    */
   stargazers_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/statuses/{sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/statuses/{sha}" */
   statuses_url: string;
   /** @example 42 */
   subscribers_count: number;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/subscribers
+   * @example "http://api.github.com/repos/octocat/Hello-World/subscribers"
    */
   subscribers_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/subscription
+   * @example "http://api.github.com/repos/octocat/Hello-World/subscription"
    */
   subscription_url: string;
   /**
    * @format uri
-   * @example https://svn.github.com/octocat/Hello-World
+   * @example "https://svn.github.com/octocat/Hello-World"
    */
   svn_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/tags
+   * @example "http://api.github.com/repos/octocat/Hello-World/tags"
    */
   tags_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/teams
+   * @example "http://api.github.com/repos/octocat/Hello-World/teams"
    */
   teams_url: string;
   temp_clone_token?: string | null;
   template_repository?: Repository | null;
   /** @example ["octocat","atom","electron","API"] */
   topics?: string[];
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/trees{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}" */
   trees_url: string;
   /**
    * @format date-time
-   * @example 2011-01-26T19:14:43Z
+   * @example "2011-01-26T19:14:43Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World
+   * @example "https://api.github.com/repos/octocat/Hello-World"
    */
   url: string;
   /**
    * The repository visibility: public, private, or internal.
-   * @example public
+   * @example "public"
    */
   visibility?: string;
   watchers: number;
@@ -2453,26 +2452,27 @@ export interface GistComment {
   author_association: AuthorAssociation;
   /**
    * The comment text.
-   * @example Body of the attachment
+   * @maxLength 65535
+   * @example "Body of the attachment"
    */
   body: string;
   /**
    * @format date-time
-   * @example 2011-04-18T23:23:56Z
+   * @example "2011-04-18T23:23:56Z"
    */
   created_at: string;
   /** @example 1 */
   id: number;
-  /** @example MDExOkdpc3RDb21tZW50MQ== */
+  /** @example "MDExOkdpc3RDb21tZW50MQ==" */
   node_id: string;
   /**
    * @format date-time
-   * @example 2011-04-18T23:23:56Z
+   * @example "2011-04-18T23:23:56Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/gists/a6db0bec360bb87e9418/comments/1
+   * @example "https://api.github.com/gists/a6db0bec360bb87e9418/comments/1"
    */
   url: string;
   user: SimpleUser | null;
@@ -2490,16 +2490,16 @@ export interface GistCommit {
   };
   /**
    * @format date-time
-   * @example 2010-04-14T02:15:15Z
+   * @example "2010-04-14T02:15:15Z"
    */
   committed_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/gists/aa5a315d61ae9438b18d/57a7f021a713b1c5a6a199b54cc514735d2d462f
+   * @example "https://api.github.com/gists/aa5a315d61ae9438b18d/57a7f021a713b1c5a6a199b54cc514735d2d462f"
    */
   url: string;
   user: SimpleUser | null;
-  /** @example 57a7f021a713b1c5a6a199b54cc514735d2d462f */
+  /** @example "57a7f021a713b1c5a6a199b54cc514735d2d462f" */
   version: string;
 }
 
@@ -2550,17 +2550,17 @@ export interface GitCommit {
     /**
      * Timestamp of the commit
      * @format date-time
-     * @example 2014-08-09T08:02:04+12:00
+     * @example "2014-08-09T08:02:04+12:00"
      */
     date: string;
     /**
      * Git email address of the user
-     * @example monalisa.octocat@example.com
+     * @example "monalisa.octocat@example.com"
      */
     email: string;
     /**
      * Name of the git user
-     * @example Monalisa Octocat
+     * @example "Monalisa Octocat"
      */
     name: string;
   };
@@ -2569,17 +2569,17 @@ export interface GitCommit {
     /**
      * Timestamp of the commit
      * @format date-time
-     * @example 2014-08-09T08:02:04+12:00
+     * @example "2014-08-09T08:02:04+12:00"
      */
     date: string;
     /**
      * Git email address of the user
-     * @example monalisa.octocat@example.com
+     * @example "monalisa.octocat@example.com"
      */
     email: string;
     /**
      * Name of the git user
-     * @example Monalisa Octocat
+     * @example "Monalisa Octocat"
      */
     name: string;
   };
@@ -2587,14 +2587,14 @@ export interface GitCommit {
   html_url: string;
   /**
    * Message describing the purpose of the commit
-   * @example Fix #42
+   * @example "Fix #42"
    */
   message: string;
   node_id: string;
   parents: {
     /**
      * SHA for the commit
-     * @example 7638417db6d59f3c431d3e1f261cc637155684cd
+     * @example "7638417db6d59f3c431d3e1f261cc637155684cd"
      */
     sha: string;
     /** @format uri */
@@ -2604,13 +2604,13 @@ export interface GitCommit {
   }[];
   /**
    * SHA for the commit
-   * @example 7638417db6d59f3c431d3e1f261cc637155684cd
+   * @example "7638417db6d59f3c431d3e1f261cc637155684cd"
    */
   sha: string;
   tree: {
     /**
      * SHA for the commit
-     * @example 7638417db6d59f3c431d3e1f261cc637155684cd
+     * @example "7638417db6d59f3c431d3e1f261cc637155684cd"
      */
     sha: string;
     /** @format uri */
@@ -2636,7 +2636,9 @@ export interface GitRef {
     type: string;
     /**
      * SHA for the reference
-     * @example 7638417db6d59f3c431d3e1f261cc637155684cd
+     * @minLength 40
+     * @maxLength 40
+     * @example "7638417db6d59f3c431d3e1f261cc637155684cd"
      */
     sha: string;
     /** @format uri */
@@ -2654,10 +2656,10 @@ export interface GitRef {
 export interface GitTag {
   /**
    * Message describing the purpose of the tag
-   * @example Initial public release
+   * @example "Initial public release"
    */
   message: string;
-  /** @example MDM6VGFnOTQwYmQzMzYyNDhlZmFlMGY5ZWU1YmM3YjJkNWM5ODU4ODdiMTZhYw== */
+  /** @example "MDM6VGFnOTQwYmQzMzYyNDhlZmFlMGY5ZWU1YmM3YjJkNWM5ODU4ODdiMTZhYw==" */
   node_id: string;
   object: {
     sha: string;
@@ -2665,11 +2667,11 @@ export interface GitTag {
     /** @format uri */
     url: string;
   };
-  /** @example 940bd336248efae0f9ee5bc7b2d5c985887b16ac */
+  /** @example "940bd336248efae0f9ee5bc7b2d5c985887b16ac" */
   sha: string;
   /**
    * Name of the tag
-   * @example v0.0.1
+   * @example "v0.0.1"
    */
   tag: string;
   tagger: {
@@ -2680,7 +2682,7 @@ export interface GitTag {
   /**
    * URL for the tag
    * @format uri
-   * @example https://api.github.com/repositories/42/git/tags/940bd336248efae0f9ee5bc7b2d5c985887b16ac
+   * @example "https://api.github.com/repositories/42/git/tags/940bd336248efae0f9ee5bc7b2d5c985887b16ac"
    */
   url: string;
   verification?: Verification;
@@ -2697,17 +2699,17 @@ export interface GitTree {
    * @example [{"path":"file.rb","mode":"100644","type":"blob","size":30,"sha":"44b4fc6d56897b048c772eb4087f854f46256132","url":"https://api.github.com/repos/octocat/Hello-World/git/blobs/44b4fc6d56897b048c772eb4087f854f46256132","properties":{"path":{"type":"string"},"mode":{"type":"string"},"type":{"type":"string"},"size":{"type":"integer"},"sha":{"type":"string"},"url":{"type":"string"}},"required":["path","mode","type","sha","url","size"]}]
    */
   tree: {
-    /** @example test/file.rb */
+    /** @example "test/file.rb" */
     path?: string;
-    /** @example 040000 */
+    /** @example "040000" */
     mode?: string;
-    /** @example tree */
+    /** @example "tree" */
     type?: string;
-    /** @example 23f6827669e43831def8a7ad935069c8bd418261 */
+    /** @example "23f6827669e43831def8a7ad935069c8bd418261" */
     sha?: string;
     /** @example 12 */
     size?: number;
-    /** @example https://api.github.com/repos/owner-482f3203ecf01f67e9deb18e/BBB_Private_Repo/git/blobs/23f6827669e43831def8a7ad935069c8bd418261 */
+    /** @example "https://api.github.com/repos/owner-482f3203ecf01f67e9deb18e/BBB_Private_Repo/git/blobs/23f6827669e43831def8a7ad935069c8bd418261" */
     url?: string;
   }[];
   truncated: boolean;
@@ -2720,11 +2722,11 @@ export interface GitTree {
  * Metaproperties for Git author/committer information.
  */
 export interface GitUser {
-  /** @example "2007-10-29T02:42:39.000-07:00" */
+  /** @example ""2007-10-29T02:42:39.000-07:00"" */
   date?: string;
-  /** @example "chris@ozmm.org" */
+  /** @example ""chris@ozmm.org"" */
   email?: string;
-  /** @example "Chris Wanstrath" */
+  /** @example ""Chris Wanstrath"" */
   name?: string;
 }
 
@@ -2733,24 +2735,27 @@ export interface GitUser {
  * Gitignore Template
  */
 export interface GitignoreTemplate {
-  /** @example C */
+  /** @example "C" */
   name: string;
   /**
-   * @example # Object files
+   * @example "# Object files
    * *.o
    *
    * # Libraries
    * *.lib
    * *.a
+   *
    * # Shared objects (inc. Windows DLLs)
    * *.dll
    * *.so
    * *.so.*
    * *.dylib
+   *
    * # Executables
    * *.exe
    * *.out
    * *.app
+   * "
    */
   source: string;
 }
@@ -2768,7 +2773,7 @@ export interface GpgKey {
   can_sign: boolean;
   /**
    * @format date-time
-   * @example 2016-03-24T11:31:04-06:00
+   * @example "2016-03-24T11:31:04-06:00"
    */
   created_at: string;
   /** @example [{"email":"mastahyeti@users.noreply.github.com","verified":true}] */
@@ -2780,10 +2785,10 @@ export interface GpgKey {
   expires_at: string | null;
   /** @example 3 */
   id: number;
-  /** @example 3262EFF25BA0D270 */
+  /** @example "3262EFF25BA0D270" */
   key_id: string;
   primary_key_id: number | null;
-  /** @example xsBNBFayYZ... */
+  /** @example "xsBNBFayYZ..." */
   public_key: string;
   raw_key: string | null;
   /** @example [{"id":4,"primary_key_id":3,"key_id":"4A595D4C72EE49C7","public_key":"zsBNBFayYZ...","emails":[],"subkeys":[],"can_sign":false,"can_encrypt_comms":true,"can_encrypt_storage":true,"can_certify":false,"created_at":"2016-03-24T11:31:04-06:00","expires_at":null}] */
@@ -2811,17 +2816,17 @@ export interface GpgKey {
 export interface GroupMapping {
   /**
    * a description of the group
-   * @example A group of Developers working on AzureAD SAML SSO
+   * @example "A group of Developers working on AzureAD SAML SSO"
    */
   group_description?: string;
   /**
    * The ID of the group
-   * @example 111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa
+   * @example "111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa"
    */
   group_id?: string;
   /**
    * The name of the group
-   * @example saml-azuread-test
+   * @example "saml-azuread-test"
    */
   group_name?: string;
   /**
@@ -2831,28 +2836,28 @@ export interface GroupMapping {
   groups?: {
     /**
      * The ID of the group
-     * @example 111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa
+     * @example "111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa"
      */
     group_id: string;
     /**
      * The name of the group
-     * @example saml-azuread-test
+     * @example "saml-azuread-test"
      */
     group_name: string;
     /**
      * a description of the group
-     * @example A group of Developers working on AzureAD SAML SSO
+     * @example "A group of Developers working on AzureAD SAML SSO"
      */
     group_description: string;
   }[];
   /**
    * synchronization status for this group mapping
-   * @example unsynced
+   * @example "unsynced"
    */
   status?: string;
   /**
    * the time of the last sync for this group-mapping
-   * @example 2019-06-03 22:27:15:000 -700
+   * @example "2019-06-03 22:27:15:000 -700"
    */
   synced_at?: string;
 }
@@ -2868,13 +2873,13 @@ export interface Hook {
    */
   active: boolean;
   config: {
-    /** @example "foo@bar.com" */
+    /** @example ""foo@bar.com"" */
     email?: string;
-    /** @example "foo" */
+    /** @example ""foo"" */
     password?: string;
-    /** @example "roomer" */
+    /** @example ""roomer"" */
     room?: string;
-    /** @example "foo" */
+    /** @example ""foo"" */
     subdomain?: string;
     /** The URL to which the payloads will be delivered. */
     url?: WebhookConfigUrl;
@@ -2882,16 +2887,16 @@ export interface Hook {
     insecure_ssl?: WebhookConfigInsecureSsl;
     /** The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`. */
     content_type?: WebhookConfigContentType;
-    /** @example "sha256" */
+    /** @example ""sha256"" */
     digest?: string;
     /** If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers). */
     secret?: WebhookConfigSecret;
-    /** @example "abc" */
+    /** @example ""abc"" */
     token?: string;
   };
   /**
    * @format date-time
-   * @example 2011-09-06T17:26:27Z
+   * @example "2011-09-06T17:26:27Z"
    */
   created_at: string;
   /**
@@ -2907,35 +2912,33 @@ export interface Hook {
   last_response: HookResponse;
   /**
    * The name of a valid service, use 'web' for a webhook.
-   * @example web
+   * @example "web"
    */
   name: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/hooks/1/pings
+   * @example "https://api.github.com/repos/octocat/Hello-World/hooks/1/pings"
    */
   ping_url: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/hooks/1/test
+   * @example "https://api.github.com/repos/octocat/Hello-World/hooks/1/test"
    */
   test_url: string;
   type: string;
   /**
    * @format date-time
-   * @example 2011-09-06T20:39:23Z
+   * @example "2011-09-06T20:39:23Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/hooks/1
+   * @example "https://api.github.com/repos/octocat/Hello-World/hooks/1"
    */
   url: string;
 }
 
-/**
- * Hook Response
- */
+/** Hook Response */
 export interface HookResponse {
   code: number | null;
   message: string | null;
@@ -3015,15 +3018,15 @@ export interface Import {
 export interface Installation {
   /**
    * @format uri
-   * @example https://api.github.com/installations/1/access_tokens
+   * @example "https://api.github.com/installations/1/access_tokens"
    */
   access_tokens_url: string;
   account: SimpleUser | Enterprise | (SimpleUser & Enterprise) | null;
   /** @example 1 */
   app_id: number;
-  /** @example github-actions */
+  /** @example "github-actions" */
   app_slug: string;
-  /** @example "test_13f1e99741e3e004@d7e1eb0bc0a1ba12.com" */
+  /** @example ""test_13f1e99741e3e004@d7e1eb0bc0a1ba12.com"" */
   contact_email?: string | null;
   /** @format date-time */
   created_at: string;
@@ -3032,7 +3035,7 @@ export interface Installation {
   has_multiple_single_files?: boolean;
   /**
    * @format uri
-   * @example https://github.com/organizations/github/settings/installations/1
+   * @example "https://github.com/organizations/github/settings/installations/1"
    */
   html_url: string;
   /**
@@ -3048,19 +3051,19 @@ export interface Installation {
     contents?: string;
     pull_requests?: string;
     statuses?: string;
-    /** @example "read" */
+    /** @example ""read"" */
     issues?: string;
-    /** @example "read" */
+    /** @example ""read"" */
     organization_administration?: string;
   };
   /**
    * @format uri
-   * @example https://api.github.com/installation/repositories
+   * @example "https://api.github.com/installation/repositories"
    */
   repositories_url: string;
   /** Describe whether all repositories have been selected or there's a selection involved */
   repository_selection: "all" | "selected";
-  /** @example config.yaml */
+  /** @example "config.yaml" */
   single_file_name: string | null;
   /** @example ["config.yml",".github/issue_TEMPLATE.md"] */
   single_file_paths?: string[];
@@ -3069,7 +3072,7 @@ export interface Installation {
   suspended_by?: SimpleUser | null;
   /** The ID of the user or organization this token is being scoped to. */
   target_id: number;
-  /** @example Organization */
+  /** @example "Organization" */
   target_type: string;
   /** @format date-time */
   updated_at: string;
@@ -3086,14 +3089,14 @@ export interface InstallationToken {
   permissions?: {
     issues?: string;
     contents?: string;
-    /** @example read */
+    /** @example "read" */
     metadata?: string;
-    /** @example read */
+    /** @example "read" */
     single_file?: string;
   };
   repositories?: Repository[];
   repository_selection?: "all" | "selected";
-  /** @example README.md */
+  /** @example "README.md" */
   single_file?: string;
   /** @example ["config.yml",".github/issue_TEMPLATE.md"] */
   single_file_paths?: string[];
@@ -3105,16 +3108,16 @@ export interface InstallationToken {
  * GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
  */
 export interface Integration {
-  /** @example "Iv1.25b5d1e65ffc4022" */
+  /** @example ""Iv1.25b5d1e65ffc4022"" */
   client_id?: string;
-  /** @example "1d4b2097ac622ba702d19de498f005747a8b21d3" */
+  /** @example ""1d4b2097ac622ba702d19de498f005747a8b21d3"" */
   client_secret?: string;
   /**
    * @format date-time
-   * @example 2017-07-08T16:18:44-04:00
+   * @example "2017-07-08T16:18:44-04:00"
    */
   created_at: string;
-  /** @example The description of the app. */
+  /** @example "The description of the app." */
   description: string | null;
   /**
    * The list of events for the GitHub app
@@ -3123,12 +3126,12 @@ export interface Integration {
   events: string[];
   /**
    * @format uri
-   * @example https://example.com
+   * @example "https://example.com"
    */
   external_url: string;
   /**
    * @format uri
-   * @example https://github.com/apps/super-ci
+   * @example "https://github.com/apps/super-ci"
    */
   html_url: string;
   /**
@@ -3143,13 +3146,13 @@ export interface Integration {
   installations_count?: number;
   /**
    * The name of the GitHub app
-   * @example Probot Owners
+   * @example "Probot Owners"
    */
   name: string;
-  /** @example MDExOkludGVncmF0aW9uMQ== */
+  /** @example "MDExOkludGVncmF0aW9uMQ==" */
   node_id: string;
   owner: SimpleUser | null;
-  /** @example "-----BEGIN RSA PRIVATE KEY-----\nMIIEogIBAAKCAQEArYxrNYD/iT5CZVpRJu4rBKmmze3PVmT/gCo2ATUvDvZTPTey\nxcGJ3vvrJXazKk06pN05TN29o98jrYz4cengG3YGsXPNEpKsIrEl8NhbnxapEnM9\nJCMRe0P5JcPsfZlX6hmiT7136GRWiGOUba2X9+HKh8QJVLG5rM007TBER9/z9mWm\nrJuNh+m5l320oBQY/Qq3A7wzdEfZw8qm/mIN0FCeoXH1L6B8xXWaAYBwhTEh6SSn\nZHlO1Xu1JWDmAvBCi0RO5aRSKM8q9QEkvvHP4yweAtK3N8+aAbZ7ovaDhyGz8r6r\nzhU1b8Uo0Z2ysf503WqzQgIajr7Fry7/kUwpgQIDAQABAoIBADwJp80Ko1xHPZDy\nfcCKBDfIuPvkmSW6KumbsLMaQv1aGdHDwwTGv3t0ixSay8CGlxMRtRDyZPib6SvQ\n6OH/lpfpbMdW2ErkksgtoIKBVrDilfrcAvrNZu7NxRNbhCSvN8q0s4ICecjbbVQh\nnueSdlA6vGXbW58BHMq68uRbHkP+k+mM9U0mDJ1HMch67wlg5GbayVRt63H7R2+r\nVxcna7B80J/lCEjIYZznawgiTvp3MSanTglqAYi+m1EcSsP14bJIB9vgaxS79kTu\noiSo93leJbBvuGo8QEiUqTwMw4tDksmkLsoqNKQ1q9P7LZ9DGcujtPy4EZsamSJT\ny8OJt0ECgYEA2lxOxJsQk2kI325JgKFjo92mQeUObIvPfSNWUIZQDTjniOI6Gv63\nGLWVFrZcvQBWjMEQraJA9xjPbblV8PtfO87MiJGLWCHFxmPz2dzoedN+2Coxom8m\nV95CLz8QUShuao6u/RYcvUaZEoYs5bHcTmy5sBK80JyEmafJPtCQVxMCgYEAy3ar\nZr3yv4xRPEPMat4rseswmuMooSaK3SKub19WFI5IAtB/e7qR1Rj9JhOGcZz+OQrl\nT78O2OFYlgOIkJPvRMrPpK5V9lslc7tz1FSh3BZMRGq5jSyD7ETSOQ0c8T2O/s7v\nbeEPbVbDe4mwvM24XByH0GnWveVxaDl51ABD65sCgYB3ZAspUkOA5egVCh8kNpnd\nSd6SnuQBE3ySRlT2WEnCwP9Ph6oPgn+oAfiPX4xbRqkL8q/k0BdHQ4h+zNwhk7+h\nWtPYRAP1Xxnc/F+jGjb+DVaIaKGU18MWPg7f+FI6nampl3Q0KvfxwX0GdNhtio8T\nTj1E+SnFwh56SRQuxSh2gwKBgHKjlIO5NtNSflsUYFM+hyQiPiqnHzddfhSG+/3o\nm5nNaSmczJesUYreH5San7/YEy2UxAugvP7aSY2MxB+iGsiJ9WD2kZzTUlDZJ7RV\nUzWsoqBR+eZfVJ2FUWWvy8TpSG6trh4dFxImNtKejCR1TREpSiTV3Zb1dmahK9GV\nrK9NAoGAbBxRLoC01xfxCTgt5BDiBcFVh4fp5yYKwavJPLzHSpuDOrrI9jDn1oKN\nonq5sDU1i391zfQvdrbX4Ova48BN+B7p63FocP/MK5tyyBoT8zQEk2+vWDOw7H/Z\nu5dTCPxTIsoIwUw1I+7yIxqJzLPFgR2gVBwY1ra/8iAqCj+zeBw=\n-----END RSA PRIVATE KEY-----\n" */
+  /** @example ""-----BEGIN RSA PRIVATE KEY-----\nMIIEogIBAAKCAQEArYxrNYD/iT5CZVpRJu4rBKmmze3PVmT/gCo2ATUvDvZTPTey\nxcGJ3vvrJXazKk06pN05TN29o98jrYz4cengG3YGsXPNEpKsIrEl8NhbnxapEnM9\nJCMRe0P5JcPsfZlX6hmiT7136GRWiGOUba2X9+HKh8QJVLG5rM007TBER9/z9mWm\nrJuNh+m5l320oBQY/Qq3A7wzdEfZw8qm/mIN0FCeoXH1L6B8xXWaAYBwhTEh6SSn\nZHlO1Xu1JWDmAvBCi0RO5aRSKM8q9QEkvvHP4yweAtK3N8+aAbZ7ovaDhyGz8r6r\nzhU1b8Uo0Z2ysf503WqzQgIajr7Fry7/kUwpgQIDAQABAoIBADwJp80Ko1xHPZDy\nfcCKBDfIuPvkmSW6KumbsLMaQv1aGdHDwwTGv3t0ixSay8CGlxMRtRDyZPib6SvQ\n6OH/lpfpbMdW2ErkksgtoIKBVrDilfrcAvrNZu7NxRNbhCSvN8q0s4ICecjbbVQh\nnueSdlA6vGXbW58BHMq68uRbHkP+k+mM9U0mDJ1HMch67wlg5GbayVRt63H7R2+r\nVxcna7B80J/lCEjIYZznawgiTvp3MSanTglqAYi+m1EcSsP14bJIB9vgaxS79kTu\noiSo93leJbBvuGo8QEiUqTwMw4tDksmkLsoqNKQ1q9P7LZ9DGcujtPy4EZsamSJT\ny8OJt0ECgYEA2lxOxJsQk2kI325JgKFjo92mQeUObIvPfSNWUIZQDTjniOI6Gv63\nGLWVFrZcvQBWjMEQraJA9xjPbblV8PtfO87MiJGLWCHFxmPz2dzoedN+2Coxom8m\nV95CLz8QUShuao6u/RYcvUaZEoYs5bHcTmy5sBK80JyEmafJPtCQVxMCgYEAy3ar\nZr3yv4xRPEPMat4rseswmuMooSaK3SKub19WFI5IAtB/e7qR1Rj9JhOGcZz+OQrl\nT78O2OFYlgOIkJPvRMrPpK5V9lslc7tz1FSh3BZMRGq5jSyD7ETSOQ0c8T2O/s7v\nbeEPbVbDe4mwvM24XByH0GnWveVxaDl51ABD65sCgYB3ZAspUkOA5egVCh8kNpnd\nSd6SnuQBE3ySRlT2WEnCwP9Ph6oPgn+oAfiPX4xbRqkL8q/k0BdHQ4h+zNwhk7+h\nWtPYRAP1Xxnc/F+jGjb+DVaIaKGU18MWPg7f+FI6nampl3Q0KvfxwX0GdNhtio8T\nTj1E+SnFwh56SRQuxSh2gwKBgHKjlIO5NtNSflsUYFM+hyQiPiqnHzddfhSG+/3o\nm5nNaSmczJesUYreH5San7/YEy2UxAugvP7aSY2MxB+iGsiJ9WD2kZzTUlDZJ7RV\nUzWsoqBR+eZfVJ2FUWWvy8TpSG6trh4dFxImNtKejCR1TREpSiTV3Zb1dmahK9GV\nrK9NAoGAbBxRLoC01xfxCTgt5BDiBcFVh4fp5yYKwavJPLzHSpuDOrrI9jDn1oKN\nonq5sDU1i391zfQvdrbX4Ova48BN+B7p63FocP/MK5tyyBoT8zQEk2+vWDOw7H/Z\nu5dTCPxTIsoIwUw1I+7yIxqJzLPFgR2gVBwY1ra/8iAqCj+zeBw=\n-----END RSA PRIVATE KEY-----\n"" */
   pem?: string;
   /**
    * The set of permissions for the GitHub app
@@ -3164,22 +3167,22 @@ export interface Integration {
   };
   /**
    * The slug name of the GitHub app
-   * @example probot-owners
+   * @example "probot-owners"
    */
   slug?: string;
   /**
    * @format date-time
-   * @example 2017-07-08T16:18:44-04:00
+   * @example "2017-07-08T16:18:44-04:00"
    */
   updated_at: string;
-  /** @example "6fba8f2fc8a7e8f2cca5577eddd82ca7586b3b6b" */
+  /** @example ""6fba8f2fc8a7e8f2cca5577eddd82ca7586b3b6b"" */
   webhook_secret?: string;
   [key: string]: any;
 }
 
 /**
  * The duration of the interaction restriction. Can be one of: `one_day`, `three_days`, `one_week`, `one_month`, `six_months`. Default: `one_day`.
- * @example one_month
+ * @example "one_month"
  */
 export enum InteractionExpiry {
   OneDay = "one_day",
@@ -3191,7 +3194,7 @@ export enum InteractionExpiry {
 
 /**
  * The type of GitHub user that can comment, open issues, or create pull requests while the interaction limit is in effect. Can be one of: `existing_users`, `contributors_only`, `collaborators_only`.
- * @example collaborators_only
+ * @example "collaborators_only"
  */
 export enum InteractionGroup {
   ExistingUsers = "existing_users",
@@ -3217,12 +3220,12 @@ export interface InteractionLimit {
 export interface InteractionLimitResponse {
   /**
    * @format date-time
-   * @example 2018-08-17T04:18:39Z
+   * @example "2018-08-17T04:18:39Z"
    */
   expires_at: string;
   /** The type of GitHub user that can comment, open issues, or create pull requests while the interaction limit is in effect. Can be one of: `existing_users`, `contributors_only`, `collaborators_only`. */
   limit: InteractionGroup;
-  /** @example repository */
+  /** @example "repository" */
   origin: string;
 }
 
@@ -3238,7 +3241,7 @@ export interface Issue {
   author_association: AuthorAssociation;
   /**
    * Contents of the issue
-   * @example It looks like the new widget form is broken on Safari. When I try and create the widget, Safari crashes. This is reproducible on 10.8, but not 10.9. Maybe a browser bug?
+   * @example "It looks like the new widget form is broken on Safari. When I try and create the widget, Safari crashes. This is reproducible on 10.8, but not 10.9. Maybe a browser bug?"
    */
   body?: string;
   body_html?: string;
@@ -3302,14 +3305,14 @@ export interface Issue {
   repository_url: string;
   /**
    * State of the issue; either 'open' or 'closed'
-   * @example open
+   * @example "open"
    */
   state: string;
   /** @format uri */
   timeline_url?: string;
   /**
    * Title of the issue
-   * @example Widget creation fails in Safari on OS X 10.8
+   * @example "Widget creation fails in Safari on OS X 10.8"
    */
   title: string;
   /** @format date-time */
@@ -3317,7 +3320,7 @@ export interface Issue {
   /**
    * URL for the issue
    * @format uri
-   * @example https://api.github.com/repositories/42/issues/1
+   * @example "https://api.github.com/repositories/42/issues/1"
    */
   url: string;
   user: SimpleUser | null;
@@ -3332,14 +3335,14 @@ export interface IssueComment {
   author_association: AuthorAssociation;
   /**
    * Contents of the issue comment
-   * @example What version of Safari were you using when you observed this bug?
+   * @example "What version of Safari were you using when you observed this bug?"
    */
   body?: string;
   body_html?: string;
   body_text?: string;
   /**
    * @format date-time
-   * @example 2011-04-14T16:00:49Z
+   * @example "2011-04-14T16:00:49Z"
    */
   created_at: string;
   /** @format uri */
@@ -3356,13 +3359,13 @@ export interface IssueComment {
   reactions?: ReactionRollup;
   /**
    * @format date-time
-   * @example 2011-04-14T16:00:49Z
+   * @example "2011-04-14T16:00:49Z"
    */
   updated_at: string;
   /**
    * URL for the issue comment
    * @format uri
-   * @example https://api.github.com/repositories/42/issues/comments/1
+   * @example "https://api.github.com/repositories/42/issues/comments/1"
    */
   url: string;
   user: SimpleUser | null;
@@ -3378,17 +3381,17 @@ export interface IssueEvent {
   assigner?: SimpleUser | null;
   /** How the author is associated with the repository. */
   author_association?: AuthorAssociation;
-  /** @example 6dcb09b5b57875f334f61aebed695e2e4193db5e */
+  /** @example "6dcb09b5b57875f334f61aebed695e2e4193db5e" */
   commit_id: string | null;
-  /** @example https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e */
+  /** @example "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e" */
   commit_url: string | null;
   /**
    * @format date-time
-   * @example 2011-04-14T16:00:49Z
+   * @example "2011-04-14T16:00:49Z"
    */
   created_at: string;
   dismissed_review?: IssueEventDismissedReview;
-  /** @example closed */
+  /** @example "closed" */
   event: string;
   /** @example 1 */
   id: number;
@@ -3399,7 +3402,7 @@ export interface IssueEvent {
   lock_reason?: string | null;
   /** Issue Event Milestone */
   milestone?: IssueEventMilestone;
-  /** @example MDEwOklzc3VlRXZlbnQx */
+  /** @example "MDEwOklzc3VlRXZlbnQx" */
   node_id: string;
   /** Issue Event Project Card */
   project_card?: IssueEventProjectCard;
@@ -3411,14 +3414,12 @@ export interface IssueEvent {
   review_requester?: SimpleUser | null;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/issues/events/1
+   * @example "https://api.github.com/repos/octocat/Hello-World/issues/events/1"
    */
   url: string;
 }
 
-/**
- * Issue Event Dismissed Review
- */
+/** Issue Event Dismissed Review */
 export interface IssueEventDismissedReview {
   dismissal_commit_id?: string | null;
   dismissal_message: string | null;
@@ -3435,35 +3436,35 @@ export interface IssueEventForIssue {
   actor?: SimpleUser;
   /** How the author is associated with the repository. */
   author_association?: AuthorAssociation;
-  /** @example ":+1:" */
+  /** @example "":+1:"" */
   body?: string;
-  /** @example "<p>Accusantium fugiat cumque. Autem qui nostrum. Atque quae ullam.</p>" */
+  /** @example ""<p>Accusantium fugiat cumque. Autem qui nostrum. Atque quae ullam.</p>"" */
   body_html?: string;
-  /** @example "Accusantium fugiat cumque. Autem qui nostrum. Atque quae ullam." */
+  /** @example ""Accusantium fugiat cumque. Autem qui nostrum. Atque quae ullam."" */
   body_text?: string;
   commit_id?: string | null;
   commit_url?: string | null;
   created_at?: string;
   event?: string;
-  /** @example "https://github.com/owner-3906e11a33a3d55ba449d63f/BBB_Private_Repo/commit/480d4f47447129f015cb327536c522ca683939a1" */
+  /** @example ""https://github.com/owner-3906e11a33a3d55ba449d63f/BBB_Private_Repo/commit/480d4f47447129f015cb327536c522ca683939a1"" */
   html_url?: string;
   id?: number;
-  /** @example "https://api.github.com/repos/owner-3906e11a33a3d55ba449d63f/AAA_Public_Repo/issues/1" */
+  /** @example ""https://api.github.com/repos/owner-3906e11a33a3d55ba449d63f/AAA_Public_Repo/issues/1"" */
   issue_url?: string;
-  /** @example "off-topic" */
+  /** @example ""off-topic"" */
   lock_reason?: string;
-  /** @example "add a bunch of files" */
+  /** @example ""add a bunch of files"" */
   message?: string;
   node_id?: string;
-  /** @example "https://api.github.com/repos/owner-3906e11a33a3d55ba449d63f/AAA_Public_Repo/pulls/2" */
+  /** @example ""https://api.github.com/repos/owner-3906e11a33a3d55ba449d63f/AAA_Public_Repo/pulls/2"" */
   pull_request_url?: string;
-  /** @example "480d4f47447129f015cb327536c522ca683939a1" */
+  /** @example ""480d4f47447129f015cb327536c522ca683939a1"" */
   sha?: string;
-  /** @example "commented" */
+  /** @example ""commented"" */
   state?: string;
-  /** @example "2020-07-09T00:17:51Z" */
+  /** @example ""2020-07-09T00:17:51Z"" */
   submitted_at?: string;
-  /** @example "2020-07-09T00:17:36Z" */
+  /** @example ""2020-07-09T00:17:36Z"" */
   updated_at?: string;
   url?: string;
 }
@@ -3584,13 +3585,13 @@ export interface IssueSearchResultItem {
  * Issue Simple
  */
 export interface IssueSimple {
-  /** @example too heated */
+  /** @example "too heated" */
   active_lock_reason?: string | null;
   assignee: SimpleUser | null;
   assignees?: SimpleUser[] | null;
   /** How the author is associated with the repository. */
   author_association: AuthorAssociation;
-  /** @example I'm having a problem with this. */
+  /** @example "I'm having a problem with this." */
   body?: string;
   body_html?: string;
   body_text?: string;
@@ -3600,33 +3601,33 @@ export interface IssueSimple {
   comments: number;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/issues/1347/comments
+   * @example "https://api.github.com/repos/octocat/Hello-World/issues/1347/comments"
    */
   comments_url: string;
   /**
    * @format date-time
-   * @example 2011-04-22T13:33:48Z
+   * @example "2011-04-22T13:33:48Z"
    */
   created_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/issues/1347/events
+   * @example "https://api.github.com/repos/octocat/Hello-World/issues/1347/events"
    */
   events_url: string;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/issues/1347
+   * @example "https://github.com/octocat/Hello-World/issues/1347"
    */
   html_url: string;
   /** @example 1 */
   id: number;
   labels: Label[];
-  /** @example https://api.github.com/repos/octocat/Hello-World/issues/1347/labels{/name} */
+  /** @example "https://api.github.com/repos/octocat/Hello-World/issues/1347/labels{/name}" */
   labels_url: string;
   /** @example true */
   locked: boolean;
   milestone: Milestone | null;
-  /** @example MDU6SXNzdWUx */
+  /** @example "MDU6SXNzdWUx" */
   node_id: string;
   /** @example 1347 */
   number: number;
@@ -3647,23 +3648,23 @@ export interface IssueSimple {
   repository?: Repository;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World
+   * @example "https://api.github.com/repos/octocat/Hello-World"
    */
   repository_url: string;
-  /** @example open */
+  /** @example "open" */
   state: string;
   /** @format uri */
   timeline_url?: string;
-  /** @example Found a bug */
+  /** @example "Found a bug" */
   title: string;
   /**
    * @format date-time
-   * @example 2011-04-22T13:33:48Z
+   * @example "2011-04-22T13:33:48Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/issues/1347
+   * @example "https://api.github.com/repos/octocat/Hello-World/issues/1347"
    */
   url: string;
   user: SimpleUser | null;
@@ -3674,25 +3675,25 @@ export interface IssueSimple {
  * Information of a job execution in a workflow run
  */
 export interface Job {
-  /** @example https://api.github.com/repos/github/hello-world/check-runs/4 */
+  /** @example "https://api.github.com/repos/github/hello-world/check-runs/4" */
   check_run_url: string;
   /**
    * The time that the job finished, in ISO 8601 format.
    * @format date-time
-   * @example 2019-08-08T08:00:00-07:00
+   * @example "2019-08-08T08:00:00-07:00"
    */
   completed_at: string | null;
   /**
    * The outcome of the job.
-   * @example success
+   * @example "success"
    */
   conclusion: string | null;
   /**
    * The SHA of the commit that is being run.
-   * @example 009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d
+   * @example "009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d"
    */
   head_sha: string;
-  /** @example https://github.com/github/hello-world/runs/4 */
+  /** @example "https://github.com/github/hello-world/runs/4" */
   html_url: string | null;
   /**
    * The id of the job.
@@ -3701,44 +3702,44 @@ export interface Job {
   id: number;
   /**
    * The name of the job.
-   * @example test-coverage
+   * @example "test-coverage"
    */
   name: string;
-  /** @example MDg6Q2hlY2tSdW40 */
+  /** @example "MDg6Q2hlY2tSdW40" */
   node_id: string;
   /**
    * The id of the associated workflow run.
    * @example 5
    */
   run_id: number;
-  /** @example https://api.github.com/repos/github/hello-world/actions/runs/5 */
+  /** @example "https://api.github.com/repos/github/hello-world/actions/runs/5" */
   run_url: string;
   /**
    * The time that the job started, in ISO 8601 format.
    * @format date-time
-   * @example 2019-08-08T08:00:00-07:00
+   * @example "2019-08-08T08:00:00-07:00"
    */
   started_at: string;
   /**
    * The phase of the lifecycle that the job is currently in.
-   * @example queued
+   * @example "queued"
    */
   status: "queued" | "in_progress" | "completed";
   /** Steps in this job. */
   steps?: {
     /**
      * The phase of the lifecycle that the job is currently in.
-     * @example queued
+     * @example "queued"
      */
     status: "queued" | "in_progress" | "completed";
     /**
      * The outcome of the job.
-     * @example success
+     * @example "success"
      */
     conclusion: string | null;
     /**
      * The name of the job.
-     * @example test-coverage
+     * @example "test-coverage"
      */
     name: string;
     /** @example 1 */
@@ -3746,17 +3747,17 @@ export interface Job {
     /**
      * The time that the step started, in ISO 8601 format.
      * @format date-time
-     * @example 2019-08-08T08:00:00-07:00
+     * @example "2019-08-08T08:00:00-07:00"
      */
     started_at?: string | null;
     /**
      * The time that the job finished, in ISO 8601 format.
      * @format date-time
-     * @example 2019-08-08T08:00:00-07:00
+     * @example "2019-08-08T08:00:00-07:00"
      */
     completed_at?: string | null;
   }[];
-  /** @example https://api.github.com/repos/github/hello-world/actions/jobs/21 */
+  /** @example "https://api.github.com/repos/github/hello-world/actions/jobs/21" */
   url: string;
 }
 
@@ -3792,26 +3793,26 @@ export interface KeySimple {
 export interface Label {
   /**
    * 6-character hex code, without the leading #, identifying the color
-   * @example FFFFFF
+   * @example "FFFFFF"
    */
   color: string;
   /** @example true */
   default: boolean;
-  /** @example Something isn't working */
+  /** @example "Something isn't working" */
   description: string | null;
   /** @example 208045946 */
   id: number;
   /**
    * The name of the label.
-   * @example bug
+   * @example "bug"
    */
   name: string;
-  /** @example MDU6TGFiZWwyMDgwNDU5NDY= */
+  /** @example "MDU6TGFiZWwyMDgwNDU5NDY=" */
   node_id: string;
   /**
    * URL for the label
    * @format uri
-   * @example https://api.github.com/repositories/42/labels/bug
+   * @example "https://api.github.com/repositories/42/labels/bug"
    */
   url: string;
 }
@@ -3845,18 +3846,22 @@ export type Language = Record<string, number>;
  */
 export interface License {
   /**
-   * @example
+   * @example "
    *
    * The MIT License (MIT)
+   *
    * Copyright (c) [year] [fullname]
+   *
    * Permission is hereby granted, free of charge, to any person obtaining a copy
    * of this software and associated documentation files (the "Software"), to deal
    * in the Software without restriction, including without limitation the rights
    * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
    * copies of the Software, and to permit persons to whom the Software is
    * furnished to do so, subject to the following conditions:
+   *
    * The above copyright notice and this permission notice shall be included in all
    * copies or substantial portions of the Software.
+   *
    * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
    * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
    * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -3864,36 +3869,37 @@ export interface License {
    * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
    * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
    * SOFTWARE.
+   * "
    */
   body: string;
   /** @example ["include-copyright"] */
   conditions: string[];
-  /** @example A permissive license that is short and to the point. It lets people do anything with your code with proper attribution and without warranty. */
+  /** @example "A permissive license that is short and to the point. It lets people do anything with your code with proper attribution and without warranty." */
   description: string;
   /** @example true */
   featured: boolean;
   /**
    * @format uri
-   * @example http://choosealicense.com/licenses/mit/
+   * @example "http://choosealicense.com/licenses/mit/"
    */
   html_url: string;
-  /** @example Create a text file (typically named LICENSE or LICENSE.txt) in the root of your source code and copy the text of the license into the file. Replace [year] with the current year and [fullname] with the name (or names) of the copyright holders. */
+  /** @example "Create a text file (typically named LICENSE or LICENSE.txt) in the root of your source code and copy the text of the license into the file. Replace [year] with the current year and [fullname] with the name (or names) of the copyright holders." */
   implementation: string;
-  /** @example mit */
+  /** @example "mit" */
   key: string;
   /** @example ["no-liability"] */
   limitations: string[];
-  /** @example MIT License */
+  /** @example "MIT License" */
   name: string;
-  /** @example MDc6TGljZW5zZW1pdA== */
+  /** @example "MDc6TGljZW5zZW1pdA==" */
   node_id: string;
   /** @example ["commercial-use","modifications","distribution","sublicense","private-use"] */
   permissions: string[];
-  /** @example MIT */
+  /** @example "MIT" */
   spdx_id: string | null;
   /**
    * @format uri
-   * @example https://api.github.com/licenses/mit
+   * @example "https://api.github.com/licenses/mit"
    */
   url: string | null;
 }
@@ -3936,17 +3942,17 @@ export interface LicenseContent {
 export interface LicenseSimple {
   /** @format uri */
   html_url?: string;
-  /** @example mit */
+  /** @example "mit" */
   key: string;
-  /** @example MIT License */
+  /** @example "MIT License" */
   name: string;
-  /** @example MDc6TGljZW5zZW1pdA== */
+  /** @example "MDc6TGljZW5zZW1pdA==" */
   node_id: string;
-  /** @example MIT */
+  /** @example "MIT" */
   spdx_id: string | null;
   /**
    * @format uri
-   * @example https://api.github.com/licenses/mit
+   * @example "https://api.github.com/licenses/mit"
    */
   url: string | null;
 }
@@ -3968,9 +3974,7 @@ export interface LinkWithType {
   type: string;
 }
 
-/**
- * Marketplace Account
- */
+/** Marketplace Account */
 export interface MarketplaceAccount {
   /** @format email */
   email?: string | null;
@@ -3991,12 +3995,12 @@ export interface MarketplaceAccount {
 export interface MarketplaceListingPlan {
   /**
    * @format uri
-   * @example https://api.github.com/marketplace_listing/plans/1313/accounts
+   * @example "https://api.github.com/marketplace_listing/plans/1313/accounts"
    */
   accounts_url: string;
   /** @example ["Up to 25 private repositories","11 concurrent builds"] */
   bullets: string[];
-  /** @example A professional-grade CI solution */
+  /** @example "A professional-grade CI solution" */
   description: string;
   /** @example true */
   has_free_trial: boolean;
@@ -4004,18 +4008,18 @@ export interface MarketplaceListingPlan {
   id: number;
   /** @example 1099 */
   monthly_price_in_cents: number;
-  /** @example Pro */
+  /** @example "Pro" */
   name: string;
   /** @example 3 */
   number: number;
-  /** @example flat-rate */
+  /** @example "flat-rate" */
   price_model: string;
-  /** @example published */
+  /** @example "published" */
   state: string;
   unit_name: string | null;
   /**
    * @format uri
-   * @example https://api.github.com/marketplace_listing/plans/1313
+   * @example "https://api.github.com/marketplace_listing/plans/1313"
    */
   url: string;
   /** @example 11870 */
@@ -4062,12 +4066,12 @@ export interface Migration {
   archive_url?: string;
   /**
    * @format date-time
-   * @example 2015-07-06T15:33:38-07:00
+   * @example "2015-07-06T15:33:38-07:00"
    */
   created_at: string;
   exclude?: any[];
   exclude_attachments: boolean;
-  /** @example 0b989ba4-242f-11e5-81e1-c7b6966d2516 */
+  /** @example "0b989ba4-242f-11e5-81e1-c7b6966d2516" */
   guid: string;
   /** @example 79 */
   id: number;
@@ -4076,16 +4080,16 @@ export interface Migration {
   node_id: string;
   owner: SimpleUser | null;
   repositories: Repository[];
-  /** @example pending */
+  /** @example "pending" */
   state: string;
   /**
    * @format date-time
-   * @example 2015-07-06T15:33:38-07:00
+   * @example "2015-07-06T15:33:38-07:00"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/orgs/octo-org/migrations/79
+   * @example "https://api.github.com/orgs/octo-org/migrations/79"
    */
   url: string;
 }
@@ -4097,37 +4101,37 @@ export interface Migration {
 export interface Milestone {
   /**
    * @format date-time
-   * @example 2013-02-12T13:22:01Z
+   * @example "2013-02-12T13:22:01Z"
    */
   closed_at: string | null;
   /** @example 8 */
   closed_issues: number;
   /**
    * @format date-time
-   * @example 2011-04-10T20:09:31Z
+   * @example "2011-04-10T20:09:31Z"
    */
   created_at: string;
   creator: SimpleUser | null;
-  /** @example Tracking milestone for version 1.0 */
+  /** @example "Tracking milestone for version 1.0" */
   description: string | null;
   /**
    * @format date-time
-   * @example 2012-10-09T23:39:01Z
+   * @example "2012-10-09T23:39:01Z"
    */
   due_on: string | null;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/milestones/v1.0
+   * @example "https://github.com/octocat/Hello-World/milestones/v1.0"
    */
   html_url: string;
   /** @example 1002604 */
   id: number;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/milestones/1/labels
+   * @example "https://api.github.com/repos/octocat/Hello-World/milestones/1/labels"
    */
   labels_url: string;
-  /** @example MDk6TWlsZXN0b25lMTAwMjYwNA== */
+  /** @example "MDk6TWlsZXN0b25lMTAwMjYwNA==" */
   node_id: string;
   /**
    * The number of the milestone.
@@ -4138,22 +4142,23 @@ export interface Milestone {
   open_issues: number;
   /**
    * The state of the milestone.
-   * @example open
+   * @default "open"
+   * @example "open"
    */
   state: "open" | "closed";
   /**
    * The title of the milestone.
-   * @example v1.0
+   * @example "v1.0"
    */
   title: string;
   /**
    * @format date-time
-   * @example 2014-03-03T18:58:10Z
+   * @example "2014-03-03T18:58:10Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/milestones/1
+   * @example "https://api.github.com/repos/octocat/Hello-World/milestones/1"
    */
   url: string;
 }
@@ -4163,54 +4168,54 @@ export interface Milestone {
  * Minimal Repository
  */
 export interface MinimalRepository {
-  /** @example http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}" */
   archive_url: string;
   archived?: boolean;
-  /** @example http://api.github.com/repos/octocat/Hello-World/assignees{/user} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/assignees{/user}" */
   assignees_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}" */
   blobs_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/branches{/branch} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/branches{/branch}" */
   branches_url: string;
   clone_url?: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}" */
   collaborators_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/comments{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/comments{/number}" */
   comments_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/commits{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/commits{/sha}" */
   commits_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}" */
   compare_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/contents/{+path} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/contents/{+path}" */
   contents_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/contributors
+   * @example "http://api.github.com/repos/octocat/Hello-World/contributors"
    */
   contributors_url: string;
   /**
    * @format date-time
-   * @example 2011-01-26T19:01:12Z
+   * @example "2011-01-26T19:01:12Z"
    */
   created_at?: string | null;
   default_branch?: string;
   delete_branch_on_merge?: boolean;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/deployments
+   * @example "http://api.github.com/repos/octocat/Hello-World/deployments"
    */
   deployments_url: string;
-  /** @example This your first repo! */
+  /** @example "This your first repo!" */
   description: string | null;
   disabled?: boolean;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/downloads
+   * @example "http://api.github.com/repos/octocat/Hello-World/downloads"
    */
   downloads_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/events
+   * @example "http://api.github.com/repos/octocat/Hello-World/events"
    */
   events_url: string;
   fork: boolean;
@@ -4219,16 +4224,16 @@ export interface MinimalRepository {
   forks_count?: number;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/forks
+   * @example "http://api.github.com/repos/octocat/Hello-World/forks"
    */
   forks_url: string;
-  /** @example octocat/Hello-World */
+  /** @example "octocat/Hello-World" */
   full_name: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/commits{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}" */
   git_commits_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/refs{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}" */
   git_refs_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/tags{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}" */
   git_tags_url: string;
   git_url?: string;
   has_downloads?: boolean;
@@ -4239,31 +4244,31 @@ export interface MinimalRepository {
   homepage?: string | null;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/hooks
+   * @example "http://api.github.com/repos/octocat/Hello-World/hooks"
    */
   hooks_url: string;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World
+   * @example "https://github.com/octocat/Hello-World"
    */
   html_url: string;
   /** @example 1296269 */
   id: number;
   is_template?: boolean;
-  /** @example http://api.github.com/repos/octocat/Hello-World/issues/comments{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}" */
   issue_comment_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/issues/events{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/issues/events{/number}" */
   issue_events_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/issues{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/issues{/number}" */
   issues_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/keys{/key_id} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/keys{/key_id}" */
   keys_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/labels{/name} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/labels{/name}" */
   labels_url: string;
   language?: string | null;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/languages
+   * @example "http://api.github.com/repos/octocat/Hello-World/languages"
    */
   languages_url: string;
   license?: {
@@ -4275,18 +4280,18 @@ export interface MinimalRepository {
   } | null;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/merges
+   * @example "http://api.github.com/repos/octocat/Hello-World/merges"
    */
   merges_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/milestones{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/milestones{/number}" */
   milestones_url: string;
   mirror_url?: string | null;
-  /** @example Hello-World */
+  /** @example "Hello-World" */
   name: string;
   network_count?: number;
-  /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
+  /** @example "MDEwOlJlcG9zaXRvcnkxMjk2MjY5" */
   node_id: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}" */
   notifications_url: string;
   /** @example 0 */
   open_issues?: number;
@@ -4298,60 +4303,60 @@ export interface MinimalRepository {
     pull?: boolean;
   };
   private: boolean;
-  /** @example http://api.github.com/repos/octocat/Hello-World/pulls{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/pulls{/number}" */
   pulls_url: string;
   /**
    * @format date-time
-   * @example 2011-01-26T19:06:43Z
+   * @example "2011-01-26T19:06:43Z"
    */
   pushed_at?: string | null;
-  /** @example http://api.github.com/repos/octocat/Hello-World/releases{/id} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/releases{/id}" */
   releases_url: string;
   size?: number;
   ssh_url?: string;
   stargazers_count?: number;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/stargazers
+   * @example "http://api.github.com/repos/octocat/Hello-World/stargazers"
    */
   stargazers_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/statuses/{sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/statuses/{sha}" */
   statuses_url: string;
   subscribers_count?: number;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/subscribers
+   * @example "http://api.github.com/repos/octocat/Hello-World/subscribers"
    */
   subscribers_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/subscription
+   * @example "http://api.github.com/repos/octocat/Hello-World/subscription"
    */
   subscription_url: string;
   svn_url?: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/tags
+   * @example "http://api.github.com/repos/octocat/Hello-World/tags"
    */
   tags_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/teams
+   * @example "http://api.github.com/repos/octocat/Hello-World/teams"
    */
   teams_url: string;
   temp_clone_token?: string;
   template_repository?: Repository | null;
   topics?: string[];
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/trees{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}" */
   trees_url: string;
   /**
    * @format date-time
-   * @example 2011-01-26T19:14:43Z
+   * @example "2011-01-26T19:14:43Z"
    */
   updated_at?: string | null;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World
+   * @example "https://api.github.com/repos/octocat/Hello-World"
    */
   url: string;
   visibility?: string;
@@ -4368,40 +4373,40 @@ export interface OrgHook {
   /** @example true */
   active: boolean;
   config: {
-    /** @example "http://example.com/2" */
+    /** @example ""http://example.com/2"" */
     url?: string;
-    /** @example "0" */
+    /** @example ""0"" */
     insecure_ssl?: string;
-    /** @example "form" */
+    /** @example ""form"" */
     content_type?: string;
-    /** @example "********" */
+    /** @example ""********"" */
     secret?: string;
   };
   /**
    * @format date-time
-   * @example 2011-09-06T17:26:27Z
+   * @example "2011-09-06T17:26:27Z"
    */
   created_at: string;
   /** @example ["push","pull_request"] */
   events: string[];
   /** @example 1 */
   id: number;
-  /** @example web */
+  /** @example "web" */
   name: string;
   /**
    * @format uri
-   * @example https://api.github.com/orgs/octocat/hooks/1/pings
+   * @example "https://api.github.com/orgs/octocat/hooks/1/pings"
    */
   ping_url: string;
   type: string;
   /**
    * @format date-time
-   * @example 2011-09-06T20:39:23Z
+   * @example "2011-09-06T20:39:23Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/orgs/octocat/hooks/1
+   * @example "https://api.github.com/orgs/octocat/hooks/1"
    */
   url: string;
 }
@@ -4415,19 +4420,19 @@ export interface OrgMembership {
   organization: OrganizationSimple;
   /**
    * @format uri
-   * @example https://api.github.com/orgs/octocat
+   * @example "https://api.github.com/orgs/octocat"
    */
   organization_url: string;
   permissions?: {
     can_create_repository: boolean;
   };
-  /** @example admin */
+  /** @example "admin" */
   role: string;
-  /** @example active */
+  /** @example "active" */
   state: string;
   /**
    * @format uri
-   * @example https://api.github.com/orgs/octocat/memberships/defunkt
+   * @example "https://api.github.com/orgs/octocat/memberships/defunkt"
    */
   url: string;
   user: SimpleUser | null;
@@ -4442,12 +4447,12 @@ export interface OrganizationActionsSecret {
   created_at: string;
   /**
    * The name of the secret.
-   * @example SECRET_TOKEN
+   * @example "SECRET_TOKEN"
    */
   name: string;
   /**
    * @format uri
-   * @example https://api.github.com/organizations/org/secrets/my_secret/repositories
+   * @example "https://api.github.com/organizations/org/secrets/my_secret/repositories"
    */
   selected_repositories_url?: string;
   /** @format date-time */
@@ -4461,40 +4466,40 @@ export interface OrganizationActionsSecret {
  * Organization Full
  */
 export interface OrganizationFull {
-  /** @example https://github.com/images/error/octocat_happy.gif */
+  /** @example "https://github.com/images/error/octocat_happy.gif" */
   avatar_url: string;
   /**
    * @format email
-   * @example org@example.com
+   * @example "org@example.com"
    */
   billing_email?: string | null;
   /**
    * @format uri
-   * @example https://github.com/blog
+   * @example "https://github.com/blog"
    */
   blog?: string;
   /** @example 8 */
   collaborators?: number | null;
-  /** @example GitHub */
+  /** @example "GitHub" */
   company?: string;
   /**
    * @format date-time
-   * @example 2008-01-14T04:33:35Z
+   * @example "2008-01-14T04:33:35Z"
    */
   created_at: string;
   default_repository_permission?: string | null;
-  /** @example A great organization */
+  /** @example "A great organization" */
   description: string | null;
   /** @example 10000 */
   disk_usage?: number | null;
   /**
    * @format email
-   * @example octocat@github.com
+   * @example "octocat@github.com"
    */
   email?: string;
   /**
    * @format uri
-   * @example https://api.github.com/orgs/github/events
+   * @example "https://api.github.com/orgs/github/events"
    */
   events_url: string;
   /** @example 20 */
@@ -4505,24 +4510,24 @@ export interface OrganizationFull {
   has_organization_projects: boolean;
   /** @example true */
   has_repository_projects: boolean;
-  /** @example https://api.github.com/orgs/github/hooks */
+  /** @example "https://api.github.com/orgs/github/hooks" */
   hooks_url: string;
   /**
    * @format uri
-   * @example https://github.com/octocat
+   * @example "https://github.com/octocat"
    */
   html_url: string;
   /** @example 1 */
   id: number;
   /** @example true */
   is_verified?: boolean;
-  /** @example https://api.github.com/orgs/github/issues */
+  /** @example "https://api.github.com/orgs/github/issues" */
   issues_url: string;
-  /** @example San Francisco */
+  /** @example "San Francisco" */
   location?: string;
-  /** @example github */
+  /** @example "github" */
   login: string;
-  /** @example all */
+  /** @example "all" */
   members_allowed_repository_creation_type?: string;
   /** @example true */
   members_can_create_internal_repositories?: boolean;
@@ -4534,11 +4539,11 @@ export interface OrganizationFull {
   members_can_create_public_repositories?: boolean;
   /** @example true */
   members_can_create_repositories?: boolean | null;
-  /** @example https://api.github.com/orgs/github/members{/member} */
+  /** @example "https://api.github.com/orgs/github/members{/member}" */
   members_url: string;
-  /** @example github */
+  /** @example "github" */
   name?: string;
-  /** @example MDEyOk9yZ2FuaXphdGlvbjE= */
+  /** @example "MDEyOk9yZ2FuaXphdGlvbjE=" */
   node_id: string;
   /** @example 100 */
   owned_private_repos?: number;
@@ -4553,28 +4558,28 @@ export interface OrganizationFull {
   private_gists?: number | null;
   /** @example 1 */
   public_gists: number;
-  /** @example https://api.github.com/orgs/github/public_members{/member} */
+  /** @example "https://api.github.com/orgs/github/public_members{/member}" */
   public_members_url: string;
   /** @example 2 */
   public_repos: number;
   /**
    * @format uri
-   * @example https://api.github.com/orgs/github/repos
+   * @example "https://api.github.com/orgs/github/repos"
    */
   repos_url: string;
   /** @example 100 */
   total_private_repos?: number;
-  /** @example github */
+  /** @example "github" */
   twitter_username?: string | null;
   /** @example true */
   two_factor_requirement_enabled?: boolean | null;
-  /** @example Organization */
+  /** @example "Organization" */
   type: string;
   /** @format date-time */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/orgs/github
+   * @example "https://api.github.com/orgs/github"
    */
   url: string;
 }
@@ -4590,12 +4595,12 @@ export interface OrganizationInvitation {
   failed_reason?: string;
   id: number;
   invitation_team_url: string;
-  /** @example "https://api.github.com/organizations/16/invitations/1/teams" */
+  /** @example ""https://api.github.com/organizations/16/invitations/1/teams"" */
   invitation_teams_url?: string;
   /** Simple User */
   inviter: SimpleUser;
   login: string | null;
-  /** @example "MDIyOk9yZ2FuaXphdGlvbkludml0YXRpb24x" */
+  /** @example ""MDIyOk9yZ2FuaXphdGlvbkludml0YXRpb24x"" */
   node_id: string;
   role: string;
   team_count: number;
@@ -4606,37 +4611,37 @@ export interface OrganizationInvitation {
  * Organization Simple
  */
 export interface OrganizationSimple {
-  /** @example https://github.com/images/error/octocat_happy.gif */
+  /** @example "https://github.com/images/error/octocat_happy.gif" */
   avatar_url: string;
-  /** @example A great organization */
+  /** @example "A great organization" */
   description: string | null;
   /**
    * @format uri
-   * @example https://api.github.com/orgs/github/events
+   * @example "https://api.github.com/orgs/github/events"
    */
   events_url: string;
-  /** @example https://api.github.com/orgs/github/hooks */
+  /** @example "https://api.github.com/orgs/github/hooks" */
   hooks_url: string;
   /** @example 1 */
   id: number;
-  /** @example https://api.github.com/orgs/github/issues */
+  /** @example "https://api.github.com/orgs/github/issues" */
   issues_url: string;
-  /** @example github */
+  /** @example "github" */
   login: string;
-  /** @example https://api.github.com/orgs/github/members{/member} */
+  /** @example "https://api.github.com/orgs/github/members{/member}" */
   members_url: string;
-  /** @example MDEyOk9yZ2FuaXphdGlvbjE= */
+  /** @example "MDEyOk9yZ2FuaXphdGlvbjE=" */
   node_id: string;
-  /** @example https://api.github.com/orgs/github/public_members{/member} */
+  /** @example "https://api.github.com/orgs/github/public_members{/member}" */
   public_members_url: string;
   /**
    * @format uri
-   * @example https://api.github.com/orgs/github/repos
+   * @example "https://api.github.com/orgs/github/repos"
    */
   repos_url: string;
   /**
    * @format uri
-   * @example https://api.github.com/orgs/github
+   * @example "https://api.github.com/orgs/github"
    */
   url: string;
 }
@@ -4657,18 +4662,19 @@ export interface PackagesBillingUsage {
 export interface Page {
   /**
    * Whether the Page has a custom 404 page.
+   * @default false
    * @example false
    */
   custom_404: boolean;
   /**
    * The Pages site's custom domain
-   * @example example.com
+   * @example "example.com"
    */
   cname: string | null;
   /**
    * The web address the Page can be accessed from.
    * @format uri
-   * @example https://example.com
+   * @example "https://example.com"
    */
   html_url?: string;
   /**
@@ -4679,13 +4685,13 @@ export interface Page {
   source?: PagesSourceHash;
   /**
    * The status of the most recent build of the Page.
-   * @example built
+   * @example "built"
    */
   status: "built" | "building" | "errored" | null;
   /**
    * The API address for accessing this Page resource.
    * @format uri
-   * @example https://api.github.com/repos/github/hello-world/pages
+   * @example "https://api.github.com/repos/github/hello-world/pages"
    */
   url: string;
 }
@@ -4715,26 +4721,22 @@ export interface PageBuild {
  * Page Build Status
  */
 export interface PageBuildStatus {
-  /** @example queued */
+  /** @example "queued" */
   status: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/github/hello-world/pages/builds/latest
+   * @example "https://api.github.com/repos/github/hello-world/pages/builds/latest"
    */
   url: string;
 }
 
-/**
- * Pages Source Hash
- */
+/** Pages Source Hash */
 export interface PagesSourceHash {
   branch: string;
   path: string;
 }
 
-/**
- * Participation Stats
- */
+/** Participation Stats */
 export interface ParticipationStats {
   all: number[];
   owner: number[];
@@ -4774,67 +4776,67 @@ export interface PorterLargeFile {
 export interface PrivateUser {
   /**
    * @format uri
-   * @example https://github.com/images/error/octocat_happy.gif
+   * @example "https://github.com/images/error/octocat_happy.gif"
    */
   avatar_url: string;
-  /** @example There once was... */
+  /** @example "There once was..." */
   bio: string | null;
-  /** @example https://github.com/blog */
+  /** @example "https://github.com/blog" */
   blog: string | null;
   business_plus?: boolean;
   /** @example 8 */
   collaborators: number;
-  /** @example GitHub */
+  /** @example "GitHub" */
   company: string | null;
   /**
    * @format date-time
-   * @example 2008-01-14T04:33:35Z
+   * @example "2008-01-14T04:33:35Z"
    */
   created_at: string;
   /** @example 10000 */
   disk_usage: number;
   /**
    * @format email
-   * @example octocat@github.com
+   * @example "octocat@github.com"
    */
   email: string | null;
-  /** @example https://api.github.com/users/octocat/events{/privacy} */
+  /** @example "https://api.github.com/users/octocat/events{/privacy}" */
   events_url: string;
   /** @example 20 */
   followers: number;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat/followers
+   * @example "https://api.github.com/users/octocat/followers"
    */
   followers_url: string;
   /** @example 0 */
   following: number;
-  /** @example https://api.github.com/users/octocat/following{/other_user} */
+  /** @example "https://api.github.com/users/octocat/following{/other_user}" */
   following_url: string;
-  /** @example https://api.github.com/users/octocat/gists{/gist_id} */
+  /** @example "https://api.github.com/users/octocat/gists{/gist_id}" */
   gists_url: string;
-  /** @example 41d064eb2195891e12d0413f63227ea7 */
+  /** @example "41d064eb2195891e12d0413f63227ea7" */
   gravatar_id: string | null;
   hireable: boolean | null;
   /**
    * @format uri
-   * @example https://github.com/octocat
+   * @example "https://github.com/octocat"
    */
   html_url: string;
   /** @example 1 */
   id: number;
   ldap_dn?: string;
-  /** @example San Francisco */
+  /** @example "San Francisco" */
   location: string | null;
-  /** @example octocat */
+  /** @example "octocat" */
   login: string;
-  /** @example monalisa octocat */
+  /** @example "monalisa octocat" */
   name: string | null;
-  /** @example MDQ6VXNlcjE= */
+  /** @example "MDQ6VXNlcjE=" */
   node_id: string;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat/orgs
+   * @example "https://api.github.com/users/octocat/orgs"
    */
   organizations_url: string;
   /** @example 100 */
@@ -4853,40 +4855,40 @@ export interface PrivateUser {
   public_repos: number;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat/received_events
+   * @example "https://api.github.com/users/octocat/received_events"
    */
   received_events_url: string;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat/repos
+   * @example "https://api.github.com/users/octocat/repos"
    */
   repos_url: string;
   site_admin: boolean;
-  /** @example https://api.github.com/users/octocat/starred{/owner}{/repo} */
+  /** @example "https://api.github.com/users/octocat/starred{/owner}{/repo}" */
   starred_url: string;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat/subscriptions
+   * @example "https://api.github.com/users/octocat/subscriptions"
    */
   subscriptions_url: string;
   /** @format date-time */
   suspended_at?: string | null;
   /** @example 100 */
   total_private_repos: number;
-  /** @example monalisa */
+  /** @example "monalisa" */
   twitter_username?: string | null;
   /** @example true */
   two_factor_authentication: boolean;
-  /** @example User */
+  /** @example "User" */
   type: string;
   /**
    * @format date-time
-   * @example 2008-01-14T04:33:35Z
+   * @example "2008-01-14T04:33:35Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat
+   * @example "https://api.github.com/users/octocat"
    */
   url: string;
 }
@@ -4898,33 +4900,33 @@ export interface PrivateUser {
 export interface Project {
   /**
    * Body of the project
-   * @example This project represents the sprint of the first week in January
+   * @example "This project represents the sprint of the first week in January"
    */
   body: string | null;
   /**
    * @format uri
-   * @example https://api.github.com/projects/1002604/columns
+   * @example "https://api.github.com/projects/1002604/columns"
    */
   columns_url: string;
   /**
    * @format date-time
-   * @example 2011-04-10T20:09:31Z
+   * @example "2011-04-10T20:09:31Z"
    */
   created_at: string;
   creator: SimpleUser | null;
   /**
    * @format uri
-   * @example https://github.com/api-playground/projects-test/projects/12
+   * @example "https://github.com/api-playground/projects-test/projects/12"
    */
   html_url: string;
   /** @example 1002604 */
   id: number;
   /**
    * Name of the project
-   * @example Week One Sprint
+   * @example "Week One Sprint"
    */
   name: string;
-  /** @example MDc6UHJvamVjdDEwMDI2MDQ= */
+  /** @example "MDc6UHJvamVjdDEwMDI2MDQ=" */
   node_id: string;
   /** @example 1 */
   number: number;
@@ -4932,24 +4934,24 @@ export interface Project {
   organization_permission?: "read" | "write" | "admin" | "none";
   /**
    * @format uri
-   * @example https://api.github.com/repos/api-playground/projects-test
+   * @example "https://api.github.com/repos/api-playground/projects-test"
    */
   owner_url: string;
   /** Whether or not this project can be seen by everyone. Only present if owner is an organization. */
   private?: boolean;
   /**
    * State of the project; either 'open' or 'closed'
-   * @example open
+   * @example "open"
    */
   state: string;
   /**
    * @format date-time
-   * @example 2014-03-03T18:58:10Z
+   * @example "2014-03-03T18:58:10Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/projects/1002604
+   * @example "https://api.github.com/projects/1002604"
    */
   url: string;
 }
@@ -4966,17 +4968,17 @@ export interface ProjectCard {
   archived?: boolean;
   /**
    * @format uri
-   * @example https://api.github.com/projects/columns/367
+   * @example "https://api.github.com/projects/columns/367"
    */
   column_url: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/api-playground/projects-test/issues/3
+   * @example "https://api.github.com/repos/api-playground/projects-test/issues/3"
    */
   content_url?: string;
   /**
    * @format date-time
-   * @example 2016-09-05T14:21:06Z
+   * @example "2016-09-05T14:21:06Z"
    */
   created_at: string;
   creator: SimpleUser | null;
@@ -4985,23 +4987,23 @@ export interface ProjectCard {
    * @example 42
    */
   id: number;
-  /** @example MDExOlByb2plY3RDYXJkMTQ3OA== */
+  /** @example "MDExOlByb2plY3RDYXJkMTQ3OA==" */
   node_id: string;
-  /** @example Add payload for delete Project column */
+  /** @example "Add payload for delete Project column" */
   note: string | null;
   /**
    * @format uri
-   * @example https://api.github.com/projects/120
+   * @example "https://api.github.com/projects/120"
    */
   project_url: string;
   /**
    * @format date-time
-   * @example 2016-09-05T14:20:22Z
+   * @example "2016-09-05T14:20:22Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/projects/columns/cards/1478
+   * @example "https://api.github.com/projects/columns/cards/1478"
    */
   url: string;
 }
@@ -5013,12 +5015,12 @@ export interface ProjectCard {
 export interface ProjectColumn {
   /**
    * @format uri
-   * @example https://api.github.com/projects/columns/367/cards
+   * @example "https://api.github.com/projects/columns/367/cards"
    */
   cards_url: string;
   /**
    * @format date-time
-   * @example 2016-09-05T14:18:44Z
+   * @example "2016-09-05T14:18:44Z"
    */
   created_at: string;
   /**
@@ -5028,24 +5030,24 @@ export interface ProjectColumn {
   id: number;
   /**
    * Name of the project column
-   * @example Remaining tasks
+   * @example "Remaining tasks"
    */
   name: string;
-  /** @example MDEzOlByb2plY3RDb2x1bW4zNjc= */
+  /** @example "MDEzOlByb2plY3RDb2x1bW4zNjc=" */
   node_id: string;
   /**
    * @format uri
-   * @example https://api.github.com/projects/120
+   * @example "https://api.github.com/projects/120"
    */
   project_url: string;
   /**
    * @format date-time
-   * @example 2016-09-05T14:22:28Z
+   * @example "2016-09-05T14:22:28Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/projects/columns/367
+   * @example "https://api.github.com/projects/columns/367"
    */
   url: string;
 }
@@ -5089,7 +5091,7 @@ export interface ProtectedBranch {
   required_signatures?: {
     /**
      * @format uri
-     * @example https://api.github.com/repos/octocat/Hello-World/branches/master/protection/required_signatures
+     * @example "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/required_signatures"
      */
     url: string;
     /** @example true */
@@ -5112,7 +5114,7 @@ export interface ProtectedBranchAdminEnforced {
   enabled: boolean;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/branches/master/protection/enforce_admins
+   * @example "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/enforce_admins"
    */
   url: string;
 }
@@ -5129,11 +5131,11 @@ export interface ProtectedBranchPullRequestReview {
     users?: SimpleUser[];
     /** The list of teams with review dismissal access. */
     teams?: Team[];
-    /** @example "https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions" */
+    /** @example ""https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions"" */
     url?: string;
-    /** @example "https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions/users" */
+    /** @example ""https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions/users"" */
     users_url?: string;
-    /** @example "https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions/teams" */
+    /** @example ""https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions/teams"" */
     teams_url?: string;
   };
   /** @example true */
@@ -5146,7 +5148,7 @@ export interface ProtectedBranchPullRequestReview {
   required_approving_review_count?: number;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/branches/master/protection/dismissal_restrictions
+   * @example "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/dismissal_restrictions"
    */
   url?: string;
 }
@@ -5242,7 +5244,7 @@ export interface PullRequest {
     /** Hypermedia Link */
     self: Link;
   };
-  /** @example too heated */
+  /** @example "too heated" */
   active_lock_reason?: string | null;
   /** @example 100 */
   additions: number;
@@ -5419,39 +5421,39 @@ export interface PullRequest {
       url: string;
     };
   };
-  /** @example Please pull these awesome changes */
+  /** @example "Please pull these awesome changes" */
   body: string | null;
   /** @example 5 */
   changed_files: number;
   /**
    * @format date-time
-   * @example 2011-01-26T19:01:12Z
+   * @example "2011-01-26T19:01:12Z"
    */
   closed_at: string | null;
   /** @example 10 */
   comments: number;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/issues/1347/comments
+   * @example "https://api.github.com/repos/octocat/Hello-World/issues/1347/comments"
    */
   comments_url: string;
   /** @example 3 */
   commits: number;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/pulls/1347/commits
+   * @example "https://api.github.com/repos/octocat/Hello-World/pulls/1347/commits"
    */
   commits_url: string;
   /**
    * @format date-time
-   * @example 2011-01-26T19:01:12Z
+   * @example "2011-01-26T19:01:12Z"
    */
   created_at: string;
   /** @example 3 */
   deletions: number;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/pull/1347.diff
+   * @example "https://github.com/octocat/Hello-World/pull/1347.diff"
    */
   diff_url: string;
   /**
@@ -5635,14 +5637,14 @@ export interface PullRequest {
   };
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/pull/1347
+   * @example "https://github.com/octocat/Hello-World/pull/1347"
    */
   html_url: string;
   /** @example 1 */
   id: number;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/issues/1347
+   * @example "https://api.github.com/repos/octocat/Hello-World/issues/1347"
    */
   issue_url: string;
   labels: {
@@ -5661,21 +5663,21 @@ export interface PullRequest {
    * @example true
    */
   maintainer_can_modify: boolean;
-  /** @example e5bd3914e2e596debea16f433f57875b5b90bcd6 */
+  /** @example "e5bd3914e2e596debea16f433f57875b5b90bcd6" */
   merge_commit_sha: string | null;
   /** @example true */
   mergeable: boolean | null;
-  /** @example clean */
+  /** @example "clean" */
   mergeable_state: string;
   merged: boolean;
   /**
    * @format date-time
-   * @example 2011-01-26T19:01:12Z
+   * @example "2011-01-26T19:01:12Z"
    */
   merged_at: string | null;
   merged_by: SimpleUser | null;
   milestone: Milestone | null;
-  /** @example MDExOlB1bGxSZXF1ZXN0MQ== */
+  /** @example "MDExOlB1bGxSZXF1ZXN0MQ==" */
   node_id: string;
   /**
    * Number uniquely identifying the pull request within its repository.
@@ -5684,45 +5686,45 @@ export interface PullRequest {
   number: number;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/pull/1347.patch
+   * @example "https://github.com/octocat/Hello-World/pull/1347.patch"
    */
   patch_url: string;
   /** @example true */
   rebaseable?: boolean | null;
   requested_reviewers?: SimpleUser[] | null;
   requested_teams?: TeamSimple[] | null;
-  /** @example https://api.github.com/repos/octocat/Hello-World/pulls/comments{/number} */
+  /** @example "https://api.github.com/repos/octocat/Hello-World/pulls/comments{/number}" */
   review_comment_url: string;
   /** @example 0 */
   review_comments: number;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/pulls/1347/comments
+   * @example "https://api.github.com/repos/octocat/Hello-World/pulls/1347/comments"
    */
   review_comments_url: string;
   /**
    * State of this Pull Request. Either `open` or `closed`.
-   * @example open
+   * @example "open"
    */
   state: "open" | "closed";
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/statuses/6dcb09b5b57875f334f61aebed695e2e4193db5e
+   * @example "https://api.github.com/repos/octocat/Hello-World/statuses/6dcb09b5b57875f334f61aebed695e2e4193db5e"
    */
   statuses_url: string;
   /**
    * The title of the pull request.
-   * @example Amazing new feature
+   * @example "Amazing new feature"
    */
   title: string;
   /**
    * @format date-time
-   * @example 2011-01-26T19:01:12Z
+   * @example "2011-01-26T19:01:12Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/pulls/1347
+   * @example "https://api.github.com/repos/octocat/Hello-World/pulls/1347"
    */
   url: string;
   user: SimpleUser | null;
@@ -5738,9 +5740,7 @@ export interface PullRequestMergeResult {
   sha: string;
 }
 
-/**
- * Pull Request Minimal
- */
+/** Pull Request Minimal */
 export interface PullRequestMinimal {
   base: {
     ref: string;
@@ -5782,19 +5782,19 @@ export interface PullRequestReview {
   author_association: AuthorAssociation;
   /**
    * The text of the review.
-   * @example This looks great.
+   * @example "This looks great."
    */
   body: string;
   body_html?: string;
   body_text?: string;
   /**
    * A commit SHA for the review.
-   * @example 54bb654c9e6025347f57900a4a5c2313a96b8035
+   * @example "54bb654c9e6025347f57900a4a5c2313a96b8035"
    */
   commit_id: string;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/pull/12#pullrequestreview-80
+   * @example "https://github.com/octocat/Hello-World/pull/12#pullrequestreview-80"
    */
   html_url: string;
   /**
@@ -5802,14 +5802,14 @@ export interface PullRequestReview {
    * @example 42
    */
   id: number;
-  /** @example MDE3OlB1bGxSZXF1ZXN0UmV2aWV3ODA= */
+  /** @example "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3ODA=" */
   node_id: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/pulls/12
+   * @example "https://api.github.com/repos/octocat/Hello-World/pulls/12"
    */
   pull_request_url: string;
-  /** @example CHANGES_REQUESTED */
+  /** @example "CHANGES_REQUESTED" */
   state: string;
   /** @format date-time */
   submitted_at?: string;
@@ -5825,21 +5825,21 @@ export interface PullRequestReviewComment {
     self: {
       /**
        * @format uri
-       * @example https://api.github.com/repos/octocat/Hello-World/pulls/comments/1
+       * @example "https://api.github.com/repos/octocat/Hello-World/pulls/comments/1"
        */
       href: string;
     };
     html: {
       /**
        * @format uri
-       * @example https://github.com/octocat/Hello-World/pull/1#discussion-diff-1
+       * @example "https://github.com/octocat/Hello-World/pull/1#discussion-diff-1"
        */
       href: string;
     };
     pull_request: {
       /**
        * @format uri
-       * @example https://api.github.com/repos/octocat/Hello-World/pulls/1
+       * @example "https://api.github.com/repos/octocat/Hello-World/pulls/1"
        */
       href: string;
     };
@@ -5848,32 +5848,32 @@ export interface PullRequestReviewComment {
   author_association: AuthorAssociation;
   /**
    * The text of the comment.
-   * @example We should probably include a check for null values here.
+   * @example "We should probably include a check for null values here."
    */
   body: string;
-  /** @example "<p>comment body</p>" */
+  /** @example ""<p>comment body</p>"" */
   body_html?: string;
-  /** @example "comment body" */
+  /** @example ""comment body"" */
   body_text?: string;
   /**
    * The SHA of the commit to which the comment applies.
-   * @example 6dcb09b5b57875f334f61aebed695e2e4193db5e
+   * @example "6dcb09b5b57875f334f61aebed695e2e4193db5e"
    */
   commit_id: string;
   /**
    * @format date-time
-   * @example 2011-04-14T16:00:49Z
+   * @example "2011-04-14T16:00:49Z"
    */
   created_at: string;
   /**
    * The diff of the line that the comment refers to.
-   * @example @@ -16,33 +16,40 @@ public class Connection : IConnection...
+   * @example "@@ -16,33 +16,40 @@ public class Connection : IConnection..."
    */
   diff_hunk: string;
   /**
    * HTML URL for the pull request review comment.
    * @format uri
-   * @example https://github.com/octocat/Hello-World/pull/1#discussion-diff-1
+   * @example "https://github.com/octocat/Hello-World/pull/1#discussion-diff-1"
    */
   html_url: string;
   /**
@@ -5893,12 +5893,12 @@ export interface PullRequestReviewComment {
   line?: number;
   /**
    * The node ID of the pull request review comment.
-   * @example MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEw
+   * @example "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEw"
    */
   node_id: string;
   /**
    * The SHA of the original commit to which the comment applies.
-   * @example 9c48853fa3dc5c1c3d6f1f1cd1f2743e72652840
+   * @example "9c48853fa3dc5c1c3d6f1f1cd1f2743e72652840"
    */
   original_commit_id: string;
   /**
@@ -5918,7 +5918,7 @@ export interface PullRequestReviewComment {
   original_start_line?: number | null;
   /**
    * The relative path of the file to which the comment applies.
-   * @example config/database.yaml
+   * @example "config/database.yaml"
    */
   path: string;
   /**
@@ -5934,27 +5934,33 @@ export interface PullRequestReviewComment {
   /**
    * URL for the pull request that the review comment belongs to.
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/pulls/1
+   * @example "https://api.github.com/repos/octocat/Hello-World/pulls/1"
    */
   pull_request_url: string;
   reactions?: ReactionRollup;
-  /** The side of the diff to which the comment applies. The side of the last line of the range for a multi-line comment */
+  /**
+   * The side of the diff to which the comment applies. The side of the last line of the range for a multi-line comment
+   * @default "RIGHT"
+   */
   side?: "LEFT" | "RIGHT";
   /**
    * The first line of the range for a multi-line comment.
    * @example 2
    */
   start_line?: number | null;
-  /** The side of the first line of the range for a multi-line comment. */
+  /**
+   * The side of the first line of the range for a multi-line comment.
+   * @default "RIGHT"
+   */
   start_side?: "LEFT" | "RIGHT" | null;
   /**
    * @format date-time
-   * @example 2011-04-14T16:00:49Z
+   * @example "2011-04-14T16:00:49Z"
    */
   updated_at: string;
   /**
    * URL for the pull request review comment
-   * @example https://api.github.com/repos/octocat/Hello-World/pulls/comments/1
+   * @example "https://api.github.com/repos/octocat/Hello-World/pulls/comments/1"
    */
   url: string;
   /** Simple User */
@@ -5993,7 +5999,7 @@ export interface PullRequestSimple {
     /** Hypermedia Link */
     self: Link;
   };
-  /** @example too heated */
+  /** @example "too heated" */
   active_lock_reason?: string | null;
   assignee: SimpleUser | null;
   assignees?: SimpleUser[] | null;
@@ -6009,31 +6015,31 @@ export interface PullRequestSimple {
     sha: string;
     user: SimpleUser | null;
   };
-  /** @example Please pull these awesome changes */
+  /** @example "Please pull these awesome changes" */
   body: string | null;
   /**
    * @format date-time
-   * @example 2011-01-26T19:01:12Z
+   * @example "2011-01-26T19:01:12Z"
    */
   closed_at: string | null;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/issues/1347/comments
+   * @example "https://api.github.com/repos/octocat/Hello-World/issues/1347/comments"
    */
   comments_url: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/pulls/1347/commits
+   * @example "https://api.github.com/repos/octocat/Hello-World/pulls/1347/commits"
    */
   commits_url: string;
   /**
    * @format date-time
-   * @example 2011-01-26T19:01:12Z
+   * @example "2011-01-26T19:01:12Z"
    */
   created_at: string;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/pull/1347.diff
+   * @example "https://github.com/octocat/Hello-World/pull/1347.diff"
    */
   diff_url: string;
   /**
@@ -6051,14 +6057,14 @@ export interface PullRequestSimple {
   };
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/pull/1347
+   * @example "https://github.com/octocat/Hello-World/pull/1347"
    */
   html_url: string;
   /** @example 1 */
   id: number;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/issues/1347
+   * @example "https://api.github.com/repos/octocat/Hello-World/issues/1347"
    */
   issue_url: string;
   labels: {
@@ -6072,57 +6078,55 @@ export interface PullRequestSimple {
   }[];
   /** @example true */
   locked: boolean;
-  /** @example e5bd3914e2e596debea16f433f57875b5b90bcd6 */
+  /** @example "e5bd3914e2e596debea16f433f57875b5b90bcd6" */
   merge_commit_sha: string | null;
   /**
    * @format date-time
-   * @example 2011-01-26T19:01:12Z
+   * @example "2011-01-26T19:01:12Z"
    */
   merged_at: string | null;
   milestone: Milestone | null;
-  /** @example MDExOlB1bGxSZXF1ZXN0MQ== */
+  /** @example "MDExOlB1bGxSZXF1ZXN0MQ==" */
   node_id: string;
   /** @example 1347 */
   number: number;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/pull/1347.patch
+   * @example "https://github.com/octocat/Hello-World/pull/1347.patch"
    */
   patch_url: string;
   requested_reviewers?: SimpleUser[] | null;
   requested_teams?: TeamSimple[] | null;
-  /** @example https://api.github.com/repos/octocat/Hello-World/pulls/comments{/number} */
+  /** @example "https://api.github.com/repos/octocat/Hello-World/pulls/comments{/number}" */
   review_comment_url: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/pulls/1347/comments
+   * @example "https://api.github.com/repos/octocat/Hello-World/pulls/1347/comments"
    */
   review_comments_url: string;
-  /** @example open */
+  /** @example "open" */
   state: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/statuses/6dcb09b5b57875f334f61aebed695e2e4193db5e
+   * @example "https://api.github.com/repos/octocat/Hello-World/statuses/6dcb09b5b57875f334f61aebed695e2e4193db5e"
    */
   statuses_url: string;
-  /** @example new-feature */
+  /** @example "new-feature" */
   title: string;
   /**
    * @format date-time
-   * @example 2011-01-26T19:01:12Z
+   * @example "2011-01-26T19:01:12Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/pulls/1347
+   * @example "https://api.github.com/repos/octocat/Hello-World/pulls/1347"
    */
   url: string;
   user: SimpleUser | null;
 }
 
-/**
- * Rate Limit
- */
+/** Rate Limit */
 export interface RateLimit {
   limit: number;
   remaining: number;
@@ -6152,24 +6156,22 @@ export interface RateLimitOverview {
 export interface Reaction {
   /**
    * The reaction to use
-   * @example heart
+   * @example "heart"
    */
   content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
   /**
    * @format date-time
-   * @example 2016-05-20T20:09:31Z
+   * @example "2016-05-20T20:09:31Z"
    */
   created_at: string;
   /** @example 1 */
   id: number;
-  /** @example MDg6UmVhY3Rpb24x */
+  /** @example "MDg6UmVhY3Rpb24x" */
   node_id: string;
   user: SimpleUser | null;
 }
 
-/**
- * Reaction Rollup
- */
+/** Reaction Rollup */
 export interface ReactionRollup {
   "+1": number;
   "-1": number;
@@ -6191,7 +6193,7 @@ export interface ReactionRollup {
 export interface ReferrerTraffic {
   /** @example 4 */
   count: number;
-  /** @example Google */
+  /** @example "Google" */
   referrer: string;
   /** @example 3 */
   uniques: number;
@@ -6231,14 +6233,14 @@ export interface Release {
   published_at: string | null;
   /**
    * The name of the tag.
-   * @example v1.0.0
+   * @example "v1.0.0"
    */
   tag_name: string;
   /** @format uri */
   tarball_url: string | null;
   /**
    * Specifies the commitish value that determines where the Git tag is created from.
-   * @example master
+   * @example "master"
    */
   target_commitish: string;
   upload_url: string;
@@ -6263,7 +6265,7 @@ export interface ReleaseAsset {
   label: string | null;
   /**
    * The file name of the asset.
-   * @example Team Environment
+   * @example "Team Environment"
    */
   name: string;
   node_id: string;
@@ -6400,78 +6402,85 @@ export interface RepoSearchResultItem {
 export interface Repository {
   /**
    * Whether to allow merge commits for pull requests.
+   * @default true
    * @example true
    */
   allow_merge_commit?: boolean;
   /**
    * Whether to allow rebase merges for pull requests.
+   * @default true
    * @example true
    */
   allow_rebase_merge?: boolean;
   /**
    * Whether to allow squash merges for pull requests.
+   * @default true
    * @example true
    */
   allow_squash_merge?: boolean;
-  /** @example http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}" */
   archive_url: string;
-  /** Whether the repository is archived. */
+  /**
+   * Whether the repository is archived.
+   * @default false
+   */
   archived: boolean;
-  /** @example http://api.github.com/repos/octocat/Hello-World/assignees{/user} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/assignees{/user}" */
   assignees_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}" */
   blobs_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/branches{/branch} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/branches{/branch}" */
   branches_url: string;
-  /** @example https://github.com/octocat/Hello-World.git */
+  /** @example "https://github.com/octocat/Hello-World.git" */
   clone_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}" */
   collaborators_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/comments{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/comments{/number}" */
   comments_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/commits{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/commits{/sha}" */
   commits_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}" */
   compare_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/contents/{+path} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/contents/{+path}" */
   contents_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/contributors
+   * @example "http://api.github.com/repos/octocat/Hello-World/contributors"
    */
   contributors_url: string;
   /**
    * @format date-time
-   * @example 2011-01-26T19:01:12Z
+   * @example "2011-01-26T19:01:12Z"
    */
   created_at: string | null;
   /**
    * The default branch of the repository.
-   * @example master
+   * @example "master"
    */
   default_branch: string;
   /**
    * Whether to delete head branches when pull requests are merged
+   * @default false
    * @example false
    */
   delete_branch_on_merge?: boolean;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/deployments
+   * @example "http://api.github.com/repos/octocat/Hello-World/deployments"
    */
   deployments_url: string;
-  /** @example This your first repo! */
+  /** @example "This your first repo!" */
   description: string | null;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/downloads
+   * @example "http://api.github.com/repos/octocat/Hello-World/downloads"
    */
   downloads_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/events
+   * @example "http://api.github.com/repos/octocat/Hello-World/events"
    */
   events_url: string;
   fork: boolean;
@@ -6480,53 +6489,57 @@ export interface Repository {
   forks_count: number;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/forks
+   * @example "http://api.github.com/repos/octocat/Hello-World/forks"
    */
   forks_url: string;
-  /** @example octocat/Hello-World */
+  /** @example "octocat/Hello-World" */
   full_name: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/commits{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}" */
   git_commits_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/refs{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}" */
   git_refs_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/tags{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}" */
   git_tags_url: string;
-  /** @example git:github.com/octocat/Hello-World.git */
+  /** @example "git:github.com/octocat/Hello-World.git" */
   git_url: string;
   /**
    * Whether downloads are enabled.
+   * @default true
    * @example true
    */
   has_downloads: boolean;
   /**
    * Whether issues are enabled.
+   * @default true
    * @example true
    */
   has_issues: boolean;
   has_pages: boolean;
   /**
    * Whether projects are enabled.
+   * @default true
    * @example true
    */
   has_projects: boolean;
   /**
    * Whether the wiki is enabled.
+   * @default true
    * @example true
    */
   has_wiki: boolean;
   /**
    * @format uri
-   * @example https://github.com
+   * @example "https://github.com"
    */
   homepage: string | null;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/hooks
+   * @example "http://api.github.com/repos/octocat/Hello-World/hooks"
    */
   hooks_url: string;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World
+   * @example "https://github.com/octocat/Hello-World"
    */
   html_url: string;
   /**
@@ -6536,48 +6549,49 @@ export interface Repository {
   id: number;
   /**
    * Whether this repository acts as a template that can be used to generate new repositories.
+   * @default false
    * @example true
    */
   is_template?: boolean;
-  /** @example http://api.github.com/repos/octocat/Hello-World/issues/comments{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}" */
   issue_comment_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/issues/events{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/issues/events{/number}" */
   issue_events_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/issues{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/issues{/number}" */
   issues_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/keys{/key_id} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/keys{/key_id}" */
   keys_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/labels{/name} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/labels{/name}" */
   labels_url: string;
   language: string | null;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/languages
+   * @example "http://api.github.com/repos/octocat/Hello-World/languages"
    */
   languages_url: string;
   license: LicenseSimple | null;
   master_branch?: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/merges
+   * @example "http://api.github.com/repos/octocat/Hello-World/merges"
    */
   merges_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/milestones{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/milestones{/number}" */
   milestones_url: string;
   /**
    * @format uri
-   * @example git:git.example.com/octocat/Hello-World
+   * @example "git:git.example.com/octocat/Hello-World"
    */
   mirror_url: string | null;
   /**
    * The name of the repository.
-   * @example Team Environment
+   * @example "Team Environment"
    */
   name: string;
   network_count?: number;
-  /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
+  /** @example "MDEwOlJlcG9zaXRvcnkxMjk2MjY5" */
   node_id: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}" */
   notifications_url: string;
   open_issues: number;
   /** @example 0 */
@@ -6590,56 +6604,59 @@ export interface Repository {
     push: boolean;
     maintain?: boolean;
   };
-  /** Whether the repository is private or public. */
+  /**
+   * Whether the repository is private or public.
+   * @default false
+   */
   private: boolean;
-  /** @example http://api.github.com/repos/octocat/Hello-World/pulls{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/pulls{/number}" */
   pulls_url: string;
   /**
    * @format date-time
-   * @example 2011-01-26T19:06:43Z
+   * @example "2011-01-26T19:06:43Z"
    */
   pushed_at: string | null;
-  /** @example http://api.github.com/repos/octocat/Hello-World/releases{/id} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/releases{/id}" */
   releases_url: string;
   /** @example 108 */
   size: number;
-  /** @example git@github.com:octocat/Hello-World.git */
+  /** @example "git@github.com:octocat/Hello-World.git" */
   ssh_url: string;
   /** @example 80 */
   stargazers_count: number;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/stargazers
+   * @example "http://api.github.com/repos/octocat/Hello-World/stargazers"
    */
   stargazers_url: string;
-  /** @example "2020-07-09T00:17:42Z" */
+  /** @example ""2020-07-09T00:17:42Z"" */
   starred_at?: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/statuses/{sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/statuses/{sha}" */
   statuses_url: string;
   subscribers_count?: number;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/subscribers
+   * @example "http://api.github.com/repos/octocat/Hello-World/subscribers"
    */
   subscribers_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/subscription
+   * @example "http://api.github.com/repos/octocat/Hello-World/subscription"
    */
   subscription_url: string;
   /**
    * @format uri
-   * @example https://svn.github.com/octocat/Hello-World
+   * @example "https://svn.github.com/octocat/Hello-World"
    */
   svn_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/tags
+   * @example "http://api.github.com/repos/octocat/Hello-World/tags"
    */
   tags_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/teams
+   * @example "http://api.github.com/repos/octocat/Hello-World/teams"
    */
   teams_url: string;
   temp_clone_token?: string;
@@ -6749,19 +6766,22 @@ export interface Repository {
     network_count?: number;
   } | null;
   topics?: string[];
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/trees{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}" */
   trees_url: string;
   /**
    * @format date-time
-   * @example 2011-01-26T19:14:43Z
+   * @example "2011-01-26T19:14:43Z"
    */
   updated_at: string | null;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World
+   * @example "https://api.github.com/repos/octocat/Hello-World"
    */
   url: string;
-  /** The repository visibility: public, private, or internal. */
+  /**
+   * The repository visibility: public, private, or internal.
+   * @default "public"
+   */
   visibility?: string;
   watchers: number;
   /** @example 80 */
@@ -6784,12 +6804,12 @@ export interface RepositoryCollaboratorPermission {
 export interface RepositoryInvitation {
   /**
    * @format date-time
-   * @example 2016-06-13T14:52:50-05:00
+   * @example "2016-06-13T14:52:50-05:00"
    */
   created_at: string;
   /** Whether or not the invitation has expired */
   expired?: boolean;
-  /** @example https://github.com/octocat/Hello-World/invitations */
+  /** @example "https://github.com/octocat/Hello-World/invitations" */
   html_url: string;
   /**
    * Unique identifier of the repository invitation.
@@ -6801,14 +6821,14 @@ export interface RepositoryInvitation {
   node_id: string;
   /**
    * The permission associated with the invitation.
-   * @example read
+   * @example "read"
    */
   permissions: "read" | "write" | "admin";
   /** Minimal Repository */
   repository: MinimalRepository;
   /**
    * URL for the repository invitation
-   * @example https://api.github.com/user/repository-invitations/1
+   * @example "https://api.github.com/user/repository-invitations/1"
    */
   url: string;
 }
@@ -6820,7 +6840,7 @@ export interface RepositoryInvitation {
 export interface RepositorySubscription {
   /**
    * @format date-time
-   * @example 2012-10-06T21:34:12Z
+   * @example "2012-10-06T21:34:12Z"
    */
   created_at: string;
   /** Determines if all notifications should be blocked from this repository. */
@@ -6828,7 +6848,7 @@ export interface RepositorySubscription {
   reason: string | null;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/example
+   * @example "https://api.github.com/repos/octocat/example"
    */
   repository_url: string;
   /**
@@ -6838,7 +6858,7 @@ export interface RepositorySubscription {
   subscribed: boolean;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/example/subscription
+   * @example "https://api.github.com/repos/octocat/example/subscription"
    */
   url: string;
 }
@@ -6858,22 +6878,22 @@ export interface ReviewComment {
   };
   /** How the author is associated with the repository. */
   author_association: AuthorAssociation;
-  /** @example Great stuff */
+  /** @example "Great stuff" */
   body: string;
   body_html?: string;
   body_text?: string;
-  /** @example 6dcb09b5b57875f334f61aebed695e2e4193db5e */
+  /** @example "6dcb09b5b57875f334f61aebed695e2e4193db5e" */
   commit_id: string;
   /**
    * @format date-time
-   * @example 2011-04-14T16:00:49Z
+   * @example "2011-04-14T16:00:49Z"
    */
   created_at: string;
-  /** @example @@ -16,33 +16,40 @@ public class Connection : IConnection... */
+  /** @example "@@ -16,33 +16,40 @@ public class Connection : IConnection..." */
   diff_hunk: string;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/pull/1#discussion-diff-1
+   * @example "https://github.com/octocat/Hello-World/pull/1#discussion-diff-1"
    */
   html_url: string;
   /** @example 10 */
@@ -6885,9 +6905,9 @@ export interface ReviewComment {
    * @example 2
    */
   line?: number;
-  /** @example MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEw */
+  /** @example "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEw" */
   node_id: string;
-  /** @example 9c48853fa3dc5c1c3d6f1f1cd1f2743e72652840 */
+  /** @example "9c48853fa3dc5c1c3d6f1f1cd1f2743e72652840" */
   original_commit_id: string;
   /**
    * The original line of the blob to which the comment applies. The last line of the range for a multi-line comment
@@ -6901,7 +6921,7 @@ export interface ReviewComment {
    * @example 2
    */
   original_start_line?: number | null;
-  /** @example file1.txt */
+  /** @example "file1.txt" */
   path: string;
   /** @example 1 */
   position: number | null;
@@ -6909,26 +6929,32 @@ export interface ReviewComment {
   pull_request_review_id: number | null;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/pulls/1
+   * @example "https://api.github.com/repos/octocat/Hello-World/pulls/1"
    */
   pull_request_url: string;
-  /** The side of the first line of the range for a multi-line comment. */
+  /**
+   * The side of the first line of the range for a multi-line comment.
+   * @default "RIGHT"
+   */
   side?: "LEFT" | "RIGHT";
   /**
    * The first line of the range for a multi-line comment.
    * @example 2
    */
   start_line?: number | null;
-  /** The side of the first line of the range for a multi-line comment. */
+  /**
+   * The side of the first line of the range for a multi-line comment.
+   * @default "RIGHT"
+   */
   start_side?: "LEFT" | "RIGHT" | null;
   /**
    * @format date-time
-   * @example 2011-04-14T16:00:49Z
+   * @example "2011-04-14T16:00:49Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/pulls/comments/1
+   * @example "https://api.github.com/repos/octocat/Hello-World/pulls/comments/1"
    */
   url: string;
   user: SimpleUser | null;
@@ -6955,17 +6981,17 @@ export interface Runner {
   }[];
   /**
    * The name of the runner.
-   * @example iMac
+   * @example "iMac"
    */
   name: string;
   /**
    * The Operating System of the runner.
-   * @example macos
+   * @example "macos"
    */
   os: string;
   /**
    * The status of the runner.
-   * @example online
+   * @example "online"
    */
   status: string;
 }
@@ -7097,11 +7123,12 @@ export interface ScimUser {
   active: boolean;
   /**
    * The name of the user, suitable for display to end-users
-   * @example Jon Doe
+   * @example "Jon Doe"
    */
   displayName?: string | null;
   /**
    * user emails
+   * @minItems 1
    * @example [{"value":"someone@example.com","primary":true},{"value":"another@example.com","primary":false}]
    */
   emails: {
@@ -7110,7 +7137,7 @@ export interface ScimUser {
   }[];
   /**
    * The ID of the User.
-   * @example a7b0f98395
+   * @example "a7b0f98395"
    */
   externalId: string | null;
   /** associated groups */
@@ -7120,25 +7147,25 @@ export interface ScimUser {
   }[];
   /**
    * Unique identifier of an external identity
-   * @example 1b78eada-9baa-11e6-9eb6-a431576d590e
+   * @example "1b78eada-9baa-11e6-9eb6-a431576d590e"
    */
   id: string;
   meta: {
-    /** @example User */
+    /** @example "User" */
     resourceType?: string;
     /**
      * @format date-time
-     * @example 2019-01-24T22:45:36.000Z
+     * @example "2019-01-24T22:45:36.000Z"
      */
     created?: string;
     /**
      * @format date-time
-     * @example 2019-01-24T22:45:36.000Z
+     * @example "2019-01-24T22:45:36.000Z"
      */
     lastModified?: string;
     /**
      * @format uri
-     * @example https://api.github.com/scim/v2/organizations/myorg-123abc55141bfd8f/Users/c42772b5-2029-11e9-8543-9264a97dec8d
+     * @example "https://api.github.com/scim/v2/organizations/myorg-123abc55141bfd8f/Users/c42772b5-2029-11e9-8543-9264a97dec8d"
      */
     location?: string;
   };
@@ -7150,6 +7177,7 @@ export interface ScimUser {
   };
   /**
    * Set of operations to be performed
+   * @minItems 1
    * @example [{"op":"replace","value":{"active":false}}]
    */
   operations?: {
@@ -7159,11 +7187,14 @@ export interface ScimUser {
   }[];
   /** The ID of the organization. */
   organization_id?: number;
-  /** SCIM schema used. */
+  /**
+   * SCIM schema used.
+   * @minItems 1
+   */
   schemas: string[];
   /**
    * Configured by the admin. Could be an email, login, or username
-   * @example someone@example.com
+   * @example "someone@example.com"
    */
   userName: string | null;
 }
@@ -7176,7 +7207,10 @@ export interface ScimUserList {
   Resources: ScimUser[];
   /** @example 10 */
   itemsPerPage: number;
-  /** SCIM schema used. */
+  /**
+   * SCIM schema used.
+   * @minItems 1
+   */
   schemas: string[];
   /** @example 1 */
   startIndex: number;
@@ -7216,9 +7250,7 @@ export interface ScimUserListEnterprise {
   totalResults: number;
 }
 
-/**
- * Scoped Installation
- */
+/** Scoped Installation */
 export interface ScopedInstallation {
   /** Simple User */
   account: SimpleUser;
@@ -7228,20 +7260,18 @@ export interface ScopedInstallation {
   permissions: AppPermissions;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat/repos
+   * @example "https://api.github.com/users/octocat/repos"
    */
   repositories_url: string;
   /** Describe whether all repositories have been selected or there's a selection involved */
   repository_selection: "all" | "selected";
-  /** @example config.yaml */
+  /** @example "config.yaml" */
   single_file_name: string | null;
   /** @example ["config.yml",".github/issue_TEMPLATE.md"] */
   single_file_paths?: string[];
 }
 
-/**
- * Search Result Text Matches
- */
+/** Search Result Text Matches */
 export type SearchResultTextMatches = {
   object_url?: string;
   object_type?: string | null;
@@ -7279,14 +7309,10 @@ export interface SecretScanningAlert {
   url?: AlertUrl;
 }
 
-/**
- * **Required when the `state` is `resolved`.** The reason for resolving the alert. Can be one of `false_positive`, `wont_fix`, `revoked`, or `used_in_tests`.
- */
+/** **Required when the `state` is `resolved`.** The reason for resolving the alert. Can be one of `false_positive`, `wont_fix`, `revoked`, or `used_in_tests`. */
 export type SecretScanningAlertResolution = "false_positive" | "wont_fix" | "revoked" | "used_in_tests" | null;
 
-/**
- * Sets the state of the secret scanning alert. Can be either `open` or `resolved`. You must provide `resolution` when you set the state to `resolved`.
- */
+/** Sets the state of the secret scanning alert. Can be either `open` or `resolved`. You must provide `resolution` when you set the state to `resolved`. */
 export enum SecretScanningAlertState {
   Open = "open",
   Resolved = "resolved",
@@ -7301,9 +7327,7 @@ export interface SelectedActions {
   verified_allowed: boolean;
 }
 
-/**
- * The API URL to use to get or set the actions that are allowed to run, when `allowed_actions` is set to `selected`.
- */
+/** The API URL to use to get or set the actions that are allowed to run, when `allowed_actions` is set to `selected`. */
 export type SelectedActionsUrl = string;
 
 /**
@@ -7353,9 +7377,7 @@ export interface SimpleCommit {
   tree_id: string;
 }
 
-/**
- * Simple Commit Status
- */
+/** Simple Commit Status */
 export interface SimpleCommitStatus {
   /** @format uri */
   avatar_url: string | null;
@@ -7382,63 +7404,63 @@ export interface SimpleCommitStatus {
 export type SimpleUser = {
   /**
    * @format uri
-   * @example https://github.com/images/error/octocat_happy.gif
+   * @example "https://github.com/images/error/octocat_happy.gif"
    */
   avatar_url: string;
-  /** @example https://api.github.com/users/octocat/events{/privacy} */
+  /** @example "https://api.github.com/users/octocat/events{/privacy}" */
   events_url: string;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat/followers
+   * @example "https://api.github.com/users/octocat/followers"
    */
   followers_url: string;
-  /** @example https://api.github.com/users/octocat/following{/other_user} */
+  /** @example "https://api.github.com/users/octocat/following{/other_user}" */
   following_url: string;
-  /** @example https://api.github.com/users/octocat/gists{/gist_id} */
+  /** @example "https://api.github.com/users/octocat/gists{/gist_id}" */
   gists_url: string;
-  /** @example 41d064eb2195891e12d0413f63227ea7 */
+  /** @example "41d064eb2195891e12d0413f63227ea7" */
   gravatar_id: string | null;
   /**
    * @format uri
-   * @example https://github.com/octocat
+   * @example "https://github.com/octocat"
    */
   html_url: string;
   /** @example 1 */
   id: number;
-  /** @example octocat */
+  /** @example "octocat" */
   login: string;
-  /** @example MDQ6VXNlcjE= */
+  /** @example "MDQ6VXNlcjE=" */
   node_id: string;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat/orgs
+   * @example "https://api.github.com/users/octocat/orgs"
    */
   organizations_url: string;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat/received_events
+   * @example "https://api.github.com/users/octocat/received_events"
    */
   received_events_url: string;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat/repos
+   * @example "https://api.github.com/users/octocat/repos"
    */
   repos_url: string;
   site_admin: boolean;
-  /** @example "2020-07-09T00:17:55Z" */
+  /** @example ""2020-07-09T00:17:55Z"" */
   starred_at?: string;
-  /** @example https://api.github.com/users/octocat/starred{/owner}{/repo} */
+  /** @example "https://api.github.com/users/octocat/starred{/owner}{/repo}" */
   starred_url: string;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat/subscriptions
+   * @example "https://api.github.com/users/octocat/subscriptions"
    */
   subscriptions_url: string;
-  /** @example User */
+  /** @example "User" */
   type: string;
   /**
    * @format uri
-   * @example https://api.github.com/users/octocat
+   * @example "https://api.github.com/users/octocat"
    */
   url: string;
 };
@@ -7492,14 +7514,14 @@ export interface StatusCheckPolicy {
   contexts: string[];
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/branches/master/protection/required_status_checks/contexts
+   * @example "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/required_status_checks/contexts"
    */
   contexts_url: string;
   /** @example true */
   strict: boolean;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World/branches/master/protection/required_status_checks
+   * @example "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/required_status_checks"
    */
   url: string;
 }
@@ -7514,17 +7536,17 @@ export interface Tag {
     /** @format uri */
     url: string;
   };
-  /** @example v0.1 */
+  /** @example "v0.1" */
   name: string;
   node_id: string;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/tarball/v0.1
+   * @example "https://github.com/octocat/Hello-World/tarball/v0.1"
    */
   tarball_url: string;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World/zipball/v0.1
+   * @example "https://github.com/octocat/Hello-World/zipball/v0.1"
    */
   zipball_url: string;
 }
@@ -7537,7 +7559,7 @@ export interface Team {
   description: string | null;
   /**
    * @format uri
-   * @example https://github.com/orgs/rails/teams/core
+   * @example "https://github.com/orgs/rails/teams/core"
    */
   html_url: string;
   id: number;
@@ -7562,36 +7584,36 @@ export interface TeamDiscussion {
   author: SimpleUser | null;
   /**
    * The main text of the discussion.
-   * @example Please suggest improvements to our workflow in comments.
+   * @example "Please suggest improvements to our workflow in comments."
    */
   body: string;
-  /** @example <p>Hi! This is an area for us to collaborate as a team</p> */
+  /** @example "<p>Hi! This is an area for us to collaborate as a team</p>" */
   body_html: string;
   /**
    * The current version of the body content. If provided, this update operation will be rejected if the given version does not match the latest version on the server.
-   * @example 0307116bbf7ced493b8d8a346c650b71
+   * @example "0307116bbf7ced493b8d8a346c650b71"
    */
   body_version: string;
   /** @example 0 */
   comments_count: number;
   /**
    * @format uri
-   * @example https://api.github.com/organizations/1/team/2343027/discussions/1/comments
+   * @example "https://api.github.com/organizations/1/team/2343027/discussions/1/comments"
    */
   comments_url: string;
   /**
    * @format date-time
-   * @example 2018-01-25T18:56:31Z
+   * @example "2018-01-25T18:56:31Z"
    */
   created_at: string;
   /**
    * @format uri
-   * @example https://github.com/orgs/github/teams/justice-league/discussions/1
+   * @example "https://github.com/orgs/github/teams/justice-league/discussions/1"
    */
   html_url: string;
   /** @format date-time */
   last_edited_at: string | null;
-  /** @example MDE0OlRlYW1EaXNjdXNzaW9uMQ== */
+  /** @example "MDE0OlRlYW1EaXNjdXNzaW9uMQ==" */
   node_id: string;
   /**
    * The unique sequence number of a team discussion.
@@ -7611,22 +7633,22 @@ export interface TeamDiscussion {
   reactions?: ReactionRollup;
   /**
    * @format uri
-   * @example https://api.github.com/organizations/1/team/2343027
+   * @example "https://api.github.com/organizations/1/team/2343027"
    */
   team_url: string;
   /**
    * The title of the discussion.
-   * @example How can we improve our workflow?
+   * @example "How can we improve our workflow?"
    */
   title: string;
   /**
    * @format date-time
-   * @example 2018-01-25T18:56:31Z
+   * @example "2018-01-25T18:56:31Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/organizations/1/team/2343027/discussions/1
+   * @example "https://api.github.com/organizations/1/team/2343027/discussions/1"
    */
   url: string;
 }
@@ -7639,34 +7661,34 @@ export interface TeamDiscussionComment {
   author: SimpleUser | null;
   /**
    * The main text of the comment.
-   * @example I agree with this suggestion.
+   * @example "I agree with this suggestion."
    */
   body: string;
-  /** @example <p>Do you like apples?</p> */
+  /** @example "<p>Do you like apples?</p>" */
   body_html: string;
   /**
    * The current version of the body content. If provided, this update operation will be rejected if the given version does not match the latest version on the server.
-   * @example 0307116bbf7ced493b8d8a346c650b71
+   * @example "0307116bbf7ced493b8d8a346c650b71"
    */
   body_version: string;
   /**
    * @format date-time
-   * @example 2018-01-15T23:53:58Z
+   * @example "2018-01-15T23:53:58Z"
    */
   created_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/organizations/1/team/2403582/discussions/1
+   * @example "https://api.github.com/organizations/1/team/2403582/discussions/1"
    */
   discussion_url: string;
   /**
    * @format uri
-   * @example https://github.com/orgs/github/teams/justice-league/discussions/1/comments/1
+   * @example "https://github.com/orgs/github/teams/justice-league/discussions/1/comments/1"
    */
   html_url: string;
   /** @format date-time */
   last_edited_at: string | null;
-  /** @example MDIxOlRlYW1EaXNjdXNzaW9uQ29tbWVudDE= */
+  /** @example "MDIxOlRlYW1EaXNjdXNzaW9uQ29tbWVudDE=" */
   node_id: string;
   /**
    * The unique sequence number of a team discussion comment.
@@ -7676,12 +7698,12 @@ export interface TeamDiscussionComment {
   reactions?: ReactionRollup;
   /**
    * @format date-time
-   * @example 2018-01-15T23:53:58Z
+   * @example "2018-01-15T23:53:58Z"
    */
   updated_at: string;
   /**
    * @format uri
-   * @example https://api.github.com/organizations/1/team/2403582/discussions/1/comments/1
+   * @example "https://api.github.com/organizations/1/team/2403582/discussions/1/comments/1"
    */
   url: string;
 }
@@ -7693,14 +7715,14 @@ export interface TeamDiscussionComment {
 export interface TeamFull {
   /**
    * @format date-time
-   * @example 2017-07-14T16:53:42Z
+   * @example "2017-07-14T16:53:42Z"
    */
   created_at: string;
-  /** @example A great team. */
+  /** @example "A great team." */
   description: string | null;
   /**
    * @format uri
-   * @example https://github.com/orgs/rails/teams/core
+   * @example "https://github.com/orgs/rails/teams/core"
    */
   html_url: string;
   /**
@@ -7710,51 +7732,51 @@ export interface TeamFull {
   id: number;
   /**
    * Distinguished Name (DN) that team maps to within LDAP environment
-   * @example uid=example,ou=users,dc=github,dc=com
+   * @example "uid=example,ou=users,dc=github,dc=com"
    */
   ldap_dn?: string;
   /** @example 3 */
   members_count: number;
-  /** @example https://api.github.com/organizations/1/team/1/members{/member} */
+  /** @example "https://api.github.com/organizations/1/team/1/members{/member}" */
   members_url: string;
   /**
    * Name of the team
-   * @example Developers
+   * @example "Developers"
    */
   name: string;
-  /** @example MDQ6VGVhbTE= */
+  /** @example "MDQ6VGVhbTE=" */
   node_id: string;
   /** Organization Full */
   organization: OrganizationFull;
   parent?: TeamSimple | null;
   /**
    * Permission that the team will have for its repositories
-   * @example push
+   * @example "push"
    */
   permission: string;
   /**
    * The level of privacy this team should have
-   * @example closed
+   * @example "closed"
    */
   privacy?: "closed" | "secret";
   /** @example 10 */
   repos_count: number;
   /**
    * @format uri
-   * @example https://api.github.com/organizations/1/team/1/repos
+   * @example "https://api.github.com/organizations/1/team/1/repos"
    */
   repositories_url: string;
-  /** @example justice-league */
+  /** @example "justice-league" */
   slug: string;
   /**
    * @format date-time
-   * @example 2017-08-17T12:37:15Z
+   * @example "2017-08-17T12:37:15Z"
    */
   updated_at: string;
   /**
    * URL for the team
    * @format uri
-   * @example https://api.github.com/organizations/1/team/1
+   * @example "https://api.github.com/organizations/1/team/1"
    */
   url: string;
 }
@@ -7766,7 +7788,8 @@ export interface TeamFull {
 export interface TeamMembership {
   /**
    * The role of the user in the team.
-   * @example member
+   * @default "member"
+   * @example "member"
    */
   role: "member" | "maintainer";
   state: string;
@@ -7811,78 +7834,85 @@ export interface TeamProject {
 export interface TeamRepository {
   /**
    * Whether to allow merge commits for pull requests.
+   * @default true
    * @example true
    */
   allow_merge_commit?: boolean;
   /**
    * Whether to allow rebase merges for pull requests.
+   * @default true
    * @example true
    */
   allow_rebase_merge?: boolean;
   /**
    * Whether to allow squash merges for pull requests.
+   * @default true
    * @example true
    */
   allow_squash_merge?: boolean;
-  /** @example http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}" */
   archive_url: string;
-  /** Whether the repository is archived. */
+  /**
+   * Whether the repository is archived.
+   * @default false
+   */
   archived: boolean;
-  /** @example http://api.github.com/repos/octocat/Hello-World/assignees{/user} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/assignees{/user}" */
   assignees_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}" */
   blobs_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/branches{/branch} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/branches{/branch}" */
   branches_url: string;
-  /** @example https://github.com/octocat/Hello-World.git */
+  /** @example "https://github.com/octocat/Hello-World.git" */
   clone_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}" */
   collaborators_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/comments{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/comments{/number}" */
   comments_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/commits{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/commits{/sha}" */
   commits_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}" */
   compare_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/contents/{+path} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/contents/{+path}" */
   contents_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/contributors
+   * @example "http://api.github.com/repos/octocat/Hello-World/contributors"
    */
   contributors_url: string;
   /**
    * @format date-time
-   * @example 2011-01-26T19:01:12Z
+   * @example "2011-01-26T19:01:12Z"
    */
   created_at: string | null;
   /**
    * The default branch of the repository.
-   * @example master
+   * @example "master"
    */
   default_branch: string;
   /**
    * Whether to delete head branches when pull requests are merged
+   * @default false
    * @example false
    */
   delete_branch_on_merge?: boolean;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/deployments
+   * @example "http://api.github.com/repos/octocat/Hello-World/deployments"
    */
   deployments_url: string;
-  /** @example This your first repo! */
+  /** @example "This your first repo!" */
   description: string | null;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/downloads
+   * @example "http://api.github.com/repos/octocat/Hello-World/downloads"
    */
   downloads_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/events
+   * @example "http://api.github.com/repos/octocat/Hello-World/events"
    */
   events_url: string;
   fork: boolean;
@@ -7891,53 +7921,57 @@ export interface TeamRepository {
   forks_count: number;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/forks
+   * @example "http://api.github.com/repos/octocat/Hello-World/forks"
    */
   forks_url: string;
-  /** @example octocat/Hello-World */
+  /** @example "octocat/Hello-World" */
   full_name: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/commits{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}" */
   git_commits_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/refs{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}" */
   git_refs_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/tags{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}" */
   git_tags_url: string;
-  /** @example git:github.com/octocat/Hello-World.git */
+  /** @example "git:github.com/octocat/Hello-World.git" */
   git_url: string;
   /**
    * Whether downloads are enabled.
+   * @default true
    * @example true
    */
   has_downloads: boolean;
   /**
    * Whether issues are enabled.
+   * @default true
    * @example true
    */
   has_issues: boolean;
   has_pages: boolean;
   /**
    * Whether projects are enabled.
+   * @default true
    * @example true
    */
   has_projects: boolean;
   /**
    * Whether the wiki is enabled.
+   * @default true
    * @example true
    */
   has_wiki: boolean;
   /**
    * @format uri
-   * @example https://github.com
+   * @example "https://github.com"
    */
   homepage: string | null;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/hooks
+   * @example "http://api.github.com/repos/octocat/Hello-World/hooks"
    */
   hooks_url: string;
   /**
    * @format uri
-   * @example https://github.com/octocat/Hello-World
+   * @example "https://github.com/octocat/Hello-World"
    */
   html_url: string;
   /**
@@ -7947,48 +7981,49 @@ export interface TeamRepository {
   id: number;
   /**
    * Whether this repository acts as a template that can be used to generate new repositories.
+   * @default false
    * @example true
    */
   is_template?: boolean;
-  /** @example http://api.github.com/repos/octocat/Hello-World/issues/comments{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}" */
   issue_comment_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/issues/events{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/issues/events{/number}" */
   issue_events_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/issues{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/issues{/number}" */
   issues_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/keys{/key_id} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/keys{/key_id}" */
   keys_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/labels{/name} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/labels{/name}" */
   labels_url: string;
   language: string | null;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/languages
+   * @example "http://api.github.com/repos/octocat/Hello-World/languages"
    */
   languages_url: string;
   license: LicenseSimple | null;
   master_branch?: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/merges
+   * @example "http://api.github.com/repos/octocat/Hello-World/merges"
    */
   merges_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/milestones{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/milestones{/number}" */
   milestones_url: string;
   /**
    * @format uri
-   * @example git:git.example.com/octocat/Hello-World
+   * @example "git:git.example.com/octocat/Hello-World"
    */
   mirror_url: string | null;
   /**
    * The name of the repository.
-   * @example Team Environment
+   * @example "Team Environment"
    */
   name: string;
   network_count?: number;
-  /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
+  /** @example "MDEwOlJlcG9zaXRvcnkxMjk2MjY5" */
   node_id: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}" */
   notifications_url: string;
   open_issues: number;
   /** @example 0 */
@@ -8001,72 +8036,78 @@ export interface TeamRepository {
     push: boolean;
     maintain?: boolean;
   };
-  /** Whether the repository is private or public. */
+  /**
+   * Whether the repository is private or public.
+   * @default false
+   */
   private: boolean;
-  /** @example http://api.github.com/repos/octocat/Hello-World/pulls{/number} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/pulls{/number}" */
   pulls_url: string;
   /**
    * @format date-time
-   * @example 2011-01-26T19:06:43Z
+   * @example "2011-01-26T19:06:43Z"
    */
   pushed_at: string | null;
-  /** @example http://api.github.com/repos/octocat/Hello-World/releases{/id} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/releases{/id}" */
   releases_url: string;
   /** @example 108 */
   size: number;
-  /** @example git@github.com:octocat/Hello-World.git */
+  /** @example "git@github.com:octocat/Hello-World.git" */
   ssh_url: string;
   /** @example 80 */
   stargazers_count: number;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/stargazers
+   * @example "http://api.github.com/repos/octocat/Hello-World/stargazers"
    */
   stargazers_url: string;
-  /** @example http://api.github.com/repos/octocat/Hello-World/statuses/{sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/statuses/{sha}" */
   statuses_url: string;
   subscribers_count?: number;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/subscribers
+   * @example "http://api.github.com/repos/octocat/Hello-World/subscribers"
    */
   subscribers_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/subscription
+   * @example "http://api.github.com/repos/octocat/Hello-World/subscription"
    */
   subscription_url: string;
   /**
    * @format uri
-   * @example https://svn.github.com/octocat/Hello-World
+   * @example "https://svn.github.com/octocat/Hello-World"
    */
   svn_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/tags
+   * @example "http://api.github.com/repos/octocat/Hello-World/tags"
    */
   tags_url: string;
   /**
    * @format uri
-   * @example http://api.github.com/repos/octocat/Hello-World/teams
+   * @example "http://api.github.com/repos/octocat/Hello-World/teams"
    */
   teams_url: string;
   temp_clone_token?: string;
   template_repository?: Repository | null;
   topics?: string[];
-  /** @example http://api.github.com/repos/octocat/Hello-World/git/trees{/sha} */
+  /** @example "http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}" */
   trees_url: string;
   /**
    * @format date-time
-   * @example 2011-01-26T19:14:43Z
+   * @example "2011-01-26T19:14:43Z"
    */
   updated_at: string | null;
   /**
    * @format uri
-   * @example https://api.github.com/repos/octocat/Hello-World
+   * @example "https://api.github.com/repos/octocat/Hello-World"
    */
   url: string;
-  /** The repository visibility: public, private, or internal. */
+  /**
+   * The repository visibility: public, private, or internal.
+   * @default "public"
+   */
   visibility?: string;
   watchers: number;
   /** @example 80 */
@@ -8080,12 +8121,12 @@ export interface TeamRepository {
 export type TeamSimple = {
   /**
    * Description of the team
-   * @example A great team.
+   * @example "A great team."
    */
   description: string | null;
   /**
    * @format uri
-   * @example https://github.com/orgs/rails/teams/core
+   * @example "https://github.com/orgs/rails/teams/core"
    */
   html_url: string;
   /**
@@ -8095,39 +8136,39 @@ export type TeamSimple = {
   id: number;
   /**
    * Distinguished Name (DN) that team maps to within LDAP environment
-   * @example uid=example,ou=users,dc=github,dc=com
+   * @example "uid=example,ou=users,dc=github,dc=com"
    */
   ldap_dn?: string;
-  /** @example https://api.github.com/organizations/1/team/1/members{/member} */
+  /** @example "https://api.github.com/organizations/1/team/1/members{/member}" */
   members_url: string;
   /**
    * Name of the team
-   * @example Justice League
+   * @example "Justice League"
    */
   name: string;
-  /** @example MDQ6VGVhbTE= */
+  /** @example "MDQ6VGVhbTE=" */
   node_id: string;
   /**
    * Permission that the team will have for its repositories
-   * @example admin
+   * @example "admin"
    */
   permission: string;
   /**
    * The level of privacy this team should have
-   * @example closed
+   * @example "closed"
    */
   privacy?: string;
   /**
    * @format uri
-   * @example https://api.github.com/organizations/1/team/1/repos
+   * @example "https://api.github.com/organizations/1/team/1/repos"
    */
   repositories_url: string;
-  /** @example justice-league */
+  /** @example "justice-league" */
   slug: string;
   /**
    * URL for the team
    * @format uri
-   * @example https://api.github.com/organizations/1/team/1
+   * @example "https://api.github.com/organizations/1/team/1"
    */
   url: string;
 };
@@ -8148,7 +8189,7 @@ export interface Thread {
     latest_comment_url: string;
     type: string;
   };
-  /** @example https://api.github.com/notifications/threads/2/subscription */
+  /** @example "https://api.github.com/notifications/threads/2/subscription" */
   subscription_url: string;
   unread: boolean;
   updated_at: string;
@@ -8162,26 +8203,26 @@ export interface Thread {
 export interface ThreadSubscription {
   /**
    * @format date-time
-   * @example 2012-10-06T21:34:12Z
+   * @example "2012-10-06T21:34:12Z"
    */
   created_at: string | null;
   ignored: boolean;
   reason: string | null;
   /**
    * @format uri
-   * @example https://api.github.com/repos/1
+   * @example "https://api.github.com/repos/1"
    */
   repository_url?: string;
   /** @example true */
   subscribed: boolean;
   /**
    * @format uri
-   * @example https://api.github.com/notifications/threads/1
+   * @example "https://api.github.com/notifications/threads/1"
    */
   thread_url?: string;
   /**
    * @format uri
-   * @example https://api.github.com/notifications/threads/1/subscription
+   * @example "https://api.github.com/notifications/threads/1/subscription"
    */
   url: string;
 }
@@ -8238,9 +8279,7 @@ export interface TopicSearchResultItem {
   updated_at: string;
 }
 
-/**
- * Traffic
- */
+/** Traffic */
 export interface Traffic {
   count: number;
   /** @format date-time */
@@ -8254,16 +8293,16 @@ export interface Traffic {
  */
 export interface UserMarketplacePurchase {
   account: MarketplaceAccount;
-  /** @example monthly */
+  /** @example "monthly" */
   billing_cycle: string;
   /**
    * @format date-time
-   * @example 2017-11-11T00:00:00Z
+   * @example "2017-11-11T00:00:00Z"
    */
   free_trial_ends_on: string | null;
   /**
    * @format date-time
-   * @example 2017-11-11T00:00:00Z
+   * @example "2017-11-11T00:00:00Z"
    */
   next_billing_date: string | null;
   /** @example true */
@@ -8273,7 +8312,7 @@ export interface UserMarketplacePurchase {
   unit_count: number | null;
   /**
    * @format date-time
-   * @example 2017-11-02T01:12:12Z
+   * @example "2017-11-02T01:12:12Z"
    */
   updated_at: string | null;
 }
@@ -8358,9 +8397,7 @@ export interface ValidationErrorSimple {
   message: string;
 }
 
-/**
- * Verification
- */
+/** Verification */
 export interface Verification {
   payload: string | null;
   reason: string;
@@ -8397,26 +8434,26 @@ export interface WebhookConfig {
 
 /**
  * The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.
- * @example "json"
+ * @example ""json""
  */
 export type WebhookConfigContentType = string;
 
 /**
  * Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**
- * @example "0"
+ * @example ""0""
  */
 export type WebhookConfigInsecureSsl = string;
 
 /**
  * If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers).
- * @example "********"
+ * @example ""********""
  */
 export type WebhookConfigSecret = string;
 
 /**
  * The URL to which the payloads will be delivered.
  * @format uri
- * @example https://example.com/webhook
+ * @example "https://example.com/webhook"
  */
 export type WebhookConfigUrl = string;
 
@@ -8425,36 +8462,36 @@ export type WebhookConfigUrl = string;
  * A GitHub Actions workflow
  */
 export interface Workflow {
-  /** @example https://github.com/actions/setup-ruby/workflows/CI/badge.svg */
+  /** @example "https://github.com/actions/setup-ruby/workflows/CI/badge.svg" */
   badge_url: string;
   /**
    * @format date-time
-   * @example 2019-12-06T14:20:20.000Z
+   * @example "2019-12-06T14:20:20.000Z"
    */
   created_at: string;
   /**
    * @format date-time
-   * @example 2019-12-06T14:20:20.000Z
+   * @example "2019-12-06T14:20:20.000Z"
    */
   deleted_at?: string;
-  /** @example https://github.com/actions/setup-ruby/blob/master/.github/workflows/ruby.yaml */
+  /** @example "https://github.com/actions/setup-ruby/blob/master/.github/workflows/ruby.yaml" */
   html_url: string;
   /** @example 5 */
   id: number;
-  /** @example CI */
+  /** @example "CI" */
   name: string;
-  /** @example MDg6V29ya2Zsb3cxMg== */
+  /** @example "MDg6V29ya2Zsb3cxMg==" */
   node_id: string;
-  /** @example ruby.yaml */
+  /** @example "ruby.yaml" */
   path: string;
-  /** @example active */
+  /** @example "active" */
   state: "active" | "deleted";
   /**
    * @format date-time
-   * @example 2019-12-06T14:20:20.000Z
+   * @example "2019-12-06T14:20:20.000Z"
    */
   updated_at: string;
-  /** @example https://api.github.com/repos/actions/setup-ruby/workflows/5 */
+  /** @example "https://api.github.com/repos/actions/setup-ruby/workflows/5" */
   url: string;
 }
 
@@ -8465,26 +8502,26 @@ export interface Workflow {
 export interface WorkflowRun {
   /**
    * The URL to the artifacts for the workflow run.
-   * @example https://api.github.com/repos/github/hello-world/actions/runs/5/rerun/artifacts
+   * @example "https://api.github.com/repos/github/hello-world/actions/runs/5/rerun/artifacts"
    */
   artifacts_url: string;
   /**
    * The URL to cancel the workflow run.
-   * @example https://api.github.com/repos/github/hello-world/actions/runs/5/cancel
+   * @example "https://api.github.com/repos/github/hello-world/actions/runs/5/cancel"
    */
   cancel_url: string;
   /**
    * The URL to the associated check suite.
-   * @example https://api.github.com/repos/github/hello-world/check-suites/12
+   * @example "https://api.github.com/repos/github/hello-world/check-suites/12"
    */
   check_suite_url: string;
-  /** @example neutral */
+  /** @example "neutral" */
   conclusion: string | null;
   /** @format date-time */
   created_at: string;
-  /** @example push */
+  /** @example "push" */
   event: string;
-  /** @example master */
+  /** @example "master" */
   head_branch: string | null;
   /** Simple Commit */
   head_commit: SimpleCommit;
@@ -8494,10 +8531,10 @@ export interface WorkflowRun {
   head_repository_id?: number;
   /**
    * The SHA of the head commit that points to the version of the worflow being run.
-   * @example 009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d
+   * @example "009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d"
    */
   head_sha: string;
-  /** @example https://github.com/github/hello-world/suites/4 */
+  /** @example "https://github.com/github/hello-world/suites/4" */
   html_url: string;
   /**
    * The ID of the workflow run.
@@ -8506,27 +8543,27 @@ export interface WorkflowRun {
   id: number;
   /**
    * The URL to the jobs for the workflow run.
-   * @example https://api.github.com/repos/github/hello-world/actions/runs/5/jobs
+   * @example "https://api.github.com/repos/github/hello-world/actions/runs/5/jobs"
    */
   jobs_url: string;
   /**
    * The URL to download the logs for the workflow run.
-   * @example https://api.github.com/repos/github/hello-world/actions/runs/5/logs
+   * @example "https://api.github.com/repos/github/hello-world/actions/runs/5/logs"
    */
   logs_url: string;
   /**
    * The name of the workflow run.
-   * @example Build
+   * @example "Build"
    */
   name?: string;
-  /** @example MDEwOkNoZWNrU3VpdGU1 */
+  /** @example "MDEwOkNoZWNrU3VpdGU1" */
   node_id: string;
   pull_requests: PullRequestMinimal[] | null;
   /** Minimal Repository */
   repository: MinimalRepository;
   /**
    * The URL to rerun the workflow run.
-   * @example https://api.github.com/repos/github/hello-world/actions/runs/5/rerun
+   * @example "https://api.github.com/repos/github/hello-world/actions/runs/5/rerun"
    */
   rerun_url: string;
   /**
@@ -8534,13 +8571,13 @@ export interface WorkflowRun {
    * @example 106
    */
   run_number: number;
-  /** @example completed */
+  /** @example "completed" */
   status: string | null;
   /** @format date-time */
   updated_at: string;
   /**
    * The URL to the workflow run.
-   * @example https://api.github.com/repos/github/hello-world/actions/runs/5
+   * @example "https://api.github.com/repos/github/hello-world/actions/runs/5"
    */
   url: string;
   /**
@@ -8550,7 +8587,7 @@ export interface WorkflowRun {
   workflow_id: number;
   /**
    * The URL to the workflow.
-   * @example https://api.github.com/repos/github/hello-world/actions/workflows/main.yaml
+   * @example "https://api.github.com/repos/github/hello-world/actions/workflows/main.yaml"
    */
   workflow_url: string;
 }
@@ -8974,9 +9011,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     appsListInstallations: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
@@ -9138,9 +9181,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     oauthAuthorizationsListGrants: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -9313,12 +9362,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * **Required.** The OAuth access token used to authenticate to the GitHub API.
-         * @example e72e16c7e42f292c6912e7710c838347ae178b4a
+         * @example "e72e16c7e42f292c6912e7710c838347ae178b4a"
          */
         access_token?: string;
         /**
          * The name of the user or organization to scope the user-to-server access token to. **Required** unless `target_id` is specified.
-         * @example octocat
+         * @example "octocat"
          */
         target?: string;
         /**
@@ -9433,9 +9482,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     oauthAuthorizationsListAuthorizations: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -9466,14 +9521,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         scopes?: string[] | null;
         /**
          * A note to remind you what the OAuth token is for.
-         * @example Update all gems
+         * @example "Update all gems"
          */
         note?: string;
         /** A URL to remind you what app the OAuth token is for. */
         note_url?: string;
-        /** The OAuth app client key for which to create the token. */
+        /**
+         * The OAuth app client key for which to create the token.
+         * @maxLength 20
+         */
         client_id?: string;
-        /** The OAuth app client secret for which to create the token. */
+        /**
+         * The OAuth app client secret for which to create the token.
+         * @maxLength 40
+         */
         client_secret?: string;
         /** A unique string to distinguish an authorization from others created for the same client ID and user. */
         fingerprint?: string;
@@ -9501,7 +9562,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     oauthAuthorizationsGetOrCreateAuthorizationForApp: (
       clientId: string,
       data: {
-        /** The OAuth app client secret for which to create the token. */
+        /**
+         * The OAuth app client secret for which to create the token.
+         * @maxLength 40
+         */
         client_secret: string;
         /**
          * A list of scopes that this authorization is in.
@@ -9510,7 +9574,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         scopes?: string[] | null;
         /**
          * A note to remind you what the OAuth token is for.
-         * @example Update all gems
+         * @example "Update all gems"
          */
         note?: string;
         /** A URL to remind you what app the OAuth token is for. */
@@ -9542,7 +9606,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       clientId: string,
       fingerprint: string,
       data: {
-        /** The OAuth app client secret for which to create the token. */
+        /**
+         * The OAuth app client secret for which to create the token.
+         * @maxLength 40
+         */
         client_secret: string;
         /**
          * A list of scopes that this authorization is in.
@@ -9551,7 +9618,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         scopes?: string[] | null;
         /**
          * A note to remind you what the OAuth token is for.
-         * @example Update all gems
+         * @example "Update all gems"
          */
         note?: string;
         /** A URL to remind you what app the OAuth token is for. */
@@ -9608,7 +9675,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         remove_scopes?: string[];
         /**
          * A note to remind you what the OAuth token is for.
-         * @example Update all gems
+         * @example "Update all gems"
          */
         note?: string;
         /** A URL to remind you what app the OAuth token is for. */
@@ -9703,12 +9770,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * The title of the attachment
-         * @example Title of the attachment
+         * @maxLength 1024
+         * @example "Title of the attachment"
          */
         title: string;
         /**
          * The body of the attachment
-         * @example Body of the attachment
+         * @maxLength 262144
+         * @example "Body of the attachment"
          */
         body: string;
       },
@@ -9802,9 +9871,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     enterpriseAdminListSelectedOrganizationsEnabledGithubActionsEnterprise: (
       enterprise: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -9933,9 +10008,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     enterpriseAdminListSelfHostedRunnerGroupsForEnterprise: (
       enterprise: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -10019,7 +10100,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /** Name of the runner group. */
         name?: string;
-        /** Visibility of a runner group. You can select all organizations or select individual organizations. Can be one of: `all` or `selected` */
+        /**
+         * Visibility of a runner group. You can select all organizations or select individual organizations. Can be one of: `all` or `selected`
+         * @default "all"
+         */
         visibility?: "selected" | "all";
       },
       params: RequestParams = {},
@@ -10064,9 +10148,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       enterprise: string,
       runnerGroupId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -10162,9 +10252,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       enterprise: string,
       runnerGroupId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -10259,9 +10355,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     enterpriseAdminListSelfHostedRunnersForEnterprise: (
       enterprise: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -10386,6 +10488,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * - `web` - returns web (non-Git) events
          * - `git` - returns Git events
          * - `all` - returns both web and Git events
+         *
          * The default is `web`.
          */
         include?: "web" | "git" | "all";
@@ -10399,7 +10502,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * The default is `desc`.
          */
         order?: "desc" | "asc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
       },
       params: RequestParams = {},
@@ -10471,9 +10577,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     activityListPublicEvents: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -10524,9 +10636,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -10551,7 +10669,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * Description of the gist
-         * @example Example Ruby script
+         * @example "Example Ruby script"
          */
         description?: string;
         /**
@@ -10591,9 +10709,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -10618,9 +10742,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -10674,7 +10804,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: null & {
         /**
          * Description of the gist
-         * @example Example Ruby script
+         * @example "Example Ruby script"
          */
         description?: string;
         /**
@@ -10728,9 +10858,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     gistsListComments: (
       gistId: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -10756,7 +10892,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * The comment text.
-         * @example Body of the attachment
+         * @maxLength 65535
+         * @example "Body of the attachment"
          */
         body: string;
       },
@@ -10813,7 +10950,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * The comment text.
-         * @example Body of the attachment
+         * @maxLength 65535
+         * @example "Body of the attachment"
          */
         body: string;
       },
@@ -10854,9 +10992,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     gistsListCommits: (
       gistId: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -10880,9 +11024,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     gistsListForks: (
       gistId: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -11016,9 +11166,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     appsListReposAccessibleToInstallation: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -11027,7 +11183,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         {
           total_count: number;
           repositories: Repository[];
-          /** @example selected */
+          /** @example "selected" */
           repository_selection?: string;
         },
         BasicError
@@ -11072,15 +11228,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `mentioned`: Issues mentioning you
          * \* `subscribed`: Issues you're subscribed to updates for
          * \* `all`: All issues the authenticated user can see, regardless of participation or creation
+         * @default "assigned"
          */
         filter?: "assigned" | "created" | "mentioned" | "subscribed" | "all";
-        /** Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`. */
+        /**
+         * Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`.
+         * @default "open"
+         */
         state?: "open" | "closed" | "all";
         /** A list of comma separated label names. Example: `bug,ui,@high` */
         labels?: string;
-        /** What to sort results by. Can be either `created`, `updated`, `comments`. */
+        /**
+         * What to sort results by. Can be either `created`, `updated`, `comments`.
+         * @default "created"
+         */
         sort?: "created" | "updated" | "comments";
-        /** One of `asc` (ascending) or `desc` (descending). */
+        /**
+         * One of `asc` (ascending) or `desc` (descending).
+         * @default "desc"
+         */
         direction?: "asc" | "desc";
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
@@ -11088,9 +11254,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         orgs?: boolean;
         owned?: boolean;
         pulls?: boolean;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -11115,7 +11287,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     licensesGetAllCommonlyUsed: (
       query?: {
         featured?: boolean;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
       },
       params: RequestParams = {},
@@ -11159,7 +11334,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         text: string;
         /**
          * The rendering mode.
-         * @example markdown
+         * @default "markdown"
+         * @example "markdown"
          */
         mode?: "markdown" | "gfm";
         /** The repository context to use when creating references in `gfm` mode. */
@@ -11218,9 +11394,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     appsListPlans: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -11244,13 +11426,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     appsListAccountsForPlan: (
       planId: number,
       query?: {
-        /** One of `created` (when the repository was starred) or `updated` (when it was last pushed to). */
+        /**
+         * One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
+         * @default "created"
+         */
         sort?: "created" | "updated";
         /** To return the oldest accounts first, set to `asc`. Can be one of `asc` or `desc`. Ignored without the `sort` parameter. */
         direction?: "asc" | "desc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -11289,9 +11480,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     appsListPlansStubbed: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -11315,13 +11512,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     appsListAccountsForPlanStubbed: (
       planId: number,
       query?: {
-        /** One of `created` (when the repository was starred) or `updated` (when it was last pushed to). */
+        /**
+         * One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
+         * @default "created"
+         */
         sort?: "created" | "updated";
         /** To return the oldest accounts first, set to `asc`. Can be one of `asc` or `desc`. Ignored without the `sort` parameter. */
         direction?: "asc" | "desc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -11364,9 +11570,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -11390,17 +11602,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     activityListNotificationsForAuthenticatedUser: (
       query?: {
-        /** If `true`, show notifications marked as read. */
+        /**
+         * If `true`, show notifications marked as read.
+         * @default false
+         */
         all?: boolean;
-        /** If `true`, only shows notifications in which the user is directly participating or mentioned. */
+        /**
+         * If `true`, only shows notifications in which the user is directly participating or mentioned.
+         * @default false
+         */
         participating?: boolean;
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
         /** Only show notifications updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         before?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -11505,7 +11729,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     activitySetThreadSubscription: (
       threadId: number,
       data: {
-        /** Whether to block all notifications from a thread. */
+        /**
+         * Whether to block all notifications from a thread.
+         * @default false
+         */
         ignored?: boolean;
       },
       params: RequestParams = {},
@@ -11570,7 +11797,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** An organization ID. Only return organizations with an ID greater than this ID. */
         since?: number;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
       },
       params: RequestParams = {},
@@ -11635,6 +11865,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `write` - can pull and push, but not administer this repository.
          * \* `admin` - can pull, push, and administer this repository.
          * \* `none` - no permissions granted by default.
+         * @default "read"
          */
         default_repository_permission?: "read" | "write" | "admin" | "none";
         /**
@@ -11643,6 +11874,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `false` - only organization owners can create repositories.
          * Default: `true`
          * **Note:** A parameter can override this parameter. See `members_allowed_repository_creation_type` in this table for details. **Note:** A parameter can override this parameter. See `members_allowed_repository_creation_type` in this table for details.
+         * @default true
          */
         members_can_create_repositories?: boolean;
         /**
@@ -11678,21 +11910,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * Toggles whether organization members can create GitHub Pages sites. Can be one of:
          * \* `true` - all organization members can create GitHub Pages sites.
          * \* `false` - no organization members can create GitHub Pages sites. Existing published sites will not be impacted.
+         * @default true
          */
         members_can_create_pages?: boolean;
         /**
          * Toggles whether organization members can create public GitHub Pages sites. Can be one of:
          * \* `true` - all organization members can create public GitHub Pages sites.
          * \* `false` - no organization members can create public GitHub Pages sites. Existing published sites will not be impacted.
+         * @default true
          */
         members_can_create_public_pages?: boolean;
         /**
          * Toggles whether organization members can create private GitHub Pages sites. Can be one of:
          * \* `true` - all organization members can create private GitHub Pages sites.
          * \* `false` - no organization members can create private GitHub Pages sites. Existing published sites will not be impacted.
+         * @default true
          */
         members_can_create_private_pages?: boolean;
-        /** @example "http://github.blog" */
+        /** @example ""http://github.blog"" */
         blog?: string;
       },
       params: RequestParams = {},
@@ -11767,9 +12002,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsListSelectedRepositoriesEnabledGithubActionsOrganization: (
       org: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -11894,9 +12135,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsListSelfHostedRunnerGroupsForOrg: (
       org: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -11928,7 +12175,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /** Name of the runner group. */
         name: string;
-        /** Visibility of a runner group. You can select all repositories, select individual repositories, or limit access to private repositories. Can be one of: `all`, `selected`, or `private`. */
+        /**
+         * Visibility of a runner group. You can select all repositories, select individual repositories, or limit access to private repositories. Can be one of: `all`, `selected`, or `private`.
+         * @default "all"
+         */
         visibility?: "selected" | "all" | "private";
         /** List of repository IDs that can access the runner group. */
         selected_repository_ids?: number[];
@@ -12108,9 +12358,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       org: string,
       runnerGroupId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -12205,9 +12461,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsListSelfHostedRunnersForOrg: (
       org: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -12316,9 +12578,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsListOrgSecrets: (
       org: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -12526,6 +12794,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * - `web` - returns web (non-Git) events
          * - `git` - returns Git events
          * - `all` - returns both web and Git events
+         *
          * The default is `web`.
          */
         include?: "web" | "git" | "all";
@@ -12539,7 +12808,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * The default is `desc`.
          */
         order?: "desc" | "asc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
       },
       params: RequestParams = {},
@@ -12661,9 +12933,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     activityListPublicOrgEvents: (
       org: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -12687,9 +12965,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     orgsListFailedInvitations: (
       org: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -12713,9 +12997,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     orgsListWebhooks: (
       org: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -12751,14 +13041,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
           secret?: WebhookConfigSecret;
           /** Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.** */
           insecure_ssl?: WebhookConfigInsecureSsl;
-          /** @example "kdaigle" */
+          /** @example ""kdaigle"" */
           username?: string;
-          /** @example "password" */
+          /** @example ""password"" */
           password?: string;
         };
-        /** Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for. */
+        /**
+         * Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for.
+         * @default ["push"]
+         */
         events?: string[];
-        /** Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications. */
+        /**
+         * Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.
+         * @default true
+         */
         active?: boolean;
       },
       params: RequestParams = {},
@@ -12811,11 +13107,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
           /** Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.** */
           insecure_ssl?: WebhookConfigInsecureSsl;
         };
-        /** Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for. */
+        /**
+         * Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for.
+         * @default ["push"]
+         */
         events?: string[];
-        /** Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications. */
+        /**
+         * Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.
+         * @default true
+         */
         active?: boolean;
-        /** @example "web" */
+        /** @example ""web"" */
         name?: string;
       },
       params: RequestParams = {},
@@ -12934,9 +13236,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     orgsListAppInstallations: (
       org: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -13015,9 +13323,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     orgsListPendingInvitations: (
       org: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -13050,6 +13364,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `admin` - Organization owners with full administrative rights to the organization and complete access to all repositories and teams.
          * \* `direct_member` - Non-owner organization members with ability to see other members and join teams by invitation.
          * \* `billing_manager` - Non-owner organization members with ability to manage the billing settings of your organization.
+         * @default "direct_member"
          */
         role?: "admin" | "direct_member" | "billing_manager";
         /** Specify IDs for the teams you want to invite new members to. */
@@ -13093,9 +13408,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       org: string,
       invitationId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -13126,21 +13447,37 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `mentioned`: Issues mentioning you
          * \* `subscribed`: Issues you're subscribed to updates for
          * \* `all`: All issues the authenticated user can see, regardless of participation or creation
+         * @default "assigned"
          */
         filter?: "assigned" | "created" | "mentioned" | "subscribed" | "all";
-        /** Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`. */
+        /**
+         * Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`.
+         * @default "open"
+         */
         state?: "open" | "closed" | "all";
         /** A list of comma separated label names. Example: `bug,ui,@high` */
         labels?: string;
-        /** What to sort results by. Can be either `created`, `updated`, `comments`. */
+        /**
+         * What to sort results by. Can be either `created`, `updated`, `comments`.
+         * @default "created"
+         */
         sort?: "created" | "updated" | "comments";
-        /** One of `asc` (ascending) or `desc` (descending). */
+        /**
+         * One of `asc` (ascending) or `desc` (descending).
+         * @default "desc"
+         */
         direction?: "asc" | "desc";
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -13168,6 +13505,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * Filter members returned in the list. Can be one of:
          * \* `2fa_disabled` - Members without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled. Available for organization owners.
          * \* `all` - All members the authenticated user can see.
+         * @default "all"
          */
         filter?: "2fa_disabled" | "all";
         /**
@@ -13175,11 +13513,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `all` - All members of the organization, regardless of role.
          * \* `admin` - Organization owners.
          * \* `member` - Non-owner organization members.
+         * @default "all"
          */
         role?: "all" | "admin" | "member";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -13254,6 +13599,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * The role to give the user in the organization. Can be one of:
          * \* `admin` - The user will become an owner of the organization.
          * \* `member` - The user will become a non-owner member of the organization.
+         * @default "member"
          */
         role?: "admin" | "member";
       },
@@ -13294,9 +13640,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     migrationsListForOrg: (
       org: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -13322,9 +13674,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /** A list of arrays indicating which repositories should be migrated. */
         repositories: string[];
-        /** Indicates whether repositories should be locked (to prevent manipulation) while migrating data. */
+        /**
+         * Indicates whether repositories should be locked (to prevent manipulation) while migrating data.
+         * @default false
+         */
         lock_repositories?: boolean;
-        /** Indicates whether attachments should be excluded from the migration (to reduce migration archive file size). */
+        /**
+         * Indicates whether attachments should be excluded from the migration (to reduce migration archive file size).
+         * @default false
+         */
         exclude_attachments?: boolean;
         exclude?: string[];
       },
@@ -13412,9 +13770,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       org: string,
       migrationId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -13442,11 +13806,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * Filter the list of outside collaborators. Can be one of:
          * \* `2fa_disabled`: Outside collaborators without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled.
          * \* `all`: All outside collaborators.
+         * @default "all"
          */
         filter?: "2fa_disabled" | "all";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -13513,11 +13884,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     projectsListForOrg: (
       org: string,
       query?: {
-        /** Indicates the state of the projects to return. Can be either `open`, `closed`, or `all`. */
+        /**
+         * Indicates the state of the projects to return. Can be either `open`, `closed`, or `all`.
+         * @default "open"
+         */
         state?: "open" | "closed" | "all";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -13568,9 +13948,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     orgsListPublicMembers: (
       org: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -13641,13 +14027,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Specifies the types of repositories you want returned. Can be one of `all`, `public`, `private`, `forks`, `sources`, `member`, `internal`. Default: `all`. If your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, `type` can also be `internal`. */
         type?: "all" | "public" | "private" | "forks" | "sources" | "member" | "internal";
-        /** Can be one of `created`, `updated`, `pushed`, `full_name`. */
+        /**
+         * Can be one of `created`, `updated`, `pushed`, `full_name`.
+         * @default "created"
+         */
         sort?: "created" | "updated" | "pushed" | "full_name";
         /** Can be one of `asc` or `desc`. Default: when using `full_name`: `asc`, otherwise `desc` */
         direction?: "asc" | "desc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -13677,36 +14072,66 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         description?: string;
         /** A URL with more information about the repository. */
         homepage?: string;
-        /** Either `true` to create a private repository or `false` to create a public one. */
+        /**
+         * Either `true` to create a private repository or `false` to create a public one.
+         * @default false
+         */
         private?: boolean;
         /**
          * Can be `public` or `private`. If your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, `visibility` can also be `internal`. For more information, see "[Creating an internal repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-repository-visibility#about-internal-repositories)" in the GitHub Help documentation.
          * The `visibility` parameter overrides the `private` parameter when you use both parameters with the `nebula-preview` preview header.
          */
         visibility?: "public" | "private" | "visibility" | "internal";
-        /** Either `true` to enable issues for this repository or `false` to disable them. */
+        /**
+         * Either `true` to enable issues for this repository or `false` to disable them.
+         * @default true
+         */
         has_issues?: boolean;
-        /** Either `true` to enable projects for this repository or `false` to disable them. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error. */
+        /**
+         * Either `true` to enable projects for this repository or `false` to disable them. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error.
+         * @default true
+         */
         has_projects?: boolean;
-        /** Either `true` to enable the wiki for this repository or `false` to disable it. */
+        /**
+         * Either `true` to enable the wiki for this repository or `false` to disable it.
+         * @default true
+         */
         has_wiki?: boolean;
-        /** Either `true` to make this repo available as a template repository or `false` to prevent it. */
+        /**
+         * Either `true` to make this repo available as a template repository or `false` to prevent it.
+         * @default false
+         */
         is_template?: boolean;
         /** The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization. */
         team_id?: number;
-        /** Pass `true` to create an initial commit with empty README. */
+        /**
+         * Pass `true` to create an initial commit with empty README.
+         * @default false
+         */
         auto_init?: boolean;
         /** Desired language or platform [.gitignore template](https://github.com/github/gitignore) to apply. Use the name of the template without the extension. For example, "Haskell". */
         gitignore_template?: string;
         /** Choose an [open source license template](https://choosealicense.com/) that best suits your needs, and then use the [license keyword](https://help.github.com/articles/licensing-a-repository/#searching-github-by-license-type) as the `license_template` string. For example, "mit" or "mpl-2.0". */
         license_template?: string;
-        /** Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging. */
+        /**
+         * Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.
+         * @default true
+         */
         allow_squash_merge?: boolean;
-        /** Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits. */
+        /**
+         * Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits.
+         * @default true
+         */
         allow_merge_commit?: boolean;
-        /** Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging. */
+        /**
+         * Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.
+         * @default true
+         */
         allow_rebase_merge?: boolean;
-        /** Either `true` to allow automatically deleting head branches when pull requests are merged, or `false` to prevent automatic deletion. */
+        /**
+         * Either `true` to allow automatically deleting head branches when pull requests are merged, or `false` to prevent automatic deletion.
+         * @default false
+         */
         delete_branch_on_merge?: boolean;
       },
       params: RequestParams = {},
@@ -13779,9 +14204,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     teamsListIdpGroupsForOrg: (
       org: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -13805,9 +14236,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     teamsList: (
       org: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -13846,6 +14283,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `closed` - visible to all members of this organization.
          * Default: `secret`
          * **For a parent or child team:**
+         * \* `closed` - visible to all members of this organization.
          * Default for child team: `closed`
          */
         privacy?: "secret" | "closed";
@@ -13854,6 +14292,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `pull` - team members can pull, but not push to or administer newly-added repositories.
          * \* `push` - team members can pull and push, but not administer newly-added repositories.
          * \* `admin` - team members can pull, push and administer newly-added repositories.
+         * @default "pull"
          */
         permission?: "pull" | "push" | "admin";
         /** The ID of a team to set as the parent team. */
@@ -13916,6 +14355,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `pull` - team members can pull, but not push to or administer newly-added repositories.
          * \* `push` - team members can pull and push, but not administer newly-added repositories.
          * \* `admin` - team members can pull, push and administer newly-added repositories.
+         * @default "pull"
          */
         permission?: "pull" | "push" | "admin";
         /** The ID of a team to set as the parent team. */
@@ -13959,11 +14399,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       org: string,
       teamSlug: string,
       query?: {
-        /** One of `asc` (ascending) or `desc` (descending). */
+        /**
+         * One of `asc` (ascending) or `desc` (descending).
+         * @default "desc"
+         */
         direction?: "asc" | "desc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -13992,7 +14441,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         title: string;
         /** The discussion post's body text. */
         body: string;
-        /** Private posts are only visible to team members, organization owners, and team maintainers. Public posts are visible to all members of the organization. Set to `true` to create a private post. */
+        /**
+         * Private posts are only visible to team members, organization owners, and team maintainers. Public posts are visible to all members of the organization. Set to `true` to create a private post.
+         * @default false
+         */
         private?: boolean;
       },
       params: RequestParams = {},
@@ -14079,11 +14531,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       teamSlug: string,
       discussionNumber: number,
       query?: {
-        /** One of `asc` (ascending) or `desc` (descending). */
+        /**
+         * One of `asc` (ascending) or `desc` (descending).
+         * @default "desc"
+         */
         direction?: "asc" | "desc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -14210,9 +14671,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a team discussion comment. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -14290,9 +14757,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a team discussion. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -14365,9 +14838,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       org: string,
       teamSlug: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -14397,11 +14876,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `member` - normal members of the team.
          * \* `maintainer` - team maintainers.
          * \* `all` - all members of the team.
+         * @default "all"
          */
         role?: "member" | "maintainer" | "all";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -14447,6 +14933,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * The role that this user should have in the team. Can be one of:
          * \* `member` - a normal member of the team.
          * \* `maintainer` - a team maintainer. Able to add/remove other team members, promote other team members to team maintainer, and edit the team's name and description.
+         * @default "member"
          */
         role?: "member" | "maintainer";
       },
@@ -14498,9 +14985,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       org: string,
       teamSlug: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -14599,9 +15092,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       org: string,
       teamSlug: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -14748,9 +15247,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       org: string,
       teamSlug: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -14793,7 +15298,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * The project card's note
-         * @example Update all gems
+         * @example "Update all gems"
          */
         note?: string | null;
         /**
@@ -14850,7 +15355,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /**
          * The position of the card in a column
          * @pattern ^(?:top|bottom|after:\d+)$
-         * @example bottom
+         * @example "bottom"
          */
         position: string;
         /**
@@ -14922,7 +15427,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * Name of the project column
-         * @example Remaining tasks
+         * @example "Remaining tasks"
          */
         name: string;
       },
@@ -14963,11 +15468,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     projectsListCards: (
       columnId: number,
       query?: {
-        /** Filters the project cards that are returned by the card's state. Can be one of `all`,`archived`, or `not_archived`. */
+        /**
+         * Filters the project cards that are returned by the card's state. Can be one of `all`,`archived`, or `not_archived`.
+         * @default "not_archived"
+         */
         archived_state?: "all" | "archived" | "not_archived";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -14994,7 +15508,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         | {
             /**
              * The project card's note
-             * @example Update all gems
+             * @example "Update all gems"
              */
             note: string | null;
           }
@@ -15006,7 +15520,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             content_id: number;
             /**
              * The piece of content associated with the card
-             * @example PullRequest
+             * @example "PullRequest"
              */
             content_type: string;
           },
@@ -15048,7 +15562,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /**
          * The position of the column in a project
          * @pattern ^(?:first|last|after:\d+)$
-         * @example last
+         * @example "last"
          */
         position: string;
       },
@@ -15092,17 +15606,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * Name of the project
-         * @example Week One Sprint
+         * @example "Week One Sprint"
          */
         name?: string;
         /**
          * Body of the project
-         * @example This project represents the sprint of the first week in January
+         * @example "This project represents the sprint of the first week in January"
          */
         body?: string | null;
         /**
          * State of the project; either 'open' or 'closed'
-         * @example open
+         * @example "open"
          */
         state?: string;
         /** The baseline permission that all organization members have on this project */
@@ -15170,11 +15684,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `outside`: Outside collaborators of a project that are not a member of the project's organization.
          * \* `direct`: Collaborators with permissions to a project, regardless of organization membership status.
          * \* `all`: All collaborators the authenticated user can see.
+         * @default "all"
          */
         affiliation?: "outside" | "direct" | "all";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -15209,7 +15730,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * The permission to grant the collaborator.
-         * @example write
+         * @default "write"
+         * @example "write"
          */
         permission?: "read" | "write" | "admin";
       },
@@ -15289,9 +15811,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     projectsListColumns: (
       projectId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -15317,7 +15845,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * Name of the project column
-         * @example Remaining tasks
+         * @example "Remaining tasks"
          */
         name: string;
       },
@@ -15411,29 +15939,57 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /**
          * Either `true` to make the repository private or `false` to make it public. Default: `false`.
          * **Note**: You will get a `422` error if the organization restricts [changing repository visibility](https://help.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private. **Note**: You will get a `422` error if the organization restricts [changing repository visibility](https://help.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private.
+         * @default false
          */
         private?: boolean;
         /** Can be `public` or `private`. If your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, `visibility` can also be `internal`. The `visibility` parameter overrides the `private` parameter when you use both along with the `nebula-preview` preview header. */
         visibility?: "public" | "private" | "visibility" | "internal";
-        /** Either `true` to enable issues for this repository or `false` to disable them. */
+        /**
+         * Either `true` to enable issues for this repository or `false` to disable them.
+         * @default true
+         */
         has_issues?: boolean;
-        /** Either `true` to enable projects for this repository or `false` to disable them. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error. */
+        /**
+         * Either `true` to enable projects for this repository or `false` to disable them. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error.
+         * @default true
+         */
         has_projects?: boolean;
-        /** Either `true` to enable the wiki for this repository or `false` to disable it. */
+        /**
+         * Either `true` to enable the wiki for this repository or `false` to disable it.
+         * @default true
+         */
         has_wiki?: boolean;
-        /** Either `true` to make this repo available as a template repository or `false` to prevent it. */
+        /**
+         * Either `true` to make this repo available as a template repository or `false` to prevent it.
+         * @default false
+         */
         is_template?: boolean;
         /** Updates the default branch for this repository. */
         default_branch?: string;
-        /** Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging. */
+        /**
+         * Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.
+         * @default true
+         */
         allow_squash_merge?: boolean;
-        /** Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits. */
+        /**
+         * Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits.
+         * @default true
+         */
         allow_merge_commit?: boolean;
-        /** Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging. */
+        /**
+         * Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.
+         * @default true
+         */
         allow_rebase_merge?: boolean;
-        /** Either `true` to allow automatically deleting head branches when pull requests are merged, or `false` to prevent automatic deletion. */
+        /**
+         * Either `true` to allow automatically deleting head branches when pull requests are merged, or `false` to prevent automatic deletion.
+         * @default false
+         */
         delete_branch_on_merge?: boolean;
-        /** `true` to archive this repository. **Note**: You cannot unarchive repositories through the API. */
+        /**
+         * `true` to archive this repository. **Note**: You cannot unarchive repositories through the API.
+         * @default false
+         */
         archived?: boolean;
       },
       params: RequestParams = {},
@@ -15481,9 +16037,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -15678,9 +16240,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -15803,9 +16371,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         event?: string;
         /** Returns workflow runs associated with the check run `status` or `conclusion` you specify. For example, a conclusion can be `success` or a status can be `completed`. For more information, see the `status` and `conclusion` options available in "[Create a check run](https://docs.github.com/rest/reference/checks#create-a-check-run)." */
         status?: "completed" | "status" | "conclusion";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -15868,9 +16442,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       runId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -15921,11 +16501,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * Filters jobs by their `completed_at` timestamp. Can be one of:
          * \* `latest`: Returns jobs from the most recent execution of the workflow run.
          * \* `all`: Returns all jobs for a workflow run, including from old executions of the workflow run.
+         * @default "latest"
          */
         filter?: "latest" | "all";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -16017,9 +16604,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -16125,9 +16718,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -16241,9 +16840,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         event?: string;
         /** Returns workflow runs associated with the check run `status` or `conclusion` you specify. For example, a conclusion can be `success` or a status can be `completed`. For more information, see the `status` and `conclusion` options available in "[Create a check run](https://docs.github.com/rest/reference/checks#create-a-check-run)." */
         status?: "completed" | "status" | "conclusion";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -16290,9 +16895,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -16364,9 +16975,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Setting to `true` returns only protected branches. When set to `false`, only unprotected branches are returned. Omitting this parameter returns all branches. */
         protected?: boolean;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -17226,7 +17843,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         details_url?: string;
         /** A reference for the run on the integrator's system. */
         external_id?: string;
-        /** The current status. Can be one of `queued`, `in_progress`, or `completed`. */
+        /**
+         * The current status. Can be one of `queued`, `in_progress`, or `completed`.
+         * @default "queued"
+         */
         status?: "queued" | "in_progress" | "completed";
         /** The time that the check run began. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         started_at?: string;
@@ -17241,11 +17861,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         output?: {
           /** The title of the check run. */
           title: string;
-          /** The summary of the check run. This parameter supports Markdown. */
+          /**
+           * The summary of the check run. This parameter supports Markdown.
+           * @maxLength 65535
+           */
           summary: string;
-          /** The details of the check run. This parameter supports Markdown. */
+          /**
+           * The details of the check run. This parameter supports Markdown.
+           * @maxLength 65535
+           */
           text?: string;
-          /** Adds information from your analysis to specific lines of code. Annotations are visible on GitHub in the **Checks** and **Files changed** tab of the pull request. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://docs.github.com/rest/reference/checks#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. For details about how you can view annotations on GitHub, see "[About status checks](https://help.github.com/articles/about-status-checks#checks)". See the [`annotations` object](https://docs.github.com/rest/reference/checks#annotations-object) description for details about how to use this parameter. */
+          /**
+           * Adds information from your analysis to specific lines of code. Annotations are visible on GitHub in the **Checks** and **Files changed** tab of the pull request. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://docs.github.com/rest/reference/checks#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. For details about how you can view annotations on GitHub, see "[About status checks](https://help.github.com/articles/about-status-checks#checks)". See the [`annotations` object](https://docs.github.com/rest/reference/checks#annotations-object) description for details about how to use this parameter.
+           * @maxItems 50
+           */
           annotations?: {
             /** The path of the file to add an annotation to. For example, `assets/css/main.css`. */
             path: string;
@@ -17276,13 +17905,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             caption?: string;
           }[];
         };
-        /** Displays a button on GitHub that can be clicked to alert your app to do additional tasks. For example, a code linting app can display a button that automatically fixes detected errors. The button created in this object is displayed after the check run completes. When a user clicks the button, GitHub sends the [`check_run.requested_action` webhook](https://docs.github.com/webhooks/event-payloads/#check_run) to your app. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](https://docs.github.com/rest/reference/checks#actions-object) description. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)." To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)." */
+        /**
+         * Displays a button on GitHub that can be clicked to alert your app to do additional tasks. For example, a code linting app can display a button that automatically fixes detected errors. The button created in this object is displayed after the check run completes. When a user clicks the button, GitHub sends the [`check_run.requested_action` webhook](https://docs.github.com/webhooks/event-payloads/#check_run) to your app. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](https://docs.github.com/rest/reference/checks#actions-object) description. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)." To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)."
+         * @maxItems 3
+         */
         actions?: {
-          /** The text to be displayed on a button in the web UI. The maximum size is 20 characters. */
+          /**
+           * The text to be displayed on a button in the web UI. The maximum size is 20 characters.
+           * @maxLength 20
+           */
           label: string;
-          /** A short explanation of what this action would do. The maximum size is 40 characters. */
+          /**
+           * A short explanation of what this action would do. The maximum size is 40 characters.
+           * @maxLength 40
+           */
           description: string;
-          /** A reference for the action on the integrator's system. The maximum size is 20 characters. */
+          /**
+           * A reference for the action on the integrator's system. The maximum size is 20 characters.
+           * @maxLength 20
+           */
           identifier: string;
         }[];
       },
@@ -17363,11 +18004,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         output?: {
           /** **Required**. */
           title?: string;
-          /** Can contain Markdown. */
+          /**
+           * Can contain Markdown.
+           * @maxLength 65535
+           */
           summary: string;
-          /** Can contain Markdown. */
+          /**
+           * Can contain Markdown.
+           * @maxLength 65535
+           */
           text?: string;
-          /** Adds information from your analysis to specific lines of code. Annotations are visible in GitHub's pull request UI. Annotations are visible in GitHub's pull request UI. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://docs.github.com/rest/reference/checks#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. For details about annotations in the UI, see "[About status checks](https://help.github.com/articles/about-status-checks#checks)". See the [`annotations` object](https://docs.github.com/rest/reference/checks#annotations-object-1) description for details. */
+          /**
+           * Adds information from your analysis to specific lines of code. Annotations are visible in GitHub's pull request UI. Annotations are visible in GitHub's pull request UI. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://docs.github.com/rest/reference/checks#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. For details about annotations in the UI, see "[About status checks](https://help.github.com/articles/about-status-checks#checks)". See the [`annotations` object](https://docs.github.com/rest/reference/checks#annotations-object-1) description for details.
+           * @maxItems 50
+           */
           annotations?: {
             /** The path of the file to add an annotation to. For example, `assets/css/main.css`. */
             path: string;
@@ -17398,13 +18048,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             caption?: string;
           }[];
         };
-        /** Possible further actions the integrator can perform, which a user may trigger. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](https://docs.github.com/rest/reference/checks#actions-object) description. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)." */
+        /**
+         * Possible further actions the integrator can perform, which a user may trigger. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](https://docs.github.com/rest/reference/checks#actions-object) description. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)."
+         * @maxItems 3
+         */
         actions?: {
-          /** The text to be displayed on a button in the web UI. The maximum size is 20 characters. */
+          /**
+           * The text to be displayed on a button in the web UI. The maximum size is 20 characters.
+           * @maxLength 20
+           */
           label: string;
-          /** A short explanation of what this action would do. The maximum size is 40 characters. */
+          /**
+           * A short explanation of what this action would do. The maximum size is 40 characters.
+           * @maxLength 40
+           */
           description: string;
-          /** A reference for the action on the integrator's system. The maximum size is 20 characters. */
+          /**
+           * A reference for the action on the integrator's system. The maximum size is 20 characters.
+           * @maxLength 20
+           */
           identifier: string;
         }[];
       },
@@ -17432,9 +18094,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       checkRunId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -17489,7 +18157,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         auto_trigger_checks?: {
           /** The `id` of the GitHub App. */
           app_id: number;
-          /** Set to `true` to enable automatic creation of CheckSuite events upon pushes to the repository, or `false` to disable them. */
+          /**
+           * Set to `true` to enable automatic creation of CheckSuite events upon pushes to the repository, or `false` to disable them.
+           * @default true
+           */
           setting: boolean;
         }[];
       },
@@ -17537,11 +18208,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         check_name?: string;
         /** Returns check runs with the specified `status`. Can be one of `queued`, `in_progress`, or `completed`. */
         status?: "queued" | "in_progress" | "completed";
-        /** Filters check runs by their `completed_at` timestamp. Can be one of `latest` (returning the most recent check runs) or `all`. */
+        /**
+         * Filters check runs by their `completed_at` timestamp. Can be one of `latest` (returning the most recent check runs) or `all`.
+         * @default "latest"
+         */
         filter?: "latest" | "all";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -17712,7 +18392,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * The base directory used in the analysis, as it appears in the SARIF file.
          * This property is used to convert file paths from absolute to relative, so that alerts can be mapped to their correct location in the repository.
          * @format uri
-         * @example file:///github/workspace/
+         * @example "file:///github/workspace/"
          */
         checkout_uri?: string;
         /**
@@ -17750,11 +18430,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `outside`: All outside collaborators of an organization-owned repository.
          * \* `direct`: All collaborators with permissions to an organization-owned repository, regardless of organization membership status.
          * \* `all`: All collaborators the authenticated user can see.
+         * @default "all"
          */
         affiliation?: "outside" | "direct" | "all";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -17802,9 +18489,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `admin` - can pull, push and administer this repository.
          * \* `maintain` - Recommended for project managers who need to manage the repository without access to sensitive or destructive actions.
          * \* `triage` - Recommended for contributors who need to proactively manage issues and pull requests without write access.
+         * @default "push"
          */
         permission?: "pull" | "push" | "admin" | "maintain" | "triage";
-        /** @example "push" */
+        /** @example ""push"" */
         permissions?: string;
       },
       params: RequestParams = {},
@@ -17861,9 +18549,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -17949,9 +18643,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a commit comment. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -18048,9 +18748,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         since?: string;
         /** Only commits before this date will be returned. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         until?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -18099,9 +18805,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       commitSha: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -18160,9 +18872,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       commitSha: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -18214,11 +18932,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         check_name?: string;
         /** Returns check runs with the specified `status`. Can be one of `queued`, `in_progress`, or `completed`. */
         status?: "queued" | "in_progress" | "completed";
-        /** Filters check runs by their `completed_at` timestamp. Can be one of `latest` (returning the most recent check runs) or `all`. */
+        /**
+         * Filters check runs by their `completed_at` timestamp. Can be one of `latest` (returning the most recent check runs) or `all`.
+         * @default "latest"
+         */
         filter?: "latest" | "all";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -18257,9 +18984,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         app_id?: number;
         /** Returns check runs with the specified `name`. */
         check_name?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -18307,9 +19040,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       ref: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -18423,7 +19162,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
           name: string;
           /** The email of the author or committer of the commit. You'll receive a `422` status code if `email` is omitted. */
           email: string;
-          /** @example "2013-01-05T13:13:22+05:00" */
+          /** @example ""2013-01-05T13:13:22+05:00"" */
           date?: string;
         };
         /** The author of the file. Default: The `committer` or the authenticated user if you omit `committer`. */
@@ -18432,7 +19171,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
           name: string;
           /** The email of the author or committer of the commit. You'll receive a `422` status code if `email` is omitted. */
           email: string;
-          /** @example "2013-01-15T17:13:22+05:00" */
+          /** @example ""2013-01-15T17:13:22+05:00"" */
           date?: string;
         };
       },
@@ -18515,9 +19254,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Set to `1` or `true` to include anonymous contributors in results. */
         anon?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -18542,17 +19287,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** The SHA recorded at creation time. */
+        /**
+         * The SHA recorded at creation time.
+         * @default "none"
+         */
         sha?: string;
-        /** The name of the ref. This can be a branch, tag, or SHA. */
+        /**
+         * The name of the ref. This can be a branch, tag, or SHA.
+         * @default "none"
+         */
         ref?: string;
-        /** The name of the task for the deployment (e.g., `deploy` or `deploy:migrations`). */
+        /**
+         * The name of the task for the deployment (e.g., `deploy` or `deploy:migrations`).
+         * @default "none"
+         */
         task?: string;
-        /** The name of the environment that was deployed to (e.g., `staging` or `production`). */
+        /**
+         * The name of the environment that was deployed to (e.g., `staging` or `production`).
+         * @default "none"
+         */
         environment?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -18579,21 +19342,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /** The ref to deploy. This can be a branch, tag, or SHA. */
         ref: string;
-        /** Specifies a task to execute (e.g., `deploy` or `deploy:migrations`). */
+        /**
+         * Specifies a task to execute (e.g., `deploy` or `deploy:migrations`).
+         * @default "deploy"
+         */
         task?: string;
-        /** Attempts to automatically merge the default branch into the requested ref, if it's behind the default branch. */
+        /**
+         * Attempts to automatically merge the default branch into the requested ref, if it's behind the default branch.
+         * @default true
+         */
         auto_merge?: boolean;
         /** The [status](https://docs.github.com/rest/reference/repos#statuses) contexts to verify against commit status checks. If you omit this parameter, GitHub verifies all unique contexts before creating a deployment. To bypass checking entirely, pass an empty array. Defaults to all unique contexts. */
         required_contexts?: string[];
         /** JSON payload with extra information about the deployment. */
         payload?: Record<string, any> | string;
-        /** Name for the target deployment environment (e.g., `production`, `staging`, `qa`). */
+        /**
+         * Name for the target deployment environment (e.g., `production`, `staging`, `qa`).
+         * @default "production"
+         */
         environment?: string;
-        /** Short description of the deployment. */
+        /**
+         * Short description of the deployment.
+         * @default ""
+         */
         description?: string | null;
         /**
          * Specifies if the given environment is specific to the deployment and will no longer exist at some point in the future. Default: `false`
          * **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type.
+         * @default false
          */
         transient_environment?: boolean;
         /**
@@ -18601,7 +19377,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type.
          */
         production_environment?: boolean;
-        /** @example "1776-07-04T00:00:00.000-07:52" */
+        /** @example ""1776-07-04T00:00:00.000-07:52"" */
         created_at?: string;
       },
       params: RequestParams = {},
@@ -18610,7 +19386,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         Deployment,
         | {
             message?: string;
-            /** @example "https://docs.github.com/rest/reference/repos#create-a-deployment" */
+            /** @example ""https://docs.github.com/rest/reference/repos#create-a-deployment"" */
             documentation_url?: string;
           }
         | ValidationError
@@ -18667,9 +19443,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       deploymentId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -18697,20 +19479,28 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /** The state of the status. Can be one of `error`, `failure`, `inactive`, `in_progress`, `queued` `pending`, or `success`. **Note:** To use the `inactive` state, you must provide the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type. To use the `in_progress` and `queued` states, you must provide the [`application/vnd.github.flash-preview+json`](https://docs.github.com/rest/overview/api-previews#deployment-statuses) custom media type. When you set a transient deployment to `inactive`, the deployment will be shown as `destroyed` in GitHub. */
         state: "error" | "failure" | "inactive" | "in_progress" | "queued" | "pending" | "success";
-        /** The target URL to associate with this status. This URL should contain output to keep the user updated while the task is running or serve as historical information for what happened in the deployment. **Note:** It's recommended to use the `log_url` parameter, which replaces `target_url`. */
+        /**
+         * The target URL to associate with this status. This URL should contain output to keep the user updated while the task is running or serve as historical information for what happened in the deployment. **Note:** It's recommended to use the `log_url` parameter, which replaces `target_url`.
+         * @default ""
+         */
         target_url?: string;
         /**
          * The full URL of the deployment's output. This parameter replaces `target_url`. We will continue to accept `target_url` to support legacy uses, but we recommend replacing `target_url` with `log_url`. Setting `log_url` will automatically set `target_url` to the same value. Default: `""`
          * **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type.
+         * @default ""
          */
         log_url?: string;
-        /** A short description of the status. The maximum description length is 140 characters. */
+        /**
+         * A short description of the status. The maximum description length is 140 characters.
+         * @default ""
+         */
         description?: string;
         /** Name for the target deployment environment, which can be changed when setting a deploy status. For example, `production`, `staging`, or `qa`. **Note:** This parameter requires you to use the [`application/vnd.github.flash-preview+json`](https://docs.github.com/rest/overview/api-previews#deployment-statuses) custom media type. */
         environment?: "production" | "staging" | "qa";
         /**
          * Sets the URL for accessing your environment. Default: `""`
          * **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type.
+         * @default ""
          */
         environment_url?: string;
         /**
@@ -18799,9 +19589,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -18826,11 +19622,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** The sort order. Can be either `newest`, `oldest`, or `stargazers`. */
+        /**
+         * The sort order. Can be either `newest`, `oldest`, or `stargazers`.
+         * @default "newest"
+         */
         sort?: "newest" | "oldest" | "stargazers";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -18883,7 +19688,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /** The new blob's content. */
         content: string;
-        /** The encoding used for `content`. Currently, `"utf-8"` and `"base64"` are supported. */
+        /**
+         * The encoding used for `content`. Currently, `"utf-8"` and `"base64"` are supported.
+         * @default "utf-8"
+         */
         encoding?: string;
       },
       params: RequestParams = {},
@@ -18992,9 +19800,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       ref: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -19039,7 +19853,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ref: string;
         /** The SHA1 value for this reference. */
         sha: string;
-        /** @example "refs/heads/newbranch" */
+        /** @example ""refs/heads/newbranch"" */
         key?: string;
       },
       params: RequestParams = {},
@@ -19068,7 +19882,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /** The SHA1 value to set this reference to */
         sha: string;
-        /** Indicates whether to force the update or to make sure the update is a fast-forward update. Leaving this out or setting it to `false` will make sure you're not overwriting work. */
+        /**
+         * Indicates whether to force the update or to make sure the update is a fast-forward update. Leaving this out or setting it to `false` will make sure you're not overwriting work.
+         * @default false
+         */
         force?: boolean;
       },
       params: RequestParams = {},
@@ -19190,7 +20007,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /**
          * The SHA1 of an existing Git tree object which will be used as the base for the new tree. If provided, a new Git tree object will be created from entries in the Git tree object pointed to by `base_tree` and entries defined in the `tree` parameter. Entries defined in the `tree` parameter will overwrite items from `base_tree` with the same `path`. If you're creating new changes on a branch, then normally you'd set `base_tree` to the SHA1 of the Git tree object of the current latest commit on the branch you're working on.
          * If not provided, GitHub will create a new Git tree object from only the entries defined in the `tree` parameter. If you create a new commit pointing to such a tree, then all files which were a part of the parent commit's tree and were not defined in the `tree` parameter will be listed as deleted by the new commit.
-         *
          */
         base_tree?: string;
       },
@@ -19243,9 +20059,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -19282,14 +20104,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
           secret?: WebhookConfigSecret;
           /** Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.** */
           insecure_ssl?: WebhookConfigInsecureSsl;
-          /** @example "abc" */
+          /** @example ""abc"" */
           token?: string;
-          /** @example "sha256" */
+          /** @example ""sha256"" */
           digest?: string;
         };
-        /** Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for. */
+        /**
+         * Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for.
+         * @default ["push"]
+         */
         events?: string[];
-        /** Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications. */
+        /**
+         * Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.
+         * @default true
+         */
         active?: boolean;
       },
       params: RequestParams = {},
@@ -19342,18 +20170,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
           secret?: WebhookConfigSecret;
           /** Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.** */
           insecure_ssl?: WebhookConfigInsecureSsl;
-          /** @example "bar@example.com" */
+          /** @example ""bar@example.com"" */
           address?: string;
-          /** @example "The Serious Room" */
+          /** @example ""The Serious Room"" */
           room?: string;
         };
-        /** Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for. This replaces the entire array of events. */
+        /**
+         * Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for. This replaces the entire array of events.
+         * @default ["push"]
+         */
         events?: string[];
         /** Determines a list of events to be added to the list of events that the Hook triggers for. */
         add_events?: string[];
         /** Determines a list of events to be removed from the list of events that the Hook triggers for. */
         remove_events?: string[];
-        /** Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications. */
+        /**
+         * Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.
+         * @default true
+         */
         active?: boolean;
       },
       params: RequestParams = {},
@@ -19527,9 +20361,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         vcs_username?: string;
         /** The password to provide to the originating repository. */
         vcs_password?: string;
-        /** @example "git" */
+        /** @example ""git"" */
         vcs?: string;
-        /** @example "project1" */
+        /** @example ""project1"" */
         tfvc_project?: string;
       },
       params: RequestParams = {},
@@ -19600,7 +20434,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         email?: string;
         /** The new Git author name. */
         name?: string;
-        /** @example "can't touch this" */
+        /** @example ""can't touch this"" */
         remote_id?: string;
       },
       params: RequestParams = {},
@@ -19738,9 +20572,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -19809,7 +20649,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** If an `integer` is passed, it should refer to a milestone by its `number` field. If the string `*` is passed, issues with any milestone are accepted. If the string `none` is passed, issues without milestones are returned. */
         milestone?: string;
-        /** Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`. */
+        /**
+         * Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`.
+         * @default "open"
+         */
         state?: "open" | "closed" | "all";
         /** Can be the name of a user. Pass in `none` for issues with no assigned user, and `*` for issues assigned to any user. */
         assignee?: string;
@@ -19819,15 +20662,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         mentioned?: string;
         /** A list of comma separated label names. Example: `bug,ui,@high` */
         labels?: string;
-        /** What to sort results by. Can be either `created`, `updated`, `comments`. */
+        /**
+         * What to sort results by. Can be either `created`, `updated`, `comments`.
+         * @default "created"
+         */
         sort?: "created" | "updated" | "comments";
-        /** One of `asc` (ascending) or `desc` (descending). */
+        /**
+         * One of `asc` (ascending) or `desc` (descending).
+         * @default "desc"
+         */
         direction?: "asc" | "desc";
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -19905,15 +20760,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** One of `created` (when the repository was starred) or `updated` (when it was last pushed to). */
+        /**
+         * One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
+         * @default "created"
+         */
         sort?: "created" | "updated";
         /** Either `asc` or `desc`. Ignored without the `sort` parameter. */
         direction?: "asc" | "desc";
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -19999,9 +20863,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to an issue comment. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -20088,9 +20958,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -20260,9 +21136,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -20315,9 +21197,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       issueNumber: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -20343,9 +21231,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       issueNumber: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -20505,9 +21399,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to an issue. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -20595,9 +21495,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       issueNumber: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -20629,9 +21535,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -20721,9 +21633,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -20886,7 +21804,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         | BasicError
         | {
             message?: string;
-            /** @example "https://docs.github.com/rest/reference/repos#perform-a-merge" */
+            /** @example ""https://docs.github.com/rest/reference/repos#perform-a-merge"" */
             documentation_url?: string;
           }
         | ValidationError
@@ -20911,15 +21829,30 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** The state of the milestone. Either `open`, `closed`, or `all`. */
+        /**
+         * The state of the milestone. Either `open`, `closed`, or `all`.
+         * @default "open"
+         */
         state?: "open" | "closed" | "all";
-        /** What to sort results by. Either `due_on` or `completeness`. */
+        /**
+         * What to sort results by. Either `due_on` or `completeness`.
+         * @default "due_on"
+         */
         sort?: "due_on" | "completeness";
-        /** The direction of the sort. Either `asc` or `desc`. */
+        /**
+         * The direction of the sort. Either `asc` or `desc`.
+         * @default "asc"
+         */
         direction?: "asc" | "desc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -20946,7 +21879,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /** The title of the milestone. */
         title: string;
-        /** The state of the milestone. Either `open` or `closed`. */
+        /**
+         * The state of the milestone. Either `open` or `closed`.
+         * @default "open"
+         */
         state?: "open" | "closed";
         /** A description of the milestone. */
         description?: string;
@@ -20995,7 +21931,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /** The title of the milestone. */
         title?: string;
-        /** The state of the milestone. Either `open` or `closed`. */
+        /**
+         * The state of the milestone. Either `open` or `closed`.
+         * @default "open"
+         */
         state?: "open" | "closed";
         /** A description of the milestone. */
         description?: string;
@@ -21041,9 +21980,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       milestoneNumber: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -21068,17 +22013,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** If `true`, show notifications marked as read. */
+        /**
+         * If `true`, show notifications marked as read.
+         * @default false
+         */
         all?: boolean;
-        /** If `true`, only shows notifications in which the user is directly participating or mentioned. */
+        /**
+         * If `true`, only shows notifications in which the user is directly participating or mentioned.
+         * @default false
+         */
         participating?: boolean;
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
         /** Only show notifications updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         before?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -21148,7 +22105,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         source: {
           /** The repository branch used to publish your site's source files. */
           branch: string;
-          /** The repository directory that includes the source files for the Pages site. Allowed paths are `/` or `/docs`. Default: `/` */
+          /**
+           * The repository directory that includes the source files for the Pages site. Allowed paths are `/` or `/docs`. Default: `/`
+           * @default "/"
+           */
           path?: "/" | "/docs";
         };
       },
@@ -21254,9 +22214,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -21329,11 +22295,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Indicates the state of the projects to return. Can be either `open`, `closed`, or `all`. */
+        /**
+         * Indicates the state of the projects to return. Can be either `open`, `closed`, or `all`.
+         * @default "open"
+         */
         state?: "open" | "closed" | "all";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -21386,19 +22361,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Either `open`, `closed`, or `all` to filter by state. */
+        /**
+         * Either `open`, `closed`, or `all` to filter by state.
+         * @default "open"
+         */
         state?: "open" | "closed" | "all";
         /** Filter pulls by head user or head organization and branch name in the format of `user:ref-name` or `organization:ref-name`. For example: `github:new-script-format` or `octocat:test-branch`. */
         head?: string;
         /** Filter pulls by base branch name. Example: `gh-pages`. */
         base?: string;
-        /** What to sort results by. Can be either `created`, `updated`, `popularity` (comment count) or `long-running` (age, filtering by pulls updated in the last month). */
+        /**
+         * What to sort results by. Can be either `created`, `updated`, `popularity` (comment count) or `long-running` (age, filtering by pulls updated in the last month).
+         * @default "created"
+         */
         sort?: "created" | "updated" | "popularity" | "long-running";
         /** The direction of the sort. Can be either `asc` or `desc`. Default: `desc` when sort is `created` or sort is not specified, otherwise `asc`. */
         direction?: "asc" | "desc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -21461,15 +22448,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** One of `created` (when the repository was starred) or `updated` (when it was last pushed to). */
+        /**
+         * One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
+         * @default "created"
+         */
         sort?: "created" | "updated";
         /** Can be either `asc` or `desc`. Ignored without `sort` parameter. */
         direction?: "asc" | "desc";
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -21555,9 +22551,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a pull request review comment. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -21696,15 +22698,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       pullNumber: number,
       query?: {
-        /** One of `created` (when the repository was starred) or `updated` (when it was last pushed to). */
+        /**
+         * One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
+         * @default "created"
+         */
         sort?: "created" | "updated";
         /** Can be either `asc` or `desc`. Ignored without `sort` parameter. */
         direction?: "asc" | "desc";
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -21801,9 +22812,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       pullNumber: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -21829,9 +22846,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       pullNumber: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -21913,9 +22936,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       pullNumber: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -21998,9 +23027,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       pullNumber: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -22042,11 +23077,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
           body: string;
           /** @example 28 */
           line?: number;
-          /** @example RIGHT */
+          /** @example "RIGHT" */
           side?: string;
           /** @example 26 */
           start_line?: number;
-          /** @example LEFT */
+          /** @example "LEFT" */
           start_side?: string;
         }[];
       },
@@ -22141,9 +23176,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       pullNumber: number,
       reviewId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -22172,7 +23213,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /** The message for the pull request review dismissal */
         message: string;
-        /** @example "APPROVE" */
+        /** @example ""APPROVE"" */
         event?: string;
       },
       params: RequestParams = {},
@@ -22291,9 +23332,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -22326,9 +23373,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         name?: string;
         /** Text describing the contents of the tag. */
         body?: string;
-        /** `true` to create a draft (unpublished) release, `false` to create a published one. */
+        /**
+         * `true` to create a draft (unpublished) release, `false` to create a published one.
+         * @default false
+         */
         draft?: boolean;
-        /** `true` to identify the release as a prerelease. `false` to identify the release as a full release. */
+        /**
+         * `true` to identify the release as a prerelease. `false` to identify the release as a full release.
+         * @default false
+         */
         prerelease?: boolean;
       },
       params: RequestParams = {},
@@ -22382,7 +23435,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         name?: string;
         /** An alternate short description of the asset. Used in place of the filename. */
         label?: string;
-        /** @example "uploaded" */
+        /** @example ""uploaded"" */
         state?: string;
       },
       params: RequestParams = {},
@@ -22524,9 +23577,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       releaseId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -22581,9 +23640,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Set to `open` or `resolved` to only list secret scanning alerts in a specific state. */
         state?: "open" | "resolved";
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
       },
       params: RequestParams = {},
@@ -22674,9 +23739,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -22792,7 +23863,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         target_url?: string;
         /** A short description of the status. */
         description?: string;
-        /** A string label to differentiate this status from the status of other systems. This field is case-insensitive. */
+        /**
+         * A string label to differentiate this status from the status of other systems. This field is case-insensitive.
+         * @default "default"
+         */
         context?: string;
       },
       params: RequestParams = {},
@@ -22818,9 +23892,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -22904,9 +23984,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -22946,9 +24032,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -23030,7 +24122,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Must be one of: `day`, `week`. */
+        /**
+         * Must be one of: `day`, `week`.
+         * @default "day"
+         */
         per?: "day" | "week";
       },
       params: RequestParams = {},
@@ -23087,7 +24182,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /** Must be one of: `day`, `week`. */
+        /**
+         * Must be one of: `day`, `week`.
+         * @default "day"
+         */
         per?: "day" | "week";
       },
       params: RequestParams = {},
@@ -23206,9 +24304,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         name: string;
         /** A short description of the new repository. */
         description?: string;
-        /** Set to `true` to include the directory structure and files from all branches in the template repository, and not just the default branch. Default: `false`. */
+        /**
+         * Set to `true` to include the directory structure and files from all branches in the template repository, and not just the default branch. Default: `false`.
+         * @default false
+         */
         include_all_branches?: boolean;
-        /** Either `true` to create a new private repository or `false` to create a new public one. */
+        /**
+         * Either `true` to create a new private repository or `false` to create a new public one.
+         * @default false
+         */
         private?: boolean;
       },
       params: RequestParams = {},
@@ -23604,7 +24708,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * Filters results using the equals query parameter operator (`eq`). You can filter results that are equal to `id`, `userName`, `emails`, and `external_id`. For example, to search for an identity with the `userName` Octocat, you would use this query:
          *
          * `?filter=userName%20eq%20\"Octocat\"`.
+         *
          * To filter results for the identity with the email `octocat@github.com`, you would use this query:
+         *
          * `?filter=emails%20eq%20\"octocat@github.com\"`.
          */
         filter?: string;
@@ -23632,12 +24738,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * Configured by the admin. Could be an email, login, or username
-         * @example someone@example.com
+         * @example "someone@example.com"
          */
         userName: string;
         /**
          * The name of the user, suitable for display to end-users
-         * @example Jon Doe
+         * @example "Jon Doe"
          */
         displayName?: string;
         /** @example {"givenName":"Jane","familyName":"User"} */
@@ -23648,6 +24754,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         };
         /**
          * user emails
+         * @minItems 1
          * @example [{"value":"someone@example.com","primary":true},{"value":"another@example.com","primary":false}]
          */
         emails: {
@@ -23702,7 +24809,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         schemas?: string[];
         /**
          * The name of the user, suitable for display to end-users
-         * @example Jon Doe
+         * @example "Jon Doe"
          */
         displayName?: string;
         externalId?: string;
@@ -23710,7 +24817,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         active?: boolean;
         /**
          * Configured by the admin. Could be an email, login, or username
-         * @example someone@example.com
+         * @example "someone@example.com"
          */
         userName: string;
         /** @example {"givenName":"Jane","familyName":"User"} */
@@ -23721,6 +24828,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         };
         /**
          * user emails
+         * @minItems 1
          * @example [{"value":"someone@example.com","primary":true},{"value":"another@example.com","primary":false}]
          */
         emails: {
@@ -23755,6 +24863,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         schemas?: string[];
         /**
          * Set of operations to be performed
+         * @minItems 1
          * @example [{"op":"replace","value":{"active":false}}]
          */
         Operations: {
@@ -23816,11 +24925,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         q: string;
         /** Sorts the results of your query. Can only be `indexed`, which indicates how recently a file has been indexed by the GitHub search infrastructure. Default: [best match](https://docs.github.com/rest/reference/search#ranking-search-results) */
         sort?: "indexed";
-        /** Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`. */
+        /**
+         * Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -23860,11 +24978,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         q: string;
         /** Sorts the results of your query by `author-date` or `committer-date`. Default: [best match](https://docs.github.com/rest/reference/search#ranking-search-results) */
         sort?: "author-date" | "committer-date";
-        /** Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`. */
+        /**
+         * Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -23912,11 +25039,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
           | "interactions"
           | "created"
           | "updated";
-        /** Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`. */
+        /**
+         * Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -23958,7 +25094,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         q: string;
         /** Sorts the results of your query by when the label was `created` or `updated`. Default: [best match](https://docs.github.com/rest/reference/search#ranking-search-results) */
         sort?: "created" | "updated";
-        /** Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`. */
+        /**
+         * Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
       },
       params: RequestParams = {},
@@ -23992,11 +25131,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         q: string;
         /** Sorts the results of your query by number of `stars`, `forks`, or `help-wanted-issues` or how recently the items were `updated`. Default: [best match](https://docs.github.com/rest/reference/search#ranking-search-results) */
         sort?: "stars" | "forks" | "help-wanted-issues" | "updated";
-        /** Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`. */
+        /**
+         * Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -24068,11 +25216,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         q: string;
         /** Sorts the results of your query by number of `followers` or `repositories`, or when the person `joined` GitHub. Default: [best match](https://docs.github.com/rest/reference/search#ranking-search-results) */
         sort?: "followers" | "repositories" | "joined";
-        /** Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`. */
+        /**
+         * Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -24145,6 +25302,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `pull` - team members can pull, but not push to or administer newly-added repositories.
          * \* `push` - team members can pull and push, but not administer newly-added repositories.
          * \* `admin` - team members can pull, push and administer newly-added repositories.
+         * @default "pull"
          */
         permission?: "pull" | "push" | "admin";
         /** The ID of a team to set as the parent team. */
@@ -24189,11 +25347,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     teamsListDiscussionsLegacy: (
       teamId: number,
       query?: {
-        /** One of `asc` (ascending) or `desc` (descending). */
+        /**
+         * One of `asc` (ascending) or `desc` (descending).
+         * @default "desc"
+         */
         direction?: "asc" | "desc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -24222,7 +25389,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         title: string;
         /** The discussion post's body text. */
         body: string;
-        /** Private posts are only visible to team members, organization owners, and team maintainers. Public posts are visible to all members of the organization. Set to `true` to create a private post. */
+        /**
+         * Private posts are only visible to team members, organization owners, and team maintainers. Public posts are visible to all members of the organization. Set to `true` to create a private post.
+         * @default false
+         */
         private?: boolean;
       },
       params: RequestParams = {},
@@ -24311,11 +25481,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       teamId: number,
       discussionNumber: number,
       query?: {
-        /** One of `asc` (ascending) or `desc` (descending). */
+        /**
+         * One of `asc` (ascending) or `desc` (descending).
+         * @default "desc"
+         */
         direction?: "asc" | "desc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -24442,9 +25621,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a team discussion comment. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -24500,9 +25685,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a team discussion. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -24554,9 +25745,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     teamsListPendingInvitationsLegacy: (
       teamId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -24586,11 +25783,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `member` - normal members of the team.
          * \* `maintainer` - team maintainers.
          * \* `all` - all members of the team.
+         * @default "all"
          */
         role?: "member" | "maintainer" | "all";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -24640,7 +25844,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
               field?: string;
               resource?: string;
             }[];
-            /** @example "https://docs.github.com/rest" */
+            /** @example ""https://docs.github.com/rest"" */
             documentation_url?: string;
           }
       >({
@@ -24699,6 +25903,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * The role that this user should have in the team. Can be one of:
          * \* `member` - a normal member of the team.
          * \* `maintainer` - a team maintainer. Able to add/remove other team members, promote other team members to team maintainer, and edit the team's name and description.
+         * @default "member"
          */
         role?: "member" | "maintainer";
       },
@@ -24715,7 +25920,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
               field?: string;
               resource?: string;
             }[];
-            /** @example "https://help.github.com/articles/github-and-trade-controls" */
+            /** @example ""https://help.github.com/articles/github-and-trade-controls"" */
             documentation_url?: string;
           }
       >({
@@ -24755,9 +25960,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     teamsListProjectsLegacy: (
       teamId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -24880,9 +26091,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     teamsListReposLegacy: (
       teamId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -24999,14 +26216,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
           group_name: string;
           /** Description of the IdP group. */
           group_description: string;
-          /** @example "caceab43fc9ffa20081c" */
+          /** @example ""caceab43fc9ffa20081c"" */
           id?: string;
-          /** @example "external-team-6c13e7288ef7" */
+          /** @example ""external-team-6c13e7288ef7"" */
           name?: string;
-          /** @example "moar cheese pleese" */
+          /** @example ""moar cheese pleese"" */
           description?: string;
         }[];
-        /** @example "I am not a timestamp" */
+        /** @example ""I am not a timestamp"" */
         synced_at?: string;
       },
       params: RequestParams = {},
@@ -25032,9 +26249,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     teamsListChildLegacy: (
       teamId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -25076,32 +26299,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * The new name of the user.
-         * @example Omar Jahandar
+         * @example "Omar Jahandar"
          */
         name?: string;
         /**
          * The publicly visible email address of the user.
-         * @example omar@example.com
+         * @example "omar@example.com"
          */
         email?: string;
         /**
          * The new blog URL of the user.
-         * @example blog.example.com
+         * @example "blog.example.com"
          */
         blog?: string;
         /**
          * The new Twitter username of the user.
-         * @example therealomarj
+         * @example "therealomarj"
          */
         twitter_username?: string | null;
         /**
          * The new company of the user.
-         * @example Acme corporation
+         * @example "Acme corporation"
          */
         company?: string;
         /**
          * The new location of the user.
-         * @example Berlin, Germany
+         * @example "Berlin, Germany"
          */
         location?: string;
         /** The new hiring availability of the user. */
@@ -25200,7 +26423,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * An email address associated with the GitHub user account to manage.
-         * @example org@example.com
+         * @example "org@example.com"
          */
         email: string;
         /** Denotes whether an email is publically visible. */
@@ -25227,9 +26450,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     usersListEmailsForAuthenticated: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -25308,9 +26537,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     usersListFollowersForAuthenticatedUser: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -25333,9 +26568,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     usersListFollowedByAuthenticated: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -25403,9 +26644,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     usersListGpgKeysForAuthenticated: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -25483,9 +26730,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     appsListInstallationsForAuthenticatedUser: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -25519,9 +26772,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     appsListInstallationReposForAuthenticatedUser: (
       installationId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -25637,21 +26896,37 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * \* `mentioned`: Issues mentioning you
          * \* `subscribed`: Issues you're subscribed to updates for
          * \* `all`: All issues the authenticated user can see, regardless of participation or creation
+         * @default "assigned"
          */
         filter?: "assigned" | "created" | "mentioned" | "subscribed" | "all";
-        /** Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`. */
+        /**
+         * Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`.
+         * @default "open"
+         */
         state?: "open" | "closed" | "all";
         /** A list of comma separated label names. Example: `bug,ui,@high` */
         labels?: string;
-        /** What to sort results by. Can be either `created`, `updated`, `comments`. */
+        /**
+         * What to sort results by. Can be either `created`, `updated`, `comments`.
+         * @default "created"
+         */
         sort?: "created" | "updated" | "comments";
-        /** One of `asc` (ascending) or `desc` (descending). */
+        /**
+         * One of `asc` (ascending) or `desc` (descending).
+         * @default "desc"
+         */
         direction?: "asc" | "desc";
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -25674,9 +26949,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     usersListPublicSshKeysForAuthenticated: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -25701,7 +26982,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * A descriptive name for the new key.
-         * @example Personal MacBook Air
+         * @example "Personal MacBook Air"
          */
         title?: string;
         /**
@@ -25762,9 +27043,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     appsListSubscriptionsForAuthenticatedUser: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -25787,9 +27074,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     appsListSubscriptionsForAuthenticatedUserStubbed: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -25814,9 +27107,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Indicates the state of the memberships to return. Can be either `active` or `pending`. If not specified, the API returns both active and pending memberships. */
         state?: "active" | "pending";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -25880,9 +27179,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     migrationsListForAuthenticatedUser: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26012,9 +27317,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     migrationsListReposForUser: (
       migrationId: number,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26037,9 +27348,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     orgsListForAuthenticatedUser: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26064,12 +27381,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * Name of the project
-         * @example Week One Sprint
+         * @example "Week One Sprint"
          */
         name: string;
         /**
          * Body of the project
-         * @example This project represents the sprint of the first week in January
+         * @example "This project represents the sprint of the first week in January"
          */
         body?: string | null;
       },
@@ -26102,9 +27419,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     usersListPublicEmailsForAuthenticated: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26127,28 +27450,42 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reposListForAuthenticatedUser: (
       query?: {
-        /** Can be one of `all`, `public`, or `private`. */
+        /**
+         * Can be one of `all`, `public`, or `private`.
+         * @default "all"
+         */
         visibility?: "all" | "public" | "private";
         /**
          * Comma-separated list of values. Can include:
          * \* `owner`: Repositories that are owned by the authenticated user.
          * \* `collaborator`: Repositories that the user has been added to as a collaborator.
          * \* `organization_member`: Repositories that the user has access to through being a member of an organization. This includes every repository on every team that the user is on.
+         * @default "owner,collaborator,organization_member"
          */
         affiliation?: string;
         /**
          * Can be one of `all`, `owner`, `public`, `private`, `member`. Default: `all`
          *
          * Will cause a `422` error if used in the same request as **visibility** or **affiliation**. Will cause a `422` error if used in the same request as **visibility** or **affiliation**.
+         * @default "all"
          */
         type?: "all" | "owner" | "public" | "private" | "member";
-        /** Can be one of `created`, `updated`, `pushed`, `full_name`. */
+        /**
+         * Can be one of `created`, `updated`, `pushed`, `full_name`.
+         * @default "full_name"
+         */
         sort?: "created" | "updated" | "pushed" | "full_name";
         /** Can be one of `asc` or `desc`. Default: `asc` when using `full_name`, otherwise `desc` */
         direction?: "asc" | "desc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
@@ -26177,71 +27514,86 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: {
         /**
          * The name of the repository.
-         * @example Team Environment
+         * @example "Team Environment"
          */
         name: string;
         /** A short description of the repository. */
         description?: string;
         /** A URL with more information about the repository. */
         homepage?: string;
-        /** Whether the repository is private or public. */
+        /**
+         * Whether the repository is private or public.
+         * @default false
+         */
         private?: boolean;
         /**
          * Whether issues are enabled.
+         * @default true
          * @example true
          */
         has_issues?: boolean;
         /**
          * Whether projects are enabled.
+         * @default true
          * @example true
          */
         has_projects?: boolean;
         /**
          * Whether the wiki is enabled.
+         * @default true
          * @example true
          */
         has_wiki?: boolean;
         /** The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization. */
         team_id?: number;
-        /** Whether the repository is initialized with a minimal README. */
+        /**
+         * Whether the repository is initialized with a minimal README.
+         * @default false
+         */
         auto_init?: boolean;
         /**
          * The desired language or platform to apply to the .gitignore.
-         * @example Haskell
+         * @example "Haskell"
          */
         gitignore_template?: string;
         /**
          * The license keyword of the open source license for this repository.
-         * @example mit
+         * @example "mit"
          */
         license_template?: string;
         /**
          * Whether to allow squash merges for pull requests.
+         * @default true
          * @example true
          */
         allow_squash_merge?: boolean;
         /**
          * Whether to allow merge commits for pull requests.
+         * @default true
          * @example true
          */
         allow_merge_commit?: boolean;
         /**
          * Whether to allow rebase merges for pull requests.
+         * @default true
          * @example true
          */
         allow_rebase_merge?: boolean;
         /**
          * Whether to delete head branches when pull requests are merged
+         * @default false
          * @example false
          */
         delete_branch_on_merge?: boolean;
         /**
          * Whether downloads are enabled.
+         * @default true
          * @example true
          */
         has_downloads?: boolean;
         /**
          * Whether this repository acts as a template that can be used to generate new repositories.
+         * @default false
          * @example true
          */
         is_template?: boolean;
@@ -26267,9 +27619,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reposListInvitationsForAuthenticatedUser: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26322,13 +27680,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     activityListReposStarredByAuthenticatedUser: (
       query?: {
-        /** One of `created` (when the repository was starred) or `updated` (when it was last pushed to). */
+        /**
+         * One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
+         * @default "created"
+         */
         sort?: "created" | "updated";
-        /** One of `asc` (ascending) or `desc` (descending). */
+        /**
+         * One of `asc` (ascending) or `desc` (descending).
+         * @default "desc"
+         */
         direction?: "asc" | "desc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26396,9 +27766,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     activityListWatchedReposForAuthenticatedUser: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26421,9 +27797,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsListForAuthenticatedUser: (
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26449,7 +27831,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** A user ID. Only return users with an ID greater than this ID. */
         since?: number;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
       },
       params: RequestParams = {},
@@ -26489,9 +27874,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     activityListEventsForAuthenticatedUser: (
       username: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26516,9 +27907,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       username: string,
       org: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26542,9 +27939,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     activityListPublicEventsForUser: (
       username: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26568,9 +27971,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     usersListFollowersForUser: (
       username: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26594,9 +28003,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     usersListFollowingForUser: (
       username: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26637,9 +28052,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26663,9 +28084,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     usersListGpgKeysForUser: (
       username: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26731,9 +28158,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     usersListPublicKeysForUser: (
       username: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26757,9 +28190,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     orgsListForUser: (
       username: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26783,11 +28222,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     projectsListForUser: (
       username: string,
       query?: {
-        /** Indicates the state of the projects to return. Can be either `open`, `closed`, or `all`. */
+        /**
+         * Indicates the state of the projects to return. Can be either `open`, `closed`, or `all`.
+         * @default "open"
+         */
         state?: "open" | "closed" | "all";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26818,9 +28266,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     activityListReceivedEventsForUser: (
       username: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26844,9 +28298,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     activityListReceivedPublicEventsForUser: (
       username: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26870,15 +28330,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListForUser: (
       username: string,
       query?: {
-        /** Can be one of `all`, `owner`, `member`. */
+        /**
+         * Can be one of `all`, `owner`, `member`.
+         * @default "owner"
+         */
         type?: "all" | "owner" | "member";
-        /** Can be one of `created`, `updated`, `pushed`, `full_name`. */
+        /**
+         * Can be one of `created`, `updated`, `pushed`, `full_name`.
+         * @default "full_name"
+         */
         sort?: "created" | "updated" | "pushed" | "full_name";
         /** Can be one of `asc` or `desc`. Default: `asc` when using `full_name`, otherwise `desc` */
         direction?: "asc" | "desc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26950,13 +28422,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     activityListReposStarredByUser: (
       username: string,
       query?: {
-        /** One of `created` (when the repository was starred) or `updated` (when it was last pushed to). */
+        /**
+         * One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
+         * @default "created"
+         */
         sort?: "created" | "updated";
-        /** One of `asc` (ascending) or `desc` (descending). */
+        /**
+         * One of `asc` (ascending) or `desc` (descending).
+         * @default "desc"
+         */
         direction?: "asc" | "desc";
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
@@ -26980,9 +28464,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     activityListReposWatchedByUser: (
       username: string,
       query?: {
-        /** Results per page (max 100) */
+        /**
+         * Results per page (max 100)
+         * @default 30
+         */
         per_page?: number;
-        /** Page number of the results to fetch. */
+        /**
+         * Page number of the results to fetch.
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},

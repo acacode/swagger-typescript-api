@@ -34,6 +34,7 @@ All examples you can find [**here**](https://github.com/acacode/swagger-typescri
 ```muse
 Usage: sta [options]
 Usage: swagger-typescript-api [options]
+Usage: swagger-typescript-api generate-templates [options]
 
 Options:
   -v, --version                 output the current version
@@ -71,7 +72,20 @@ Options:
   --clean-output                clean output folder before generate api. WARNING: May cause data loss (default: false)
   --api-class-name <string>     name of the api class
   --patch                       fix up small errors in the swagger source definition (default: false)
+  --debug                       additional information about processes inside this tool (default: false)
+  --another-array-type          generate array types as Array<Type> (by default Type[]) (default: false)
+  --sort-types                  sort fields and types (default: false)
   -h, --help                    display help for command
+
+Commands:
+  generate-templates              Generate ".ejs" templates needed for generate api
+    -o, --output <string>         output path of generated templates
+    -m, --modular                 generate templates needed to separate files for http client, data contracts, and routes (default: false)
+    --http-client <string>        http client type (possible values: "fetch", "axios") (default: "fetch")
+    -c, --clean-output            clean output folder before generate template. WARNING: May cause data loss (default: false)
+    -r, --rewrite                 rewrite content in existing templates (default: false)
+    --silent                      Output only errors to console (default: false)
+    -h, --help                    display help for command
 ```
 
 Also you can use `npx`:  
@@ -81,13 +95,14 @@ Also you can use `npx`:
 
 You can use this package from nodejs:
 ```js
-const { generateApi } = require('swagger-typescript-api');
+const { generateApi, generateTemplates } = require('swagger-typescript-api');
 const path = require("path");
 const fs = require("fs");
 
 /* NOTE: all fields are optional expect one of `output`, `url`, `spec` */
 generateApi({
   name: "MySuperbApi.ts",
+  // set to `false` to prevent the tool from writing to disk
   output: path.resolve(process.cwd(), "./src/__generated__"),
   url: 'http://api.com/swagger.json',
   input: path.resolve(process.cwd(), './foo/swagger.json'),
@@ -102,6 +117,7 @@ generateApi({
   templates: path.resolve(process.cwd(), './api-templates'),
   httpClientType: "axios", // or "fetch"
   defaultResponseAsSuccess: false,
+  generateClient: true,
   generateRouteTypes: false,
   generateResponses: true,
   toJS: false,
@@ -120,8 +136,21 @@ generateApi({
   enumNamesAsValues: false,
   moduleNameFirstTag: false,
   generateUnionEnums: false,
+  typePrefix: '',
+  typeSuffix: '',
   addReadonly: false,
   extraTemplates: [],
+  anotherArrayType: false, 
+  codeGenConstructs: (constructs) => ({
+    ...constructs,
+    RecordType: (key, value) => `MyRecord<key, value>`
+  }),
+  primitiveTypeConstructs: (constructs) => ({
+      ...constructs,
+      string: {
+        'date-time': 'Date'
+      }
+  }),
   hooks: {
     onCreateComponent: (component) => {},
     onCreateRequestParams: (rawType) => {},
@@ -140,6 +169,16 @@ generateApi({
     });
   })
   .catch(e => console.error(e))
+
+
+generateTemplates({
+  cleanOutput: false,
+  output: PATH_TO_OUTPUT_DIR,
+  httpClientType: "fetch",
+  modular: false,
+  silent: false,
+  rewrite: false,
+})
 
 ```
 
@@ -203,8 +242,216 @@ When we change it to `--module-name-index 1` then Api class have two properties 
 This option will group your API operations based on their first tag - mirroring how the Swagger UI groups displayed operations
 
 
+## `generate-templates` command    
+This command allows you to generate source templates which using with option `--templates`
+
+## Modification internal codegen structs with NodeJS API:  
+
+You are able to modify TypeScript internal structs using for generating output with using `generateApi` options `codeGenConstructs` and `primitiveTypeConstructs`.  
+
+### `codeGenConstructs`  
+
+This option has type `(struct: CodeGenConstruct) => Partial<CodeGenConstruct>`.
+
+```ts
+generateApi({
+  // ...
+  codeGenConstructs: (struct) => ({
+      Keyword: {
+          Number: "number",
+          String: "string",
+          Boolean: "boolean",
+          Any: "any",
+          Void: "void",
+          Unknown: "unknown",
+          Null: "null",
+          Undefined: "undefined",
+          Object: "object",
+          File: "File",
+          Date: "Date",
+          Type: "type",
+          Enum: "enum",
+          Interface: "interface",
+          Array: "Array",
+          Record: "Record",
+          Intersection: "&",
+          Union: "|",
+      },
+      CodeGenKeyword: {
+          UtilRequiredKeys: "UtilRequiredKeys",
+      },
+      /**
+       * $A[] or Array<$A>
+       */
+      ArrayType: (content) => {
+          if (this.anotherArrayType) {
+              return `Array<${content}>`;
+          }
+
+          return `(${content})[]`;
+      },
+      /**
+       * "$A"
+       */
+      StringValue: (content) => `"${content}"`,
+      /**
+       * $A
+       */
+      BooleanValue: (content) => `${content}`,
+      /**
+       * $A
+       */
+      NumberValue: (content) => `${content}`,
+      /**
+       * $A
+       */
+      NullValue: (content) => content,
+      /**
+       * $A1 | $A2
+       */
+      UnionType: (contents) => _.join(_.uniq(contents), ` | `),
+      /**
+       * ($A1)
+       */
+      ExpressionGroup: (content) => (content ? `(${content})` : ""),
+      /**
+       * $A1 & $A2
+       */
+      IntersectionType: (contents) => _.join(_.uniq(contents), ` & `),
+      /**
+       * Record<$A1, $A2>
+       */
+      RecordType: (key, value) => `Record<${key}, ${value}>`,
+      /**
+       * readonly $key?:$value
+       */
+      TypeField: ({ readonly, key, optional, value }) =>
+          _.compact([readonly && "readonly ", key, optional && "?", ": ", value]).join(""),
+      /**
+       * [key: $A1]: $A2
+       */
+      InterfaceDynamicField: (key, value) => `[key: ${key}]: ${value}`,
+      /**
+       * $A1 = $A2
+       */
+      EnumField: (key, value) => `${key} = ${value}`,
+      /**
+       * $A0.key = $A0.value,
+       * $A1.key = $A1.value,
+       * $AN.key = $AN.value,
+       */
+      EnumFieldsWrapper: (contents) =>
+          _.map(contents, ({ key, value }) => `  ${key} = ${value}`).join(",\n"),
+      /**
+       * {\n $A \n}
+       */
+      ObjectWrapper: (content) => `{\n${content}\n}`,
+      /**
+       * /** $A *\/
+       */
+      MultilineComment: (contents, formatFn) =>
+          [
+              ...(contents.length === 1
+                  ? [`/** ${contents[0]} */`]
+                  : ["/**", ...contents.map((content) => ` * ${content}`), " */"]),
+          ].map((part) => `${formatFn ? formatFn(part) : part}\n`),
+      /**
+       * $A1<...$A2.join(,)>
+       */
+      TypeWithGeneric: (typeName, genericArgs) => {
+          return `${typeName}${genericArgs.length ? `<${genericArgs.join(",")}>` : ""}`;
+      },
+  })
+})
+```  
+
+For example, if you need to generate output `Record<string, any>` instead of `object` you can do it with using following code:  
+
+```ts
+generateApi({
+    // ...
+    codeGenConstructs: (struct) => ({
+        Keyword: {
+            Object: "Record<string, any>",
+        }
+    })
+})
+```
+
+### `primitiveTypeConstructs`  
+
+It is type mapper or translator swagger schema objects. `primitiveTypeConstructs` translates `type`/`format` schema fields to typescript structs.  
+This option has type  
+```ts
+type PrimitiveTypeStructValue =
+  | string
+  | ((schema: Record<string, any>, parser: import("./src/schema-parser/schema-parser").SchemaParser) => string);
+
+type PrimitiveTypeStruct = Record<
+  "integer" | "number" | "boolean" | "object" | "file" | "string" | "array",
+  string | ({ $default: PrimitiveTypeStructValue } & Record<string, PrimitiveTypeStructValue>)
+>
+
+declare const primitiveTypeConstructs: (struct: PrimitiveTypeStruct) => Partial<PrimitiveTypeStruct>
+
+generateApi({
+    // ...
+    primitiveTypeConstructs: (struct) => ({
+        integer: () => "number",
+        number: () => "number",
+        boolean: () => "boolean",
+        object: () => "object",
+        file: () => "File",
+        string: {
+            $default: () => "string",
+
+            /** formats */
+            binary: () => "File",
+            file: () => "File",
+            "date-time": () => "string",
+            time: () => "string",
+            date: () => "string",
+            duration: () => "string",
+            email: () => "string",
+            "idn-email": () => "string",
+            "idn-hostname": () => "string",
+            ipv4: () => "string",
+            ipv6: () => "string",
+            uuid: () => "string",
+            uri: () => "string",
+            "uri-reference": () => "string",
+            "uri-template": () => "string",
+            "json-pointer": () => "string",
+            "relative-json-pointer": () => "string",
+            regex: () => "string",
+        },
+        array: (schema, parser) => {
+            const content = parser.getInlineParseContent(schema.items);
+            return parser.checkAndAddNull(schema, `(${content})[]`);
+        },
+    })
+})
+```
+
+For example, if you need to change `"string"/"date-time"` default output as `string` to `Date` you can do it with using following code:  
+
+```ts
+
+generateApi({
+    primitiveTypeConstructs: (struct) => ({
+        string: {
+            "date-time": "Date",
+        },
+    })
+})
+
+```
+
+See more about [swagger schema type/format data here](https://json-schema.org/understanding-json-schema/reference/string.html#dates-and-times)  
+
 ## 📄 Mass media  
 
+- [5 Lessons learned about swagger-typescript-api](https://christo8989.medium.com/5-lessons-learned-about-swagger-typescript-api-511240b34c1)  
 - [Why Swagger schemes are needed in frontend development ?](https://dev.to/js2me/why-swagger-schemes-are-needed-in-frontend-development-2cb4)  
 - [Migration en douceur vers TypeScript (French)](https://www.premieroctet.com/blog/migration-typescript/)  
 - [swagger-typescript-api usage (Japanese)](https://zenn.dev/watahaya/articles/2f4a716c47903b)   

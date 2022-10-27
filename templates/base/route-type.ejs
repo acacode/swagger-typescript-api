@@ -1,10 +1,10 @@
 <%
 const { route, utils, config } = it;
-const { _, classNameCase, require } = utils;
+const { _, pascalCase, require } = utils;
 const { query, payload, pathParams, headers } = route.request;
 
 const routeDocs = includeFile("@base/route-docs", { config, route, utils });
-const routeNamespace = classNameCase(route.routeName.usage);
+const routeNamespace = pascalCase(route.routeName.usage);
 
 %>
 /**

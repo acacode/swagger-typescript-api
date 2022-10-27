@@ -9,18 +9,12 @@
  * ---------------------------------------------------------------
  */
 
-/**
- * some description
- */
+/** some description */
 export interface Amount {
-  /**
-   * some description
-   *
-   */
+  /** some description */
   currency: Currency;
   /**
    * some description
-   *
    * @format double
    * @min 0.01
    * @max 1000000000000000
@@ -63,6 +57,7 @@ export type Currency = string;
  * @example {"petId":6,"quantity":1,"id":0,"shipDate":"2000-01-23T04:56:07.000+00:00","complete":false,"status":"placed"}
  */
 export interface Order {
+  /** @default false */
   complete?: boolean;
   /** @format int64 */
   id?: number;
@@ -86,7 +81,7 @@ export interface Pet {
   category?: Category;
   /** @format int64 */
   id?: number;
-  /** @example doggie */
+  /** @example "doggie" */
   name: string;
   photoUrls: string[];
   /** pet status in the store */

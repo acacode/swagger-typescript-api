@@ -1,29 +1,4 @@
-const TS_KEYWORDS = {
-  NUMBER: "number",
-  STRING: "string",
-  BOOLEAN: "boolean",
-  ANY: "any",
-  VOID: "void",
-  UNKNOWN: "unknown",
-  NULL: "null",
-  UNDEFINED: "undefined",
-  OBJECT: "object",
-  FILE: "File",
-  DATE: "Date",
-  TYPE: "type",
-  ENUM: "enum",
-  INTERFACE: "interface",
-  TYPE_AND_OPERATOR: " & ",
-  TYPE_OR_OPERATOR: " | ",
-};
-
-const TS_EXTERNAL = {
-  RECORD: "Record<string, any>",
-};
-
-const JS_PRIMITIVE_TYPES = [TS_KEYWORDS.NUMBER, TS_KEYWORDS.STRING, TS_KEYWORDS.BOOLEAN];
-const JS_EMPTY_TYPES = [TS_KEYWORDS.NULL, TS_KEYWORDS.UNDEFINED];
-
+const packageJson = require("../package.json");
 const RESERVED_QUERY_ARG_NAMES = ["query", "queryParams", "queryArg"];
 const RESERVED_BODY_ARG_NAMES = ["data", "body", "reqBody"];
 const RESERVED_REQ_PARAMS_ARG_NAMES = ["params", "requestParams", "reqParams", "httpParams"];
@@ -49,13 +24,25 @@ const HTTP_CLIENT = {
   AXIOS: "axios",
 };
 
+const PROJECT_VERSION = packageJson.version;
+
+const FILE_PREFIX = `/* eslint-disable */
+/* tslint:disable */
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+`;
+
 module.exports = {
+  FILE_PREFIX,
   DEFAULT_BODY_ARG_NAME: "data",
-  SUCCESS_RESPONSE_STATUS_RANGE: [200, 300],
-  JS_PRIMITIVE_TYPES,
-  JS_EMPTY_TYPES,
-  TS_KEYWORDS,
-  TS_EXTERNAL,
+  PROJECT_VERSION,
   SCHEMA_TYPES,
   HTTP_CLIENT,
   RESERVED_QUERY_ARG_NAMES,

@@ -254,6 +254,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     createFile: (
       user: string,
       data: {
+        /** @default "" */
         meme: string;
         memeType?: string;
       },

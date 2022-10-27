@@ -36,8 +36,8 @@ const execute = (scriptName) =>
   });
 
 const run = async () => {
-  for (const command of commands) {
-    for (const scriptName of packageScripts) {
+  for await (const command of commands) {
+    for await (const scriptName of packageScripts) {
       try {
         if (scriptName === command) {
           await execute(scriptName);

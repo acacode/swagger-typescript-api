@@ -12,7 +12,7 @@
 export interface Gif {
   /**
    * The unique bit.ly URL for this GIF
-   * @example http://gph.is/1gsWDcL
+   * @example "http://gph.is/1gsWDcL"
    */
   bitly_url?: string;
   /** Currently unused */
@@ -20,22 +20,19 @@ export interface Gif {
   /**
    * The date this GIF was added to the GIPHY database.
    * @format date-time
-   * @example 2013-08-01 12:41:48
+   * @example "2013-08-01 12:41:48"
    */
   create_datetime?: string;
   /**
    * A URL used for embedding this GIF
-   * @example http://giphy.com/embed/YsTs5ltWtEhnq
+   * @example "http://giphy.com/embed/YsTs5ltWtEhnq"
    */
   embded_url?: string;
-  /**
-   * An array of featured tags for this GIF (Note: Not available when using the Public Beta Key)
-   *
-   */
+  /** An array of featured tags for this GIF (Note: Not available when using the Public Beta Key) */
   featured_tags?: string[];
   /**
    * This GIF's unique ID
-   * @example YsTs5ltWtEhnq
+   * @example "YsTs5ltWtEhnq"
    */
   id?: string;
   /** An object containing data for various available formats and sizes of this GIF. */
@@ -84,63 +81,63 @@ export interface Gif {
   /**
    * The creation or upload date from this GIF's source.
    * @format date-time
-   * @example 2013-08-01 12:41:48
+   * @example "2013-08-01 12:41:48"
    */
   import_datetime?: string;
   /**
    * The MPAA-style rating for this content. Examples include Y, G, PG, PG-13 and R
-   * @example g
+   * @example "g"
    */
   rating?: string;
   /**
    * The unique slug used in this GIF's URL
-   * @example confused-flying-YsTs5ltWtEhnq
+   * @example "confused-flying-YsTs5ltWtEhnq"
    */
   slug?: string;
   /**
    * The page on which this GIF was found
-   * @example http://www.reddit.com/r/reactiongifs/comments/1xpyaa/superman_goes_to_hollywood/
+   * @example "http://www.reddit.com/r/reactiongifs/comments/1xpyaa/superman_goes_to_hollywood/"
    */
   source?: string;
   /**
    * The URL of the webpage on which this GIF was found.
-   * @example http://cheezburger.com/5282328320
+   * @example "http://cheezburger.com/5282328320"
    */
   source_post_url?: string;
   /**
    * The top level domain of the source URL.
-   * @example cheezburger.com
+   * @example "cheezburger.com"
    */
   source_tld?: string;
-  /**
-   * An array of tags for this GIF (Note: Not available when using the Public Beta Key)
-   *
-   */
+  /** An array of tags for this GIF (Note: Not available when using the Public Beta Key) */
   tags?: string[];
   /**
    * The date on which this gif was marked trending, if applicable.
    * @format date-time
-   * @example 2013-08-01 12:41:48
+   * @example "2013-08-01 12:41:48"
    */
   trending_datetime?: string;
-  /** Type of the gif. By default, this is almost always gif */
+  /**
+   * Type of the gif. By default, this is almost always gif
+   * @default "gif"
+   */
   type?: "gif";
   /**
    * The date on which this GIF was last updated.
    * @format date-time
-   * @example 2013-08-01 12:41:48
+   * @example "2013-08-01 12:41:48"
    */
   update_datetime?: string;
   /**
    * The unique URL for this GIF
-   * @example http://giphy.com/gifs/confused-flying-YsTs5ltWtEhnq
+   * @example "http://giphy.com/gifs/confused-flying-YsTs5ltWtEhnq"
    */
   url?: string;
   /** The User Object contains information about the user associated with a GIF and URLs to assets such as that user's avatar image, profile, and more. */
   user?: User;
   /**
    * The username this GIF is attached to, if applicable
-   * @example JoeCool4000
+   * @example "JoeCool4000"
    */
   username?: string;
 }
@@ -148,63 +145,61 @@ export interface Gif {
 export interface Image {
   /**
    * The URL for this GIF in .MP4 format.
-   * @example https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy.mp4
+   * @example "https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy.mp4"
    */
   mp4?: string;
   /**
    * The size in bytes of the .MP4 file corresponding to this GIF.
-   * @example 25123
+   * @example "25123"
    */
   mp4_size?: string;
   /**
    * The number of frames in this GIF.
-   * @example 15
+   * @example "15"
    */
   frames?: string;
   /**
    * The height of this GIF in pixels.
-   * @example 200
+   * @example "200"
    */
   height?: string;
   /**
    * The size of this GIF in bytes.
-   * @example 32381
+   * @example "32381"
    */
   size?: string;
   /**
    * The publicly-accessible direct URL for this GIF.
-   * @example https://media1.giphy.com/media/cZ7rmKfFYOvYI/200.gif
+   * @example "https://media1.giphy.com/media/cZ7rmKfFYOvYI/200.gif"
    */
   url?: string;
   /**
    * The URL for this GIF in .webp format.
-   * @example https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy.webp
+   * @example "https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy.webp"
    */
   webp?: string;
   /**
    * The size in bytes of the .webp file corresponding to this GIF.
-   * @example 12321
+   * @example "12321"
    */
   webp_size?: string;
   /**
    * The width of this GIF in pixels.
-   * @example 320
+   * @example "320"
    */
   width?: string;
 }
 
-/**
- * The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances.
- */
+/** The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances. */
 export interface Meta {
   /**
    * HTTP Response Message
-   * @example OK
+   * @example "OK"
    */
   msg?: string;
   /**
    * A unique ID paired with this response from the API.
-   * @example 57eea03c72381f86e05c35d2
+   * @example "57eea03c72381f86e05c35d2"
    */
   response_id?: string;
   /**
@@ -215,9 +210,7 @@ export interface Meta {
   status?: number;
 }
 
-/**
- * The Pagination Object contains information relating to the number of total results available as well as the number of results fetched and their relative positions.
- */
+/** The Pagination Object contains information relating to the number of total results available as well as the number of results fetched and their relative positions. */
 export interface Pagination {
   /**
    * Total number of items returned.
@@ -239,38 +232,36 @@ export interface Pagination {
   total_count?: number;
 }
 
-/**
- * The User Object contains information about the user associated with a GIF and URLs to assets such as that user's avatar image, profile, and more.
- */
+/** The User Object contains information about the user associated with a GIF and URLs to assets such as that user's avatar image, profile, and more. */
 export interface User {
   /**
    * The URL for this user's avatar image.
-   * @example https://media1.giphy.com/avatars/election2016/XwYrZi5H87o6.gif
+   * @example "https://media1.giphy.com/avatars/election2016/XwYrZi5H87o6.gif"
    */
   avatar_url?: string;
   /**
    * The URL for the banner image that appears atop this user's profile page.
-   * @example https://media4.giphy.com/avatars/cheezburger/XkuejOhoGLE6.jpg
+   * @example "https://media4.giphy.com/avatars/cheezburger/XkuejOhoGLE6.jpg"
    */
   banner_url?: string;
   /**
    * The display name associated with this user (contains formatting the base username might not).
-   * @example JoeCool4000
+   * @example "JoeCool4000"
    */
   display_name?: string;
   /**
    * The URL for this user's profile.
-   * @example https://giphy.com/cheezburger/
+   * @example "https://giphy.com/cheezburger/"
    */
   profile_url?: string;
   /**
    * The Twitter username associated with this user, if applicable.
-   * @example @joecool4000
+   * @example "@joecool4000"
    */
   twitter?: string;
   /**
    * The username associated with this user.
-   * @example joecool4000
+   * @example "joecool4000"
    */
   username?: string;
 }
@@ -514,15 +505,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<
         {
           data?: Gif[];
-          /**
-           * The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances.
-           *
-           */
+          /** The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances. */
           meta?: Meta;
-          /**
-           * The Pagination Object contains information relating to the number of total results available as well as the number of results fetched and their relative positions.
-           *
-           */
+          /** The Pagination Object contains information relating to the number of total results available as well as the number of results fetched and their relative positions. */
           pagination?: Pagination;
         },
         any
@@ -556,10 +541,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<
         {
           data?: Gif;
-          /**
-           * The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances.
-           *
-           */
+          /** The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances. */
           meta?: Meta;
         },
         any
@@ -588,11 +570,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /**
          * The maximum number of records to return.
          * @format int32
+         * @default 25
          */
         limit?: number;
         /**
          * An optional results offset.
          * @format int32
+         * @default 0
          */
         offset?: number;
         /** Filters results by specified rating. */
@@ -605,15 +589,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<
         {
           data?: Gif[];
-          /**
-           * The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances.
-           *
-           */
+          /** The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances. */
           meta?: Meta;
-          /**
-           * The Pagination Object contains information relating to the number of total results available as well as the number of results fetched and their relative positions.
-           *
-           */
+          /** The Pagination Object contains information relating to the number of total results available as well as the number of results fetched and their relative positions. */
           pagination?: Pagination;
         },
         any
@@ -645,10 +623,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<
         {
           data?: Gif;
-          /**
-           * The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances.
-           *
-           */
+          /** The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances. */
           meta?: Meta;
         },
         any
@@ -675,11 +650,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /**
          * The maximum number of records to return.
          * @format int32
+         * @default 25
          */
         limit?: number;
         /**
          * An optional results offset.
          * @format int32
+         * @default 0
          */
         offset?: number;
         /** Filters results by specified rating. */
@@ -690,15 +667,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<
         {
           data?: Gif[];
-          /**
-           * The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances.
-           *
-           */
+          /** The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances. */
           meta?: Meta;
-          /**
-           * The Pagination Object contains information relating to the number of total results available as well as the number of results fetched and their relative positions.
-           *
-           */
+          /** The Pagination Object contains information relating to the number of total results available as well as the number of results fetched and their relative positions. */
           pagination?: Pagination;
         },
         any
@@ -724,10 +695,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<
         {
           data?: Gif;
-          /**
-           * The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances.
-           *
-           */
+          /** The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances. */
           meta?: Meta;
         },
         any
@@ -761,10 +729,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<
         {
           data?: Gif;
-          /**
-           * The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances.
-           *
-           */
+          /** The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances. */
           meta?: Meta;
         },
         any
@@ -793,11 +758,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /**
          * The maximum number of records to return.
          * @format int32
+         * @default 25
          */
         limit?: number;
         /**
          * An optional results offset.
          * @format int32
+         * @default 0
          */
         offset?: number;
         /** Filters results by specified rating. */
@@ -810,15 +777,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<
         {
           data?: Gif[];
-          /**
-           * The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances.
-           *
-           */
+          /** The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances. */
           meta?: Meta;
-          /**
-           * The Pagination Object contains information relating to the number of total results available as well as the number of results fetched and their relative positions.
-           *
-           */
+          /** The Pagination Object contains information relating to the number of total results available as well as the number of results fetched and their relative positions. */
           pagination?: Pagination;
         },
         any
@@ -850,10 +811,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<
         {
           data?: Gif;
-          /**
-           * The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances.
-           *
-           */
+          /** The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances. */
           meta?: Meta;
         },
         any
@@ -880,11 +838,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /**
          * The maximum number of records to return.
          * @format int32
+         * @default 25
          */
         limit?: number;
         /**
          * An optional results offset.
          * @format int32
+         * @default 0
          */
         offset?: number;
         /** Filters results by specified rating. */
@@ -895,15 +855,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<
         {
           data?: Gif[];
-          /**
-           * The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances.
-           *
-           */
+          /** The Meta Object contains basic information regarding the request, whether it was successful, and the response given by the API.  Check `responses` to see a description of types of response codes the API might give you under different cirumstances. */
           meta?: Meta;
-          /**
-           * The Pagination Object contains information relating to the number of total results available as well as the number of results fetched and their relative positions.
-           *
-           */
+          /** The Pagination Object contains information relating to the number of total results available as well as the number of results fetched and their relative positions. */
           pagination?: Pagination;
         },
         any

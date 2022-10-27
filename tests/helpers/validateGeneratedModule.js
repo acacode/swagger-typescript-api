@@ -65,7 +65,8 @@ module.exports = (pathToFile) => {
 
   if (diagnostics.length) {
     console.error(diagnostics);
-    throw new Error("Failed");
+    console.error(new Error("Failed").stack);
+    process.exit(1);
   }
 
   return diagnostics;

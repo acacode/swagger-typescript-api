@@ -11,12 +11,14 @@ const assertGeneratedModule = (pathToModule1, pathToModule2) => {
 
     const diff = gitDiff(output, expected, {
       color: true,
-      flags: "--diff-algorithm=default --ignore-space-at-eol --ignore-cr-at-eol",
+      flags:
+        "--diff-algorithm=default --ignore-space-at-eol --ignore-cr-at-eol --ignore-space-change --ignore-all-space",
     });
 
     if (diff && diff.length) {
-      console.error("\n" + diff);
-      throw new Error("expected another output");
+      console.log("\n" + diff);
+      console.error(new Error("expected another output").stack);
+      process.exit(1);
     }
   }
 

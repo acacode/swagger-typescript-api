@@ -25,6 +25,7 @@ export interface OrderTTT {
   shipDate?: string;
   /** Order Status */
   status?: "placed" | "approved" | "delivered" | null;
+  /** @default false */
   complete?: boolean;
 }
 
@@ -92,7 +93,7 @@ export interface PetTTT {
   id?: number;
   /** A category for a pet */
   category?: CategoryTTT;
-  /** @example doggie */
+  /** @example "doggie" */
   name: string;
   photoUrls: string[];
   tags?: TagTTT[];
@@ -100,22 +101,16 @@ export interface PetTTT {
   status?: "available" | "pending" | "sold";
 }
 
-/**
- * some description
- */
+/** some description */
 export interface AmountTTT {
   /**
    * some description
-   *
    * @format double
    * @min 0.01
    * @max 1000000000000000
    */
   value: number;
-  /**
-   * some description
-   *
-   */
+  /** some description */
   currency: CurrencyTTT;
 }
 

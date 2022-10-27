@@ -9,9 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-/**
- * A user or organization
- */
+/** A user or organization */
 export interface Actor {
   avatar_url?: string;
   bio?: string;
@@ -853,11 +851,19 @@ export declare type Keys = {
   url?: string;
 }[];
 export interface Label {
+  /**
+   * @minLength 6
+   * @maxLength 6
+   */
   color?: string;
   name?: string;
   url?: string;
 }
 export declare type Labels = {
+  /**
+   * @minLength 6
+   * @maxLength 6
+   */
   color?: string;
   name?: string;
   url?: string;
@@ -978,9 +984,7 @@ export interface OrgTeamsPost {
   permission?: "pull" | "push" | "admin";
   repo_names?: string[];
 }
-/**
- * A GitHub organization
- */
+/** A GitHub organization */
 export declare type Organization = Actor;
 export interface OrganizationAsTeamMember {
   errors?: {
@@ -1754,9 +1758,7 @@ export interface Trees {
   tree?: Tree[];
   url?: string;
 }
-/**
- * A GitHub user
- */
+/** A GitHub user */
 export declare type User = Actor;
 export declare type UserEmails = string[];
 export interface UserKeysKeyId {
@@ -1895,7 +1897,6 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         /**
          * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
          * Only gists updated at or after this time are returned.
-         *
          */
         since?: string;
       },
@@ -1919,7 +1920,6 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         /**
          * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
          * Only gists updated at or after this time are returned.
-         *
          */
         since?: string;
       },
@@ -1936,7 +1936,6 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         /**
          * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
          * Only gists updated at or after this time are returned.
-         *
          */
         since?: string;
       },
@@ -2062,18 +2061,20 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         /**
          * Issues assigned to you / created by you / mentioning you / you're
          * subscribed to updates for / All issues the authenticated user can see
-         *
+         * @default "all"
          */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
+        /** @default "open" */
         state: "open" | "closed";
         /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
+        /** @default "created" */
         sort: "created" | "updated" | "comments";
+        /** @default "desc" */
         direction: "asc" | "desc";
         /**
          * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Only issues updated at or after this time are returned.
-         *
          */
         since?: string;
       },
@@ -2105,7 +2106,10 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
     reposSearchDetail: (
       keyword: string,
       query?: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        /**
+         * The sort field. if sort param is provided. Can be either asc or desc.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
         /** Filter results by language */
         language?: string;
@@ -2134,7 +2138,10 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
     userSearchDetail: (
       keyword: string,
       query?: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        /**
+         * The sort field. if sort param is provided. Can be either asc or desc.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
         /** The page number to fetch */
         start_page?: string;
@@ -2192,13 +2199,11 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         /**
          * True to show only notifications in which the user is directly participating
          * or mentioned.
-         *
          */
         participating?: boolean;
         /**
          * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Example: "2012-10-09T23:39:01Z".
-         *
          */
         since?: string;
       },
@@ -2289,18 +2294,20 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         /**
          * Issues assigned to you / created by you / mentioning you / you're
          * subscribed to updates for / All issues the authenticated user can see
-         *
+         * @default "all"
          */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
+        /** @default "open" */
         state: "open" | "closed";
         /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
+        /** @default "created" */
         sort: "created" | "updated" | "comments";
+        /** @default "desc" */
         direction: "asc" | "desc";
         /**
          * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Only issues updated at or after this time are returned.
-         *
          */
         since?: string;
       },
@@ -2368,6 +2375,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
     reposDetail: (
       org: string,
       query?: {
+        /** @default "all" */
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
       params?: RequestParams,
@@ -2576,7 +2584,6 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         /**
          * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Example: "2012-10-09T23:39:01Z".
-         *
          */
         since?: string;
         /** Sha or branch to start listing commits from. */
@@ -2814,6 +2821,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       query?: {
+        /** @default "newes" */
         sort?: "newes" | "oldes" | "watchers";
       },
       params?: RequestParams,
@@ -3071,18 +3079,20 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         /**
          * Issues assigned to you / created by you / mentioning you / you're
          * subscribed to updates for / All issues the authenticated user can see
-         *
+         * @default "all"
          */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
+        /** @default "open" */
         state: "open" | "closed";
         /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
+        /** @default "created" */
         sort: "created" | "updated" | "comments";
+        /** @default "desc" */
         direction: "asc" | "desc";
         /**
          * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Only issues updated at or after this time are returned.
-         *
          */
         since?: string;
       },
@@ -3116,7 +3126,6 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         /**
          * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Example: "2012-10-09T23:39:01Z".
-         *
          */
         since?: string;
       },
@@ -3451,10 +3460,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       query?: {
-        /** String to filter by state. */
+        /**
+         * String to filter by state.
+         * @default "open"
+         */
         state?: "open" | "closed";
         /** Ignored without 'sort' parameter. */
         direction?: string;
+        /** @default "due_date" */
         sort?: "due_date" | "completeness";
       },
       params?: RequestParams,
@@ -3537,13 +3550,11 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         /**
          * True to show only notifications in which the user is directly participating
          * or mentioned.
-         *
          */
         participating?: boolean;
         /**
          * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Example: "2012-10-09T23:39:01Z".
-         *
          */
         since?: string;
       },
@@ -3571,12 +3582,14 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       owner: string,
       repo: string,
       query?: {
-        /** String to filter by state. */
+        /**
+         * String to filter by state.
+         * @default "open"
+         */
         state?: "open" | "closed";
         /**
          * Filter pulls by head user and branch name in the format of 'user:ref-name'.
          * Example: github:new-script-format.
-         *
          */
         head?: string;
         /** Filter pulls by base branch name. Example - gh-pages. */
@@ -3612,7 +3625,6 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         /**
          * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Example: "2012-10-09T23:39:01Z".
-         *
          */
         since?: string;
       },
@@ -4057,7 +4069,6 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         /**
          * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Example: "2012-10-09T23:39:01Z".
-         *
          */
         since?: string;
       },
@@ -4073,7 +4084,10 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     codeList: (
       query: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        /**
+         * The sort field. if sort param is provided. Can be either asc or desc.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
         /**
          * The search terms. This can be any combination of the supported code
@@ -4089,14 +4103,12 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
          * 'Path' Specifies the path that the resulting file must be at.
          * 'Extension' Matches files with a certain extension.
          * 'Users' or 'Repositories' Limits searches to a specific user or repository.
-         *
          */
         q: string;
         /**
          * Can only be 'indexed', which indicates how recently a file has been indexed
          * by the GitHub search infrastructure. If not provided, results are sorted
          * by best match.
-         *
          */
         sort?: "indexed";
       },
@@ -4110,7 +4122,10 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     issuesList: (
       query: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        /**
+         * The sort field. if sort param is provided. Can be either asc or desc.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
         /** The q search term can also contain any combination of the supported issue search qualifiers: */
         q: string;
@@ -4127,7 +4142,10 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     repositoriesList: (
       query: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        /**
+         * The sort field. if sort param is provided. Can be either asc or desc.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
         /**
          * The search terms. This can be any combination of the supported repository
@@ -4143,7 +4161,6 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
          * 'Users or Repositories' Limits searches to a specific user or repository.
          * 'Languages' Searches repositories based on the language they are written in.
          * 'Stars' Searches repositories based on the number of stars.
-         *
          */
         q: string;
         /** If not provided, results are sorted by best match. */
@@ -4159,7 +4176,10 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     usersList: (
       query: {
-        /** The sort field. if sort param is provided. Can be either asc or desc. */
+        /**
+         * The sort field. if sort param is provided. Can be either asc or desc.
+         * @default "desc"
+         */
         order?: "desc" | "asc";
         /**
          * The search terms. This can be any combination of the supported user
@@ -4174,7 +4194,6 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
          * language.
          * 'Created' Filter users based on when they joined.
          * 'Followers' Filter users based on the number of followers they have.
-         *
          */
         q: string;
         /** If not provided, results are sorted by best match. */
@@ -4399,18 +4418,20 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         /**
          * Issues assigned to you / created by you / mentioning you / you're
          * subscribed to updates for / All issues the authenticated user can see
-         *
+         * @default "all"
          */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
+        /** @default "open" */
         state: "open" | "closed";
         /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
+        /** @default "created" */
         sort: "created" | "updated" | "comments";
+        /** @default "desc" */
         direction: "asc" | "desc";
         /**
          * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Only issues updated at or after this time are returned.
-         *
          */
         since?: string;
       },
@@ -4459,6 +4480,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      */
     reposList: (
       query?: {
+        /** @default "all" */
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
       params?: RequestParams,
@@ -4480,6 +4502,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
       query?: {
         /** Ignored without 'sort' parameter. */
         direction?: string;
+        /** @default "created" */
         sort?: "created" | "updated";
       },
       params?: RequestParams,
@@ -4609,7 +4632,6 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         /**
          * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Example: "2012-10-09T23:39:01Z".
-         *
          */
         since?: string;
       },
@@ -4652,6 +4674,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
     reposDetail: (
       username: string,
       query?: {
+        /** @default "all" */
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
       params?: RequestParams,

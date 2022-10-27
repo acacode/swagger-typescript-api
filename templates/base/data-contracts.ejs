@@ -1,6 +1,6 @@
 <%
 const { modelTypes, utils, config } = it;
-const { formatDescription, require, _ } = utils;
+const { formatDescription, require, _, Ts } = utils;
 
 
 const dataContractTemplates = {
@@ -17,11 +17,11 @@ const dataContractTemplates = {
 %>
 
 <% if (config.internalTemplateOptions.addUtilRequiredKeysType) { %>
-type UtilRequiredKeys<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>
+type <%~ config.Ts.CodeGenKeyword.UtilRequiredKeys %><T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>
 <% } %>
 
 <% modelTypes.forEach((contract) => { %>
-  <%~ includeFile('@base/data-contract-jsdoc.ejs', { ...it, contract }) %>
+  <%~ includeFile('@base/data-contract-jsdoc.ejs', { ...it, data: { ...contract, ...contract.typeData } }) %>
   export <%~ (dataContractTemplates[contract.typeIdentifier] || dataContractTemplates.type)(contract) %>
 
 

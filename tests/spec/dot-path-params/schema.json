@@ -1,0 +1,38 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "unset",
+    "version": "unset"
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/foobar/{truck.id}/item": {
+      "post": {
+        "summary": "Repros an issue",
+        "operationId": "ReproFunc",
+        "responses": {
+          "default": {
+            "description": "A response.",
+            "schema": {
+              "$ref": "#/definitions/myResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "truck.id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "myResponse": {
+      "type": "object"
+    }
+  }
+}

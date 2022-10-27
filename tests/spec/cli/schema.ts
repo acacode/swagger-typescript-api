@@ -9,9 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-/**
- * Authentiq ID in JWT format, self-signed.
- */
+/** Authentiq ID in JWT format, self-signed. */
 export interface PrefixAuthentiqID {
   /** device token for push messages */
   devtoken?: string;
@@ -19,9 +17,7 @@ export interface PrefixAuthentiqID {
   sub: string;
 }
 
-/**
- * Claim in JWT format, self- or issuer-signed.
- */
+/** Claim in JWT format, self- or issuer-signed.  */
 export interface PrefixClaims {
   email?: string;
   phone?: string;
@@ -40,9 +36,7 @@ export interface PrefixError {
   type?: string;
 }
 
-/**
- * PushToken in JWT format, self-signed.
- */
+/** PushToken in JWT format, self-signed.  */
 export interface PrefixPushToken {
   /** audience (URI) */
   aud: string;
@@ -78,9 +72,7 @@ export interface PrefixKeyRevokeData {
 
 export type PrefixKeyRevokeError = PrefixError;
 
-/**
- * JWT
- */
+/** JWT */
 export interface PrefixGetKeyData {
   /** @format date-time */
   since?: string;
@@ -132,9 +124,7 @@ export interface PrefixSignDeleteData {
 
 export type PrefixSignDeleteError = PrefixError;
 
-/**
- * JWT
- */
+/** JWT */
 export interface PrefixSignRetrieveData {
   exp?: number;
   field?: string;

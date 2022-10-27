@@ -25,6 +25,7 @@ export interface Order {
   shipDate?: string;
   /** Order Status */
   status?: "placed" | "approved" | "delivered";
+  /** @default false */
   complete?: boolean;
 }
 
@@ -89,7 +90,7 @@ export interface Pet {
   id?: number;
   /** A category for a pet */
   category?: Category;
-  /** @example doggie */
+  /** @example "doggie" */
   name: string;
   photoUrls: string[];
   tags?: Tag[];
@@ -109,22 +110,16 @@ export interface ApiResponse {
   message?: string;
 }
 
-/**
- * some description
- */
+/** some description */
 export interface Amount {
   /**
    * some description
-   *
    * @format double
    * @min 0.01
    * @max 1000000000000000
    */
   value: number;
-  /**
-   * some description
-   *
-   */
+  /** some description */
   currency: Currency;
 }
 

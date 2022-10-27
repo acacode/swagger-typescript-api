@@ -112,6 +112,7 @@ export interface Feed {
   unit_symbol?: string;
   unit_type?: string;
   updated_at?: string;
+  /** @default "private" */
   visibility?: "private" | "public" | "in progress" | "out of access";
 }
 
@@ -127,8 +128,10 @@ export interface Group {
 export interface Permission {
   created_at?: string;
   id?: number;
+  /** @default "feed" */
   model?: "feed" | "group" | "dashboard";
   object_id?: number;
+  /** @default "public" */
   scope?: "secret" | "public" | "user" | "organization";
   scope_value?: string;
   updated_at?: string;
@@ -2251,7 +2254,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       typeId: string,
       id: string,
       permission: {
+        /** @default "r" */
         mode?: "r" | "w" | "rw";
+        /** @default "public" */
         scope?: "secret" | "public" | "user" | "organization";
         scope_value?: string;
       },
@@ -2282,7 +2287,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       typeId: string,
       id: string,
       permission: {
+        /** @default "r" */
         mode?: "r" | "w" | "rw";
+        /** @default "public" */
         scope?: "secret" | "public" | "user" | "organization";
         scope_value?: string;
       },

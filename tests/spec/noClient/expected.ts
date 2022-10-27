@@ -9,9 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-/**
- * A user or organization
- */
+/** A user or organization */
 export interface Actor {
   avatar_url?: string;
   bio?: string;
@@ -908,12 +906,20 @@ export type Keys = {
 }[];
 
 export interface Label {
+  /**
+   * @minLength 6
+   * @maxLength 6
+   */
   color?: string;
   name?: string;
   url?: string;
 }
 
 export type Labels = {
+  /**
+   * @minLength 6
+   * @maxLength 6
+   */
   color?: string;
   name?: string;
   url?: string;
@@ -1048,9 +1054,7 @@ export interface OrgTeamsPost {
   repo_names?: string[];
 }
 
-/**
- * A GitHub organization
- */
+/** A GitHub organization */
 export type Organization = Actor;
 
 export interface OrganizationAsTeamMember {
@@ -1874,9 +1878,7 @@ export interface Trees {
   url?: string;
 }
 
-/**
- * A GitHub user
- */
+/** A GitHub user */
 export type User = Actor;
 
 export type UserEmails = string[];

@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "10.0.3",
+  "version": "11.0.0",
   "description": "Generate typescript/javascript api from swagger schema",
   "scripts": {
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
@@ -41,25 +41,29 @@
     "test:--js": "node tests/spec/js/test.js",
     "test:--js--axios": "node tests/spec/jsAxios/test.js",
     "test:--axios": "node tests/spec/axios/test.js",
+    "test:--another-array-type": "node tests/spec/another-array-type/test.js",
     "test:--object-types": "node tests/spec/object-types/test.js",
     "test:--axios--single-http-client": "node tests/spec/axiosSingleHttpClient/test.js",
     "test:--type-suffix--type-prefix": "node tests/spec/typeSuffixPrefix/test.js",
+    "test:--dot-path-params": "node tests/spec/dot-path-params/test.js",
+    "test:--primitive-type-constructs": "node tests/spec/primitive-type-constructs/test.js",
     "test:--cli": "node index.js -p tests/spec/cli/schema.json -o tests/spec/cli -n schema.ts --extract-response-body --extract-response-error --type-prefix Prefix --api-class-name MySuperApi --no-client",
     "test:partialBaseTemplate": "node tests/spec/partialBaseTemplate/test.js",
     "test:partialDefaultTemplate": "node tests/spec/partialDefaultTemplate/test.js",
-    "test:--patch": "node tests/spec/patch/test.js"
+    "test:--patch": "node tests/spec/patch/test.js",
+    "test:deprecated": "node tests/spec/deprecated/test.js"
   },
   "author": "acacode",
   "license": "MIT",
   "typings": "./index.d.ts",
   "main": "src/index.js",
   "devDependencies": {
-    "cross-env": "^7.0.3",
     "@types/axios": "^0.14.0",
     "@types/lodash": "^4.14.182",
     "@types/node": "^15.0.2",
     "@types/prettier": "^2.7.0",
     "all-contributors-cli": "^6.20.0",
+    "cross-env": "^7.0.3",
     "git-diff": "^2.0.6",
     "husky": "^4.3.6",
     "pretty-quick": "^3.1.0"
@@ -67,8 +71,8 @@
   "dependencies": {
     "@types/swagger-schema-official": "2.0.22",
     "axios": "0.27.2",
-    "commander": "9.4.1",
     "cosmiconfig": "7.0.1",
+    "didyoumean": "^1.2.2",
     "eta": "1.12.3",
     "js-yaml": "4.1.0",
     "lodash": "4.17.21",
@@ -106,6 +110,7 @@
     "index.js",
     "index.d.ts",
     "templates",
+    "cli",
     "LICENSE"
   ],
   "bugs": {

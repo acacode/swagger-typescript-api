@@ -9,9 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-/**
- * Authentiq ID in JWT format, self-signed.
- */
+/** Authentiq ID in JWT format, self-signed. */
 export interface AuthentiqID {
   /** device token for push messages */
   devtoken?: string;
@@ -19,9 +17,7 @@ export interface AuthentiqID {
   sub: string;
 }
 
-/**
- * Claim in JWT format, self- or issuer-signed.
- */
+/** Claim in JWT format, self- or issuer-signed.  */
 export interface Claims {
   email?: string;
   phone?: string;
@@ -40,9 +36,7 @@ export interface Error {
   type?: string;
 }
 
-/**
- * PushToken in JWT format, self-signed.
- */
+/** PushToken in JWT format, self-signed.  */
 export interface PushToken {
   /** audience (URI) */
   aud: string;
@@ -283,7 +277,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
  * @request DELETE:/key
  * @response `200` `{
   \** pending or done *\
-  status?: string,
+    status?: string,
 
 }` Successfully deleted
  * @response `401` `Error` Authentication error `auth-error`
@@ -324,9 +318,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
  * @request POST:/key
  * @response `201` `{
   \** revoke key *\
-  secret?: string,
+    secret?: string,
   \** registered *\
-  status?: string,
+    status?: string,
 
 }` Successfully registered
  * @response `409` `Error` Key already registered `duplicate-key`
@@ -357,7 +351,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
  * @request DELETE:/key/{PK}
  * @response `200` `{
   \** done *\
-  status?: string,
+    status?: string,
 
 }` Successful response
  * @response `401` `Error` Key not found / wrong code `auth-error`
@@ -394,10 +388,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
  * @request GET:/key/{PK}
  * @response `200` `{
   \** @format date-time *\
-  since?: string,
-  status?: string,
+    since?: string,
+    status?: string,
   \** base64safe encoded public signing key *\
-  sub?: string,
+    sub?: string,
 
 }` Successfully retrieved
  * @response `404` `Error` Unknown key `unknown-key`
@@ -447,7 +441,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
  * @request POST:/key/{PK}
  * @response `200` `{
   \** confirmed *\
-  status?: string,
+    status?: string,
 
 }` Successfully updated
  * @response `404` `Error` Unknown key `unknown-key`
@@ -476,7 +470,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
  * @request PUT:/key/{PK}
  * @response `200` `{
   \** confirmed *\
-  status?: string,
+    status?: string,
 
 }` Successfully updated
  * @response `404` `Error` Unknown key `unknown-key`
@@ -507,7 +501,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
  * @request POST:/login
  * @response `200` `{
   \** sent *\
-  status?: string,
+    status?: string,
 
 }` Successful response
  * @response `401` `Error` Unauthorized for this callback audience `aud-error` or JWT should be self-signed `auth-error`
@@ -545,9 +539,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
  * @request POST:/scope
  * @response `201` `{
   \** 20-character ID *\
-  job?: string,
+    job?: string,
   \** waiting *\
-  status?: string,
+    status?: string,
 
 }` Successful response
  * @response `429` `Error` Too Many Requests on same address / number `rate-limit`
@@ -586,7 +580,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
  * @request DELETE:/scope/{job}
  * @response `200` `{
   \** done *\
-  status?: string,
+    status?: string,
 
 }` Successfully deleted
  * @response `404` `Error` Job not found `unknown-job`
@@ -613,10 +607,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
  * @name SignRetrieve
  * @request GET:/scope/{job}
  * @response `200` `{
-  exp?: number,
-  field?: string,
+    exp?: number,
+    field?: string,
   \** base64safe encoded public signing key *\
-  sub?: string,
+    sub?: string,
 
 }` Successful response (JWT)
  * @response `204` `void` Confirmed, waiting for signing
@@ -665,7 +659,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
  * @request POST:/scope/{job}
  * @response `202` `{
   \** confirmed *\
-  status?: string,
+    status?: string,
 
 }` Successfully confirmed
  * @response `401` `Error` Confirmation error `auth-error`
@@ -696,9 +690,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
  * @request PUT:/scope/{job}
  * @response `200` `{
   \** result is JWT or JSON?? *\
-  jwt?: string,
+    jwt?: string,
   \** ready *\
-  status?: string,
+    status?: string,
 
 }` Successfully updated
  * @response `404` `Error` Job not found `unknown-job`

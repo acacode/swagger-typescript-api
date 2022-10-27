@@ -9,18 +9,14 @@
  * ---------------------------------------------------------------
  */
 
-/**
- * @format int32
- */
+/** @format int32 */
 export enum EmptyEnum {
   Bla = "Bla",
   Blabla = "Blabla",
   Boiler = "Boiler",
 }
 
-/**
- * @format int32
- */
+/** @format int32 */
 export enum EnumWithMoreNames {
   Bla = 1,
   Blabla = "Blabla",
@@ -33,9 +29,7 @@ export enum OnlyEnumNames {
   Boiler = "Boiler",
 }
 
-/**
- * @format int32
- */
+/** @format int32 */
 export enum SomeInterestEnum {
   Bla = 6,
   Blabla = 2,
