@@ -202,55 +202,60 @@ const program = cli({
 const main = async () => {
   const { command, options } = await program.execute({ args: process.argv });
 
-  switch (command) {
-    case null: {
-      await generateApi({
-        name: options.name,
-        url: options.path,
-        generateRouteTypes: options.routeTypes,
-        generateClient: !!(options.axios || options.client),
-        httpClientType: options.axios ? HTTP_CLIENT.AXIOS : HTTP_CLIENT.FETCH,
-        defaultResponseAsSuccess: options.defaultAsSuccess,
-        defaultResponseType: options.defaultResponse,
-        unwrapResponseData: options.unwrapResponseData,
-        disableThrowOnError: options.disableThrowOnError,
-        sortTypes: options.sortTypes,
-        generateUnionEnums: options.unionEnums,
-        addReadonly: options.addReadonly,
-        generateResponses: options.responses,
-        extractRequestParams: !!options.extractRequestParams,
-        extractRequestBody: !!options.extractRequestBody,
-        extractResponseBody: !!options.extractResponseBody,
-        extractResponseError: !!options.extractResponseError,
-        input: resolve(process.cwd(), options.path),
-        output: resolve(process.cwd(), options.output || "."),
-        templates: options.templates,
-        modular: !!options.modular,
-        toJS: !!options.js,
-        enumNamesAsValues: options.enumNamesAsValues,
-        moduleNameIndex: +(options.moduleNameIndex || 0),
-        moduleNameFirstTag: options.moduleNameFirstTag,
-        disableStrictSSL: !!options.disableStrictSSL,
-        disableProxy: !!options.disableProxy,
-        singleHttpClient: !!options.singleHttpClient,
-        cleanOutput: !!options.cleanOutput,
-        silent: !!options.silent,
-        typePrefix: options.typePrefix,
-        typeSuffix: options.typeSuffix,
-        patch: !!options.patch,
-        apiClassName: options.apiClassName,
-        debug: options.debug,
-        anotherArrayType: options.anotherArrayType,
-      });
-      break;
+  try {
+    switch (command) {
+      case null: {
+        await generateApi({
+          name: options.name,
+          url: options.path,
+          generateRouteTypes: options.routeTypes,
+          generateClient: !!(options.axios || options.client),
+          httpClientType: options.axios ? HTTP_CLIENT.AXIOS : HTTP_CLIENT.FETCH,
+          defaultResponseAsSuccess: options.defaultAsSuccess,
+          defaultResponseType: options.defaultResponse,
+          unwrapResponseData: options.unwrapResponseData,
+          disableThrowOnError: options.disableThrowOnError,
+          sortTypes: options.sortTypes,
+          generateUnionEnums: options.unionEnums,
+          addReadonly: options.addReadonly,
+          generateResponses: options.responses,
+          extractRequestParams: !!options.extractRequestParams,
+          extractRequestBody: !!options.extractRequestBody,
+          extractResponseBody: !!options.extractResponseBody,
+          extractResponseError: !!options.extractResponseError,
+          input: resolve(process.cwd(), options.path),
+          output: resolve(process.cwd(), options.output || "."),
+          templates: options.templates,
+          modular: !!options.modular,
+          toJS: !!options.js,
+          enumNamesAsValues: options.enumNamesAsValues,
+          moduleNameIndex: +(options.moduleNameIndex || 0),
+          moduleNameFirstTag: options.moduleNameFirstTag,
+          disableStrictSSL: !!options.disableStrictSSL,
+          disableProxy: !!options.disableProxy,
+          singleHttpClient: !!options.singleHttpClient,
+          cleanOutput: !!options.cleanOutput,
+          silent: !!options.silent,
+          typePrefix: options.typePrefix,
+          typeSuffix: options.typeSuffix,
+          patch: !!options.patch,
+          apiClassName: options.apiClassName,
+          debug: options.debug,
+          anotherArrayType: options.anotherArrayType,
+        });
+        break;
+      }
+      case "generate-templates": {
+        console.info("todo");
+        break;
+      }
+      default: {
+        break;
+      }
     }
-    case "generate-templates": {
-      console.info("todo");
-      break;
-    }
-    default: {
-      break;
-    }
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
   }
 };
 

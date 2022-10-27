@@ -247,7 +247,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * @format int32
          */
         limit?: number;
-        /** collection page number */
+        /**
+         * collection page number
+         * @default 1
+         */
         page?: number;
       },
       params: RequestParams = {},
