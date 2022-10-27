@@ -119,31 +119,31 @@ class Templates {
     );
   };
 
+  findTemplateWithExt = (path) => {
+    const raw = this.cropExtension(path);
+    const pathVariants = this.config.templateExtensions.map((extension) => `${raw}${extension}`);
+    return pathVariants.find((variant) => this.fileSystem.pathIsExist(variant));
+  };
+
   getTemplateContent = (path) => {
     const foundTemplatePathKey = _.keys(this.config.templatePaths).find((key) => _.startsWith(path, `@${key}`));
-
-    const findPathWithExt = (path) => {
-      const raw = this.cropExtension(path);
-      const pathVariants = this.config.templateExtensions.map((extension) => `${raw}${extension}`);
-      return pathVariants.find((variant) => this.fileSystem.pathIsExist(variant));
-    };
 
     const rawPath = resolve(
       _.replace(path, `@${foundTemplatePathKey}`, this.config.templatePaths[foundTemplatePathKey]),
     );
-    const fixedPath = findPathWithExt(rawPath);
+    const fixedPath = this.findTemplateWithExt(rawPath);
 
     if (fixedPath) {
       return this.fileSystem.getFileContent(fixedPath);
     }
 
-    const customPath = findPathWithExt(resolve(this.config.templatePaths.custom, path));
+    const customPath = this.findTemplateWithExt(resolve(this.config.templatePaths.custom, path));
 
     if (customPath) {
       return this.fileSystem.getFileContent(customPath);
     }
 
-    const originalPath = findPathWithExt(resolve(this.config.templatePaths.original, path));
+    const originalPath = this.findTemplateWithExt(resolve(this.config.templatePaths.original, path));
 
     if (originalPath) {
       return this.fileSystem.getFileContent(originalPath);
