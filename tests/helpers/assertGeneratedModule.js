@@ -17,7 +17,8 @@ const assertGeneratedModule = (pathToModule1, pathToModule2) => {
 
     if (diff && diff.length) {
       console.log("\n" + diff);
-      throw new Error("expected another output");
+      console.error(new Error("expected another output").stack);
+      process.exit(1);
     }
   }
 
