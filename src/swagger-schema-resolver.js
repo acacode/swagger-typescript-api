@@ -1,4 +1,3 @@
-const { Configuration } = require("./configuration.js");
 const _ = require("lodash");
 const converter = require("swagger2openapi");
 const https = require("https");
@@ -7,7 +6,7 @@ const yaml = require("js-yaml");
 
 class SwaggerSchemaResolver {
   /**
-   * @type {Configuration}
+   * @type {CodeGenConfig}
    */
   config;
   /**

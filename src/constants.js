@@ -1,3 +1,4 @@
+const packageJson = require("../package.json");
 const RESERVED_QUERY_ARG_NAMES = ["query", "queryParams", "queryArg"];
 const RESERVED_BODY_ARG_NAMES = ["data", "body", "reqBody"];
 const RESERVED_REQ_PARAMS_ARG_NAMES = ["params", "requestParams", "reqParams", "httpParams"];
@@ -23,6 +24,8 @@ const HTTP_CLIENT = {
   AXIOS: "axios",
 };
 
+const PROJECT_VERSION = packageJson.version;
+
 const FILE_PREFIX = `/* eslint-disable */
 /* tslint:disable */
 /*
@@ -39,6 +42,7 @@ const FILE_PREFIX = `/* eslint-disable */
 module.exports = {
   FILE_PREFIX,
   DEFAULT_BODY_ARG_NAME: "data",
+  PROJECT_VERSION,
   SCHEMA_TYPES,
   HTTP_CLIENT,
   RESERVED_QUERY_ARG_NAMES,

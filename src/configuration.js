@@ -1,10 +1,8 @@
 const { objectAssign } = require("./util/object-assign");
 const _ = require("lodash");
-const constantsBase = require("./constants.js");
-const packageJson = require("../package.json");
-const { NameResolver, ComponentTypeNameResolver } = require("./util/name-resolver");
-const { cosmiconfigSync } = require("cosmiconfig");
 const CONSTANTS = require("./constants");
+const { ComponentTypeNameResolver } = require("./util/name-resolver");
+const { cosmiconfigSync } = require("cosmiconfig");
 
 const TsKeyword = {
   Number: "number",
@@ -34,8 +32,8 @@ const TsCodeGenKeyword = {
 /**
  * @type {GenerateApiConfiguration["config"]}}
  */
-class Configuration {
-  version = packageJson.version;
+class CodeGenConfig {
+  version = CONSTANTS.PROJECT_VERSION;
   /** CLI flag */
   templates = "../templates/default";
   /** CLI flag */
@@ -315,7 +313,7 @@ class Configuration {
       prettierOptions: prettierOptions === undefined ? getDefaultPrettierOptions() : prettierOptions,
       hooks: _.merge(this.hooks, hooks || {}),
       constants: {
-        ...constantsBase,
+        ...CONSTANTS,
         ...constants,
       },
       templateInfos: templateInfos || this.templateInfos,
@@ -348,5 +346,5 @@ const getDefaultPrettierOptions = () => {
 };
 
 module.exports = {
-  Configuration,
+  CodeGenConfig,
 };

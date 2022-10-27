@@ -23,6 +23,10 @@ class FileSystem {
     return fs.readFileSync(path, { encoding: "UTF-8" });
   };
 
+  readDir = (path) => {
+    return fs.readdirSync(path);
+  };
+
   pathIsDir = (path) => {
     if (!path) return false;
 

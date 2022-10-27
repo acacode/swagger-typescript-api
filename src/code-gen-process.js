@@ -6,7 +6,7 @@ const { TypeName } = require("./type-name.js");
 const _ = require("lodash");
 const { SchemaParser } = require("./schema-parser/schema-parser.js");
 const { SchemaRoutes } = require("./schema-parser/schema-routes.js");
-const { Configuration } = require("./configuration.js");
+const { CodeGenConfig } = require("./configuration.js");
 const { FileSystem } = require("./util/file-system");
 const { Templates } = require("./templates");
 const { translate: translateToJS } = require("./translators/JavaScript");
@@ -17,7 +17,7 @@ const { internalCase } = require("./util/internal-case");
 
 class CodeGenProcess {
   /**
-   * @type {Configuration}
+   * @type {CodeGenConfig}
    */
   config;
   /**
@@ -58,7 +58,7 @@ class CodeGenProcess {
    * @param config {Partial<import("../index.d.ts").GenerateApiConfiguration['config']>}
    */
   constructor(config) {
-    this.config = new Configuration(config);
+    this.config = new CodeGenConfig(config);
     this.logger = new Logger(this.config);
     this.fileSystem = new FileSystem();
     this.swaggerSchemaResolver = new SwaggerSchemaResolver(this.config, this.logger, this.fileSystem);

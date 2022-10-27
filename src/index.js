@@ -9,6 +9,7 @@
 const _ = require("lodash");
 const constants = require("./constants");
 const { CodeGenProcess } = require("./code-gen-process.js");
+const { generateTemplates } = require("./commands/generate-templates");
 
 module.exports = {
   constants: constants,
@@ -20,5 +21,7 @@ module.exports = {
     });
     return await codeGenProcess.start();
   },
-  generateTemplates: (config) => {},
+  generateTemplates: async (config) => {
+    return await generateTemplates(config);
+  },
 };

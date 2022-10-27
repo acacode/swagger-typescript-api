@@ -4,7 +4,7 @@ const _ = require("lodash");
 class Logger {
   firstLog = true;
   /**
-   * @type {Configuration}
+   * @type {CodeGenConfig}
    */
   config;
 

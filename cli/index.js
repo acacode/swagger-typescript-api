@@ -8,12 +8,32 @@ const { displayVersion } = require("./operations/display-version");
 const cli = (input) => {
   const commands = {};
 
-  const addCommand = (command) => {
+  const addCommand = (command, { addVersion = false, addHelp = true } = {}) => {
     commands[command.name] = {
       name: command.name,
       description: `${command.description || ""}`,
       options: _.compact(_.map(command.options, processOption)),
     };
+
+    if (addVersion) {
+      commands[command.name].options.unshift(
+        processOption({
+          flags: "-v, --version",
+          description: "output the current version",
+          operation: () => displayVersion(instance),
+        }),
+      );
+    }
+
+    if (addHelp) {
+      commands[command.name].options.push(
+        processOption({
+          flags: "-h, --help",
+          description: "display help for command",
+          operation: () => displayHelp(commands, instance, commands[command.name]),
+        }),
+      );
+    }
 
     return instance;
   };
@@ -25,10 +45,16 @@ const cli = (input) => {
     execute: (params) => execute(params, commands, instance),
   };
 
-  addCommand({
-    name: root_command,
-    options: [],
-  });
+  addCommand(
+    {
+      name: root_command,
+      options: [],
+    },
+    {
+      addVersion: false,
+      addHelp: false,
+    },
+  );
 
   _.forEach(input.options, (option) => {
     const processed = processOption(option);
@@ -55,7 +81,7 @@ const cli = (input) => {
     processOption({
       flags: "-h, --help",
       description: "display help for command",
-      operation: () => displayHelp(commands, instance),
+      operation: () => displayHelp(commands, instance, commands[root_command]),
     }),
   );
 

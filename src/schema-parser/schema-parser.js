@@ -5,7 +5,7 @@ const { internalCase } = require("../util/internal-case");
 
 class SchemaParser {
   /**
-   * @type {Configuration}
+   * @type {CodeGenConfig}
    */
   config;
 

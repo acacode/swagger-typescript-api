@@ -4,7 +4,7 @@ const prettier = require("prettier");
 
 class CodeFormatter {
   /**
-   * @type {Configuration}
+   * @type {CodeGenConfig}
    */
   config;
 

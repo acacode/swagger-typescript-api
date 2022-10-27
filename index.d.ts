@@ -1,3 +1,5 @@
+type HttpClientType = "axios" | "fetch";
+
 interface GenerateApiParamsBase {
   /**
    * default 'api.ts'
@@ -34,7 +36,7 @@ interface GenerateApiParamsBase {
   /**
    * generated http client type
    */
-  httpClientType?: "axios" | "fetch";
+  httpClientType?: HttpClientType;
   /**
    * use "default" response status code as success response too.
    * some swagger schemas use "default" response status code as success response type by default.
@@ -499,3 +501,15 @@ export interface GenerateApiOutput {
 }
 
 export declare function generateApi(params: GenerateApiParams): Promise<GenerateApiOutput>;
+
+export interface GenerateTemplatesParams {
+  cleanOutput?: boolean;
+  output?: string;
+  httpClientType?: HttpClientType;
+  modular?: boolean;
+  silent?: boolean;
+}
+
+export interface GenerateTemplatesOutput extends Pick<GenerateApiOutput, "files" | "createFile"> {}
+
+export declare function generateTemplates(params: GenerateTemplatesParams): Promise<GenerateTemplatesOutput>;

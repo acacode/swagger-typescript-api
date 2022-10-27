@@ -3,7 +3,7 @@ const _ = require("lodash");
 
 class SchemaFormatters {
   /**
-   * @type {Configuration}
+   * @type {CodeGenConfig}
    */
   config;
   /**

@@ -4,7 +4,7 @@ class TypeName {
   /** @type {Map<string, string>} */
   formattedModelNamesMap = new Map();
 
-  /** @type {Configuration} */
+  /** @type {CodeGenConfig} */
   config;
 
   /** @type {Logger} */

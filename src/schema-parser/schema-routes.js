@@ -20,7 +20,7 @@ const CONTENT_KIND = {
 
 class SchemaRoutes {
   /**
-   * @type {Configuration}
+   * @type {CodeGenConfig}
    */
   config;
   /**
@@ -529,13 +529,8 @@ class SchemaRoutes {
     return schema;
   };
 
-  extractResponseBodyIfItNeeded = (routeInfo, responseBodyInfo, routeParams, rawRouteInfo, routeName) => {
-    if (
-      this.config.extractResponseBody &&
-      responseBodyInfo.responses.length &&
-      responseBodyInfo.success &&
-      responseBodyInfo.success.schema
-    ) {
+  extractResponseBodyIfItNeeded = (routeInfo, responseBodyInfo, routeName) => {
+    if (responseBodyInfo.responses.length && responseBodyInfo.success && responseBodyInfo.success.schema) {
       const typeName = this.config.componentTypeNameResolver.resolve([
         pascalCase(`${routeName.usage} Data`),
         pascalCase(`${routeName.usage} Result`),
@@ -552,19 +547,17 @@ class SchemaRoutes {
         successResponse.type = this.schemaParser.getInlineParseContent(successResponse.schema);
 
         if (idx > -1) {
-          responseBodyInfo.responses[idx] = successResponse.schema;
+          _.assign(responseBodyInfo.responses[idx], {
+            ...successResponse.schema,
+            type: successResponse.type,
+          });
         }
       }
     }
   };
 
-  extractResponseErrorIfItNeeded = (routeInfo, responseBodyInfo, routeParams, rawRouteInfo, routeName) => {
-    if (
-      this.config.extractResponseError &&
-      responseBodyInfo.responses.length &&
-      responseBodyInfo.error.schemas &&
-      responseBodyInfo.error.schemas.length
-    ) {
+  extractResponseErrorIfItNeeded = (routeInfo, responseBodyInfo, routeName) => {
+    if (responseBodyInfo.responses.length && responseBodyInfo.error.schemas && responseBodyInfo.error.schemas.length) {
       const typeName = this.config.componentTypeNameResolver.resolve([
         pascalCase(`${routeName.usage} Error`),
         pascalCase(`${routeName.usage} Fail`),
@@ -595,16 +588,16 @@ class SchemaRoutes {
     }
   };
 
-  getRouteName = (routeInfo) => {
-    const { moduleName } = routeInfo;
+  getRouteName = (rawRouteInfo) => {
+    const { moduleName } = rawRouteInfo;
     const { routeNameDuplicatesMap, templatesToRender } = this.config;
     const routeNameTemplate = templatesToRender.routeName;
 
     const routeNameFromTemplate = this.templates.renderTemplate(routeNameTemplate, {
-      routeInfo: routeInfo,
+      routeInfo: rawRouteInfo,
     });
 
-    const routeName = this.config.hooks.onFormatRouteName(routeInfo, routeNameFromTemplate) || routeNameFromTemplate;
+    const routeName = this.config.hooks.onFormatRouteName(rawRouteInfo, routeNameFromTemplate) || routeNameFromTemplate;
 
     const duplicateIdentifier = `${moduleName}|${routeName}`;
 
@@ -629,7 +622,7 @@ class SchemaRoutes {
       duplicate: duplicates > 1,
     };
 
-    return this.config.hooks.onCreateRouteName(routeNameInfo, routeInfo) || routeNameInfo;
+    return this.config.hooks.onCreateRouteName(routeNameInfo, rawRouteInfo) || routeNameInfo;
   };
 
   parseRouteInfo = (rawRouteName, routeInfo, method, usageSchema, parsedSchemas) => {
@@ -675,6 +668,7 @@ class SchemaRoutes {
     const responseBodyInfo = this.getResponseBodyInfo(routeInfo, routeParams, parsedSchemas);
 
     const rawRouteInfo = {
+      ...otherInfo,
       pathArgs,
       operationId,
       method,
@@ -688,7 +682,6 @@ class SchemaRoutes {
       produces,
       requestBody,
       consumes,
-      ...otherInfo,
     };
 
     const queryObjectSchema = this.convertRouteParamsIntoObject(routeParams.query);
@@ -707,8 +700,12 @@ class SchemaRoutes {
       routeName,
     });
 
-    this.extractResponseBodyIfItNeeded(routeInfo, responseBodyInfo, routeParams, rawRouteInfo, routeName);
-    this.extractResponseErrorIfItNeeded(routeInfo, responseBodyInfo, routeParams, rawRouteInfo, routeName);
+    if (this.config.extractResponseBody) {
+      this.extractResponseBodyIfItNeeded(routeInfo, responseBodyInfo, routeName);
+    }
+    if (this.config.extractResponseError) {
+      this.extractResponseErrorIfItNeeded(routeInfo, responseBodyInfo, routeName);
+    }
 
     const queryType = routeParams.query.length ? this.schemaParser.getInlineParseContent(queryObjectSchema) : null;
     const pathType = routeParams.path.length ? this.schemaParser.getInlineParseContent(pathObjectSchema) : null;
@@ -746,29 +743,6 @@ class SchemaRoutes {
           }
         : void 0,
     };
-
-    let routeArgs = _.compact([...pathArgs, specificArgs.query, specificArgs.body]);
-
-    if (routeArgs.some((pathArg) => pathArg.optional)) {
-      const { optionalArgs, requiredArgs } = _.reduce(
-        [...routeArgs],
-        (acc, pathArg) => {
-          if (pathArg.optional) {
-            acc.optionalArgs.push(pathArg);
-          } else {
-            acc.requiredArgs.push(pathArg);
-          }
-
-          return acc;
-        },
-        {
-          optionalArgs: [],
-          requiredArgs: [],
-        },
-      );
-
-      routeArgs = [...requiredArgs, ...optionalArgs];
-    }
 
     return {
       id: routeId,
@@ -819,10 +793,8 @@ class SchemaRoutes {
 
       _.forEach(routeInfosMap, (routeInfo, method) => {
         const parsedRouteInfo = this.parseRouteInfo(rawRouteName, routeInfo, method, usageSchema, parsedSchemas);
-
-        const usageRouteData = this.config.hooks.onCreateRoute(parsedRouteInfo);
-
-        const route = usageRouteData || parsedRouteInfo;
+        const processedRouteInfo = this.config.hooks.onCreateRoute(parsedRouteInfo);
+        const route = processedRouteInfo || parsedRouteInfo;
 
         if (!this.hasSecurityRoutes && route.security) {
           this.hasSecurityRoutes = route.security;
@@ -834,48 +806,50 @@ class SchemaRoutes {
           this.hasFormDataRoutes = route.hasFormDataParams;
         }
 
-        this.routes.push(usageRouteData || parsedRouteInfo);
+        this.routes.push(route);
       });
     });
   };
 
   getGroupedRoutes = () => {
-    return _.reduce(
-      this.routes.reduce(
-        (modules, route) => {
-          if (route.namespace) {
-            if (!modules[route.namespace]) {
-              modules[route.namespace] = [];
-            }
-
-            modules[route.namespace].push(route);
-          } else {
-            modules.$outOfModule.push(route);
+    const groupedRoutes = this.routes.reduce(
+      (modules, route) => {
+        if (route.namespace) {
+          if (!modules[route.namespace]) {
+            modules[route.namespace] = [];
           }
 
-          return modules;
-        },
-        {
-          $outOfModule: [],
-        },
-      ),
-      (acc, packRoutes, moduleName) => {
+          modules[route.namespace].push(route);
+        } else {
+          modules.$outOfModule.push(route);
+        }
+
+        return modules;
+      },
+      {
+        $outOfModule: [],
+      },
+    );
+
+    return _.reduce(
+      groupedRoutes,
+      (acc, routesGroup, moduleName) => {
         if (moduleName === "$outOfModule") {
-          acc.outOfModule = packRoutes;
+          acc.outOfModule = routesGroup;
         } else {
           if (!acc.combined) acc.combined = [];
 
           acc.combined.push({
             moduleName,
-            routes: _.map(packRoutes, (route) => {
+            routes: _.map(routesGroup, (route) => {
               const { original: originalName, usage: usageName } = route.routeName;
 
               // TODO: https://github.com/acacode/swagger-typescript-api/issues/152
               // TODO: refactor
               if (
-                packRoutes.length > 1 &&
+                routesGroup.length > 1 &&
                 usageName !== originalName &&
-                !_.some(packRoutes, ({ routeName, id }) => id !== route.id && originalName === routeName.original)
+                !_.some(routesGroup, ({ routeName, id }) => id !== route.id && originalName === routeName.original)
               ) {
                 return {
                   ...route,

@@ -5,7 +5,7 @@ const path = require("path");
 
 class Templates {
   /**
-   * @type {Configuration}
+   * @type {CodeGenConfig}
    */
   config;
 

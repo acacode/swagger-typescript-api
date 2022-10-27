@@ -13,6 +13,7 @@ const execute = (params, commands, instance) => {
 
     if (error) {
       reject(new Error(error));
+      return;
     }
 
     if (!usageOptions.length && command.name === root_command) {
@@ -91,9 +92,22 @@ const processArgs = (commands, args) => {
     if (error) return;
 
     if (i === 0) {
-      command = commands[arg] || commands[root_command];
-      allFlagKeys = command.options.reduce((acc, option) => [...acc, ...option.flags.keys], []);
+      command = commands[arg];
+
+      if (!command && !arg.startsWith("-")) {
+        const tip = didYouMean(arg, _.keys(commands));
+        error = `unknown command ${arg}${tip ? `\n(Did you mean ${tip} ?)` : ""}`;
+      } else if (!command) {
+        command = commands[root_command];
+      }
+
+      if (command) {
+        allFlagKeys = command.options.reduce((acc, option) => [...acc, ...option.flags.keys], []);
+      }
     }
+
+    if (error) return;
+
     if (arg.startsWith("-")) {
       const option = command.options.find((option) => option.flags.keys.includes(arg));
 
@@ -126,6 +140,14 @@ const processArgs = (commands, args) => {
     }
   });
   command = command || commands[root_command];
+
+  if (error) {
+    return {
+      command: null,
+      usageOptions: [],
+      error,
+    };
+  }
 
   return {
     command,

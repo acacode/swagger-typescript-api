@@ -6,7 +6,7 @@ class SchemaComponentsMap {
    */
   data = {};
   /**
-   * @type {Configuration}
+   * @type {CodeGenConfig}
    */
   config;
 
