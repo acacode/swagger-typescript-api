@@ -450,6 +450,7 @@ export interface GenerateApiConfiguration {
     };
     routeNameDuplicatesMap: Map<string, string>;
     apiClassName: string;
+    requestOptions?: import("node-fetch").RequestInit;
   };
   modelTypes: ModelType[];
   rawModelTypes: SchemaComponent[];

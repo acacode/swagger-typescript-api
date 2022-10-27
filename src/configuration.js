@@ -144,6 +144,7 @@ class CodeGenConfig {
   spec = null;
   fileName = "";
   authorizationToken = void 0;
+  requestOptions = null;
 
   jsPrimitiveTypes = [];
   jsEmptyTypes = [];

@@ -1,4 +1,8 @@
-# next release  
+# next release
+
+# 11.1.0  
+BREAKING_CHANGE: replace `axios` to `node-fetch`  
+feat: ability to send request options for getting swagger schema by url (`requestOptions` property)  
 
 # 11.0.2  
 

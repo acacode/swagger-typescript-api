@@ -1,8 +1,7 @@
 const _ = require("lodash");
 const converter = require("swagger2openapi");
-const https = require("https");
-const axios = require("axios");
 const yaml = require("js-yaml");
+const { Request } = require("./util/request");
 
 class SwaggerSchemaResolver {
   /**
@@ -17,11 +16,16 @@ class SwaggerSchemaResolver {
    * @type {FileSystem}
    */
   fileSystem;
+  /**
+   * @type {Request}
+   */
+  request;
 
-  constructor(configuration, logger, fileSystem) {
-    this.config = configuration;
+  constructor(config, logger, fileSystem) {
+    this.config = config;
     this.logger = logger;
     this.fileSystem = fileSystem;
+    this.request = new Request(config, logger);
   }
 
   /**
@@ -95,45 +99,19 @@ class SwaggerSchemaResolver {
     });
   }
 
-  fetchSwaggerSchemaFile(pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy, authorizationToken) {
-    return new Promise((resolve, reject) => {
-      if (this.fileSystem.pathIsExist(pathToSwagger)) {
-        this.logger.log(`try to get swagger by path "${pathToSwagger}"`);
-        resolve(this.fileSystem.getFileContent(pathToSwagger));
-      } else {
-        this.logger.log(`try to get swagger by URL "${urlToSwagger}"`);
-        // setup options for Axios
-        const axiosOptions = {
-          maxContentLength: Infinity,
-          maxBodyLength: Infinity,
-        };
-        //
-        if (disableStrictSSL) {
-          axiosOptions.httpsAgent = new https.Agent({
-            rejectUnauthorized: false,
-          });
-        }
-        //
-        if (authorizationToken) {
-          axiosOptions.headers = {
-            Authorization: authorizationToken,
-          };
-        }
-        //
-        if (disableProxy) axiosOptions.proxy = false;
-        //
-        axios
-          .get(urlToSwagger, axiosOptions)
-          .then((res) => resolve(res.data))
-          .catch((error) => {
-            const message = `error while getting swagger by URL ${urlToSwagger}`;
-
-            this.logger.error(message, "response" in error ? error.response : error);
-
-            reject(message);
-          });
-      }
-    });
+  async fetchSwaggerSchemaFile(pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy, authToken) {
+    if (this.fileSystem.pathIsExist(pathToSwagger)) {
+      this.logger.log(`try to get swagger by path "${pathToSwagger}"`);
+      return this.fileSystem.getFileContent(pathToSwagger);
+    } else {
+      this.logger.log(`try to get swagger by URL "${urlToSwagger}"`);
+      return await this.request.download({
+        url: urlToSwagger,
+        disableStrictSSL,
+        authToken,
+        disableProxy,
+      });
+    }
   }
 
   processSwaggerSchemaFile(file) {
