@@ -1,0 +1,131 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Swagger Petstore",
+    "description": "A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "Swagger API Team"
+    },
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "host": "petstore.swagger.io",
+  "basePath": "/api",
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {},
+  "definitions": {
+    "Test1": {
+      "type": "object",
+      "required": ["id", "name", "tag", "multiple"],
+      "nullable": true,
+      "title": "It is a Pet title",
+      "description": "It is a Pet description",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "title": "It is an id title",
+          "description": "It is an id description"
+        },
+        "name": {
+          "type": "string",
+          "title": "It is a name title",
+          "description": "It is a name description"
+        },
+        "tag": {
+          "type": "string",
+          "deprecated": true,
+          "title": "It is a tag title",
+          "description": "It is a tag description"
+        },
+        "multiple": {
+          "type": ["string", "number"],
+          "title": "It is a multiple title",
+          "description": "It is a multiple description"
+        }
+      }
+    },
+    "AdditionalObjectProperties": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "AdditionalIntProperties": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {
+        "type": "integer",
+        "format": "int32"
+      }
+    },
+    "ABCOptional": {
+      "required": [],
+      "properties": {
+        "a": {
+          "type": "string",
+          "description": "a"
+        },
+        "b": {
+          "type": "string",
+          "description": "b"
+        },
+        "c": {
+          "type": "integer",
+          "description": "c"
+        }
+      }
+    },
+    "ABCOptionalWithRequiredId": {
+      "required": [
+        "id",
+        "b"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "id"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ABCOptional"
+        }
+      ]
+    },
+    "NestedObjectWithRequiredId": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id1": {
+          "type": "integer",
+          "description": "id"
+        }
+      },
+      "allOf": [
+        {
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "id"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

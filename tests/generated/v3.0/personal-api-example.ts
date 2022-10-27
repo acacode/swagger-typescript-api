@@ -9,13 +9,32 @@
  * ---------------------------------------------------------------
  */
 
-export type TestAllOfDc = (FooBarBaz & FooBar) & { prop?: string };
+export type AuthUserType = OmitIdUserType;
 
-export type TestAllOfDc2 = FooBarBaz & { prop?: string };
+export type ExtractedProjectType = OmitProjectTypeJob & {
+  /** Information about job */
+  job: JobType;
+};
 
-export type TestAnyOfDc = (FooBarBaz | FooBar | (FooBarBaz & FooBar)) & { prop?: string };
+/** Information about job */
+export interface FooBar {
+  kind?: JobKind;
+}
 
-export type TestOneOfDc = (FooBarBaz | FooBar) & { prop?: string };
+/** Information about job */
+export interface FooBarBaz {
+  id?: string;
+  kind?: JobKind;
+  link?: string;
+  name?: string;
+  [key: string]: any;
+}
+
+/** Information about job */
+export interface FooBaz {
+  link?: string;
+  name?: string;
+}
 
 /**
  * FooBar
@@ -34,52 +53,6 @@ export enum IntEnumWithNames {
   BooFar = 9,
 }
 
-export interface NullableEnum {
-  /** @format int64 */
-  id?: number;
-  legalCategory?: "SARL" | "ASSOCIATION" | null;
-}
-
-/**
- * Information about job
- */
-export interface FooBarBaz {
-  id?: string;
-  kind?: JobKind;
-  name?: string;
-  link?: string;
-  [key: string]: any;
-}
-
-/**
- * Information about job
- */
-export interface FooBar {
-  kind?: JobKind;
-}
-
-/**
- * Information about job
- */
-export interface FooBaz {
-  name?: string;
-  link?: string;
-}
-
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
-export interface PickUserTypeExcludeKeysIdOrId {
-  username: string;
-  password: string;
-}
-
-export type OmitUserTypeIdOrId = PickUserTypeExcludeKeysIdOrId;
-
-export type OmitIdUserType = OmitUserTypeIdOrId;
-
-export type AuthUserType = OmitIdUserType;
-
 export enum JobKind {
   COMPANY = "COMPANY",
   PERSONAL = "PERSONAL",
@@ -87,120 +60,79 @@ export enum JobKind {
   OPEN_SOURCE = "OPEN_SOURCE",
 }
 
-/**
- * Information about job
- */
+/** Information about job */
 export interface JobType {
+  /** web site address */
+  address?: string;
+  /**
+   * Exist only in open source jobs
+   * Format: `${username}/${projectName}`
+   */
+  github?: string;
   id: string;
-  kind: JobKind;
-  name?: string;
-  link?: string;
-
-  /**
-   * Exist only in open source jobs
-   * Format: `${username}/${projectName}`
-   */
-  github?: string;
-
-  /**
-   * Exist only in open source jobs
-   * Format: `${orgname}/${projectName}`
-   */
-  npm?: string;
-
   /**
    * Exist only in open source jobs
    * Means project is dev. tool (like swagger code generator)
    */
   isTool?: boolean;
-
-  /** web site address */
-  address?: string;
-}
-
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
-export interface PickJobTypeExcludeKeysIdOrId {
   kind: JobKind;
-  name?: string;
   link?: string;
-
-  /**
-   * Exist only in open source jobs
-   * Format: `${username}/${projectName}`
-   */
-  github?: string;
-
+  name?: string;
   /**
    * Exist only in open source jobs
    * Format: `${orgname}/${projectName}`
    */
   npm?: string;
-
-  /**
-   * Exist only in open source jobs
-   * Means project is dev. tool (like swagger code generator)
-   */
-  isTool?: boolean;
-
-  /** web site address */
-  address?: string;
 }
-
-export type OmitJobTypeIdOrId = PickJobTypeExcludeKeysIdOrId;
-
-export type OmitIdJobType = OmitJobTypeIdOrId;
 
 export type JobUpdateType = OmitIdJobType;
 
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
-export interface PickProjectTypeExcludeKeysJob {
-  id: string;
-  name?: string;
-
-  /** @format double */
-  year: number;
-  description: string;
-  notImportant?: boolean;
-  prefix?: string;
-  tags: string[];
-  teamSize: string;
+export interface NullableEnum {
+  /** @format int64 */
+  id?: number;
+  legalCategory?: "SARL" | "ASSOCIATION" | null;
 }
 
-export type OmitProjectTypeJob = PickProjectTypeExcludeKeysJob;
-
-export type ExtractedProjectType = OmitProjectTypeJob & { job: JobType };
-
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
-export interface PickProjectTypeExcludeKeysIdOrId {
-  name?: string;
-  job: string;
-
-  /** @format double */
-  year: number;
-  description: string;
-  notImportant?: boolean;
-  prefix?: string;
-  tags: string[];
-  teamSize: string;
-}
-
-export type OmitProjectTypeIdOrId = PickProjectTypeExcludeKeysIdOrId;
+export type OmitIdJobType = OmitJobTypeIdOrId;
 
 export type OmitIdProjectType = OmitProjectTypeIdOrId;
 
-export type ProjectUpdateType = OmitIdProjectType;
+export type OmitIdUserType = OmitUserTypeIdOrId;
 
-export interface ProjectType {
-  id: string;
+export type OmitJobTypeIdOrId = PickJobTypeExcludeKeysIdOrId;
 
-  /** @format double */
-  year: number;
+export type OmitProjectTypeIdOrId = PickProjectTypeExcludeKeysIdOrId;
+
+export type OmitProjectTypeJob = PickProjectTypeExcludeKeysJob;
+
+export type OmitUserTypeIdOrId = PickUserTypeExcludeKeysIdOrId;
+
+/** From T, pick a set of properties whose keys are in the union K */
+export interface PickJobTypeExcludeKeysIdOrId {
+  /** web site address */
+  address?: string;
+  /**
+   * Exist only in open source jobs
+   * Format: `${username}/${projectName}`
+   */
+  github?: string;
+  /**
+   * Exist only in open source jobs
+   * Means project is dev. tool (like swagger code generator)
+   */
+  isTool?: boolean;
+  kind: JobKind;
+  link?: string;
+  name?: string;
+  /**
+   * Exist only in open source jobs
+   * Format: `${orgname}/${projectName}`
+   */
+  npm?: string;
+}
+
+/** From T, pick a set of properties whose keys are in the union K */
+export interface PickProjectTypeExcludeKeysIdOrId {
   description: string;
   job: string;
   name?: string;
@@ -208,7 +140,59 @@ export interface ProjectType {
   prefix?: string;
   tags: string[];
   teamSize: string;
+  /** @format double */
+  year: number;
 }
+
+/** From T, pick a set of properties whose keys are in the union K */
+export interface PickProjectTypeExcludeKeysJob {
+  description: string;
+  id: string;
+  name?: string;
+  notImportant?: boolean;
+  prefix?: string;
+  tags: string[];
+  teamSize: string;
+  /** @format double */
+  year: number;
+}
+
+/** From T, pick a set of properties whose keys are in the union K */
+export interface PickUserTypeExcludeKeysIdOrId {
+  password: string;
+  username: string;
+}
+
+export interface ProjectType {
+  description: string;
+  id: string;
+  job: string;
+  name?: string;
+  notImportant?: boolean;
+  prefix?: string;
+  tags: string[];
+  teamSize: string;
+  /** @format double */
+  year: number;
+}
+
+export type ProjectUpdateType = OmitIdProjectType;
+
+export type TestAllOfDc = (FooBarBaz & FooBar) & {
+  prop?: string;
+};
+
+export type TestAllOfDc2 = FooBarBaz & {
+  prop?: string;
+};
+
+export type TestAnyOfDc = (FooBarBaz | FooBar | (FooBarBaz & FooBar)) & {
+  prop?: string;
+};
+
+export type TestOneOfDc = (FooBarBaz | FooBar) & {
+  prop?: string;
+};
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -276,16 +260,16 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  private encodeQueryParam(key: string, value: any) {
+  protected encodeQueryParam(key: string, value: any) {
     const encodedKey = encodeURIComponent(key);
     return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
   }
 
-  private addQueryParam(query: QueryParamsType, key: string) {
+  protected addQueryParam(query: QueryParamsType, key: string) {
     return this.encodeQueryParam(key, query[key]);
   }
 
-  private addArrayQueryParam(query: QueryParamsType, key: string) {
+  protected addArrayQueryParam(query: QueryParamsType, key: string) {
     const value = query[key];
     return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
   }
@@ -322,7 +306,7 @@ export class HttpClient<SecurityDataType = unknown> {
     [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
   };
 
-  private mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
+  protected mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
     return {
       ...this.baseApiParams,
       ...params1,
@@ -335,7 +319,7 @@ export class HttpClient<SecurityDataType = unknown> {
     };
   }
 
-  private createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
+  protected createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
     if (this.abortControllers.has(cancelToken)) {
       const abortController = this.abortControllers.get(cancelToken);
       if (abortController) {
@@ -382,15 +366,15 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
+      signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
-      r.data = (null as unknown) as T;
-      r.error = (null as unknown) as E;
+      r.data = null as unknown as T;
+      r.error = null as unknown as E;
 
       const data = !responseFormat
         ? r

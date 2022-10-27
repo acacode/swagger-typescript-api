@@ -11,13 +11,11 @@
 
 export interface Activity {
   action?: string;
-
   /** @format dateTime */
   created_at?: string;
   data?: object;
   id?: number;
   model?: string;
-
   /** @format dateTime */
   updated_at?: string;
   user_id?: number;
@@ -86,10 +84,15 @@ export interface Error {
 export interface Feed {
   created_at?: string;
   description?: string;
-
   /** Additional details about this feed. */
   details?: {
-    data?: { count?: number; first?: Record<string, Data>; last?: Record<string, Data> };
+    data?: {
+      /** Number of data points stored by this feed. */
+      count?: number;
+      first?: Record<string, Data>;
+      last?: Record<string, Data>;
+    };
+    /** Access control list for this feed */
     shared_with?: object[];
   };
   enabled?: boolean;
@@ -102,15 +105,14 @@ export interface Feed {
   license?: string;
   name?: string;
   status?: string;
-
   /** Is status notification active? */
   status_notify?: boolean;
-
   /** Status notification timeout in minutes. */
   status_timeout?: number;
   unit_symbol?: string;
   unit_type?: string;
   updated_at?: string;
+  /** @default "private" */
   visibility?: "private" | "public" | "in progress" | "out of access";
 }
 
@@ -126,8 +128,10 @@ export interface Group {
 export interface Permission {
   created_at?: string;
   id?: number;
+  /** @default "feed" */
   model?: "feed" | "group" | "dashboard";
   object_id?: number;
+  /** @default "public" */
   scope?: "secret" | "public" | "user" | "organization";
   scope_value?: string;
   updated_at?: string;
@@ -152,13 +156,11 @@ export interface Trigger {
 
 export interface User {
   color?: string;
-
   /** @format dateTime */
   created_at?: string;
   id?: number;
   name?: string;
   time_zone?: string;
-
   /** @format dateTime */
   updated_at?: string;
   username?: string;
@@ -230,16 +232,16 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  private encodeQueryParam(key: string, value: any) {
+  protected encodeQueryParam(key: string, value: any) {
     const encodedKey = encodeURIComponent(key);
     return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
   }
 
-  private addQueryParam(query: QueryParamsType, key: string) {
+  protected addQueryParam(query: QueryParamsType, key: string) {
     return this.encodeQueryParam(key, query[key]);
   }
 
-  private addArrayQueryParam(query: QueryParamsType, key: string) {
+  protected addArrayQueryParam(query: QueryParamsType, key: string) {
     const value = query[key];
     return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
   }
@@ -276,7 +278,7 @@ export class HttpClient<SecurityDataType = unknown> {
     [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
   };
 
-  private mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
+  protected mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
     return {
       ...this.baseApiParams,
       ...params1,
@@ -289,7 +291,7 @@ export class HttpClient<SecurityDataType = unknown> {
     };
   }
 
-  private createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
+  protected createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
     if (this.abortControllers.has(cancelToken)) {
       const abortController = this.abortControllers.get(cancelToken);
       if (abortController) {
@@ -336,15 +338,15 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
+      signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
-      r.data = (null as unknown) as T;
-      r.error = (null as unknown) as E;
+      r.data = null as unknown as T;
+      r.error = null as unknown as E;
 
       const data = !responseFormat
         ? r
@@ -529,7 +531,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/webhooks/feed/:token
      * @secure
      */
-    createWebhookFeedData: (token: string, payload: { value?: string }, params: RequestParams = {}) =>
+    createWebhookFeedData: (
+      token: string,
+      payload: {
+        value?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Data, void>({
         path: `/webhooks/feed/${token}`,
         method: "POST",
@@ -588,7 +596,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     allActivities: (
       username: string,
-      query?: { start_time?: string; end_time?: string; limit?: number },
+      query?: {
+        /**
+         * Start time for filtering, returns records created after given time.
+         * @format date-time
+         */
+        start_time?: string;
+        /**
+         * End time for filtering, returns records created before give time.
+         * @format date-time
+         */
+        end_time?: string;
+        /** Limit the number of records returned. */
+        limit?: number;
+      },
       params: RequestParams = {},
     ) =>
       this.request<Activity[], void>({
@@ -612,7 +633,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getActivity: (
       username: string,
       type: string,
-      query?: { start_time?: string; end_time?: string; limit?: number },
+      query?: {
+        /**
+         * Start time for filtering, returns records created after given time.
+         * @format date-time
+         */
+        start_time?: string;
+        /**
+         * End time for filtering, returns records created before give time.
+         * @format date-time
+         */
+        end_time?: string;
+        /** Limit the number of records returned. */
+        limit?: number;
+      },
       params: RequestParams = {},
     ) =>
       this.request<Activity[], void>({
@@ -750,7 +784,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       dashboardId: string,
       id: string,
       block: {
-        block_feeds?: { feed_id?: string; group_id?: string }[];
+        block_feeds?: {
+          feed_id?: string;
+          group_id?: string;
+        }[];
         column?: number;
         dashboard_id?: number;
         description?: string;
@@ -788,7 +825,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       dashboardId: string,
       id: string,
       block: {
-        block_feeds?: { feed_id?: string; group_id?: string }[];
+        block_feeds?: {
+          feed_id?: string;
+          group_id?: string;
+        }[];
         column?: number;
         dashboard_id?: number;
         description?: string;
@@ -860,7 +900,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     updateDashboard: (
       username: string,
       id: string,
-      dashboard: { description?: string; key?: string; name?: string },
+      dashboard: {
+        description?: string;
+        key?: string;
+        name?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<Dashboard, void>({
@@ -885,7 +929,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     replaceDashboard: (
       username: string,
       id: string,
-      dashboard: { description?: string; key?: string; name?: string },
+      dashboard: {
+        description?: string;
+        key?: string;
+        name?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<Dashboard, void>({
@@ -925,7 +973,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/feeds
      * @secure
      */
-    createFeed: (username: string, feed: Feed, query?: { group_key?: string }, params: RequestParams = {}) =>
+    createFeed: (
+      username: string,
+      feed: Feed,
+      query?: {
+        group_key?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Feed, void>({
         path: `/${username}/feeds`,
         method: "POST",
@@ -984,7 +1039,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     updateFeed: (
       username: string,
       feedKey: string,
-      feed: { description?: string; key?: string; license?: string; name?: string },
+      feed: {
+        description?: string;
+        key?: string;
+        license?: string;
+        name?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<Feed, void>({
@@ -1009,7 +1069,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     replaceFeed: (
       username: string,
       feedKey: string,
-      feed: { description?: string; key?: string; license?: string; name?: string },
+      feed: {
+        description?: string;
+        key?: string;
+        license?: string;
+        name?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<Feed, void>({
@@ -1034,7 +1099,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     allData: (
       username: string,
       feedKey: string,
-      query?: { start_time?: string; end_time?: string; limit?: number; include?: string },
+      query?: {
+        /**
+         * Start time for filtering, returns records created after given time.
+         * @format date-time
+         */
+        start_time?: string;
+        /**
+         * End time for filtering, returns records created before give time.
+         * @format date-time
+         */
+        end_time?: string;
+        /** Limit the number of records returned. */
+        limit?: number;
+        /** List of Data record fields to include in response as comma separated list. Acceptable values are: `value`, `lat`, `lon`, `ele`, `id`, and `created_at`.  */
+        include?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<DataResponse[], void>({
@@ -1058,7 +1138,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     createData: (
       username: string,
       feedKey: string,
-      datum: { created_at?: string; ele?: string; epoch?: number; lat?: string; lon?: string; value?: string },
+      datum: {
+        /** @format dateTime */
+        created_at?: string;
+        ele?: string;
+        epoch?: number;
+        lat?: string;
+        lon?: string;
+        value?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<Data, void>({
@@ -1103,14 +1191,41 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     chartData: (
       username: string,
       feedKey: string,
-      query?: { start_time?: string; end_time?: string; resolution?: number; hours?: number },
+      query?: {
+        /**
+         * Start time for filtering, returns records created after given time.
+         * @format date-time
+         */
+        start_time?: string;
+        /**
+         * End time for filtering, returns records created before give time.
+         * @format date-time
+         */
+        end_time?: string;
+        /**
+         * A resolution size in minutes. By giving a resolution value you will get back grouped data points aggregated over resolution-sized intervals. NOTE: time span is preferred over resolution, so if you request a span of time that includes more than max limit points you may get a larger resolution than you requested. Valid resolutions are 1, 5, 10, 30, 60, and 120.
+         * @format int32
+         */
+        resolution?: number;
+        /**
+         * The number of hours the chart should cover.
+         * @format int32
+         */
+        hours?: number;
+      },
       params: RequestParams = {},
     ) =>
       this.request<
         {
+          /** The names of the columns returned as data. */
           columns?: string[];
+          /** The actual chart data. */
           data?: string[][];
-          feed?: { id?: number; key?: string; name?: string };
+          feed?: {
+            id?: number;
+            key?: string;
+            name?: string;
+          };
           parameters?: object;
         },
         void
@@ -1132,7 +1247,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/feeds/{feed_key}/data/first
      * @secure
      */
-    firstData: (username: string, feedKey: string, query?: { include?: string }, params: RequestParams = {}) =>
+    firstData: (
+      username: string,
+      feedKey: string,
+      query?: {
+        /** List of Data record fields to include in response as comma separated list. Acceptable values are: `value`, `lat`, `lon`, `ele`, `id`, and `created_at`.  */
+        include?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<DataResponse, void>({
         path: `/${username}/feeds/${feedKey}/data/first`,
         method: "GET",
@@ -1152,7 +1275,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/feeds/{feed_key}/data/last
      * @secure
      */
-    lastData: (username: string, feedKey: string, query?: { include?: string }, params: RequestParams = {}) =>
+    lastData: (
+      username: string,
+      feedKey: string,
+      query?: {
+        /** List of Data record fields to include in response as comma separated list. Acceptable values are: `value`, `lat`, `lon`, `ele`, `id`, and `created_at`.  */
+        include?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<DataResponse, void>({
         path: `/${username}/feeds/${feedKey}/data/last`,
         method: "GET",
@@ -1172,7 +1303,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/feeds/{feed_key}/data/next
      * @secure
      */
-    nextData: (username: string, feedKey: string, query?: { include?: string }, params: RequestParams = {}) =>
+    nextData: (
+      username: string,
+      feedKey: string,
+      query?: {
+        /** List of Data record fields to include in response as comma separated list. Acceptable values are: `value`, `lat`, `lon`, `ele`, `id`, and `created_at`.  */
+        include?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<DataResponse, void>({
         path: `/${username}/feeds/${feedKey}/data/next`,
         method: "GET",
@@ -1192,7 +1331,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/{username}/feeds/{feed_key}/data/previous
      * @secure
      */
-    previousData: (username: string, feedKey: string, query?: { include?: string }, params: RequestParams = {}) =>
+    previousData: (
+      username: string,
+      feedKey: string,
+      query?: {
+        /** List of Data record fields to include in response as comma separated list. Acceptable values are: `value`, `lat`, `lon`, `ele`, `id`, and `created_at`.  */
+        include?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<DataResponse, void>({
         path: `/${username}/feeds/${feedKey}/data/previous`,
         method: "GET",
@@ -1252,7 +1399,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       username: string,
       feedKey: string,
       id: string,
-      query?: { include?: string },
+      query?: {
+        /** List of Data record fields to include in response as comma separated list. Acceptable values are: `value`, `lat`, `lon`, `ele`, `id`, and `created_at`.  */
+        include?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<DataResponse, void>({
@@ -1277,7 +1427,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       username: string,
       feedKey: string,
       id: string,
-      datum: { created_at?: string; ele?: string; epoch?: number; lat?: string; lon?: string; value?: string },
+      datum: {
+        /** @format dateTime */
+        created_at?: string;
+        ele?: string;
+        epoch?: number;
+        lat?: string;
+        lon?: string;
+        value?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<DataResponse, void>({
@@ -1303,7 +1461,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       username: string,
       feedKey: string,
       id: string,
-      datum: { created_at?: string; ele?: string; epoch?: number; lat?: string; lon?: string; value?: string },
+      datum: {
+        /** @format dateTime */
+        created_at?: string;
+        ele?: string;
+        epoch?: number;
+        lat?: string;
+        lon?: string;
+        value?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<DataResponse, void>({
@@ -1420,7 +1586,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     updateGroup: (
       username: string,
       groupKey: string,
-      group: { description?: string; key?: string; name?: string },
+      group: {
+        description?: string;
+        key?: string;
+        name?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<Group, void>({
@@ -1445,7 +1615,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     replaceGroup: (
       username: string,
       groupKey: string,
-      group: { description?: string; key?: string; name?: string },
+      group: {
+        description?: string;
+        key?: string;
+        name?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<Group, void>({
@@ -1467,7 +1641,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/groups/{group_key}/add
      * @secure
      */
-    addFeedToGroup: (groupKey: string, username: string, query?: { feed_key?: string }, params: RequestParams = {}) =>
+    addFeedToGroup: (
+      groupKey: string,
+      username: string,
+      query?: {
+        feed_key?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Group, void>({
         path: `/${username}/groups/${groupKey}/add`,
         method: "POST",
@@ -1490,9 +1671,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       username: string,
       groupKey: string,
       group_feed_data: {
+        /** Optional created_at timestamp which will be applied to all feed values created. */
         created_at?: string;
-        feeds: { key: string; value: string }[];
-        location?: { ele?: number; lat: number; lon: number };
+        /** An array of feed data records with `key` and `value` properties. */
+        feeds: {
+          key: string;
+          value: string;
+        }[];
+        /** A location record with `lat`, `lon`, and [optional] `ele` properties. */
+        location?: {
+          ele?: number;
+          lat: number;
+          lon: number;
+        };
       },
       params: RequestParams = {},
     ) =>
@@ -1536,7 +1727,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     createGroupFeed: (
       username: string,
       groupKey: string,
-      feed: { description?: string; key?: string; license?: string; name?: string },
+      feed: {
+        description?: string;
+        key?: string;
+        license?: string;
+        name?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<Feed, void>({
@@ -1562,7 +1758,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       username: string,
       groupKey: string,
       feedKey: string,
-      query?: { start_time?: string; end_time?: string; limit?: number },
+      query?: {
+        /**
+         * Start time for filtering data. Returns data created after given time.
+         * @format date-time
+         */
+        start_time?: string;
+        /**
+         * End time for filtering data. Returns data created before give time.
+         * @format date-time
+         */
+        end_time?: string;
+        /** Limit the number of records returned. */
+        limit?: number;
+      },
       params: RequestParams = {},
     ) =>
       this.request<DataResponse[], void>({
@@ -1587,7 +1796,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       username: string,
       groupKey: string,
       feedKey: string,
-      datum: { created_at?: string; ele?: string; epoch?: number; lat?: string; lon?: string; value?: string },
+      datum: {
+        /** @format dateTime */
+        created_at?: string;
+        ele?: string;
+        epoch?: number;
+        lat?: string;
+        lon?: string;
+        value?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<DataResponse, void>({
@@ -1613,7 +1830,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       username: string,
       groupKey: string,
       feedKey: string,
-      data: { created_at?: string; ele?: string; epoch?: number; lat?: string; lon?: string; value?: string }[],
+      data: {
+        /** @format dateTime */
+        created_at?: string;
+        ele?: string;
+        epoch?: number;
+        lat?: string;
+        lon?: string;
+        value?: string;
+      }[],
       params: RequestParams = {},
     ) =>
       this.request<DataResponse[], void>({
@@ -1638,7 +1863,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     removeFeedFromGroup: (
       groupKey: string,
       username: string,
-      query?: { feed_key?: string },
+      query?: {
+        feed_key?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<Group, void>({
@@ -1660,7 +1887,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     getCurrentUserThrottle: (username: string, params: RequestParams = {}) =>
-      this.request<{ active_data_rate?: number; data_rate_limit?: number }, void>({
+      this.request<
+        {
+          /** Actions taken inside the time window. */
+          active_data_rate?: number;
+          /** Max possible actions inside the time window (usually 1 minute). */
+          data_rate_limit?: number;
+        },
+        void
+      >({
         path: `/${username}/throttle`,
         method: "GET",
         secure: true,
@@ -1751,7 +1986,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/{username}/tokens/{id}
      * @secure
      */
-    updateToken: (username: string, id: string, token: { token?: string }, params: RequestParams = {}) =>
+    updateToken: (
+      username: string,
+      id: string,
+      token: {
+        token?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Token, void>({
         path: `/${username}/tokens/${id}`,
         method: "PATCH",
@@ -1771,7 +2013,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/{username}/tokens/{id}
      * @secure
      */
-    replaceToken: (username: string, id: string, token: { token?: string }, params: RequestParams = {}) =>
+    replaceToken: (
+      username: string,
+      id: string,
+      token: {
+        token?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Token, void>({
         path: `/${username}/tokens/${id}`,
         method: "PUT",
@@ -1865,7 +2114,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/{username}/triggers/{id}
      * @secure
      */
-    updateTrigger: (username: string, id: string, trigger: { name?: string }, params: RequestParams = {}) =>
+    updateTrigger: (
+      username: string,
+      id: string,
+      trigger: {
+        name?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Trigger, void>({
         path: `/${username}/triggers/${id}`,
         method: "PATCH",
@@ -1885,7 +2141,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/{username}/triggers/{id}
      * @secure
      */
-    replaceTrigger: (username: string, id: string, trigger: { name?: string }, params: RequestParams = {}) =>
+    replaceTrigger: (
+      username: string,
+      id: string,
+      trigger: {
+        name?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Trigger, void>({
         path: `/${username}/triggers/${id}`,
         method: "PUT",
@@ -1991,7 +2254,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       typeId: string,
       id: string,
       permission: {
+        /** @default "r" */
         mode?: "r" | "w" | "rw";
+        /** @default "public" */
         scope?: "secret" | "public" | "user" | "organization";
         scope_value?: string;
       },
@@ -2022,7 +2287,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       typeId: string,
       id: string,
       permission: {
+        /** @default "r" */
         mode?: "r" | "w" | "rw";
+        /** @default "public" */
         scope?: "secret" | "public" | "user" | "organization";
         scope_value?: string;
       },

@@ -10,5 +10,6 @@ allSchemas.forEach(({ absolutePath, apiFileName, outputPath }) => {
     generateClient: true,
     generateRouteTypes: false,
     silent: true,
+    sortTypes: true,
   });
 });

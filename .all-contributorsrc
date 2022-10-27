@@ -207,6 +207,112 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "jiangmaniu",
+      "name": "江麻妞",
+      "avatar_url": "https://avatars.githubusercontent.com/u/50100681?v=4",
+      "profile": "http://imaniu.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "kmoskwiak",
+      "name": "Kasper Moskwiak",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5294519?v=4",
+      "profile": "https://kspr.dev",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "baggoedw",
+      "name": "baggoedw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/92381702?v=4",
+      "profile": "https://github.com/baggoedw",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "MarcusDunn",
+      "name": "Marcus Dunn",
+      "avatar_url": "https://avatars.githubusercontent.com/u/51931484?v=4",
+      "profile": "https://marcusdunn.github.io",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "hedgepigdaniel",
+      "name": "Daniel Playfair Cal",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1217649?v=4",
+      "profile": "https://www.danielplayfaircal.com/",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "PatrickShaw",
+      "name": "Patrick Shaw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5153619?v=4",
+      "profile": "https://www.linkedin.com/in/patrick-shaw/",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "login": "jinkwon",
+      "name": "JK",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1798916?v=4",
+      "profile": "https://www.linkedin.com/in/jinkwon-lee",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "RoCat",
+      "name": "RoCat",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3562317?v=4",
+      "profile": "https://github.com/RoCat",
+      "contributions": [
+        "code",
+        "ideas",
+        "design"
+      ]
+    },
+    {
+      "login": "ApacheEx",
+      "name": "Oleg Kuzava",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1918108?v=4",
+      "profile": "https://github.com/ApacheEx",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "nksfrank",
+      "name": "Niklas Frank",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7352072?v=4",
+      "profile": "http://nikz.se",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "qboot",
+      "name": "Quentin Brunet",
+      "avatar_url": "https://avatars.githubusercontent.com/u/20137632?v=4",
+      "profile": "https://quentinbrunet.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -214,5 +320,6 @@
   "projectOwner": "acacode",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "angular"
 }

@@ -1,0 +1,36 @@
+{
+  "swagger": "2.0",
+  "info": {},
+  "parameters": {},
+  "responses": {},
+  "paths": {},
+  "definitions": {
+    "Type1": {
+      "type": "array",
+      "items": [
+        {
+          "type": "string",
+          "format": "date-time"
+        }
+      ]
+    },
+    "Type2": {
+      "items": [
+        {
+          "type": "string",
+          "format": "date-time"
+        }
+      ]
+    },
+    "Type3": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "Type4": {
+      "type": "string"
+    },
+    "Type5": {
+      "type": "object"
+    }
+  }
+}

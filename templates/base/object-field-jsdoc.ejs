@@ -1,0 +1,28 @@
+<%
+const { field, utils } = it;
+const { formatDescription, require, _ } = utils;
+
+const comments = _.uniq(
+    _.compact([
+        field.title,
+        field.description,
+        field.deprecated && ` * @deprecated`,
+        !_.isUndefined(field.format) && `@format ${field.format}`,
+        !_.isUndefined(field.minimum) && `@min ${field.minimum}`,
+        !_.isUndefined(field.maximum) && `@max ${field.maximum}`,
+        !_.isUndefined(field.pattern) && `@pattern ${field.pattern}`,
+        !_.isUndefined(field.example) &&
+        `@example ${_.isObject(field.example) ? JSON.stringify(field.example) : field.example}`,
+    ]).reduce((acc, comment) => [...acc, ...comment.split(/\n/g)], []),
+);
+%>
+<% if (comments.length === 1) { %>
+  /** <%~ comments[0] %> */
+<% } else if (comments.length) { %>
+  /**
+  <% comments.forEach(comment => { %>
+   * <%~ comment %>
+
+  <% }) %>
+   */
+<% } %>

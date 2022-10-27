@@ -15,23 +15,33 @@
  */
 export type Currency = string;
 
-/**
- * A TDE certificate that can be uploaded into a server.
- */
-export type TdeCertificate = { id?: string; name?: string; type?: string } & { properties?: TdeCertificateProperties };
+/** A TDE certificate that can be uploaded into a server. */
+export type TdeCertificate = {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+} & {
+  /** Resource properties. */
+  properties?: TdeCertificateProperties;
+};
 
-/**
- * A TDE certificate that can be uploaded into a server.
- */
-export type TdeCertificate2 = { id?: string; name?: string; type?: string };
+/** A TDE certificate that can be uploaded into a server. */
+export type TdeCertificate2 = {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+};
 
-/**
- * Properties of a TDE certificate.
- */
+/** Properties of a TDE certificate. */
 export interface TdeCertificateProperties {
   /** The certificate password. */
   certPassword?: string;
-
   /** The base64 encoded certificate private blob. */
   privateBlob: string;
 }
@@ -102,16 +112,16 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  private encodeQueryParam(key: string, value: any) {
+  protected encodeQueryParam(key: string, value: any) {
     const encodedKey = encodeURIComponent(key);
     return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
   }
 
-  private addQueryParam(query: QueryParamsType, key: string) {
+  protected addQueryParam(query: QueryParamsType, key: string) {
     return this.encodeQueryParam(key, query[key]);
   }
 
-  private addArrayQueryParam(query: QueryParamsType, key: string) {
+  protected addArrayQueryParam(query: QueryParamsType, key: string) {
     const value = query[key];
     return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
   }
@@ -148,7 +158,7 @@ export class HttpClient<SecurityDataType = unknown> {
     [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
   };
 
-  private mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
+  protected mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
     return {
       ...this.baseApiParams,
       ...params1,
@@ -161,7 +171,7 @@ export class HttpClient<SecurityDataType = unknown> {
     };
   }
 
-  private createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
+  protected createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
     if (this.abortControllers.has(cancelToken)) {
       const abortController = this.abortControllers.get(cancelToken);
       if (abortController) {
@@ -208,15 +218,15 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
+      signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
-      r.data = (null as unknown) as T;
-      r.error = (null as unknown) as E;
+      r.data = null as unknown as T;
+      r.error = null as unknown as E;
 
       const data = !responseFormat
         ? r
@@ -264,7 +274,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       resourceGroupName: string,
       managedInstanceName: string,
       subscriptionId: string,
-      query: { "api-version": string },
+      query: {
+        /** The API version to use for the request. */
+        "api-version": string;
+      },
       parameters: TdeCertificate,
       params: RequestParams = {},
     ) =>

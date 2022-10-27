@@ -1,5 +1,263 @@
 # next release  
 
+# 11.0.0  
+
+## Breaking changes  
+
+ - `data-contract-jsdoc.ejs` file uses new input structure. Please update your local copy.   
+ - new codebase (class way)  
+ - ability to change everything in codegen process configuration with using NodeJS Api  
+ - ability to call `generateApi` function 2 and more times per 1 NodeJS process.  
+
+## [feature] Ability to modify internal codegen typescript structs     
+Everything which creates codegen about output typescript code now contains in `Ts` field in [`src/configuration`](src/configuration.js).
+And this thing is available for end user modifications with using NodeJS Cli option `codeGenConstructs`.  
+It contains almost all which is not contains in `.eta`\ `.ejs` templates. For example: `Record<string, any>`, `readonly typeField?: value`, etc  
+
+Structure of `Ts` property
+```ts
+ const Ts = {
+    Keyword: {
+      Number: "number",
+      String: "string",
+      Boolean: "boolean",
+      Any: "any",
+      Void: "void",
+      Unknown: "unknown",
+      Null: "null",
+      Undefined: "undefined",
+      Object: "object",
+      File: "File",
+      Date: "Date",
+      Type: "type",
+      Enum: "enum",
+      Interface: "interface",
+      Array: "Array",
+      Record: "Record",
+      Intersection: "&",
+      Union: "|",
+    },
+    CodeGenKeyword: {
+      UtilRequiredKeys: "UtilRequiredKeys",
+    },
+    /**
+     * $A[] or Array<$A>
+     */
+    ArrayType: (content) => {
+      if (this.anotherArrayType) {
+        return Ts.TypeWithGeneric(Ts.Keyword.Array, [content]);
+      }
+
+      return `${Ts.ExpressionGroup(content)}[]`;
+    },
+    /**
+     * "$A"
+     */
+    StringValue: (content) => `"${content}"`,
+    /**
+     * $A
+     */
+    BooleanValue: (content) => `${content}`,
+    /**
+     * $A
+     */
+    NumberValue: (content) => `${content}`,
+    /**
+     * $A
+     */
+    NullValue: (content) => content,
+    /**
+     * $A1 | $A2
+     */
+    UnionType: (contents) => _.join(_.uniq(contents), ` ${Ts.Keyword.Union} `),
+    /**
+     * ($A1)
+     */
+    ExpressionGroup: (content) => (content ? `(${content})` : ""),
+    /**
+     * $A1 & $A2
+     */
+    IntersectionType: (contents) => _.join(_.uniq(contents), ` ${Ts.Keyword.Intersection} `),
+    /**
+     * Record<$A1, $A2>
+     */
+    RecordType: (key, value) => Ts.TypeWithGeneric(Ts.Keyword.Record, [key, value]),
+    /**
+     * readonly $key?:$value
+     */
+    TypeField: ({ readonly, key, optional, value }) =>
+      _.compact([readonly && "readonly ", key, optional && "?", ": ", value]).join(""),
+    /**
+     * [key: $A1]: $A2
+     */
+    InterfaceDynamicField: (key, value) => `[key: ${key}]: ${value}`,
+    /**
+     * $A1 = $A2
+     */
+    EnumField: (key, value) => `${key} = ${value}`,
+    /**
+     * $A0.key = $A0.value,
+     * $A1.key = $A1.value,
+     * $AN.key = $AN.value,
+     */
+    EnumFieldsWrapper: (contents) =>
+      _.map(contents, ({ key, value }) => `  ${Ts.EnumField(key, value)}`).join(",\n"),
+    /**
+     * {\n $A \n}
+     */
+    ObjectWrapper: (content) => `{\n${content}\n}`,
+    /**
+     * /** $A *\/
+     */
+    MultilineComment: (contents, formatFn) =>
+      [
+        ...(contents.length === 1
+          ? [`/** ${contents[0]} */`]
+          : ["/**", ...contents.map((content) => ` * ${content}`), " */"]),
+      ].map((part) => `${formatFn ? formatFn(part) : part}\n`),
+    /**
+     * $A1<...$A2.join(,)>
+     */
+    TypeWithGeneric: (typeName, genericArgs) => {
+      return `${typeName}${genericArgs.length ? `<${genericArgs.join(",")}>` : ""}`;
+    },
+  }
+``` 
+
+## [feature] Ability to modify swagger schema type/format to typescript construction translators  
+Swagger schema has constructions like `{ "type": "string" | "integer" | etc, "format": "date-time" | "float" | "etc" }` where field `type` is not "readable" for TypeScript.  
+And because of this `swagger-typescript-api` has key value group to translate swagger schema fields `type`/`format` to TypeScript constructions.  
+See more about [swagger schema type/format data here](https://json-schema.org/understanding-json-schema/reference/string.html#dates-and-times)  
+For example, current version of default configuration translates this schema  
+```json
+{
+  "type": "string",
+  "format": "date-time"
+}
+```
+translates to  
+```ts
+string
+```
+If you need to see `Date` instead of `string` you are able to change it with using `primitiveTypeConstructs`   
+```ts
+generateApiForTest({
+  // ...
+  primitiveTypeConstructs: (construct) => ({
+    string: {
+        'date-time': 'Date'
+    }
+  })
+})
+```
+
+Structure of `primitiveTypes` property  
+```ts
+const primitiveTypes = {
+    integer: () => Ts.Keyword.Number,
+    number: () => Ts.Keyword.Number,
+    boolean: () => Ts.Keyword.Boolean,
+    object: () => Ts.Keyword.Object,
+    file: () => Ts.Keyword.File,
+    string: {
+      $default: () => Ts.Keyword.String,
+
+      /** formats */
+      binary: () => Ts.Keyword.File,
+      file: () => Ts.Keyword.File,
+      "date-time": () => Ts.Keyword.String,
+      time: () => Ts.Keyword.String,
+      date: () => Ts.Keyword.String,
+      duration: () => Ts.Keyword.String,
+      email: () => Ts.Keyword.String,
+      "idn-email": () => Ts.Keyword.String,
+      "idn-hostname": () => Ts.Keyword.String,
+      ipv4: () => Ts.Keyword.String,
+      ipv6: () => Ts.Keyword.String,
+      uuid: () => Ts.Keyword.String,
+      uri: () => Ts.Keyword.String,
+      "uri-reference": () => Ts.Keyword.String,
+      "uri-template": () => Ts.Keyword.String,
+      "json-pointer": () => Ts.Keyword.String,
+      "relative-json-pointer": () => Ts.Keyword.String,
+      regex: () => Ts.Keyword.String,
+    },
+    array: ({ items, ...schemaPart }, parser) => {
+      const content = parser.getInlineParseContent(items);
+      return parser.checkAndAddNull(schemaPart, Ts.ArrayType(content));
+    },
+  }
+```
+
+## Other  
+feat: `--another-array-type` cli option (#414)  
+fix: path params with dot style (truck.id) (#413)  
+
+
+
+# 10.0.3  
+fix: CRLF -> LF (#423)  
+docs: add docs for addReadonly nodeJS api flag (#425)  
+chore: remove useless trailing whitespaces which make test edit harder (thanks @qboot, #422)  
+internal: add test snapshots (git diff + nodejs assertions)  
+chore: add logging (project version, node version, npm version)  
+
+# 10.0.2  
+
+fix: host.fileExists is not a function  
+fix: other problems linked with new typescript version (4.8.*) (thanks @elkeis, @Jnig)  
+fix: problem with required nested properties based on root required properties list  
+fix: fetch http client headers content type priority   
+fix: fs.rmSync (thanks @smorimoto)
+fix: locally overridden security schemes (security flag) (#418, thanks @EdwardSalter)  
+docs: add documentation for `unwrapResponseData` nodejs option (thanks @simowe)  
+BREAKING_CHANGE: rename `.eta` file extensions to `.ejs`. Backward capability should be existed.  
+fix: problem with `--sort-types` option  
+
+# 10.0.*  
+
+fix: problem with default http request headers in axios client  
+
+# 10.0.1  
+
+- fix problem linked with [this.name is not a function](https://github.com/acacode/swagger-typescript-api/issues/381)  
+- [internal] add cli tests  
+- fix problem with not correct working the `--no-client` option  
+- separate data-contracts.ejs onto 4 pieces (enum, interface, type, jsdoc)  
+
+# 10.0.0  
+
+- `--extract-response-body` option - extract response body type to data contract  
+- `--extract-response-error` option - extract response error type to data contract   
+- `--add-readonly` option - generate readonly properties  
+- `authorizationToken` for axios fetch swagger schema request  
+- fix: change COMPLEX_NOT_OF to COMPLEX_NOT (internal)
+- feat: improve `@deprecated` jsdoc info
+- feat: improve `required` field in complex data schemas (anyOf, oneOf, allOf etc)  
+- feat: abortSignal for fetch http client
+- chore: improve typings in index.d.ts
+- fixed [Request falls if FormData attachment is File instance](https://github.com/acacode/swagger-typescript-api/issues/293)
+- fixed [Response format - global default or override ?](https://github.com/acacode/swagger-typescript-api/issues/251)
+
+> Co-authored-by: Sergey S. Volkov <js2me@outlook.com>  
+> Co-authored-by: Xavier Cassel <57092100+xcassel@users.noreply.github.com>  
+> Co-authored-by: cassel <xavier.cassel35@gmail.com>  
+> Co-authored-by: Adrian Wieprzkowicz <Argeento@users.noreply.github.com>  
+> Co-authored-by: EvgenBabenko <evgen.babenko@gmail.com>  
+> Co-authored-by: RoCat <catoio.romain@gmail.com>  
+> Co-authored-by: rcatoio <rcatoio@doubletrade.com>  
+> Co-authored-by: 卡色 <cipchk@qq.com>  
+> Co-authored-by: 江麻妞 <50100681+jiangmaniu@users.noreply.github.com>  
+> Co-authored-by: Kasper Moskwiak <kasper.moskwiak@gmail.com>  
+> Co-authored-by: Ben Watkins <ben@outdatedversion.com>  
+> Co-authored-by: bonukai <bonukai@protonmail.com>  
+> Co-authored-by: baggoedw <92381702+baggoedw@users.noreply.github.com>  
+> Co-authored-by: Marcus Dunn <51931484+MarcusDunn@users.noreply.github.com>  
+> Co-authored-by: Daniele De Matteo <daniele@kuama.net>  
+> Co-authored-by: Daniel Playfair Cal <daniel.playfair.cal@gmail.com>  
+> Co-authored-by: Anders Cassidy <anders.cassidy@dailypay.com>  
+> Co-authored-by: Daniel Playfair Cal <dcal@atlassian.com>  
+
 # 9.2.0  
 
 Features:  

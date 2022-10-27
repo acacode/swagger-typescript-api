@@ -1,31 +1,19 @@
-interface GenerateApiParams {
-  /**
-   * path to swagger schema
-   */
-  input: string;
-
-  /**
-   * url to swagger schema
-   */
-  url: string;
-
-  /**
-   * swagger schema JSON
-   */
-  spec: import("swagger-schema-official").Spec;
-
+interface GenerateApiParamsBase {
   /**
    * default 'api.ts'
    */
   name?: string;
 
   /**
-   * path to folder where will been located the created api module
+   * path to folder where will been located the created api module.
+   *
+   * may set to `false` to skip writing content to disk. in this case,
+   * you may access the `files` on the return value.
    */
-  output?: string;
+  output?: string | false;
 
   /**
-   * path to folder containing templates (default: ./scr/templates)
+   * path to folder containing templates (default: ./src/templates)
    */
   templates?: string;
 
@@ -60,6 +48,11 @@ interface GenerateApiParams {
   generateResponses?: boolean;
 
   /**
+   * unwrap the data item from the response
+   */
+  unwrapResponseData?: boolean;
+
+  /**
    * generate js api module with declaration file (default: false)
    */
   toJS?: boolean;
@@ -89,6 +82,18 @@ interface GenerateApiParams {
    */
   extractRequestParams?: boolean;
   /**
+   * extract request body type to data contract
+   */
+  extractRequestBody?: boolean;
+  /**
+   * extract response body type to data contract
+   */
+  extractResponseBody?: boolean;
+  /**
+   * extract response error type to data contract
+   */
+  extractResponseError?: boolean;
+  /**
    * prettier configuration
    */
   prettier?: object;
@@ -112,7 +117,98 @@ interface GenerateApiParams {
    *  extra templates
    */
   extraTemplates?: { name: string; path: string }[];
+
+  /**
+   * fix up small errors in the swagger source definition
+   */
+  patch?: boolean;
+  /**
+   *  authorization token
+   */
+  authorizationToken?: string;
+  /**
+   * generate readonly properties (default: false)
+   */
+  addReadonly?: boolean;
+
+  primitiveTypeConstructs?: (struct: PrimitiveTypeStruct) => Partial<PrimitiveTypeStruct>;
+
+  codeGenConstructs?: (struct: CodeGenConstruct) => Partial<CodeGenConstruct>;
 }
+
+type CodeGenConstruct = {
+  Keyword: {
+    Number: string;
+    String: string;
+    Boolean: string;
+    Any: string;
+    Void: string;
+    Unknown: string;
+    Null: string;
+    Undefined: string;
+    Object: string;
+    File: string;
+    Date: string;
+    Type: string;
+    Enum: string;
+    Interface: string;
+    Array: string;
+    Record: string;
+    Intersection: string;
+    Union: string;
+  };
+  CodeGenKeyword: {
+    UtilRequiredKeys: string;
+  };
+  ArrayType: (content: any) => string;
+  StringValue: (content: any) => string;
+  BooleanValue: (content: any) => string;
+  NumberValue: (content: any) => string;
+  NullValue: (content: any) => string;
+  UnionType: (content: any) => string;
+  ExpressionGroup: (content: any) => string;
+  IntersectionType: (content: any) => string;
+  RecordType: (content: any) => string;
+  TypeField: (content: any) => string;
+  InterfaceDynamicField: (content: any) => string;
+  EnumField: (content: any) => string;
+  EnumFieldsWrapper: (content: any) => string;
+  ObjectWrapper: (content: any) => string;
+  MultilineComment: (content: any) => string;
+  TypeWithGeneric: (content: any) => string;
+};
+
+type PrimitiveTypeStructValue =
+  | string
+  | ((schema: Record<string, any>, parser: import("./src/schema-parser/schema-parser").SchemaParser) => string);
+
+type PrimitiveTypeStruct = Record<
+  "integer" | "number" | "boolean" | "object" | "file" | "string" | "array",
+  string | ({ $default: PrimitiveTypeStructValue } & Record<string, PrimitiveTypeStructValue>)
+>;
+
+interface GenerateApiParamsFromPath extends GenerateApiParamsBase {
+  /**
+   * path to swagger schema
+   */
+  input: string;
+}
+
+interface GenerateApiParamsFromUrl extends GenerateApiParamsBase {
+  /**
+   * url to swagger schema
+   */
+  url: string;
+}
+
+interface GenerateApiParamsFromSpecLiteral extends GenerateApiParamsBase {
+  /**
+   * swagger schema JSON
+   */
+  spec: import("swagger-schema-official").Spec;
+}
+
+export type GenerateApiParams = GenerateApiParamsFromPath | GenerateApiParamsFromUrl | GenerateApiParamsFromSpecLiteral;
 
 export interface Hooks {
   /** calls after parse schema component */
@@ -126,14 +222,9 @@ export interface Hooks {
   /** customize configuration object before sending it to ETA templates */
   onPrepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C | void;
   /** customize route name as you need */
-  onCreateRouteName?: (
-    routeNameInfo: RouteNameInfo,
-    rawRouteInfo: RawRouteInfo,
-  ) => RouteNameInfo | void;
+  onCreateRouteName?: (routeNameInfo: RouteNameInfo, rawRouteInfo: RawRouteInfo) => RouteNameInfo | void;
   /** customize request params (path params, query params) */
-  onCreateRequestParams?: (
-    rawType: SchemaComponent["rawTypeData"],
-  ) => SchemaComponent["rawTypeData"] | void;
+  onCreateRequestParams?: (rawType: SchemaComponent["rawTypeData"]) => SchemaComponent["rawTypeData"] | void;
   /** customize name of model type */
   onFormatTypeName?: (typeName: string, rawTypeName?: string) => string | void;
   /** customize name of route (operationId), you can do it with using onCreateRouteName too */
@@ -210,14 +301,10 @@ export interface SchemaComponent {
     discriminator?: {
       propertyName?: string;
     };
-    $parsed: ParsedSchema<
-      SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent
-    >;
+    $parsed: ParsedSchema<SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent>;
   };
   componentName: string;
-  typeData: ParsedSchema<
-    SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent
-  > | null;
+  typeData: ParsedSchema<SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent> | null;
 }
 
 export enum RequestContentKind {
@@ -295,6 +382,12 @@ export interface GenerateApiConfiguration {
     hasDescription: boolean;
   };
   config: {
+    input: string;
+    output: string;
+    url: string;
+    spec: any;
+    fileName: string;
+    authorizationToken?: string;
     generateResponses: boolean;
     defaultResponseAsSuccess: boolean;
     generateRouteTypes: boolean;
@@ -306,9 +399,35 @@ export interface GenerateApiConfiguration {
     convertedFromSwagger2: boolean;
     moduleNameIndex: number;
     moduleNameFirstTag: boolean;
+    extraTemplates: { name: string; path: string }[];
     disableStrictSSL: boolean;
     disableProxy: boolean;
     extractRequestParams: boolean;
+    unwrapResponseData: boolean;
+    sortTypes: boolean;
+    singleHttpClient: boolean;
+    typePrefix: string;
+    typeSuffix: string;
+    patch: boolean;
+    cleanOutput: boolean;
+    debug: boolean;
+    anotherArrayType: boolean;
+    extractRequestBody: boolean;
+    httpClientType: "axios" | "fetch";
+    addReadonly: boolean;
+    extractResponseBody: boolean;
+    extractResponseError: boolean;
+    defaultResponseType: boolean;
+    toJS: boolean;
+    disableThrowOnError: boolean;
+    silent: boolean;
+    hooks: Hooks;
+    enumNamesAsValues: boolean;
+    version: string;
+    internalTemplateOptions: {
+      addUtilRequiredKeysType: boolean;
+    };
+    componentTypeNameResolver: typeof import("./src/util/name-resolver").ComponentTypeNameResolver;
     fileNames: {
       dataContracts: string;
       routeTypes: string;
@@ -321,8 +440,14 @@ export interface GenerateApiConfiguration {
       httpClient: string;
       routeTypes: string;
       routeName: string;
+      dataContractJsDoc: string;
+      interfaceDataContract: string;
+      typeDataContract: string;
+      enumDataContract: string;
+      objectFieldJsDoc: string;
     };
     routeNameDuplicatesMap: Map<string, string>;
+    apiClassName: string;
   };
   modelTypes: ModelType[];
   rawModelTypes: SchemaComponent[];
@@ -340,11 +465,10 @@ export interface GenerateApiConfiguration {
   utils: {
     formatDescription: (description: string, inline?: boolean) => string;
     internalCase: (value: string) => string;
+    /** @deprecated */
     classNameCase: (value: string) => string;
-    getInlineParseContent: (
-      rawTypeData: SchemaComponent["rawTypeData"],
-      typeName?: string,
-    ) => string;
+    pascalCase: (value: string) => string;
+    getInlineParseContent: (rawTypeData: SchemaComponent["rawTypeData"], typeName?: string) => string;
     getParseContent: (rawTypeData: SchemaComponent["rawTypeData"], typeName?: string) => ModelType;
     getComponentByRef: (ref: string) => SchemaComponent;
     parseSchema: (
@@ -352,14 +476,8 @@ export interface GenerateApiConfiguration {
       typeName?: string,
       formattersMap?: Record<MAIN_SCHEMA_TYPES, (content: ModelType) => string>,
     ) => ModelType;
-    formatters: Record<
-      MAIN_SCHEMA_TYPES,
-      (content: string | object | string[] | object[]) => string
-    >;
-    inlineExtraFormatters: Record<
-      Exclude<MAIN_SCHEMA_TYPES, SCHEMA_TYPES.PRIMITIVE>,
-      (schema: ModelType) => string
-    >;
+    formatters: Record<MAIN_SCHEMA_TYPES, (content: string | object | string[] | object[]) => string>;
+    inlineExtraFormatters: Record<Exclude<MAIN_SCHEMA_TYPES, SCHEMA_TYPES.PRIMITIVE>, (schema: ModelType) => string>;
     formatModelName: (name: string) => string;
     fmtToJSDocLine: (line: string, params?: { eol?: boolean }) => string;
     _: import("lodash").LoDashStatic;
@@ -370,12 +488,7 @@ export interface GenerateApiConfiguration {
 export interface GenerateApiOutput {
   configuration: GenerateApiConfiguration;
   files: { name: string; content: string; declaration: { name: string; content: string } | null }[];
-  createFile: (params: {
-    path: string;
-    fileName: string;
-    content: string;
-    withPrefix?: boolean;
-  }) => void;
+  createFile: (params: { path: string; fileName: string; content: string; withPrefix?: boolean }) => void;
   renderTemplate: (
     templateContent: string,
     data: Record<string, unknown>,
@@ -385,12 +498,4 @@ export interface GenerateApiOutput {
   formatTSContent: (content: string) => string;
 }
 
-export declare function generateApi(
-  params: Omit<GenerateApiParams, "url" | "spec">,
-): Promise<GenerateApiOutput>;
-export declare function generateApi(
-  params: Omit<GenerateApiParams, "input" | "spec">,
-): Promise<GenerateApiOutput>;
-export declare function generateApi(
-  params: Omit<GenerateApiParams, "input" | "url">,
-): Promise<GenerateApiOutput>;
+export declare function generateApi(params: GenerateApiParams): Promise<GenerateApiOutput>;

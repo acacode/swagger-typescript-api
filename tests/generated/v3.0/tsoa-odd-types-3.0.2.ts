@@ -9,16 +9,29 @@
  * ---------------------------------------------------------------
  */
 
+export interface AuthUser {
+  password: string;
+  username: string;
+}
+
 export interface GetProfileBioDTO {
   /** @format int32 */
   candidateId?: number;
   cityName?: string | null;
 }
 
-export interface AuthUser {
-  username: string;
-  password: string;
+export interface Job {
+  address?: string | null;
+  github?: string | null;
+  id: string;
+  isTool?: boolean | null;
+  kind: Kind;
+  link?: string | null;
+  name?: string | null;
+  npm?: string | null;
 }
+
+export type JobUpdate = OmitJobId | PickJobGithub | Record<string, any>;
 
 export enum Kind {
   COMPANY = "COMPANY",
@@ -27,97 +40,74 @@ export enum Kind {
   OPEN_SOURCE = "OPEN_SOURCE",
 }
 
-export interface Job {
-  id: string;
-  kind: Kind;
-  name?: string | null;
-  link?: string | null;
-  github?: string | null;
-  npm?: string | null;
-  isTool?: boolean | null;
-  address?: string | null;
-}
+export type OmitJobId = PickJobExcludeKeysId;
 
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
+/** From T, pick a set of properties whose keys are in the union K */
 export interface PickJobGithub {
   github?: string;
 }
 
-export type UpdatedJob = Job;
-
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
+/** From T, pick a set of properties whose keys are in the union K */
 export interface PickJobExcludeKeysId {
   address?: string;
+  github?: string;
   isTool?: boolean;
-  npm?: string;
+  kind: Kind;
   link?: string;
   name?: string;
-  kind: Kind;
-  github?: string;
+  npm?: string;
 }
 
-export type OmitJobId = PickJobExcludeKeysId;
-
-export type JobUpdate = OmitJobId | PickJobGithub | Record<string, any>;
-
-export interface Project {
-  id: string;
-
+/** From T, pick a set of properties whose keys are in the union K */
+export interface PickProjectExcludeKeysIdOrjob {
+  description: string;
+  name?: string;
+  notImportant?: boolean;
+  prefix?: string;
+  tags: string[];
+  teamSize: string;
   /** @format double */
   year: number;
+}
+
+export interface Project {
   description: string;
+  id: string;
   job: Job;
   name?: string | null;
   notImportant?: boolean | null;
   prefix?: string | null;
   tags: string[];
   teamSize: string;
-}
-
-/**
- * From T, pick a set of properties whose keys are in the union K
- */
-export interface PickProjectExcludeKeysIdOrjob {
-  teamSize: string;
-  tags: string[];
-  prefix?: string;
-  notImportant?: boolean;
-  description: string;
-
   /** @format double */
   year: number;
-  name?: string;
 }
 
 export interface ProjectUpdate {
-  name?: string | null;
-
-  /** @format double */
-  year: number;
   description: string;
+  job: string;
+  name?: string | null;
   notImportant?: boolean | null;
   prefix?: string | null;
   tags: string[];
   teamSize: string;
-  job: string;
+  /** @format double */
+  year: number;
 }
 
-export interface UpdatedProject {
-  id: string;
+export type UpdatedJob = Job;
 
-  /** @format double */
-  year: number;
+export interface UpdatedProject {
   description: string;
+  id: string;
+  job: string;
   name?: string | null;
   notImportant?: boolean | null;
   prefix?: string | null;
   tags: string[];
   teamSize: string;
-  job: string;
+  /** @format double */
+  year: number;
 }
 
 export interface User {
@@ -126,8 +116,8 @@ export interface User {
 }
 
 export interface UserUpdate {
-  username?: string | null;
   id?: string | null;
+  username?: string | null;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -196,16 +186,16 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  private encodeQueryParam(key: string, value: any) {
+  protected encodeQueryParam(key: string, value: any) {
     const encodedKey = encodeURIComponent(key);
     return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
   }
 
-  private addQueryParam(query: QueryParamsType, key: string) {
+  protected addQueryParam(query: QueryParamsType, key: string) {
     return this.encodeQueryParam(key, query[key]);
   }
 
-  private addArrayQueryParam(query: QueryParamsType, key: string) {
+  protected addArrayQueryParam(query: QueryParamsType, key: string) {
     const value = query[key];
     return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
   }
@@ -242,7 +232,7 @@ export class HttpClient<SecurityDataType = unknown> {
     [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
   };
 
-  private mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
+  protected mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
     return {
       ...this.baseApiParams,
       ...params1,
@@ -255,7 +245,7 @@ export class HttpClient<SecurityDataType = unknown> {
     };
   }
 
-  private createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
+  protected createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
     if (this.abortControllers.has(cancelToken)) {
       const abortController = this.abortControllers.get(cancelToken);
       if (abortController) {
@@ -302,15 +292,15 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
+      signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
-      r.data = (null as unknown) as T;
-      r.error = (null as unknown) as E;
+      r.data = null as unknown as T;
+      r.error = null as unknown as E;
 
       const data = !responseFormat
         ? r
@@ -464,6 +454,43 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/jobs/${id}`,
         method: "DELETE",
         secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
+  xRoute = {
+    /**
+     * No description
+     *
+     * @tags Jobs
+     * @name GetJobs
+     * @request GET:x-route
+     * @secure
+     */
+    getJobs: (params: RequestParams = {}) =>
+      this.request<Job[], any>({
+        path: `x-route`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Jobs
+     * @name AddJob
+     * @request POST:x-route
+     * @secure
+     */
+    addJob: (data: PickJobGithub, params: RequestParams = {}) =>
+      this.request<string, any>({
+        path: `x-route`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

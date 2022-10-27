@@ -1,0 +1,24 @@
+{
+  "swagger": "2.0",
+  "info": {},
+  "parameters": {},
+  "responses": {},
+  "paths": {},
+  "definitions": {
+    "AnotherArrayType1": {
+      "type": "array",
+      "items": [
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "AnotherArrayType2": {
+      "items": [
+        {
+          "type": "string"
+        }
+      ]
+    }
+  }
+}

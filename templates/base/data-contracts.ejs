@@ -1,0 +1,28 @@
+<%
+const { modelTypes, utils, config } = it;
+const { formatDescription, require, _, Ts } = utils;
+
+
+const dataContractTemplates = {
+  enum: (contract) => {
+    return `enum ${contract.name} {\r\n${contract.content} \r\n }`;
+  },
+  interface: (contract) => {
+    return `interface ${contract.name} {\r\n${contract.content}}`;
+  },
+  type: (contract) => {
+    return `type ${contract.name} = ${contract.content}`;
+  },
+}
+%>
+
+<% if (config.internalTemplateOptions.addUtilRequiredKeysType) { %>
+type <%~ config.Ts.CodeGenKeyword.UtilRequiredKeys %><T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>
+<% } %>
+
+<% modelTypes.forEach((contract) => { %>
+  <%~ includeFile('@base/data-contract-jsdoc.ejs', { ...it, data: { ...contract, ...contract.typeData } }) %>
+  export <%~ (dataContractTemplates[contract.typeIdentifier] || dataContractTemplates.type)(contract) %>
+
+
+<% }) %>
