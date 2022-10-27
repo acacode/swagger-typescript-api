@@ -62,27 +62,31 @@ class TemplatesGenProcess {
         const templateEjsPathExist = this.fileSystem.pathIsExist(templateEjsPath);
         const templateEtaPathExist = this.fileSystem.pathIsExist(templateEtaPath);
 
-        if (this.config.rewrite || (!templateEjsPathExist && !templateEtaPathExist)) {
+        const templateNotExist = !templateEjsPathExist && !templateEtaPathExist;
+
+        if (templateNotExist) {
           this.fileSystem.createFile({
             path: outputPath,
             fileName: template.name,
             content: template.content,
             withPrefix: false,
           });
-        } else if (templateEjsPathExist) {
-          this.fileSystem.createFile({
-            path: outputPath,
-            fileName: `${templateName}.ejs`,
-            content: template.content,
-            withPrefix: false,
-          });
-        } else if (templateEtaPathExist) {
-          this.fileSystem.createFile({
-            path: outputPath,
-            fileName: `${templateName}.eta`,
-            content: template.content,
-            withPrefix: false,
-          });
+        } else if (this.config.rewrite) {
+          if (templateEjsPathExist) {
+            this.fileSystem.createFile({
+              path: outputPath,
+              fileName: `${templateName}.ejs`,
+              content: template.content,
+              withPrefix: false,
+            });
+          } else if (templateEtaPathExist) {
+            this.fileSystem.createFile({
+              path: outputPath,
+              fileName: `${templateName}.eta`,
+              content: template.content,
+              withPrefix: false,
+            });
+          }
         }
       });
 
