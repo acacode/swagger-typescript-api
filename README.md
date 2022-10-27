@@ -34,6 +34,7 @@ All examples you can find [**here**](https://github.com/acacode/swagger-typescri
 ```muse
 Usage: sta [options]
 Usage: swagger-typescript-api [options]
+Usage: swagger-typescript-api generate-templates [options]
 
 Options:
   -v, --version                 output the current version
@@ -73,7 +74,18 @@ Options:
   --patch                       fix up small errors in the swagger source definition (default: false)
   --debug                       additional information about processes inside this tool (default: false)
   --another-array-type          generate array types as Array<Type> (by default Type[]) (default: false)
+  --sort-types                  sort fields and types (default: false)
   -h, --help                    display help for command
+
+Commands:
+  generate-templates              Generate ".ejs" templates needed for generate api
+    -o, --output <string>         output path of generated templates
+    -m, --modular                 generate templates needed to separate files for http client, data contracts, and routes (default: false)
+    --http-client <string>        http client type (possible values: "fetch", "axios") (default: "fetch")
+    -c, --clean-output            clean output folder before generate template. WARNING: May cause data loss (default: false)
+    -r, --rewrite                 rewrite content in existing templates (default: false)
+    --silent                      Output only errors to console (default: false)
+    -h, --help                    display help for command
 ```
 
 Also you can use `npx`:  
@@ -83,7 +95,7 @@ Also you can use `npx`:
 
 You can use this package from nodejs:
 ```js
-const { generateApi } = require('swagger-typescript-api');
+const { generateApi, generateTemplates } = require('swagger-typescript-api');
 const path = require("path");
 const fs = require("fs");
 
@@ -158,6 +170,16 @@ generateApi({
   })
   .catch(e => console.error(e))
 
+
+generateTemplates({
+  cleanOutput: false,
+  output: PATH_TO_OUTPUT_DIR,
+  httpClientType: "fetch",
+  modular: false,
+  silent: false,
+  rewrite: false,
+})
+
 ```
 
 
@@ -219,6 +241,9 @@ When we change it to `--module-name-index 1` then Api class have two properties 
 ### **`--module-name-first-tag`**  
 This option will group your API operations based on their first tag - mirroring how the Swagger UI groups displayed operations
 
+
+## `generate-templates` command    
+This command allows you to generate source templates which using with option `--templates`
 
 ## Modification internal codegen structs with NodeJS API:  
 

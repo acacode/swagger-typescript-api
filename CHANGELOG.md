@@ -8,6 +8,10 @@
  - new codebase (class way)  
  - ability to change everything in codegen process configuration with using NodeJS Api  
  - ability to call `generateApi` function 2 and more times per 1 NodeJS process.  
+ - new command `generate-templates` to create source templates  
+
+## [feature] Ability to generate source templates  
+New command `generate-templates` which allow you to generate source templates which using with option `--templates`  
 
 ## [feature] Ability to modify internal codegen typescript structs     
 Everything which creates codegen about output typescript code now contains in `Ts` field in [`src/configuration`](src/configuration.js).
