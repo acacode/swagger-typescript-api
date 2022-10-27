@@ -90,6 +90,7 @@ const fs = require("fs");
 /* NOTE: all fields are optional expect one of `output`, `url`, `spec` */
 generateApi({
   name: "MySuperbApi.ts",
+  // set to `false` to prevent the tool from writing to disk
   output: path.resolve(process.cwd(), "./src/__generated__"),
   url: 'http://api.com/swagger.json',
   input: path.resolve(process.cwd(), './foo/swagger.json'),
