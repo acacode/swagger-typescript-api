@@ -180,6 +180,7 @@ const program = cli({
     {
       flags: "--api-class-name <string>",
       description: "name of the api class",
+      default: codeGenBaseConfig.apiClassName,
     },
     {
       flags: "--patch",
