@@ -1,5 +1,7 @@
 # next release
 
+fix: problems with missing type imports in `.d.ts` files with using option `--js`  
+
 # 11.1.1  
 fix: `--api-class-name` option has no default value (#433)  
 

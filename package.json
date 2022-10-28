@@ -39,6 +39,7 @@
     "test:--enum-names-as-values": "node tests/spec/enumNamesAsValues/test.js",
     "test:--default-response": "node tests/spec/defaultResponse/test.js",
     "test:--js": "node tests/spec/js/test.js",
+    "test:jsSingleHttpClientModular": "node tests/spec/jsSingleHttpClientModular/test.js",
     "test:--js--axios": "node tests/spec/jsAxios/test.js",
     "test:--axios": "node tests/spec/axios/test.js",
     "test:--another-array-type": "node tests/spec/another-array-type/test.js",
