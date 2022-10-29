@@ -53,7 +53,9 @@
     "test:partialDefaultTemplate": "node tests/spec/partialDefaultTemplate/test.js",
     "test:--patch": "node tests/spec/patch/test.js",
     "test:deprecated": "node tests/spec/deprecated/test.js",
-    "test:nullableRefTest": "node tests/spec/nullable/test.js"
+    "test:nullableRefTest3.0": "node tests/spec/nullable-3.0/test.js",
+    "test:nullableRefTest2.0": "node tests/spec/nullable-2.0/test.js",
+    "test:enums2.0": "node tests/spec/enums-2.0/test.js"
   },
   "author": "acacode",
   "license": "MIT",

@@ -8,7 +8,7 @@ const schemas = createSchemaInfos({ absolutePathToSchemas: resolve(__dirname, ".
 
 schemas.forEach(({ absolutePath, apiFileName }) => {
   generateApiForTest({
-    testName: "nullable refs test",
+    testName: "nullable-2.0 refs test",
     silent: true,
     name: apiFileName,
     input: absolutePath,
