@@ -52,7 +52,8 @@
     "test:partialBaseTemplate": "node tests/spec/partialBaseTemplate/test.js",
     "test:partialDefaultTemplate": "node tests/spec/partialDefaultTemplate/test.js",
     "test:--patch": "node tests/spec/patch/test.js",
-    "test:deprecated": "node tests/spec/deprecated/test.js"
+    "test:deprecated": "node tests/spec/deprecated/test.js",
+    "test:nullableRefTest": "node tests/spec/nullable/test.js"
   },
   "author": "acacode",
   "license": "MIT",
