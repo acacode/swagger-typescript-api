@@ -308,7 +308,9 @@ const main = async () => {
   } catch (e) {
     console.error(e);
     process.exit(1);
+    return;
   }
+  process.exit(0);
 };
 
 main();
