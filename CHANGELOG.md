@@ -1,8 +1,11 @@
 # next release
 
+# 11.1.2  
+
 fix: problems with missing type imports in `.d.ts` files with using option `--js`    
 internal: add extra spec tests  
 fix: additionalProperties management problem in Swagger 2 (#343)  
+fix: hanging cli after execution finished (#436, thanks @Soarc)  
 
 # 11.1.1  
 fix: `--api-class-name` option has no default value (#433)  
