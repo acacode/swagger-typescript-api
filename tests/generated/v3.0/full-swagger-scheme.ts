@@ -3164,6 +3164,7 @@ export interface Integration {
     metadata?: string;
     contents?: string;
     deployments?: string;
+    [key: string]: any;
   };
   /**
    * The slug name of the GitHub app

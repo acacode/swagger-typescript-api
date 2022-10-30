@@ -41,10 +41,12 @@ export type Test1 = {
 
 export interface AdditionalObjectProperties {
   id?: string;
+  [key: string]: any;
 }
 
 export interface AdditionalIntProperties {
   id?: string;
+  [key: string]: any;
 }
 
 export interface ABCOptional {

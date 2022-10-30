@@ -149,7 +149,7 @@ class SchemaParser {
       });
     },
     [SCHEMA_TYPES.OBJECT]: (schema, typeName) => {
-      const content = this.getObjectSchemaContent(schema);
+      const contentProperties = this.getObjectSchemaContent(schema);
 
       return this.attachParsedRef(schema, {
         ...(_.isObject(schema) ? schema : {}),
@@ -159,8 +159,8 @@ class SchemaParser {
         typeIdentifier: this.config.Ts.Keyword.Interface,
         name: typeName,
         description: this.schemaFormatters.formatDescription(schema.description),
-        allFieldsAreOptional: !_.some(_.values(content), (part) => part.isRequired),
-        content: content,
+        allFieldsAreOptional: !_.some(_.values(contentProperties), (part) => part.isRequired),
+        content: contentProperties,
       });
     },
     [SCHEMA_TYPES.COMPLEX]: (schema, typeName) => {
@@ -424,7 +424,7 @@ class SchemaParser {
       };
     });
 
-    if (additionalProperties === true) {
+    if (additionalProperties) {
       propertiesContent.push({
         $$raw: { additionalProperties },
         description: "",

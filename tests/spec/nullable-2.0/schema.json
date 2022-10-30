@@ -1,0 +1,97 @@
+{
+  "swagger": "2.0",
+  "schemes": ["https"],
+  "host": "ffff.com",
+  "basePath": "/",
+  "info": {},
+  "definitions": {
+    "myObject": {
+      "type": "object",
+      "nullable": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "TestObject": {
+      "type": "object",
+      "properties": {
+        "stringMaybeUndefined": {
+          "type": "string"
+        },
+        "stringMaybeNullA": {
+          "type": "string",
+          "nullable": true
+        },
+        "stringMaybeNullB": {
+          "anyOf": [
+            {
+              "type": "string"
+            }
+          ],
+          "nullable": true
+        },
+        "stringMaybeNullAndUndefined": {
+          "anyOf": [
+            {
+              "type": "string"
+            }
+          ],
+          "nullable": true
+        },
+        "otherObjectMaybeUndefined": {
+          "$ref": "#/components/schemas/OtherObject"
+        },
+        "otherObjectMaybeNullA": {
+          "$ref": "#/components/schemas/OtherObject",
+          "nullable": true
+        },
+        "otherObjectMaybeNullB": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/OtherObject"
+            }
+          ],
+          "nullable": true
+        },
+        "otherObjectMaybeNullC": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/OtherObject"
+            }
+          ],
+          "type": "null"
+        },
+        "otherObjectMaybeNullD": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/OtherObject"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "stringMaybeNullA",
+        "stringMaybeNullB",
+        "otherObjectMaybeNullA",
+        "otherObjectMaybeNullB",
+        "otherObjectMaybeNullC",
+        "otherObjectMaybeNullD"
+      ]
+    },
+    "OtherObject": {
+      "type": "object"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "11.1.1",
+  "version": "11.1.2",
   "description": "Generate typescript/javascript api from swagger schema",
   "scripts": {
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
@@ -39,6 +39,7 @@
     "test:--enum-names-as-values": "node tests/spec/enumNamesAsValues/test.js",
     "test:--default-response": "node tests/spec/defaultResponse/test.js",
     "test:--js": "node tests/spec/js/test.js",
+    "test:jsSingleHttpClientModular": "node tests/spec/jsSingleHttpClientModular/test.js",
     "test:--js--axios": "node tests/spec/jsAxios/test.js",
     "test:--axios": "node tests/spec/axios/test.js",
     "test:--another-array-type": "node tests/spec/another-array-type/test.js",
@@ -47,11 +48,15 @@
     "test:--type-suffix--type-prefix": "node tests/spec/typeSuffixPrefix/test.js",
     "test:--dot-path-params": "node tests/spec/dot-path-params/test.js",
     "test:--primitive-type-constructs": "node tests/spec/primitive-type-constructs/test.js",
-    "test:--cli": "node index.js -p tests/spec/cli/schema.json -o tests/spec/cli -n schema.ts --extract-response-body --extract-response-error --api-class-name MySuperApi --type-prefix Prefix",
+    "test:--cli": "node index.js -p tests/spec/cli/schema.json -o tests/spec/cli -n schema.ts --extract-response-body --extract-response-error --api-class-name MySuperApi --type-prefix Prefix && node tests/spec/cli/test.js",
     "test:partialBaseTemplate": "node tests/spec/partialBaseTemplate/test.js",
     "test:partialDefaultTemplate": "node tests/spec/partialDefaultTemplate/test.js",
     "test:--patch": "node tests/spec/patch/test.js",
-    "test:deprecated": "node tests/spec/deprecated/test.js"
+    "test:deprecated": "node tests/spec/deprecated/test.js",
+    "test:nullableRefTest3.0": "node tests/spec/nullable-3.0/test.js",
+    "test:nullableRefTest2.0": "node tests/spec/nullable-2.0/test.js",
+    "test:additionalProperties2.0": "node tests/spec/additional-properties-2.0/test.js",
+    "test:enums2.0": "node tests/spec/enums-2.0/test.js"
   },
   "author": "acacode",
   "license": "MIT",
@@ -62,6 +67,7 @@
     "@types/node": "^18.11.7",
     "@types/prettier": "^2.7.1",
     "all-contributors-cli": "^6.20.0",
+    "axios": "^1.1.3",
     "cross-env": "^7.0.3",
     "git-diff": "^2.0.6",
     "husky": "^4.3.6",

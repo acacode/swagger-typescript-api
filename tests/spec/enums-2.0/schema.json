@@ -1,0 +1,61 @@
+{
+  "swagger": "2.0",
+  "schemes": ["https"],
+  "host": "ffff.com",
+  "basePath": "/",
+  "info": {},
+  "definitions": {
+    "OnlyEnumNames": {
+      "x-enumNames": ["Bla", "Blabla", "Boiler"]
+    },
+    "StringOnlyEnumNames": {
+      "type": "int32",
+      "x-enumNames": ["Bla", "Blabla", "Boiler"]
+    },
+    "StringEnums": {
+      "type": "int32",
+      "enum": ["foo", "bar"],
+      "x-enumNames": ["Bla", "Blabla", "Boiler"]
+    },
+    "StringCompleteEnums": {
+      "type": "int32",
+      "enum": ["foo", "bar", "baz"],
+      "x-enumNames": ["Bla", "Blabla", "Boiler"]
+    },
+    "EmptyEnum": {
+      "format": "int32",
+      "type": "integer",
+      "x-enumNames": ["Bla", "Blabla", "Boiler"]
+    },
+    "EnumWithMoreNames": {
+      "format": "int32",
+      "type": "integer",
+      "enum": [1],
+      "x-enumNames": ["Bla", "Blabla", "Boiler"]
+    },
+    "SomeInterestEnum": {
+      "format": "int32",
+      "enum": [6, 2, 1, 67, 88, 122, 88, 0, 213, 12378, 123125, 32452, 1111, 66666],
+      "type": "integer",
+      "x-enumNames": [
+        "Bla",
+        "Blabla",
+        "Boiler",
+        "Bbabab",
+        "Nowadays",
+        "FAIL",
+        "Vvvvv",
+        "ASdasAS",
+        "ASDsacZX",
+        "Zook",
+        "EnumMm",
+        "VCsa",
+        "Yuuu",
+        "ASddd",
+        "ASdsdsa",
+        "ASDds",
+        "HSDFDS"
+      ]
+    }
+  }
+}
