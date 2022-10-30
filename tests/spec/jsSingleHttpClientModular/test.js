@@ -14,7 +14,6 @@ schemas.forEach(({ absolutePath, Exception }) => {
     output: resolve(__dirname, "./generated"),
     modular: true,
     toJS: true,
-    cleanOutput: true,
     singleHttpClient: true,
     generateClient: true,
     generateRouteTypes: true,

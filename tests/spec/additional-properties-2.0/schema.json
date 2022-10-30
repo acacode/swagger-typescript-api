@@ -1,0 +1,54 @@
+{
+  "swagger": "2.0",
+  "schemes": ["https"],
+  "host": "ffff.com",
+  "basePath": "/",
+  "info": {},
+  "definitions": {
+    "MyObject1": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "MyObject2": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "MyObject3": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "MyObject4": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+}

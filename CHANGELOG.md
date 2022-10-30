@@ -1,6 +1,8 @@
 # next release
 
-fix: problems with missing type imports in `.d.ts` files with using option `--js`  
+fix: problems with missing type imports in `.d.ts` files with using option `--js`    
+internal: add extra spec tests  
+fix: additionalProperties management problem in Swagger 2 (#343)  
 
 # 11.1.1  
 fix: `--api-class-name` option has no default value (#433)  
