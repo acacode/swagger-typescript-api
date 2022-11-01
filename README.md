@@ -21,9 +21,15 @@ Any questions you can ask [**here**](https://github.com/acacode/swagger-typescri
 
 ![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/components-converter-example.jpg)    
 
-👀 This project is looking for a code maintainer 👀    
 P.S. If you are creating the PR, please check your changes with using command `npm run prepare`  
-P.S. If you want to contribute please use branch `next`. All PRs which will have target `master` will be declined  
+P.S. If you want to contribute please use the `next` branch. All PRs that has target `master` will be declined!  
+
+
+Thanks to [Jetbrains](https://www.jetbrains.com/?from=swaggertypescriptapi) for providing a free license for their excellent Webstorm IDE.  
+<a href="https://www.jetbrains.com/?from=swaggertypescriptapi">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/JetBrains_Logo_2016.svg" alt="Jetbrains">
+</a>
+
 
 ## 👀 Examples  
 
