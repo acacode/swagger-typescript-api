@@ -207,7 +207,7 @@ class SchemaRoutes {
 
   getContentKind = (contentTypes) => {
     if (
-      _.includes(contentTypes, "application/json") ||
+      _.some(contentTypes, (contentType) => _.startsWith(contentType, "application/json")) ||
       _.some(contentTypes, (contentType) => _.endsWith(contentType, "+json"))
     ) {
       return CONTENT_KIND.JSON;
