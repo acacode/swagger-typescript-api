@@ -14,6 +14,7 @@ export var ContentType;
   ContentType["Json"] = "application/json";
   ContentType["FormData"] = "multipart/form-data";
   ContentType["UrlEncoded"] = "application/x-www-form-urlencoded";
+  ContentType["Text"] = "text/plain";
 })(ContentType || (ContentType = {}));
 export class HttpClient {
   baseUrl = "https://api.github.com";
@@ -58,6 +59,7 @@ export class HttpClient {
   contentFormatters = {
     [ContentType.Json]: (input) =>
       input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
+    [ContentType.Text]: (input) => (input !== null && typeof input !== "string" ? JSON.stringify(input) : input),
     [ContentType.FormData]: (input) =>
       Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
@@ -549,6 +551,7 @@ export class Api extends HttpClient {
       this.request({
         path: `/markdown/raw`,
         method: "POST",
+        type: ContentType.Text,
         ...params,
       }),
   };

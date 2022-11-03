@@ -45,6 +45,7 @@ export declare enum ContentType {
   Json = "application/json",
   FormData = "multipart/form-data",
   UrlEncoded = "application/x-www-form-urlencoded",
+  Text = "text/plain",
 }
 export declare class HttpClient<SecurityDataType = unknown> {
   baseUrl: string;

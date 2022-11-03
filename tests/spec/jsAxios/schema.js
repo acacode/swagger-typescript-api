@@ -15,6 +15,7 @@ export var ContentType;
   ContentType["Json"] = "application/json";
   ContentType["FormData"] = "multipart/form-data";
   ContentType["UrlEncoded"] = "application/x-www-form-urlencoded";
+  ContentType["Text"] = "text/plain";
 })(ContentType || (ContentType = {}));
 export class HttpClient {
   instance;
@@ -72,6 +73,9 @@ export class HttpClient {
     const responseFormat = format || this.format || undefined;
     if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
       body = this.createFormData(body);
+    }
+    if (type === ContentType.Text && body && body !== null && typeof body !== "string") {
+      body = JSON.stringify(body);
     }
     return this.instance.request({
       ...requestParams,
@@ -486,6 +490,7 @@ export class Api extends HttpClient {
       this.request({
         path: `/markdown/raw`,
         method: "POST",
+        type: ContentType.Text,
         ...params,
       }),
   };

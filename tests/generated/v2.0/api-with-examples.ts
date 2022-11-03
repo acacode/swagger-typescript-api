@@ -51,6 +51,7 @@ export enum ContentType {
   Json = "application/json",
   FormData = "multipart/form-data",
   UrlEncoded = "application/x-www-form-urlencoded",
+  Text = "text/plain",
 }
 
 export class HttpClient<SecurityDataType = unknown> {
@@ -105,6 +106,7 @@ export class HttpClient<SecurityDataType = unknown> {
   private contentFormatters: Record<ContentType, (input: any) => any> = {
     [ContentType.Json]: (input: any) =>
       input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
+    [ContentType.Text]: (input: any) => (input !== null && typeof input !== "string" ? JSON.stringify(input) : input),
     [ContentType.FormData]: (input: any) =>
       Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
@@ -267,6 +269,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: someParm,
         type: ContentType.Json,
+        ...params,
+      }),
+  };
+  consumesPlainText = {
+    /**
+     * @description consumes plain text
+     *
+     * @name ConsumesPlainText
+     * @summary consumes plain text
+     * @request POST:/consumes-plain-text/
+     */
+    consumesPlainText: (someParm: string, params: RequestParams = {}) =>
+      this.request<any, void>({
+        path: `/consumes-plain-text/`,
+        method: "POST",
+        body: someParm,
+        type: ContentType.Text,
         ...params,
       }),
   };
