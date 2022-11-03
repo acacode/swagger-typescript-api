@@ -115,6 +115,10 @@ export class HttpClient<SecurityDataType = unknown> {
           body = this.createFormData(body as Record<string, unknown>);
         }
 
+        if (type === ContentType.Text && body && body !== null && typeof body !== "string") {
+          body = JSON.stringify(body);
+        }
+
         return this.instance.request({
             ...requestParams,
             headers: {
