@@ -253,4 +253,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
+  withCharset = {
+    /**
+     * @description consumes contains charset
+     *
+     * @name WithCharset
+     * @summary consumes contains charset
+     * @request POST:/with-charset/
+     */
+    withCharset: (someParm: string, params: RequestParams = {}) =>
+      this.request<any, void>({
+        path: `/with-charset/`,
+        method: "POST",
+        body: someParm,
+        type: ContentType.Json,
+        ...params,
+      }),
+  };
 }
