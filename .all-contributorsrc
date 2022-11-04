@@ -323,6 +323,16 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "JochenDiekenbrock",
+      "name": "Jochen Diekenbrock",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1625222?v=4",
+      "profile": "https://github.com/JochenDiekenbrock",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
