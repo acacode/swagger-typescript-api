@@ -165,5 +165,18 @@ paths:
                       ]
                   }
               }
+  /with-charset/:
+    post:
+      operationId: with-charset
+      summary: consumes contains charset
+      description: consumes contains charset
+      consumes:
+        - application/json;charset=UTF-8
+      produces:
+        - application/json;charset=UTF-8
+      parameters:
+        - in: body
+          name: someParm
+          type: string
 consumes:
 - application/json
