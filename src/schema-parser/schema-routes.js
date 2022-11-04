@@ -104,25 +104,24 @@ class SchemaRoutes {
           this.logger.warn("wrong path param name", paramName);
         }
 
-        return [
-          ...pathParams,
-          {
-            $match: match,
-            name: _.camelCase(paramName),
-            required: true,
+        pathParams.push({
+          $match: match,
+          name: _.camelCase(paramName),
+          required: true,
+          type: "string",
+          description: "",
+          schema: {
             type: "string",
-            description: "",
-            schema: {
-              type: "string",
-            },
-            in: "path",
           },
-        ];
+          in: "path",
+        });
+
+        return pathParams;
       },
       [],
     );
 
-    const fixedRoute = _.reduce(
+    let fixedRoute = _.reduce(
       pathParams,
       (fixedRoute, pathParam) => {
         return _.replace(fixedRoute, pathParam.$match, `\${${pathParam.name}}`);
@@ -130,14 +129,47 @@ class SchemaRoutes {
       routeName || "",
     );
 
+    const queryParamMatches = fixedRoute.match(/(\{\?.*\})/g);
+    const queryParams = [];
+
+    if (queryParamMatches && queryParamMatches.length) {
+      queryParamMatches.forEach((match) => {
+        fixedRoute = fixedRoute.replace(match, "");
+      });
+
+      _.uniq(
+        queryParamMatches
+          .join(",")
+          .replace(/(\{\?)|(\})|\s/g, "")
+          .split(","),
+      ).forEach((paramName) => {
+        if (_.includes(paramName, "-")) {
+          this.logger.warn("wrong query param name", paramName);
+        }
+
+        queryParams.push({
+          $match: paramName,
+          name: _.camelCase(paramName),
+          required: true,
+          type: "string",
+          description: "",
+          schema: {
+            type: "string",
+          },
+          in: "query",
+        });
+      });
+    }
+
     return {
       originalRoute: routeName || "",
       route: fixedRoute,
       pathParams,
+      queryParams,
     };
   };
 
-  getRouteParams = (routeInfo, pathParams) => {
+  getRouteParams = (routeInfo, pathParamsFromRouteName, queryParamsFromRouteName) => {
     const { parameters } = routeInfo;
 
     const routeParams = {
@@ -187,11 +219,19 @@ class SchemaRoutes {
     });
 
     // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
-    _.each(pathParams, (pathParam) => {
+    _.each(pathParamsFromRouteName, (pathParam) => {
       const alreadyExist = _.some(routeParams.path, (parameter) => parameter.name === pathParam.name);
 
       if (!alreadyExist) {
         routeParams.path.push(pathParam);
+      }
+    });
+    // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
+    _.each(queryParamsFromRouteName, (queryParam) => {
+      const alreadyExist = _.some(routeParams.query, (parameter) => parameter.name === queryParam.name);
+
+      if (!alreadyExist) {
+        routeParams.query.push(queryParam);
       }
     });
 
@@ -649,7 +689,11 @@ class SchemaRoutes {
       consumes,
       ...otherInfo
     } = routeInfo;
-    const { route, pathParams } = this.parseRouteName(rawRouteName);
+    const {
+      route,
+      pathParams: pathParamsFromRouteName,
+      queryParams: queryParamsFromRouteName,
+    } = this.parseRouteName(rawRouteName);
 
     const routeId = generateId();
     const firstTag = tags && tags.length > 0 ? tags[0] : null;
@@ -662,7 +706,7 @@ class SchemaRoutes {
       hasSecurity = security.length > 0;
     }
 
-    const routeParams = this.getRouteParams(routeInfo, pathParams);
+    const routeParams = this.getRouteParams(routeInfo, pathParamsFromRouteName, queryParamsFromRouteName);
 
     const pathArgs = routeParams.path.map((pathArgSchema) => ({
       name: pathArgSchema.name,

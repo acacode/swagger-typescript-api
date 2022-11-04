@@ -1,0 +1,187 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.6.3",
+    "title": "系统"
+  },
+  "host": "localhost:8083",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "部门",
+      "description": "Sys Department Api"
+    }
+  ],
+  "paths": {
+    "/api/sys/department{?children,createdTime,description,id,name,page,parent,size,sort,updatedTime,customField}": {
+      "get": {
+        "tags": [
+          "部门"
+        ],
+        "summary": "部门列表",
+        "operationId": "list_2",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "第page页,从0开始计数",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "每页数据数量",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "按属性排序,格式:属性,[asc|desc]",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "children",
+            "in": "query",
+            "description": "querydsl自动生成",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "createdTime",
+            "in": "query",
+            "description": "querydsl自动生成",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "description": "querydsl自动生成",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "querydsl自动生成",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "querydsl自动生成",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "parent",
+            "in": "query",
+            "description": "querydsl自动生成",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "updatedTime",
+            "in": "query",
+            "description": "querydsl自动生成",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "用户jwt token",
+            "required": false,
+            "type": "string",
+            "default": "Bearer "
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/R«object»",
+              "originalRef": "R«object»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "R«object»": {
+      "type": "object",
+      "required": [
+        "code",
+        "data",
+        "msg"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "example": 0,
+          "description": "响应码"
+        },
+        "data": {
+          "type": "object",
+          "description": "返回数据"
+        },
+        "msg": {
+          "type": "string",
+          "example": "用户名或密码错误",
+          "description": "说明信息"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "R«object»",
+      "description": "统一的api返回格式"
+    },
+    "Sort": {
+      "type": "object",
+      "properties": {
+        "empty": {
+          "type": "boolean"
+        },
+        "sorted": {
+          "type": "boolean"
+        },
+        "unsorted": {
+          "type": "boolean"
+        }
+      },
+      "title": "Sort"
+    }
+  }
+}
