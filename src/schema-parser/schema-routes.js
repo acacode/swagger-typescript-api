@@ -129,37 +129,36 @@ class SchemaRoutes {
     );
 
     const queryParamMatches = fixedRoute.match(/(\{\?.*\})/g);
+    const queryParams = [];
 
     if (queryParamMatches && queryParamMatches.length) {
       queryParamMatches.forEach((match) => {
         fixedRoute = fixedRoute.replace(match, "");
       });
-    }
 
-    const queryParams = _.uniq(
-      queryParamMatches
-        .join(",")
-        .replace(/(\{\?)|(\})|\s/g, "")
-        .split(","),
-    ).reduce((acc, paramName) => {
-      if (_.includes(paramName, "-")) {
-        this.logger.warn("wrong query param name", paramName);
-      }
+      _.uniq(
+        queryParamMatches
+          .join(",")
+          .replace(/(\{\?)|(\})|\s/g, "")
+          .split(","),
+      ).forEach((paramName) => {
+        if (_.includes(paramName, "-")) {
+          this.logger.warn("wrong query param name", paramName);
+        }
 
-      acc.push({
-        $match: paramName,
-        name: _.camelCase(paramName),
-        required: true,
-        type: "string",
-        description: "",
-        schema: {
+        queryParams.push({
+          $match: paramName,
+          name: _.camelCase(paramName),
+          required: true,
           type: "string",
-        },
-        in: "query",
+          description: "",
+          schema: {
+            type: "string",
+          },
+          in: "query",
+        });
       });
-
-      return acc;
-    }, []);
+    }
 
     return {
       originalRoute: routeName || "",
