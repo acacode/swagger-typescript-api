@@ -2,7 +2,7 @@
 
 [![NPM badge](https://img.shields.io/npm/v/swagger-typescript-api.svg)](https://www.npmjs.com/package/swagger-typescript-api) 
 [![CI](https://github.com/acacode/swagger-typescript-api/actions/workflows/main.yml/badge.svg?branch=next)](https://github.com/acacode/swagger-typescript-api/actions/workflows/main.yml) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-32-orange.svg)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-33-orange.svg)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <img src="https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/swagger-typescript-api-logo.png" align="left"
@@ -518,6 +518,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center"><a href="http://nikz.se"><img src="https://avatars.githubusercontent.com/u/7352072?v=4?s=100" width="100px;" alt="Niklas Frank"/><br /><sub><b>Niklas Frank</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=nksfrank" title="Code">💻</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3Anksfrank" title="Bug reports">🐛</a></td>
       <td align="center"><a href="https://quentinbrunet.com"><img src="https://avatars.githubusercontent.com/u/20137632?v=4?s=100" width="100px;" alt="Quentin Brunet"/><br /><sub><b>Quentin Brunet</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=qboot" title="Code">💻</a></td>
       <td align="center"><a href="https://github.com/Soarc"><img src="https://avatars.githubusercontent.com/u/3385495?v=4?s=100" width="100px;" alt="Gor Rustamyan"/><br /><sub><b>Gor Rustamyan</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=Soarc" title="Code">💻</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3ASoarc" title="Bug reports">🐛</a></td>
+      <td align="center"><a href="https://github.com/JochenDiekenbrock"><img src="https://avatars.githubusercontent.com/u/1625222?v=4?s=100" width="100px;" alt="Jochen Diekenbrock"/><br /><sub><b>Jochen Diekenbrock</b></sub></a><br /><a href="https://github.com/acacode/swagger-typescript-api/commits?author=JochenDiekenbrock" title="Code">💻</a> <a href="https://github.com/acacode/swagger-typescript-api/issues?q=author%3AJochenDiekenbrock" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
