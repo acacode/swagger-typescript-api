@@ -16,6 +16,7 @@ const CONTENT_KIND = {
   FORM_DATA: "FORM_DATA",
   IMAGE: "IMAGE",
   OTHER: "OTHER",
+  TEXT: "TEXT",
 };
 
 class SchemaRoutes {
@@ -263,6 +264,12 @@ class SchemaRoutes {
 
     if (_.some(contentTypes, (contentType) => _.includes(contentType, "image/"))) {
       return CONTENT_KIND.IMAGE;
+    }
+
+    if (
+        _.some(contentTypes, (contentType) => _.startsWith(contentType, "text/"))
+    ) {
+      return CONTENT_KIND.TEXT;
     }
 
     return CONTENT_KIND.OTHER;

@@ -178,5 +178,17 @@ paths:
         - in: body
           name: someParm
           type: string
+  /consumes-plain-text/:
+    post:
+      operationId: consumes-plain-text
+      summary: consumes plain text
+      description: consumes plain text
+      consumes:
+        - text/plain
+      parameters:
+        - in: body
+          name: someParm
+          type: string
+
 consumes:
 - application/json

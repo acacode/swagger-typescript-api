@@ -1940,6 +1940,7 @@ export enum ContentType {
   Json = "application/json",
   FormData = "multipart/form-data",
   UrlEncoded = "application/x-www-form-urlencoded",
+  Text = "text/plain",
 }
 
 export class HttpClient<SecurityDataType = unknown> {
@@ -2016,6 +2017,10 @@ export class HttpClient<SecurityDataType = unknown> {
 
     if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
       body = this.createFormData(body as Record<string, unknown>);
+    }
+
+    if (type === ContentType.Text && body && body !== null && typeof body !== "string") {
+      body = JSON.stringify(body);
     }
 
     return this.instance.request({
@@ -2587,6 +2592,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<void, void>({
         path: `/markdown/raw`,
         method: "POST",
+        type: ContentType.Text,
         ...params,
       }),
   };
