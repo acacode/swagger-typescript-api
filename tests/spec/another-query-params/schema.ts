@@ -9,6 +9,34 @@
  * ---------------------------------------------------------------
  */
 
+/** Sort */
+export interface Sort {
+  empty?: boolean;
+  sorted?: boolean;
+  unsorted?: boolean;
+}
+
+/**
+ * R«object»
+ * 统一的api返回格式
+ */
+export interface RObject {
+  /**
+   * 响应码
+   * @format int32
+   * @example 0
+   */
+  code: number;
+  /** 返回数据 */
+  data: object;
+  /**
+   * 说明信息
+   * @example "用户名或密码错误"
+   */
+  msg: string;
+  success?: boolean;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -55,7 +83,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "";
+  public baseUrl: string = "//localhost:8083";
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private abortControllers = new Map<CancelToken, AbortController>();
@@ -220,36 +248,62 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title Title
- * @version v0.1
+ * @title 系统
+ * @version 1.6.3
+ * @baseUrl //localhost:8083
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
-  uploadFile = {
+  api = {
     /**
      * No description
      *
-     * @tags tag
-     * @name UploadFile
-     * @summary Upload file
-     * @request POST:/upload-file
+     * @tags 部门
+     * @name List2
+     * @summary 部门列表
+     * @request GET:/api/sys/department{?children,createdTime,description,id,name,page,parent,size,sort,updatedTime,customField}
      */
-    uploadFile: (
-      data: {
+    list2: (
+      query: {
         /**
-         * File description
-         * @format binary
+         * 第page页,从0开始计数
+         * @format int32
          */
-        file?: File;
-        /** Boolean flag */
-        someFlag?: boolean;
+        page?: number;
+        /**
+         * 每页数据数量
+         * @format int32
+         */
+        size?: number;
+        /** 按属性排序,格式:属性,[asc|desc] */
+        sort?: string[];
+        /** querydsl自动生成 */
+        children?: object[];
+        /**
+         * querydsl自动生成
+         * @format date-time
+         */
+        createdTime?: string;
+        /** querydsl自动生成 */
+        description?: string;
+        /** querydsl自动生成 */
+        id?: string;
+        /** querydsl自动生成 */
+        name?: string;
+        /** querydsl自动生成 */
+        parent?: string;
+        /**
+         * querydsl自动生成
+         * @format date-time
+         */
+        updatedTime?: string;
+        customField: string;
       },
       params: RequestParams = {},
     ) =>
-      this.request<void, any>({
-        path: `/upload-file`,
-        method: "POST",
-        body: data,
-        type: ContentType.FormData,
+      this.request<RObject, void>({
+        path: `/api/sys/department`,
+        method: "GET",
+        query: query,
         ...params,
       }),
   };

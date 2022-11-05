@@ -315,6 +315,7 @@ export enum RequestContentKind {
   FORM_DATA = "FORM_DATA",
   IMAGE = "IMAGE",
   OTHER = "OTHER",
+  TEXT = "TEXT",
 }
 
 export interface RequestResponseInfo {

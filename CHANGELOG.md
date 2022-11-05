@@ -1,5 +1,12 @@
 # next release
 
+# 11.1.3  
+
+fix: problems with `text/*` content types (axios, fetch http clients) (thanks @JochenDiekenbrock, #312, #443)  
+fix: problem with `application/json*` content type (thanks @JochenDiekenbrock, #440, #441)  
+fix: different query type parameters declarations (in route name `{?accountStatus,createdT`, #439)  
+
+
 # 11.1.2  
 
 fix: problems with missing type imports in `.d.ts` files with using option `--js`    
