@@ -225,7 +225,10 @@ class SchemaParser {
   makeAddRequiredToChildSchema = (parentSchema, childSchema) => {
     if (!childSchema) return childSchema;
 
-    const required = _.uniq([...(parentSchema.required || []), ...(childSchema.required || [])]);
+    const required = _.uniq([
+      ...(Array.isArray(parentSchema.required) ? parentSchema.required : []),
+      ...(Array.isArray(childSchema.required) ? childSchema.required : []),
+    ]);
 
     const refData = this.getRefType(childSchema);
 
