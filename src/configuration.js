@@ -276,7 +276,7 @@ class CodeGenConfig {
     },
     array: ({ items, ...schemaPart }, parser) => {
       const content = parser.getInlineParseContent(items);
-      return parser.checkAndAddNull(schemaPart, this.Ts.ArrayType(content));
+      return parser.schemaUtils.safeAddNullToType(schemaPart, this.Ts.ArrayType(content));
     },
   };
 

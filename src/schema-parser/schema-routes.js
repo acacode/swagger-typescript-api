@@ -61,8 +61,8 @@ class SchemaRoutes {
     this.templates = templates;
 
     this.FORM_DATA_TYPES = _.uniq([
-      this.schemaParser.getTypeAlias({ type: "string", format: "file" }),
-      this.schemaParser.getTypeAlias({ type: "string", format: "binary" }),
+      this.schemaParser.getSchemaType({ type: "string", format: "file" }),
+      this.schemaParser.getSchemaType({ type: "string", format: "binary" }),
     ]);
   }
 
@@ -187,7 +187,7 @@ class SchemaRoutes {
     };
 
     _.each(parameters, (parameter) => {
-      const refTypeInfo = this.schemaParser.getRefType(parameter);
+      const refTypeInfo = this.schemaParser.schemaUtils.getSchemaRefType(parameter);
       let routeParam = null;
 
       if (refTypeInfo && refTypeInfo.rawTypeData.in && refTypeInfo.rawTypeData) {
@@ -306,7 +306,7 @@ class SchemaRoutes {
   getTypeFromRequestInfo = ({ requestInfo, parsedSchemas, operationId, defaultType, typeName }) => {
     // TODO: make more flexible pick schema without content type
     const schema = this.getSchemaFromRequestType(requestInfo);
-    const refTypeInfo = this.schemaParser.getRefType(requestInfo);
+    const refTypeInfo = this.schemaParser.schemaUtils.getSchemaRefType(requestInfo);
 
     if (schema) {
       const content = this.schemaParser.getInlineParseContent(schema, typeName);
@@ -360,7 +360,7 @@ class SchemaRoutes {
             ...(requestInfo || {}),
             contentTypes: contentTypes,
             contentKind: this.getContentKind(contentTypes),
-            type: this.schemaParser.checkAndAddNull(
+            type: this.schemaParser.schemaUtils.safeAddNullToType(
               requestInfo,
               this.getTypeFromRequestInfo({
                 requestInfo,
@@ -401,7 +401,7 @@ class SchemaRoutes {
       }
       const headerTypes = Object.fromEntries(
         Object.entries(src).map(([k, v]) => {
-          return [k, this.schemaParser.getType(v)];
+          return [k, this.schemaParser.getSchemaType(v)];
         }),
       );
       const r = `headers: { ${Object.entries(headerTypes)
@@ -486,7 +486,7 @@ class SchemaRoutes {
       type = this.schemaParser.getInlineParseContent(schema, typeName);
     } else if (requestBody) {
       schema = this.getSchemaFromRequestType(requestBody);
-      type = this.schemaParser.checkAndAddNull(
+      type = this.schemaParser.schemaUtils.safeAddNullToType(
         requestBody,
         this.getTypeFromRequestInfo({
           requestInfo: requestBody,
@@ -771,7 +771,7 @@ class SchemaRoutes {
       query: queryType
         ? {
             name: nameResolver.resolve(RESERVED_QUERY_ARG_NAMES),
-            optional: this.schemaParser.parseSchema(queryObjectSchema, null).allFieldsAreOptional,
+            optional: this.schemaParser.parseSchema(queryObjectSchema).allFieldsAreOptional,
             type: queryType,
           }
         : void 0,
@@ -785,14 +785,14 @@ class SchemaRoutes {
       pathParams: pathType
         ? {
             name: nameResolver.resolve(RESERVED_PATH_ARG_NAMES),
-            optional: this.schemaParser.parseSchema(pathObjectSchema, null).allFieldsAreOptional,
+            optional: this.schemaParser.parseSchema(pathObjectSchema).allFieldsAreOptional,
             type: pathType,
           }
         : void 0,
       headers: headersType
         ? {
             name: nameResolver.resolve(RESERVED_HEADER_ARG_NAMES),
-            optional: this.schemaParser.parseSchema(headersObjectSchema, null).allFieldsAreOptional,
+            optional: this.schemaParser.parseSchema(headersObjectSchema).allFieldsAreOptional,
             type: headersType,
           }
         : void 0,

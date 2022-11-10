@@ -66,14 +66,14 @@ class SchemaFormatters {
         return {
           ...parsedSchema,
           typeIdentifier: this.config.Ts.Keyword.Type,
-          content: this.schemaParser.checkAndAddNull(parsedSchema.content),
+          content: this.schemaParser.schemaUtils.safeAddNullToType(parsedSchema.content),
         };
       }
 
       return {
         ...parsedSchema,
         typeIdentifier: this.config.Ts.Keyword.Type,
-        content: this.schemaParser.checkAndAddNull(
+        content: this.schemaParser.schemaUtils.safeAddNullToType(
           parsedSchema,
           parsedSchema.content.length
             ? this.config.Ts.ObjectWrapper(this.formatObjectContent(parsedSchema.content))
@@ -94,6 +94,16 @@ class SchemaFormatters {
             ),
       };
     },
+  };
+
+  /**
+   * @param parsedSchema {Record<string, any>}
+   * @param formatType {"base" | "inline"}
+   */
+  formatSchema = (parsedSchema, formatType = "base") => {
+    const schemaType = _.get(parsedSchema, ["schemaType"]) || _.get(parsedSchema, ["$parsed", "schemaType"]);
+    const formatterFn = _.get(this, [formatType, schemaType]);
+    return (formatterFn && formatterFn(parsedSchema)) || parsedSchema;
   };
 
   formatDescription = (description, inline) => {

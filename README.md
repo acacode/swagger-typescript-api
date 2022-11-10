@@ -433,7 +433,7 @@ generateApi({
         },
         array: (schema, parser) => {
             const content = parser.getInlineParseContent(schema.items);
-            return parser.checkAndAddNull(schema, `(${content})[]`);
+            return parser.safeAddNullToType(schema, `(${content})[]`);
         },
     })
 })

@@ -226,7 +226,7 @@ const primitiveTypes = {
     },
     array: ({ items, ...schemaPart }, parser) => {
       const content = parser.getInlineParseContent(items);
-      return parser.checkAndAddNull(schemaPart, Ts.ArrayType(content));
+      return parser.safeAddNullToType(schemaPart, Ts.ArrayType(content));
     },
   }
 ```

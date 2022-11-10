@@ -253,4 +253,39 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
+  checks = {
+    /**
+     * @description <h1>description</h1>
+     *
+     * @tags check
+     * @name GetChecksCheckGet
+     * @summary Get Checks
+     * @request GET:/checks
+     * @secure
+     */
+    getChecksCheckGet: (
+      query?: {
+        /**
+         * Page
+         * @min 1
+         * @default 1
+         */
+        page?: number;
+        /**
+         * Size
+         * @default 1
+         */
+        size?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<any, any>({
+        path: `/checks`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
 }
