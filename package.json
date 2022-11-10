@@ -57,7 +57,8 @@
     "test:nullableRefTest2.0": "node tests/spec/nullable-2.0/test.js",
     "test:additionalProperties2.0": "node tests/spec/additional-properties-2.0/test.js",
     "test:enums2.0": "node tests/spec/enums-2.0/test.js",
-    "test:another-query-params": "node tests/spec/another-query-params/test.js"
+    "test:another-query-params": "node tests/spec/another-query-params/test.js",
+    "test:on-insert-path-param": "node tests/spec/on-insert-path-param/test.js"
   },
   "author": "acacode",
   "license": "MIT",

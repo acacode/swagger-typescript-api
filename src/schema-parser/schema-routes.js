@@ -87,7 +87,9 @@ class SchemaRoutes {
     );
   };
 
-  parseRouteName = (routeName) => {
+  parseRouteName = (originalRouteName) => {
+    const routeName = this.config.hooks.onPreBuildRoutePath(originalRouteName) || originalRouteName;
+
     const pathParamMatches = (routeName || "").match(
       /({(([a-zA-Z]-?_?\.?){1,})([0-9]{1,})?})|(:(([a-zA-Z]-?_?\.?){1,})([0-9]{1,})?:?)/g,
     );
@@ -123,8 +125,9 @@ class SchemaRoutes {
 
     let fixedRoute = _.reduce(
       pathParams,
-      (fixedRoute, pathParam) => {
-        return _.replace(fixedRoute, pathParam.$match, `\${${pathParam.name}}`);
+      (fixedRoute, pathParam, i, arr) => {
+        const insertion = this.config.hooks.onInsertPathParam(pathParam.name, i, arr, fixedRoute) || pathParam.name;
+        return _.replace(fixedRoute, pathParam.$match, `\${${insertion}}`);
       },
       routeName || "",
     );
@@ -161,12 +164,14 @@ class SchemaRoutes {
       });
     }
 
-    return {
-      originalRoute: routeName || "",
+    const result = {
+      originalRoute: originalRouteName || "",
       route: fixedRoute,
       pathParams,
       queryParams,
     };
+
+    return this.config.hooks.onBuildRoutePath(result) || result;
   };
 
   getRouteParams = (routeInfo, pathParamsFromRouteName, queryParamsFromRouteName) => {
@@ -266,9 +271,7 @@ class SchemaRoutes {
       return CONTENT_KIND.IMAGE;
     }
 
-    if (
-        _.some(contentTypes, (contentType) => _.startsWith(contentType, "text/"))
-    ) {
+    if (_.some(contentTypes, (contentType) => _.startsWith(contentType, "text/"))) {
       return CONTENT_KIND.TEXT;
     }
 

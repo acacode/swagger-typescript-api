@@ -81,6 +81,9 @@ class CodeGenConfig {
   routeNameDuplicatesMap = new Map();
   prettierOptions = { ...CONSTANTS.PRETTIER_OPTIONS };
   hooks = {
+    onPreBuildRoutePath: (routePath) => void 0,
+    onBuildRoutePath: (routeData) => void 0,
+    onInsertPathParam: (pathParam) => void 0,
     onCreateComponent: (schema) => schema,
     onParseSchema: (originalSchema, parsedSchema) => parsedSchema,
     onCreateRoute: (routeData) => routeData,

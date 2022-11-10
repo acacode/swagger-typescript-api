@@ -212,7 +212,35 @@ interface GenerateApiParamsFromSpecLiteral extends GenerateApiParamsBase {
 
 export type GenerateApiParams = GenerateApiParamsFromPath | GenerateApiParamsFromUrl | GenerateApiParamsFromSpecLiteral;
 
+type BuildRouteParam = {
+  /** {bar} */
+  $match: string;
+  name: string;
+  required: boolean;
+  type: "string";
+  description: string;
+  schema: {
+    type: string;
+  };
+  in: "path" | "query";
+};
+
+type BuildRoutePath = {
+  /** /foo/{bar}/baz */
+  originalRoute: string;
+  /** /foo/${bar}/baz */
+  route: string;
+  pathParams: BuildRouteParam[];
+  queryParams: BuildRouteParam[];
+};
+
 export interface Hooks {
+  /** calls before parse\process route path */
+  onPreBuildRoutePath: (routePath: string) => string | void;
+  /** calls after parse\process route path */
+  onBuildRoutePath: (data: BuildRoutePath) => BuildRoutePath | void;
+  /** calls before insert path param name into string path interpolation */
+  onInsertPathParam: (paramName: string, index: number, arr: BuildRouteParam[], resultRoute: string) => string | void;
   /** calls after parse schema component */
   onCreateComponent: (component: SchemaComponent) => SchemaComponent | void;
   /** calls after parse any kind of schema */

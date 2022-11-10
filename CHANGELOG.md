@@ -1,5 +1,16 @@
 # next release
 
+new hooks:  
+```ts
+/** calls before parse\process route path */
+onPreBuildRoutePath: (routePath: string) => string | void;
+/** calls after parse\process route path */
+onBuildRoutePath: (data: BuildRoutePath) => BuildRoutePath | void;
+/** calls before insert path param name into string path interpolation */
+onInsertPathParam: (paramName: string, index: number, arr: BuildRouteParam[], resultRoute: string) => string | void;
+```
+feature: ability to modify route path params before insert them into string (request url, #446, with using hook `onInsertPathParam`)  
+
 # 11.1.3  
 
 fix: problems with `text/*` content types (axios, fetch http clients) (thanks @JochenDiekenbrock, #312, #443)  
