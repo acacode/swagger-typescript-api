@@ -8,17 +8,25 @@ const schemas = createSchemaInfos({ absolutePathToSchemas: resolve(__dirname, ".
 
 schemas.forEach(({ absolutePath, apiFileName }) => {
   generateApiForTest({
-    testName: "on-insert-path-param test",
+    testName: "extra-templates test",
     silent: true,
     name: apiFileName,
     input: absolutePath,
     output: resolve(__dirname, "./"),
-    generateClient: true,
-    hooks: {
-      onInsertPathParam: (paramName) => `encodeURIComponent(${paramName})`,
-    },
+    generateClient: false,
+    generateResponses: false,
+    generateRouteTypes: false,
+    generateUnionEnums: false,
+    templateExtensions: [".eta", ".ejs", ".ts"],
+    extraTemplates: [
+      {
+        name: "external-template-name",
+        path: resolve(__dirname, "./templates/test.ejs"),
+        metadata: { arg1: 100, arg2: 200 },
+      },
+    ],
   }).then(() => {
-    validateGeneratedModule(resolve(__dirname, `./${apiFileName}`));
-    assertGeneratedModule(resolve(__dirname, `./${apiFileName}`), resolve(__dirname, `./expected.ts`));
+    validateGeneratedModule(resolve(__dirname, `./external-template-name.ts`));
+    assertGeneratedModule(resolve(__dirname, `./external-template-name.ts`), resolve(__dirname, `./expected.ts`));
   });
 });

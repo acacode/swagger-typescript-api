@@ -10,6 +10,7 @@ onBuildRoutePath: (data: BuildRoutePath) => BuildRoutePath | void;
 onInsertPathParam: (paramName: string, index: number, arr: BuildRouteParam[], resultRoute: string) => string | void;
 ```
 feature: ability to modify route path params before insert them into string (request url, #446, with using hook `onInsertPathParam`)  
+docs: update docs for `extraTemplates` option  
 
 # 11.1.3  
 

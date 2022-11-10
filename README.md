@@ -139,6 +139,7 @@ generateApi({
   typePrefix: '',
   typeSuffix: '',
   addReadonly: false,
+  /** allow to generate extra files based with this extra templates, see more below */
   extraTemplates: [],
   anotherArrayType: false, 
   codeGenConstructs: (constructs) => ({
@@ -239,8 +240,13 @@ with `--module-name-index 0` Api class will have one property `api`
 When we change it to `--module-name-index 1` then Api class have two properties `fruits` and `vegetables`  
 
 ### **`--module-name-first-tag`**  
-This option will group your API operations based on their first tag - mirroring how the Swagger UI groups displayed operations
+This option will group your API operations based on their first tag - mirroring how the Swagger UI groups displayed operations  
 
+### `extraTemplates` (NodeJS option)  
+type `(Record<string, any> & { name: string, path: string })[]`  
+This thing allow you to generate extra ts\js files based on extra templates (one extra template for one ts\js file)   
+[Example here](https://github.com/acacode/swagger-typescript-api/tree/next/tests/spec/extra-templates)    
+ 
 
 ## `generate-templates` command    
 This command allows you to generate source templates which using with option `--templates`

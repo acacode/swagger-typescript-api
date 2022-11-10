@@ -1,0 +1,18 @@
+<%
+// console.info(it)
+%>
+
+/**
+  <%= it.apiConfig.info.title %>
+
+  <%= it.apiConfig.info.version %>
+
+  <%= it.apiConfig.info.description %>
+
+*/
+export class <%= it.config.apiClassName %> {
+    private request(params: Record<string, any>) {
+        return fetch(params as any)
+    }
+}
+
