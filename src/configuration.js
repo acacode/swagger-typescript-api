@@ -72,6 +72,7 @@ class CodeGenConfig {
   extractRequestBody = false;
   extractResponseBody = false;
   extractResponseError = false;
+  extractEnums = false;
   fileNames = {
     dataContracts: "data-contracts",
     routeTypes: "route-types",
@@ -85,13 +86,14 @@ class CodeGenConfig {
     onBuildRoutePath: (routeData) => void 0,
     onInsertPathParam: (pathParam) => void 0,
     onCreateComponent: (schema) => schema,
+    onPreParseSchema: (originalSchema, typeName, schemaType) => void 0,
     onParseSchema: (originalSchema, parsedSchema) => parsedSchema,
     onCreateRoute: (routeData) => routeData,
     onInit: (config) => config,
     onPrepareConfig: (apiConfig) => apiConfig,
     onCreateRequestParams: (rawType) => {},
     onCreateRouteName: () => {},
-    onFormatTypeName: (typeName, rawTypeName) => {},
+    onFormatTypeName: (typeName, rawTypeName, schemaType) => {},
     onFormatRouteName: (routeInfo, templateRouteName) => {},
   };
   defaultResponseType;
@@ -151,6 +153,8 @@ class CodeGenConfig {
 
   jsPrimitiveTypes = [];
   jsEmptyTypes = [];
+  fixInvalidTypeNamePrefix = "Type";
+  fixInvalidEnumKeyPrefix = "Value";
 
   successResponseStatusRange = [200, 299];
 

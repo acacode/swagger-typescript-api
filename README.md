@@ -70,11 +70,12 @@ Options:
   --type-prefix <string>        data contract name prefix (default: "")
   --type-suffix <string>        data contract name suffix (default: "")
   --clean-output                clean output folder before generate api. WARNING: May cause data loss (default: false)
-  --api-class-name <string>     name of the api class
+  --api-class-name <string>     name of the api class (default: "Api")
   --patch                       fix up small errors in the swagger source definition (default: false)
   --debug                       additional information about processes inside this tool (default: false)
   --another-array-type          generate array types as Array<Type> (by default Type[]) (default: false)
   --sort-types                  sort fields and types (default: false)
+  --extract-enums               extract all enums from inline interface\type content to typescript enum construction (default: false)
   -h, --help                    display help for command
 
 Commands:
@@ -141,7 +142,9 @@ generateApi({
   addReadonly: false,
   /** allow to generate extra files based with this extra templates, see more below */
   extraTemplates: [],
-  anotherArrayType: false, 
+  anotherArrayType: false,
+  fixInvalidTypeNamePrefix: "Type",
+  fixInvalidEnumKeyPrefix: "Value", 
   codeGenConstructs: (constructs) => ({
     ...constructs,
     RecordType: (key, value) => `MyRecord<key, value>`
@@ -158,8 +161,9 @@ generateApi({
     onCreateRoute: (routeData) => {},
     onCreateRouteName: (routeNameInfo, rawRouteInfo) => {},
     onFormatRouteName: (routeInfo, templateRouteName) => {},
-    onFormatTypeName: (typeName, rawTypeName) => {},
+    onFormatTypeName: (typeName, rawTypeName, schemaType) => {},
     onInit: (configuration) => {},
+    onPreParseSchema: (originalSchema, typeName, schemaType) => {},
     onParseSchema: (originalSchema, parsedSchema) => {},
     onPrepareConfig: (currentConfiguration) => {},
   }

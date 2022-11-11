@@ -3,6 +3,8 @@ const _ = require("lodash");
 const { SchemaFormatters } = require("./schema-formatters");
 const { internalCase } = require("../util/internal-case");
 const { SchemaUtils } = require("./schema-utils");
+const { camelCase } = require("lodash");
+const { pascalCase } = require("../util/pascal-case");
 
 class SchemaParser {
   /**
@@ -27,6 +29,8 @@ class SchemaParser {
    * @type {SchemaUtils}
    */
   schemaUtils;
+
+  $processingSchemaPath = [];
 
   constructor(config, logger, templates, schemaComponentsMap, typeName) {
     this.config = config;
@@ -87,13 +91,16 @@ class SchemaParser {
 
   baseSchemaParsers = {
     [SCHEMA_TYPES.ENUM]: (schema, typeName) => {
+      if (this.config.extractEnums && !typeName) {
+        const generatedTypeName = this.config.componentTypeNameResolver.resolve([this.buildTypeNameFromPath()]);
+        const schemaComponent = this.schemaComponentsMap.createComponent("schemas", generatedTypeName, { ...schema });
+        return this.parseSchema(schemaComponent, generatedTypeName);
+      }
+
       const refType = this.schemaUtils.getSchemaRefType(schema);
       const $ref = (refType && refType.$ref) || null;
-      const enumNamesAsValues = this.config.enumNamesAsValues;
       const keyType = this.getSchemaType(schema);
       const enumNames = this.schemaUtils.getEnumNames(schema);
-      const isIntegerOrBooleanEnum =
-        keyType === this.getSchemaType({ type: "number" }) || keyType === this.getSchemaType({ type: "boolean" });
       let content = null;
 
       const formatValue = (value) => {
@@ -114,10 +121,19 @@ class SchemaParser {
         content = _.map(enumNames, (enumName, index) => {
           const enumValue = _.get(schema.enum, index);
           const formattedKey =
-            (enumName && this.typeName.format(enumName, { ignorePrefix: true, ignoreSuffix: true })) ||
-            this.typeName.format(enumValue, { ignorePrefix: true, ignoreSuffix: true });
+            (enumName &&
+              this.typeName.format(enumName, {
+                ignorePrefix: true,
+                ignoreSuffix: true,
+                type: "enum-key",
+              })) ||
+            this.typeName.format(`${enumValue}`, {
+              ignorePrefix: true,
+              ignoreSuffix: true,
+              type: "enum-key",
+            });
 
-          if (enumNamesAsValues || _.isUndefined(enumValue)) {
+          if (this.config.enumNamesAsValues || _.isUndefined(enumValue)) {
             return {
               key: formattedKey,
               type: this.config.Ts.Keyword.String,
@@ -134,7 +150,11 @@ class SchemaParser {
       } else {
         content = _.map(schema.enum, (key) => {
           return {
-            key: isIntegerOrBooleanEnum ? key : this.typeName.format(key, { ignorePrefix: true, ignoreSuffix: true }),
+            key: this.typeName.format(`${key}`, {
+              ignorePrefix: true,
+              ignoreSuffix: true,
+              type: "enum-key",
+            }),
             type: keyType,
             value: formatValue(key),
           };
@@ -149,10 +169,7 @@ class SchemaParser {
         schemaType: SCHEMA_TYPES.ENUM,
         type: SCHEMA_TYPES.ENUM,
         keyType: keyType,
-        typeIdentifier:
-          this.config.generateUnionEnums || (!enumNames && isIntegerOrBooleanEnum)
-            ? this.config.Ts.Keyword.Type
-            : this.config.Ts.Keyword.Enum,
+        typeIdentifier: this.config.generateUnionEnums ? this.config.Ts.Keyword.Type : this.config.Ts.Keyword.Enum,
         name: typeName,
         description: this.schemaFormatters.formatDescription(schema.description),
         content,
@@ -276,12 +293,15 @@ class SchemaParser {
     const { properties, additionalProperties } = schema || {};
 
     const propertiesContent = _.map(properties, (property, name) => {
+      this.$processingSchemaPath.push(name);
       const required = this.schemaUtils.isPropertyRequired(name, property, schema);
       const rawTypeData = _.get(this.schemaUtils.getSchemaRefType(property), "rawTypeData", {});
       const nullable = !!(rawTypeData.nullable || property.nullable);
       const fieldName = this.typeName.isValidName(name) ? name : this.config.Ts.StringValue(name);
       const fieldValue = this.getInlineParseContent(property);
       const readOnly = property.readOnly;
+
+      this.$processingSchemaPath.pop();
 
       return {
         ...property,
@@ -353,11 +373,16 @@ class SchemaParser {
       if (schema.items && !schema.type) {
         schema.type = SCHEMA_TYPES.ARRAY;
       }
-
       schemaType = this.getInternalSchemaType(schema);
+
+      this.$processingSchemaPath.push(typeName);
+
+      _.merge(schema, this.config.hooks.onPreParseSchema(schema, typeName, schemaType));
       parsedSchema = this.baseSchemaParsers[schemaType](schema, typeName);
       schema.$parsed = this.config.hooks.onParseSchema(schema, parsedSchema) || parsedSchema;
     }
+
+    this.$processingSchemaPath.pop();
 
     return schema.$parsed;
   };
@@ -372,6 +397,14 @@ class SchemaParser {
     const parsedSchema = this.parseSchema(rawTypeData, typeName);
     const formattedSchema = this.schemaFormatters.formatSchema(parsedSchema, "base");
     return formattedSchema.content;
+  };
+
+  buildTypeNameFromPath = () => {
+    const schemaPath = _.uniq(_.compact(this.$processingSchemaPath));
+
+    if (!schemaPath || !schemaPath[0]) return null;
+
+    return internalCase(camelCase(`${schemaPath[0]}_${schemaPath[schemaPath.length - 1]}`));
   };
 }
 

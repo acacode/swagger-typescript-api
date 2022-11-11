@@ -8,7 +8,12 @@ onPreBuildRoutePath: (routePath: string) => string | void;
 onBuildRoutePath: (data: BuildRoutePath) => BuildRoutePath | void;
 /** calls before insert path param name into string path interpolation */
 onInsertPathParam: (paramName: string, index: number, arr: BuildRouteParam[], resultRoute: string) => string | void;
-```
+/** calls before parse any kind of schema */
+onPreParseSchema: (originalSchema: any, typeName: string, schemaType: string) => any;
+```  
+BREAKING_CHANGE: add ability to custom prefix for autofix invalid enum keys, invalid type names with nodejs options (`fixInvalidTypeNamePrefix: string`, `fixInvalidEnumKeyPrefix: string`)  
+BREAKING_CHANGE: by default all component enum schemas (even numeric) extracting as `enum` TS constructions (#344)   
+feature: ability to extract all enums from nested types\interfaces to `enum` TS construction using `--extract-enums` option (#344)   
 feature: ability to modify route path params before insert them into string (request url, #446, with using hook `onInsertPathParam`)  
 docs: update docs for `extraTemplates` option  
 
@@ -468,7 +473,7 @@ Features:
 - `--type-suffix` option. Allows to set suffix for data contract name. (issue #191, thanks @the-ult)  
 - `--type-prefix` option. Allows to set prefix for data contract name. (issue #191, thanks @the-ult)  
   Examples [here](./spec/typeSuffixPrefix/schema.ts)  
-- `onFormatTypeName(usageTypeName, rawTypeName)` hook. Allow to format data contract names as you want.  
+- `onFormatTypeName(usageTypeName, rawTypeName, schemaType)` hook. Allow to format data contract names as you want.  
 
 Internal:  
 - rename and split `checkAndRenameModelName` -> `formatModelName`, `fixModelName`  

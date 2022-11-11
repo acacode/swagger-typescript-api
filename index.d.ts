@@ -136,6 +136,13 @@ interface GenerateApiParamsBase {
   primitiveTypeConstructs?: (struct: PrimitiveTypeStruct) => Partial<PrimitiveTypeStruct>;
 
   codeGenConstructs?: (struct: CodeGenConstruct) => Partial<CodeGenConstruct>;
+
+  /** extract all enums from nested types\interfaces to `enum` construction */
+  extractEnums?: boolean;
+  /** prefix string value needed to fix invalid type names (default: 'Type') */
+  fixInvalidTypeNamePrefix?: string;
+  /** prefix string value needed to fix invalid enum keys (default: 'Value') */
+  fixInvalidEnumKeyPrefix?: string;
 }
 
 type CodeGenConstruct = {
@@ -243,6 +250,8 @@ export interface Hooks {
   onInsertPathParam: (paramName: string, index: number, arr: BuildRouteParam[], resultRoute: string) => string | void;
   /** calls after parse schema component */
   onCreateComponent: (component: SchemaComponent) => SchemaComponent | void;
+  /** calls before parse any kind of schema */
+  onPreParseSchema: (originalSchema: any, typeName: string, schemaType: string) => any;
   /** calls after parse any kind of schema */
   onParseSchema: (originalSchema: any, parsedSchema: any) => any | void;
   /** calls after parse route (return type: customized route (ParsedRoute), nothing change (void), false (ignore this route)) */
@@ -256,7 +265,7 @@ export interface Hooks {
   /** customize request params (path params, query params) */
   onCreateRequestParams?: (rawType: SchemaComponent["rawTypeData"]) => SchemaComponent["rawTypeData"] | void;
   /** customize name of model type */
-  onFormatTypeName?: (typeName: string, rawTypeName?: string) => string | void;
+  onFormatTypeName?: (typeName: string, rawTypeName?: string, schemaType?: "type-name" | "enum-key") => string | void;
   /** customize name of route (operationId), you can do it with using onCreateRouteName too */
   onFormatRouteName?: (routeInfo: RawRouteInfo, templateRouteName: string) => string | void;
 }
@@ -448,6 +457,9 @@ export interface GenerateApiConfiguration {
     addReadonly: boolean;
     extractResponseBody: boolean;
     extractResponseError: boolean;
+    extractEnums: boolean;
+    fixInvalidTypeNamePrefix: string;
+    fixInvalidEnumKeyPrefix: string;
     defaultResponseType: boolean;
     toJS: boolean;
     disableThrowOnError: boolean;

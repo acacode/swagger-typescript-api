@@ -202,6 +202,11 @@ const program = cli({
       description: "sort fields and types",
       default: codeGenBaseConfig.sortTypes,
     },
+    {
+      flags: "--extract-enums",
+      description: "extract all enums from inline interface\\type content to typescript enum construction",
+      default: codeGenBaseConfig.extractEnums,
+    },
   ],
 });
 

@@ -1,5 +1,9 @@
 const _ = require("lodash");
 
+/**
+ * @typedef {"enum-key" | "type-name"} FormattingSchemaType
+ */
+
 class TypeName {
   /** @type {Map<string, string>} */
   formattedModelNamesMap = new Map();
@@ -17,13 +21,17 @@ class TypeName {
 
   /**
    * @param name
-   * @param options {{ ignorePrefix?: boolean, ignoreSuffix?: boolean }}
+   * @param options {{ ignorePrefix?: boolean, ignoreSuffix?: boolean, fixPrefix?: string; type?: FormattingSchemaType }}
    * @return {string}
    */
   format = (name, options) => {
     const typePrefix = options && options.ignorePrefix ? "" : this.config.typePrefix;
     const typeSuffix = options && options.ignoreSuffix ? "" : this.config.typeSuffix;
     const hashKey = `${typePrefix}_${name}_${typeSuffix}`;
+    /**
+     * @type {FormattingSchemaType}
+     */
+    const schemaType = (options && options.type) || "type-name";
 
     if (typeof name !== "string") {
       this.logger.warn("wrong name of the model name", name);
@@ -38,41 +46,48 @@ class TypeName {
       return this.formattedModelNamesMap.get(hashKey);
     }
 
-    const fixedModelName = fixModelName(name);
+    const fixedModelName = this.fixModelName(name, { type: schemaType });
 
-    const formattedModelName = _.replace(_.startCase(`${typePrefix}_${fixedModelName}_${typeSuffix}`), /\s/g, "");
-    const modelName = this.config.hooks.onFormatTypeName(formattedModelName, name) || formattedModelName;
+    const formattedName = _.replace(_.startCase(`${typePrefix}_${fixedModelName}_${typeSuffix}`), /\s/g, "");
+    const formattedResultName = this.config.hooks.onFormatTypeName(formattedName, name, schemaType) || formattedName;
 
-    this.formattedModelNamesMap.set(hashKey, modelName);
+    this.formattedModelNamesMap.set(hashKey, formattedResultName);
 
-    return modelName;
+    return formattedResultName;
   };
 
-  isValidName = isValidName;
-}
+  isValidName = (name) => /^([A-Za-z$_]{1,})$/g.test(name);
 
-const isValidName = (name) => /^([A-Za-z$_]{1,})$/g.test(name);
+  /**
+   * @param name
+   * @param options {{ type?: FormattingSchemaType }}
+   * @return {string}
+   */
+  fixModelName = (name, options) => {
+    if (!this.isValidName(name)) {
+      if (!/^[a-zA-Z_$]/g.test(name)) {
+        const fixPrefix =
+          options && options.type === "enum-key"
+            ? this.config.fixInvalidEnumKeyPrefix
+            : this.config.fixInvalidTypeNamePrefix;
+        name = `${fixPrefix} ${name}`;
+      }
 
-const fixModelName = (name) => {
-  if (!isValidName(name)) {
-    if (!/^[a-zA-Z_$]/g.test(name)) {
-      name = `Type ${name}`;
+      // specific replaces for TSOA 3.x
+      if (name.includes("."))
+        name = name
+          .replace(/Exclude_keyof[A-Za-z]{1,}/g, (match) => "ExcludeKeys")
+          .replace(/%22\~AND\~%22/g, "And")
+          .replace(/%22\~OR\~%22/g, "Or")
+          .replace(/(\.?%22)|\./g, "_")
+          .replace(/__+$/, "");
+
+      if (name.includes("-")) name = _.startCase(name).replace(/ /g, "");
     }
 
-    // specific replaces for TSOA 3.x
-    if (name.includes("."))
-      name = name
-        .replace(/Exclude_keyof[A-Za-z]{1,}/g, (match) => "ExcludeKeys")
-        .replace(/%22\~AND\~%22/g, "And")
-        .replace(/%22\~OR\~%22/g, "Or")
-        .replace(/(\.?%22)|\./g, "_")
-        .replace(/__+$/, "");
-
-    if (name.includes("-")) name = _.startCase(name).replace(/ /g, "");
-  }
-
-  return name;
-};
+    return name;
+  };
+}
 
 module.exports = {
   TypeName,

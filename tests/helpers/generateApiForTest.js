@@ -2,7 +2,7 @@ const { generateApi } = require("../../src");
 
 /**
  *
- * @param {import("../../index").GenerateApiParams & { testName?: string }} options
+ * @param options {import("../../index").GenerateApiParams & { testName?: string }}
  * @returns {Promise<import("../../index").GenerateApiOutput>}
  */
 const generateApiForTest = (options) => generateApi(options);

@@ -79,9 +79,19 @@ export enum PetNamesTTT {
   UPPER_CASE = "UPPER_CASE",
 }
 
-export type PetIdsTTT = 10 | 20 | 30 | 40;
+export enum PetIdsTTT {
+  Value10 = 10,
+  Value20 = 20,
+  Value30 = 30,
+  Value40 = 40,
+}
 
-export type PetIdsWithWrongEnumTTT = 10 | 20 | 30 | 40;
+export enum PetIdsWithWrongEnumTTT {
+  Value10 = 10,
+  Value20 = 20,
+  Value30 = 30,
+  Value40 = 40,
+}
 
 /**
  * a Pet

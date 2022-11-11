@@ -28,10 +28,7 @@ class SchemaFormatters {
 
   base = {
     [SCHEMA_TYPES.ENUM]: (parsedSchema) => {
-      const isNumberEnum = _.some(parsedSchema.content, (content) => typeof content.key === "number");
-      const formatAsUnionType = !!(isNumberEnum || this.config.generateUnionEnums);
-
-      if (formatAsUnionType) {
+      if (this.config.generateUnionEnums) {
         return {
           ...parsedSchema,
           $content: parsedSchema.content,
@@ -61,6 +58,19 @@ class SchemaFormatters {
     },
   };
   inline = {
+    [SCHEMA_TYPES.ENUM]: (parsedSchema) => {
+      return {
+        ...parsedSchema,
+        content: parsedSchema.$ref
+          ? parsedSchema.typeName
+          : this.config.Ts.UnionType(
+              _.compact([
+                ..._.map(parsedSchema.content, ({ value }) => `${value}`),
+                parsedSchema.nullable && this.config.Ts.Keyword.Null,
+              ]),
+            ),
+      };
+    },
     [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
       if (_.isString(parsedSchema.content)) {
         return {
@@ -79,19 +89,6 @@ class SchemaFormatters {
             ? this.config.Ts.ObjectWrapper(this.formatObjectContent(parsedSchema.content))
             : this.config.Ts.RecordType(Ts.Keyword.String, this.config.Ts.Keyword.Any),
         ),
-      };
-    },
-    [SCHEMA_TYPES.ENUM]: (parsedSchema) => {
-      return {
-        ...parsedSchema,
-        content: parsedSchema.$ref
-          ? parsedSchema.typeName
-          : this.config.Ts.UnionType(
-              _.compact([
-                ..._.map(parsedSchema.content, ({ value }) => `${value}`),
-                parsedSchema.nullable && this.config.Ts.Keyword.Null,
-              ]),
-            ),
       };
     },
   };
