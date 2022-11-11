@@ -15,7 +15,11 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
     output: resolve(__dirname, "./"),
     extractEnums: true,
     generateClient: false,
-    fixInvalidEnumKeyPrefix: "Key",
+    fixInvalidEnumKeyPrefix: "InvalidKey",
+    enumKeyPrefix: "EnumKeyPrefix",
+    enumKeySuffix: "EnumKeySuffix",
+    typePrefix: "TypeNamePrefix",
+    typeSuffix: "TypeNameSuffix",
   }).then(() => {
     validateGeneratedModule(resolve(__dirname, `./${apiFileName}`));
     assertGeneratedModule(resolve(__dirname, `./${apiFileName}`), resolve(__dirname, `./expected.ts`));

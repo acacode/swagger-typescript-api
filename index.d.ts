@@ -143,6 +143,14 @@ interface GenerateApiParamsBase {
   fixInvalidTypeNamePrefix?: string;
   /** prefix string value needed to fix invalid enum keys (default: 'Value') */
   fixInvalidEnumKeyPrefix?: string;
+  /** prefix string value for enum keys */
+  enumKeyPrefix?: string;
+  /** suffix string value for enum keys */
+  enumKeySuffix?: string;
+  /** prefix string value for type names */
+  typePrefix?: string;
+  /** suffix string value for type names */
+  typeSuffix?: string;
 }
 
 type CodeGenConstruct = {
@@ -448,6 +456,8 @@ export interface GenerateApiConfiguration {
     singleHttpClient: boolean;
     typePrefix: string;
     typeSuffix: string;
+    enumKeyPrefix: string;
+    enumKeySuffix: string;
     patch: boolean;
     cleanOutput: boolean;
     debug: boolean;

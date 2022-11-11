@@ -15,6 +15,13 @@ BREAKING_CHANGE: add ability to custom prefix for autofix invalid enum keys, inv
 BREAKING_CHANGE: by default all component enum schemas (even numeric) extracting as `enum` TS constructions (#344)   
 feature: ability to extract all enums from nested types\interfaces to `enum` TS construction using `--extract-enums` option (#344)   
 feature: ability to modify route path params before insert them into string (request url, #446, with using hook `onInsertPathParam`)  
+feature: (nodejs) ability to add prefix\suffix for type names and enum keys  
+```ts
+typePrefix?: string;
+typeSuffix?: string;
+enumKeyPrefix?: string;
+enumKeySuffix?: string;
+```
 docs: update docs for `extraTemplates` option  
 
 # 11.1.3  

@@ -13,7 +13,7 @@
  * Not found response
  * @example "Not found"
  */
-export type FF = string;
+export type DF = string;
 
 /**
  * Not found response

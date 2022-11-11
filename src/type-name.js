@@ -21,17 +21,21 @@ class TypeName {
 
   /**
    * @param name
-   * @param options {{ ignorePrefix?: boolean, ignoreSuffix?: boolean, fixPrefix?: string; type?: FormattingSchemaType }}
+   * @param options {{ type?: FormattingSchemaType }}
    * @return {string}
    */
   format = (name, options) => {
-    const typePrefix = options && options.ignorePrefix ? "" : this.config.typePrefix;
-    const typeSuffix = options && options.ignoreSuffix ? "" : this.config.typeSuffix;
-    const hashKey = `${typePrefix}_${name}_${typeSuffix}`;
+    options = options || {};
+
     /**
      * @type {FormattingSchemaType}
      */
-    const schemaType = (options && options.type) || "type-name";
+    const schemaType = options.type || "type-name";
+
+    const typePrefix = schemaType === "enum-key" ? this.config.enumKeyPrefix : this.config.typePrefix;
+    const typeSuffix = schemaType === "enum-key" ? this.config.enumKeySuffix : this.config.typeSuffix;
+
+    const hashKey = `${typePrefix}_${name}_${typeSuffix}`;
 
     if (typeof name !== "string") {
       this.logger.warn("wrong name of the model name", name);

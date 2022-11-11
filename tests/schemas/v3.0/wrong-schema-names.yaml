@@ -184,7 +184,7 @@ components:
       description: Not found response
       type: string
       example: Not found
-    $FF:
+    $DF:
       description: Not found response
       type: string
       example: Not found

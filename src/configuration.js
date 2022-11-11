@@ -131,6 +131,8 @@ class CodeGenConfig {
   silent = false;
   typePrefix = "";
   typeSuffix = "";
+  enumKeyPrefix = "";
+  enumKeySuffix = "";
   patch = false;
   componentTypeNameResolver = new ComponentTypeNameResolver([]);
   /** name of the main exported class */

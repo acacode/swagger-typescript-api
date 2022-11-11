@@ -123,13 +123,9 @@ class SchemaParser {
           const formattedKey =
             (enumName &&
               this.typeName.format(enumName, {
-                ignorePrefix: true,
-                ignoreSuffix: true,
                 type: "enum-key",
               })) ||
             this.typeName.format(`${enumValue}`, {
-              ignorePrefix: true,
-              ignoreSuffix: true,
               type: "enum-key",
             });
 
@@ -151,8 +147,6 @@ class SchemaParser {
         content = _.map(schema.enum, (key) => {
           return {
             key: this.typeName.format(`${key}`, {
-              ignorePrefix: true,
-              ignoreSuffix: true,
               type: "enum-key",
             }),
             type: keyType,

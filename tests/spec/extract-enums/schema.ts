@@ -9,108 +9,108 @@
  * ---------------------------------------------------------------
  */
 
-export enum EnumRoot {
-  Key100644 = "100644",
-  Key100755 = "100755",
-  Key040000 = "040000",
-  Key160000 = "160000",
-  Key120000 = "120000",
-  Test1 = "test1",
-  Test2 = "test2",
+export enum TypeNamePrefixEnumRootTypeNameSuffix {
+  EnumKeyPrefixInvalidKey100644EnumKeySuffix = "100644",
+  EnumKeyPrefixInvalidKey100755EnumKeySuffix = "100755",
+  EnumKeyPrefixInvalidKey040000EnumKeySuffix = "040000",
+  EnumKeyPrefixInvalidKey160000EnumKeySuffix = "160000",
+  EnumKeyPrefixInvalidKey120000EnumKeySuffix = "120000",
+  EnumKeyPrefixTest1EnumKeySuffix = "test1",
+  EnumKeyPrefixTest2EnumKeySuffix = "test2",
 }
 
-export interface Tree {
+export interface TypeNamePrefixTreeTypeNameSuffix {
   tree?: {
-    mode?: TreeMode;
-    "mode-num"?: TreeModeNum;
-    type?: TreeType;
-    bereke?: TreeBereke;
+    mode?: TypeNamePrefixTreeModeTypeNameSuffix;
+    "mode-num"?: TypeNamePrefixTreeModeNumTypeNameSuffix;
+    type?: TypeNamePrefixTreeTypeTypeNameSuffix;
+    bereke?: TypeNamePrefixTreeBerekeTypeNameSuffix;
   }[];
 }
 
-export enum OnlyEnumNames {
-  Bla = "Bla",
-  Blabla = "Blabla",
-  Boiler = "Boiler",
+export enum TypeNamePrefixOnlyEnumNamesTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
+  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
 }
 
-export enum StringOnlyEnumNames {
-  Bla = "Bla",
-  Blabla = "Blabla",
-  Boiler = "Boiler",
+export enum TypeNamePrefixStringOnlyEnumNamesTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
+  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
 }
 
-export enum StringEnums {
-  Bla = "foo",
-  Blabla = "bar",
-  Boiler = "Boiler",
+export enum TypeNamePrefixStringEnumsTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "foo",
+  EnumKeyPrefixBlablaEnumKeySuffix = "bar",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
 }
 
-export enum StringCompleteEnums {
-  Bla = "foo",
-  Blabla = "bar",
-  Boiler = "baz",
-}
-
-/** @format int32 */
-export enum EmptyEnum {
-  Bla = "Bla",
-  Blabla = "Blabla",
-  Boiler = "Boiler",
+export enum TypeNamePrefixStringCompleteEnumsTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "foo",
+  EnumKeyPrefixBlablaEnumKeySuffix = "bar",
+  EnumKeyPrefixBoilerEnumKeySuffix = "baz",
 }
 
 /** @format int32 */
-export enum EnumWithMoreNames {
-  Bla = 1,
-  Blabla = "Blabla",
-  Boiler = "Boiler",
+export enum TypeNamePrefixEmptyEnumTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
+  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
 }
 
 /** @format int32 */
-export enum SomeInterestEnum {
-  Bla = 6,
-  Blabla = 2,
-  Boiler = 1,
-  Bbabab = 67,
-  Nowadays = 88,
-  FAIL = 122,
-  Vvvvv = 88,
-  ASdasAS = 0,
-  ASDsacZX = 213,
-  Zook = 12378,
-  EnumMm = 123125,
-  VCsa = 32452,
-  Yuuu = 1111,
-  ASddd = 66666,
-  ASdsdsa = "ASdsdsa",
-  ASDds = "ASDds",
-  HSDFDS = "HSDFDS",
+export enum TypeNamePrefixEnumWithMoreNamesTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = 1,
+  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
 }
 
-export enum TreeMode {
-  Key100644 = "100644",
-  Key100755 = "100755",
-  Key040000 = "040000",
-  Key160000 = "160000",
-  Key120000 = "120000",
+/** @format int32 */
+export enum TypeNamePrefixSomeInterestEnumTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = 6,
+  EnumKeyPrefixBlablaEnumKeySuffix = 2,
+  EnumKeyPrefixBoilerEnumKeySuffix = 1,
+  EnumKeyPrefixBbababEnumKeySuffix = 67,
+  EnumKeyPrefixNowadaysEnumKeySuffix = 88,
+  EnumKeyPrefix_FAIL_EnumKeySuffix = 122,
+  EnumKeyPrefixVvvvvEnumKeySuffix = 88,
+  EnumKeyPrefixASdasASEnumKeySuffix = 0,
+  EnumKeyPrefixASDsacZXEnumKeySuffix = 213,
+  EnumKeyPrefixZookEnumKeySuffix = 12378,
+  EnumKeyPrefixEnumMmEnumKeySuffix = 123125,
+  EnumKeyPrefixVCsaEnumKeySuffix = 32452,
+  EnumKeyPrefixYuuuEnumKeySuffix = 1111,
+  EnumKeyPrefixASdddEnumKeySuffix = 66666,
+  EnumKeyPrefixASdsdsaEnumKeySuffix = "ASdsdsa",
+  EnumKeyPrefixASDdsEnumKeySuffix = "ASDds",
+  EnumKeyPrefix_HSDFDS_EnumKeySuffix = "HSDFDS",
 }
 
-export enum TreeModeNum {
-  Key100644 = 100644,
-  Key100755 = 100755,
-  Key40000 = 40000,
-  Key160000 = 160000,
-  Key120000 = 120000,
+export enum TypeNamePrefixTreeModeTypeNameSuffix {
+  EnumKeyPrefixInvalidKey100644EnumKeySuffix = "100644",
+  EnumKeyPrefixInvalidKey100755EnumKeySuffix = "100755",
+  EnumKeyPrefixInvalidKey040000EnumKeySuffix = "040000",
+  EnumKeyPrefixInvalidKey160000EnumKeySuffix = "160000",
+  EnumKeyPrefixInvalidKey120000EnumKeySuffix = "120000",
 }
 
-export enum TreeType {
-  Blob = "blob",
-  Tree = "tree",
-  Commit = "commit",
+export enum TypeNamePrefixTreeModeNumTypeNameSuffix {
+  EnumKeyPrefixInvalidKey100644EnumKeySuffix = 100644,
+  EnumKeyPrefixInvalidKey100755EnumKeySuffix = 100755,
+  EnumKeyPrefixInvalidKey40000EnumKeySuffix = 40000,
+  EnumKeyPrefixInvalidKey160000EnumKeySuffix = 160000,
+  EnumKeyPrefixInvalidKey120000EnumKeySuffix = 120000,
 }
 
-export enum TreeBereke {
-  Bla = "Bla",
-  Blabla = "Blabla",
-  Boiler = "Boiler",
+export enum TypeNamePrefixTreeTypeTypeNameSuffix {
+  EnumKeyPrefixBlobEnumKeySuffix = "blob",
+  EnumKeyPrefixTreeEnumKeySuffix = "tree",
+  EnumKeyPrefixCommitEnumKeySuffix = "commit",
+}
+
+export enum TypeNamePrefixTreeBerekeTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
+  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
 }
