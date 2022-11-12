@@ -315,6 +315,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/key
      */
     keyRevokeNosecret: (
+      params: RequestParams = {},
       query: {
         /** primary email associated to Key (ID) */
         email: string;
@@ -323,7 +324,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** verification code sent by email */
         code?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -346,7 +346,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeyRegister
      * @request POST:/key
      */
-    keyRegister: (body: AuthentiqID, params: RequestParams = {}) =>
+    keyRegister: (params: RequestParams = {}) =>
       this.request<
         {
           /** revoke key */
@@ -358,7 +358,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/key`,
         method: "POST",
-        body: body,
         format: "json",
         ...params,
       }),
@@ -372,11 +371,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     keyRevoke: (
       pk: string,
+      params: RequestParams = {},
       query: {
         /** revokation secret */
         secret: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -437,7 +436,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeyUpdate
      * @request POST:/key/{PK}
      */
-    keyUpdate: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
+    keyUpdate: (pk: string, params: RequestParams = {}) =>
       this.request<
         {
           /** confirmed */
@@ -447,7 +446,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/key/${pk}`,
         method: "POST",
-        body: body,
         format: "json",
         ...params,
       }),
@@ -459,7 +457,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeyBind
      * @request PUT:/key/{PK}
      */
-    keyBind: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
+    keyBind: (pk: string, params: RequestParams = {}) =>
       this.request<
         {
           /** confirmed */
@@ -469,7 +467,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/key/${pk}`,
         method: "PUT",
-        body: body,
         format: "json",
         ...params,
       }),
@@ -483,12 +480,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/login
      */
     pushLoginRequest: (
+      params: RequestParams = {},
       query: {
         /** URI App will connect to */
         callback: string;
       },
-      body: PushToken,
-      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -500,7 +496,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/login`,
         method: "POST",
         query: query,
-        body: body,
         format: "json",
         ...params,
       }),
@@ -514,12 +509,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/scope
      */
     signRequest: (
-      body: Claims,
-      query?: {
+      params: RequestParams = {},
+      query: {
         /** test only mode, using test issuer */
         test?: number;
       },
-      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -533,7 +527,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/scope`,
         method: "POST",
         query: query,
-        body: body,
         format: "json",
         ...params,
       }),
@@ -613,7 +606,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/scope/${job}`,
         method: "POST",
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),

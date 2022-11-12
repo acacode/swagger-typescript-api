@@ -238,7 +238,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/pets
      */
     findPets: (
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * tags to filter by
          * @deprecated
@@ -255,7 +256,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
-      params: RequestParams = {},
     ) =>
       this.request<void, void>({
         path: `/pets`,

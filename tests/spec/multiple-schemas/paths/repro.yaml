@@ -1,0 +1,8 @@
+hello:
+  get:
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              type: object

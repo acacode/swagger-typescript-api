@@ -300,10 +300,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getPullRequestsByRepository: (
       username: string,
       slug: string,
-      query?: {
+      params: RequestParams = {},
+      query: {
         state?: "open" | "merged" | "declined";
       },
-      params: RequestParams = {},
     ) =>
       this.request<any[], any>({
         path: `/2.0/repositories/${username}/${slug}/pullrequests`,

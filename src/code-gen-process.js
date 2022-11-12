@@ -84,6 +84,7 @@ class CodeGenProcess {
   }
 
   async start() {
+    await this.schemaRoutes.init();
     this.config.update({ templatePaths: this.templates.getTemplatePaths(this.config) });
     this.config.update({ templatesToRender: this.templates.getTemplates(this.config) });
 
@@ -106,11 +107,13 @@ class CodeGenProcess {
 
     this.config.componentTypeNameResolver.reserve(componentSchemaNames);
 
-    const parsedSchemas = _.map(_.get(swagger.usageSchema.components, "schemas"), (schema, typeName) =>
-      this.schemaParser.parseSchema(schema, typeName),
+    const parsedSchemas = await Promise.all(
+      _.map(_.get(swagger.usageSchema.components, "schemas"), (schema, typeName) =>
+        this.schemaParser.parseSchema(schema, typeName),
+      ),
     );
 
-    this.schemaRoutes.attachSchema({
+    await this.schemaRoutes.attachSchema({
       usageSchema: swagger.usageSchema,
       parsedSchemas,
     });
@@ -149,10 +152,14 @@ class CodeGenProcess {
       return schemas;
     };
 
+    const modelTypes = (await Promise.all(_.map(sortSchemas(usageComponentSchemas), this.prepareModelType))).filter(
+      Boolean,
+    );
+
     const rawConfiguration = {
       apiConfig: this.createApiConfig(swagger.usageSchema),
       config: this.config,
-      modelTypes: _.map(sortSchemas(usageComponentSchemas), this.prepareModelType).filter(Boolean),
+      modelTypes: modelTypes,
       rawModelTypes: usageComponentSchemas,
       hasSecurityRoutes: this.schemaRoutes.hasSecurityRoutes,
       hasQueryRoutes: this.schemaRoutes.hasQueryRoutes,
@@ -175,7 +182,7 @@ class CodeGenProcess {
       this.fileSystem.createDir(this.config.output);
     }
 
-    const files = this.generateOutputFiles({
+    const files = await this.generateOutputFiles({
       configuration: configuration,
     });
 
@@ -215,7 +222,7 @@ class CodeGenProcess {
       files: generatedFiles,
       configuration,
       getTemplate: this.templates.getTemplate,
-      renderTemplate: this.templates.renderTemplate,
+      renderTemplate: await this.templates.renderTemplate,
       createFile: this.fileSystem.createFile,
       formatTSContent: this.codeFormatter.formatCode,
     };
@@ -250,9 +257,9 @@ class CodeGenProcess {
     };
   };
 
-  prepareModelType = (typeInfo) => {
+  prepareModelType = async (typeInfo) => {
     if (!typeInfo.typeData) {
-      typeInfo.typeData = this.schemaParser.parseSchema(typeInfo.rawTypeData, typeInfo.typeName);
+      typeInfo.typeData = await this.schemaParser.parseSchema(typeInfo.rawTypeData, typeInfo.typeName);
     }
     const rawTypeData = typeInfo.typeData;
     const typeData = this.schemaParser.schemaFormatters.base[rawTypeData.type]
@@ -275,36 +282,41 @@ class CodeGenProcess {
     };
   };
 
-  generateOutputFiles = ({ configuration }) => {
+  generateOutputFiles = async ({ configuration }) => {
     const { modular, templatesToRender } = this.config;
 
     const output = modular
-      ? this.createMultipleFileInfos(templatesToRender, configuration)
-      : this.createSingleFileInfo(templatesToRender, configuration);
+      ? await this.createMultipleFileInfos(templatesToRender, configuration)
+      : await this.createSingleFileInfo(templatesToRender, configuration);
 
     if (!_.isEmpty(configuration.extraTemplates)) {
       output.push(
-        ..._.map(configuration.extraTemplates, (extraTemplate) => {
-          return this.createOutputFileInfo(
-            configuration,
-            extraTemplate.name,
-            this.templates.renderTemplate(this.fileSystem.getFileContent(extraTemplate.path), configuration),
-          );
-        }),
+        ...(await Promise.all(
+          _.map(configuration.extraTemplates, async (extraTemplate) => {
+            return this.createOutputFileInfo(
+              configuration,
+              extraTemplate.name,
+              await await this.templates.renderTemplate(
+                this.fileSystem.getFileContent(extraTemplate.path),
+                configuration,
+              ),
+            );
+          }),
+        )),
       );
     }
 
     return output.filter((fileInfo) => !!fileInfo && !!fileInfo.content);
   };
 
-  createMultipleFileInfos = (templatesToRender, configuration) => {
+  createMultipleFileInfos = async (templatesToRender, configuration) => {
     const { routes } = configuration;
     const { fileNames, generateRouteTypes, generateClient } = configuration.config;
     const modularApiFileInfos = [];
 
     if (routes.$outOfModule) {
       if (generateRouteTypes) {
-        const outOfModuleRouteContent = this.templates.renderTemplate(templatesToRender.routeTypes, {
+        const outOfModuleRouteContent = await this.templates.renderTemplate(templatesToRender.routeTypes, {
           ...configuration,
           route: configuration.routes.$outOfModule,
         });
@@ -314,7 +326,7 @@ class CodeGenProcess {
         );
       }
       if (generateClient) {
-        const outOfModuleApiContent = this.templates.renderTemplate(templatesToRender.api, {
+        const outOfModuleApiContent = await this.templates.renderTemplate(templatesToRender.api, {
           ...configuration,
           route: configuration.routes.$outOfModule,
         });
@@ -326,56 +338,48 @@ class CodeGenProcess {
     }
 
     if (routes.combined) {
-      modularApiFileInfos.push(
-        ..._.reduce(
-          routes.combined,
-          (apiFileInfos, route) => {
-            if (generateRouteTypes) {
-              const routeModuleContent = this.templates.renderTemplate(templatesToRender.routeTypes, {
-                ...configuration,
-                route,
-              });
+      for await (const route of routes.combined) {
+        if (generateRouteTypes) {
+          const routeModuleContent = await this.templates.renderTemplate(templatesToRender.routeTypes, {
+            ...configuration,
+            route,
+          });
 
-              apiFileInfos.push(
-                this.createOutputFileInfo(configuration, pascalCase(`${route.moduleName}_Route`), routeModuleContent),
-              );
-            }
+          modularApiFileInfos.push(
+            this.createOutputFileInfo(configuration, pascalCase(`${route.moduleName}_Route`), routeModuleContent),
+          );
+        }
 
-            if (generateClient) {
-              const apiModuleContent = this.templates.renderTemplate(templatesToRender.api, {
-                ...configuration,
-                route,
-              });
+        if (generateClient) {
+          const apiModuleContent = await this.templates.renderTemplate(templatesToRender.api, {
+            ...configuration,
+            route,
+          });
 
-              apiFileInfos.push(
-                this.createOutputFileInfo(configuration, pascalCase(route.moduleName), apiModuleContent),
-              );
-            }
-
-            return apiFileInfos;
-          },
-          [],
-        ),
-      );
+          modularApiFileInfos.push(
+            this.createOutputFileInfo(configuration, pascalCase(route.moduleName), apiModuleContent),
+          );
+        }
+      }
     }
 
     return [
       this.createOutputFileInfo(
         configuration,
         fileNames.dataContracts,
-        this.templates.renderTemplate(templatesToRender.dataContracts, configuration),
+        await this.templates.renderTemplate(templatesToRender.dataContracts, configuration),
       ),
       generateClient &&
         this.createOutputFileInfo(
           configuration,
           fileNames.httpClient,
-          this.templates.renderTemplate(templatesToRender.httpClient, configuration),
+          await this.templates.renderTemplate(templatesToRender.httpClient, configuration),
         ),
       ...modularApiFileInfos,
     ];
   };
 
-  createSingleFileInfo = (templatesToRender, configuration) => {
+  createSingleFileInfo = async (templatesToRender, configuration) => {
     const { generateRouteTypes, generateClient } = configuration.config;
 
     return [
@@ -383,10 +387,10 @@ class CodeGenProcess {
         configuration,
         configuration.fileName,
         _.compact([
-          this.templates.renderTemplate(templatesToRender.dataContracts, configuration),
-          generateRouteTypes && this.templates.renderTemplate(templatesToRender.routeTypes, configuration),
-          generateClient && this.templates.renderTemplate(templatesToRender.httpClient, configuration),
-          generateClient && this.templates.renderTemplate(templatesToRender.api, configuration),
+          await this.templates.renderTemplate(templatesToRender.dataContracts, configuration),
+          generateRouteTypes && (await this.templates.renderTemplate(templatesToRender.routeTypes, configuration)),
+          generateClient && (await this.templates.renderTemplate(templatesToRender.httpClient, configuration)),
+          generateClient && (await this.templates.renderTemplate(templatesToRender.api, configuration)),
         ]).join("\n"),
       ),
     ];

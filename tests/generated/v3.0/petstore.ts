@@ -253,14 +253,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/pets
      */
     listPets: (
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * How many items to return at one time (max 100)
          * @format int32
          */
         limit?: number;
       },
-      params: RequestParams = {},
     ) =>
       this.request<Pets, Error>({
         path: `/pets`,

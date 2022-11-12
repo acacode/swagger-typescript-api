@@ -276,19 +276,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       resourceGroupName: string,
       managedInstanceName: string,
       subscriptionId: string,
+      params: RequestParams = {},
       query: {
         /** The API version to use for the request. */
         "api-version": string;
       },
-      parameters: TdeCertificate,
-      params: RequestParams = {},
     ) =>
       this.request<void, void>({
         path: `/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Sql/managedInstances/${managedInstanceName}/tdeCertificates`,
         method: "POST",
         query: query,
-        body: parameters,
-        type: ContentType.Json,
         ...params,
       }),
   };

@@ -435,8 +435,8 @@ generateApi({
             "relative-json-pointer": () => "string",
             regex: () => "string",
         },
-        array: (schema, parser) => {
-            const content = parser.getInlineParseContent(schema.items);
+        array: async (schema, parser) => {
+            const content = await parser.getInlineParseContent(schema.items);
             return parser.safeAddNullToType(schema, `(${content})[]`);
         },
     })

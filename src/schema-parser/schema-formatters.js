@@ -42,12 +42,12 @@ class SchemaFormatters {
         content: this.config.Ts.EnumFieldsWrapper(parsedSchema.content),
       };
     },
-    [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
+    [SCHEMA_TYPES.OBJECT]: async (parsedSchema) => {
       if (parsedSchema.nullable) return this.inline[SCHEMA_TYPES.OBJECT](parsedSchema);
       return {
         ...parsedSchema,
         $content: parsedSchema.content,
-        content: this.formatObjectContent(parsedSchema.content),
+        content: await this.formatObjectContent(parsedSchema.content),
       };
     },
     [SCHEMA_TYPES.PRIMITIVE]: (parsedSchema) => {
@@ -71,7 +71,7 @@ class SchemaFormatters {
             ),
       };
     },
-    [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
+    [SCHEMA_TYPES.OBJECT]: async (parsedSchema) => {
       if (_.isString(parsedSchema.content)) {
         return {
           ...parsedSchema,
@@ -86,7 +86,7 @@ class SchemaFormatters {
         content: this.schemaParser.schemaUtils.safeAddNullToType(
           parsedSchema,
           parsedSchema.content.length
-            ? this.config.Ts.ObjectWrapper(this.formatObjectContent(parsedSchema.content))
+            ? this.config.Ts.ObjectWrapper(await this.formatObjectContent(parsedSchema.content))
             : this.config.Ts.RecordType(Ts.Keyword.String, this.config.Ts.Keyword.Any),
         ),
       };
@@ -126,24 +126,28 @@ class SchemaFormatters {
     return _.replace(prettified, /\n$/g, "");
   };
 
-  formatObjectContent = (content) => {
-    return _.map(content, (part) => {
-      const extraSpace = "  ";
-      const result = `${extraSpace}${part.field},\n`;
+  formatObjectContent = async (content) => {
+    return (
+      await Promise.all(
+        _.map(content, async (part) => {
+          const extraSpace = "  ";
+          const result = `${extraSpace}${part.field},\n`;
 
-      const renderedJsDoc = this.templates.renderTemplate(this.config.templatesToRender.dataContractJsDoc, {
-        data: part,
-      });
+          const renderedJsDoc = await this.templates.renderTemplate(this.config.templatesToRender.dataContractJsDoc, {
+            data: part,
+          });
 
-      const routeNameFromTemplate = renderedJsDoc
-        .split("\n")
-        .map((c) => `${extraSpace}${c}`)
-        .join("\n");
+          const routeNameFromTemplate = renderedJsDoc
+            .split("\n")
+            .map((c) => `${extraSpace}${c}`)
+            .join("\n");
 
-      if (routeNameFromTemplate) return `${routeNameFromTemplate}${result}`;
+          if (routeNameFromTemplate) return `${routeNameFromTemplate}${result}`;
 
-      return `${result}`;
-    }).join("");
+          return `${result}`;
+        }),
+      )
+    ).join("");
   };
 }
 

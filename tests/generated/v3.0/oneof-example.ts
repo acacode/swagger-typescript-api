@@ -241,12 +241,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name PetsPartialUpdate
      * @request PATCH:/pets
      */
-    petsPartialUpdate: (data: Cat | Dog, params: RequestParams = {}) =>
+    petsPartialUpdate: (params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/pets`,
         method: "PATCH",
-        body: data,
-        type: ContentType.Json,
         ...params,
       }),
   };

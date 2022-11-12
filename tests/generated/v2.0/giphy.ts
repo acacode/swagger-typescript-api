@@ -498,11 +498,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     getGifsById: (
-      query?: {
+      params: RequestParams = {},
+      query: {
         /** Filters results by specified GIF IDs, separated by commas. */
         ids?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -532,13 +532,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     randomGif: (
-      query?: {
+      params: RequestParams = {},
+      query: {
         /** Filters results by specified tag. */
         tag?: string;
         /** Filters results by specified rating. */
         rating?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -566,6 +566,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     searchGifs: (
+      params: RequestParams = {},
       query: {
         /** Search query term or prhase. */
         q: string;
@@ -586,7 +587,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** Specify default language for regional content; use a 2-letter ISO 639-1 language code. */
         lang?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -616,11 +616,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     translateGif: (
+      params: RequestParams = {},
       query: {
         /** Search term. */
         s: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -648,7 +648,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     trendingGifs: (
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * The maximum number of records to return.
          * @format int32
@@ -664,7 +665,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** Filters results by specified rating. */
         rating?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -720,13 +720,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     randomSticker: (
-      query?: {
+      params: RequestParams = {},
+      query: {
         /** Filters results by specified tag. */
         tag?: string;
         /** Filters results by specified rating. */
         rating?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -754,6 +754,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     searchStickers: (
+      params: RequestParams = {},
       query: {
         /** Search query term or prhase. */
         q: string;
@@ -774,7 +775,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** Specify default language for regional content; use a 2-letter ISO 639-1 language code. */
         lang?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -804,11 +804,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     translateSticker: (
+      params: RequestParams = {},
       query: {
         /** Search term. */
         s: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -836,7 +836,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     trendingStickers: (
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * The maximum number of records to return.
          * @format int32
@@ -852,7 +853,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** Filters results by specified rating. */
         rating?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<
         {

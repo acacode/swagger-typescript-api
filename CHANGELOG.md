@@ -236,8 +236,8 @@ const primitiveTypes = {
       "relative-json-pointer": () => Ts.Keyword.String,
       regex: () => Ts.Keyword.String,
     },
-    array: ({ items, ...schemaPart }, parser) => {
-      const content = parser.getInlineParseContent(items);
+    array: async ({ items, ...schemaPart }, parser) => {
+      const content = await parser.getInlineParseContent(items);
       return parser.safeAddNullToType(schemaPart, Ts.ArrayType(content));
     },
   }

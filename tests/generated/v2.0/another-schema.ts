@@ -268,11 +268,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/Foo/GetBar
      */
     fooGetBar: (
+      params: RequestParams = {},
       query: {
         /** @format int32 */
         id: number;
       },
-      params: RequestParams = {},
     ) =>
       this.request<Bar | null, any>({
         path: `/api/Foo/GetBar`,
@@ -289,12 +289,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name FooSetBar
      * @request POST:/api/Foo/SetBar
      */
-    fooSetBar: (value: Bar | null, params: RequestParams = {}) =>
+    fooSetBar: (params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/Foo/SetBar`,
         method: "POST",
-        body: value,
-        type: ContentType.Json,
         ...params,
       }),
   };

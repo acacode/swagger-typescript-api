@@ -4,7 +4,7 @@ const { _, pascalCase } = utils
 const { query, payload } = route.request
 const { type: responseType } = route.response
 
-const routeDocs = includeFile("./route-docs", { config, route, utils });
+const routeDocs = await includeFile("./route-docs", { config, route, utils });
 const routeNamespace = pascalCase(route.routeName.usage)
 const queryType = (query && query.type) || '{}'
 const bodyType = (payload && payload.type) || 'never'

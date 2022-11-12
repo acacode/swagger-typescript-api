@@ -533,19 +533,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/webhooks/feed/:token
      * @secure
      */
-    createWebhookFeedData: (
-      token: string,
-      payload: {
-        value?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    createWebhookFeedData: (token: string, params: RequestParams = {}) =>
       this.request<Data, void>({
         path: `/webhooks/feed/${token}`,
         method: "POST",
-        body: payload,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -564,7 +556,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/webhooks/feed/${token}/raw`,
         method: "POST",
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -598,7 +589,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     allActivities: (
       username: string,
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * Start time for filtering, returns records created after given time.
          * @format date-time
@@ -612,7 +604,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** Limit the number of records returned. */
         limit?: number;
       },
-      params: RequestParams = {},
     ) =>
       this.request<Activity[], void>({
         path: `/${username}/activities`,
@@ -635,7 +626,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getActivity: (
       username: string,
       type: string,
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * Start time for filtering, returns records created after given time.
          * @format date-time
@@ -649,7 +641,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** Limit the number of records returned. */
         limit?: number;
       },
-      params: RequestParams = {},
     ) =>
       this.request<Activity[], void>({
         path: `/${username}/activities/${type}`,
@@ -687,13 +678,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/dashboards
      * @secure
      */
-    createDashboard: (username: string, dashboard: Dashboard, params: RequestParams = {}) =>
+    createDashboard: (username: string, params: RequestParams = {}) =>
       this.request<Dashboard, void>({
         path: `/${username}/dashboards`,
         method: "POST",
-        body: dashboard,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -725,13 +714,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/dashboards/{dashboard_id}/blocks
      * @secure
      */
-    createBlock: (username: string, dashboardId: string, block: Block, params: RequestParams = {}) =>
+    createBlock: (username: string, dashboardId: string, params: RequestParams = {}) =>
       this.request<Block, void>({
         path: `/${username}/dashboards/${dashboardId}/blocks`,
         method: "POST",
-        body: block,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -781,34 +768,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/{username}/dashboards/{dashboard_id}/blocks/{id}
      * @secure
      */
-    updateBlock: (
-      username: string,
-      dashboardId: string,
-      id: string,
-      block: {
-        block_feeds?: {
-          feed_id?: string;
-          group_id?: string;
-        }[];
-        column?: number;
-        dashboard_id?: number;
-        description?: string;
-        key?: string;
-        name?: string;
-        properties?: object;
-        row?: number;
-        size_x?: number;
-        size_y?: number;
-        visual_type?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    updateBlock: (username: string, dashboardId: string, id: string, params: RequestParams = {}) =>
       this.request<Block, void>({
         path: `/${username}/dashboards/${dashboardId}/blocks/${id}`,
         method: "PATCH",
-        body: block,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -822,34 +786,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/{username}/dashboards/{dashboard_id}/blocks/{id}
      * @secure
      */
-    replaceBlock: (
-      username: string,
-      dashboardId: string,
-      id: string,
-      block: {
-        block_feeds?: {
-          feed_id?: string;
-          group_id?: string;
-        }[];
-        column?: number;
-        dashboard_id?: number;
-        description?: string;
-        key?: string;
-        name?: string;
-        properties?: object;
-        row?: number;
-        size_x?: number;
-        size_y?: number;
-        visual_type?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    replaceBlock: (username: string, dashboardId: string, id: string, params: RequestParams = {}) =>
       this.request<Block, void>({
         path: `/${username}/dashboards/${dashboardId}/blocks/${id}`,
         method: "PUT",
-        body: block,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -899,22 +840,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/{username}/dashboards/{id}
      * @secure
      */
-    updateDashboard: (
-      username: string,
-      id: string,
-      dashboard: {
-        description?: string;
-        key?: string;
-        name?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    updateDashboard: (username: string, id: string, params: RequestParams = {}) =>
       this.request<Dashboard, void>({
         path: `/${username}/dashboards/${id}`,
         method: "PATCH",
-        body: dashboard,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -928,22 +858,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/{username}/dashboards/{id}
      * @secure
      */
-    replaceDashboard: (
-      username: string,
-      id: string,
-      dashboard: {
-        description?: string;
-        key?: string;
-        name?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    replaceDashboard: (username: string, id: string, params: RequestParams = {}) =>
       this.request<Dashboard, void>({
         path: `/${username}/dashboards/${id}`,
         method: "PUT",
-        body: dashboard,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -977,19 +896,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     createFeed: (
       username: string,
-      feed: Feed,
-      query?: {
+      params: RequestParams = {},
+      query: {
         group_key?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<Feed, void>({
         path: `/${username}/feeds`,
         method: "POST",
         query: query,
-        body: feed,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1038,23 +954,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/{username}/feeds/{feed_key}
      * @secure
      */
-    updateFeed: (
-      username: string,
-      feedKey: string,
-      feed: {
-        description?: string;
-        key?: string;
-        license?: string;
-        name?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    updateFeed: (username: string, feedKey: string, params: RequestParams = {}) =>
       this.request<Feed, void>({
         path: `/${username}/feeds/${feedKey}`,
         method: "PATCH",
-        body: feed,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1068,23 +972,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/{username}/feeds/{feed_key}
      * @secure
      */
-    replaceFeed: (
-      username: string,
-      feedKey: string,
-      feed: {
-        description?: string;
-        key?: string;
-        license?: string;
-        name?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    replaceFeed: (username: string, feedKey: string, params: RequestParams = {}) =>
       this.request<Feed, void>({
         path: `/${username}/feeds/${feedKey}`,
         method: "PUT",
-        body: feed,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1101,7 +993,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     allData: (
       username: string,
       feedKey: string,
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * Start time for filtering, returns records created after given time.
          * @format date-time
@@ -1117,7 +1010,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** List of Data record fields to include in response as comma separated list. Acceptable values are: `value`, `lat`, `lon`, `ele`, `id`, and `created_at`.  */
         include?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<DataResponse[], void>({
         path: `/${username}/feeds/${feedKey}/data`,
@@ -1137,26 +1029,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/feeds/{feed_key}/data
      * @secure
      */
-    createData: (
-      username: string,
-      feedKey: string,
-      datum: {
-        /** @format dateTime */
-        created_at?: string;
-        ele?: string;
-        epoch?: number;
-        lat?: string;
-        lon?: string;
-        value?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    createData: (username: string, feedKey: string, params: RequestParams = {}) =>
       this.request<Data, void>({
         path: `/${username}/feeds/${feedKey}/data`,
         method: "POST",
-        body: datum,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1170,13 +1047,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/feeds/{feed_key}/data/batch
      * @secure
      */
-    batchCreateData: (username: string, feedKey: string, data: Data, params: RequestParams = {}) =>
+    batchCreateData: (username: string, feedKey: string, params: RequestParams = {}) =>
       this.request<DataResponse[], void>({
         path: `/${username}/feeds/${feedKey}/data/batch`,
         method: "POST",
-        body: data,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1193,7 +1068,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     chartData: (
       username: string,
       feedKey: string,
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * Start time for filtering, returns records created after given time.
          * @format date-time
@@ -1215,7 +1091,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         hours?: number;
       },
-      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -1252,18 +1127,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     firstData: (
       username: string,
       feedKey: string,
-      query?: {
+      params: RequestParams = {},
+      query: {
         /** List of Data record fields to include in response as comma separated list. Acceptable values are: `value`, `lat`, `lon`, `ele`, `id`, and `created_at`.  */
         include?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<DataResponse, void>({
         path: `/${username}/feeds/${feedKey}/data/first`,
         method: "GET",
         query: query,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1280,18 +1154,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     lastData: (
       username: string,
       feedKey: string,
-      query?: {
+      params: RequestParams = {},
+      query: {
         /** List of Data record fields to include in response as comma separated list. Acceptable values are: `value`, `lat`, `lon`, `ele`, `id`, and `created_at`.  */
         include?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<DataResponse, void>({
         path: `/${username}/feeds/${feedKey}/data/last`,
         method: "GET",
         query: query,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1308,18 +1181,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     nextData: (
       username: string,
       feedKey: string,
-      query?: {
+      params: RequestParams = {},
+      query: {
         /** List of Data record fields to include in response as comma separated list. Acceptable values are: `value`, `lat`, `lon`, `ele`, `id`, and `created_at`.  */
         include?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<DataResponse, void>({
         path: `/${username}/feeds/${feedKey}/data/next`,
         method: "GET",
         query: query,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1336,18 +1208,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     previousData: (
       username: string,
       feedKey: string,
-      query?: {
+      params: RequestParams = {},
+      query: {
         /** List of Data record fields to include in response as comma separated list. Acceptable values are: `value`, `lat`, `lon`, `ele`, `id`, and `created_at`.  */
         include?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<DataResponse, void>({
         path: `/${username}/feeds/${feedKey}/data/previous`,
         method: "GET",
         query: query,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1366,7 +1237,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/${username}/feeds/${feedKey}/data/retain`,
         method: "GET",
         secure: true,
-        type: ContentType.Json,
         ...params,
       }),
 
@@ -1401,11 +1271,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       username: string,
       feedKey: string,
       id: string,
-      query?: {
+      params: RequestParams = {},
+      query: {
         /** List of Data record fields to include in response as comma separated list. Acceptable values are: `value`, `lat`, `lon`, `ele`, `id`, and `created_at`.  */
         include?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<DataResponse, void>({
         path: `/${username}/feeds/${feedKey}/data/${id}`,
@@ -1425,27 +1295,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/{username}/feeds/{feed_key}/data/{id}
      * @secure
      */
-    updateData: (
-      username: string,
-      feedKey: string,
-      id: string,
-      datum: {
-        /** @format dateTime */
-        created_at?: string;
-        ele?: string;
-        epoch?: number;
-        lat?: string;
-        lon?: string;
-        value?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    updateData: (username: string, feedKey: string, id: string, params: RequestParams = {}) =>
       this.request<DataResponse, void>({
         path: `/${username}/feeds/${feedKey}/data/${id}`,
         method: "PATCH",
-        body: datum,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1459,27 +1313,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/{username}/feeds/{feed_key}/data/{id}
      * @secure
      */
-    replaceData: (
-      username: string,
-      feedKey: string,
-      id: string,
-      datum: {
-        /** @format dateTime */
-        created_at?: string;
-        ele?: string;
-        epoch?: number;
-        lat?: string;
-        lon?: string;
-        value?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    replaceData: (username: string, feedKey: string, id: string, params: RequestParams = {}) =>
       this.request<DataResponse, void>({
         path: `/${username}/feeds/${feedKey}/data/${id}`,
         method: "PUT",
-        body: datum,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1529,13 +1367,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/groups
      * @secure
      */
-    createGroup: (username: string, group: Group, params: RequestParams = {}) =>
+    createGroup: (username: string, params: RequestParams = {}) =>
       this.request<Group, void>({
         path: `/${username}/groups`,
         method: "POST",
-        body: group,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1585,22 +1421,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/{username}/groups/{group_key}
      * @secure
      */
-    updateGroup: (
-      username: string,
-      groupKey: string,
-      group: {
-        description?: string;
-        key?: string;
-        name?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    updateGroup: (username: string, groupKey: string, params: RequestParams = {}) =>
       this.request<Group, void>({
         path: `/${username}/groups/${groupKey}`,
         method: "PATCH",
-        body: group,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1614,22 +1439,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/{username}/groups/{group_key}
      * @secure
      */
-    replaceGroup: (
-      username: string,
-      groupKey: string,
-      group: {
-        description?: string;
-        key?: string;
-        name?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    replaceGroup: (username: string, groupKey: string, params: RequestParams = {}) =>
       this.request<Group, void>({
         path: `/${username}/groups/${groupKey}`,
         method: "PUT",
-        body: group,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1646,10 +1460,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     addFeedToGroup: (
       groupKey: string,
       username: string,
-      query?: {
+      params: RequestParams = {},
+      query: {
         feed_key?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<Group, void>({
         path: `/${username}/groups/${groupKey}/add`,
@@ -1669,32 +1483,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/groups/{group_key}/data
      * @secure
      */
-    createGroupData: (
-      username: string,
-      groupKey: string,
-      group_feed_data: {
-        /** Optional created_at timestamp which will be applied to all feed values created. */
-        created_at?: string;
-        /** An array of feed data records with `key` and `value` properties. */
-        feeds: {
-          key: string;
-          value: string;
-        }[];
-        /** A location record with `lat`, `lon`, and [optional] `ele` properties. */
-        location?: {
-          ele?: number;
-          lat: number;
-          lon: number;
-        };
-      },
-      params: RequestParams = {},
-    ) =>
+    createGroupData: (username: string, groupKey: string, params: RequestParams = {}) =>
       this.request<DataResponse[], void>({
         path: `/${username}/groups/${groupKey}/data`,
         method: "POST",
-        body: group_feed_data,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1726,23 +1519,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/groups/{group_key}/feeds
      * @secure
      */
-    createGroupFeed: (
-      username: string,
-      groupKey: string,
-      feed: {
-        description?: string;
-        key?: string;
-        license?: string;
-        name?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    createGroupFeed: (username: string, groupKey: string, params: RequestParams = {}) =>
       this.request<Feed, void>({
         path: `/${username}/groups/${groupKey}/feeds`,
         method: "POST",
-        body: feed,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1760,7 +1541,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       username: string,
       groupKey: string,
       feedKey: string,
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * Start time for filtering data. Returns data created after given time.
          * @format date-time
@@ -1774,7 +1556,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** Limit the number of records returned. */
         limit?: number;
       },
-      params: RequestParams = {},
     ) =>
       this.request<DataResponse[], void>({
         path: `/${username}/groups/${groupKey}/feeds/${feedKey}/data`,
@@ -1794,27 +1575,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/groups/{group_key}/feeds/{feed_key}/data
      * @secure
      */
-    createGroupFeedData: (
-      username: string,
-      groupKey: string,
-      feedKey: string,
-      datum: {
-        /** @format dateTime */
-        created_at?: string;
-        ele?: string;
-        epoch?: number;
-        lat?: string;
-        lon?: string;
-        value?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    createGroupFeedData: (username: string, groupKey: string, feedKey: string, params: RequestParams = {}) =>
       this.request<DataResponse, void>({
         path: `/${username}/groups/${groupKey}/feeds/${feedKey}/data`,
         method: "POST",
-        body: datum,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1828,27 +1593,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/groups/{group_key}/feeds/{feed_key}/data/batch
      * @secure
      */
-    batchCreateGroupFeedData: (
-      username: string,
-      groupKey: string,
-      feedKey: string,
-      data: {
-        /** @format dateTime */
-        created_at?: string;
-        ele?: string;
-        epoch?: number;
-        lat?: string;
-        lon?: string;
-        value?: string;
-      }[],
-      params: RequestParams = {},
-    ) =>
+    batchCreateGroupFeedData: (username: string, groupKey: string, feedKey: string, params: RequestParams = {}) =>
       this.request<DataResponse[], void>({
         path: `/${username}/groups/${groupKey}/feeds/${feedKey}/data/batch`,
         method: "POST",
-        body: data,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1865,10 +1614,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     removeFeedFromGroup: (
       groupKey: string,
       username: string,
-      query?: {
+      params: RequestParams = {},
+      query: {
         feed_key?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<Group, void>({
         path: `/${username}/groups/${groupKey}/remove`,
@@ -1932,13 +1681,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/tokens
      * @secure
      */
-    createToken: (username: string, token: Token, params: RequestParams = {}) =>
+    createToken: (username: string, params: RequestParams = {}) =>
       this.request<Token, void>({
         path: `/${username}/tokens`,
         method: "POST",
-        body: token,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1988,20 +1735,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/{username}/tokens/{id}
      * @secure
      */
-    updateToken: (
-      username: string,
-      id: string,
-      token: {
-        token?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    updateToken: (username: string, id: string, params: RequestParams = {}) =>
       this.request<Token, void>({
         path: `/${username}/tokens/${id}`,
         method: "PATCH",
-        body: token,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -2015,20 +1753,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/{username}/tokens/{id}
      * @secure
      */
-    replaceToken: (
-      username: string,
-      id: string,
-      token: {
-        token?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    replaceToken: (username: string, id: string, params: RequestParams = {}) =>
       this.request<Token, void>({
         path: `/${username}/tokens/${id}`,
         method: "PUT",
-        body: token,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -2060,13 +1789,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/triggers
      * @secure
      */
-    createTrigger: (username: string, trigger: Trigger, params: RequestParams = {}) =>
+    createTrigger: (username: string, params: RequestParams = {}) =>
       this.request<Trigger, void>({
         path: `/${username}/triggers`,
         method: "POST",
-        body: trigger,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -2116,20 +1843,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/{username}/triggers/{id}
      * @secure
      */
-    updateTrigger: (
-      username: string,
-      id: string,
-      trigger: {
-        name?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    updateTrigger: (username: string, id: string, params: RequestParams = {}) =>
       this.request<Trigger, void>({
         path: `/${username}/triggers/${id}`,
         method: "PATCH",
-        body: trigger,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -2143,20 +1861,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/{username}/triggers/{id}
      * @secure
      */
-    replaceTrigger: (
-      username: string,
-      id: string,
-      trigger: {
-        name?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    replaceTrigger: (username: string, id: string, params: RequestParams = {}) =>
       this.request<Trigger, void>({
         path: `/${username}/triggers/${id}`,
         method: "PUT",
-        body: trigger,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -2188,19 +1897,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/{type}/{type_id}/acl
      * @secure
      */
-    createPermission: (
-      username: string,
-      type: string,
-      typeId: string,
-      permission: Permission,
-      params: RequestParams = {},
-    ) =>
+    createPermission: (username: string, type: string, typeId: string, params: RequestParams = {}) =>
       this.request<Permission, void>({
         path: `/${username}/${type}/${typeId}/acl`,
         method: "POST",
-        body: permission,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -2250,26 +1951,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/{username}/{type}/{type_id}/acl/{id}
      * @secure
      */
-    updatePermission: (
-      username: string,
-      type: string,
-      typeId: string,
-      id: string,
-      permission: {
-        /** @default "r" */
-        mode?: "r" | "w" | "rw";
-        /** @default "public" */
-        scope?: "secret" | "public" | "user" | "organization";
-        scope_value?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    updatePermission: (username: string, type: string, typeId: string, id: string, params: RequestParams = {}) =>
       this.request<Permission, void>({
         path: `/${username}/${type}/${typeId}/acl/${id}`,
         method: "PATCH",
-        body: permission,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -2283,26 +1969,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/{username}/{type}/{type_id}/acl/{id}
      * @secure
      */
-    replacePermission: (
-      username: string,
-      type: string,
-      typeId: string,
-      id: string,
-      permission: {
-        /** @default "r" */
-        mode?: "r" | "w" | "rw";
-        /** @default "public" */
-        scope?: "secret" | "public" | "user" | "organization";
-        scope_value?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    replacePermission: (username: string, type: string, typeId: string, id: string, params: RequestParams = {}) =>
       this.request<Permission, void>({
         path: `/${username}/${type}/${typeId}/acl/${id}`,
         method: "PUT",
-        body: permission,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),

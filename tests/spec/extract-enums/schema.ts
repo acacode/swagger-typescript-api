@@ -21,10 +21,10 @@ export enum TypeNamePrefixEnumRootTypeNameSuffix {
 
 export interface TypeNamePrefixTreeTypeNameSuffix {
   tree?: {
-    mode?: TypeNamePrefixTreeModeTypeNameSuffix;
-    "mode-num"?: TypeNamePrefixTreeModeNumTypeNameSuffix;
-    type?: TypeNamePrefixTreeTypeTypeNameSuffix;
-    bereke?: TypeNamePrefixTreeBerekeTypeNameSuffix;
+    mode?: TypeNamePrefixEnumRootModeTypeNameSuffix;
+    "mode-num"?: TypeNamePrefixEnumRootModeNumTypeNameSuffix;
+    type?: TypeNamePrefixEnumRootTypeTypeNameSuffix;
+    bereke?: TypeNamePrefixEnumRootBerekeTypeNameSuffix;
   }[];
 }
 
@@ -87,7 +87,7 @@ export enum TypeNamePrefixSomeInterestEnumTypeNameSuffix {
   EnumKeyPrefix_HSDFDS_EnumKeySuffix = "HSDFDS",
 }
 
-export enum TypeNamePrefixTreeModeTypeNameSuffix {
+export enum TypeNamePrefixEnumRootModeTypeNameSuffix {
   EnumKeyPrefixInvalidKey100644EnumKeySuffix = "100644",
   EnumKeyPrefixInvalidKey100755EnumKeySuffix = "100755",
   EnumKeyPrefixInvalidKey040000EnumKeySuffix = "040000",
@@ -95,7 +95,7 @@ export enum TypeNamePrefixTreeModeTypeNameSuffix {
   EnumKeyPrefixInvalidKey120000EnumKeySuffix = "120000",
 }
 
-export enum TypeNamePrefixTreeModeNumTypeNameSuffix {
+export enum TypeNamePrefixEnumRootModeNumTypeNameSuffix {
   EnumKeyPrefixInvalidKey100644EnumKeySuffix = 100644,
   EnumKeyPrefixInvalidKey100755EnumKeySuffix = 100755,
   EnumKeyPrefixInvalidKey40000EnumKeySuffix = 40000,
@@ -103,13 +103,13 @@ export enum TypeNamePrefixTreeModeNumTypeNameSuffix {
   EnumKeyPrefixInvalidKey120000EnumKeySuffix = 120000,
 }
 
-export enum TypeNamePrefixTreeTypeTypeNameSuffix {
+export enum TypeNamePrefixEnumRootTypeTypeNameSuffix {
   EnumKeyPrefixBlobEnumKeySuffix = "blob",
   EnumKeyPrefixTreeEnumKeySuffix = "tree",
   EnumKeyPrefixCommitEnumKeySuffix = "commit",
 }
 
-export enum TypeNamePrefixTreeBerekeTypeNameSuffix {
+export enum TypeNamePrefixEnumRootBerekeTypeNameSuffix {
   EnumKeyPrefixBlaEnumKeySuffix = "Bla",
   EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
   EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",

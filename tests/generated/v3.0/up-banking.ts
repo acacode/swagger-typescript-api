@@ -984,14 +984,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     accountsList: (
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * The number of records to return in each page.
          * @example 30
          */
         "page[size]"?: number;
       },
-      params: RequestParams = {},
     ) =>
       this.request<ListAccountsResponse, any>({
         path: `/accounts`,
@@ -1031,7 +1031,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     transactionsDetail: (
       accountId: string,
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * The number of records to return in each page.
          * @example 30
@@ -1076,7 +1077,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         "filter[tag]"?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<ListTransactionsResponse, any>({
         path: `/accounts/${accountId}/transactions`,
@@ -1098,7 +1098,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     categoriesList: (
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * The unique identifier of a parent category for which to
          * return only its children. Providing an invalid category
@@ -1107,7 +1108,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         "filter[parent]"?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<ListCategoriesResponse, any>({
         path: `/categories`,
@@ -1166,14 +1166,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     tagsList: (
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * The number of records to return in each page.
          * @example 50
          */
         "page[size]"?: number;
       },
-      params: RequestParams = {},
     ) =>
       this.request<ListTagsResponse, any>({
         path: `/tags`,
@@ -1194,13 +1194,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/transactions/{transactionId}/relationships/tags
      * @secure
      */
-    relationshipsTagsCreate: (transactionId: string, data: UpdateTransactionTagsRequest, params: RequestParams = {}) =>
+    relationshipsTagsCreate: (transactionId: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/transactions/${transactionId}/relationships/tags`,
         method: "POST",
-        body: data,
         secure: true,
-        type: ContentType.Json,
         ...params,
       }),
 
@@ -1213,13 +1211,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/transactions/{transactionId}/relationships/tags
      * @secure
      */
-    relationshipsTagsDelete: (transactionId: string, data: UpdateTransactionTagsRequest, params: RequestParams = {}) =>
+    relationshipsTagsDelete: (transactionId: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/transactions/${transactionId}/relationships/tags`,
         method: "DELETE",
-        body: data,
         secure: true,
-        type: ContentType.Json,
         ...params,
       }),
 
@@ -1233,7 +1229,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     transactionsList: (
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * The number of records to return in each page.
          * @example 30
@@ -1280,7 +1277,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         "filter[tag]"?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<ListTransactionsResponse, any>({
         path: `/transactions`,
@@ -1320,14 +1316,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     webhooksList: (
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * The number of records to return in each page.
          * @example 30
          */
         "page[size]"?: number;
       },
-      params: RequestParams = {},
     ) =>
       this.request<ListWebhooksResponse, any>({
         path: `/webhooks`,
@@ -1347,13 +1343,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/webhooks
      * @secure
      */
-    webhooksCreate: (data: CreateWebhookRequest, params: RequestParams = {}) =>
+    webhooksCreate: (params: RequestParams = {}) =>
       this.request<CreateWebhookResponse, any>({
         path: `/webhooks`,
         method: "POST",
-        body: data,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1422,14 +1416,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     logsDetail: (
       webhookId: string,
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * The number of records to return in each page.
          * @example 30
          */
         "page[size]"?: number;
       },
-      params: RequestParams = {},
     ) =>
       this.request<ListWebhookDeliveryLogsResponse, any>({
         path: `/webhooks/${webhookId}/logs`,

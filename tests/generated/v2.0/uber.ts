@@ -317,6 +317,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     productsList: (
+      params: RequestParams = {},
       query: {
         /**
          * Latitude component of location.
@@ -329,7 +330,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         longitude: number;
       },
-      params: RequestParams = {},
     ) =>
       this.request<Product[], Error>({
         path: `/products`,
@@ -350,6 +350,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/estimates/price
      */
     priceList: (
+      params: RequestParams = {},
       query: {
         /**
          * Latitude component of start location.
@@ -372,7 +373,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         end_longitude: number;
       },
-      params: RequestParams = {},
     ) =>
       this.request<PriceEstimate[], Error>({
         path: `/estimates/price`,
@@ -391,6 +391,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/estimates/time
      */
     timeList: (
+      params: RequestParams = {},
       query: {
         /**
          * Latitude component of start location.
@@ -410,7 +411,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** Unique identifier representing a specific product for a given latitude & longitude. */
         product_id?: string;
       },
-      params: RequestParams = {},
     ) =>
       this.request<Product[], Error>({
         path: `/estimates/time`,
@@ -447,7 +447,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/history
      */
     historyList: (
-      query?: {
+      params: RequestParams = {},
+      query: {
         /**
          * Offset the list of returned results by this amount. Default is zero.
          * @format int32
@@ -459,7 +460,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         limit?: number;
       },
-      params: RequestParams = {},
     ) =>
       this.request<Activities, Error>({
         path: `/history`,
