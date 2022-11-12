@@ -2136,8 +2136,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/someop
      */
     someOp1: (
-      params: RequestParams = {},
-      query: {
+      data: Events,
+      query?: {
         /**
          * description
          * @default 0
@@ -2151,11 +2151,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** description */
         queryParam3?: string[];
       },
+      params: RequestParams = {},
     ) =>
       this.request<Events, void>({
         path: `/someop`,
         method: "POST",
         query: query,
+        body: data,
         format: "json",
         ...params,
       }),
@@ -2169,19 +2171,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     someOp: (
       fooId: string,
-      params: RequestParams = {},
-      query: {
+      data: Events,
+      query?: {
         /** @default 0 */
         page?: number;
         /** @default 20 */
         size?: number;
         sort?: string[];
       },
+      params: RequestParams = {},
     ) =>
       this.request<Events, void>({
         path: `/someop/${fooId}/bars/bar-bar`,
         method: "POST",
         query: query,
+        body: data,
         format: "json",
         ...params,
       }),
@@ -2239,14 +2243,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/gists
      */
     gistsList: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
          * Only gists updated at or after this time are returned.
          */
         since?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Gists, void>({
         path: `/gists`,
@@ -2262,10 +2266,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GistsCreate
      * @request POST:/gists
      */
-    gistsCreate: (params: RequestParams = {}) =>
+    gistsCreate: (body: PostGist, params: RequestParams = {}) =>
       this.request<Gist, void>({
         path: `/gists`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -2277,14 +2283,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/gists/public
      */
     publicList: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
          * Only gists updated at or after this time are returned.
          */
         since?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Gists, void>({
         path: `/gists/public`,
@@ -2301,14 +2307,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/gists/starred
      */
     starredList: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Timestamp in ISO 8601 format YYYY-MM-DDTHH:MM:SSZ.
          * Only gists updated at or after this time are returned.
          */
         since?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Gists, void>({
         path: `/gists/starred`,
@@ -2351,10 +2357,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GistsPartialUpdate
      * @request PATCH:/gists/{id}
      */
-    gistsPartialUpdate: (id: number, params: RequestParams = {}) =>
+    gistsPartialUpdate: (id: number, body: PatchGist, params: RequestParams = {}) =>
       this.request<Gist, void>({
         path: `/gists/${id}`,
         method: "PATCH",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -2379,10 +2387,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name CommentsCreate
      * @request POST:/gists/{id}/comments
      */
-    commentsCreate: (id: number, params: RequestParams = {}) =>
+    commentsCreate: (id: number, body: CommentBody, params: RequestParams = {}) =>
       this.request<Comment, void>({
         path: `/gists/${id}/comments`,
         method: "POST",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -2422,10 +2431,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name CommentsPartialUpdate
      * @request PATCH:/gists/{id}/comments/{commentId}
      */
-    commentsPartialUpdate: (id: number, commentId: number, params: RequestParams = {}) =>
+    commentsPartialUpdate: (id: number, commentId: number, body: Comment, params: RequestParams = {}) =>
       this.request<Comment, void>({
         path: `/gists/${id}/comments/${commentId}`,
         method: "PATCH",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -2519,7 +2530,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/issues
      */
     issuesList: (
-      params: RequestParams = {},
       query: {
         /**
          * Issues assigned to you / created by you / mentioning you / you're
@@ -2541,6 +2551,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         since?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Issues, void>({
         path: `/issues`,
@@ -2581,8 +2592,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reposSearchDetail: (
       keyword: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * The sort field. if sort param is provided. Can be either asc or desc.
          * @default "desc"
@@ -2595,6 +2605,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** The sort field. One of stars, forks, or updated. Default: results are sorted by best match. */
         sort?: "updated" | "stars" | "forks";
       },
+      params: RequestParams = {},
     ) =>
       this.request<SearchRepositoriesByKeyword, void>({
         path: `/legacy/repos/search/${keyword}`,
@@ -2628,8 +2639,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     userSearchDetail: (
       keyword: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * The sort field. if sort param is provided. Can be either asc or desc.
          * @default "desc"
@@ -2640,6 +2650,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** The sort field. One of stars, forks, or updated. Default: results are sorted by best match. */
         sort?: "updated" | "stars" | "forks";
       },
+      params: RequestParams = {},
     ) =>
       this.request<SearchUsersByKeyword, void>({
         path: `/legacy/user/search/${keyword}`,
@@ -2656,10 +2667,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name MarkdownCreate
      * @request POST:/markdown
      */
-    markdownCreate: (params: RequestParams = {}) =>
+    markdownCreate: (body: Markdown, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/markdown`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -2673,6 +2686,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<void, void>({
         path: `/markdown/raw`,
         method: "POST",
+        type: ContentType.Text,
         ...params,
       }),
   };
@@ -2714,8 +2728,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/notifications
      */
     notificationsList: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** True to show notifications marked as read. */
         all?: boolean;
         /**
@@ -2729,6 +2742,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         since?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Notifications, void>({
         path: `/notifications`,
@@ -2744,10 +2758,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name NotificationsUpdate
      * @request PUT:/notifications
      */
-    notificationsUpdate: (params: RequestParams = {}) =>
+    notificationsUpdate: (body: NotificationMarkRead, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/notifications`,
         method: "PUT",
+        body: body,
         ...params,
       }),
 
@@ -2811,10 +2826,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ThreadsSubscriptionUpdate
      * @request PUT:/notifications/threads/{id}/subscription
      */
-    threadsSubscriptionUpdate: (id: number, params: RequestParams = {}) =>
+    threadsSubscriptionUpdate: (id: number, body: PutSubscription, params: RequestParams = {}) =>
       this.request<Subscription, void>({
         path: `/notifications/threads/${id}/subscription`,
         method: "PUT",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -2840,10 +2857,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name OrgsPartialUpdate
      * @request PATCH:/orgs/{org}
      */
-    orgsPartialUpdate: (org: string, params: RequestParams = {}) =>
+    orgsPartialUpdate: (org: string, body: PatchOrg, params: RequestParams = {}) =>
       this.request<Organization, void>({
         path: `/orgs/${org}`,
         method: "PATCH",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -2870,7 +2889,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     issuesDetail: (
       org: string,
-      params: RequestParams = {},
       query: {
         /**
          * Issues assigned to you / created by you / mentioning you / you're
@@ -2892,6 +2910,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         since?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Issues, void>({
         path: `/orgs/${org}/issues`,
@@ -3006,11 +3025,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reposDetail: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** @default "all" */
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
+      params: RequestParams = {},
     ) =>
       this.request<Repos, void>({
         path: `/orgs/${org}/repos`,
@@ -3026,10 +3045,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ReposCreate
      * @request POST:/orgs/{org}/repos
      */
-    reposCreate: (org: string, params: RequestParams = {}) =>
+    reposCreate: (org: string, body: PostRepo, params: RequestParams = {}) =>
       this.request<Repos, void>({
         path: `/orgs/${org}/repos`,
         method: "POST",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -3054,10 +3074,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsCreate
      * @request POST:/orgs/{org}/teams
      */
-    teamsCreate: (org: string, params: RequestParams = {}) =>
+    teamsCreate: (org: string, body: OrgTeamsPost, params: RequestParams = {}) =>
       this.request<Team, void>({
         path: `/orgs/${org}/teams`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -3111,10 +3133,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ReposPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}
      */
-    reposPartialUpdate: (owner: string, repo: string, params: RequestParams = {}) =>
+    reposPartialUpdate: (owner: string, repo: string, body: RepoEdit, params: RequestParams = {}) =>
       this.request<Repo, void>({
         path: `/repos/${owner}/${repo}`,
         method: "PATCH",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -3282,10 +3306,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name CommentsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/comments/{commentId}
      */
-    commentsPartialUpdate: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
+    commentsPartialUpdate: (
+      owner: string,
+      repo: string,
+      commentId: number,
+      body: CommentBody,
+      params: RequestParams = {},
+    ) =>
       this.request<CommitComment, void>({
         path: `/repos/${owner}/${repo}/comments/${commentId}`,
         method: "PATCH",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -3299,8 +3330,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     commitsDetail: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Example: "2012-10-09T23:39:01Z".
@@ -3315,6 +3345,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** ISO 8601 Date - Only commits before this date will be returned. */
         until?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Commits, void>({
         path: `/repos/${owner}/${repo}/commits`,
@@ -3374,10 +3405,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name CommitsCommentsCreate
      * @request POST:/repos/{owner}/{repo}/commits/{shaCode}/comments
      */
-    commitsCommentsCreate: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
+    commitsCommentsCreate: (
+      owner: string,
+      repo: string,
+      shaCode: string,
+      body: CommitCommentBody,
+      params: RequestParams = {},
+    ) =>
       this.request<CommitComment, void>({
         path: `/repos/${owner}/${repo}/commits/${shaCode}/comments`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -3402,10 +3441,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ContentsDelete
      * @request DELETE:/repos/{owner}/{repo}/contents/{path}
      */
-    contentsDelete: (owner: string, repo: string, path: string, params: RequestParams = {}) =>
+    contentsDelete: (owner: string, repo: string, path: string, body: DeleteFileBody, params: RequestParams = {}) =>
       this.request<DeleteFile, void>({
         path: `/repos/${owner}/${repo}/contents/${path}`,
         method: "DELETE",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -3420,13 +3461,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       path: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** The content path. */
         path?: string;
         /** The String name of the Commit/Branch/Tag. Defaults to 'master'. */
         ref?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<ContentsPath, void>({
         path: `/repos/${owner}/${repo}/contents/${path}`,
@@ -3442,10 +3483,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ContentsUpdate
      * @request PUT:/repos/{owner}/{repo}/contents/{path}
      */
-    contentsUpdate: (owner: string, repo: string, path: string, params: RequestParams = {}) =>
+    contentsUpdate: (owner: string, repo: string, path: string, body: CreateFileBody, params: RequestParams = {}) =>
       this.request<CreateFile, void>({
         path: `/repos/${owner}/${repo}/contents/${path}`,
         method: "PUT",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -3459,11 +3502,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     contributorsDetail: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
       query: {
         /** Set to 1 or true to include anonymous contributors in results. */
         anon: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Users, void>({
         path: `/repos/${owner}/${repo}/contributors`,
@@ -3493,10 +3536,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name DeploymentsCreate
      * @request POST:/repos/{owner}/{repo}/deployments
      */
-    deploymentsCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    deploymentsCreate: (owner: string, repo: string, body: Deployment, params: RequestParams = {}) =>
       this.request<DeploymentResp, void>({
         path: `/repos/${owner}/${repo}/deployments`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -3521,10 +3566,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name DeploymentsStatusesCreate
      * @request POST:/repos/{owner}/{repo}/deployments/{id}/statuses
      */
-    deploymentsStatusesCreate: (owner: string, repo: string, id: number, params: RequestParams = {}) =>
+    deploymentsStatusesCreate: (
+      owner: string,
+      repo: string,
+      id: number,
+      body: DeploymentStatusesCreate,
+      params: RequestParams = {},
+    ) =>
       this.request<void, void>({
         path: `/repos/${owner}/${repo}/deployments/${id}/statuses`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -3597,11 +3650,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     forksDetail: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** @default "newes" */
         sort?: "newes" | "oldes" | "watchers";
       },
+      params: RequestParams = {},
     ) =>
       this.request<Forks, void>({
         path: `/repos/${owner}/${repo}/forks`,
@@ -3617,10 +3670,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ForksCreate
      * @request POST:/repos/{owner}/{repo}/forks
      */
-    forksCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    forksCreate: (owner: string, repo: string, body: ForkBody, params: RequestParams = {}) =>
       this.request<Repo, void>({
         path: `/repos/${owner}/${repo}/forks`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -3631,10 +3686,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GitBlobsCreate
      * @request POST:/repos/{owner}/{repo}/git/blobs
      */
-    gitBlobsCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    gitBlobsCreate: (owner: string, repo: string, body: Blob, params: RequestParams = {}) =>
       this.request<Blobs, void>({
         path: `/repos/${owner}/${repo}/git/blobs`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -3659,10 +3716,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GitCommitsCreate
      * @request POST:/repos/{owner}/{repo}/git/commits
      */
-    gitCommitsCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    gitCommitsCreate: (owner: string, repo: string, body: RepoCommitBody, params: RequestParams = {}) =>
       this.request<GitCommit, void>({
         path: `/repos/${owner}/${repo}/git/commits`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -3701,10 +3760,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GitRefsCreate
      * @request POST:/repos/{owner}/{repo}/git/refs
      */
-    gitRefsCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    gitRefsCreate: (owner: string, repo: string, body: RefsBody, params: RequestParams = {}) =>
       this.request<HeadBranch, void>({
         path: `/repos/${owner}/${repo}/git/refs`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -3744,10 +3805,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GitRefsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/git/refs/{ref}
      */
-    gitRefsPartialUpdate: (owner: string, repo: string, ref: string, params: RequestParams = {}) =>
+    gitRefsPartialUpdate: (owner: string, repo: string, ref: string, body: GitRefPatch, params: RequestParams = {}) =>
       this.request<HeadBranch, void>({
         path: `/repos/${owner}/${repo}/git/refs/${ref}`,
         method: "PATCH",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -3758,10 +3821,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GitTagsCreate
      * @request POST:/repos/{owner}/{repo}/git/tags
      */
-    gitTagsCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    gitTagsCreate: (owner: string, repo: string, body: TagBody, params: RequestParams = {}) =>
       this.request<Tag, void>({
         path: `/repos/${owner}/${repo}/git/tags`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -3786,10 +3851,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GitTreesCreate
      * @request POST:/repos/{owner}/{repo}/git/trees
      */
-    gitTreesCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    gitTreesCreate: (owner: string, repo: string, body: Tree, params: RequestParams = {}) =>
       this.request<Trees, void>({
         path: `/repos/${owner}/${repo}/git/trees`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -3804,11 +3871,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       shaCode: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Get a Tree Recursively. (0 or 1) */
         recursive?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Tree, void>({
         path: `/repos/${owner}/${repo}/git/trees/${shaCode}`,
@@ -3838,10 +3905,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name HooksCreate
      * @request POST:/repos/{owner}/{repo}/hooks
      */
-    hooksCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    hooksCreate: (owner: string, repo: string, body: HookBody, params: RequestParams = {}) =>
       this.request<Hook, void>({
         path: `/repos/${owner}/${repo}/hooks`,
         method: "POST",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -3881,10 +3949,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name HooksPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/hooks/{hookId}
      */
-    hooksPartialUpdate: (owner: string, repo: string, hookId: number, params: RequestParams = {}) =>
+    hooksPartialUpdate: (owner: string, repo: string, hookId: number, body: HookBody, params: RequestParams = {}) =>
       this.request<Hook, void>({
         path: `/repos/${owner}/${repo}/hooks/${hookId}`,
         method: "PATCH",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -3911,7 +3980,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesDetail: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
       query: {
         /**
          * Issues assigned to you / created by you / mentioning you / you're
@@ -3933,6 +4001,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         since?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Issues, void>({
         path: `/repos/${owner}/${repo}/issues`,
@@ -3948,10 +4017,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name IssuesCreate
      * @request POST:/repos/{owner}/{repo}/issues
      */
-    issuesCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    issuesCreate: (owner: string, repo: string, body: Issue, params: RequestParams = {}) =>
       this.request<Issue, void>({
         path: `/repos/${owner}/${repo}/issues`,
         method: "POST",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -3965,8 +4035,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesCommentsDetail: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Ignored without 'sort' parameter. */
         direction?: string;
         sort?: "created" | "updated";
@@ -3976,6 +4045,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         since?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<IssuesComments, void>({
         path: `/repos/${owner}/${repo}/issues/comments`,
@@ -4020,10 +4090,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name IssuesCommentsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/issues/comments/{commentId}
      */
-    issuesCommentsPartialUpdate: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
+    issuesCommentsPartialUpdate: (
+      owner: string,
+      repo: string,
+      commentId: number,
+      body: CommentBody,
+      params: RequestParams = {},
+    ) =>
       this.request<IssuesComment, void>({
         path: `/repos/${owner}/${repo}/issues/comments/${commentId}`,
         method: "PATCH",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -4080,10 +4157,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name IssuesPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/issues/{number}
      */
-    issuesPartialUpdate: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    issuesPartialUpdate: (owner: string, repo: string, number: number, body: Issue, params: RequestParams = {}) =>
       this.request<Issue, void>({
         path: `/repos/${owner}/${repo}/issues/${number}`,
         method: "PATCH",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -4110,10 +4188,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name IssuesCommentsCreate
      * @request POST:/repos/{owner}/{repo}/issues/{number}/comments
      */
-    issuesCommentsCreate: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    issuesCommentsCreate: (
+      owner: string,
+      repo: string,
+      number: number,
+      body: CommentBody,
+      params: RequestParams = {},
+    ) =>
       this.request<IssuesComment, void>({
         path: `/repos/${owner}/${repo}/issues/${number}/comments`,
         method: "POST",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -4167,10 +4252,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name IssuesLabelsCreate
      * @request POST:/repos/{owner}/{repo}/issues/{number}/labels
      */
-    issuesLabelsCreate: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    issuesLabelsCreate: (owner: string, repo: string, number: number, body: EmailsPost, params: RequestParams = {}) =>
       this.request<Label, void>({
         path: `/repos/${owner}/${repo}/issues/${number}/labels`,
         method: "POST",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -4181,10 +4267,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name IssuesLabelsUpdate
      * @request PUT:/repos/{owner}/{repo}/issues/{number}/labels
      */
-    issuesLabelsUpdate: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    issuesLabelsUpdate: (owner: string, repo: string, number: number, body: EmailsPost, params: RequestParams = {}) =>
       this.request<Label, void>({
         path: `/repos/${owner}/${repo}/issues/${number}/labels`,
         method: "PUT",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -4224,10 +4311,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeysCreate
      * @request POST:/repos/{owner}/{repo}/keys
      */
-    keysCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    keysCreate: (owner: string, repo: string, body: UserKeysPost, params: RequestParams = {}) =>
       this.request<UserKeysKeyId, void>({
         path: `/repos/${owner}/${repo}/keys`,
         method: "POST",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -4281,10 +4369,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name LabelsCreate
      * @request POST:/repos/{owner}/{repo}/labels
      */
-    labelsCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    labelsCreate: (owner: string, repo: string, body: EmailsPost, params: RequestParams = {}) =>
       this.request<Label, void>({
         path: `/repos/${owner}/${repo}/labels`,
         method: "POST",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -4324,10 +4413,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name LabelsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/labels/{name}
      */
-    labelsPartialUpdate: (owner: string, repo: string, name: string, params: RequestParams = {}) =>
+    labelsPartialUpdate: (owner: string, repo: string, name: string, body: EmailsPost, params: RequestParams = {}) =>
       this.request<Label, void>({
         path: `/repos/${owner}/${repo}/labels/${name}`,
         method: "PATCH",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -4352,10 +4442,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name MergesCreate
      * @request POST:/repos/{owner}/{repo}/merges
      */
-    mergesCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    mergesCreate: (owner: string, repo: string, body: MergesBody, params: RequestParams = {}) =>
       this.request<MergesSuccessful, void | MergesConflict>({
         path: `/repos/${owner}/${repo}/merges`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -4369,8 +4461,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     milestonesDetail: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * String to filter by state.
          * @default "open"
@@ -4381,6 +4472,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** @default "due_date" */
         sort?: "due_date" | "completeness";
       },
+      params: RequestParams = {},
     ) =>
       this.request<Milestone, void>({
         path: `/repos/${owner}/${repo}/milestones`,
@@ -4396,10 +4488,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name MilestonesCreate
      * @request POST:/repos/{owner}/{repo}/milestones
      */
-    milestonesCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    milestonesCreate: (owner: string, repo: string, body: MilestoneUpdate, params: RequestParams = {}) =>
       this.request<Milestone, void>({
         path: `/repos/${owner}/${repo}/milestones`,
         method: "POST",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -4439,10 +4532,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name MilestonesPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/milestones/{number}
      */
-    milestonesPartialUpdate: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    milestonesPartialUpdate: (
+      owner: string,
+      repo: string,
+      number: number,
+      body: MilestoneUpdate,
+      params: RequestParams = {},
+    ) =>
       this.request<Milestone, void>({
         path: `/repos/${owner}/${repo}/milestones/${number}`,
         method: "PATCH",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -4470,8 +4570,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     notificationsDetail: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** True to show notifications marked as read. */
         all?: boolean;
         /**
@@ -4485,6 +4584,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         since?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Notifications, void>({
         path: `/repos/${owner}/${repo}/notifications`,
@@ -4500,10 +4600,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name NotificationsUpdate
      * @request PUT:/repos/{owner}/{repo}/notifications
      */
-    notificationsUpdate: (owner: string, repo: string, params: RequestParams = {}) =>
+    notificationsUpdate: (owner: string, repo: string, body: NotificationMarkRead, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/repos/${owner}/${repo}/notifications`,
         method: "PUT",
+        body: body,
         ...params,
       }),
 
@@ -4516,8 +4617,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsDetail: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * String to filter by state.
          * @default "open"
@@ -4531,6 +4631,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** Filter pulls by base branch name. Example - gh-pages. */
         base?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Pulls, void>({
         path: `/repos/${owner}/${repo}/pulls`,
@@ -4546,10 +4647,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name PullsCreate
      * @request POST:/repos/{owner}/{repo}/pulls
      */
-    pullsCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    pullsCreate: (owner: string, repo: string, body: PullsPost, params: RequestParams = {}) =>
       this.request<Pulls, void>({
         path: `/repos/${owner}/${repo}/pulls`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -4563,8 +4666,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsCommentsDetail: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Ignored without 'sort' parameter. */
         direction?: string;
         sort?: "created" | "updated";
@@ -4574,6 +4676,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         since?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<IssuesComments, void>({
         path: `/repos/${owner}/${repo}/pulls/comments`,
@@ -4618,10 +4721,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name PullsCommentsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/pulls/comments/{commentId}
      */
-    pullsCommentsPartialUpdate: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
+    pullsCommentsPartialUpdate: (
+      owner: string,
+      repo: string,
+      commentId: number,
+      body: CommentBody,
+      params: RequestParams = {},
+    ) =>
       this.request<PullsComment, void>({
         path: `/repos/${owner}/${repo}/pulls/comments/${commentId}`,
         method: "PATCH",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -4648,10 +4758,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name PullsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/pulls/{number}
      */
-    pullsPartialUpdate: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    pullsPartialUpdate: (owner: string, repo: string, number: number, body: PullUpdate, params: RequestParams = {}) =>
       this.request<Repo, void>({
         path: `/repos/${owner}/${repo}/pulls/${number}`,
         method: "PATCH",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -4678,10 +4790,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name PullsCommentsCreate
      * @request POST:/repos/{owner}/{repo}/pulls/{number}/comments
      */
-    pullsCommentsCreate: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    pullsCommentsCreate: (
+      owner: string,
+      repo: string,
+      number: number,
+      body: PullsCommentPost,
+      params: RequestParams = {},
+    ) =>
       this.request<PullsComment, void>({
         path: `/repos/${owner}/${repo}/pulls/${number}/comments`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -4733,10 +4853,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name PullsMergeUpdate
      * @request PUT:/repos/{owner}/{repo}/pulls/{number}/merge
      */
-    pullsMergeUpdate: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    pullsMergeUpdate: (owner: string, repo: string, number: number, body: MergePullBody, params: RequestParams = {}) =>
       this.request<Merge, void | Merge>({
         path: `/repos/${owner}/${repo}/pulls/${number}/merge`,
         method: "PUT",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -4750,11 +4872,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     readmeDetail: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** The String name of the Commit/Branch/Tag. Defaults to master. */
         ref?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<ContentsPath, void>({
         path: `/repos/${owner}/${repo}/readme`,
@@ -4784,10 +4906,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ReleasesCreate
      * @request POST:/repos/{owner}/{repo}/releases
      */
-    releasesCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    releasesCreate: (owner: string, repo: string, body: ReleaseCreate, params: RequestParams = {}) =>
       this.request<Release, void>({
         path: `/repos/${owner}/${repo}/releases`,
         method: "POST",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -4825,10 +4948,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ReleasesAssetsPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/releases/assets/{id}
      */
-    releasesAssetsPartialUpdate: (owner: string, repo: string, id: string, params: RequestParams = {}) =>
+    releasesAssetsPartialUpdate: (
+      owner: string,
+      repo: string,
+      id: string,
+      body: AssetPatch,
+      params: RequestParams = {},
+    ) =>
       this.request<Asset, void>({
         path: `/repos/${owner}/${repo}/releases/assets/${id}`,
         method: "PATCH",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -4868,10 +4999,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ReleasesPartialUpdate
      * @request PATCH:/repos/{owner}/{repo}/releases/{id}
      */
-    releasesPartialUpdate: (owner: string, repo: string, id: string, params: RequestParams = {}) =>
+    releasesPartialUpdate: (owner: string, repo: string, id: string, body: ReleaseCreate, params: RequestParams = {}) =>
       this.request<Release, void>({
         path: `/repos/${owner}/${repo}/releases/${id}`,
         method: "PATCH",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -4996,10 +5128,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name StatusesCreate
      * @request POST:/repos/{owner}/{repo}/statuses/{ref}
      */
-    statusesCreate: (owner: string, repo: string, ref: string, params: RequestParams = {}) =>
+    statusesCreate: (owner: string, repo: string, ref: string, body: HeadBranch, params: RequestParams = {}) =>
       this.request<Ref, void>({
         path: `/repos/${owner}/${repo}/statuses/${ref}`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -5051,10 +5185,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name SubscriptionUpdate
      * @request PUT:/repos/{owner}/{repo}/subscription
      */
-    subscriptionUpdate: (owner: string, repo: string, params: RequestParams = {}) =>
+    subscriptionUpdate: (owner: string, repo: string, body: SubscriptionBody, params: RequestParams = {}) =>
       this.request<Subscription, void>({
         path: `/repos/${owner}/${repo}/subscription`,
         method: "PUT",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -5130,14 +5266,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repositories
      */
     repositoriesList: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Example: "2012-10-09T23:39:01Z".
          */
         since?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Repos, void>({
         path: `/repositories`,
@@ -5155,7 +5291,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/search/code
      */
     codeList: (
-      params: RequestParams = {},
       query: {
         /**
          * The sort field. if sort param is provided. Can be either asc or desc.
@@ -5185,6 +5320,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         sort?: "indexed";
       },
+      params: RequestParams = {},
     ) =>
       this.request<SearchCode, void>({
         path: `/search/code`,
@@ -5201,7 +5337,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/search/issues
      */
     issuesList: (
-      params: RequestParams = {},
       query: {
         /**
          * The sort field. if sort param is provided. Can be either asc or desc.
@@ -5213,6 +5348,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** The sort field. Can be comments, created, or updated. Default: results are sorted by best match. */
         sort?: "updated" | "created" | "comments";
       },
+      params: RequestParams = {},
     ) =>
       this.request<SearchIssues, void>({
         path: `/search/issues`,
@@ -5229,7 +5365,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/search/repositories
      */
     repositoriesList: (
-      params: RequestParams = {},
       query: {
         /**
          * The sort field. if sort param is provided. Can be either asc or desc.
@@ -5255,6 +5390,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** If not provided, results are sorted by best match. */
         sort?: "stars" | "forks" | "updated";
       },
+      params: RequestParams = {},
     ) =>
       this.request<SearchRepositories, void>({
         path: `/search/repositories`,
@@ -5271,7 +5407,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/search/users
      */
     usersList: (
-      params: RequestParams = {},
       query: {
         /**
          * The sort field. if sort param is provided. Can be either asc or desc.
@@ -5296,6 +5431,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** If not provided, results are sorted by best match. */
         sort?: "followers" | "repositories" | "joined";
       },
+      params: RequestParams = {},
     ) =>
       this.request<SearchUsers, void>({
         path: `/search/users`,
@@ -5339,10 +5475,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TeamsPartialUpdate
      * @request PATCH:/teams/{teamId}
      */
-    teamsPartialUpdate: (teamId: number, params: RequestParams = {}) =>
+    teamsPartialUpdate: (teamId: number, body: EditTeam, params: RequestParams = {}) =>
       this.request<Team, void>({
         path: `/teams/${teamId}`,
         method: "PATCH",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -5522,10 +5660,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name UserPartialUpdate
      * @request PATCH:/user
      */
-    userPartialUpdate: (params: RequestParams = {}) =>
+    userPartialUpdate: (body: UserUpdate, params: RequestParams = {}) =>
       this.request<User, void>({
         path: `/user`,
         method: "PATCH",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -5536,10 +5676,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name EmailsDelete
      * @request DELETE:/user/emails
      */
-    emailsDelete: (params: RequestParams = {}) =>
+    emailsDelete: (body: UserEmails, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/user/emails`,
         method: "DELETE",
+        body: body,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -5562,10 +5704,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name EmailsCreate
      * @request POST:/user/emails
      */
-    emailsCreate: (params: RequestParams = {}) =>
+    emailsCreate: (body: EmailsPost, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/user/emails`,
         method: "POST",
+        body: body,
         ...params,
       }),
 
@@ -5643,7 +5786,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/issues
      */
     issuesList: (
-      params: RequestParams = {},
       query: {
         /**
          * Issues assigned to you / created by you / mentioning you / you're
@@ -5665,6 +5807,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         since?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Issues, void>({
         path: `/user/issues`,
@@ -5694,10 +5837,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeysCreate
      * @request POST:/user/keys
      */
-    keysCreate: (params: RequestParams = {}) =>
+    keysCreate: (body: UserKeysPost, params: RequestParams = {}) =>
       this.request<UserKeysKeyId, void>({
         path: `/user/keys`,
         method: "POST",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -5750,11 +5894,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/repos
      */
     reposList: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** @default "all" */
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
+      params: RequestParams = {},
     ) =>
       this.request<Repos, void>({
         path: `/user/repos`,
@@ -5770,10 +5914,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ReposCreate
      * @request POST:/user/repos
      */
-    reposCreate: (params: RequestParams = {}) =>
+    reposCreate: (body: PostRepo, params: RequestParams = {}) =>
       this.request<Repos, void>({
         path: `/user/repos`,
         method: "POST",
+        body: body,
         format: "json",
         ...params,
       }),
@@ -5785,13 +5930,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/starred
      */
     starredList: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Ignored without 'sort' parameter. */
         direction?: string;
         /** @default "created" */
         sort?: "created" | "updated";
       },
+      params: RequestParams = {},
     ) =>
       this.request<Gitignore, void>({
         path: `/user/starred`,
@@ -5918,11 +6063,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/users
      */
     usersList: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** The integer ID of the last user that you've seen. */
         since?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Users, void>({
         path: `/users`,
@@ -6007,14 +6152,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     gistsDetail: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Example: "2012-10-09T23:39:01Z".
          */
         since?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Gists, void>({
         path: `/users/${username}/gists`,
@@ -6086,11 +6231,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reposDetail: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** @default "all" */
         type?: "all" | "public" | "private" | "forks" | "sources" | "member";
       },
+      params: RequestParams = {},
     ) =>
       this.request<Repos, void>({
         path: `/users/${username}/repos`,

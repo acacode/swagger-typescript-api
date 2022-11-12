@@ -23,7 +23,6 @@ const descriptionLines = _.compact([
   info.description && " ",
   info.description && _.replace(formatDescription(info.description), /\n/g, "\n * "),
 ]);
-console.info(routes)
 %>
 
 <% if (config.httpClientType === config.constants.HTTP_CLIENT.AXIOS) { %> import { AxiosRequestConfig, AxiosResponse } from "axios"; <% } %>
@@ -49,6 +48,8 @@ export class <%~ config.apiClassName %><SecurityDataType extends unknown><% if (
 
 <% if (routes.outOfModule) { %>
  <% for await (const route of routes.outOfModule) { %>
+
+
   <%~ await includeFile('./procedure-call.ejs', { ...it, route }) %>
  <% } %>
 <% } %>
@@ -57,6 +58,8 @@ export class <%~ config.apiClassName %><SecurityDataType extends unknown><% if (
   <% for await (const { routes: combinedRoutes = [], moduleName } of routes.combined) { %>
     <%~ moduleName %> = {
     <% for await (const route of combinedRoutes) { %>
+
+
     <%~ await includeFile('./procedure-call.ejs', { ...it, route }) %>
     <% } %>
     }

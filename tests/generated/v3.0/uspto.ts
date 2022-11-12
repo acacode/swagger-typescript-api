@@ -275,7 +275,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       format: "json",
       ...params,
     });
-
   dataset = {
     /**
      * @description This GET API returns the list of all the searchable field names that are in the oa_citations. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the syntax options shown below.
@@ -301,10 +300,33 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Provides search capability for the data set with the given search criteria.
      * @request POST:/{dataset}/{version}/records
      */
-    performSearch: (version: string, dataset: string, params: RequestParams = {}) =>
+    performSearch: (
+      version: string,
+      dataset: string,
+      data: {
+        /**
+         * Uses Lucene Query Syntax in the format of propertyName:value, propertyName:[num1 TO num2] and date range format: propertyName:[yyyyMMdd TO yyyyMMdd]. In the response please see the 'docs' element which has the list of record objects. Each record structure would consist of all the fields and their corresponding values.
+         * @default "*:*"
+         */
+        criteria: string;
+        /**
+         * Starting record number. Default value is 0.
+         * @default 0
+         */
+        start?: number;
+        /**
+         * Specify number of rows to be returned. If you run the search with default values, in the response you will see 'numFound' attribute which will tell the number of records available in the dataset.
+         * @default 100
+         */
+        rows?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Record<string, object>[], void>({
         path: `/${dataset}/${version}/records`,
         method: "POST",
+        body: data,
+        type: ContentType.UrlEncoded,
         format: "json",
         ...params,
       }),

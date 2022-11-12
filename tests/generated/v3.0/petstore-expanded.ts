@@ -254,8 +254,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/pets
      */
     findPets: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** tags to filter by */
         tags?: string[];
         /**
@@ -264,6 +263,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         limit?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Pet[], Error>({
         path: `/pets`,
@@ -279,10 +279,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name AddPet
      * @request POST:/pets
      */
-    addPet: (params: RequestParams = {}) =>
+    addPet: (data: NewPet, params: RequestParams = {}) =>
       this.request<Pet, Error>({
         path: `/pets`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

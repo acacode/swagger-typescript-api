@@ -233,10 +233,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Upload file
      * @request POST:/upload-file
      */
-    uploadFile: (params: RequestParams = {}) =>
+    uploadFile: (
+      data: {
+        /**
+         * File description
+         * @format binary
+         */
+        file?: File;
+        /** Boolean flag */
+        someFlag?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, any>({
         path: `/upload-file`,
         method: "POST",
+        body: data,
+        type: ContentType.FormData,
         ...params,
       }),
   };

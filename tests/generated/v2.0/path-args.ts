@@ -239,14 +239,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       param3: number,
       param1?: number,
       param2?: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * How many items to return at one time (max 100)
          * @format int32
          */
         queryParam?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<object, any>({
         path: `/pets/${param1}/${param2}/${param3}`,

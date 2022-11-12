@@ -343,10 +343,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name Login
      * @request POST:/auth
      */
-    login: (params: RequestParams = {}) =>
+    login: (data?: AuthUser, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/auth`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -394,11 +396,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/jobs
      * @secure
      */
-    addJob: (params: RequestParams = {}) =>
+    addJob: (data: PickJobGithub, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/jobs`,
         method: "POST",
+        body: data,
         secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -428,11 +432,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/jobs/{id}
      * @secure
      */
-    updateJob: (id: string, params: RequestParams = {}) =>
+    updateJob: (id: string, data: JobUpdate, params: RequestParams = {}) =>
       this.request<UpdatedJob, any>({
         path: `/jobs/${id}`,
         method: "PATCH",
+        body: data,
         secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -480,11 +486,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:x-route
      * @secure
      */
-    addJob: (params: RequestParams = {}) =>
+    addJob: (data: PickJobGithub, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `x-route`,
         method: "POST",
+        body: data,
         secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -513,11 +521,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/projects
      * @secure
      */
-    addProjects: (params: RequestParams = {}) =>
+    addProjects: (data: ProjectUpdate, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/projects`,
         method: "POST",
+        body: data,
         secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -530,11 +540,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/projects/{id}
      * @secure
      */
-    updateProject: (id: string, params: RequestParams = {}) =>
+    updateProject: (id: string, data: ProjectUpdate, params: RequestParams = {}) =>
       this.request<UpdatedProject, any>({
         path: `/projects/${id}`,
         method: "PATCH",
+        body: data,
         secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -565,11 +577,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/users
      * @secure
      */
-    addUser: (params: RequestParams = {}) =>
+    addUser: (data: AuthUser, params: RequestParams = {}) =>
       this.request<User, any>({
         path: `/users`,
         method: "POST",
+        body: data,
         secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -599,11 +613,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/users/{id}
      * @secure
      */
-    updateUser: (id: string, params: RequestParams = {}) =>
+    updateUser: (id: string, data: UserUpdate, params: RequestParams = {}) =>
       this.request<User, any>({
         path: `/users/${id}`,
         method: "PATCH",
+        body: data,
         secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

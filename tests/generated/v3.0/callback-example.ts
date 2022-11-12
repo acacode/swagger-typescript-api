@@ -232,7 +232,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/streams
      */
     streamsCreate: (
-      params: RequestParams = {},
       query: {
         /**
          * the location where data will be sent.  Must be network accessible
@@ -242,6 +241,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         callbackUrl: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {

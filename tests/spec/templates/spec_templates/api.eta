@@ -43,21 +43,25 @@ export class Api<SecurityDataType extends unknown><% if (!config.singleHttpClien
 <% } %>
 
 
-<% routes.outOfModule && routes.outOfModule.forEach((route) => { %>
+<% if (routes.outOfModule) { %>
+ <% for await (const route of routes.outOfModule) { %>
 
-        <%~ await includeFile('./procedure-call.eta', { ...it, route }) %>
+  <%~ await includeFile('./procedure-call.ejs', { ...it, route }) %>
 
-<% }) %>
+ <% } %>
+<% } %>
 
-<% routes.combined && routes.combined.forEach(({ routes = [], moduleName }) => { %>
+<% if (routes.combined) { %>
+  <% for await (const { routes: combinedRoutes = [], moduleName } of routes.combined) { %>
     <%~ moduleName %> = {
-    <% routes.forEach((route) => { %>
+    <% for await (const route of combinedRoutes) { %>
 
-        <%~ await includeFile('./procedure-call.eta', { ...it, route }) %>
+    <%~ await includeFile('./procedure-call.ejs', { ...it, route }) %>
 
-    <% }) %>
+    <% } %>
     }
-<% }) %>
+  <% } %>
+<% } %>
 }
 
 /* CUSTOM TEMPLATE */

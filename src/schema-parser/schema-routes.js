@@ -785,7 +785,7 @@ class SchemaRoutes {
       query: queryType
         ? {
             name: nameResolver.resolve(RESERVED_QUERY_ARG_NAMES),
-            optional: await this.schemaParser.parseSchema(queryObjectSchema).allFieldsAreOptional,
+            optional: (await this.schemaParser.parseSchema(queryObjectSchema)).allFieldsAreOptional,
             type: queryType,
           }
         : void 0,
@@ -799,14 +799,14 @@ class SchemaRoutes {
       pathParams: pathType
         ? {
             name: nameResolver.resolve(RESERVED_PATH_ARG_NAMES),
-            optional: await this.schemaParser.parseSchema(pathObjectSchema).allFieldsAreOptional,
+            optional: (await this.schemaParser.parseSchema(pathObjectSchema)).allFieldsAreOptional,
             type: pathType,
           }
         : void 0,
       headers: headersType
         ? {
             name: nameResolver.resolve(RESERVED_HEADER_ARG_NAMES),
-            optional: await this.schemaParser.parseSchema(headersObjectSchema).allFieldsAreOptional,
+            optional: (await this.schemaParser.parseSchema(headersObjectSchema)).allFieldsAreOptional,
             type: headersType,
           }
         : void 0,

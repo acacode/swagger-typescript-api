@@ -238,7 +238,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       format: "json",
       ...params,
     });
-
   v2 = {
     /**
      * No description

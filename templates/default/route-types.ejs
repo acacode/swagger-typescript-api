@@ -12,17 +12,21 @@ import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataCont
 /* TODO: outOfModule, combined should be attributes of route, which will allow to avoid duplication of code */
 %>
 
-<%if (routes.outOfModule && routes.outOfModule.forEach(({ routes = [] }) => { %>
-    <% for await (const route of routes) {  %>
-        <%~ (await includeFile('@base/route-type.ejs', { ...it, route })) %>
-    <% } %>
-<% }) %>
 
-<% routes.combined && routes.combined.forEach(({ routes = [], moduleName }) => { %>
+<% if (routes.outOfModule) { %>
+ <% for await (const route of routes.outOfModule) { %>
+
+  <%~ await includeFile('@base/route-type.ejs', { ...it, route }) %>
+ <% } %>
+<% } %>
+
+<% if (routes.combined) { %>
+  <% for await (const { routes: combinedRoutes = [], moduleName } of routes.combined) { %>
+
     export namespace <%~ pascalCase(moduleName) %> {
-    <% routes.forEach((route) => { %>
+    <% for await (const route of combinedRoutes) { %>
         <%~ await includeFile('@base/route-type.ejs', { ...it, route }) %>
-    <% }) %>
+    <% } %>
     }
-
-<% }) %>
+  <% } %>
+<% } %>

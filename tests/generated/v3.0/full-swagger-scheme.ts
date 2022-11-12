@@ -8940,7 +8940,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       format: "json",
       ...params,
     });
-
   app = {
     /**
      * @description Returns the GitHub App associated with the authentication credentials used. To see how many app installations are associated with this GitHub App, see the `installations_count` in the response. For more details about your app's installations, see the "[List installations for the authenticated app](https://docs.github.com/rest/reference/apps#list-installations-for-the-authenticated-app)" endpoint. You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
@@ -8982,10 +8981,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a webhook configuration for an app
      * @request PATCH:/app/hook/config
      */
-    appsUpdateWebhookConfigForApp: (params: RequestParams = {}) =>
+    appsUpdateWebhookConfigForApp: (
+      data: {
+        /** The URL to which the payloads will be delivered. */
+        url?: WebhookConfigUrl;
+        /** The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`. */
+        content_type?: WebhookConfigContentType;
+        /** If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers). */
+        secret?: WebhookConfigSecret;
+        /** Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.** */
+        insecure_ssl?: WebhookConfigInsecureSsl;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<WebhookConfig, any>({
         path: `/app/hook/config`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -8999,8 +9012,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/app/installations
      */
     appsListInstallations: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -9015,6 +9027,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         since?: string;
         outdated?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Installation[], any>({
         path: `/app/installations`,
@@ -9070,7 +9083,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create an installation access token for an app
      * @request POST:/app/installations/{installation_id}/access_tokens
      */
-    appsCreateInstallationAccessToken: (installationId: number, params: RequestParams = {}) =>
+    appsCreateInstallationAccessToken: (
+      installationId: number,
+      data: {
+        /** List of repository names that the token should have access to */
+        repositories?: string[];
+        /**
+         * List of repository IDs that the token should have access to
+         * @example [1]
+         */
+        repository_ids?: number[];
+        /** The permissions granted to the user-to-server access token. */
+        permissions?: AppPermissions;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         InstallationToken,
         | BasicError
@@ -9082,6 +9109,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/app/installations/${installationId}/access_tokens`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -9153,8 +9182,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @deprecated
      */
     oauthAuthorizationsListGrants: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -9166,6 +9194,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<ApplicationGrant[], BasicError>({
         path: `/applications/grants`,
@@ -9216,10 +9245,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete an app authorization
      * @request DELETE:/applications/{client_id}/grant
      */
-    appsDeleteAuthorization: (clientId: string, params: RequestParams = {}) =>
+    appsDeleteAuthorization: (
+      clientId: string,
+      data: {
+        /** The OAuth access token used to authenticate to the GitHub API. */
+        access_token?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, ValidationError>({
         path: `/applications/${clientId}/grant`,
         method: "DELETE",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -9247,10 +9285,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Check a token
      * @request POST:/applications/{client_id}/token
      */
-    appsCheckToken: (clientId: string, params: RequestParams = {}) =>
+    appsCheckToken: (
+      clientId: string,
+      data: {
+        /** The access_token of the OAuth application. */
+        access_token: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Authorization, BasicError | ValidationError>({
         path: `/applications/${clientId}/token`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -9263,10 +9310,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Reset a token
      * @request PATCH:/applications/{client_id}/token
      */
-    appsResetToken: (clientId: string, params: RequestParams = {}) =>
+    appsResetToken: (
+      clientId: string,
+      data: {
+        /** The access_token of the OAuth application. */
+        access_token: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Authorization, ValidationError>({
         path: `/applications/${clientId}/token`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -9279,10 +9335,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete an app token
      * @request DELETE:/applications/{client_id}/token
      */
-    appsDeleteToken: (clientId: string, params: RequestParams = {}) =>
+    appsDeleteToken: (
+      clientId: string,
+      data: {
+        /** The OAuth access token used to authenticate to the GitHub API. */
+        access_token?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, ValidationError>({
         path: `/applications/${clientId}/token`,
         method: "DELETE",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -9294,10 +9359,41 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a scoped access token
      * @request POST:/applications/{client_id}/token/scoped
      */
-    appsScopeToken: (clientId: string, params: RequestParams = {}) =>
+    appsScopeToken: (
+      clientId: string,
+      data: {
+        /**
+         * **Required.** The OAuth access token used to authenticate to the GitHub API.
+         * @example "e72e16c7e42f292c6912e7710c838347ae178b4a"
+         */
+        access_token?: string;
+        /**
+         * The name of the user or organization to scope the user-to-server access token to. **Required** unless `target_id` is specified.
+         * @example "octocat"
+         */
+        target?: string;
+        /**
+         * The ID of the user or organization to scope the user-to-server access token to. **Required** unless `target` is specified.
+         * @example 1
+         */
+        target_id?: number;
+        /** The list of repository IDs to scope the user-to-server access token to. `repositories` may not be specified if `repository_ids` is specified. */
+        repositories?: string[];
+        /**
+         * The list of repository names to scope the user-to-server access token to. `repository_ids` may not be specified if `repositories` is specified.
+         * @example [1]
+         */
+        repository_ids?: number[];
+        /** The permissions granted to the user-to-server access token. */
+        permissions?: AppPermissions;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Authorization, BasicError | ValidationError>({
         path: `/applications/${clientId}/token/scoped`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -9387,8 +9483,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @deprecated
      */
     oauthAuthorizationsListAuthorizations: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -9400,6 +9495,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Authorization[], BasicError>({
         path: `/authorizations`,
@@ -9418,10 +9514,40 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/authorizations
      * @deprecated
      */
-    oauthAuthorizationsCreateAuthorization: (params: RequestParams = {}) =>
+    oauthAuthorizationsCreateAuthorization: (
+      data: {
+        /**
+         * A list of scopes that this authorization is in.
+         * @example ["public_repo","user"]
+         */
+        scopes?: string[] | null;
+        /**
+         * A note to remind you what the OAuth token is for.
+         * @example "Update all gems"
+         */
+        note?: string;
+        /** A URL to remind you what app the OAuth token is for. */
+        note_url?: string;
+        /**
+         * The OAuth app client key for which to create the token.
+         * @maxLength 20
+         */
+        client_id?: string;
+        /**
+         * The OAuth app client secret for which to create the token.
+         * @maxLength 40
+         */
+        client_secret?: string;
+        /** A unique string to distinguish an authorization from others created for the same client ID and user. */
+        fingerprint?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Authorization, BasicError | ValidationError>({
         path: `/authorizations`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -9435,10 +9561,36 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/authorizations/clients/{client_id}
      * @deprecated
      */
-    oauthAuthorizationsGetOrCreateAuthorizationForApp: (clientId: string, params: RequestParams = {}) =>
+    oauthAuthorizationsGetOrCreateAuthorizationForApp: (
+      clientId: string,
+      data: {
+        /**
+         * The OAuth app client secret for which to create the token.
+         * @maxLength 40
+         */
+        client_secret: string;
+        /**
+         * A list of scopes that this authorization is in.
+         * @example ["public_repo","user"]
+         */
+        scopes?: string[] | null;
+        /**
+         * A note to remind you what the OAuth token is for.
+         * @example "Update all gems"
+         */
+        note?: string;
+        /** A URL to remind you what app the OAuth token is for. */
+        note_url?: string;
+        /** A unique string to distinguish an authorization from others created for the same client ID and user. */
+        fingerprint?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Authorization, BasicError | ValidationError>({
         path: `/authorizations/clients/${clientId}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -9455,11 +9607,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     oauthAuthorizationsGetOrCreateAuthorizationForAppAndFingerprint: (
       clientId: string,
       fingerprint: string,
+      data: {
+        /**
+         * The OAuth app client secret for which to create the token.
+         * @maxLength 40
+         */
+        client_secret: string;
+        /**
+         * A list of scopes that this authorization is in.
+         * @example ["public_repo","user"]
+         */
+        scopes?: string[] | null;
+        /**
+         * A note to remind you what the OAuth token is for.
+         * @example "Update all gems"
+         */
+        note?: string;
+        /** A URL to remind you what app the OAuth token is for. */
+        note_url?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<Authorization, ValidationError>({
         path: `/authorizations/clients/${clientId}/${fingerprint}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -9490,10 +9663,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/authorizations/{authorization_id}
      * @deprecated
      */
-    oauthAuthorizationsUpdateAuthorization: (authorizationId: number, params: RequestParams = {}) =>
+    oauthAuthorizationsUpdateAuthorization: (
+      authorizationId: number,
+      data: {
+        /**
+         * A list of scopes that this authorization is in.
+         * @example ["public_repo","user"]
+         */
+        scopes?: string[] | null;
+        /** A list of scopes to add to this authorization. */
+        add_scopes?: string[];
+        /** A list of scopes to remove from this authorization. */
+        remove_scopes?: string[];
+        /**
+         * A note to remind you what the OAuth token is for.
+         * @example "Update all gems"
+         */
+        note?: string;
+        /** A URL to remind you what app the OAuth token is for. */
+        note_url?: string;
+        /** A unique string to distinguish an authorization from others created for the same client ID and user. */
+        fingerprint?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Authorization, ValidationError>({
         path: `/authorizations/${authorizationId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -9569,7 +9767,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a content attachment
      * @request POST:/content_references/{content_reference_id}/attachments
      */
-    appsCreateContentAttachment: (contentReferenceId: number, params: RequestParams = {}) =>
+    appsCreateContentAttachment: (
+      contentReferenceId: number,
+      data: {
+        /**
+         * The title of the attachment
+         * @maxLength 1024
+         * @example "Title of the attachment"
+         */
+        title: string;
+        /**
+         * The body of the attachment
+         * @maxLength 262144
+         * @example "Body of the attachment"
+         */
+        body: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         ContentReferenceAttachment,
         | BasicError
@@ -9581,6 +9796,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/content_references/${contentReferenceId}/attachments`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -9627,10 +9844,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set GitHub Actions permissions for an enterprise
      * @request PUT:/enterprises/{enterprise}/actions/permissions
      */
-    enterpriseAdminSetGithubActionsPermissionsEnterprise: (enterprise: string, params: RequestParams = {}) =>
+    enterpriseAdminSetGithubActionsPermissionsEnterprise: (
+      enterprise: string,
+      data: {
+        /** The policy that controls the organizations in the enterprise that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`. */
+        enabled_organizations: EnabledOrganizations;
+        /** The permissions policy that controls the actions that are allowed to run. Can be one of: `all`, `local_only`, or `selected`. */
+        allowed_actions?: AllowedActions;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, any>({
         path: `/enterprises/${enterprise}/actions/permissions`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -9644,8 +9872,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminListSelectedOrganizationsEnabledGithubActionsEnterprise: (
       enterprise: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -9657,6 +9884,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -9682,11 +9910,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminSetSelectedOrganizationsEnabledGithubActionsEnterprise: (
       enterprise: string,
+      data: {
+        /** List of organization IDs to enable for GitHub Actions. */
+        selected_organization_ids: number[];
+      },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
         path: `/enterprises/${enterprise}/actions/permissions/organizations`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -9752,10 +9986,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set allowed actions for an enterprise
      * @request PUT:/enterprises/{enterprise}/actions/permissions/selected-actions
      */
-    enterpriseAdminSetAllowedActionsEnterprise: (enterprise: string, params: RequestParams = {}) =>
+    enterpriseAdminSetAllowedActionsEnterprise: (
+      enterprise: string,
+      data: SelectedActions,
+      params: RequestParams = {},
+    ) =>
       this.request<void, any>({
         path: `/enterprises/${enterprise}/actions/permissions/selected-actions`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -9769,8 +10009,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminListSelfHostedRunnerGroupsForEnterprise: (
       enterprise: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -9782,6 +10021,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -9805,10 +10045,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a self-hosted runner group for an enterprise
      * @request POST:/enterprises/{enterprise}/actions/runner-groups
      */
-    enterpriseAdminCreateSelfHostedRunnerGroupForEnterprise: (enterprise: string, params: RequestParams = {}) =>
+    enterpriseAdminCreateSelfHostedRunnerGroupForEnterprise: (
+      enterprise: string,
+      data: {
+        /** Name of the runner group. */
+        name: string;
+        /** Visibility of a runner group. You can select all organizations or select individual organization. Can be one of: `all` or `selected` */
+        visibility?: "selected" | "all";
+        /** List of organization IDs that can access the runner group. */
+        selected_organization_ids?: number[];
+        /** List of runner IDs to add to the runner group. */
+        runners?: number[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<RunnerGroupsEnterprise, any>({
         path: `/enterprises/${enterprise}/actions/runner-groups`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -9844,11 +10099,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     enterpriseAdminUpdateSelfHostedRunnerGroupForEnterprise: (
       enterprise: string,
       runnerGroupId: number,
+      data: {
+        /** Name of the runner group. */
+        name?: string;
+        /**
+         * Visibility of a runner group. You can select all organizations or select individual organizations. Can be one of: `all` or `selected`
+         * @default "all"
+         */
+        visibility?: "selected" | "all";
+      },
       params: RequestParams = {},
     ) =>
       this.request<RunnerGroupsEnterprise, any>({
         path: `/enterprises/${enterprise}/actions/runner-groups/${runnerGroupId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -9883,8 +10149,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     enterpriseAdminListOrgAccessToSelfHostedRunnerGroupInEnterprise: (
       enterprise: string,
       runnerGroupId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -9896,6 +10161,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -9922,11 +10188,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     enterpriseAdminSetOrgAccessToSelfHostedRunnerGroupInEnterprise: (
       enterprise: string,
       runnerGroupId: number,
+      data: {
+        /** List of organization IDs that can access the runner group. */
+        selected_organization_ids: number[];
+      },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
         path: `/enterprises/${enterprise}/actions/runner-groups/${runnerGroupId}/organizations`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -9981,8 +10253,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     enterpriseAdminListSelfHostedRunnersInGroupForEnterprise: (
       enterprise: string,
       runnerGroupId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -9994,6 +10265,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -10020,11 +10292,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     enterpriseAdminSetSelfHostedRunnersInGroupForEnterprise: (
       enterprise: string,
       runnerGroupId: number,
+      data: {
+        /** List of runner IDs to add to the runner group. */
+        runners: number[];
+      },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
         path: `/enterprises/${enterprise}/actions/runner-groups/${runnerGroupId}/runners`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -10078,8 +10356,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminListSelfHostedRunnersForEnterprise: (
       enterprise: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -10091,6 +10368,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -10203,8 +10481,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     auditLogGetAuditLog: (
       enterprise: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** A search phrase. For more information, see [Searching the audit log](https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/reviewing-the-audit-log-for-your-organization#searching-the-audit-log). */
         phrase?: string;
         /**
@@ -10233,6 +10510,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         per_page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<AuditLogEvent[], any>({
         path: `/enterprises/${enterprise}/audit-log`,
@@ -10300,8 +10578,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/events
      */
     activityListPublicEvents: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -10313,6 +10590,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         Event[],
@@ -10357,8 +10635,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/gists
      */
     gistsList: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
         /**
@@ -10372,6 +10649,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<BaseGist[], BasicError>({
         path: `/gists`,
@@ -10389,10 +10667,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a gist
      * @request POST:/gists
      */
-    gistsCreate: (params: RequestParams = {}) =>
+    gistsCreate: (
+      data: {
+        /**
+         * Description of the gist
+         * @example "Example Ruby script"
+         */
+        description?: string;
+        /**
+         * Names and content for the files that make up the gist
+         * @example {"hello.rb":{"content":"puts \"Hello, World!\""}}
+         */
+        files: Record<
+          string,
+          {
+            /** Content of the file */
+            content: string;
+          }
+        >;
+        /** Flag indicating whether the gist is public */
+        public?: boolean | "true" | "false";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<GistSimple, BasicError | ValidationError>({
         path: `/gists`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -10406,8 +10708,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/gists/public
      */
     gistsListPublic: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
         /**
@@ -10421,6 +10722,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<BaseGist[], BasicError | ValidationError>({
         path: `/gists/public`,
@@ -10439,8 +10741,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/gists/starred
      */
     gistsListStarred: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
         /**
@@ -10454,6 +10755,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<BaseGist[], BasicError>({
         path: `/gists/starred`,
@@ -10499,10 +10801,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a gist
      * @request PATCH:/gists/{gist_id}
      */
-    gistsUpdate: (gistId: string, params: RequestParams = {}) =>
+    gistsUpdate: (
+      gistId: string,
+      data: null & {
+        /**
+         * Description of the gist
+         * @example "Example Ruby script"
+         */
+        description?: string;
+        /**
+         * Names of files to be updated
+         * @example {"hello.rb":{"content":"blah","filename":"goodbye.rb"}}
+         */
+        files?: Record<
+          string,
+          (object | null) & {
+            /** The new content of the file */
+            content?: string;
+            /** The new filename for the file */
+            filename?: string | null;
+          }
+        >;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<GistSimple, BasicError | ValidationError>({
         path: `/gists/${gistId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -10532,8 +10859,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     gistsListComments: (
       gistId: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -10545,6 +10871,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<GistComment[], BasicError>({
         path: `/gists/${gistId}/comments`,
@@ -10562,10 +10889,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a gist comment
      * @request POST:/gists/{gist_id}/comments
      */
-    gistsCreateComment: (gistId: string, params: RequestParams = {}) =>
+    gistsCreateComment: (
+      gistId: string,
+      data: {
+        /**
+         * The comment text.
+         * @maxLength 65535
+         * @example "Body of the attachment"
+         */
+        body: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<GistComment, BasicError>({
         path: `/gists/${gistId}/comments`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -10606,10 +10946,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a gist comment
      * @request PATCH:/gists/{gist_id}/comments/{comment_id}
      */
-    gistsUpdateComment: (gistId: string, commentId: number, params: RequestParams = {}) =>
+    gistsUpdateComment: (
+      gistId: string,
+      commentId: number,
+      data: {
+        /**
+         * The comment text.
+         * @maxLength 65535
+         * @example "Body of the attachment"
+         */
+        body: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<GistComment, BasicError>({
         path: `/gists/${gistId}/comments/${commentId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -10639,8 +10993,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     gistsListCommits: (
       gistId: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -10652,6 +11005,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<GistCommit[], BasicError>({
         path: `/gists/${gistId}/commits`,
@@ -10671,8 +11025,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     gistsListForks: (
       gistId: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -10684,6 +11037,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<GistSimple[], BasicError>({
         path: `/gists/${gistId}/forks`,
@@ -10813,8 +11167,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/installation/repositories
      */
     appsListReposAccessibleToInstallation: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -10826,6 +11179,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -10868,8 +11222,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/issues
      */
     issuesList: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Indicates which sorts of issues to return. Can be one of:
          * \* `assigned`: Issues assigned to you
@@ -10914,6 +11267,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Issue[], BasicError | ValidationError>({
         path: `/issues`,
@@ -10933,8 +11287,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/licenses
      */
     licensesGetAllCommonlyUsed: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         featured?: boolean;
         /**
          * Results per page (max 100)
@@ -10942,6 +11295,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         per_page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<LicenseSimple[], any>({
         path: `/licenses`,
@@ -10976,10 +11330,26 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Render a Markdown document
      * @request POST:/markdown
      */
-    markdownRender: (params: RequestParams = {}) =>
+    markdownRender: (
+      data: {
+        /** The Markdown text to render in HTML. */
+        text: string;
+        /**
+         * The rendering mode.
+         * @default "markdown"
+         * @example "markdown"
+         */
+        mode?: "markdown" | "gfm";
+        /** The repository context to use when creating references in `gfm` mode. */
+        context?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<WebhookConfigUrl, any>({
         path: `/markdown`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -10991,10 +11361,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Render a Markdown document in raw mode
      * @request POST:/markdown/raw
      */
-    markdownRenderRaw: (params: RequestParams = {}) =>
+    markdownRenderRaw: (data: WebhookConfigUrl, params: RequestParams = {}) =>
       this.request<WebhookConfigUrl, any>({
         path: `/markdown/raw`,
         method: "POST",
+        body: data,
+        type: ContentType.Text,
         ...params,
       }),
   };
@@ -11024,8 +11396,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/marketplace_listing/plans
      */
     appsListPlans: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -11037,6 +11408,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<MarketplaceListingPlan[], BasicError>({
         path: `/marketplace_listing/plans`,
@@ -11056,8 +11428,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     appsListAccountsForPlan: (
       planId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
          * @default "created"
@@ -11076,6 +11447,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<MarketplacePurchase[], BasicError | ValidationError>({
         path: `/marketplace_listing/plans/${planId}/accounts`,
@@ -11110,8 +11482,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/marketplace_listing/stubbed/plans
      */
     appsListPlansStubbed: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -11123,6 +11494,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<MarketplaceListingPlan[], BasicError>({
         path: `/marketplace_listing/stubbed/plans`,
@@ -11142,8 +11514,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     appsListAccountsForPlanStubbed: (
       planId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
          * @default "created"
@@ -11162,6 +11533,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<MarketplacePurchase[], BasicError>({
         path: `/marketplace_listing/stubbed/plans/${planId}/accounts`,
@@ -11200,8 +11572,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     activityListPublicEventsForRepoNetwork: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -11213,6 +11584,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Event[], BasicError>({
         path: `/networks/${owner}/${repo}/events`,
@@ -11232,8 +11604,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/notifications
      */
     activityListNotificationsForAuthenticatedUser: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * If `true`, show notifications marked as read.
          * @default false
@@ -11259,6 +11630,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Thread[], BasicError | ValidationError>({
         path: `/notifications`,
@@ -11276,7 +11648,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Mark notifications as read
      * @request PUT:/notifications
      */
-    activityMarkNotificationsAsRead: (params: RequestParams = {}) =>
+    activityMarkNotificationsAsRead: (
+      data: {
+        /**
+         * Describes the last point that notifications were checked.
+         * @format date-time
+         */
+        last_read_at?: string;
+        /** Whether the notification has been read. */
+        read?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         {
           message?: string;
@@ -11285,6 +11668,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/notifications`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -11344,10 +11729,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set a thread subscription
      * @request PUT:/notifications/threads/{thread_id}/subscription
      */
-    activitySetThreadSubscription: (threadId: number, params: RequestParams = {}) =>
+    activitySetThreadSubscription: (
+      threadId: number,
+      data: {
+        /**
+         * Whether to block all notifications from a thread.
+         * @default false
+         */
+        ignored?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ThreadSubscription, BasicError>({
         path: `/notifications/threads/${threadId}/subscription`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -11377,11 +11774,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/octocat
      */
     metaGetOctocat: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** The words to show in Octocat's speech bubble */
         s?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<WebhookConfigUrl, any>({
         path: `/octocat`,
@@ -11400,8 +11797,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/organizations
      */
     orgsList: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** An organization ID. Only return organizations with an ID greater than this ID. */
         since?: number;
         /**
@@ -11410,6 +11806,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         per_page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<OrganizationSimple[], any>({
         path: `/organizations`,
@@ -11444,7 +11841,100 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update an organization
      * @request PATCH:/orgs/{org}
      */
-    orgsUpdate: (org: string, params: RequestParams = {}) =>
+    orgsUpdate: (
+      org: string,
+      data: {
+        /** Billing email address. This address is not publicized. */
+        billing_email?: string;
+        /** The company name. */
+        company?: string;
+        /** The publicly visible email address. */
+        email?: string;
+        /** The Twitter username of the company. */
+        twitter_username?: string;
+        /** The location. */
+        location?: string;
+        /** The shorthand name of the company. */
+        name?: string;
+        /** The description of the company. */
+        description?: string;
+        /** Toggles whether an organization can use organization projects. */
+        has_organization_projects?: boolean;
+        /** Toggles whether repositories that belong to the organization can use repository projects. */
+        has_repository_projects?: boolean;
+        /**
+         * Default permission level members have for organization repositories:
+         * \* `read` - can pull, but not push to or administer this repository.
+         * \* `write` - can pull and push, but not administer this repository.
+         * \* `admin` - can pull, push, and administer this repository.
+         * \* `none` - no permissions granted by default.
+         * @default "read"
+         */
+        default_repository_permission?: "read" | "write" | "admin" | "none";
+        /**
+         * Toggles the ability of non-admin organization members to create repositories. Can be one of:
+         * \* `true` - all organization members can create repositories.
+         * \* `false` - only organization owners can create repositories.
+         * Default: `true`
+         * **Note:** A parameter can override this parameter. See `members_allowed_repository_creation_type` in this table for details. **Note:** A parameter can override this parameter. See `members_allowed_repository_creation_type` in this table for details.
+         * @default true
+         */
+        members_can_create_repositories?: boolean;
+        /**
+         * Toggles whether organization members can create internal repositories, which are visible to all enterprise members. You can only allow members to create internal repositories if your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+. Can be one of:
+         * \* `true` - all organization members can create internal repositories.
+         * \* `false` - only organization owners can create internal repositories.
+         * Default: `true`. For more information, see "[Restricting repository creation in your organization](https://help.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)" in the GitHub Help documentation.
+         */
+        members_can_create_internal_repositories?: boolean;
+        /**
+         * Toggles whether organization members can create private repositories, which are visible to organization members with permission. Can be one of:
+         * \* `true` - all organization members can create private repositories.
+         * \* `false` - only organization owners can create private repositories.
+         * Default: `true`. For more information, see "[Restricting repository creation in your organization](https://help.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)" in the GitHub Help documentation.
+         */
+        members_can_create_private_repositories?: boolean;
+        /**
+         * Toggles whether organization members can create public repositories, which are visible to anyone. Can be one of:
+         * \* `true` - all organization members can create public repositories.
+         * \* `false` - only organization owners can create public repositories.
+         * Default: `true`. For more information, see "[Restricting repository creation in your organization](https://help.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)" in the GitHub Help documentation.
+         */
+        members_can_create_public_repositories?: boolean;
+        /**
+         * Specifies which types of repositories non-admin organization members can create. Can be one of:
+         * \* `all` - all organization members can create public and private repositories.
+         * \* `private` - members can create private repositories. This option is only available to repositories that are part of an organization on GitHub Enterprise Cloud.
+         * \* `none` - only admin members can create repositories.
+         * **Note:** This parameter is deprecated and will be removed in the future. Its return value ignores internal repositories. Using this parameter overrides values set in `members_can_create_repositories`. See the parameter deprecation notice in the operation description for details.
+         */
+        members_allowed_repository_creation_type?: "all" | "private" | "none";
+        /**
+         * Toggles whether organization members can create GitHub Pages sites. Can be one of:
+         * \* `true` - all organization members can create GitHub Pages sites.
+         * \* `false` - no organization members can create GitHub Pages sites. Existing published sites will not be impacted.
+         * @default true
+         */
+        members_can_create_pages?: boolean;
+        /**
+         * Toggles whether organization members can create public GitHub Pages sites. Can be one of:
+         * \* `true` - all organization members can create public GitHub Pages sites.
+         * \* `false` - no organization members can create public GitHub Pages sites. Existing published sites will not be impacted.
+         * @default true
+         */
+        members_can_create_public_pages?: boolean;
+        /**
+         * Toggles whether organization members can create private GitHub Pages sites. Can be one of:
+         * \* `true` - all organization members can create private GitHub Pages sites.
+         * \* `false` - no organization members can create private GitHub Pages sites. Existing published sites will not be impacted.
+         * @default true
+         */
+        members_can_create_private_pages?: boolean;
+        /** @example ""http://github.blog"" */
+        blog?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         OrganizationFull,
         | BasicError
@@ -11456,6 +11946,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/orgs/${org}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -11484,10 +11976,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set GitHub Actions permissions for an organization
      * @request PUT:/orgs/{org}/actions/permissions
      */
-    actionsSetGithubActionsPermissionsOrganization: (org: string, params: RequestParams = {}) =>
+    actionsSetGithubActionsPermissionsOrganization: (
+      org: string,
+      data: {
+        /** The policy that controls the repositories in the organization that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`. */
+        enabled_repositories: EnabledRepositories;
+        /** The permissions policy that controls the actions that are allowed to run. Can be one of: `all`, `local_only`, or `selected`. */
+        allowed_actions?: AllowedActions;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, any>({
         path: `/orgs/${org}/actions/permissions`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -11501,8 +12004,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsListSelectedRepositoriesEnabledGithubActionsOrganization: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -11514,6 +12016,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -11537,10 +12040,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set selected repositories enabled for GitHub Actions in an organization
      * @request PUT:/orgs/{org}/actions/permissions/repositories
      */
-    actionsSetSelectedRepositoriesEnabledGithubActionsOrganization: (org: string, params: RequestParams = {}) =>
+    actionsSetSelectedRepositoriesEnabledGithubActionsOrganization: (
+      org: string,
+      data: {
+        /** List of repository IDs to enable for GitHub Actions. */
+        selected_repository_ids: number[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, any>({
         path: `/orgs/${org}/actions/permissions/repositories`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -11606,10 +12118,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set allowed actions for an organization
      * @request PUT:/orgs/{org}/actions/permissions/selected-actions
      */
-    actionsSetAllowedActionsOrganization: (org: string, params: RequestParams = {}) =>
+    actionsSetAllowedActionsOrganization: (org: string, data: SelectedActions, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/orgs/${org}/actions/permissions/selected-actions`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -11623,8 +12137,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsListSelfHostedRunnerGroupsForOrg: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -11636,6 +12149,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -11659,10 +12173,28 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a self-hosted runner group for an organization
      * @request POST:/orgs/{org}/actions/runner-groups
      */
-    actionsCreateSelfHostedRunnerGroupForOrg: (org: string, params: RequestParams = {}) =>
+    actionsCreateSelfHostedRunnerGroupForOrg: (
+      org: string,
+      data: {
+        /** Name of the runner group. */
+        name: string;
+        /**
+         * Visibility of a runner group. You can select all repositories, select individual repositories, or limit access to private repositories. Can be one of: `all`, `selected`, or `private`.
+         * @default "all"
+         */
+        visibility?: "selected" | "all" | "private";
+        /** List of repository IDs that can access the runner group. */
+        selected_repository_ids?: number[];
+        /** List of runner IDs to add to the runner group. */
+        runners?: number[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<RunnerGroupsOrg, any>({
         path: `/orgs/${org}/actions/runner-groups`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -11691,10 +12223,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a self-hosted runner group for an organization
      * @request PATCH:/orgs/{org}/actions/runner-groups/{runner_group_id}
      */
-    actionsUpdateSelfHostedRunnerGroupForOrg: (org: string, runnerGroupId: number, params: RequestParams = {}) =>
+    actionsUpdateSelfHostedRunnerGroupForOrg: (
+      org: string,
+      runnerGroupId: number,
+      data: {
+        /** Name of the runner group. */
+        name?: string;
+        /** Visibility of a runner group. You can select all repositories, select individual repositories, or all private repositories. Can be one of: `all`, `selected`, or `private`. */
+        visibility?: "selected" | "all" | "private";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<RunnerGroupsOrg, any>({
         path: `/orgs/${org}/actions/runner-groups/${runnerGroupId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -11751,11 +12295,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsSetRepoAccessToSelfHostedRunnerGroupInOrg: (
       org: string,
       runnerGroupId: number,
+      data: {
+        /** List of repository IDs that can access the runner group. */
+        selected_repository_ids: number[];
+      },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
         path: `/orgs/${org}/actions/runner-groups/${runnerGroupId}/repositories`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -11810,8 +12360,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsListSelfHostedRunnersInGroupForOrg: (
       org: string,
       runnerGroupId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -11823,6 +12372,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -11846,10 +12396,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set self-hosted runners in a group for an organization
      * @request PUT:/orgs/{org}/actions/runner-groups/{runner_group_id}/runners
      */
-    actionsSetSelfHostedRunnersInGroupForOrg: (org: string, runnerGroupId: number, params: RequestParams = {}) =>
+    actionsSetSelfHostedRunnersInGroupForOrg: (
+      org: string,
+      runnerGroupId: number,
+      data: {
+        /** List of runner IDs to add to the runner group. */
+        runners: number[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, any>({
         path: `/orgs/${org}/actions/runner-groups/${runnerGroupId}/runners`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -11903,8 +12463,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsListSelfHostedRunnersForOrg: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -11916,6 +12475,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -12020,8 +12580,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     actionsListOrgSecrets: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -12033,6 +12592,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -12088,10 +12648,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create or update an organization secret
      * @request PUT:/orgs/{org}/actions/secrets/{secret_name}
      */
-    actionsCreateOrUpdateOrgSecret: (org: string, secretName: string, params: RequestParams = {}) =>
+    actionsCreateOrUpdateOrgSecret: (
+      org: string,
+      secretName: string,
+      data: {
+        /** Value for your secret, encrypted with [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages) using the public key retrieved from the [Get an organization public key](https://docs.github.com/rest/reference/actions#get-an-organization-public-key) endpoint. */
+        encrypted_value?: string;
+        /** ID of the key you used to encrypt the secret. */
+        key_id?: string;
+        /**
+         * Configures the access that repositories have to the organization secret. Can be one of:
+         * \- `all` - All repositories in an organization can access the secret.
+         * \- `private` - Private repositories in an organization can access the secret.
+         * \- `selected` - Only specific repositories can access the secret.
+         */
+        visibility?: "all" | "private" | "selected";
+        /** An array of repository ids that can access the organization secret. You can only provide a list of repository ids when the `visibility` is set to `selected`. You can manage the list of selected repositories using the [List selected repositories for an organization secret](https://docs.github.com/rest/reference/actions#list-selected-repositories-for-an-organization-secret), [Set selected repositories for an organization secret](https://docs.github.com/rest/reference/actions#set-selected-repositories-for-an-organization-secret), and [Remove selected repository from an organization secret](https://docs.github.com/rest/reference/actions#remove-selected-repository-from-an-organization-secret) endpoints. */
+        selected_repository_ids?: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, any>({
         path: `/orgs/${org}/actions/secrets/${secretName}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -12140,10 +12721,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set selected repositories for an organization secret
      * @request PUT:/orgs/{org}/actions/secrets/{secret_name}/repositories
      */
-    actionsSetSelectedReposForOrgSecret: (org: string, secretName: string, params: RequestParams = {}) =>
+    actionsSetSelectedReposForOrgSecret: (
+      org: string,
+      secretName: string,
+      data: {
+        /** An array of repository ids that can access the organization secret. You can only provide a list of repository ids when the `visibility` is set to `selected`. You can add and remove individual repositories using the [Set selected repositories for an organization secret](https://docs.github.com/rest/reference/actions#set-selected-repositories-for-an-organization-secret) and [Remove selected repository from an organization secret](https://docs.github.com/rest/reference/actions#remove-selected-repository-from-an-organization-secret) endpoints. */
+        selected_repository_ids?: number[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, any>({
         path: `/orgs/${org}/actions/secrets/${secretName}/repositories`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -12197,8 +12788,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     orgsGetAuditLog: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** A search phrase. For more information, see [Searching the audit log](https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/reviewing-the-audit-log-for-your-organization#searching-the-audit-log). */
         phrase?: string;
         /**
@@ -12227,6 +12817,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         per_page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<AuditLogEvent[], any>({
         path: `/orgs/${org}/audit-log`,
@@ -12344,8 +12935,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     activityListPublicOrgEvents: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -12357,6 +12947,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Event[], any>({
         path: `/orgs/${org}/events`,
@@ -12376,8 +12967,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     orgsListFailedInvitations: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -12389,6 +12979,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<OrganizationInvitation[], BasicError>({
         path: `/orgs/${org}/failed_invitations`,
@@ -12408,8 +12999,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     orgsListWebhooks: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -12421,6 +13011,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<OrgHook[], BasicError>({
         path: `/orgs/${org}/hooks`,
@@ -12438,10 +13029,44 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create an organization webhook
      * @request POST:/orgs/{org}/hooks
      */
-    orgsCreateWebhook: (org: string, params: RequestParams = {}) =>
+    orgsCreateWebhook: (
+      org: string,
+      data: {
+        /** Must be passed as "web". */
+        name: string;
+        /** Key/value pairs to provide settings for this webhook. [These are defined below](https://docs.github.com/rest/reference/orgs#create-hook-config-params). */
+        config: {
+          /** The URL to which the payloads will be delivered. */
+          url: WebhookConfigUrl;
+          /** The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`. */
+          content_type?: WebhookConfigContentType;
+          /** If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers). */
+          secret?: WebhookConfigSecret;
+          /** Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.** */
+          insecure_ssl?: WebhookConfigInsecureSsl;
+          /** @example ""kdaigle"" */
+          username?: string;
+          /** @example ""password"" */
+          password?: string;
+        };
+        /**
+         * Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for.
+         * @default ["push"]
+         */
+        events?: string[];
+        /**
+         * Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.
+         * @default true
+         */
+        active?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<OrgHook, BasicError | ValidationError>({
         path: `/orgs/${org}/hooks`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -12470,10 +13095,41 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update an organization webhook
      * @request PATCH:/orgs/{org}/hooks/{hook_id}
      */
-    orgsUpdateWebhook: (org: string, hookId: number, params: RequestParams = {}) =>
+    orgsUpdateWebhook: (
+      org: string,
+      hookId: number,
+      data: {
+        /** Key/value pairs to provide settings for this webhook. [These are defined below](https://docs.github.com/rest/reference/orgs#update-hook-config-params). */
+        config?: {
+          /** The URL to which the payloads will be delivered. */
+          url: WebhookConfigUrl;
+          /** The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`. */
+          content_type?: WebhookConfigContentType;
+          /** If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers). */
+          secret?: WebhookConfigSecret;
+          /** Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.** */
+          insecure_ssl?: WebhookConfigInsecureSsl;
+        };
+        /**
+         * Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for.
+         * @default ["push"]
+         */
+        events?: string[];
+        /**
+         * Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.
+         * @default true
+         */
+        active?: boolean;
+        /** @example ""web"" */
+        name?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<OrgHook, BasicError | ValidationError>({
         path: `/orgs/${org}/hooks/${hookId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -12517,10 +13173,26 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a webhook configuration for an organization
      * @request PATCH:/orgs/{org}/hooks/{hook_id}/config
      */
-    orgsUpdateWebhookConfigForOrg: (org: string, hookId: number, params: RequestParams = {}) =>
+    orgsUpdateWebhookConfigForOrg: (
+      org: string,
+      hookId: number,
+      data: {
+        /** The URL to which the payloads will be delivered. */
+        url?: WebhookConfigUrl;
+        /** The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`. */
+        content_type?: WebhookConfigContentType;
+        /** If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers). */
+        secret?: WebhookConfigSecret;
+        /** Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.** */
+        insecure_ssl?: WebhookConfigInsecureSsl;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<WebhookConfig, any>({
         path: `/orgs/${org}/hooks/${hookId}/config`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -12566,8 +13238,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     orgsListAppInstallations: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -12579,6 +13250,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -12618,10 +13290,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set interaction restrictions for an organization
      * @request PUT:/orgs/{org}/interaction-limits
      */
-    interactionsSetRestrictionsForOrg: (org: string, params: RequestParams = {}) =>
+    interactionsSetRestrictionsForOrg: (org: string, data: InteractionLimit, params: RequestParams = {}) =>
       this.request<InteractionLimitResponse, ValidationError>({
         path: `/orgs/${org}/interaction-limits`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -12651,8 +13325,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     orgsListPendingInvitations: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -12664,6 +13337,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<OrganizationInvitation[], BasicError>({
         path: `/orgs/${org}/invitations`,
@@ -12681,10 +13355,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create an organization invitation
      * @request POST:/orgs/{org}/invitations
      */
-    orgsCreateInvitation: (org: string, params: RequestParams = {}) =>
+    orgsCreateInvitation: (
+      org: string,
+      data: {
+        /** **Required unless you provide `email`**. GitHub user ID for the person you are inviting. */
+        invitee_id?: number;
+        /** **Required unless you provide `invitee_id`**. Email address of the person you are inviting, which can be an existing GitHub user. */
+        email?: string;
+        /**
+         * Specify role for new member. Can be one of:
+         * \* `admin` - Organization owners with full administrative rights to the organization and complete access to all repositories and teams.
+         * \* `direct_member` - Non-owner organization members with ability to see other members and join teams by invitation.
+         * \* `billing_manager` - Non-owner organization members with ability to manage the billing settings of your organization.
+         * @default "direct_member"
+         */
+        role?: "admin" | "direct_member" | "billing_manager";
+        /** Specify IDs for the teams you want to invite new members to. */
+        team_ids?: number[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<OrganizationInvitation, BasicError | ValidationError>({
         path: `/orgs/${org}/invitations`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -12715,8 +13410,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     orgsListInvitationTeams: (
       org: string,
       invitationId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -12728,6 +13422,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Team[], BasicError>({
         path: `/orgs/${org}/invitations/${invitationId}/teams`,
@@ -12747,8 +13442,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     issuesListForOrg: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Indicates which sorts of issues to return. Can be one of:
          * \* `assigned`: Issues assigned to you
@@ -12789,6 +13483,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Issue[], BasicError>({
         path: `/orgs/${org}/issues`,
@@ -12808,8 +13503,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     orgsListMembers: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Filter members returned in the list. Can be one of:
          * \* `2fa_disabled` - Members without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled. Available for organization owners.
@@ -12836,6 +13530,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<SimpleUser[], void | ValidationError>({
         path: `/orgs/${org}/members`,
@@ -12899,10 +13594,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set organization membership for a user
      * @request PUT:/orgs/{org}/memberships/{username}
      */
-    orgsSetMembershipForUser: (org: string, username: string, params: RequestParams = {}) =>
+    orgsSetMembershipForUser: (
+      org: string,
+      username: string,
+      data: {
+        /**
+         * The role to give the user in the organization. Can be one of:
+         * \* `admin` - The user will become an owner of the organization.
+         * \* `member` - The user will become a non-owner member of the organization.
+         * @default "member"
+         */
+        role?: "admin" | "member";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<OrgMembership, BasicError | ValidationError>({
         path: `/orgs/${org}/memberships/${username}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -12932,8 +13642,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     migrationsListForOrg: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -12945,6 +13654,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Migration[], any>({
         path: `/orgs/${org}/migrations`,
@@ -12962,10 +13672,30 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Start an organization migration
      * @request POST:/orgs/{org}/migrations
      */
-    migrationsStartForOrg: (org: string, params: RequestParams = {}) =>
+    migrationsStartForOrg: (
+      org: string,
+      data: {
+        /** A list of arrays indicating which repositories should be migrated. */
+        repositories: string[];
+        /**
+         * Indicates whether repositories should be locked (to prevent manipulation) while migrating data.
+         * @default false
+         */
+        lock_repositories?: boolean;
+        /**
+         * Indicates whether attachments should be excluded from the migration (to reduce migration archive file size).
+         * @default false
+         */
+        exclude_attachments?: boolean;
+        exclude?: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Migration, BasicError | ValidationError>({
         path: `/orgs/${org}/migrations`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -13042,8 +13772,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     migrationsListReposForOrg: (
       org: string,
       migrationId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -13055,6 +13784,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<MinimalRepository[], BasicError>({
         path: `/orgs/${org}/migrations/${migrationId}/repositories`,
@@ -13074,8 +13804,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     orgsListOutsideCollaborators: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Filter the list of outside collaborators. Can be one of:
          * \* `2fa_disabled`: Outside collaborators without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled.
@@ -13094,6 +13823,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<SimpleUser[], any>({
         path: `/orgs/${org}/outside_collaborators`,
@@ -13156,8 +13886,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     projectsListForOrg: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Indicates the state of the projects to return. Can be either `open`, `closed`, or `all`.
          * @default "open"
@@ -13174,6 +13903,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Project[], ValidationErrorSimple>({
         path: `/orgs/${org}/projects`,
@@ -13191,10 +13921,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create an organization project
      * @request POST:/orgs/{org}/projects
      */
-    projectsCreateForOrg: (org: string, params: RequestParams = {}) =>
+    projectsCreateForOrg: (
+      org: string,
+      data: {
+        /** The name of the project. */
+        name: string;
+        /** The description of the project. */
+        body?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Project, BasicError | ValidationErrorSimple>({
         path: `/orgs/${org}/projects`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -13209,8 +13950,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     orgsListPublicMembers: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -13222,6 +13962,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<SimpleUser[], any>({
         path: `/orgs/${org}/public_members`,
@@ -13286,8 +14027,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reposListForOrg: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Specifies the types of repositories you want returned. Can be one of `all`, `public`, `private`, `forks`, `sources`, `member`, `internal`. Default: `all`. If your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, `type` can also be `internal`. */
         type?: "all" | "public" | "private" | "forks" | "sources" | "member" | "internal";
         /**
@@ -13308,6 +14048,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<MinimalRepository[], any>({
         path: `/orgs/${org}/repos`,
@@ -13325,10 +14066,84 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create an organization repository
      * @request POST:/orgs/{org}/repos
      */
-    reposCreateInOrg: (org: string, params: RequestParams = {}) =>
+    reposCreateInOrg: (
+      org: string,
+      data: {
+        /** The name of the repository. */
+        name: string;
+        /** A short description of the repository. */
+        description?: string;
+        /** A URL with more information about the repository. */
+        homepage?: string;
+        /**
+         * Either `true` to create a private repository or `false` to create a public one.
+         * @default false
+         */
+        private?: boolean;
+        /**
+         * Can be `public` or `private`. If your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, `visibility` can also be `internal`. For more information, see "[Creating an internal repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-repository-visibility#about-internal-repositories)" in the GitHub Help documentation.
+         * The `visibility` parameter overrides the `private` parameter when you use both parameters with the `nebula-preview` preview header.
+         */
+        visibility?: "public" | "private" | "visibility" | "internal";
+        /**
+         * Either `true` to enable issues for this repository or `false` to disable them.
+         * @default true
+         */
+        has_issues?: boolean;
+        /**
+         * Either `true` to enable projects for this repository or `false` to disable them. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error.
+         * @default true
+         */
+        has_projects?: boolean;
+        /**
+         * Either `true` to enable the wiki for this repository or `false` to disable it.
+         * @default true
+         */
+        has_wiki?: boolean;
+        /**
+         * Either `true` to make this repo available as a template repository or `false` to prevent it.
+         * @default false
+         */
+        is_template?: boolean;
+        /** The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization. */
+        team_id?: number;
+        /**
+         * Pass `true` to create an initial commit with empty README.
+         * @default false
+         */
+        auto_init?: boolean;
+        /** Desired language or platform [.gitignore template](https://github.com/github/gitignore) to apply. Use the name of the template without the extension. For example, "Haskell". */
+        gitignore_template?: string;
+        /** Choose an [open source license template](https://choosealicense.com/) that best suits your needs, and then use the [license keyword](https://help.github.com/articles/licensing-a-repository/#searching-github-by-license-type) as the `license_template` string. For example, "mit" or "mpl-2.0". */
+        license_template?: string;
+        /**
+         * Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.
+         * @default true
+         */
+        allow_squash_merge?: boolean;
+        /**
+         * Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits.
+         * @default true
+         */
+        allow_merge_commit?: boolean;
+        /**
+         * Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.
+         * @default true
+         */
+        allow_rebase_merge?: boolean;
+        /**
+         * Either `true` to allow automatically deleting head branches when pull requests are merged, or `false` to prevent automatic deletion.
+         * @default false
+         */
+        delete_branch_on_merge?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Repository, BasicError | ValidationError>({
         path: `/orgs/${org}/repos`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -13391,8 +14206,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsListIdpGroupsForOrg: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -13404,6 +14218,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<GroupMapping, any>({
         path: `/orgs/${org}/team-sync/groups`,
@@ -13423,8 +14238,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsList: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -13436,6 +14250,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Team[], BasicError>({
         path: `/orgs/${org}/teams`,
@@ -13453,10 +14268,46 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a team
      * @request POST:/orgs/{org}/teams
      */
-    teamsCreate: (org: string, params: RequestParams = {}) =>
+    teamsCreate: (
+      org: string,
+      data: {
+        /** The name of the team. */
+        name: string;
+        /** The description of the team. */
+        description?: string;
+        /** List GitHub IDs for organization members who will become team maintainers. */
+        maintainers?: string[];
+        /** The full name (e.g., "organization-name/repository-name") of repositories to add the team to. */
+        repo_names?: string[];
+        /**
+         * The level of privacy this team should have. The options are:
+         * **For a non-nested team:**
+         * \* `secret` - only visible to organization owners and members of this team.
+         * \* `closed` - visible to all members of this organization.
+         * Default: `secret`
+         * **For a parent or child team:**
+         * \* `closed` - visible to all members of this organization.
+         * Default for child team: `closed`
+         */
+        privacy?: "secret" | "closed";
+        /**
+         * **Deprecated**. The permission that new repositories will be added to the team with when none is specified. Can be one of:
+         * \* `pull` - team members can pull, but not push to or administer newly-added repositories.
+         * \* `push` - team members can pull and push, but not administer newly-added repositories.
+         * \* `admin` - team members can pull, push and administer newly-added repositories.
+         * @default "pull"
+         */
+        permission?: "pull" | "push" | "admin";
+        /** The ID of a team to set as the parent team. */
+        parent_team_id?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<TeamFull, BasicError | ValidationError>({
         path: `/orgs/${org}/teams`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -13485,10 +14336,41 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a team
      * @request PATCH:/orgs/{org}/teams/{team_slug}
      */
-    teamsUpdateInOrg: (org: string, teamSlug: string, params: RequestParams = {}) =>
+    teamsUpdateInOrg: (
+      org: string,
+      teamSlug: string,
+      data: {
+        /** The name of the team. */
+        name: string;
+        /** The description of the team. */
+        description?: string;
+        /**
+         * The level of privacy this team should have. Editing teams without specifying this parameter leaves `privacy` intact. When a team is nested, the `privacy` for parent teams cannot be `secret`. The options are:
+         * **For a non-nested team:**
+         * \* `secret` - only visible to organization owners and members of this team.
+         * \* `closed` - visible to all members of this organization.
+         * **For a parent or child team:**
+         * \* `closed` - visible to all members of this organization.
+         */
+        privacy?: "secret" | "closed";
+        /**
+         * **Deprecated**. The permission that new repositories will be added to the team with when none is specified. Can be one of:
+         * \* `pull` - team members can pull, but not push to or administer newly-added repositories.
+         * \* `push` - team members can pull and push, but not administer newly-added repositories.
+         * \* `admin` - team members can pull, push and administer newly-added repositories.
+         * @default "pull"
+         */
+        permission?: "pull" | "push" | "admin";
+        /** The ID of a team to set as the parent team. */
+        parent_team_id?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<TeamFull, any>({
         path: `/orgs/${org}/teams/${teamSlug}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -13519,8 +14401,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     teamsListDiscussionsInOrg: (
       org: string,
       teamSlug: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * One of `asc` (ascending) or `desc` (descending).
          * @default "desc"
@@ -13537,6 +14418,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<TeamDiscussion[], any>({
         path: `/orgs/${org}/teams/${teamSlug}/discussions`,
@@ -13554,10 +14436,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a discussion
      * @request POST:/orgs/{org}/teams/{team_slug}/discussions
      */
-    teamsCreateDiscussionInOrg: (org: string, teamSlug: string, params: RequestParams = {}) =>
+    teamsCreateDiscussionInOrg: (
+      org: string,
+      teamSlug: string,
+      data: {
+        /** The discussion post's title. */
+        title: string;
+        /** The discussion post's body text. */
+        body: string;
+        /**
+         * Private posts are only visible to team members, organization owners, and team maintainers. Public posts are visible to all members of the organization. Set to `true` to create a private post.
+         * @default false
+         */
+        private?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<TeamDiscussion, any>({
         path: `/orgs/${org}/teams/${teamSlug}/discussions`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -13586,10 +14485,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a discussion
      * @request PATCH:/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}
      */
-    teamsUpdateDiscussionInOrg: (org: string, teamSlug: string, discussionNumber: number, params: RequestParams = {}) =>
+    teamsUpdateDiscussionInOrg: (
+      org: string,
+      teamSlug: string,
+      discussionNumber: number,
+      data: {
+        /** The discussion post's title. */
+        title?: string;
+        /** The discussion post's body text. */
+        body?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<TeamDiscussion, any>({
         path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -13621,8 +14533,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       org: string,
       teamSlug: string,
       discussionNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * One of `asc` (ascending) or `desc` (descending).
          * @default "desc"
@@ -13639,6 +14550,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<TeamDiscussionComment[], any>({
         path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/comments`,
@@ -13660,11 +14572,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       org: string,
       teamSlug: string,
       discussionNumber: number,
+      data: {
+        /** The discussion comment's body text. */
+        body: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussionComment, any>({
         path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/comments`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -13704,11 +14622,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       teamSlug: string,
       discussionNumber: number,
       commentNumber: number,
+      data: {
+        /** The discussion comment's body text. */
+        body: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussionComment, any>({
         path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/comments/${commentNumber}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -13747,8 +14671,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       teamSlug: string,
       discussionNumber: number,
       commentNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a team discussion comment. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         /**
@@ -13762,6 +14685,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Reaction[], any>({
         path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/comments/${commentNumber}/reactions`,
@@ -13784,11 +14708,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       teamSlug: string,
       discussionNumber: number,
       commentNumber: number,
+      data: {
+        /** The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the team discussion comment. */
+        content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
+      },
       params: RequestParams = {},
     ) =>
       this.request<Reaction, any>({
         path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/comments/${commentNumber}/reactions`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -13827,8 +14757,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       org: string,
       teamSlug: string,
       discussionNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a team discussion. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         /**
@@ -13842,6 +14771,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Reaction[], any>({
         path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/reactions`,
@@ -13863,11 +14793,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       org: string,
       teamSlug: string,
       discussionNumber: number,
+      data: {
+        /** The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the team discussion. */
+        content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
+      },
       params: RequestParams = {},
     ) =>
       this.request<Reaction, any>({
         path: `/orgs/${org}/teams/${teamSlug}/discussions/${discussionNumber}/reactions`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -13904,8 +14840,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     teamsListPendingInvitationsInOrg: (
       org: string,
       teamSlug: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -13917,6 +14852,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<OrganizationInvitation[], any>({
         path: `/orgs/${org}/teams/${teamSlug}/invitations`,
@@ -13937,8 +14873,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     teamsListMembersInOrg: (
       org: string,
       teamSlug: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Filters members returned by their role in the team. Can be one of:
          * \* `member` - normal members of the team.
@@ -13958,6 +14893,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<SimpleUser[], any>({
         path: `/orgs/${org}/teams/${teamSlug}/members`,
@@ -13995,6 +14931,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       org: string,
       teamSlug: string,
       username: string,
+      data: {
+        /**
+         * The role that this user should have in the team. Can be one of:
+         * \* `member` - a normal member of the team.
+         * \* `maintainer` - a team maintainer. Able to add/remove other team members, promote other team members to team maintainer, and edit the team's name and description.
+         * @default "member"
+         */
+        role?: "member" | "maintainer";
+      },
       params: RequestParams = {},
     ) =>
       this.request<
@@ -14010,6 +14955,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/orgs/${org}/teams/${teamSlug}/memberships/${username}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -14040,8 +14987,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     teamsListProjectsInOrg: (
       org: string,
       teamSlug: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -14053,6 +14999,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<TeamProject[], any>({
         path: `/orgs/${org}/teams/${teamSlug}/projects`,
@@ -14095,6 +15042,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       org: string,
       teamSlug: string,
       projectId: number,
+      data: {
+        /**
+         * The permission to grant to the team for this project. Can be one of:
+         * \* `read` - team members can read, but not write to or administer this project.
+         * \* `write` - team members can read and write, but not administer this project.
+         * \* `admin` - team members can read, write and administer this project.
+         * Default: the team's `permission` attribute will be used to determine what permission to grant the team on this project. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
+         */
+        permission?: "read" | "write" | "admin";
+      },
       params: RequestParams = {},
     ) =>
       this.request<
@@ -14106,6 +15063,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/orgs/${org}/teams/${teamSlug}/projects/${projectId}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -14135,8 +15094,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     teamsListReposInOrg: (
       org: string,
       teamSlug: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -14148,6 +15106,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<MinimalRepository[], any>({
         path: `/orgs/${org}/teams/${teamSlug}/repos`,
@@ -14192,11 +15151,26 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       teamSlug: string,
       owner: string,
       repo: string,
+      data: {
+        /**
+         * The permission to grant the team on this repository. Can be one of:
+         * \* `pull` - team members can pull, but not push to or administer this repository.
+         * \* `push` - team members can pull and push, but not administer this repository.
+         * \* `admin` - team members can pull, push and administer this repository.
+         * \* `maintain` - team members can manage the repository without access to sensitive or destructive actions. Recommended for project managers. Only applies to repositories owned by organizations.
+         * \* `triage` - team members can proactively manage issues and pull requests without write access. Recommended for contributors who triage a repository. Only applies to repositories owned by organizations.
+         *
+         * If no permission is specified, the team's `permission` attribute will be used to determine what permission to grant the team on this repository.
+         */
+        permission?: "pull" | "push" | "admin" | "maintain" | "triage";
+      },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
         path: `/orgs/${org}/teams/${teamSlug}/repos/${owner}/${repo}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -14239,10 +15213,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create or update IdP group connections
      * @request PATCH:/orgs/{org}/teams/{team_slug}/team-sync/group-mappings
      */
-    teamsCreateOrUpdateIdpGroupConnectionsInOrg: (org: string, teamSlug: string, params: RequestParams = {}) =>
+    teamsCreateOrUpdateIdpGroupConnectionsInOrg: (
+      org: string,
+      teamSlug: string,
+      data: {
+        /** The IdP groups you want to connect to a GitHub team. When updating, the new `groups` object will replace the original one. You must include any existing groups that you don't want to remove. */
+        groups: {
+          /** ID of the IdP group. */
+          group_id: string;
+          /** Name of the IdP group. */
+          group_name: string;
+          /** Description of the IdP group. */
+          group_description: string;
+        }[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<GroupMapping, any>({
         path: `/orgs/${org}/teams/${teamSlug}/team-sync/group-mappings`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -14258,8 +15249,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     teamsListChildInOrg: (
       org: string,
       teamSlug: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -14271,6 +15261,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Team[], any>({
         path: `/orgs/${org}/teams/${teamSlug}/teams`,
@@ -14305,10 +15296,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update an existing project card
      * @request PATCH:/projects/columns/cards/{card_id}
      */
-    projectsUpdateCard: (cardId: number, params: RequestParams = {}) =>
+    projectsUpdateCard: (
+      cardId: number,
+      data: {
+        /**
+         * The project card's note
+         * @example "Update all gems"
+         */
+        note?: string | null;
+        /**
+         * Whether or not the card is archived
+         * @example false
+         */
+        archived?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ProjectCard, BasicError | ValidationErrorSimple>({
         path: `/projects/columns/cards/${cardId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -14344,7 +15352,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Move a project card
      * @request POST:/projects/columns/cards/{card_id}/moves
      */
-    projectsMoveCard: (cardId: number, params: RequestParams = {}) =>
+    projectsMoveCard: (
+      cardId: number,
+      data: {
+        /**
+         * The position of the card in a column
+         * @pattern ^(?:top|bottom|after:\d+)$
+         * @example "bottom"
+         */
+        position: string;
+        /**
+         * The unique identifier of the column the card should be moved to
+         * @example 42
+         */
+        column_id?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         object,
         | BasicError
@@ -14371,6 +15395,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/projects/columns/cards/${cardId}/moves`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -14399,10 +15425,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update an existing project column
      * @request PATCH:/projects/columns/{column_id}
      */
-    projectsUpdateColumn: (columnId: number, params: RequestParams = {}) =>
+    projectsUpdateColumn: (
+      columnId: number,
+      data: {
+        /**
+         * Name of the project column
+         * @example "Remaining tasks"
+         */
+        name: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ProjectColumn, BasicError>({
         path: `/projects/columns/${columnId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -14432,8 +15470,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     projectsListCards: (
       columnId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Filters the project cards that are returned by the card's state. Can be one of `all`,`archived`, or `not_archived`.
          * @default "not_archived"
@@ -14450,6 +15487,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<ProjectCard[], BasicError>({
         path: `/projects/columns/${columnId}/cards`,
@@ -14467,7 +15505,30 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a project card
      * @request POST:/projects/columns/{column_id}/cards
      */
-    projectsCreateCard: (columnId: number, params: RequestParams = {}) =>
+    projectsCreateCard: (
+      columnId: number,
+      data:
+        | {
+            /**
+             * The project card's note
+             * @example "Update all gems"
+             */
+            note: string | null;
+          }
+        | {
+            /**
+             * The unique identifier of the content associated with the card
+             * @example 42
+             */
+            content_id: number;
+            /**
+             * The piece of content associated with the card
+             * @example "PullRequest"
+             */
+            content_type: string;
+          },
+      params: RequestParams = {},
+    ) =>
       this.request<
         ProjectCard,
         | BasicError
@@ -14484,6 +15545,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/projects/columns/${columnId}/cards`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -14496,10 +15559,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Move a project column
      * @request POST:/projects/columns/{column_id}/moves
      */
-    projectsMoveColumn: (columnId: number, params: RequestParams = {}) =>
+    projectsMoveColumn: (
+      columnId: number,
+      data: {
+        /**
+         * The position of the column in a project
+         * @pattern ^(?:first|last|after:\d+)$
+         * @example "last"
+         */
+        position: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<object, BasicError | ValidationErrorSimple>({
         path: `/projects/columns/${columnId}/moves`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -14528,7 +15604,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a project
      * @request PATCH:/projects/{project_id}
      */
-    projectsUpdate: (projectId: number, params: RequestParams = {}) =>
+    projectsUpdate: (
+      projectId: number,
+      data: {
+        /**
+         * Name of the project
+         * @example "Week One Sprint"
+         */
+        name?: string;
+        /**
+         * Body of the project
+         * @example "This project represents the sprint of the first week in January"
+         */
+        body?: string | null;
+        /**
+         * State of the project; either 'open' or 'closed'
+         * @example "open"
+         */
+        state?: string;
+        /** The baseline permission that all organization members have on this project */
+        organization_permission?: "read" | "write" | "admin" | "none";
+        /** Whether or not this project can be seen by everyone. */
+        private?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         Project,
         | BasicError
@@ -14542,6 +15642,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/projects/${projectId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -14579,8 +15681,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     projectsListCollaborators: (
       projectId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Filters the collaborators by their affiliation. Can be one of:
          * \* `outside`: Outside collaborators of a project that are not a member of the project's organization.
@@ -14600,6 +15701,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         SimpleUser[],
@@ -14625,7 +15727,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Add project collaborator
      * @request PUT:/projects/{project_id}/collaborators/{username}
      */
-    projectsAddCollaborator: (projectId: number, username: string, params: RequestParams = {}) =>
+    projectsAddCollaborator: (
+      projectId: number,
+      username: string,
+      data: {
+        /**
+         * The permission to grant the collaborator.
+         * @default "write"
+         * @example "write"
+         */
+        permission?: "read" | "write" | "admin";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         void,
         | BasicError
@@ -14637,6 +15751,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/projects/${projectId}/collaborators/${username}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -14697,8 +15813,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     projectsListColumns: (
       projectId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -14710,6 +15825,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<ProjectColumn[], BasicError>({
         path: `/projects/${projectId}/columns`,
@@ -14727,10 +15843,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a project column
      * @request POST:/projects/{project_id}/columns
      */
-    projectsCreateColumn: (projectId: number, params: RequestParams = {}) =>
+    projectsCreateColumn: (
+      projectId: number,
+      data: {
+        /**
+         * Name of the project column
+         * @example "Remaining tasks"
+         */
+        name: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ProjectColumn, BasicError | ValidationErrorSimple>({
         path: `/projects/${projectId}/columns`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -14801,10 +15929,79 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a repository
      * @request PATCH:/repos/{owner}/{repo}
      */
-    reposUpdate: (owner: string, repo: string, params: RequestParams = {}) =>
+    reposUpdate: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The name of the repository. */
+        name?: string;
+        /** A short description of the repository. */
+        description?: string;
+        /** A URL with more information about the repository. */
+        homepage?: string;
+        /**
+         * Either `true` to make the repository private or `false` to make it public. Default: `false`.
+         * **Note**: You will get a `422` error if the organization restricts [changing repository visibility](https://help.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private. **Note**: You will get a `422` error if the organization restricts [changing repository visibility](https://help.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private.
+         * @default false
+         */
+        private?: boolean;
+        /** Can be `public` or `private`. If your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, `visibility` can also be `internal`. The `visibility` parameter overrides the `private` parameter when you use both along with the `nebula-preview` preview header. */
+        visibility?: "public" | "private" | "visibility" | "internal";
+        /**
+         * Either `true` to enable issues for this repository or `false` to disable them.
+         * @default true
+         */
+        has_issues?: boolean;
+        /**
+         * Either `true` to enable projects for this repository or `false` to disable them. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error.
+         * @default true
+         */
+        has_projects?: boolean;
+        /**
+         * Either `true` to enable the wiki for this repository or `false` to disable it.
+         * @default true
+         */
+        has_wiki?: boolean;
+        /**
+         * Either `true` to make this repo available as a template repository or `false` to prevent it.
+         * @default false
+         */
+        is_template?: boolean;
+        /** Updates the default branch for this repository. */
+        default_branch?: string;
+        /**
+         * Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.
+         * @default true
+         */
+        allow_squash_merge?: boolean;
+        /**
+         * Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits.
+         * @default true
+         */
+        allow_merge_commit?: boolean;
+        /**
+         * Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.
+         * @default true
+         */
+        allow_rebase_merge?: boolean;
+        /**
+         * Either `true` to allow automatically deleting head branches when pull requests are merged, or `false` to prevent automatic deletion.
+         * @default false
+         */
+        delete_branch_on_merge?: boolean;
+        /**
+         * `true` to archive this repository. **Note**: You cannot unarchive repositories through the API.
+         * @default false
+         */
+        archived?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<FullRepository, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -14842,8 +16039,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsListArtifactsForRepo: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -14855,6 +16051,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -14977,10 +16174,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set GitHub Actions permissions for a repository
      * @request PUT:/repos/{owner}/{repo}/actions/permissions
      */
-    actionsSetGithubActionsPermissionsRepository: (owner: string, repo: string, params: RequestParams = {}) =>
+    actionsSetGithubActionsPermissionsRepository: (
+      owner: string,
+      repo: string,
+      data: {
+        /** Whether GitHub Actions is enabled on the repository. */
+        enabled: ActionsEnabled;
+        /** The permissions policy that controls the actions that are allowed to run. Can be one of: `all`, `local_only`, or `selected`. */
+        allowed_actions?: AllowedActions;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, any>({
         path: `/repos/${owner}/${repo}/actions/permissions`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -15008,10 +16217,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set allowed actions for a repository
      * @request PUT:/repos/{owner}/{repo}/actions/permissions/selected-actions
      */
-    actionsSetAllowedActionsRepository: (owner: string, repo: string, params: RequestParams = {}) =>
+    actionsSetAllowedActionsRepository: (
+      owner: string,
+      repo: string,
+      data: SelectedActions,
+      params: RequestParams = {},
+    ) =>
       this.request<void, any>({
         path: `/repos/${owner}/${repo}/actions/permissions/selected-actions`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -15026,8 +16242,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsListSelfHostedRunnersForRepo: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -15039,6 +16254,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -15149,8 +16365,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsListWorkflowRunsForRepo: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Returns someone's workflow runs. Use the login for the user who created the `push` associated with the check suite or workflow run. */
         actor?: string;
         /** Returns workflow runs associated with a branch. Use the name of the branch of the `push`. */
@@ -15170,6 +16385,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -15228,8 +16444,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       runId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -15241,6 +16456,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -15283,8 +16499,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       runId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Filters jobs by their `completed_at` timestamp. Can be one of:
          * \* `latest`: Returns jobs from the most recent execution of the workflow run.
@@ -15303,6 +16518,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -15390,8 +16606,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsListRepoSecrets: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -15403,6 +16618,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -15458,10 +16674,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create or update a repository secret
      * @request PUT:/repos/{owner}/{repo}/actions/secrets/{secret_name}
      */
-    actionsCreateOrUpdateRepoSecret: (owner: string, repo: string, secretName: string, params: RequestParams = {}) =>
+    actionsCreateOrUpdateRepoSecret: (
+      owner: string,
+      repo: string,
+      secretName: string,
+      data: {
+        /** Value for your secret, encrypted with [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages) using the public key retrieved from the [Get a repository public key](https://docs.github.com/rest/reference/actions#get-a-repository-public-key) endpoint. */
+        encrypted_value?: string;
+        /** ID of the key you used to encrypt the secret. */
+        key_id?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, any>({
         path: `/repos/${owner}/${repo}/actions/secrets/${secretName}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -15491,8 +16720,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     actionsListRepoWorkflows: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -15504,6 +16732,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -15562,11 +16791,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       workflowId: number | string,
+      data: {
+        /** The git reference for the workflow. The reference can be a branch or tag name. */
+        ref: string;
+        /** Input keys and values configured in the workflow file. The maximum number of properties is 10. Any default properties configured in the workflow file will be used when `inputs` are omitted. */
+        inputs?: Record<string, string>;
+      },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
         path: `/repos/${owner}/${repo}/actions/workflows/${workflowId}/dispatches`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -15597,8 +16834,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       workflowId: number | string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Returns someone's workflow runs. Use the login for the user who created the `push` associated with the check suite or workflow run. */
         actor?: string;
         /** Returns workflow runs associated with a branch. Use the name of the branch of the `push`. */
@@ -15618,6 +16854,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -15660,8 +16897,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesListAssignees: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -15673,6 +16909,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<SimpleUser[], BasicError>({
         path: `/repos/${owner}/${repo}/assignees`,
@@ -15738,8 +16975,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListBranches: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Setting to `true` returns only protected branches. When set to `false`, only unprotected branches are returned. Omitting this parameter returns all branches. */
         protected?: boolean;
         /**
@@ -15753,6 +16989,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<ShortBranch[], BasicError>({
         path: `/repos/${owner}/${repo}/branches`,
@@ -15809,7 +17046,54 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update branch protection
      * @request PUT:/repos/{owner}/{repo}/branches/{branch}/protection
      */
-    reposUpdateBranchProtection: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    reposUpdateBranchProtection: (
+      owner: string,
+      repo: string,
+      branch: string,
+      data: {
+        /** Require status checks to pass before merging. Set to `null` to disable. */
+        required_status_checks: {
+          /** Require branches to be up to date before merging. */
+          strict: boolean;
+          /** The list of status checks to require in order to merge into this branch */
+          contexts: string[];
+        } | null;
+        /** Enforce all configured restrictions for administrators. Set to `true` to enforce required status checks for repository administrators. Set to `null` to disable. */
+        enforce_admins: boolean | null;
+        /** Require at least one approving review on a pull request, before merging. Set to `null` to disable. */
+        required_pull_request_reviews: {
+          /** Specify which users and teams can dismiss pull request reviews. Pass an empty `dismissal_restrictions` object to disable. User and team `dismissal_restrictions` are only available for organization-owned repositories. Omit this parameter for personal repositories. */
+          dismissal_restrictions?: {
+            /** The list of user `login`s with dismissal access */
+            users?: string[];
+            /** The list of team `slug`s with dismissal access */
+            teams?: string[];
+          };
+          /** Set to `true` if you want to automatically dismiss approving reviews when someone pushes a new commit. */
+          dismiss_stale_reviews?: boolean;
+          /** Blocks merging pull requests until [code owners](https://help.github.com/articles/about-code-owners/) review them. */
+          require_code_owner_reviews?: boolean;
+          /** Specify the number of reviewers required to approve pull requests. Use a number between 1 and 6. */
+          required_approving_review_count?: number;
+        } | null;
+        /** Restrict who can push to the protected branch. User, app, and team `restrictions` are only available for organization-owned repositories. Set to `null` to disable. */
+        restrictions: {
+          /** The list of user `login`s with push access */
+          users: string[];
+          /** The list of team `slug`s with push access */
+          teams: string[];
+          /** The list of app `slug`s with push access */
+          apps?: string[];
+        } | null;
+        /** Enforces a linear commit Git history, which prevents anyone from pushing merge commits to a branch. Set to `true` to enforce a linear commit history. Set to `false` to disable a linear commit Git history. Your repository must allow squash merging or rebase merging before you can enable a linear commit history. Default: `false`. For more information, see "[Requiring a linear commit history](https://help.github.com/github/administering-a-repository/requiring-a-linear-commit-history)" in the GitHub Help documentation. */
+        required_linear_history?: boolean;
+        /** Permits force pushes to the protected branch by anyone with write access to the repository. Set to `true` to allow force pushes. Set to `false` or `null` to block force pushes. Default: `false`. For more information, see "[Enabling force pushes to a protected branch](https://help.github.com/en/github/administering-a-repository/enabling-force-pushes-to-a-protected-branch)" in the GitHub Help documentation." */
+        allow_force_pushes?: boolean | null;
+        /** Allows deletion of the protected branch by anyone with write access to the repository. Set to `false` to prevent deletion of the protected branch. Default: `false`. For more information, see "[Enabling force pushes to a protected branch](https://help.github.com/en/github/administering-a-repository/enabling-force-pushes-to-a-protected-branch)" in the GitHub Help documentation. */
+        allow_deletions?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         ProtectedBranch,
         | BasicError
@@ -15821,6 +17105,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/repos/${owner}/${repo}/branches/${branch}/protection`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -15911,10 +17197,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update pull request review protection
      * @request PATCH:/repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews
      */
-    reposUpdatePullRequestReviewProtection: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    reposUpdatePullRequestReviewProtection: (
+      owner: string,
+      repo: string,
+      branch: string,
+      data: {
+        /** Specify which users and teams can dismiss pull request reviews. Pass an empty `dismissal_restrictions` object to disable. User and team `dismissal_restrictions` are only available for organization-owned repositories. Omit this parameter for personal repositories. */
+        dismissal_restrictions?: {
+          /** The list of user `login`s with dismissal access */
+          users?: string[];
+          /** The list of team `slug`s with dismissal access */
+          teams?: string[];
+        };
+        /** Set to `true` if you want to automatically dismiss approving reviews when someone pushes a new commit. */
+        dismiss_stale_reviews?: boolean;
+        /** Blocks merging pull requests until [code owners](https://help.github.com/articles/about-code-owners/) have reviewed. */
+        require_code_owner_reviews?: boolean;
+        /** Specifies the number of reviewers required to approve pull requests. Use a number between 1 and 6. */
+        required_approving_review_count?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ProtectedBranchPullRequestReview, ValidationError>({
         path: `/repos/${owner}/${repo}/branches/${branch}/protection/required_pull_request_reviews`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16005,10 +17313,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update status check protection
      * @request PATCH:/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks
      */
-    reposUpdateStatusCheckProtection: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    reposUpdateStatusCheckProtection: (
+      owner: string,
+      repo: string,
+      branch: string,
+      data: {
+        /** Require branches to be up to date before merging. */
+        strict?: boolean;
+        /** The list of status checks to require in order to merge into this branch */
+        contexts?: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<StatusCheckPolicy, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/branches/${branch}/protection/required_status_checks`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16052,10 +17373,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Add status check contexts
      * @request POST:/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts
      */
-    reposAddStatusCheckContexts: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    reposAddStatusCheckContexts: (
+      owner: string,
+      repo: string,
+      branch: string,
+      data: {
+        /** contexts parameter */
+        contexts: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<string[], BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/branches/${branch}/protection/required_status_checks/contexts`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16068,10 +17400,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set status check contexts
      * @request PUT:/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts
      */
-    reposSetStatusCheckContexts: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    reposSetStatusCheckContexts: (
+      owner: string,
+      repo: string,
+      branch: string,
+      data: {
+        /** contexts parameter */
+        contexts: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<string[], BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/branches/${branch}/protection/required_status_checks/contexts`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16084,10 +17427,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove status check contexts
      * @request DELETE:/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts
      */
-    reposRemoveStatusCheckContexts: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    reposRemoveStatusCheckContexts: (
+      owner: string,
+      repo: string,
+      branch: string,
+      data: {
+        /** contexts parameter */
+        contexts: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<string[], BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/branches/${branch}/protection/required_status_checks/contexts`,
         method: "DELETE",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16152,10 +17506,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Add app access restrictions
      * @request POST:/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps
      */
-    reposAddAppAccessRestrictions: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    reposAddAppAccessRestrictions: (
+      owner: string,
+      repo: string,
+      branch: string,
+      data: {
+        /** apps parameter */
+        apps: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Integration[], ValidationError>({
         path: `/repos/${owner}/${repo}/branches/${branch}/protection/restrictions/apps`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16168,10 +17533,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set app access restrictions
      * @request PUT:/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps
      */
-    reposSetAppAccessRestrictions: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    reposSetAppAccessRestrictions: (
+      owner: string,
+      repo: string,
+      branch: string,
+      data: {
+        /** apps parameter */
+        apps: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Integration[], ValidationError>({
         path: `/repos/${owner}/${repo}/branches/${branch}/protection/restrictions/apps`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16184,10 +17560,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove app access restrictions
      * @request DELETE:/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps
      */
-    reposRemoveAppAccessRestrictions: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    reposRemoveAppAccessRestrictions: (
+      owner: string,
+      repo: string,
+      branch: string,
+      data: {
+        /** apps parameter */
+        apps: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Integration[], ValidationError>({
         path: `/repos/${owner}/${repo}/branches/${branch}/protection/restrictions/apps`,
         method: "DELETE",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16221,10 +17608,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Add team access restrictions
      * @request POST:/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams
      */
-    reposAddTeamAccessRestrictions: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    reposAddTeamAccessRestrictions: (
+      owner: string,
+      repo: string,
+      branch: string,
+      data: {
+        /** teams parameter */
+        teams: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Team[], ValidationError>({
         path: `/repos/${owner}/${repo}/branches/${branch}/protection/restrictions/teams`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16237,10 +17635,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set team access restrictions
      * @request PUT:/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams
      */
-    reposSetTeamAccessRestrictions: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    reposSetTeamAccessRestrictions: (
+      owner: string,
+      repo: string,
+      branch: string,
+      data: {
+        /** teams parameter */
+        teams: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Team[], ValidationError>({
         path: `/repos/${owner}/${repo}/branches/${branch}/protection/restrictions/teams`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16253,10 +17662,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove team access restrictions
      * @request DELETE:/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams
      */
-    reposRemoveTeamAccessRestrictions: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    reposRemoveTeamAccessRestrictions: (
+      owner: string,
+      repo: string,
+      branch: string,
+      data: {
+        /** teams parameter */
+        teams: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Team[], ValidationError>({
         path: `/repos/${owner}/${repo}/branches/${branch}/protection/restrictions/teams`,
         method: "DELETE",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16290,10 +17710,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Add user access restrictions
      * @request POST:/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users
      */
-    reposAddUserAccessRestrictions: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    reposAddUserAccessRestrictions: (
+      owner: string,
+      repo: string,
+      branch: string,
+      data: {
+        /** users parameter */
+        users: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<SimpleUser[], ValidationError>({
         path: `/repos/${owner}/${repo}/branches/${branch}/protection/restrictions/users`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16306,10 +17737,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set user access restrictions
      * @request PUT:/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users
      */
-    reposSetUserAccessRestrictions: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    reposSetUserAccessRestrictions: (
+      owner: string,
+      repo: string,
+      branch: string,
+      data: {
+        /** users parameter */
+        users: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<SimpleUser[], ValidationError>({
         path: `/repos/${owner}/${repo}/branches/${branch}/protection/restrictions/users`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16322,10 +17764,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove user access restrictions
      * @request DELETE:/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users
      */
-    reposRemoveUserAccessRestrictions: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    reposRemoveUserAccessRestrictions: (
+      owner: string,
+      repo: string,
+      branch: string,
+      data: {
+        /** users parameter */
+        users: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<SimpleUser[], ValidationError>({
         path: `/repos/${owner}/${repo}/branches/${branch}/protection/restrictions/users`,
         method: "DELETE",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16338,10 +17791,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Rename a branch
      * @request POST:/repos/{owner}/{repo}/branches/{branch}/rename
      */
-    reposRenameBranch: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    reposRenameBranch: (
+      owner: string,
+      repo: string,
+      branch: string,
+      data: {
+        /** The new name of the branch. */
+        new_name: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<BranchWithProtection, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/branches/${branch}/rename`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16354,10 +17818,125 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a check run
      * @request POST:/repos/{owner}/{repo}/check-runs
      */
-    checksCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    checksCreate: (
+      owner: string,
+      repo: string,
+      data: (
+        | {
+            status?: "completed";
+            [key: string]: any;
+          }
+        | {
+            status?: "queued" | "in_progress";
+            [key: string]: any;
+          }
+        | ({
+            status?: "completed";
+            [key: string]: any;
+          } & {
+            status?: "queued" | "in_progress";
+            [key: string]: any;
+          })
+      ) & {
+        /** The name of the check. For example, "code-coverage". */
+        name: string;
+        /** The SHA of the commit. */
+        head_sha: string;
+        /** The URL of the integrator's site that has the full details of the check. If the integrator does not provide this, then the homepage of the GitHub app is used. */
+        details_url?: string;
+        /** A reference for the run on the integrator's system. */
+        external_id?: string;
+        /**
+         * The current status. Can be one of `queued`, `in_progress`, or `completed`.
+         * @default "queued"
+         */
+        status?: "queued" | "in_progress" | "completed";
+        /** The time that the check run began. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+        started_at?: string;
+        /**
+         * **Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `skipped`, `timed_out`, or `action_required`. When the conclusion is `action_required`, additional details should be provided on the site specified by `details_url`.
+         * **Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`. Only GitHub can change a check run conclusion to `stale`.
+         */
+        conclusion?: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+        /** The time the check completed. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+        completed_at?: string;
+        /** Check runs can accept a variety of data in the `output` object, including a `title` and `summary` and can optionally provide descriptive details about the run. See the [`output` object](https://docs.github.com/rest/reference/checks#output-object) description. */
+        output?: {
+          /** The title of the check run. */
+          title: string;
+          /**
+           * The summary of the check run. This parameter supports Markdown.
+           * @maxLength 65535
+           */
+          summary: string;
+          /**
+           * The details of the check run. This parameter supports Markdown.
+           * @maxLength 65535
+           */
+          text?: string;
+          /**
+           * Adds information from your analysis to specific lines of code. Annotations are visible on GitHub in the **Checks** and **Files changed** tab of the pull request. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://docs.github.com/rest/reference/checks#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. For details about how you can view annotations on GitHub, see "[About status checks](https://help.github.com/articles/about-status-checks#checks)". See the [`annotations` object](https://docs.github.com/rest/reference/checks#annotations-object) description for details about how to use this parameter.
+           * @maxItems 50
+           */
+          annotations?: {
+            /** The path of the file to add an annotation to. For example, `assets/css/main.css`. */
+            path: string;
+            /** The start line of the annotation. */
+            start_line: number;
+            /** The end line of the annotation. */
+            end_line: number;
+            /** The start column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values. */
+            start_column?: number;
+            /** The end column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values. */
+            end_column?: number;
+            /** The level of the annotation. Can be one of `notice`, `warning`, or `failure`. */
+            annotation_level: "notice" | "warning" | "failure";
+            /** A short description of the feedback for these lines of code. The maximum size is 64 KB. */
+            message: string;
+            /** The title that represents the annotation. The maximum size is 255 characters. */
+            title?: string;
+            /** Details about this annotation. The maximum size is 64 KB. */
+            raw_details?: string;
+          }[];
+          /** Adds images to the output displayed in the GitHub pull request UI. See the [`images` object](https://docs.github.com/rest/reference/checks#images-object) description for details. */
+          images?: {
+            /** The alternative text for the image. */
+            alt: string;
+            /** The full URL of the image. */
+            image_url: string;
+            /** A short image description. */
+            caption?: string;
+          }[];
+        };
+        /**
+         * Displays a button on GitHub that can be clicked to alert your app to do additional tasks. For example, a code linting app can display a button that automatically fixes detected errors. The button created in this object is displayed after the check run completes. When a user clicks the button, GitHub sends the [`check_run.requested_action` webhook](https://docs.github.com/webhooks/event-payloads/#check_run) to your app. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](https://docs.github.com/rest/reference/checks#actions-object) description. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)." To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)."
+         * @maxItems 3
+         */
+        actions?: {
+          /**
+           * The text to be displayed on a button in the web UI. The maximum size is 20 characters.
+           * @maxLength 20
+           */
+          label: string;
+          /**
+           * A short explanation of what this action would do. The maximum size is 40 characters.
+           * @maxLength 40
+           */
+          description: string;
+          /**
+           * A reference for the action on the integrator's system. The maximum size is 20 characters.
+           * @maxLength 20
+           */
+          identifier: string;
+        }[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<CheckRun, any>({
         path: `/repos/${owner}/${repo}/check-runs`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16386,10 +17965,121 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a check run
      * @request PATCH:/repos/{owner}/{repo}/check-runs/{check_run_id}
      */
-    checksUpdate: (owner: string, repo: string, checkRunId: number, params: RequestParams = {}) =>
+    checksUpdate: (
+      owner: string,
+      repo: string,
+      checkRunId: number,
+      data: (
+        | {
+            status?: "completed";
+            [key: string]: any;
+          }
+        | {
+            status?: "queued" | "in_progress";
+            [key: string]: any;
+          }
+        | ({
+            status?: "completed";
+            [key: string]: any;
+          } & {
+            status?: "queued" | "in_progress";
+            [key: string]: any;
+          })
+      ) & {
+        /** The name of the check. For example, "code-coverage". */
+        name?: string;
+        /** The URL of the integrator's site that has the full details of the check. */
+        details_url?: string;
+        /** A reference for the run on the integrator's system. */
+        external_id?: string;
+        /** This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+        started_at?: string;
+        /** The current status. Can be one of `queued`, `in_progress`, or `completed`. */
+        status?: "queued" | "in_progress" | "completed";
+        /**
+         * **Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `skipped`, `timed_out`, or `action_required`.
+         * **Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`. Only GitHub can change a check run conclusion to `stale`.
+         */
+        conclusion?: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+        /** The time the check completed. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+        completed_at?: string;
+        /** Check runs can accept a variety of data in the `output` object, including a `title` and `summary` and can optionally provide descriptive details about the run. See the [`output` object](https://docs.github.com/rest/reference/checks#output-object-1) description. */
+        output?: {
+          /** **Required**. */
+          title?: string;
+          /**
+           * Can contain Markdown.
+           * @maxLength 65535
+           */
+          summary: string;
+          /**
+           * Can contain Markdown.
+           * @maxLength 65535
+           */
+          text?: string;
+          /**
+           * Adds information from your analysis to specific lines of code. Annotations are visible in GitHub's pull request UI. Annotations are visible in GitHub's pull request UI. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://docs.github.com/rest/reference/checks#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. For details about annotations in the UI, see "[About status checks](https://help.github.com/articles/about-status-checks#checks)". See the [`annotations` object](https://docs.github.com/rest/reference/checks#annotations-object-1) description for details.
+           * @maxItems 50
+           */
+          annotations?: {
+            /** The path of the file to add an annotation to. For example, `assets/css/main.css`. */
+            path: string;
+            /** The start line of the annotation. */
+            start_line: number;
+            /** The end line of the annotation. */
+            end_line: number;
+            /** The start column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values. */
+            start_column?: number;
+            /** The end column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values. */
+            end_column?: number;
+            /** The level of the annotation. Can be one of `notice`, `warning`, or `failure`. */
+            annotation_level: "notice" | "warning" | "failure";
+            /** A short description of the feedback for these lines of code. The maximum size is 64 KB. */
+            message: string;
+            /** The title that represents the annotation. The maximum size is 255 characters. */
+            title?: string;
+            /** Details about this annotation. The maximum size is 64 KB. */
+            raw_details?: string;
+          }[];
+          /** Adds images to the output displayed in the GitHub pull request UI. See the [`images` object](https://docs.github.com/rest/reference/checks#annotations-object-1) description for details. */
+          images?: {
+            /** The alternative text for the image. */
+            alt: string;
+            /** The full URL of the image. */
+            image_url: string;
+            /** A short image description. */
+            caption?: string;
+          }[];
+        };
+        /**
+         * Possible further actions the integrator can perform, which a user may trigger. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](https://docs.github.com/rest/reference/checks#actions-object) description. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)."
+         * @maxItems 3
+         */
+        actions?: {
+          /**
+           * The text to be displayed on a button in the web UI. The maximum size is 20 characters.
+           * @maxLength 20
+           */
+          label: string;
+          /**
+           * A short explanation of what this action would do. The maximum size is 40 characters.
+           * @maxLength 40
+           */
+          description: string;
+          /**
+           * A reference for the action on the integrator's system. The maximum size is 20 characters.
+           * @maxLength 20
+           */
+          identifier: string;
+        }[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<CheckRun, any>({
         path: `/repos/${owner}/${repo}/check-runs/${checkRunId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16406,8 +18096,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       checkRunId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -16419,6 +18108,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<CheckAnnotation[], any>({
         path: `/repos/${owner}/${repo}/check-runs/${checkRunId}/annotations`,
@@ -16436,10 +18126,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a check suite
      * @request POST:/repos/{owner}/{repo}/check-suites
      */
-    checksCreateSuite: (owner: string, repo: string, params: RequestParams = {}) =>
+    checksCreateSuite: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The sha of the head commit. */
+        head_sha: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<CheckSuite, any>({
         path: `/repos/${owner}/${repo}/check-suites`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16452,10 +18152,28 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update repository preferences for check suites
      * @request PATCH:/repos/{owner}/{repo}/check-suites/preferences
      */
-    checksSetSuitesPreferences: (owner: string, repo: string, params: RequestParams = {}) =>
+    checksSetSuitesPreferences: (
+      owner: string,
+      repo: string,
+      data: {
+        /** Enables or disables automatic creation of CheckSuite events upon pushes to the repository. Enabled by default. See the [`auto_trigger_checks` object](https://docs.github.com/rest/reference/checks#auto_trigger_checks-object) description for details. */
+        auto_trigger_checks?: {
+          /** The `id` of the GitHub App. */
+          app_id: number;
+          /**
+           * Set to `true` to enable automatic creation of CheckSuite events upon pushes to the repository, or `false` to disable them.
+           * @default true
+           */
+          setting: boolean;
+        }[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<CheckSuitePreference, any>({
         path: `/repos/${owner}/${repo}/check-suites/preferences`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16488,8 +18206,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       checkSuiteId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Returns check runs with the specified `name`. */
         check_name?: string;
         /** Returns check runs with the specified `status`. Can be one of `queued`, `in_progress`, or `completed`. */
@@ -16510,6 +18227,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -16551,13 +18269,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     codeScanningListAlertsForRepo: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Set to `open`, `fixed`, or `dismissed` to list code scanning alerts in a specific state. */
         state?: CodeScanningAlertState;
         /** Set a full Git reference to list alerts for a specific branch. The `ref` must be formatted as `refs/heads/<branch name>`. */
         ref?: CodeScanningAlertRef;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         CodeScanningAlertCodeScanningAlertItems[],
@@ -16607,10 +18325,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a code scanning alert
      * @request PATCH:/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}
      */
-    codeScanningUpdateAlert: (owner: string, repo: string, alertNumber: AlertNumber, params: RequestParams = {}) =>
+    codeScanningUpdateAlert: (
+      owner: string,
+      repo: string,
+      alertNumber: AlertNumber,
+      data: {
+        /** Sets the state of the code scanning alert. Can be one of `open` or `dismissed`. You must provide `dismissed_reason` when you set the state to `dismissed`. */
+        state: CodeScanningAlertSetState;
+        /** **Required when the state is dismissed.** The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`. */
+        dismissed_reason?: CodeScanningAlertDismissedReason;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<CodeScanningAlertCodeScanningAlert, void>({
         path: `/repos/${owner}/${repo}/code-scanning/alerts/${alertNumber}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16626,13 +18357,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     codeScanningListRecentAnalyses: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Set a full Git reference to list alerts for a specific branch. The `ref` must be formatted as `refs/heads/<branch name>`. */
         ref?: CodeScanningAnalysisRef;
         /** Set a single code scanning tool name to filter alerts by tool. */
         tool_name?: CodeScanningAnalysisToolName;
       },
+      params: RequestParams = {},
     ) =>
       this.request<CodeScanningAnalysisCodeScanningAnalysis[], void>({
         path: `/repos/${owner}/${repo}/code-scanning/analyses`,
@@ -16650,10 +18381,38 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Upload a SARIF file
      * @request POST:/repos/{owner}/{repo}/code-scanning/sarifs
      */
-    codeScanningUploadSarif: (owner: string, repo: string, params: RequestParams = {}) =>
+    codeScanningUploadSarif: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The commit SHA of the code scanning analysis file. */
+        commit_sha: CodeScanningAnalysisCommitSha;
+        /** The full Git reference of the code scanning analysis file, formatted as `refs/heads/<branch name>`. */
+        ref: CodeScanningAnalysisRef;
+        /** A Base64 string representing the SARIF file to upload. You must first compress your SARIF file using [`gzip`](http://www.gnu.org/software/gzip/manual/gzip.html) and then translate the contents of the file into a Base64 encoding string. */
+        sarif: CodeScanningAnalysisSarifFile;
+        /**
+         * The base directory used in the analysis, as it appears in the SARIF file.
+         * This property is used to convert file paths from absolute to relative, so that alerts can be mapped to their correct location in the repository.
+         * @format uri
+         * @example "file:///github/workspace/"
+         */
+        checkout_uri?: string;
+        /**
+         * The time that the analysis run began. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+         * @format date
+         */
+        started_at?: string;
+        /** The name of the tool used to generate the code scanning analysis alert. */
+        tool_name: CodeScanningAnalysisToolName;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, void>({
         path: `/repos/${owner}/${repo}/code-scanning/sarifs`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -16668,8 +18427,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListCollaborators: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Filter collaborators returned by their affiliation. Can be one of:
          * \* `outside`: All outside collaborators of an organization-owned repository.
@@ -16689,6 +18447,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Collaborator[], BasicError>({
         path: `/repos/${owner}/${repo}/collaborators`,
@@ -16721,10 +18480,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Add a repository collaborator
      * @request PUT:/repos/{owner}/{repo}/collaborators/{username}
      */
-    reposAddCollaborator: (owner: string, repo: string, username: string, params: RequestParams = {}) =>
+    reposAddCollaborator: (
+      owner: string,
+      repo: string,
+      username: string,
+      data: {
+        /**
+         * The permission to grant the collaborator. **Only valid on organization-owned repositories.** Can be one of:
+         * \* `pull` - can pull, but not push to or administer this repository.
+         * \* `push` - can pull and push, but not administer this repository.
+         * \* `admin` - can pull, push and administer this repository.
+         * \* `maintain` - Recommended for project managers who need to manage the repository without access to sensitive or destructive actions.
+         * \* `triage` - Recommended for contributors who need to proactively manage issues and pull requests without write access.
+         * @default "push"
+         */
+        permission?: "pull" | "push" | "admin" | "maintain" | "triage";
+        /** @example ""push"" */
+        permissions?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<RepositoryInvitation, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/collaborators/${username}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16771,8 +18551,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListCommitCommentsForRepo: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -16784,6 +18563,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<CommitComment[], any>({
         path: `/repos/${owner}/${repo}/comments`,
@@ -16817,10 +18597,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a commit comment
      * @request PATCH:/repos/{owner}/{repo}/comments/{comment_id}
      */
-    reposUpdateCommitComment: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
+    reposUpdateCommitComment: (
+      owner: string,
+      repo: string,
+      commentId: number,
+      data: {
+        /** The contents of the comment */
+        body: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<CommitComment, BasicError>({
         path: `/repos/${owner}/${repo}/comments/${commentId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16852,8 +18643,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       commentId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a commit comment. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         /**
@@ -16867,6 +18657,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         Reaction[],
@@ -16891,7 +18682,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create reaction for a commit comment
      * @request POST:/repos/{owner}/{repo}/comments/{comment_id}/reactions
      */
-    reactionsCreateForCommitComment: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
+    reactionsCreateForCommitComment: (
+      owner: string,
+      repo: string,
+      commentId: number,
+      data: {
+        /** The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the commit comment. */
+        content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         Reaction,
         | {
@@ -16902,6 +18702,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/repos/${owner}/${repo}/comments/${commentId}/reactions`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -16938,8 +18740,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListCommits: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** SHA or branch to start listing commits from. Default: the repository’s default branch (usually `master`). */
         sha?: string;
         /** Only commits containing this file path will be returned. */
@@ -16961,6 +18762,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Commit[], BasicError>({
         path: `/repos/${owner}/${repo}/commits`,
@@ -17005,8 +18807,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       commitSha: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -17018,6 +18819,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<CommitComment[], any>({
         path: `/repos/${owner}/${repo}/commits/${commitSha}/comments`,
@@ -17035,10 +18837,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a commit comment
      * @request POST:/repos/{owner}/{repo}/commits/{commit_sha}/comments
      */
-    reposCreateCommitComment: (owner: string, repo: string, commitSha: string, params: RequestParams = {}) =>
+    reposCreateCommitComment: (
+      owner: string,
+      repo: string,
+      commitSha: string,
+      data: {
+        /** The contents of the comment. */
+        body: string;
+        /** Relative path of the file to comment on. */
+        path?: string;
+        /** Line index in the diff to comment on. */
+        position?: number;
+        /** **Deprecated**. Use **position** parameter instead. Line number in the file to comment on. */
+        line?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<CommitComment, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/commits/${commitSha}/comments`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -17055,8 +18874,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       commitSha: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -17068,6 +18886,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         PullRequestSimple[],
@@ -17111,8 +18930,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       ref: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Returns check runs with the specified `name`. */
         check_name?: string;
         /** Returns check runs with the specified `status`. Can be one of `queued`, `in_progress`, or `completed`. */
@@ -17133,6 +18951,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -17160,8 +18979,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       ref: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Filters check suites by GitHub App `id`.
          * @example 1
@@ -17180,6 +18998,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -17223,8 +19042,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       ref: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -17236,6 +19054,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Status[], any>({
         path: `/repos/${owner}/${repo}/commits/${ref}/statuses`,
@@ -17305,11 +19124,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       path: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** The name of the commit/branch/tag. Default: the repository’s default branch (usually `master`) */
         ref?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<ContentTree, BasicError>({
         path: `/repos/${owner}/${repo}/contents/${path}`,
@@ -17327,10 +19146,45 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create or update file contents
      * @request PUT:/repos/{owner}/{repo}/contents/{path}
      */
-    reposCreateOrUpdateFileContents: (owner: string, repo: string, path: string, params: RequestParams = {}) =>
+    reposCreateOrUpdateFileContents: (
+      owner: string,
+      repo: string,
+      path: string,
+      data: {
+        /** The commit message. */
+        message: string;
+        /** The new file content, using Base64 encoding. */
+        content: string;
+        /** **Required if you are updating a file**. The blob SHA of the file being replaced. */
+        sha?: string;
+        /** The branch name. Default: the repository’s default branch (usually `master`) */
+        branch?: string;
+        /** The person that committed the file. Default: the authenticated user. */
+        committer?: {
+          /** The name of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted. */
+          name: string;
+          /** The email of the author or committer of the commit. You'll receive a `422` status code if `email` is omitted. */
+          email: string;
+          /** @example ""2013-01-05T13:13:22+05:00"" */
+          date?: string;
+        };
+        /** The author of the file. Default: The `committer` or the authenticated user if you omit `committer`. */
+        author?: {
+          /** The name of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted. */
+          name: string;
+          /** The email of the author or committer of the commit. You'll receive a `422` status code if `email` is omitted. */
+          email: string;
+          /** @example ""2013-01-15T17:13:22+05:00"" */
+          date?: string;
+        };
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<FileCommit, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/contents/${path}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -17343,7 +19197,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete a file
      * @request DELETE:/repos/{owner}/{repo}/contents/{path}
      */
-    reposDeleteFile: (owner: string, repo: string, path: string, params: RequestParams = {}) =>
+    reposDeleteFile: (
+      owner: string,
+      repo: string,
+      path: string,
+      data: {
+        /** The commit message. */
+        message: string;
+        /** The blob SHA of the file being replaced. */
+        sha: string;
+        /** The branch name. Default: the repository’s default branch (usually `master`) */
+        branch?: string;
+        /** object containing information about the committer. */
+        committer?: {
+          /** The name of the author (or committer) of the commit */
+          name?: string;
+          /** The email of the author (or committer) of the commit */
+          email?: string;
+        };
+        /** object containing information about the author. */
+        author?: {
+          /** The name of the author (or committer) of the commit */
+          name?: string;
+          /** The email of the author (or committer) of the commit */
+          email?: string;
+        };
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         FileCommit,
         | BasicError
@@ -17356,6 +19237,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/repos/${owner}/${repo}/contents/${path}`,
         method: "DELETE",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -17371,8 +19254,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListContributors: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Set to `1` or `true` to include anonymous contributors in results. */
         anon?: string;
         /**
@@ -17386,6 +19268,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Contributor[], BasicError>({
         path: `/repos/${owner}/${repo}/contributors`,
@@ -17406,8 +19289,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListDeployments: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * The SHA recorded at creation time.
          * @default "none"
@@ -17439,6 +19321,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Deployment[], any>({
         path: `/repos/${owner}/${repo}/deployments`,
@@ -17456,7 +19339,52 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a deployment
      * @request POST:/repos/{owner}/{repo}/deployments
      */
-    reposCreateDeployment: (owner: string, repo: string, params: RequestParams = {}) =>
+    reposCreateDeployment: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The ref to deploy. This can be a branch, tag, or SHA. */
+        ref: string;
+        /**
+         * Specifies a task to execute (e.g., `deploy` or `deploy:migrations`).
+         * @default "deploy"
+         */
+        task?: string;
+        /**
+         * Attempts to automatically merge the default branch into the requested ref, if it's behind the default branch.
+         * @default true
+         */
+        auto_merge?: boolean;
+        /** The [status](https://docs.github.com/rest/reference/repos#statuses) contexts to verify against commit status checks. If you omit this parameter, GitHub verifies all unique contexts before creating a deployment. To bypass checking entirely, pass an empty array. Defaults to all unique contexts. */
+        required_contexts?: string[];
+        /** JSON payload with extra information about the deployment. */
+        payload?: Record<string, any> | string;
+        /**
+         * Name for the target deployment environment (e.g., `production`, `staging`, `qa`).
+         * @default "production"
+         */
+        environment?: string;
+        /**
+         * Short description of the deployment.
+         * @default ""
+         */
+        description?: string | null;
+        /**
+         * Specifies if the given environment is specific to the deployment and will no longer exist at some point in the future. Default: `false`
+         * **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type.
+         * @default false
+         */
+        transient_environment?: boolean;
+        /**
+         * Specifies if the given environment is one that end-users directly interact with. Default: `true` when `environment` is `production` and `false` otherwise.
+         * **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type.
+         */
+        production_environment?: boolean;
+        /** @example ""1776-07-04T00:00:00.000-07:52"" */
+        created_at?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         Deployment,
         | {
@@ -17468,6 +19396,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/repos/${owner}/${repo}/deployments`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -17515,8 +19445,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       deploymentId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -17528,6 +19457,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<DeploymentStatus[], BasicError>({
         path: `/repos/${owner}/${repo}/deployments/${deploymentId}/statuses`,
@@ -17545,10 +19475,51 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a deployment status
      * @request POST:/repos/{owner}/{repo}/deployments/{deployment_id}/statuses
      */
-    reposCreateDeploymentStatus: (owner: string, repo: string, deploymentId: number, params: RequestParams = {}) =>
+    reposCreateDeploymentStatus: (
+      owner: string,
+      repo: string,
+      deploymentId: number,
+      data: {
+        /** The state of the status. Can be one of `error`, `failure`, `inactive`, `in_progress`, `queued` `pending`, or `success`. **Note:** To use the `inactive` state, you must provide the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type. To use the `in_progress` and `queued` states, you must provide the [`application/vnd.github.flash-preview+json`](https://docs.github.com/rest/overview/api-previews#deployment-statuses) custom media type. When you set a transient deployment to `inactive`, the deployment will be shown as `destroyed` in GitHub. */
+        state: "error" | "failure" | "inactive" | "in_progress" | "queued" | "pending" | "success";
+        /**
+         * The target URL to associate with this status. This URL should contain output to keep the user updated while the task is running or serve as historical information for what happened in the deployment. **Note:** It's recommended to use the `log_url` parameter, which replaces `target_url`.
+         * @default ""
+         */
+        target_url?: string;
+        /**
+         * The full URL of the deployment's output. This parameter replaces `target_url`. We will continue to accept `target_url` to support legacy uses, but we recommend replacing `target_url` with `log_url`. Setting `log_url` will automatically set `target_url` to the same value. Default: `""`
+         * **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type.
+         * @default ""
+         */
+        log_url?: string;
+        /**
+         * A short description of the status. The maximum description length is 140 characters.
+         * @default ""
+         */
+        description?: string;
+        /** Name for the target deployment environment, which can be changed when setting a deploy status. For example, `production`, `staging`, or `qa`. **Note:** This parameter requires you to use the [`application/vnd.github.flash-preview+json`](https://docs.github.com/rest/overview/api-previews#deployment-statuses) custom media type. */
+        environment?: "production" | "staging" | "qa";
+        /**
+         * Sets the URL for accessing your environment. Default: `""`
+         * **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type.
+         * @default ""
+         */
+        environment_url?: string;
+        /**
+         * Adds a new `inactive` status to all prior non-transient, non-production environment deployments with the same repository and `environment` name as the created status's deployment. An `inactive` status is only added to deployments that had a `success` state. Default: `true`
+         * **Note:** To add an `inactive` status to `production` environments, you must use the [`application/vnd.github.flash-preview+json`](https://docs.github.com/rest/overview/api-previews#deployment-statuses) custom media type.
+         * **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments) custom media type.
+         */
+        auto_inactive?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<DeploymentStatus, ValidationError>({
         path: `/repos/${owner}/${repo}/deployments/${deploymentId}/statuses`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -17590,10 +19561,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a repository dispatch event
      * @request POST:/repos/{owner}/{repo}/dispatches
      */
-    reposCreateDispatchEvent: (owner: string, repo: string, params: RequestParams = {}) =>
+    reposCreateDispatchEvent: (
+      owner: string,
+      repo: string,
+      data: {
+        /** A custom webhook event name. */
+        event_type: string;
+        /** JSON payload with extra information about the webhook event that your action or worklow may use. */
+        client_payload?: Record<string, any>;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, ValidationError>({
         path: `/repos/${owner}/${repo}/dispatches`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -17608,8 +19591,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     activityListRepoEvents: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -17621,6 +19603,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Event[], any>({
         path: `/repos/${owner}/${repo}/events`,
@@ -17641,8 +19624,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListForks: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * The sort order. Can be either `newest`, `oldest`, or `stargazers`.
          * @default "newest"
@@ -17659,6 +19641,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<MinimalRepository[], BasicError>({
         path: `/repos/${owner}/${repo}/forks`,
@@ -17676,10 +19659,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a fork
      * @request POST:/repos/{owner}/{repo}/forks
      */
-    reposCreateFork: (owner: string, repo: string, params: RequestParams = {}) =>
+    reposCreateFork: (
+      owner: string,
+      repo: string,
+      data: {
+        /** Optional parameter to specify the organization name if forking into an organization. */
+        organization?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Repository, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/forks`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -17692,10 +19685,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a blob
      * @request POST:/repos/{owner}/{repo}/git/blobs
      */
-    gitCreateBlob: (owner: string, repo: string, params: RequestParams = {}) =>
+    gitCreateBlob: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The new blob's content. */
+        content: string;
+        /**
+         * The encoding used for `content`. Currently, `"utf-8"` and `"base64"` are supported.
+         * @default "utf-8"
+         */
+        encoding?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ShortBlob, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/git/blobs`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -17724,10 +19732,44 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a commit
      * @request POST:/repos/{owner}/{repo}/git/commits
      */
-    gitCreateCommit: (owner: string, repo: string, params: RequestParams = {}) =>
+    gitCreateCommit: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The commit message */
+        message: string;
+        /** The SHA of the tree object this commit points to */
+        tree: string;
+        /** The SHAs of the commits that were the parents of this commit. If omitted or empty, the commit will be written as a root commit. For a single parent, an array of one SHA should be provided; for a merge commit, an array of more than one should be provided. */
+        parents?: string[];
+        /** Information about the author of the commit. By default, the `author` will be the authenticated user and the current date. See the `author` and `committer` object below for details. */
+        author?: {
+          /** The name of the author (or committer) of the commit */
+          name?: string;
+          /** The email of the author (or committer) of the commit */
+          email?: string;
+          /** Indicates when this commit was authored (or committed). This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+          date?: string;
+        };
+        /** Information about the person who is making the commit. By default, `committer` will use the information set in `author`. See the `author` and `committer` object below for details. */
+        committer?: {
+          /** The name of the author (or committer) of the commit */
+          name?: string;
+          /** The email of the author (or committer) of the commit */
+          email?: string;
+          /** Indicates when this commit was authored (or committed). This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+          date?: string;
+        };
+        /** The [PGP signature](https://en.wikipedia.org/wiki/Pretty_Good_Privacy) of the commit. GitHub adds the signature to the `gpgsig` header of the created commit. For a commit signature to be verifiable by Git or GitHub, it must be an ASCII-armored detached PGP signature over the string commit as it would be written to the object database. To pass a `signature` parameter, you need to first manually create a valid PGP signature, which can be complicated. You may find it easier to [use the command line](https://git-scm.com/book/id/v2/Git-Tools-Signing-Your-Work) to create signed commits. */
+        signature?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<GitCommit, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/git/commits`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -17760,8 +19802,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       ref: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -17773,6 +19814,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<GitRef[], any>({
         path: `/repos/${owner}/${repo}/git/matching-refs/${ref}`,
@@ -17806,10 +19848,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a reference
      * @request POST:/repos/{owner}/{repo}/git/refs
      */
-    gitCreateRef: (owner: string, repo: string, params: RequestParams = {}) =>
+    gitCreateRef: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The name of the fully qualified reference (ie: `refs/heads/master`). If it doesn't start with 'refs' and have at least two slashes, it will be rejected. */
+        ref: string;
+        /** The SHA1 value for this reference. */
+        sha: string;
+        /** @example ""refs/heads/newbranch"" */
+        key?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<GitRef, ValidationError>({
         path: `/repos/${owner}/${repo}/git/refs`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -17822,10 +19878,26 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a reference
      * @request PATCH:/repos/{owner}/{repo}/git/refs/{ref}
      */
-    gitUpdateRef: (owner: string, repo: string, ref: string, params: RequestParams = {}) =>
+    gitUpdateRef: (
+      owner: string,
+      repo: string,
+      ref: string,
+      data: {
+        /** The SHA1 value to set this reference to */
+        sha: string;
+        /**
+         * Indicates whether to force the update or to make sure the update is a fast-forward update. Leaving this out or setting it to `false` will make sure you're not overwriting work.
+         * @default false
+         */
+        force?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<GitRef, ValidationError>({
         path: `/repos/${owner}/${repo}/git/refs/${ref}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -17853,10 +19925,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a tag object
      * @request POST:/repos/{owner}/{repo}/git/tags
      */
-    gitCreateTag: (owner: string, repo: string, params: RequestParams = {}) =>
+    gitCreateTag: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The tag's name. This is typically a version (e.g., "v0.0.1"). */
+        tag: string;
+        /** The tag message. */
+        message: string;
+        /** The SHA of the git object this is tagging. */
+        object: string;
+        /** The type of the object we're tagging. Normally this is a `commit` but it can also be a `tree` or a `blob`. */
+        type: "commit" | "tree" | "blob";
+        /** An object with information about the individual creating the tag. */
+        tagger?: {
+          /** The name of the author of the tag */
+          name?: string;
+          /** The email of the author of the tag */
+          email?: string;
+          /** When this object was tagged. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+          date?: string;
+        };
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<GitTag, ValidationError>({
         path: `/repos/${owner}/${repo}/git/tags`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -17885,10 +19982,44 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a tree
      * @request POST:/repos/{owner}/{repo}/git/trees
      */
-    gitCreateTree: (owner: string, repo: string, params: RequestParams = {}) =>
+    gitCreateTree: (
+      owner: string,
+      repo: string,
+      data: {
+        /** Objects (of `path`, `mode`, `type`, and `sha`) specifying a tree structure. */
+        tree: {
+          /** The file referenced in the tree. */
+          path?: string;
+          /** The file mode; one of `100644` for file (blob), `100755` for executable (blob), `040000` for subdirectory (tree), `160000` for submodule (commit), or `120000` for a blob that specifies the path of a symlink. */
+          mode?: "100644" | "100755" | "040000" | "160000" | "120000";
+          /** Either `blob`, `tree`, or `commit`. */
+          type?: "blob" | "tree" | "commit";
+          /**
+           * The SHA1 checksum ID of the object in the tree. Also called `tree.sha`. If the value is `null` then the file will be deleted.
+           *
+           * **Note:** Use either `tree.sha` or `content` to specify the contents of the entry. Using both `tree.sha` and `content` will return an error.
+           */
+          sha?: string | null;
+          /**
+           * The content you want this file to have. GitHub will write this blob out and use that SHA for this entry. Use either this, or `tree.sha`.
+           *
+           * **Note:** Use either `tree.sha` or `content` to specify the contents of the entry. Using both `tree.sha` and `content` will return an error.
+           */
+          content?: string;
+        }[];
+        /**
+         * The SHA1 of an existing Git tree object which will be used as the base for the new tree. If provided, a new Git tree object will be created from entries in the Git tree object pointed to by `base_tree` and entries defined in the `tree` parameter. Entries defined in the `tree` parameter will overwrite items from `base_tree` with the same `path`. If you're creating new changes on a branch, then normally you'd set `base_tree` to the SHA1 of the Git tree object of the current latest commit on the branch you're working on.
+         * If not provided, GitHub will create a new Git tree object from only the entries defined in the `tree` parameter. If you create a new commit pointing to such a tree, then all files which were a part of the parent commit's tree and were not defined in the `tree` parameter will be listed as deleted by the new commit.
+         */
+        base_tree?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<GitTree, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/git/trees`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -17905,11 +20036,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       treeSha: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Setting this parameter to any value returns the objects or subtrees referenced by the tree specified in `:tree_sha`. For example, setting `recursive` to any of the following will enable returning objects or subtrees: `0`, `1`, `"true"`, and `"false"`. Omit this parameter to prevent recursively returning objects or subtrees. */
         recursive?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<GitTree, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/git/trees/${treeSha}`,
@@ -17930,8 +20061,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListWebhooks: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -17943,6 +20073,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Hook[], BasicError>({
         path: `/repos/${owner}/${repo}/hooks`,
@@ -17960,10 +20091,45 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a repository webhook
      * @request POST:/repos/{owner}/{repo}/hooks
      */
-    reposCreateWebhook: (owner: string, repo: string, params: RequestParams = {}) =>
+    reposCreateWebhook: (
+      owner: string,
+      repo: string,
+      data: {
+        /** Use `web` to create a webhook. Default: `web`. This parameter only accepts the value `web`. */
+        name?: string;
+        /** Key/value pairs to provide settings for this webhook. [These are defined below](https://docs.github.com/rest/reference/repos#create-hook-config-params). */
+        config: {
+          /** The URL to which the payloads will be delivered. */
+          url: WebhookConfigUrl;
+          /** The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`. */
+          content_type?: WebhookConfigContentType;
+          /** If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers). */
+          secret?: WebhookConfigSecret;
+          /** Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.** */
+          insecure_ssl?: WebhookConfigInsecureSsl;
+          /** @example ""abc"" */
+          token?: string;
+          /** @example ""sha256"" */
+          digest?: string;
+        };
+        /**
+         * Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for.
+         * @default ["push"]
+         */
+        events?: string[];
+        /**
+         * Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.
+         * @default true
+         */
+        active?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Hook, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/hooks`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -17992,10 +20158,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a repository webhook
      * @request PATCH:/repos/{owner}/{repo}/hooks/{hook_id}
      */
-    reposUpdateWebhook: (owner: string, repo: string, hookId: number, params: RequestParams = {}) =>
+    reposUpdateWebhook: (
+      owner: string,
+      repo: string,
+      hookId: number,
+      data: {
+        /** Key/value pairs to provide settings for this webhook. [These are defined below](https://docs.github.com/rest/reference/repos#create-hook-config-params). */
+        config?: {
+          /** The URL to which the payloads will be delivered. */
+          url: WebhookConfigUrl;
+          /** The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`. */
+          content_type?: WebhookConfigContentType;
+          /** If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers). */
+          secret?: WebhookConfigSecret;
+          /** Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.** */
+          insecure_ssl?: WebhookConfigInsecureSsl;
+          /** @example ""bar@example.com"" */
+          address?: string;
+          /** @example ""The Serious Room"" */
+          room?: string;
+        };
+        /**
+         * Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for. This replaces the entire array of events.
+         * @default ["push"]
+         */
+        events?: string[];
+        /** Determines a list of events to be added to the list of events that the Hook triggers for. */
+        add_events?: string[];
+        /** Determines a list of events to be removed from the list of events that the Hook triggers for. */
+        remove_events?: string[];
+        /**
+         * Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.
+         * @default true
+         */
+        active?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Hook, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/hooks/${hookId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18039,10 +20243,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a webhook configuration for a repository
      * @request PATCH:/repos/{owner}/{repo}/hooks/{hook_id}/config
      */
-    reposUpdateWebhookConfigForRepo: (owner: string, repo: string, hookId: number, params: RequestParams = {}) =>
+    reposUpdateWebhookConfigForRepo: (
+      owner: string,
+      repo: string,
+      hookId: number,
+      data: {
+        /** The URL to which the payloads will be delivered. */
+        url?: WebhookConfigUrl;
+        /** The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`. */
+        content_type?: WebhookConfigContentType;
+        /** If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers). */
+        secret?: WebhookConfigSecret;
+        /** Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.** */
+        insecure_ssl?: WebhookConfigInsecureSsl;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<WebhookConfig, any>({
         path: `/repos/${owner}/${repo}/hooks/${hookId}/config`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18101,10 +20322,28 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Start an import
      * @request PUT:/repos/{owner}/{repo}/import
      */
-    migrationsStartImport: (owner: string, repo: string, params: RequestParams = {}) =>
+    migrationsStartImport: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The URL of the originating repository. */
+        vcs_url: string;
+        /** The originating VCS type. Can be one of `subversion`, `git`, `mercurial`, or `tfvc`. Please be aware that without this parameter, the import job will take additional time to detect the VCS type before beginning the import. This detection step will be reflected in the response. */
+        vcs?: "subversion" | "git" | "mercurial" | "tfvc";
+        /** If authentication is required, the username to provide to `vcs_url`. */
+        vcs_username?: string;
+        /** If authentication is required, the password to provide to `vcs_url`. */
+        vcs_password?: string;
+        /** For a tfvc import, the name of the project that is being imported. */
+        tfvc_project?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Import, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/import`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18117,10 +20356,26 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update an import
      * @request PATCH:/repos/{owner}/{repo}/import
      */
-    migrationsUpdateImport: (owner: string, repo: string, params: RequestParams = {}) =>
+    migrationsUpdateImport: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The username to provide to the originating repository. */
+        vcs_username?: string;
+        /** The password to provide to the originating repository. */
+        vcs_password?: string;
+        /** @example ""git"" */
+        vcs?: string;
+        /** @example ""project1"" */
+        tfvc_project?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Import, any>({
         path: `/repos/${owner}/${repo}/import`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18151,11 +20406,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     migrationsGetCommitAuthors: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** A user ID. Only return users with an ID greater than this ID. */
         since?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<PorterAuthor[], BasicError>({
         path: `/repos/${owner}/${repo}/import/authors`,
@@ -18173,10 +20428,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Map a commit author
      * @request PATCH:/repos/{owner}/{repo}/import/authors/{author_id}
      */
-    migrationsMapCommitAuthor: (owner: string, repo: string, authorId: number, params: RequestParams = {}) =>
+    migrationsMapCommitAuthor: (
+      owner: string,
+      repo: string,
+      authorId: number,
+      data: {
+        /** The new Git author email. */
+        email?: string;
+        /** The new Git author name. */
+        name?: string;
+        /** @example ""can't touch this"" */
+        remote_id?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<PorterAuthor, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/import/authors/${authorId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18205,10 +20475,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update Git LFS preference
      * @request PATCH:/repos/{owner}/{repo}/import/lfs
      */
-    migrationsSetLfsPreference: (owner: string, repo: string, params: RequestParams = {}) =>
+    migrationsSetLfsPreference: (
+      owner: string,
+      repo: string,
+      data: {
+        /** Can be one of `opt_in` (large files will be stored using Git LFS) or `opt_out` (large files will be removed during the import). */
+        use_lfs: "opt_in" | "opt_out";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Import, ValidationError>({
         path: `/repos/${owner}/${repo}/import/lfs`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18253,10 +20533,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set interaction restrictions for a repository
      * @request PUT:/repos/{owner}/{repo}/interaction-limits
      */
-    interactionsSetRestrictionsForRepo: (owner: string, repo: string, params: RequestParams = {}) =>
+    interactionsSetRestrictionsForRepo: (
+      owner: string,
+      repo: string,
+      data: InteractionLimit,
+      params: RequestParams = {},
+    ) =>
       this.request<InteractionLimitResponse, void>({
         path: `/repos/${owner}/${repo}/interaction-limits`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18287,8 +20574,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListInvitations: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -18300,6 +20586,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<RepositoryInvitation[], any>({
         path: `/repos/${owner}/${repo}/invitations`,
@@ -18317,10 +20604,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a repository invitation
      * @request PATCH:/repos/{owner}/{repo}/invitations/{invitation_id}
      */
-    reposUpdateInvitation: (owner: string, repo: string, invitationId: number, params: RequestParams = {}) =>
+    reposUpdateInvitation: (
+      owner: string,
+      repo: string,
+      invitationId: number,
+      data: {
+        /** The permissions that the associated user will have on the repository. Valid values are `read`, `write`, `maintain`, `triage`, and `admin`. */
+        permissions?: "read" | "write" | "maintain" | "triage" | "admin";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<RepositoryInvitation, any>({
         path: `/repos/${owner}/${repo}/invitations/${invitationId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18351,8 +20649,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesListForRepo: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** If an `integer` is passed, it should refer to a milestone by its `number` field. If the string `*` is passed, issues with any milestone are accepted. If the string `none` is passed, issues without milestones are returned. */
         milestone?: string;
         /**
@@ -18391,6 +20688,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<IssueSimple[], BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/issues`,
@@ -18408,7 +20706,33 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create an issue
      * @request POST:/repos/{owner}/{repo}/issues
      */
-    issuesCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    issuesCreate: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The title of the issue. */
+        title: string | number;
+        /** The contents of the issue. */
+        body?: string;
+        /** Login for the user that this issue should be assigned to. _NOTE: Only users with push access can set the assignee for new issues. The assignee is silently dropped otherwise. **This field is deprecated.**_ */
+        assignee?: string | null;
+        /** The `number` of the milestone to associate this issue with. _NOTE: Only users with push access can set the milestone for new issues. The milestone is silently dropped otherwise._ */
+        milestone?: string | number | null;
+        /** Labels to associate with this issue. _NOTE: Only users with push access can set labels for new issues. Labels are silently dropped otherwise._ */
+        labels?: (
+          | string
+          | {
+              id?: number;
+              name?: string;
+              description?: string | null;
+              color?: string | null;
+            }
+        )[];
+        /** Logins for Users to assign to this issue. _NOTE: Only users with push access can set assignees for new issues. Assignees are silently dropped otherwise._ */
+        assignees?: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         Issue,
         | BasicError
@@ -18421,6 +20745,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/repos/${owner}/${repo}/issues`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18436,8 +20762,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesListCommentsForRepo: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
          * @default "created"
@@ -18458,6 +20783,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<IssueComment[], BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/issues/comments`,
@@ -18491,10 +20817,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update an issue comment
      * @request PATCH:/repos/{owner}/{repo}/issues/comments/{comment_id}
      */
-    issuesUpdateComment: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
+    issuesUpdateComment: (
+      owner: string,
+      repo: string,
+      commentId: number,
+      data: {
+        /** The contents of the comment. */
+        body: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<IssueComment, ValidationError>({
         path: `/repos/${owner}/${repo}/issues/comments/${commentId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18526,8 +20863,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       commentId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to an issue comment. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         /**
@@ -18541,6 +20877,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         Reaction[],
@@ -18565,7 +20902,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create reaction for an issue comment
      * @request POST:/repos/{owner}/{repo}/issues/comments/{comment_id}/reactions
      */
-    reactionsCreateForIssueComment: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
+    reactionsCreateForIssueComment: (
+      owner: string,
+      repo: string,
+      commentId: number,
+      data: {
+        /** The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the issue comment. */
+        content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         Reaction,
         | {
@@ -18576,6 +20922,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/repos/${owner}/${repo}/issues/comments/${commentId}/reactions`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18612,8 +20960,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesListEventsForRepo: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -18625,6 +20972,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<IssueEvent[], ValidationError>({
         path: `/repos/${owner}/${repo}/issues/events`,
@@ -18674,7 +21022,36 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update an issue
      * @request PATCH:/repos/{owner}/{repo}/issues/{issue_number}
      */
-    issuesUpdate: (owner: string, repo: string, issueNumber: number, params: RequestParams = {}) =>
+    issuesUpdate: (
+      owner: string,
+      repo: string,
+      issueNumber: number,
+      data: {
+        /** The title of the issue. */
+        title?: string | number;
+        /** The contents of the issue. */
+        body?: string;
+        /** Login for the user that this issue should be assigned to. **This field is deprecated.** */
+        assignee?: string | null;
+        /** State of the issue. Either `open` or `closed`. */
+        state?: "open" | "closed";
+        /** The `number` of the milestone to associate this issue with or `null` to remove current. _NOTE: Only users with push access can set the milestone for issues. The milestone is silently dropped otherwise._ */
+        milestone?: string | number | null;
+        /** Labels to associate with this issue. Pass one or more Labels to _replace_ the set of Labels on this Issue. Send an empty array (`[]`) to clear all Labels from the Issue. _NOTE: Only users with push access can set labels for issues. Labels are silently dropped otherwise._ */
+        labels?: (
+          | string
+          | {
+              id?: number;
+              name?: string;
+              description?: string | null;
+              color?: string | null;
+            }
+        )[];
+        /** Logins for Users to assign to this issue. Pass one or more user logins to _replace_ the set of assignees on this Issue. Send an empty array (`[]`) to clear all assignees from the Issue. _NOTE: Only users with push access can set assignees for new issues. Assignees are silently dropped otherwise._ */
+        assignees?: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         Issue,
         | BasicError
@@ -18687,6 +21064,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/repos/${owner}/${repo}/issues/${issueNumber}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18699,10 +21078,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Add assignees to an issue
      * @request POST:/repos/{owner}/{repo}/issues/{issue_number}/assignees
      */
-    issuesAddAssignees: (owner: string, repo: string, issueNumber: number, params: RequestParams = {}) =>
+    issuesAddAssignees: (
+      owner: string,
+      repo: string,
+      issueNumber: number,
+      data: {
+        /** Usernames of people to assign this issue to. _NOTE: Only users with push access can add assignees to an issue. Assignees are silently ignored otherwise._ */
+        assignees?: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<IssueSimple, any>({
         path: `/repos/${owner}/${repo}/issues/${issueNumber}/assignees`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18715,10 +21105,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove assignees from an issue
      * @request DELETE:/repos/{owner}/{repo}/issues/{issue_number}/assignees
      */
-    issuesRemoveAssignees: (owner: string, repo: string, issueNumber: number, params: RequestParams = {}) =>
+    issuesRemoveAssignees: (
+      owner: string,
+      repo: string,
+      issueNumber: number,
+      data: {
+        /** Usernames of assignees to remove from an issue. _NOTE: Only users with push access can remove assignees from an issue. Assignees are silently ignored otherwise._ */
+        assignees?: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<IssueSimple, any>({
         path: `/repos/${owner}/${repo}/issues/${issueNumber}/assignees`,
         method: "DELETE",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18735,8 +21136,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       issueNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
         /**
@@ -18750,6 +21150,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<IssueComment[], BasicError>({
         path: `/repos/${owner}/${repo}/issues/${issueNumber}/comments`,
@@ -18767,10 +21168,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create an issue comment
      * @request POST:/repos/{owner}/{repo}/issues/{issue_number}/comments
      */
-    issuesCreateComment: (owner: string, repo: string, issueNumber: number, params: RequestParams = {}) =>
+    issuesCreateComment: (
+      owner: string,
+      repo: string,
+      issueNumber: number,
+      data: {
+        /** The contents of the comment. */
+        body: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<IssueComment, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/issues/${issueNumber}/comments`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18787,8 +21199,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       issueNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -18800,6 +21211,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<IssueEventForIssue[], BasicError>({
         path: `/repos/${owner}/${repo}/issues/${issueNumber}/events`,
@@ -18821,8 +21233,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       issueNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -18834,6 +21245,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Label[], BasicError>({
         path: `/repos/${owner}/${repo}/issues/${issueNumber}/labels`,
@@ -18851,10 +21263,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Add labels to an issue
      * @request POST:/repos/{owner}/{repo}/issues/{issue_number}/labels
      */
-    issuesAddLabels: (owner: string, repo: string, issueNumber: number, params: RequestParams = {}) =>
+    issuesAddLabels: (
+      owner: string,
+      repo: string,
+      issueNumber: number,
+      data: {
+        /** The name of the label to add to the issue. Must contain at least one label. **Note:** Alternatively, you can pass a single label as a `string` or an `array` of labels directly, but GitHub recommends passing an object with the `labels` key. */
+        labels: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Label[], BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/issues/${issueNumber}/labels`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18867,10 +21290,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set labels for an issue
      * @request PUT:/repos/{owner}/{repo}/issues/{issue_number}/labels
      */
-    issuesSetLabels: (owner: string, repo: string, issueNumber: number, params: RequestParams = {}) =>
+    issuesSetLabels: (
+      owner: string,
+      repo: string,
+      issueNumber: number,
+      data: {
+        /** The names of the labels to add to the issue. You can pass an empty array to remove all labels. **Note:** Alternatively, you can pass a single label as a `string` or an `array` of labels directly, but GitHub recommends passing an object with the `labels` key. */
+        labels?: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Label[], BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/issues/${issueNumber}/labels`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -18914,10 +21348,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Lock an issue
      * @request PUT:/repos/{owner}/{repo}/issues/{issue_number}/lock
      */
-    issuesLock: (owner: string, repo: string, issueNumber: number, params: RequestParams = {}) =>
+    issuesLock: (
+      owner: string,
+      repo: string,
+      issueNumber: number,
+      data: {
+        /**
+         * The reason for locking the issue or pull request conversation. Lock will fail if you don't use one of these reasons:
+         * \* `off-topic`
+         * \* `too heated`
+         * \* `resolved`
+         * \* `spam`
+         */
+        lock_reason?: "off-topic" | "too heated" | "resolved" | "spam";
+      } | null,
+      params: RequestParams = {},
+    ) =>
       this.request<void, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/issues/${issueNumber}/lock`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -18948,8 +21399,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       issueNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to an issue. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         /**
@@ -18963,6 +21413,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         Reaction[],
@@ -18987,7 +21438,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create reaction for an issue
      * @request POST:/repos/{owner}/{repo}/issues/{issue_number}/reactions
      */
-    reactionsCreateForIssue: (owner: string, repo: string, issueNumber: number, params: RequestParams = {}) =>
+    reactionsCreateForIssue: (
+      owner: string,
+      repo: string,
+      issueNumber: number,
+      data: {
+        /** The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the issue. */
+        content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         Reaction,
         | {
@@ -18998,6 +21458,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/repos/${owner}/${repo}/issues/${issueNumber}/reactions`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -19035,8 +21497,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       issueNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -19048,6 +21509,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         IssueEventForIssue[],
@@ -19075,8 +21537,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListDeployKeys: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -19088,6 +21549,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<DeployKey[], any>({
         path: `/repos/${owner}/${repo}/keys`,
@@ -19105,10 +21567,28 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a deploy key
      * @request POST:/repos/{owner}/{repo}/keys
      */
-    reposCreateDeployKey: (owner: string, repo: string, params: RequestParams = {}) =>
+    reposCreateDeployKey: (
+      owner: string,
+      repo: string,
+      data: {
+        /** A name for the key. */
+        title?: string;
+        /** The contents of the key. */
+        key: string;
+        /**
+         * If `true`, the key will only be able to read repository contents. Otherwise, the key will be able to read and write.
+         *
+         * Deploy keys with write access can perform the same actions as an organization member with admin access, or a collaborator on a personal repository. For more information, see "[Repository permission levels for an organization](https://help.github.com/articles/repository-permission-levels-for-an-organization/)" and "[Permission levels for a user account repository](https://help.github.com/articles/permission-levels-for-a-user-account-repository/)."
+         */
+        read_only?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<DeployKey, ValidationError>({
         path: `/repos/${owner}/${repo}/keys`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -19155,8 +21635,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesListLabelsForRepo: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -19168,6 +21647,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Label[], BasicError>({
         path: `/repos/${owner}/${repo}/labels`,
@@ -19185,10 +21665,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a label
      * @request POST:/repos/{owner}/{repo}/labels
      */
-    issuesCreateLabel: (owner: string, repo: string, params: RequestParams = {}) =>
+    issuesCreateLabel: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing `:strawberry:` will render the emoji ![:strawberry:](https://github.githubassets.com/images/icons/emoji/unicode/1f353.png ":strawberry:"). For a full list of available emoji and codes, see [emoji-cheat-sheet.com](http://emoji-cheat-sheet.com/). */
+        name: string;
+        /** The [hexadecimal color code](http://www.color-hex.com/) for the label, without the leading `#`. */
+        color?: string;
+        /** A short description of the label. */
+        description?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Label, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/labels`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -19217,10 +21711,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a label
      * @request PATCH:/repos/{owner}/{repo}/labels/{name}
      */
-    issuesUpdateLabel: (owner: string, repo: string, name: string, params: RequestParams = {}) =>
+    issuesUpdateLabel: (
+      owner: string,
+      repo: string,
+      name: string,
+      data: {
+        /** The new name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing `:strawberry:` will render the emoji ![:strawberry:](https://github.githubassets.com/images/icons/emoji/unicode/1f353.png ":strawberry:"). For a full list of available emoji and codes, see [emoji-cheat-sheet.com](http://emoji-cheat-sheet.com/). */
+        new_name?: string;
+        /** The [hexadecimal color code](http://www.color-hex.com/) for the label, without the leading `#`. */
+        color?: string;
+        /** A short description of the label. */
+        description?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Label, any>({
         path: `/repos/${owner}/${repo}/labels/${name}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -19280,7 +21789,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Merge a branch
      * @request POST:/repos/{owner}/{repo}/merges
      */
-    reposMerge: (owner: string, repo: string, params: RequestParams = {}) =>
+    reposMerge: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The name of the base branch that the head will be merged into. */
+        base: string;
+        /** The head to merge. This can be a branch name or a commit SHA1. */
+        head: string;
+        /** Commit message to use for the merge commit. If omitted, a default message will be used. */
+        commit_message?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         Commit,
         | BasicError
@@ -19293,6 +21814,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/repos/${owner}/${repo}/merges`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -19308,8 +21831,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesListMilestones: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * The state of the milestone. Either `open`, `closed`, or `all`.
          * @default "open"
@@ -19336,6 +21858,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Milestone[], BasicError>({
         path: `/repos/${owner}/${repo}/milestones`,
@@ -19353,10 +21876,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a milestone
      * @request POST:/repos/{owner}/{repo}/milestones
      */
-    issuesCreateMilestone: (owner: string, repo: string, params: RequestParams = {}) =>
+    issuesCreateMilestone: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The title of the milestone. */
+        title: string;
+        /**
+         * The state of the milestone. Either `open` or `closed`.
+         * @default "open"
+         */
+        state?: "open" | "closed";
+        /** A description of the milestone. */
+        description?: string;
+        /** The milestone due date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+        due_on?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Milestone, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/milestones`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -19385,10 +21927,30 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a milestone
      * @request PATCH:/repos/{owner}/{repo}/milestones/{milestone_number}
      */
-    issuesUpdateMilestone: (owner: string, repo: string, milestoneNumber: number, params: RequestParams = {}) =>
+    issuesUpdateMilestone: (
+      owner: string,
+      repo: string,
+      milestoneNumber: number,
+      data: {
+        /** The title of the milestone. */
+        title?: string;
+        /**
+         * The state of the milestone. Either `open` or `closed`.
+         * @default "open"
+         */
+        state?: "open" | "closed";
+        /** A description of the milestone. */
+        description?: string;
+        /** The milestone due date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+        due_on?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Milestone, any>({
         path: `/repos/${owner}/${repo}/milestones/${milestoneNumber}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -19420,8 +21982,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       milestoneNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -19433,6 +21994,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Label[], any>({
         path: `/repos/${owner}/${repo}/milestones/${milestoneNumber}/labels`,
@@ -19453,8 +22015,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     activityListRepoNotificationsForAuthenticatedUser: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * If `true`, show notifications marked as read.
          * @default false
@@ -19480,6 +22041,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Thread[], any>({
         path: `/repos/${owner}/${repo}/notifications`,
@@ -19497,10 +22059,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Mark repository notifications as read
      * @request PUT:/repos/{owner}/{repo}/notifications
      */
-    activityMarkRepoNotificationsAsRead: (owner: string, repo: string, params: RequestParams = {}) =>
+    activityMarkRepoNotificationsAsRead: (
+      owner: string,
+      repo: string,
+      data: {
+        /** Describes the last point that notifications were checked. Anything updated since this time will not be marked as read. If you omit this parameter, all notifications are marked as read. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Default: The current timestamp. */
+        last_read_at?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, any>({
         path: `/repos/${owner}/${repo}/notifications`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -19528,7 +22100,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a GitHub Pages site
      * @request POST:/repos/{owner}/{repo}/pages
      */
-    reposCreatePagesSite: (owner: string, repo: string, params: RequestParams = {}) =>
+    reposCreatePagesSite: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The source branch and directory used to publish your Pages site. */
+        source: {
+          /** The repository branch used to publish your site's source files. */
+          branch: string;
+          /**
+           * The repository directory that includes the source files for the Pages site. Allowed paths are `/` or `/docs`. Default: `/`
+           * @default "/"
+           */
+          path?: "/" | "/docs";
+        };
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         Page,
         | BasicError
@@ -19540,6 +22128,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/repos/${owner}/${repo}/pages`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -19552,10 +22142,43 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update information about a GitHub Pages site
      * @request PUT:/repos/{owner}/{repo}/pages
      */
-    reposUpdateInformationAboutPagesSite: (owner: string, repo: string, params: RequestParams = {}) =>
+    reposUpdateInformationAboutPagesSite: (
+      owner: string,
+      repo: string,
+      data: {
+        /** Specify a custom domain for the repository. Sending a `null` value will remove the custom domain. For more about custom domains, see "[Using a custom domain with GitHub Pages](https://help.github.com/articles/using-a-custom-domain-with-github-pages/)." */
+        cname?: string | null;
+        /** Configures access controls for the GitHub Pages site. If public is set to `true`, the site is accessible to anyone on the internet. If set to `false`, the site will only be accessible to users who have at least `read` access to the repository that published the site. This includes anyone in your Enterprise if the repository is set to `internal` visibility. This feature is only available to repositories in an organization on an Enterprise plan. */
+        public?: boolean;
+        /** Update the source for the repository. Must include the branch name, and may optionally specify the subdirectory `/docs`. Possible values are `"gh-pages"`, `"master"`, and `"master /docs"`. */
+        source:
+          | "gh-pages"
+          | "master"
+          | "master /docs"
+          | {
+              /** The repository branch used to publish your site's source files. */
+              branch: string;
+              /** The repository directory that includes the source files for the Pages site. Allowed paths are `/` or `/docs`. */
+              path: "/" | "/docs";
+            }
+          | (
+              | "gh-pages"
+              | "master"
+              | ("master /docs" & {
+                  /** The repository branch used to publish your site's source files. */
+                  branch: string;
+                  /** The repository directory that includes the source files for the Pages site. Allowed paths are `/` or `/docs`. */
+                  path: "/" | "/docs";
+                })
+            );
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/pages`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -19593,8 +22216,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListPagesBuilds: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -19606,6 +22228,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<PageBuild[], any>({
         path: `/repos/${owner}/${repo}/pages/builds`,
@@ -19674,8 +22297,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     projectsListForRepo: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Indicates the state of the projects to return. Can be either `open`, `closed`, or `all`.
          * @default "open"
@@ -19692,6 +22314,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Project[], BasicError | ValidationErrorSimple>({
         path: `/repos/${owner}/${repo}/projects`,
@@ -19709,10 +22332,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a repository project
      * @request POST:/repos/{owner}/{repo}/projects
      */
-    projectsCreateForRepo: (owner: string, repo: string, params: RequestParams = {}) =>
+    projectsCreateForRepo: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The name of the project. */
+        name: string;
+        /** The description of the project. */
+        body?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Project, BasicError | ValidationErrorSimple>({
         path: `/repos/${owner}/${repo}/projects`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -19728,8 +22363,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsList: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Either `open`, `closed`, or `all` to filter by state.
          * @default "open"
@@ -19757,6 +22391,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<PullRequestSimple[], ValidationError>({
         path: `/repos/${owner}/${repo}/pulls`,
@@ -19774,10 +22409,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a pull request
      * @request POST:/repos/{owner}/{repo}/pulls
      */
-    pullsCreate: (owner: string, repo: string, params: RequestParams = {}) =>
+    pullsCreate: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The title of the new pull request. */
+        title?: string;
+        /** The name of the branch where your changes are implemented. For cross-repository pull requests in the same network, namespace `head` with a user like this: `username:branch`. */
+        head: string;
+        /** The name of the branch you want the changes pulled into. This should be an existing branch on the current repository. You cannot submit a pull request to one repository that requests a merge to a base of another repository. */
+        base: string;
+        /** The contents of the pull request. */
+        body?: string;
+        /** Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request. */
+        maintainer_can_modify?: boolean;
+        /** Indicates whether the pull request is a draft. See "[Draft Pull Requests](https://help.github.com/en/articles/about-pull-requests#draft-pull-requests)" in the GitHub Help documentation to learn more. */
+        draft?: boolean;
+        /** @example 1 */
+        issue?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<PullRequest, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/pulls`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -19793,8 +22450,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pullsListReviewCommentsForRepo: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
          * @default "created"
@@ -19815,6 +22471,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<PullRequestReviewComment[], any>({
         path: `/repos/${owner}/${repo}/pulls/comments`,
@@ -19848,10 +22505,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a review comment for a pull request
      * @request PATCH:/repos/{owner}/{repo}/pulls/comments/{comment_id}
      */
-    pullsUpdateReviewComment: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
+    pullsUpdateReviewComment: (
+      owner: string,
+      repo: string,
+      commentId: number,
+      data: {
+        /** The text of the reply to the review comment. */
+        body: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<PullRequestReviewComment, any>({
         path: `/repos/${owner}/${repo}/pulls/comments/${commentId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -19883,8 +22551,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       commentId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a pull request review comment. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         /**
@@ -19898,6 +22565,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         Reaction[],
@@ -19926,6 +22594,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       commentId: number,
+      data: {
+        /** The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the pull request review comment. */
+        content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
+      },
       params: RequestParams = {},
     ) =>
       this.request<
@@ -19938,6 +22610,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/repos/${owner}/${repo}/pulls/comments/${commentId}/reactions`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -19987,10 +22661,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a pull request
      * @request PATCH:/repos/{owner}/{repo}/pulls/{pull_number}
      */
-    pullsUpdate: (owner: string, repo: string, pullNumber: number, params: RequestParams = {}) =>
+    pullsUpdate: (
+      owner: string,
+      repo: string,
+      pullNumber: number,
+      data: {
+        /** The title of the pull request. */
+        title?: string;
+        /** The contents of the pull request. */
+        body?: string;
+        /** State of this Pull Request. Either `open` or `closed`. */
+        state?: "open" | "closed";
+        /** The name of the branch you want your changes pulled into. This should be an existing branch on the current repository. You cannot update the base branch on a pull request to point to another repository. */
+        base?: string;
+        /** Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request. */
+        maintainer_can_modify?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<PullRequest, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -20007,8 +22700,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       pullNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
          * @default "created"
@@ -20029,6 +22721,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<PullRequestReviewComment[], any>({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}/comments`,
@@ -20046,10 +22739,37 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a review comment for a pull request
      * @request POST:/repos/{owner}/{repo}/pulls/{pull_number}/comments
      */
-    pullsCreateReviewComment: (owner: string, repo: string, pullNumber: number, params: RequestParams = {}) =>
+    pullsCreateReviewComment: (
+      owner: string,
+      repo: string,
+      pullNumber: number,
+      data: {
+        /** The text of the review comment. */
+        body: string;
+        /** The SHA of the commit needing a comment. Not using the latest commit SHA may render your comment outdated if a subsequent commit modifies the line you specify as the `position`. */
+        commit_id?: string;
+        /** The relative path to the file that necessitates a comment. */
+        path: string;
+        /** **Required without `comfort-fade` preview**. The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note above. */
+        position?: number;
+        /** **Required with `comfort-fade` preview**. In a split diff view, the side of the diff that the pull request's changes appear on. Can be `LEFT` or `RIGHT`. Use `LEFT` for deletions that appear in red. Use `RIGHT` for additions that appear in green or unchanged lines that appear in white and are shown for context. For a multi-line comment, side represents whether the last line of the comment range is a deletion or addition. For more information, see "[Diff view options](https://help.github.com/en/articles/about-comparing-branches-in-pull-requests#diff-view-options)" in the GitHub Help documentation. */
+        side?: "LEFT" | "RIGHT";
+        /** **Required with `comfort-fade` preview**. The line of the blob in the pull request diff that the comment applies to. For a multi-line comment, the last line of the range that your comment applies to. */
+        line?: number;
+        /** **Required when using multi-line comments**. To create multi-line comments, you must use the `comfort-fade` preview header. The `start_line` is the first line in the pull request diff that your multi-line comment applies to. To learn more about multi-line comments, see "[Commenting on a pull request](https://help.github.com/en/articles/commenting-on-a-pull-request#adding-line-comments-to-a-pull-request)" in the GitHub Help documentation. */
+        start_line?: number;
+        /** **Required when using multi-line comments**. To create multi-line comments, you must use the `comfort-fade` preview header. The `start_side` is the starting side of the diff that the comment applies to. Can be `LEFT` or `RIGHT`. To learn more about multi-line comments, see "[Commenting on a pull request](https://help.github.com/en/articles/commenting-on-a-pull-request#adding-line-comments-to-a-pull-request)" in the GitHub Help documentation. See `side` in this table for additional context. */
+        start_side?: "LEFT" | "RIGHT" | "side";
+        /** @example 2 */
+        in_reply_to?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<PullRequestReviewComment, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}/comments`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -20067,11 +22787,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       pullNumber: number,
       commentId: number,
+      data: {
+        /** The text of the review comment. */
+        body: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<PullRequestReviewComment, BasicError>({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}/comments/${commentId}/replies`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -20088,8 +22814,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       pullNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -20101,6 +22826,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Commit[], any>({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}/commits`,
@@ -20122,8 +22848,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       pullNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -20135,6 +22860,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<DiffEntry[], ValidationError | BasicError>({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}/files`,
@@ -20167,7 +22893,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Merge a pull request
      * @request PUT:/repos/{owner}/{repo}/pulls/{pull_number}/merge
      */
-    pullsMerge: (owner: string, repo: string, pullNumber: number, params: RequestParams = {}) =>
+    pullsMerge: (
+      owner: string,
+      repo: string,
+      pullNumber: number,
+      data: {
+        /** Title for the automatic commit message. */
+        commit_title?: string;
+        /** Extra detail to append to automatic commit message. */
+        commit_message?: string;
+        /** SHA that pull request head must match to allow merge. */
+        sha?: string;
+        /** Merge method to use. Possible values are `merge`, `squash` or `rebase`. Default is `merge`. */
+        merge_method?: "merge" | "squash" | "rebase";
+      } | null,
+      params: RequestParams = {},
+    ) =>
       this.request<
         PullRequestMergeResult,
         | BasicError
@@ -20179,6 +22920,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}/merge`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -20195,8 +22938,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       pullNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -20208,6 +22950,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<PullRequestReviewRequest, any>({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}/requested_reviewers`,
@@ -20225,10 +22968,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Request reviewers for a pull request
      * @request POST:/repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers
      */
-    pullsRequestReviewers: (owner: string, repo: string, pullNumber: number, params: RequestParams = {}) =>
+    pullsRequestReviewers: (
+      owner: string,
+      repo: string,
+      pullNumber: number,
+      data: {
+        /** An array of user `login`s that will be requested. */
+        reviewers?: string[];
+        /** An array of team `slug`s that will be requested. */
+        team_reviewers?: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<PullRequestSimple, BasicError | void>({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}/requested_reviewers`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -20241,10 +22997,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Remove requested reviewers from a pull request
      * @request DELETE:/repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers
      */
-    pullsRemoveRequestedReviewers: (owner: string, repo: string, pullNumber: number, params: RequestParams = {}) =>
+    pullsRemoveRequestedReviewers: (
+      owner: string,
+      repo: string,
+      pullNumber: number,
+      data: {
+        /** An array of user `login`s that will be removed. */
+        reviewers?: string[];
+        /** An array of team `slug`s that will be removed. */
+        team_reviewers?: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, ValidationError>({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}/requested_reviewers`,
         method: "DELETE",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -20260,8 +23029,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       pullNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -20273,6 +23041,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<PullRequestReview[], any>({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}/reviews`,
@@ -20290,10 +23059,42 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a review for a pull request
      * @request POST:/repos/{owner}/{repo}/pulls/{pull_number}/reviews
      */
-    pullsCreateReview: (owner: string, repo: string, pullNumber: number, params: RequestParams = {}) =>
+    pullsCreateReview: (
+      owner: string,
+      repo: string,
+      pullNumber: number,
+      data: {
+        /** The SHA of the commit that needs a review. Not using the latest commit SHA may render your review comment outdated if a subsequent commit modifies the line you specify as the `position`. Defaults to the most recent commit in the pull request when you do not specify a value. */
+        commit_id?: string;
+        /** **Required** when using `REQUEST_CHANGES` or `COMMENT` for the `event` parameter. The body text of the pull request review. */
+        body?: string;
+        /** The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`. By leaving this blank, you set the review action state to `PENDING`, which means you will need to [submit the pull request review](https://docs.github.com/rest/reference/pulls#submit-a-review-for-a-pull-request) when you are ready. */
+        event?: "APPROVE" | "REQUEST_CHANGES" | "COMMENT";
+        /** Use the following table to specify the location, destination, and contents of the draft review comment. */
+        comments?: {
+          /** The relative path to the file that necessitates a review comment. */
+          path: string;
+          /** The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below. */
+          position?: number;
+          /** Text of the review comment. */
+          body: string;
+          /** @example 28 */
+          line?: number;
+          /** @example "RIGHT" */
+          side?: string;
+          /** @example 26 */
+          start_line?: number;
+          /** @example "LEFT" */
+          start_side?: string;
+        }[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<PullRequestReview, BasicError | ValidationErrorSimple>({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}/reviews`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -20327,11 +23128,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       pullNumber: number,
       reviewId: number,
+      data: {
+        /** The body text of the pull request review. */
+        body: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<PullRequestReview, ValidationErrorSimple>({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}/reviews/${reviewId}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -20371,8 +23178,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       pullNumber: number,
       reviewId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -20384,6 +23190,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<ReviewComment[], BasicError>({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}/reviews/${reviewId}/comments`,
@@ -20406,11 +23213,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       pullNumber: number,
       reviewId: number,
+      data: {
+        /** The message for the pull request review dismissal */
+        message: string;
+        /** @example ""APPROVE"" */
+        event?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<PullRequestReview, BasicError | ValidationErrorSimple>({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}/reviews/${reviewId}/dismissals`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -20428,11 +23243,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       repo: string,
       pullNumber: number,
       reviewId: number,
+      data: {
+        /** The body text of the pull request review */
+        body?: string;
+        /** The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`. When you leave this blank, the API returns _HTTP 422 (Unrecognizable entity)_ and sets the review action state to `PENDING`, which means you will need to re-submit the pull request review using a review action. */
+        event: "APPROVE" | "REQUEST_CHANGES" | "COMMENT";
+      },
       params: RequestParams = {},
     ) =>
       this.request<PullRequestReview, BasicError | ValidationErrorSimple>({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}/reviews/${reviewId}/events`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -20445,7 +23268,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a pull request branch
      * @request PUT:/repos/{owner}/{repo}/pulls/{pull_number}/update-branch
      */
-    pullsUpdateBranch: (owner: string, repo: string, pullNumber: number, params: RequestParams = {}) =>
+    pullsUpdateBranch: (
+      owner: string,
+      repo: string,
+      pullNumber: number,
+      data: {
+        /** The expected SHA of the pull request's HEAD ref. This is the most recent commit on the pull request's branch. If the expected SHA does not match the pull request's HEAD, you will receive a `422 Unprocessable Entity` status. You can use the "[List commits](https://docs.github.com/rest/reference/repos#list-commits)" endpoint to find the most recent commit SHA. Default: SHA of the pull request's current HEAD ref. */
+        expected_head_sha?: string;
+      } | null,
+      params: RequestParams = {},
+    ) =>
       this.request<
         {
           message?: string;
@@ -20460,6 +23292,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/repos/${owner}/${repo}/pulls/${pullNumber}/update-branch`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -20475,11 +23309,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposGetReadme: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** The name of the commit/branch/tag. Default: the repository’s default branch (usually `master`) */
         ref?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<ContentFile, BasicError | ValidationError>({
         path: `/repos/${owner}/${repo}/readme`,
@@ -20500,8 +23334,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListReleases: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -20513,6 +23346,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Release[], BasicError>({
         path: `/repos/${owner}/${repo}/releases`,
@@ -20530,10 +23364,36 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a release
      * @request POST:/repos/{owner}/{repo}/releases
      */
-    reposCreateRelease: (owner: string, repo: string, params: RequestParams = {}) =>
+    reposCreateRelease: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The name of the tag. */
+        tag_name: string;
+        /** Specifies the commitish value that determines where the Git tag is created from. Can be any branch or commit SHA. Unused if the Git tag already exists. Default: the repository's default branch (usually `master`). */
+        target_commitish?: string;
+        /** The name of the release. */
+        name?: string;
+        /** Text describing the contents of the tag. */
+        body?: string;
+        /**
+         * `true` to create a draft (unpublished) release, `false` to create a published one.
+         * @default false
+         */
+        draft?: boolean;
+        /**
+         * `true` to identify the release as a prerelease. `false` to identify the release as a full release.
+         * @default false
+         */
+        prerelease?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Release, ValidationError>({
         path: `/repos/${owner}/${repo}/releases`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -20569,10 +23429,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a release asset
      * @request PATCH:/repos/{owner}/{repo}/releases/assets/{asset_id}
      */
-    reposUpdateReleaseAsset: (owner: string, repo: string, assetId: number, params: RequestParams = {}) =>
+    reposUpdateReleaseAsset: (
+      owner: string,
+      repo: string,
+      assetId: number,
+      data: {
+        /** The file name of the asset. */
+        name?: string;
+        /** An alternate short description of the asset. Used in place of the filename. */
+        label?: string;
+        /** @example ""uploaded"" */
+        state?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ReleaseAsset, any>({
         path: `/repos/${owner}/${repo}/releases/assets/${assetId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -20648,10 +23523,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a release
      * @request PATCH:/repos/{owner}/{repo}/releases/{release_id}
      */
-    reposUpdateRelease: (owner: string, repo: string, releaseId: number, params: RequestParams = {}) =>
+    reposUpdateRelease: (
+      owner: string,
+      repo: string,
+      releaseId: number,
+      data: {
+        /** The name of the tag. */
+        tag_name?: string;
+        /** Specifies the commitish value that determines where the Git tag is created from. Can be any branch or commit SHA. Unused if the Git tag already exists. Default: the repository's default branch (usually `master`). */
+        target_commitish?: string;
+        /** The name of the release. */
+        name?: string;
+        /** Text describing the contents of the tag. */
+        body?: string;
+        /** `true` makes the release a draft, and `false` publishes the release. */
+        draft?: boolean;
+        /** `true` to identify the release as a prerelease, `false` to identify the release as a full release. */
+        prerelease?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Release, any>({
         path: `/repos/${owner}/${repo}/releases/${releaseId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -20683,8 +23579,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       releaseId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -20696,6 +23591,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<ReleaseAsset[], any>({
         path: `/repos/${owner}/${repo}/releases/${releaseId}/assets`,
@@ -20717,16 +23613,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       releaseId: number,
-      params: RequestParams = {},
-      query: {
+      data: WebhookConfigUrl,
+      query?: {
         name?: string;
         label?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<ReleaseAsset, any>({
         path: `/repos/${owner}/${repo}/releases/${releaseId}/assets`,
         method: "POST",
         query: query,
+        body: data,
         format: "json",
         ...params,
       }),
@@ -20742,8 +23640,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     secretScanningListAlertsForRepo: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Set to `open` or `resolved` to only list secret scanning alerts in a specific state. */
         state?: "open" | "resolved";
         /**
@@ -20757,6 +23654,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         per_page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         SecretScanningAlert[],
@@ -20804,7 +23702,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a secret scanning alert
      * @request PATCH:/repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}
      */
-    secretScanningUpdateAlert: (owner: string, repo: string, alertNumber: AlertNumber, params: RequestParams = {}) =>
+    secretScanningUpdateAlert: (
+      owner: string,
+      repo: string,
+      alertNumber: AlertNumber,
+      data: {
+        /** Sets the state of the secret scanning alert. Can be either `open` or `resolved`. You must provide `resolution` when you set the state to `resolved`. */
+        state: SecretScanningAlertState;
+        /** **Required when the `state` is `resolved`.** The reason for resolving the alert. Can be one of `false_positive`, `wont_fix`, `revoked`, or `used_in_tests`. */
+        resolution?: SecretScanningAlertResolution;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         SecretScanningAlert,
         void | {
@@ -20815,6 +23724,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/repos/${owner}/${repo}/secret-scanning/alerts/${alertNumber}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -20830,8 +23741,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     activityListStargazersForRepo: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -20843,6 +23753,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<SimpleUser[], ValidationError>({
         path: `/repos/${owner}/${repo}/stargazers`,
@@ -20940,10 +23851,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a commit status
      * @request POST:/repos/{owner}/{repo}/statuses/{sha}
      */
-    reposCreateCommitStatus: (owner: string, repo: string, sha: string, params: RequestParams = {}) =>
+    reposCreateCommitStatus: (
+      owner: string,
+      repo: string,
+      sha: string,
+      data: {
+        /** The state of the status. Can be one of `error`, `failure`, `pending`, or `success`. */
+        state: "error" | "failure" | "pending" | "success";
+        /**
+         * The target URL to associate with this status. This URL will be linked from the GitHub UI to allow users to easily see the source of the status.
+         * For example, if your continuous integration system is posting build status, you would want to provide the deep link for the build output for this specific SHA:
+         * `http://ci.example.com/user/repo/build/sha`
+         */
+        target_url?: string;
+        /** A short description of the status. */
+        description?: string;
+        /**
+         * A string label to differentiate this status from the status of other systems. This field is case-insensitive.
+         * @default "default"
+         */
+        context?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Status, any>({
         path: `/repos/${owner}/${repo}/statuses/${sha}`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -20959,8 +23894,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     activityListWatchersForRepo: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -20972,6 +23906,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<SimpleUser[], any>({
         path: `/repos/${owner}/${repo}/subscribers`,
@@ -21005,10 +23940,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set a repository subscription
      * @request PUT:/repos/{owner}/{repo}/subscription
      */
-    activitySetRepoSubscription: (owner: string, repo: string, params: RequestParams = {}) =>
+    activitySetRepoSubscription: (
+      owner: string,
+      repo: string,
+      data: {
+        /** Determines if notifications should be received from this repository. */
+        subscribed?: boolean;
+        /** Determines if all notifications should be blocked from this repository. */
+        ignored?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<RepositorySubscription, any>({
         path: `/repos/${owner}/${repo}/subscription`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -21039,8 +23986,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListTags: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -21052,6 +23998,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Tag[], any>({
         path: `/repos/${owner}/${repo}/tags`,
@@ -21087,8 +24034,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposListTeams: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -21100,6 +24046,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Team[], any>({
         path: `/repos/${owner}/${repo}/teams`,
@@ -21140,7 +24087,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Replace all repository topics
      * @request PUT:/repos/{owner}/{repo}/topics
      */
-    reposReplaceAllTopics: (owner: string, repo: string, params: RequestParams = {}) =>
+    reposReplaceAllTopics: (
+      owner: string,
+      repo: string,
+      data: {
+        /** An array of topics to add to the repository. Pass one or more topics to _replace_ the set of existing topics. Send an empty array (`[]`) to clear all topics from the repository. **Note:** Topic `names` cannot contain uppercase letters. */
+        names: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         Topic,
         | BasicError
@@ -21152,6 +24107,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/repos/${owner}/${repo}/topics`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -21167,14 +24124,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposGetClones: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Must be one of: `day`, `week`.
          * @default "day"
          */
         per?: "day" | "week";
       },
+      params: RequestParams = {},
     ) =>
       this.request<CloneTraffic, BasicError>({
         path: `/repos/${owner}/${repo}/traffic/clones`,
@@ -21227,14 +24184,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposGetViews: (
       owner: string,
       repo: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Must be one of: `day`, `week`.
          * @default "day"
          */
         per?: "day" | "week";
       },
+      params: RequestParams = {},
     ) =>
       this.request<ViewTraffic, BasicError>({
         path: `/repos/${owner}/${repo}/traffic/views`,
@@ -21252,10 +24209,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Transfer a repository
      * @request POST:/repos/{owner}/{repo}/transfer
      */
-    reposTransfer: (owner: string, repo: string, params: RequestParams = {}) =>
+    reposTransfer: (
+      owner: string,
+      repo: string,
+      data: {
+        /** The username or organization name the repository will be transferred to. */
+        new_owner: string;
+        /** ID of the team or teams to add to the repository. Teams can only be added to organization-owned repositories. */
+        team_ids?: number[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Repository, any>({
         path: `/repos/${owner}/${repo}/transfer`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -21328,10 +24297,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a repository using a template
      * @request POST:/repos/{template_owner}/{template_repo}/generate
      */
-    reposCreateUsingTemplate: (templateOwner: string, templateRepo: string, params: RequestParams = {}) =>
+    reposCreateUsingTemplate: (
+      templateOwner: string,
+      templateRepo: string,
+      data: {
+        /** The organization or person who will own the new repository. To create a new repository in an organization, the authenticated user must be a member of the specified organization. */
+        owner?: string;
+        /** The name of the new repository. */
+        name: string;
+        /** A short description of the new repository. */
+        description?: string;
+        /**
+         * Set to `true` to include the directory structure and files from all branches in the template repository, and not just the default branch. Default: `false`.
+         * @default false
+         */
+        include_all_branches?: boolean;
+        /**
+         * Either `true` to create a new private repository or `false` to create a new public one.
+         * @default false
+         */
+        private?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Repository, any>({
         path: `/repos/${templateOwner}/${templateRepo}/generate`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -21346,11 +24339,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/repositories
      */
     reposListPublic: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** A repository ID. Only return repositories with an ID greater than this ID. */
         since?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<MinimalRepository[], ValidationError>({
         path: `/repositories`,
@@ -21371,13 +24364,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminListProvisionedGroupsEnterprise: (
       enterprise: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Used for pagination: the index of the first result to return. */
         startIndex?: number;
         /** Used for pagination: the number of results to return. */
         count?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<ScimGroupListEnterprise, any>({
         path: `/scim/v2/enterprises/${enterprise}/Groups`,
@@ -21395,10 +24388,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Provision a SCIM enterprise group and invite users
      * @request POST:/scim/v2/enterprises/{enterprise}/Groups
      */
-    enterpriseAdminProvisionAndInviteEnterpriseGroup: (enterprise: string, params: RequestParams = {}) =>
+    enterpriseAdminProvisionAndInviteEnterpriseGroup: (
+      enterprise: string,
+      data: {
+        /** The SCIM schema URIs. */
+        schemas: string[];
+        /** The name of the SCIM group. This must match the GitHub organization that the group maps to. */
+        displayName: string;
+        members?: {
+          /** The SCIM user ID for a user. */
+          value: string;
+        }[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ScimEnterpriseGroup, any>({
         path: `/scim/v2/enterprises/${enterprise}/Groups`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -21434,11 +24442,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     enterpriseAdminSetInformationForProvisionedEnterpriseGroup: (
       enterprise: string,
       scimGroupId: string,
+      data: {
+        /** The SCIM schema URIs. */
+        schemas: string[];
+        /** The name of the SCIM group. This must match the GitHub organization that the group maps to. */
+        displayName: string;
+        members?: {
+          /** The SCIM user ID for a user. */
+          value: string;
+        }[];
+      },
       params: RequestParams = {},
     ) =>
       this.request<ScimEnterpriseGroup, any>({
         path: `/scim/v2/enterprises/${enterprise}/Groups/${scimGroupId}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -21454,11 +24474,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     enterpriseAdminUpdateAttributeForEnterpriseGroup: (
       enterprise: string,
       scimGroupId: string,
+      data: {
+        /** The SCIM schema URIs. */
+        schemas: string[];
+        /** Array of [SCIM operations](https://tools.ietf.org/html/rfc7644#section-3.5.2). */
+        Operations: object[];
+      },
       params: RequestParams = {},
     ) =>
       this.request<ScimEnterpriseGroup, any>({
         path: `/scim/v2/enterprises/${enterprise}/Groups/${scimGroupId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -21492,13 +24520,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     enterpriseAdminListProvisionedIdentitiesEnterprise: (
       enterprise: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Used for pagination: the index of the first result to return. */
         startIndex?: number;
         /** Used for pagination: the number of results to return. */
         count?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<ScimUserListEnterprise, any>({
         path: `/scim/v2/enterprises/${enterprise}/Users`,
@@ -21516,10 +24544,40 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Provision and invite a SCIM enterprise user
      * @request POST:/scim/v2/enterprises/{enterprise}/Users
      */
-    enterpriseAdminProvisionAndInviteEnterpriseUser: (enterprise: string, params: RequestParams = {}) =>
+    enterpriseAdminProvisionAndInviteEnterpriseUser: (
+      enterprise: string,
+      data: {
+        /** The SCIM schema URIs. */
+        schemas: string[];
+        /** The username for the user. */
+        userName: string;
+        name: {
+          /** The first name of the user. */
+          givenName: string;
+          /** The last name of the user. */
+          familyName: string;
+        };
+        /** List of user emails. */
+        emails: {
+          /** The email address. */
+          value: string;
+          /** The type of email address. */
+          type: string;
+          /** Whether this email address is the primary address. */
+          primary: boolean;
+        }[];
+        /** List of SCIM group IDs the user is a member of. */
+        groups?: {
+          value?: string;
+        }[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ScimEnterpriseUser, any>({
         path: `/scim/v2/enterprises/${enterprise}/Users`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -21555,11 +24613,38 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     enterpriseAdminSetInformationForProvisionedEnterpriseUser: (
       enterprise: string,
       scimUserId: string,
+      data: {
+        /** The SCIM schema URIs. */
+        schemas: string[];
+        /** The username for the user. */
+        userName: string;
+        name: {
+          /** The first name of the user. */
+          givenName: string;
+          /** The last name of the user. */
+          familyName: string;
+        };
+        /** List of user emails. */
+        emails: {
+          /** The email address. */
+          value: string;
+          /** The type of email address. */
+          type: string;
+          /** Whether this email address is the primary address. */
+          primary: boolean;
+        }[];
+        /** List of SCIM group IDs the user is a member of. */
+        groups?: {
+          value?: string;
+        }[];
+      },
       params: RequestParams = {},
     ) =>
       this.request<ScimEnterpriseUser, any>({
         path: `/scim/v2/enterprises/${enterprise}/Users/${scimUserId}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -21575,11 +24660,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     enterpriseAdminUpdateAttributeForEnterpriseUser: (
       enterprise: string,
       scimUserId: string,
+      data: {
+        /** The SCIM schema URIs. */
+        schemas: string[];
+        /** Array of [SCIM operations](https://tools.ietf.org/html/rfc7644#section-3.5.2). */
+        Operations: object[];
+      },
       params: RequestParams = {},
     ) =>
       this.request<ScimEnterpriseUser, any>({
         path: `/scim/v2/enterprises/${enterprise}/Users/${scimUserId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -21609,8 +24702,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     scimListProvisionedIdentities: (
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Used for pagination: the index of the first result to return. */
         startIndex?: number;
         /** Used for pagination: the number of results to return. */
@@ -21626,6 +24718,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         filter?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<ScimUserList, ScimError>({
         path: `/scim/v2/organizations/${org}/Users`,
@@ -21643,10 +24736,47 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Provision and invite a SCIM user
      * @request POST:/scim/v2/organizations/{org}/Users
      */
-    scimProvisionAndInviteUser: (org: string, params: RequestParams = {}) =>
+    scimProvisionAndInviteUser: (
+      org: string,
+      data: {
+        /**
+         * Configured by the admin. Could be an email, login, or username
+         * @example "someone@example.com"
+         */
+        userName: string;
+        /**
+         * The name of the user, suitable for display to end-users
+         * @example "Jon Doe"
+         */
+        displayName?: string;
+        /** @example {"givenName":"Jane","familyName":"User"} */
+        name: {
+          givenName: string;
+          familyName: string;
+          formatted?: string;
+        };
+        /**
+         * user emails
+         * @minItems 1
+         * @example [{"value":"someone@example.com","primary":true},{"value":"another@example.com","primary":false}]
+         */
+        emails: {
+          value: string;
+          primary?: boolean;
+          type?: string;
+        }[];
+        schemas?: string[];
+        externalId?: string;
+        groups?: string[];
+        active?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ScimUser, ScimError>({
         path: `/scim/v2/organizations/${org}/Users`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -21675,10 +24805,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update a provisioned organization membership
      * @request PUT:/scim/v2/organizations/{org}/Users/{scim_user_id}
      */
-    scimSetInformationForProvisionedUser: (org: string, scimUserId: string, params: RequestParams = {}) =>
+    scimSetInformationForProvisionedUser: (
+      org: string,
+      scimUserId: string,
+      data: {
+        schemas?: string[];
+        /**
+         * The name of the user, suitable for display to end-users
+         * @example "Jon Doe"
+         */
+        displayName?: string;
+        externalId?: string;
+        groups?: string[];
+        active?: boolean;
+        /**
+         * Configured by the admin. Could be an email, login, or username
+         * @example "someone@example.com"
+         */
+        userName: string;
+        /** @example {"givenName":"Jane","familyName":"User"} */
+        name: {
+          givenName: string;
+          familyName: string;
+          formatted?: string;
+        };
+        /**
+         * user emails
+         * @minItems 1
+         * @example [{"value":"someone@example.com","primary":true},{"value":"another@example.com","primary":false}]
+         */
+        emails: {
+          type?: string;
+          value: string;
+          primary?: boolean;
+        }[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ScimUser, ScimError>({
         path: `/scim/v2/organizations/${org}/Users/${scimUserId}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -21691,10 +24859,41 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update an attribute for a SCIM user
      * @request PATCH:/scim/v2/organizations/{org}/Users/{scim_user_id}
      */
-    scimUpdateAttributeForUser: (org: string, scimUserId: string, params: RequestParams = {}) =>
+    scimUpdateAttributeForUser: (
+      org: string,
+      scimUserId: string,
+      data: {
+        schemas?: string[];
+        /**
+         * Set of operations to be performed
+         * @minItems 1
+         * @example [{"op":"replace","value":{"active":false}}]
+         */
+        Operations: {
+          op: "add" | "remove" | "replace";
+          path?: string;
+          value?:
+            | {
+                active?: boolean | null;
+                userName?: string | null;
+                externalId?: string | null;
+                givenName?: string | null;
+                familyName?: string | null;
+              }
+            | {
+                value?: string;
+                primary?: boolean;
+              }[]
+            | string;
+        }[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ScimUser, ScimError | BasicError>({
         path: `/scim/v2/organizations/${org}/Users/${scimUserId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -21724,7 +24923,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/search/code
      */
     searchCode: (
-      params: RequestParams = {},
       query: {
         /** The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). See "[Searching code](https://help.github.com/articles/searching-code/)" for a detailed list of qualifiers. */
         q: string;
@@ -21746,6 +24944,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -21777,7 +24976,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/search/commits
      */
     searchCommits: (
-      params: RequestParams = {},
       query: {
         /** The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). See "[Searching commits](https://help.github.com/articles/searching-commits/)" for a detailed list of qualifiers. */
         q: string;
@@ -21799,6 +24997,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -21827,7 +25026,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/search/issues
      */
     searchIssuesAndPullRequests: (
-      params: RequestParams = {},
       query: {
         /** The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). See "[Searching issues and pull requests](https://help.github.com/articles/searching-issues-and-pull-requests/)" for a detailed list of qualifiers. */
         q: string;
@@ -21860,6 +25058,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -21891,7 +25090,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/search/labels
      */
     searchLabels: (
-      params: RequestParams = {},
       query: {
         /** The id of the repository. */
         repository_id: number;
@@ -21905,6 +25103,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         order?: "desc" | "asc";
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -21930,7 +25129,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/search/repositories
      */
     searchRepos: (
-      params: RequestParams = {},
       query: {
         /** The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). See "[Searching for repositories](https://help.github.com/articles/searching-for-repositories/)" for a detailed list of qualifiers. */
         q: string;
@@ -21952,6 +25150,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -21982,11 +25181,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/search/topics
      */
     searchTopics: (
-      params: RequestParams = {},
       query: {
         /** The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). */
         q: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -22015,7 +25214,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/search/users
      */
     searchUsers: (
-      params: RequestParams = {},
       query: {
         /** The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). See "[Searching users](https://help.github.com/articles/searching-users/)" for a detailed list of qualifiers. */
         q: string;
@@ -22037,6 +25235,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -22085,10 +25284,40 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/teams/{team_id}
      * @deprecated
      */
-    teamsUpdateLegacy: (teamId: number, params: RequestParams = {}) =>
+    teamsUpdateLegacy: (
+      teamId: number,
+      data: {
+        /** The name of the team. */
+        name: string;
+        /** The description of the team. */
+        description?: string;
+        /**
+         * The level of privacy this team should have. Editing teams without specifying this parameter leaves `privacy` intact. The options are:
+         * **For a non-nested team:**
+         * \* `secret` - only visible to organization owners and members of this team.
+         * \* `closed` - visible to all members of this organization.
+         * **For a parent or child team:**
+         * \* `closed` - visible to all members of this organization.
+         */
+        privacy?: "secret" | "closed";
+        /**
+         * **Deprecated**. The permission that new repositories will be added to the team with when none is specified. Can be one of:
+         * \* `pull` - team members can pull, but not push to or administer newly-added repositories.
+         * \* `push` - team members can pull and push, but not administer newly-added repositories.
+         * \* `admin` - team members can pull, push and administer newly-added repositories.
+         * @default "pull"
+         */
+        permission?: "pull" | "push" | "admin";
+        /** The ID of a team to set as the parent team. */
+        parent_team_id?: number | null;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<TeamFull, BasicError | ValidationError>({
         path: `/teams/${teamId}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -22120,8 +25349,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsListDiscussionsLegacy: (
       teamId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * One of `asc` (ascending) or `desc` (descending).
          * @default "desc"
@@ -22138,6 +25366,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<TeamDiscussion[], any>({
         path: `/teams/${teamId}/discussions`,
@@ -22156,10 +25385,26 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/teams/{team_id}/discussions
      * @deprecated
      */
-    teamsCreateDiscussionLegacy: (teamId: number, params: RequestParams = {}) =>
+    teamsCreateDiscussionLegacy: (
+      teamId: number,
+      data: {
+        /** The discussion post's title. */
+        title: string;
+        /** The discussion post's body text. */
+        body: string;
+        /**
+         * Private posts are only visible to team members, organization owners, and team maintainers. Public posts are visible to all members of the organization. Set to `true` to create a private post.
+         * @default false
+         */
+        private?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<TeamDiscussion, any>({
         path: `/teams/${teamId}/discussions`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -22190,10 +25435,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/teams/{team_id}/discussions/{discussion_number}
      * @deprecated
      */
-    teamsUpdateDiscussionLegacy: (teamId: number, discussionNumber: number, params: RequestParams = {}) =>
+    teamsUpdateDiscussionLegacy: (
+      teamId: number,
+      discussionNumber: number,
+      data: {
+        /** The discussion post's title. */
+        title?: string;
+        /** The discussion post's body text. */
+        body?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<TeamDiscussion, any>({
         path: `/teams/${teamId}/discussions/${discussionNumber}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -22226,8 +25483,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     teamsListDiscussionCommentsLegacy: (
       teamId: number,
       discussionNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * One of `asc` (ascending) or `desc` (descending).
          * @default "desc"
@@ -22244,6 +25500,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<TeamDiscussionComment[], any>({
         path: `/teams/${teamId}/discussions/${discussionNumber}/comments`,
@@ -22262,10 +25519,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/teams/{team_id}/discussions/{discussion_number}/comments
      * @deprecated
      */
-    teamsCreateDiscussionCommentLegacy: (teamId: number, discussionNumber: number, params: RequestParams = {}) =>
+    teamsCreateDiscussionCommentLegacy: (
+      teamId: number,
+      discussionNumber: number,
+      data: {
+        /** The discussion comment's body text. */
+        body: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<TeamDiscussionComment, any>({
         path: `/teams/${teamId}/discussions/${discussionNumber}/comments`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -22305,11 +25572,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       teamId: number,
       discussionNumber: number,
       commentNumber: number,
+      data: {
+        /** The discussion comment's body text. */
+        body: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<TeamDiscussionComment, any>({
         path: `/teams/${teamId}/discussions/${discussionNumber}/comments/${commentNumber}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -22348,8 +25621,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       teamId: number,
       discussionNumber: number,
       commentNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a team discussion comment. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         /**
@@ -22363,6 +25635,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Reaction[], any>({
         path: `/teams/${teamId}/discussions/${discussionNumber}/comments/${commentNumber}/reactions`,
@@ -22385,11 +25658,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       teamId: number,
       discussionNumber: number,
       commentNumber: number,
+      data: {
+        /** The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the team discussion comment. */
+        content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
+      },
       params: RequestParams = {},
     ) =>
       this.request<Reaction, any>({
         path: `/teams/${teamId}/discussions/${discussionNumber}/comments/${commentNumber}/reactions`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -22406,8 +25685,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reactionsListForTeamDiscussionLegacy: (
       teamId: number,
       discussionNumber: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a team discussion. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         /**
@@ -22421,6 +25699,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Reaction[], any>({
         path: `/teams/${teamId}/discussions/${discussionNumber}/reactions`,
@@ -22439,10 +25718,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/teams/{team_id}/discussions/{discussion_number}/reactions
      * @deprecated
      */
-    reactionsCreateForTeamDiscussionLegacy: (teamId: number, discussionNumber: number, params: RequestParams = {}) =>
+    reactionsCreateForTeamDiscussionLegacy: (
+      teamId: number,
+      discussionNumber: number,
+      data: {
+        /** The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the team discussion. */
+        content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Reaction, any>({
         path: `/teams/${teamId}/discussions/${discussionNumber}/reactions`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -22458,8 +25747,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsListPendingInvitationsLegacy: (
       teamId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -22471,6 +25759,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<OrganizationInvitation[], any>({
         path: `/teams/${teamId}/invitations`,
@@ -22491,8 +25780,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsListMembersLegacy: (
       teamId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Filters members returned by their role in the team. Can be one of:
          * \* `member` - normal members of the team.
@@ -22512,6 +25800,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<SimpleUser[], BasicError>({
         path: `/teams/${teamId}/members`,
@@ -22609,7 +25898,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/teams/{team_id}/memberships/{username}
      * @deprecated
      */
-    teamsAddOrUpdateMembershipForUserLegacy: (teamId: number, username: string, params: RequestParams = {}) =>
+    teamsAddOrUpdateMembershipForUserLegacy: (
+      teamId: number,
+      username: string,
+      data: {
+        /**
+         * The role that this user should have in the team. Can be one of:
+         * \* `member` - a normal member of the team.
+         * \* `maintainer` - a team maintainer. Able to add/remove other team members, promote other team members to team maintainer, and edit the team's name and description.
+         * @default "member"
+         */
+        role?: "member" | "maintainer";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         TeamMembership,
         | void
@@ -22627,6 +25929,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/teams/${teamId}/memberships/${username}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -22658,8 +25962,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsListProjectsLegacy: (
       teamId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -22671,6 +25974,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         TeamProject[],
@@ -22719,7 +26023,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/teams/{team_id}/projects/{project_id}
      * @deprecated
      */
-    teamsAddOrUpdateProjectPermissionsLegacy: (teamId: number, projectId: number, params: RequestParams = {}) =>
+    teamsAddOrUpdateProjectPermissionsLegacy: (
+      teamId: number,
+      projectId: number,
+      data: {
+        /**
+         * The permission to grant to the team for this project. Can be one of:
+         * \* `read` - team members can read, but not write to or administer this project.
+         * \* `write` - team members can read and write, but not administer this project.
+         * \* `admin` - team members can read, write and administer this project.
+         * Default: the team's `permission` attribute will be used to determine what permission to grant the team on this project. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
+         */
+        permission?: "read" | "write" | "admin";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         void,
         | {
@@ -22735,6 +26053,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/teams/${teamId}/projects/${projectId}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -22773,8 +26093,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsListReposLegacy: (
       teamId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -22786,6 +26105,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<MinimalRepository[], BasicError>({
         path: `/teams/${teamId}/repos`,
@@ -22821,10 +26141,28 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/teams/{team_id}/repos/{owner}/{repo}
      * @deprecated
      */
-    teamsAddOrUpdateRepoPermissionsLegacy: (teamId: number, owner: string, repo: string, params: RequestParams = {}) =>
+    teamsAddOrUpdateRepoPermissionsLegacy: (
+      teamId: number,
+      owner: string,
+      repo: string,
+      data: {
+        /**
+         * The permission to grant the team on this repository. Can be one of:
+         * \* `pull` - team members can pull, but not push to or administer this repository.
+         * \* `push` - team members can pull and push, but not administer this repository.
+         * \* `admin` - team members can pull, push and administer this repository.
+         *
+         * If no permission is specified, the team's `permission` attribute will be used to determine what permission to grant the team on this repository.
+         */
+        permission?: "pull" | "push" | "admin";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, BasicError | ValidationError>({
         path: `/teams/${teamId}/repos/${owner}/${repo}`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -22870,10 +26208,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/teams/{team_id}/team-sync/group-mappings
      * @deprecated
      */
-    teamsCreateOrUpdateIdpGroupConnectionsLegacy: (teamId: number, params: RequestParams = {}) =>
+    teamsCreateOrUpdateIdpGroupConnectionsLegacy: (
+      teamId: number,
+      data: {
+        /** The IdP groups you want to connect to a GitHub team. When updating, the new `groups` object will replace the original one. You must include any existing groups that you don't want to remove. */
+        groups: {
+          /** ID of the IdP group. */
+          group_id: string;
+          /** Name of the IdP group. */
+          group_name: string;
+          /** Description of the IdP group. */
+          group_description: string;
+          /** @example ""caceab43fc9ffa20081c"" */
+          id?: string;
+          /** @example ""external-team-6c13e7288ef7"" */
+          name?: string;
+          /** @example ""moar cheese pleese"" */
+          description?: string;
+        }[];
+        /** @example ""I am not a timestamp"" */
+        synced_at?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<GroupMapping, BasicError | ValidationError>({
         path: `/teams/${teamId}/team-sync/group-mappings`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -22889,8 +26251,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     teamsListChildLegacy: (
       teamId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -22902,6 +26263,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Team[], BasicError | ValidationError>({
         path: `/teams/${teamId}/teams`,
@@ -22936,10 +26298,50 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update the authenticated user
      * @request PATCH:/user
      */
-    usersUpdateAuthenticated: (params: RequestParams = {}) =>
+    usersUpdateAuthenticated: (
+      data: {
+        /**
+         * The new name of the user.
+         * @example "Omar Jahandar"
+         */
+        name?: string;
+        /**
+         * The publicly visible email address of the user.
+         * @example "omar@example.com"
+         */
+        email?: string;
+        /**
+         * The new blog URL of the user.
+         * @example "blog.example.com"
+         */
+        blog?: string;
+        /**
+         * The new Twitter username of the user.
+         * @example "therealomarj"
+         */
+        twitter_username?: string | null;
+        /**
+         * The new company of the user.
+         * @example "Acme corporation"
+         */
+        company?: string;
+        /**
+         * The new location of the user.
+         * @example "Berlin, Germany"
+         */
+        location?: string;
+        /** The new hiring availability of the user. */
+        hireable?: boolean;
+        /** The new short biography of the user. */
+        bio?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<PrivateUser, BasicError | ValidationError>({
         path: `/user`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -23020,10 +26422,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set primary email visibility for the authenticated user
      * @request PATCH:/user/email/visibility
      */
-    usersSetPrimaryEmailVisibilityForAuthenticated: (params: RequestParams = {}) =>
+    usersSetPrimaryEmailVisibilityForAuthenticated: (
+      data: {
+        /**
+         * An email address associated with the GitHub user account to manage.
+         * @example "org@example.com"
+         */
+        email: string;
+        /** Denotes whether an email is publically visible. */
+        visibility: "public" | "private";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Email[], BasicError | ValidationError>({
         path: `/user/email/visibility`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -23037,8 +26452,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/emails
      */
     usersListEmailsForAuthenticated: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -23050,6 +26464,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Email[], BasicError>({
         path: `/user/emails`,
@@ -23067,10 +26482,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Add an email address for the authenticated user
      * @request POST:/user/emails
      */
-    usersAddEmailForAuthenticated: (params: RequestParams = {}) =>
+    usersAddEmailForAuthenticated: (
+      data:
+        | {
+            /**
+             * Adds one or more email addresses to your GitHub account. Must contain at least one email address. **Note:** Alternatively, you can pass a single email address or an `array` of emails addresses directly, but we recommend that you pass an object using the `emails` key.
+             * @example []
+             */
+            emails: string[];
+          }
+        | string[]
+        | string,
+      params: RequestParams = {},
+    ) =>
       this.request<Email[], BasicError | ValidationError>({
         path: `/user/emails`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -23083,10 +26512,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Delete an email address for the authenticated user
      * @request DELETE:/user/emails
      */
-    usersDeleteEmailForAuthenticated: (params: RequestParams = {}) =>
+    usersDeleteEmailForAuthenticated: (
+      data:
+        | {
+            /** Email addresses associated with the GitHub user account. */
+            emails: string[];
+          }
+        | string[]
+        | string,
+      params: RequestParams = {},
+    ) =>
       this.request<void, BasicError | ValidationError>({
         path: `/user/emails`,
         method: "DELETE",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -23099,8 +26539,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/followers
      */
     usersListFollowersForAuthenticatedUser: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -23112,6 +26551,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<SimpleUser[], BasicError>({
         path: `/user/followers`,
@@ -23130,8 +26570,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/following
      */
     usersListFollowedByAuthenticated: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -23143,6 +26582,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<SimpleUser[], BasicError>({
         path: `/user/following`,
@@ -23206,8 +26646,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/gpg_keys
      */
     usersListGpgKeysForAuthenticated: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -23219,6 +26658,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<GpgKey[], BasicError>({
         path: `/user/gpg_keys`,
@@ -23236,10 +26676,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a GPG key for the authenticated user
      * @request POST:/user/gpg_keys
      */
-    usersCreateGpgKeyForAuthenticated: (params: RequestParams = {}) =>
+    usersCreateGpgKeyForAuthenticated: (
+      data: {
+        /** A GPG key in ASCII-armored format. */
+        armored_public_key: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<GpgKey, BasicError | ValidationError>({
         path: `/user/gpg_keys`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -23284,8 +26732,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/installations
      */
     appsListInstallationsForAuthenticatedUser: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -23297,6 +26744,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -23326,8 +26774,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     appsListInstallationReposForAuthenticatedUser: (
       installationId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -23339,6 +26786,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -23409,10 +26857,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Set interaction restrictions for your public repositories
      * @request PUT:/user/interaction-limits
      */
-    interactionsSetRestrictionsForAuthenticatedUser: (params: RequestParams = {}) =>
+    interactionsSetRestrictionsForAuthenticatedUser: (data: InteractionLimit, params: RequestParams = {}) =>
       this.request<InteractionLimitResponse, ValidationError>({
         path: `/user/interaction-limits`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -23441,8 +26891,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/issues
      */
     issuesListForAuthenticatedUser: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Indicates which sorts of issues to return. Can be one of:
          * \* `assigned`: Issues assigned to you
@@ -23483,6 +26932,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Issue[], BasicError>({
         path: `/user/issues`,
@@ -23501,8 +26951,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/keys
      */
     usersListPublicSshKeysForAuthenticated: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -23514,6 +26963,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Key[], BasicError>({
         path: `/user/keys`,
@@ -23531,10 +26981,26 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a public SSH key for the authenticated user
      * @request POST:/user/keys
      */
-    usersCreatePublicSshKeyForAuthenticated: (params: RequestParams = {}) =>
+    usersCreatePublicSshKeyForAuthenticated: (
+      data: {
+        /**
+         * A descriptive name for the new key.
+         * @example "Personal MacBook Air"
+         */
+        title?: string;
+        /**
+         * The public SSH key to add to your GitHub account.
+         * @pattern ^ssh-(rsa|dss|ed25519) |^ecdsa-sha2-nistp(256|384|521)
+         */
+        key: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Key, BasicError | ValidationError>({
         path: `/user/keys`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -23579,8 +27045,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/marketplace_purchases
      */
     appsListSubscriptionsForAuthenticatedUser: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -23592,6 +27057,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<UserMarketplacePurchase[], BasicError>({
         path: `/user/marketplace_purchases`,
@@ -23610,8 +27076,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/marketplace_purchases/stubbed
      */
     appsListSubscriptionsForAuthenticatedUserStubbed: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -23623,6 +27088,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<UserMarketplacePurchase[], BasicError>({
         path: `/user/marketplace_purchases/stubbed`,
@@ -23641,8 +27107,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/memberships/orgs
      */
     orgsListMembershipsForAuthenticatedUser: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Indicates the state of the memberships to return. Can be either `active` or `pending`. If not specified, the API returns both active and pending memberships. */
         state?: "active" | "pending";
         /**
@@ -23656,6 +27121,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<OrgMembership[], BasicError | ValidationError>({
         path: `/user/memberships/orgs`,
@@ -23689,10 +27155,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Update an organization membership for the authenticated user
      * @request PATCH:/user/memberships/orgs/{org}
      */
-    orgsUpdateMembershipForAuthenticatedUser: (org: string, params: RequestParams = {}) =>
+    orgsUpdateMembershipForAuthenticatedUser: (
+      org: string,
+      data: {
+        /** The state that the membership should be in. Only `"active"` will be accepted. */
+        state: "active";
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<OrgMembership, BasicError | ValidationError>({
         path: `/user/memberships/orgs/${org}`,
         method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -23706,8 +27181,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/migrations
      */
     migrationsListForAuthenticatedUser: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -23719,6 +27193,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Migration[], BasicError>({
         path: `/user/migrations`,
@@ -23736,10 +27211,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Start a user migration
      * @request POST:/user/migrations
      */
-    migrationsStartForAuthenticatedUser: (params: RequestParams = {}) =>
+    migrationsStartForAuthenticatedUser: (
+      data: {
+        /**
+         * Lock the repositories being migrated at the start of the migration
+         * @example true
+         */
+        lock_repositories?: boolean;
+        /**
+         * Do not include attachments in the migration
+         * @example true
+         */
+        exclude_attachments?: boolean;
+        /**
+         * Exclude attributes from the API response to improve performance
+         * @example ["repositories"]
+         */
+        exclude?: "repositories"[];
+        repositories: string[];
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Migration, BasicError | ValidationError>({
         path: `/user/migrations`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -23754,10 +27251,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     migrationsGetStatusForAuthenticatedUser: (
       migrationId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         exclude?: string[];
       },
+      params: RequestParams = {},
     ) =>
       this.request<Migration, BasicError>({
         path: `/user/migrations/${migrationId}`,
@@ -23822,8 +27319,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     migrationsListReposForUser: (
       migrationId: number,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -23835,6 +27331,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<MinimalRepository[], BasicError>({
         path: `/user/migrations/${migrationId}/repositories`,
@@ -23853,8 +27350,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/orgs
      */
     orgsListForAuthenticatedUser: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -23866,6 +27362,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<OrganizationSimple[], BasicError>({
         path: `/user/orgs`,
@@ -23883,7 +27380,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a user project
      * @request POST:/user/projects
      */
-    projectsCreateForAuthenticatedUser: (params: RequestParams = {}) =>
+    projectsCreateForAuthenticatedUser: (
+      data: {
+        /**
+         * Name of the project
+         * @example "Week One Sprint"
+         */
+        name: string;
+        /**
+         * Body of the project
+         * @example "This project represents the sprint of the first week in January"
+         */
+        body?: string | null;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<
         Project,
         | BasicError
@@ -23895,6 +27406,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/user/projects`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -23908,8 +27421,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/public_emails
      */
     usersListPublicEmailsForAuthenticated: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -23921,6 +27433,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Email[], BasicError>({
         path: `/user/public_emails`,
@@ -23939,8 +27452,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/repos
      */
     reposListForAuthenticatedUser: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Can be one of `all`, `public`, or `private`.
          * @default "all"
@@ -23983,6 +27495,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** Only show notifications updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         before?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Repository[], BasicError | ValidationError>({
         path: `/user/repos`,
@@ -24000,10 +27513,101 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create a repository for the authenticated user
      * @request POST:/user/repos
      */
-    reposCreateForAuthenticatedUser: (params: RequestParams = {}) =>
+    reposCreateForAuthenticatedUser: (
+      data: {
+        /**
+         * The name of the repository.
+         * @example "Team Environment"
+         */
+        name: string;
+        /** A short description of the repository. */
+        description?: string;
+        /** A URL with more information about the repository. */
+        homepage?: string;
+        /**
+         * Whether the repository is private or public.
+         * @default false
+         */
+        private?: boolean;
+        /**
+         * Whether issues are enabled.
+         * @default true
+         * @example true
+         */
+        has_issues?: boolean;
+        /**
+         * Whether projects are enabled.
+         * @default true
+         * @example true
+         */
+        has_projects?: boolean;
+        /**
+         * Whether the wiki is enabled.
+         * @default true
+         * @example true
+         */
+        has_wiki?: boolean;
+        /** The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization. */
+        team_id?: number;
+        /**
+         * Whether the repository is initialized with a minimal README.
+         * @default false
+         */
+        auto_init?: boolean;
+        /**
+         * The desired language or platform to apply to the .gitignore.
+         * @example "Haskell"
+         */
+        gitignore_template?: string;
+        /**
+         * The license keyword of the open source license for this repository.
+         * @example "mit"
+         */
+        license_template?: string;
+        /**
+         * Whether to allow squash merges for pull requests.
+         * @default true
+         * @example true
+         */
+        allow_squash_merge?: boolean;
+        /**
+         * Whether to allow merge commits for pull requests.
+         * @default true
+         * @example true
+         */
+        allow_merge_commit?: boolean;
+        /**
+         * Whether to allow rebase merges for pull requests.
+         * @default true
+         * @example true
+         */
+        allow_rebase_merge?: boolean;
+        /**
+         * Whether to delete head branches when pull requests are merged
+         * @default false
+         * @example false
+         */
+        delete_branch_on_merge?: boolean;
+        /**
+         * Whether downloads are enabled.
+         * @default true
+         * @example true
+         */
+        has_downloads?: boolean;
+        /**
+         * Whether this repository acts as a template that can be used to generate new repositories.
+         * @default false
+         * @example true
+         */
+        is_template?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Repository, BasicError | ValidationError>({
         path: `/user/repos`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -24017,8 +27621,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/repository_invitations
      */
     reposListInvitationsForAuthenticatedUser: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -24030,6 +27633,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<RepositoryInvitation[], BasicError>({
         path: `/user/repository_invitations`,
@@ -24078,8 +27682,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/starred
      */
     activityListReposStarredByAuthenticatedUser: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
          * @default "created"
@@ -24101,6 +27704,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Repository[], BasicError>({
         path: `/user/starred`,
@@ -24164,8 +27768,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/subscriptions
      */
     activityListWatchedReposForAuthenticatedUser: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -24177,6 +27780,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<MinimalRepository[], BasicError>({
         path: `/user/subscriptions`,
@@ -24195,8 +27799,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/teams
      */
     teamsListForAuthenticatedUser: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -24208,6 +27811,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<TeamFull[], BasicError>({
         path: `/user/teams`,
@@ -24227,8 +27831,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/users
      */
     usersList: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** A user ID. Only return users with an ID greater than this ID. */
         since?: number;
         /**
@@ -24237,6 +27840,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         per_page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<SimpleUser[], any>({
         path: `/users`,
@@ -24272,8 +27876,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     activityListEventsForAuthenticatedUser: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -24285,6 +27888,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Event[], any>({
         path: `/users/${username}/events`,
@@ -24305,8 +27909,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     activityListOrgEventsForAuthenticatedUser: (
       username: string,
       org: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -24318,6 +27921,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Event[], any>({
         path: `/users/${username}/events/orgs/${org}`,
@@ -24337,8 +27941,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     activityListPublicEventsForUser: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -24350,6 +27953,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Event[], any>({
         path: `/users/${username}/events/public`,
@@ -24369,8 +27973,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     usersListFollowersForUser: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -24382,6 +27985,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<SimpleUser[], any>({
         path: `/users/${username}/followers`,
@@ -24401,8 +28005,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     usersListFollowingForUser: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -24414,6 +28017,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<SimpleUser[], any>({
         path: `/users/${username}/following`,
@@ -24448,8 +28052,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     gistsListForUser: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         since?: string;
         /**
@@ -24463,6 +28066,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<BaseGist[], ValidationError>({
         path: `/users/${username}/gists`,
@@ -24482,8 +28086,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     usersListGpgKeysForUser: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -24495,6 +28098,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<GpgKey[], any>({
         path: `/users/${username}/gpg_keys`,
@@ -24514,13 +28118,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     usersGetContextForUser: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /** Identifies which additional information you'd like to receive about the person's hovercard. Can be `organization`, `repository`, `issue`, `pull_request`. **Required** when using `subject_id`. */
         subject_type?: "organization" | "repository" | "issue" | "pull_request";
         /** Uses the ID for the `subject_type` you specified. **Required** when using `subject_type`. */
         subject_id?: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Hovercard, BasicError | ValidationError>({
         path: `/users/${username}/hovercard`,
@@ -24556,8 +28160,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     usersListPublicKeysForUser: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -24569,6 +28172,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<KeySimple[], any>({
         path: `/users/${username}/keys`,
@@ -24588,8 +28192,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     orgsListForUser: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -24601,6 +28204,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<OrganizationSimple[], any>({
         path: `/users/${username}/orgs`,
@@ -24620,8 +28224,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     projectsListForUser: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Indicates the state of the projects to return. Can be either `open`, `closed`, or `all`.
          * @default "open"
@@ -24638,6 +28241,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<
         Project[],
@@ -24664,8 +28268,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     activityListReceivedEventsForUser: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -24677,6 +28280,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Event[], any>({
         path: `/users/${username}/received_events`,
@@ -24696,8 +28300,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     activityListReceivedPublicEventsForUser: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -24709,6 +28312,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Event[], any>({
         path: `/users/${username}/received_events/public`,
@@ -24728,8 +28332,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     reposListForUser: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Can be one of `all`, `owner`, `member`.
          * @default "owner"
@@ -24753,6 +28356,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<MinimalRepository[], any>({
         path: `/users/${username}/repos`,
@@ -24820,8 +28424,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     activityListReposStarredByUser: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
          * @default "created"
@@ -24843,6 +28446,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Repository[], any>({
         path: `/users/${username}/starred`,
@@ -24862,8 +28466,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     activityListReposWatchedByUser: (
       username: string,
-      params: RequestParams = {},
-      query: {
+      query?: {
         /**
          * Results per page (max 100)
          * @default 30
@@ -24875,6 +28478,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         page?: number;
       },
+      params: RequestParams = {},
     ) =>
       this.request<MinimalRepository[], any>({
         path: `/users/${username}/subscriptions`,

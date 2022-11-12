@@ -253,10 +253,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Some summary
      * @request POST:/{user}/foos
      */
-    createFile: (user: string, params: RequestParams = {}) =>
+    createFile: (
+      user: string,
+      data: {
+        /** @default "" */
+        meme: string;
+        memeType?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Floop, any>({
         path: `/${user}/foos`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -269,10 +279,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/something/
      */
     gets: (
-      params: RequestParams = {},
-      query: {
+      query?: {
         params?: QueryParams;
       },
+      params: RequestParams = {},
     ) =>
       this.request<any, any>({
         path: `/something/`,

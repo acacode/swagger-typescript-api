@@ -261,10 +261,11 @@ class CodeGenProcess {
     if (!typeInfo.typeData) {
       typeInfo.typeData = await this.schemaParser.parseSchema(typeInfo.rawTypeData, typeInfo.typeName);
     }
-    const rawTypeData = typeInfo.typeData;
-    const typeData = this.schemaParser.schemaFormatters.base[rawTypeData.type]
-      ? this.schemaParser.schemaFormatters.base[rawTypeData.type](rawTypeData)
-      : rawTypeData;
+    const typeData = await this.schemaParser.schemaFormatters.formatSchema(typeInfo.typeData, {
+      formatType: "base",
+      schemaType: typeInfo.typeData.type,
+    });
+
     let { typeIdentifier, name: originalName, content, description } = typeData;
     const name = this.typeName.format(originalName);
 
@@ -275,8 +276,8 @@ class CodeGenProcess {
       typeIdentifier,
       name,
       description,
-      $content: rawTypeData.content,
-      rawContent: rawTypeData.content,
+      $content: typeInfo.typeData.content,
+      rawContent: typeInfo.typeData.content,
       content: content,
       typeData,
     };

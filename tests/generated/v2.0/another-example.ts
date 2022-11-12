@@ -374,11 +374,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/pet
      * @secure
      */
-    addPet: (params: RequestParams = {}) =>
+    addPet: (body: Pet, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/pet`,
         method: "POST",
+        body: body,
         secure: true,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -391,11 +393,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/pet
      * @secure
      */
-    updatePet: (params: RequestParams = {}) =>
+    updatePet: (body: Pet, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/pet`,
         method: "PUT",
+        body: body,
         secure: true,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -409,11 +413,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     findPetsByStatus: (
-      params: RequestParams = {},
       query: {
         /** Status values that need to be considered for filter */
         status: ("available" | "pending" | "sold")[];
       },
+      params: RequestParams = {},
     ) =>
       this.request<Pet[], void>({
         path: `/pet/findByStatus`,
@@ -432,10 +436,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary summary
      * @request POST:/pet/single-form-url-encoded
      */
-    singleFormUrlEncodedRequest: (params: RequestParams = {}) =>
+    singleFormUrlEncodedRequest: (
+      data: {
+        /** @format string */
+        param1: string;
+        param2: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, void>({
         path: `/pet/single-form-url-encoded`,
         method: "POST",
+        body: data,
+        type: ContentType.UrlEncoded,
         ...params,
       }),
 
@@ -447,10 +460,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary summary
      * @request POST:/pet/form-url-encoded
      */
-    formUrlEncodedRequest: (params: RequestParams = {}) =>
+    formUrlEncodedRequest: (
+      data: {
+        /** @format string */
+        param1: string;
+        param2: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, void>({
         path: `/pet/form-url-encoded`,
         method: "POST",
+        body: data,
+        type: ContentType.UrlEncoded,
         ...params,
       }),
 
@@ -464,10 +486,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @originalName formUrlEncodedRequest
      * @duplicate
      */
-    formUrlEncodedRequest2: (params: RequestParams = {}) =>
+    formUrlEncodedRequest2: (
+      data: {
+        /** @format string */
+        param1: string;
+        param2: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<void, void>({
         path: `/pet/end-form-url-encoded`,
         method: "POST",
+        body: data,
+        type: ContentType.UrlEncoded,
         ...params,
       }),
 
@@ -482,11 +513,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     findPetsByTags: (
-      params: RequestParams = {},
       query: {
         /** Tags to filter by */
         tags: string[];
       },
+      params: RequestParams = {},
     ) =>
       this.request<Pet[], void>({
         path: `/pet/findByTags`,
@@ -524,11 +555,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/pet/{petId}
      * @secure
      */
-    updatePetWithForm: (petId: number, params: RequestParams = {}) =>
+    updatePetWithForm: (
+      petId: number,
+      data: {
+        /** Updated name of the pet */
+        name?: string;
+        /** Updated status of the pet */
+        status?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<any, void>({
         path: `/pet/${petId}`,
         method: "POST",
+        body: data,
         secure: true,
+        type: ContentType.FormData,
         ...params,
       }),
 
@@ -558,11 +600,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/pet/{petId}/uploadImage
      * @secure
      */
-    uploadFile: (petId: number, params: RequestParams = {}) =>
+    uploadFile: (
+      petId: number,
+      data: {
+        /** Additional data to pass to server */
+        additionalMetadata?: string;
+        /** file to upload */
+        file?: File;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ApiResponse, any>({
         path: `/pet/${petId}/uploadImage`,
         method: "POST",
+        body: data,
         secure: true,
+        type: ContentType.FormData,
         format: "json",
         ...params,
       }),
@@ -594,10 +647,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Place an order for a pet
      * @request POST:/store/order
      */
-    placeOrder: (params: RequestParams = {}) =>
+    placeOrder: (body: Order, params: RequestParams = {}) =>
       this.request<Order, void>({
         path: `/store/order`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -642,10 +697,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Create user
      * @request POST:/user
      */
-    createUser: (params: RequestParams = {}) =>
+    createUser: (body: User, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/user`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -657,10 +714,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Creates list of users with given input array
      * @request POST:/user/createWithArray
      */
-    createUsersWithArrayInput: (params: RequestParams = {}) =>
+    createUsersWithArrayInput: (body: User[], params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/user/createWithArray`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -672,10 +731,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Creates list of users with given input array
      * @request POST:/user/createWithList
      */
-    createUsersWithListInput: (params: RequestParams = {}) =>
+    createUsersWithListInput: (body: User[], params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/user/createWithList`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -688,13 +749,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/login
      */
     loginUser: (
-      params: RequestParams = {},
       query: {
         /** The user name for login */
         username: string;
         /** The password for login in clear text */
         password: string;
       },
+      params: RequestParams = {},
     ) =>
       this.request<Currency, void>({
         path: `/user/login`,
@@ -743,10 +804,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Updated user
      * @request PUT:/user/{username}
      */
-    updateUser: (username: string, params: RequestParams = {}) =>
+    updateUser: (username: string, body: User, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/user/${username}`,
         method: "PUT",
+        body: body,
+        type: ContentType.Json,
         ...params,
       }),
 

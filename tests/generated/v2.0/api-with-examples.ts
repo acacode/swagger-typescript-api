@@ -238,7 +238,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       format: "json",
       ...params,
     });
-
   v2 = {
     /**
      * No description
@@ -263,10 +262,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary consumes contains charset
      * @request POST:/with-charset/
      */
-    withCharset: (params: RequestParams = {}) =>
+    withCharset: (someParm: string, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/with-charset/`,
         method: "POST",
+        body: someParm,
+        type: ContentType.Json,
         ...params,
       }),
   };
@@ -278,10 +279,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary consumes plain text
      * @request POST:/consumes-plain-text/
      */
-    consumesPlainText: (params: RequestParams = {}) =>
+    consumesPlainText: (someParm: string, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/consumes-plain-text/`,
         method: "POST",
+        body: someParm,
+        type: ContentType.Text,
         ...params,
       }),
   };
