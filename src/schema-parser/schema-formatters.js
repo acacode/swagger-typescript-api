@@ -97,10 +97,10 @@ class SchemaFormatters {
    * @param parsedSchema {Record<string, any>}
    * @param formatType {"base" | "inline"}
    */
-  formatSchema = (parsedSchema, formatType = "base") => {
+  formatSchema = async (parsedSchema, formatType = "base") => {
     const schemaType = _.get(parsedSchema, ["schemaType"]) || _.get(parsedSchema, ["$parsed", "schemaType"]);
     const formatterFn = _.get(this, [formatType, schemaType]);
-    return (formatterFn && formatterFn(parsedSchema)) || parsedSchema;
+    return (formatterFn && (await formatterFn(parsedSchema))) || parsedSchema;
   };
 
   formatDescription = (description, inline) => {

@@ -754,7 +754,7 @@ class SchemaRoutes {
 
     const routeName = await this.getRouteName(rawRouteInfo);
 
-    const requestBodyInfo = this.getRequestBodyInfo(routeInfo, routeParams, parsedSchemas, routeName);
+    const requestBodyInfo = await this.getRequestBodyInfo(routeInfo, routeParams, parsedSchemas, routeName);
 
     const requestParamsSchema = this.createRequestParamsSchema({
       queryParams: routeParams.query,

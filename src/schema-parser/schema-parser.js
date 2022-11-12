@@ -398,13 +398,13 @@ class SchemaParser {
 
   getInlineParseContent = async (rawTypeData, typeName) => {
     const parsedSchema = await this.parseSchema(rawTypeData, typeName);
-    const formattedSchema = this.schemaFormatters.formatSchema(parsedSchema, "inline");
+    const formattedSchema = await this.schemaFormatters.formatSchema(parsedSchema, "inline");
     return formattedSchema.content;
   };
 
   getParseContent = async (rawTypeData, typeName) => {
     const parsedSchema = await this.parseSchema(rawTypeData, typeName);
-    const formattedSchema = this.schemaFormatters.formatSchema(parsedSchema, "base");
+    const formattedSchema = await this.schemaFormatters.formatSchema(parsedSchema, "base");
     return formattedSchema.content;
   };
 

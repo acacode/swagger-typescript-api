@@ -45,6 +45,9 @@ const wrapperArgs = _
     .map(argToTmpl)
     .join(', ')
 
+console.info('rawWrapperArgs', rawWrapperArgs)
+console.info('wrapperArgs', wrapperArgs)
+
 // RequestParams["type"]
 const requestContentKind = {
     "JSON": "ContentType.Json",

@@ -155,20 +155,25 @@ class Templates {
   renderTemplate = async (template, configuration, options) => {
     if (!template) return "";
 
-    return Eta.renderAsync(
-      template,
-      {
-        ...this.getRenderTemplateData(),
-        ...configuration,
-      },
-      {
-        async: true,
-        ...(options || {}),
-        includeFile: async (path, payload, options) => {
-          return await this.renderTemplate(this.getTemplateContent(path), payload, options);
+    try {
+      return await Eta.renderAsync(
+        template,
+        {
+          ...this.getRenderTemplateData(),
+          ...configuration,
         },
-      },
-    );
+        {
+          async: true,
+          ...(options || {}),
+          includeFile: async (path, payload, options) => {
+            return await this.renderTemplate(this.getTemplateContent(path), payload, options);
+          },
+        },
+      );
+    } catch (e) {
+      console.error("problem in this templates\n", template);
+      throw e;
+    }
   };
 }
 
