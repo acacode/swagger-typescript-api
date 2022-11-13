@@ -251,7 +251,7 @@ class SchemaParser {
       }
 
       if (_.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
-        contentType = this.config.Ts.Tuple(items.map((item) => this.getInlineParseContent(item)));
+        contentType = this.config.Ts.Tuple(await Promise.all(items.map((item) => this.getInlineParseContent(item))));
       }
 
       return {
