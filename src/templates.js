@@ -165,8 +165,8 @@ class Templates {
         {
           async: true,
           ...(options || {}),
-          includeFile: async (path, payload, options) => {
-            return await this.renderTemplate(this.getTemplateContent(path), payload, options);
+          includeFile: async (path, configuration, options) => {
+            return await this.renderTemplate(this.getTemplateContent(path), configuration, options);
           },
         },
       );

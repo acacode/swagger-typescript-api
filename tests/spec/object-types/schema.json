@@ -19,6 +19,26 @@
   "produces": ["application/json"],
   "paths": {},
   "definitions": {
+    "SpecificEnum1": {
+      "type": "object",
+      "description": "https://github.com/acacode/swagger-typescript-api/issues/445",
+      "properties": {
+        "myEnum": {
+          "enum": [["foo", "bar", "baz"], ["foo", "bar", "baz"]]
+        }
+      },
+      "additionalProperties": false
+    },
+    "SpecificEnum2": {
+      "type": "object",
+      "description": "https://github.com/acacode/swagger-typescript-api/issues/445",
+      "properties": {
+        "myEnum": {
+          "enum": [["foo", "bar", "baz"], ["foo", "bar", "bad"]]
+        }
+      },
+      "additionalProperties": false
+    },
     "Test1": {
       "type": "object",
       "required": ["id", "name", "tag", "multiple"],

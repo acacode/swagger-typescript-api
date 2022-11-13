@@ -106,7 +106,7 @@ interface GenerateApiParamsBase {
   /**
    * default type for empty response schema (default: "void")
    */
-  defaultResponseType?: boolean;
+  defaultResponseType?: string;
   /**
    * Ability to send HttpClient instance to Api constructor
    */
@@ -151,6 +151,7 @@ interface GenerateApiParamsBase {
   typePrefix?: string;
   /** suffix string value for type names */
   typeSuffix?: string;
+  extractingOptions?: Partial<ExtractingOptions>;
 }
 
 type CodeGenConstruct = {
@@ -421,6 +422,17 @@ export enum SCHEMA_TYPES {
 
 type MAIN_SCHEMA_TYPES = SCHEMA_TYPES.PRIMITIVE | SCHEMA_TYPES.OBJECT | SCHEMA_TYPES.ENUM;
 
+type ExtractingOptions = {
+  requestBodySuffix: string[];
+  responseBodySuffix: string[];
+  responseErrorSuffix: string[];
+  requestParamsSuffix: string[];
+  requestBodyNameResolver: (name: string, reservedNames: string) => string | undefined;
+  responseBodyNameResolver: (name: string, reservedNames: string) => string | undefined;
+  responseErrorNameResolver: (name: string, reservedNames: string) => string | undefined;
+  requestParamsNameResolver: (name: string, reservedNames: string) => string | undefined;
+};
+
 export interface GenerateApiConfiguration {
   apiConfig: {
     baseUrl: string;
@@ -470,7 +482,7 @@ export interface GenerateApiConfiguration {
     extractEnums: boolean;
     fixInvalidTypeNamePrefix: string;
     fixInvalidEnumKeyPrefix: string;
-    defaultResponseType: boolean;
+    defaultResponseType: string;
     toJS: boolean;
     disableThrowOnError: boolean;
     silent: boolean;
@@ -502,6 +514,7 @@ export interface GenerateApiConfiguration {
     routeNameDuplicatesMap: Map<string, string>;
     apiClassName: string;
     requestOptions?: import("node-fetch").RequestInit;
+    extractingOptions: ExtractingOptions;
   };
   modelTypes: ModelType[];
   rawModelTypes: SchemaComponent[];

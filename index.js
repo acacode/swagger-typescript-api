@@ -37,7 +37,7 @@ const program = cli({
     {
       flags: "-n, --name <string>",
       description: "name of output typescript api file",
-      default: `${codeGenBaseConfig.apiClassName}.ts`,
+      default: codeGenBaseConfig.fileName,
     },
     {
       flags: "-t, --templates <string>",

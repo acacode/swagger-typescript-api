@@ -139,7 +139,15 @@ generateApi({
   generateUnionEnums: false,
   typePrefix: '',
   typeSuffix: '',
+  enumKeyPrefix: '',
+  enumKeySuffix: '',
   addReadonly: false,
+  extractingOptions: {
+    requestBodySuffix: ["Payload", "Body", "Input"],
+    requestParamsSuffix: ["Params"],
+    responseBodySuffix: ["Data", "Result", "Output"],
+    responseErrorSuffix: ["Error", "Fail", "Fails", "ErrorData", "HttpError", "BadResponse"],
+  },
   /** allow to generate extra files based with this extra templates, see more below */
   extraTemplates: [],
   anotherArrayType: false,

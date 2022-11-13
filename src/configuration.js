@@ -134,7 +134,7 @@ class CodeGenConfig {
   enumKeyPrefix = "";
   enumKeySuffix = "";
   patch = false;
-  componentTypeNameResolver = new ComponentTypeNameResolver([]);
+  componentTypeNameResolver = new ComponentTypeNameResolver(null, []);
   /** name of the main exported class */
   apiClassName = "Api";
   debug = false;
@@ -149,7 +149,7 @@ class CodeGenConfig {
   url = "";
   cleanOutput = false;
   spec = null;
-  fileName = "";
+  fileName = "Api.ts";
   authorizationToken = void 0;
   requestOptions = null;
 
@@ -159,6 +159,14 @@ class CodeGenConfig {
   fixInvalidEnumKeyPrefix = "Value";
 
   successResponseStatusRange = [200, 299];
+
+  /** @type {ExtractingOptions} */
+  extractingOptions = {
+    requestBodySuffix: ["Payload", "Body", "Input"],
+    requestParamsSuffix: ["Params"],
+    responseBodySuffix: ["Data", "Result", "Output"],
+    responseErrorSuffix: ["Error", "Fail", "Fails", "ErrorData", "HttpError", "BadResponse"],
+  };
 
   Ts = {
     Keyword: _.cloneDeep(TsKeyword),
@@ -243,6 +251,12 @@ class CodeGenConfig {
      */
     TypeWithGeneric: (typeName, genericArgs) => {
       return `${typeName}${genericArgs.length ? `<${genericArgs.join(",")}>` : ""}`;
+    },
+    /**
+     * [$A1, $A2, ...$AN]
+     */
+    Tuple: (values) => {
+      return `[${values.join(", ")}]`;
     },
   };
 

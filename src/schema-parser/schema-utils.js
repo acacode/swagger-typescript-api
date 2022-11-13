@@ -1,6 +1,7 @@
 const _ = require("lodash");
 const { SCHEMA_TYPES } = require("../constants");
 const { internalCase } = require("../util/internal-case");
+const { pascalCase } = require("../util/pascal-case");
 
 class SchemaUtils {
   /**
@@ -142,6 +143,20 @@ class SchemaUtils {
 
   filterSchemaContents = (contents, filterFn) => {
     return _.uniq(_.filter(contents, (type) => filterFn(type)));
+  };
+
+  resolveTypeName = (typeName, suffixes, resolver) => {
+    if (resolver) {
+      return this.config.componentTypeNameResolver.resolve((reserved) => {
+        const variant = resolver(pascalCase(typeName), reserved);
+        if (variant == null) return variant;
+        return pascalCase(variant);
+      });
+    } else {
+      return this.config.componentTypeNameResolver.resolve(
+        suffixes.map((suffix) => pascalCase(`${typeName} ${suffix}`)),
+      );
+    }
   };
 }
 
