@@ -2,9 +2,9 @@ const { SwaggerSchemaResolver } = require("./swagger-schema-resolver.js");
 const { SchemaComponentsMap } = require("./schema-components-map.js");
 const { NameResolver } = require("./util/name-resolver");
 const { Logger } = require("./util/logger.js");
-const { TypeName } = require("./type-name.js");
+const { TypeNameFormatter } = require("./type-name-formatter.js");
 const _ = require("lodash");
-const { SchemaParser } = require("./schema-parser/schema-parser.js");
+const { SchemaProcessor } = require("./schema-parser/schema-processor.js");
 const { SchemaRoutes } = require("./schema-parser/schema-routes.js");
 const { CodeGenConfig } = require("./configuration.js");
 const { FileSystem } = require("./util/file-system");
@@ -33,11 +33,11 @@ class CodeGenProcess {
    */
   logger;
   /**
-   * @type {TypeName}
+   * @type {TypeNameFormatter}
    */
   typeName;
   /**
-   * @type {SchemaParser}
+   * @type {SchemaProcessor}
    */
   schemaParser;
   /**
@@ -63,10 +63,10 @@ class CodeGenProcess {
     this.fileSystem = new FileSystem();
     this.swaggerSchemaResolver = new SwaggerSchemaResolver(this.config, this.logger, this.fileSystem);
     this.schemaComponentMap = new SchemaComponentsMap(this.config);
-    this.typeName = new TypeName(this.config, this.logger);
+    this.typeName = new TypeNameFormatter(this.config, this.logger);
     this.templates = new Templates(this.config, this.logger, this.fileSystem, this.getRenderTemplateData);
     this.codeFormatter = new CodeFormatter(this.config);
-    this.schemaParser = new SchemaParser(
+    this.schemaParser = new SchemaProcessor(
       this.config,
       this.logger,
       this.templates,

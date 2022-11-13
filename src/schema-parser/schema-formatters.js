@@ -11,7 +11,7 @@ class SchemaFormatters {
    */
   logger;
   /**
-   * @type {SchemaParser}
+   * @type {SchemaProcessor}
    */
   schemaParser;
   /**

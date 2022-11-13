@@ -1,25 +1,23 @@
-const { SCHEMA_TYPES } = require("../constants.js");
-const _ = require("lodash");
 const { SchemaFormatters } = require("./schema-formatters");
-const { internalCase } = require("../util/internal-case");
 const { SchemaUtils } = require("./schema-utils");
+const { SCHEMA_TYPES } = require("../constants");
+const _ = require("lodash");
+const { internalCase } = require("../util/internal-case");
 const { camelCase } = require("lodash");
-const { pascalCase } = require("../util/pascal-case");
 
 class SchemaParser {
   /**
    * @type {CodeGenConfig}
    */
   config;
-
   /**
    * @type {SchemaComponentsMap}
    */
   schemaComponentsMap;
   /**
-   * @type {TypeName}
+   * @type {TypeNameFormatter}
    */
-  typeName;
+  typeNameFormatter;
   /**
    * @type {SchemaFormatters}
    */
@@ -30,23 +28,42 @@ class SchemaParser {
    */
   schemaUtils;
 
-  $processingSchemaPath = [];
+  schemaPath = [];
 
-  constructor(config, logger, templates, schemaComponentsMap, typeName) {
+  typeName;
+  schema;
+
+  constructor(
+    config,
+    schemaComponentsMap,
+    typeNameFormatter,
+    schemaFormatters,
+    schemaUtils,
+    schema,
+    typeName = null,
+    schemaPath = [],
+  ) {
     this.config = config;
     this.schemaComponentsMap = schemaComponentsMap;
+    this.typeNameFormatter = typeNameFormatter;
+    this.schemaFormatters = schemaFormatters;
+    this.schemaUtils = schemaUtils;
+    this.schema = schema;
     this.typeName = typeName;
-    this.schemaFormatters = new SchemaFormatters(config, logger, this, templates);
-    this.schemaUtils = new SchemaUtils(config, schemaComponentsMap);
+    this.schemaPath = schemaPath;
   }
 
-  complexSchemaParsers = {
+  _complexSchemaParsers = {
     // T1 | T2
     [SCHEMA_TYPES.COMPLEX_ONE_OF]: async (schema) => {
       const ignoreTypes = [this.config.Ts.Keyword.Any];
       const combined = await Promise.all(
         _.map(schema.oneOf, (childSchema) =>
-          this.getInlineParseContent(this.schemaUtils.makeAddRequiredToChildSchema(schema, childSchema)),
+          this.createParser(
+            this.schemaUtils.makeAddRequiredToChildSchema(schema, childSchema),
+            undefined,
+            this.schemaPath,
+          ).getInlineContent(),
         ),
       );
       const filtered = this.schemaUtils.filterSchemaContents(combined, (content) => !ignoreTypes.includes(content));
@@ -60,7 +77,11 @@ class SchemaParser {
       const ignoreTypes = [...this.config.jsPrimitiveTypes, this.config.Ts.Keyword.Any];
       const combined = await Promise.all(
         _.map(schema.allOf, (childSchema) =>
-          this.getInlineParseContent(this.schemaUtils.makeAddRequiredToChildSchema(schema, childSchema)),
+          this.createParser(
+            this.schemaUtils.makeAddRequiredToChildSchema(schema, childSchema),
+            undefined,
+            this.schemaPath,
+          ).getInlineContent(),
         ),
       );
       const filtered = this.schemaUtils.filterSchemaContents(combined, (content) => !ignoreTypes.includes(content));
@@ -74,7 +95,11 @@ class SchemaParser {
       const ignoreTypes = [...this.config.jsPrimitiveTypes, this.config.Ts.Keyword.Any];
       const combined = await Promise.all(
         _.map(schema.anyOf, (childSchema) =>
-          this.getInlineParseContent(this.schemaUtils.makeAddRequiredToChildSchema(schema, childSchema)),
+          this.createParser(
+            this.schemaUtils.makeAddRequiredToChildSchema(schema, childSchema),
+            undefined,
+            this.schemaPath,
+          ).getInlineContent(),
         ),
       );
       const filtered = this.schemaUtils.filterSchemaContents(combined, (content) => !ignoreTypes.includes(content));
@@ -95,19 +120,20 @@ class SchemaParser {
     },
   };
 
-  baseSchemaParsers = {
+  _baseSchemaParsers = {
     [SCHEMA_TYPES.ENUM]: async (schema, typeName) => {
       if (this.config.extractEnums && !typeName) {
         const generatedTypeName = this.config.componentTypeNameResolver.resolve([this.buildTypeNameFromPath()]);
         const schemaComponent = this.schemaComponentsMap.createComponent("schemas", generatedTypeName, { ...schema });
-        return this.parseSchema(schemaComponent, generatedTypeName);
+        const parser = this.createParser(schemaComponent, generatedTypeName);
+        return await parser.parse();
       }
 
       const refType = this.schemaUtils.getSchemaRefType(schema);
       const $ref = (refType && refType.$ref) || null;
 
       if (Array.isArray(schema.enum) && Array.isArray(schema.enum[0])) {
-        return this.parseSchema(
+        return await this.createParser(
           {
             oneOf: schema.enum.map((enumNames) => ({
               type: "array",
@@ -115,7 +141,8 @@ class SchemaParser {
             })),
           },
           typeName,
-        );
+          this.schemaPath,
+        ).parse();
       }
 
       const keyType = await this.getSchemaType(schema);
@@ -142,10 +169,10 @@ class SchemaParser {
             const enumValue = _.get(schema.enum, index);
             const formattedKey =
               (enumName &&
-                this.typeName.format(enumName, {
+                this.typeNameFormatter.format(enumName, {
                   type: "enum-key",
                 })) ||
-              this.typeName.format(`${enumValue}`, {
+              this.typeNameFormatter.format(`${enumValue}`, {
                 type: "enum-key",
               });
 
@@ -168,7 +195,7 @@ class SchemaParser {
         content = await Promise.all(
           _.map(schema.enum, async (key) => {
             return {
-              key: this.typeName.format(`${key}`, {
+              key: this.typeNameFormatter.format(`${key}`, {
                 type: "enum-key",
               }),
               type: keyType,
@@ -209,8 +236,8 @@ class SchemaParser {
     },
     [SCHEMA_TYPES.COMPLEX]: async (schema, typeName) => {
       const complexType = this.getComplexType(schema);
-      const simpleSchema = _.omit(_.clone(schema), _.keys(this.complexSchemaParsers));
-      const complexSchemaContent = await this.complexSchemaParsers[complexType](schema);
+      const simpleSchema = _.omit(_.clone(schema), _.keys(this._complexSchemaParsers));
+      const complexSchemaContent = await this._complexSchemaParsers[complexType](schema);
 
       return {
         ...(_.isObject(schema) ? schema : {}),
@@ -227,7 +254,9 @@ class SchemaParser {
             _.compact([
               this.config.Ts.ExpressionGroup(complexSchemaContent),
               this.getInternalSchemaType(simpleSchema) === SCHEMA_TYPES.OBJECT &&
-                this.config.Ts.ExpressionGroup(await this.getInlineParseContent(simpleSchema)),
+                this.config.Ts.ExpressionGroup(
+                  await this.createParser(simpleSchema, null, this.schemaPath).getInlineContent(),
+                ),
             ]),
           ) || this.config.Ts.Keyword.Any,
       };
@@ -238,20 +267,22 @@ class SchemaParser {
 
       if (type === this.config.Ts.Keyword.Object && additionalProperties) {
         const fieldType = _.isObject(additionalProperties)
-          ? await this.getInlineParseContent(additionalProperties)
+          ? await this.createParser(additionalProperties, null, this.schemaPath).getInlineContent()
           : this.config.Ts.Keyword.Any;
         contentType = this.config.Ts.RecordType(this.config.Ts.Keyword.String, fieldType);
       }
 
       if (_.isArray(type) && type.length) {
-        contentType = await this.complexSchemaParsers.oneOf({
+        contentType = await this._complexSchemaParsers.oneOf({
           ...(_.isObject(schema) ? schema : {}),
           oneOf: type.map((type) => ({ type })),
         });
       }
 
       if (_.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
-        contentType = this.config.Ts.Tuple(await Promise.all(items.map((item) => this.getInlineParseContent(item))));
+        contentType = this.config.Ts.Tuple(
+          await Promise.all(items.map((item) => this.createParser(item, null, this.schemaPath).getInlineContent())),
+        );
       }
 
       return {
@@ -284,7 +315,7 @@ class SchemaParser {
     if (refTypeInfo) {
       return this.schemaUtils.checkAndAddRequiredKeys(
         schema,
-        this.schemaUtils.safeAddNullToType(schema, this.typeName.format(refTypeInfo.typeName)),
+        this.schemaUtils.safeAddNullToType(schema, this.typeNameFormatter.format(refTypeInfo.typeName)),
       );
     }
 
@@ -303,7 +334,10 @@ class SchemaParser {
       this.config.primitiveTypes[primitiveType];
 
     if (_.isFunction(typeAlias)) {
-      resultType = await typeAlias(schema, this);
+      resultType = await typeAlias(schema, {
+        createParser: (schema, typeName) => this.createParser(schema, typeName, this.schemaPath),
+        schemaUtils: this.schemaUtils,
+      });
     } else {
       resultType = typeAlias || primitiveType;
     }
@@ -315,42 +349,43 @@ class SchemaParser {
 
   getObjectSchemaContent = async (schema) => {
     const { properties, additionalProperties } = schema || {};
+    const propertiesContent = [];
 
-    const propertiesContent = await Promise.all(
-      _.map(properties, async (property, name) => {
-        this.$processingSchemaPath.push(name);
-        const required = this.schemaUtils.isPropertyRequired(name, property, schema);
-        const rawTypeData = _.get(this.schemaUtils.getSchemaRefType(property), "rawTypeData", {});
-        const nullable = !!(rawTypeData.nullable || property.nullable);
-        const fieldName = this.typeName.isValidName(name) ? name : this.config.Ts.StringValue(name);
-        const fieldValue = await this.getInlineParseContent(property);
-        const readOnly = property.readOnly;
+    const propertyEntries = _.entries(properties);
 
-        this.$processingSchemaPath.pop();
+    for await (const [name, property] of propertyEntries) {
+      this.schemaPath.push(name);
+      const required = this.schemaUtils.isPropertyRequired(name, property, schema);
+      const rawTypeData = _.get(this.schemaUtils.getSchemaRefType(property), "rawTypeData", {});
+      const nullable = !!(rawTypeData.nullable || property.nullable);
+      const fieldName = this.typeNameFormatter.isValidName(name) ? name : this.config.Ts.StringValue(name);
+      const fieldValue = await this.createParser(property, null, this.schemaPath).getInlineContent();
+      const readOnly = property.readOnly;
 
-        return {
-          ...property,
-          $$raw: property,
-          title: property.title,
-          description:
-            property.description ||
-            _.compact(_.map(property[this.getComplexType(property)], "description"))[0] ||
-            rawTypeData.description ||
-            _.compact(_.map(rawTypeData[this.getComplexType(rawTypeData)], "description"))[0] ||
-            "",
-          isRequired: required,
-          isNullable: nullable,
-          name: fieldName,
+      this.schemaPath.pop();
+
+      propertiesContent.push({
+        ...property,
+        $$raw: property,
+        title: property.title,
+        description:
+          property.description ||
+          _.compact(_.map(property[this.getComplexType(property)], "description"))[0] ||
+          rawTypeData.description ||
+          _.compact(_.map(rawTypeData[this.getComplexType(rawTypeData)], "description"))[0] ||
+          "",
+        isRequired: required,
+        isNullable: nullable,
+        name: fieldName,
+        value: fieldValue,
+        field: this.config.Ts.TypeField({
+          readonly: readOnly && this.config.addReadonly,
+          optional: !required,
+          key: fieldName,
           value: fieldValue,
-          field: this.config.Ts.TypeField({
-            readonly: readOnly && this.config.addReadonly,
-            optional: !required,
-            key: fieldName,
-            value: fieldValue,
-          }),
-        };
-      }),
-    );
+        }),
+      });
+    }
 
     if (additionalProperties) {
       propertiesContent.push({
@@ -381,57 +416,109 @@ class SchemaParser {
    * @param formatter {"inline" | "base"}
    * @return {Promise<Record<string, any>>}
    */
-  parseSchema = async (schema, typeName = null) => {
-    if (!schema) return await this.baseSchemaParsers[SCHEMA_TYPES.PRIMITIVE](null, typeName);
+  parse = async () => {
+    if (!this.schema) return await this._baseSchemaParsers[SCHEMA_TYPES.PRIMITIVE](null, this.typeName);
 
     let schemaType = null;
     let parsedSchema = null;
 
-    if (typeof schema === "string") {
-      return schema;
+    if (typeof this.schema === "string") {
+      return this.schema;
     }
 
-    if (!schema.$parsed) {
-      if (!typeName && this.schemaUtils.isRefSchema(schema)) {
-        typeName = await this.getSchemaType(schema);
+    if (!this.schema.$parsed) {
+      if (!this.typeName && this.schemaUtils.isRefSchema(this.schema)) {
+        this.typeName = await this.getSchemaType(this.schema);
       }
 
-      if (schema.items && !Array.isArray(schema.items) && !schema.type) {
-        schema.type = SCHEMA_TYPES.ARRAY;
+      if (this.schema.items && !Array.isArray(this.schema.items) && !this.schema.type) {
+        this.schema.type = SCHEMA_TYPES.ARRAY;
       }
-      schemaType = this.getInternalSchemaType(schema);
+      schemaType = this.getInternalSchemaType(this.schema);
 
-      this.$processingSchemaPath.push(typeName);
+      this.schemaPath.push(this.typeName);
 
-      _.merge(schema, this.config.hooks.onPreParseSchema(schema, typeName, schemaType));
-      parsedSchema = await this.baseSchemaParsers[schemaType](schema, typeName);
-      schema.$parsed = this.config.hooks.onParseSchema(schema, parsedSchema) || parsedSchema;
+      _.merge(this.schema, this.config.hooks.onPreParseSchema(this.schema, this.typeName, schemaType));
+      parsedSchema = await this._baseSchemaParsers[schemaType](this.schema, this.typeName);
+      this.schema.$parsed = this.config.hooks.onParseSchema(this.schema, parsedSchema) || parsedSchema;
     }
 
-    this.$processingSchemaPath.pop();
+    this.schemaPath.pop();
 
-    return schema.$parsed;
+    return this.schema.$parsed;
   };
 
-  getInlineParseContent = async (rawTypeData, typeName) => {
-    const parsedSchema = await this.parseSchema(rawTypeData, typeName);
+  getInlineContent = async () => {
+    const parsedSchema = await this.parse();
     const formattedSchema = await this.schemaFormatters.formatSchema(parsedSchema, { formatType: "inline" });
     return formattedSchema.content;
   };
 
-  getParseContent = async (rawTypeData, typeName) => {
-    const parsedSchema = await this.parseSchema(rawTypeData, typeName);
+  getContent = async () => {
+    const parsedSchema = await this.parse();
     const formattedSchema = await this.schemaFormatters.formatSchema(parsedSchema, { formatType: "base" });
     return formattedSchema.content;
   };
 
   buildTypeNameFromPath = () => {
-    const schemaPath = _.uniq(_.compact(this.$processingSchemaPath));
+    const schemaPath = _.uniq(_.compact(this.schemaPath));
 
     if (!schemaPath || !schemaPath[0]) return null;
 
     return internalCase(camelCase(`${schemaPath[0]}_${schemaPath[schemaPath.length - 1]}`));
   };
+
+  /**
+   * @param {Record<string, any>} [schema]
+   * @param {string | null | undefined} [typeName]
+   * @param {string[] | undefined} [schemaPath]
+   * @return {SchemaParser}
+   */
+  createParser = (schema, typeName, schemaPath) => {
+    return new SchemaParser(
+      this.config,
+      this.schemaComponentsMap,
+      this.typeNameFormatter,
+      this.schemaFormatters,
+      this.schemaUtils,
+      schema,
+      typeName,
+      schemaPath,
+    );
+  };
+
+  /**
+   * @param config {CodeGenConfig}
+   * @param schemaComponentsMap {SchemaComponentsMap}
+   * @param typeNameFormatter {TypeNameFormatter}
+   * @param schemaFormatters {SchemaFormatters}
+   * @param schemaUtils {SchemaUtils}
+   * @param {Record<string, any>} [schema]
+   * @param {string | null | undefined} [typeName]
+   * @param {string[] | undefined} [schemaPath]
+   * @return {SchemaParser}
+   */
+  static create(
+    config,
+    schemaComponentsMap,
+    typeNameFormatter,
+    schemaFormatters,
+    schemaUtils,
+    schema,
+    typeName,
+    schemaPath,
+  ) {
+    return new SchemaParser(
+      config,
+      schemaComponentsMap,
+      typeNameFormatter,
+      schemaFormatters,
+      schemaUtils,
+      schema,
+      typeName,
+      schemaPath,
+    );
+  }
 }
 
 module.exports = {

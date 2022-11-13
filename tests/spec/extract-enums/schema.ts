@@ -21,10 +21,10 @@ export enum TypeNamePrefixEnumRootTypeNameSuffix {
 
 export interface TypeNamePrefixTreeTypeNameSuffix {
   tree?: {
-    mode?: TypeNamePrefixEnumRootModeTypeNameSuffix;
-    "mode-num"?: TypeNamePrefixEnumRootModeNumTypeNameSuffix;
-    type?: TypeNamePrefixEnumRootTypeTypeNameSuffix;
-    bereke?: TypeNamePrefixEnumRootBerekeTypeNameSuffix;
+    mode?: TypeNamePrefixTreeModeTypeNameSuffix;
+    "mode-num"?: TypeNamePrefixTreeModeNumTypeNameSuffix;
+    type?: TypeNamePrefixTreeTypeTypeNameSuffix;
+    bereke?: TypeNamePrefixTreeBerekeTypeNameSuffix;
   }[];
 }
 
@@ -87,7 +87,7 @@ export enum TypeNamePrefixSomeInterestEnumTypeNameSuffix {
   EnumKeyPrefix_HSDFDS_EnumKeySuffix = "HSDFDS",
 }
 
-export enum TypeNamePrefixEnumRootModeTypeNameSuffix {
+export enum TypeNamePrefixTreeModeTypeNameSuffix {
   EnumKeyPrefixInvalidKey100644EnumKeySuffix = "100644",
   EnumKeyPrefixInvalidKey100755EnumKeySuffix = "100755",
   EnumKeyPrefixInvalidKey040000EnumKeySuffix = "040000",
@@ -95,7 +95,7 @@ export enum TypeNamePrefixEnumRootModeTypeNameSuffix {
   EnumKeyPrefixInvalidKey120000EnumKeySuffix = "120000",
 }
 
-export enum TypeNamePrefixEnumRootModeNumTypeNameSuffix {
+export enum TypeNamePrefixTreeModeNumTypeNameSuffix {
   EnumKeyPrefixInvalidKey100644EnumKeySuffix = 100644,
   EnumKeyPrefixInvalidKey100755EnumKeySuffix = 100755,
   EnumKeyPrefixInvalidKey40000EnumKeySuffix = 40000,
@@ -103,13 +103,13 @@ export enum TypeNamePrefixEnumRootModeNumTypeNameSuffix {
   EnumKeyPrefixInvalidKey120000EnumKeySuffix = 120000,
 }
 
-export enum TypeNamePrefixEnumRootTypeTypeNameSuffix {
+export enum TypeNamePrefixTreeTypeTypeNameSuffix {
   EnumKeyPrefixBlobEnumKeySuffix = "blob",
   EnumKeyPrefixTreeEnumKeySuffix = "tree",
   EnumKeyPrefixCommitEnumKeySuffix = "commit",
 }
 
-export enum TypeNamePrefixEnumRootBerekeTypeNameSuffix {
+export enum TypeNamePrefixTreeBerekeTypeNameSuffix {
   EnumKeyPrefixBlaEnumKeySuffix = "Bla",
   EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
   EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",

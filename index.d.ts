@@ -201,7 +201,7 @@ type CodeGenConstruct = {
 
 type PrimitiveTypeStructValue =
   | string
-  | ((schema: Record<string, any>, parser: import("./src/schema-parser/schema-parser").SchemaParser) => string);
+  | ((schema: Record<string, any>, parser: import("./src/schema-parser/schema-processor").SchemaProcessor) => string);
 
 type PrimitiveTypeStruct = Record<
   "integer" | "number" | "boolean" | "object" | "file" | "string" | "array",

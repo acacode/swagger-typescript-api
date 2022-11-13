@@ -399,16 +399,15 @@ generateApi({
 ### `primitiveTypeConstructs`  
 
 It is type mapper or translator swagger schema objects. `primitiveTypeConstructs` translates `type`/`format` schema fields to typescript structs.  
-This option has type  
+This option has type
+
 ```ts
 type PrimitiveTypeStructValue =
-  | string
-  | ((schema: Record<string, any>, parser: import("./src/schema-parser/schema-parser").SchemaParser) => string);
+    | string
+    | ((schema: Record<string, any>, parser: import("./schema-parser-engine").SchemaProcessor) => string);
 
-type PrimitiveTypeStruct = Record<
-  "integer" | "number" | "boolean" | "object" | "file" | "string" | "array",
-  string | ({ $default: PrimitiveTypeStructValue } & Record<string, PrimitiveTypeStructValue>)
->
+type PrimitiveTypeStruct = Record<"integer" | "number" | "boolean" | "object" | "file" | "string" | "array",
+    string | ({ $default: PrimitiveTypeStructValue } & Record<string, PrimitiveTypeStructValue>)>
 
 declare const primitiveTypeConstructs: (struct: PrimitiveTypeStruct) => Partial<PrimitiveTypeStruct>
 

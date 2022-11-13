@@ -263,7 +263,7 @@ class CodeGenConfig {
   /**
    * swagger schema type -> typescript type
    * https://json-schema.org/understanding-json-schema/reference/string.html#dates-and-times
-   * @type {Record<string, string | ((schema: any, parser: SchemaParser) => string) | ({ $default: string } & Record<string, string | ((schema: any, parser: SchemaParser) => string)>)>}
+   * @type {Record<string, string | ((schema: any, parser: SchemaProcessor) => string) | ({ $default: string } & Record<string, string | ((schema: any, parser: SchemaParser) => string)>)>}
    */
   primitiveTypes = {
     integer: () => this.Ts.Keyword.Number,
@@ -294,9 +294,9 @@ class CodeGenConfig {
       "relative-json-pointer": () => this.Ts.Keyword.String,
       regex: () => this.Ts.Keyword.String,
     },
-    array: async ({ items, ...schemaPart }, parser) => {
-      const content = await parser.getInlineParseContent(items);
-      return parser.schemaUtils.safeAddNullToType(schemaPart, this.Ts.ArrayType(content));
+    array: async ({ items, ...schemaPart }, { createParser, schemaUtils }) => {
+      const content = await createParser(items).getInlineContent();
+      return schemaUtils.safeAddNullToType(schemaPart, this.Ts.ArrayType(content));
     },
   };
 

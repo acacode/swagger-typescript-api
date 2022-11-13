@@ -25,7 +25,7 @@ class SchemaRoutes {
    */
   config;
   /**
-   * @type {SchemaParser}
+   * @type {SchemaProcessor}
    */
   schemaParser;
   /**
@@ -33,7 +33,7 @@ class SchemaRoutes {
    */
   schemaUtils;
   /**
-   * @type {TypeName}
+   * @type {TypeNameFormatter}
    */
   typeName;
   /**
