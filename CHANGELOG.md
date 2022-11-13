@@ -1,4 +1,9 @@
-# next release
+# next release  
+
+## 12.0.1  
+
+fix: problem based with http requests and `disableStrictSSL` option (#453)  
+docs: update docs for `requestOptions` nodejs option  
 
 ## 12.0.0  
 
