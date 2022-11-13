@@ -99,6 +99,19 @@ class SchemaParser {
 
       const refType = this.schemaUtils.getSchemaRefType(schema);
       const $ref = (refType && refType.$ref) || null;
+
+      if (Array.isArray(schema.enum) && Array.isArray(schema.enum[0])) {
+        return this.parseSchema(
+          {
+            oneOf: schema.enum.map((enumNames) => ({
+              type: "array",
+              items: enumNames.map((enumName) => ({ type: "string", enum: [enumName] })),
+            })),
+          },
+          typeName,
+        );
+      }
+
       const keyType = this.getSchemaType(schema);
       const enumNames = this.schemaUtils.getEnumNames(schema);
       let content = null;
@@ -211,7 +224,7 @@ class SchemaParser {
     },
     [SCHEMA_TYPES.PRIMITIVE]: (schema, typeName) => {
       let contentType = null;
-      const { additionalProperties, type, description, $$requiredKeys } = schema || {};
+      const { additionalProperties, type, description, items } = schema || {};
 
       if (type === this.config.Ts.Keyword.Object && additionalProperties) {
         const fieldType = _.isObject(additionalProperties)
@@ -225,6 +238,10 @@ class SchemaParser {
           ...(_.isObject(schema) ? schema : {}),
           oneOf: type.map((type) => ({ type })),
         });
+      }
+
+      if (_.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
+        contentType = this.config.Ts.Tuple(items.map((item) => this.getInlineParseContent(item)));
       }
 
       return {
@@ -364,7 +381,7 @@ class SchemaParser {
         typeName = this.getSchemaType(schema);
       }
 
-      if (schema.items && !schema.type) {
+      if (schema.items && !Array.isArray(schema.items) && !schema.type) {
         schema.type = SCHEMA_TYPES.ARRAY;
       }
       schemaType = this.getInternalSchemaType(schema);

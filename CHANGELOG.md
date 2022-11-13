@@ -22,7 +22,31 @@ typeSuffix?: string;
 enumKeyPrefix?: string;
 enumKeySuffix?: string;
 ```
+feature: ability to customize resolving process of the extracting type names (`extractingOptions` nodejs option)  
+```ts
+extractingOptions = {
+  // requestBodySuffix: ["Payload", "Body", "Input"],
+  // or
+  // requestBodyNameResolver: (typeName, reservedNames) => string;
+
+  // requestParamsSuffix: ["Params"],
+  // or
+  // requestParamsNameResolver: (typeName, reservedNames) => string;
+
+  // responseBodySuffix: ["Data", "Result", "Output"],
+  // or
+  // responseBodyNameResolver: (typeName, reservedNames) => string;
+
+  // responseErrorSuffix: ["Error", "Fail", "Fails", "ErrorData", "HttpError", "BadResponse"],
+  // or
+  // responseErrorNameResolver: (typeName, reservedNames) => string;
+}
+```
 docs: update docs for `extraTemplates` option  
+fix: problem with default name of single api file (Api.ts)  
+fix: problem based with tuple types (#445)  
+fix: problem with `defaultResponseType` declaration type  
+
 
 # 11.1.3  
 

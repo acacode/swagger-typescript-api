@@ -11,6 +11,16 @@
 
 type UtilRequiredKeys<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 
+/** https://github.com/acacode/swagger-typescript-api/issues/445 */
+export interface SpecificEnum1 {
+  myEnum?: ["foo", "bar", "baz"];
+}
+
+/** https://github.com/acacode/swagger-typescript-api/issues/445 */
+export interface SpecificEnum2 {
+  myEnum?: ["foo", "bar", "baz"] | ["foo", "bar", "bad"];
+}
+
 /**
  * It is a Pet title
  * It is a Pet description

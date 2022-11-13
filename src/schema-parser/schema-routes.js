@@ -29,6 +29,10 @@ class SchemaRoutes {
    */
   schemaParser;
   /**
+   * @type {SchemaUtils}
+   */
+  schemaUtils;
+  /**
    * @type {TypeName}
    */
   typeName;
@@ -55,6 +59,7 @@ class SchemaRoutes {
   constructor(config, schemaParser, schemaComponentMap, logger, templates, typeName) {
     this.config = config;
     this.schemaParser = schemaParser;
+    this.schemaUtils = this.schemaParser.schemaUtils;
     this.typeName = typeName;
     this.schemaComponentMap = schemaComponentMap;
     this.logger = logger;
@@ -470,11 +475,11 @@ class SchemaRoutes {
     let typeName = null;
 
     if (this.config.extractRequestBody) {
-      typeName = this.config.componentTypeNameResolver.resolve([
-        pascalCase(`${routeName.usage} Payload`),
-        pascalCase(`${routeName.usage} Body`),
-        pascalCase(`${routeName.usage} Input`),
-      ]);
+      typeName = this.schemaUtils.resolveTypeName(
+        routeName.usage,
+        this.config.extractingOptions.requestBodySuffix,
+        this.config.extractingOptions.requestBodyNameResolver,
+      );
     }
 
     if (routeParams.formData.length) {
@@ -571,7 +576,11 @@ class SchemaRoutes {
     if (fixedSchema) return fixedSchema;
 
     if (extractRequestParams) {
-      const typeName = this.config.componentTypeNameResolver.resolve([pascalCase(`${routeName.usage} Params`)]);
+      const typeName = this.schemaUtils.resolveTypeName(
+        routeName.usage,
+        this.config.extractingOptions.requestParamsSuffix,
+        this.config.extractingOptions.requestParamsNameResolver,
+      );
 
       return this.schemaComponentMap.createComponent("schemas", typeName, { ...schema });
     }
@@ -581,11 +590,11 @@ class SchemaRoutes {
 
   extractResponseBodyIfItNeeded = (routeInfo, responseBodyInfo, routeName) => {
     if (responseBodyInfo.responses.length && responseBodyInfo.success && responseBodyInfo.success.schema) {
-      const typeName = this.config.componentTypeNameResolver.resolve([
-        pascalCase(`${routeName.usage} Data`),
-        pascalCase(`${routeName.usage} Result`),
-        pascalCase(`${routeName.usage} Output`),
-      ]);
+      const typeName = this.schemaUtils.resolveTypeName(
+        routeName.usage,
+        this.config.extractingOptions.responseBodySuffix,
+        this.config.extractingOptions.responseBodyNameResolver,
+      );
 
       const idx = responseBodyInfo.responses.indexOf(responseBodyInfo.success.schema);
 
@@ -608,14 +617,11 @@ class SchemaRoutes {
 
   extractResponseErrorIfItNeeded = (routeInfo, responseBodyInfo, routeName) => {
     if (responseBodyInfo.responses.length && responseBodyInfo.error.schemas && responseBodyInfo.error.schemas.length) {
-      const typeName = this.config.componentTypeNameResolver.resolve([
-        pascalCase(`${routeName.usage} Error`),
-        pascalCase(`${routeName.usage} Fail`),
-        pascalCase(`${routeName.usage} Fails`),
-        pascalCase(`${routeName.usage} ErrorData`),
-        pascalCase(`${routeName.usage} HttpError`),
-        pascalCase(`${routeName.usage} BadResponse`),
-      ]);
+      const typeName = this.schemaUtils.resolveTypeName(
+        routeName.usage,
+        this.config.extractingOptions.responseErrorSuffix,
+        this.config.extractingOptions.responseErrorNameResolver,
+      );
 
       const errorSchemas = responseBodyInfo.error.schemas.map(this.getSchemaFromRequestType).filter(Boolean);
 
@@ -765,7 +771,7 @@ class SchemaRoutes {
     const pathType = routeParams.path.length ? this.schemaParser.getInlineParseContent(pathObjectSchema) : null;
     const headersType = routeParams.header.length ? this.schemaParser.getInlineParseContent(headersObjectSchema) : null;
 
-    const nameResolver = new SpecificArgNameResolver(pathArgsNames);
+    const nameResolver = new SpecificArgNameResolver(this.logger, pathArgsNames);
 
     const specificArgs = {
       query: queryType
