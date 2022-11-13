@@ -35,7 +35,7 @@ class Request {
     };
 
     if (disableStrictSSL) {
-      const { Agent } = _.startsWith(url, "http://") ? http : https;
+      const Agent = _.startsWith(url, "http://") ? http.Agent.bind(http) : https.Agent.bind(https);
       requestOptions.agent = new Agent({
         rejectUnauthorized: false,
       });
