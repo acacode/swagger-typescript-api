@@ -1,6 +1,5 @@
 const _ = require("lodash");
 const https = require("https");
-const http = require("http");
 const fetch = require("node-fetch-h2");
 
 class Request {
@@ -34,9 +33,8 @@ class Request {
       ...(this.config.requestOptions || {}),
     };
 
-    if (disableStrictSSL) {
-      const Agent = _.startsWith(url, "http://") ? http.Agent.bind(http) : https.Agent.bind(https);
-      requestOptions.agent = new Agent({
+    if (disableStrictSSL && !_.startsWith(url, "http://")) {
+      requestOptions.agent = new https.Agent({
         rejectUnauthorized: false,
       });
     }
