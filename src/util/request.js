@@ -29,9 +29,7 @@ class Request {
     /**
      * @type {Partial<import("node-fetch").RequestInit>}
      */
-    const requestOptions = {
-      ...(this.config.requestOptions || {}),
-    };
+    const requestOptions = {};
 
     if (disableStrictSSL && !_.startsWith(url, "http://")) {
       requestOptions.agent = new https.Agent({
@@ -44,7 +42,7 @@ class Request {
       };
     }
 
-    Object.assign(requestOptions, options);
+    _.merge(requestOptions, options, this.config.requestOptions);
 
     try {
       const response = await fetch(url, requestOptions);
