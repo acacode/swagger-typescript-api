@@ -1,3 +1,4 @@
+const _ = require("lodash");
 const https = require("https");
 const fetch = require("node-fetch-h2");
 
@@ -18,7 +19,7 @@ class Request {
 
   /**
    *
-   * @param url
+   * @param url {string}
    * @param disableStrictSSL
    * @param authToken
    * @param options {Partial<import("node-fetch").RequestInit>}
@@ -28,11 +29,9 @@ class Request {
     /**
      * @type {Partial<import("node-fetch").RequestInit>}
      */
-    const requestOptions = {
-      ...(this.config.requestOptions || {}),
-    };
+    const requestOptions = {};
 
-    if (disableStrictSSL) {
+    if (disableStrictSSL && !_.startsWith(url, "http://")) {
       requestOptions.agent = new https.Agent({
         rejectUnauthorized: false,
       });
@@ -43,7 +42,7 @@ class Request {
       };
     }
 
-    Object.assign(requestOptions, options);
+    _.merge(requestOptions, options, this.config.requestOptions);
 
     try {
       const response = await fetch(url, requestOptions);

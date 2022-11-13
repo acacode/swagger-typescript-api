@@ -151,7 +151,10 @@ interface GenerateApiParamsBase {
   typePrefix?: string;
   /** suffix string value for type names */
   typeSuffix?: string;
+  /** extra configuration for extracting type names operations */
   extractingOptions?: Partial<ExtractingOptions>;
+  /** configuration for fetching swagger schema requests */
+  requestOptions?: null | Partial<import("node-fetch").RequestInit>;
 }
 
 type CodeGenConstruct = {
@@ -529,6 +532,7 @@ export interface GenerateApiConfiguration {
       routes: ParsedRoute[];
     }[];
   };
+  requestOptions?: null | Partial<import("node-fetch").RequestInit>;
   utils: {
     formatDescription: (description: string, inline?: boolean) => string;
     internalCase: (value: string) => string;
