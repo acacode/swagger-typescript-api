@@ -42,9 +42,19 @@ export enum IntEnumWithNames {
   BooFar = "BooFar",
 }
 
-export type PetIds = 10 | 20 | 30 | 40;
+export enum PetIds {
+  Value10 = 10,
+  Value20 = 20,
+  Value30 = 30,
+  Value40 = 40,
+}
 
-export type PetIdsWithWrongEnum = 10 | 20 | 30 | 40;
+export enum PetIdsWithWrongEnum {
+  Value10 = 10,
+  Value20 = 20,
+  Value30 = 30,
+  Value40 = 40,
+}
 
 /** Information about job */
 export interface FooBarBaz {

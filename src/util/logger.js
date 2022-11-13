@@ -12,7 +12,7 @@ class Logger {
     this.config = config;
   }
 
-  createLogMessage = ({ type, emojiName, messages }) => {
+  createLogMessage = ({ type, emojiName, messages, raw }) => {
     if (this.config.silent) return;
 
     const emoji = emojify(emojiName);
@@ -24,6 +24,11 @@ class Logger {
           process.env.npm_config_user_agent || `nodejs(${process.version})`
         }`,
       );
+    }
+
+    if (raw) {
+      console.log(...raw);
+      return;
     }
 
     console[type](
@@ -93,6 +98,19 @@ class Logger {
       emojiName: ":exclamation:",
       messages,
     });
+
+  /**
+   *
+   * @param messages {any[]}
+   * @return {void}
+   */
+  debug = (...messages) => {
+    if (!this.config.debug) return;
+
+    this.createLogMessage({
+      raw: messages,
+    });
+  };
 }
 
 module.exports = {

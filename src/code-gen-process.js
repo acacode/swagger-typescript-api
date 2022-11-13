@@ -81,6 +81,7 @@ class CodeGenProcess {
       this.templates,
       this.typeName,
     );
+    this.config.componentTypeNameResolver.logger = this.logger;
   }
 
   async start() {
@@ -169,9 +170,11 @@ class CodeGenProcess {
 
     if (this.fileSystem.pathIsExist(this.config.output)) {
       if (this.config.cleanOutput) {
+        this.logger.debug(`cleaning dir ${this.config.output}`);
         this.fileSystem.cleanDir(this.config.output);
       }
     } else {
+      this.logger.debug(`path ${this.config.output} is not exist. creating dir by this path`);
       this.fileSystem.createDir(this.config.output);
     }
 
@@ -233,8 +236,9 @@ class CodeGenProcess {
         getParseContent: this.schemaParser.getParseContent,
         getComponentByRef: this.schemaComponentMap.get,
         parseSchema: this.schemaParser.parseSchema,
-        checkAndAddNull: this.schemaParser.checkAndAddNull,
-        isNeedToAddNull: this.schemaParser.isNeedToAddNull,
+        checkAndAddNull: this.schemaParser.schemaUtils.safeAddNullToType,
+        safeAddNullToType: this.schemaParser.schemaUtils.safeAddNullToType,
+        isNeedToAddNull: this.schemaParser.schemaUtils.isNullMissingInType,
         inlineExtraFormatters: this.schemaParser.schemaFormatters.inline,
         formatters: this.schemaParser.schemaFormatters.base,
         formatModelName: this.typeName.format,
@@ -397,15 +401,11 @@ class CodeGenProcess {
     if (configuration.translateToJavaScript) {
       const { sourceContent, declarationContent } = translateToJS(`${fixedFileName}${ts.Extension.Ts}`, content);
 
-      if (this.config.debug) {
-        console.info("generating output for", `${fixedFileName}${ts.Extension.Js}`);
-        console.info(sourceContent);
-      }
+      this.logger.debug("generating output for", `${fixedFileName}${ts.Extension.Js}`);
+      this.logger.debug(sourceContent);
 
-      if (this.config.debug) {
-        console.info("generating output for", `${fixedFileName}${ts.Extension.Dts}`);
-        console.info(declarationContent);
-      }
+      this.logger.debug("generating output for", `${fixedFileName}${ts.Extension.Js}`);
+      this.logger.debug(declarationContent);
 
       return {
         name: `${fixedFileName}${ts.Extension.Js}`,
@@ -417,10 +417,8 @@ class CodeGenProcess {
       };
     }
 
-    if (this.config.debug) {
-      console.info("generating output for", `${fixedFileName}${ts.Extension.Ts}`);
-      console.info(content);
-    }
+    this.logger.debug("generating output for", `${fixedFileName}${ts.Extension.Js}`);
+    this.logger.debug(content);
 
     return {
       name: `${fixedFileName}${ts.Extension.Ts}`,

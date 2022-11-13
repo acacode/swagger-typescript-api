@@ -29,6 +29,10 @@ class SchemaRoutes {
    */
   schemaParser;
   /**
+   * @type {SchemaUtils}
+   */
+  schemaUtils;
+  /**
    * @type {TypeName}
    */
   typeName;
@@ -55,14 +59,15 @@ class SchemaRoutes {
   constructor(config, schemaParser, schemaComponentMap, logger, templates, typeName) {
     this.config = config;
     this.schemaParser = schemaParser;
+    this.schemaUtils = this.schemaParser.schemaUtils;
     this.typeName = typeName;
     this.schemaComponentMap = schemaComponentMap;
     this.logger = logger;
     this.templates = templates;
 
     this.FORM_DATA_TYPES = _.uniq([
-      this.schemaParser.getTypeAlias({ type: "string", format: "file" }),
-      this.schemaParser.getTypeAlias({ type: "string", format: "binary" }),
+      this.schemaParser.getSchemaType({ type: "string", format: "file" }),
+      this.schemaParser.getSchemaType({ type: "string", format: "binary" }),
     ]);
   }
 
@@ -87,7 +92,9 @@ class SchemaRoutes {
     );
   };
 
-  parseRouteName = (routeName) => {
+  parseRouteName = (originalRouteName) => {
+    const routeName = this.config.hooks.onPreBuildRoutePath(originalRouteName) || originalRouteName;
+
     const pathParamMatches = (routeName || "").match(
       /({(([a-zA-Z]-?_?\.?){1,})([0-9]{1,})?})|(:(([a-zA-Z]-?_?\.?){1,})([0-9]{1,})?:?)/g,
     );
@@ -123,8 +130,9 @@ class SchemaRoutes {
 
     let fixedRoute = _.reduce(
       pathParams,
-      (fixedRoute, pathParam) => {
-        return _.replace(fixedRoute, pathParam.$match, `\${${pathParam.name}}`);
+      (fixedRoute, pathParam, i, arr) => {
+        const insertion = this.config.hooks.onInsertPathParam(pathParam.name, i, arr, fixedRoute) || pathParam.name;
+        return _.replace(fixedRoute, pathParam.$match, `\${${insertion}}`);
       },
       routeName || "",
     );
@@ -161,12 +169,14 @@ class SchemaRoutes {
       });
     }
 
-    return {
-      originalRoute: routeName || "",
+    const result = {
+      originalRoute: originalRouteName || "",
       route: fixedRoute,
       pathParams,
       queryParams,
     };
+
+    return this.config.hooks.onBuildRoutePath(result) || result;
   };
 
   getRouteParams = (routeInfo, pathParamsFromRouteName, queryParamsFromRouteName) => {
@@ -182,7 +192,7 @@ class SchemaRoutes {
     };
 
     _.each(parameters, (parameter) => {
-      const refTypeInfo = this.schemaParser.getRefType(parameter);
+      const refTypeInfo = this.schemaParser.schemaUtils.getSchemaRefType(parameter);
       let routeParam = null;
 
       if (refTypeInfo && refTypeInfo.rawTypeData.in && refTypeInfo.rawTypeData) {
@@ -266,9 +276,7 @@ class SchemaRoutes {
       return CONTENT_KIND.IMAGE;
     }
 
-    if (
-        _.some(contentTypes, (contentType) => _.startsWith(contentType, "text/"))
-    ) {
+    if (_.some(contentTypes, (contentType) => _.startsWith(contentType, "text/"))) {
       return CONTENT_KIND.TEXT;
     }
 
@@ -303,7 +311,7 @@ class SchemaRoutes {
   getTypeFromRequestInfo = ({ requestInfo, parsedSchemas, operationId, defaultType, typeName }) => {
     // TODO: make more flexible pick schema without content type
     const schema = this.getSchemaFromRequestType(requestInfo);
-    const refTypeInfo = this.schemaParser.getRefType(requestInfo);
+    const refTypeInfo = this.schemaParser.schemaUtils.getSchemaRefType(requestInfo);
 
     if (schema) {
       const content = this.schemaParser.getInlineParseContent(schema, typeName);
@@ -357,7 +365,7 @@ class SchemaRoutes {
             ...(requestInfo || {}),
             contentTypes: contentTypes,
             contentKind: this.getContentKind(contentTypes),
-            type: this.schemaParser.checkAndAddNull(
+            type: this.schemaParser.schemaUtils.safeAddNullToType(
               requestInfo,
               this.getTypeFromRequestInfo({
                 requestInfo,
@@ -398,7 +406,7 @@ class SchemaRoutes {
       }
       const headerTypes = Object.fromEntries(
         Object.entries(src).map(([k, v]) => {
-          return [k, this.schemaParser.getType(v)];
+          return [k, this.schemaParser.getSchemaType(v)];
         }),
       );
       const r = `headers: { ${Object.entries(headerTypes)
@@ -467,11 +475,11 @@ class SchemaRoutes {
     let typeName = null;
 
     if (this.config.extractRequestBody) {
-      typeName = this.config.componentTypeNameResolver.resolve([
-        pascalCase(`${routeName.usage} Payload`),
-        pascalCase(`${routeName.usage} Body`),
-        pascalCase(`${routeName.usage} Input`),
-      ]);
+      typeName = this.schemaUtils.resolveTypeName(
+        routeName.usage,
+        this.config.extractingOptions.requestBodySuffix,
+        this.config.extractingOptions.requestBodyNameResolver,
+      );
     }
 
     if (routeParams.formData.length) {
@@ -483,7 +491,7 @@ class SchemaRoutes {
       type = this.schemaParser.getInlineParseContent(schema, typeName);
     } else if (requestBody) {
       schema = this.getSchemaFromRequestType(requestBody);
-      type = this.schemaParser.checkAndAddNull(
+      type = this.schemaParser.schemaUtils.safeAddNullToType(
         requestBody,
         this.getTypeFromRequestInfo({
           requestInfo: requestBody,
@@ -568,7 +576,11 @@ class SchemaRoutes {
     if (fixedSchema) return fixedSchema;
 
     if (extractRequestParams) {
-      const typeName = this.config.componentTypeNameResolver.resolve([pascalCase(`${routeName.usage} Params`)]);
+      const typeName = this.schemaUtils.resolveTypeName(
+        routeName.usage,
+        this.config.extractingOptions.requestParamsSuffix,
+        this.config.extractingOptions.requestParamsNameResolver,
+      );
 
       return this.schemaComponentMap.createComponent("schemas", typeName, { ...schema });
     }
@@ -578,11 +590,11 @@ class SchemaRoutes {
 
   extractResponseBodyIfItNeeded = (routeInfo, responseBodyInfo, routeName) => {
     if (responseBodyInfo.responses.length && responseBodyInfo.success && responseBodyInfo.success.schema) {
-      const typeName = this.config.componentTypeNameResolver.resolve([
-        pascalCase(`${routeName.usage} Data`),
-        pascalCase(`${routeName.usage} Result`),
-        pascalCase(`${routeName.usage} Output`),
-      ]);
+      const typeName = this.schemaUtils.resolveTypeName(
+        routeName.usage,
+        this.config.extractingOptions.responseBodySuffix,
+        this.config.extractingOptions.responseBodyNameResolver,
+      );
 
       const idx = responseBodyInfo.responses.indexOf(responseBodyInfo.success.schema);
 
@@ -605,14 +617,11 @@ class SchemaRoutes {
 
   extractResponseErrorIfItNeeded = (routeInfo, responseBodyInfo, routeName) => {
     if (responseBodyInfo.responses.length && responseBodyInfo.error.schemas && responseBodyInfo.error.schemas.length) {
-      const typeName = this.config.componentTypeNameResolver.resolve([
-        pascalCase(`${routeName.usage} Error`),
-        pascalCase(`${routeName.usage} Fail`),
-        pascalCase(`${routeName.usage} Fails`),
-        pascalCase(`${routeName.usage} ErrorData`),
-        pascalCase(`${routeName.usage} HttpError`),
-        pascalCase(`${routeName.usage} BadResponse`),
-      ]);
+      const typeName = this.schemaUtils.resolveTypeName(
+        routeName.usage,
+        this.config.extractingOptions.responseErrorSuffix,
+        this.config.extractingOptions.responseErrorNameResolver,
+      );
 
       const errorSchemas = responseBodyInfo.error.schemas.map(this.getSchemaFromRequestType).filter(Boolean);
 
@@ -762,13 +771,13 @@ class SchemaRoutes {
     const pathType = routeParams.path.length ? this.schemaParser.getInlineParseContent(pathObjectSchema) : null;
     const headersType = routeParams.header.length ? this.schemaParser.getInlineParseContent(headersObjectSchema) : null;
 
-    const nameResolver = new SpecificArgNameResolver(pathArgsNames);
+    const nameResolver = new SpecificArgNameResolver(this.logger, pathArgsNames);
 
     const specificArgs = {
       query: queryType
         ? {
             name: nameResolver.resolve(RESERVED_QUERY_ARG_NAMES),
-            optional: this.schemaParser.parseSchema(queryObjectSchema, null).allFieldsAreOptional,
+            optional: this.schemaParser.parseSchema(queryObjectSchema).allFieldsAreOptional,
             type: queryType,
           }
         : void 0,
@@ -782,14 +791,14 @@ class SchemaRoutes {
       pathParams: pathType
         ? {
             name: nameResolver.resolve(RESERVED_PATH_ARG_NAMES),
-            optional: this.schemaParser.parseSchema(pathObjectSchema, null).allFieldsAreOptional,
+            optional: this.schemaParser.parseSchema(pathObjectSchema).allFieldsAreOptional,
             type: pathType,
           }
         : void 0,
       headers: headersType
         ? {
             name: nameResolver.resolve(RESERVED_HEADER_ARG_NAMES),
-            optional: this.schemaParser.parseSchema(headersObjectSchema, null).allFieldsAreOptional,
+            optional: this.schemaParser.parseSchema(headersObjectSchema).allFieldsAreOptional,
             type: headersType,
           }
         : void 0,

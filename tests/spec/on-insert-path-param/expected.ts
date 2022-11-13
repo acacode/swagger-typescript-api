@@ -9,30 +9,6 @@
  * ---------------------------------------------------------------
  */
 
-/**
- * Not found response
- * @example "Not found"
- */
-export type DF = string;
-
-/**
- * Not found response
- * @example "Not found"
- */
-export type TypeFF = string;
-
-/**
- * Not found response
- * @example "Not found"
- */
-export type Type405 = string;
-
-/**
- * Not found response
- * @example "Not found"
- */
-export type Type404 = string;
-
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -79,7 +55,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "";
+  public baseUrl: string = "http://petstore.swagger.io/api";
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private abortControllers = new Map<CancelToken, AbortController>();
@@ -244,99 +220,71 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title Link Example
+ * @title Swagger Petstore
  * @version 1.0.0
+ * @license MIT
+ * @termsOfService http://swagger.io/terms/
+ * @baseUrl http://petstore.swagger.io/api
+ * @contact Swagger API Team
+ *
+ * A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
-  v20 = {
+  wrongPathParams1 = {
     /**
-     * No description
+     * @description DDD
      *
-     * @name GetUserByName
-     * @request GET:/2.0/users/{username}
+     * @tags key, delete
+     * @name WrongPathParams1
+     * @request DELETE:/wrong-path-params1/{pathParam1}/{path_param2}/{path_param3}/:pathParam4
      */
-    getUserByName: (username: string, params: RequestParams = {}) =>
-      this.request<any, any>({
-        path: `/2.0/users/${username}`,
-        method: "GET",
-        format: "json",
+    wrongPathParams1: (
+      pathParam1: string,
+      pathParam2: string,
+      pathParam3: string,
+      pathParam4: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/wrong-path-params1/${encodeURIComponent(pathParam1)}/${encodeURIComponent(
+          pathParam2,
+        )}/${encodeURIComponent(pathParam3)}/${encodeURIComponent(pathParam4)}`,
+        method: "DELETE",
         ...params,
       }),
-
+  };
+  checks = {
     /**
-     * No description
+     * @description <h1>description</h1>
      *
-     * @name GetRepositoriesByOwner
-     * @request GET:/2.0/repositories/{username}
+     * @tags check
+     * @name GetChecksCheckGet
+     * @summary Get Checks
+     * @request GET:/checks
+     * @secure
      */
-    getRepositoriesByOwner: (username: string, params: RequestParams = {}) =>
-      this.request<any[], any>({
-        path: `/2.0/repositories/${username}`,
-        method: "GET",
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @name GetRepository
-     * @request GET:/2.0/repositories/{username}/{slug}
-     */
-    getRepository: (username: string, slug: string, params: RequestParams = {}) =>
-      this.request<any, any>({
-        path: `/2.0/repositories/${username}/${slug}`,
-        method: "GET",
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @name GetPullRequestsByRepository
-     * @request GET:/2.0/repositories/{username}/{slug}/pullrequests
-     */
-    getPullRequestsByRepository: (
-      username: string,
-      slug: string,
+    getChecksCheckGet: (
       query?: {
-        state?: "open" | "merged" | "declined";
+        /**
+         * Page
+         * @min 1
+         * @default 1
+         */
+        page?: number;
+        /**
+         * Size
+         * @default 1
+         */
+        size?: number;
       },
       params: RequestParams = {},
     ) =>
-      this.request<any[], any>({
-        path: `/2.0/repositories/${username}/${slug}/pullrequests`,
+      this.request<any, any>({
+        path: `/checks`,
         method: "GET",
         query: query,
+        secure: true,
         format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @name GetPullRequestsById
-     * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
-     */
-    getPullRequestsById: (username: string, slug: string, pid: string, params: RequestParams = {}) =>
-      this.request<Type404, any>({
-        path: `/2.0/repositories/${username}/${slug}/pullrequests/${pid}`,
-        method: "GET",
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @name MergePullRequest
-     * @request POST:/2.0/repositories/{username}/{slug}/pullrequests/{pid}/merge
-     */
-    mergePullRequest: (username: string, slug: string, pid: string, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/2.0/repositories/${username}/${slug}/pullrequests/${pid}/merge`,
-        method: "POST",
         ...params,
       }),
   };

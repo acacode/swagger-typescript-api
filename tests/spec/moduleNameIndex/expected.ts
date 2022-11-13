@@ -78,7 +78,12 @@ export enum PetNames {
   SwaggerTypescriptApi = "Swagger Typescript Api",
 }
 
-export type PetIds = 10 | 20 | 30 | 40;
+export enum PetIds {
+  Value10 = 10,
+  Value20 = 20,
+  Value30 = 30,
+  Value40 = 40,
+}
 
 /**
  * a Pet

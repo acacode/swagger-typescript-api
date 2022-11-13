@@ -106,7 +106,7 @@ interface GenerateApiParamsBase {
   /**
    * default type for empty response schema (default: "void")
    */
-  defaultResponseType?: boolean;
+  defaultResponseType?: string;
   /**
    * Ability to send HttpClient instance to Api constructor
    */
@@ -136,6 +136,22 @@ interface GenerateApiParamsBase {
   primitiveTypeConstructs?: (struct: PrimitiveTypeStruct) => Partial<PrimitiveTypeStruct>;
 
   codeGenConstructs?: (struct: CodeGenConstruct) => Partial<CodeGenConstruct>;
+
+  /** extract all enums from nested types\interfaces to `enum` construction */
+  extractEnums?: boolean;
+  /** prefix string value needed to fix invalid type names (default: 'Type') */
+  fixInvalidTypeNamePrefix?: string;
+  /** prefix string value needed to fix invalid enum keys (default: 'Value') */
+  fixInvalidEnumKeyPrefix?: string;
+  /** prefix string value for enum keys */
+  enumKeyPrefix?: string;
+  /** suffix string value for enum keys */
+  enumKeySuffix?: string;
+  /** prefix string value for type names */
+  typePrefix?: string;
+  /** suffix string value for type names */
+  typeSuffix?: string;
+  extractingOptions?: Partial<ExtractingOptions>;
 }
 
 type CodeGenConstruct = {
@@ -212,9 +228,39 @@ interface GenerateApiParamsFromSpecLiteral extends GenerateApiParamsBase {
 
 export type GenerateApiParams = GenerateApiParamsFromPath | GenerateApiParamsFromUrl | GenerateApiParamsFromSpecLiteral;
 
+type BuildRouteParam = {
+  /** {bar} */
+  $match: string;
+  name: string;
+  required: boolean;
+  type: "string";
+  description: string;
+  schema: {
+    type: string;
+  };
+  in: "path" | "query";
+};
+
+type BuildRoutePath = {
+  /** /foo/{bar}/baz */
+  originalRoute: string;
+  /** /foo/${bar}/baz */
+  route: string;
+  pathParams: BuildRouteParam[];
+  queryParams: BuildRouteParam[];
+};
+
 export interface Hooks {
+  /** calls before parse\process route path */
+  onPreBuildRoutePath: (routePath: string) => string | void;
+  /** calls after parse\process route path */
+  onBuildRoutePath: (data: BuildRoutePath) => BuildRoutePath | void;
+  /** calls before insert path param name into string path interpolation */
+  onInsertPathParam: (paramName: string, index: number, arr: BuildRouteParam[], resultRoute: string) => string | void;
   /** calls after parse schema component */
   onCreateComponent: (component: SchemaComponent) => SchemaComponent | void;
+  /** calls before parse any kind of schema */
+  onPreParseSchema: (originalSchema: any, typeName: string, schemaType: string) => any;
   /** calls after parse any kind of schema */
   onParseSchema: (originalSchema: any, parsedSchema: any) => any | void;
   /** calls after parse route (return type: customized route (ParsedRoute), nothing change (void), false (ignore this route)) */
@@ -228,7 +274,7 @@ export interface Hooks {
   /** customize request params (path params, query params) */
   onCreateRequestParams?: (rawType: SchemaComponent["rawTypeData"]) => SchemaComponent["rawTypeData"] | void;
   /** customize name of model type */
-  onFormatTypeName?: (typeName: string, rawTypeName?: string) => string | void;
+  onFormatTypeName?: (typeName: string, rawTypeName?: string, schemaType?: "type-name" | "enum-key") => string | void;
   /** customize name of route (operationId), you can do it with using onCreateRouteName too */
   onFormatRouteName?: (routeInfo: RawRouteInfo, templateRouteName: string) => string | void;
 }
@@ -376,6 +422,17 @@ export enum SCHEMA_TYPES {
 
 type MAIN_SCHEMA_TYPES = SCHEMA_TYPES.PRIMITIVE | SCHEMA_TYPES.OBJECT | SCHEMA_TYPES.ENUM;
 
+type ExtractingOptions = {
+  requestBodySuffix: string[];
+  responseBodySuffix: string[];
+  responseErrorSuffix: string[];
+  requestParamsSuffix: string[];
+  requestBodyNameResolver: (name: string, reservedNames: string) => string | undefined;
+  responseBodyNameResolver: (name: string, reservedNames: string) => string | undefined;
+  responseErrorNameResolver: (name: string, reservedNames: string) => string | undefined;
+  requestParamsNameResolver: (name: string, reservedNames: string) => string | undefined;
+};
+
 export interface GenerateApiConfiguration {
   apiConfig: {
     baseUrl: string;
@@ -411,6 +468,8 @@ export interface GenerateApiConfiguration {
     singleHttpClient: boolean;
     typePrefix: string;
     typeSuffix: string;
+    enumKeyPrefix: string;
+    enumKeySuffix: string;
     patch: boolean;
     cleanOutput: boolean;
     debug: boolean;
@@ -420,7 +479,10 @@ export interface GenerateApiConfiguration {
     addReadonly: boolean;
     extractResponseBody: boolean;
     extractResponseError: boolean;
-    defaultResponseType: boolean;
+    extractEnums: boolean;
+    fixInvalidTypeNamePrefix: string;
+    fixInvalidEnumKeyPrefix: string;
+    defaultResponseType: string;
     toJS: boolean;
     disableThrowOnError: boolean;
     silent: boolean;
@@ -452,6 +514,7 @@ export interface GenerateApiConfiguration {
     routeNameDuplicatesMap: Map<string, string>;
     apiClassName: string;
     requestOptions?: import("node-fetch").RequestInit;
+    extractingOptions: ExtractingOptions;
   };
   modelTypes: ModelType[];
   rawModelTypes: SchemaComponent[];

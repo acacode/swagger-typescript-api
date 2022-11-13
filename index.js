@@ -37,7 +37,7 @@ const program = cli({
     {
       flags: "-n, --name <string>",
       description: "name of output typescript api file",
-      default: `${codeGenBaseConfig.apiClassName}.ts`,
+      default: codeGenBaseConfig.fileName,
     },
     {
       flags: "-t, --templates <string>",
@@ -201,6 +201,11 @@ const program = cli({
       flags: "--sort-types",
       description: "sort fields and types",
       default: codeGenBaseConfig.sortTypes,
+    },
+    {
+      flags: "--extract-enums",
+      description: "extract all enums from inline interface\\type content to typescript enum construction",
+      default: codeGenBaseConfig.extractEnums,
     },
   ],
 });

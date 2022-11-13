@@ -72,6 +72,7 @@ class CodeGenConfig {
   extractRequestBody = false;
   extractResponseBody = false;
   extractResponseError = false;
+  extractEnums = false;
   fileNames = {
     dataContracts: "data-contracts",
     routeTypes: "route-types",
@@ -81,14 +82,18 @@ class CodeGenConfig {
   routeNameDuplicatesMap = new Map();
   prettierOptions = { ...CONSTANTS.PRETTIER_OPTIONS };
   hooks = {
+    onPreBuildRoutePath: (routePath) => void 0,
+    onBuildRoutePath: (routeData) => void 0,
+    onInsertPathParam: (pathParam) => void 0,
     onCreateComponent: (schema) => schema,
+    onPreParseSchema: (originalSchema, typeName, schemaType) => void 0,
     onParseSchema: (originalSchema, parsedSchema) => parsedSchema,
     onCreateRoute: (routeData) => routeData,
     onInit: (config) => config,
     onPrepareConfig: (apiConfig) => apiConfig,
     onCreateRequestParams: (rawType) => {},
     onCreateRouteName: () => {},
-    onFormatTypeName: (typeName, rawTypeName) => {},
+    onFormatTypeName: (typeName, rawTypeName, schemaType) => {},
     onFormatRouteName: (routeInfo, templateRouteName) => {},
   };
   defaultResponseType;
@@ -126,8 +131,10 @@ class CodeGenConfig {
   silent = false;
   typePrefix = "";
   typeSuffix = "";
+  enumKeyPrefix = "";
+  enumKeySuffix = "";
   patch = false;
-  componentTypeNameResolver = new ComponentTypeNameResolver([]);
+  componentTypeNameResolver = new ComponentTypeNameResolver(null, []);
   /** name of the main exported class */
   apiClassName = "Api";
   debug = false;
@@ -142,14 +149,24 @@ class CodeGenConfig {
   url = "";
   cleanOutput = false;
   spec = null;
-  fileName = "";
+  fileName = "Api.ts";
   authorizationToken = void 0;
   requestOptions = null;
 
   jsPrimitiveTypes = [];
   jsEmptyTypes = [];
+  fixInvalidTypeNamePrefix = "Type";
+  fixInvalidEnumKeyPrefix = "Value";
 
   successResponseStatusRange = [200, 299];
+
+  /** @type {ExtractingOptions} */
+  extractingOptions = {
+    requestBodySuffix: ["Payload", "Body", "Input"],
+    requestParamsSuffix: ["Params"],
+    responseBodySuffix: ["Data", "Result", "Output"],
+    responseErrorSuffix: ["Error", "Fail", "Fails", "ErrorData", "HttpError", "BadResponse"],
+  };
 
   Ts = {
     Keyword: _.cloneDeep(TsKeyword),
@@ -235,6 +252,12 @@ class CodeGenConfig {
     TypeWithGeneric: (typeName, genericArgs) => {
       return `${typeName}${genericArgs.length ? `<${genericArgs.join(",")}>` : ""}`;
     },
+    /**
+     * [$A1, $A2, ...$AN]
+     */
+    Tuple: (values) => {
+      return `[${values.join(", ")}]`;
+    },
   };
 
   /**
@@ -273,7 +296,7 @@ class CodeGenConfig {
     },
     array: ({ items, ...schemaPart }, parser) => {
       const content = parser.getInlineParseContent(items);
-      return parser.checkAndAddNull(schemaPart, this.Ts.ArrayType(content));
+      return parser.schemaUtils.safeAddNullToType(schemaPart, this.Ts.ArrayType(content));
     },
   };
 

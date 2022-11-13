@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "11.1.3",
+  "version": "12.0.0",
   "description": "Generate typescript/javascript api from swagger schema",
   "scripts": {
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
@@ -57,7 +57,10 @@
     "test:nullableRefTest2.0": "node tests/spec/nullable-2.0/test.js",
     "test:additionalProperties2.0": "node tests/spec/additional-properties-2.0/test.js",
     "test:enums2.0": "node tests/spec/enums-2.0/test.js",
-    "test:another-query-params": "node tests/spec/another-query-params/test.js"
+    "test:another-query-params": "node tests/spec/another-query-params/test.js",
+    "test:on-insert-path-param": "node tests/spec/on-insert-path-param/test.js",
+    "test:extra-templates": "node tests/spec/extra-templates/test.js",
+    "test:extract-enums": "node tests/spec/extract-enums/test.js"
   },
   "author": "acacode",
   "license": "MIT",

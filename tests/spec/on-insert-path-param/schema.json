@@ -1,0 +1,111 @@
+{
+  "swagger":"2.0",
+  "info":{
+    "version":"1.0.0",
+    "title":"Swagger Petstore",
+    "description":"A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification",
+    "termsOfService":"http://swagger.io/terms/",
+    "contact":{
+      "name":"Swagger API Team"
+    },
+    "license":{
+      "name":"MIT"
+    }
+  },
+  "host":"petstore.swagger.io",
+  "basePath":"/api",
+  "schemes":[
+    "http"
+  ],
+  "consumes":[
+    "application/json"
+  ],
+  "produces":[
+    "application/json"
+  ],
+  "paths":{
+    "/wrong-path-params1/{pathParam1}/{path_param2}/{path_param3}/:pathParam4":{
+      "delete":{
+        "description":"DDD",
+        "operationId":"wrong-path-params1",
+        "parameters":[
+        ],
+        "produces":[
+          "application/json"
+        ],
+        "responses":{
+          "200":{
+            "description":"Successfully deleted"
+          }
+        },
+        "tags":[
+          "key",
+          "delete"
+        ]
+      }
+    },
+    "/checks":{
+      "get":{
+        "tags":[
+          "check"
+        ],
+        "summary":"Get Checks",
+        "description":"<h1>description</h1>",
+        "operationId":"get_checks_check_get",
+        "parameters":[
+          {
+            "required":false,
+            "schema":{
+              "title":"Page",
+              "minimum":1.0,
+              "type":"integer",
+              "default":1
+            },
+            "name":"page",
+            "in":"query"
+          },
+          {
+            "required":false,
+            "schema":{
+              "title":"Size",
+              "type":"integer",
+              "default":1
+            },
+            "name":"size",
+            "in":"query"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Successful Response",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/BarBaz"
+                }
+              }
+            }
+          },
+          "422":{
+            "description":"Validation Error",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/Foobar"
+                }
+              }
+            }
+          }
+        },
+        "security":[
+          {
+            "OAuth2PasswordBearer":[]
+          }
+        ]
+      }
+    }
+  },
+  "definitions":{
+
+  }
+}

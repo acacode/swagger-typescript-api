@@ -1,5 +1,55 @@
 # next release
 
+## 12.0.0  
+
+new hooks:  
+```ts
+/** calls before parse\process route path */
+onPreBuildRoutePath: (routePath: string) => string | void;
+/** calls after parse\process route path */
+onBuildRoutePath: (data: BuildRoutePath) => BuildRoutePath | void;
+/** calls before insert path param name into string path interpolation */
+onInsertPathParam: (paramName: string, index: number, arr: BuildRouteParam[], resultRoute: string) => string | void;
+/** calls before parse any kind of schema */
+onPreParseSchema: (originalSchema: any, typeName: string, schemaType: string) => any;
+```  
+BREAKING_CHANGE: add ability to custom prefix for autofix invalid enum keys, invalid type names with nodejs options (`fixInvalidTypeNamePrefix: string`, `fixInvalidEnumKeyPrefix: string`)  
+BREAKING_CHANGE: by default all component enum schemas (even numeric) extracting as `enum` TS constructions (#344)   
+feature: ability to extract all enums from nested types\interfaces to `enum` TS construction using `--extract-enums` option (#344)   
+feature: ability to modify route path params before insert them into string (request url, #446, with using hook `onInsertPathParam`)  
+feature: (nodejs) ability to add prefix\suffix for type names and enum keys  
+```ts
+typePrefix?: string;
+typeSuffix?: string;
+enumKeyPrefix?: string;
+enumKeySuffix?: string;
+```
+feature: ability to customize resolving process of the extracting type names (`extractingOptions` nodejs option)  
+```ts
+extractingOptions = {
+  // requestBodySuffix: ["Payload", "Body", "Input"],
+  // or
+  // requestBodyNameResolver: (typeName, reservedNames) => string;
+
+  // requestParamsSuffix: ["Params"],
+  // or
+  // requestParamsNameResolver: (typeName, reservedNames) => string;
+
+  // responseBodySuffix: ["Data", "Result", "Output"],
+  // or
+  // responseBodyNameResolver: (typeName, reservedNames) => string;
+
+  // responseErrorSuffix: ["Error", "Fail", "Fails", "ErrorData", "HttpError", "BadResponse"],
+  // or
+  // responseErrorNameResolver: (typeName, reservedNames) => string;
+}
+```
+docs: update docs for `extraTemplates` option  
+fix: problem with default name of single api file (Api.ts)  
+fix: problem based with tuple types (#445)  
+fix: problem with `defaultResponseType` declaration type  
+
+
 # 11.1.3  
 
 fix: problems with `text/*` content types (axios, fetch http clients) (thanks @JochenDiekenbrock, #312, #443)  
@@ -214,7 +264,7 @@ const primitiveTypes = {
     },
     array: ({ items, ...schemaPart }, parser) => {
       const content = parser.getInlineParseContent(items);
-      return parser.checkAndAddNull(schemaPart, Ts.ArrayType(content));
+      return parser.safeAddNullToType(schemaPart, Ts.ArrayType(content));
     },
   }
 ```
@@ -456,7 +506,7 @@ Features:
 - `--type-suffix` option. Allows to set suffix for data contract name. (issue #191, thanks @the-ult)  
 - `--type-prefix` option. Allows to set prefix for data contract name. (issue #191, thanks @the-ult)  
   Examples [here](./spec/typeSuffixPrefix/schema.ts)  
-- `onFormatTypeName(usageTypeName, rawTypeName)` hook. Allow to format data contract names as you want.  
+- `onFormatTypeName(usageTypeName, rawTypeName, schemaType)` hook. Allow to format data contract names as you want.  
 
 Internal:  
 - rename and split `checkAndRenameModelName` -> `formatModelName`, `fixModelName`  

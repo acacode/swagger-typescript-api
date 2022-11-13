@@ -28,10 +28,7 @@ class SchemaFormatters {
 
   base = {
     [SCHEMA_TYPES.ENUM]: (parsedSchema) => {
-      const isNumberEnum = _.some(parsedSchema.content, (content) => typeof content.key === "number");
-      const formatAsUnionType = !!(isNumberEnum || this.config.generateUnionEnums);
-
-      if (formatAsUnionType) {
+      if (this.config.generateUnionEnums) {
         return {
           ...parsedSchema,
           $content: parsedSchema.content,
@@ -61,26 +58,6 @@ class SchemaFormatters {
     },
   };
   inline = {
-    [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
-      if (_.isString(parsedSchema.content)) {
-        return {
-          ...parsedSchema,
-          typeIdentifier: this.config.Ts.Keyword.Type,
-          content: this.schemaParser.checkAndAddNull(parsedSchema.content),
-        };
-      }
-
-      return {
-        ...parsedSchema,
-        typeIdentifier: this.config.Ts.Keyword.Type,
-        content: this.schemaParser.checkAndAddNull(
-          parsedSchema,
-          parsedSchema.content.length
-            ? this.config.Ts.ObjectWrapper(this.formatObjectContent(parsedSchema.content))
-            : this.config.Ts.RecordType(Ts.Keyword.String, this.config.Ts.Keyword.Any),
-        ),
-      };
-    },
     [SCHEMA_TYPES.ENUM]: (parsedSchema) => {
       return {
         ...parsedSchema,
@@ -94,6 +71,36 @@ class SchemaFormatters {
             ),
       };
     },
+    [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
+      if (_.isString(parsedSchema.content)) {
+        return {
+          ...parsedSchema,
+          typeIdentifier: this.config.Ts.Keyword.Type,
+          content: this.schemaParser.schemaUtils.safeAddNullToType(parsedSchema.content),
+        };
+      }
+
+      return {
+        ...parsedSchema,
+        typeIdentifier: this.config.Ts.Keyword.Type,
+        content: this.schemaParser.schemaUtils.safeAddNullToType(
+          parsedSchema,
+          parsedSchema.content.length
+            ? this.config.Ts.ObjectWrapper(this.formatObjectContent(parsedSchema.content))
+            : this.config.Ts.RecordType(Ts.Keyword.String, this.config.Ts.Keyword.Any),
+        ),
+      };
+    },
+  };
+
+  /**
+   * @param parsedSchema {Record<string, any>}
+   * @param formatType {"base" | "inline"}
+   */
+  formatSchema = (parsedSchema, formatType = "base") => {
+    const schemaType = _.get(parsedSchema, ["schemaType"]) || _.get(parsedSchema, ["$parsed", "schemaType"]);
+    const formatterFn = _.get(this, [formatType, schemaType]);
+    return (formatterFn && formatterFn(parsedSchema)) || parsedSchema;
   };
 
   formatDescription = (description, inline) => {

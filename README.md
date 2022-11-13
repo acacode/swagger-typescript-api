@@ -76,11 +76,12 @@ Options:
   --type-prefix <string>        data contract name prefix (default: "")
   --type-suffix <string>        data contract name suffix (default: "")
   --clean-output                clean output folder before generate api. WARNING: May cause data loss (default: false)
-  --api-class-name <string>     name of the api class
+  --api-class-name <string>     name of the api class (default: "Api")
   --patch                       fix up small errors in the swagger source definition (default: false)
   --debug                       additional information about processes inside this tool (default: false)
   --another-array-type          generate array types as Array<Type> (by default Type[]) (default: false)
   --sort-types                  sort fields and types (default: false)
+  --extract-enums               extract all enums from inline interface\type content to typescript enum construction (default: false)
   -h, --help                    display help for command
 
 Commands:
@@ -144,9 +145,20 @@ generateApi({
   generateUnionEnums: false,
   typePrefix: '',
   typeSuffix: '',
+  enumKeyPrefix: '',
+  enumKeySuffix: '',
   addReadonly: false,
+  extractingOptions: {
+    requestBodySuffix: ["Payload", "Body", "Input"],
+    requestParamsSuffix: ["Params"],
+    responseBodySuffix: ["Data", "Result", "Output"],
+    responseErrorSuffix: ["Error", "Fail", "Fails", "ErrorData", "HttpError", "BadResponse"],
+  },
+  /** allow to generate extra files based with this extra templates, see more below */
   extraTemplates: [],
-  anotherArrayType: false, 
+  anotherArrayType: false,
+  fixInvalidTypeNamePrefix: "Type",
+  fixInvalidEnumKeyPrefix: "Value", 
   codeGenConstructs: (constructs) => ({
     ...constructs,
     RecordType: (key, value) => `MyRecord<key, value>`
@@ -163,8 +175,9 @@ generateApi({
     onCreateRoute: (routeData) => {},
     onCreateRouteName: (routeNameInfo, rawRouteInfo) => {},
     onFormatRouteName: (routeInfo, templateRouteName) => {},
-    onFormatTypeName: (typeName, rawTypeName) => {},
+    onFormatTypeName: (typeName, rawTypeName, schemaType) => {},
     onInit: (configuration) => {},
+    onPreParseSchema: (originalSchema, typeName, schemaType) => {},
     onParseSchema: (originalSchema, parsedSchema) => {},
     onPrepareConfig: (currentConfiguration) => {},
   }
@@ -245,8 +258,13 @@ with `--module-name-index 0` Api class will have one property `api`
 When we change it to `--module-name-index 1` then Api class have two properties `fruits` and `vegetables`  
 
 ### **`--module-name-first-tag`**  
-This option will group your API operations based on their first tag - mirroring how the Swagger UI groups displayed operations
+This option will group your API operations based on their first tag - mirroring how the Swagger UI groups displayed operations  
 
+### `extraTemplates` (NodeJS option)  
+type `(Record<string, any> & { name: string, path: string })[]`  
+This thing allow you to generate extra ts\js files based on extra templates (one extra template for one ts\js file)   
+[Example here](https://github.com/acacode/swagger-typescript-api/tree/next/tests/spec/extra-templates)    
+ 
 
 ## `generate-templates` command    
 This command allows you to generate source templates which using with option `--templates`
@@ -433,7 +451,7 @@ generateApi({
         },
         array: (schema, parser) => {
             const content = parser.getInlineParseContent(schema.items);
-            return parser.checkAndAddNull(schema, `(${content})[]`);
+            return parser.safeAddNullToType(schema, `(${content})[]`);
         },
     })
 })
