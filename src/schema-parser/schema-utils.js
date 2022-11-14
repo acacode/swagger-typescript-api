@@ -12,10 +12,15 @@ class SchemaUtils {
    * @type {SchemaComponentsMap}
    */
   schemaComponentsMap;
+  /**
+   * @type {TypeNameFormatter}
+   */
+  typeNameFormatter;
 
-  constructor(config, schemaComponentsMap) {
+  constructor(config, schemaComponentsMap, typeNameFormatter) {
     this.config = config;
     this.schemaComponentsMap = schemaComponentsMap;
+    this.typeNameFormatter = typeNameFormatter;
   }
 
   getRequiredProperties = (schema) => {
@@ -139,6 +144,62 @@ class SchemaUtils {
     }
 
     return childSchema;
+  };
+
+  getComplexType = (schema) => {
+    if (schema.oneOf) return SCHEMA_TYPES.COMPLEX_ONE_OF;
+    if (schema.allOf) return SCHEMA_TYPES.COMPLEX_ALL_OF;
+    if (schema.anyOf) return SCHEMA_TYPES.COMPLEX_ANY_OF;
+    // TODO :(
+    if (schema.not) return SCHEMA_TYPES.COMPLEX_NOT;
+
+    return SCHEMA_TYPES.COMPLEX_UNKNOWN;
+  };
+
+  getInternalSchemaType = (schema) => {
+    if (!_.isEmpty(schema.enum) || !_.isEmpty(this.getEnumNames(schema))) return SCHEMA_TYPES.ENUM;
+    if (schema.allOf || schema.oneOf || schema.anyOf || schema.not) return SCHEMA_TYPES.COMPLEX;
+    if (!_.isEmpty(schema.properties)) return SCHEMA_TYPES.OBJECT;
+    if (schema.type === SCHEMA_TYPES.ARRAY) return SCHEMA_TYPES.ARRAY;
+
+    return SCHEMA_TYPES.PRIMITIVE;
+  };
+
+  getSchemaType = async (schema) => {
+    if (!schema) return this.config.Ts.Keyword.Any;
+
+    const refTypeInfo = this.getSchemaRefType(schema);
+
+    if (refTypeInfo) {
+      return this.checkAndAddRequiredKeys(
+        schema,
+        this.safeAddNullToType(schema, this.typeNameFormatter.format(refTypeInfo.typeName)),
+      );
+    }
+
+    const primitiveType = this.getSchemaPrimitiveType(schema);
+
+    if (primitiveType == null) return this.config.Ts.Keyword.Any;
+
+    let resultType;
+
+    /**
+     * @type {string | (() => Promise<string>)}
+     */
+    const typeAlias =
+      _.get(this.config.primitiveTypes, [primitiveType, schema.format]) ||
+      _.get(this.config.primitiveTypes, [primitiveType, "$default"]) ||
+      this.config.primitiveTypes[primitiveType];
+
+    if (_.isFunction(typeAlias)) {
+      resultType = await typeAlias(schema, this);
+    } else {
+      resultType = typeAlias || primitiveType;
+    }
+
+    if (!resultType) return this.config.Ts.Keyword.Any;
+
+    return this.checkAndAddRequiredKeys(schema, this.safeAddNullToType(schema, resultType));
   };
 
   filterSchemaContents = (contents, filterFn) => {

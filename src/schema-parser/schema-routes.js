@@ -68,8 +68,8 @@ class SchemaRoutes {
 
   async init() {
     this.FORM_DATA_TYPES = _.uniq([
-      await this.schemaParser.getSchemaType({ type: "string", format: "file" }),
-      await this.schemaParser.getSchemaType({ type: "string", format: "binary" }),
+      await this.schemaUtils.getSchemaType({ type: "string", format: "file" }),
+      await this.schemaUtils.getSchemaType({ type: "string", format: "binary" }),
     ]);
   }
 
@@ -411,7 +411,7 @@ class SchemaRoutes {
       const headerTypes = Object.fromEntries(
         await Promise.all(
           Object.entries(src).map(async ([k, v]) => {
-            return [k, await this.schemaParser.getSchemaType(v)];
+            return [k, await this.schemaUtils.getSchemaType(v)];
           }),
         ),
       );
