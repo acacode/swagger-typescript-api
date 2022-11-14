@@ -31,18 +31,21 @@ const execute = (params, commands, instance) => {
     } else {
       let error = "";
 
-      const processUserOptionData = (data, option) => {
-        if (!data.length && !option.flags.value) {
-          return !option.flags.isNoFlag;
-        }
-        if (option.flags.value) {
-          if (option.flags.value.variadic) {
-            return data.reduce((acc, d) => {
-              acc.push(...d.split(",").map(option.flags.value.formatter));
-              return acc;
-            }, []);
-          } else {
-            return option.flags.value.formatter(data[0] || option.default);
+      const processUserOptionData = (userOption, option) => {
+        if (userOption) {
+          const data = userOption.$data;
+          if (!data.length && !option.flags.value) {
+            return !option.flags.isNoFlag;
+          }
+          if (option.flags.value) {
+            if (option.flags.value.variadic) {
+              return data.reduce((acc, d) => {
+                acc.push(...d.split(",").map(option.flags.value.formatter));
+                return acc;
+              }, []);
+            } else {
+              return option.flags.value.formatter(data[0] || option.default);
+            }
           }
         }
 
@@ -59,10 +62,10 @@ const execute = (params, commands, instance) => {
           return acc;
         }
 
-        if (userOption) {
-          acc[option.flags.name] = processUserOptionData(userOption.$data, option);
-        } else {
-          acc[option.flags.name] = option.default;
+        const flagValue = processUserOptionData(userOption, option);
+        if (!option.operation) {
+          const internal = option.internal || {};
+          acc[internal.name || option.flags.name] = internal.formatter ? internal.formatter(flagValue) : flagValue;
         }
 
         return acc;

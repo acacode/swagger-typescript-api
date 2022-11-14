@@ -49,16 +49,19 @@ const program = cli({
         'use "default" response status code as success response too.\n' +
         'some swagger schemas use "default" response status code as success response type by default.',
       default: codeGenBaseConfig.defaultResponseAsSuccess,
+      internal: { name: "defaultResponseAsSuccess" },
     },
     {
       flags: "-r, --responses",
       description: "generate additional information about request responses\n" + "also add typings for bad responses",
       default: codeGenBaseConfig.generateResponses,
+      internal: { name: "generateResponses" },
     },
     {
       flags: "--union-enums",
       description: 'generate all "enum" types as union types (T1 | T2 | TN)',
       default: codeGenBaseConfig.generateUnionEnums,
+      internal: { name: "generateUnionEnums" },
     },
     {
       flags: "--add-readonly",
@@ -69,6 +72,7 @@ const program = cli({
       flags: "--route-types",
       description: "generate type definitions for API routes",
       default: codeGenBaseConfig.generateRouteTypes,
+      internal: { name: "generateRouteTypes" },
     },
     {
       flags: "--no-client",
@@ -85,37 +89,44 @@ const program = cli({
       description:
         "extract request params to data contract (Also combine path params and query params into one object)",
       default: codeGenBaseConfig.extractRequestParams,
+      internal: { formatter: Boolean },
     },
     {
       flags: "--extract-request-body",
       description: "extract request body type to data contract",
       default: codeGenBaseConfig.extractRequestBody,
+      internal: { formatter: Boolean },
     },
     {
       flags: "--extract-response-body",
       description: "extract response body type to data contract",
       default: codeGenBaseConfig.extractResponseBody,
+      internal: { formatter: Boolean },
     },
     {
       flags: "--extract-response-error",
       description: "extract response error type to data contract",
       default: codeGenBaseConfig.extractResponseError,
+      internal: { formatter: Boolean },
     },
     {
       flags: "--modular",
       description: "generate separated files for http client, data contracts, and routes",
       default: codeGenBaseConfig.modular,
+      internal: { formatter: Boolean },
     },
     {
       flags: "--js",
       description: "generate js api module with declaration file",
       default: codeGenBaseConfig.toJS,
+      internal: { formatter: Boolean, name: "toJS" },
     },
     {
       flags: "--module-name-index <number>",
       description:
         "determines which path index should be used for routes separation (example: GET:/fruites/getFruit -> index:0 -> moduleName -> fruites)",
       default: codeGenBaseConfig.moduleNameIndex,
+      internal: { formatter: (moduleNameIndex) => +moduleNameIndex || 0 },
     },
     {
       flags: "--module-name-first-tag",
@@ -126,16 +137,18 @@ const program = cli({
       flags: "--disableStrictSSL",
       description: "disabled strict SSL",
       default: codeGenBaseConfig.disableStrictSSL,
+      internal: { formatter: Boolean },
     },
     {
       flags: "--disableProxy",
       description: "disabled proxy",
       default: codeGenBaseConfig.disableProxy,
+      internal: { formatter: Boolean },
     },
     {
       flags: "--axios",
       description: "generate axios http client",
-      default: codeGenBaseConfig.httpClientType === "axios",
+      default: codeGenBaseConfig.httpClientType === HTTP_CLIENT.AXIOS,
     },
     {
       flags: "--unwrap-response-data",
@@ -151,16 +164,19 @@ const program = cli({
       flags: "--single-http-client",
       description: "Ability to send HttpClient instance to Api constructor",
       default: codeGenBaseConfig.singleHttpClient,
+      internal: { formatter: Boolean },
     },
     {
       flags: "--silent",
       description: "Output only errors to console",
       default: codeGenBaseConfig.silent,
+      internal: { formatter: Boolean },
     },
     {
       flags: "--default-response <type>",
       description: "default type for empty response schema",
       default: codeGenBaseConfig.defaultResponseType,
+      internal: { name: "defaultResponseType" },
     },
     {
       flags: "--type-prefix <string>",
@@ -176,6 +192,7 @@ const program = cli({
       flags: "--clean-output",
       description: "clean output folder before generate api. WARNING: May cause data loss",
       default: codeGenBaseConfig.cleanOutput,
+      internal: { formatter: Boolean },
     },
     {
       flags: "--api-class-name <string>",
@@ -186,6 +203,7 @@ const program = cli({
       flags: "--patch",
       description: "fix up small errors in the swagger source definition",
       default: codeGenBaseConfig.patch,
+      internal: { formatter: Boolean },
     },
     {
       flags: "--debug",
@@ -223,6 +241,7 @@ program.addCommand({
       flags: "-m, --modular",
       description: "generate templates needed to separate files for http client, data contracts, and routes",
       default: templateGenBaseConfig.modular,
+      internal: { formatter: Boolean },
     },
     {
       flags: "--http-client <string>",
@@ -230,21 +249,25 @@ program.addCommand({
         .map((v) => `"${v}"`)
         .join(", ")})`,
       default: templateGenBaseConfig.httpClientType,
+      internal: { name: "httpClientType" },
     },
     {
       flags: "-c, --clean-output",
       description: "clean output folder before generate template. WARNING: May cause data loss",
       default: templateGenBaseConfig.cleanOutput,
+      internal: { formatter: Boolean },
     },
     {
       flags: "-r, --rewrite",
       description: "rewrite content in existing templates",
       default: templateGenBaseConfig.rewrite,
+      internal: { formatter: Boolean },
     },
     {
       flags: "--silent",
       description: "Output only errors to console",
       default: templateGenBaseConfig.silent,
+      internal: { formatter: Boolean },
     },
   ],
 });
@@ -256,55 +279,17 @@ const main = async () => {
     switch (command) {
       case null: {
         await generateApi({
-          name: options.name,
-          url: options.path,
-          generateRouteTypes: options.routeTypes,
+          ...options,
           generateClient: !!(options.axios || options.client),
           httpClientType: options.axios ? HTTP_CLIENT.AXIOS : HTTP_CLIENT.FETCH,
-          defaultResponseAsSuccess: options.defaultAsSuccess,
-          defaultResponseType: options.defaultResponse,
-          unwrapResponseData: options.unwrapResponseData,
-          disableThrowOnError: options.disableThrowOnError,
-          sortTypes: options.sortTypes,
-          generateUnionEnums: options.unionEnums,
-          addReadonly: options.addReadonly,
-          generateResponses: options.responses,
-          extractRequestParams: !!options.extractRequestParams,
-          extractRequestBody: !!options.extractRequestBody,
-          extractResponseBody: !!options.extractResponseBody,
-          extractResponseError: !!options.extractResponseError,
+          url: options.path,
           input: resolve(process.cwd(), options.path),
           output: resolve(process.cwd(), options.output || "."),
-          templates: options.templates,
-          modular: !!options.modular,
-          toJS: !!options.js,
-          enumNamesAsValues: options.enumNamesAsValues,
-          moduleNameIndex: +(options.moduleNameIndex || 0),
-          moduleNameFirstTag: options.moduleNameFirstTag,
-          disableStrictSSL: !!options.disableStrictSSL,
-          disableProxy: !!options.disableProxy,
-          singleHttpClient: !!options.singleHttpClient,
-          cleanOutput: !!options.cleanOutput,
-          silent: !!options.silent,
-          typePrefix: options.typePrefix,
-          typeSuffix: options.typeSuffix,
-          patch: !!options.patch,
-          apiClassName: options.apiClassName,
-          debug: options.debug,
-          anotherArrayType: options.anotherArrayType,
-          extractEnums: options.extractEnums,
         });
         break;
       }
       case "generate-templates": {
-        await generateTemplates({
-          cleanOutput: options.cleanOutput,
-          output: options.output,
-          httpClientType: options.httpClient,
-          modular: options.modular,
-          silent: options.silent,
-          rewrite: options.rewrite,
-        });
+        await generateTemplates(options);
         break;
       }
       default: {
