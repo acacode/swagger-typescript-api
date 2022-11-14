@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "12.0.1",
+  "version": "13.0.0-experimental-1",
   "description": "Generate typescript/javascript api from swagger schema",
   "scripts": {
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
@@ -14,7 +14,6 @@
     "test-all-extended": "node --unhandled-rejections=strict ./scriptsRunner.js generate-extended validate generate validate test:*",
     "test-specific": "node ./scriptsRunner.js generate validate test:*",
     "test-specific-only": "node ./scriptsRunner.js test:*",
-    "prepare": "npm run test-all-extended",
     "generate": "node tests/generate.js",
     "generate-extended": "node tests/generate-extended.js",
     "generate:debug": "node --nolazy tests/generate.js",
