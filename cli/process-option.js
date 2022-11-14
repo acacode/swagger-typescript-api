@@ -61,6 +61,7 @@ const processOption = (option) => {
     default: option.default,
     flags: processedFlags,
     operation: option.operation,
+    internal: option.internal,
   };
 };
 

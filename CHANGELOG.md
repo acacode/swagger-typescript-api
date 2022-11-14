@@ -1,5 +1,9 @@
 # next release  
 
+## 12.0.2
+
+fix: missing option `--extract-enums` (#344)  
+
 ## 12.0.1  
 
 fix: problem based with http requests and `disableStrictSSL` option (#453)  

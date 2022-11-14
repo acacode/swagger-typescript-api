@@ -1,9 +1,8 @@
-import { skip_command } from "./constants";
-
 type CliStructOption = {
   flags?: string;
   description?: string;
   default?: unknown;
+  internal?: { name?: string; formatter?: (value: any) => any };
 };
 
 type CliStruct = {
