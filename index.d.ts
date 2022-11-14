@@ -55,6 +55,11 @@ interface GenerateApiParamsBase {
   unwrapResponseData?: boolean;
 
   /**
+   * sort data contracts in alphabetical order
+   */
+  sortTypes?: boolean;
+
+  /**
    * generate js api module with declaration file (default: false)
    */
   toJS?: boolean;
@@ -139,20 +144,28 @@ interface GenerateApiParamsBase {
 
   /** extract all enums from nested types\interfaces to `enum` construction */
   extractEnums?: boolean;
+
   /** prefix string value needed to fix invalid type names (default: 'Type') */
   fixInvalidTypeNamePrefix?: string;
+
   /** prefix string value needed to fix invalid enum keys (default: 'Value') */
   fixInvalidEnumKeyPrefix?: string;
+
   /** prefix string value for enum keys */
   enumKeyPrefix?: string;
+
   /** suffix string value for enum keys */
   enumKeySuffix?: string;
+
   /** prefix string value for type names */
   typePrefix?: string;
+
   /** suffix string value for type names */
   typeSuffix?: string;
+
   /** extra configuration for extracting type names operations */
   extractingOptions?: Partial<ExtractingOptions>;
+
   /** configuration for fetching swagger schema requests */
   requestOptions?: null | Partial<import("node-fetch").RequestInit>;
 }

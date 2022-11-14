@@ -292,6 +292,7 @@ const main = async () => {
           apiClassName: options.apiClassName,
           debug: options.debug,
           anotherArrayType: options.anotherArrayType,
+          extractEnums: options.extractEnums,
         });
         break;
       }
