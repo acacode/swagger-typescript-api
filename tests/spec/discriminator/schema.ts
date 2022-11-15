@@ -19,17 +19,18 @@ export interface ComplexObject {
   objectType: string;
 }
 
-export type BlockDTO =
-  | AbstractBlockDto
-  | (CsvBlockDTO | FileBlockDTO)
-  | (
-      | ({
-          type: "csv";
-        } & CsvBlockDTO)
-      | ({
-          type: "file";
-        } & FileBlockDTO)
-    );
+export type BlockDTO = AbstractBlockDto &
+  (
+    | (CsvBlockDTO | FileBlockDTO)
+    | (
+        | ({
+            type: "csv";
+          } & CsvBlockDTO)
+        | ({
+            type: "file";
+          } & FileBlockDTO)
+      )
+  );
 
 export type CsvBlockDTO = AbstractBlockDto & {
   /** @default "csv" */
@@ -43,16 +44,18 @@ export type FileBlockDTO = AbstractBlockDto & {
   fileId: string;
 };
 
-export type Pet =
-  | AbstractPet
-  | (
-      | ({
-          pet_type: "cachorro";
-        } & Dog)
-      | ({
-          pet_type: "cat";
-        } & Cat)
-    );
+export type Pet = AbstractPet &
+  (
+    | ({
+        pet_type: "dog";
+      } & Dog)
+    | ({
+        pet_type: "cat";
+      } & Cat)
+    | ({
+        pet_type: "lizard";
+      } & Lizard)
+  );
 
 export type Cat = AbstractPet & {
   name?: string;
@@ -62,7 +65,7 @@ export type Dog = AbstractPet & {
   bark?: string;
 };
 
-export type Lizard = Pet & {
+export type Lizard = AbstractPet & {
   lovesRocks?: boolean;
 };
 
