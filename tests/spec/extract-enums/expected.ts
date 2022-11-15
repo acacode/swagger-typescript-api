@@ -9,108 +9,127 @@
  * ---------------------------------------------------------------
  */
 
-export enum TypeNamePrefixEnumRootTypeNameSuffix {
-  EnumKeyPrefixInvalidKey100644EnumKeySuffix = "100644",
-  EnumKeyPrefixInvalidKey100755EnumKeySuffix = "100755",
-  EnumKeyPrefixInvalidKey040000EnumKeySuffix = "040000",
-  EnumKeyPrefixInvalidKey160000EnumKeySuffix = "160000",
-  EnumKeyPrefixInvalidKey120000EnumKeySuffix = "120000",
-  EnumKeyPrefixTest1EnumKeySuffix = "test1",
-  EnumKeyPrefixTest2EnumKeySuffix = "test2",
+export enum TNPEnumRootTNS {
+  EKPInvalidKey100644EKS = "100644",
+  EKPInvalidKey100755EKS = "100755",
+  EKPInvalidKey040000EKS = "040000",
+  EKPInvalidKey160000EKS = "160000",
+  EKPInvalidKey120000EKS = "120000",
+  EKPTest1EKS = "test1",
+  EKPTest2EKS = "test2",
 }
 
-export interface TypeNamePrefixTreeTypeNameSuffix {
+export interface TNPTreeTNS {
   tree?: {
-    mode?: TypeNamePrefixTreeModeTypeNameSuffix;
-    "mode-num"?: TypeNamePrefixTreeModeNumTypeNameSuffix;
-    type?: TypeNamePrefixTreeTypeTypeNameSuffix;
-    bereke?: TypeNamePrefixTreeBerekeTypeNameSuffix;
+    mode?: TNPTreeModeTNS;
+    "mode-num"?: TNPTreeModeNumTNS;
+    type?: TNPTreeTypeTNS;
+    bereke?: TNPTreeBerekeTNS;
   }[];
 }
 
-export enum TypeNamePrefixOnlyEnumNamesTypeNameSuffix {
-  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
-  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
-  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
+export enum TNPOnlyEnumNamesTNS {
+  EKPBlaEKS = "Bla",
+  EKPBlablaEKS = "Blabla",
+  EKPBoilerEKS = "Boiler",
 }
 
-export enum TypeNamePrefixStringOnlyEnumNamesTypeNameSuffix {
-  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
-  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
-  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
+export enum TNPStringOnlyEnumNamesTNS {
+  EKPBlaEKS = "Bla",
+  EKPBlablaEKS = "Blabla",
+  EKPBoilerEKS = "Boiler",
 }
 
-export enum TypeNamePrefixStringEnumsTypeNameSuffix {
-  EnumKeyPrefixBlaEnumKeySuffix = "foo",
-  EnumKeyPrefixBlablaEnumKeySuffix = "bar",
-  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
+export enum TNPStringEnumsTNS {
+  EKPBlaEKS = "foo",
+  EKPBlablaEKS = "bar",
+  EKPBoilerEKS = "Boiler",
 }
 
-export enum TypeNamePrefixStringCompleteEnumsTypeNameSuffix {
-  EnumKeyPrefixBlaEnumKeySuffix = "foo",
-  EnumKeyPrefixBlablaEnumKeySuffix = "bar",
-  EnumKeyPrefixBoilerEnumKeySuffix = "baz",
-}
-
-/** @format int32 */
-export enum TypeNamePrefixEmptyEnumTypeNameSuffix {
-  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
-  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
-  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
+export enum TNPStringCompleteEnumsTNS {
+  EKPBlaEKS = "foo",
+  EKPBlablaEKS = "bar",
+  EKPBoilerEKS = "baz",
 }
 
 /** @format int32 */
-export enum TypeNamePrefixEnumWithMoreNamesTypeNameSuffix {
-  EnumKeyPrefixBlaEnumKeySuffix = 1,
-  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
-  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
+export enum TNPEmptyEnumTNS {
+  EKPBlaEKS = "Bla",
+  EKPBlablaEKS = "Blabla",
+  EKPBoilerEKS = "Boiler",
 }
 
 /** @format int32 */
-export enum TypeNamePrefixSomeInterestEnumTypeNameSuffix {
-  EnumKeyPrefixBlaEnumKeySuffix = 6,
-  EnumKeyPrefixBlablaEnumKeySuffix = 2,
-  EnumKeyPrefixBoilerEnumKeySuffix = 1,
-  EnumKeyPrefixBbababEnumKeySuffix = 67,
-  EnumKeyPrefixNowadaysEnumKeySuffix = 88,
-  EnumKeyPrefix_FAIL_EnumKeySuffix = 122,
-  EnumKeyPrefixVvvvvEnumKeySuffix = 88,
-  EnumKeyPrefixASdasASEnumKeySuffix = 0,
-  EnumKeyPrefixASDsacZXEnumKeySuffix = 213,
-  EnumKeyPrefixZookEnumKeySuffix = 12378,
-  EnumKeyPrefixEnumMmEnumKeySuffix = 123125,
-  EnumKeyPrefixVCsaEnumKeySuffix = 32452,
-  EnumKeyPrefixYuuuEnumKeySuffix = 1111,
-  EnumKeyPrefixASdddEnumKeySuffix = 66666,
-  EnumKeyPrefixASdsdsaEnumKeySuffix = "ASdsdsa",
-  EnumKeyPrefixASDdsEnumKeySuffix = "ASDds",
-  EnumKeyPrefix_HSDFDS_EnumKeySuffix = "HSDFDS",
+export enum TNPEnumWithMoreNamesTNS {
+  EKPBlaEKS = 1,
+  EKPBlablaEKS = "Blabla",
+  EKPBoilerEKS = "Boiler",
 }
 
-export enum TypeNamePrefixTreeModeTypeNameSuffix {
-  EnumKeyPrefixInvalidKey100644EnumKeySuffix = "100644",
-  EnumKeyPrefixInvalidKey100755EnumKeySuffix = "100755",
-  EnumKeyPrefixInvalidKey040000EnumKeySuffix = "040000",
-  EnumKeyPrefixInvalidKey160000EnumKeySuffix = "160000",
-  EnumKeyPrefixInvalidKey120000EnumKeySuffix = "120000",
+/** @format int32 */
+export enum TNPSomeInterestEnumTNS {
+  EKPBlaEKS = 6,
+  EKPBlablaEKS = 2,
+  EKPBoilerEKS = 1,
+  EKPBbababEKS = 67,
+  EKPNowadaysEKS = 88,
+  EKP_FAIL_EKS = 122,
+  EKPVvvvvEKS = 88,
+  EKPASdasASEKS = 0,
+  EKPASDsacZXEKS = 213,
+  EKPZookEKS = 12378,
+  EKPEnumMmEKS = 123125,
+  EKPVCsaEKS = 32452,
+  EKPYuuuEKS = 1111,
+  EKPASdddEKS = 66666,
+  EKPASdsdsaEKS = "ASdsdsa",
+  EKPASDdsEKS = "ASDds",
+  EKP_HSDFDS_EKS = "HSDFDS",
 }
 
-export enum TypeNamePrefixTreeModeNumTypeNameSuffix {
-  EnumKeyPrefixInvalidKey100644EnumKeySuffix = 100644,
-  EnumKeyPrefixInvalidKey100755EnumKeySuffix = 100755,
-  EnumKeyPrefixInvalidKey40000EnumKeySuffix = 40000,
-  EnumKeyPrefixInvalidKey160000EnumKeySuffix = 160000,
-  EnumKeyPrefixInvalidKey120000EnumKeySuffix = 120000,
+export interface TNPSuperDuperStructDTOTNS {
+  /** @example "100" */
+  id: number;
+  /** @example "APPROVED" */
+  state: TNPSuperDuperStructDtoStateTNS;
 }
 
-export enum TypeNamePrefixTreeTypeTypeNameSuffix {
-  EnumKeyPrefixBlobEnumKeySuffix = "blob",
-  EnumKeyPrefixTreeEnumKeySuffix = "tree",
-  EnumKeyPrefixCommitEnumKeySuffix = "commit",
+export enum TNPTreeModeTNS {
+  EKPInvalidKey100644EKS = "100644",
+  EKPInvalidKey100755EKS = "100755",
+  EKPInvalidKey040000EKS = "040000",
+  EKPInvalidKey160000EKS = "160000",
+  EKPInvalidKey120000EKS = "120000",
 }
 
-export enum TypeNamePrefixTreeBerekeTypeNameSuffix {
-  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
-  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
-  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
+export enum TNPTreeModeNumTNS {
+  EKPInvalidKey100644EKS = 100644,
+  EKPInvalidKey100755EKS = 100755,
+  EKPInvalidKey40000EKS = 40000,
+  EKPInvalidKey160000EKS = 160000,
+  EKPInvalidKey120000EKS = 120000,
+}
+
+export enum TNPTreeTypeTNS {
+  EKPBlobEKS = "blob",
+  EKPTreeEKS = "tree",
+  EKPCommitEKS = "commit",
+}
+
+export enum TNPTreeBerekeTNS {
+  EKPBlaEKS = "Bla",
+  EKPBlablaEKS = "Blabla",
+  EKPBoilerEKS = "Boiler",
+}
+
+/** @example "APPROVED" */
+export enum TNPSuperDuperStructDtoStateTNS {
+  EKP_NEW_EKS = "NEW",
+  EKP_PENDING_EKS = "PENDING",
+}
+
+/** @example "APPROVED" */
+export enum TNPNameSpaceAddSuperDuperTNS {
+  EKP_NEW_EKS = "NEW",
+  EKP_PENDING_EKS = "PENDING",
 }

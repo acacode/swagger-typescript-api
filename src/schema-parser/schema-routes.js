@@ -314,7 +314,7 @@ class SchemaRoutes {
     const refTypeInfo = this.schemaParser.schemaUtils.getSchemaRefType(requestInfo);
 
     if (schema) {
-      const content = this.schemaParser.getInlineParseContent(schema, typeName);
+      const content = this.schemaParser.getInlineParseContent(schema, typeName, [operationId]);
       const foundedSchemaByName = _.find(
         parsedSchemas,
         (parsedSchema) => this.typeName.format(parsedSchema.name) === content,
@@ -344,9 +344,12 @@ class SchemaRoutes {
           return this.schemaParser.getInlineParseContent(
             this.getSchemaFromRequestType(refTypeInfo.rawTypeData),
             refTypeInfo.typeName || null,
+            [operationId],
           );
         default:
-          return this.schemaParser.getInlineParseContent(refTypeInfo.rawTypeData, refTypeInfo.typeName || null);
+          return this.schemaParser.getInlineParseContent(refTypeInfo.rawTypeData, refTypeInfo.typeName || null, [
+            operationId,
+          ]);
       }
     }
 
@@ -485,10 +488,10 @@ class SchemaRoutes {
     if (routeParams.formData.length) {
       contentKind = CONTENT_KIND.FORM_DATA;
       schema = this.convertRouteParamsIntoObject(routeParams.formData);
-      type = this.schemaParser.getInlineParseContent(schema, typeName);
+      type = this.schemaParser.getInlineParseContent(schema, typeName, [operationId]);
     } else if (contentKind === CONTENT_KIND.FORM_DATA) {
       schema = this.getSchemaFromRequestType(requestBody);
-      type = this.schemaParser.getInlineParseContent(schema, typeName);
+      type = this.schemaParser.getInlineParseContent(schema, typeName, [operationId]);
     } else if (requestBody) {
       schema = this.getSchemaFromRequestType(requestBody);
       type = this.schemaParser.schemaUtils.safeAddNullToType(
@@ -511,7 +514,7 @@ class SchemaRoutes {
 
     if (schema && !schema.$ref && this.config.extractRequestBody) {
       schema = this.schemaComponentMap.createComponent("schemas", typeName, { ...schema });
-      type = this.schemaParser.getInlineParseContent(schema);
+      type = this.schemaParser.getInlineParseContent(schema, null, [operationId]);
     }
 
     return {
@@ -603,7 +606,7 @@ class SchemaRoutes {
       if (successResponse.schema && !successResponse.schema.$ref) {
         const schema = this.getSchemaFromRequestType(successResponse.schema);
         successResponse.schema = this.schemaComponentMap.createComponent("schemas", typeName, { ...schema });
-        successResponse.type = this.schemaParser.getInlineParseContent(successResponse.schema);
+        successResponse.type = this.schemaParser.getInlineParseContent(successResponse.schema, [routeInfo.open]);
 
         if (idx > -1) {
           _.assign(responseBodyInfo.responses[idx], {

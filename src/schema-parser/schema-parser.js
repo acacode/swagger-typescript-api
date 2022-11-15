@@ -91,8 +91,12 @@ class SchemaParser {
 
   baseSchemaParsers = {
     [SCHEMA_TYPES.ENUM]: (schema, typeName) => {
-      if (this.config.extractEnums && !typeName) {
-        const generatedTypeName = this.config.componentTypeNameResolver.resolve([this.buildTypeNameFromPath()]);
+      const pathTypeName = this.buildTypeNameFromPath();
+      if (this.config.extractEnums && !typeName && pathTypeName != null) {
+        const generatedTypeName = this.config.componentTypeNameResolver.resolve([
+          pathTypeName,
+          pascalCase(`${pathTypeName} Enum`),
+        ]);
         const schemaComponent = this.schemaComponentsMap.createComponent("schemas", generatedTypeName, { ...schema });
         return this.parseSchema(schemaComponent, generatedTypeName);
       }
@@ -476,13 +480,15 @@ class SchemaParser {
     return schema.$parsed;
   };
 
-  getInlineParseContent = (rawTypeData, typeName) => {
+  getInlineParseContent = (rawTypeData, typeName, schemaPath) => {
+    this.$processingSchemaPath.push(...(schemaPath || []));
     const parsedSchema = this.parseSchema(rawTypeData, typeName);
     const formattedSchema = this.schemaFormatters.formatSchema(parsedSchema, "inline");
     return formattedSchema.content;
   };
 
-  getParseContent = (rawTypeData, typeName) => {
+  getParseContent = (rawTypeData, typeName, schemaPath) => {
+    this.$processingSchemaPath.push(...(schemaPath || []));
     const parsedSchema = this.parseSchema(rawTypeData, typeName);
     const formattedSchema = this.schemaFormatters.formatSchema(parsedSchema, "base");
     return formattedSchema.content;
@@ -493,7 +499,7 @@ class SchemaParser {
 
     if (!schemaPath || !schemaPath[0]) return null;
 
-    return internalCase(camelCase(`${schemaPath[0]}_${schemaPath[schemaPath.length - 1]}`));
+    return pascalCase(camelCase(_.uniq([schemaPath[0], schemaPath[schemaPath.length - 1]]).join("_")));
   };
 }
 

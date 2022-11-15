@@ -4,7 +4,35 @@
   "basePath": "/v2",
   "tags": [],
   "schemes": ["http"],
-  "paths": {},
+  "paths": {
+    "/api/v1/super-duper": {
+      "post": {
+        "tags": [""],
+        "summary": "",
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "NEW",
+                    "PENDING"
+                  ],
+                  "example": "APPROVED"
+                }
+              }
+            }
+          },
+          "404": { "description": "" }
+        },
+        "operationId": "NameSpace_AddSuperDuper"
+      }
+    }
+  },
   "definitions": {
     "enum-root": {
       "enum": ["100644", "100755", "040000", "160000", "120000", "test1", "test2"],
@@ -34,7 +62,7 @@
             "type": "object"
           },
           "type": "array"
-        },
+        }
       },
       "type": "object"
     },
@@ -88,6 +116,24 @@
         "ASdsdsa",
         "ASDds",
         "HSDFDS"
+      ]
+    },
+    "SuperDuperStructDTO": {
+      "properties": {
+        "id": { "type": "number", "example": "100" },
+        "state": {
+          "type": "string",
+          "enum": [
+            "NEW",
+            "PENDING"
+          ],
+          "example": "APPROVED"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "state"
       ]
     }
   },

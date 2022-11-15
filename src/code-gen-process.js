@@ -135,11 +135,11 @@ class CodeGenProcess {
               ...schema,
               rawTypeData: {
                 ...schema.rawTypeData,
-                $parsed: schema.rawTypeData["$parsed"] && {
-                  ...schema.rawTypeData["$parsed"],
-                  content: Array.isArray(schema.rawTypeData["$parsed"].content)
-                    ? schema.rawTypeData["$parsed"].content.sort(sortByProperty("name"))
-                    : schema.rawTypeData["$parsed"].content,
+                $parsed: schema.rawTypeData.$parsed && {
+                  ...schema.rawTypeData.$parsed,
+                  content: Array.isArray(schema.rawTypeData.$parsed.content)
+                    ? schema.rawTypeData.$parsed.content.sort(sortByProperty("name"))
+                    : schema.rawTypeData.$parsed.content,
                 },
               },
             };
@@ -402,10 +402,7 @@ class CodeGenProcess {
       const { sourceContent, declarationContent } = translateToJS(`${fixedFileName}${ts.Extension.Ts}`, content);
 
       this.logger.debug("generating output for", `${fixedFileName}${ts.Extension.Js}`);
-      this.logger.debug(sourceContent);
-
-      this.logger.debug("generating output for", `${fixedFileName}${ts.Extension.Js}`);
-      this.logger.debug(declarationContent);
+      this.logger.debug("generating output for", `${fixedFileName}${ts.Extension.Dts}`);
 
       return {
         name: `${fixedFileName}${ts.Extension.Js}`,
@@ -418,7 +415,6 @@ class CodeGenProcess {
     }
 
     this.logger.debug("generating output for", `${fixedFileName}${ts.Extension.Js}`);
-    this.logger.debug(content);
 
     return {
       name: `${fixedFileName}${ts.Extension.Ts}`,
