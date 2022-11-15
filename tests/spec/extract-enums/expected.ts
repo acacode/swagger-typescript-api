@@ -9,49 +9,6 @@
  * ---------------------------------------------------------------
  */
 
-export enum TNPEnumRootTNS {
-  EKPInvalidKey100644EKS = "100644",
-  EKPInvalidKey100755EKS = "100755",
-  EKPInvalidKey040000EKS = "040000",
-  EKPInvalidKey160000EKS = "160000",
-  EKPInvalidKey120000EKS = "120000",
-  EKPTest1EKS = "test1",
-  EKPTest2EKS = "test2",
-}
-
-export interface TNPTreeTNS {
-  tree?: {
-    mode?: TNPTreeModeTNS;
-    "mode-num"?: TNPTreeModeNumTNS;
-    type?: TNPTreeTypeTNS;
-    bereke?: TNPTreeBerekeTNS;
-  }[];
-}
-
-export enum TNPOnlyEnumNamesTNS {
-  EKPBlaEKS = "Bla",
-  EKPBlablaEKS = "Blabla",
-  EKPBoilerEKS = "Boiler",
-}
-
-export enum TNPStringOnlyEnumNamesTNS {
-  EKPBlaEKS = "Bla",
-  EKPBlablaEKS = "Blabla",
-  EKPBoilerEKS = "Boiler",
-}
-
-export enum TNPStringEnumsTNS {
-  EKPBlaEKS = "foo",
-  EKPBlablaEKS = "bar",
-  EKPBoilerEKS = "Boiler",
-}
-
-export enum TNPStringCompleteEnumsTNS {
-  EKPBlaEKS = "foo",
-  EKPBlablaEKS = "bar",
-  EKPBoilerEKS = "baz",
-}
-
 /** @format int32 */
 export enum TNPEmptyEnumTNS {
   EKPBlaEKS = "Bla",
@@ -62,6 +19,18 @@ export enum TNPEmptyEnumTNS {
 /** @format int32 */
 export enum TNPEnumWithMoreNamesTNS {
   EKPBlaEKS = 1,
+  EKPBlablaEKS = "Blabla",
+  EKPBoilerEKS = "Boiler",
+}
+
+/** @example "APPROVED" */
+export enum TNPNameSpaceAddSuperDuperTNS {
+  EKP_NEW_EKS = "NEW",
+  EKP_PENDING_EKS = "PENDING",
+}
+
+export enum TNPOnlyEnumNamesTNS {
+  EKPBlaEKS = "Bla",
   EKPBlablaEKS = "Blabla",
   EKPBoilerEKS = "Boiler",
 }
@@ -87,11 +56,41 @@ export enum TNPSomeInterestEnumTNS {
   EKP_HSDFDS_EKS = "HSDFDS",
 }
 
+export enum TNPStringCompleteEnumsTNS {
+  EKPBlaEKS = "foo",
+  EKPBlablaEKS = "bar",
+  EKPBoilerEKS = "baz",
+}
+
+export enum TNPStringEnumsTNS {
+  EKPBlaEKS = "foo",
+  EKPBlablaEKS = "bar",
+  EKPBoilerEKS = "Boiler",
+}
+
+export enum TNPStringOnlyEnumNamesTNS {
+  EKPBlaEKS = "Bla",
+  EKPBlablaEKS = "Blabla",
+  EKPBoilerEKS = "Boiler",
+}
+
 export interface TNPSuperDuperStructDTOTNS {
   /** @example "100" */
   id: number;
   /** @example "APPROVED" */
   state: TNPSuperDuperStructDtoStateTNS;
+}
+
+/** @example "APPROVED" */
+export enum TNPSuperDuperStructDtoStateTNS {
+  EKP_NEW_EKS = "NEW",
+  EKP_PENDING_EKS = "PENDING",
+}
+
+export enum TNPTreeBerekeTNS {
+  EKPBlaEKS = "Bla",
+  EKPBlablaEKS = "Blabla",
+  EKPBoilerEKS = "Boiler",
 }
 
 export enum TNPTreeModeTNS {
@@ -116,20 +115,21 @@ export enum TNPTreeTypeTNS {
   EKPCommitEKS = "commit",
 }
 
-export enum TNPTreeBerekeTNS {
-  EKPBlaEKS = "Bla",
-  EKPBlablaEKS = "Blabla",
-  EKPBoilerEKS = "Boiler",
+export enum TNPEnumRootTNS {
+  EKPInvalidKey100644EKS = "100644",
+  EKPInvalidKey100755EKS = "100755",
+  EKPInvalidKey040000EKS = "040000",
+  EKPInvalidKey160000EKS = "160000",
+  EKPInvalidKey120000EKS = "120000",
+  EKPTest1EKS = "test1",
+  EKPTest2EKS = "test2",
 }
 
-/** @example "APPROVED" */
-export enum TNPSuperDuperStructDtoStateTNS {
-  EKP_NEW_EKS = "NEW",
-  EKP_PENDING_EKS = "PENDING",
-}
-
-/** @example "APPROVED" */
-export enum TNPNameSpaceAddSuperDuperTNS {
-  EKP_NEW_EKS = "NEW",
-  EKP_PENDING_EKS = "PENDING",
+export interface TNPTreeTNS {
+  tree?: {
+    mode?: TNPTreeModeTNS;
+    "mode-num"?: TNPTreeModeNumTNS;
+    type?: TNPTreeTypeTNS;
+    bereke?: TNPTreeBerekeTNS;
+  }[];
 }

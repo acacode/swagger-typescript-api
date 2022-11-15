@@ -20,6 +20,7 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
     enumKeySuffix: "EKS",
     typePrefix: "TNP",
     typeSuffix: "TNS",
+    sortTypes: true,
   }).then(() => {
     validateGeneratedModule(resolve(__dirname, `./${apiFileName}`));
     assertGeneratedModule(resolve(__dirname, `./${apiFileName}`), resolve(__dirname, `./expected.ts`));

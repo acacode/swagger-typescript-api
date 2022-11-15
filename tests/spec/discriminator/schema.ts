@@ -31,13 +31,13 @@ export type BlockDTO =
         } & FileBlockDTO)
     );
 
-export type CsvBlockDTO = AbstractBlockDto & {
+export type CsvBlockDTO = BlockDTO & {
   /** @default "csv" */
   type: "csv";
   text: string;
 };
 
-export type FileBlockDTO = AbstractBlockDto & {
+export type FileBlockDTO = BlockDTO & {
   /** @default "file" */
   type: "file";
   fileId: string;
@@ -54,11 +54,11 @@ export type Pet =
         } & Cat)
     );
 
-export type Cat = AbstractPet & {
+export type Cat = Pet & {
   name?: string;
 };
 
-export type Dog = AbstractPet & {
+export type Dog = Pet & {
   bark?: string;
 };
 

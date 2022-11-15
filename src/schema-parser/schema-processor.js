@@ -58,18 +58,18 @@ class SchemaProcessor {
    * @param typeName {null | string}
    * @return {Promise<Record<string, any>>}
    */
-  parseSchema = async (schema, typeName = null) => {
-    const schemaParser = this.createSchemaParser(schema, typeName);
+  parseSchema = async (schema, typeName = null, schemaPath = []) => {
+    const schemaParser = this.createSchemaParser(schema, typeName, schemaPath);
     return await schemaParser.parse();
   };
 
-  getInlineParseContent = async (schema, typeName) => {
-    const parser = this.createSchemaParser(schema, typeName);
+  getInlineParseContent = async (schema, typeName, schemaPath) => {
+    const parser = this.createSchemaParser(schema, typeName, schemaPath);
     return await parser.getInlineContent();
   };
 
-  getParseContent = async (schema, typeName) => {
-    const parser = this.createSchemaParser(schema, typeName);
+  getParseContent = async (schema, typeName, schemaPath) => {
+    const parser = this.createSchemaParser(schema, typeName, schemaPath);
     return await parser.getContent();
   };
 }
