@@ -121,8 +121,12 @@ class SchemaParser {
   };
   _baseSchemaParsers = {
     [SCHEMA_TYPES.ENUM]: async (schema, typeName) => {
-      if (this.config.extractEnums && !typeName) {
-        const generatedTypeName = this.config.componentTypeNameResolver.resolve([this.buildTypeNameFromPath()]);
+      const pathTypeName = this.buildTypeNameFromPath();
+      if (this.config.extractEnums && !typeName && pathTypeName != null) {
+        const generatedTypeName = this.config.componentTypeNameResolver.resolve([
+          pathTypeName,
+          pascalCase(`${pathTypeName} Enum`),
+        ]);
         const schemaComponent = this.schemaComponentsMap.createComponent("schemas", generatedTypeName, { ...schema });
         const parser = this.createParser(schemaComponent, generatedTypeName);
         return await parser.parse();
@@ -368,6 +372,83 @@ class SchemaParser {
           type === this.config.Ts.Keyword.Null ? type : contentType || (await this.schemaUtils.getSchemaType(schema)),
       };
     },
+    [SCHEMA_TYPES.DISCRIMINATOR]: (schema, typeName) => {
+      const { discriminator, ...noDiscriminatorSchema } = schema;
+
+      if (typeName == null || !discriminator.mapping) return this.parseSchema(noDiscriminatorSchema, typeName);
+
+      const refPath = this.schemaComponentsMap.createRef("schemas", typeName);
+      const complexSchemaKeys = _.keys(this.complexSchemaParsers);
+      const abstractSchema = _.omit(_.clone(noDiscriminatorSchema), complexSchemaKeys);
+      const discTypeName = this.config.componentTypeNameResolver.resolve([
+        pascalCase(`Abstract ${typeName}`),
+        pascalCase(`Discriminator ${typeName}`),
+        pascalCase(`Internal ${typeName}`),
+        pascalCase(`Polymorph ${typeName}`),
+      ]);
+      const abstractSchemaIsEmpty = !_.keys(abstractSchema).length;
+      const abstractComponent =
+        !abstractSchemaIsEmpty &&
+        this.schemaComponentsMap.createComponent("schemas", discTypeName, {
+          ...abstractSchema,
+          internal: true,
+        });
+      const complexType = this.getComplexType(schema);
+
+      const abstractSchemaContent = !abstractSchemaIsEmpty && this.getInlineParseContent(abstractComponent);
+      const complexSchemaContent =
+        complexType !== SCHEMA_TYPES.COMPLEX_UNKNOWN
+          ? this.config.Ts.ExpressionGroup(this.complexSchemaParsers[complexType](schema))
+          : null;
+      const discriminatorSchemaContent =
+        discriminator.mapping &&
+        this.config.Ts.ExpressionGroup(
+          this.config.Ts.UnionType(
+            _.map(discriminator.mapping, (schema, key) => {
+              const mappingSchema = typeof schema === "string" ? { $ref: schema } : schema;
+              if (mappingSchema.$ref) {
+                const mappingRefSchema = this.schemaUtils.getSchemaRefType(mappingSchema)?.rawTypeData;
+                if (mappingRefSchema) {
+                  complexSchemaKeys.forEach((schemaKey) => {
+                    if (_.isArray(mappingRefSchema[schemaKey])) {
+                      mappingRefSchema[schemaKey] = mappingRefSchema[schemaKey].map((schema) => {
+                        if (schema.$ref === refPath) {
+                          return { ...schema, $ref: abstractComponent.$ref };
+                        }
+                        return schema;
+                      });
+                    }
+                  });
+                }
+              }
+              return this.config.Ts.ExpressionGroup(
+                this.config.Ts.IntersectionType([
+                  this.config.Ts.ObjectWrapper(
+                    this.config.Ts.TypeField({
+                      key: discriminator.propertyName,
+                      value: this.config.Ts.StringValue(key),
+                    }),
+                  ),
+                  this.getInlineParseContent(mappingSchema),
+                ]),
+              );
+            }),
+          ),
+        );
+
+      return {
+        ...(_.isObject(schema) ? schema : {}),
+        $parsedSchema: true,
+        schemaType: SCHEMA_TYPES.COMPLEX,
+        type: SCHEMA_TYPES.PRIMITIVE,
+        typeIdentifier: this.config.Ts.Keyword.Type,
+        name: typeName,
+        description: this.schemaFormatters.formatDescription(schema.description),
+        content: this.config.Ts.UnionType(
+          [abstractSchemaContent, complexSchemaContent, discriminatorSchemaContent].filter(Boolean),
+        ),
+      };
+    },
   };
 
   buildTypeNameFromPath = () => {
@@ -375,7 +456,7 @@ class SchemaParser {
 
     if (!schemaPath || !schemaPath[0]) return null;
 
-    return internalCase(camelCase(`${schemaPath[0]}_${schemaPath[schemaPath.length - 1]}`));
+    return pascalCase(camelCase(_.uniq([schemaPath[0], schemaPath[schemaPath.length - 1]]).join("_")));
   };
 
   /**

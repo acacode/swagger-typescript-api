@@ -60,7 +60,8 @@
     "test:another-query-params": "node tests/spec/another-query-params/test.js",
     "test:on-insert-path-param": "node tests/spec/on-insert-path-param/test.js",
     "test:extra-templates": "node tests/spec/extra-templates/test.js",
-    "test:extract-enums": "node tests/spec/extract-enums/test.js"
+    "test:extract-enums": "node tests/spec/extract-enums/test.js",
+    "test:discriminator": "node tests/spec/discriminator/test.js"
   },
   "author": "acacode",
   "license": "MIT",

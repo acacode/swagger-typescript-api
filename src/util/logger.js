@@ -12,7 +12,7 @@ class Logger {
     this.config = config;
   }
 
-  createLogMessage = ({ type, emojiName, messages, raw }) => {
+  createLogMessage = ({ type, emojiName, messages }) => {
     if (this.config.silent) return;
 
     const emoji = emojify(emojiName);
@@ -22,12 +22,29 @@ class Logger {
       this.log(
         `swagger-typescript-api(${this.config.version}),${
           process.env.npm_config_user_agent || `nodejs(${process.version})`
-        }`,
+        },debug mode ${this.config.debug ? "ENABLED" : "DISABLED"}`,
       );
     }
 
-    if (raw) {
-      console.log(...raw);
+    if (type === "debug" || this.config.debug) {
+      const trace = new Error().stack
+        .split("\n")
+        .splice(3)
+        .filter(
+          (line) =>
+            !line.includes("swagger-typescript-api\\node_modules") &&
+            !line.includes("swagger-typescript-api/node_modules"),
+        )
+        .slice(0, 10);
+      const logFn = console[type] || console.log;
+      logFn(`${emoji}  [${type}]`, new Date().toISOString());
+      logFn(
+        "[message]",
+        ..._.map(messages, (message) =>
+          _.startsWith(message, "\n") ? `\n          ${message.replace(/\n/, "")}` : message,
+        ),
+      );
+      logFn(trace.join("\n") + "\n---");
       return;
     }
 
@@ -59,7 +76,7 @@ class Logger {
   event = (...messages) =>
     this.createLogMessage({
       type: "log",
-      emojiName: ":comet: ",
+      emojiName: ":star:",
       messages,
     });
 
@@ -83,7 +100,7 @@ class Logger {
   warn = (...messages) =>
     this.createLogMessage({
       type: "warn",
-      emojiName: ":warning: ",
+      emojiName: ":exclamation:",
       messages,
     });
 
@@ -95,7 +112,7 @@ class Logger {
   error = (...messages) =>
     this.createLogMessage({
       type: "error",
-      emojiName: ":exclamation:",
+      emojiName: ":no_entry:",
       messages,
     });
 
@@ -108,7 +125,9 @@ class Logger {
     if (!this.config.debug) return;
 
     this.createLogMessage({
-      raw: messages,
+      type: "debug",
+      emojiName: ":black_large_square:",
+      messages,
     });
   };
 }

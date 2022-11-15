@@ -12,6 +12,7 @@ const SCHEMA_TYPES = {
   REF: "$ref",
   PRIMITIVE: "primitive",
   COMPLEX: "complex",
+  DISCRIMINATOR: "discriminator",
   COMPLEX_ONE_OF: "oneOf",
   COMPLEX_ANY_OF: "anyOf",
   COMPLEX_ALL_OF: "allOf",

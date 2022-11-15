@@ -23,8 +23,12 @@ class SchemaComponentsMap {
     );
   }
 
+  createRef = (componentName, typeName) => {
+    return `#/components/${componentName}/${typeName}`;
+  };
+
   createComponent(componentName, typeName, rawTypeData) {
-    const $ref = `#/components/${componentName}/${typeName}`;
+    const $ref = this.createRef(componentName, typeName);
 
     const componentSchema = {
       $ref,
