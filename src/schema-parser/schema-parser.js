@@ -5,6 +5,7 @@ const { internalCase } = require("../util/internal-case");
 const { SchemaUtils } = require("./schema-utils");
 const { camelCase } = require("lodash");
 const { pascalCase } = require("../util/pascal-case");
+const { DiscriminatorSchemaParser } = require("./schema-parsers/discriminator");
 
 class SchemaParser {
   /**
@@ -261,6 +262,9 @@ class SchemaParser {
       };
     },
     [SCHEMA_TYPES.DISCRIMINATOR]: (schema, typeName) => {
+      const schemaParser = new DiscriminatorSchemaParser(this, schema, typeName, this.schemaPath);
+
+      return schemaParser.parse();
       const { discriminator, ...noDiscriminatorSchema } = schema;
 
       if (typeName == null || !discriminator.mapping) return this.parseSchema(noDiscriminatorSchema, typeName);

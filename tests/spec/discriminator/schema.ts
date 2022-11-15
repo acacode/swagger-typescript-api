@@ -22,14 +22,7 @@ export interface ComplexObject {
 export type BlockDTO = AbstractBlockDto &
   (
     | (CsvBlockDTO | FileBlockDTO)
-    | (
-        | ({
-            type: "csv";
-          } & CsvBlockDTO)
-        | ({
-            type: "file";
-          } & FileBlockDTO)
-      )
+    | (AbstractBlockDtoTypeMapping<"csv", CsvBlockDTO> | AbstractBlockDtoTypeMapping<"file", FileBlockDTO>)
   );
 
 export type CsvBlockDTO = AbstractBlockDto & {
@@ -46,15 +39,9 @@ export type FileBlockDTO = AbstractBlockDto & {
 
 export type Pet = AbstractPet &
   (
-    | ({
-        pet_type: "dog";
-      } & Dog)
-    | ({
-        pet_type: "cat";
-      } & Cat)
-    | ({
-        pet_type: "lizard";
-      } & Lizard)
+    | AbstractPetPetTypeMapping<"dog", Dog>
+    | AbstractPetPetTypeMapping<"cat", Cat>
+    | AbstractPetPetTypeMapping<"lizard", Lizard>
   );
 
 export type Cat = AbstractPet & {
@@ -73,6 +60,14 @@ interface AbstractBlockDto {
   title: string;
 }
 
+type AbstractBlockDtoTypeMapping<Key, Type> = {
+  type: Key;
+} & Type;
+
 interface AbstractPet {
   pet_type: string;
 }
+
+type AbstractPetPetTypeMapping<Key, Type> = {
+  pet_type: Key;
+} & Type;
