@@ -174,6 +174,16 @@ class SchemaUtils {
     return SCHEMA_TYPES.COMPLEX_UNKNOWN;
   };
 
+  getInternalSchemaType = (schema) => {
+    if (!_.isEmpty(schema.enum) || !_.isEmpty(this.getEnumNames(schema))) return SCHEMA_TYPES.ENUM;
+    if (schema.discriminator) return SCHEMA_TYPES.DISCRIMINATOR;
+    if (schema.allOf || schema.oneOf || schema.anyOf || schema.not) return SCHEMA_TYPES.COMPLEX;
+    if (!_.isEmpty(schema.properties)) return SCHEMA_TYPES.OBJECT;
+    if (schema.type === SCHEMA_TYPES.ARRAY) return SCHEMA_TYPES.ARRAY;
+
+    return SCHEMA_TYPES.PRIMITIVE;
+  };
+
   getSchemaType = (schema) => {
     if (!schema) return this.config.Ts.Keyword.Any;
 

@@ -22,7 +22,7 @@ class ComplexSchemaParser extends MonoSchemaParser {
         this.config.Ts.IntersectionType(
           _.compact([
             this.config.Ts.ExpressionGroup(complexSchemaContent),
-            this.schemaParser.getInternalSchemaType(simpleSchema) === SCHEMA_TYPES.OBJECT &&
+            this.schemaUtils.getInternalSchemaType(simpleSchema) === SCHEMA_TYPES.OBJECT &&
               this.config.Ts.ExpressionGroup(this.schemaParser.getInlineParseContent(simpleSchema)),
           ]),
         ) || this.config.Ts.Keyword.Any,

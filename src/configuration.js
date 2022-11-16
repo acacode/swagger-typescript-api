@@ -294,10 +294,6 @@ class CodeGenConfig {
       "relative-json-pointer": () => this.Ts.Keyword.String,
       regex: () => this.Ts.Keyword.String,
     },
-    array: ({ items, ...schemaPart }, parser) => {
-      const content = parser.getInlineParseContent(items);
-      return parser.schemaUtils.safeAddNullToType(schemaPart, this.Ts.ArrayType(content));
-    },
   };
 
   templateInfos = [
