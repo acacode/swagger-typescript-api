@@ -2,7 +2,7 @@ const { SwaggerSchemaResolver } = require("./swagger-schema-resolver.js");
 const { SchemaComponentsMap } = require("./schema-components-map.js");
 const { NameResolver } = require("./util/name-resolver");
 const { Logger } = require("./util/logger.js");
-const { TypeName } = require("./type-name.js");
+const { TypeNameFormatter } = require("./type-name-formatter.js");
 const _ = require("lodash");
 const { SchemaParser } = require("./schema-parser/schema-parser.js");
 const { SchemaRoutes } = require("./schema-parser/schema-routes.js");
@@ -33,9 +33,9 @@ class CodeGenProcess {
    */
   logger;
   /**
-   * @type {TypeName}
+   * @type {TypeNameFormatter}
    */
-  typeName;
+  typeNameFormatter;
   /**
    * @type {SchemaParser}
    */
@@ -63,7 +63,7 @@ class CodeGenProcess {
     this.fileSystem = new FileSystem();
     this.swaggerSchemaResolver = new SwaggerSchemaResolver(this.config, this.logger, this.fileSystem);
     this.schemaComponentMap = new SchemaComponentsMap(this.config);
-    this.typeName = new TypeName(this.config, this.logger);
+    this.typeNameFormatter = new TypeNameFormatter(this.config, this.logger);
     this.templates = new Templates(this.config, this.logger, this.fileSystem, this.getRenderTemplateData);
     this.codeFormatter = new CodeFormatter(this.config);
     this.schemaParser = new SchemaParser(
@@ -71,7 +71,7 @@ class CodeGenProcess {
       this.logger,
       this.templates,
       this.schemaComponentMap,
-      this.typeName,
+      this.typeNameFormatter,
     );
     this.schemaRoutes = new SchemaRoutes(
       this.config,
@@ -79,7 +79,7 @@ class CodeGenProcess {
       this.schemaComponentMap,
       this.logger,
       this.templates,
-      this.typeName,
+      this.typeNameFormatter,
     );
     this.config.componentTypeNameResolver.logger = this.logger;
   }
@@ -241,7 +241,7 @@ class CodeGenProcess {
         isNeedToAddNull: this.schemaParser.schemaUtils.isNullMissingInType,
         inlineExtraFormatters: this.schemaParser.schemaFormatters.inline,
         formatters: this.schemaParser.schemaFormatters.base,
-        formatModelName: this.typeName.format,
+        formatModelName: this.typeNameFormatter.format,
         fmtToJSDocLine: function fmtToJSDocLine(line, { eol = true }) {
           return ` * ${line}${eol ? "\n" : ""}`;
         },
@@ -262,7 +262,7 @@ class CodeGenProcess {
       ? this.schemaParser.schemaFormatters.base[rawTypeData.type](rawTypeData)
       : rawTypeData;
     let { typeIdentifier, name: originalName, content, description } = typeData;
-    const name = this.typeName.format(originalName);
+    const name = this.typeNameFormatter.format(originalName);
 
     if (name === null) return null;
 

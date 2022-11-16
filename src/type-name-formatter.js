@@ -4,7 +4,7 @@ const _ = require("lodash");
  * @typedef {"enum-key" | "type-name"} FormattingSchemaType
  */
 
-class TypeName {
+class TypeNameFormatter {
   /** @type {Map<string, string>} */
   formattedModelNamesMap = new Map();
 
@@ -94,5 +94,5 @@ class TypeName {
 }
 
 module.exports = {
-  TypeName,
+  TypeNameFormatter,
 };

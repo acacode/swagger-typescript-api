@@ -1,51 +1,9 @@
 const _ = require("lodash");
 const { pascalCase } = require("../../util/pascal-case");
 const { SCHEMA_TYPES } = require("../../constants");
+const { MonoSchemaParser } = require("../mono-schema-parser");
 
-class DiscriminatorSchemaParser {
-  schema;
-  typeName;
-  schemaPath;
-
-  /**
-   * @type {SchemaParser}
-   */
-  schemaParser;
-
-  /**
-   * @type {SchemaComponentsMap}
-   */
-  schemaComponentsMap;
-  /**
-   * @type {SchemaUtils}
-   */
-  schemaUtils;
-  /**
-   * @type {CodeGenConfig}
-   */
-  config;
-  /**
-   * @type {SchemaFormatters}
-   */
-  schemaFormatters;
-
-  /**
-   * @type {string}
-   */
-  refPath;
-
-  constructor(schemaParser, schema, typeName, schemaPath = []) {
-    this.schemaParser = schemaParser;
-    this.schema = schema;
-    this.typeName = typeName;
-    this.schemaPath = schemaPath;
-    this.schemaComponentsMap = this.schemaParser.schemaComponentsMap;
-    this.schemaUtils = this.schemaParser.schemaUtils;
-    this.config = this.schemaParser.config;
-    this.schemaFormatters = this.schemaParser.schemaFormatters;
-    this.refPath = this.schemaComponentsMap.createRef("schemas", typeName);
-  }
-
+class DiscriminatorSchemaParser extends MonoSchemaParser {
   parse() {
     const { discriminator, ...noDiscriminatorSchema } = this.schema;
 
@@ -78,6 +36,7 @@ class DiscriminatorSchemaParser {
   }
 
   createDiscriminatorSchema = ({ abstractSchemaStruct }) => {
+    const refPath = this.schemaComponentsMap.createRef("schemas", this.typeName);
     const { discriminator } = this.schema;
     const { mapping, propertyName } = discriminator;
     const mappingEntries = _.entries(mapping);
@@ -137,7 +96,7 @@ class DiscriminatorSchemaParser {
           complexSchemaKeys.forEach((schemaKey) => {
             if (_.isArray(mappingRefSchema[schemaKey])) {
               mappingRefSchema[schemaKey] = mappingRefSchema[schemaKey].map((schema) => {
-                if (schema.$ref === this.refPath) {
+                if (schema.$ref === refPath) {
                   return { ...schema, $ref: abstractSchemaStruct.component.$ref };
                 }
                 return schema;
@@ -185,7 +144,7 @@ class DiscriminatorSchemaParser {
   };
 
   createComplexSchemaStruct = () => {
-    const complexType = this.schemaParser.getComplexType(this.schema);
+    const complexType = this.schemaUtils.getComplexType(this.schema);
 
     if (complexType === SCHEMA_TYPES.COMPLEX_UNKNOWN) return null;
 
@@ -193,10 +152,6 @@ class DiscriminatorSchemaParser {
       content: this.config.Ts.ExpressionGroup(this.schemaParser.complexSchemaParsers[complexType](this.schema)),
     };
   };
-
-  createMappingType = (typeName) => {};
-
-  createMappingSchema = () => {};
 }
 
 module.exports = {

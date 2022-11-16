@@ -33,9 +33,9 @@ class SchemaRoutes {
    */
   schemaUtils;
   /**
-   * @type {TypeName}
+   * @type {TypeNameFormatter}
    */
-  typeName;
+  typeNameFormatter;
   /**
    * @type {SchemaComponentsMap}
    */
@@ -56,18 +56,18 @@ class SchemaRoutes {
   hasQueryRoutes = false;
   hasFormDataRoutes = false;
 
-  constructor(config, schemaParser, schemaComponentMap, logger, templates, typeName) {
+  constructor(config, schemaParser, schemaComponentMap, logger, templates, typeNameFormatter) {
     this.config = config;
     this.schemaParser = schemaParser;
     this.schemaUtils = this.schemaParser.schemaUtils;
-    this.typeName = typeName;
+    this.typeNameFormatter = typeNameFormatter;
     this.schemaComponentMap = schemaComponentMap;
     this.logger = logger;
     this.templates = templates;
 
     this.FORM_DATA_TYPES = _.uniq([
-      this.schemaParser.getSchemaType({ type: "string", format: "file" }),
-      this.schemaParser.getSchemaType({ type: "string", format: "binary" }),
+      this.schemaUtils.getSchemaType({ type: "string", format: "file" }),
+      this.schemaUtils.getSchemaType({ type: "string", format: "binary" }),
     ]);
   }
 
@@ -317,13 +317,13 @@ class SchemaRoutes {
       const content = this.schemaParser.getInlineParseContent(schema, typeName, [operationId]);
       const foundedSchemaByName = _.find(
         parsedSchemas,
-        (parsedSchema) => this.typeName.format(parsedSchema.name) === content,
+        (parsedSchema) => this.typeNameFormatter.format(parsedSchema.name) === content,
       );
       const foundSchemaByContent = _.find(parsedSchemas, (parsedSchema) => _.isEqual(parsedSchema.content, content));
 
       const foundSchema = foundedSchemaByName || foundSchemaByContent;
 
-      return foundSchema ? this.typeName.format(foundSchema.name) : content;
+      return foundSchema ? this.typeNameFormatter.format(foundSchema.name) : content;
     }
 
     if (refTypeInfo) {
@@ -333,12 +333,12 @@ class SchemaRoutes {
       // TODO:HACK fix problem of swagger2opeanpi
       const typeNameWithoutOpId = _.replace(refTypeInfo.typeName, operationId, "");
       if (_.find(parsedSchemas, (schema) => schema.name === typeNameWithoutOpId)) {
-        return this.typeName.format(typeNameWithoutOpId);
+        return this.typeNameFormatter.format(typeNameWithoutOpId);
       }
 
       switch (refTypeInfo.componentName) {
         case "schemas":
-          return this.typeName.format(refTypeInfo.typeName);
+          return this.typeNameFormatter.format(refTypeInfo.typeName);
         case "responses":
         case "requestBodies":
           return this.schemaParser.getInlineParseContent(
@@ -409,7 +409,7 @@ class SchemaRoutes {
       }
       const headerTypes = Object.fromEntries(
         Object.entries(src).map(([k, v]) => {
-          return [k, this.schemaParser.getSchemaType(v)];
+          return [k, this.schemaUtils.getSchemaType(v)];
         }),
       );
       const r = `headers: { ${Object.entries(headerTypes)
@@ -643,7 +643,7 @@ class SchemaRoutes {
       });
       const component = this.schemaComponentMap.createComponent("schemas", typeName, { ...schema });
       responseBodyInfo.error.schemas = [component];
-      responseBodyInfo.error.type = this.typeName.format(component.typeName);
+      responseBodyInfo.error.type = this.typeNameFormatter.format(component.typeName);
     }
   };
 
