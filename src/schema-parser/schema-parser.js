@@ -14,6 +14,7 @@ const { OneOfSchemaParser } = require("./complex-schema-parsers/one-of");
 const { AllOfSchemaParser } = require("./complex-schema-parsers/all-of");
 const { AnyOfSchemaParser } = require("./complex-schema-parsers/any-of");
 const { NotSchemaParser } = require("./complex-schema-parsers/not");
+const { ArraySchemaParser } = require("./base-schema-parsers/array");
 
 class SchemaParser {
   /**
@@ -90,6 +91,10 @@ class SchemaParser {
     },
     [SCHEMA_TYPES.DISCRIMINATOR]: (schema, typeName) => {
       const schemaParser = new DiscriminatorSchemaParser(this, schema, typeName);
+      return schemaParser.parse();
+    },
+    [SCHEMA_TYPES.ARRAY]: (schema, typeName) => {
+      const schemaParser = new ArraySchemaParser(this, schema, typeName);
       return schemaParser.parse();
     },
   };
