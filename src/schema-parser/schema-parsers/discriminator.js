@@ -46,15 +46,15 @@ class DiscriminatorSchemaParser {
     this.refPath = this.schemaComponentsMap.createRef("schemas", typeName);
   }
 
-  parse() {
+  async parse() {
     const { discriminator, ...noDiscriminatorSchema } = this.schema;
 
     if (this.typeName == null || !discriminator.mapping)
-      return this.schemaParser.parseSchema(noDiscriminatorSchema, this.typeName, this.schemaPath);
+      return await this.schemaParser.createParser(noDiscriminatorSchema, this.typeName, this.schemaPath).parse();
 
-    const abstractSchemaStruct = this.createAbstractSchemaStruct();
-    const complexSchemaStruct = this.createComplexSchemaStruct();
-    const discriminatorSchemaStruct = this.createDiscriminatorSchema({ abstractSchemaStruct });
+    const abstractSchemaStruct = await this.createAbstractSchemaStruct();
+    const complexSchemaStruct = await this.createComplexSchemaStruct();
+    const discriminatorSchemaStruct = await this.createDiscriminatorSchema({ abstractSchemaStruct });
 
     const schemaContent = this.config.Ts.IntersectionType(
       [
@@ -77,11 +77,11 @@ class DiscriminatorSchemaParser {
     };
   }
 
-  createDiscriminatorSchema = ({ abstractSchemaStruct }) => {
+  createDiscriminatorSchema = async ({ abstractSchemaStruct }) => {
     const { discriminator } = this.schema;
     const { mapping, propertyName } = discriminator;
     const mappingEntries = _.entries(mapping);
-    const complexSchemaKeys = _.keys(this.schemaParser.complexSchemaParsers);
+    const complexSchemaKeys = _.keys(this.schemaParser._complexSchemaParsers);
     const ableToCreateMappingType = !!(abstractSchemaStruct?.typeName && mappingEntries.length);
     const mappingContents = [];
     let mappingTypeName;
@@ -97,7 +97,7 @@ class DiscriminatorSchemaParser {
       const component = this.schemaComponentsMap.createComponent("schemas", mappingTypeName, {
         internal: true,
       });
-      const schema = this.schemaParser.parseSchema(component);
+      const schema = await this.schemaParser.createParser(component).parse();
       schema.genericArgs = [{ name: "Key" }, { name: "Type" }];
       schema.internal = true;
       schema.content = this.config.Ts.IntersectionType([
@@ -107,8 +107,8 @@ class DiscriminatorSchemaParser {
       component.typeData = schema;
     }
 
-    const createMappingContent = (mappingSchema, mappingKey) => {
-      const content = this.schemaParser.getInlineParseContent(mappingSchema);
+    const createMappingContent = async (mappingSchema, mappingKey) => {
+      const content = await this.schemaParser.createParser(mappingSchema).getInlineContent();
 
       if (ableToCreateMappingType) {
         return this.config.Ts.TypeWithGeneric(mappingTypeName, [this.config.Ts.StringValue(mappingKey), content]);
@@ -127,27 +127,31 @@ class DiscriminatorSchemaParser {
       }
     };
 
-    for (const [mappingKey, schema] of mappingEntries) {
+    for await (const [mappingKey, schema] of mappingEntries) {
       const mappingSchema = typeof schema === "string" ? { $ref: schema } : schema;
 
       // override parent dependencies
       if (mappingSchema.$ref && abstractSchemaStruct?.component?.$ref) {
-        const mappingRefSchema = this.schemaUtils.getSchemaRefType(mappingSchema)?.rawTypeData;
-        if (mappingRefSchema) {
-          complexSchemaKeys.forEach((schemaKey) => {
-            if (_.isArray(mappingRefSchema[schemaKey])) {
-              mappingRefSchema[schemaKey] = mappingRefSchema[schemaKey].map((schema) => {
-                if (schema.$ref === this.refPath) {
-                  return { ...schema, $ref: abstractSchemaStruct.component.$ref };
-                }
-                return schema;
-              });
+        const mappingSchemaRefType = this.schemaUtils.getSchemaRefType(mappingSchema);
+        if (mappingSchemaRefType?.rawTypeData) {
+          for await (const schemaKey of complexSchemaKeys) {
+            if (_.isArray(mappingSchemaRefType.rawTypeData[schemaKey])) {
+              mappingSchemaRefType.rawTypeData[schemaKey] = mappingSchemaRefType.rawTypeData[schemaKey].map(
+                (schema) => {
+                  if (schema.$ref === this.refPath) {
+                    schema.$parsed = abstractSchemaStruct.component.$parsed;
+                    return { ...schema, $ref: abstractSchemaStruct.component.$ref };
+                  }
+                  return schema;
+                },
+              );
             }
-          });
+          }
         }
       }
 
-      mappingContents.push(createMappingContent(mappingSchema, mappingKey));
+      const mappingContent = await createMappingContent(mappingSchema, mappingKey);
+      mappingContents.push(mappingContent);
     }
 
     const content = this.config.Ts.ExpressionGroup(this.config.Ts.UnionType(mappingContents));
@@ -157,9 +161,9 @@ class DiscriminatorSchemaParser {
     };
   };
 
-  createAbstractSchemaStruct = () => {
+  createAbstractSchemaStruct = async () => {
     const { discriminator, ...noDiscriminatorSchema } = this.schema;
-    const complexSchemaKeys = _.keys(this.schemaParser.complexSchemaParsers);
+    const complexSchemaKeys = _.keys(this.schemaParser._complexSchemaParsers);
     const schema = _.omit(_.clone(noDiscriminatorSchema), complexSchemaKeys);
     const schemaIsEmpty = !_.keys(schema).length;
 
@@ -175,7 +179,7 @@ class DiscriminatorSchemaParser {
       ...schema,
       internal: true,
     });
-    const content = this.schemaParser.getInlineParseContent(component);
+    const content = await this.schemaParser.createParser(component).getInlineContent();
 
     return {
       typeName,
@@ -184,13 +188,13 @@ class DiscriminatorSchemaParser {
     };
   };
 
-  createComplexSchemaStruct = () => {
-    const complexType = this.schemaParser.getComplexType(this.schema);
+  createComplexSchemaStruct = async () => {
+    const complexType = this.schemaParser.schemaUtils.getComplexType(this.schema);
 
     if (complexType === SCHEMA_TYPES.COMPLEX_UNKNOWN) return null;
 
     return {
-      content: this.config.Ts.ExpressionGroup(this.schemaParser.complexSchemaParsers[complexType](this.schema)),
+      content: this.config.Ts.ExpressionGroup(await this.schemaParser._complexSchemaParsers[complexType](this.schema)),
     };
   };
 

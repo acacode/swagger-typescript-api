@@ -153,9 +153,7 @@ class CodeGenProcess {
       return schemas;
     };
 
-    const modelTypes = (await Promise.all(_.map(sortSchemas(usageComponentSchemas), this.prepareModelType))).filter(
-      Boolean,
-    );
+    const modelTypes = await this.collectModelTypes(usageComponentSchemas);
 
     const rawConfiguration = {
       apiConfig: this.createApiConfig(swagger.usageSchema),
@@ -230,6 +228,54 @@ class CodeGenProcess {
       formatTSContent: this.codeFormatter.formatCode,
     };
   }
+
+  collectModelTypes = async (componentSchemas) => {
+    const modelTypes = [];
+
+    const sortByProperty = (propertyName) => (o1, o2) => {
+      if (o1[propertyName] > o2[propertyName]) {
+        return 1;
+      }
+      if (o1[propertyName] < o2[propertyName]) {
+        return -1;
+      }
+      return 0;
+    };
+
+    const sortSchemas = (schemas) => {
+      if (this.config.sortTypes) {
+        return schemas.sort(sortByProperty("typeName")).map((schema) => {
+          if (schema.rawTypeData?.properties) {
+            return {
+              ...schema,
+              rawTypeData: {
+                ...schema.rawTypeData,
+                $parsed: schema.rawTypeData.$parsed && {
+                  ...schema.rawTypeData.$parsed,
+                  content: Array.isArray(schema.rawTypeData.$parsed.content)
+                    ? schema.rawTypeData.$parsed.content.sort(sortByProperty("name"))
+                    : schema.rawTypeData.$parsed.content,
+                },
+              },
+            };
+          }
+          return schema;
+        });
+      }
+      return schemas;
+    };
+
+    const sortedComponentSchemas = sortSchemas(componentSchemas);
+
+    for await (const componentSchema of sortedComponentSchemas) {
+      const modelType = await this.prepareModelType(componentSchema);
+      if (modelType) {
+        modelTypes.push(modelType);
+      }
+    }
+
+    return modelTypes;
+  };
 
   getRenderTemplateData = () => {
     return {
