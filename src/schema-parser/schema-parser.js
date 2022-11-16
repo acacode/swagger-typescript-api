@@ -3,6 +3,7 @@ const { SchemaUtils } = require("./schema-utils");
 const { SCHEMA_TYPES } = require("../constants");
 const _ = require("lodash");
 const { pascalCase } = require("../util/pascal-case");
+const { DiscriminatorSchemaParser } = require("./schema-parsers/discriminator");
 const { camelCase } = require("lodash");
 
 class SchemaParser {
@@ -373,6 +374,9 @@ class SchemaParser {
       };
     },
     [SCHEMA_TYPES.DISCRIMINATOR]: async (schema, typeName) => {
+      const schemaParser = new DiscriminatorSchemaParser(this, schema, typeName, this.schemaPath);
+
+      return await schemaParser.parse();
       const { discriminator, ...noDiscriminatorSchema } = schema;
 
       if (typeName == null || !discriminator.mapping)
@@ -405,41 +409,41 @@ class SchemaParser {
         complexType !== SCHEMA_TYPES.COMPLEX_UNKNOWN
           ? this.config.Ts.ExpressionGroup(await this._complexSchemaParsers[complexType](schema))
           : null;
-
-      for await (const [key, schema] of discMappingEntries) {
-        const mappingSchema = typeof schema === "string" ? { $ref: schema } : schema;
-        if (mappingSchema.$ref) {
-          const mappingRefSchema = this.schemaUtils.getSchemaRefType(mappingSchema)?.rawTypeData;
-          if (mappingRefSchema) {
-            complexSchemaKeys.forEach((schemaKey) => {
-              if (_.isArray(mappingRefSchema[schemaKey])) {
-                mappingRefSchema[schemaKey] = mappingRefSchema[schemaKey].map((schema) => {
-                  if (schema.$ref === refPath) {
-                    return { ...schema, ...abstractComponent, $ref: abstractComponent.$ref };
-                  }
-                  return schema;
-                });
+      const discriminatorSchemaContent =
+        discriminator.mapping &&
+        this.config.Ts.ExpressionGroup(
+          this.config.Ts.UnionType(
+            _.map(discriminator.mapping, (schema, key) => {
+              const mappingSchema = typeof schema === "string" ? { $ref: schema } : schema;
+              if (mappingSchema.$ref) {
+                const mappingRefSchema = this.schemaUtils.getSchemaRefType(mappingSchema)?.rawTypeData;
+                if (mappingRefSchema) {
+                  complexSchemaKeys.forEach((schemaKey) => {
+                    if (_.isArray(mappingRefSchema[schemaKey])) {
+                      mappingRefSchema[schemaKey] = mappingRefSchema[schemaKey].map((schema) => {
+                        if (schema.$ref === refPath) {
+                          return { ...schema, $ref: abstractComponent.$ref };
+                        }
+                        return schema;
+                      });
+                    }
+                  });
+                }
               }
-            });
-          }
-        }
-
-        const mappingSchemaContent = await this.createParser(mappingSchema).getInlineContent();
-
-        discMappingStructs.push(
-          this.config.Ts.ExpressionGroup(
-            this.config.Ts.IntersectionType([
-              this.config.Ts.ObjectWrapper(
-                this.config.Ts.TypeField({
-                  key: discriminator.propertyName,
-                  value: this.config.Ts.StringValue(key),
-                }),
-              ),
-              mappingSchemaContent,
-            ]),
+              return this.config.Ts.ExpressionGroup(
+                this.config.Ts.IntersectionType([
+                  this.config.Ts.ObjectWrapper(
+                    this.config.Ts.TypeField({
+                      key: discriminator.propertyName,
+                      value: this.config.Ts.StringValue(key),
+                    }),
+                  ),
+                  this.getInlineParseContent(mappingSchema),
+                ]),
+              );
+            }),
           ),
         );
-      }
 
       return {
         ...(_.isObject(schema) ? schema : {}),
@@ -450,11 +454,7 @@ class SchemaParser {
         name: typeName,
         description: this.schemaFormatters.formatDescription(schema.description),
         content: this.config.Ts.UnionType(
-          [
-            abstractSchemaContent,
-            complexSchemaContent,
-            this.config.Ts.ExpressionGroup(this.config.Ts.UnionType(discMappingStructs)),
-          ].filter(Boolean),
+          [abstractSchemaContent, complexSchemaContent, discriminatorSchemaContent].filter(Boolean),
         ),
       };
     },

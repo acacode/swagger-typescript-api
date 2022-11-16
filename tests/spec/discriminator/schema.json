@@ -148,8 +148,9 @@
       "discriminator": {
         "propertyName": "pet_type",
         "mapping": {
-          "cachorro": "#/components/schemas/Dog",
-          "cat": "#/components/schemas/Cat"
+          "dog": "#/components/schemas/Dog",
+          "cat": "#/components/schemas/Cat",
+          "lizard": "#/components/schemas/Lizard"
         }
       }
     },
