@@ -29,7 +29,7 @@ class ObjectSchemaParser extends MonoSchemaParser {
       const rawTypeData = _.get(this.schemaUtils.getSchemaRefType(property), "rawTypeData", {});
       const nullable = !!(rawTypeData.nullable || property.nullable);
       const fieldName = this.typeNameFormatter.isValidName(name) ? name : this.config.Ts.StringValue(name);
-      const fieldValue = this.schemaParser.getInlineParseContent(property);
+      const fieldValue = this.schemaParser.getInlineParseContent(property, null, this.schemaPath);
       const readOnly = property.readOnly;
 
       this.schemaPath.pop();

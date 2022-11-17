@@ -15,14 +15,14 @@ class EnumSchemaParser extends MonoSchemaParser {
       const schemaComponent = this.schemaComponentsMap.createComponent("schemas", generatedTypeName, {
         ...this.schema,
       });
-      return this.schemaParser.parseSchema(schemaComponent, generatedTypeName);
+      return this.schemaParser.parseSchema(schemaComponent, generatedTypeName, this.schemaPath);
     }
 
     const refType = this.schemaUtils.getSchemaRefType(this.schema);
     const $ref = (refType && refType.$ref) || null;
 
     if (Array.isArray(this.schema.enum) && Array.isArray(this.schema.enum[0])) {
-      return this.parseSchema(
+      return this.schemaParser.parseSchema(
         {
           oneOf: this.schema.enum.map((enumNames) => ({
             type: "array",
@@ -30,6 +30,7 @@ class EnumSchemaParser extends MonoSchemaParser {
           })),
         },
         this.typeName,
+        this.schemaPath,
       );
     }
 

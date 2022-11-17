@@ -606,7 +606,9 @@ class SchemaRoutes {
       if (successResponse.schema && !successResponse.schema.$ref) {
         const schema = this.getSchemaFromRequestType(successResponse.schema);
         successResponse.schema = this.schemaComponentMap.createComponent("schemas", typeName, { ...schema });
-        successResponse.type = this.schemaParser.getInlineParseContent(successResponse.schema, [routeInfo.open]);
+        successResponse.type = this.schemaParser.getInlineParseContent(successResponse.schema, null, [
+          routeInfo.operationId,
+        ]);
 
         if (idx > -1) {
           _.assign(responseBodyInfo.responses[idx], {
@@ -630,17 +632,21 @@ class SchemaRoutes {
 
       if (!errorSchemas.length) return;
 
-      const schema = this.schemaParser.parseSchema({
-        oneOf: errorSchemas,
-        title: errorSchemas
-          .map((schema) => schema.title)
-          .filter(Boolean)
-          .join(" "),
-        description: errorSchemas
-          .map((schema) => schema.description)
-          .filter(Boolean)
-          .join("\n"),
-      });
+      const schema = this.schemaParser.parseSchema(
+        {
+          oneOf: errorSchemas,
+          title: errorSchemas
+            .map((schema) => schema.title)
+            .filter(Boolean)
+            .join(" "),
+          description: errorSchemas
+            .map((schema) => schema.description)
+            .filter(Boolean)
+            .join("\n"),
+        },
+        null,
+        [routeInfo.operationId],
+      );
       const component = this.schemaComponentMap.createComponent("schemas", typeName, { ...schema });
       responseBodyInfo.error.schemas = [component];
       responseBodyInfo.error.type = this.typeNameFormatter.format(component.typeName);
@@ -723,7 +729,7 @@ class SchemaRoutes {
     const pathArgs = routeParams.path.map((pathArgSchema) => ({
       name: pathArgSchema.name,
       optional: !pathArgSchema.required,
-      type: this.schemaParser.getInlineParseContent(pathArgSchema.schema),
+      type: this.schemaParser.getInlineParseContent(pathArgSchema.schema, null, [operationId]),
       description: pathArgSchema.description,
     }));
     const pathArgsNames = pathArgs.map((arg) => arg.name);
@@ -770,9 +776,15 @@ class SchemaRoutes {
       this.extractResponseErrorIfItNeeded(routeInfo, responseBodyInfo, routeName);
     }
 
-    const queryType = routeParams.query.length ? this.schemaParser.getInlineParseContent(queryObjectSchema) : null;
-    const pathType = routeParams.path.length ? this.schemaParser.getInlineParseContent(pathObjectSchema) : null;
-    const headersType = routeParams.header.length ? this.schemaParser.getInlineParseContent(headersObjectSchema) : null;
+    const queryType = routeParams.query.length
+      ? this.schemaParser.getInlineParseContent(queryObjectSchema, null, [operationId])
+      : null;
+    const pathType = routeParams.path.length
+      ? this.schemaParser.getInlineParseContent(pathObjectSchema, null, [operationId])
+      : null;
+    const headersType = routeParams.header.length
+      ? this.schemaParser.getInlineParseContent(headersObjectSchema, null, [operationId])
+      : null;
 
     const nameResolver = new SpecificArgNameResolver(this.logger, pathArgsNames);
 
@@ -780,7 +792,7 @@ class SchemaRoutes {
       query: queryType
         ? {
             name: nameResolver.resolve(RESERVED_QUERY_ARG_NAMES),
-            optional: this.schemaParser.parseSchema(queryObjectSchema).allFieldsAreOptional,
+            optional: this.schemaParser.parseSchema(queryObjectSchema, null, [operationId]).allFieldsAreOptional,
             type: queryType,
           }
         : void 0,
@@ -794,14 +806,14 @@ class SchemaRoutes {
       pathParams: pathType
         ? {
             name: nameResolver.resolve(RESERVED_PATH_ARG_NAMES),
-            optional: this.schemaParser.parseSchema(pathObjectSchema).allFieldsAreOptional,
+            optional: this.schemaParser.parseSchema(pathObjectSchema, null, [operationId]).allFieldsAreOptional,
             type: pathType,
           }
         : void 0,
       headers: headersType
         ? {
             name: nameResolver.resolve(RESERVED_HEADER_ARG_NAMES),
-            optional: this.schemaParser.parseSchema(headersObjectSchema).allFieldsAreOptional,
+            optional: this.schemaParser.parseSchema(headersObjectSchema, null, [operationId]).allFieldsAreOptional,
             type: headersType,
           }
         : void 0,

@@ -56,7 +56,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
       const component = this.schemaComponentsMap.createComponent("schemas", mappingTypeName, {
         internal: true,
       });
-      const schema = this.schemaParser.parseSchema(component);
+      const schema = this.schemaParser.parseSchema(component, null, this.schemaPath);
       schema.genericArgs = [{ name: "Key" }, { name: "Type" }];
       schema.internal = true;
       schema.content = this.config.Ts.IntersectionType([
@@ -67,7 +67,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     }
 
     const createMappingContent = (mappingSchema, mappingKey) => {
-      const content = this.schemaParser.getInlineParseContent(mappingSchema);
+      const content = this.schemaParser.getInlineParseContent(mappingSchema, null, this.schemaPath);
 
       if (ableToCreateMappingType) {
         return this.config.Ts.TypeWithGeneric(mappingTypeName, [this.config.Ts.StringValue(mappingKey), content]);
@@ -134,7 +134,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
       ...schema,
       internal: true,
     });
-    const content = this.schemaParser.getInlineParseContent(component);
+    const content = this.schemaParser.getInlineParseContent(component, null, this.schemaPath);
 
     return {
       typeName,

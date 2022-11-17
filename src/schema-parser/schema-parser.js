@@ -53,21 +53,21 @@ class SchemaParser {
   complexSchemaParsers = {
     // T1 | T2
     [SCHEMA_TYPES.COMPLEX_ONE_OF]: (schema) => {
-      const schemaParser = new OneOfSchemaParser(this, schema);
+      const schemaParser = new OneOfSchemaParser(this, schema, null);
       return schemaParser.parse();
     },
     // T1 & T2
     [SCHEMA_TYPES.COMPLEX_ALL_OF]: (schema) => {
-      const schemaParser = new AllOfSchemaParser(this, schema);
+      const schemaParser = new AllOfSchemaParser(this, schema, null);
       return schemaParser.parse();
     },
     // T1 | T2 | (T1 & T2)
     [SCHEMA_TYPES.COMPLEX_ANY_OF]: (schema) => {
-      const schemaParser = new AnyOfSchemaParser(this, schema);
+      const schemaParser = new AnyOfSchemaParser(this, schema, null);
       return schemaParser.parse();
     },
     [SCHEMA_TYPES.COMPLEX_NOT]: (schema) => {
-      const schemaParser = new NotSchemaParser(this, schema);
+      const schemaParser = new NotSchemaParser(this, schema, null);
       return schemaParser.parse();
     },
   };
@@ -126,7 +126,7 @@ class SchemaParser {
       }
       schemaType = this.schemaUtils.getInternalSchemaType(schema);
 
-      this.schemaPath.push(...(schemaPath || []));
+      this.schemaPath = [...(schemaPath || [])];
       this.schemaPath.push(typeName);
 
       _.merge(schema, this.config.hooks.onPreParseSchema(schema, typeName, schemaType));
@@ -140,15 +140,13 @@ class SchemaParser {
   };
 
   getInlineParseContent = (rawTypeData, typeName, schemaPath) => {
-    this.schemaPath.push(...(schemaPath || []));
-    const parsedSchema = this.parseSchema(rawTypeData, typeName);
+    const parsedSchema = this.parseSchema(rawTypeData, typeName, schemaPath);
     const formattedSchema = this.schemaFormatters.formatSchema(parsedSchema, "inline");
     return formattedSchema.content;
   };
 
   getParseContent = (rawTypeData, typeName, schemaPath) => {
-    this.schemaPath.push(...(schemaPath || []));
-    const parsedSchema = this.parseSchema(rawTypeData, typeName);
+    const parsedSchema = this.parseSchema(rawTypeData, typeName, schemaPath);
     const formattedSchema = this.schemaFormatters.formatSchema(parsedSchema, "base");
     return formattedSchema.content;
   };
