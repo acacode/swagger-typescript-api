@@ -5,8 +5,8 @@ const { SCHEMA_TYPES } = require("../../constants");
 class ComplexSchemaParser extends MonoSchemaParser {
   parse() {
     const complexType = this.schemaUtils.getComplexType(this.schema);
-    const simpleSchema = _.omit(_.clone(this.schema), _.keys(this.schemaParser.complexSchemaParsers));
-    const complexSchemaContent = this.schemaParser.complexSchemaParsers[complexType](this.schema);
+    const simpleSchema = _.omit(_.clone(this.schema), _.keys(this.schemaParser._complexSchemaParsers));
+    const complexSchemaContent = this.schemaParser._complexSchemaParsers[complexType](this.schema);
 
     return {
       ...(_.isObject(this.schema) ? this.schema : {}),

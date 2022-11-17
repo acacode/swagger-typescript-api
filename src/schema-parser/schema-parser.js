@@ -50,7 +50,7 @@ class SchemaParser {
     this.schemaUtils = new SchemaUtils(config, schemaComponentsMap, this.typeNameFormatter);
   }
 
-  complexSchemaParsers = {
+  _complexSchemaParsers = {
     // T1 | T2
     [SCHEMA_TYPES.COMPLEX_ONE_OF]: (schema) => {
       const schemaParser = new OneOfSchemaParser(this, schema, null);
@@ -72,7 +72,7 @@ class SchemaParser {
     },
   };
 
-  baseSchemaParsers = {
+  _baseSchemaParsers = {
     [SCHEMA_TYPES.ENUM]: (schema, typeName) => {
       const schemaParser = new EnumSchemaParser(this, schema, typeName);
       return schemaParser.parse();
@@ -107,7 +107,7 @@ class SchemaParser {
    * @return {Record<string, any>}
    */
   parseSchema = (schema, typeName = null, schemaPath) => {
-    if (!schema) return this.baseSchemaParsers[SCHEMA_TYPES.PRIMITIVE](null, typeName);
+    if (!schema) return this._baseSchemaParsers[SCHEMA_TYPES.PRIMITIVE](null, typeName);
 
     let schemaType = null;
     let parsedSchema = null;
@@ -130,7 +130,7 @@ class SchemaParser {
       this.schemaPath.push(typeName);
 
       _.merge(schema, this.config.hooks.onPreParseSchema(schema, typeName, schemaType));
-      parsedSchema = this.baseSchemaParsers[schemaType](schema, typeName);
+      parsedSchema = this._baseSchemaParsers[schemaType](schema, typeName);
       schema.$parsed = this.config.hooks.onParseSchema(schema, parsedSchema) || parsedSchema;
     }
 

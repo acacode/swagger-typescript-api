@@ -15,7 +15,7 @@ class PrimitiveSchemaParser extends MonoSchemaParser {
     }
 
     if (_.isArray(type) && type.length) {
-      contentType = this.schemaParser.complexSchemaParsers.oneOf({
+      contentType = this.schemaParser._complexSchemaParsers.oneOf({
         ...(_.isObject(this.schema) ? this.schema : {}),
         oneOf: type.map((type) => ({ type })),
       });

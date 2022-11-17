@@ -40,7 +40,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     const { discriminator } = this.schema;
     const { mapping, propertyName } = discriminator;
     const mappingEntries = _.entries(mapping);
-    const complexSchemaKeys = _.keys(this.schemaParser.complexSchemaParsers);
+    const complexSchemaKeys = _.keys(this.schemaParser._complexSchemaParsers);
     const ableToCreateMappingType = !!(abstractSchemaStruct?.typeName && mappingEntries.length);
     const mappingContents = [];
     let mappingTypeName;
@@ -118,7 +118,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
 
   createAbstractSchemaStruct = () => {
     const { discriminator, ...noDiscriminatorSchema } = this.schema;
-    const complexSchemaKeys = _.keys(this.schemaParser.complexSchemaParsers);
+    const complexSchemaKeys = _.keys(this.schemaParser._complexSchemaParsers);
     const schema = _.omit(_.clone(noDiscriminatorSchema), complexSchemaKeys);
     const schemaIsEmpty = !_.keys(schema).length;
 
@@ -149,7 +149,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     if (complexType === SCHEMA_TYPES.COMPLEX_UNKNOWN) return null;
 
     return {
-      content: this.config.Ts.ExpressionGroup(this.schemaParser.complexSchemaParsers[complexType](this.schema)),
+      content: this.config.Ts.ExpressionGroup(this.schemaParser._complexSchemaParsers[complexType](this.schema)),
     };
   };
 }
