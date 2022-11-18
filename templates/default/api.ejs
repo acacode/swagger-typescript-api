@@ -47,19 +47,23 @@ export class <%~ config.apiClassName %><SecurityDataType extends unknown><% if (
 <% } %>
 
 
-<% routes.outOfModule && routes.outOfModule.forEach((route) => { %>
+<% if (routes.outOfModule) { %>
+  <% for (const route of routes.outOfModule) { %>
 
-        <%~ includeFile('./procedure-call.ejs', { ...it, route }) %>
+  <%~ includeFile('./procedure-call.ejs', { ...it, route }) %>
 
-<% }) %>
+  <% } %>
+<% } %>
 
-<% routes.combined && routes.combined.forEach(({ routes = [], moduleName }) => { %>
-    <%~ moduleName %> = {
-    <% routes.forEach((route) => { %>
+<% if (routes.combined) { %>
+  <% for (const { routes: combinedRoutes = [], moduleName } of routes.combined) { %>
+  <%~ moduleName %> = {
+  <% for (const route of combinedRoutes) { %>
 
-        <%~ includeFile('./procedure-call.ejs', { ...it, route }) %>
+  <%~ includeFile('./procedure-call.ejs', { ...it, route }) %>
 
-    <% }) %>
-    }
-<% }) %>
+  <% } %>
+  }
+  <% } %>
+<% } %>
 }

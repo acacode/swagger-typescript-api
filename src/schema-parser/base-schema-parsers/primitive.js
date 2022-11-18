@@ -9,7 +9,9 @@ class PrimitiveSchemaParser extends MonoSchemaParser {
 
     if (type === this.config.Ts.Keyword.Object && additionalProperties) {
       const fieldType = _.isObject(additionalProperties)
-        ? this.schemaParser.getInlineParseContent(additionalProperties, null, this.schemaPath)
+        ? this.schemaParserFabric
+            .createSchemaParser({ schema: additionalProperties, schemaPath: this.schemaPath })
+            .getInlineParseContent()
         : this.config.Ts.Keyword.Any;
       contentType = this.config.Ts.RecordType(this.config.Ts.Keyword.String, fieldType);
     }
@@ -23,7 +25,11 @@ class PrimitiveSchemaParser extends MonoSchemaParser {
 
     if (_.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
       contentType = this.config.Ts.Tuple(
-        items.map((item) => this.schemaParser.getInlineParseContent(item, null, this.schemaPath)),
+        items.map((item) =>
+          this.schemaParserFabric
+            .createSchemaParser({ schema: item, schemaPath: this.schemaPath })
+            .getInlineParseContent(),
+        ),
       );
     }
 

@@ -4,7 +4,7 @@ const { NameResolver } = require("./util/name-resolver");
 const { Logger } = require("./util/logger.js");
 const { TypeNameFormatter } = require("./type-name-formatter.js");
 const _ = require("lodash");
-const { SchemaParser } = require("./schema-parser/schema-parser.js");
+const { SchemaParserFabric } = require("./schema-parser/schema-parser-fabric");
 const { SchemaRoutes } = require("./schema-parser/schema-routes.js");
 const { CodeGenConfig } = require("./configuration.js");
 const { SchemaWalker } = require("./schema-walker");
@@ -27,8 +27,8 @@ class CodeGenProcess {
   logger;
   /** @type {TypeNameFormatter} */
   typeNameFormatter;
-  /** @type {SchemaParser} */
-  schemaParser;
+  /** @type {SchemaParserFabric} */
+  schemaParserFabric;
   /** @type {SchemaRoutes} */
   schemaRoutes;
   /** @type {FileSystem} */
@@ -54,7 +54,7 @@ class CodeGenProcess {
     this.typeNameFormatter = new TypeNameFormatter(this);
     this.templatesWorker = new TemplatesWorker(this);
     this.codeFormatter = new CodeFormatter(this);
-    this.schemaParser = new SchemaParser(this);
+    this.schemaParserFabric = new SchemaParserFabric(this);
     this.schemaRoutes = new SchemaRoutes(this);
     this.config.componentTypeNameResolver.logger = this.logger;
   }
@@ -86,7 +86,7 @@ class CodeGenProcess {
     this.config.componentTypeNameResolver.reserve(componentSchemaNames);
 
     const parsedSchemas = _.map(_.get(swagger.usageSchema.components, "schemas"), (schema, typeName) =>
-      this.schemaParser.parseSchema(schema, typeName),
+      this.schemaParserFabric.parseSchema(schema, typeName),
     );
 
     this.schemaRoutes.attachSchema({
@@ -95,43 +95,11 @@ class CodeGenProcess {
     });
 
     const usageComponentSchemas = this.schemaComponentsMap.filter("schemas");
-    const sortByProperty = (propertyName) => (o1, o2) => {
-      if (o1[propertyName] > o2[propertyName]) {
-        return 1;
-      }
-      if (o1[propertyName] < o2[propertyName]) {
-        return -1;
-      }
-      return 0;
-    };
-
-    const sortSchemas = (schemas) => {
-      if (this.config.sortTypes) {
-        return schemas.sort(sortByProperty("typeName")).map((schema) => {
-          if (schema.rawTypeData?.properties) {
-            return {
-              ...schema,
-              rawTypeData: {
-                ...schema.rawTypeData,
-                $parsed: schema.rawTypeData.$parsed && {
-                  ...schema.rawTypeData.$parsed,
-                  content: Array.isArray(schema.rawTypeData.$parsed.content)
-                    ? schema.rawTypeData.$parsed.content.sort(sortByProperty("name"))
-                    : schema.rawTypeData.$parsed.content,
-                },
-              },
-            };
-          }
-          return schema;
-        });
-      }
-      return schemas;
-    };
 
     const rawConfiguration = {
       apiConfig: this.createApiConfig(swagger.usageSchema),
       config: this.config,
-      modelTypes: _.map(sortSchemas(usageComponentSchemas), this.prepareModelType).filter(Boolean),
+      modelTypes: await this.collectModelTypes(usageComponentSchemas),
       rawModelTypes: usageComponentSchemas,
       hasSecurityRoutes: this.schemaRoutes.hasSecurityRoutes,
       hasQueryRoutes: this.schemaRoutes.hasQueryRoutes,
@@ -156,7 +124,7 @@ class CodeGenProcess {
       this.fileSystem.createDir(this.config.output);
     }
 
-    const files = this.generateOutputFiles({
+    const files = await this.generateOutputFiles({
       configuration: configuration,
     });
 
@@ -206,19 +174,19 @@ class CodeGenProcess {
     return {
       utils: {
         Ts: this.config.Ts,
-        formatDescription: this.schemaParser.schemaFormatters.formatDescription,
+        formatDescription: this.schemaParserFabric.schemaFormatters.formatDescription,
         internalCase: internalCase,
         classNameCase: pascalCase,
         pascalCase: pascalCase,
-        getInlineParseContent: this.schemaParser.getInlineParseContent,
-        getParseContent: this.schemaParser.getParseContent,
+        getInlineParseContent: this.schemaParserFabric.getInlineParseContent,
+        getParseContent: this.schemaParserFabric.getParseContent,
         getComponentByRef: this.schemaComponentsMap.get,
-        parseSchema: this.schemaParser.parseSchema,
-        checkAndAddNull: this.schemaParser.schemaUtils.safeAddNullToType,
-        safeAddNullToType: this.schemaParser.schemaUtils.safeAddNullToType,
-        isNeedToAddNull: this.schemaParser.schemaUtils.isNullMissingInType,
-        inlineExtraFormatters: this.schemaParser.schemaFormatters.inline,
-        formatters: this.schemaParser.schemaFormatters.base,
+        parseSchema: this.schemaParserFabric.parseSchema,
+        checkAndAddNull: this.schemaParserFabric.schemaUtils.safeAddNullToType,
+        safeAddNullToType: this.schemaParserFabric.schemaUtils.safeAddNullToType,
+        isNeedToAddNull: this.schemaParserFabric.schemaUtils.isNullMissingInType,
+        inlineExtraFormatters: this.schemaParserFabric.schemaFormatters.inline,
+        formatters: this.schemaParserFabric.schemaFormatters.base,
         formatModelName: this.typeNameFormatter.format,
         fmtToJSDocLine: function fmtToJSDocLine(line, { eol = true }) {
           return ` * ${line}${eol ? "\n" : ""}`;
@@ -231,13 +199,61 @@ class CodeGenProcess {
     };
   };
 
+  collectModelTypes = (usageComponentSchemas) => {
+    const modelTypes = [];
+
+    const sortByProperty = (propertyName) => (o1, o2) => {
+      if (o1[propertyName] > o2[propertyName]) {
+        return 1;
+      }
+      if (o1[propertyName] < o2[propertyName]) {
+        return -1;
+      }
+      return 0;
+    };
+
+    const sortSchemas = (schemas) => {
+      if (this.config.sortTypes) {
+        return schemas.sort(sortByProperty("typeName")).map((schema) => {
+          if (schema.rawTypeData?.properties) {
+            return {
+              ...schema,
+              rawTypeData: {
+                ...schema.rawTypeData,
+                $parsed: schema.rawTypeData.$parsed && {
+                  ...schema.rawTypeData.$parsed,
+                  content: Array.isArray(schema.rawTypeData.$parsed.content)
+                    ? schema.rawTypeData.$parsed.content.sort(sortByProperty("name"))
+                    : schema.rawTypeData.$parsed.content,
+                },
+              },
+            };
+          }
+          return schema;
+        });
+      }
+      return schemas;
+    };
+
+    const sortedComponents = sortSchemas(usageComponentSchemas);
+
+    for (const component of sortedComponents) {
+      const modelType = this.prepareModelType(component);
+      if (modelType) {
+        modelTypes.push(modelType);
+      }
+    }
+
+    return modelTypes;
+  };
+
   prepareModelType = (typeInfo) => {
     if (!typeInfo.typeData) {
-      typeInfo.typeData = this.schemaParser.parseSchema(typeInfo.rawTypeData, typeInfo.typeName);
+      typeInfo.typeData = this.schemaParserFabric.parseSchema(typeInfo.rawTypeData, typeInfo.typeName);
     }
     const rawTypeData = typeInfo.typeData;
-    const typeData = this.schemaParser.schemaFormatters.base[rawTypeData.type]
-      ? this.schemaParser.schemaFormatters.base[rawTypeData.type](rawTypeData)
+    const typeData = this.schemaParserFabric.schemaFormatters.base[rawTypeData.type]
+      ? this.schemaParserFabric.schemaFormatters.base[rawTypeData.type](rawTypeData)
       : rawTypeData;
     let { typeIdentifier, name: originalName, content, description } = typeData;
     const name = this.typeNameFormatter.format(originalName);
@@ -264,15 +280,13 @@ class CodeGenProcess {
       : this.createSingleFileInfo(templatesToRender, configuration);
 
     if (!_.isEmpty(configuration.extraTemplates)) {
-      output.push(
-        ..._.map(configuration.extraTemplates, (extraTemplate) => {
-          return this.createOutputFileInfo(
-            configuration,
-            extraTemplate.name,
-            this.templatesWorker.renderTemplate(this.fileSystem.getFileContent(extraTemplate.path), configuration),
-          );
-        }),
-      );
+      for (const extraTemplate of configuration.extraTemplates) {
+        const content = this.templatesWorker.renderTemplate(
+          this.fileSystem.getFileContent(extraTemplate.path),
+          configuration,
+        );
+        output.push(this.createOutputFileInfo(configuration, extraTemplate.name, content));
+      }
     }
 
     return output.filter((fileInfo) => !!fileInfo && !!fileInfo.content);
@@ -307,37 +321,29 @@ class CodeGenProcess {
     }
 
     if (routes.combined) {
-      modularApiFileInfos.push(
-        ..._.reduce(
-          routes.combined,
-          (apiFileInfos, route) => {
-            if (generateRouteTypes) {
-              const routeModuleContent = this.templatesWorker.renderTemplate(templatesToRender.routeTypes, {
-                ...configuration,
-                route,
-              });
+      for (const route of routes.combined) {
+        if (generateRouteTypes) {
+          const routeModuleContent = this.templatesWorker.renderTemplate(templatesToRender.routeTypes, {
+            ...configuration,
+            route,
+          });
 
-              apiFileInfos.push(
-                this.createOutputFileInfo(configuration, pascalCase(`${route.moduleName}_Route`), routeModuleContent),
-              );
-            }
+          modularApiFileInfos.push(
+            this.createOutputFileInfo(configuration, pascalCase(`${route.moduleName}_Route`), routeModuleContent),
+          );
+        }
 
-            if (generateClient) {
-              const apiModuleContent = this.templatesWorker.renderTemplate(templatesToRender.api, {
-                ...configuration,
-                route,
-              });
+        if (generateClient) {
+          const apiModuleContent = this.templatesWorker.renderTemplate(templatesToRender.api, {
+            ...configuration,
+            route,
+          });
 
-              apiFileInfos.push(
-                this.createOutputFileInfo(configuration, pascalCase(route.moduleName), apiModuleContent),
-              );
-            }
-
-            return apiFileInfos;
-          },
-          [],
-        ),
-      );
+          modularApiFileInfos.push(
+            this.createOutputFileInfo(configuration, pascalCase(route.moduleName), apiModuleContent),
+          );
+        }
+      }
     }
 
     return [

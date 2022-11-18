@@ -10,7 +10,13 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     // TODO: disable for now
     if (!!this)
       // if (this.typeName == null || !discriminator.mapping)
-      return this.schemaParser.parseSchema(noDiscriminatorSchema, this.typeName, this.schemaPath);
+      return this.schemaParserFabric
+        .createSchemaParser({
+          schema: noDiscriminatorSchema,
+          typeName: this.typeName,
+          schemaPath: this.schemaPath,
+        })
+        .parseSchema();
 
     const abstractSchemaStruct = this.createAbstractSchemaStruct();
     const complexSchemaStruct = this.createComplexSchemaStruct();
@@ -58,7 +64,9 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
       const component = this.schemaComponentsMap.createComponent("schemas", mappingTypeName, {
         internal: true,
       });
-      const schema = this.schemaParser.parseSchema(component, null, this.schemaPath);
+      const schema = this.schemaParserFabric
+        .createSchemaParser({ schema: component, schemaPath: this.schemaPath })
+        .parseSchema();
       schema.genericArgs = [{ name: "Key" }, { name: "Type" }];
       schema.internal = true;
       schema.content = this.config.Ts.IntersectionType([
@@ -69,7 +77,12 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     }
 
     const createMappingContent = (mappingSchema, mappingKey) => {
-      const content = this.schemaParser.getInlineParseContent(mappingSchema, null, this.schemaPath);
+      const content = this.schemaParserFabric
+        .createSchemaParser({
+          schema: mappingSchema,
+          schemaPath: this.schemaPath,
+        })
+        .getInlineParseContent();
 
       if (ableToCreateMappingType) {
         return this.config.Ts.TypeWithGeneric(mappingTypeName, [this.config.Ts.StringValue(mappingKey), content]);
@@ -136,7 +149,9 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
       ...schema,
       internal: true,
     });
-    const content = this.schemaParser.getInlineParseContent(component, null, this.schemaPath);
+    const content = this.schemaParserFabric
+      .createSchemaParser({ schema: component, schemaPath: this.schemaPath })
+      .getInlineParseContent();
 
     return {
       typeName,

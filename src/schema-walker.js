@@ -2,6 +2,8 @@ const _ = require("lodash");
 const path = require("path");
 const { add } = require("lodash");
 
+// TODO: WIP
+// this class will be needed to walk by schema everywhere
 class SchemaWalker {
   /** @type {Logger} */
   logger;

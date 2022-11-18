@@ -5,38 +5,28 @@ class MonoSchemaParser {
   typeName;
   schemaPath;
 
-  /**
-   * @type {SchemaParser}
-   */
+  /** @type {SchemaParser} */
   schemaParser;
-  /**
-   * @type {TypeNameFormatter}
-   */
+  /** @type {SchemaParserFabric} */
+  schemaParserFabric;
+  /** @type {TypeNameFormatter} */
   typeNameFormatter;
-
-  /**
-   * @type {SchemaComponentsMap}
-   */
+  /** @type {SchemaComponentsMap} */
   schemaComponentsMap;
-  /**
-   * @type {SchemaUtils}
-   */
+  /** @type {SchemaUtils} */
   schemaUtils;
-  /**
-   * @type {CodeGenConfig}
-   */
+  /** @type {CodeGenConfig} */
   config;
-  /**
-   * @type {SchemaFormatters}
-   */
+  /** @type {SchemaFormatters} */
   schemaFormatters;
 
   constructor(schemaParser, schema, typeName = null, schemaPath = []) {
     this.schemaParser = schemaParser;
+    this.schemaParserFabric = schemaParser.schemaParserFabric;
     this.schema = schema;
     this.typeName = typeName;
     this.typeNameFormatter = schemaParser.typeNameFormatter;
-    this.schemaPath = schemaParser.schemaPath || schemaPath;
+    this.schemaPath = schemaPath;
     this.schemaComponentsMap = this.schemaParser.schemaComponentsMap;
     this.schemaUtils = this.schemaParser.schemaUtils;
     this.config = this.schemaParser.config;
@@ -46,6 +36,10 @@ class MonoSchemaParser {
   parse() {
     throw new Error("not implemented");
   }
+
+  buildTypeNameFromPath = () => {
+    return this.schemaUtils.buildTypeNameFromPath(this.schemaPath);
+  };
 }
 
 module.exports = {

@@ -8,10 +8,19 @@ class ArraySchemaParser extends MonoSchemaParser {
     const { type, description, items } = this.schema || {};
 
     if (_.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
-      const tupleContent = items.map((item) => this.schemaParser.getInlineParseContent(item, null, this.schemaPath));
+      const tupleContent = [];
+      for (const item of items) {
+        tupleContent.push(
+          this.schemaParserFabric
+            .createSchemaParser({ schema: item, schemaPath: this.schemaPath })
+            .getInlineParseContent(),
+        );
+      }
       contentType = this.config.Ts.Tuple(tupleContent);
     } else {
-      const content = this.schemaParser.getInlineParseContent(items, null, this.schemaPath);
+      const content = this.schemaParserFabric
+        .createSchemaParser({ schema: items, schemaPath: this.schemaPath })
+        .getInlineParseContent();
       contentType = this.config.Ts.ArrayType(content);
     }
 

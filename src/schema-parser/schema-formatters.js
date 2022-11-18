@@ -2,30 +2,22 @@ const { SCHEMA_TYPES } = require("../constants");
 const _ = require("lodash");
 
 class SchemaFormatters {
-  /**
-   * @type {CodeGenConfig}
-   */
+  /** @type {CodeGenConfig} */
   config;
-  /**
-   * @type {Logger}
-   */
+  /** @type {Logger} */
   logger;
-  /**
-   * @type {SchemaParser}
-   */
-  schemaParser;
-  /**
-   * @type {TemplatesWorker}
-   */
+  /** @type {TemplatesWorker} */
   templatesWorker;
+  /** @type {SchemaUtils} */
+  schemaUtils;
 
   /**
-   * @param schemaParser {SchemaParser}
+   * @param schemaParser {SchemaParser | SchemaParserFabric}
    */
   constructor(schemaParser) {
     this.config = schemaParser.config;
     this.logger = schemaParser.logger;
-    this.schemaParser = schemaParser;
+    this.schemaUtils = schemaParser.schemaUtils;
     this.templatesWorker = schemaParser.templatesWorker;
   }
 
@@ -79,14 +71,14 @@ class SchemaFormatters {
         return {
           ...parsedSchema,
           typeIdentifier: this.config.Ts.Keyword.Type,
-          content: this.schemaParser.schemaUtils.safeAddNullToType(parsedSchema.content),
+          content: this.schemaUtils.safeAddNullToType(parsedSchema.content),
         };
       }
 
       return {
         ...parsedSchema,
         typeIdentifier: this.config.Ts.Keyword.Type,
-        content: this.schemaParser.schemaUtils.safeAddNullToType(
+        content: this.schemaUtils.safeAddNullToType(
           parsedSchema,
           parsedSchema.content.length
             ? this.config.Ts.ObjectWrapper(this.formatObjectContent(parsedSchema.content))
@@ -130,7 +122,9 @@ class SchemaFormatters {
   };
 
   formatObjectContent = (content) => {
-    return _.map(content, (part) => {
+    const fields = [];
+
+    for (const part of content) {
       const extraSpace = "  ";
       const result = `${extraSpace}${part.field},\n`;
 
@@ -143,10 +137,14 @@ class SchemaFormatters {
         .map((c) => `${extraSpace}${c}`)
         .join("\n");
 
-      if (routeNameFromTemplate) return `${routeNameFromTemplate}${result}`;
+      if (routeNameFromTemplate) {
+        fields.push(`${routeNameFromTemplate}${result}`);
+      } else {
+        fields.push(`${result}`);
+      }
+    }
 
-      return `${result}`;
-    }).join("");
+    return fields.join("");
   };
 }
 

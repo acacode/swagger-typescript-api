@@ -24,7 +24,9 @@ class ComplexSchemaParser extends MonoSchemaParser {
             this.config.Ts.ExpressionGroup(complexSchemaContent),
             this.schemaUtils.getInternalSchemaType(simpleSchema) === SCHEMA_TYPES.OBJECT &&
               this.config.Ts.ExpressionGroup(
-                this.schemaParser.getInlineParseContent(simpleSchema, null, this.schemaPath),
+                this.schemaParserFabric
+                  .createSchemaParser({ schema: simpleSchema, schemaPath: this.schemaPath })
+                  .getInlineParseContent(),
               ),
           ]),
         ) || this.config.Ts.Keyword.Any,

@@ -32,9 +32,9 @@ const dataContractTemplates = {
 type <%~ config.Ts.CodeGenKeyword.UtilRequiredKeys %><T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>
 <% } %>
 
-<% modelTypes.forEach((contract) => { %>
+<% for (const contract of modelTypes) { %>
   <%~ includeFile('@base/data-contract-jsdoc.ejs', { ...it, data: { ...contract, ...contract.typeData } }) %>
   <%~ contract.internal ? '' : 'export'%> <%~ (dataContractTemplates[contract.typeIdentifier] || dataContractTemplates.type)(contract) %>
 
 
-<% }) %>
+<% } %>

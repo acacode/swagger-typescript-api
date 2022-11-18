@@ -152,6 +152,12 @@ class TemplatesWorker {
     return "";
   };
 
+  /**
+   * @param template
+   * @param configuration
+   * @param options
+   * @returns {Promise<string|string|void>}
+   */
   renderTemplate = (template, configuration, options) => {
     if (!template) return "";
 

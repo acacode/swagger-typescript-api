@@ -5,7 +5,7 @@ const { SCHEMA_TYPES } = require("../../constants");
 
 class EnumSchemaParser extends MonoSchemaParser {
   parse() {
-    const pathTypeName = this.schemaParser.buildTypeNameFromPath();
+    const pathTypeName = this.buildTypeNameFromPath();
 
     if (this.config.extractEnums && !this.typeName && pathTypeName != null) {
       const generatedTypeName = this.config.componentTypeNameResolver.resolve([
@@ -15,23 +15,31 @@ class EnumSchemaParser extends MonoSchemaParser {
       const schemaComponent = this.schemaComponentsMap.createComponent("schemas", generatedTypeName, {
         ...this.schema,
       });
-      return this.schemaParser.parseSchema(schemaComponent, generatedTypeName, this.schemaPath);
+      return this.schemaParserFabric
+        .createSchemaParser({
+          schema: schemaComponent,
+          typeName: generatedTypeName,
+          schemaPath: this.schemaPath,
+        })
+        .parseSchema();
     }
 
     const refType = this.schemaUtils.getSchemaRefType(this.schema);
     const $ref = (refType && refType.$ref) || null;
 
     if (Array.isArray(this.schema.enum) && Array.isArray(this.schema.enum[0])) {
-      return this.schemaParser.parseSchema(
-        {
-          oneOf: this.schema.enum.map((enumNames) => ({
-            type: "array",
-            items: enumNames.map((enumName) => ({ type: "string", enum: [enumName] })),
-          })),
-        },
-        this.typeName,
-        this.schemaPath,
-      );
+      return this.schemaParserFabric
+        .createSchemaParser({
+          schema: {
+            oneOf: this.schema.enum.map((enumNames) => ({
+              type: "array",
+              items: enumNames.map((enumName) => ({ type: "string", enum: [enumName] })),
+            })),
+          },
+          typeName: this.typeName,
+          schemaPath: this.schemaPath,
+        })
+        .parseSchema();
     }
 
     const keyType = this.schemaUtils.getSchemaType(this.schema);
