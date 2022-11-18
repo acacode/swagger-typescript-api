@@ -6,9 +6,6 @@ const createSchemaInfos = require("../../helpers/createSchemaInfos");
 
 const schemas = createSchemaInfos({ absolutePathToSchemas: resolve(__dirname, "./") });
 
-// TODO: disable for now
-process.exit(0);
-
 schemas.forEach(({ absolutePath, apiFileName }) => {
   generateApiForTest({
     testName: "discriminator test",

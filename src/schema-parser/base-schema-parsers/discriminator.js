@@ -7,9 +7,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
   parse() {
     const { discriminator, ...noDiscriminatorSchema } = this.schema;
 
-    // TODO: disable for now
-    if (!!this)
-      // if (this.typeName == null || !discriminator.mapping)
+    if (this.typeName == null || !discriminator.mapping) {
       return this.schemaParserFabric
         .createSchemaParser({
           schema: noDiscriminatorSchema,
@@ -17,16 +15,23 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
           schemaPath: this.schemaPath,
         })
         .parseSchema();
+    }
+
+    // https://github.com/acacode/swagger-typescript-api/issues/456
+    const skipMappingType = !!noDiscriminatorSchema.oneOf;
 
     const abstractSchemaStruct = this.createAbstractSchemaStruct();
     const complexSchemaStruct = this.createComplexSchemaStruct();
-    const discriminatorSchemaStruct = this.createDiscriminatorSchema({ abstractSchemaStruct });
+    const discriminatorSchemaStruct = this.createDiscriminatorSchema({
+      skipMappingType,
+      abstractSchemaStruct,
+    });
 
     const schemaContent = this.config.Ts.IntersectionType(
       [
         abstractSchemaStruct?.content,
         this.config.Ts.ExpressionGroup(
-          this.config.Ts.UnionType([complexSchemaStruct?.content, discriminatorSchemaStruct.content].filter(Boolean)),
+          this.config.Ts.UnionType([complexSchemaStruct?.content, discriminatorSchemaStruct?.content].filter(Boolean)),
         ),
       ].filter(Boolean),
     );
@@ -43,13 +48,13 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     };
   }
 
-  createDiscriminatorSchema = ({ abstractSchemaStruct }) => {
+  createDiscriminatorSchema = ({ skipMappingType, abstractSchemaStruct }) => {
     const refPath = this.schemaComponentsMap.createRef("schemas", this.typeName);
     const { discriminator } = this.schema;
     const { mapping, propertyName } = discriminator;
     const mappingEntries = _.entries(mapping);
     const complexSchemaKeys = _.keys(this.schemaParser._complexSchemaParsers);
-    const ableToCreateMappingType = !!(abstractSchemaStruct?.typeName && mappingEntries.length);
+    const ableToCreateMappingType = !skipMappingType && !!(abstractSchemaStruct?.typeName && mappingEntries.length);
     const mappingContents = [];
     let mappingTypeName;
 
@@ -123,6 +128,8 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
 
       mappingContents.push(createMappingContent(mappingSchema, mappingKey));
     }
+
+    if (skipMappingType) return null;
 
     const content = this.config.Ts.ExpressionGroup(this.config.Ts.UnionType(mappingContents));
 

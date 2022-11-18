@@ -19,11 +19,7 @@ export interface ComplexObject {
   objectType: string;
 }
 
-export type BlockDTO = AbstractBlockDto &
-  (
-    | (CsvBlockDTO | FileBlockDTO)
-    | (AbstractBlockDtoTypeMapping<"csv", CsvBlockDTO> | AbstractBlockDtoTypeMapping<"file", FileBlockDTO>)
-  );
+export type BlockDTO = AbstractBlockDto & (CsvBlockDTO | FileBlockDTO);
 
 export type CsvBlockDTO = AbstractBlockDto & {
   /** @default "csv" */
@@ -59,10 +55,6 @@ export type Lizard = AbstractPet & {
 interface AbstractBlockDto {
   title: string;
 }
-
-type AbstractBlockDtoTypeMapping<Key, Type> = {
-  type: Key;
-} & Type;
 
 interface AbstractPet {
   pet_type: string;
