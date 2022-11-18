@@ -9,6 +9,7 @@ const {
   RESERVED_QUERY_ARG_NAMES,
 } = require("../constants.js");
 const { pascalCase } = require("../util/pascal-case");
+const { camelCase, snakeCase } = require("lodash");
 
 const CONTENT_KIND = {
   JSON: "JSON",
@@ -452,13 +453,21 @@ class SchemaRoutes {
       (objectSchema, schemaPart) => {
         if (!schemaPart || !schemaPart.name) return objectSchema;
 
+        let usageName = `${schemaPart.name}`;
+
+        if (usageName.includes(".")) {
+          usageName = camelCase(usageName);
+        }
+
         return {
           ...objectSchema,
           properties: {
             ...objectSchema.properties,
-            [schemaPart.name]: {
+            [usageName]: {
               ...schemaPart,
               ...(schemaPart.schema || {}),
+              $origName: schemaPart.name,
+              name: usageName,
             },
           },
         };

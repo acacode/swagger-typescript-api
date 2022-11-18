@@ -168,6 +168,37 @@ interface GenerateApiParamsBase {
 
   /** configuration for fetching swagger schema requests */
   requestOptions?: null | Partial<import("node-fetch").RequestInit>;
+
+  /** ts compiler configuration object (for --to-js option) */
+  compilerTsConfig?: Record<string, any>;
+
+  /**
+   * custom ts->* translator
+   * do not use constructor args, it can break functionality of this property, just send class reference
+   *
+   * @example
+   * ```ts
+   * const { Translator } = require("swagger-typescript-api/src/translators/translator");
+   *
+   * class MyTranslator extends Translator {
+   *
+   *     translate({ fileName, fileExtension, fileContent }) {
+   *         this.codeFormatter.format()
+   *         this.config.
+   *         this.logger.
+   *
+   *         return [
+   *             {
+   *                 fileName,
+   *                 fileExtension,
+   *                 fileContent,
+   *             }
+   *         ]
+   *     }
+   * }
+   * ```
+   */
+  customTranslator?: new () => typeof import("./src/translators/translator").Translator;
 }
 
 type CodeGenConstruct = {
@@ -505,6 +536,9 @@ export interface GenerateApiConfiguration {
     hooks: Hooks;
     enumNamesAsValues: boolean;
     version: string;
+    compilerTsConfig: Record<string, any>;
+    /** do not use constructor args, it can break functionality of this property, just send class reference */
+    customTranslator?: new (...args: never[]) => typeof import("./src/translators/translator").Translator;
     internalTemplateOptions: {
       addUtilRequiredKeysType: boolean;
     };
@@ -569,9 +603,18 @@ export interface GenerateApiConfiguration {
   };
 }
 
+type FileInfo = {
+  /** @example myFilename */
+  fileName: string;
+  /** @example .d.ts */
+  fileExtension: string;
+  /** content of the file */
+  fileContent: string;
+};
+
 export interface GenerateApiOutput {
   configuration: GenerateApiConfiguration;
-  files: { name: string; content: string; declaration: { name: string; content: string } | null }[];
+  files: FileInfo[];
   createFile: (params: { path: string; fileName: string; content: string; withPrefix?: boolean }) => void;
   renderTemplate: (
     templateContent: string,

@@ -45,7 +45,7 @@ class SchemaParserFabric {
    * @param schema {any}
    * @param typeName {null | string}
    * @param [schemaPath] {string[]}
-   * @return {Promise<Record<string, any>>}
+   * @return {Record<string, any>}
    */
   parseSchema = (schema, typeName = null, schemaPath = []) => {
     const schemaParser = this.createSchemaParser({ schema, typeName, schemaPath });
@@ -57,7 +57,7 @@ class SchemaParserFabric {
    * @param schema {any}
    * @param typeName {null | string}
    * @param [schemaPath] {string[]}
-   * @return {Promise<Record<string, any>>}
+   * @return {Record<string, any>}
    */
   getInlineParseContent = (schema, typeName, schemaPath) => {
     const parser = this.createSchemaParser({ schema, typeName, schemaPath });
@@ -69,7 +69,7 @@ class SchemaParserFabric {
    * @param schema {any}
    * @param typeName {null | string}
    * @param [schemaPath] {string[]}
-   * @return {Promise<Record<string, any>>}
+   * @return {Record<string, any>}
    */
   getParseContent = (schema, typeName, schemaPath) => {
     const parser = this.createSchemaParser({ schema, typeName, schemaPath });

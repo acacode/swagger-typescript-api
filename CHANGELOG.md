@@ -1,5 +1,31 @@
 # next release  
 
+fix: problems with dot in query params (hard fix) (#460)   
+feature: ability to send custom Ts output code translator to js. Example:  
+```ts
+ const { Translator } = require("swagger-typescript-api/src/translators/translator");
+ const { JavascriptTranslator } = require("swagger-typescript-api/src/translators/javascript");
+
+ class MyTranslator extends Translator { // or use extends JavascriptTranslator
+     translate({ fileName, fileExtension, fileContent }) {
+         // format ts\js code with using this codeFormatter (prettier + ts import fixer)
+         this.codeFormatter.format(fileContent)
+         // config of the code gen process
+         this.config.
+         // logger
+         this.logger.
+
+         return [
+             {
+                 fileName,
+                 fileExtension,
+                 fileContent,
+             }
+         ]
+     }
+ }
+```
+
 ## 12.0.2
 
 fix: missing option `--extract-enums` (#344)  

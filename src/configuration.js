@@ -3,6 +3,7 @@ const _ = require("lodash");
 const CONSTANTS = require("./constants");
 const { ComponentTypeNameResolver } = require("./util/name-resolver");
 const { cosmiconfigSync } = require("cosmiconfig");
+const ts = require("typescript");
 
 const TsKeyword = {
   Number: "number",
@@ -167,6 +168,22 @@ class CodeGenConfig {
     responseBodySuffix: ["Data", "Result", "Output"],
     responseErrorSuffix: ["Error", "Fail", "Fails", "ErrorData", "HttpError", "BadResponse"],
   };
+
+  compilerTsConfig = {
+    module: "ESNext",
+    noImplicitReturns: true,
+    alwaysStrict: true,
+    target: ts.ScriptTarget.ESNext,
+    declaration: true,
+    noImplicitAny: false,
+    sourceMap: false,
+    removeComments: false,
+    disableSizeLimit: true,
+    esModuleInterop: true,
+    emitDecoratorMetadata: true,
+    skipLibCheck: true,
+  };
+  customTranslator;
 
   Ts = {
     Keyword: _.cloneDeep(TsKeyword),

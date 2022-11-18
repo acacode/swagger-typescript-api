@@ -17,7 +17,7 @@ schemas.forEach(({ absolutePath, apiFileName, Exception }) => {
     // because this script was called from package.json folder
     templates: "./tests/spec/partialDefaultTemplate/spec_templates",
   }).then((output) => {
-    if (!_.includes(_.get(output.files, "[0].content"), "/** PARTIAL TEMPLATES */")) {
+    if (!_.includes(_.get(output.files, "[0].fileContent"), "/** PARTIAL TEMPLATES */")) {
       throw new Exception("Failed, spec templates are not applied");
     }
 

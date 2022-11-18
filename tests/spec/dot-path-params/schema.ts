@@ -234,10 +234,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Repros an issue
      * @request POST:/foobar/{truck.id}/item
      */
-    reproFunc: (truckId: string, params: RequestParams = {}) =>
+    reproFunc: (
+      truckId: string,
+      query: {
+        queryId: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<any, MyResponse>({
         path: `/foobar/${truckId}/item`,
         method: "POST",
+        query: query,
         ...params,
       }),
   };

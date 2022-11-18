@@ -2145,9 +2145,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         queryParam1?: number;
         /**
          * description
+         * @default 0
+         */
+        fooBarBaz?: number;
+        /**
+         * description
          * @default 20
          */
         queryParam2?: number;
+        /**
+         * description
+         * @default 0
+         */
+        queryParamBar3?: number;
         /** description */
         queryParam3?: string[];
       },
