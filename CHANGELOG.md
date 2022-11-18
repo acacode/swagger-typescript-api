@@ -12,6 +12,7 @@ interface GenerateApiOutput {
 ```
 
 internal: refactor schema parser code (preparing it for async code execution)  
+fix: problem with filtering primitive in complex types (#459)  
 feat: add discriminator property support (#456)  
 internal: prepare code + templates for async code execution (next plans)  
 fix: problems with dot in query params (hard fix) (#460)   
