@@ -12,7 +12,7 @@ interface GenerateApiOutput {
 ```
 
 internal: refactor schema parser code (preparing it for async code execution)  
-internal: add discriminator property support (disabled for this release)  
+feat: add discriminator property support  
 internal: prepare code + templates for async code execution (next plans)  
 fix: problems with dot in query params (hard fix) (#460)   
 feature: ability to send custom Ts output code translator to js. Example:  
