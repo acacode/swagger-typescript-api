@@ -1,5 +1,19 @@
 # next release  
 
+BREAKING_CHANGE: change swagger-typescript-api NodeJS "generateApi" function return type  
+
+```diff
+interface GenerateApiOutput {
+...
+-  files: { name: string; content: string; declaration: { name: string; content: string } | null }[];
++  files: { fileName: string; fileContent: string; fileExtension: string }[];
+...
+}
+```
+
+internal: refactor schema parser code (preparing it for async code execution)  
+internal: add discriminator property support (disabled for this release)  
+internal: prepare code + templates for async code execution (next plans)  
 fix: problems with dot in query params (hard fix) (#460)   
 feature: ability to send custom Ts output code translator to js. Example:  
 ```ts
