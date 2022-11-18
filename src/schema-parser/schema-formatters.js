@@ -15,15 +15,18 @@ class SchemaFormatters {
    */
   schemaParser;
   /**
-   * @type {Templates}
+   * @type {TemplatesWorker}
    */
-  templates;
+  templatesWorker;
 
-  constructor(config, logger, schemaParser, templates) {
-    this.config = config;
-    this.logger = logger;
+  /**
+   * @param schemaParser {SchemaParser}
+   */
+  constructor(schemaParser) {
+    this.config = schemaParser.config;
+    this.logger = schemaParser.logger;
     this.schemaParser = schemaParser;
-    this.templates = templates;
+    this.templatesWorker = schemaParser.templatesWorker;
   }
 
   base = {
@@ -131,7 +134,7 @@ class SchemaFormatters {
       const extraSpace = "  ";
       const result = `${extraSpace}${part.field},\n`;
 
-      const renderedJsDoc = this.templates.renderTemplate(this.config.templatesToRender.dataContractJsDoc, {
+      const renderedJsDoc = this.templatesWorker.renderTemplate(this.config.templatesToRender.dataContractJsDoc, {
         data: part,
       });
 

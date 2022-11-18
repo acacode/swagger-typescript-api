@@ -14,7 +14,7 @@ class TypeNameFormatter {
   /** @type {Logger} */
   logger;
 
-  constructor(config, logger) {
+  constructor({ config, logger }) {
     this.config = config;
     this.logger = logger;
   }

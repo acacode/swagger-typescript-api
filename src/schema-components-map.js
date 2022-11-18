@@ -1,25 +1,22 @@
 const _ = require("lodash");
 
 class SchemaComponentsMap {
-  /**
-   * @type {Record<string, SchemaComponent>}
-   */
+  /** @type {Record<string, SchemaComponent>} */
   data = {};
-  /**
-   * @type {CodeGenConfig}
-   */
+  /** @type {CodeGenConfig} */
   config;
 
-  constructor(config, schema) {
+  constructor({ config }) {
     this.config = config;
-    this.processSchema(schema);
   }
 
   processSchema(schema) {
     this.data = {};
     if (!schema) return;
     _.each(schema.components, (component, componentName) =>
-      _.each(component, (rawTypeData, typeName) => this.createComponent(componentName, typeName, rawTypeData)),
+      _.each(component, (rawTypeData, typeName) => {
+        return this.createComponent(componentName, typeName, rawTypeData);
+      }),
     );
   }
 

@@ -1,9 +1,10 @@
 const { MonoSchemaParser } = require("../mono-schema-parser");
 const _ = require("lodash");
 
+// T1 & T2
 class AllOfSchemaParser extends MonoSchemaParser {
   parse() {
-    const ignoreTypes = [...this.config.jsPrimitiveTypes, this.config.Ts.Keyword.Any];
+    const ignoreTypes = [this.config.Ts.Keyword.Any];
     const combined = _.map(this.schema.allOf, (childSchema) =>
       this.schemaParser.getInlineParseContent(
         this.schemaUtils.makeAddRequiredToChildSchema(this.schema, childSchema),

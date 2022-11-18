@@ -3,7 +3,7 @@ const _ = require("lodash");
 const Eta = require("eta");
 const path = require("path");
 
-class Templates {
+class TemplatesWorker {
   /**
    * @type {CodeGenConfig}
    */
@@ -21,7 +21,7 @@ class Templates {
 
   getRenderTemplateData;
 
-  constructor(config, logger, fileSystem, getRenderTemplateData) {
+  constructor({ config, logger, fileSystem, getRenderTemplateData }) {
     this.config = config;
     this.logger = logger;
     this.fileSystem = fileSystem;
@@ -173,5 +173,5 @@ class Templates {
 }
 
 module.exports = {
-  Templates,
+  TemplatesWorker,
 };

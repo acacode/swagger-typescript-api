@@ -4,23 +4,20 @@ const { internalCase } = require("../util/internal-case");
 const { pascalCase } = require("../util/pascal-case");
 
 class SchemaUtils {
-  /**
-   * @type {CodeGenConfig}
-   */
+  /** @type {CodeGenConfig} */
   config;
-  /**
-   * @type {SchemaComponentsMap}
-   */
+  /** @type {SchemaComponentsMap} */
   schemaComponentsMap;
-  /**
-   * @type {TypeNameFormatter}
-   */
+  /** @type {TypeNameFormatter} */
   typeNameFormatter;
+  /** @type {SchemaWalker} */
+  schemaWalker;
 
-  constructor(config, schemaComponentsMap, typeNameFormatter) {
+  constructor({ config, schemaComponentsMap, typeNameFormatter, schemaWalker }) {
     this.config = config;
     this.schemaComponentsMap = schemaComponentsMap;
     this.typeNameFormatter = typeNameFormatter;
+    this.schemaWalker = schemaWalker;
   }
 
   getRequiredProperties = (schema) => {
@@ -37,6 +34,7 @@ class SchemaUtils {
 
   getSchemaRefType = (schema) => {
     if (!this.isRefSchema(schema)) return null;
+    // const resolved = this.schemaWalker.findByRef(schema.$ref);
     return this.schemaComponentsMap.get(schema.$ref);
   };
 

@@ -17,51 +17,45 @@ const { NotSchemaParser } = require("./complex-schema-parsers/not");
 const { ArraySchemaParser } = require("./base-schema-parsers/array");
 
 class SchemaParser {
-  /**
-   * @type {CodeGenConfig}
-   */
+  /** @type {CodeGenConfig} */
   config;
-
-  /**
-   * @type {SchemaComponentsMap}
-   */
+  /** @type {Logger} */
+  logger;
+  /** @type {SchemaComponentsMap} */
   schemaComponentsMap;
-  /**
-   * @type {TypeNameFormatter}
-   */
+  /** @type {TypeNameFormatter} */
   typeNameFormatter;
-  /**
-   * @type {SchemaFormatters}
-   */
+  /** @type {SchemaFormatters} */
   schemaFormatters;
-
-  /**
-   * @type {SchemaUtils}
-   */
+  /** @type {SchemaUtils} */
   schemaUtils;
+  /** @type {TemplatesWorker} */
+  templatesWorker;
+  /** @type {SchemaWalker} */
+  schemaWalker;
 
   schemaPath = [];
 
-  constructor(config, logger, templates, schemaComponentsMap, typeName) {
+  constructor({ config, logger, templatesWorker, schemaComponentsMap, typeNameFormatter, schemaWalker }) {
     this.config = config;
+    this.logger = logger;
+    this.templatesWorker = templatesWorker;
     this.schemaComponentsMap = schemaComponentsMap;
-    this.typeNameFormatter = typeName;
-    this.schemaFormatters = new SchemaFormatters(config, logger, this, templates);
-    this.schemaUtils = new SchemaUtils(config, schemaComponentsMap, this.typeNameFormatter);
+    this.typeNameFormatter = typeNameFormatter;
+    this.schemaWalker = schemaWalker;
+    this.schemaFormatters = new SchemaFormatters(this);
+    this.schemaUtils = new SchemaUtils(this);
   }
 
   _complexSchemaParsers = {
-    // T1 | T2
     [SCHEMA_TYPES.COMPLEX_ONE_OF]: (schema) => {
       const schemaParser = new OneOfSchemaParser(this, schema, null);
       return schemaParser.parse();
     },
-    // T1 & T2
     [SCHEMA_TYPES.COMPLEX_ALL_OF]: (schema) => {
       const schemaParser = new AllOfSchemaParser(this, schema, null);
       return schemaParser.parse();
     },
-    // T1 | T2 | (T1 & T2)
     [SCHEMA_TYPES.COMPLEX_ANY_OF]: (schema) => {
       const schemaParser = new AnyOfSchemaParser(this, schema, null);
       return schemaParser.parse();

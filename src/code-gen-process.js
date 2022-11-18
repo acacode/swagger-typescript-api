@@ -7,8 +7,9 @@ const _ = require("lodash");
 const { SchemaParser } = require("./schema-parser/schema-parser.js");
 const { SchemaRoutes } = require("./schema-parser/schema-routes.js");
 const { CodeGenConfig } = require("./configuration.js");
+const { SchemaWalker } = require("./schema-walker");
 const { FileSystem } = require("./util/file-system");
-const { Templates } = require("./templates");
+const { TemplatesWorker } = require("./templates-worker");
 const { translate: translateToJS } = require("./translators/JavaScript");
 const ts = require("typescript");
 const { CodeFormatter } = require("./code-formatter");
@@ -16,42 +17,28 @@ const { pascalCase } = require("./util/pascal-case");
 const { internalCase } = require("./util/internal-case");
 
 class CodeGenProcess {
-  /**
-   * @type {CodeGenConfig}
-   */
+  /** @type {CodeGenConfig} */
   config;
-  /**
-   * @type {SwaggerSchemaResolver}
-   */
+  /** @type {SwaggerSchemaResolver} */
   swaggerSchemaResolver;
-  /**
-   * @type {SchemaComponentsMap}
-   */
-  schemaComponentMap;
-  /**
-   * @type {Logger}
-   */
+  /** @type {SchemaComponentsMap} */
+  schemaComponentsMap;
+  /** @type {Logger} */
   logger;
-  /**
-   * @type {TypeNameFormatter}
-   */
+  /** @type {TypeNameFormatter} */
   typeNameFormatter;
-  /**
-   * @type {SchemaParser}
-   */
+  /** @type {SchemaParser} */
   schemaParser;
-  /**
-   * @type {SchemaRoutes}
-   */
+  /** @type {SchemaRoutes} */
   schemaRoutes;
-  /**
-   * @type {FileSystem}
-   */
+  /** @type {FileSystem} */
   fileSystem;
-  /**
-   * @type {CodeFormatter}
-   */
+  /** @type {CodeFormatter} */
   codeFormatter;
+  /** type {TemplatesWorker} */
+  templatesWorker;
+  /** @type {SchemaWalker} */
+  schemaWalker;
 
   /**
    *
@@ -59,34 +46,22 @@ class CodeGenProcess {
    */
   constructor(config) {
     this.config = new CodeGenConfig(config);
-    this.logger = new Logger(this.config);
-    this.fileSystem = new FileSystem();
-    this.swaggerSchemaResolver = new SwaggerSchemaResolver(this.config, this.logger, this.fileSystem);
-    this.schemaComponentMap = new SchemaComponentsMap(this.config);
-    this.typeNameFormatter = new TypeNameFormatter(this.config, this.logger);
-    this.templates = new Templates(this.config, this.logger, this.fileSystem, this.getRenderTemplateData);
-    this.codeFormatter = new CodeFormatter(this.config);
-    this.schemaParser = new SchemaParser(
-      this.config,
-      this.logger,
-      this.templates,
-      this.schemaComponentMap,
-      this.typeNameFormatter,
-    );
-    this.schemaRoutes = new SchemaRoutes(
-      this.config,
-      this.schemaParser,
-      this.schemaComponentMap,
-      this.logger,
-      this.templates,
-      this.typeNameFormatter,
-    );
+    this.logger = new Logger(this);
+    this.schemaWalker = new SchemaWalker(this);
+    this.fileSystem = new FileSystem(this);
+    this.swaggerSchemaResolver = new SwaggerSchemaResolver(this);
+    this.schemaComponentsMap = new SchemaComponentsMap(this);
+    this.typeNameFormatter = new TypeNameFormatter(this);
+    this.templatesWorker = new TemplatesWorker(this);
+    this.codeFormatter = new CodeFormatter(this);
+    this.schemaParser = new SchemaParser(this);
+    this.schemaRoutes = new SchemaRoutes(this);
     this.config.componentTypeNameResolver.logger = this.logger;
   }
 
   async start() {
-    this.config.update({ templatePaths: this.templates.getTemplatePaths(this.config) });
-    this.config.update({ templatesToRender: this.templates.getTemplates(this.config) });
+    this.config.update({ templatePaths: this.templatesWorker.getTemplatePaths(this.config) });
+    this.config.update({ templatesToRender: this.templatesWorker.getTemplates(this.config) });
 
     const swagger = await this.swaggerSchemaResolver.create();
 
@@ -97,13 +72,16 @@ class CodeGenProcess {
       originalSchema: swagger.originalSchema,
     });
 
+    this.schemaWalker.addSchema("$usage", swagger.usageSchema);
+    this.schemaWalker.addSchema("$original", swagger.originalSchema);
+
     this.logger.event("start generating your typescript api");
 
     this.config.update(this.config.hooks.onInit(this.config) || this.config);
 
-    this.schemaComponentMap.processSchema(swagger.usageSchema);
+    this.schemaComponentsMap.processSchema(swagger.usageSchema);
 
-    const componentSchemaNames = this.schemaComponentMap.filter("schemas").map((c) => c.typeName);
+    const componentSchemaNames = this.schemaComponentsMap.filter("schemas").map((c) => c.typeName);
 
     this.config.componentTypeNameResolver.reserve(componentSchemaNames);
 
@@ -116,7 +94,7 @@ class CodeGenProcess {
       parsedSchemas,
     });
 
-    const usageComponentSchemas = this.schemaComponentMap.filter("schemas");
+    const usageComponentSchemas = this.schemaComponentsMap.filter("schemas");
     const sortByProperty = (propertyName) => (o1, o2) => {
       if (o1[propertyName] > o2[propertyName]) {
         return 1;
@@ -217,8 +195,8 @@ class CodeGenProcess {
     return {
       files: generatedFiles,
       configuration,
-      getTemplate: this.templates.getTemplate,
-      renderTemplate: this.templates.renderTemplate,
+      getTemplate: this.templatesWorker.getTemplate,
+      renderTemplate: this.templatesWorker.renderTemplate,
       createFile: this.fileSystem.createFile,
       formatTSContent: this.codeFormatter.formatCode,
     };
@@ -234,7 +212,7 @@ class CodeGenProcess {
         pascalCase: pascalCase,
         getInlineParseContent: this.schemaParser.getInlineParseContent,
         getParseContent: this.schemaParser.getParseContent,
-        getComponentByRef: this.schemaComponentMap.get,
+        getComponentByRef: this.schemaComponentsMap.get,
         parseSchema: this.schemaParser.parseSchema,
         checkAndAddNull: this.schemaParser.schemaUtils.safeAddNullToType,
         safeAddNullToType: this.schemaParser.schemaUtils.safeAddNullToType,
@@ -247,7 +225,7 @@ class CodeGenProcess {
         },
         NameResolver: NameResolver,
         _,
-        require: this.templates.requireFnFromTemplate,
+        require: this.templatesWorker.requireFnFromTemplate,
       },
       config: this.config,
     };
@@ -291,7 +269,7 @@ class CodeGenProcess {
           return this.createOutputFileInfo(
             configuration,
             extraTemplate.name,
-            this.templates.renderTemplate(this.fileSystem.getFileContent(extraTemplate.path), configuration),
+            this.templatesWorker.renderTemplate(this.fileSystem.getFileContent(extraTemplate.path), configuration),
           );
         }),
       );
@@ -307,7 +285,7 @@ class CodeGenProcess {
 
     if (routes.$outOfModule) {
       if (generateRouteTypes) {
-        const outOfModuleRouteContent = this.templates.renderTemplate(templatesToRender.routeTypes, {
+        const outOfModuleRouteContent = this.templatesWorker.renderTemplate(templatesToRender.routeTypes, {
           ...configuration,
           route: configuration.routes.$outOfModule,
         });
@@ -317,7 +295,7 @@ class CodeGenProcess {
         );
       }
       if (generateClient) {
-        const outOfModuleApiContent = this.templates.renderTemplate(templatesToRender.api, {
+        const outOfModuleApiContent = this.templatesWorker.renderTemplate(templatesToRender.api, {
           ...configuration,
           route: configuration.routes.$outOfModule,
         });
@@ -334,7 +312,7 @@ class CodeGenProcess {
           routes.combined,
           (apiFileInfos, route) => {
             if (generateRouteTypes) {
-              const routeModuleContent = this.templates.renderTemplate(templatesToRender.routeTypes, {
+              const routeModuleContent = this.templatesWorker.renderTemplate(templatesToRender.routeTypes, {
                 ...configuration,
                 route,
               });
@@ -345,7 +323,7 @@ class CodeGenProcess {
             }
 
             if (generateClient) {
-              const apiModuleContent = this.templates.renderTemplate(templatesToRender.api, {
+              const apiModuleContent = this.templatesWorker.renderTemplate(templatesToRender.api, {
                 ...configuration,
                 route,
               });
@@ -366,13 +344,13 @@ class CodeGenProcess {
       this.createOutputFileInfo(
         configuration,
         fileNames.dataContracts,
-        this.templates.renderTemplate(templatesToRender.dataContracts, configuration),
+        this.templatesWorker.renderTemplate(templatesToRender.dataContracts, configuration),
       ),
       generateClient &&
         this.createOutputFileInfo(
           configuration,
           fileNames.httpClient,
-          this.templates.renderTemplate(templatesToRender.httpClient, configuration),
+          this.templatesWorker.renderTemplate(templatesToRender.httpClient, configuration),
         ),
       ...modularApiFileInfos,
     ];
@@ -386,10 +364,10 @@ class CodeGenProcess {
         configuration,
         configuration.fileName,
         _.compact([
-          this.templates.renderTemplate(templatesToRender.dataContracts, configuration),
-          generateRouteTypes && this.templates.renderTemplate(templatesToRender.routeTypes, configuration),
-          generateClient && this.templates.renderTemplate(templatesToRender.httpClient, configuration),
-          generateClient && this.templates.renderTemplate(templatesToRender.api, configuration),
+          this.templatesWorker.renderTemplate(templatesToRender.dataContracts, configuration),
+          generateRouteTypes && this.templatesWorker.renderTemplate(templatesToRender.routeTypes, configuration),
+          generateClient && this.templatesWorker.renderTemplate(templatesToRender.httpClient, configuration),
+          generateClient && this.templatesWorker.renderTemplate(templatesToRender.api, configuration),
         ]).join("\n"),
       ),
     ];

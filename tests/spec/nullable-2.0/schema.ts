@@ -17,8 +17,8 @@ export type MyObject = {
 export interface TestObject {
   stringMaybeUndefined?: string;
   stringMaybeNullA?: string | null;
-  stringMaybeNullB?: null;
-  stringMaybeNullAndUndefined?: null;
+  stringMaybeNullB?: string | null;
+  stringMaybeNullAndUndefined?: string | null;
   otherObjectMaybeUndefined?: OtherObject;
   otherObjectMaybeNullA?: OtherObject | null;
   otherObjectMaybeNullB?: OtherObject | null;

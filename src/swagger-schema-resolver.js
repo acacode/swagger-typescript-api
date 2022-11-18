@@ -21,7 +21,7 @@ class SwaggerSchemaResolver {
    */
   request;
 
-  constructor(config, logger, fileSystem) {
+  constructor({ config, logger, fileSystem }) {
     this.config = config;
     this.logger = logger;
     this.fileSystem = fileSystem;
@@ -99,10 +99,14 @@ class SwaggerSchemaResolver {
     });
   }
 
+  getSwaggerSchemaByPath = (pathToSwagger) => {
+    this.logger.log(`try to get swagger by path "${pathToSwagger}"`);
+    return this.fileSystem.getFileContent(pathToSwagger);
+  };
+
   async fetchSwaggerSchemaFile(pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy, authToken) {
     if (this.fileSystem.pathIsExist(pathToSwagger)) {
-      this.logger.log(`try to get swagger by path "${pathToSwagger}"`);
-      return this.fileSystem.getFileContent(pathToSwagger);
+      return this.getSwaggerSchemaByPath(pathToSwagger);
     } else {
       this.logger.log(`try to get swagger by URL "${urlToSwagger}"`);
       return await this.request.download({

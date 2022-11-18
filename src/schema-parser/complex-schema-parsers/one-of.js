@@ -1,6 +1,7 @@
 const { MonoSchemaParser } = require("../mono-schema-parser");
 const _ = require("lodash");
 
+// T1 | T2
 class OneOfSchemaParser extends MonoSchemaParser {
   parse() {
     const ignoreTypes = [this.config.Ts.Keyword.Any];

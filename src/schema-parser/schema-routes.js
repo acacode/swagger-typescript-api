@@ -39,15 +39,15 @@ class SchemaRoutes {
   /**
    * @type {SchemaComponentsMap}
    */
-  schemaComponentMap;
+  schemaComponentsMap;
   /**
    * @type {Logger}
    */
   logger;
   /**
-   * @type {Templates}
+   * @type {TemplatesWorker}
    */
-  templates;
+  templatesWorker;
 
   FORM_DATA_TYPES = [];
 
@@ -56,14 +56,14 @@ class SchemaRoutes {
   hasQueryRoutes = false;
   hasFormDataRoutes = false;
 
-  constructor(config, schemaParser, schemaComponentMap, logger, templates, typeNameFormatter) {
+  constructor({ config, schemaParser, schemaComponentsMap, logger, templatesWorker, typeNameFormatter }) {
     this.config = config;
     this.schemaParser = schemaParser;
     this.schemaUtils = this.schemaParser.schemaUtils;
     this.typeNameFormatter = typeNameFormatter;
-    this.schemaComponentMap = schemaComponentMap;
+    this.schemaComponentsMap = schemaComponentsMap;
     this.logger = logger;
-    this.templates = templates;
+    this.templatesWorker = templatesWorker;
 
     this.FORM_DATA_TYPES = _.uniq([
       this.schemaUtils.getSchemaType({ type: "string", format: "file" }),
@@ -513,7 +513,7 @@ class SchemaRoutes {
     }
 
     if (schema && !schema.$ref && this.config.extractRequestBody) {
-      schema = this.schemaComponentMap.createComponent("schemas", typeName, { ...schema });
+      schema = this.schemaComponentsMap.createComponent("schemas", typeName, { ...schema });
       type = this.schemaParser.getInlineParseContent(schema, null, [operationId]);
     }
 
@@ -585,7 +585,7 @@ class SchemaRoutes {
         this.config.extractingOptions.requestParamsNameResolver,
       );
 
-      return this.schemaComponentMap.createComponent("schemas", typeName, { ...schema });
+      return this.schemaComponentsMap.createComponent("schemas", typeName, { ...schema });
     }
 
     return schema;
@@ -605,7 +605,7 @@ class SchemaRoutes {
 
       if (successResponse.schema && !successResponse.schema.$ref) {
         const schema = this.getSchemaFromRequestType(successResponse.schema);
-        successResponse.schema = this.schemaComponentMap.createComponent("schemas", typeName, { ...schema });
+        successResponse.schema = this.schemaComponentsMap.createComponent("schemas", typeName, { ...schema });
         successResponse.type = this.schemaParser.getInlineParseContent(successResponse.schema, null, [
           routeInfo.operationId,
         ]);
@@ -647,7 +647,7 @@ class SchemaRoutes {
         null,
         [routeInfo.operationId],
       );
-      const component = this.schemaComponentMap.createComponent("schemas", typeName, { ...schema });
+      const component = this.schemaComponentsMap.createComponent("schemas", typeName, { ...schema });
       responseBodyInfo.error.schemas = [component];
       responseBodyInfo.error.type = this.typeNameFormatter.format(component.typeName);
     }
@@ -658,7 +658,7 @@ class SchemaRoutes {
     const { routeNameDuplicatesMap, templatesToRender } = this.config;
     const routeNameTemplate = templatesToRender.routeName;
 
-    const routeNameFromTemplate = this.templates.renderTemplate(routeNameTemplate, {
+    const routeNameFromTemplate = this.templatesWorker.renderTemplate(routeNameTemplate, {
       routeInfo: rawRouteInfo,
     });
 

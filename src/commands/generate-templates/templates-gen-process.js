@@ -31,8 +31,8 @@ class TemplatesGenProcess {
 
   constructor(config) {
     this.config = new TemplatesGenConfig(config);
-    this.logger = new Logger(this.config);
-    this.fileSystem = new FileSystem();
+    this.logger = new Logger(this);
+    this.fileSystem = new FileSystem(this);
   }
 
   /**

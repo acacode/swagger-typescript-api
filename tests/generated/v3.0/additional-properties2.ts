@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-export type Primitive = null;
+export type Primitive = string | number | boolean | null | (string & number & boolean & null);
 
 export type PrimitiveMap = Record<string, Primitive>;
 

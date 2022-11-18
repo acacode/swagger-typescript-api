@@ -8,7 +8,7 @@ class CodeFormatter {
    */
   config;
 
-  constructor(config) {
+  constructor({ config }) {
     this.config = config;
   }
 

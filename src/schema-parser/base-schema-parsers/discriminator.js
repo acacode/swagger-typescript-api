@@ -7,7 +7,9 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
   parse() {
     const { discriminator, ...noDiscriminatorSchema } = this.schema;
 
-    if (this.typeName == null || !discriminator.mapping)
+    // TODO: disable for now
+    if (!!this)
+      // if (this.typeName == null || !discriminator.mapping)
       return this.schemaParser.parseSchema(noDiscriminatorSchema, this.typeName, this.schemaPath);
 
     const abstractSchemaStruct = this.createAbstractSchemaStruct();

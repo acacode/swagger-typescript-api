@@ -8,7 +8,7 @@ class Logger {
    */
   config;
 
-  constructor(config) {
+  constructor({ config }) {
     this.config = config;
   }
 
