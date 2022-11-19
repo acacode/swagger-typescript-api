@@ -133,3 +133,35 @@ export enum TNPNameSpaceAddSuperDuperTNS {
   EKP_NEW_EKS = "NEW",
   EKP_PENDING_EKS = "PENDING",
 }
+
+/**
+ * Issues assigned to you / created by you / mentioning you / you're
+ * subscribed to updates for / All issues the authenticated user can see
+ * @default "all"
+ */
+export enum TNPObjectObjectFilterTNS {
+  EKPAssignedEKS = "assigned",
+  EKPCreatedEKS = "created",
+  EKPMentionedEKS = "mentioned",
+  EKPSubscribedEKS = "subscribed",
+  EKPAllEKS = "all",
+}
+
+/** @default "open" */
+export enum TNPObjectObjectStateTNS {
+  EKPOpenEKS = "open",
+  EKPClosedEKS = "closed",
+}
+
+/** @default "created" */
+export enum TNPObjectObjectSortTNS {
+  EKPCreatedEKS = "created",
+  EKPUpdatedEKS = "updated",
+  EKPCommentsEKS = "comments",
+}
+
+/** @default "desc" */
+export enum TNPObjectObjectDirectionTNS {
+  EKPAscEKS = "asc",
+  EKPDescEKS = "desc",
+}

@@ -12,15 +12,11 @@ class EnumSchemaParser extends MonoSchemaParser {
         pathTypeName,
         pascalCase(`${pathTypeName} Enum`),
       ]);
-      const schemaComponent = this.schemaComponentsMap.createComponent("schemas", generatedTypeName, {
+      const customComponent = this.schemaComponentsMap.createComponent("schemas", generatedTypeName, {
         ...this.schema,
       });
       return this.schemaParserFabric
-        .createSchemaParser({
-          schema: schemaComponent,
-          typeName: generatedTypeName,
-          schemaPath: this.schemaPath,
-        })
+        .createSchemaParser({ schema: customComponent, typeName: generatedTypeName })
         .parseSchema();
     }
 

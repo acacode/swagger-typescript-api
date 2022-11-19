@@ -31,6 +31,93 @@
         },
         "operationId": "NameSpace_AddSuperDuper"
       }
+    },
+    "/orgs/{org}/issues": {
+      "get": {
+        "description": "List issues.\nList all issues for a given organization for the authenticated user.\n",
+        "parameters": [
+          {
+            "default": "all",
+            "description": "Issues assigned to you / created by you / mentioning you / you're\nsubscribed to updates for / All issues the authenticated user can see\n",
+            "enum": ["assigned", "created", "mentioned", "subscribed", "all"],
+            "in": "query",
+            "name": "filter",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "default": "open",
+            "enum": ["open", "closed"],
+            "in": "query",
+            "name": "state",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "default": "created",
+            "enum": ["created", "updated", "comments"],
+            "in": "query",
+            "name": "sort",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "default": "desc",
+            "enum": ["asc", "desc"],
+            "in": "query",
+            "name": "direction",
+            "required": true,
+            "type": "string"
+          },
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-GitHub-Media-Type": {
+                "description": "You can check the current version of media type in responses.\n",
+                "type": "string"
+              },
+              "X-GitHub-Request-Id": {
+                "type": "integer"
+              },
+              "X-RateLimit-Limit": {
+                "type": "integer"
+              },
+              "X-RateLimit-Remaining": {
+                "type": "integer"
+              },
+              "X-RateLimit-Reset": {
+                "type": "integer"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/issues"
+            }
+          },
+          "403": {
+            "description": "API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting\nfor details.\n",
+            "headers": {
+              "X-GitHub-Media-Type": {
+                "description": "You can check the current version of media type in responses.\n",
+                "type": "string"
+              },
+              "X-GitHub-Request-Id": {
+                "type": "integer"
+              },
+              "X-RateLimit-Limit": {
+                "type": "integer"
+              },
+              "X-RateLimit-Remaining": {
+                "type": "integer"
+              },
+              "X-RateLimit-Reset": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {

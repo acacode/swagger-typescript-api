@@ -789,13 +789,13 @@ class SchemaRoutes {
     }
 
     const queryType = routeParams.query.length
-      ? this.schemaParserFabric.getInlineParseContent(queryObjectSchema, null, [operationId])
+      ? this.schemaParserFabric.getInlineParseContent(queryObjectSchema, null, [routeName])
       : null;
     const pathType = routeParams.path.length
-      ? this.schemaParserFabric.getInlineParseContent(pathObjectSchema, null, [operationId])
+      ? this.schemaParserFabric.getInlineParseContent(pathObjectSchema, null, [routeName])
       : null;
     const headersType = routeParams.header.length
-      ? this.schemaParserFabric.getInlineParseContent(headersObjectSchema, null, [operationId])
+      ? this.schemaParserFabric.getInlineParseContent(headersObjectSchema, null, [routeName])
       : null;
 
     const nameResolver = new SpecificArgNameResolver(this.logger, pathArgsNames);
@@ -804,7 +804,7 @@ class SchemaRoutes {
       query: queryType
         ? {
             name: nameResolver.resolve(RESERVED_QUERY_ARG_NAMES),
-            optional: this.schemaParserFabric.parseSchema(queryObjectSchema, null, [operationId]).allFieldsAreOptional,
+            optional: this.schemaParserFabric.parseSchema(queryObjectSchema, null, [routeName]).allFieldsAreOptional,
             type: queryType,
           }
         : void 0,
@@ -818,15 +818,14 @@ class SchemaRoutes {
       pathParams: pathType
         ? {
             name: nameResolver.resolve(RESERVED_PATH_ARG_NAMES),
-            optional: this.schemaParserFabric.parseSchema(pathObjectSchema, null, [operationId]).allFieldsAreOptional,
+            optional: this.schemaParserFabric.parseSchema(pathObjectSchema, null, [routeName]).allFieldsAreOptional,
             type: pathType,
           }
         : void 0,
       headers: headersType
         ? {
             name: nameResolver.resolve(RESERVED_HEADER_ARG_NAMES),
-            optional: this.schemaParserFabric.parseSchema(headersObjectSchema, null, [operationId])
-              .allFieldsAreOptional,
+            optional: this.schemaParserFabric.parseSchema(headersObjectSchema, null, [routeName]).allFieldsAreOptional,
             type: headersType,
           }
         : void 0,

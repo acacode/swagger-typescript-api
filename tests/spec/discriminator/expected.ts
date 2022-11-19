@@ -19,6 +19,24 @@ export interface ComplexObject {
   objectType: string;
 }
 
+export enum BlockDTOEnum {
+  Csv = "csv",
+  File = "file",
+  Kek = "kek",
+}
+
+export type BlockDTOWithEnum = AbstractBlockDtoWithEnum & (CsvBlockWithEnumDTO | FileBlockWithEnumDTO);
+
+export type CsvBlockWithEnumDTO = AbstractBlockDtoWithEnum & {
+  type: BlockDTOEnum.Csv;
+  text: string;
+};
+
+export type FileBlockWithEnumDTO = AbstractBlockDtoWithEnum & {
+  type: BlockDTOEnum.File;
+  fileId: string;
+};
+
 export type BlockDTO = AbstractBlockDto & (CsvBlockDTO | FileBlockDTO);
 
 export type CsvBlockDTO = AbstractBlockDto & {
@@ -52,6 +70,36 @@ export type Lizard = AbstractPet & {
   lovesRocks?: boolean;
 };
 
+export enum PetEnum {
+  Dog = "dog",
+  Lizard = "lizard",
+  Cat = "cat",
+}
+
+export type PetWithEnum = AbstractPetWithEnum &
+  (
+    | AbstractPetWithEnumPetTypeMapping<PetEnum.Dog, DogWithEnum>
+    | AbstractPetWithEnumPetTypeMapping<PetEnum.Cat, CatWithEnum>
+    | AbstractPetWithEnumPetTypeMapping<PetEnum.Lizard, LizardWithEnum>
+  );
+
+export type CatWithEnum = AbstractPetWithEnum & {
+  name?: string;
+};
+
+export type DogWithEnum = AbstractPetWithEnum & {
+  bark?: string;
+};
+
+export type LizardWithEnum = AbstractPetWithEnum & {
+  lovesRocks?: boolean;
+};
+
+interface AbstractBlockDtoWithEnum {
+  title: string;
+  type: BlockDTOEnum;
+}
+
 interface AbstractBlockDto {
   title: string;
 }
@@ -61,5 +109,13 @@ interface AbstractPet {
 }
 
 type AbstractPetPetTypeMapping<Key, Type> = {
+  pet_type: Key;
+} & Type;
+
+interface AbstractPetWithEnum {
+  pet_type: PetEnum;
+}
+
+type AbstractPetWithEnumPetTypeMapping<Key, Type> = {
   pet_type: Key;
 } & Type;

@@ -239,6 +239,8 @@ class CodeGenConfig {
      * [key: $A1]: $A2
      */
     InterfaceDynamicField: (key, value) => `[key: ${key}]: ${value}`,
+
+    EnumUsageKey: (enumStruct, key) => `${enumStruct}.${key}`,
     /**
      * $A1 = $A2
      */

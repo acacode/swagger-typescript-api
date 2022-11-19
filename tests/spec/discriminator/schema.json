@@ -54,6 +54,94 @@
         }
       }
     },
+    "BlockDTOEnum": {
+      "enum": ["csv", "file", "kek"]
+    },
+    "BlockDTOWithEnum": {
+      "required": [
+        "title",
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "nullable": false
+        },
+        "type": {
+          "$ref": "#/components/schemas/BlockDTOEnum"
+        }
+      },
+      "discriminator": {
+        "propertyName": "type",
+        "mapping": {
+          "csv": "#/components/schemas/CsvBlockWithEnumDTO",
+          "file": "#/components/schemas/FileBlockWithEnumDTO"
+        }
+      },
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/CsvBlockWithEnumDTO"
+        },
+        {
+          "$ref": "#/components/schemas/FileBlockWithEnumDTO"
+        }
+      ]
+    },
+    "CsvBlockWithEnumDTO": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/BlockDTOWithEnum"
+        },
+        {
+          "required": [
+            "text",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "default": "csv",
+              "enum": [
+                "csv"
+              ]
+            },
+            "text": {
+              "type": "string",
+              "nullable": false
+            }
+          }
+        }
+      ]
+    },
+    "FileBlockWithEnumDTO": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/BlockDTOWithEnum"
+        },
+        {
+          "required": [
+            "fileId",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "default": "file",
+              "enum": [
+                "file"
+              ]
+            },
+            "fileId": {
+              "type": "string",
+              "nullable": false
+            }
+          }
+        }
+      ]
+    },
     "BlockDTO": {
       "required": [
         "title"
@@ -188,6 +276,73 @@
       "allOf": [
         {
           "$ref": "#/components/schemas/Pet"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "lovesRocks": {
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    },
+    "PetEnum": {
+      "enum": ["dog", "lizard", "cat"]
+    },
+    "PetWithEnum": {
+      "type": "object",
+      "required": [
+        "pet_type"
+      ],
+      "properties": {
+        "pet_type": {
+          "$ref": "#/components/schemas/PetEnum"
+        }
+      },
+      "discriminator": {
+        "propertyName": "pet_type",
+        "mapping": {
+          "dog": "#/components/schemas/DogWithEnum",
+          "cat": "#/components/schemas/CatWithEnum",
+          "lizard": "#/components/schemas/LizardWithEnum"
+        }
+      }
+    },
+    "CatWithEnum": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/PetWithEnum"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "DogWithEnum": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/PetWithEnum"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "bark": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "LizardWithEnum": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/PetWithEnum"
         },
         {
           "type": "object",

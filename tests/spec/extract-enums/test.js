@@ -15,6 +15,8 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
     output: resolve(__dirname, "./"),
     extractEnums: true,
     generateClient: false,
+    // extractRequestBody: true,
+    // extractResponseBody: true,
     fixInvalidEnumKeyPrefix: "InvalidKey",
     enumKeyPrefix: "EKP",
     enumKeySuffix: "EKS",

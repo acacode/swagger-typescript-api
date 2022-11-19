@@ -42,6 +42,29 @@ class SchemaParserFabric {
 
   /**
    *
+   * @param content schema content
+   * @param linkedSchema link content to attached schema
+   * @param linkedComponent link content and other schema props to attached component
+   * @param schemaPath
+   * @param otherSchemaProps
+   * @returns {{}}
+   */
+  createSchema = ({ content, linkedSchema = {}, linkedComponent, schemaPath, ...otherSchemaProps }) => {
+    const parser = this.createSchemaParser({
+      schema: linkedComponent || linkedSchema,
+      schemaPath,
+    });
+    const parsed = parser.parseSchema();
+    parsed.content = content;
+    Object.assign(parsed, otherSchemaProps);
+    if (linkedComponent) {
+      linkedComponent.typeData = parsed;
+    }
+    return parser.schema;
+  };
+
+  /**
+   *
    * @param schema {any}
    * @param typeName {null | string}
    * @param [schemaPath] {string[]}
