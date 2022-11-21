@@ -533,10 +533,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     randomGif: (
       query?: {
-        /** Filters results by specified tag. */
-        tag?: string;
         /** Filters results by specified rating. */
         rating?: string;
+        /** Filters results by specified tag. */
+        tag?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -567,8 +567,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     searchGifs: (
       query: {
-        /** Search query term or prhase. */
-        q: string;
+        /** Specify default language for regional content; use a 2-letter ISO 639-1 language code. */
+        lang?: string;
         /**
          * The maximum number of records to return.
          * @format int32
@@ -581,10 +581,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * @default 0
          */
         offset?: number;
+        /** Search query term or prhase. */
+        q: string;
         /** Filters results by specified rating. */
         rating?: string;
-        /** Specify default language for regional content; use a 2-letter ISO 639-1 language code. */
-        lang?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -721,10 +721,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     randomSticker: (
       query?: {
-        /** Filters results by specified tag. */
-        tag?: string;
         /** Filters results by specified rating. */
         rating?: string;
+        /** Filters results by specified tag. */
+        tag?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -755,8 +755,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     searchStickers: (
       query: {
-        /** Search query term or prhase. */
-        q: string;
+        /** Specify default language for regional content; use a 2-letter ISO 639-1 language code. */
+        lang?: string;
         /**
          * The maximum number of records to return.
          * @format int32
@@ -769,10 +769,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * @default 0
          */
         offset?: number;
+        /** Search query term or prhase. */
+        q: string;
         /** Filters results by specified rating. */
         rating?: string;
-        /** Specify default language for regional content; use a 2-letter ISO 639-1 language code. */
-        lang?: string;
       },
       params: RequestParams = {},
     ) =>

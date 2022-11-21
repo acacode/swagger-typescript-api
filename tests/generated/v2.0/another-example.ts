@@ -750,10 +750,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     loginUser: (
       query: {
-        /** The user name for login */
-        username: string;
         /** The password for login in clear text */
         password: string;
+        /** The user name for login */
+        username: string;
       },
       params: RequestParams = {},
     ) =>

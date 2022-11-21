@@ -256,13 +256,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     findPets: (
       query?: {
-        /** tags to filter by */
-        tags?: string[];
         /**
          * maximum number of results to return
          * @format int32
          */
         limit?: number;
+        /** tags to filter by */
+        tags?: string[];
       },
       params: RequestParams = {},
     ) =>

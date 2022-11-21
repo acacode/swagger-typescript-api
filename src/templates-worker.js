@@ -33,7 +33,7 @@ class TemplatesWorker {
     const defaultTemplatesPath = resolve(__dirname, "../templates/default");
     const modularTemplatesPath = resolve(__dirname, "../templates/modular");
     const originalTemplatesPath = modular ? modularTemplatesPath : defaultTemplatesPath;
-    const customTemplatesPath = templates ? resolve(process.cwd(), templates) : originalTemplatesPath;
+    const customTemplatesPath = (templates && resolve(process.cwd(), templates)) || null;
 
     return {
       /** `templates/base` */
@@ -78,7 +78,7 @@ class TemplatesWorker {
 
     if (!fileName) return "";
 
-    const customFullPath = this.getTemplateFullPath(templatePaths.custom, fileName);
+    const customFullPath = templatePaths.custom && this.getTemplateFullPath(templatePaths.custom, fileName);
     let fileContent = customFullPath && this.fileSystem.getFileContent(customFullPath);
 
     if (fileContent) {
@@ -91,10 +91,14 @@ class TemplatesWorker {
     if (baseFullPath) {
       fileContent = this.fileSystem.getFileContent(baseFullPath);
     } else {
-      this.logger.warn(
-        `"${_.lowerCase(name)}" template not found in "${templatePaths.custom}"`,
-        `\nCode generator will use the default template`,
-      );
+      if (templatePaths.custom) {
+        this.logger.warn(
+          `"${_.lowerCase(name)}" template not found in "${templatePaths.custom}"`,
+          `\nCode generator will use the default template`,
+        );
+      } else {
+        this.logger.log(`Code generator will use the default template for "${_.lowerCase(name)}"`);
+      }
     }
 
     const originalFullPath = this.getTemplateFullPath(templatePaths.original, fileName);
@@ -107,7 +111,9 @@ class TemplatesWorker {
   };
 
   getTemplates = ({ templatePaths }) => {
-    this.logger.log(`try to read templates from directory "${templatePaths.custom}"`);
+    if (templatePaths.custom) {
+      this.logger.log(`try to read templates from directory "${templatePaths.custom}"`);
+    }
 
     return _.reduce(
       this.config.templateInfos,
@@ -137,7 +143,8 @@ class TemplatesWorker {
       return this.fileSystem.getFileContent(fixedPath);
     }
 
-    const customPath = this.findTemplateWithExt(resolve(this.config.templatePaths.custom, path));
+    const customPath =
+      this.config.templatePaths.custom && this.findTemplateWithExt(resolve(this.config.templatePaths.custom, path));
 
     if (customPath) {
       return this.fileSystem.getFileContent(customPath);

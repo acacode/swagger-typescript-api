@@ -63,7 +63,7 @@ class SchemaFormatters {
                 ..._.map(parsedSchema.content, ({ value }) => `${value}`),
                 parsedSchema.nullable && this.config.Ts.Keyword.Null,
               ]),
-            ),
+            ) || this.config.Ts.Keyword.Any,
       };
     },
     [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
@@ -82,7 +82,7 @@ class SchemaFormatters {
           parsedSchema,
           parsedSchema.content.length
             ? this.config.Ts.ObjectWrapper(this.formatObjectContent(parsedSchema.content))
-            : this.config.Ts.RecordType(Ts.Keyword.String, this.config.Ts.Keyword.Any),
+            : this.config.Ts.RecordType(this.config.Ts.Keyword.String, this.config.Ts.Keyword.Any),
         ),
       };
     },

@@ -352,16 +352,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     priceList: (
       query: {
         /**
-         * Latitude component of start location.
-         * @format double
-         */
-        start_latitude: number;
-        /**
-         * Longitude component of start location.
-         * @format double
-         */
-        start_longitude: number;
-        /**
          * Latitude component of end location.
          * @format double
          */
@@ -371,6 +361,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * @format double
          */
         end_longitude: number;
+        /**
+         * Latitude component of start location.
+         * @format double
+         */
+        start_latitude: number;
+        /**
+         * Longitude component of start location.
+         * @format double
+         */
+        start_longitude: number;
       },
       params: RequestParams = {},
     ) =>
@@ -393,6 +393,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     timeList: (
       query: {
         /**
+         * Unique customer identifier to be used for experience customization.
+         * @format uuid
+         */
+        customer_uuid?: string;
+        /** Unique identifier representing a specific product for a given latitude & longitude. */
+        product_id?: string;
+        /**
          * Latitude component of start location.
          * @format double
          */
@@ -402,13 +409,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * @format double
          */
         start_longitude: number;
-        /**
-         * Unique customer identifier to be used for experience customization.
-         * @format uuid
-         */
-        customer_uuid?: string;
-        /** Unique identifier representing a specific product for a given latitude & longitude. */
-        product_id?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -449,15 +449,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     historyList: (
       query?: {
         /**
-         * Offset the list of returned results by this amount. Default is zero.
-         * @format int32
-         */
-        offset?: number;
-        /**
          * Number of items to retrieve. Default is 5, maximum is 100.
          * @format int32
          */
         limit?: number;
+        /**
+         * Offset the list of returned results by this amount. Default is zero.
+         * @format int32
+         */
+        offset?: number;
       },
       params: RequestParams = {},
     ) =>

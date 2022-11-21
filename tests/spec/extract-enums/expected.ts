@@ -94,6 +94,8 @@ export interface TNPSuperDuperStructDTOTNS {
   state: TNPSuperDuperStructDtoStateTNS;
 }
 
+export type TNPNullableEnumTNS = null;
+
 export enum TNPTreeModeTNS {
   EKPInvalidKey100644EKS = "100644",
   EKPInvalidKey100755EKS = "100755",

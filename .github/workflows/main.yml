@@ -2,7 +2,7 @@
 
 name: Run tests
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   pull_request:
@@ -34,4 +34,4 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: test
-        run: npm run test-all-extended
+        run: npm run test-all

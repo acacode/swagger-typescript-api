@@ -10,8 +10,8 @@
  */
 
 export type Cat = Pet & {
-  hunts?: boolean;
   age?: number;
+  hunts?: boolean;
 };
 
 export type Dog = Pet & {

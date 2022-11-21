@@ -68,12 +68,16 @@ class TypeNameFormatter {
    * @return {string}
    */
   fixModelName = (name, options) => {
+    const { type } = options || {};
+
+    if (type === "enum-key") {
+      name = name.replace("+", "Plus").replace("-", "Minus");
+    }
+
     if (!this.isValidName(name)) {
       if (!/^[a-zA-Z_$]/g.test(name)) {
         const fixPrefix =
-          options && options.type === "enum-key"
-            ? this.config.fixInvalidEnumKeyPrefix
-            : this.config.fixInvalidTypeNamePrefix;
+          type === "enum-key" ? this.config.fixInvalidEnumKeyPrefix : this.config.fixInvalidTypeNamePrefix;
         name = `${fixPrefix} ${name}`;
       }
 

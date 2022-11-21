@@ -525,7 +525,10 @@ class SchemaRoutes {
     }
 
     if (schema && !schema.$ref && this.config.extractRequestBody) {
-      schema = this.schemaComponentsMap.createComponent("schemas", typeName, { ...schema });
+      schema = this.schemaComponentsMap.createComponent(
+        this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
+        { ...schema },
+      );
       type = this.schemaParserFabric.getInlineParseContent(schema, null, [operationId]);
     }
 
@@ -597,7 +600,10 @@ class SchemaRoutes {
         this.config.extractingOptions.requestParamsNameResolver,
       );
 
-      return this.schemaComponentsMap.createComponent("schemas", typeName, { ...schema });
+      return this.schemaComponentsMap.createComponent(
+        this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
+        { ...schema },
+      );
     }
 
     return schema;
@@ -617,7 +623,10 @@ class SchemaRoutes {
 
       if (successResponse.schema && !successResponse.schema.$ref) {
         const schema = this.getSchemaFromRequestType(successResponse.schema);
-        successResponse.schema = this.schemaComponentsMap.createComponent("schemas", typeName, { ...schema });
+        successResponse.schema = this.schemaComponentsMap.createComponent(
+          this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
+          { ...schema },
+        );
         successResponse.type = this.schemaParserFabric.getInlineParseContent(successResponse.schema, null, [
           routeInfo.operationId,
         ]);
@@ -659,7 +668,10 @@ class SchemaRoutes {
         null,
         [routeInfo.operationId],
       );
-      const component = this.schemaComponentsMap.createComponent("schemas", typeName, { ...schema });
+      const component = this.schemaComponentsMap.createComponent(
+        this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
+        { ...schema },
+      );
       responseBodyInfo.error.schemas = [component];
       responseBodyInfo.error.type = this.typeNameFormatter.format(component.typeName);
     }

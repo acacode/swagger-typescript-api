@@ -222,6 +222,11 @@
         "id",
         "state"
       ]
+    },
+    "nullableEnum": {
+      "type": "number",
+      "enum": [null],
+      "nullable": true
     }
   },
   "externalDocs": {

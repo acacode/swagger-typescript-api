@@ -15,6 +15,7 @@ const { AllOfSchemaParser } = require("./complex-schema-parsers/all-of");
 const { AnyOfSchemaParser } = require("./complex-schema-parsers/any-of");
 const { NotSchemaParser } = require("./complex-schema-parsers/not");
 const { ArraySchemaParser } = require("./base-schema-parsers/array");
+const { sortByProperty } = require("../util/sort-by-property");
 
 class SchemaParser {
   /** @type {SchemaParserFabric} */
@@ -120,9 +121,21 @@ class SchemaParser {
         this.typeName = this.schemaUtils.getSchemaType(this.schema);
       }
 
+      /**
+       * swagger schemas fixes
+       * ---->
+       */
       if (this.schema.items && !Array.isArray(this.schema.items) && !this.schema.type) {
         this.schema.type = SCHEMA_TYPES.ARRAY;
       }
+      if (Array.isArray(this.schema.enum) && this.schema.enum.length === 1 && this.schema.enum[0] == null) {
+        this.logger.debug("invalid enum schema", this.schema);
+        this.schema = { type: this.config.Ts.Keyword.Null };
+      }
+      /**
+       * <----
+       */
+
       schemaType = this.schemaUtils.getInternalSchemaType(this.schema);
 
       this.schemaPath.push(this.typeName);
@@ -130,6 +143,10 @@ class SchemaParser {
       _.merge(this.schema, this.config.hooks.onPreParseSchema(this.schema, this.typeName, schemaType));
       parsedSchema = this._baseSchemaParsers[schemaType](this.schema, this.typeName);
       this.schema.$parsed = this.config.hooks.onParseSchema(this.schema, parsedSchema) || parsedSchema;
+
+      if (this.config.sortTypes && Array.isArray(this.schema.$parsed?.content)) {
+        this.schema.$parsed.content = this.schema.$parsed.content.sort(sortByProperty("name"));
+      }
     }
 
     this.schemaPath.pop();

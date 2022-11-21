@@ -49,7 +49,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
   }
 
   createDiscriminatorSchema = ({ skipMappingType, abstractSchemaStruct }) => {
-    const refPath = this.schemaComponentsMap.createRef("schemas", this.typeName);
+    const refPath = this.schemaComponentsMap.createRef(["components", "schemas", this.typeName]);
     const { discriminator } = this.schema;
     const mappingEntries = _.entries(discriminator.mapping);
     const ableToCreateMappingType = !skipMappingType && !!(abstractSchemaStruct?.typeName && mappingEntries.length);
@@ -71,7 +71,9 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
         pascalCase(`${abstractSchemaStruct.typeName} MapType`),
       ]);
       this.schemaParserFabric.createSchema({
-        linkedComponent: this.schemaComponentsMap.createComponent("schemas", mappingTypeName),
+        linkedComponent: this.schemaComponentsMap.createComponent(
+          this.schemaComponentsMap.createRef(["components", "schemas", mappingTypeName]),
+        ),
         content: this.config.Ts.IntersectionType([
           this.config.Ts.ObjectWrapper(this.config.Ts.TypeField({ key: discriminator.propertyName, value: "Key" })),
           "Type",
@@ -209,10 +211,13 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
       pascalCase(`Internal ${this.typeName}`),
       pascalCase(`Polymorph ${this.typeName}`),
     ]);
-    const component = this.schemaComponentsMap.createComponent("schemas", typeName, {
-      ...schema,
-      internal: true,
-    });
+    const component = this.schemaComponentsMap.createComponent(
+      this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
+      {
+        ...schema,
+        internal: true,
+      },
+    );
     const content = this.schemaParserFabric
       .createSchemaParser({ schema: component, schemaPath: this.schemaPath })
       .getInlineParseContent();

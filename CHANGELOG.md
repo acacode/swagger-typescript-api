@@ -1,6 +1,11 @@
 # next release  
 
 BREAKING_CHANGE: change swagger-typescript-api NodeJS "generateApi" function return type  
+internal: remove redundant internal scripts  
+fix: critical bugs based with extract types and enums  
+fix: sort types option (sort was not correctly work with nested or extracted types)  
+internal: change process with using custom templates  
+BREAKING_CHANGE: remove `rawModelTypes` from output api configuration  
 
 ```diff
 interface GenerateApiOutput {

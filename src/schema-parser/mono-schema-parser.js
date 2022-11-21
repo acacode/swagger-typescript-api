@@ -5,6 +5,8 @@ class MonoSchemaParser {
   typeName;
   schemaPath;
 
+  /** @type {Logger} */
+  logger;
   /** @type {SchemaParser} */
   schemaParser;
   /** @type {SchemaParserFabric} */
@@ -23,6 +25,7 @@ class MonoSchemaParser {
   constructor(schemaParser, schema, typeName = null, schemaPath = []) {
     this.schemaParser = schemaParser;
     this.schemaParserFabric = schemaParser.schemaParserFabric;
+    this.logger = schemaParser.logger;
     this.schema = schema;
     this.typeName = typeName;
     this.typeNameFormatter = schemaParser.typeNameFormatter;

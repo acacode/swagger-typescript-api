@@ -12,8 +12,6 @@
 /** Provides information about an Up bank account. */
 export interface AccountResource {
   attributes: {
-    /** The name associated with the account in the Up application. */
-    displayName: string;
     /** The bank account type of this account. */
     accountType: AccountTypeEnum;
     /**
@@ -26,6 +24,8 @@ export interface AccountResource {
      * @format date-time
      */
     createdAt: string;
+    /** The name associated with the account in the Up application. */
+    displayName: string;
   };
   /** The unique identifier for this account. */
   id: string;
@@ -81,25 +81,25 @@ export interface CategoryResource {
     self: string;
   };
   relationships: {
-    parent: {
+    children: {
       data: {
-        /** The type of this resource: `categories` */
-        type: string;
         /** The unique identifier of the resource within its type. */
         id: string;
-      } | null;
+        /** The type of this resource: `categories` */
+        type: string;
+      }[];
       links?: {
         /** The link to retrieve the related resource(s) in this relationship. */
         related: string;
       };
     };
-    children: {
+    parent: {
       data: {
-        /** The type of this resource: `categories` */
-        type: string;
         /** The unique identifier of the resource within its type. */
         id: string;
-      }[];
+        /** The type of this resource: `categories` */
+        type: string;
+      } | null;
       links?: {
         /** The link to retrieve the related resource(s) in this relationship. */
         related: string;
@@ -222,15 +222,15 @@ export interface ListAccountsResponse {
   data: AccountResource[];
   links: {
     /**
-     * The link to the previous page in the results. If this value is `null`
-     * there is no previous page.
-     */
-    prev: string | null;
-    /**
      * The link to the next page in the results. If this value is `null`
      * there is no next page.
      */
     next: string | null;
+    /**
+     * The link to the previous page in the results. If this value is `null`
+     * there is no previous page.
+     */
+    prev: string | null;
   };
 }
 
@@ -253,15 +253,15 @@ export interface ListTagsResponse {
   data: TagResource[];
   links: {
     /**
-     * The link to the previous page in the results. If this value is `null`
-     * there is no previous page.
-     */
-    prev: string | null;
-    /**
      * The link to the next page in the results. If this value is `null`
      * there is no next page.
      */
     next: string | null;
+    /**
+     * The link to the previous page in the results. If this value is `null`
+     * there is no previous page.
+     */
+    prev: string | null;
   };
 }
 
@@ -275,15 +275,15 @@ export interface ListTransactionsResponse {
   data: TransactionResource[];
   links: {
     /**
-     * The link to the previous page in the results. If this value is `null`
-     * there is no previous page.
-     */
-    prev: string | null;
-    /**
      * The link to the next page in the results. If this value is `null`
      * there is no next page.
      */
     next: string | null;
+    /**
+     * The link to the previous page in the results. If this value is `null`
+     * there is no previous page.
+     */
+    prev: string | null;
   };
 }
 
@@ -297,15 +297,15 @@ export interface ListWebhookDeliveryLogsResponse {
   data: WebhookDeliveryLogResource[];
   links: {
     /**
-     * The link to the previous page in the results. If this value is `null`
-     * there is no previous page.
-     */
-    prev: string | null;
-    /**
      * The link to the next page in the results. If this value is `null`
      * there is no next page.
      */
     next: string | null;
+    /**
+     * The link to the previous page in the results. If this value is `null`
+     * there is no previous page.
+     */
+    prev: string | null;
   };
 }
 
@@ -319,15 +319,15 @@ export interface ListWebhooksResponse {
   data: WebhookResource[];
   links: {
     /**
-     * The link to the previous page in the results. If this value is `null`
-     * there is no previous page.
-     */
-    prev: string | null;
-    /**
      * The link to the next page in the results. If this value is `null`
      * there is no next page.
      */
     next: string | null;
+    /**
+     * The link to the previous page in the results. If this value is `null`
+     * there is no previous page.
+     */
+    prev: string | null;
   };
 }
 
@@ -412,49 +412,27 @@ export interface TagResource {
 export interface TransactionResource {
   attributes: {
     /**
-     * The current processing status of this transaction, according to
-     * whether or not this transaction has settled or is still held.
-     */
-    status: TransactionStatusEnum;
-    /**
-     * The original, unprocessed text of the transaction. This is often not
-     * a perfect indicator of the actual merchant, but it is useful for
-     * reconciliation purposes in some cases.
-     */
-    rawText: string | null;
-    /**
-     * A short description for this transaction. Usually the merchant name
-     * for purchases.
-     */
-    description: string;
-    /**
-     * Attached message for this transaction, such as a payment message, or a
-     * transfer note.
-     */
-    message: string | null;
-    /**
-     * If this transaction is currently in the `HELD` status, or was ever in
-     * the `HELD` status, the `amount` and `foreignAmount` of the
-     * transaction while `HELD`.
-     */
-    holdInfo: HoldInfoObject | null;
-    /**
-     * Details of how this transaction was rounded-up. If no Round Up was
-     * applied this field will be `null`.
-     */
-    roundUp: RoundUpObject | null;
-    /**
-     * If all or part of this transaction was instantly reimbursed in the
-     * form of cashback, details of the reimbursement.
-     */
-    cashback: CashbackObject | null;
-    /**
      * The amount of this transaction in Australian dollars. For
      * transactions that were once `HELD` but are now `SETTLED`, refer to
      * the `holdInfo` field for the original `amount` the transaction was
      * `HELD` at.
      */
     amount: MoneyObject;
+    /**
+     * If all or part of this transaction was instantly reimbursed in the
+     * form of cashback, details of the reimbursement.
+     */
+    cashback: CashbackObject | null;
+    /**
+     * The date-time at which this transaction was first encountered.
+     * @format date-time
+     */
+    createdAt: string;
+    /**
+     * A short description for this transaction. Usually the merchant name
+     * for purchases.
+     */
+    description: string;
     /**
      * The foreign currency amount of this transaction. This field will be
      * `null` for domestic transactions. The amount was converted to the AUD
@@ -464,16 +442,38 @@ export interface TransactionResource {
      */
     foreignAmount: MoneyObject | null;
     /**
+     * If this transaction is currently in the `HELD` status, or was ever in
+     * the `HELD` status, the `amount` and `foreignAmount` of the
+     * transaction while `HELD`.
+     */
+    holdInfo: HoldInfoObject | null;
+    /**
+     * Attached message for this transaction, such as a payment message, or a
+     * transfer note.
+     */
+    message: string | null;
+    /**
+     * The original, unprocessed text of the transaction. This is often not
+     * a perfect indicator of the actual merchant, but it is useful for
+     * reconciliation purposes in some cases.
+     */
+    rawText: string | null;
+    /**
+     * Details of how this transaction was rounded-up. If no Round Up was
+     * applied this field will be `null`.
+     */
+    roundUp: RoundUpObject | null;
+    /**
      * The date-time at which this transaction settled. This field will be
      * `null` for transactions that are currently in the `HELD` status.
      * @format date-time
      */
     settledAt: string | null;
     /**
-     * The date-time at which this transaction was first encountered.
-     * @format date-time
+     * The current processing status of this transaction, according to
+     * whether or not this transaction has settled or is still held.
      */
-    createdAt: string;
+    status: TransactionStatusEnum;
   };
   /** The unique identifier for this transaction. */
   id: string;
@@ -484,10 +484,10 @@ export interface TransactionResource {
   relationships: {
     account: {
       data: {
-        /** The type of this resource: `accounts` */
-        type: string;
         /** The unique identifier of the resource within its type. */
         id: string;
+        /** The type of this resource: `accounts` */
+        type: string;
       };
       links?: {
         /** The link to retrieve the related resource(s) in this relationship. */
@@ -496,10 +496,10 @@ export interface TransactionResource {
     };
     category: {
       data: {
-        /** The type of this resource: `categories` */
-        type: string;
         /** The unique identifier of the resource within its type. */
         id: string;
+        /** The type of this resource: `categories` */
+        type: string;
       } | null;
       links?: {
         /** The link to retrieve the related resource(s) in this relationship. */
@@ -508,10 +508,10 @@ export interface TransactionResource {
     };
     parentCategory: {
       data: {
-        /** The type of this resource: `categories` */
-        type: string;
         /** The unique identifier of the resource within its type. */
         id: string;
+        /** The type of this resource: `categories` */
+        type: string;
       } | null;
       links?: {
         /** The link to retrieve the related resource(s) in this relationship. */
@@ -520,10 +520,10 @@ export interface TransactionResource {
     };
     tags: {
       data: {
-        /** The type of this resource: `tags` */
-        type: string;
         /** The label of the tag, which also acts as the tag’s unique identifier. */
         id: string;
+        /** The type of this resource: `tags` */
+        type: string;
       }[];
       links?: {
         /**
@@ -561,6 +561,13 @@ export interface UpdateTransactionTagsRequest {
  */
 export interface WebhookDeliveryLogResource {
   attributes: {
+    /**
+     * The date-time at which this log entry was created.
+     * @format date-time
+     */
+    createdAt: string;
+    /** The success or failure status of this delivery attempt. */
+    deliveryStatus: WebhookDeliveryStatusEnum;
     /** Information about the request that was sent to the webhook URL. */
     request: {
       /** The payload that was sent in the request body. */
@@ -568,28 +575,21 @@ export interface WebhookDeliveryLogResource {
     };
     /** Information about the response that was received from the webhook URL. */
     response: {
-      /** The HTTP status code received in the response. */
-      statusCode: number;
       /** The payload that was received in the response body. */
       body: string;
+      /** The HTTP status code received in the response. */
+      statusCode: number;
     } | null;
-    /** The success or failure status of this delivery attempt. */
-    deliveryStatus: WebhookDeliveryStatusEnum;
-    /**
-     * The date-time at which this log entry was created.
-     * @format date-time
-     */
-    createdAt: string;
   };
   /** The unique identifier for this log entry. */
   id: string;
   relationships: {
     webhookEvent: {
       data: {
-        /** The type of this resource: `webhook-events` */
-        type: string;
         /** The unique identifier of the resource within its type. */
         id: string;
+        /** The type of this resource: `webhook-events` */
+        type: string;
       };
     };
   };
@@ -628,15 +628,15 @@ export interface WebhookEventCallback {
 export interface WebhookEventResource {
   attributes: {
     /**
-     * The type of this event. This can be used to determine what action to
-     * take in response to the event.
-     */
-    eventType: WebhookEventTypeEnum;
-    /**
      * The date-time at which this event was generated.
      * @format date-time
      */
     createdAt: string;
+    /**
+     * The type of this event. This can be used to determine what action to
+     * take in response to the event.
+     */
+    eventType: WebhookEventTypeEnum;
   };
   /**
    * The unique identifier for this event. This will remain constant across
@@ -644,24 +644,24 @@ export interface WebhookEventResource {
    */
   id: string;
   relationships: {
-    webhook: {
+    transaction?: {
       data: {
-        /** The type of this resource: `webhooks` */
-        type: string;
         /** The unique identifier of the resource within its type. */
         id: string;
+        /** The type of this resource: `transactions` */
+        type: string;
       };
       links?: {
         /** The link to retrieve the related resource(s) in this relationship. */
         related: string;
       };
     };
-    transaction?: {
+    webhook: {
       data: {
-        /** The type of this resource: `transactions` */
-        type: string;
         /** The unique identifier of the resource within its type. */
         id: string;
+        /** The type of this resource: `webhooks` */
+        type: string;
       };
       links?: {
         /** The link to retrieve the related resource(s) in this relationship. */
@@ -689,24 +689,27 @@ export enum WebhookEventTypeEnum {
 export interface WebhookInputResource {
   attributes: {
     /**
+     * An optional description for this webhook, up to 64 characters in
+     * length.
+     */
+    description?: string | null;
+    /**
      * The URL that this webhook should post events to. This must be a valid
      * HTTP or HTTPS URL that does not exceed 300 characters in length.
      * @format uri
      */
     url: string;
-    /**
-     * An optional description for this webhook, up to 64 characters in
-     * length.
-     */
-    description?: string | null;
   };
 }
 
 /** Provides information about a webhook. */
 export interface WebhookResource {
   attributes: {
-    /** The URL that this webhook is configured to `POST` events to. */
-    url: string;
+    /**
+     * The date-time at which this webhook was created.
+     * @format date-time
+     */
+    createdAt: string;
     /**
      * An optional description that was provided at the time the webhook was
      * created.
@@ -727,11 +730,8 @@ export interface WebhookResource {
      * details.
      */
     secretKey?: string;
-    /**
-     * The date-time at which this webhook was created.
-     * @format date-time
-     */
-    createdAt: string;
+    /** The URL that this webhook is configured to `POST` events to. */
+    url: string;
   };
   /** The unique identifier for this webhook. */
   id: string;
@@ -1033,17 +1033,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       accountId: string,
       query?: {
         /**
-         * The number of records to return in each page.
-         * @example 30
+         * The category identifier for which to filter transactions.
+         * Both parent and child categories can be filtered through
+         * this parameter. Providing an invalid category identifier
+         * results in a `404` response.
+         * @example "good-life"
          */
-        "page[size]"?: number;
-        /**
-         * The transaction status for which to return records. This
-         * can be used to filter `HELD` transactions from those
-         * that are `SETTLED`.
-         * @example "HELD"
-         */
-        "filter[status]"?: TransactionStatusEnum;
+        "filter[category]"?: string;
         /**
          * The start date-time from which to return records,
          * formatted according to rfc-3339. Not to be used for
@@ -1053,6 +1049,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         "filter[since]"?: string;
         /**
+         * The transaction status for which to return records. This
+         * can be used to filter `HELD` transactions from those
+         * that are `SETTLED`.
+         * @example "HELD"
+         */
+        "filter[status]"?: TransactionStatusEnum;
+        /**
+         * A transaction tag to filter for which to return records.
+         * If the tag does not exist, zero records are returned and
+         * a success response is given.
+         * @example "Holiday"
+         */
+        "filter[tag]"?: string;
+        /**
          * The end date-time up to which to return records,
          * formatted according to rfc-3339. Not to be used for
          * pagination purposes.
@@ -1061,20 +1071,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         "filter[until]"?: string;
         /**
-         * The category identifier for which to filter transactions.
-         * Both parent and child categories can be filtered through
-         * this parameter. Providing an invalid category identifier
-         * results in a `404` response.
-         * @example "good-life"
+         * The number of records to return in each page.
+         * @example 30
          */
-        "filter[category]"?: string;
-        /**
-         * A transaction tag to filter for which to return records.
-         * If the tag does not exist, zero records are returned and
-         * a success response is given.
-         * @example "Holiday"
-         */
-        "filter[tag]"?: string;
+        "page[size]"?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -1235,17 +1235,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     transactionsList: (
       query?: {
         /**
-         * The number of records to return in each page.
-         * @example 30
+         * The category identifier for which to filter transactions.
+         * Both parent and child categories can be filtered through
+         * this parameter. Providing an invalid category identifier
+         * results in a `404` response.
+         * @example "good-life"
          */
-        "page[size]"?: number;
-        /**
-         * The transaction status for which to return records. This
-         * can be used to filter `HELD` transactions from those
-         * that are `SETTLED`.
-         * @example "HELD"
-         */
-        "filter[status]"?: TransactionStatusEnum;
+        "filter[category]"?: string;
         /**
          * The start date-time from which to return records,
          * formatted according to rfc-3339. Not to be used for
@@ -1255,6 +1251,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         "filter[since]"?: string;
         /**
+         * The transaction status for which to return records. This
+         * can be used to filter `HELD` transactions from those
+         * that are `SETTLED`.
+         * @example "HELD"
+         */
+        "filter[status]"?: TransactionStatusEnum;
+        /**
+         * A transaction tag to filter for which to return records.
+         * If the tag does not exist, zero records are returned and
+         * a success response is given.
+         * @example "Holiday"
+         */
+        "filter[tag]"?: string;
+        /**
          * The end date-time up to which to return records,
          * formatted according to rfc-3339. Not to be used for
          * pagination purposes.
@@ -1263,22 +1273,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         "filter[until]"?: string;
         /**
-         * The category identifier for which to filter transactions.
-         * Both parent and child categories can be filtered through
-         * this parameter. Providing an invalid category identifier
-         * results in a `404` response.
-         * @example "good-life"
+         * The number of records to return in each page.
+         * @example 30
          */
-        "filter[category]"?: string;
+        "page[size]"?: number;
         /** Blablabla bla */
         someEnumName?: SomeEnumName;
-        /**
-         * A transaction tag to filter for which to return records.
-         * If the tag does not exist, zero records are returned and
-         * a success response is given.
-         * @example "Holiday"
-         */
-        "filter[tag]"?: string;
       },
       params: RequestParams = {},
     ) =>

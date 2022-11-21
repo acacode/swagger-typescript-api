@@ -398,7 +398,7 @@ export interface SchemaComponent {
     };
     $parsed: ParsedSchema<SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent>;
   };
-  componentName: string;
+  componentName: "schemas" | "paths";
   typeData: ParsedSchema<SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent> | null;
 }
 
@@ -494,6 +494,18 @@ export interface GenerateApiConfiguration {
     url: string;
     spec: any;
     fileName: string;
+    templatePaths: {
+      /** `templates/base` */
+      base: string;
+      /** `templates/default` */
+      default: string;
+      /** `templates/modular` */
+      modular: string;
+      /** usage path if `--templates` option is not set */
+      original: string;
+      /** custom path to templates (`--templates`) */
+      custom: string | null;
+    };
     authorizationToken?: string;
     generateResponses: boolean;
     defaultResponseAsSuccess: boolean;
@@ -567,7 +579,6 @@ export interface GenerateApiConfiguration {
     extractingOptions: ExtractingOptions;
   };
   modelTypes: ModelType[];
-  rawModelTypes: SchemaComponent[];
   hasFormDataRoutes: boolean;
   hasSecurityRoutes: boolean;
   hasQueryRoutes: boolean;

@@ -316,12 +316,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     keyRevokeNosecret: (
       query: {
+        /** verification code sent by email */
+        code?: string;
         /** primary email associated to Key (ID) */
         email: string;
         /** primary phone number, international representation */
         phone: string;
-        /** verification code sent by email */
-        code?: string;
       },
       params: RequestParams = {},
     ) =>

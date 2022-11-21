@@ -19,7 +19,7 @@ export type DF = string;
  * Not found response
  * @example "Not found"
  */
-export type TypeFF = string;
+export type Type404 = string;
 
 /**
  * Not found response
@@ -31,7 +31,7 @@ export type Type405 = string;
  * Not found response
  * @example "Not found"
  */
-export type Type404 = string;
+export type TypeFF = string;
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;

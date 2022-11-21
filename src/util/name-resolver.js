@@ -25,7 +25,12 @@ class NameResolver {
    * @param {string[]} names
    */
   reserve(names) {
-    this.reservedNames.push(..._.uniq(_.compact(names)));
+    const fixedNames = _.uniq(_.compact(names));
+    for (const name of fixedNames) {
+      if (this.reservedNames.indexOf(name) === -1) {
+        this.reservedNames.push(name);
+      }
+    }
   }
 
   unreserve(names) {

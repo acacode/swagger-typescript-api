@@ -43,11 +43,6 @@ export enum Kind {
 export type OmitJobId = PickJobExcludeKeysId;
 
 /** From T, pick a set of properties whose keys are in the union K */
-export interface PickJobGithub {
-  github?: string;
-}
-
-/** From T, pick a set of properties whose keys are in the union K */
 export interface PickJobExcludeKeysId {
   address?: string;
   github?: string;
@@ -56,6 +51,11 @@ export interface PickJobExcludeKeysId {
   link?: string;
   name?: string;
   npm?: string;
+}
+
+/** From T, pick a set of properties whose keys are in the union K */
+export interface PickJobGithub {
+  github?: string;
 }
 
 /** From T, pick a set of properties whose keys are in the union K */

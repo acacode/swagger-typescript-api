@@ -15,6 +15,7 @@ const ts = require("typescript");
 const { CodeFormatter } = require("./code-formatter");
 const { pascalCase } = require("./util/pascal-case");
 const { internalCase } = require("./util/internal-case");
+const { sortByProperty } = require("./util/sort-by-property");
 
 class CodeGenProcess {
   /** @type {CodeGenConfig} */
@@ -82,14 +83,23 @@ class CodeGenProcess {
 
     this.config.update(this.config.hooks.onInit(this.config) || this.config);
 
-    this.schemaComponentsMap.processSchema(swagger.usageSchema);
+    this.schemaComponentsMap.clear();
 
-    const componentSchemaNames = this.schemaComponentsMap.filter("schemas").map((c) => c.typeName);
+    _.each(swagger.usageSchema.components, (component, componentName) =>
+      _.each(component, (rawTypeData, typeName) => {
+        this.schemaComponentsMap.createComponent(
+          this.schemaComponentsMap.createRef(["components", componentName, typeName]),
+          rawTypeData,
+        );
+      }),
+    );
 
-    this.config.componentTypeNameResolver.reserve(componentSchemaNames);
+    const schemaComponents = this.schemaComponentsMap.filter("schemas");
 
-    const parsedSchemas = _.map(_.get(swagger.usageSchema.components, "schemas"), (schema, typeName) =>
-      this.schemaParserFabric.parseSchema(schema, typeName),
+    this.config.componentTypeNameResolver.reserve(schemaComponents.map((c) => c.typeName));
+
+    const parsedSchemas = schemaComponents.map((schemaComponent) =>
+      this.schemaParserFabric.parseSchema(schemaComponent.rawTypeData, schemaComponent.typeName),
     );
 
     this.schemaRoutes.attachSchema({
@@ -97,13 +107,10 @@ class CodeGenProcess {
       parsedSchemas,
     });
 
-    const usageComponentSchemas = this.schemaComponentsMap.filter("schemas");
-
     const rawConfiguration = {
       apiConfig: this.createApiConfig(swagger.usageSchema),
       config: this.config,
-      modelTypes: this.collectModelTypes(usageComponentSchemas),
-      rawModelTypes: usageComponentSchemas,
+      modelTypes: this.collectModelTypes(),
       hasSecurityRoutes: this.schemaRoutes.hasSecurityRoutes,
       hasQueryRoutes: this.schemaRoutes.hasQueryRoutes,
       hasFormDataRoutes: this.schemaRoutes.hasFormDataRoutes,
@@ -186,49 +193,32 @@ class CodeGenProcess {
     };
   };
 
-  collectModelTypes = (usageComponentSchemas) => {
-    const modelTypes = [];
+  collectModelTypes = () => {
+    const components = this.schemaComponentsMap.getComponents();
+    let modelTypes = [];
 
-    const sortByProperty = (propertyName) => (o1, o2) => {
-      if (o1[propertyName] > o2[propertyName]) {
-        return 1;
-      }
-      if (o1[propertyName] < o2[propertyName]) {
-        return -1;
-      }
-      return 0;
-    };
+    const getSchemaComponentsCount = () => components.filter((c) => c.componentName === "schemas").length;
 
-    const sortSchemas = (schemas) => {
-      if (this.config.sortTypes) {
-        return schemas.sort(sortByProperty("typeName")).map((schema) => {
-          if (schema.rawTypeData?.properties) {
-            return {
-              ...schema,
-              rawTypeData: {
-                ...schema.rawTypeData,
-                $parsed: schema.rawTypeData.$parsed && {
-                  ...schema.rawTypeData.$parsed,
-                  content: Array.isArray(schema.rawTypeData.$parsed.content)
-                    ? schema.rawTypeData.$parsed.content.sort(sortByProperty("name"))
-                    : schema.rawTypeData.$parsed.content,
-                },
-              },
-            };
+    let schemaComponentsCount = getSchemaComponentsCount();
+    let processedCount = 0;
+
+    while (processedCount < schemaComponentsCount) {
+      modelTypes = [];
+      processedCount = 0;
+      for (const component of components) {
+        if (component.componentName === "schemas") {
+          const modelType = this.prepareModelType(component);
+          if (modelType) {
+            modelTypes.push(modelType);
           }
-          return schema;
-        });
+          processedCount++;
+        }
       }
-      return schemas;
-    };
+      schemaComponentsCount = getSchemaComponentsCount();
+    }
 
-    const sortedComponents = sortSchemas(usageComponentSchemas);
-
-    for (const component of sortedComponents) {
-      const modelType = this.prepareModelType(component);
-      if (modelType) {
-        modelTypes.push(modelType);
-      }
+    if (this.config.sortTypes) {
+      return modelTypes.sort(sortByProperty("name"));
     }
 
     return modelTypes;

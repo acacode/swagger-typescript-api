@@ -15,6 +15,10 @@ const allSchemas = [
   }),
 ];
 
+if (process.env.TEST_FILE_NAME) {
+  console.warn("TEST ONLY", process.env.TEST_FILE_NAME);
+}
+
 module.exports = process.env.TEST_FILE_NAME
   ? allSchemas.filter((schema) => schema.apiFileName === process.env.TEST_FILE_NAME)
   : allSchemas;

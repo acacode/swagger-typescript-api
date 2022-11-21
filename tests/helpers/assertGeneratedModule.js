@@ -67,10 +67,10 @@ const assertGeneratedModule = (pathToModule1, pathToModule2) => {
       for (let i = 0; i < lineStructs.length; i++) {
         const lineStruct = lineStructs[i];
         if (lineStruct.deleted) {
-          const sliced = lineStructs.slice(i - 1, i + 1);
+          const sliced = lineStructs.slice(i - 5, i + 5);
           computedLines.push(...sliced);
         } else if (lineStruct.added) {
-          const sliced = lineStructs.slice(i, i + 1 + 1);
+          const sliced = lineStructs.slice(i, i + 5 + 5);
           computedLines.push(...sliced);
         }
       }

@@ -600,17 +600,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       username: string,
       query?: {
         /**
-         * Start time for filtering, returns records created after given time.
-         * @format date-time
-         */
-        start_time?: string;
-        /**
          * End time for filtering, returns records created before give time.
          * @format date-time
          */
         end_time?: string;
         /** Limit the number of records returned. */
         limit?: number;
+        /**
+         * Start time for filtering, returns records created after given time.
+         * @format date-time
+         */
+        start_time?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -637,17 +637,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       type: string,
       query?: {
         /**
-         * Start time for filtering, returns records created after given time.
-         * @format date-time
-         */
-        start_time?: string;
-        /**
          * End time for filtering, returns records created before give time.
          * @format date-time
          */
         end_time?: string;
         /** Limit the number of records returned. */
         limit?: number;
+        /**
+         * Start time for filtering, returns records created after given time.
+         * @format date-time
+         */
+        start_time?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -1103,19 +1103,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       feedKey: string,
       query?: {
         /**
-         * Start time for filtering, returns records created after given time.
-         * @format date-time
-         */
-        start_time?: string;
-        /**
          * End time for filtering, returns records created before give time.
          * @format date-time
          */
         end_time?: string;
-        /** Limit the number of records returned. */
-        limit?: number;
         /** List of Data record fields to include in response as comma separated list. Acceptable values are: `value`, `lat`, `lon`, `ele`, `id`, and `created_at`.  */
         include?: string;
+        /** Limit the number of records returned. */
+        limit?: number;
+        /**
+         * Start time for filtering, returns records created after given time.
+         * @format date-time
+         */
+        start_time?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -1195,25 +1195,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       feedKey: string,
       query?: {
         /**
-         * Start time for filtering, returns records created after given time.
-         * @format date-time
-         */
-        start_time?: string;
-        /**
          * End time for filtering, returns records created before give time.
          * @format date-time
          */
         end_time?: string;
+        /**
+         * The number of hours the chart should cover.
+         * @format int32
+         */
+        hours?: number;
         /**
          * A resolution size in minutes. By giving a resolution value you will get back grouped data points aggregated over resolution-sized intervals. NOTE: time span is preferred over resolution, so if you request a span of time that includes more than max limit points you may get a larger resolution than you requested. Valid resolutions are 1, 5, 10, 30, 60, and 120.
          * @format int32
          */
         resolution?: number;
         /**
-         * The number of hours the chart should cover.
-         * @format int32
+         * Start time for filtering, returns records created after given time.
+         * @format date-time
          */
-        hours?: number;
+        start_time?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -1762,17 +1762,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       feedKey: string,
       query?: {
         /**
-         * Start time for filtering data. Returns data created after given time.
-         * @format date-time
-         */
-        start_time?: string;
-        /**
          * End time for filtering data. Returns data created before give time.
          * @format date-time
          */
         end_time?: string;
         /** Limit the number of records returned. */
         limit?: number;
+        /**
+         * Start time for filtering data. Returns data created after given time.
+         * @format date-time
+         */
+        start_time?: string;
       },
       params: RequestParams = {},
     ) =>

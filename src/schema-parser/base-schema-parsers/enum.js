@@ -12,30 +12,34 @@ class EnumSchemaParser extends MonoSchemaParser {
         pathTypeName,
         pascalCase(`${pathTypeName} Enum`),
       ]);
-      const customComponent = this.schemaComponentsMap.createComponent("schemas", generatedTypeName, {
-        ...this.schema,
-      });
-      return this.schemaParserFabric
-        .createSchemaParser({ schema: customComponent, typeName: generatedTypeName })
-        .parseSchema();
+      const customComponent = this.schemaComponentsMap.createComponent(
+        this.schemaComponentsMap.createRef(["components", "schemas", generatedTypeName]),
+        {
+          ...this.schema,
+        },
+      );
+      return this.schemaParserFabric.parseSchema(customComponent, generatedTypeName);
     }
 
     const refType = this.schemaUtils.getSchemaRefType(this.schema);
     const $ref = (refType && refType.$ref) || null;
 
+    // fix schema when enum has length 1+ but value is []
+    if (Array.isArray(this.schema.enum)) {
+      this.schema.enum = this.schema.enum.filter((key) => key != null);
+    }
+
     if (Array.isArray(this.schema.enum) && Array.isArray(this.schema.enum[0])) {
-      return this.schemaParserFabric
-        .createSchemaParser({
-          schema: {
-            oneOf: this.schema.enum.map((enumNames) => ({
-              type: "array",
-              items: enumNames.map((enumName) => ({ type: "string", enum: [enumName] })),
-            })),
-          },
-          typeName: this.typeName,
-          schemaPath: this.schemaPath,
-        })
-        .parseSchema();
+      return this.schemaParserFabric.parseSchema(
+        {
+          oneOf: this.schema.enum.map((enumNames) => ({
+            type: "array",
+            items: enumNames.map((enumName) => ({ type: "string", enum: [enumName] })),
+          })),
+        },
+        this.typeName,
+        this.schemaPath,
+      );
     }
 
     const keyType = this.schemaUtils.getSchemaType(this.schema);
@@ -59,14 +63,7 @@ class EnumSchemaParser extends MonoSchemaParser {
     if (_.isArray(enumNames) && _.size(enumNames)) {
       content = _.map(enumNames, (enumName, index) => {
         const enumValue = _.get(this.schema.enum, index);
-        const formattedKey =
-          (enumName &&
-            this.typeNameFormatter.format(enumName, {
-              type: "enum-key",
-            })) ||
-          this.typeNameFormatter.format(`${enumValue}`, {
-            type: "enum-key",
-          });
+        const formattedKey = this.formatEnumKey({ key: enumName, value: enumValue });
 
         if (this.config.enumNamesAsValues || _.isUndefined(enumValue)) {
           return {
@@ -83,13 +80,11 @@ class EnumSchemaParser extends MonoSchemaParser {
         };
       });
     } else {
-      content = _.map(this.schema.enum, (key) => {
+      content = _.map(this.schema.enum, (value) => {
         return {
-          key: this.typeNameFormatter.format(`${key}`, {
-            type: "enum-key",
-          }),
+          key: this.formatEnumKey({ value }),
           type: keyType,
-          value: formatValue(key),
+          value: formatValue(value),
         };
       });
     }
@@ -108,6 +103,23 @@ class EnumSchemaParser extends MonoSchemaParser {
       content,
     };
   }
+
+  formatEnumKey = ({ key, value }) => {
+    let formatted;
+
+    if (key) {
+      formatted = this.typeNameFormatter.format(key, {
+        type: "enum-key",
+      });
+    }
+
+    return (
+      formatted ||
+      this.typeNameFormatter.format(`${value}`, {
+        type: "enum-key",
+      })
+    );
+  };
 }
 
 module.exports = {
