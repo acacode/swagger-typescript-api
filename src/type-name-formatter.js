@@ -70,10 +70,6 @@ class TypeNameFormatter {
   fixModelName = (name, options) => {
     const { type } = options || {};
 
-    if (type === "enum-key") {
-      name = name.replace("+", "Plus").replace("-", "Minus");
-    }
-
     if (!this.isValidName(name)) {
       if (!/^[a-zA-Z_$]/g.test(name)) {
         const fixPrefix =

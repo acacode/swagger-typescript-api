@@ -2,8 +2,17 @@ const { MonoSchemaParser } = require("../mono-schema-parser");
 const { pascalCase } = require("../../util/pascal-case");
 const _ = require("lodash");
 const { SCHEMA_TYPES } = require("../../constants");
+const { EnumKeyResolver } = require("../util/enum-key-resolver");
 
 class EnumSchemaParser extends MonoSchemaParser {
+  /** @type {EnumKeyResolver} */
+  enumKeyResolver;
+
+  constructor(...args) {
+    super(...args);
+    this.enumKeyResolver = new EnumKeyResolver(this.config, this.logger, []);
+  }
+
   parse() {
     const pathTypeName = this.buildTypeNameFromPath();
 
@@ -113,12 +122,13 @@ class EnumSchemaParser extends MonoSchemaParser {
       });
     }
 
-    return (
-      formatted ||
-      this.typeNameFormatter.format(`${value}`, {
+    if (!formatted) {
+      formatted = this.typeNameFormatter.format(`${value}`, {
         type: "enum-key",
-      })
-    );
+      });
+    }
+
+    return this.enumKeyResolver.resolve([formatted]);
   };
 }
 

@@ -199,6 +199,12 @@ interface GenerateApiParamsBase {
    * ```
    */
   customTranslator?: new () => typeof import("./src/translators/translator").Translator;
+  /** fallback name for enum key resolver */
+  enumKeyResolverName?: string;
+  /** fallback name for type name resolver */
+  typeNameResolverName?: string;
+  /** fallback name for specific arg name resolver */
+  specificArgNameResolverName?: string;
 }
 
 type CodeGenConstruct = {
@@ -549,12 +555,15 @@ export interface GenerateApiConfiguration {
     enumNamesAsValues: boolean;
     version: string;
     compilerTsConfig: Record<string, any>;
+    enumKeyResolverName: string;
+    typeNameResolverName: string;
+    specificArgNameResolverName: string;
     /** do not use constructor args, it can break functionality of this property, just send class reference */
     customTranslator?: new (...args: never[]) => typeof import("./src/translators/translator").Translator;
     internalTemplateOptions: {
       addUtilRequiredKeysType: boolean;
     };
-    componentTypeNameResolver: typeof import("./src/util/name-resolver").ComponentTypeNameResolver;
+    componentTypeNameResolver: typeof import("./src/component-type-name-resolver").ComponentTypeNameResolver;
     fileNames: {
       dataContracts: string;
       routeTypes: string;

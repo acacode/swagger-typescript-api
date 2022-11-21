@@ -28,12 +28,17 @@ class TemplatesWorker {
     this.getRenderTemplateData = getRenderTemplateData;
   }
 
-  getTemplatePaths = ({ templates, modular }) => {
+  /**
+   *
+   * @param config {CodeGenConfig}
+   * @returns {CodeGenConfig.templatePaths}
+   */
+  getTemplatePaths = (config) => {
     const baseTemplatesPath = resolve(__dirname, "../templates/base");
     const defaultTemplatesPath = resolve(__dirname, "../templates/default");
     const modularTemplatesPath = resolve(__dirname, "../templates/modular");
-    const originalTemplatesPath = modular ? modularTemplatesPath : defaultTemplatesPath;
-    const customTemplatesPath = (templates && resolve(process.cwd(), templates)) || null;
+    const originalTemplatesPath = config.modular ? modularTemplatesPath : defaultTemplatesPath;
+    const customTemplatesPath = (config.templates && resolve(process.cwd(), config.templates)) || null;
 
     return {
       /** `templates/base` */
@@ -63,7 +68,10 @@ class TemplatesWorker {
     const isPath = _.startsWith(packageOrPath, "./") || _.startsWith(packageOrPath, "../");
 
     if (isPath) {
-      return require(path.resolve(this.config.templates, packageOrPath));
+      return require(path.resolve(
+        this.config.templatePaths.custom || this.config.templatePaths.original,
+        packageOrPath,
+      ));
     }
 
     return require(packageOrPath);

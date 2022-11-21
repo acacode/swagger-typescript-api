@@ -1,7 +1,7 @@
 const { objectAssign } = require("./util/object-assign");
 const _ = require("lodash");
 const CONSTANTS = require("./constants");
-const { ComponentTypeNameResolver } = require("./util/name-resolver");
+const { ComponentTypeNameResolver } = require("./component-type-name-resolver");
 const { cosmiconfigSync } = require("cosmiconfig");
 const ts = require("typescript");
 
@@ -36,7 +36,7 @@ const TsCodeGenKeyword = {
 class CodeGenConfig {
   version = CONSTANTS.PROJECT_VERSION;
   /** CLI flag */
-  templates = "../templates/default";
+  templates = "";
   /** CLI flag */
   generateResponses = false;
   /** CLI flag */
@@ -135,7 +135,8 @@ class CodeGenConfig {
   enumKeyPrefix = "";
   enumKeySuffix = "";
   patch = false;
-  componentTypeNameResolver = new ComponentTypeNameResolver(null, []);
+  /** @type {ComponentTypeNameResolver} */
+  componentTypeNameResolver;
   /** name of the main exported class */
   apiClassName = "Api";
   debug = false;
@@ -158,6 +159,10 @@ class CodeGenConfig {
   jsEmptyTypes = [];
   fixInvalidTypeNamePrefix = "Type";
   fixInvalidEnumKeyPrefix = "Value";
+
+  enumKeyResolverName = "Value";
+  typeNameResolverName = "ComponentType";
+  specificArgNameResolverName = "arg";
 
   successResponseStatusRange = [200, 299];
 
@@ -360,6 +365,7 @@ class CodeGenConfig {
 
     this.jsPrimitiveTypes = [this.Ts.Keyword.Number, this.Ts.Keyword.String, this.Ts.Keyword.Boolean];
     this.jsEmptyTypes = [this.Ts.Keyword.Null, this.Ts.Keyword.Undefined];
+    this.componentTypeNameResolver = new ComponentTypeNameResolver(this, null, []);
   }
 
   /**

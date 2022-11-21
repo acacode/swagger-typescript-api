@@ -1,21 +1,21 @@
 const _ = require("lodash");
-const { getRandomInt } = require("./random.js");
-const { pascalCase } = require("./pascal-case");
 
 class NameResolver {
   reservedNames = [];
   getFallbackName = null;
 
-  /**
-   * @type {Logger}
-   */
+  /** @type {CodeGenConfig} */
+  config;
+  /** @type {Logger} */
   logger;
 
   /**
+   * @param {CodeGenConfig} config;
    * @param {Logger} logger;
    * @param {string[]} reservedNames
    */
-  constructor(logger, reservedNames, getFallbackName) {
+  constructor(config, logger, reservedNames, getFallbackName) {
+    this.config = config;
     this.logger = logger;
     this.getFallbackName = getFallbackName;
     this.reserve(reservedNames);
@@ -48,7 +48,6 @@ class NameResolver {
    * @returns {string | null}
    */
   resolve(variants, resolver) {
-    this.logger.debug("resolving name with using", variants);
     if (typeof resolver === "function") {
       let usageName = null;
       while (usageName === null) {
@@ -89,42 +88,6 @@ class NameResolver {
   }
 }
 
-class SpecificArgNameResolver extends NameResolver {
-  counter = 1;
-  /**
-   * @param {Logger} logger;
-   * @param {string[]} reservedNames
-   */
-  constructor(logger, reservedNames) {
-    super(logger, reservedNames, (variants) => {
-      const generatedVariant = (variants[0] && `${variants[0]}${this.counter++}`) || `arg${this.counter++}`;
-      this.logger.debug("generated fallback type name for specific arg - ", generatedVariant);
-      return generatedVariant;
-    });
-  }
-}
-
-class ComponentTypeNameResolver extends NameResolver {
-  counter = 1;
-  fallbackNameCounter = 1;
-
-  /**
-   * @param {Logger} logger;
-   * @param {string[]} reservedNames
-   */
-  constructor(logger, reservedNames) {
-    super(logger, reservedNames, (variants) => {
-      const randomVariant = variants[getRandomInt(0, variants.length - 1)];
-      const generatedVariant = pascalCase(
-        (randomVariant && `${randomVariant}${this.counter++}`) || `ComponentType${this.fallbackNameCounter++}`,
-      );
-      this.logger.debug("generated fallback type name for component - ", generatedVariant);
-      return generatedVariant;
-    });
-  }
-}
-
 module.exports = {
-  SpecificArgNameResolver,
-  ComponentTypeNameResolver,
+  NameResolver,
 };

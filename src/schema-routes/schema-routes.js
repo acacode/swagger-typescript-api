@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const { generateId } = require("../util/id.js");
-const { SpecificArgNameResolver } = require("../util/name-resolver.js");
+const { SpecificArgNameResolver } = require("./util/specific-arg-name-resolver");
 const {
   DEFAULT_BODY_ARG_NAME,
   RESERVED_BODY_ARG_NAMES,
@@ -810,7 +810,7 @@ class SchemaRoutes {
       ? this.schemaParserFabric.getInlineParseContent(headersObjectSchema, null, [routeName])
       : null;
 
-    const nameResolver = new SpecificArgNameResolver(this.logger, pathArgsNames);
+    const nameResolver = new SpecificArgNameResolver(this.config, this.logger, pathArgsNames);
 
     const specificArgs = {
       query: queryType
