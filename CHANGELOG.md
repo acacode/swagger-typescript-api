@@ -4,6 +4,8 @@ BREAKING_CHANGE: change swagger-typescript-api NodeJS "generateApi" function ret
 internal: remove redundant internal scripts  
 fix: critical bugs based with extract types and enums  
 fix: sort types option (sort was not correctly work with nested or extracted types)  
+fix: problems based with extracting enums;
+feat: ability to sort routes;
 internal: change process with using custom templates  
 BREAKING_CHANGE: remove `rawModelTypes` from output api configuration  
 

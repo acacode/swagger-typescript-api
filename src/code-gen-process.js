@@ -17,6 +17,18 @@ const { pascalCase } = require("./util/pascal-case");
 const { internalCase } = require("./util/internal-case");
 const { sortByProperty } = require("./util/sort-by-property");
 
+const PATCHABLE_INSTANCES = [
+  "schemaWalker",
+  "swaggerSchemaResolver",
+  "schemaComponentsMap",
+  "typeNameFormatter",
+  "templatesWorker",
+  "codeFormatter",
+  "schemaParserFabric",
+  "schemaRoutes",
+  "javascriptTranslator",
+];
+
 class CodeGenProcess {
   /** @type {CodeGenConfig} */
   config;
@@ -50,8 +62,8 @@ class CodeGenProcess {
   constructor(config) {
     this.config = new CodeGenConfig(config);
     this.logger = new Logger(this);
-    this.schemaWalker = new SchemaWalker(this);
     this.fileSystem = new FileSystem(this);
+    this.schemaWalker = new SchemaWalker(this);
     this.swaggerSchemaResolver = new SwaggerSchemaResolver(this);
     this.schemaComponentsMap = new SchemaComponentsMap(this);
     this.typeNameFormatter = new TypeNameFormatter(this);
@@ -81,7 +93,7 @@ class CodeGenProcess {
 
     this.logger.event("start generating your typescript api");
 
-    this.config.update(this.config.hooks.onInit(this.config) || this.config);
+    this.config.update(this.config.hooks.onInit(this.config, this) || this.config);
 
     this.schemaComponentsMap.clear();
 
@@ -96,11 +108,11 @@ class CodeGenProcess {
 
     const schemaComponents = this.schemaComponentsMap.filter("schemas");
 
-    this.config.componentTypeNameResolver.reserve(schemaComponents.map((c) => c.typeName));
-
-    const parsedSchemas = schemaComponents.map((schemaComponent) =>
-      this.schemaParserFabric.parseSchema(schemaComponent.rawTypeData, schemaComponent.typeName),
-    );
+    const parsedSchemas = schemaComponents.map((schemaComponent) => {
+      const parsed = this.schemaParserFabric.parseSchema(schemaComponent.rawTypeData, schemaComponent.typeName);
+      schemaComponent.typeData = parsed;
+      return parsed;
+    });
 
     this.schemaRoutes.attachSchema({
       usageSchema: swagger.usageSchema,
@@ -225,6 +237,8 @@ class CodeGenProcess {
   };
 
   prepareModelType = (typeInfo) => {
+    if (typeInfo.$prepared) return typeInfo.$prepared;
+
     if (!typeInfo.typeData) {
       typeInfo.typeData = this.schemaParserFabric.parseSchema(typeInfo.rawTypeData, typeInfo.typeName);
     }
@@ -237,7 +251,7 @@ class CodeGenProcess {
 
     if (name === null) return null;
 
-    return {
+    const preparedModelType = {
       ...typeData,
       typeIdentifier,
       name,
@@ -247,6 +261,10 @@ class CodeGenProcess {
       content: content,
       typeData,
     };
+
+    typeInfo.$prepared = preparedModelType;
+
+    return preparedModelType;
   };
 
   /**
@@ -387,32 +405,20 @@ class CodeGenProcess {
 
     if (configuration.translateToJavaScript) {
       this.logger.debug("using js translator for", fileName);
-      const translatedOutput = this.javascriptTranslator.translate({
+      return this.javascriptTranslator.translate({
         fileName: fileName,
         fileExtension: fileExtension,
         fileContent: content,
       });
-
-      translatedOutput.forEach((output) => {
-        this.logger.debug("generating output for", `${output.fileName}${output.fileExtension}`);
-      });
-
-      return translatedOutput;
     }
 
     if (configuration.customTranslator) {
       this.logger.debug("using custom translator for", fileName);
-      const translatedOutput = configuration.customTranslator.translate({
+      return configuration.customTranslator.translate({
         fileName: fileName,
         fileExtension: fileExtension,
         fileContent: content,
       });
-
-      translatedOutput.forEach((output) => {
-        this.logger.debug("generating output for", `${output.fileName}${output.fileExtension}`);
-      });
-
-      return translatedOutput;
     }
 
     this.logger.debug("generating output for", `${fileName}${fileExtension}`);
@@ -449,6 +455,15 @@ class CodeGenProcess {
       title,
       version,
     };
+  };
+
+  injectClassInstance = (key, value) => {
+    this[key] = value;
+    PATCHABLE_INSTANCES.forEach((instanceKey) => {
+      if (instanceKey !== key && key in this[instanceKey]) {
+        this[instanceKey][key] = value;
+      }
+    });
   };
 }
 

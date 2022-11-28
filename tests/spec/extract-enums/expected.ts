@@ -21,10 +21,10 @@ export enum TNPEnumRootTNS {
 
 export interface TNPTreeTNS {
   tree?: {
-    mode?: TNPTreeModeTNS;
-    "mode-num"?: TNPTreeModeNumTNS;
-    type?: TNPTreeTypeTNS;
-    bereke?: TNPTreeBerekeTNS;
+    mode?: TNPTreeModeEnumTNS;
+    "mode-num"?: TNPTreeModeNumEnumTNS;
+    type?: TNPTreeTypeEnumTNS;
+    bereke?: TNPTreeBerekeEnumTNS;
   }[];
 }
 
@@ -91,12 +91,15 @@ export interface TNPSuperDuperStructDTOTNS {
   /** @example "100" */
   id: number;
   /** @example "APPROVED" */
-  state: TNPSuperDuperStructDtoStateTNS;
+  state: TNPSuperDuperStructDtoStateEnumTNS;
 }
 
 export type TNPNullableEnumTNS = null;
 
-export enum TNPTreeModeTNS {
+/** **Required when the state is dismissed.** The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`. */
+export type TNPCodeScanningAlertDismissedReasonTNS = TNPCodeScanningAlertDismissedReasonEnumTNS | null;
+
+export enum TNPTreeModeEnumTNS {
   EKPInvalidKey100644EKS = "100644",
   EKPInvalidKey100755EKS = "100755",
   EKPInvalidKey040000EKS = "040000",
@@ -104,7 +107,7 @@ export enum TNPTreeModeTNS {
   EKPInvalidKey120000EKS = "120000",
 }
 
-export enum TNPTreeModeNumTNS {
+export enum TNPTreeModeNumEnumTNS {
   EKPInvalidKey100644EKS = 100644,
   EKPInvalidKey100755EKS = 100755,
   EKPInvalidKey40000EKS = 40000,
@@ -112,26 +115,32 @@ export enum TNPTreeModeNumTNS {
   EKPInvalidKey120000EKS = 120000,
 }
 
-export enum TNPTreeTypeTNS {
+export enum TNPTreeTypeEnumTNS {
   EKPBlobEKS = "blob",
   EKPTreeEKS = "tree",
   EKPCommitEKS = "commit",
 }
 
-export enum TNPTreeBerekeTNS {
+export enum TNPTreeBerekeEnumTNS {
   EKPBlaEKS = "Bla",
   EKPBlablaEKS = "Blabla",
   EKPBoilerEKS = "Boiler",
 }
 
 /** @example "APPROVED" */
-export enum TNPSuperDuperStructDtoStateTNS {
+export enum TNPSuperDuperStructDtoStateEnumTNS {
   EKP_NEW_EKS = "NEW",
   EKP_PENDING_EKS = "PENDING",
 }
 
+export enum TNPCodeScanningAlertDismissedReasonEnumTNS {
+  EKPFalsePositiveEKS = "false positive",
+  EKPWontFixEKS = "won't fix",
+  EKPUsedInTestsEKS = "used in tests",
+}
+
 /** @example "APPROVED" */
-export enum TNPNameSpaceAddSuperDuperTNS {
+export enum TNPNameSpaceAddSuperDuperEnumTNS {
   EKP_NEW_EKS = "NEW",
   EKP_PENDING_EKS = "PENDING",
 }
@@ -141,7 +150,7 @@ export enum TNPNameSpaceAddSuperDuperTNS {
  * subscribed to updates for / All issues the authenticated user can see
  * @default "all"
  */
-export enum TNPObjectObjectFilterTNS {
+export enum TNPIssuesDetailFilterEnumTNS {
   EKPAssignedEKS = "assigned",
   EKPCreatedEKS = "created",
   EKPMentionedEKS = "mentioned",
@@ -150,20 +159,20 @@ export enum TNPObjectObjectFilterTNS {
 }
 
 /** @default "open" */
-export enum TNPObjectObjectStateTNS {
+export enum TNPIssuesDetailStateEnumTNS {
   EKPOpenEKS = "open",
   EKPClosedEKS = "closed",
 }
 
 /** @default "created" */
-export enum TNPObjectObjectSortTNS {
+export enum TNPIssuesDetailSortEnumTNS {
   EKPCreatedEKS = "created",
   EKPUpdatedEKS = "updated",
   EKPCommentsEKS = "comments",
 }
 
 /** @default "desc" */
-export enum TNPObjectObjectDirectionTNS {
+export enum TNPIssuesDetailDirectionEnumTNS {
   EKPAscEKS = "asc",
   EKPDescEKS = "desc",
 }

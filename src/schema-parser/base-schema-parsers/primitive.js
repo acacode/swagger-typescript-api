@@ -35,6 +35,7 @@ class PrimitiveSchemaParser extends MonoSchemaParser {
 
     return {
       ...(_.isObject(this.schema) ? this.schema : {}),
+      $schemaPath: this.schemaPath.slice(),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.PRIMITIVE,
       type: SCHEMA_TYPES.PRIMITIVE,

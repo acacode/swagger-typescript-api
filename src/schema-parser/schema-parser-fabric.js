@@ -63,6 +63,19 @@ class SchemaParserFabric {
     return parser.schema;
   };
 
+  createParsedComponent = ({ typeName, schema, schemaPath }) => {
+    const schemaCopy = _.cloneDeep(schema);
+    const customComponent = this.schemaComponentsMap.createComponent(
+      this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
+      schemaCopy,
+    );
+    const parsed = this.parseSchema(schemaCopy, null, schemaPath);
+    parsed.name = typeName;
+    customComponent.typeData = parsed;
+
+    return customComponent;
+  };
+
   /**
    *
    * @param schema {any}

@@ -8,6 +8,7 @@ class ObjectSchemaParser extends MonoSchemaParser {
 
     return {
       ...(_.isObject(this.schema) ? this.schema : {}),
+      $schemaPath: this.schemaPath.slice(),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.OBJECT,
       type: SCHEMA_TYPES.OBJECT,
@@ -23,18 +24,14 @@ class ObjectSchemaParser extends MonoSchemaParser {
     const { properties, additionalProperties } = schema || {};
 
     const propertiesContent = _.map(properties, (property, name) => {
-      this.schemaPath.push(name);
-
       const required = this.schemaUtils.isPropertyRequired(name, property, schema);
       const rawTypeData = _.get(this.schemaUtils.getSchemaRefType(property), "rawTypeData", {});
       const nullable = !!(rawTypeData.nullable || property.nullable);
       const fieldName = this.typeNameFormatter.isValidName(name) ? name : this.config.Ts.StringValue(name);
       const fieldValue = this.schemaParserFabric
-        .createSchemaParser({ schema: property, schemaPath: this.schemaPath })
+        .createSchemaParser({ schema: property, schemaPath: [...this.schemaPath, name] })
         .getInlineParseContent();
       const readOnly = property.readOnly;
-
-      this.schemaPath.pop();
 
       return {
         ...property,

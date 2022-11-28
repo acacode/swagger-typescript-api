@@ -90,7 +90,7 @@ class CodeGenConfig {
     onPreParseSchema: (originalSchema, typeName, schemaType) => void 0,
     onParseSchema: (originalSchema, parsedSchema) => parsedSchema,
     onCreateRoute: (routeData) => routeData,
-    onInit: (config) => config,
+    onInit: (config, codeGenProcess) => config,
     onPrepareConfig: (apiConfig) => apiConfig,
     onCreateRequestParams: (rawType) => {},
     onCreateRouteName: () => {},
@@ -103,6 +103,7 @@ class CodeGenConfig {
   unwrapResponseData = false;
   disableThrowOnError = false;
   sortTypes = false;
+  sortRoutes = false;
   templatePaths = {
     /** `templates/base` */
     base: "",
@@ -172,6 +173,9 @@ class CodeGenConfig {
     requestParamsSuffix: ["Params"],
     responseBodySuffix: ["Data", "Result", "Output"],
     responseErrorSuffix: ["Error", "Fail", "Fails", "ErrorData", "HttpError", "BadResponse"],
+    enumSuffix: ["Enum"],
+    discriminatorMappingSuffix: ["Mapping", "Mapper", "MapType"],
+    discriminatorAbstractPrefix: ["Abstract", "Discriminator", "Internal", "Polymorph"],
   };
 
   compilerTsConfig = {

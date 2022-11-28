@@ -13,21 +13,25 @@ class EnumSchemaParser extends MonoSchemaParser {
     this.enumKeyResolver = new EnumKeyResolver(this.config, this.logger, []);
   }
 
+  extractEnum = (pathTypeName) => {
+    const generatedTypeName = this.schemaUtils.resolveTypeName(pathTypeName, {
+      suffixes: this.config.extractingOptions.enumSuffix,
+      resolver: this.config.extractingOptions.enumNameResolver,
+    });
+    const customComponent = this.schemaComponentsMap.createComponent(
+      this.schemaComponentsMap.createRef(["components", "schemas", generatedTypeName]),
+      {
+        ...this.schema,
+      },
+    );
+    return this.schemaParserFabric.parseSchema(customComponent);
+  };
+
   parse() {
     const pathTypeName = this.buildTypeNameFromPath();
 
     if (this.config.extractEnums && !this.typeName && pathTypeName != null) {
-      const generatedTypeName = this.config.componentTypeNameResolver.resolve([
-        pathTypeName,
-        pascalCase(`${pathTypeName} Enum`),
-      ]);
-      const customComponent = this.schemaComponentsMap.createComponent(
-        this.schemaComponentsMap.createRef(["components", "schemas", generatedTypeName]),
-        {
-          ...this.schema,
-        },
-      );
-      return this.schemaParserFabric.parseSchema(customComponent, generatedTypeName);
+      return this.extractEnum(pathTypeName);
     }
 
     const refType = this.schemaUtils.getSchemaRefType(this.schema);

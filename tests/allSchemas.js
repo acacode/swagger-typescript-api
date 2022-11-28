@@ -4,7 +4,7 @@ const createSchemaInfos = require("./helpers/createSchemaInfos");
 
 dotenv.config();
 
-const allSchemas = [
+let allSchemas = [
   ...createSchemaInfos({
     absolutePathToSchemas: resolve(__dirname, "./schemas/v2.0"),
     absoluteOutputPath: resolve(__dirname, "./generated/v2.0"),
@@ -17,8 +17,12 @@ const allSchemas = [
 
 if (process.env.TEST_FILE_NAME) {
   console.warn("TEST ONLY", process.env.TEST_FILE_NAME);
+  allSchemas = allSchemas.filter((schema) => schema.apiFileName === process.env.TEST_FILE_NAME);
 }
 
-module.exports = process.env.TEST_FILE_NAME
-  ? allSchemas.filter((schema) => schema.apiFileName === process.env.TEST_FILE_NAME)
-  : allSchemas;
+if (process.env.TEST_SCHEMA_VERSION) {
+  console.warn("TEST ONLY", process.env.TEST_SCHEMA_VERSION);
+  allSchemas = allSchemas.filter((schema) => schema.outputPath.endsWith(process.env.TEST_SCHEMA_VERSION));
+}
+
+module.exports = allSchemas;

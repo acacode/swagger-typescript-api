@@ -5,6 +5,7 @@ const { NameResolver } = require("./util/name-resolver");
 class ComponentTypeNameResolver extends NameResolver {
   counter = 1;
   fallbackNameCounter = 1;
+  countersByVariant = new Map();
 
   /**
    * @param {CodeGenConfig} config;
@@ -14,12 +15,20 @@ class ComponentTypeNameResolver extends NameResolver {
   constructor(config, logger, reservedNames) {
     super(config, logger, reservedNames, (variants) => {
       const randomVariant = variants[getRandomInt(0, variants.length - 1)];
-      const generatedVariant = pascalCase(
-        (randomVariant && `${randomVariant}${this.counter++}`) ||
-          `${this.config.componentTypeNameResolver}${this.fallbackNameCounter++}`,
-      );
-      this.logger.debug("generated fallback type name for component - ", generatedVariant);
-      return generatedVariant;
+      if (randomVariant) {
+        if (!this.countersByVariant.has(randomVariant)) {
+          this.countersByVariant.set(randomVariant, 0);
+        }
+        const variantCounter = this.countersByVariant.get(randomVariant) + 1;
+        this.countersByVariant.set(randomVariant, variantCounter);
+        const dirtyResolvedName = `${randomVariant}${variantCounter}`;
+        this.logger.debug("generated dirty resolved type name for component - ", dirtyResolvedName);
+        return dirtyResolvedName;
+      }
+
+      const fallbackName = `${this.config.componentTypeNameResolver}${this.fallbackNameCounter++}`;
+      this.logger.debug("generated fallback type name for component - ", fallbackName);
+      return fallbackName;
     });
   }
 }

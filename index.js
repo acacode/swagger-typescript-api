@@ -225,6 +225,11 @@ const program = cli({
       description: "extract all enums from inline interface\\type content to typescript enum construction",
       default: codeGenBaseConfig.extractEnums,
     },
+    {
+      flags: "--sort-routes",
+      description: "sort routes in alphabetical order",
+      default: codeGenBaseConfig.sortRoutes,
+    },
   ],
 });
 

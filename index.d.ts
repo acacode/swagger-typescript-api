@@ -60,6 +60,11 @@ interface GenerateApiParamsBase {
   sortTypes?: boolean;
 
   /**
+   * sort routes in alphabetical order
+   */
+  sortRoutes?: boolean;
+
+  /**
    * generate js api module with declaration file (default: false)
    */
   toJS?: boolean;
@@ -319,7 +324,10 @@ export interface Hooks {
   /** calls after parse route (return type: customized route (ParsedRoute), nothing change (void), false (ignore this route)) */
   onCreateRoute: (routeData: ParsedRoute) => ParsedRoute | void | false;
   /** Start point of work this tool (after fetching schema) */
-  onInit?: <C extends GenerateApiConfiguration["config"]>(configuration: C) => C | void;
+  onInit?: <C extends GenerateApiConfiguration["config"]>(
+    configuration: C,
+    codeGenProcess: import("./src/code-gen-process").CodeGenProcess,
+  ) => C | void;
   /** customize configuration object before sending it to ETA templates */
   onPrepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C | void;
   /** customize route name as you need */
@@ -480,10 +488,16 @@ type ExtractingOptions = {
   responseBodySuffix: string[];
   responseErrorSuffix: string[];
   requestParamsSuffix: string[];
+  enumSuffix: string[];
+  discriminatorMappingSuffix: string[];
+  discriminatorAbstractPrefix: string[];
   requestBodyNameResolver: (name: string, reservedNames: string) => string | undefined;
   responseBodyNameResolver: (name: string, reservedNames: string) => string | undefined;
   responseErrorNameResolver: (name: string, reservedNames: string) => string | undefined;
   requestParamsNameResolver: (name: string, reservedNames: string) => string | undefined;
+  enumNameResolver: (name: string, reservedNames: string) => string | undefined;
+  discriminatorMappingNameResolver: (name: string, reservedNames: string) => string | undefined;
+  discriminatorAbstractResolver: (name: string, reservedNames: string) => string | undefined;
 };
 
 export interface GenerateApiConfiguration {
@@ -530,6 +544,7 @@ export interface GenerateApiConfiguration {
     extractRequestParams: boolean;
     unwrapResponseData: boolean;
     sortTypes: boolean;
+    sortRoutes: boolean;
     singleHttpClient: boolean;
     typePrefix: string;
     typeSuffix: string;

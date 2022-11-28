@@ -10,6 +10,7 @@ class ComplexSchemaParser extends MonoSchemaParser {
 
     return {
       ...(_.isObject(this.schema) ? this.schema : {}),
+      $schemaPath: this.schemaPath.slice(),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.COMPLEX,
       type: SCHEMA_TYPES.PRIMITIVE,

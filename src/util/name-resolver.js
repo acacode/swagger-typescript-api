@@ -45,13 +45,14 @@ class NameResolver {
    *
    * @param {(string[])} variants
    * @param {(reserved: string[]) => string)} [resolver]
+   * @param {any} [extras]
    * @returns {string | null}
    */
-  resolve(variants, resolver) {
+  resolve(variants, resolver, extras) {
     if (typeof resolver === "function") {
       let usageName = null;
       while (usageName === null) {
-        const variant = resolver(variants);
+        const variant = resolver(variants, extras);
 
         if (variant === undefined) {
           this.logger.warn("unable to resolve name. current reserved names: ", this.reservedNames);
@@ -79,8 +80,8 @@ class NameResolver {
         return usageName;
       }
 
-      this.logger.debug("trying to resolve name with using fallback name generator");
-      return this.resolve(variants, this.getFallbackName);
+      this.logger.debug("trying to resolve name with using fallback name generator using variants", variants);
+      return this.resolve(variants, this.getFallbackName, extras);
     }
 
     this.logger.debug("problem with reserving names. current reserved names: ", this.reservedNames);

@@ -9,7 +9,6 @@ const schemas = createSchemaInfos({ absolutePathToSchemas: resolve(__dirname, ".
 schemas.forEach(({ absolutePath, apiFileName }) => {
   generateApiForTest({
     testName: "--extract-enums option test",
-    silent: true,
     name: apiFileName,
     input: absolutePath,
     output: resolve(__dirname, "./"),

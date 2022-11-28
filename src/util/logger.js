@@ -38,6 +38,9 @@ class Logger {
         .slice(0, 10);
       const logFn = console[type] || console.log;
       logFn(`${emoji}  [${type}]`, new Date().toISOString());
+      if (this.config.debugExtras && Array.isArray(this.config.debugExtras)) {
+        logFn(`[${this.config.debugExtras.join(" ")}]`);
+      }
       logFn(
         "[message]",
         ..._.map(messages, (message) =>

@@ -38,6 +38,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
 
     return {
       ...(_.isObject(this.schema) ? this.schema : {}),
+      $schemaPath: this.schemaPath.slice(),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.COMPLEX,
       type: SCHEMA_TYPES.PRIMITIVE,
@@ -63,13 +64,13 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     });
 
     if (ableToCreateMappingType) {
-      mappingTypeName = this.config.componentTypeNameResolver.resolve([
-        pascalCase(`${abstractSchemaStruct.typeName} ${discriminator.propertyName} Mapping`),
-        pascalCase(`${abstractSchemaStruct.typeName} Map Type By ${discriminator.propertyName}`),
-        pascalCase(`${abstractSchemaStruct.typeName} Mapping`),
-        pascalCase(`${abstractSchemaStruct.typeName} Mapper`),
-        pascalCase(`${abstractSchemaStruct.typeName} MapType`),
-      ]);
+      mappingTypeName = this.schemaUtils.resolveTypeName(
+        `${abstractSchemaStruct.typeName} ${discriminator.propertyName}`,
+        {
+          suffixes: this.config.extractingOptions.discriminatorMappingSuffix,
+          resolver: this.config.extractingOptions.discriminatorMappingNameResolver,
+        },
+      );
       this.schemaParserFabric.createSchema({
         linkedComponent: this.schemaComponentsMap.createComponent(
           this.schemaComponentsMap.createRef(["components", "schemas", mappingTypeName]),
@@ -205,12 +206,10 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
 
     if (schemaIsEmpty) return null;
 
-    const typeName = this.config.componentTypeNameResolver.resolve([
-      pascalCase(`Abstract ${this.typeName}`),
-      pascalCase(`Discriminator ${this.typeName}`),
-      pascalCase(`Internal ${this.typeName}`),
-      pascalCase(`Polymorph ${this.typeName}`),
-    ]);
+    const typeName = this.schemaUtils.resolveTypeName(this.typeName, {
+      prefixes: this.config.extractingOptions.discriminatorAbstractPrefix,
+      resolver: this.config.extractingOptions.discriminatorAbstractResolver,
+    });
     const component = this.schemaComponentsMap.createComponent(
       this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
       {

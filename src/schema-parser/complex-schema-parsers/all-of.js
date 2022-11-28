@@ -8,6 +8,7 @@ class AllOfSchemaParser extends MonoSchemaParser {
     const combined = _.map(this.schema.allOf, (childSchema) =>
       this.schemaParserFabric.getInlineParseContent(
         this.schemaUtils.makeAddRequiredToChildSchema(this.schema, childSchema),
+        null,
         this.schemaPath,
       ),
     );

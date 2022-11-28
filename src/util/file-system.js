@@ -25,12 +25,10 @@ class FileSystem {
   }
 
   getFileContent = (path) => {
-    this.logger.debug("reading file content", path);
     return fs.readFileSync(path, { encoding: "UTF-8" });
   };
 
   readDir = (path) => {
-    this.logger.debug("reading dir", path);
     return fs.readdirSync(path);
   };
 
@@ -81,16 +79,12 @@ class FileSystem {
   };
 
   pathIsExist = (path) => {
-    const isExist = !!path && fs.existsSync(path);
-    this.logger.debug("path", path, "is exist:", isExist);
-    return isExist;
+    return !!path && fs.existsSync(path);
   };
 
   createFile = ({ path, fileName, content, withPrefix }) => {
     const absolutePath = resolve(__dirname, path, `./${fileName}`);
     const fileContent = `${withPrefix ? FILE_PREFIX : ""}${content}`;
-
-    this.logger.debug("write file sync by path", absolutePath);
 
     return fs.writeFileSync(absolutePath, fileContent, _.noop);
   };

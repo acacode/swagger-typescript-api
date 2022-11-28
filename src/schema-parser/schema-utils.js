@@ -149,17 +149,16 @@ class SchemaUtils {
     return _.uniq(_.filter(contents, (type) => filterFn(type)));
   };
 
-  resolveTypeName = (typeName, suffixes, resolver) => {
+  resolveTypeName = (typeName, { suffixes, resolver, prefixes }) => {
     if (resolver) {
-      return this.config.componentTypeNameResolver.resolve((reserved) => {
-        const variant = resolver(pascalCase(typeName), reserved);
-        if (variant == null) return variant;
-        return pascalCase(variant);
+      return this.config.componentTypeNameResolver.resolve(null, (reserved) => {
+        return resolver(pascalCase(typeName), reserved);
       });
     } else {
-      return this.config.componentTypeNameResolver.resolve(
-        suffixes.map((suffix) => pascalCase(`${typeName} ${suffix}`)),
-      );
+      return this.config.componentTypeNameResolver.resolve([
+        ...(prefixes || []).map((prefix) => pascalCase(`${prefix} ${typeName}`)),
+        ...(suffixes || []).map((suffix) => pascalCase(`${typeName} ${suffix}`)),
+      ]);
     }
   };
 
