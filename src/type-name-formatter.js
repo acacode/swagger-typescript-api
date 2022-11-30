@@ -21,7 +21,7 @@ class TypeNameFormatter {
 
   /**
    * @param name
-   * @param options {{ type?: FormattingSchemaType }}
+   * @param options {{ type?: FormattingSchemaType, onlyFormat?: boolean }}
    * @return {string}
    */
   format = (name, options) => {
@@ -32,8 +32,16 @@ class TypeNameFormatter {
      */
     const schemaType = options.type || "type-name";
 
-    const typePrefix = schemaType === "enum-key" ? this.config.enumKeyPrefix : this.config.typePrefix;
-    const typeSuffix = schemaType === "enum-key" ? this.config.enumKeySuffix : this.config.typeSuffix;
+    const typePrefix = options.onlyFormat
+      ? ""
+      : schemaType === "enum-key"
+      ? this.config.enumKeyPrefix
+      : this.config.typePrefix;
+    const typeSuffix = options.onlyFormat
+      ? ""
+      : schemaType === "enum-key"
+      ? this.config.enumKeySuffix
+      : this.config.typeSuffix;
 
     const hashKey = `${typePrefix}_${name}_${typeSuffix}`;
 

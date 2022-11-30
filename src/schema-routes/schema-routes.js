@@ -21,34 +21,22 @@ const CONTENT_KIND = {
 };
 
 class SchemaRoutes {
-  /**
-   * @type {CodeGenConfig}
-   */
+  /** @type {CodeGenConfig} */
   config;
-  /**
-   * @type {SchemaParserFabric}
-   */
+  /** @type {SchemaParserFabric} */
   schemaParserFabric;
-  /**
-   * @type {SchemaUtils}
-   */
+  /** @type {SchemaUtils} */
   schemaUtils;
-  /**
-   * @type {TypeNameFormatter}
-   */
+  /** @type {TypeNameFormatter} */
   typeNameFormatter;
-  /**
-   * @type {SchemaComponentsMap}
-   */
+  /** @type {SchemaComponentsMap} */
   schemaComponentsMap;
-  /**
-   * @type {Logger}
-   */
+  /** @type {Logger} */
   logger;
-  /**
-   * @type {TemplatesWorker}
-   */
+  /** @type {TemplatesWorker} */
   templatesWorker;
+  /** @type {DataContracts} */
+  dataContracts;
 
   FORM_DATA_TYPES = [];
 
@@ -57,7 +45,15 @@ class SchemaRoutes {
   hasQueryRoutes = false;
   hasFormDataRoutes = false;
 
-  constructor({ config, schemaParserFabric, schemaComponentsMap, logger, templatesWorker, typeNameFormatter }) {
+  constructor({
+    config,
+    schemaParserFabric,
+    schemaComponentsMap,
+    logger,
+    templatesWorker,
+    typeNameFormatter,
+    dataContracts,
+  }) {
     this.config = config;
     this.schemaParserFabric = schemaParserFabric;
     this.schemaUtils = this.schemaParserFabric.schemaUtils;
@@ -65,6 +61,7 @@ class SchemaRoutes {
     this.schemaComponentsMap = schemaComponentsMap;
     this.logger = logger;
     this.templatesWorker = templatesWorker;
+    this.dataContracts = dataContracts;
 
     this.FORM_DATA_TYPES = _.uniq([
       this.schemaUtils.getSchemaType({ type: "string", format: "file" }),
@@ -193,17 +190,19 @@ class SchemaRoutes {
     };
 
     _.each(parameters, (parameter) => {
-      const refTypeInfo = this.schemaParserFabric.schemaUtils.getSchemaRefType(parameter);
+      /** @type {DataContract | null} */
+      const dc = this.schemaUtils.findDataContract(parameter);
+      const dcOrigSchema = dc?.schemas.original;
       let routeParam = null;
 
-      if (refTypeInfo && refTypeInfo.rawTypeData.in && refTypeInfo.rawTypeData) {
-        if (!routeParams[refTypeInfo.rawTypeData.in]) {
-          routeParams[refTypeInfo.rawTypeData.in] = [];
+      if (dcOrigSchema?.in) {
+        if (!routeParams[dcOrigSchema.in]) {
+          routeParams[dcOrigSchema.in] = [];
         }
 
         routeParam = {
-          ...refTypeInfo.rawTypeData,
-          ...(refTypeInfo.rawTypeData.schema || {}),
+          ...dcOrigSchema,
+          ...(dcOrigSchema.schema || {}),
         };
       } else {
         if (!parameter.in) return;
@@ -309,55 +308,51 @@ class SchemaRoutes {
     return null;
   };
 
-  getTypeFromRequestInfo = ({ requestInfo, parsedSchemas, operationId, defaultType, typeName }) => {
+  getTypeFromRequestInfo = ({ requestInfo, operationId, defaultType, typeName }) => {
     // TODO: make more flexible pick schema without content type
     const schema = this.getSchemaFromRequestType(requestInfo);
-    const refTypeInfo = this.schemaParserFabric.schemaUtils.getSchemaRefType(requestInfo);
+    const dc = this.schemaUtils.findDataContract(requestInfo);
 
     if (schema) {
       const content = this.schemaParserFabric.getInlineParseContent(schema, typeName, [operationId]);
-      const foundedSchemaByName = _.find(
-        parsedSchemas,
-        (parsedSchema) => this.typeNameFormatter.format(parsedSchema.name) === content,
-      );
-      const foundSchemaByContent = _.find(parsedSchemas, (parsedSchema) => _.isEqual(parsedSchema.content, content));
+      const dc = this.dataContracts.findByLinker(content) || this.dataContracts.findByContent(content);
 
-      const foundSchema = foundedSchemaByName || foundSchemaByContent;
-
-      return foundSchema ? this.typeNameFormatter.format(foundSchema.name) : content;
+      return dc ? dc.refContent : content;
     }
 
-    if (refTypeInfo) {
+    if (dc) {
       // const refTypeWithoutOpId = refType.replace(operationId, '');
       // const foundedSchemaByName = _.find(parsedSchemas, ({ name }) => name === refType || name === refTypeWithoutOpId)
 
       // TODO:HACK fix problem of swagger2opeanpi
-      const typeNameWithoutOpId = _.replace(refTypeInfo.typeName, operationId, "");
-      if (_.find(parsedSchemas, (schema) => schema.name === typeNameWithoutOpId)) {
-        return this.typeNameFormatter.format(typeNameWithoutOpId);
+      const typeNameWithoutOpId = _.replace(dc.typeName, operationId, "");
+
+      const dc =
+        this.dataContracts.findByLinker(typeNameWithoutOpId) || this.dataContracts.findByContent(typeNameWithoutOpId);
+
+      if (dc) {
+        return dc.refContent;
       }
 
-      switch (refTypeInfo.componentName) {
+      switch (dc.componentName) {
         case "schemas":
-          return this.typeNameFormatter.format(refTypeInfo.typeName);
+          return name;
         case "responses":
         case "requestBodies":
           return this.schemaParserFabric.getInlineParseContent(
-            this.getSchemaFromRequestType(refTypeInfo.rawTypeData),
-            refTypeInfo.typeName || null,
+            this.getSchemaFromRequestType(dc.schemas.original),
+            dc.name || null,
             [operationId],
           );
         default:
-          return this.schemaParserFabric.getInlineParseContent(refTypeInfo.rawTypeData, refTypeInfo.typeName || null, [
-            operationId,
-          ]);
+          return dc.inlineContent;
       }
     }
 
     return defaultType || this.config.Ts.Keyword.Any;
   };
 
-  getRequestInfoTypes = ({ requestInfos, parsedSchemas, operationId, defaultType }) =>
+  getRequestInfoTypes = ({ requestInfos, operationId, defaultType }) =>
     _.reduce(
       requestInfos,
       (acc, requestInfo, status) => {
@@ -373,7 +368,6 @@ class SchemaRoutes {
               requestInfo,
               this.getTypeFromRequestInfo({
                 requestInfo,
-                parsedSchemas,
                 operationId,
                 defaultType,
               }),
@@ -390,14 +384,13 @@ class SchemaRoutes {
       [],
     );
 
-  getResponseBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
+  getResponseBodyInfo = (routeInfo, routeParams) => {
     const { produces, operationId, responses } = routeInfo;
 
     const contentTypes = this.getContentTypes(responses, [...(produces || []), routeInfo["x-accepts"]]);
 
     const responseInfos = this.getRequestInfoTypes({
       requestInfos: responses,
-      parsedSchemas,
       operationId,
       defaultType: this.config.defaultResponseType,
     });
@@ -479,7 +472,7 @@ class SchemaRoutes {
     );
   };
 
-  getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas, routeName) => {
+  getRequestBodyInfo = (routeInfo, routeParams, routeName) => {
     const { requestBody, consumes, requestBodyName, operationId } = routeInfo;
     let schema = null;
     let content = null;
@@ -509,7 +502,6 @@ class SchemaRoutes {
         requestBody,
         this.getTypeFromRequestInfo({
           requestInfo: requestBody,
-          parsedSchemas,
           operationId,
           typeName,
         }),
@@ -524,12 +516,16 @@ class SchemaRoutes {
     }
 
     if (schema && !schema.$ref && this.config.extractRequestBody) {
-      schema = this.schemaParserFabric.createParsedComponent({
-        schema,
-        typeName,
+      const dc = this.dataContracts.add({
+        schema: { ...schema },
+        nameBuilder: () => ({
+          original: routeName.usage,
+          usageName: typeName,
+        }),
         schemaPath: [operationId],
       });
-      content = this.schemaParserFabric.getInlineParseContent({ $ref: schema.$ref });
+      schema = dc.schemas.parsed;
+      content = dc.refContent;
     }
 
     return {
@@ -594,15 +590,22 @@ class SchemaRoutes {
     if (fixedSchema) return fixedSchema;
 
     if (extractRequestParams) {
-      const generatedTypeName = this.schemaUtils.resolveTypeName(routeName.usage, {
-        suffixes: this.config.extractingOptions.requestParamsSuffix,
-        resolver: this.config.extractingOptions.requestParamsNameResolver,
+      const dc = this.dataContracts.add({
+        schema,
+        nameBuilder: () => {
+          const usageName = this.schemaUtils.resolveTypeName(routeName.usage, {
+            suffixes: this.config.extractingOptions.requestParamsSuffix,
+            resolver: this.config.extractingOptions.requestParamsNameResolver,
+          });
+
+          return {
+            usageName,
+            original: routeName.usage,
+          };
+        },
       });
 
-      return this.schemaParserFabric.createParsedComponent({
-        typeName: generatedTypeName,
-        schema: schema,
-      });
+      return dc.schemas.parsed;
     }
 
     return schema;
@@ -610,23 +613,29 @@ class SchemaRoutes {
 
   extractResponseBodyIfItNeeded = (routeInfo, responseBodyInfo, routeName) => {
     if (responseBodyInfo.responses.length && responseBodyInfo.success && responseBodyInfo.success.schema) {
-      const typeName = this.schemaUtils.resolveTypeName(routeName.usage, {
-        suffixes: this.config.extractingOptions.responseBodySuffix,
-        resolver: this.config.extractingOptions.responseBodyNameResolver,
-      });
-
       const idx = responseBodyInfo.responses.indexOf(responseBodyInfo.success.schema);
 
       let successResponse = responseBodyInfo.success;
 
       if (successResponse.schema && !successResponse.schema.$ref) {
         const schema = this.getSchemaFromRequestType(successResponse.schema);
-        successResponse.schema = this.schemaParserFabric.createParsedComponent({
+        const dc = this.dataContracts.add({
           schema,
-          typeName,
+          nameBuilder: () => {
+            const usageName = this.schemaUtils.resolveTypeName(routeName.usage, {
+              suffixes: this.config.extractingOptions.responseBodySuffix,
+              resolver: this.config.extractingOptions.responseBodyNameResolver,
+            });
+
+            return {
+              usageName,
+              original: routeName.usage,
+            };
+          },
           schemaPath: [routeInfo.operationId],
         });
-        successResponse.type = this.schemaParserFabric.getInlineParseContent({ $ref: successResponse.schema.$ref });
+        successResponse.schema = dc.schemas.parsed;
+        successResponse.type = dc.refContent;
 
         if (idx > -1) {
           _.assign(responseBodyInfo.responses[idx], {
@@ -664,12 +673,13 @@ class SchemaRoutes {
         null,
         [routeInfo.operationId],
       );
-      const component = this.schemaComponentsMap.createComponent(
-        this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
-        { ...schema },
-      );
-      responseBodyInfo.error.schemas = [component];
-      responseBodyInfo.error.type = this.typeNameFormatter.format(component.typeName);
+      const dataContract = this.dataContracts.add({
+        schema: { ...schema },
+        $ref: this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
+        name: typeName,
+      });
+      responseBodyInfo.error.schemas = [dataContract.schemas.parsed];
+      responseBodyInfo.error.type = dataContract.name;
     }
   };
 
@@ -710,7 +720,7 @@ class SchemaRoutes {
     return this.config.hooks.onCreateRouteName(routeNameInfo, rawRouteInfo) || routeNameInfo;
   };
 
-  parseRouteInfo = (rawRouteName, routeInfo, method, usageSchema, parsedSchemas) => {
+  parseRouteInfo = (rawRouteName, routeInfo, method, usageSchema) => {
     const { security: globalSecurity } = usageSchema;
     const { moduleNameIndex, moduleNameFirstTag, extractRequestParams } = this.config;
     const {
@@ -754,7 +764,7 @@ class SchemaRoutes {
     }));
     const pathArgsNames = pathArgs.map((arg) => arg.name);
 
-    const responseBodyInfo = this.getResponseBodyInfo(routeInfo, routeParams, parsedSchemas);
+    const responseBodyInfo = this.getResponseBodyInfo(routeInfo, routeParams);
 
     const rawRouteInfo = {
       ...otherInfo,
@@ -779,7 +789,7 @@ class SchemaRoutes {
 
     const routeName = this.getRouteName(rawRouteInfo);
 
-    const requestBodyInfo = this.getRequestBodyInfo(routeInfo, routeParams, parsedSchemas, routeName);
+    const requestBodyInfo = this.getRequestBodyInfo(routeInfo, routeParams, routeName);
 
     const requestParamsSchema = this.createRequestParamsSchema({
       queryParams: routeParams.query,
@@ -881,7 +891,7 @@ class SchemaRoutes {
     };
   };
 
-  attachSchema = ({ usageSchema, parsedSchemas }) => {
+  attachSchema = ({ usageSchema }) => {
     this.config.routeNameDuplicatesMap.clear();
 
     const pathsEntries = _.entries(usageSchema.paths);
@@ -890,7 +900,7 @@ class SchemaRoutes {
       const routeInfosMap = this.createRequestsMap(routeInfoByMethodsMap);
 
       _.forEach(routeInfosMap, (routeInfo, method) => {
-        const parsedRouteInfo = this.parseRouteInfo(rawRouteName, routeInfo, method, usageSchema, parsedSchemas);
+        const parsedRouteInfo = this.parseRouteInfo(rawRouteName, routeInfo, method, usageSchema);
         const processedRouteInfo = this.config.hooks.onCreateRoute(parsedRouteInfo);
         const route = processedRouteInfo || parsedRouteInfo;
 

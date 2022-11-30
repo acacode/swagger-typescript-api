@@ -21,6 +21,8 @@ class MonoSchemaParser {
   config;
   /** @type {SchemaFormatters} */
   schemaFormatters;
+  /** @type {DataContracts} */
+  dataContracts;
 
   constructor(schemaParser, schema, typeName = null, schemaPath = []) {
     this.schemaParser = schemaParser;
@@ -34,6 +36,7 @@ class MonoSchemaParser {
     this.schemaUtils = this.schemaParser.schemaUtils;
     this.config = this.schemaParser.config;
     this.schemaFormatters = this.schemaParser.schemaFormatters;
+    this.dataContracts = this.schemaParser.dataContracts;
   }
 
   parse() {

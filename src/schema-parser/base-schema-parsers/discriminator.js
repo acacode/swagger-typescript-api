@@ -210,6 +210,19 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
       prefixes: this.config.extractingOptions.discriminatorAbstractPrefix,
       resolver: this.config.extractingOptions.discriminatorAbstractResolver,
     });
+    this.dataContracts.add({
+      schema: { ...schema, internal: true },
+      nameBuilder: () => {
+        const usageName = this.schemaUtils.resolveTypeName(this.typeName, {
+          prefixes: this.config.extractingOptions.discriminatorAbstractPrefix,
+          resolver: this.config.extractingOptions.discriminatorAbstractResolver,
+        });
+        return {
+          usageName,
+          original: this.typeName,
+        };
+      },
+    });
     const component = this.schemaComponentsMap.createComponent(
       this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
       {

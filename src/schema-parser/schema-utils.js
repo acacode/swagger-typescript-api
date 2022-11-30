@@ -13,12 +13,15 @@ class SchemaUtils {
   typeNameFormatter;
   /** @type {SchemaWalker} */
   schemaWalker;
+  /** @type {DataContracts} */
+  dataContracts;
 
-  constructor({ config, schemaComponentsMap, typeNameFormatter, schemaWalker }) {
+  constructor({ config, schemaComponentsMap, typeNameFormatter, schemaWalker, dataContracts }) {
     this.config = config;
     this.schemaComponentsMap = schemaComponentsMap;
     this.typeNameFormatter = typeNameFormatter;
     this.schemaWalker = schemaWalker;
+    this.dataContracts = dataContracts;
   }
 
   getRequiredProperties = (schema) => {
@@ -33,10 +36,24 @@ class SchemaUtils {
     return schema["x-enumNames"] || schema["xEnumNames"] || schema["x-enumnames"] || schema["x-enum-varnames"];
   };
 
+  /**
+   * @param schema
+   * @returns {DataContract|null}
+   */
   getSchemaRefType = (schema) => {
     if (!this.isRefSchema(schema)) return null;
     // const resolved = this.schemaWalker.findByRef(schema.$ref);
-    return this.schemaComponentsMap.get(schema.$ref);
+    return this.dataContracts.findByLinker(schema.$ref);
+  };
+
+  /**
+   * @param schema
+   * @returns {DataContract|null}
+   */
+  findDataContract = (schema) => {
+    if (!this.isRefSchema(schema)) return null;
+    // const resolved = this.schemaWalker.findByRef(schema.$ref);
+    return this.dataContracts.findByLinker(schema.$ref);
   };
 
   isPropertyRequired = (name, propertySchema, rootSchema) => {
@@ -118,10 +135,11 @@ class SchemaUtils {
 
     const required = _.uniq([...this.getRequiredProperties(parentSchema), ...this.getRequiredProperties(childSchema)]);
 
-    const refData = this.getSchemaRefType(childSchema);
+    /** @type {DataContract | null} */
+    const dc = this.findDataContract(childSchema);
 
-    if (refData) {
-      const refObjectProperties = _.keys((refData.rawTypeData && refData.rawTypeData.properties) || {});
+    if (dc) {
+      const refObjectProperties = _.keys(dc.schemas.original?.properties || {});
       const existedRequiredKeys = refObjectProperties.filter((key) => required.includes(key));
 
       if (!existedRequiredKeys.length) return childSchema;
@@ -156,8 +174,8 @@ class SchemaUtils {
       });
     } else {
       return this.config.componentTypeNameResolver.resolve([
-        ...(prefixes || []).map((prefix) => pascalCase(`${prefix} ${typeName}`)),
-        ...(suffixes || []).map((suffix) => pascalCase(`${typeName} ${suffix}`)),
+        ...(prefixes || []).map((prefix) => this.typeNameFormatter.format(pascalCase(`${prefix} ${typeName}`))),
+        ...(suffixes || []).map((suffix) => this.typeNameFormatter.format(pascalCase(`${typeName} ${suffix}`))),
       ]);
     }
   };
@@ -185,13 +203,10 @@ class SchemaUtils {
   getSchemaType = (schema) => {
     if (!schema) return this.config.Ts.Keyword.Any;
 
-    const refTypeInfo = this.getSchemaRefType(schema);
+    const dc = this.findDataContract(schema);
 
-    if (refTypeInfo) {
-      return this.checkAndAddRequiredKeys(
-        schema,
-        this.safeAddNullToType(schema, this.typeNameFormatter.format(refTypeInfo.typeName)),
-      );
+    if (dc) {
+      return this.checkAndAddRequiredKeys(schema, this.safeAddNullToType(schema, dc.name));
     }
 
     const primitiveType = this.getSchemaPrimitiveType(schema);
@@ -222,6 +237,26 @@ class SchemaUtils {
     if (!schemaPath || !schemaPath[0]) return null;
 
     return pascalCase(camelCase(_.uniq([schemaPath[0], schemaPath[schemaPath.length - 1]]).join("_")));
+  };
+
+  getSchemaFromRequestType = (requestInfo) => {
+    const content = _.get(requestInfo, "content");
+
+    if (!content) return null;
+
+    /* content: { "multipart/form-data": { schema: {...} }, "application/json": { schema: {...} } } */
+
+    /* for example: dataType = "multipart/form-data" */
+    for (const dataType in content) {
+      if (content[dataType] && content[dataType].schema) {
+        return {
+          ...content[dataType].schema,
+          dataType,
+        };
+      }
+    }
+
+    return null;
   };
 }
 

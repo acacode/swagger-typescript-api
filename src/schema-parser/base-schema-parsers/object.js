@@ -24,9 +24,11 @@ class ObjectSchemaParser extends MonoSchemaParser {
     const { properties, additionalProperties } = schema || {};
 
     const propertiesContent = _.map(properties, (property, name) => {
+      /** @type {DataContract|null} */
+      const propDc = this.schemaUtils.findDataContract(property);
       const required = this.schemaUtils.isPropertyRequired(name, property, schema);
-      const rawTypeData = _.get(this.schemaUtils.getSchemaRefType(property), "rawTypeData", {});
-      const nullable = !!(rawTypeData.nullable || property.nullable);
+      const parsedDcSchema = propDc?.schemas.parsed || {};
+      const nullable = !!(parsedDcSchema.nullable || property.nullable);
       const fieldName = this.typeNameFormatter.isValidName(name) ? name : this.config.Ts.StringValue(name);
       const fieldValue = this.schemaParserFabric
         .createSchemaParser({ schema: property, schemaPath: [...this.schemaPath, name] })
@@ -40,8 +42,8 @@ class ObjectSchemaParser extends MonoSchemaParser {
         description:
           property.description ||
           _.compact(_.map(property[this.schemaUtils.getComplexType(property)], "description"))[0] ||
-          rawTypeData.description ||
-          _.compact(_.map(rawTypeData[this.schemaUtils.getComplexType(rawTypeData)], "description"))[0] ||
+          parsedDcSchema.description ||
+          _.compact(_.map(parsedDcSchema[this.schemaUtils.getComplexType(parsedDcSchema)], "description"))[0] ||
           "",
         isRequired: required,
         isNullable: nullable,

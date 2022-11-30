@@ -14,17 +14,21 @@ class EnumSchemaParser extends MonoSchemaParser {
   }
 
   extractEnum = (pathTypeName) => {
-    const generatedTypeName = this.schemaUtils.resolveTypeName(pathTypeName, {
-      suffixes: this.config.extractingOptions.enumSuffix,
-      resolver: this.config.extractingOptions.enumNameResolver,
-    });
-    const customComponent = this.schemaComponentsMap.createComponent(
-      this.schemaComponentsMap.createRef(["components", "schemas", generatedTypeName]),
-      {
-        ...this.schema,
+    const dataContract = this.dataContracts.add({
+      schema: { ...this.schema },
+      nameBuilder: () => {
+        const usageName = this.schemaUtils.resolveTypeName(pathTypeName, {
+          suffixes: this.config.extractingOptions.enumSuffix,
+          resolver: this.config.extractingOptions.enumNameResolver,
+        });
+
+        return {
+          usageName,
+          original: pathTypeName,
+        };
       },
-    );
-    return this.schemaParserFabric.parseSchema(customComponent);
+    });
+    return dataContract.schemas.ref;
   };
 
   parse() {
@@ -34,8 +38,7 @@ class EnumSchemaParser extends MonoSchemaParser {
       return this.extractEnum(pathTypeName);
     }
 
-    const refType = this.schemaUtils.getSchemaRefType(this.schema);
-    const $ref = (refType && refType.$ref) || null;
+    const dc = this.schemaUtils.findDataContract(this.schema);
 
     // fix schema when enum has length 1+ but value is []
     if (Array.isArray(this.schema.enum)) {
@@ -104,8 +107,8 @@ class EnumSchemaParser extends MonoSchemaParser {
 
     return {
       ...(_.isObject(this.schema) ? this.schema : {}),
-      $ref: $ref,
-      typeName: this.typeName || ($ref && refType.typeName) || null,
+      $ref: dc?.$ref,
+      typeName: this.typeName || (dc?.$ref && dc?.name) || null,
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.ENUM,
       type: SCHEMA_TYPES.ENUM,

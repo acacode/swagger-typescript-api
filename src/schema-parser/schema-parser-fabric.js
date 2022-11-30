@@ -24,14 +24,25 @@ class SchemaParserFabric {
   schemaUtils;
   /** @type {SchemaWalker} */
   schemaWalker;
+  /** @type {DataContracts} */
+  dataContracts;
 
-  constructor({ config, logger, templatesWorker, schemaComponentsMap, typeNameFormatter, schemaWalker }) {
+  constructor({
+    config,
+    logger,
+    templatesWorker,
+    schemaComponentsMap,
+    typeNameFormatter,
+    schemaWalker,
+    dataContracts,
+  }) {
     this.config = config;
     this.logger = logger;
     this.schemaComponentsMap = schemaComponentsMap;
     this.typeNameFormatter = typeNameFormatter;
     this.templatesWorker = templatesWorker;
     this.schemaWalker = schemaWalker;
+    this.dataContracts = dataContracts;
     this.schemaUtils = new SchemaUtils(this);
     this.schemaFormatters = new SchemaFormatters(this);
   }
@@ -61,19 +72,6 @@ class SchemaParserFabric {
       linkedComponent.typeData = parsed;
     }
     return parser.schema;
-  };
-
-  createParsedComponent = ({ typeName, schema, schemaPath }) => {
-    const schemaCopy = _.cloneDeep(schema);
-    const customComponent = this.schemaComponentsMap.createComponent(
-      this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
-      schemaCopy,
-    );
-    const parsed = this.parseSchema(schemaCopy, null, schemaPath);
-    parsed.name = typeName;
-    customComponent.typeData = parsed;
-
-    return customComponent;
   };
 
   /**

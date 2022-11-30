@@ -19,6 +19,34 @@ export enum TNPEnumRootTNS {
   EKPTest2EKS = "test2",
 }
 
+export enum TNPTreeModeEnumTNS {
+  EKPInvalidKey100644EKS = "100644",
+  EKPInvalidKey100755EKS = "100755",
+  EKPInvalidKey040000EKS = "040000",
+  EKPInvalidKey160000EKS = "160000",
+  EKPInvalidKey120000EKS = "120000",
+}
+
+export enum TNPTreeModeNumEnumTNS {
+  EKPInvalidKey100644EKS = 100644,
+  EKPInvalidKey100755EKS = 100755,
+  EKPInvalidKey40000EKS = 40000,
+  EKPInvalidKey160000EKS = 160000,
+  EKPInvalidKey120000EKS = 120000,
+}
+
+export enum TNPTreeTypeEnumTNS {
+  EKPBlobEKS = "blob",
+  EKPTreeEKS = "tree",
+  EKPCommitEKS = "commit",
+}
+
+export enum TNPTreeBerekeEnumTNS {
+  EKPBlaEKS = "Bla",
+  EKPBlablaEKS = "Blabla",
+  EKPBoilerEKS = "Boiler",
+}
+
 export interface TNPTreeTNS {
   tree?: {
     mode?: TNPTreeModeEnumTNS;
@@ -87,6 +115,12 @@ export enum TNPSomeInterestEnumTNS {
   EKP_HSDFDS_EKS = "HSDFDS",
 }
 
+/** @example "APPROVED" */
+export enum TNPSuperDuperStructDtoStateEnumTNS {
+  EKP_NEW_EKS = "NEW",
+  EKP_PENDING_EKS = "PENDING",
+}
+
 export interface TNPSuperDuperStructDTOTNS {
   /** @example "100" */
   id: number;
@@ -96,48 +130,14 @@ export interface TNPSuperDuperStructDTOTNS {
 
 export type TNPNullableEnumTNS = null;
 
-/** **Required when the state is dismissed.** The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`. */
-export type TNPCodeScanningAlertDismissedReasonTNS = TNPCodeScanningAlertDismissedReasonEnumTNS | null;
-
-export enum TNPTreeModeEnumTNS {
-  EKPInvalidKey100644EKS = "100644",
-  EKPInvalidKey100755EKS = "100755",
-  EKPInvalidKey040000EKS = "040000",
-  EKPInvalidKey160000EKS = "160000",
-  EKPInvalidKey120000EKS = "120000",
-}
-
-export enum TNPTreeModeNumEnumTNS {
-  EKPInvalidKey100644EKS = 100644,
-  EKPInvalidKey100755EKS = 100755,
-  EKPInvalidKey40000EKS = 40000,
-  EKPInvalidKey160000EKS = 160000,
-  EKPInvalidKey120000EKS = 120000,
-}
-
-export enum TNPTreeTypeEnumTNS {
-  EKPBlobEKS = "blob",
-  EKPTreeEKS = "tree",
-  EKPCommitEKS = "commit",
-}
-
-export enum TNPTreeBerekeEnumTNS {
-  EKPBlaEKS = "Bla",
-  EKPBlablaEKS = "Blabla",
-  EKPBoilerEKS = "Boiler",
-}
-
-/** @example "APPROVED" */
-export enum TNPSuperDuperStructDtoStateEnumTNS {
-  EKP_NEW_EKS = "NEW",
-  EKP_PENDING_EKS = "PENDING",
-}
-
 export enum TNPCodeScanningAlertDismissedReasonEnumTNS {
   EKPFalsePositiveEKS = "false positive",
   EKPWontFixEKS = "won't fix",
   EKPUsedInTestsEKS = "used in tests",
 }
+
+/** **Required when the state is dismissed.** The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`. */
+export type TNPCodeScanningAlertDismissedReasonTNS = TNPCodeScanningAlertDismissedReasonEnumTNS | null;
 
 /** @example "APPROVED" */
 export enum TNPNameSpaceAddSuperDuperEnumTNS {

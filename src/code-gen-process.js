@@ -16,6 +16,7 @@ const { CodeFormatter } = require("./code-formatter");
 const { pascalCase } = require("./util/pascal-case");
 const { internalCase } = require("./util/internal-case");
 const { sortByProperty } = require("./util/sort-by-property");
+const { DataContracts } = require("./data-contracts");
 
 const PATCHABLE_INSTANCES = [
   "schemaWalker",
@@ -52,6 +53,8 @@ class CodeGenProcess {
   templatesWorker;
   /** @type {SchemaWalker} */
   schemaWalker;
+  /** @type {DataContracts} */
+  dataContracts;
   /** @type {JavascriptTranslator} */
   javascriptTranslator;
 
@@ -70,9 +73,13 @@ class CodeGenProcess {
     this.templatesWorker = new TemplatesWorker(this);
     this.codeFormatter = new CodeFormatter(this);
     this.schemaParserFabric = new SchemaParserFabric(this);
+    this.dataContracts = new DataContracts(this);
     this.schemaRoutes = new SchemaRoutes(this);
     this.javascriptTranslator = new JavascriptTranslator(this);
+
     this.config.componentTypeNameResolver.logger = this.logger;
+    this.schemaParserFabric.dataContracts = this.dataContracts;
+    this.schemaParserFabric.schemaUtils.dataContracts = this.dataContracts;
   }
 
   async start() {
@@ -99,24 +106,16 @@ class CodeGenProcess {
 
     _.each(swagger.usageSchema.components, (component, componentName) =>
       _.each(component, (rawTypeData, typeName) => {
-        this.schemaComponentsMap.createComponent(
-          this.schemaComponentsMap.createRef(["components", componentName, typeName]),
-          rawTypeData,
-        );
+        this.dataContracts.add({
+          schema: rawTypeData,
+          name: typeName,
+          contractType: componentName,
+        });
       }),
     );
 
-    const schemaComponents = this.schemaComponentsMap.filter("schemas");
-
-    const parsedSchemas = schemaComponents.map((schemaComponent) => {
-      const parsed = this.schemaParserFabric.parseSchema(schemaComponent.rawTypeData, schemaComponent.typeName);
-      schemaComponent.typeData = parsed;
-      return parsed;
-    });
-
     this.schemaRoutes.attachSchema({
       usageSchema: swagger.usageSchema,
-      parsedSchemas,
     });
 
     const rawConfiguration = {
@@ -206,65 +205,22 @@ class CodeGenProcess {
   };
 
   collectModelTypes = () => {
-    const components = this.schemaComponentsMap.getComponents();
-    let modelTypes = [];
-
-    const getSchemaComponentsCount = () => components.filter((c) => c.componentName === "schemas").length;
-
-    let schemaComponentsCount = getSchemaComponentsCount();
-    let processedCount = 0;
-
-    while (processedCount < schemaComponentsCount) {
-      modelTypes = [];
-      processedCount = 0;
-      for (const component of components) {
-        if (component.componentName === "schemas") {
-          const modelType = this.prepareModelType(component);
-          if (modelType) {
-            modelTypes.push(modelType);
-          }
-          processedCount++;
-        }
-      }
-      schemaComponentsCount = getSchemaComponentsCount();
-    }
+    let dataContracts = [...this.dataContracts.values];
 
     if (this.config.sortTypes) {
-      return modelTypes.sort(sortByProperty("name"));
+      return dataContracts.sort(sortByProperty("name"));
     }
 
-    return modelTypes;
-  };
-
-  prepareModelType = (typeInfo) => {
-    if (typeInfo.$prepared) return typeInfo.$prepared;
-
-    if (!typeInfo.typeData) {
-      typeInfo.typeData = this.schemaParserFabric.parseSchema(typeInfo.rawTypeData, typeInfo.typeName);
-    }
-    const rawTypeData = typeInfo.typeData;
-    const typeData = this.schemaParserFabric.schemaFormatters.base[rawTypeData.type]
-      ? this.schemaParserFabric.schemaFormatters.base[rawTypeData.type](rawTypeData)
-      : rawTypeData;
-    let { typeIdentifier, name: originalName, content, description } = typeData;
-    const name = this.typeNameFormatter.format(originalName);
-
-    if (name === null) return null;
-
-    const preparedModelType = {
-      ...typeData,
-      typeIdentifier,
-      name,
-      description,
-      $content: rawTypeData.content,
-      rawContent: rawTypeData.content,
-      content: content,
-      typeData,
-    };
-
-    typeInfo.$prepared = preparedModelType;
-
-    return preparedModelType;
+    return dataContracts.map((dataContract) => {
+      return {
+        ...dataContract.schemas.parsed,
+        name: dataContract.name,
+        $content: dataContract.schemas.parsed.content,
+        rawContent: dataContract.schemas.parsed.content,
+        content: dataContract.content,
+        typeData: dataContract.schemas.parsed,
+      };
+    });
   };
 
   /**

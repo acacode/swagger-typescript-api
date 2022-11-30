@@ -36,6 +36,8 @@ class SchemaParser {
   templatesWorker;
   /** @type {SchemaWalker} */
   schemaWalker;
+  /** @type {DataContracts} */
+  dataContracts;
 
   typeName;
   schema;
@@ -51,6 +53,7 @@ class SchemaParser {
     this.schemaWalker = schemaParserFabric.schemaWalker;
     this.schemaFormatters = schemaParserFabric.schemaFormatters;
     this.schemaUtils = schemaParserFabric.schemaUtils;
+    this.dataContracts = schemaParserFabric.dataContracts;
 
     this.typeName = typeName || null;
     this.schema = schema;
