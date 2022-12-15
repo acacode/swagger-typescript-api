@@ -8,11 +8,12 @@ const schemas = createSchemaInfos({ absolutePathToSchemas: resolve(__dirname, ".
 
 schemas.forEach(({ absolutePath, apiFileName }) => {
   generateApiForTest({
-    testName: "@deprecated test",
+    testName: "--query-params-with-brackets option test",
     silent: true,
     name: apiFileName,
     spec: require(absolutePath),
     output: resolve(__dirname, "./"),
+    queryParamsWithBrackets: true,
   }).then(() => {
     validateGeneratedModule(resolve(__dirname, `./${apiFileName}`));
     assertGeneratedModule(resolve(__dirname, `./${apiFileName}`), resolve(__dirname, `./expected.ts`));

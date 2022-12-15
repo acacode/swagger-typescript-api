@@ -554,6 +554,7 @@ export interface GenerateApiConfiguration {
     cleanOutput: boolean;
     debug: boolean;
     anotherArrayType: boolean;
+    queryParamsWithBrackets: false;
     extractRequestBody: boolean;
     httpClientType: "axios" | "fetch";
     addReadonly: boolean;

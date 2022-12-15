@@ -1828,7 +1828,7 @@ export declare class HttpClient<SecurityDataType = unknown> {
   private baseApiParams;
   constructor(apiConfig?: ApiConfig<SecurityDataType>);
   setSecurityData: (data: SecurityDataType | null) => void;
-  protected encodeQueryParam(key: string, value: any): string;
+  protected encodeQueryParam(key: string, value: any, withBrackets?: boolean): string;
   protected addQueryParam(query: QueryParamsType, key: string): string;
   protected addArrayQueryParam(query: QueryParamsType, key: string): any;
   protected toQueryString(rawQuery?: QueryParamsType): string;

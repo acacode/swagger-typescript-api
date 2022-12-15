@@ -142,6 +142,7 @@ class CodeGenConfig {
   apiClassName = "Api";
   debug = false;
   anotherArrayType = false;
+  queryParamsWithBrackets = false;
   internalTemplateOptions = {
     addUtilRequiredKeysType: false,
   };
