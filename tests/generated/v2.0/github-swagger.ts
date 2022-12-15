@@ -1974,9 +1974,11 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  protected encodeQueryParam(key: string, value: any) {
+  protected encodeQueryParam(key: string, value: any, withBrackets: boolean = false) {
     const encodedKey = encodeURIComponent(key);
-    return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
+    return `${encodedKey}${withBrackets ? "[]" : ""}=${encodeURIComponent(
+      typeof value === "number" ? value : `${value}`,
+    )}`;
   }
 
   protected addQueryParam(query: QueryParamsType, key: string) {

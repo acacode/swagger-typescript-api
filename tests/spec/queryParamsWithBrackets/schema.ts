@@ -9,79 +9,6 @@
  * ---------------------------------------------------------------
  */
 
-export interface Step {
-  /** address of the stop */
-  address?: string;
-  /**
-   * arrival at the stop in its local timezone as YYYY-MM-DDThh:mm
-   * @format date-time
-   */
-  arrival?: string;
-  /** geographical coordinates of the stop */
-  coordinates?: {
-    /**
-     * latitude
-     * @format float
-     */
-    lat?: number;
-    /**
-     * longitude
-     * @format float
-     */
-    lon?: number;
-  };
-  /**
-   * departure from the stop in its local timezone as YYYY-MM-DDThh:mm
-   * @format date-time
-   */
-  departure?: string;
-  /** name of the stop */
-  name?: string;
-  /**
-   * number of nights
-   * @format int64
-   */
-  nights?: number;
-  /** route leading to the stop */
-  route?: {
-    /**
-     * route distance in meters
-     * @format int64
-     */
-    distance?: number;
-    /**
-     * route duration in seconds
-     * @format int64
-     */
-    duration?: number;
-    /** travel mode */
-    mode?: "car" | "motorcycle" | "bicycle" | "walk" | "other";
-    /** route path compatible with Google polyline encoding algorithm */
-    polyline?: string;
-  };
-  /** url of the page with more information about the stop */
-  url?: string;
-}
-
-export interface Trip {
-  /**
-   * begin of the trip in its local timezone as YYYY-MM-DDThh:mm
-   * @format date-time
-   */
-  begin?: string;
-  /** description of the trip (truncated to 200 characters) */
-  description?: string;
-  /**
-   * end of the trip in its local timezone as YYYY-MM-DDThh:mm
-   * @format date-time
-   */
-  end?: string;
-  /** Unique ID of the trip */
-  id?: string;
-  /** name of the trip */
-  name?: string;
-}
-
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -128,7 +55,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "https://trips.furkot.com/pub/api";
+  public baseUrl: string = "http://petstore.swagger.io/api";
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private abortControllers = new Map<CancelToken, AbortController>();
@@ -162,7 +89,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
   protected addArrayQueryParam(query: QueryParamsType, key: string) {
     const value = query[key];
-    return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
+    return value.map((v: any) => this.encodeQueryParam(key, v, true)).join("&");
   }
 
   protected toQueryString(rawQuery?: QueryParamsType): string {
@@ -295,47 +222,39 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title Furkot Trips
+ * @title Swagger Petstore
  * @version 1.0.0
- * @baseUrl https://trips.furkot.com/pub/api
- * @externalDocs https://help.furkot.com/widgets/furkot-api.html
- * @contact <trips@furkot.com>
+ * @license Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0.html)
+ * @termsOfService http://swagger.io/terms/
+ * @baseUrl http://petstore.swagger.io/api
+ * @contact Swagger API Team <apiteam@swagger.io> (http://swagger.io)
  *
- * Furkot provides Rest API to access user trip data.
- * Using Furkot API an application can list user trips and display stops for a specific trip.
- * Furkot API uses OAuth2 protocol to authorize applications to access data on behalf of users.
+ * A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
-  trip = {
+  pets = {
     /**
-     * @description list user's trips
+     * @description Returns all pets from the system that the user has access to Nam sed condimentum est. Maecenas tempor sagittis sapien, nec rhoncus sem sagittis sit amet. Aenean at gravida augue, ac iaculis sem. Curabitur odio lorem, ornare eget elementum nec, cursus id lectus. Duis mi turpis, pulvinar ac eros ac, tincidunt varius justo. In hac habitasse platea dictumst. Integer at adipiscing ante, a sagittis ligula. Aenean pharetra tempor ante molestie imperdiet. Vivamus id aliquam diam. Cras quis velit non tortor eleifend sagittis. Praesent at enim pharetra urna volutpat venenatis eget eget mauris. In eleifend fermentum facilisis. Praesent enim enim, gravida ac sodales sed, placerat id erat. Suspendisse lacus dolor, consectetur non augue vel, vehicula interdum libero. Morbi euismod sagittis libero sed lacinia. Sed tempus felis lobortis leo pulvinar rutrum. Nam mattis velit nisl, eu condimentum ligula luctus nec. Phasellus semper velit eget aliquet faucibus. In a mattis elit. Phasellus vel urna viverra, condimentum lorem id, rhoncus nibh. Ut pellentesque posuere elementum. Sed a varius odio. Morbi rhoncus ligula libero, vel eleifend nunc tristique vitae. Fusce et sem dui. Aenean nec scelerisque tortor. Fusce malesuada accumsan magna vel tempus. Quisque mollis felis eu dolor tristique, sit amet auctor felis gravida. Sed libero lorem, molestie sed nisl in, accumsan tempor nisi. Fusce sollicitudin massa ut lacinia mattis. Sed vel eleifend lorem. Pellentesque vitae felis pretium, pulvinar elit eu, euismod sapien.
      *
-     * @name TripList
-     * @request GET:/trip
-     * @secure
+     * @name FindPets
+     * @request GET:/pets
      */
-    tripList: (params: RequestParams = {}) =>
-      this.request<Trip[], any>({
-        path: `/trip`,
+    findPets: (
+      query?: {
+        /** tags to filter by */
+        tags?: string[];
+        /**
+         * maximum number of results to return
+         * @format int32
+         */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, void>({
+        path: `/pets`,
         method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description list stops for a trip identified by {trip_id}
-     *
-     * @name StopDetail
-     * @request GET:/trip/{trip_id}/stop
-     * @secure
-     */
-    stopDetail: (tripId: string, params: RequestParams = {}) =>
-      this.request<Step[], any>({
-        path: `/trip/${tripId}/stop`,
-        method: "GET",
-        secure: true,
-        format: "json",
+        query: query,
         ...params,
       }),
   };

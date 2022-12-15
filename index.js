@@ -230,6 +230,12 @@ const program = cli({
       description: "sort routes in alphabetical order",
       default: codeGenBaseConfig.sortRoutes,
     },
+    {
+      flags: "--query-params-with-brackets",
+      description:
+        'use the brackets convention for array in query params: "?a[]=foo&a[]=bar" instead of repeat convention: "?a=foo&a=bar"',
+      default: codeGenBaseConfig.queryParamsWithBrackets,
+    },
   ],
 });
 

@@ -76,6 +76,7 @@ Options:
   --another-array-type          generate array types as Array<Type> (by default Type[]) (default: false)
   --sort-types                  sort fields and types (default: false)
   --extract-enums               extract all enums from inline interface\type content to typescript enum construction (default: false)
+  --query-params-with-brackets use the `brackets` convention for array in query params: `?a[]=foo&a[]=bar` instead of `repeat` convention: `?a=foo&a=bar`
   -h, --help                    display help for command
 
 Commands:
