@@ -892,19 +892,21 @@ class SchemaRoutes {
       _.forEach(routeInfosMap, (routeInfo, method) => {
         const parsedRouteInfo = this.parseRouteInfo(rawRouteName, routeInfo, method, usageSchema, parsedSchemas);
         const processedRouteInfo = this.config.hooks.onCreateRoute(parsedRouteInfo);
-        const route = processedRouteInfo || parsedRouteInfo;
+        if (processedRouteInfo !== false) {
+            const route = processedRouteInfo || parsedRouteInfo;
 
-        if (!this.hasSecurityRoutes && route.security) {
-          this.hasSecurityRoutes = route.security;
-        }
-        if (!this.hasQueryRoutes && route.hasQuery) {
-          this.hasQueryRoutes = route.hasQuery;
-        }
-        if (!this.hasFormDataRoutes && route.hasFormDataParams) {
-          this.hasFormDataRoutes = route.hasFormDataParams;
-        }
+            if (!this.hasSecurityRoutes && route.security) {
+                this.hasSecurityRoutes = route.security;
+            }
+            if (!this.hasQueryRoutes && route.hasQuery) {
+                this.hasQueryRoutes = route.hasQuery;
+            }
+            if (!this.hasFormDataRoutes && route.hasFormDataParams) {
+                this.hasFormDataRoutes = route.hasFormDataParams;
+            }
 
-        this.routes.push(route);
+            this.routes.push(route);
+        }
       });
     });
   };
