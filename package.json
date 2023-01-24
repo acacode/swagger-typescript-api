@@ -10,7 +10,7 @@
     "contributors": "all-contributors generate",
     "cli:help": "node index.js -h",
     "test-all": "npm run test-extended && npm run test-simple && npm run test-specific",
-    "test-all(update-snapshots)": "cross-env UPDATE_SNAPSHOTS=true && npm run test-all",
+    "test-all(update-snapshots)": "cross-env UPDATE_SNAPSHOTS=true npm run test-all",
     "test-simple": "node --unhandled-rejections=strict ./scriptsRunner.js generate validate",
     "test-extended": "node --unhandled-rejections=strict ./scriptsRunner.js generate-extended validate",
     "test-specific": "node --unhandled-rejections=strict ./scriptsRunner.js test:*",

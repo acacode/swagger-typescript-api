@@ -101,19 +101,26 @@ export class HttpClient<SecurityDataType = unknown> {
         return queryString ? `?${queryString}` : "";
     }
 
+    protected stringifyFormItem(formItem: unknown) {
+      if (formItem == null) {
+        return '';
+      } else if (typeof formItem === "object") {
+        return JSON.stringify(formItem);
+      } else {
+        return `${formItem}`;
+      }
+    }
+
     private contentFormatters: Record<ContentType, (input: any) => any> = {
         [ContentType.Json]: (input:any) => input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
         [ContentType.Text]: (input:any) => input !== null && typeof input !== "string" ? JSON.stringify(input) : input,
         [ContentType.FormData]: (input: any) =>
             Object.keys(input || {}).reduce((formData, key) => {
                 const property = input[key];
+                const isFileType = property instanceof Blob || property instanceof File;
                 formData.append(
                     key,
-                    property instanceof Blob ?
-                        property :
-                    typeof property === "object" && property !== null ?
-                        JSON.stringify(property) :
-                    `${property}`
+                    isFileType ? property : this.stringifyFormItem(property)
                 );
                 return formData;
             }, new FormData()),

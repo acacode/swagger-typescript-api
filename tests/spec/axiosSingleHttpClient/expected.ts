@@ -1977,7 +1977,9 @@ export class HttpClient<SecurityDataType = unknown> {
   }
 
   protected stringifyFormItem(formItem: unknown) {
-    if (typeof formItem === "object" && formItem !== null) {
+    if (formItem == null) {
+      return "";
+    } else if (typeof formItem === "object") {
       return JSON.stringify(formItem);
     } else {
       return `${formItem}`;
