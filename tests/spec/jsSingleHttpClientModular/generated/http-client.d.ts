@@ -61,6 +61,7 @@ export declare class HttpClient<SecurityDataType = unknown> {
   protected addArrayQueryParam(query: QueryParamsType, key: string): any;
   protected toQueryString(rawQuery?: QueryParamsType): string;
   protected addQueryParams(rawQuery?: QueryParamsType): string;
+  protected stringifyFormItem(formItem: unknown): string;
   private contentFormatters;
   protected mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams;
   protected createAbortSignal: (cancelToken: CancelToken) => AbortSignal | undefined;

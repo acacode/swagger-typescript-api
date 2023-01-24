@@ -56,6 +56,15 @@ export class HttpClient {
     const queryString = this.toQueryString(rawQuery);
     return queryString ? `?${queryString}` : "";
   }
+  stringifyFormItem(formItem) {
+    if (formItem == null) {
+      return "";
+    } else if (typeof formItem === "object") {
+      return JSON.stringify(formItem);
+    } else {
+      return `${formItem}`;
+    }
+  }
   contentFormatters = {
     [ContentType.Json]: (input) =>
       input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
@@ -63,14 +72,8 @@ export class HttpClient {
     [ContentType.FormData]: (input) =>
       Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-            ? JSON.stringify(property)
-            : `${property}`,
-        );
+        const isFileType = property instanceof Blob || property instanceof File;
+        formData.append(key, isFileType ? property : this.stringifyFormItem(property));
         return formData;
       }, new FormData()),
     [ContentType.UrlEncoded]: (input) => this.toQueryString(input),
