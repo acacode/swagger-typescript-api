@@ -85,7 +85,7 @@
     "@types/swagger-schema-official": "2.0.22",
     "cosmiconfig": "7.0.1",
     "didyoumean": "^1.2.2",
-    "eta": "1.12.3",
+    "eta": "^2.0.0",
     "js-yaml": "4.1.0",
     "lodash": "4.17.21",
     "make-dir": "3.1.0",
