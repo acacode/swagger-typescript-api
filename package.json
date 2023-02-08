@@ -62,7 +62,7 @@
     "test:extract-enums": "node tests/spec/extract-enums/test.js",
     "test:discriminator": "node tests/spec/discriminator/test.js",
     "test:sort-types": "node tests/spec/sortTypes/test.js",
-    "test:sort-types(false)": "node tests/spec/sortTypes(false)/test.js"
+    "test:sort-types-false": "node tests/spec/sortTypes-false/test.js"
   },
   "author": "acacode",
   "license": "MIT",
