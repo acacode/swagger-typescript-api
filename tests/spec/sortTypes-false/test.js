@@ -8,7 +8,7 @@ const schemas = createSchemaInfos({ absolutePathToSchemas: resolve(__dirname, ".
 
 schemas.forEach(({ absolutePath, apiFileName }) => {
   generateApiForTest({
-    testName: "--sort-types(false) option test",
+    testName: "--sort-types-false option test",
     silent: true,
     name: apiFileName,
     input: absolutePath,
