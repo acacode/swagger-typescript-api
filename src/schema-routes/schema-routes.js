@@ -97,7 +97,7 @@ class SchemaRoutes {
     const routeName = this.config.hooks.onPreBuildRoutePath(originalRouteName) || originalRouteName;
 
     const pathParamMatches = (routeName || "").match(
-      /({(([a-zA-Z]-?_?\.?){1,})([0-9]{1,})?})|(:(([a-zA-Z]-?_?\.?){1,})([0-9]{1,})?:?)/g,
+      /({(([A-z]){1}([a-zA-Z0-9]-?_?\.?){1,})([0-9]{1,})?})|(:(([A-z]){1}([a-zA-Z0-9]-?_?\.?){1,})([0-9]{1,})?:?)/g,
     );
 
     // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
