@@ -260,6 +260,7 @@ const main = async () => {
   try {
     if (options.customConfig) {
       const customConfigPath = resolve(process.cwd(), options.customConfig)   
+      console.log(`✨ found custom config at: ${customConfigPath}`)
       customConfig = require(customConfigPath)
     }
   } catch (error) {
