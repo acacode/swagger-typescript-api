@@ -254,10 +254,6 @@ program.addCommand({
   ],
 });
 
-const getCustomConfig = () => {
-
-}
-
 const main = async () => {
   const { command, options } = await program.execute({ args: process.argv });  
   let customConfig = null
