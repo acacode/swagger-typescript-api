@@ -207,6 +207,11 @@ const program = cli({
       description: "extract all enums from inline interface\\type content to typescript enum construction",
       default: codeGenBaseConfig.extractEnums,
     },
+    {
+      flags: "--custom-config <string>",
+      description: "custom config: primitiveTypeConstructs, hooks, ... ",
+      default: '',
+    },
   ],
 });
 
@@ -249,13 +254,26 @@ program.addCommand({
   ],
 });
 
-const main = async () => {
-  const { command, options } = await program.execute({ args: process.argv });
+const getCustomConfig = () => {
 
+}
+
+const main = async () => {
+  const { command, options } = await program.execute({ args: process.argv });  
+  let customConfig = null
+  try {
+    if (options.customConfig) {
+      const customConfigPath = resolve(process.cwd(), options.customConfig)   
+      customConfig = require(customConfigPath)
+    }
+  } catch (error) {
+  }
+  console.log(customConfig)
   try {
     switch (command) {
       case null: {
         await generateApi({
+          ...customConfig,
           name: options.name,
           url: options.path,
           generateRouteTypes: options.routeTypes,
