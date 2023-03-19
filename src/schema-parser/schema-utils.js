@@ -145,7 +145,7 @@ class SchemaUtils {
     return _.uniq(_.filter(contents, (type) => filterFn(type)));
   };
 
-  resolveTypeName = (typeName, suffixes, resolver) => {
+  resolveTypeName = (typeName, suffixes, resolver, shouldReserve = true) => {
     if (resolver) {
       return this.config.componentTypeNameResolver.resolve((reserved) => {
         const variant = resolver(pascalCase(typeName), reserved);
@@ -155,6 +155,7 @@ class SchemaUtils {
     } else {
       return this.config.componentTypeNameResolver.resolve(
         suffixes.map((suffix) => pascalCase(`${typeName} ${suffix}`)),
+        shouldReserve,
       );
     }
   };
