@@ -179,7 +179,7 @@
               },
               "type": "object"
             },
-            "name": "test_pek",
+            "name": "SHOULD_NOT_BE_ANY",
             "in": "query"
           },
           {

@@ -135,7 +135,7 @@ export enum TypeNamePrefixGetAbcGetParamsOrderByTypeNameSuffix {
 export interface TypeNamePrefixGetCdeGetParamsTypeNameSuffix {
   /** Tag Ids */
   tag_ids?: string[];
-  test_pek?: any;
+  SHOULD_NOT_BE_ANY?: any;
   /**
    * Order By
    * @default "created_time"
