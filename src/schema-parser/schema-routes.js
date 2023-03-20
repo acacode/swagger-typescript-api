@@ -767,7 +767,16 @@ class SchemaRoutes {
       this.extractResponseErrorIfItNeeded(routeInfo, responseBodyInfo, routeName);
     }
 
-    const queryType = routeParams.query.length ? this.schemaParser.getInlineParseContent(queryObjectSchema) : null;
+    const typeName = this.schemaUtils.resolveTypeName(
+      routeName.usage,
+      this.config.extractingOptions.requestParamsSuffix,
+      this.config.extractingOptions.requestParamsNameResolver,
+      false,
+    );
+
+    const queryType = routeParams.query.length
+      ? this.schemaParser.getInlineParseContent(queryObjectSchema, typeName)
+      : null;
     const pathType = routeParams.path.length ? this.schemaParser.getInlineParseContent(pathObjectSchema) : null;
     const headersType = routeParams.header.length ? this.schemaParser.getInlineParseContent(headersObjectSchema) : null;
 

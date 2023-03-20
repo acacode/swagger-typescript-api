@@ -40,7 +40,7 @@ class NameResolver {
    * @param {(string[]) | ((reserved: string[]) => string)} variantsOrResolver
    * @returns {string | null}
    */
-  resolve(variantsOrResolver) {
+  resolve(variantsOrResolver, shouldReserve = true) {
     this.logger.debug("resolving name with using", variantsOrResolver);
     if (Array.isArray(variantsOrResolver)) {
       const variants = variantsOrResolver;
@@ -48,13 +48,13 @@ class NameResolver {
       const uniqVariants = _.uniq(_.compact(variants));
 
       _.forEach(uniqVariants, (variant) => {
-        if (!usageName && !this.isReserved(variant)) {
+        if (!usageName && (!shouldReserve || !this.isReserved(variant))) {
           usageName = variant;
         }
       });
 
       if (usageName) {
-        this.reserve([usageName]);
+        shouldReserve && this.reserve([usageName]);
         return usageName;
       }
 
@@ -74,7 +74,7 @@ class NameResolver {
         }
       }
 
-      this.reserve([usageName]);
+      shouldReserve && this.reserve([usageName]);
       return usageName;
     }
 

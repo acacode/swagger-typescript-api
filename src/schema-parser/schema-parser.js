@@ -92,7 +92,7 @@ class SchemaParser {
   baseSchemaParsers = {
     [SCHEMA_TYPES.ENUM]: (schema, typeName) => {
       if (this.config.extractEnums && !typeName) {
-        const generatedTypeName = this.config.componentTypeNameResolver.resolve([this.buildTypeNameFromPath()]);
+        const generatedTypeName = this.config.componentTypeNameResolver.resolve([this.buildTypeNameFromPath()], false);
         const schemaComponent = this.schemaComponentsMap.createComponent("schemas", generatedTypeName, { ...schema });
         return this.parseSchema(schemaComponent, generatedTypeName);
       }
@@ -391,9 +391,9 @@ class SchemaParser {
       _.merge(schema, this.config.hooks.onPreParseSchema(schema, typeName, schemaType));
       parsedSchema = this.baseSchemaParsers[schemaType](schema, typeName);
       schema.$parsed = this.config.hooks.onParseSchema(schema, parsedSchema) || parsedSchema;
-    }
 
-    this.$processingSchemaPath.pop();
+      this.$processingSchemaPath.pop();
+    }
 
     return schema.$parsed;
   };
