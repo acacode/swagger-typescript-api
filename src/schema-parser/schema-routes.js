@@ -777,8 +777,12 @@ class SchemaRoutes {
     const queryType = routeParams.query.length
       ? this.schemaParser.getInlineParseContent(queryObjectSchema, typeName)
       : null;
-    const pathType = routeParams.path.length ? this.schemaParser.getInlineParseContent(pathObjectSchema) : null;
-    const headersType = routeParams.header.length ? this.schemaParser.getInlineParseContent(headersObjectSchema) : null;
+    const pathType = routeParams.path.length
+      ? this.schemaParser.getInlineParseContent(pathObjectSchema, typeName)
+      : null;
+    const headersType = routeParams.header.length
+      ? this.schemaParser.getInlineParseContent(headersObjectSchema, typeName)
+      : null;
 
     const nameResolver = new SpecificArgNameResolver(this.logger, pathArgsNames);
 

@@ -115,6 +115,28 @@
           {
             "required": false,
             "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VmState"
+              }
+            },
+            "name": "statuses_header",
+            "in": "header"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VmState"
+              }
+            },
+            "name": "statuses_path",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
               "title": "Order By",
               "enum": [
                 "created_time"
@@ -124,6 +146,58 @@
             },
             "name": "order_by",
             "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Order By",
+              "enum": [
+                "created_time"
+              ],
+              "type": "string",
+              "default": "created_time"
+            },
+            "name": "order_header_by",
+            "in": "header"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Order By",
+              "enum": [
+                "created_time"
+              ],
+              "type": "string",
+              "default": "created_time"
+            },
+            "name": "order_path_by",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Tag Ids",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "name": "tag_head_ids",
+            "in": "header"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Tag Ids",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "name": "tag_path_ids",
+            "in": "path"
           }
         ]
       }
@@ -185,6 +259,72 @@
           {
             "required": false,
             "schema": {
+              "properties": {
+                "tree": {
+                  "items": {
+                    "properties": {
+                      "mode": {
+                        "enum": ["100644", "100755", "040000", "160000", "120000"],
+                        "type": "string"
+                      },
+                      "mode-num": {
+                        "enum": [100644, 100755, 40000, 160000, 120000],
+                        "type": "number"
+                      },
+                      "type": {
+                        "enum": ["blob", "tree", "commit"],
+                        "type": "string"
+                      },
+                      "bereke": {
+                        "x-enumNames": ["Bla", "Blabla", "Boiler"]
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "name": "SHOULD_NOT_BE_ANY_PATH",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "properties": {
+                "tree": {
+                  "items": {
+                    "properties": {
+                      "mode": {
+                        "enum": ["100644", "100755", "040000", "160000", "120000"],
+                        "type": "string"
+                      },
+                      "mode-num": {
+                        "enum": [100644, 100755, 40000, 160000, 120000],
+                        "type": "number"
+                      },
+                      "type": {
+                        "enum": ["blob", "tree", "commit"],
+                        "type": "string"
+                      },
+                      "bereke": {
+                        "x-enumNames": ["Bla", "Blabla", "Boiler"]
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "name": "SHOULD_NOT_BE_ANY_HEADER",
+            "in": "header"
+          },
+          {
+            "required": false,
+            "schema": {
               "title": "Order By",
               "enum": [
                 "created_time"
@@ -194,6 +334,32 @@
             },
             "name": "order_by",
             "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Order By",
+              "enum": [
+                "created_time"
+              ],
+              "type": "string",
+              "default": "created_time"
+            },
+            "name": "order_by_header",
+            "in": "header"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Order By",
+              "enum": [
+                "created_time"
+              ],
+              "type": "string",
+              "default": "created_time"
+            },
+            "name": "order_by_path",
+            "in": "path"
           }
         ]
       }
