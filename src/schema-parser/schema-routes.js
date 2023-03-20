@@ -720,7 +720,7 @@ class SchemaRoutes {
     const pathArgs = routeParams.path.map((pathArgSchema) => ({
       name: pathArgSchema.name,
       optional: !pathArgSchema.required,
-      type: this.schemaParser.getInlineParseContent(pathArgSchema.schema),
+      type: this.config.Ts.Keyword.Any,
       description: pathArgSchema.description,
     }));
     const pathArgsNames = pathArgs.map((arg) => arg.name);
@@ -816,6 +816,10 @@ class SchemaRoutes {
           }
         : void 0,
     };
+
+    pathArgs.forEach((pathArg, i) => {
+      pathArg.type = this.schemaParser.getInlineParseContent(routeParams.path[i].schema, typeName);
+    });
 
     return {
       id: routeId,

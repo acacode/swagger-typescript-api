@@ -122,6 +122,14 @@ export interface TypeNamePrefixGetAbcGetParamsTypeNameSuffix {
    * @default "created_time"
    */
   order_by?: TypeNamePrefixGetAbcGetParamsOrderByTypeNameSuffix;
+  statusesPath?: any[];
+  /**
+   * Order By
+   * @default "created_time"
+   */
+  orderPathBy?: TypeNamePrefixGetAbcGetParamsOrderPathByTypeNameSuffix;
+  /** Tag Ids */
+  tagPathIds?: string[];
 }
 
 /**
@@ -129,6 +137,22 @@ export interface TypeNamePrefixGetAbcGetParamsTypeNameSuffix {
  * @default "created_time"
  */
 export enum TypeNamePrefixGetAbcGetParamsOrderByTypeNameSuffix {
+  EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
+}
+
+/**
+ * Order By
+ * @default "created_time"
+ */
+export enum TypeNamePrefixGetAbcGetParamsOrderPathByTypeNameSuffix {
+  EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
+}
+
+/**
+ * Order By
+ * @default "created_time"
+ */
+export enum TypeNamePrefixGetAbcGetParamsOrderHeaderByTypeNameSuffix {
   EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
 }
 
@@ -148,6 +172,19 @@ export interface TypeNamePrefixGetCdeGetParamsTypeNameSuffix {
    * @default "created_time"
    */
   order_by?: TypeNamePrefixGetCdeGetParamsOrderByTypeNameSuffix;
+  shouldNotBeAnyPath?: {
+    tree?: {
+      mode?: TypeNamePrefixGetCdeGetParamsModeTypeNameSuffix;
+      "mode-num"?: TypeNamePrefixGetCdeGetParamsModeNumTypeNameSuffix;
+      type?: TypeNamePrefixGetCdeGetParamsTypeTypeNameSuffix;
+      bereke?: TypeNamePrefixGetCdeGetParamsBerekeTypeNameSuffix;
+    }[];
+  };
+  /**
+   * Order By
+   * @default "created_time"
+   */
+  orderByPath?: TypeNamePrefixGetCdeGetParamsOrderByPathTypeNameSuffix;
 }
 
 export enum TypeNamePrefixGetCdeGetParamsModeTypeNameSuffix {
@@ -183,5 +220,21 @@ export enum TypeNamePrefixGetCdeGetParamsBerekeTypeNameSuffix {
  * @default "created_time"
  */
 export enum TypeNamePrefixGetCdeGetParamsOrderByTypeNameSuffix {
+  EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
+}
+
+/**
+ * Order By
+ * @default "created_time"
+ */
+export enum TypeNamePrefixGetCdeGetParamsOrderByPathTypeNameSuffix {
+  EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
+}
+
+/**
+ * Order By
+ * @default "created_time"
+ */
+export enum TypeNamePrefixGetCdeGetParamsOrderByHeaderTypeNameSuffix {
   EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
 }
