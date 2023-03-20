@@ -135,12 +135,47 @@ export enum TypeNamePrefixGetAbcGetParamsOrderByTypeNameSuffix {
 export interface TypeNamePrefixGetCdeGetParamsTypeNameSuffix {
   /** Tag Ids */
   tag_ids?: string[];
-  SHOULD_NOT_BE_ANY?: any;
+  SHOULD_NOT_BE_ANY?: {
+    tree?: {
+      mode?: TypeNamePrefixGetCdeGetParamsModeTypeNameSuffix;
+      "mode-num"?: TypeNamePrefixGetCdeGetParamsModeNumTypeNameSuffix;
+      type?: TypeNamePrefixGetCdeGetParamsTypeTypeNameSuffix;
+      bereke?: TypeNamePrefixGetCdeGetParamsBerekeTypeNameSuffix;
+    }[];
+  };
   /**
    * Order By
    * @default "created_time"
    */
   order_by?: TypeNamePrefixGetCdeGetParamsOrderByTypeNameSuffix;
+}
+
+export enum TypeNamePrefixGetCdeGetParamsModeTypeNameSuffix {
+  EnumKeyPrefixInvalidKey100644EnumKeySuffix = "100644",
+  EnumKeyPrefixInvalidKey100755EnumKeySuffix = "100755",
+  EnumKeyPrefixInvalidKey040000EnumKeySuffix = "040000",
+  EnumKeyPrefixInvalidKey160000EnumKeySuffix = "160000",
+  EnumKeyPrefixInvalidKey120000EnumKeySuffix = "120000",
+}
+
+export enum TypeNamePrefixGetCdeGetParamsModeNumTypeNameSuffix {
+  EnumKeyPrefixInvalidKey100644EnumKeySuffix = 100644,
+  EnumKeyPrefixInvalidKey100755EnumKeySuffix = 100755,
+  EnumKeyPrefixInvalidKey40000EnumKeySuffix = 40000,
+  EnumKeyPrefixInvalidKey160000EnumKeySuffix = 160000,
+  EnumKeyPrefixInvalidKey120000EnumKeySuffix = 120000,
+}
+
+export enum TypeNamePrefixGetCdeGetParamsTypeTypeNameSuffix {
+  EnumKeyPrefixBlobEnumKeySuffix = "blob",
+  EnumKeyPrefixTreeEnumKeySuffix = "tree",
+  EnumKeyPrefixCommitEnumKeySuffix = "commit",
+}
+
+export enum TypeNamePrefixGetCdeGetParamsBerekeTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
+  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
 }
 
 /**
