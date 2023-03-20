@@ -383,7 +383,7 @@ class SchemaRoutes {
       [],
     );
 
-  getResponseBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
+  getResponseBodyInfo = (routeInfo, parsedSchemas) => {
     const { produces, operationId, responses } = routeInfo;
 
     const contentTypes = this.getContentTypes(responses, [...(produces || []), routeInfo["x-accepts"]]);
@@ -720,12 +720,13 @@ class SchemaRoutes {
     const pathArgs = routeParams.path.map((pathArgSchema) => ({
       name: pathArgSchema.name,
       optional: !pathArgSchema.required,
+      // mark it as any for now, because "getInlineParseContent" breaks type names of extracted enums
       type: this.config.Ts.Keyword.Any,
       description: pathArgSchema.description,
     }));
     const pathArgsNames = pathArgs.map((arg) => arg.name);
 
-    const responseBodyInfo = this.getResponseBodyInfo(routeInfo, routeParams, parsedSchemas);
+    const responseBodyInfo = this.getResponseBodyInfo(routeInfo, parsedSchemas);
 
     const rawRouteInfo = {
       ...otherInfo,
