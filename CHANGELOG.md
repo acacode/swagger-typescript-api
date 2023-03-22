@@ -1,4 +1,11 @@
-# next release
+# next release  
+
+## 12.0.4  
+
+fix: onCreateRoute skip behaviour  
+fix: problems with prefixes\suffixes for extracted requests params, enums
+
+**Full Changelog**: https://github.com/acacode/swagger-typescript-api/compare/12.0.3...12.0.4  
 
 ## 12.0.3
 
