@@ -1,0 +1,368 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Some Public API",
+    "version": "0.0.1"
+  },
+  "components": {
+    "schemas": {
+      "enum-root": {
+        "enum": ["100644", "100755", "040000", "160000", "120000", "test1", "test2"],
+        "type": "string"
+      },
+      "tree": {
+        "properties": {
+          "tree": {
+            "items": {
+              "properties": {
+                "mode": {
+                  "enum": ["100644", "100755", "040000", "160000", "120000"],
+                  "type": "string"
+                },
+                "mode-num": {
+                  "enum": [100644, 100755, 40000, 160000, 120000],
+                  "type": "number"
+                },
+                "type": {
+                  "enum": ["blob", "tree", "commit"],
+                  "type": "string"
+                },
+                "bereke": {
+                  "x-enumNames": ["Bla", "Blabla", "Boiler"]
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "OnlyEnumNames": {
+        "x-enumNames": ["Bla", "Blabla", "Boiler"]
+      },
+      "StringOnlyEnumNames": {
+        "type": "int32",
+        "x-enumNames": ["Bla", "Blabla", "Boiler"]
+      },
+      "StringEnums": {
+        "type": "int32",
+        "enum": ["foo", "bar"],
+        "x-enumNames": ["Bla", "Blabla", "Boiler"]
+      },
+      "StringCompleteEnums": {
+        "type": "int32",
+        "enum": ["foo", "bar", "baz"],
+        "x-enumNames": ["Bla", "Blabla", "Boiler"]
+      },
+      "EmptyEnum": {
+        "format": "int32",
+        "type": "integer",
+        "x-enumNames": ["Bla", "Blabla", "Boiler"]
+      },
+      "EnumWithMoreNames": {
+        "format": "int32",
+        "type": "integer",
+        "enum": [1],
+        "x-enumNames": ["Bla", "Blabla", "Boiler"]
+      },
+      "SomeInterestEnum": {
+        "format": "int32",
+        "enum": [6, 2, 1, 67, 88, 122, 88, 0, 213, 12378, 123125, 32452, 1111, 66666],
+        "type": "integer",
+        "x-enumNames": [
+          "Bla",
+          "Blabla",
+          "Boiler",
+          "Bbabab",
+          "Nowadays",
+          "FAIL",
+          "Vvvvv",
+          "ASdasAS",
+          "ASDsacZX",
+          "Zook",
+          "EnumMm",
+          "VCsa",
+          "Yuuu",
+          "ASddd",
+          "ASdsdsa",
+          "ASDds",
+          "HSDFDS"
+        ]
+      }
+    }
+  },
+  "paths": {
+    "/a/b/c": {
+      "get": {
+        "tags": [
+          "tag1"
+        ],
+        "summary": "get A",
+        "operationId": "get_a_b_c_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VmState"
+              }
+            },
+            "name": "statuses",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VmState"
+              }
+            },
+            "name": "statuses_header",
+            "in": "header"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VmState"
+              }
+            },
+            "name": "statuses_path",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Order By",
+              "enum": [
+                "created_time"
+              ],
+              "type": "string",
+              "default": "created_time"
+            },
+            "name": "order_by",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Order By",
+              "enum": [
+                "created_time"
+              ],
+              "type": "string",
+              "default": "created_time"
+            },
+            "name": "order_header_by",
+            "in": "header"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Order By",
+              "enum": [
+                "created_time"
+              ],
+              "type": "string",
+              "default": "created_time"
+            },
+            "name": "order_path_by",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Tag Ids",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "name": "tag_head_ids",
+            "in": "header"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Tag Ids",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "name": "tag_path_ids",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/c/d/e": {
+      "get": {
+        "tags": [
+          "Security Groups"
+        ],
+        "summary": "Get C",
+        "operationId": "get_c_d_e_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Tag Ids",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "name": "tag_ids",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "properties": {
+                "tree": {
+                  "items": {
+                    "properties": {
+                      "mode": {
+                        "enum": ["100644", "100755", "040000", "160000", "120000"],
+                        "type": "string"
+                      },
+                      "mode-num": {
+                        "enum": [100644, 100755, 40000, 160000, 120000],
+                        "type": "number"
+                      },
+                      "type": {
+                        "enum": ["blob", "tree", "commit"],
+                        "type": "string"
+                      },
+                      "bereke": {
+                        "x-enumNames": ["Bla", "Blabla", "Boiler"]
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "name": "SHOULD_NOT_BE_ANY",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "properties": {
+                "tree": {
+                  "items": {
+                    "properties": {
+                      "mode": {
+                        "enum": ["100644", "100755", "040000", "160000", "120000"],
+                        "type": "string"
+                      },
+                      "mode-num": {
+                        "enum": [100644, 100755, 40000, 160000, 120000],
+                        "type": "number"
+                      },
+                      "type": {
+                        "enum": ["blob", "tree", "commit"],
+                        "type": "string"
+                      },
+                      "bereke": {
+                        "x-enumNames": ["Bla", "Blabla", "Boiler"]
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "name": "SHOULD_NOT_BE_ANY_PATH",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "properties": {
+                "tree": {
+                  "items": {
+                    "properties": {
+                      "mode": {
+                        "enum": ["100644", "100755", "040000", "160000", "120000"],
+                        "type": "string"
+                      },
+                      "mode-num": {
+                        "enum": [100644, 100755, 40000, 160000, 120000],
+                        "type": "number"
+                      },
+                      "type": {
+                        "enum": ["blob", "tree", "commit"],
+                        "type": "string"
+                      },
+                      "bereke": {
+                        "x-enumNames": ["Bla", "Blabla", "Boiler"]
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "name": "SHOULD_NOT_BE_ANY_HEADER",
+            "in": "header"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Order By",
+              "enum": [
+                "created_time"
+              ],
+              "type": "string",
+              "default": "created_time"
+            },
+            "name": "order_by",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Order By",
+              "enum": [
+                "created_time"
+              ],
+              "type": "string",
+              "default": "created_time"
+            },
+            "name": "order_by_header",
+            "in": "header"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Order By",
+              "enum": [
+                "created_time"
+              ],
+              "type": "string",
+              "default": "created_time"
+            },
+            "name": "order_by_path",
+            "in": "path"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -48,7 +48,7 @@ class NameResolver {
    * @param {any} [extras]
    * @returns {string | null}
    */
-  resolve(variants, resolver, extras) {
+  resolve(variants, resolver, extras, shouldReserve = true) {
     if (typeof resolver === "function") {
       let usageName = null;
       while (usageName === null) {
@@ -58,25 +58,25 @@ class NameResolver {
           this.logger.warn("unable to resolve name. current reserved names: ", this.reservedNames);
           return null;
         }
-        if (!this.isReserved(variant)) {
+        if (!shouldReserve || !this.isReserved(variant)) {
           usageName = variant;
         }
       }
 
-      this.reserve([usageName]);
+      shouldReserve && this.reserve([usageName]);
       return usageName;
     } else if (Array.isArray(variants)) {
       let usageName = null;
       const uniqVariants = _.uniq(_.compact(variants));
 
       _.forEach(uniqVariants, (variant) => {
-        if (!usageName && !this.isReserved(variant)) {
+        if (!usageName && (!shouldReserve || !this.isReserved(variant))) {
           usageName = variant;
         }
       });
 
       if (usageName) {
-        this.reserve([usageName]);
+        shouldReserve && this.reserve([usageName]);
         return usageName;
       }
 

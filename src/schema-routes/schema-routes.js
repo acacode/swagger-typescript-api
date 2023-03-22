@@ -390,7 +390,7 @@ class SchemaRoutes {
       [],
     );
 
-  getResponseBodyInfo = (routeInfo, routeParams, parsedSchemas) => {
+  getResponseBodyInfo = (routeInfo, parsedSchemas) => {
     const { produces, operationId, responses } = routeInfo;
 
     const contentTypes = this.getContentTypes(responses, [...(produces || []), routeInfo["x-accepts"]]);
@@ -749,12 +749,13 @@ class SchemaRoutes {
     const pathArgs = routeParams.path.map((pathArgSchema) => ({
       name: pathArgSchema.name,
       optional: !pathArgSchema.required,
-      type: this.schemaParserFabric.getInlineParseContent(pathArgSchema.schema, null, [operationId]),
+      // mark it as any for now, because "getInlineParseContent" breaks type names of extracted enums
+      type: this.config.Ts.Keyword.Any,
       description: pathArgSchema.description,
     }));
     const pathArgsNames = pathArgs.map((arg) => arg.name);
 
-    const responseBodyInfo = this.getResponseBodyInfo(routeInfo, routeParams, parsedSchemas);
+    const responseBodyInfo = this.getResponseBodyInfo(routeInfo, parsedSchemas);
 
     const rawRouteInfo = {
       ...otherInfo,
@@ -796,14 +797,21 @@ class SchemaRoutes {
       this.extractResponseErrorIfItNeeded(routeInfo, responseBodyInfo, routeName);
     }
 
+    const typeName = this.schemaUtils.resolveTypeName(
+      routeName.usage,
+      this.config.extractingOptions.requestParamsSuffix,
+      this.config.extractingOptions.requestParamsNameResolver,
+      false,
+    );
+
     const queryType = routeParams.query.length
-      ? this.schemaParserFabric.getInlineParseContent(queryObjectSchema, null, [routeName.usage])
+      ? this.schemaParserFabric.getInlineParseContent(queryObjectSchema, null, [typeName])
       : null;
     const pathType = routeParams.path.length
-      ? this.schemaParserFabric.getInlineParseContent(pathObjectSchema, null, [routeName.usage])
+      ? this.schemaParserFabric.getInlineParseContent(pathObjectSchema, null, [typeName])
       : null;
     const headersType = routeParams.header.length
-      ? this.schemaParserFabric.getInlineParseContent(headersObjectSchema, null, [routeName.usage])
+      ? this.schemaParserFabric.getInlineParseContent(headersObjectSchema, null, [typeName])
       : null;
 
     const nameResolver = new SpecificArgNameResolver(this.config, this.logger, pathArgsNames);
@@ -841,6 +849,10 @@ class SchemaRoutes {
           }
         : void 0,
     };
+
+    pathArgs.forEach((pathArg, i) => {
+      pathArg.type = this.schemaParserFabric.getInlineParseContent(routeParams.path[i].schema, null, [typeName]);
+    });
 
     return {
       id: routeId,
@@ -893,19 +905,19 @@ class SchemaRoutes {
         const parsedRouteInfo = this.parseRouteInfo(rawRouteName, routeInfo, method, usageSchema, parsedSchemas);
         const processedRouteInfo = this.config.hooks.onCreateRoute(parsedRouteInfo);
         if (processedRouteInfo !== false) {
-            const route = processedRouteInfo || parsedRouteInfo;
+          const route = processedRouteInfo || parsedRouteInfo;
 
-            if (!this.hasSecurityRoutes && route.security) {
-                this.hasSecurityRoutes = route.security;
-            }
-            if (!this.hasQueryRoutes && route.hasQuery) {
-                this.hasQueryRoutes = route.hasQuery;
-            }
-            if (!this.hasFormDataRoutes && route.hasFormDataParams) {
-                this.hasFormDataRoutes = route.hasFormDataParams;
-            }
+          if (!this.hasSecurityRoutes && route.security) {
+            this.hasSecurityRoutes = route.security;
+          }
+          if (!this.hasQueryRoutes && route.hasQuery) {
+            this.hasQueryRoutes = route.hasQuery;
+          }
+          if (!this.hasFormDataRoutes && route.hasFormDataParams) {
+            this.hasFormDataRoutes = route.hasFormDataParams;
+          }
 
-            this.routes.push(route);
+          this.routes.push(route);
         }
       });
     });
