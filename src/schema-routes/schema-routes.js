@@ -797,12 +797,11 @@ class SchemaRoutes {
       this.extractResponseErrorIfItNeeded(routeInfo, responseBodyInfo, routeName);
     }
 
-    const typeName = this.schemaUtils.resolveTypeName(
-      routeName.usage,
-      this.config.extractingOptions.requestParamsSuffix,
-      this.config.extractingOptions.requestParamsNameResolver,
-      false,
-    );
+    const typeName = this.schemaUtils.resolveTypeName(routeName.usage, {
+      suffixes: this.config.extractingOptions.requestParamsSuffix,
+      resolver: this.config.extractingOptions.requestParamsNameResolver,
+      shouldReserve: false,
+    });
 
     const queryType = routeParams.query.length
       ? this.schemaParserFabric.getInlineParseContent(queryObjectSchema, null, [typeName])
