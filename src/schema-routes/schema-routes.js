@@ -273,7 +273,10 @@ class SchemaRoutes {
       return CONTENT_KIND.FORM_DATA;
     }
 
-    if (_.some(contentTypes, (contentType) => _.includes(contentType, "image/"))) {
+    if (
+      _.some(contentTypes, (contentType) => _.includes(contentType, "image/")) ||
+      contentTypes.includes("application/octet-stream")
+    ) {
       return CONTENT_KIND.IMAGE;
     }
 
