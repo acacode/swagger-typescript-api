@@ -33,7 +33,7 @@ class SwaggerSchemaResolver {
    * @returns {Promise<{usageSchema: Record<string, *>, originalSchema: Record<string, *>}>}
    */
   async create() {
-    const { spec, patch, input, url, disableStrictSSL, disableProxy, authorizationToken } = this.config;
+    const { spec, patch, input, url, disableStrictSsl, disableProxy, authorizationToken } = this.config;
 
     if (this.config.spec) {
       return await this.convertSwaggerObject(spec, { patch });
@@ -42,7 +42,7 @@ class SwaggerSchemaResolver {
     const swaggerSchemaFile = await this.fetchSwaggerSchemaFile(
       input,
       url,
-      disableStrictSSL,
+      disableStrictSsl,
       disableProxy,
       authorizationToken,
     );
@@ -104,14 +104,14 @@ class SwaggerSchemaResolver {
     return this.fileSystem.getFileContent(pathToSwagger);
   };
 
-  async fetchSwaggerSchemaFile(pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy, authToken) {
+  async fetchSwaggerSchemaFile(pathToSwagger, urlToSwagger, disableStrictSsl, disableProxy, authToken) {
     if (this.fileSystem.pathIsExist(pathToSwagger)) {
       return this.getSwaggerSchemaByPath(pathToSwagger);
     } else {
       this.logger.log(`try to get swagger by URL "${urlToSwagger}"`);
       return await this.request.download({
         url: urlToSwagger,
-        disableStrictSSL,
+        disableStrictSsl,
         authToken,
         disableProxy,
       });

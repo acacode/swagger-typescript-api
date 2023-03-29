@@ -67,7 +67,7 @@ class CodeGenConfig {
 
   /** use the first tag for the module name */
   moduleNameFirstTag = false;
-  disableStrictSSL = false;
+  disableStrictSsl = false;
   disableProxy = false;
   extractRequestParams = false;
   extractRequestBody = false;

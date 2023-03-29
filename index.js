@@ -136,7 +136,7 @@ const program = cli({
     {
       flags: "--disableStrictSSL",
       description: "disabled strict SSL",
-      default: codeGenBaseConfig.disableStrictSSL,
+      default: codeGenBaseConfig.disableStrictSsl,
       internal: { formatter: Boolean },
     },
     {

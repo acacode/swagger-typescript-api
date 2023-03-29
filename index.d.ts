@@ -80,7 +80,7 @@ interface GenerateApiParamsBase {
   /**
    * disabled SSL check
    */
-  disableStrictSSL?: boolean;
+  disableStrictSsl?: boolean;
   /**
    * disabled Proxy
    */
@@ -539,7 +539,7 @@ export interface GenerateApiConfiguration {
     moduleNameIndex: number;
     moduleNameFirstTag: boolean;
     extraTemplates: { name: string; path: string }[];
-    disableStrictSSL: boolean;
+    disableStrictSsl: boolean;
     disableProxy: boolean;
     extractRequestParams: boolean;
     unwrapResponseData: boolean;

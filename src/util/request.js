@@ -20,18 +20,18 @@ class Request {
   /**
    *
    * @param url {string}
-   * @param disableStrictSSL
+   * @param disableStrictSsl
    * @param authToken
    * @param options {Partial<import("node-fetch").RequestInit>}
    * @return {Promise<string>}
    */
-  async download({ url, disableStrictSSL, authToken, ...options }) {
+  async download({ url, disableStrictSsl, authToken, ...options }) {
     /**
      * @type {Partial<import("node-fetch").RequestInit>}
      */
     const requestOptions = {};
 
-    if (disableStrictSSL && !_.startsWith(url, "http://")) {
+    if (disableStrictSsl && !_.startsWith(url, "http://")) {
       requestOptions.agent = new https.Agent({
         rejectUnauthorized: false,
       });
