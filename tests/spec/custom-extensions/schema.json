@@ -1,0 +1,31 @@
+{
+  "swagger": "2.0",
+  "schemes": [
+    "https"
+  ],
+  "host": "example.com",
+  "basePath": "/",
+  "paths": {
+    "/test": {
+      "x-my-extension": true,
+      "x-my-extension-2": {
+        "dynamic": {}
+      },
+      "get": {
+        "description": "Test",
+        "operationId": "test",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -142,12 +142,14 @@ class SwaggerSchemaResolver {
         const usageRouteParams = _.get(usageRouteInfo, "parameters", []);
         const originalRouteParams = _.get(originalRouteInfo, "parameters", []);
 
-        usageRouteInfo.consumes = _.uniq(
-          _.compact([...(usageRouteInfo.consumes || []), ...(originalRouteInfo.consumes || [])]),
-        );
-        usageRouteInfo.produces = _.uniq(
-          _.compact([...(usageRouteInfo.produces || []), ...(originalRouteInfo.produces || [])]),
-        );
+        if (typeof usageRouteInfo === "object") {
+          usageRouteInfo.consumes = _.uniq(
+            _.compact([...(usageRouteInfo.consumes || []), ...(originalRouteInfo.consumes || [])]),
+          );
+          usageRouteInfo.produces = _.uniq(
+            _.compact([...(usageRouteInfo.produces || []), ...(originalRouteInfo.produces || [])]),
+          );
+        }
 
         _.each(originalRouteParams, (originalRouteParam) => {
           const existUsageParam = _.find(
