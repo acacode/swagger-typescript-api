@@ -555,11 +555,15 @@ export interface GenerateApiConfiguration {
     getInlineParseContent: (rawTypeData: SchemaComponent["rawTypeData"], typeName?: string) => string;
     getParseContent: (rawTypeData: SchemaComponent["rawTypeData"], typeName?: string) => ModelType;
     getComponentByRef: (ref: string) => SchemaComponent;
-    parseSchema: (
-      rawSchema: string | SchemaComponent["rawTypeData"],
-      typeName?: string,
-      formattersMap?: Record<MAIN_SCHEMA_TYPES, (content: ModelType) => string>,
-    ) => ModelType;
+    parseSchema: (rawSchema: string | SchemaComponent["rawTypeData"], typeName?: string) => ModelType;
+    safeAddNullToType: (
+      schema: { type: string; nullable?: boolean; "x-nullable"?: string | boolean },
+      type: unknown,
+    ) => string;
+    isNeedToAddNull: (
+      schema: { type: string; nullable?: boolean; "x-nullable"?: string | boolean },
+      type: unknown,
+    ) => boolean;
     formatters: Record<MAIN_SCHEMA_TYPES, (content: string | object | string[] | object[]) => string>;
     inlineExtraFormatters: Record<Exclude<MAIN_SCHEMA_TYPES, SCHEMA_TYPES.PRIMITIVE>, (schema: ModelType) => string>;
     formatModelName: (name: string) => string;
