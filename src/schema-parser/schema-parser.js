@@ -363,7 +363,6 @@ class SchemaParser {
    *
    * @param schema {any}
    * @param typeName {null | string}
-   * @param formatter {"inline" | "base"}
    * @return {Record<string, any>}
    */
   parseSchema = (schema, typeName = null) => {
