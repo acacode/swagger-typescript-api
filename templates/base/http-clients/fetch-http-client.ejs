@@ -54,6 +54,7 @@ export class HttpClient<SecurityDataType = unknown> {
     private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
     private abortControllers = new Map<CancelToken, AbortController>();
     private customFetch = (...fetchParams: Parameters<typeof fetch>) => fetch(...fetchParams);
+    public hasSecurityData?: boolean;
 
     private baseApiParams: RequestParams = {
         credentials: 'same-origin',
@@ -68,6 +69,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
     public setSecurityData = (data: SecurityDataType | null) => {
         this.securityData = data;
+        this.hasSecurityData = !!data;
     }
 
     protected encodeQueryParam(key: string, value: any) {
