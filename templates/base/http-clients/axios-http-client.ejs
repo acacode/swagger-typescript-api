@@ -2,7 +2,8 @@
 const { apiConfig, generateResponses, config } = it;
 %>
 
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType, HeadersDefaults } from "axios";
+import type { AxiosInstance, AxiosRequestConfig, HeadersDefaults, ResponseType } from "axios";
+import axios from "axios";
 
 export type QueryParamsType = Record<string | number, any>;
 
