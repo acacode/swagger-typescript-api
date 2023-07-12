@@ -339,7 +339,7 @@ export class HttpClient<SecurityDataType = unknown> {
         ...(requestParams.headers || {}),
         ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
+      signal: (cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal) || null,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
