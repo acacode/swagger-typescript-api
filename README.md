@@ -106,7 +106,7 @@ const { generateApi, generateTemplates } = require('swagger-typescript-api');
 const path = require("path");
 const fs = require("fs");
 
-/* NOTE: all fields are optional expect one of `output`, `url`, `spec` */
+/* NOTE: all fields are optional expect one of `input`, `url`, `spec` */
 generateApi({
   name: "MySuperbApi.ts",
   // set to `false` to prevent the tool from writing to disk
