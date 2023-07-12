@@ -1,19 +1,26 @@
-const { MonoSchemaParser } = require("../mono-schema-parser");
-const _ = require("lodash");
-const { SCHEMA_TYPES } = require("../../constants");
+const { MonoSchemaParser } = require('../mono-schema-parser');
+const _ = require('lodash');
+const { SCHEMA_TYPES } = require('../../constants');
 
 class PrimitiveSchemaParser extends MonoSchemaParser {
   parse() {
     let contentType = null;
-    const { additionalProperties, type, description, items } = this.schema || {};
+    const { additionalProperties, type, description, items } =
+      this.schema || {};
 
     if (type === this.config.Ts.Keyword.Object && additionalProperties) {
       const fieldType = _.isObject(additionalProperties)
         ? this.schemaParserFabric
-            .createSchemaParser({ schema: additionalProperties, schemaPath: this.schemaPath })
+            .createSchemaParser({
+              schema: additionalProperties,
+              schemaPath: this.schemaPath,
+            })
             .getInlineParseContent()
         : this.config.Ts.Keyword.Any;
-      contentType = this.config.Ts.RecordType(this.config.Ts.Keyword.String, fieldType);
+      contentType = this.config.Ts.RecordType(
+        this.config.Ts.Keyword.String,
+        fieldType,
+      );
     }
 
     if (_.isArray(type) && type.length) {
@@ -43,7 +50,10 @@ class PrimitiveSchemaParser extends MonoSchemaParser {
       name: this.typeName,
       description: this.schemaFormatters.formatDescription(description),
       // TODO: probably it should be refactored. `type === 'null'` is not flexible
-      content: type === this.config.Ts.Keyword.Null ? type : contentType || this.schemaUtils.getSchemaType(this.schema),
+      content:
+        type === this.config.Ts.Keyword.Null
+          ? type
+          : contentType || this.schemaUtils.getSchemaType(this.schema),
     };
   }
 }

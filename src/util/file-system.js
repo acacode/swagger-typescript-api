@@ -1,7 +1,8 @@
-const fs = require("fs");
-const makeDir = require("make-dir");
-const { resolve } = require("path");
-const _ = require("lodash");
+const fs = require('fs');
+const makeDir = require('make-dir');
+const { resolve } = require('path');
+const _ = require('lodash');
+const { Logger } = require('./logger');
 
 const FILE_PREFIX = `/* eslint-disable */
 /* tslint:disable */
@@ -20,12 +21,12 @@ class FileSystem {
   /** @type {Logger} */
   logger;
 
-  constructor({ logger }) {
+  constructor({ logger = new Logger('file-system') } = {}) {
     this.logger = logger;
   }
 
   getFileContent = (path) => {
-    return fs.readFileSync(path, { encoding: "UTF-8" });
+    return fs.readFileSync(path, { encoding: 'UTF-8' });
   };
 
   readDir = (path) => {
@@ -44,24 +45,24 @@ class FileSystem {
   };
 
   cropExtension = (fileName) => {
-    const fileNameParts = _.split(fileName, ".");
+    const fileNameParts = _.split(fileName, '.');
 
     if (fileNameParts.length > 1) {
       fileNameParts.pop();
     }
 
-    return fileNameParts.join(".");
+    return fileNameParts.join('.');
   };
 
   removeDir = (path) => {
     try {
-      if (typeof fs.rmSync === "function") {
+      if (typeof fs.rmSync === 'function') {
         fs.rmSync(path, { recursive: true });
       } else {
         fs.rmdirSync(path, { recursive: true });
       }
     } catch (e) {
-      this.logger.debug("failed to remove dir", e);
+      this.logger.debug('failed to remove dir', e);
     }
   };
 
@@ -69,7 +70,7 @@ class FileSystem {
     try {
       makeDir.sync(path);
     } catch (e) {
-      this.logger.debug("failed to create dir", e);
+      this.logger.debug('failed to create dir', e);
     }
   };
 
@@ -84,7 +85,7 @@ class FileSystem {
 
   createFile = ({ path, fileName, content, withPrefix }) => {
     const absolutePath = resolve(__dirname, path, `./${fileName}`);
-    const fileContent = `${withPrefix ? FILE_PREFIX : ""}${content}`;
+    const fileContent = `${withPrefix ? FILE_PREFIX : ''}${content}`;
 
     return fs.writeFileSync(absolutePath, fileContent, _.noop);
   };

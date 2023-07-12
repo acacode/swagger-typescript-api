@@ -1,4 +1,4 @@
-const _ = require("lodash");
+const _ = require('lodash');
 
 class NameResolver {
   reservedNames = [];
@@ -34,7 +34,9 @@ class NameResolver {
   }
 
   unreserve(names) {
-    this.reservedNames.filter((reservedName) => !names.some((name) => name === reservedName));
+    this.reservedNames.filter(
+      (reservedName) => !names.some((name) => name === reservedName),
+    );
   }
 
   isReserved(name) {
@@ -49,13 +51,16 @@ class NameResolver {
    * @returns {string | null}
    */
   resolve(variants, resolver, extras, shouldReserve = true) {
-    if (typeof resolver === "function") {
+    if (typeof resolver === 'function') {
       let usageName = null;
       while (usageName === null) {
         const variant = resolver(variants, extras);
 
         if (variant === undefined) {
-          this.logger.warn("unable to resolve name. current reserved names: ", this.reservedNames);
+          this.logger.warn(
+            'unable to resolve name. current reserved names: ',
+            this.reservedNames,
+          );
           return null;
         }
         if (!shouldReserve || !this.isReserved(variant)) {
@@ -80,11 +85,17 @@ class NameResolver {
         return usageName;
       }
 
-      this.logger.debug("trying to resolve name with using fallback name generator using variants", variants);
+      this.logger.debug(
+        'trying to resolve name with using fallback name generator using variants',
+        variants,
+      );
       return this.resolve(variants, this.getFallbackName, extras);
     }
 
-    this.logger.debug("problem with reserving names. current reserved names: ", this.reservedNames);
+    this.logger.debug(
+      'problem with reserving names. current reserved names: ',
+      this.reservedNames,
+    );
     return null;
   }
 }

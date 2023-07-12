@@ -1,21 +1,21 @@
-const { SCHEMA_TYPES } = require("../constants.js");
-const _ = require("lodash");
-const { SchemaFormatters } = require("./schema-formatters");
-const { internalCase } = require("../util/internal-case");
-const { SchemaUtils } = require("./schema-utils");
-const { camelCase } = require("lodash");
-const { pascalCase } = require("../util/pascal-case");
-const { DiscriminatorSchemaParser } = require("./base-schema-parsers/discriminator");
-const { EnumSchemaParser } = require("./base-schema-parsers/enum");
-const { ObjectSchemaParser } = require("./base-schema-parsers/object");
-const { PrimitiveSchemaParser } = require("./base-schema-parsers/primitive");
-const { ComplexSchemaParser } = require("./base-schema-parsers/complex");
-const { OneOfSchemaParser } = require("./complex-schema-parsers/one-of");
-const { AllOfSchemaParser } = require("./complex-schema-parsers/all-of");
-const { AnyOfSchemaParser } = require("./complex-schema-parsers/any-of");
-const { NotSchemaParser } = require("./complex-schema-parsers/not");
-const { ArraySchemaParser } = require("./base-schema-parsers/array");
-const { sortByProperty } = require("../util/sort-by-property");
+/* eslint-disable no-unused-vars */
+const { SCHEMA_TYPES } = require('../constants.js');
+const _ = require('lodash');
+const { SchemaFormatters } = require('./schema-formatters');
+const { SchemaUtils } = require('./schema-utils');
+const {
+  DiscriminatorSchemaParser,
+} = require('./base-schema-parsers/discriminator');
+const { EnumSchemaParser } = require('./base-schema-parsers/enum');
+const { ObjectSchemaParser } = require('./base-schema-parsers/object');
+const { PrimitiveSchemaParser } = require('./base-schema-parsers/primitive');
+const { ComplexSchemaParser } = require('./base-schema-parsers/complex');
+const { OneOfSchemaParser } = require('./complex-schema-parsers/one-of');
+const { AllOfSchemaParser } = require('./complex-schema-parsers/all-of');
+const { AnyOfSchemaParser } = require('./complex-schema-parsers/any-of');
+const { NotSchemaParser } = require('./complex-schema-parsers/not');
+const { ArraySchemaParser } = require('./base-schema-parsers/array');
+const { sortByProperty } = require('../util/sort-by-property');
 
 class SchemaParser {
   /** @type {SchemaParserFabric} */
@@ -59,46 +59,114 @@ class SchemaParser {
 
   _complexSchemaParsers = {
     [SCHEMA_TYPES.COMPLEX_ONE_OF]: (schema) => {
-      const schemaParser = new OneOfSchemaParser(this, schema, null, this.schemaPath);
+      const SchemaParser =
+        this.config.schemaParsers.complexOneOf || OneOfSchemaParser;
+      const schemaParser = new SchemaParser(
+        this,
+        schema,
+        null,
+        this.schemaPath,
+      );
       return schemaParser.parse();
     },
     [SCHEMA_TYPES.COMPLEX_ALL_OF]: (schema) => {
-      const schemaParser = new AllOfSchemaParser(this, schema, null, this.schemaPath);
+      const SchemaParser =
+        this.config.schemaParsers.complexAllOf || AllOfSchemaParser;
+      const schemaParser = new SchemaParser(
+        this,
+        schema,
+        null,
+        this.schemaPath,
+      );
       return schemaParser.parse();
     },
     [SCHEMA_TYPES.COMPLEX_ANY_OF]: (schema) => {
-      const schemaParser = new AnyOfSchemaParser(this, schema, null, this.schemaPath);
+      const SchemaParser =
+        this.config.schemaParsers.complexAnyOf || AnyOfSchemaParser;
+      const schemaParser = new SchemaParser(
+        this,
+        schema,
+        null,
+        this.schemaPath,
+      );
       return schemaParser.parse();
     },
     [SCHEMA_TYPES.COMPLEX_NOT]: (schema) => {
-      const schemaParser = new NotSchemaParser(this, schema, null, this.schemaPath);
+      const SchemaParser =
+        this.config.schemaParsers.complexNot || NotSchemaParser;
+      const schemaParser = new SchemaParser(
+        this,
+        schema,
+        null,
+        this.schemaPath,
+      );
       return schemaParser.parse();
     },
   };
 
   _baseSchemaParsers = {
     [SCHEMA_TYPES.ENUM]: (schema, typeName) => {
-      const schemaParser = new EnumSchemaParser(this, schema, typeName, this.schemaPath);
+      const SchemaParser = this.config.schemaParsers.enum || EnumSchemaParser;
+      const schemaParser = new SchemaParser(
+        this,
+        schema,
+        typeName,
+        this.schemaPath,
+      );
       return schemaParser.parse();
     },
     [SCHEMA_TYPES.OBJECT]: (schema, typeName) => {
-      const schemaParser = new ObjectSchemaParser(this, schema, typeName, this.schemaPath);
+      const SchemaParser =
+        this.config.schemaParsers.object || ObjectSchemaParser;
+      const schemaParser = new SchemaParser(
+        this,
+        schema,
+        typeName,
+        this.schemaPath,
+      );
       return schemaParser.parse();
     },
     [SCHEMA_TYPES.COMPLEX]: (schema, typeName) => {
-      const schemaParser = new ComplexSchemaParser(this, schema, typeName, this.schemaPath);
+      const SchemaParser =
+        this.config.schemaParsers.complex || ComplexSchemaParser;
+      const schemaParser = new SchemaParser(
+        this,
+        schema,
+        typeName,
+        this.schemaPath,
+      );
       return schemaParser.parse();
     },
     [SCHEMA_TYPES.PRIMITIVE]: (schema, typeName) => {
-      const schemaParser = new PrimitiveSchemaParser(this, schema, typeName, this.schemaPath);
+      const SchemaParser =
+        this.config.schemaParsers.primitive || PrimitiveSchemaParser;
+      const schemaParser = new SchemaParser(
+        this,
+        schema,
+        typeName,
+        this.schemaPath,
+      );
       return schemaParser.parse();
     },
     [SCHEMA_TYPES.DISCRIMINATOR]: (schema, typeName) => {
-      const schemaParser = new DiscriminatorSchemaParser(this, schema, typeName, this.schemaPath);
+      const SchemaParser =
+        this.config.schemaParsers.discriminator || DiscriminatorSchemaParser;
+      const schemaParser = new SchemaParser(
+        this,
+        schema,
+        typeName,
+        this.schemaPath,
+      );
       return schemaParser.parse();
     },
     [SCHEMA_TYPES.ARRAY]: (schema, typeName) => {
-      const schemaParser = new ArraySchemaParser(this, schema, typeName, this.schemaPath);
+      const SchemaParser = this.config.schemaParsers.array || ArraySchemaParser;
+      const schemaParser = new SchemaParser(
+        this,
+        schema,
+        typeName,
+        this.schemaPath,
+      );
       return schemaParser.parse();
     },
   };
@@ -107,12 +175,16 @@ class SchemaParser {
    * @return {Record<string, any>}
    */
   parseSchema = () => {
-    if (!this.schema) return this._baseSchemaParsers[SCHEMA_TYPES.PRIMITIVE](null, this.typeName);
+    if (!this.schema)
+      return this._baseSchemaParsers[SCHEMA_TYPES.PRIMITIVE](
+        null,
+        this.typeName,
+      );
 
     let schemaType = null;
     let parsedSchema = null;
 
-    if (typeof this.schema === "string") {
+    if (typeof this.schema === 'string') {
       return this.schema;
     }
 
@@ -125,11 +197,19 @@ class SchemaParser {
        * swagger schemas fixes
        * ---->
        */
-      if (this.schema.items && !Array.isArray(this.schema.items) && !this.schema.type) {
+      if (
+        this.schema.items &&
+        !Array.isArray(this.schema.items) &&
+        !this.schema.type
+      ) {
         this.schema.type = SCHEMA_TYPES.ARRAY;
       }
-      if (Array.isArray(this.schema.enum) && this.schema.enum.length === 1 && this.schema.enum[0] == null) {
-        this.logger.debug("invalid enum schema", this.schema);
+      if (
+        Array.isArray(this.schema.enum) &&
+        this.schema.enum.length === 1 &&
+        this.schema.enum[0] == null
+      ) {
+        this.logger.debug('invalid enum schema', this.schema);
         this.schema = { type: this.config.Ts.Keyword.Null };
       }
       /**
@@ -140,12 +220,29 @@ class SchemaParser {
 
       this.schemaPath.push(this.typeName);
 
-      _.merge(this.schema, this.config.hooks.onPreParseSchema(this.schema, this.typeName, schemaType));
-      parsedSchema = this._baseSchemaParsers[schemaType](this.schema, this.typeName);
-      this.schema.$parsed = this.config.hooks.onParseSchema(this.schema, parsedSchema) || parsedSchema;
+      _.merge(
+        this.schema,
+        this.config.hooks.onPreParseSchema(
+          this.schema,
+          this.typeName,
+          schemaType,
+        ),
+      );
+      parsedSchema = this._baseSchemaParsers[schemaType](
+        this.schema,
+        this.typeName,
+      );
+      this.schema.$parsed =
+        this.config.hooks.onParseSchema(this.schema, parsedSchema) ||
+        parsedSchema;
 
-      if (this.config.sortTypes && Array.isArray(this.schema.$parsed?.content)) {
-        this.schema.$parsed.content = this.schema.$parsed.content.sort(sortByProperty("name"));
+      if (
+        this.config.sortTypes &&
+        Array.isArray(this.schema.$parsed?.content)
+      ) {
+        this.schema.$parsed.content = this.schema.$parsed.content.sort(
+          sortByProperty('name'),
+        );
       }
     }
 
@@ -156,13 +253,19 @@ class SchemaParser {
 
   getInlineParseContent = () => {
     const parsedSchema = this.parseSchema();
-    const formattedSchema = this.schemaFormatters.formatSchema(parsedSchema, "inline");
+    const formattedSchema = this.schemaFormatters.formatSchema(
+      parsedSchema,
+      'inline',
+    );
     return formattedSchema.content;
   };
 
   getParseContent = () => {
     const parsedSchema = this.parseSchema();
-    const formattedSchema = this.schemaFormatters.formatSchema(parsedSchema, "base");
+    const formattedSchema = this.schemaFormatters.formatSchema(
+      parsedSchema,
+      'base',
+    );
     return formattedSchema.content;
   };
 }

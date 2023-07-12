@@ -1,8 +1,7 @@
-const { MonoSchemaParser } = require("../mono-schema-parser");
-const { pascalCase } = require("../../util/pascal-case");
-const _ = require("lodash");
-const { SCHEMA_TYPES } = require("../../constants");
-const { EnumKeyResolver } = require("../util/enum-key-resolver");
+const { MonoSchemaParser } = require('../mono-schema-parser');
+const _ = require('lodash');
+const { SCHEMA_TYPES } = require('../../constants');
+const { EnumKeyResolver } = require('../util/enum-key-resolver');
 
 class EnumSchemaParser extends MonoSchemaParser {
   /** @type {EnumKeyResolver} */
@@ -19,7 +18,11 @@ class EnumSchemaParser extends MonoSchemaParser {
       resolver: this.config.extractingOptions.enumNameResolver,
     });
     const customComponent = this.schemaComponentsMap.createComponent(
-      this.schemaComponentsMap.createRef(["components", "schemas", generatedTypeName]),
+      this.schemaComponentsMap.createRef([
+        'components',
+        'schemas',
+        generatedTypeName,
+      ]),
       {
         ...this.schema,
       },
@@ -46,8 +49,11 @@ class EnumSchemaParser extends MonoSchemaParser {
       return this.schemaParserFabric.parseSchema(
         {
           oneOf: this.schema.enum.map((enumNames) => ({
-            type: "array",
-            items: enumNames.map((enumName) => ({ type: "string", enum: [enumName] })),
+            type: 'array',
+            items: enumNames.map((enumName) => ({
+              type: 'string',
+              enum: [enumName],
+            })),
           })),
         },
         this.typeName,
@@ -63,10 +69,10 @@ class EnumSchemaParser extends MonoSchemaParser {
       if (value === null) {
         return this.config.Ts.NullValue(value);
       }
-      if (keyType === this.schemaUtils.getSchemaType({ type: "number" })) {
+      if (keyType === this.schemaUtils.getSchemaType({ type: 'number' })) {
         return this.config.Ts.NumberValue(value);
       }
-      if (keyType === this.schemaUtils.getSchemaType({ type: "boolean" })) {
+      if (keyType === this.schemaUtils.getSchemaType({ type: 'boolean' })) {
         return this.config.Ts.BooleanValue(value);
       }
 
@@ -76,7 +82,10 @@ class EnumSchemaParser extends MonoSchemaParser {
     if (_.isArray(enumNames) && _.size(enumNames)) {
       content = _.map(enumNames, (enumName, index) => {
         const enumValue = _.get(this.schema.enum, index);
-        const formattedKey = this.formatEnumKey({ key: enumName, value: enumValue });
+        const formattedKey = this.formatEnumKey({
+          key: enumName,
+          value: enumValue,
+        });
 
         if (this.config.enumNamesAsValues || _.isUndefined(enumValue)) {
           return {
@@ -110,9 +119,13 @@ class EnumSchemaParser extends MonoSchemaParser {
       schemaType: SCHEMA_TYPES.ENUM,
       type: SCHEMA_TYPES.ENUM,
       keyType: keyType,
-      typeIdentifier: this.config.generateUnionEnums ? this.config.Ts.Keyword.Type : this.config.Ts.Keyword.Enum,
+      typeIdentifier: this.config.generateUnionEnums
+        ? this.config.Ts.Keyword.Type
+        : this.config.Ts.Keyword.Enum,
       name: this.typeName,
-      description: this.schemaFormatters.formatDescription(this.schema.description),
+      description: this.schemaFormatters.formatDescription(
+        this.schema.description,
+      ),
       content,
     };
   }
@@ -122,13 +135,13 @@ class EnumSchemaParser extends MonoSchemaParser {
 
     if (key) {
       formatted = this.typeNameFormatter.format(key, {
-        type: "enum-key",
+        type: 'enum-key',
       });
     }
 
     if (!formatted) {
       formatted = this.typeNameFormatter.format(`${value}`, {
-        type: "enum-key",
+        type: 'enum-key',
       });
     }
 

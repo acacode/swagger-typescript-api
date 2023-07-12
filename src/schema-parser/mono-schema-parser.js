@@ -1,5 +1,3 @@
-const _ = require("lodash");
-
 class MonoSchemaParser {
   schema;
   typeName;
@@ -37,7 +35,7 @@ class MonoSchemaParser {
   }
 
   parse() {
-    throw new Error("not implemented");
+    throw new Error('not implemented');
   }
 
   buildTypeNameFromPath = () => {

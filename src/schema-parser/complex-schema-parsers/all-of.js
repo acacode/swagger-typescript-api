@@ -1,5 +1,5 @@
-const { MonoSchemaParser } = require("../mono-schema-parser");
-const _ = require("lodash");
+const { MonoSchemaParser } = require('../mono-schema-parser');
+const _ = require('lodash');
 
 // T1 & T2
 class AllOfSchemaParser extends MonoSchemaParser {
@@ -12,7 +12,10 @@ class AllOfSchemaParser extends MonoSchemaParser {
         this.schemaPath,
       ),
     );
-    const filtered = this.schemaUtils.filterSchemaContents(combined, (content) => !ignoreTypes.includes(content));
+    const filtered = this.schemaUtils.filterSchemaContents(
+      combined,
+      (content) => !ignoreTypes.includes(content),
+    );
 
     const type = this.config.Ts.IntersectionType(filtered);
 

@@ -1,4 +1,4 @@
-const { MonoSchemaParser } = require("../mono-schema-parser");
+const { MonoSchemaParser } = require('../mono-schema-parser');
 
 class NotSchemaParser extends MonoSchemaParser {
   parse() {

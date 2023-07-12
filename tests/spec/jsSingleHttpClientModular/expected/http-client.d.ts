@@ -9,8 +9,8 @@
  * ---------------------------------------------------------------
  */
 
-export declare type QueryParamsType = Record<string | number, any>;
-export declare type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
+export type QueryParamsType = Record<string | number, any>;
+export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 export interface FullRequestParams extends Omit<RequestInit, "body"> {
   /** set parameter to `true` for call `securityWorker` for this request */
   secure?: boolean;
@@ -29,7 +29,7 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
   /** request cancellation token */
   cancelToken?: CancelToken;
 }
-export declare type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
+export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 export interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
   baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
@@ -40,7 +40,7 @@ export interface HttpResponse<D extends unknown, E extends unknown = unknown> ex
   data: D;
   error: E;
 }
-declare type CancelToken = Symbol | string | number;
+type CancelToken = Symbol | string | number;
 export declare enum ContentType {
   Json = "application/json",
   FormData = "multipart/form-data",

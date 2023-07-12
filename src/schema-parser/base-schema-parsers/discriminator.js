@@ -1,13 +1,12 @@
-const _ = require("lodash");
-const { pascalCase } = require("../../util/pascal-case");
-const { SCHEMA_TYPES } = require("../../constants");
-const { MonoSchemaParser } = require("../mono-schema-parser");
+const _ = require('lodash');
+const { SCHEMA_TYPES } = require('../../constants');
+const { MonoSchemaParser } = require('../mono-schema-parser');
 
 class DiscriminatorSchemaParser extends MonoSchemaParser {
   parse() {
     const { discriminator, ...noDiscriminatorSchema } = this.schema;
 
-    if (this.typeName == null || !discriminator.mapping) {
+    if (!discriminator.mapping) {
       return this.schemaParserFabric
         .createSchemaParser({
           schema: noDiscriminatorSchema,
@@ -18,10 +17,11 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     }
 
     // https://github.com/acacode/swagger-typescript-api/issues/456
-    const skipMappingType = !!noDiscriminatorSchema.oneOf;
+    // const skipMappingType = !!noDiscriminatorSchema.oneOf;
+    const skipMappingType = false;
 
     const abstractSchemaStruct = this.createAbstractSchemaStruct();
-    const complexSchemaStruct = this.createComplexSchemaStruct();
+    // const complexSchemaStruct = this.createComplexSchemaStruct();
     const discriminatorSchemaStruct = this.createDiscriminatorSchema({
       skipMappingType,
       abstractSchemaStruct,
@@ -30,9 +30,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     const schemaContent = this.config.Ts.IntersectionType(
       [
         abstractSchemaStruct?.content,
-        this.config.Ts.ExpressionGroup(
-          this.config.Ts.UnionType([complexSchemaStruct?.content, discriminatorSchemaStruct?.content].filter(Boolean)),
-        ),
+        discriminatorSchemaStruct?.content,
       ].filter(Boolean),
     );
 
@@ -44,42 +42,61 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
       type: SCHEMA_TYPES.PRIMITIVE,
       typeIdentifier: this.config.Ts.Keyword.Type,
       name: this.typeName,
-      description: this.schemaFormatters.formatDescription(this.schema.description),
+      description: this.schemaFormatters.formatDescription(
+        this.schema.description,
+      ),
       content: schemaContent,
     };
   }
 
   createDiscriminatorSchema = ({ skipMappingType, abstractSchemaStruct }) => {
-    const refPath = this.schemaComponentsMap.createRef(["components", "schemas", this.typeName]);
+    const refPath = this.schemaComponentsMap.createRef([
+      'components',
+      'schemas',
+      this.typeName,
+    ]);
     const { discriminator } = this.schema;
     const mappingEntries = _.entries(discriminator.mapping);
-    const ableToCreateMappingType = !skipMappingType && !!(abstractSchemaStruct?.typeName && mappingEntries.length);
+    const ableToCreateMappingType =
+      !skipMappingType &&
+      !!(abstractSchemaStruct?.typeName && mappingEntries.length);
     const mappingContents = [];
     let mappingTypeName;
 
     /** { mapping_key: SchemaEnum.MappingKey, ... } */
-    const mappingPropertySchemaEnumKeysMap = this.createMappingPropertySchemaEnumKeys({
-      abstractSchemaStruct,
-      discPropertyName: discriminator.propertyName,
-    });
+    const mappingPropertySchemaEnumKeysMap =
+      this.createMappingPropertySchemaEnumKeys({
+        abstractSchemaStruct,
+        discPropertyName: discriminator.propertyName,
+      });
 
     if (ableToCreateMappingType) {
       mappingTypeName = this.schemaUtils.resolveTypeName(
         `${abstractSchemaStruct.typeName} ${discriminator.propertyName}`,
         {
           suffixes: this.config.extractingOptions.discriminatorMappingSuffix,
-          resolver: this.config.extractingOptions.discriminatorMappingNameResolver,
+          resolver:
+            this.config.extractingOptions.discriminatorMappingNameResolver,
         },
       );
       this.schemaParserFabric.createSchema({
         linkedComponent: this.schemaComponentsMap.createComponent(
-          this.schemaComponentsMap.createRef(["components", "schemas", mappingTypeName]),
+          this.schemaComponentsMap.createRef([
+            'components',
+            'schemas',
+            mappingTypeName,
+          ]),
         ),
         content: this.config.Ts.IntersectionType([
-          this.config.Ts.ObjectWrapper(this.config.Ts.TypeField({ key: discriminator.propertyName, value: "Key" })),
-          "Type",
+          this.config.Ts.ObjectWrapper(
+            this.config.Ts.TypeField({
+              key: discriminator.propertyName,
+              value: 'Key',
+            }),
+          ),
+          'Type',
         ]),
-        genericArgs: [{ name: "Key" }, { name: "Type" }],
+        genericArgs: [{ name: 'Key' }, { name: 'Type' }],
         internal: true,
       });
     }
@@ -93,10 +110,15 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
         })
         .getInlineParseContent();
 
-      const mappingUsageKey = mappingPropertySchemaEnumKeysMap[mappingKey] || this.config.Ts.StringValue(mappingKey);
+      const mappingUsageKey =
+        mappingPropertySchemaEnumKeysMap[mappingKey] ||
+        this.config.Ts.StringValue(mappingKey);
 
       if (ableToCreateMappingType) {
-        return this.config.Ts.TypeWithGeneric(mappingTypeName, [mappingUsageKey, content]);
+        return this.config.Ts.TypeWithGeneric(mappingTypeName, [
+          mappingUsageKey,
+          content,
+        ]);
       } else {
         return this.config.Ts.ExpressionGroup(
           this.config.Ts.IntersectionType([
@@ -113,7 +135,8 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     };
 
     for (const [mappingKey, schema] of mappingEntries) {
-      const mappingSchema = typeof schema === "string" ? { $ref: schema } : schema;
+      const mappingSchema =
+        typeof schema === 'string' ? { $ref: schema } : schema;
 
       this.mutateMappingDependentSchema({
         discPropertyName: discriminator.propertyName,
@@ -128,26 +151,42 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
 
     if (skipMappingType) return null;
 
-    const content = this.config.Ts.ExpressionGroup(this.config.Ts.UnionType(mappingContents));
+    const content = this.config.Ts.ExpressionGroup(
+      this.config.Ts.UnionType(mappingContents),
+    );
 
     return {
       content,
     };
   };
 
-  createMappingPropertySchemaEnumKeys = ({ abstractSchemaStruct, discPropertyName }) => {
+  createMappingPropertySchemaEnumKeys = ({
+    abstractSchemaStruct,
+    discPropertyName,
+  }) => {
     let mappingPropertySchemaEnumKeysMap = {};
-    let mappingPropertySchema = _.get(abstractSchemaStruct?.component?.rawTypeData, ["properties", discPropertyName]);
+    let mappingPropertySchema = _.get(
+      abstractSchemaStruct?.component?.rawTypeData,
+      ['properties', discPropertyName],
+    );
     if (this.schemaUtils.isRefSchema(mappingPropertySchema)) {
-      mappingPropertySchema = this.schemaUtils.getSchemaRefType(mappingPropertySchema);
+      mappingPropertySchema = this.schemaUtils.getSchemaRefType(
+        mappingPropertySchema,
+      );
     }
 
-    if (mappingPropertySchema?.rawTypeData?.$parsed?.type === SCHEMA_TYPES.ENUM) {
+    if (
+      mappingPropertySchema?.rawTypeData?.$parsed?.type === SCHEMA_TYPES.ENUM
+    ) {
       mappingPropertySchemaEnumKeysMap = _.reduce(
         mappingPropertySchema.rawTypeData.$parsed.enum,
         (acc, key, index) => {
-          const enumKey = mappingPropertySchema.rawTypeData.$parsed.content[index].key;
-          acc[key] = this.config.Ts.EnumUsageKey(mappingPropertySchema.rawTypeData.$parsed.typeName, enumKey);
+          const enumKey =
+            mappingPropertySchema.rawTypeData.$parsed.content[index].key;
+          acc[key] = this.config.Ts.EnumUsageKey(
+            mappingPropertySchema.rawTypeData.$parsed.typeName,
+            enumKey,
+          );
           return acc;
         },
         {},
@@ -167,31 +206,46 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     const complexSchemaKeys = _.keys(this.schemaParser._complexSchemaParsers);
     // override parent dependencies
     if (mappingSchema.$ref && abstractSchemaStruct?.component?.$ref) {
-      const mappingRefSchema = this.schemaUtils.getSchemaRefType(mappingSchema)?.rawTypeData;
+      const mappingRefSchema =
+        this.schemaUtils.getSchemaRefType(mappingSchema)?.rawTypeData;
       if (mappingRefSchema) {
         complexSchemaKeys.forEach((schemaKey) => {
           if (_.isArray(mappingRefSchema[schemaKey])) {
-            mappingRefSchema[schemaKey] = mappingRefSchema[schemaKey].map((schema) => {
-              if (schema.$ref === refPath) {
-                return { ...schema, $ref: abstractSchemaStruct.component.$ref };
-              }
-              if (this.schemaUtils.getInternalSchemaType(schema) === SCHEMA_TYPES.OBJECT) {
-                for (const schemaPropertyName in schema.properties) {
-                  const schemaProperty = schema.properties[schemaPropertyName];
-                  if (
-                    schemaPropertyName === discPropertyName &&
-                    this.schemaUtils.getInternalSchemaType(schemaProperty) === SCHEMA_TYPES.ENUM &&
-                    schemaProperty.enum.length === 1 &&
-                    mappingPropertySchemaEnumKeysMap[schemaProperty.enum[0]]
-                  ) {
-                    schema.properties[schemaPropertyName] = this.schemaParserFabric.createSchema({
-                      content: mappingPropertySchemaEnumKeysMap[schemaProperty.enum[0]],
-                    });
+            mappingRefSchema[schemaKey] = mappingRefSchema[schemaKey].map(
+              (schema) => {
+                if (schema.$ref === refPath) {
+                  return {
+                    ...schema,
+                    $ref: abstractSchemaStruct.component.$ref,
+                  };
+                }
+                if (
+                  this.schemaUtils.getInternalSchemaType(schema) ===
+                  SCHEMA_TYPES.OBJECT
+                ) {
+                  for (const schemaPropertyName in schema.properties) {
+                    const schemaProperty =
+                      schema.properties[schemaPropertyName];
+                    if (
+                      schemaPropertyName === discPropertyName &&
+                      this.schemaUtils.getInternalSchemaType(schemaProperty) ===
+                        SCHEMA_TYPES.ENUM &&
+                      schemaProperty.enum.length === 1 &&
+                      mappingPropertySchemaEnumKeysMap[schemaProperty.enum[0]]
+                    ) {
+                      schema.properties[schemaPropertyName] =
+                        this.schemaParserFabric.createSchema({
+                          content:
+                            mappingPropertySchemaEnumKeysMap[
+                              schemaProperty.enum[0]
+                            ],
+                        });
+                    }
                   }
                 }
-              }
-              return schema;
-            });
+                return schema;
+              },
+            );
           }
         });
       }
@@ -199,6 +253,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
   };
 
   createAbstractSchemaStruct = () => {
+    // eslint-disable-next-line no-unused-vars
     const { discriminator, ...noDiscriminatorSchema } = this.schema;
     const complexSchemaKeys = _.keys(this.schemaParser._complexSchemaParsers);
     const schema = _.omit(_.clone(noDiscriminatorSchema), complexSchemaKeys);
@@ -211,7 +266,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
       resolver: this.config.extractingOptions.discriminatorAbstractResolver,
     });
     const component = this.schemaComponentsMap.createComponent(
-      this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
+      this.schemaComponentsMap.createRef(['components', 'schemas', typeName]),
       {
         ...schema,
         internal: true,
@@ -234,7 +289,9 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     if (complexType === SCHEMA_TYPES.COMPLEX_UNKNOWN) return null;
 
     return {
-      content: this.config.Ts.ExpressionGroup(this.schemaParser._complexSchemaParsers[complexType](this.schema)),
+      content: this.config.Ts.ExpressionGroup(
+        this.schemaParser._complexSchemaParsers[complexType](this.schema),
+      ),
     };
   };
 }

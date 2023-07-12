@@ -242,6 +242,16 @@
         }
       }
     },
+    "PetOnlyDiscriminator": {
+      "discriminator": {
+        "propertyName": "pet_type",
+        "mapping": {
+          "dog": "#/components/schemas/Dog",
+          "cat": "#/components/schemas/Cat",
+          "lizard": "#/components/schemas/Lizard"
+        }
+      }
+    },
     "Cat": {
       "allOf": [
         {

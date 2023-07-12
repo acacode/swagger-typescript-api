@@ -1,8 +1,8 @@
-const _ = require("lodash");
-const { SCHEMA_TYPES } = require("../constants");
-const { internalCase } = require("../util/internal-case");
-const { pascalCase } = require("../util/pascal-case");
-const { camelCase } = require("lodash");
+const _ = require('lodash');
+const { SCHEMA_TYPES } = require('../constants');
+const { internalCase } = require('../util/internal-case');
+const { pascalCase } = require('../util/pascal-case');
+const { camelCase } = require('lodash');
 
 class SchemaUtils {
   /** @type {CodeGenConfig} */
@@ -14,7 +14,12 @@ class SchemaUtils {
   /** @type {SchemaWalker} */
   schemaWalker;
 
-  constructor({ config, schemaComponentsMap, typeNameFormatter, schemaWalker }) {
+  constructor({
+    config,
+    schemaComponentsMap,
+    typeNameFormatter,
+    schemaWalker,
+  }) {
     this.config = config;
     this.schemaComponentsMap = schemaComponentsMap;
     this.typeNameFormatter = typeNameFormatter;
@@ -22,15 +27,22 @@ class SchemaUtils {
   }
 
   getRequiredProperties = (schema) => {
-    return _.uniq((schema && _.isArray(schema.required) && schema.required) || []);
+    return _.uniq(
+      (schema && _.isArray(schema.required) && schema.required) || [],
+    );
   };
 
   isRefSchema = (schema) => {
-    return !!(schema && schema["$ref"]);
+    return !!(schema && schema['$ref']);
   };
 
   getEnumNames = (schema) => {
-    return schema["x-enumNames"] || schema["xEnumNames"] || schema["x-enumnames"] || schema["x-enum-varnames"];
+    return (
+      schema['x-enumNames'] ||
+      schema['xEnumNames'] ||
+      schema['x-enumnames'] ||
+      schema['x-enum-varnames']
+    );
   };
 
   getSchemaRefType = (schema) => {
@@ -40,7 +52,7 @@ class SchemaUtils {
   };
 
   isPropertyRequired = (name, propertySchema, rootSchema) => {
-    if (propertySchema["x-omitempty"] === false) {
+    if (propertySchema['x-omitempty'] === false) {
       return true;
     }
 
@@ -61,7 +73,9 @@ class SchemaUtils {
   isNullMissingInType = (schema, type) => {
     const { nullable, type: schemaType } = schema || {};
     return (
-      (nullable || !!_.get(schema, "x-nullable") || schemaType === this.config.Ts.Keyword.Null) &&
+      (nullable ||
+        !!_.get(schema, 'x-nullable') ||
+        schemaType === this.config.Ts.Keyword.Null) &&
       _.isString(type) &&
       !type.includes(` ${this.config.Ts.Keyword.Null}`) &&
       !type.includes(`${this.config.Ts.Keyword.Null} `)
@@ -90,7 +104,7 @@ class SchemaUtils {
     if (_.keys(schema.properties).length) {
       return SCHEMA_TYPES.OBJECT;
     }
-    if (!!schema.items) {
+    if (schema.items) {
       return SCHEMA_TYPES.ARRAY;
     }
 
@@ -98,16 +112,21 @@ class SchemaUtils {
   };
 
   checkAndAddRequiredKeys = (schema, resultType) => {
-    if ("$$requiredKeys" in schema && schema.$$requiredKeys.length) {
+    if ('$$requiredKeys' in schema && schema.$$requiredKeys.length) {
       this.config.update({
         internalTemplateOptions: {
           addUtilRequiredKeysType: true,
         },
       });
-      return this.config.Ts.TypeWithGeneric(this.config.Ts.CodeGenKeyword.UtilRequiredKeys, [
-        resultType,
-        this.config.Ts.UnionType(schema.$$requiredKeys.map(this.config.Ts.StringValue)),
-      ]);
+      return this.config.Ts.TypeWithGeneric(
+        this.config.Ts.CodeGenKeyword.UtilRequiredKeys,
+        [
+          resultType,
+          this.config.Ts.UnionType(
+            schema.$$requiredKeys.map(this.config.Ts.StringValue),
+          ),
+        ],
+      );
     }
 
     return resultType;
@@ -116,13 +135,20 @@ class SchemaUtils {
   makeAddRequiredToChildSchema = (parentSchema, childSchema) => {
     if (!childSchema) return childSchema;
 
-    const required = _.uniq([...this.getRequiredProperties(parentSchema), ...this.getRequiredProperties(childSchema)]);
+    const required = _.uniq([
+      ...this.getRequiredProperties(parentSchema),
+      ...this.getRequiredProperties(childSchema),
+    ]);
 
     const refData = this.getSchemaRefType(childSchema);
 
     if (refData) {
-      const refObjectProperties = _.keys((refData.rawTypeData && refData.rawTypeData.properties) || {});
-      const existedRequiredKeys = refObjectProperties.filter((key) => required.includes(key));
+      const refObjectProperties = _.keys(
+        (refData.rawTypeData && refData.rawTypeData.properties) || {},
+      );
+      const existedRequiredKeys = refObjectProperties.filter((key) =>
+        required.includes(key),
+      );
 
       if (!existedRequiredKeys.length) return childSchema;
 
@@ -132,12 +158,17 @@ class SchemaUtils {
       };
     } else if (childSchema.properties) {
       const childSchemaProperties = _.keys(childSchema.properties);
-      const existedRequiredKeys = childSchemaProperties.filter((key) => required.includes(key));
+      const existedRequiredKeys = childSchemaProperties.filter((key) =>
+        required.includes(key),
+      );
 
       if (!existedRequiredKeys.length) return childSchema;
 
       return {
-        required: _.uniq([...this.getRequiredProperties(childSchema), ...existedRequiredKeys]),
+        required: _.uniq([
+          ...this.getRequiredProperties(childSchema),
+          ...existedRequiredKeys,
+        ]),
         ...childSchema,
       };
     }
@@ -149,7 +180,10 @@ class SchemaUtils {
     return _.uniq(_.filter(contents, (type) => filterFn(type)));
   };
 
-  resolveTypeName = (typeName, { suffixes, resolver, prefixes, shouldReserve = true }) => {
+  resolveTypeName = (
+    typeName,
+    { suffixes, resolver, prefixes, shouldReserve = true },
+  ) => {
     if (resolver) {
       return this.config.componentTypeNameResolver.resolve(null, (reserved) => {
         return resolver(pascalCase(typeName), reserved);
@@ -157,8 +191,12 @@ class SchemaUtils {
     } else {
       return this.config.componentTypeNameResolver.resolve(
         [
-          ...(prefixes || []).map((prefix) => pascalCase(`${prefix} ${typeName}`)),
-          ...(suffixes || []).map((suffix) => pascalCase(`${typeName} ${suffix}`)),
+          ...(prefixes || []).map((prefix) =>
+            pascalCase(`${prefix} ${typeName}`),
+          ),
+          ...(suffixes || []).map((suffix) =>
+            pascalCase(`${typeName} ${suffix}`),
+          ),
         ],
         shouldReserve,
       );
@@ -176,11 +214,21 @@ class SchemaUtils {
   };
 
   getInternalSchemaType = (schema) => {
-    if (!_.isEmpty(schema.enum) || !_.isEmpty(this.getEnumNames(schema))) return SCHEMA_TYPES.ENUM;
-    if (schema.discriminator) return SCHEMA_TYPES.DISCRIMINATOR;
-    if (schema.allOf || schema.oneOf || schema.anyOf || schema.not) return SCHEMA_TYPES.COMPLEX;
-    if (!_.isEmpty(schema.properties)) return SCHEMA_TYPES.OBJECT;
-    if (schema.type === SCHEMA_TYPES.ARRAY) return SCHEMA_TYPES.ARRAY;
+    if (!_.isEmpty(schema.enum) || !_.isEmpty(this.getEnumNames(schema))) {
+      return SCHEMA_TYPES.ENUM;
+    }
+    if (schema.discriminator) {
+      return SCHEMA_TYPES.DISCRIMINATOR;
+    }
+    if (schema.allOf || schema.oneOf || schema.anyOf || schema.not) {
+      return SCHEMA_TYPES.COMPLEX;
+    }
+    if (!_.isEmpty(schema.properties)) {
+      return SCHEMA_TYPES.OBJECT;
+    }
+    if (schema.type === SCHEMA_TYPES.ARRAY) {
+      return SCHEMA_TYPES.ARRAY;
+    }
 
     return SCHEMA_TYPES.PRIMITIVE;
   };
@@ -193,7 +241,10 @@ class SchemaUtils {
     if (refTypeInfo) {
       return this.checkAndAddRequiredKeys(
         schema,
-        this.safeAddNullToType(schema, this.typeNameFormatter.format(refTypeInfo.typeName)),
+        this.safeAddNullToType(
+          schema,
+          this.typeNameFormatter.format(refTypeInfo.typeName),
+        ),
       );
     }
 
@@ -205,7 +256,7 @@ class SchemaUtils {
 
     const typeAlias =
       _.get(this.config.primitiveTypes, [primitiveType, schema.format]) ||
-      _.get(this.config.primitiveTypes, [primitiveType, "$default"]) ||
+      _.get(this.config.primitiveTypes, [primitiveType, '$default']) ||
       this.config.primitiveTypes[primitiveType];
 
     if (_.isFunction(typeAlias)) {
@@ -216,7 +267,10 @@ class SchemaUtils {
 
     if (!resultType) return this.config.Ts.Keyword.Any;
 
-    return this.checkAndAddRequiredKeys(schema, this.safeAddNullToType(schema, resultType));
+    return this.checkAndAddRequiredKeys(
+      schema,
+      this.safeAddNullToType(schema, resultType),
+    );
   };
 
   buildTypeNameFromPath = (schemaPath) => {
@@ -224,7 +278,11 @@ class SchemaUtils {
 
     if (!schemaPath || !schemaPath[0]) return null;
 
-    return pascalCase(camelCase(_.uniq([schemaPath[0], schemaPath[schemaPath.length - 1]]).join("_")));
+    return pascalCase(
+      camelCase(
+        _.uniq([schemaPath[0], schemaPath[schemaPath.length - 1]]).join('_'),
+      ),
+    );
   };
 }
 

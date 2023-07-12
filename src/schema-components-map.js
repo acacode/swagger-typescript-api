@@ -1,4 +1,4 @@
-const _ = require("lodash");
+const _ = require('lodash');
 
 class SchemaComponentsMap {
   /** @type {SchemaComponent[]} */
@@ -15,11 +15,11 @@ class SchemaComponentsMap {
   }
 
   createRef = (paths) => {
-    return ["#", ...paths].join("/");
+    return ['#', ...paths].join('/');
   };
 
   parseRef = (ref) => {
-    return ref.split("/");
+    return ref.split('/');
   };
 
   createComponent($ref, rawTypeData) {
@@ -35,7 +35,8 @@ class SchemaComponentsMap {
       typeData: null,
     };
 
-    const usageComponent = this.config.hooks.onCreateComponent(componentSchema) || componentSchema;
+    const usageComponent =
+      this.config.hooks.onCreateComponent(componentSchema) || componentSchema;
 
     const refIndex = this._data.findIndex((c) => c.$ref === $ref);
 
@@ -60,7 +61,9 @@ class SchemaComponentsMap {
    * @returns {SchemaComponent[]}
    */
   filter(componentName) {
-    return _.filter(this._data, (v) => _.startsWith(v.$ref, `#/components/${componentName}`));
+    return _.filter(this._data, (v) =>
+      _.startsWith(v.$ref, `#/components/${componentName}`),
+    );
   }
 
   get($ref) {

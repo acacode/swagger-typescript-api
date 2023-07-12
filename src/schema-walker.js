@@ -1,6 +1,4 @@
-const _ = require("lodash");
-const path = require("path");
-const { add } = require("lodash");
+const _ = require('lodash');
 
 // TODO: WIP
 // this class will be needed to walk by schema everywhere
@@ -16,7 +14,7 @@ class SchemaWalker {
   /** @type {Map<string, Record<string, any>>} */
   caches = new Map();
 
-  constructor({ config, logger, fileSystem }) {
+  constructor({ config, logger }) {
     this.logger = logger;
     this.config = config;
   }
@@ -34,7 +32,7 @@ class SchemaWalker {
    * @returns {any}
    */
   findByRef = (ref) => {
-    this.logger.debug("try to resolve ref by path", ref);
+    this.logger.debug('try to resolve ref by path', ref);
 
     if (this.caches.has(ref)) {
       return this.caches.get(ref);
@@ -49,18 +47,22 @@ class SchemaWalker {
         }
       }
     } else if (this._isRemoteRef(ref)) {
-      this.logger.debug("remote refs not supported", ref);
+      this.logger.debug('remote refs not supported', ref);
       return null;
     } else {
-      const [address, path] = path.split("#");
+      const [address, path] = path.split('#');
       let swaggerSchemaObject;
 
       if (this.schemas.has(address)) {
         swaggerSchemaObject = this.schemas.get(address);
       } else {
         const pathToSchema = path.resolve(process.cwd(), address);
-        const swaggerSchemaFile = this.swaggerSchemaResolver.getSwaggerSchemaByPath(pathToSchema);
-        swaggerSchemaObject = this.swaggerSchemaResolver.processSwaggerSchemaFile(swaggerSchemaFile);
+        const swaggerSchemaFile =
+          this.swaggerSchemaResolver.getSwaggerSchemaByPath(pathToSchema);
+        swaggerSchemaObject =
+          this.swaggerSchemaResolver.processSwaggerSchemaFile(
+            swaggerSchemaFile,
+          );
         this.schemas.set(address, swaggerSchemaObject);
       }
 
@@ -69,15 +71,15 @@ class SchemaWalker {
   };
 
   _isLocalRef = (ref) => {
-    return ref.startsWith("#");
+    return ref.startsWith('#');
   };
 
   _isRemoteRef = (ref) => {
-    return ref.startsWith("http://") || ref.startsWith("https://");
+    return ref.startsWith('http://') || ref.startsWith('https://');
   };
 
   _getRefDataFromSchema = (schema, ref) => {
-    const path = ref.replace("#", "").split("/");
+    const path = ref.replace('#', '').split('/');
     const refData = _.get(schema, path);
     if (refData) {
       this.caches.set(ref, refData);

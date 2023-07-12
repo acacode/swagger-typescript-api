@@ -1,5 +1,5 @@
-const ts = require("typescript");
-const { Translator } = require("./translator");
+const ts = require('typescript');
+const { Translator } = require('./translator');
 
 class JavascriptTranslator extends Translator {
   /**
@@ -12,11 +12,27 @@ class JavascriptTranslator extends Translator {
     const host = ts.createCompilerHost(this.config.compilerTsConfig, true);
     const fileNames = [fileNameFull];
     const originalSourceFileGet = host.getSourceFile.bind(host);
-    host.getSourceFile = (sourceFileName, languageVersion, onError, shouldCreateNewSourceFile) => {
+    host.getSourceFile = (
+      sourceFileName,
+      languageVersion,
+      onError,
+      shouldCreateNewSourceFile,
+    ) => {
       if (sourceFileName !== fileNameFull)
-        return originalSourceFileGet(sourceFileName, languageVersion, onError, shouldCreateNewSourceFile);
+        return originalSourceFileGet(
+          sourceFileName,
+          languageVersion,
+          onError,
+          shouldCreateNewSourceFile,
+        );
 
-      return ts.createSourceFile(sourceFileName, input.fileContent, languageVersion, true, ts.ScriptKind.TS);
+      return ts.createSourceFile(
+        sourceFileName,
+        input.fileContent,
+        languageVersion,
+        true,
+        ts.ScriptKind.TS,
+      );
     };
 
     host.writeFile = (fileName, contents) => {
@@ -28,36 +44,38 @@ class JavascriptTranslator extends Translator {
     return output;
   };
 
-  translate(input) {
+  translate = async (input) => {
     const compiled = this.compileTSCode(input);
 
     const jsFileName = `${input.fileName}${ts.Extension.Js}`;
     const dtsFileName = `${input.fileName}${ts.Extension.Dts}`;
     const sourceContent = compiled[jsFileName];
-    const tsImportRows = input.fileContent.split("\n").filter((line) => line.startsWith("import "));
+    const tsImportRows = input.fileContent
+      .split('\n')
+      .filter((line) => line.startsWith('import '));
     const declarationContent = compiled[dtsFileName]
-      .split("\n")
+      .split('\n')
       .map((line) => {
-        if (line.startsWith("import ")) {
+        if (line.startsWith('import ')) {
           return tsImportRows.shift();
         }
         return line;
       })
-      .join("\n");
+      .join('\n');
 
     return [
       {
         fileName: input.fileName,
         fileExtension: ts.Extension.Js,
-        fileContent: this.codeFormatter.formatCode(sourceContent),
+        fileContent: await this.codeFormatter.formatCode(sourceContent),
       },
       {
         fileName: input.fileName,
         fileExtension: ts.Extension.Dts,
-        fileContent: this.codeFormatter.formatCode(declarationContent),
+        fileContent: await this.codeFormatter.formatCode(declarationContent),
       },
     ];
-  }
+  };
 }
 
 module.exports = {

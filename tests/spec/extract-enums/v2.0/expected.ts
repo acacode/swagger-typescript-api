@@ -9,140 +9,166 @@
  * ---------------------------------------------------------------
  */
 
-export enum TNPEnumRootTNS {
-  EKPInvalidKey100644EKS = "100644",
-  EKPInvalidKey100755EKS = "100755",
-  EKPInvalidKey040000EKS = "040000",
-  EKPInvalidKey160000EKS = "160000",
-  EKPInvalidKey120000EKS = "120000",
-  EKPTest1EKS = "test1",
-  EKPTest2EKS = "test2",
+export enum TypeNamePrefixEnumRootTypeNameSuffix {
+  EnumKeyPrefixInvalidKey100644EnumKeySuffix = "100644",
+  EnumKeyPrefixInvalidKey100755EnumKeySuffix = "100755",
+  EnumKeyPrefixInvalidKey040000EnumKeySuffix = "040000",
+  EnumKeyPrefixInvalidKey160000EnumKeySuffix = "160000",
+  EnumKeyPrefixInvalidKey120000EnumKeySuffix = "120000",
+  EnumKeyPrefixTest1EnumKeySuffix = "test1",
+  EnumKeyPrefixTest2EnumKeySuffix = "test2",
 }
 
-export interface TNPTreeTNS {
+export interface TypeNamePrefixTreeTypeNameSuffix {
   tree?: {
-    mode?: TNPTreeModeEnumTNS;
-    "mode-num"?: TNPTreeModeNumEnumTNS;
-    type?: TNPTreeTypeEnumTNS;
-    bereke?: TNPTreeBerekeEnumTNS;
+    mode?: TypeNamePrefixTreeModeEnumTypeNameSuffix;
+    "mode-num"?: TypeNamePrefixTreeModeNumEnumTypeNameSuffix;
+    type?: TypeNamePrefixTreeTypeEnumTypeNameSuffix;
+    bereke?: TypeNamePrefixTreeBerekeEnumTypeNameSuffix;
   }[];
 }
 
-export enum TNPOnlyEnumNamesTNS {
-  EKPBlaEKS = "Bla",
-  EKPBlablaEKS = "Blabla",
-  EKPBoilerEKS = "Boiler",
+export enum TypeNamePrefixOnlyEnumNamesTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
+  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
 }
 
-export enum TNPStringOnlyEnumNamesTNS {
-  EKPBlaEKS = "Bla",
-  EKPBlablaEKS = "Blabla",
-  EKPBoilerEKS = "Boiler",
+export enum TypeNamePrefixStringOnlyEnumNamesTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
+  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
 }
 
-export enum TNPStringEnumsTNS {
-  EKPBlaEKS = "foo",
-  EKPBlablaEKS = "bar",
-  EKPBoilerEKS = "Boiler",
+export enum TypeNamePrefixStringEnumsTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "foo",
+  EnumKeyPrefixBlablaEnumKeySuffix = "bar",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
 }
 
-export enum TNPStringCompleteEnumsTNS {
-  EKPBlaEKS = "foo",
-  EKPBlablaEKS = "bar",
-  EKPBoilerEKS = "baz",
-}
-
-/** @format int32 */
-export enum TNPEmptyEnumTNS {
-  EKPBlaEKS = "Bla",
-  EKPBlablaEKS = "Blabla",
-  EKPBoilerEKS = "Boiler",
+export enum TypeNamePrefixStringCompleteEnumsTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "foo",
+  EnumKeyPrefixBlablaEnumKeySuffix = "bar",
+  EnumKeyPrefixBoilerEnumKeySuffix = "baz",
 }
 
 /** @format int32 */
-export enum TNPEnumWithMoreNamesTNS {
-  EKPBlaEKS = 1,
-  EKPBlablaEKS = "Blabla",
-  EKPBoilerEKS = "Boiler",
+export enum TypeNamePrefixEmptyEnumTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
+  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
 }
 
 /** @format int32 */
-export enum TNPSomeInterestEnumTNS {
-  EKPBlaEKS = 6,
-  EKPBlablaEKS = 2,
-  EKPBoilerEKS = 1,
-  EKPBbababEKS = 67,
-  EKPNowadaysEKS = 88,
-  EKP_FAIL_EKS = 122,
-  EKPVvvvvEKS = 88,
-  EKPASdasASEKS = 0,
-  EKPASDsacZXEKS = 213,
-  EKPZookEKS = 12378,
-  EKPEnumMmEKS = 123125,
-  EKPVCsaEKS = 32452,
-  EKPYuuuEKS = 1111,
-  EKPASdddEKS = 66666,
-  EKPASdsdsaEKS = "ASdsdsa",
-  EKPASDdsEKS = "ASDds",
-  EKP_HSDFDS_EKS = "HSDFDS",
+export enum TypeNamePrefixEnumWithMoreNamesTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = 1,
+  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
 }
 
-export interface TNPSuperDuperStructDTOTNS {
+/** @format int32 */
+export enum TypeNamePrefixSomeInterestEnumTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = 6,
+  EnumKeyPrefixBlablaEnumKeySuffix = 2,
+  EnumKeyPrefixBoilerEnumKeySuffix = 1,
+  EnumKeyPrefixBbababEnumKeySuffix = 67,
+  EnumKeyPrefixNowadaysEnumKeySuffix = 88,
+  EnumKeyPrefix_FAIL_EnumKeySuffix = 122,
+  EnumKeyPrefixVvvvvEnumKeySuffix = 88,
+  EnumKeyPrefixASdasASEnumKeySuffix = 0,
+  EnumKeyPrefixASDsacZXEnumKeySuffix = 213,
+  EnumKeyPrefixZookEnumKeySuffix = 12378,
+  EnumKeyPrefixEnumMmEnumKeySuffix = 123125,
+  EnumKeyPrefixVCsaEnumKeySuffix = 32452,
+  EnumKeyPrefixYuuuEnumKeySuffix = 1111,
+  EnumKeyPrefixASdddEnumKeySuffix = 66666,
+  EnumKeyPrefixASdsdsaEnumKeySuffix = "ASdsdsa",
+  EnumKeyPrefixASDdsEnumKeySuffix = "ASDds",
+  EnumKeyPrefix_HSDFDS_EnumKeySuffix = "HSDFDS",
+}
+
+export interface TypeNamePrefixSuperDuperStructDTOTypeNameSuffix {
   /** @example "100" */
   id: number;
   /** @example "APPROVED" */
-  state: TNPSuperDuperStructDtoStateEnumTNS;
+  state: TypeNamePrefixSuperDuperStructDtoStateEnumTypeNameSuffix;
 }
 
-export type TNPNullableEnumTNS = null;
+export type TypeNamePrefixNullableEnumTypeNameSuffix = null;
 
 /** **Required when the state is dismissed.** The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`. */
-export type TNPCodeScanningAlertDismissedReasonTNS = TNPCodeScanningAlertDismissedReasonEnumTNS | null;
+export type TypeNamePrefixCodeScanningAlertDismissedReasonTypeNameSuffix =
+  TypeNamePrefixCodeScanningAlertDismissedReasonEnumTypeNameSuffix | null;
 
-export enum TNPTreeModeEnumTNS {
-  EKPInvalidKey100644EKS = "100644",
-  EKPInvalidKey100755EKS = "100755",
-  EKPInvalidKey040000EKS = "040000",
-  EKPInvalidKey160000EKS = "160000",
-  EKPInvalidKey120000EKS = "120000",
+export enum TypeNamePrefixTreeModeEnumTypeNameSuffix {
+  EnumKeyPrefixInvalidKey100644EnumKeySuffix = "100644",
+  EnumKeyPrefixInvalidKey100755EnumKeySuffix = "100755",
+  EnumKeyPrefixInvalidKey040000EnumKeySuffix = "040000",
+  EnumKeyPrefixInvalidKey160000EnumKeySuffix = "160000",
+  EnumKeyPrefixInvalidKey120000EnumKeySuffix = "120000",
 }
 
-export enum TNPTreeModeNumEnumTNS {
-  EKPInvalidKey100644EKS = 100644,
-  EKPInvalidKey100755EKS = 100755,
-  EKPInvalidKey40000EKS = 40000,
-  EKPInvalidKey160000EKS = 160000,
-  EKPInvalidKey120000EKS = 120000,
+export enum TypeNamePrefixTreeModeNumEnumTypeNameSuffix {
+  EnumKeyPrefixInvalidKey100644EnumKeySuffix = 100644,
+  EnumKeyPrefixInvalidKey100755EnumKeySuffix = 100755,
+  EnumKeyPrefixInvalidKey40000EnumKeySuffix = 40000,
+  EnumKeyPrefixInvalidKey160000EnumKeySuffix = 160000,
+  EnumKeyPrefixInvalidKey120000EnumKeySuffix = 120000,
 }
 
-export enum TNPTreeTypeEnumTNS {
-  EKPBlobEKS = "blob",
-  EKPTreeEKS = "tree",
-  EKPCommitEKS = "commit",
+export enum TypeNamePrefixTreeTypeEnumTypeNameSuffix {
+  EnumKeyPrefixBlobEnumKeySuffix = "blob",
+  EnumKeyPrefixTreeEnumKeySuffix = "tree",
+  EnumKeyPrefixCommitEnumKeySuffix = "commit",
 }
 
-export enum TNPTreeBerekeEnumTNS {
-  EKPBlaEKS = "Bla",
-  EKPBlablaEKS = "Blabla",
-  EKPBoilerEKS = "Boiler",
-}
-
-/** @example "APPROVED" */
-export enum TNPSuperDuperStructDtoStateEnumTNS {
-  EKP_NEW_EKS = "NEW",
-  EKP_PENDING_EKS = "PENDING",
-}
-
-export enum TNPCodeScanningAlertDismissedReasonEnumTNS {
-  EKPFalsePositiveEKS = "false positive",
-  EKPWontFixEKS = "won't fix",
-  EKPUsedInTestsEKS = "used in tests",
+export enum TypeNamePrefixTreeBerekeEnumTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
+  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
 }
 
 /** @example "APPROVED" */
-export enum TNPNameSpaceAddSuperDuperEnumTNS {
-  EKP_NEW_EKS = "NEW",
-  EKP_PENDING_EKS = "PENDING",
+export enum TypeNamePrefixSuperDuperStructDtoStateEnumTypeNameSuffix {
+  EnumKeyPrefix_NEW_EnumKeySuffix = "NEW",
+  EnumKeyPrefix_PENDING_EnumKeySuffix = "PENDING",
+}
+
+export enum TypeNamePrefixCodeScanningAlertDismissedReasonEnumTypeNameSuffix {
+  EnumKeyPrefixFalsePositiveEnumKeySuffix = "false positive",
+  EnumKeyPrefixWontFixEnumKeySuffix = "won't fix",
+  EnumKeyPrefixUsedInTestsEnumKeySuffix = "used in tests",
+}
+
+/** @example "APPROVED" */
+export enum TypeNamePrefixNameSpaceAddSuperDuperEnumTypeNameSuffix {
+  EnumKeyPrefix_NEW_EnumKeySuffix = "NEW",
+  EnumKeyPrefix_PENDING_EnumKeySuffix = "PENDING",
+}
+
+export type TypeNamePrefixNameSpaceAddSuperDuperDataTypeNameSuffix =
+  TypeNamePrefixNameSpaceAddSuperDuperEnum1TypeNameSuffix;
+
+/** @example "APPROVED" */
+export enum TypeNamePrefixNameSpaceAddSuperDuperEnum1TypeNameSuffix {
+  EnumKeyPrefix_NEW_EnumKeySuffix = "NEW",
+  EnumKeyPrefix_PENDING_EnumKeySuffix = "PENDING",
+}
+
+export interface TypeNamePrefixIssuesDetailParamsTypeNameSuffix {
+  /**
+   * Issues assigned to you / created by you / mentioning you / you're
+   * subscribed to updates for / All issues the authenticated user can see
+   * @default "all"
+   */
+  filter: TypeNamePrefixFilterEnumTypeNameSuffix;
+  /** @default "open" */
+  state: TypeNamePrefixStateEnumTypeNameSuffix;
+  /** @default "created" */
+  sort: TypeNamePrefixSortEnumTypeNameSuffix;
+  /** @default "desc" */
+  direction: TypeNamePrefixDirectionEnumTypeNameSuffix;
+  org: string;
 }
 
 /**
@@ -150,29 +176,63 @@ export enum TNPNameSpaceAddSuperDuperEnumTNS {
  * subscribed to updates for / All issues the authenticated user can see
  * @default "all"
  */
-export enum TNPIssuesDetailFilterEnumTNS {
-  EKPAssignedEKS = "assigned",
-  EKPCreatedEKS = "created",
-  EKPMentionedEKS = "mentioned",
-  EKPSubscribedEKS = "subscribed",
-  EKPAllEKS = "all",
+export enum TypeNamePrefixFilterEnumTypeNameSuffix {
+  EnumKeyPrefixAssignedEnumKeySuffix = "assigned",
+  EnumKeyPrefixCreatedEnumKeySuffix = "created",
+  EnumKeyPrefixMentionedEnumKeySuffix = "mentioned",
+  EnumKeyPrefixSubscribedEnumKeySuffix = "subscribed",
+  EnumKeyPrefixAllEnumKeySuffix = "all",
 }
 
 /** @default "open" */
-export enum TNPIssuesDetailStateEnumTNS {
-  EKPOpenEKS = "open",
-  EKPClosedEKS = "closed",
+export enum TypeNamePrefixStateEnumTypeNameSuffix {
+  EnumKeyPrefixOpenEnumKeySuffix = "open",
+  EnumKeyPrefixClosedEnumKeySuffix = "closed",
 }
 
 /** @default "created" */
-export enum TNPIssuesDetailSortEnumTNS {
-  EKPCreatedEKS = "created",
-  EKPUpdatedEKS = "updated",
-  EKPCommentsEKS = "comments",
+export enum TypeNamePrefixSortEnumTypeNameSuffix {
+  EnumKeyPrefixCreatedEnumKeySuffix = "created",
+  EnumKeyPrefixUpdatedEnumKeySuffix = "updated",
+  EnumKeyPrefixCommentsEnumKeySuffix = "comments",
 }
 
 /** @default "desc" */
-export enum TNPIssuesDetailDirectionEnumTNS {
-  EKPAscEKS = "asc",
-  EKPDescEKS = "desc",
+export enum TypeNamePrefixDirectionEnumTypeNameSuffix {
+  EnumKeyPrefixAscEnumKeySuffix = "asc",
+  EnumKeyPrefixDescEnumKeySuffix = "desc",
+}
+
+export type TypeNamePrefixIssuesDetailDataTypeNameSuffix = any;
+
+/**
+ * Issues assigned to you / created by you / mentioning you / you're
+ * subscribed to updates for / All issues the authenticated user can see
+ * @default "all"
+ */
+export enum TypeNamePrefixIssuesDetailParams1FilterEnumTypeNameSuffix {
+  EnumKeyPrefixAssignedEnumKeySuffix = "assigned",
+  EnumKeyPrefixCreatedEnumKeySuffix = "created",
+  EnumKeyPrefixMentionedEnumKeySuffix = "mentioned",
+  EnumKeyPrefixSubscribedEnumKeySuffix = "subscribed",
+  EnumKeyPrefixAllEnumKeySuffix = "all",
+}
+
+/** @default "open" */
+export enum TypeNamePrefixIssuesDetailParams1StateEnumTypeNameSuffix {
+  EnumKeyPrefixOpenEnumKeySuffix = "open",
+  EnumKeyPrefixClosedEnumKeySuffix = "closed",
+}
+
+/** @default "created" */
+export enum TypeNamePrefixIssuesDetailParams1SortEnumTypeNameSuffix {
+  EnumKeyPrefixCreatedEnumKeySuffix = "created",
+  EnumKeyPrefixUpdatedEnumKeySuffix = "updated",
+  EnumKeyPrefixCommentsEnumKeySuffix = "comments",
+}
+
+/** @default "desc" */
+export enum TypeNamePrefixIssuesDetailParams1DirectionEnumTypeNameSuffix {
+  EnumKeyPrefixAscEnumKeySuffix = "asc",
+  EnumKeyPrefixDescEnumKeySuffix = "desc",
 }

@@ -1,11 +1,7 @@
-const { SCHEMA_TYPES } = require("../constants.js");
-const _ = require("lodash");
-const { SchemaFormatters } = require("./schema-formatters");
-const { internalCase } = require("../util/internal-case");
-const { SchemaUtils } = require("./schema-utils");
-const { camelCase } = require("lodash");
-const { pascalCase } = require("../util/pascal-case");
-const { SchemaParser } = require("./schema-parser");
+const _ = require('lodash');
+const { SchemaFormatters } = require('./schema-formatters');
+const { SchemaUtils } = require('./schema-utils');
+const { SchemaParser } = require('./schema-parser');
 
 class SchemaParserFabric {
   /** @type {CodeGenConfig} */
@@ -25,7 +21,14 @@ class SchemaParserFabric {
   /** @type {SchemaWalker} */
   schemaWalker;
 
-  constructor({ config, logger, templatesWorker, schemaComponentsMap, typeNameFormatter, schemaWalker }) {
+  constructor({
+    config,
+    logger,
+    templatesWorker,
+    schemaComponentsMap,
+    typeNameFormatter,
+    schemaWalker,
+  }) {
     this.config = config;
     this.logger = logger;
     this.schemaComponentsMap = schemaComponentsMap;
@@ -49,7 +52,13 @@ class SchemaParserFabric {
    * @param otherSchemaProps
    * @returns {{}}
    */
-  createSchema = ({ content, linkedSchema = {}, linkedComponent, schemaPath, ...otherSchemaProps }) => {
+  createSchema = ({
+    content,
+    linkedSchema = {},
+    linkedComponent,
+    schemaPath,
+    ...otherSchemaProps
+  }) => {
     const parser = this.createSchemaParser({
       schema: linkedComponent || linkedSchema,
       schemaPath,
@@ -66,7 +75,7 @@ class SchemaParserFabric {
   createParsedComponent = ({ typeName, schema, schemaPath }) => {
     const schemaCopy = _.cloneDeep(schema);
     const customComponent = this.schemaComponentsMap.createComponent(
-      this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
+      this.schemaComponentsMap.createRef(['components', 'schemas', typeName]),
       schemaCopy,
     );
     const parsed = this.parseSchema(schemaCopy, null, schemaPath);
@@ -84,7 +93,11 @@ class SchemaParserFabric {
    * @return {Record<string, any>}
    */
   parseSchema = (schema, typeName = null, schemaPath = []) => {
-    const schemaParser = this.createSchemaParser({ schema, typeName, schemaPath });
+    const schemaParser = this.createSchemaParser({
+      schema,
+      typeName,
+      schemaPath,
+    });
     return schemaParser.parseSchema();
   };
 

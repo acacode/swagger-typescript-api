@@ -1,6 +1,6 @@
-const { MonoSchemaParser } = require("../mono-schema-parser");
-const _ = require("lodash");
-const { SCHEMA_TYPES } = require("../../constants");
+const { MonoSchemaParser } = require('../mono-schema-parser');
+const _ = require('lodash');
+const { SCHEMA_TYPES } = require('../../constants');
 
 class ArraySchemaParser extends MonoSchemaParser {
   parse() {

@@ -1,3 +1,5 @@
+import {MonoSchemaParser} from "./src/schema-parser/mono-schema-parser";
+
 type HttpClientType = "axios" | "fetch";
 
 interface GenerateApiParamsBase {
@@ -210,6 +212,18 @@ interface GenerateApiParamsBase {
   typeNameResolverName?: string;
   /** fallback name for specific arg name resolver */
   specificArgNameResolverName?: string;
+  schemaParsers?: {
+    complexOneOf?:MonoSchemaParser;
+    complexAllOf?:MonoSchemaParser;
+    complexAnyOf?:MonoSchemaParser;
+    complexNot?:MonoSchemaParser;
+    enum?:MonoSchemaParser;
+    object?:MonoSchemaParser;
+    complex?:MonoSchemaParser;
+    primitive?:MonoSchemaParser;
+    discriminator?:MonoSchemaParser;
+    array?: MonoSchemaParser;
+  }
 }
 
 type CodeGenConstruct = {
@@ -657,7 +671,7 @@ export interface GenerateApiOutput {
     etaOptions?: import("eta/dist/types/config").PartialConfig,
   ) => string;
   getTemplate: (params: { fileName?: string; name?: string; path?: string }) => string;
-  formatTSContent: (content: string) => string;
+  formatTSContent: (content: string) => Promise<string>;
 }
 
 export declare function generateApi(params: GenerateApiParams): Promise<GenerateApiOutput>;

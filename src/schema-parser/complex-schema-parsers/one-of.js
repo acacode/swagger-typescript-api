@@ -1,5 +1,5 @@
-const { MonoSchemaParser } = require("../mono-schema-parser");
-const _ = require("lodash");
+const { MonoSchemaParser } = require('../mono-schema-parser');
+const _ = require('lodash');
 
 // T1 | T2
 class OneOfSchemaParser extends MonoSchemaParser {
@@ -13,7 +13,10 @@ class OneOfSchemaParser extends MonoSchemaParser {
       ),
     );
 
-    const filtered = this.schemaUtils.filterSchemaContents(combined, (content) => !ignoreTypes.includes(content));
+    const filtered = this.schemaUtils.filterSchemaContents(
+      combined,
+      (content) => !ignoreTypes.includes(content),
+    );
 
     const type = this.config.Ts.UnionType(filtered);
 

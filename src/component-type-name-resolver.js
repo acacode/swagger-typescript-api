@@ -1,6 +1,5 @@
-const { getRandomInt } = require("./util/random");
-const { pascalCase } = require("./util/pascal-case");
-const { NameResolver } = require("./util/name-resolver");
+const { getRandomInt } = require('./util/random');
+const { NameResolver } = require('./util/name-resolver');
 
 class ComponentTypeNameResolver extends NameResolver {
   counter = 1;
@@ -22,12 +21,19 @@ class ComponentTypeNameResolver extends NameResolver {
         const variantCounter = this.countersByVariant.get(randomVariant) + 1;
         this.countersByVariant.set(randomVariant, variantCounter);
         const dirtyResolvedName = `${randomVariant}${variantCounter}`;
-        this.logger.debug("generated dirty resolved type name for component - ", dirtyResolvedName);
+        this.logger.debug(
+          'generated dirty resolved type name for component - ',
+          dirtyResolvedName,
+        );
         return dirtyResolvedName;
       }
 
-      const fallbackName = `${this.config.componentTypeNameResolver}${this.fallbackNameCounter++}`;
-      this.logger.debug("generated fallback type name for component - ", fallbackName);
+      const fallbackName = `${this.config.componentTypeNameResolver}${this
+        .fallbackNameCounter++}`;
+      this.logger.debug(
+        'generated fallback type name for component - ',
+        fallbackName,
+      );
       return fallbackName;
     });
   }

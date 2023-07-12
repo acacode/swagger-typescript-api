@@ -1,6 +1,6 @@
-const { MonoSchemaParser } = require("../mono-schema-parser");
-const _ = require("lodash");
-const { SCHEMA_TYPES } = require("../../constants");
+const { MonoSchemaParser } = require('../mono-schema-parser');
+const _ = require('lodash');
+const { SCHEMA_TYPES } = require('../../constants');
 
 class ObjectSchemaParser extends MonoSchemaParser {
   parse() {
@@ -14,8 +14,13 @@ class ObjectSchemaParser extends MonoSchemaParser {
       type: SCHEMA_TYPES.OBJECT,
       typeIdentifier: this.config.Ts.Keyword.Interface,
       name: this.typeName,
-      description: this.schemaFormatters.formatDescription(this.schema.description),
-      allFieldsAreOptional: !_.some(_.values(contentProperties), (part) => part.isRequired),
+      description: this.schemaFormatters.formatDescription(
+        this.schema.description,
+      ),
+      allFieldsAreOptional: !_.some(
+        _.values(contentProperties),
+        (part) => part.isRequired,
+      ),
       content: contentProperties,
     };
   }
@@ -24,12 +29,25 @@ class ObjectSchemaParser extends MonoSchemaParser {
     const { properties, additionalProperties } = schema || {};
 
     const propertiesContent = _.map(properties, (property, name) => {
-      const required = this.schemaUtils.isPropertyRequired(name, property, schema);
-      const rawTypeData = _.get(this.schemaUtils.getSchemaRefType(property), "rawTypeData", {});
+      const required = this.schemaUtils.isPropertyRequired(
+        name,
+        property,
+        schema,
+      );
+      const rawTypeData = _.get(
+        this.schemaUtils.getSchemaRefType(property),
+        'rawTypeData',
+        {},
+      );
       const nullable = !!(rawTypeData.nullable || property.nullable);
-      const fieldName = this.typeNameFormatter.isValidName(name) ? name : this.config.Ts.StringValue(name);
+      const fieldName = this.typeNameFormatter.isValidName(name)
+        ? name
+        : this.config.Ts.StringValue(name);
       const fieldValue = this.schemaParserFabric
-        .createSchemaParser({ schema: property, schemaPath: [...this.schemaPath, name] })
+        .createSchemaParser({
+          schema: property,
+          schemaPath: [...this.schemaPath, name],
+        })
         .getInlineParseContent();
       const readOnly = property.readOnly;
 
@@ -39,10 +57,20 @@ class ObjectSchemaParser extends MonoSchemaParser {
         title: property.title,
         description:
           property.description ||
-          _.compact(_.map(property[this.schemaUtils.getComplexType(property)], "description"))[0] ||
+          _.compact(
+            _.map(
+              property[this.schemaUtils.getComplexType(property)],
+              'description',
+            ),
+          )[0] ||
           rawTypeData.description ||
-          _.compact(_.map(rawTypeData[this.schemaUtils.getComplexType(rawTypeData)], "description"))[0] ||
-          "",
+          _.compact(
+            _.map(
+              rawTypeData[this.schemaUtils.getComplexType(rawTypeData)],
+              'description',
+            ),
+          )[0] ||
+          '',
         isRequired: required,
         isNullable: nullable,
         name: fieldName,
@@ -59,9 +87,12 @@ class ObjectSchemaParser extends MonoSchemaParser {
     if (additionalProperties) {
       propertiesContent.push({
         $$raw: { additionalProperties },
-        description: "",
+        description: '',
         isRequired: false,
-        field: this.config.Ts.InterfaceDynamicField(this.config.Ts.Keyword.String, this.config.Ts.Keyword.Any),
+        field: this.config.Ts.InterfaceDynamicField(
+          this.config.Ts.Keyword.String,
+          this.config.Ts.Keyword.Any,
+        ),
       });
     }
 

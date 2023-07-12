@@ -25,48 +25,60 @@ export enum BlockDTOEnum {
   Kek = "kek",
 }
 
-export type BlockDTOWithEnum = AbstractBlockDtoWithEnum & (CsvBlockWithEnumDTO | FileBlockWithEnumDTO);
+export type BlockDTOWithEnum = BaseBlockDtoWithEnum &
+  (
+    | BaseBlockDtoWithEnumTypeMapping<BlockDTOEnum.Csv, CsvBlockWithEnumDTO>
+    | BaseBlockDtoWithEnumTypeMapping<BlockDTOEnum.File, FileBlockWithEnumDTO>
+  );
 
-export type CsvBlockWithEnumDTO = AbstractBlockDtoWithEnum & {
+export type CsvBlockWithEnumDTO = BaseBlockDtoWithEnum & {
   type: BlockDTOEnum.Csv;
   text: string;
 };
 
-export type FileBlockWithEnumDTO = AbstractBlockDtoWithEnum & {
+export type FileBlockWithEnumDTO = BaseBlockDtoWithEnum & {
   type: BlockDTOEnum.File;
   fileId: string;
 };
 
-export type BlockDTO = AbstractBlockDto & (CsvBlockDTO | FileBlockDTO);
+export type BlockDTO = BaseBlockDto &
+  (BaseBlockDtoTypeMapping<"csv", CsvBlockDTO> | BaseBlockDtoTypeMapping<"file", FileBlockDTO>);
 
-export type CsvBlockDTO = AbstractBlockDto & {
+export type CsvBlockDTO = BaseBlockDto & {
   /** @default "csv" */
   type: "csv";
   text: string;
 };
 
-export type FileBlockDTO = AbstractBlockDto & {
+export type FileBlockDTO = BaseBlockDto & {
   /** @default "file" */
   type: "file";
   fileId: string;
 };
 
-export type Pet = AbstractPet &
-  (
-    | AbstractPetPetTypeMapping<"dog", Dog>
-    | AbstractPetPetTypeMapping<"cat", Cat>
-    | AbstractPetPetTypeMapping<"lizard", Lizard>
-  );
+export type Pet = BasePet &
+  (BasePetPetTypeMapping<"dog", Dog> | BasePetPetTypeMapping<"cat", Cat> | BasePetPetTypeMapping<"lizard", Lizard>);
 
-export type Cat = AbstractPet & {
+export type PetOnlyDiscriminator =
+  | ({
+      pet_type: "dog";
+    } & Dog)
+  | ({
+      pet_type: "cat";
+    } & Cat)
+  | ({
+      pet_type: "lizard";
+    } & Lizard);
+
+export type Cat = BasePet & {
   name?: string;
 };
 
-export type Dog = AbstractPet & {
+export type Dog = BasePet & {
   bark?: string;
 };
 
-export type Lizard = AbstractPet & {
+export type Lizard = BasePet & {
   lovesRocks?: boolean;
 };
 
@@ -76,46 +88,54 @@ export enum PetEnum {
   Cat = "cat",
 }
 
-export type PetWithEnum = AbstractPetWithEnum &
+export type PetWithEnum = BasePetWithEnum &
   (
-    | AbstractPetWithEnumPetTypeMapping<PetEnum.Dog, DogWithEnum>
-    | AbstractPetWithEnumPetTypeMapping<PetEnum.Cat, CatWithEnum>
-    | AbstractPetWithEnumPetTypeMapping<PetEnum.Lizard, LizardWithEnum>
+    | BasePetWithEnumPetTypeMapping<PetEnum.Dog, DogWithEnum>
+    | BasePetWithEnumPetTypeMapping<PetEnum.Cat, CatWithEnum>
+    | BasePetWithEnumPetTypeMapping<PetEnum.Lizard, LizardWithEnum>
   );
 
-export type CatWithEnum = AbstractPetWithEnum & {
+export type CatWithEnum = BasePetWithEnum & {
   name?: string;
 };
 
-export type DogWithEnum = AbstractPetWithEnum & {
+export type DogWithEnum = BasePetWithEnum & {
   bark?: string;
 };
 
-export type LizardWithEnum = AbstractPetWithEnum & {
+export type LizardWithEnum = BasePetWithEnum & {
   lovesRocks?: boolean;
 };
 
-interface AbstractBlockDtoWithEnum {
+interface BaseBlockDtoWithEnum {
   title: string;
   type: BlockDTOEnum;
 }
 
-interface AbstractBlockDto {
+type BaseBlockDtoWithEnumTypeMapping<Key, Type> = {
+  type: Key;
+} & Type;
+
+interface BaseBlockDto {
   title: string;
 }
 
-interface AbstractPet {
+type BaseBlockDtoTypeMapping<Key, Type> = {
+  type: Key;
+} & Type;
+
+interface BasePet {
   pet_type: string;
 }
 
-type AbstractPetPetTypeMapping<Key, Type> = {
+type BasePetPetTypeMapping<Key, Type> = {
   pet_type: Key;
 } & Type;
 
-interface AbstractPetWithEnum {
+interface BasePetWithEnum {
   pet_type: PetEnum;
 }
 
-type AbstractPetWithEnumPetTypeMapping<Key, Type> = {
+type BasePetWithEnumPetTypeMapping<Key, Type> = {
   pet_type: Key;
 } & Type;
