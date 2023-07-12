@@ -1781,7 +1781,7 @@ export interface UserUpdate {
   name?: string;
 }
 export declare type Users = User[];
-import { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";
 export declare type QueryParamsType = Record<string | number, any>;
 export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "params" | "url" | "responseType"> {
   /** set parameter to `true` for call `securityWorker` for this request */
