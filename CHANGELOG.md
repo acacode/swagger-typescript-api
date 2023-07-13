@@ -7,6 +7,7 @@ feat: `--sort-routes` option, ability to sort routes;
 fix: critical bugs based with extract types and enums  
 fix: sort types option (sort was not correctly work with nested or extracted types)  
 fix: problems based with extracting enums;
+fix: nullable enum with integer values (#543)   
 chore: refactoring the axios imports
 fix: non-object custom spec extensions (#500)  
 fix(docs): input instead of output in readme  

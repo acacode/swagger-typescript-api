@@ -69,10 +69,14 @@ class EnumSchemaParser extends MonoSchemaParser {
       if (value === null) {
         return this.config.Ts.NullValue(value);
       }
-      if (keyType === this.schemaUtils.getSchemaType({ type: 'number' })) {
+      if (
+        _.includes(keyType, this.schemaUtils.getSchemaType({ type: 'number' }))
+      ) {
         return this.config.Ts.NumberValue(value);
       }
-      if (keyType === this.schemaUtils.getSchemaType({ type: 'boolean' })) {
+      if (
+        _.includes(keyType, this.schemaUtils.getSchemaType({ type: 'boolean' }))
+      ) {
         return this.config.Ts.BooleanValue(value);
       }
 
