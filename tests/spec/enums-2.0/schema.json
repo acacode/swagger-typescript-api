@@ -5,6 +5,29 @@
   "basePath": "/",
   "info": {},
   "definitions": {
+    "objWithEnum": {
+      "type": "object",
+      "properties": {
+        "prop-enum-nullable": {
+          "type": "integer",
+          "x-nullable": true,
+          "enum": [ 0, 1, 2, 3, 4, 5 ]
+        },
+        "prop-enum": {
+          "type": "integer",
+          "enum": [ 0, 1, 2, 3, 4, 5 ]
+        }
+      }
+    },
+    "x-nullable-enum": {
+      "type": "integer",
+      "x-nullable": true,
+      "enum": [ 0, 1, 2, 3, 4, 5 ]
+    },
+    "simple-enum-non-nullable": {
+      "type": "integer",
+      "enum": [ 0, 1, 2, 3, 4, 5 ]
+    },
     "OnlyEnumNames": {
       "x-enumNames": ["Bla", "Blabla", "Boiler"]
     },
@@ -56,6 +79,38 @@
         "ASDds",
         "HSDFDS"
       ]
+    }
+  },
+  "paths": {
+    "/foo": {
+      "post": {
+        "operationId": "postFoo",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "testKek",
+            "required": true,
+            "type": "integer",
+            "enum": [1,2,3,4,5]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "someTypeId": {
+                    "type":"integer",
+                    "enum":[1,2,3,4,5]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {}
+      }
     }
   }
 }

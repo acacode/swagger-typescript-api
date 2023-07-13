@@ -4,7 +4,122 @@
   "basePath": "/v2",
   "tags": [],
   "schemes": ["http"],
-  "paths": {},
+  "paths": {
+    "/api/v1/super-duper": {
+      "post": {
+        "tags": [""],
+        "summary": "",
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "NEW",
+                    "PENDING"
+                  ],
+                  "example": "APPROVED"
+                }
+              }
+            }
+          },
+          "404": { "description": "" }
+        },
+        "operationId": "NameSpace_AddSuperDuper"
+      }
+    },
+    "/orgs/{org}/issues": {
+      "get": {
+        "description": "List issues.\nList all issues for a given organization for the authenticated user.\n",
+        "parameters": [
+          {
+            "default": "all",
+            "description": "Issues assigned to you / created by you / mentioning you / you're\nsubscribed to updates for / All issues the authenticated user can see\n",
+            "enum": ["assigned", "created", "mentioned", "subscribed", "all"],
+            "in": "query",
+            "name": "filter",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "default": "open",
+            "enum": ["open", "closed"],
+            "in": "query",
+            "name": "state",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "default": "created",
+            "enum": ["created", "updated", "comments"],
+            "in": "query",
+            "name": "sort",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "default": "desc",
+            "enum": ["asc", "desc"],
+            "in": "query",
+            "name": "direction",
+            "required": true,
+            "type": "string"
+          },
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-GitHub-Media-Type": {
+                "description": "You can check the current version of media type in responses.\n",
+                "type": "string"
+              },
+              "X-GitHub-Request-Id": {
+                "type": "integer"
+              },
+              "X-RateLimit-Limit": {
+                "type": "integer"
+              },
+              "X-RateLimit-Remaining": {
+                "type": "integer"
+              },
+              "X-RateLimit-Reset": {
+                "type": "integer"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/issues"
+            }
+          },
+          "403": {
+            "description": "API rate limit exceeded. See http://developer.github.com/v3/#rate-limiting\nfor details.\n",
+            "headers": {
+              "X-GitHub-Media-Type": {
+                "description": "You can check the current version of media type in responses.\n",
+                "type": "string"
+              },
+              "X-GitHub-Request-Id": {
+                "type": "integer"
+              },
+              "X-RateLimit-Limit": {
+                "type": "integer"
+              },
+              "X-RateLimit-Remaining": {
+                "type": "integer"
+              },
+              "X-RateLimit-Reset": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "definitions": {
     "enum-root": {
       "enum": ["100644", "100755", "040000", "160000", "120000", "test1", "test2"],
@@ -88,6 +203,42 @@
         "ASdsdsa",
         "ASDds",
         "HSDFDS"
+      ]
+    },
+    "SuperDuperStructDTO": {
+      "properties": {
+        "id": { "type": "number", "example": "100" },
+        "state": {
+          "type": "string",
+          "enum": [
+            "NEW",
+            "PENDING"
+          ],
+          "example": "APPROVED"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "state"
+      ]
+    },
+    "nullableEnum": {
+      "type": "number",
+      "enum": [null],
+      "nullable": true
+    },
+    "code-scanning-alert-dismissed-reason": {
+      "type": "string",
+      "description": "**Required when the state is dismissed.** The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`.",
+      "nullable": true,
+      "oneOf": [
+        {
+          "enum": ["false positive", "won't fix", "used in tests"]
+        },
+        {
+          "enum": [null]
+        }
       ]
     }
   },

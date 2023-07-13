@@ -73,8 +73,8 @@ export interface AssetPatch {
   label?: string;
   name: string;
 }
-export declare type Assets = Asset[];
-export declare type Assignees = User[];
+export type Assets = Asset[];
+export type Assignees = User[];
 export interface Blob {
   content?: string;
   encoding?: "utf-8" | "base64";
@@ -123,21 +123,21 @@ export interface Branch {
   };
   name?: string;
 }
-export declare type Branches = {
+export type Branches = {
   commit?: {
     sha?: string;
     url?: string;
   };
   name?: string;
 }[];
-export declare type CodeFrequencyStats = number[];
+export type CodeFrequencyStats = number[];
 export interface Comment {
   body?: string;
 }
 export interface CommentBody {
   body: string;
 }
-export declare type Comments = {
+export type Comments = {
   body?: string;
   /** ISO 8601. */
   created_at?: string;
@@ -193,7 +193,7 @@ export interface Commit {
   };
   url?: string;
 }
-export declare type CommitActivityStats = {
+export type CommitActivityStats = {
   days?: number[];
   total?: number;
   week?: number;
@@ -227,7 +227,7 @@ export interface CommitCommentBody {
   /** SHA of the commit to comment on. */
   sha: string;
 }
-export declare type Commits = {
+export type Commits = {
   /** A GitHub user */
   author?: User;
   commit?: {
@@ -359,7 +359,7 @@ export interface ContentsPath {
   type?: string;
   url?: string;
 }
-export declare type ContributorsStats = {
+export type ContributorsStats = {
   author?: {
     avatar_url?: string;
     gravatar_id?: string;
@@ -487,7 +487,7 @@ export interface DeploymentResp {
   updated_at?: string;
   url?: string;
 }
-export declare type DeploymentStatuses = {
+export type DeploymentStatuses = {
   created_at?: string;
   /** A GitHub user */
   creator?: User;
@@ -514,13 +514,13 @@ export interface Download {
   size?: number;
   url?: string;
 }
-export declare type Downloads = Download[];
+export type Downloads = Download[];
 export interface EditTeam {
   name: string;
   permission?: "pull" | "push" | "admin";
 }
-export declare type EmailsPost = string[];
-export declare type Emojis = Record<string, string>;
+export type EmailsPost = string[];
+export type Emojis = Record<string, string>;
 export interface Event {
   /** A user or organization */
   actor?: Actor;
@@ -537,7 +537,7 @@ export interface Event {
   };
   type?: string;
 }
-export declare type Events = Event[];
+export type Events = Event[];
 export interface Feeds {
   _links?: {
     current_user?: {
@@ -575,7 +575,7 @@ export interface Feeds {
 export interface ForkBody {
   organization?: string;
 }
-export declare type Forks = Repos;
+export type Forks = Repos;
 export interface Gist {
   comments?: number;
   comments_url?: string;
@@ -618,7 +618,7 @@ export interface Gist {
   /** A GitHub user */
   user?: User;
 }
-export declare type Gists = {
+export type Gists = {
   comments?: number;
   comments_url?: string;
   created_at?: string;
@@ -653,7 +653,7 @@ export interface GitRefPatch {
   force?: boolean;
   sha?: string;
 }
-export declare type Gitignore = any[];
+export type Gitignore = any[];
 export interface GitignoreLang {
   name?: string;
   source?: string;
@@ -667,7 +667,7 @@ export interface HeadBranch {
   ref?: string;
   url?: string;
 }
-export declare type Hook = {
+export type Hook = {
   active?: boolean;
   config?: {
     content_type?: string;
@@ -762,8 +762,8 @@ export interface IssueEvent {
   };
   url?: string;
 }
-export declare type IssueEvents = IssueEvent[];
-export declare type Issues = {
+export type IssueEvents = IssueEvent[];
+export type Issues = {
   /** A GitHub user */
   assignee?: User;
   body?: string;
@@ -819,7 +819,7 @@ export interface IssuesComment {
   /** A GitHub user */
   user?: User;
 }
-export declare type IssuesComments = {
+export type IssuesComments = {
   _links?: {
     html?: {
       href?: string;
@@ -844,7 +844,7 @@ export declare type IssuesComments = {
   /** A GitHub user */
   user?: User;
 }[];
-export declare type Keys = {
+export type Keys = {
   id?: number;
   key?: string;
   title?: string;
@@ -859,7 +859,7 @@ export interface Label {
   name?: string;
   url?: string;
 }
-export declare type Labels = {
+export type Labels = {
   /**
    * @minLength 6
    * @maxLength 6
@@ -868,7 +868,7 @@ export declare type Labels = {
   name?: string;
   url?: string;
 }[];
-export declare type Languages = Record<string, number>;
+export type Languages = Record<string, number>;
 export interface Markdown {
   context?: string;
   mode?: string;
@@ -985,7 +985,7 @@ export interface OrgTeamsPost {
   repo_names?: string[];
 }
 /** A GitHub organization */
-export declare type Organization = Actor;
+export type Organization = Actor;
 export interface OrganizationAsTeamMember {
   errors?: {
     code?: string;
@@ -1133,7 +1133,7 @@ export interface PullUpdate {
   state?: string;
   title?: string;
 }
-export declare type Pulls = {
+export type Pulls = {
   _links?: {
     comments?: {
       href?: string;
@@ -1235,7 +1235,7 @@ export interface PullsCommentPost {
   path?: string;
   position?: number;
 }
-export declare type PullsComments = {
+export type PullsComments = {
   _links?: {
     html?: {
       href?: string;
@@ -1286,7 +1286,7 @@ export interface RateLimit {
     reset?: number;
   };
 }
-export declare type Ref = {
+export type Ref = {
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
   created_at?: string;
   creator?: {
@@ -1304,7 +1304,7 @@ export declare type Ref = {
   updated_at?: string;
   url?: string;
 }[];
-export declare type RefStatus = {
+export type RefStatus = {
   commit_url?: string;
   name?: string;
   repository_url?: string;
@@ -1321,7 +1321,7 @@ export declare type RefStatus = {
     url?: string;
   }[];
 }[];
-export declare type Refs = {
+export type Refs = {
   object?: {
     sha?: string;
     type?: string;
@@ -1375,7 +1375,7 @@ export interface ReleaseCreate {
   tag_name?: string;
   target_commitish?: string;
 }
-export declare type Releases = {
+export type Releases = {
   assets?: {
     content_type?: string;
     created_at?: string;
@@ -1450,7 +1450,7 @@ export interface Repo {
   watchers?: number;
   watchers_count?: number;
 }
-export declare type RepoDeployments = {
+export type RepoDeployments = {
   created_at?: string;
   /** A GitHub user */
   creator?: User;
@@ -1462,7 +1462,7 @@ export declare type RepoDeployments = {
   updated_at?: string;
   url?: string;
 }[];
-export declare type RepoComments = {
+export type RepoComments = {
   body?: string;
   commit_id?: string;
   /** ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ */
@@ -1522,7 +1522,7 @@ export interface RepoEdit {
   name?: string;
   private?: boolean;
 }
-export declare type Repos = Repo[];
+export type Repos = Repo[];
 export interface SearchCode {
   items?: {
     git_url?: string;
@@ -1704,7 +1704,7 @@ export interface TagBody {
   /** String of the type of the object we’re tagging. Normally this is a commit but it can also be a tree or a blob. */
   type: "commit" | "tree" | "blob";
 }
-export declare type Tags = Tag[];
+export type Tags = Tag[];
 export interface Team {
   id?: number;
   members_count?: number;
@@ -1717,13 +1717,13 @@ export interface TeamMembership {
   state?: string;
   url?: string;
 }
-export declare type TeamRepos = Repos;
-export declare type Teams = {
+export type TeamRepos = Repos;
+export type Teams = {
   id?: number;
   name?: string;
   url?: string;
 }[];
-export declare type TeamsList = {
+export type TeamsList = {
   id?: number;
   members_count?: number;
   name?: string;
@@ -1759,8 +1759,8 @@ export interface Trees {
   url?: string;
 }
 /** A GitHub user */
-export declare type User = Actor;
-export declare type UserEmails = string[];
+export type User = Actor;
+export type UserEmails = string[];
 export interface UserKeysKeyId {
   id?: number;
   key?: string;
@@ -1780,9 +1780,9 @@ export interface UserUpdate {
   location?: string;
   name?: string;
 }
-export declare type Users = User[];
-export declare type QueryParamsType = Record<string | number, any>;
-export declare type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
+export type Users = User[];
+export type QueryParamsType = Record<string | number, any>;
+export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 export interface FullRequestParams extends Omit<RequestInit, "body"> {
   /** set parameter to `true` for call `securityWorker` for this request */
   secure?: boolean;
@@ -1801,7 +1801,7 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
   /** request cancellation token */
   cancelToken?: CancelToken;
 }
-export declare type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
+export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 export interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
   baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
@@ -1812,7 +1812,7 @@ export interface HttpResponse<D extends unknown, E extends unknown = unknown> ex
   data: D;
   error: E;
 }
-declare type CancelToken = Symbol | string | number;
+type CancelToken = Symbol | string | number;
 export declare enum ContentType {
   Json = "application/json",
   FormData = "multipart/form-data",

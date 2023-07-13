@@ -5,10 +5,10 @@ const { formatDescription, require, _ } = utils;
 %>
 <% if (contract.$content.length) { %>
 export type <%~ contract.name %> = {
-  <% _.forEach(contract.$content, (field) => { %>
+  <% for (const field of contract.$content) { %>
     <%~ includeFile('@base/object-field-jsdoc.ejs', { ...it, field }) %>
     <%~ field.field %>;
-  <% }) %>
+  <% } %>
 }<%~ utils.isNeedToAddNull(contract) ? ' | null' : ''%>
 <% } else { %>
 export type <%~ contract.name %> = Record<string, any>;

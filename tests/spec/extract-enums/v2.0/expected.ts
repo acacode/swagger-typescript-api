@@ -21,10 +21,10 @@ export enum TypeNamePrefixEnumRootTypeNameSuffix {
 
 export interface TypeNamePrefixTreeTypeNameSuffix {
   tree?: {
-    mode?: TypeNamePrefixTreeModeTypeNameSuffix;
-    "mode-num"?: TypeNamePrefixTreeModeNumTypeNameSuffix;
-    type?: TypeNamePrefixTreeTypeTypeNameSuffix;
-    bereke?: TypeNamePrefixTreeBerekeTypeNameSuffix;
+    mode?: TypeNamePrefixTreeModeEnumTypeNameSuffix;
+    "mode-num"?: TypeNamePrefixTreeModeNumEnumTypeNameSuffix;
+    type?: TypeNamePrefixTreeTypeEnumTypeNameSuffix;
+    bereke?: TypeNamePrefixTreeBerekeEnumTypeNameSuffix;
   }[];
 }
 
@@ -87,7 +87,20 @@ export enum TypeNamePrefixSomeInterestEnumTypeNameSuffix {
   EnumKeyPrefix_HSDFDS_EnumKeySuffix = "HSDFDS",
 }
 
-export enum TypeNamePrefixTreeModeTypeNameSuffix {
+export interface TypeNamePrefixSuperDuperStructDTOTypeNameSuffix {
+  /** @example "100" */
+  id: number;
+  /** @example "APPROVED" */
+  state: TypeNamePrefixSuperDuperStructDtoStateEnumTypeNameSuffix;
+}
+
+export type TypeNamePrefixNullableEnumTypeNameSuffix = null;
+
+/** **Required when the state is dismissed.** The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`. */
+export type TypeNamePrefixCodeScanningAlertDismissedReasonTypeNameSuffix =
+  TypeNamePrefixCodeScanningAlertDismissedReasonEnumTypeNameSuffix | null;
+
+export enum TypeNamePrefixTreeModeEnumTypeNameSuffix {
   EnumKeyPrefixInvalidKey100644EnumKeySuffix = "100644",
   EnumKeyPrefixInvalidKey100755EnumKeySuffix = "100755",
   EnumKeyPrefixInvalidKey040000EnumKeySuffix = "040000",
@@ -95,7 +108,7 @@ export enum TypeNamePrefixTreeModeTypeNameSuffix {
   EnumKeyPrefixInvalidKey120000EnumKeySuffix = "120000",
 }
 
-export enum TypeNamePrefixTreeModeNumTypeNameSuffix {
+export enum TypeNamePrefixTreeModeNumEnumTypeNameSuffix {
   EnumKeyPrefixInvalidKey100644EnumKeySuffix = 100644,
   EnumKeyPrefixInvalidKey100755EnumKeySuffix = 100755,
   EnumKeyPrefixInvalidKey40000EnumKeySuffix = 40000,
@@ -103,14 +116,123 @@ export enum TypeNamePrefixTreeModeNumTypeNameSuffix {
   EnumKeyPrefixInvalidKey120000EnumKeySuffix = 120000,
 }
 
-export enum TypeNamePrefixTreeTypeTypeNameSuffix {
+export enum TypeNamePrefixTreeTypeEnumTypeNameSuffix {
   EnumKeyPrefixBlobEnumKeySuffix = "blob",
   EnumKeyPrefixTreeEnumKeySuffix = "tree",
   EnumKeyPrefixCommitEnumKeySuffix = "commit",
 }
 
-export enum TypeNamePrefixTreeBerekeTypeNameSuffix {
+export enum TypeNamePrefixTreeBerekeEnumTypeNameSuffix {
   EnumKeyPrefixBlaEnumKeySuffix = "Bla",
   EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
   EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
+}
+
+/** @example "APPROVED" */
+export enum TypeNamePrefixSuperDuperStructDtoStateEnumTypeNameSuffix {
+  EnumKeyPrefix_NEW_EnumKeySuffix = "NEW",
+  EnumKeyPrefix_PENDING_EnumKeySuffix = "PENDING",
+}
+
+export enum TypeNamePrefixCodeScanningAlertDismissedReasonEnumTypeNameSuffix {
+  EnumKeyPrefixFalsePositiveEnumKeySuffix = "false positive",
+  EnumKeyPrefixWontFixEnumKeySuffix = "won't fix",
+  EnumKeyPrefixUsedInTestsEnumKeySuffix = "used in tests",
+}
+
+/** @example "APPROVED" */
+export enum TypeNamePrefixNameSpaceAddSuperDuperEnumTypeNameSuffix {
+  EnumKeyPrefix_NEW_EnumKeySuffix = "NEW",
+  EnumKeyPrefix_PENDING_EnumKeySuffix = "PENDING",
+}
+
+export type TypeNamePrefixNameSpaceAddSuperDuperDataTypeNameSuffix =
+  TypeNamePrefixNameSpaceAddSuperDuperEnum1TypeNameSuffix;
+
+/** @example "APPROVED" */
+export enum TypeNamePrefixNameSpaceAddSuperDuperEnum1TypeNameSuffix {
+  EnumKeyPrefix_NEW_EnumKeySuffix = "NEW",
+  EnumKeyPrefix_PENDING_EnumKeySuffix = "PENDING",
+}
+
+export interface TypeNamePrefixIssuesDetailParamsTypeNameSuffix {
+  /**
+   * Issues assigned to you / created by you / mentioning you / you're
+   * subscribed to updates for / All issues the authenticated user can see
+   * @default "all"
+   */
+  filter: TypeNamePrefixFilterEnumTypeNameSuffix;
+  /** @default "open" */
+  state: TypeNamePrefixStateEnumTypeNameSuffix;
+  /** @default "created" */
+  sort: TypeNamePrefixSortEnumTypeNameSuffix;
+  /** @default "desc" */
+  direction: TypeNamePrefixDirectionEnumTypeNameSuffix;
+  org: string;
+}
+
+/**
+ * Issues assigned to you / created by you / mentioning you / you're
+ * subscribed to updates for / All issues the authenticated user can see
+ * @default "all"
+ */
+export enum TypeNamePrefixFilterEnumTypeNameSuffix {
+  EnumKeyPrefixAssignedEnumKeySuffix = "assigned",
+  EnumKeyPrefixCreatedEnumKeySuffix = "created",
+  EnumKeyPrefixMentionedEnumKeySuffix = "mentioned",
+  EnumKeyPrefixSubscribedEnumKeySuffix = "subscribed",
+  EnumKeyPrefixAllEnumKeySuffix = "all",
+}
+
+/** @default "open" */
+export enum TypeNamePrefixStateEnumTypeNameSuffix {
+  EnumKeyPrefixOpenEnumKeySuffix = "open",
+  EnumKeyPrefixClosedEnumKeySuffix = "closed",
+}
+
+/** @default "created" */
+export enum TypeNamePrefixSortEnumTypeNameSuffix {
+  EnumKeyPrefixCreatedEnumKeySuffix = "created",
+  EnumKeyPrefixUpdatedEnumKeySuffix = "updated",
+  EnumKeyPrefixCommentsEnumKeySuffix = "comments",
+}
+
+/** @default "desc" */
+export enum TypeNamePrefixDirectionEnumTypeNameSuffix {
+  EnumKeyPrefixAscEnumKeySuffix = "asc",
+  EnumKeyPrefixDescEnumKeySuffix = "desc",
+}
+
+export type TypeNamePrefixIssuesDetailDataTypeNameSuffix = any;
+
+/**
+ * Issues assigned to you / created by you / mentioning you / you're
+ * subscribed to updates for / All issues the authenticated user can see
+ * @default "all"
+ */
+export enum TypeNamePrefixIssuesDetailParams1FilterEnumTypeNameSuffix {
+  EnumKeyPrefixAssignedEnumKeySuffix = "assigned",
+  EnumKeyPrefixCreatedEnumKeySuffix = "created",
+  EnumKeyPrefixMentionedEnumKeySuffix = "mentioned",
+  EnumKeyPrefixSubscribedEnumKeySuffix = "subscribed",
+  EnumKeyPrefixAllEnumKeySuffix = "all",
+}
+
+/** @default "open" */
+export enum TypeNamePrefixIssuesDetailParams1StateEnumTypeNameSuffix {
+  EnumKeyPrefixOpenEnumKeySuffix = "open",
+  EnumKeyPrefixClosedEnumKeySuffix = "closed",
+}
+
+/** @default "created" */
+export enum TypeNamePrefixIssuesDetailParams1SortEnumTypeNameSuffix {
+  EnumKeyPrefixCreatedEnumKeySuffix = "created",
+  EnumKeyPrefixUpdatedEnumKeySuffix = "updated",
+  EnumKeyPrefixCommentsEnumKeySuffix = "comments",
+}
+
+/** @default "desc" */
+export enum TypeNamePrefixIssuesDetailParams1DirectionEnumTypeNameSuffix {
+  EnumKeyPrefixAscEnumKeySuffix = "asc",
+  EnumKeyPrefixDescEnumKeySuffix = "desc",
 }

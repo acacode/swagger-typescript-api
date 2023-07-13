@@ -1,5 +1,5 @@
-const { objectAssign } = require("../../util/object-assign");
-const { HTTP_CLIENT, PROJECT_VERSION } = require("../../constants");
+const { objectAssign } = require('../../util/object-assign');
+const { HTTP_CLIENT, PROJECT_VERSION } = require('../../constants');
 
 /**
  * @type {GenerateTemplatesParams}}

@@ -9,6 +9,29 @@
  * ---------------------------------------------------------------
  */
 
+export interface ObjWithEnum {
+  "prop-enum-nullable"?: 0 | 1 | 2 | 3 | 4 | 5 | null;
+  "prop-enum"?: 0 | 1 | 2 | 3 | 4 | 5;
+}
+
+export enum XNullableEnum {
+  Value0 = 0,
+  Value1 = 1,
+  Value2 = 2,
+  Value3 = 3,
+  Value4 = 4,
+  Value5 = 5,
+}
+
+export enum SimpleEnumNonNullable {
+  Value0 = 0,
+  Value1 = 1,
+  Value2 = 2,
+  Value3 = 3,
+  Value4 = 4,
+  Value5 = 5,
+}
+
 export enum OnlyEnumNames {
   Bla = "Bla",
   Blabla = "Blabla",
@@ -66,4 +89,12 @@ export enum SomeInterestEnum {
   ASdsdsa = "ASdsdsa",
   ASDds = "ASDds",
   HSDFDS = "HSDFDS",
+}
+
+export interface PostFooPayload {
+  someTypeId?: 1 | 2 | 3 | 4 | 5;
+}
+
+export interface PostFooParams {
+  testKek: 1 | 2 | 3 | 4 | 5;
 }

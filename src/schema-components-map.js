@@ -1,31 +1,31 @@
-const _ = require("lodash");
+const _ = require('lodash');
 
 class SchemaComponentsMap {
-  /**
-   * @type {Record<string, SchemaComponent>}
-   */
-  data = {};
-  /**
-   * @type {CodeGenConfig}
-   */
+  /** @type {SchemaComponent[]} */
+  _data = [];
+  /** @type {CodeGenConfig} */
   config;
 
-  constructor(config, schema) {
+  constructor({ config }) {
     this.config = config;
-    this.processSchema(schema);
   }
 
-  processSchema(schema) {
-    this.data = {};
-    if (!schema) return;
-    _.each(schema.components, (component, componentName) =>
-      _.each(component, (rawTypeData, typeName) => this.createComponent(componentName, typeName, rawTypeData)),
-    );
+  clear() {
+    this._data = [];
   }
 
-  createComponent(componentName, typeName, rawTypeData) {
-    const $ref = `#/components/${componentName}/${typeName}`;
+  createRef = (paths) => {
+    return ['#', ...paths].join('/');
+  };
 
+  parseRef = (ref) => {
+    return ref.split('/');
+  };
+
+  createComponent($ref, rawTypeData) {
+    const parsed = this.parseRef($ref);
+    const typeName = parsed[parsed.length - 1];
+    const componentName = parsed[parsed.length - 2];
     const componentSchema = {
       $ref,
       typeName,
@@ -35,11 +35,25 @@ class SchemaComponentsMap {
       typeData: null,
     };
 
-    const usageComponent = this.config.hooks.onCreateComponent(componentSchema) || componentSchema;
+    const usageComponent =
+      this.config.hooks.onCreateComponent(componentSchema) || componentSchema;
 
-    this.data[$ref] = usageComponent;
+    const refIndex = this._data.findIndex((c) => c.$ref === $ref);
+
+    if (refIndex === -1) {
+      this._data.push(usageComponent);
+    } else {
+      this._data[refIndex] = usageComponent;
+    }
 
     return usageComponent;
+  }
+
+  /**
+   * @returns {SchemaComponent[]}
+   */
+  getComponents() {
+    return this._data;
   }
 
   /**
@@ -47,11 +61,13 @@ class SchemaComponentsMap {
    * @returns {SchemaComponent[]}
    */
   filter(componentName) {
-    return _.filter(this.data, (v, ref) => _.startsWith(ref, `#/components/${componentName}`));
+    return _.filter(this._data, (v) =>
+      _.startsWith(v.$ref, `#/components/${componentName}`),
+    );
   }
 
-  get(ref) {
-    return this.data[ref] || null;
+  get($ref) {
+    return this._data.find((c) => c.$ref === $ref) || null;
   }
 }
 

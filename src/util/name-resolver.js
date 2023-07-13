@@ -1,20 +1,21 @@
-const _ = require("lodash");
-const { getRandomInt } = require("./random.js");
+const _ = require('lodash');
 
 class NameResolver {
   reservedNames = [];
   getFallbackName = null;
 
-  /**
-   * @type {Logger}
-   */
+  /** @type {CodeGenConfig} */
+  config;
+  /** @type {Logger} */
   logger;
 
   /**
+   * @param {CodeGenConfig} config;
    * @param {Logger} logger;
    * @param {string[]} reservedNames
    */
-  constructor(logger, reservedNames, getFallbackName) {
+  constructor(config, logger, reservedNames, getFallbackName) {
+    this.config = config;
     this.logger = logger;
     this.getFallbackName = getFallbackName;
     this.reserve(reservedNames);
@@ -24,11 +25,18 @@ class NameResolver {
    * @param {string[]} names
    */
   reserve(names) {
-    this.reservedNames.push(..._.uniq(_.compact(names)));
+    const fixedNames = _.uniq(_.compact(names));
+    for (const name of fixedNames) {
+      if (this.reservedNames.indexOf(name) === -1) {
+        this.reservedNames.push(name);
+      }
+    }
   }
 
   unreserve(names) {
-    this.reservedNames.filter((reservedName) => !names.some((name) => name === reservedName));
+    this.reservedNames.filter(
+      (reservedName) => !names.some((name) => name === reservedName),
+    );
   }
 
   isReserved(name) {
@@ -37,13 +45,32 @@ class NameResolver {
 
   /**
    *
-   * @param {(string[]) | ((reserved: string[]) => string)} variantsOrResolver
+   * @param {(string[])} variants
+   * @param {(reserved: string[]) => string)} [resolver]
+   * @param {any} [extras]
    * @returns {string | null}
    */
-  resolve(variantsOrResolver, shouldReserve = true) {
-    this.logger.debug("resolving name with using", variantsOrResolver);
-    if (Array.isArray(variantsOrResolver)) {
-      const variants = variantsOrResolver;
+  resolve(variants, resolver, extras, shouldReserve = true) {
+    if (typeof resolver === 'function') {
+      let usageName = null;
+      while (usageName === null) {
+        const variant = resolver(variants, extras);
+
+        if (variant === undefined) {
+          this.logger.warn(
+            'unable to resolve name. current reserved names: ',
+            this.reservedNames,
+          );
+          return null;
+        }
+        if (!shouldReserve || !this.isReserved(variant)) {
+          usageName = variant;
+        }
+      }
+
+      shouldReserve && this.reserve([usageName]);
+      return usageName;
+    } else if (Array.isArray(variants)) {
       let usageName = null;
       const uniqVariants = _.uniq(_.compact(variants));
 
@@ -58,56 +85,21 @@ class NameResolver {
         return usageName;
       }
 
-      this.logger.debug("trying to resolve name with using fallback name generator");
-      return this.resolve(this.getFallbackName);
-    } else if (typeof variantsOrResolver === "function") {
-      let usageName = null;
-      while (usageName === null) {
-        const variant = variantsOrResolver(this.reservedNames);
-
-        if (variant === undefined) {
-          this.logger.warn("unable to resolve name. current reserved names: ", this.reservedNames);
-          return null;
-        }
-        if (!this.isReserved(variant)) {
-          usageName = variant;
-        }
-      }
-
-      shouldReserve && this.reserve([usageName]);
-      return usageName;
+      this.logger.debug(
+        'trying to resolve name with using fallback name generator using variants',
+        variants,
+      );
+      return this.resolve(variants, this.getFallbackName, extras);
     }
 
-    this.logger.debug("problem with reserving names. current reserved names: ", this.reservedNames);
+    this.logger.debug(
+      'problem with reserving names. current reserved names: ',
+      this.reservedNames,
+    );
     return null;
   }
 }
 
-class SpecificArgNameResolver extends NameResolver {
-  /**
-   * @param {Logger} logger;
-   * @param {string[]} reservedNames
-   */
-  constructor(logger, reservedNames) {
-    super(logger, reservedNames, (variants) => {
-      return (variants[0] && `${variants[0]}${getRandomInt(1, 10)}`) || `arg${getRandomInt(1, 10)}`;
-    });
-  }
-}
-
-class ComponentTypeNameResolver extends NameResolver {
-  /**
-   * @param {Logger} logger;
-   * @param {string[]} reservedNames
-   */
-  constructor(logger, reservedNames) {
-    super(logger, reservedNames, (variants) => {
-      return (variants[0] && `${variants[0]}${getRandomInt(1, 10)}`) || `ComponentType${getRandomInt(1, 10)}`;
-    });
-  }
-}
-
 module.exports = {
-  SpecificArgNameResolver,
-  ComponentTypeNameResolver,
+  NameResolver,
 };

@@ -1,6 +1,6 @@
-const _ = require("lodash");
-const ts = require("typescript");
-const prettier = require("prettier");
+const _ = require('lodash');
+const ts = require('typescript');
+const prettier = require('prettier');
 
 class CodeFormatter {
   /**
@@ -8,18 +8,18 @@ class CodeFormatter {
    */
   config;
 
-  constructor(config) {
+  constructor({ config }) {
     this.config = config;
   }
 
   removeUnusedImports = (content) => {
-    const tempFileName = "file.ts";
+    const tempFileName = 'file.ts';
 
     const host = new TsLanguageServiceHost(tempFileName, content);
     const languageService = ts.createLanguageService(host);
 
     const fileTextChanges = languageService.organizeImports(
-      { type: "file", fileName: tempFileName },
+      { type: 'file', fileName: tempFileName },
       { newLineCharacter: ts.sys.newLine },
     )[0];
 
@@ -27,7 +27,9 @@ class CodeFormatter {
       return _.reduceRight(
         fileTextChanges.textChanges,
         (content, { span, newText }) =>
-          `${content.slice(0, span.start)}${newText}${content.slice(span.start + span.length)}`,
+          `${content.slice(0, span.start)}${newText}${content.slice(
+            span.start + span.length,
+          )}`,
         content,
       );
     }
@@ -35,16 +37,27 @@ class CodeFormatter {
     return content;
   };
 
-  prettierFormat = (content) => {
-    return prettier.format(content, this.config.prettierOptions);
+  /**
+   * @param content
+   * @returns {Promise<string>}
+   */
+  prettierFormat = async (content) => {
+    const formatted = await prettier.format(
+      content,
+      this.config.prettierOptions,
+    );
+    return formatted;
   };
 
-  formatCode = (code, { removeUnusedImports = true, prettierFormat = true } = {}) => {
+  formatCode = async (
+    code,
+    { removeUnusedImports = true, prettierFormat = true } = {},
+  ) => {
     if (removeUnusedImports) {
       code = this.removeUnusedImports(code);
     }
     if (prettierFormat) {
-      code = this.prettierFormat(code);
+      code = await this.prettierFormat(code);
     }
     return code;
   };
@@ -58,13 +71,15 @@ class TsLanguageServiceHost {
       fileName,
       content,
       compilerOptions: tsconfig
-        ? ts.convertCompilerOptionsFromJson(ts.readConfigFile(tsconfig, ts.sys.readFile).config.compilerOptions).options
+        ? ts.convertCompilerOptionsFromJson(
+            ts.readConfigFile(tsconfig, ts.sys.readFile).config.compilerOptions,
+          ).options
         : ts.getDefaultCompilerOptions(),
     });
   }
 
   getNewLine() {
-    return "newLine" in ts.sys ? ts.sys.newLine : "\n";
+    return 'newLine' in ts.sys ? ts.sys.newLine : '\n';
   }
   getScriptFileNames() {
     return [this.fileName];

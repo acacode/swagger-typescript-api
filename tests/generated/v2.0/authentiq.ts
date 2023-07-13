@@ -226,7 +226,7 @@ export class HttpClient<SecurityDataType = unknown> {
         ...(requestParams.headers || {}),
         ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
+      signal: (cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal) || null,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
@@ -316,12 +316,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     keyRevokeNosecret: (
       query: {
+        /** verification code sent by email */
+        code?: string;
         /** primary email associated to Key (ID) */
         email: string;
         /** primary phone number, international representation */
         phone: string;
-        /** verification code sent by email */
-        code?: string;
       },
       params: RequestParams = {},
     ) =>

@@ -6,10 +6,9 @@
 // License text available at https://opensource.org/licenses/MIT
 // Repository https://github.com/acacode/swagger-typescript-api
 
-const _ = require("lodash");
-const constants = require("./constants");
-const { CodeGenProcess } = require("./code-gen-process.js");
-const { generateTemplates } = require("./commands/generate-templates");
+const constants = require('./constants');
+const { CodeGenProcess } = require('./code-gen-process.js');
+const { generateTemplates } = require('./commands/generate-templates');
 
 module.exports = {
   constants: constants,

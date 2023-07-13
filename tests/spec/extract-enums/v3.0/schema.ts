@@ -21,10 +21,10 @@ export enum TypeNamePrefixEnumRootTypeNameSuffix {
 
 export interface TypeNamePrefixTreeTypeNameSuffix {
   tree?: {
-    mode?: TypeNamePrefixTreeModeTypeNameSuffix;
-    "mode-num"?: TypeNamePrefixTreeModeNumTypeNameSuffix;
-    type?: TypeNamePrefixTreeTypeTypeNameSuffix;
-    bereke?: TypeNamePrefixTreeBerekeTypeNameSuffix;
+    mode?: TypeNamePrefixTreeModeEnumTypeNameSuffix;
+    "mode-num"?: TypeNamePrefixTreeModeNumEnumTypeNameSuffix;
+    type?: TypeNamePrefixTreeTypeEnumTypeNameSuffix;
+    bereke?: TypeNamePrefixTreeBerekeEnumTypeNameSuffix;
   }[];
 }
 
@@ -87,7 +87,7 @@ export enum TypeNamePrefixSomeInterestEnumTypeNameSuffix {
   EnumKeyPrefix_HSDFDS_EnumKeySuffix = "HSDFDS",
 }
 
-export enum TypeNamePrefixTreeModeTypeNameSuffix {
+export enum TypeNamePrefixTreeModeEnumTypeNameSuffix {
   EnumKeyPrefixInvalidKey100644EnumKeySuffix = "100644",
   EnumKeyPrefixInvalidKey100755EnumKeySuffix = "100755",
   EnumKeyPrefixInvalidKey040000EnumKeySuffix = "040000",
@@ -95,7 +95,7 @@ export enum TypeNamePrefixTreeModeTypeNameSuffix {
   EnumKeyPrefixInvalidKey120000EnumKeySuffix = "120000",
 }
 
-export enum TypeNamePrefixTreeModeNumTypeNameSuffix {
+export enum TypeNamePrefixTreeModeNumEnumTypeNameSuffix {
   EnumKeyPrefixInvalidKey100644EnumKeySuffix = 100644,
   EnumKeyPrefixInvalidKey100755EnumKeySuffix = 100755,
   EnumKeyPrefixInvalidKey40000EnumKeySuffix = 40000,
@@ -103,13 +103,13 @@ export enum TypeNamePrefixTreeModeNumTypeNameSuffix {
   EnumKeyPrefixInvalidKey120000EnumKeySuffix = 120000,
 }
 
-export enum TypeNamePrefixTreeTypeTypeNameSuffix {
+export enum TypeNamePrefixTreeTypeEnumTypeNameSuffix {
   EnumKeyPrefixBlobEnumKeySuffix = "blob",
   EnumKeyPrefixTreeEnumKeySuffix = "tree",
   EnumKeyPrefixCommitEnumKeySuffix = "commit",
 }
 
-export enum TypeNamePrefixTreeBerekeTypeNameSuffix {
+export enum TypeNamePrefixTreeBerekeEnumTypeNameSuffix {
   EnumKeyPrefixBlaEnumKeySuffix = "Bla",
   EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
   EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
@@ -121,13 +121,13 @@ export interface TypeNamePrefixGetAbcGetParamsTypeNameSuffix {
    * Order By
    * @default "created_time"
    */
-  order_by?: TypeNamePrefixGetAbcGetParamsOrderByTypeNameSuffix;
+  order_by?: TypeNamePrefixOrderByEnumTypeNameSuffix;
   statusesPath?: any[];
   /**
    * Order By
    * @default "created_time"
    */
-  orderPathBy?: TypeNamePrefixGetAbcGetParamsOrderPathByTypeNameSuffix;
+  orderPathBy?: TypeNamePrefixOrderPathByEnumTypeNameSuffix;
   /** Tag Ids */
   tagPathIds?: string[];
 }
@@ -136,7 +136,7 @@ export interface TypeNamePrefixGetAbcGetParamsTypeNameSuffix {
  * Order By
  * @default "created_time"
  */
-export enum TypeNamePrefixGetAbcGetParamsOrderByTypeNameSuffix {
+export enum TypeNamePrefixOrderByEnumTypeNameSuffix {
   EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
 }
 
@@ -144,7 +144,7 @@ export enum TypeNamePrefixGetAbcGetParamsOrderByTypeNameSuffix {
  * Order By
  * @default "created_time"
  */
-export enum TypeNamePrefixGetAbcGetParamsOrderPathByTypeNameSuffix {
+export enum TypeNamePrefixOrderPathByEnumTypeNameSuffix {
   EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
 }
 
@@ -152,7 +152,31 @@ export enum TypeNamePrefixGetAbcGetParamsOrderPathByTypeNameSuffix {
  * Order By
  * @default "created_time"
  */
-export enum TypeNamePrefixGetAbcGetParamsOrderHeaderByTypeNameSuffix {
+export enum TypeNamePrefixGetAbcGetParams1OrderByEnumTypeNameSuffix {
+  EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
+}
+
+/**
+ * Order By
+ * @default "created_time"
+ */
+export enum TypeNamePrefixGetAbcGetParams1OrderPathByEnumTypeNameSuffix {
+  EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
+}
+
+/**
+ * Order By
+ * @default "created_time"
+ */
+export enum TypeNamePrefixGetAbcGetParams1OrderHeaderByEnumTypeNameSuffix {
+  EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
+}
+
+/**
+ * Order By
+ * @default "created_time"
+ */
+export enum TypeNamePrefixGetAbcGetParams1EnumTypeNameSuffix {
   EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
 }
 
@@ -161,33 +185,33 @@ export interface TypeNamePrefixGetCdeGetParamsTypeNameSuffix {
   tag_ids?: string[];
   SHOULD_NOT_BE_ANY?: {
     tree?: {
-      mode?: TypeNamePrefixGetCdeGetParamsModeTypeNameSuffix;
-      "mode-num"?: TypeNamePrefixGetCdeGetParamsModeNumTypeNameSuffix;
-      type?: TypeNamePrefixGetCdeGetParamsTypeTypeNameSuffix;
-      bereke?: TypeNamePrefixGetCdeGetParamsBerekeTypeNameSuffix;
+      mode?: TypeNamePrefixShouldNotBeAnyModeEnumTypeNameSuffix;
+      "mode-num"?: TypeNamePrefixShouldNotBeAnyModeNumEnumTypeNameSuffix;
+      type?: TypeNamePrefixShouldNotBeAnyTypeEnumTypeNameSuffix;
+      bereke?: TypeNamePrefixShouldNotBeAnyBerekeEnumTypeNameSuffix;
     }[];
   };
   /**
    * Order By
    * @default "created_time"
    */
-  order_by?: TypeNamePrefixGetCdeGetParamsOrderByTypeNameSuffix;
+  order_by?: TypeNamePrefixOrderByEnum1TypeNameSuffix;
   shouldNotBeAnyPath?: {
     tree?: {
-      mode?: TypeNamePrefixGetCdeGetParamsModeTypeNameSuffix;
-      "mode-num"?: TypeNamePrefixGetCdeGetParamsModeNumTypeNameSuffix;
-      type?: TypeNamePrefixGetCdeGetParamsTypeTypeNameSuffix;
-      bereke?: TypeNamePrefixGetCdeGetParamsBerekeTypeNameSuffix;
+      mode?: TypeNamePrefixShouldNotBeAnyPathModeEnumTypeNameSuffix;
+      "mode-num"?: TypeNamePrefixShouldNotBeAnyPathModeNumEnumTypeNameSuffix;
+      type?: TypeNamePrefixShouldNotBeAnyPathTypeEnumTypeNameSuffix;
+      bereke?: TypeNamePrefixShouldNotBeAnyPathBerekeEnumTypeNameSuffix;
     }[];
   };
   /**
    * Order By
    * @default "created_time"
    */
-  orderByPath?: TypeNamePrefixGetCdeGetParamsOrderByPathTypeNameSuffix;
+  orderByPath?: TypeNamePrefixOrderByPathEnumTypeNameSuffix;
 }
 
-export enum TypeNamePrefixGetCdeGetParamsModeTypeNameSuffix {
+export enum TypeNamePrefixShouldNotBeAnyModeEnumTypeNameSuffix {
   EnumKeyPrefixInvalidKey100644EnumKeySuffix = "100644",
   EnumKeyPrefixInvalidKey100755EnumKeySuffix = "100755",
   EnumKeyPrefixInvalidKey040000EnumKeySuffix = "040000",
@@ -195,7 +219,7 @@ export enum TypeNamePrefixGetCdeGetParamsModeTypeNameSuffix {
   EnumKeyPrefixInvalidKey120000EnumKeySuffix = "120000",
 }
 
-export enum TypeNamePrefixGetCdeGetParamsModeNumTypeNameSuffix {
+export enum TypeNamePrefixShouldNotBeAnyModeNumEnumTypeNameSuffix {
   EnumKeyPrefixInvalidKey100644EnumKeySuffix = 100644,
   EnumKeyPrefixInvalidKey100755EnumKeySuffix = 100755,
   EnumKeyPrefixInvalidKey40000EnumKeySuffix = 40000,
@@ -203,13 +227,13 @@ export enum TypeNamePrefixGetCdeGetParamsModeNumTypeNameSuffix {
   EnumKeyPrefixInvalidKey120000EnumKeySuffix = 120000,
 }
 
-export enum TypeNamePrefixGetCdeGetParamsTypeTypeNameSuffix {
+export enum TypeNamePrefixShouldNotBeAnyTypeEnumTypeNameSuffix {
   EnumKeyPrefixBlobEnumKeySuffix = "blob",
   EnumKeyPrefixTreeEnumKeySuffix = "tree",
   EnumKeyPrefixCommitEnumKeySuffix = "commit",
 }
 
-export enum TypeNamePrefixGetCdeGetParamsBerekeTypeNameSuffix {
+export enum TypeNamePrefixShouldNotBeAnyBerekeEnumTypeNameSuffix {
   EnumKeyPrefixBlaEnumKeySuffix = "Bla",
   EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
   EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
@@ -219,7 +243,151 @@ export enum TypeNamePrefixGetCdeGetParamsBerekeTypeNameSuffix {
  * Order By
  * @default "created_time"
  */
-export enum TypeNamePrefixGetCdeGetParamsOrderByTypeNameSuffix {
+export enum TypeNamePrefixOrderByEnum1TypeNameSuffix {
+  EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
+}
+
+export enum TypeNamePrefixShouldNotBeAnyPathModeEnumTypeNameSuffix {
+  EnumKeyPrefixInvalidKey100644EnumKeySuffix = "100644",
+  EnumKeyPrefixInvalidKey100755EnumKeySuffix = "100755",
+  EnumKeyPrefixInvalidKey040000EnumKeySuffix = "040000",
+  EnumKeyPrefixInvalidKey160000EnumKeySuffix = "160000",
+  EnumKeyPrefixInvalidKey120000EnumKeySuffix = "120000",
+}
+
+export enum TypeNamePrefixShouldNotBeAnyPathModeNumEnumTypeNameSuffix {
+  EnumKeyPrefixInvalidKey100644EnumKeySuffix = 100644,
+  EnumKeyPrefixInvalidKey100755EnumKeySuffix = 100755,
+  EnumKeyPrefixInvalidKey40000EnumKeySuffix = 40000,
+  EnumKeyPrefixInvalidKey160000EnumKeySuffix = 160000,
+  EnumKeyPrefixInvalidKey120000EnumKeySuffix = 120000,
+}
+
+export enum TypeNamePrefixShouldNotBeAnyPathTypeEnumTypeNameSuffix {
+  EnumKeyPrefixBlobEnumKeySuffix = "blob",
+  EnumKeyPrefixTreeEnumKeySuffix = "tree",
+  EnumKeyPrefixCommitEnumKeySuffix = "commit",
+}
+
+export enum TypeNamePrefixShouldNotBeAnyPathBerekeEnumTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
+  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
+}
+
+/**
+ * Order By
+ * @default "created_time"
+ */
+export enum TypeNamePrefixOrderByPathEnumTypeNameSuffix {
+  EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
+}
+
+export enum TypeNamePrefixGetCdeGetParams1ModeEnumTypeNameSuffix {
+  EnumKeyPrefixInvalidKey100644EnumKeySuffix = "100644",
+  EnumKeyPrefixInvalidKey100755EnumKeySuffix = "100755",
+  EnumKeyPrefixInvalidKey040000EnumKeySuffix = "040000",
+  EnumKeyPrefixInvalidKey160000EnumKeySuffix = "160000",
+  EnumKeyPrefixInvalidKey120000EnumKeySuffix = "120000",
+}
+
+export enum TypeNamePrefixGetCdeGetParams1ModeNumEnumTypeNameSuffix {
+  EnumKeyPrefixInvalidKey100644EnumKeySuffix = 100644,
+  EnumKeyPrefixInvalidKey100755EnumKeySuffix = 100755,
+  EnumKeyPrefixInvalidKey40000EnumKeySuffix = 40000,
+  EnumKeyPrefixInvalidKey160000EnumKeySuffix = 160000,
+  EnumKeyPrefixInvalidKey120000EnumKeySuffix = 120000,
+}
+
+export enum TypeNamePrefixGetCdeGetParams1TypeEnumTypeNameSuffix {
+  EnumKeyPrefixBlobEnumKeySuffix = "blob",
+  EnumKeyPrefixTreeEnumKeySuffix = "tree",
+  EnumKeyPrefixCommitEnumKeySuffix = "commit",
+}
+
+export enum TypeNamePrefixGetCdeGetParams1BerekeEnumTypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
+  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
+}
+
+/**
+ * Order By
+ * @default "created_time"
+ */
+export enum TypeNamePrefixGetCdeGetParams1OrderByEnumTypeNameSuffix {
+  EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
+}
+
+export enum TypeNamePrefixGetCdeGetParams1ModeEnum1TypeNameSuffix {
+  EnumKeyPrefixInvalidKey100644EnumKeySuffix = "100644",
+  EnumKeyPrefixInvalidKey100755EnumKeySuffix = "100755",
+  EnumKeyPrefixInvalidKey040000EnumKeySuffix = "040000",
+  EnumKeyPrefixInvalidKey160000EnumKeySuffix = "160000",
+  EnumKeyPrefixInvalidKey120000EnumKeySuffix = "120000",
+}
+
+export enum TypeNamePrefixGetCdeGetParams1ModeNumEnum1TypeNameSuffix {
+  EnumKeyPrefixInvalidKey100644EnumKeySuffix = 100644,
+  EnumKeyPrefixInvalidKey100755EnumKeySuffix = 100755,
+  EnumKeyPrefixInvalidKey40000EnumKeySuffix = 40000,
+  EnumKeyPrefixInvalidKey160000EnumKeySuffix = 160000,
+  EnumKeyPrefixInvalidKey120000EnumKeySuffix = 120000,
+}
+
+export enum TypeNamePrefixGetCdeGetParams1TypeEnum1TypeNameSuffix {
+  EnumKeyPrefixBlobEnumKeySuffix = "blob",
+  EnumKeyPrefixTreeEnumKeySuffix = "tree",
+  EnumKeyPrefixCommitEnumKeySuffix = "commit",
+}
+
+export enum TypeNamePrefixGetCdeGetParams1BerekeEnum1TypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
+  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
+}
+
+/**
+ * Order By
+ * @default "created_time"
+ */
+export enum TypeNamePrefixGetCdeGetParams1OrderByPathEnumTypeNameSuffix {
+  EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
+}
+
+export enum TypeNamePrefixGetCdeGetParams1ModeEnum2TypeNameSuffix {
+  EnumKeyPrefixInvalidKey100644EnumKeySuffix = "100644",
+  EnumKeyPrefixInvalidKey100755EnumKeySuffix = "100755",
+  EnumKeyPrefixInvalidKey040000EnumKeySuffix = "040000",
+  EnumKeyPrefixInvalidKey160000EnumKeySuffix = "160000",
+  EnumKeyPrefixInvalidKey120000EnumKeySuffix = "120000",
+}
+
+export enum TypeNamePrefixGetCdeGetParams1ModeNumEnum2TypeNameSuffix {
+  EnumKeyPrefixInvalidKey100644EnumKeySuffix = 100644,
+  EnumKeyPrefixInvalidKey100755EnumKeySuffix = 100755,
+  EnumKeyPrefixInvalidKey40000EnumKeySuffix = 40000,
+  EnumKeyPrefixInvalidKey160000EnumKeySuffix = 160000,
+  EnumKeyPrefixInvalidKey120000EnumKeySuffix = 120000,
+}
+
+export enum TypeNamePrefixGetCdeGetParams1TypeEnum2TypeNameSuffix {
+  EnumKeyPrefixBlobEnumKeySuffix = "blob",
+  EnumKeyPrefixTreeEnumKeySuffix = "tree",
+  EnumKeyPrefixCommitEnumKeySuffix = "commit",
+}
+
+export enum TypeNamePrefixGetCdeGetParams1BerekeEnum2TypeNameSuffix {
+  EnumKeyPrefixBlaEnumKeySuffix = "Bla",
+  EnumKeyPrefixBlablaEnumKeySuffix = "Blabla",
+  EnumKeyPrefixBoilerEnumKeySuffix = "Boiler",
+}
+
+/**
+ * Order By
+ * @default "created_time"
+ */
+export enum TypeNamePrefixGetCdeGetParams1OrderByHeaderEnumTypeNameSuffix {
   EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
 }
 
@@ -227,14 +395,6 @@ export enum TypeNamePrefixGetCdeGetParamsOrderByTypeNameSuffix {
  * Order By
  * @default "created_time"
  */
-export enum TypeNamePrefixGetCdeGetParamsOrderByPathTypeNameSuffix {
-  EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
-}
-
-/**
- * Order By
- * @default "created_time"
- */
-export enum TypeNamePrefixGetCdeGetParamsOrderByHeaderTypeNameSuffix {
+export enum TypeNamePrefixGetCdeGetParams1EnumTypeNameSuffix {
   EnumKeyPrefixCreatedTimeEnumKeySuffix = "created_time",
 }

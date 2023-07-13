@@ -1,7 +1,7 @@
-const _ = require("lodash");
-const converter = require("swagger2openapi");
-const yaml = require("js-yaml");
-const { Request } = require("./util/request");
+const _ = require('lodash');
+const converter = require('swagger2openapi');
+const yaml = require('js-yaml');
+const { Request } = require('./util/request');
 
 class SwaggerSchemaResolver {
   /**
@@ -21,7 +21,7 @@ class SwaggerSchemaResolver {
    */
   request;
 
-  constructor(config, logger, fileSystem) {
+  constructor({ config, logger, fileSystem }) {
     this.config = config;
     this.logger = logger;
     this.fileSystem = fileSystem;
@@ -33,7 +33,15 @@ class SwaggerSchemaResolver {
    * @returns {Promise<{usageSchema: Record<string, *>, originalSchema: Record<string, *>}>}
    */
   async create() {
-    const { spec, patch, input, url, disableStrictSSL, disableProxy, authorizationToken } = this.config;
+    const {
+      spec,
+      patch,
+      input,
+      url,
+      disableStrictSSL,
+      disableProxy,
+      authorizationToken,
+    } = this.config;
 
     if (this.config.spec) {
       return await this.convertSwaggerObject(spec, { patch });
@@ -46,7 +54,8 @@ class SwaggerSchemaResolver {
       disableProxy,
       authorizationToken,
     );
-    const swaggerSchemaObject = this.processSwaggerSchemaFile(swaggerSchemaFile);
+    const swaggerSchemaObject =
+      this.processSwaggerSchemaFile(swaggerSchemaFile);
     return await this.convertSwaggerObject(swaggerSchemaObject, { patch });
   }
 
@@ -61,8 +70,8 @@ class SwaggerSchemaResolver {
       const result = _.cloneDeep(swaggerSchema);
       result.info = _.merge(
         {
-          title: "No title",
-          version: "",
+          title: 'No title',
+          version: '',
         },
         result.info,
       );
@@ -75,11 +84,15 @@ class SwaggerSchemaResolver {
           {
             ...converterOptions,
             warnOnly: true,
-            refSiblings: "preserve",
-            rbname: "requestBodyName",
+            refSiblings: 'preserve',
+            rbname: 'requestBodyName',
           },
           (err, options) => {
-            const parsedSwaggerSchema = _.get(err, "options.openapi", _.get(options, "openapi"));
+            const parsedSwaggerSchema = _.get(
+              err,
+              'options.openapi',
+              _.get(options, 'openapi'),
+            );
             if (!parsedSwaggerSchema && err) {
               throw new Error(err);
             }
@@ -99,10 +112,20 @@ class SwaggerSchemaResolver {
     });
   }
 
-  async fetchSwaggerSchemaFile(pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy, authToken) {
+  getSwaggerSchemaByPath = (pathToSwagger) => {
+    this.logger.log(`try to get swagger by path "${pathToSwagger}"`);
+    return this.fileSystem.getFileContent(pathToSwagger);
+  };
+
+  async fetchSwaggerSchemaFile(
+    pathToSwagger,
+    urlToSwagger,
+    disableStrictSSL,
+    disableProxy,
+    authToken,
+  ) {
     if (this.fileSystem.pathIsExist(pathToSwagger)) {
-      this.logger.log(`try to get swagger by path "${pathToSwagger}"`);
-      return this.fileSystem.getFileContent(pathToSwagger);
+      return this.getSwaggerSchemaByPath(pathToSwagger);
     } else {
       this.logger.log(`try to get swagger by URL "${urlToSwagger}"`);
       return await this.request.download({
@@ -115,7 +138,7 @@ class SwaggerSchemaResolver {
   }
 
   processSwaggerSchemaFile(file) {
-    if (typeof file !== "string") return file;
+    if (typeof file !== 'string') return file;
 
     try {
       return JSON.parse(file);
@@ -125,8 +148,8 @@ class SwaggerSchemaResolver {
   }
 
   fixSwaggerSchema({ usageSchema, originalSchema }) {
-    const usagePaths = _.get(usageSchema, "paths");
-    const originalPaths = _.get(originalSchema, "paths");
+    const usagePaths = _.get(usageSchema, 'paths');
+    const originalPaths = _.get(originalSchema, 'paths');
 
     // walk by routes
     _.each(usagePaths, (usagePathObject, route) => {
@@ -135,20 +158,30 @@ class SwaggerSchemaResolver {
       // walk by methods
       _.each(usagePathObject, (usageRouteInfo, methodName) => {
         const originalRouteInfo = _.get(originalPathObject, methodName);
-        const usageRouteParams = _.get(usageRouteInfo, "parameters", []);
-        const originalRouteParams = _.get(originalRouteInfo, "parameters", []);
+        const usageRouteParams = _.get(usageRouteInfo, 'parameters', []);
+        const originalRouteParams = _.get(originalRouteInfo, 'parameters', []);
 
-        usageRouteInfo.consumes = _.uniq(
-          _.compact([...(usageRouteInfo.consumes || []), ...(originalRouteInfo.consumes || [])]),
-        );
-        usageRouteInfo.produces = _.uniq(
-          _.compact([...(usageRouteInfo.produces || []), ...(originalRouteInfo.produces || [])]),
-        );
+        if (typeof usageRouteInfo === 'object') {
+          usageRouteInfo.consumes = _.uniq(
+            _.compact([
+              ...(usageRouteInfo.consumes || []),
+              ...(originalRouteInfo.consumes || []),
+            ]),
+          );
+          usageRouteInfo.produces = _.uniq(
+            _.compact([
+              ...(usageRouteInfo.produces || []),
+              ...(originalRouteInfo.produces || []),
+            ]),
+          );
+        }
 
         _.each(originalRouteParams, (originalRouteParam) => {
           const existUsageParam = _.find(
             usageRouteParams,
-            (param) => originalRouteParam.in === param.in && originalRouteParam.name === param.name,
+            (param) =>
+              originalRouteParam.in === param.in &&
+              originalRouteParam.name === param.name,
           );
           if (!existUsageParam) {
             usageRouteParams.push(originalRouteParam);

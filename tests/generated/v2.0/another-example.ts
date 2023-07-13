@@ -319,7 +319,7 @@ export class HttpClient<SecurityDataType = unknown> {
         ...(requestParams.headers || {}),
         ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
+      signal: (cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal) || null,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
@@ -750,10 +750,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     loginUser: (
       query: {
-        /** The user name for login */
-        username: string;
         /** The password for login in clear text */
         password: string;
+        /** The user name for login */
+        username: string;
       },
       params: RequestParams = {},
     ) =>

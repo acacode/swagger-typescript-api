@@ -4,3 +4,4 @@ node_modules
 swagger-test-cli.*
 swagger-test-cli
 dist
+.env

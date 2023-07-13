@@ -1544,19 +1544,6 @@ export interface Repo {
   watchers_count?: number;
 }
 
-export type RepoDeployments = {
-  created_at?: string;
-  /** A GitHub user */
-  creator?: User;
-  description?: string;
-  id?: number;
-  payload?: string;
-  sha?: string;
-  statuses_url?: string;
-  updated_at?: string;
-  url?: string;
-}[];
-
 export type RepoComments = {
   body?: string;
   commit_id?: string;
@@ -1610,6 +1597,19 @@ export interface RepoCommitBody {
   parents: string[];
   tree: string;
 }
+
+export type RepoDeployments = {
+  created_at?: string;
+  /** A GitHub user */
+  creator?: User;
+  description?: string;
+  id?: number;
+  payload?: string;
+  sha?: string;
+  statuses_url?: string;
+  updated_at?: string;
+  url?: string;
+}[];
 
 export interface RepoEdit {
   description?: string;
@@ -2084,7 +2084,7 @@ export class HttpClient<SecurityDataType = unknown> {
         ...(requestParams.headers || {}),
         ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
+      signal: (cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal) || null,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
@@ -2150,6 +2150,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         queryParam2?: number;
         /** description */
         queryParam3?: string[];
+        /**
+         * description
+         * @default 0
+         */
+        queryParamBar3?: number;
+        /**
+         * description
+         * @default 0
+         */
+        fooBarBaz?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -2531,25 +2541,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     issuesList: (
       query: {
+        /** @default "desc" */
+        direction: "asc" | "desc";
         /**
          * Issues assigned to you / created by you / mentioning you / you're
          * subscribed to updates for / All issues the authenticated user can see
          * @default "all"
          */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
-        /** @default "open" */
-        state: "open" | "closed";
         /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
-        /** @default "created" */
-        sort: "created" | "updated" | "comments";
-        /** @default "desc" */
-        direction: "asc" | "desc";
         /**
          * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Only issues updated at or after this time are returned.
          */
         since?: string;
+        /** @default "created" */
+        sort: "created" | "updated" | "comments";
+        /** @default "open" */
+        state: "open" | "closed";
       },
       params: RequestParams = {},
     ) =>
@@ -2593,17 +2603,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reposSearchDetail: (
       keyword: string,
       query?: {
+        /** Filter results by language */
+        language?: string;
         /**
          * The sort field. if sort param is provided. Can be either asc or desc.
          * @default "desc"
          */
         order?: "desc" | "asc";
-        /** Filter results by language */
-        language?: string;
-        /** The page number to fetch */
-        start_page?: string;
         /** The sort field. One of stars, forks, or updated. Default: results are sorted by best match. */
         sort?: "updated" | "stars" | "forks";
+        /** The page number to fetch */
+        start_page?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -2645,10 +2655,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * @default "desc"
          */
         order?: "desc" | "asc";
-        /** The page number to fetch */
-        start_page?: string;
         /** The sort field. One of stars, forks, or updated. Default: results are sorted by best match. */
         sort?: "updated" | "stars" | "forks";
+        /** The page number to fetch */
+        start_page?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -2890,25 +2900,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     issuesDetail: (
       org: string,
       query: {
+        /** @default "desc" */
+        direction: "asc" | "desc";
         /**
          * Issues assigned to you / created by you / mentioning you / you're
          * subscribed to updates for / All issues the authenticated user can see
          * @default "all"
          */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
-        /** @default "open" */
-        state: "open" | "closed";
         /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
-        /** @default "created" */
-        sort: "created" | "updated" | "comments";
-        /** @default "desc" */
-        direction: "asc" | "desc";
         /**
          * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Only issues updated at or after this time are returned.
          */
         since?: string;
+        /** @default "created" */
+        sort: "created" | "updated" | "comments";
+        /** @default "open" */
+        state: "open" | "closed";
       },
       params: RequestParams = {},
     ) =>
@@ -3331,17 +3341,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
+        /** GitHub login, name, or email by which to filter by commit author. */
+        author?: string;
+        /** Only commits containing this file path will be returned. */
+        path?: string;
+        /** Sha or branch to start listing commits from. */
+        sha?: string;
         /**
          * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Example: "2012-10-09T23:39:01Z".
          */
         since?: string;
-        /** Sha or branch to start listing commits from. */
-        sha?: string;
-        /** Only commits containing this file path will be returned. */
-        path?: string;
-        /** GitHub login, name, or email by which to filter by commit author. */
-        author?: string;
         /** ISO 8601 Date - Only commits before this date will be returned. */
         until?: string;
       },
@@ -3981,25 +3991,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query: {
+        /** @default "desc" */
+        direction: "asc" | "desc";
         /**
          * Issues assigned to you / created by you / mentioning you / you're
          * subscribed to updates for / All issues the authenticated user can see
          * @default "all"
          */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
-        /** @default "open" */
-        state: "open" | "closed";
         /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
-        /** @default "created" */
-        sort: "created" | "updated" | "comments";
-        /** @default "desc" */
-        direction: "asc" | "desc";
         /**
          * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Only issues updated at or after this time are returned.
          */
         since?: string;
+        /** @default "created" */
+        sort: "created" | "updated" | "comments";
+        /** @default "open" */
+        state: "open" | "closed";
       },
       params: RequestParams = {},
     ) =>
@@ -4038,12 +4048,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Ignored without 'sort' parameter. */
         direction?: string;
-        sort?: "created" | "updated";
         /**
          * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Example: "2012-10-09T23:39:01Z".
          */
         since?: string;
+        sort?: "created" | "updated";
       },
       params: RequestParams = {},
     ) =>
@@ -4462,15 +4472,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
+        /** Ignored without 'sort' parameter. */
+        direction?: string;
+        /** @default "due_date" */
+        sort?: "due_date" | "completeness";
         /**
          * String to filter by state.
          * @default "open"
          */
         state?: "open" | "closed";
-        /** Ignored without 'sort' parameter. */
-        direction?: string;
-        /** @default "due_date" */
-        sort?: "due_date" | "completeness";
       },
       params: RequestParams = {},
     ) =>
@@ -4618,18 +4628,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       owner: string,
       repo: string,
       query?: {
-        /**
-         * String to filter by state.
-         * @default "open"
-         */
-        state?: "open" | "closed";
+        /** Filter pulls by base branch name. Example - gh-pages. */
+        base?: string;
         /**
          * Filter pulls by head user and branch name in the format of 'user:ref-name'.
          * Example: github:new-script-format.
          */
         head?: string;
-        /** Filter pulls by base branch name. Example - gh-pages. */
-        base?: string;
+        /**
+         * String to filter by state.
+         * @default "open"
+         */
+        state?: "open" | "closed";
       },
       params: RequestParams = {},
     ) =>
@@ -4669,12 +4679,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       query?: {
         /** Ignored without 'sort' parameter. */
         direction?: string;
-        sort?: "created" | "updated";
         /**
          * The time should be passed in as UTC in the ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Example: "2012-10-09T23:39:01Z".
          */
         since?: string;
+        sort?: "created" | "updated";
       },
       params: RequestParams = {},
     ) =>
@@ -5787,25 +5797,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     issuesList: (
       query: {
+        /** @default "desc" */
+        direction: "asc" | "desc";
         /**
          * Issues assigned to you / created by you / mentioning you / you're
          * subscribed to updates for / All issues the authenticated user can see
          * @default "all"
          */
         filter: "assigned" | "created" | "mentioned" | "subscribed" | "all";
-        /** @default "open" */
-        state: "open" | "closed";
         /** String list of comma separated Label names. Example - bug,ui,@high. */
         labels: string;
-        /** @default "created" */
-        sort: "created" | "updated" | "comments";
-        /** @default "desc" */
-        direction: "asc" | "desc";
         /**
          * Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
          * Only issues updated at or after this time are returned.
          */
         since?: string;
+        /** @default "created" */
+        sort: "created" | "updated" | "comments";
+        /** @default "open" */
+        state: "open" | "closed";
       },
       params: RequestParams = {},
     ) =>

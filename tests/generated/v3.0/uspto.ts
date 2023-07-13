@@ -11,20 +11,20 @@
 
 export interface DataSetList {
   apis?: {
-    /** To be used as a dataset parameter value */
-    apiKey?: string;
-    /** To be used as a version parameter value */
-    apiVersionNumber?: string;
-    /**
-     * The URL describing the dataset's fields
-     * @format uriref
-     */
-    apiUrl?: string;
     /**
      * A URL to the API console for each API
      * @format uriref
      */
     apiDocumentationUrl?: string;
+    /** To be used as a dataset parameter value */
+    apiKey?: string;
+    /**
+     * The URL describing the dataset's fields
+     * @format uriref
+     */
+    apiUrl?: string;
+    /** To be used as a version parameter value */
+    apiVersionNumber?: string;
   }[];
   total?: number;
 }
@@ -218,7 +218,7 @@ export class HttpClient<SecurityDataType = unknown> {
         ...(requestParams.headers || {}),
         ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
       },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal,
+      signal: (cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal) || null,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
@@ -311,15 +311,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         criteria: string;
         /**
-         * Starting record number. Default value is 0.
-         * @default 0
-         */
-        start?: number;
-        /**
          * Specify number of rows to be returned. If you run the search with default values, in the response you will see 'numFound' attribute which will tell the number of records available in the dataset.
          * @default 100
          */
         rows?: number;
+        /**
+         * Starting record number. Default value is 0.
+         * @default 0
+         */
+        start?: number;
       },
       params: RequestParams = {},
     ) =>
