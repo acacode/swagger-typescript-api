@@ -1,5 +1,6 @@
 # next release  
 
+BREAKING_CHANGE: disable support NodeJS 14.x  
 BREAKING_CHANGE: change swagger-typescript-api NodeJS "generateApi" function return type  
 BREAKING_CHANGE: remove `rawModelTypes` from output api configuration  
 feat: `--custom-config <string>` option (#503)  
