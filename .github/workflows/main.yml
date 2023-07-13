@@ -1,37 +1,95 @@
-# This is a basic workflow to help you get started with Actions
+name: Builds, tests & co
 
-name: Run tests
-
-# Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  pull_request:
-    branches: [ master, next ]
+  - push
+  - pull_request
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+  build-and-test:
     strategy:
+      fail-fast: false
       matrix:
-        node-version: [11.x, 13.x, 15.x]
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
+        node-version:
+          - 14.x
+          - 16.x
+          - 18.x
 
-    name: Node.js (test-all) ${{ matrix.node-version }}
+    runs-on: ${{ matrix.os }}
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - name: Checkout tree
+        uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
-      - name: install deps
-        run: npm i
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-      # Runs a set of commands using the runners shell
-      - name: test
-        run: npm run test-all-extended
+      - name: Install npm packages
+        run: npm ci --ignore-scripts
+
+      - name: Run the tests
+        run: npm run test-all
+
+  dependabot-auto-approve:
+    name: Dependabot auto-approve
+
+    permissions:
+      pull-requests: write
+
+    needs:
+      - build-and-test
+
+    if: ${{ github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1
+
+      - name: Get the PR review decision
+        id: gh-pr-review
+        run: echo "decision=$(gh pr view --json reviewDecision --jq '. | .reviewDecision' "$PR_URL")" >>"$GITHUB_OUTPUT"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Approve a PR
+        if: ${{ steps.gh-pr-review.outputs.decision != 'APPROVED' && steps.metadata.outputs.update-type == 'version-update:semver-patch' }}
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ github.token }}
+
+  dependabot-auto-merge:
+    name: Dependabot auto-merge
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    if: ${{ github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' }}
+
+    needs:
+      - build-and-test
+      - dependabot-auto-approve
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1
+
+      - name: Merge Dependabot PR
+        if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-patch' }}
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ github.token }}

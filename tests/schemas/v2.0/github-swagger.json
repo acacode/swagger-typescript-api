@@ -75,12 +75,30 @@
             }
           },
           {
+            "name": "foo.bar.baz",
+            "in": "query",
+            "description": "description",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
             "name": "queryParam2",
             "in": "query",
             "description": "description",
             "schema": {
               "type": "integer",
               "default": 20
+            }
+          },
+          {
+            "name": "query.param.bar.3",
+            "in": "query",
+            "description": "description",
+            "schema": {
+              "type": "integer",
+              "default": 0
             }
           },
           {

@@ -1,29 +1,24 @@
-const { SCHEMA_TYPES } = require("../constants");
-const _ = require("lodash");
+const { SCHEMA_TYPES } = require('../constants');
+const _ = require('lodash');
 
 class SchemaFormatters {
-  /**
-   * @type {CodeGenConfig}
-   */
+  /** @type {CodeGenConfig} */
   config;
-  /**
-   * @type {Logger}
-   */
+  /** @type {Logger} */
   logger;
-  /**
-   * @type {SchemaParser}
-   */
-  schemaParser;
-  /**
-   * @type {Templates}
-   */
-  templates;
+  /** @type {TemplatesWorker} */
+  templatesWorker;
+  /** @type {SchemaUtils} */
+  schemaUtils;
 
-  constructor(config, logger, schemaParser, templates) {
-    this.config = config;
-    this.logger = logger;
-    this.schemaParser = schemaParser;
-    this.templates = templates;
+  /**
+   * @param schemaParser {SchemaParser | SchemaParserFabric}
+   */
+  constructor(schemaParser) {
+    this.config = schemaParser.config;
+    this.logger = schemaParser.logger;
+    this.schemaUtils = schemaParser.schemaUtils;
+    this.templatesWorker = schemaParser.templatesWorker;
   }
 
   base = {
@@ -32,7 +27,9 @@ class SchemaFormatters {
         return {
           ...parsedSchema,
           $content: parsedSchema.content,
-          content: this.config.Ts.UnionType(_.map(parsedSchema.content, ({ value }) => value)),
+          content: this.config.Ts.UnionType(
+            _.map(parsedSchema.content, ({ value }) => value),
+          ),
         };
       }
 
@@ -43,7 +40,8 @@ class SchemaFormatters {
       };
     },
     [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
-      if (parsedSchema.nullable) return this.inline[SCHEMA_TYPES.OBJECT](parsedSchema);
+      if (parsedSchema.nullable)
+        return this.inline[SCHEMA_TYPES.OBJECT](parsedSchema);
       return {
         ...parsedSchema,
         $content: parsedSchema.content,
@@ -68,7 +66,7 @@ class SchemaFormatters {
                 ..._.map(parsedSchema.content, ({ value }) => `${value}`),
                 parsedSchema.nullable && this.config.Ts.Keyword.Null,
               ]),
-            ),
+            ) || this.config.Ts.Keyword.Any,
       };
     },
     [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
@@ -76,18 +74,23 @@ class SchemaFormatters {
         return {
           ...parsedSchema,
           typeIdentifier: this.config.Ts.Keyword.Type,
-          content: this.schemaParser.schemaUtils.safeAddNullToType(parsedSchema.content),
+          content: this.schemaUtils.safeAddNullToType(parsedSchema.content),
         };
       }
 
       return {
         ...parsedSchema,
         typeIdentifier: this.config.Ts.Keyword.Type,
-        content: this.schemaParser.schemaUtils.safeAddNullToType(
+        content: this.schemaUtils.safeAddNullToType(
           parsedSchema,
           parsedSchema.content.length
-            ? this.config.Ts.ObjectWrapper(this.formatObjectContent(parsedSchema.content))
-            : this.config.Ts.RecordType(Ts.Keyword.String, this.config.Ts.Keyword.Any),
+            ? this.config.Ts.ObjectWrapper(
+                this.formatObjectContent(parsedSchema.content),
+              )
+            : this.config.Ts.RecordType(
+                this.config.Ts.Keyword.String,
+                this.config.Ts.Keyword.Any,
+              ),
         ),
       };
     },
@@ -97,20 +100,22 @@ class SchemaFormatters {
    * @param parsedSchema {Record<string, any>}
    * @param formatType {"base" | "inline"}
    */
-  formatSchema = (parsedSchema, formatType = "base") => {
-    const schemaType = _.get(parsedSchema, ["schemaType"]) || _.get(parsedSchema, ["$parsed", "schemaType"]);
+  formatSchema = (parsedSchema, formatType = 'base') => {
+    const schemaType =
+      _.get(parsedSchema, ['schemaType']) ||
+      _.get(parsedSchema, ['$parsed', 'schemaType']);
     const formatterFn = _.get(this, [formatType, schemaType]);
     return (formatterFn && formatterFn(parsedSchema)) || parsedSchema;
   };
 
   formatDescription = (description, inline) => {
-    if (!description) return "";
+    if (!description) return '';
 
     let prettified = description;
 
-    prettified = _.replace(prettified, /\*\//g, "*/");
+    prettified = _.replace(prettified, /\*\//g, '*/');
 
-    const hasMultipleLines = _.includes(prettified, "\n");
+    const hasMultipleLines = _.includes(prettified, '\n');
 
     if (!hasMultipleLines) return prettified;
 
@@ -119,31 +124,40 @@ class SchemaFormatters {
         .split(/\n/g)
         .map((part) => _.trim(part))
         .compact()
-        .join(" ")
+        .join(' ')
         .valueOf();
     }
 
-    return _.replace(prettified, /\n$/g, "");
+    return _.replace(prettified, /\n$/g, '');
   };
 
   formatObjectContent = (content) => {
-    return _.map(content, (part) => {
-      const extraSpace = "  ";
+    const fields = [];
+
+    for (const part of content) {
+      const extraSpace = '  ';
       const result = `${extraSpace}${part.field},\n`;
 
-      const renderedJsDoc = this.templates.renderTemplate(this.config.templatesToRender.dataContractJsDoc, {
-        data: part,
-      });
+      const renderedJsDoc = this.templatesWorker.renderTemplate(
+        this.config.templatesToRender.dataContractJsDoc,
+        {
+          data: part,
+        },
+      );
 
       const routeNameFromTemplate = renderedJsDoc
-        .split("\n")
+        .split('\n')
         .map((c) => `${extraSpace}${c}`)
-        .join("\n");
+        .join('\n');
 
-      if (routeNameFromTemplate) return `${routeNameFromTemplate}${result}`;
+      if (routeNameFromTemplate) {
+        fields.push(`${routeNameFromTemplate}${result}`);
+      } else {
+        fields.push(`${result}`);
+      }
+    }
 
-      return `${result}`;
-    }).join("");
+    return fields.join('');
   };
 }
 

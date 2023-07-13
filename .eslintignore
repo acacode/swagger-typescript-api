@@ -1,3 +1,16 @@
+.eslintrc
+node_modules
+.husky
+.vscode
+swagger-test-cli
+tests
+*.ejs
+*.eta
+.kube
+.idea
+*.json
+.eslintrc.js
+vite.config.ts
 tests/**/*.ts
 tests/**/schema.js
 tests/**/schema.ts
@@ -7,7 +20,6 @@ swagger-test-cli.*
 templates
 *.md
 .github
-node_modules
 .openapi-generator
 .vscode
 assets

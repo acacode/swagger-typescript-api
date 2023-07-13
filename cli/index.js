@@ -1,9 +1,9 @@
-const _ = require("lodash");
-const { reservedOptions, root_command } = require("./constants");
-const { processOption } = require("./process-option");
-const { execute } = require("./execute");
-const { displayHelp } = require("./operations/display-help");
-const { displayVersion } = require("./operations/display-version");
+const _ = require('lodash');
+const { reservedOptions, root_command } = require('./constants');
+const { processOption } = require('./process-option');
+const { execute } = require('./execute');
+const { displayHelp } = require('./operations/display-help');
+const { displayVersion } = require('./operations/display-version');
 
 const cli = (input) => {
   const commands = {};
@@ -11,15 +11,15 @@ const cli = (input) => {
   const addCommand = (command, { addVersion = false, addHelp = true } = {}) => {
     commands[command.name] = {
       name: command.name,
-      description: `${command.description || ""}`,
+      description: `${command.description || ''}`,
       options: _.compact(_.map(command.options, processOption)),
     };
 
     if (addVersion) {
       commands[command.name].options.unshift(
         processOption({
-          flags: "-v, --version",
-          description: "output the current version",
+          flags: '-v, --version',
+          description: 'output the current version',
           operation: () => displayVersion(instance),
         }),
       );
@@ -28,9 +28,10 @@ const cli = (input) => {
     if (addHelp) {
       commands[command.name].options.push(
         processOption({
-          flags: "-h, --help",
-          description: "display help for command",
-          operation: () => displayHelp(commands, instance, commands[command.name]),
+          flags: '-h, --help',
+          description: 'display help for command',
+          operation: () =>
+            displayHelp(commands, instance, commands[command.name]),
         }),
       );
     }
@@ -62,7 +63,7 @@ const cli = (input) => {
     if (!processed) return;
 
     if (reservedOptions.includes(processed.name)) {
-      console.warn("reserved option", processed.name);
+      console.warn('reserved option', processed.name);
       return;
     }
 
@@ -71,16 +72,16 @@ const cli = (input) => {
 
   commands[root_command].options.unshift(
     processOption({
-      flags: "-v, --version",
-      description: "output the current version",
+      flags: '-v, --version',
+      description: 'output the current version',
       operation: () => displayVersion(instance),
     }),
   );
 
   commands[root_command].options.push(
     processOption({
-      flags: "-h, --help",
-      description: "display help for command",
+      flags: '-h, --help',
+      description: 'display help for command',
       operation: () => displayHelp(commands, instance, commands[root_command]),
     }),
   );

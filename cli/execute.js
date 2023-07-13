@@ -1,10 +1,11 @@
-const _ = require("lodash");
-const { root_command, skip_command } = require("./constants");
-const { parseArgs } = require("./parse-args");
-const didYouMean = require("didyoumean");
+const _ = require('lodash');
+const { root_command, skip_command } = require('./constants');
+const { parseArgs } = require('./parse-args');
+const didYouMean = require('didyoumean');
 
 didYouMean.threshold = 0.5;
 
+// eslint-disable-next-line no-unused-vars
 const execute = (params, commands, instance) => {
   const args = parseArgs(params.args, params.from);
 
@@ -17,7 +18,9 @@ const execute = (params, commands, instance) => {
     }
 
     if (!usageOptions.length && command.name === root_command) {
-      usageOptions.push(command.options.find((option) => option.flags.name === "help"));
+      usageOptions.push(
+        command.options.find((option) => option.flags.name === 'help'),
+      );
     }
 
     const operationOptions = usageOptions.filter((option) => option.operation);
@@ -29,20 +32,23 @@ const execute = (params, commands, instance) => {
       });
       return;
     } else {
-      let error = "";
+      let error = '';
 
-      const processUserOptionData = (data, option) => {
-        if (!data.length && !option.flags.value) {
-          return !option.flags.isNoFlag;
-        }
-        if (option.flags.value) {
-          if (option.flags.value.variadic) {
-            return data.reduce((acc, d) => {
-              acc.push(...d.split(",").map(option.flags.value.formatter));
-              return acc;
-            }, []);
-          } else {
-            return option.flags.value.formatter(data[0] || option.default);
+      const processUserOptionData = (userOption, option) => {
+        if (userOption) {
+          const data = userOption.$data;
+          if (!data.length && !option.flags.value) {
+            return !option.flags.isNoFlag;
+          }
+          if (option.flags.value) {
+            if (option.flags.value.variadic) {
+              return data.reduce((acc, d) => {
+                acc.push(...d.split(',').map(option.flags.value.formatter));
+                return acc;
+              }, []);
+            } else {
+              return option.flags.value.formatter(data[0] || option.default);
+            }
           }
         }
 
@@ -52,17 +58,21 @@ const execute = (params, commands, instance) => {
       const parsedOptionsObject = command.options.reduce((acc, option) => {
         if (error) return acc;
 
-        const userOption = usageOptions.find((o) => o.flags.name === option.flags.name);
+        const userOption = usageOptions.find(
+          (o) => o.flags.name === option.flags.name,
+        );
 
         if (!userOption && option.required) {
           error = `required option '${option.flags.raw}' not specified`;
           return acc;
         }
 
-        if (userOption) {
-          acc[option.flags.name] = processUserOptionData(userOption.$data, option);
-        } else {
-          acc[option.flags.name] = option.default;
+        const flagValue = processUserOptionData(userOption, option);
+        if (!option.operation) {
+          const internal = option.internal || {};
+          acc[internal.name || option.flags.name] = internal.formatter
+            ? internal.formatter(flagValue)
+            : flagValue;
         }
 
         return acc;
@@ -84,7 +94,7 @@ const processArgs = (commands, args) => {
   let command = null;
   let usageOptions = [];
   let walkingOption = null;
-  let error = "";
+  let error = '';
 
   let allFlagKeys = [];
 
@@ -94,33 +104,44 @@ const processArgs = (commands, args) => {
     if (i === 0) {
       command = commands[arg];
 
-      if (!command && !arg.startsWith("-")) {
+      if (!command && !arg.startsWith('-')) {
         const tip = didYouMean(arg, _.keys(commands));
-        error = `unknown command ${arg}${tip ? `\n(Did you mean ${tip} ?)` : ""}`;
+        error = `unknown command ${arg}${
+          tip ? `\n(Did you mean ${tip} ?)` : ''
+        }`;
       } else if (!command) {
         command = commands[root_command];
       }
 
       if (command) {
-        allFlagKeys = command.options.reduce((acc, option) => [...acc, ...option.flags.keys], []);
+        allFlagKeys = command.options.reduce(
+          (acc, option) => [...acc, ...option.flags.keys],
+          [],
+        );
       }
     }
 
     if (error) return;
 
-    if (arg.startsWith("-")) {
-      const option = command.options.find((option) => option.flags.keys.includes(arg));
+    if (arg.startsWith('-')) {
+      const option = command.options.find((option) =>
+        option.flags.keys.includes(arg),
+      );
 
       if (!option) {
         const tip = didYouMean(arg, allFlagKeys);
-        error = `unknown option ${arg}${tip ? `\n(Did you mean ${tip} ?)` : ""}`;
+        error = `unknown option ${arg}${
+          tip ? `\n(Did you mean ${tip} ?)` : ''
+        }`;
       }
 
       if (option) {
         if (walkingOption && walkingOption.flags.name === option.flags.name) {
           return;
         }
-        const existedOption = usageOptions.find((o) => o.flags.name === option.flags.name);
+        const existedOption = usageOptions.find(
+          (o) => o.flags.name === option.flags.name,
+        );
         if (existedOption) {
           walkingOption = existedOption;
         } else {

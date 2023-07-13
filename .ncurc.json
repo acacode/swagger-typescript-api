@@ -1,0 +1,7 @@
+{
+  "upgrade": true,
+  "reject": [
+    "nanoid",
+    "eta"
+  ]
+}

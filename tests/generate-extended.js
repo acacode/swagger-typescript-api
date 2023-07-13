@@ -1,7 +1,10 @@
 const _ = require("lodash");
 const { resolve } = require("path");
+const dotenv = require("dotenv");
 const allSchemas = require("./allSchemas");
 const { generateApiForTest } = require("./helpers/generateApiForTest");
+
+dotenv.config();
 
 class GenerateExtendedError extends Error {
   constructor(message, outputPath, fileName) {
@@ -26,20 +29,33 @@ allSchemas.forEach(async ({ absolutePath, apiFileName, outputPath }) => {
     output: output,
     generateClient: true,
     generateRouteTypes: false,
-    silent: true,
+    silent: !process.env.TEST_WITH_DEBUG,
+    debug: process.env.TEST_WITH_DEBUG,
     extractRequestBody: true,
+    extractResponseBody: true,
+    extractEnums: true,
     extractRequestParams: true,
+    extractResponseError: true,
     typePrefix: "IMySuperPrefix",
     typeSuffix: "MySuperSuffix",
     sortTypes: true,
+    debugExtras: ["generate-extended", apiFileName],
   }).then((result) => {
     result.configuration.modelTypes.forEach((modelType) => {
       if (modelType.name) {
         if (modelType.name.startsWith("IMySuperPrefixIMySuperPrefix")) {
-          throw new GenerateExtendedError(`modelType has prefix/suffix duplicates - ${modelType.name}`, output, name);
+          throw new GenerateExtendedError(
+            `[${outputPath}][${apiFileName}] modelType has prefix/suffix duplicates - ${modelType.name}`,
+            output,
+            name,
+          );
         }
         if (!modelType.name.startsWith("IMySuperPrefix")) {
-          throw new GenerateExtendedError(`modelType has not prefix/suffix - ${modelType.name}`, output, name);
+          throw new GenerateExtendedError(
+            `[${outputPath}][${apiFileName}] modelType has not prefix/suffix - ${modelType.name}`,
+            output,
+            name,
+          );
         }
       }
     });

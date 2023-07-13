@@ -1,6 +1,6 @@
-const _ = require("lodash");
-const https = require("https");
-const fetch = require("node-fetch-h2");
+const _ = require('lodash');
+const https = require('https');
+const fetch = require('node-fetch-h2');
 
 class Request {
   /**
@@ -31,7 +31,7 @@ class Request {
      */
     const requestOptions = {};
 
-    if (disableStrictSSL && !_.startsWith(url, "http://")) {
+    if (disableStrictSSL && !_.startsWith(url, 'http://')) {
       requestOptions.agent = new https.Agent({
         rejectUnauthorized: false,
       });
@@ -49,7 +49,7 @@ class Request {
       return await response.text();
     } catch (error) {
       const message = `error while fetching data from URL "${url}"`;
-      this.logger.error(message, "response" in error ? error.response : error);
+      this.logger.error(message, 'response' in error ? error.response : error);
       return message;
     }
   }
