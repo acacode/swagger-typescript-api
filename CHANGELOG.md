@@ -6,9 +6,10 @@ feat: `--custom-config <string>` option (#503)
 feat: `--sort-routes` option, ability to sort routes;  
 fix: critical bugs based with extract types and enums  
 fix: sort types option (sort was not correctly work with nested or extracted types)  
-fix: problems based with extracting enums;
+fix: problems based with extracting enums;  
 fix: nullable enum with integer values (#543)   
-chore: refactoring the axios imports
+fix: generation enum numbers as strings one (#534)  
+chore: refactoring the axios imports  
 fix: non-object custom spec extensions (#500)  
 fix(docs): input instead of output in readme  
 internal: remove redundant internal scripts  
@@ -28,7 +29,7 @@ fix: problem with filtering primitive in complex types (#459)
 feat: add discriminator property support (#456)  
 internal: prepare code + templates for async code execution (next plans)  
 fix: problems with dot in query params (hard fix) (#460)   
-feature: ability to send custom Ts output code translator to js. Example:
+feature: ability to send custom Ts output code translator to js. Example:  
 ```ts
  const { Translator } = require("swagger-typescript-api/src/translators/translator");
  const { JavascriptTranslator } = require("swagger-typescript-api/src/translators/javascript");

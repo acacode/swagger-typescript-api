@@ -13,6 +13,10 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
     name: apiFileName,
     input: absolutePath,
     output: resolve(__dirname, "./"),
+    extractRequestParams: true,
+    extractRequestBody: true,
+    extractResponseBody: true,
+    extractResponseError: true,
     generateClient: false,
   }).then(() => {
     validateGeneratedModule(resolve(__dirname, `./${apiFileName}`));

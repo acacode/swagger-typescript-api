@@ -90,3 +90,11 @@ export enum SomeInterestEnum {
   ASDds = "ASDds",
   HSDFDS = "HSDFDS",
 }
+
+export interface PostFooPayload {
+  someTypeId?: 1 | 2 | 3 | 4 | 5;
+}
+
+export interface PostFooParams {
+  testKek: 1 | 2 | 3 | 4 | 5;
+}
