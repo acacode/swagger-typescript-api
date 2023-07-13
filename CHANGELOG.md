@@ -6,7 +6,10 @@ fix: critical bugs based with extract types and enums
 fix: sort types option (sort was not correctly work with nested or extracted types)  
 fix: problems based with extracting enums;
 feat: ability to sort routes;
+chore: refactoring the axios imports
+fix: non-object custom spec extensions (#500)  
 internal: change process with using custom templates  
+fix(docs): input instead of output in readme  
 BREAKING_CHANGE: remove `rawModelTypes` from output api configuration
 
 ```diff
