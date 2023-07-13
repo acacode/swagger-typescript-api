@@ -238,6 +238,11 @@ const program = cli({
       description: 'sort routes in alphabetical order',
       default: codeGenBaseConfig.sortRoutes,
     },
+    {
+      flags: "--custom-config <string>",
+      description: "custom config: primitiveTypeConstructs, hooks, ... ",
+      default: '',
+    }
   ],
 });
 
@@ -292,16 +297,30 @@ program.addCommand({
 const main = async () => {
   const { command, options } = await program.execute({ args: process.argv });
 
+  let customConfig = null
+
+  if (options.customConfig) {
+    try {
+      const customConfigPath = resolve(process.cwd(), options.customConfig)   
+      console.log(`✨ found custom config at: ${customConfigPath}`)
+      customConfig = require(customConfigPath)
+    } catch (e) {}
+  }
+
   try {
     switch (command) {
       case null: {
         await generateApi({
           ...options,
+          name: options.name,
+          url: options.path,
+          generateRouteTypes: options.routeTypes,
           generateClient: !!(options.axios || options.client),
           httpClientType: options.axios ? HTTP_CLIENT.AXIOS : HTTP_CLIENT.FETCH,
           url: options.path,
           input: resolve(process.cwd(), options.path),
           output: resolve(process.cwd(), options.output || '.'),
+          ...customConfig,
         });
         break;
       }
