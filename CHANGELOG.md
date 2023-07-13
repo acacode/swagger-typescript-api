@@ -1,16 +1,17 @@
 # next release  
 
 BREAKING_CHANGE: change swagger-typescript-api NodeJS "generateApi" function return type  
-internal: remove redundant internal scripts  
+BREAKING_CHANGE: remove `rawModelTypes` from output api configuration  
+feat: `--custom-config <string>` option (#503)  
+feat: `--sort-routes` option, ability to sort routes;  
 fix: critical bugs based with extract types and enums  
 fix: sort types option (sort was not correctly work with nested or extracted types)  
 fix: problems based with extracting enums;
-feat: ability to sort routes;
 chore: refactoring the axios imports
 fix: non-object custom spec extensions (#500)  
-internal: change process with using custom templates  
 fix(docs): input instead of output in readme  
-BREAKING_CHANGE: remove `rawModelTypes` from output api configuration
+internal: remove redundant internal scripts  
+internal: change process with using custom templates  
 
 ```diff
 interface GenerateApiOutput {
