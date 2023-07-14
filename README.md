@@ -82,6 +82,7 @@ Options:
   --another-array-type          generate array types as Array<Type> (by default Type[]) (default: false)
   --sort-types                  sort fields and types (default: false)
   --extract-enums               extract all enums from inline interface\type content to typescript enum construction (default: false)
+  --custom-config <string>      allow to pass config file into CLI and not need to define nodejs
   -h, --help                    display help for command
 
 Commands:
@@ -201,7 +202,22 @@ generateTemplates({
 })
 
 ```
+You can also use --custom-config. Define your config file: `my-config.js`
+```js
+...
+primitiveTypeConstructs: (constructs) => ({
+      ...constructs,
+      string: {
+        'date-time': 'Date'
+      }
+  }),
+...
+```
 
+`command:`
+```bash
+ npx swagger-typescript-api --custom-config my-config.js -p ./swagger.json -o ./src -n myApi.ts
+```
 
 ## 💎 options   
 ### **`--templates`**  
