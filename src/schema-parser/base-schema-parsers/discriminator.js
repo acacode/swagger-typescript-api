@@ -5,6 +5,15 @@ const { MonoSchemaParser } = require('../mono-schema-parser');
 class DiscriminatorSchemaParser extends MonoSchemaParser {
   parse() {
     const { discriminator, ...noDiscriminatorSchema } = this.schema;
+    const pathTypeName = this.buildTypeNameFromPath();
+
+    if (
+      this.config.extractDiscriminators &&
+      pathTypeName != null &&
+      !this.typeName
+    ) {
+      return this.extractType(pathTypeName);
+    }
 
     if (!discriminator.mapping) {
       return this.schemaParserFabric
@@ -293,6 +302,24 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
         this.schemaParser._complexSchemaParsers[complexType](this.schema),
       ),
     };
+  };
+
+  extractType = (pathTypeName) => {
+    const generatedTypeName = this.schemaUtils.resolveTypeName(pathTypeName, {
+      suffixes: this.config.extractingOptions.discriminatorTypeSuffix,
+      resolver: this.config.extractingOptions.discriminatorTypeNameResolver,
+    });
+    const customComponent = this.schemaComponentsMap.createComponent(
+      this.schemaComponentsMap.createRef([
+        'components',
+        'schemas',
+        generatedTypeName,
+      ]),
+      {
+        ...this.schema,
+      },
+    );
+    return this.schemaParserFabric.parseSchema(customComponent);
   };
 }
 

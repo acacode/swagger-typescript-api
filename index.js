@@ -234,6 +234,12 @@ const program = cli({
       default: codeGenBaseConfig.extractEnums,
     },
     {
+      flags: '--extract-discriminators',
+      description:
+        'extract all discriminator types to their own types/interfaces',
+      default: codeGenBaseConfig.extractDiscriminators,
+    },
+    {
       flags: '--sort-routes',
       description: 'sort routes in alphabetical order',
       default: codeGenBaseConfig.sortRoutes,

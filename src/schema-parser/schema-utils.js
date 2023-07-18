@@ -189,15 +189,22 @@ class SchemaUtils {
         return resolver(pascalCase(typeName), reserved);
       });
     } else {
+      const variants =
+        _.size(prefixes) || _.size(prefixes)
+          ? [
+              ..._.map(prefixes, (prefix) =>
+                pascalCase(`${prefix} ${typeName}`),
+              ),
+              ..._.map(suffixes, (suffix) =>
+                pascalCase(`${typeName} ${suffix}`),
+              ),
+            ]
+          : [typeName];
+
       return this.config.componentTypeNameResolver.resolve(
-        [
-          ...(prefixes || []).map((prefix) =>
-            pascalCase(`${prefix} ${typeName}`),
-          ),
-          ...(suffixes || []).map((suffix) =>
-            pascalCase(`${typeName} ${suffix}`),
-          ),
-        ],
+        variants,
+        null,
+        null,
         shouldReserve,
       );
     }

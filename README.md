@@ -82,6 +82,7 @@ Options:
   --another-array-type          generate array types as Array<Type> (by default Type[]) (default: false)
   --sort-types                  sort fields and types (default: false)
   --extract-enums               extract all enums from inline interface\type content to typescript enum construction (default: false)
+  --extract-discriminators      extract all discriminator types to their own types/interfaces (default: false)
   -h, --help                    display help for command
 
 Commands:
@@ -131,6 +132,7 @@ generateApi({
   extractRequestParams: false,
   extractRequestBody: false,
   extractEnums: false,
+  extractDiscriminators: false,
   unwrapResponseData: false,
   prettier: { // By default prettier config is load from your project
     printWidth: 120,
@@ -149,6 +151,8 @@ generateApi({
   enumKeyPrefix: '',
   enumKeySuffix: '',
   addReadonly: false,
+  sortRoutes: false,
+  sortTypes: false,
   extractingOptions: {
     requestBodySuffix: ["Payload", "Body", "Input"],
     requestParamsSuffix: ["Params"],

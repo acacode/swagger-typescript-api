@@ -1,5 +1,7 @@
 # next release  
 
+feat: add `--extract-discriminators` option (nodejs: `extractDiscriminators`)  
+
 ## 13.0.0  
 
 BREAKING_CHANGE: disable support NodeJS 14.x  

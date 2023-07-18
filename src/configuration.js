@@ -75,6 +75,7 @@ class CodeGenConfig {
   extractResponseBody = false;
   extractResponseError = false;
   extractEnums = false;
+  extractDiscriminators = false;
   fileNames = {
     dataContracts: 'data-contracts',
     routeTypes: 'route-types',
@@ -186,6 +187,7 @@ class CodeGenConfig {
       'BadResponse',
     ],
     enumSuffix: ['Enum'],
+    discriminatorTypeSuffix: [],
     discriminatorMappingSuffix: ['Mapping', 'Mapper', 'MapType'],
     discriminatorAbstractPrefix: [
       'Base',

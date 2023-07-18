@@ -503,6 +503,7 @@ type ExtractingOptions = {
   responseErrorSuffix: string[];
   requestParamsSuffix: string[];
   enumSuffix: string[];
+  discriminatorTypeSuffix: string[]
   discriminatorMappingSuffix: string[];
   discriminatorAbstractPrefix: string[];
   requestBodyNameResolver: (name: string, reservedNames: string) => string | undefined;
@@ -510,6 +511,7 @@ type ExtractingOptions = {
   responseErrorNameResolver: (name: string, reservedNames: string) => string | undefined;
   requestParamsNameResolver: (name: string, reservedNames: string) => string | undefined;
   enumNameResolver: (name: string, reservedNames: string) => string | undefined;
+  discriminatorTypeNameResolver: (name: string, reservedNames: string) => string | undefined;
   discriminatorMappingNameResolver: (name: string, reservedNames: string) => string | undefined;
   discriminatorAbstractResolver: (name: string, reservedNames: string) => string | undefined;
 };
@@ -574,6 +576,7 @@ export interface GenerateApiConfiguration {
     extractResponseBody: boolean;
     extractResponseError: boolean;
     extractEnums: boolean;
+    extractDiscriminators: boolean;
     fixInvalidTypeNamePrefix: string;
     fixInvalidEnumKeyPrefix: string;
     defaultResponseType: string;
