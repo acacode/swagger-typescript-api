@@ -81,6 +81,8 @@ Options:
   --debug                       additional information about processes inside this tool (default: false)
   --another-array-type          generate array types as Array<Type> (by default Type[]) (default: false)
   --sort-types                  sort fields and types (default: false)
+  --sort-routes                 sort routes in alphabetical order (default: false)
+  --custom-config <string>      custom config: primitiveTypeConstructs, hooks, ...  (default: "")
   --extract-enums               extract all enums from inline interface\type content to typescript enum construction (default: false)
   -h, --help                    display help for command
 
@@ -149,6 +151,8 @@ generateApi({
   enumKeyPrefix: '',
   enumKeySuffix: '',
   addReadonly: false,
+  sortTypes: false,
+  sortRouters: false,
   extractingOptions: {
     requestBodySuffix: ["Payload", "Body", "Input"],
     requestParamsSuffix: ["Params"],
