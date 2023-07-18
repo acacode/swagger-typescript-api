@@ -16,13 +16,17 @@ let allSchemas = [
 ];
 
 if (process.env.TEST_FILE_NAME) {
-  console.warn("TEST ONLY", process.env.TEST_FILE_NAME);
   allSchemas = allSchemas.filter((schema) => schema.apiFileName === process.env.TEST_FILE_NAME);
+  console.warn("TEST ONLY", process.env.TEST_FILE_NAME, 'found:', allSchemas.map(it => it.apiFileName).join(', ') || '<nothing>');
 }
 
 if (process.env.TEST_SCHEMA_VERSION) {
-  console.warn("TEST ONLY", process.env.TEST_SCHEMA_VERSION);
   allSchemas = allSchemas.filter((schema) => schema.outputPath.endsWith(process.env.TEST_SCHEMA_VERSION));
+  console.warn("TEST ONLY", process.env.TEST_SCHEMA_VERSION, 'found:', allSchemas.map(it => it.apiFileName).join(', ') || '<nothing>');
+}
+
+if (!allSchemas.length) {
+  console.warn("TEST SCHEMES NOT FOUND")
 }
 
 module.exports = allSchemas;
