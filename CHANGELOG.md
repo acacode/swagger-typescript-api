@@ -1,5 +1,7 @@
 # next release  
 
+fix: problem with using `anyOf`    
+
 ## 13.0.0  
 
 BREAKING_CHANGE: disable support NodeJS 14.x  
