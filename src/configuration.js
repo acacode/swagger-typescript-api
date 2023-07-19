@@ -241,7 +241,7 @@ class CodeGenConfig {
     /**
      * $A
      */
-    NullValue: (content) => content,
+    NullValue: (content) => `null`,
     /**
      * $A1 | $A2
      */
