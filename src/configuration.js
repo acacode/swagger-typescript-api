@@ -74,6 +74,7 @@ class CodeGenConfig {
   extractRequestBody = false;
   extractResponseBody = false;
   extractResponseError = false;
+  extractResponses = false;
   extractEnums = false;
   fileNames = {
     dataContracts: 'data-contracts',

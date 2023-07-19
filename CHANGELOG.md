@@ -1,6 +1,7 @@
 # next release  
 
-fix: problem with using `anyOf`    
+fix: problem with using `anyOf`  
+feat: `--extract-responses` (nodejs: `extractResponses`) option to extract all schemas from `/components/responses`    
 
 ## 13.0.0  
 
