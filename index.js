@@ -115,6 +115,12 @@ const program = cli({
       internal: { formatter: Boolean },
     },
     {
+      flags: '--extract-responses',
+      description: 'extract all responses described in /components/responses',
+      default: codeGenBaseConfig.extractResponses,
+      internal: { formatter: Boolean },
+    },
+    {
       flags: '--modular',
       description:
         'generate separated files for http client, data contracts, and routes',

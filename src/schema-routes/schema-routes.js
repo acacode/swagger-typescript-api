@@ -1201,22 +1201,19 @@ class SchemaRoutes {
         routeGroups.outOfModule = this.sortRoutes(routeGroups.outOfModule);
       }
       if (routeGroups.combined) {
-        routeGroups.combined = this.sortRoutes(routeGroups.combined);
+        _.each(routeGroups.combined, (routeGroup) => {
+          routeGroup.routes = this.sortRoutes(routeGroup.routes);
+        });
       }
     }
 
     return routeGroups;
   };
 
-  sortRoutes = (routeInfo) => {
-    if (routeInfo) {
-      routeInfo.forEach((routeInfo) => {
-        routeInfo.routes.sort((routeA, routeB) =>
-          routeA.routeName.usage.localeCompare(routeB.routeName.usage),
-        );
-      });
-    }
-    return routeInfo;
+  sortRoutes = (routes) => {
+    return _.slice(routes).sort((routeA, routeB) =>
+      routeA.routeName.usage.localeCompare(routeB.routeName.usage),
+    );
   };
 }
 

@@ -116,9 +116,14 @@ class CodeGenProcess {
       }),
     );
 
-    const schemaComponents = this.schemaComponentsMap.filter('schemas');
+    /**
+     * @type {SchemaComponent[]}
+     */
+    const componentsToParse = this.schemaComponentsMap.filter(
+      _.compact(['schemas', this.config.extractResponses && 'responses']),
+    );
 
-    const parsedSchemas = schemaComponents.map((schemaComponent) => {
+    const parsedSchemas = componentsToParse.map((schemaComponent) => {
       const parsed = this.schemaParserFabric.parseSchema(
         schemaComponent.rawTypeData,
         schemaComponent.typeName,
@@ -234,8 +239,13 @@ class CodeGenProcess {
     const components = this.schemaComponentsMap.getComponents();
     let modelTypes = [];
 
+    const modelTypeComponents = _.compact([
+      'schemas',
+      this.config.extractResponses && 'responses',
+    ]);
+
     const getSchemaComponentsCount = () =>
-      components.filter((c) => c.componentName === 'schemas').length;
+      this.schemaComponentsMap.filter(...modelTypeComponents).length;
 
     let schemaComponentsCount = getSchemaComponentsCount();
     let processedCount = 0;
@@ -244,7 +254,7 @@ class CodeGenProcess {
       modelTypes = [];
       processedCount = 0;
       for (const component of components) {
-        if (component.componentName === 'schemas') {
+        if (modelTypeComponents.includes(component.componentName)) {
           const modelType = this.prepareModelType(component);
           if (modelType) {
             modelTypes.push(modelType);
