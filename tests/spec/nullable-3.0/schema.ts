@@ -23,7 +23,7 @@ export interface TestObject {
   otherObjectMaybeNullA: OtherObject | null;
   otherObjectMaybeNullB: OtherObject | null;
   otherObjectMaybeNullC: OtherObject | null;
-  otherObjectMaybeNullD: OtherObject | null | (OtherObject & null);
+  otherObjectMaybeNullD: OtherObject | null;
 }
 
 export type OtherObject = object;

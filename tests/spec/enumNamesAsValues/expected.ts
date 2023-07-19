@@ -17,7 +17,7 @@ export type TestAllOfDc2 = FooBarBaz & {
   prop?: string;
 };
 
-export type TestAnyOfDc = (FooBarBaz | FooBar | (FooBarBaz & FooBar)) & {
+export type TestAnyOfDc = (FooBarBaz | FooBar) & {
   prop?: string;
 };
 

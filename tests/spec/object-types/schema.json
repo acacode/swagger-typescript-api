@@ -19,6 +19,20 @@
   "produces": ["application/json"],
   "paths": {},
   "definitions": {
+    "AnyOfWithNullable":  {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "description",
+      "example": "https://ya.ru/a.png",
+      "nullable": true,
+      "title": "title"
+    },
     "SpecificEnum1": {
       "type": "object",
       "description": "https://github.com/acacode/swagger-typescript-api/issues/445",

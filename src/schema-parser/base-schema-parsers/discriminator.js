@@ -90,7 +90,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
         content: this.config.Ts.IntersectionType([
           this.config.Ts.ObjectWrapper(
             this.config.Ts.TypeField({
-              key: discriminator.propertyName,
+              key: this.config.Ts.StringValue(discriminator.propertyName),
               value: 'Key',
             }),
           ),

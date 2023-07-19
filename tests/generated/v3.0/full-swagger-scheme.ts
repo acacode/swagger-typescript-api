@@ -3021,7 +3021,7 @@ export interface Installation {
    * @example "https://api.github.com/installations/1/access_tokens"
    */
   access_tokens_url: string;
-  account: SimpleUser | Enterprise | (SimpleUser & Enterprise) | null;
+  account: SimpleUser | Enterprise | null;
   /** @example 1 */
   app_id: number;
   /** @example "github-actions" */
@@ -17831,13 +17831,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             status?: "queued" | "in_progress";
             [key: string]: any;
           }
-        | ({
-            status?: "completed";
-            [key: string]: any;
-          } & {
-            status?: "queued" | "in_progress";
-            [key: string]: any;
-          })
       ) & {
         /**
          * Displays a button on GitHub that can be clicked to alert your app to do additional tasks. For example, a code linting app can display a button that automatically fixes detected errors. The button created in this object is displayed after the check run completes. When a user clicks the button, GitHub sends the [`check_run.requested_action` webhook](https://docs.github.com/webhooks/event-payloads/#check_run) to your app. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](https://docs.github.com/rest/reference/checks#actions-object) description. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)." To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)."
@@ -17979,13 +17972,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             status?: "queued" | "in_progress";
             [key: string]: any;
           }
-        | ({
-            status?: "completed";
-            [key: string]: any;
-          } & {
-            status?: "queued" | "in_progress";
-            [key: string]: any;
-          })
       ) & {
         /**
          * Possible further actions the integrator can perform, which a user may trigger. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](https://docs.github.com/rest/reference/checks#actions-object) description. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)."
@@ -22161,17 +22147,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
               branch: string;
               /** The repository directory that includes the source files for the Pages site. Allowed paths are `/` or `/docs`. */
               path: "/" | "/docs";
-            }
-          | (
-              | "gh-pages"
-              | "master"
-              | ("master /docs" & {
-                  /** The repository branch used to publish your site's source files. */
-                  branch: string;
-                  /** The repository directory that includes the source files for the Pages site. Allowed paths are `/` or `/docs`. */
-                  path: "/" | "/docs";
-                })
-            );
+            };
       },
       params: RequestParams = {},
     ) =>
