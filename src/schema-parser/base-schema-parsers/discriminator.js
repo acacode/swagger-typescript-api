@@ -4,6 +4,7 @@ const { MonoSchemaParser } = require('../mono-schema-parser');
 
 class DiscriminatorSchemaParser extends MonoSchemaParser {
   parse() {
+    const ts = this.config.Ts;
     const { discriminator, ...noDiscriminatorSchema } = this.schema;
 
     if (!discriminator.mapping) {
@@ -27,7 +28,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
       abstractSchemaStruct,
     });
 
-    const schemaContent = this.config.Ts.IntersectionType(
+    const schemaContent = ts.IntersectionType(
       [
         abstractSchemaStruct?.content,
         discriminatorSchemaStruct?.content,
@@ -40,7 +41,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.COMPLEX,
       type: SCHEMA_TYPES.PRIMITIVE,
-      typeIdentifier: this.config.Ts.Keyword.Type,
+      typeIdentifier: ts.Keyword.Type,
       name: this.typeName,
       description: this.schemaFormatters.formatDescription(
         this.schema.description,
@@ -50,6 +51,8 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
   }
 
   createDiscriminatorSchema = ({ skipMappingType, abstractSchemaStruct }) => {
+    const ts = this.config.Ts;
+
     const refPath = this.schemaComponentsMap.createRef([
       'components',
       'schemas',
@@ -87,10 +90,10 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
             mappingTypeName,
           ]),
         ),
-        content: this.config.Ts.IntersectionType([
-          this.config.Ts.ObjectWrapper(
-            this.config.Ts.TypeField({
-              key: this.config.Ts.StringValue(discriminator.propertyName),
+        content: ts.IntersectionType([
+          ts.ObjectWrapper(
+            ts.TypeField({
+              key: ts.StringValue(discriminator.propertyName),
               value: 'Key',
             }),
           ),
@@ -112,18 +115,15 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
 
       const mappingUsageKey =
         mappingPropertySchemaEnumKeysMap[mappingKey] ||
-        this.config.Ts.StringValue(mappingKey);
+        ts.StringValue(mappingKey);
 
       if (ableToCreateMappingType) {
-        return this.config.Ts.TypeWithGeneric(mappingTypeName, [
-          mappingUsageKey,
-          content,
-        ]);
+        return ts.TypeWithGeneric(mappingTypeName, [mappingUsageKey, content]);
       } else {
-        return this.config.Ts.ExpressionGroup(
-          this.config.Ts.IntersectionType([
-            this.config.Ts.ObjectWrapper(
-              this.config.Ts.TypeField({
+        return ts.ExpressionGroup(
+          ts.IntersectionType([
+            ts.ObjectWrapper(
+              ts.TypeField({
                 key: discriminator.propertyName,
                 value: mappingUsageKey,
               }),
@@ -151,9 +151,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
 
     if (skipMappingType) return null;
 
-    const content = this.config.Ts.ExpressionGroup(
-      this.config.Ts.UnionType(mappingContents),
-    );
+    const content = ts.ExpressionGroup(ts.UnionType(mappingContents));
 
     return {
       content,
@@ -164,6 +162,8 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     abstractSchemaStruct,
     discPropertyName,
   }) => {
+    const ts = this.config.Ts;
+
     let mappingPropertySchemaEnumKeysMap = {};
     let mappingPropertySchema = _.get(
       abstractSchemaStruct?.component?.rawTypeData,
@@ -183,7 +183,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
         (acc, key, index) => {
           const enumKey =
             mappingPropertySchema.rawTypeData.$parsed.content[index].key;
-          acc[key] = this.config.Ts.EnumUsageKey(
+          acc[key] = ts.EnumUsageKey(
             mappingPropertySchema.rawTypeData.$parsed.typeName,
             enumKey,
           );
@@ -284,12 +284,13 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
   };
 
   createComplexSchemaStruct = () => {
+    const ts = this.config.Ts;
     const complexType = this.schemaUtils.getComplexType(this.schema);
 
     if (complexType === SCHEMA_TYPES.COMPLEX_UNKNOWN) return null;
 
     return {
-      content: this.config.Ts.ExpressionGroup(
+      content: ts.ExpressionGroup(
         this.schemaParser._complexSchemaParsers[complexType](this.schema),
       ),
     };
