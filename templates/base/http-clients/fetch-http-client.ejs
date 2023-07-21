@@ -104,19 +104,19 @@ export class HttpClient<SecurityDataType = unknown> {
     private contentFormatters: Record<ContentType, (input: any) => any> = {
         [ContentType.Json]: (input:any) => input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
         [ContentType.Text]: (input:any) => input !== null && typeof input !== "string" ? JSON.stringify(input) : input,
-        [ContentType.FormData]: (input: any) =>
-            Object.keys(input || {}).reduce((formData, key) => {
-                const property = input[key];
-                formData.append(
-                    key,
-                    property instanceof Blob ?
-                        property :
-                    typeof property === "object" && property !== null ?
-                        JSON.stringify(property) :
-                    `${property}`
+        [ContentType.FormData]: (input) => Object.keys(input || {}).reduce((formData, key) => {
+            const property = input[key];
+            const propertyContent = (property instanceof Array) ? property : [property]
+
+            for (const formItem of propertyContent) {
+            const isFileType = formItem instanceof Blob || formItem instanceof File;
+            formData.append(
+                key,
+                isFileType ? formItem : JSON.stringify(formItem)
                 );
-                return formData;
-            }, new FormData()),
+            }
+            return formData;
+        }, new FormData()),
         [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
     }
 
