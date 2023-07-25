@@ -74,22 +74,22 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
       });
 
     if (ableToCreateMappingType) {
-      mappingTypeName = this.schemaUtils.resolveTypeName(
-        `${abstractSchemaStruct.typeName} ${discriminator.propertyName}`,
-        {
-          suffixes: this.config.extractingOptions.discriminatorMappingSuffix,
-          resolver:
-            this.config.extractingOptions.discriminatorMappingNameResolver,
-        },
-      );
-      this.schemaParserFabric.createSchema({
-        linkedComponent: this.schemaComponentsMap.createComponent(
-          this.schemaComponentsMap.createRef([
-            'components',
-            'schemas',
-            mappingTypeName,
-          ]),
+      const mappingTypeNameRef = this.schemaComponentsMap.createRef([
+        'components',
+        'schemas',
+        this.schemaUtils.resolveTypeName(
+          `${abstractSchemaStruct.typeName} ${discriminator.propertyName}`,
+          {
+            suffixes: this.config.extractingOptions.discriminatorMappingSuffix,
+            resolver:
+              this.config.extractingOptions.discriminatorMappingNameResolver,
+          },
         ),
+      ]);
+      const mappingTypeNameComponent =
+        this.schemaComponentsMap.createComponent(mappingTypeNameRef);
+      const mappingTypeNameSchema = this.schemaParserFabric.createSchema({
+        linkedComponent: mappingTypeNameComponent,
         content: ts.IntersectionType([
           ts.ObjectWrapper(
             ts.TypeField({
@@ -102,6 +102,8 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
         genericArgs: [{ name: 'Key' }, { name: 'Type' }],
         internal: true,
       });
+
+      mappingTypeName = mappingTypeNameSchema.typeData.name;
     }
 
     /** returns (GenericType<"mapping_key", MappingType>) or ({ discriminatorProperty: "mapping_key" } & MappingType) */

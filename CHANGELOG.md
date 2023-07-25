@@ -4,6 +4,7 @@ feat: `const` keyword OpenAPI 3.0 draft
 fix: problem with using `anyOf`  
 feat: `--extract-responses` (nodejs: `extractResponses`) option to extract all schemas from `/components/responses`
 fix: discriminator and mapping with invalid discriminator property name (#551)  
+fix: problem with incorrect resolving type name of discriminator mapping types data contracts
 
 ## 13.0.0  
 
