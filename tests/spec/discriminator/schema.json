@@ -363,6 +363,20 @@
           }
         }
       ]
+    },
+    "InvalidDiscriminatorPropertyName": {
+      "type": "object",
+      "discriminator": {
+        "propertyName": "@type",
+        "mapping": {
+          "num": {
+            "type": "number"
+          },
+          "str": {
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }

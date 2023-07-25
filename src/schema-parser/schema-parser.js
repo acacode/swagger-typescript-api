@@ -193,10 +193,9 @@ class SchemaParser {
         this.typeName = this.schemaUtils.getSchemaType(this.schema);
       }
 
-      /**
-       * swagger schemas fixes
-       * ---->
-       */
+      //#region swagger schemas fixes
+
+      // schema has items but don't have array type
       if (
         this.schema.items &&
         !Array.isArray(this.schema.items) &&
@@ -204,6 +203,7 @@ class SchemaParser {
       ) {
         this.schema.type = SCHEMA_TYPES.ARRAY;
       }
+      // schema is enum with one null value
       if (
         Array.isArray(this.schema.enum) &&
         this.schema.enum.length === 1 &&
@@ -212,9 +212,22 @@ class SchemaParser {
         this.logger.debug('invalid enum schema', this.schema);
         this.schema = { type: this.config.Ts.Keyword.Null };
       }
-      /**
-       * <----
-       */
+      // schema is response schema
+      if (
+        'content' in this.schema &&
+        typeof this.schema['content'] === 'object'
+      ) {
+        const schema = this.extractSchemaFromResponseStruct(this.schema);
+        const schemaParser = this.schemaParserFabric.createSchemaParser({
+          schema,
+          typeName: this.typeName,
+          schemaPath: this.schemaPath,
+        });
+        this.schema.$parsed = schemaParser.parseSchema();
+        return this.schema.$parsed;
+      }
+
+      //#endregion
 
       schemaType = this.schemaUtils.getInternalSchemaType(this.schema);
 
@@ -267,6 +280,21 @@ class SchemaParser {
       'base',
     );
     return formattedSchema.content;
+  };
+
+  extractSchemaFromResponseStruct = (responseStruct) => {
+    const { content, ...extras } = responseStruct;
+
+    const firstResponse = _.first(_.values(content));
+    const firstSchema = _.get(firstResponse, 'schema');
+
+    if (!firstSchema) return;
+
+    return {
+      ...extras,
+      ..._.omit(firstResponse, 'schema'),
+      ...firstSchema,
+    };
   };
 }
 

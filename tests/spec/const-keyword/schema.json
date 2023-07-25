@@ -1,0 +1,88 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Nullable Refs Example",
+    "version": "1.0.0"
+  },
+  "components": {
+    "schemas": {
+      "obj-test": {
+        "type": "object",
+        "properties": {
+          "page_type": {
+            "const": "main",
+            "default": "main",
+            "description": "description",
+            "title": "title"
+          },
+          "page_type_nullable": {
+            "const": "main",
+            "description": "description",
+            "title": "title",
+            "nullable": true
+          }
+        }
+      },
+      "test-string": {
+        "const": "string",
+        "default": "string",
+        "description": "description",
+        "title": "title"
+      },
+      "test-string-nullable": {
+        "const": "string",
+        "description": "description",
+        "title": "title",
+        "nullable": true
+      },
+      "test-boolean-nullable": {
+        "const": false,
+        "description": "description",
+        "title": "title",
+        "nullable": true
+      },
+      "test-boolean-false": {
+        "const": false,
+        "default": false,
+        "description": "description",
+        "title": "title"
+      },
+      "test-boolean-true": {
+        "const": true,
+        "default": true,
+        "description": "description",
+        "title": "title"
+      },
+      "test-number-5": {
+        "const": 5,
+        "default": 5,
+        "description": "description",
+        "title": "title"
+      },
+      "test-number-nullable": {
+        "const": 666,
+        "description": "description",
+        "title": "title",
+        "nullable": true,
+      },
+      "test-number-0": {
+        "const": 0,
+        "default": 0,
+        "description": "description",
+        "title": "title"
+      },
+      "test-number-10": {
+        "const": 10,
+        "default": 10,
+        "description": "description",
+        "title": "title"
+      },
+      "test-null": {
+        "const": null,
+        "default": null,
+        "description": "description",
+        "title": "title"
+      }
+    }
+  }
+}

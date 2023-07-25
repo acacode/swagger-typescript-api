@@ -248,24 +248,32 @@ class SchemaUtils {
       );
     }
 
-    const primitiveType = this.getSchemaPrimitiveType(schema);
-
-    if (primitiveType == null) return this.config.Ts.Keyword.Any;
-
     let resultType;
 
-    const typeAlias =
-      _.get(this.config.primitiveTypes, [primitiveType, schema.format]) ||
-      _.get(this.config.primitiveTypes, [primitiveType, '$default']) ||
-      this.config.primitiveTypes[primitiveType];
-
-    if (_.isFunction(typeAlias)) {
-      resultType = typeAlias(schema, this);
+    if (this.isConstantSchema(schema)) {
+      resultType = this.formatJsValue(schema.const);
     } else {
-      resultType = typeAlias || primitiveType;
+      const primitiveType = this.getSchemaPrimitiveType(schema);
+
+      if (primitiveType == null) {
+        return this.config.Ts.Keyword.Any;
+      }
+
+      const typeAlias =
+        _.get(this.config.primitiveTypes, [primitiveType, schema.format]) ||
+        _.get(this.config.primitiveTypes, [primitiveType, '$default']) ||
+        this.config.primitiveTypes[primitiveType];
+
+      if (_.isFunction(typeAlias)) {
+        resultType = typeAlias(schema, this);
+      } else {
+        resultType = typeAlias || primitiveType;
+      }
     }
 
-    if (!resultType) return this.config.Ts.Keyword.Any;
+    if (!resultType) {
+      return this.config.Ts.Keyword.Any;
+    }
 
     return this.checkAndAddRequiredKeys(
       schema,
@@ -283,6 +291,31 @@ class SchemaUtils {
         _.uniq([schemaPath[0], schemaPath[schemaPath.length - 1]]).join('_'),
       ),
     );
+  };
+
+  isConstantSchema(schema) {
+    return 'const' in schema;
+  }
+
+  formatJsValue = (value) => {
+    switch (typeof value) {
+      case 'string': {
+        return this.config.Ts.StringValue(value);
+      }
+      case 'boolean': {
+        return this.config.Ts.BooleanValue(value);
+      }
+      case 'number': {
+        return this.config.Ts.NumberValue(value);
+      }
+      default: {
+        if (value === null) {
+          return this.config.Ts.NullValue(value);
+        }
+
+        return this.config.Ts.Keyword.Any;
+      }
+    }
   };
 }
 

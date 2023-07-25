@@ -107,6 +107,12 @@ export type LizardWithEnum = BasePetWithEnum & {
   lovesRocks?: boolean;
 };
 
+export type InvalidDiscriminatorPropertyName = BaseInvalidDiscriminatorPropertyName &
+  (
+    | BaseInvalidDiscriminatorPropertyNameTypeMapping<"num", number>
+    | BaseInvalidDiscriminatorPropertyNameTypeMapping<"str", string>
+  );
+
 interface BaseBlockDtoWithEnum {
   title: string;
   type: BlockDTOEnum;
@@ -138,4 +144,10 @@ interface BasePetWithEnum {
 
 type BasePetWithEnumPetTypeMapping<Key, Type> = {
   pet_type: Key;
+} & Type;
+
+type BaseInvalidDiscriminatorPropertyName = object;
+
+type BaseInvalidDiscriminatorPropertyNameTypeMapping<Key, Type> = {
+  "@type": Key;
 } & Type;

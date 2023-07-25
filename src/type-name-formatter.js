@@ -41,7 +41,13 @@ class TypeNameFormatter {
         ? this.config.enumKeySuffix
         : this.config.typeSuffix;
 
-    const hashKey = `${typePrefix}_${name}_${typeSuffix}`;
+    const existedFormattedEntry = Array.from(
+      this.formattedModelNamesMap.entries(),
+    ).find((entry) => entry[1] === name);
+
+    const hashKey = existedFormattedEntry
+      ? existedFormattedEntry[0]
+      : `${typePrefix}_${name}_${typeSuffix}`;
 
     if (typeof name !== 'string') {
       this.logger.warn('wrong name of the model name', name);

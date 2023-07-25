@@ -57,12 +57,14 @@ class SchemaComponentsMap {
   }
 
   /**
-   * @param componentName {string}
+   * @params {...string[]} componentNames
    * @returns {SchemaComponent[]}
    */
-  filter(componentName) {
-    return _.filter(this._data, (v) =>
-      _.startsWith(v.$ref, `#/components/${componentName}`),
+  filter(...componentNames) {
+    return _.filter(this._data, (it) =>
+      componentNames.some((componentName) =>
+        _.startsWith(it.$ref, `#/components/${componentName}`),
+      ),
     );
   }
 

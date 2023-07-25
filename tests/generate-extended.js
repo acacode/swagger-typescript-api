@@ -23,6 +23,9 @@ allSchemas.forEach(async ({ absolutePath, apiFileName, outputPath }) => {
   const input = absolutePath;
   const output = outputPath;
 
+  const typePrefix = 'IMySuperPrefix'
+  const typeSuffix = 'MySuperSuffix'
+
   await generateApiForTest({
     name: name,
     input: input,
@@ -36,25 +39,41 @@ allSchemas.forEach(async ({ absolutePath, apiFileName, outputPath }) => {
     extractEnums: true,
     extractRequestParams: true,
     extractResponseError: true,
-    typePrefix: "IMySuperPrefix",
-    typeSuffix: "MySuperSuffix",
+    extractResponses: true,
+    typePrefix: typePrefix,
+    typeSuffix: typeSuffix,
     sortTypes: true,
+    sortRoutes: true,
     debugExtras: ["generate-extended", apiFileName],
   }).then((result) => {
     result.configuration.modelTypes.forEach((modelType) => {
       if (modelType.name) {
-        if (modelType.name.startsWith("IMySuperPrefixIMySuperPrefix")) {
+        if (modelType.name.startsWith(`${typePrefix}${typePrefix}`)) {
           throw new GenerateExtendedError(
-            `[${outputPath}][${apiFileName}] modelType has prefix/suffix duplicates - ${modelType.name}`,
-            output,
-            name,
+              `[${outputPath}][${apiFileName}] modelType has prefix/suffix duplicates - ${modelType.name}`,
+              output,
+              name,
           );
         }
-        if (!modelType.name.startsWith("IMySuperPrefix")) {
+        if (!modelType.name.startsWith(typePrefix)) {
           throw new GenerateExtendedError(
-            `[${outputPath}][${apiFileName}] modelType has not prefix/suffix - ${modelType.name}`,
-            output,
-            name,
+              `[${outputPath}][${apiFileName}] modelType has not prefix/suffix - ${modelType.name}`,
+              output,
+              name,
+          );
+        }
+        if (modelType.name.endsWith(`${typeSuffix}${typeSuffix}`)) {
+          throw new GenerateExtendedError(
+              `[${outputPath}][${apiFileName}] modelType has prefix/suffix duplicates - ${modelType.name}`,
+              output,
+              name,
+          );
+        }
+        if (!modelType.name.endsWith(typeSuffix)) {
+          throw new GenerateExtendedError(
+              `[${outputPath}][${apiFileName}] modelType has not prefix/suffix - ${modelType.name}`,
+              output,
+              name,
           );
         }
       }

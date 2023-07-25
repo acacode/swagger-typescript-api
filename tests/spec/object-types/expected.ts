@@ -11,6 +11,13 @@
 
 type UtilRequiredKeys<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 
+/**
+ * title
+ * description
+ * @example "https://ya.ru/a.png"
+ */
+export type AnyOfWithNullable = string | null;
+
 /** https://github.com/acacode/swagger-typescript-api/issues/445 */
 export interface SpecificEnum1 {
   myEnum?: ["foo", "bar", "baz"];

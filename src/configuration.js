@@ -74,6 +74,7 @@ class CodeGenConfig {
   extractRequestBody = false;
   extractResponseBody = false;
   extractResponseError = false;
+  extractResponses = false;
   extractEnums = false;
   fileNames = {
     dataContracts: 'data-contracts',
@@ -240,7 +241,7 @@ class CodeGenConfig {
     /**
      * $A
      */
-    NullValue: (content) => content,
+    NullValue: (content) => `null`,
     /**
      * $A1 | $A2
      */
@@ -276,6 +277,9 @@ class CodeGenConfig {
      */
     InterfaceDynamicField: (key, value) => `[key: ${key}]: ${value}`,
 
+    /**
+     * EnumName.EnumKey
+     */
     EnumUsageKey: (enumStruct, key) => `${enumStruct}.${key}`,
     /**
      * $A1 = $A2
