@@ -1,5 +1,11 @@
 # next release  
 
+## 13.0.2  
+
+fix: problem with incorrect settings type suffix for internal discriminator mappings
+
+## 13.0.1  
+
 feat: `const` keyword OpenAPI 3.0 draft  
 fix: problem with using `anyOf`  
 feat: `--extract-responses` (nodejs: `extractResponses`) option to extract all schemas from `/components/responses`

@@ -79,6 +79,7 @@ class SchemaParserFabric {
       schemaCopy,
     );
     const parsed = this.parseSchema(schemaCopy, null, schemaPath);
+
     parsed.name = typeName;
     customComponent.typeData = parsed;
 

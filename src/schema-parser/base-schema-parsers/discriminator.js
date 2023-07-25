@@ -74,36 +74,36 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
       });
 
     if (ableToCreateMappingType) {
-      const mappingTypeNameRef = this.schemaComponentsMap.createRef([
-        'components',
-        'schemas',
-        this.schemaUtils.resolveTypeName(
-          `${abstractSchemaStruct.typeName} ${discriminator.propertyName}`,
-          {
-            suffixes: this.config.extractingOptions.discriminatorMappingSuffix,
-            resolver:
-              this.config.extractingOptions.discriminatorMappingNameResolver,
-          },
-        ),
-      ]);
-      const mappingTypeNameComponent =
-        this.schemaComponentsMap.createComponent(mappingTypeNameRef);
-      const mappingTypeNameSchema = this.schemaParserFabric.createSchema({
-        linkedComponent: mappingTypeNameComponent,
-        content: ts.IntersectionType([
-          ts.ObjectWrapper(
-            ts.TypeField({
-              key: ts.StringValue(discriminator.propertyName),
-              value: 'Key',
-            }),
-          ),
-          'Type',
-        ]),
-        genericArgs: [{ name: 'Key' }, { name: 'Type' }],
-        internal: true,
+      const rawTypeName = `${abstractSchemaStruct.typeName}_${discriminator.propertyName}`;
+      const generatedTypeName = this.schemaUtils.resolveTypeName(rawTypeName, {
+        suffixes: this.config.extractingOptions.discriminatorMappingSuffix,
+        resolver:
+          this.config.extractingOptions.discriminatorMappingNameResolver,
       });
 
-      mappingTypeName = mappingTypeNameSchema.typeData.name;
+      const content = ts.IntersectionType([
+        ts.ObjectWrapper(
+          ts.TypeField({
+            key: ts.StringValue(discriminator.propertyName),
+            value: 'Key',
+          }),
+        ),
+        'Type',
+      ]);
+
+      const component = this.schemaParserFabric.createParsedComponent({
+        typeName: generatedTypeName,
+        schema: {
+          type: 'object',
+          properties: {},
+          genericArgs: [{ name: 'Key' }, { name: 'Type' }],
+          internal: true,
+        },
+      });
+
+      component.typeData.content = content;
+
+      mappingTypeName = this.typeNameFormatter.format(component.typeName);
     }
 
     /** returns (GenericType<"mapping_key", MappingType>) or ({ discriminatorProperty: "mapping_key" } & MappingType) */
