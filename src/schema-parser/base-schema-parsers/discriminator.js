@@ -259,9 +259,12 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     const { discriminator, ...noDiscriminatorSchema } = this.schema;
     const complexSchemaKeys = _.keys(this.schemaParser._complexSchemaParsers);
     const schema = _.omit(_.clone(noDiscriminatorSchema), complexSchemaKeys);
+    const schemaIsAny =
+      this.schemaParserFabric.getInlineParseContent(_.cloneDeep(schema)) ===
+      this.config.Ts.Keyword.Any;
     const schemaIsEmpty = !_.keys(schema).length;
 
-    if (schemaIsEmpty) return null;
+    if (schemaIsEmpty || schemaIsAny) return null;
 
     const typeName = this.schemaUtils.resolveTypeName(this.typeName, {
       prefixes: this.config.extractingOptions.discriminatorAbstractPrefix,
