@@ -113,6 +113,77 @@ export type InvalidDiscriminatorPropertyName = BaseInvalidDiscriminatorPropertyN
     | BaseInvalidDiscriminatorPropertyNameTypeMapping<"str", string>
   );
 
+/** kek pek */
+export type Variant =
+  | ({
+      type: "update";
+    } & VariantUpdate)
+  | ({
+      type: "undo";
+    } & VariantUndo)
+  | ({
+      type: "rollback";
+    } & VariantRollback)
+  | ({
+      type: "scale";
+    } & VariantScale)
+  | ({
+      type: "resources";
+    } & VariantResources)
+  | ({
+      type: "firewall";
+    } & VariantFirewall)
+  | ({
+      type: "gateway";
+    } & VariantGateway);
+
+/** Proposal to change firewall rules for deployment. */
+export interface VariantFirewall {
+  /** asdasdasdasdasdsad added to deployment. If not set, no rules are added. */
+  rules_added?: string[];
+  /** asdasdasdasdasdsad removed from deployment. If not set, no rules were removed. */
+  rules_removed?: string[];
+}
+
+/** asdasdasdasdasd */
+export interface VariantScale {
+  /**
+   * asdasdasdasdasdsad
+   * @example 3
+   */
+  replicas: number;
+}
+
+/** asdasdasdasdasd */
+export interface VariantResources {
+  resources: string;
+}
+
+/** asdasdasdasdasd */
+export interface VariantGateway {
+  /** asdasdasdasdasdsad */
+  port?: string;
+  /** asdasdasdasdasdsad */
+  name?: string;
+  /** asdasdasdasdasdsad */
+  domain?: string;
+}
+
+/** Pasdasdasdasdasd. */
+export type VariantUpdate = object;
+
+/** asdasdasdasdasd */
+export interface VariantRollback {
+  /**
+   * asdasdasdasdasdsad
+   * @example 42
+   */
+  revision_id: number;
+}
+
+/** asdasdasdasdasdn */
+export type VariantUndo = object;
+
 interface BaseBlockDtoWithEnum {
   title: string;
   type: BlockDTOEnum;

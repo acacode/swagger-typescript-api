@@ -377,6 +377,130 @@
           }
         }
       }
+    },
+    "Variant": {
+      "description": "kek pek",
+      "discriminator": {
+        "propertyName": "type",
+        "mapping": {
+          "update": "#/components/schemas/VariantUpdate",
+          "undo": "#/components/schemas/VariantUndo",
+          "rollback": "#/components/schemas/VariantRollback",
+          "scale": "#/components/schemas/VariantScale",
+          "resources": "#/components/schemas/VariantResources",
+          "firewall": "#/components/schemas/VariantFirewall",
+          "gateway": "#/components/schemas/VariantGateway"
+        }
+      },
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/VariantUpdate"
+        },
+        {
+          "$ref": "#/components/schemas/VariantUndo"
+        },
+        {
+          "$ref": "#/components/schemas/VariantRollback"
+        },
+        {
+          "$ref": "#/components/schemas/VariantScale"
+        },
+        {
+          "$ref": "#/components/schemas/VariantResources"
+        },
+        {
+          "$ref": "#/components/schemas/VariantFirewall"
+        },
+        {
+          "$ref": "#/components/schemas/VariantGateway"
+        }
+      ]
+    },
+    "VariantFirewall": {
+      "type": "object",
+      "description": "Proposal to change firewall rules for deployment.",
+      "properties": {
+        "rules_added": {
+          "type": "array",
+          "description": "asdasdasdasdasdsad added to deployment. If not set, no rules are added.\n",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rules_removed": {
+          "type": "array",
+          "description": "asdasdasdasdasdsad removed from deployment. If not set, no rules were removed.\n",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "VariantScale": {
+      "type": "object",
+      "description": "asdasdasdasdasd",
+      "required": [
+        "replicas"
+      ],
+      "properties": {
+        "replicas": {
+          "type": "integer",
+          "description": "asdasdasdasdasdsad",
+          "example": 3
+        }
+      }
+    },
+    "VariantResources": {
+      "type": "object",
+      "description": "asdasdasdasdasd",
+      "required": [
+        "resources"
+      ],
+      "properties": {
+        "resources": {
+          "type": "string"
+        }
+      }
+    },
+    "VariantGateway": {
+      "type": "object",
+      "description": "asdasdasdasdasd",
+      "properties": {
+        "port": {
+          "type": "string",
+          "description": "asdasdasdasdasdsad"
+        },
+        "name": {
+          "type": "string",
+          "description": "asdasdasdasdasdsad"
+        },
+        "domain": {
+          "type": "string",
+          "description": "asdasdasdasdasdsad"
+        }
+      }
+    },
+    "VariantUpdate": {
+      "type": "object",
+      "description": "Pasdasdasdasdasd."
+    },
+    "VariantRollback": {
+      "type": "object",
+      "description": "asdasdasdasdasd",
+      "required": [
+        "revision_id"
+      ],
+      "properties": {
+        "revision_id": {
+          "type": "integer",
+          "description": "asdasdasdasdasdsad",
+          "example": 42
+        }
+      }
+    },
+    "VariantUndo": {
+      "type": "object",
+      "description": "asdasdasdasdasdn"
     }
   }
 }

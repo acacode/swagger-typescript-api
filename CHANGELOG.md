@@ -1,5 +1,9 @@
 # next release  
 
+## 13.0.3  
+
+fix: problem with type `any` as base type of discriminator schema (cases when schema without discriminator is empty)  
+
 ## 13.0.2  
 
 fix: problem with incorrect settings type suffix for internal discriminator mappings
