@@ -78,7 +78,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "@types/lodash": "^4.14.195",
     "@types/node": "^20.4.1",
-    "@types/prettier": "^2.7.3",
+    "@types/prettier": "^3.0.0",
     "all-contributors-cli": "^6.26.1",
     "axios": "^1.4.0",
     "cross-env": "^7.0.3",
