@@ -316,7 +316,8 @@ class SchemaRoutes {
     }
 
     if (
-      _.some(contentTypes, (contentType) => _.includes(contentType, 'image/'))
+      _.some(contentTypes, (contentType) => _.includes(contentType, 'image/')) ||
+      _.some(contentTypes, (contentType) => _.includes(contentType, 'application/octet-stream'))
     ) {
       return CONTENT_KIND.IMAGE;
     }
