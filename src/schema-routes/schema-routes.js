@@ -929,6 +929,7 @@ class SchemaRoutes {
       produces,
       requestBody,
       consumes,
+      security,
     };
 
     const queryObjectSchema = this.convertRouteParamsIntoObject(
