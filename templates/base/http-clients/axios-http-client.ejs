@@ -112,7 +112,7 @@ export class HttpClient<SecurityDataType = unknown> {
         const requestParams = this.mergeRequestParams(params, secureParams);
         const responseFormat = (format || this.format) || undefined;
 
-        if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
+        if (type === ContentType.FormData && body && body !== null && typeof body === "object" && !(body instanceof FormData)) {
           body = this.createFormData(body as Record<string, unknown>);
         }
 
