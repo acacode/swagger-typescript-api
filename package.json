@@ -89,7 +89,7 @@
     "rimraf": "^5.0.1"
   },
   "dependencies": {
-    "@types/swagger-schema-official": "2.0.22",
+    "@types/swagger-schema-official": "2.0.23",
     "cosmiconfig": "8.2.0",
     "didyoumean": "^1.2.2",
     "eta": "^2.2.0",
