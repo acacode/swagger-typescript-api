@@ -237,7 +237,13 @@ class CodeGenConfig {
     /**
      * $A
      */
-    NumberValue: (content) => `${content}`,
+    NumberValue: (content) => {
+      if (typeof content === 'string') {
+        return /^0*$/.test(content) ? `0` : `${content.replace(/^0+/, '')}`;
+      } else {
+        return `${content}`;
+      }
+    },
     /**
      * $A
      */
