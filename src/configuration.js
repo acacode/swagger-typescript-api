@@ -62,6 +62,7 @@ class CodeGenConfig {
   componentsMap = {};
   /** flag for catching convertion from swagger 2.0 */
   convertedFromSwagger2 = false;
+  convertObjectsWithoutRef = false;
 
   /** url index from paths used for merging into modules */
   moduleNameIndex = 0;

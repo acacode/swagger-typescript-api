@@ -97,6 +97,13 @@ const program = cli({
       internal: { formatter: Boolean },
     },
     {
+      flags: '--convert-objects-without-ref',
+      description:
+        'extract properties with type object as separated interface, which you can import',
+      default: codeGenBaseConfig.convertObjectsWithoutRef,
+      internal: { formatter: Boolean },
+    },
+    {
       flags: '--extract-request-body',
       description: 'extract request body type to data contract',
       default: codeGenBaseConfig.extractRequestBody,

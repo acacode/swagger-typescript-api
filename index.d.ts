@@ -92,6 +92,14 @@ interface GenerateApiParamsBase {
    */
   modular?: boolean;
   /**
+   * extract all responses described in /components/responses
+   */
+  extractResponses?: boolean;
+  /**
+   * extract properties with type object as separated interface, which you can import
+   */
+  convertObjectsWithoutRef?: boolean;
+  /**
    * extract request params to data contract (Also combine path params and query params into one object)
    */
   extractRequestParams?: boolean;
@@ -550,6 +558,7 @@ export interface GenerateApiConfiguration {
     originalSchema: object;
     componentsMap: Record<string, SchemaComponent>;
     convertedFromSwagger2: boolean;
+    convertObjectsWithoutRef: boolean;
     moduleNameIndex: number;
     moduleNameFirstTag: boolean;
     extraTemplates: { name: string; path: string }[];
@@ -573,6 +582,7 @@ export interface GenerateApiConfiguration {
     addReadonly: boolean;
     extractResponseBody: boolean;
     extractResponseError: boolean;
+    extractResponses: boolean;
     extractEnums: boolean;
     fixInvalidTypeNamePrefix: string;
     fixInvalidEnumKeyPrefix: string;
