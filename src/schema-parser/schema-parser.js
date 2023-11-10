@@ -116,6 +116,11 @@ class SchemaParser {
       return schemaParser.parse();
     },
     [SCHEMA_TYPES.OBJECT]: (schema, typeName) => {
+      // если null, то вложенные, без ref
+      if (typeName === null) {
+        typeName = 'Random' + Math.round(Math.random() * 1000);
+      }
+      // console.debug(typeName, schema.properties);
       const SchemaParser =
         this.config.schemaParsers.object || ObjectSchemaParser;
       const schemaParser = new SchemaParser(
@@ -270,6 +275,7 @@ class SchemaParser {
       parsedSchema,
       'inline',
     );
+    // console.debug('formattedSchema: ', formattedSchema);
     return formattedSchema.content;
   };
 

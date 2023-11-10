@@ -1,7 +1,9 @@
 const _ = require('lodash');
 
 class SchemaComponentsMap {
-  /** @type {SchemaComponent[]} */
+  /**
+   * Список компонентов схемы
+   * @type {SchemaComponent[]} */
   _data = [];
   /** @type {CodeGenConfig} */
   config;
@@ -22,6 +24,15 @@ class SchemaComponentsMap {
     return ref.split('/');
   };
 
+  /**
+   * Создает компонент.
+   * typeName - ключ ключа компонента (например, "Need", "User", "Jwt").
+   * componentName - ключ компонента (например, "schemas", "securitySchemes")
+   * rawTypeData - содержимое при обращении к typeName
+   * @param $ref {String}
+   * @param rawTypeData {Object}
+   * @return {{rawTypeData: object, typeName: string, componentName: string, typeData: null, $ref: string}}
+   */
   createComponent($ref, rawTypeData) {
     const parsed = this.parseRef($ref);
     const typeName = parsed[parsed.length - 1];

@@ -67,14 +67,14 @@ class SwaggerSchemaResolver {
    */
   convertSwaggerObject(swaggerSchema, converterOptions) {
     return new Promise((resolve) => {
-      const result = _.cloneDeep(swaggerSchema);
+      const result = _.cloneDeep(swaggerSchema); // оригинальная схема, переданная из файла
       result.info = _.merge(
         {
           title: 'No title',
           version: '',
         },
         result.info,
-      );
+      ); // добавляет обязательные поля, чтоб сваггер был валидным
 
       if (!result.openapi) {
         result.paths = _.merge({}, result.paths);
@@ -151,7 +151,7 @@ class SwaggerSchemaResolver {
     const usagePaths = _.get(usageSchema, 'paths');
     const originalPaths = _.get(originalSchema, 'paths');
 
-    // walk by routes
+    // walk by routes forEach(object, (value, key/index) => { ... })
     _.each(usagePaths, (usagePathObject, route) => {
       const originalPathObject = _.get(originalPaths, route);
 
@@ -161,14 +161,19 @@ class SwaggerSchemaResolver {
         const usageRouteParams = _.get(usageRouteInfo, 'parameters', []);
         const originalRouteParams = _.get(originalRouteInfo, 'parameters', []);
 
+        // если object, то добавляются consumes, produces
         if (typeof usageRouteInfo === 'object') {
+          // уникальные значения, возвращает новый массив
           usageRouteInfo.consumes = _.uniq(
+            // убирает все falsy из массива
             _.compact([
               ...(usageRouteInfo.consumes || []),
               ...(originalRouteInfo.consumes || []),
             ]),
           );
+          // уникальные значения, возвращает новый массив
           usageRouteInfo.produces = _.uniq(
+            // убирает все falsy из массива
             _.compact([
               ...(usageRouteInfo.produces || []),
               ...(originalRouteInfo.produces || []),

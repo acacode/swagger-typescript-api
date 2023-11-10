@@ -81,8 +81,8 @@ class SchemaRoutes {
   }
 
   createRequestsMap = (routeInfoByMethodsMap) => {
-    const parameters = _.get(routeInfoByMethodsMap, 'parameters');
-
+    const parameters = _.get(routeInfoByMethodsMap, 'parameters'); // routeInfoByMethodsMap = { "get": { ... }, "post": { ... } }
+    console.debug(parameters);
     return _.reduce(
       routeInfoByMethodsMap,
       (acc, requestInfo, method) => {
@@ -364,7 +364,7 @@ class SchemaRoutes {
     typeName,
   }) => {
     // TODO: make more flexible pick schema without content type
-    const schema = this.getSchemaFromRequestType(requestInfo);
+    const schema = this.getSchemaFromRequestType(requestInfo); // возвращает первый paths[path][method][responses][statusCode][content][0].schema
     const refTypeInfo =
       this.schemaParserFabric.schemaUtils.getSchemaRefType(requestInfo);
 
@@ -1099,8 +1099,9 @@ class SchemaRoutes {
   attachSchema = ({ usageSchema, parsedSchemas }) => {
     this.config.routeNameDuplicatesMap.clear();
 
-    const pathsEntries = _.entries(usageSchema.paths);
+    const pathsEntries = _.entries(usageSchema.paths); // создает массив [[key, value]], т.е. [[pathName, { "get": ..., "post": ... }]]
 
+    // проходимся по каждому элементу
     _.forEach(pathsEntries, ([rawRouteName, routeInfoByMethodsMap]) => {
       const routeInfosMap = this.createRequestsMap(routeInfoByMethodsMap);
 
