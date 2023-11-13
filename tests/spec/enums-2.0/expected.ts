@@ -91,6 +91,15 @@ export enum SomeInterestEnum {
   HSDFDS = "HSDFDS",
 }
 
+export enum EnumLeadingZeros {
+  Value0 = 0,
+  Value1 = 1,
+  Value2 = 2,
+  Value3 = 3,
+  Value4 = 4,
+  Value5 = 5,
+}
+
 export interface PostFooPayload {
   someTypeId?: 1 | 2 | 3 | 4 | 5;
 }

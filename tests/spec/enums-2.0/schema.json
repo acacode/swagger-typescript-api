@@ -79,6 +79,10 @@
         "ASDds",
         "HSDFDS"
       ]
+    },
+    "enum-leading-zeros": {
+      "type": "integer",
+      "enum": [ 00, 01, 02, 03, 04, 05 ]
     }
   },
   "paths": {

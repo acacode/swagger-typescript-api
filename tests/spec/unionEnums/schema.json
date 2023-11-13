@@ -35,6 +35,10 @@
           "Tess44",
           "BooFar"
         ]
+      },
+      "enum-backslash": {
+        "type": "string",
+        "enum": [ "\\", "", "\/"]
       }
     },
     "securitySchemes": {}
