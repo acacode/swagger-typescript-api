@@ -252,7 +252,10 @@ class CodeGenConfig {
      * $A1 | $A2
      */
     UnionType: (contents) =>
-      _.join(_.uniq(contents), ` ${this.Ts.Keyword.Union} `),
+      _.join(
+        _.uniq(contents.map((entry) => entry.replace(/\\/g, '\\\\'))),
+        ` ${this.Ts.Keyword.Union} `,
+      ),
     /**
      * ($A1)
      */
