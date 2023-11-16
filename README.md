@@ -61,6 +61,7 @@ Options:
   --extract-request-body        extract request body type to data contract (default: false)
   --extract-response-body       extract response body type to data contract (default: false)
   --extract-response-error      extract response error type to data contract (default: false)
+  --extract-nested-objects      extract nested objects as separated type, which you can import (default: false)
   --modular                     generate separated files for http client, data contracts, and routes (default: false)
   --js                          generate js api module with declaration file (default: false)
   --module-name-index <number>  determines which path index should be used for routes separation (example: GET:/fruites/getFruit -> index:0 -> moduleName -> fruites) (default: 0)
@@ -133,6 +134,7 @@ generateApi({
   extractRequestParams: false,
   extractRequestBody: false,
   extractEnums: false,
+  extractNestedObjects: false,
   unwrapResponseData: false,
   prettier: { // By default prettier config is load from your project
     printWidth: 120,

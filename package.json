@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "13.0.3",
+  "version": "13.1.0",
   "description": "Generate typescript/javascript api from swagger schema",
   "scripts": {
     "update-deps-to-latest": "npx --yes npm-check-updates && npm i",
@@ -66,7 +66,8 @@
     "test:extract-enums": "node tests/spec/extract-enums/test.js",
     "test:discriminator": "node tests/spec/discriminator/test.js",
     "test:sort-types": "node tests/spec/sortTypes/test.js",
-    "test:sort-types-false": "node tests/spec/sortTypes-false/test.js"
+    "test:sort-types-false": "node tests/spec/sortTypes-false/test.js",
+    "test:extract-nested-objects": "node tests/spec/extract-nested-objects/test.js"
   },
   "author": "acacode",
   "license": "MIT",

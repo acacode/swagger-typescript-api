@@ -76,6 +76,7 @@ class CodeGenConfig {
   extractResponseError = false;
   extractResponses = false;
   extractEnums = false;
+  extractNestedObjects = false;
   fileNames = {
     dataContracts: 'data-contracts',
     routeTypes: 'route-types',

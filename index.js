@@ -97,6 +97,13 @@ const program = cli({
       internal: { formatter: Boolean },
     },
     {
+      flags: '--extract-nested-objects',
+      description:
+        'extract nested objects as separated type, which you can import',
+      default: codeGenBaseConfig.extractNestedObjects,
+      internal: { formatter: Boolean },
+    },
+    {
       flags: '--extract-request-body',
       description: 'extract request body type to data contract',
       default: codeGenBaseConfig.extractRequestBody,

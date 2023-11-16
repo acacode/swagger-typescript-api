@@ -80,6 +80,10 @@ class SchemaRoutes {
     ]);
   }
 
+  /**
+   * @param routeInfoByMethodsMap
+   * @return {*}
+   */
   createRequestsMap = (routeInfoByMethodsMap) => {
     const parameters = _.get(routeInfoByMethodsMap, 'parameters');
 

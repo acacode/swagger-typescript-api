@@ -175,11 +175,12 @@ class SchemaParser {
    * @return {Record<string, any>}
    */
   parseSchema = () => {
-    if (!this.schema)
+    if (!this.schema) {
       return this._baseSchemaParsers[SCHEMA_TYPES.PRIMITIVE](
         null,
         this.typeName,
       );
+    }
 
     let schemaType = null;
     let parsedSchema = null;

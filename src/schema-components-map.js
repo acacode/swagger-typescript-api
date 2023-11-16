@@ -22,6 +22,11 @@ class SchemaComponentsMap {
     return ref.split('/');
   };
 
+  /**
+   * @param $ref {String}
+   * @param rawTypeData {Object}
+   * @return {{rawTypeData: object, typeName: string, componentName: string, typeData: null, $ref: string}}
+   */
   createComponent($ref, rawTypeData) {
     const parsed = this.parseRef($ref);
     const typeName = parsed[parsed.length - 1];

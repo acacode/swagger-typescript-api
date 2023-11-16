@@ -102,7 +102,6 @@ class CodeGenProcess {
     );
 
     this.schemaComponentsMap.clear();
-
     _.each(swagger.usageSchema.components, (component, componentName) =>
       _.each(component, (rawTypeData, typeName) => {
         this.schemaComponentsMap.createComponent(
@@ -123,6 +122,9 @@ class CodeGenProcess {
       _.compact(['schemas', this.config.extractResponses && 'responses']),
     );
 
+    /**
+     * @type {Record<string, any>[]}
+     */
     const parsedSchemas = componentsToParse.map((schemaComponent) => {
       const parsed = this.schemaParserFabric.parseSchema(
         schemaComponent.rawTypeData,

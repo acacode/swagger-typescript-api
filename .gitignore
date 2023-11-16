@@ -5,3 +5,5 @@ swagger-test-cli.*
 swagger-test-cli
 dist
 .env
+**/.DS_Store
+

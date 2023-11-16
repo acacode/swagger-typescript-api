@@ -1,0 +1,762 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.4.1",
+    "title": "Some Public API"
+  },
+  "paths": {
+    "/v3/users/{id}": {
+      "get": {
+        "summary": "get users",
+        "tags": [
+          "users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "description": "success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DatagridBody": {
+        "type": "object",
+        "properties": {
+          "_filter": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "fieldUid": {
+                  "type": "string"
+                },
+                "fieldValue": {
+                  "type": "object",
+                  "properties": {
+                    "unionCondition": {
+                      "type": "string",
+                      "enum": [
+                        "or",
+                        "and"
+                      ]
+                    },
+                    "values": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "field": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "_sorting": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "order": {
+                  "type": "string",
+                  "enum": [
+                    "asc",
+                    "desc"
+                  ]
+                }
+              }
+            }
+          },
+          "_pagination": {
+            "type": "object",
+            "properties": {
+              "offset": {
+                "type": "integer"
+              },
+              "rowCount": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "WorkdayStateBody": {
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string",
+            "enum": [
+              "begin",
+              "finish"
+            ]
+          },
+          "dealership_uuid": {
+            "type": "string"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "ui_id": {
+            "type": "integer"
+          },
+          "oracle_id": {
+            "type": "integer"
+          },
+          "is_client": {
+            "type": "boolean"
+          },
+          "is_employee": {
+            "type": "boolean"
+          },
+          "username": {
+            "type": "string"
+          },
+          "fullname": {
+            "type": "string"
+          },
+          "work_day": {
+            "type": "object",
+            "$ref": "#/components/schemas/Workday"
+          },
+          "person": {
+            "type": "object",
+            "$ref": "#/components/schemas/Person"
+          },
+          "hr": {
+            "type": "object",
+            "$ref": "#/components/schemas/HR"
+          },
+          "telephones": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Telephone"
+            }
+          },
+          "emails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Email"
+            }
+          },
+          "documents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Document"
+            }
+          },
+          "signatory_in_dealerships": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "uuid": {
+                  "type": "string"
+                },
+                "organization_uuid": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "user_group_dealership": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserGroupDealership"
+            }
+          },
+          "managers": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "uuid": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "under_employees": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "uuid": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Workday": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "state": {
+            "type": "boolean"
+          },
+          "date_begin": {
+            "type": "string"
+          },
+          "date_finish": {
+            "type": "string"
+          },
+          "dealership": {
+            "type": "object",
+            "$ref": "#/components/schemas/DealershipLite"
+          }
+        }
+      },
+      "DealershipLite": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "location": {
+            "type": "object",
+            "properties": {
+              "uuid": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "vehicle_manufacturer_brand": {
+            "type": "object",
+            "properties": {
+              "uuid": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "ArrayOfDealershipsLite": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DealershipLite"
+            }
+          }
+        }
+      },
+      "Person": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "ui_id": {
+            "type": "integer"
+          },
+          "person_type": {
+            "type": "object",
+            "properties": {
+              "uuid": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "date_begin": {
+            "type": "string"
+          },
+          "date_finish": {
+            "type": "string"
+          },
+          "surname": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "middlename": {
+            "type": "string"
+          },
+          "gender_is_female": {
+            "type": "boolean"
+          },
+          "birth_date": {
+            "type": "string"
+          },
+          "driving_begin_date": {
+            "type": "string"
+          },
+          "driving_begin_date_is_calc": {
+            "type": "boolean"
+          },
+          "photo_url": {
+            "type": "string"
+          },
+          "is_married": {
+            "type": "boolean"
+          },
+          "famous_person_type": {
+            "type": "object",
+            "properties": {
+              "uuid": {
+                "type": "string"
+
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "hide_personal_data": {
+            "type": "boolean"
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "uuid": {
+                  "type": "string"
+                },
+                "birth_year": {
+                  "type": "integer"
+                },
+                "gender_is_female": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "HR": {
+        "type": "object",
+        "properties": {
+          "tabelniy_nomer": {
+            "type": "integer"
+          },
+          "post_name": {
+            "type": "string"
+          },
+          "post_name_rod_padeg": {
+            "type": "string"
+          },
+          "post_name_dat_padeg": {
+            "type": "string"
+          },
+          "department_cfo": {
+            "type": "string"
+          },
+          "department_name": {
+            "type": "string"
+          },
+          "department_in_organization_structure": {
+            "type": "string"
+          },
+          "internal_organization_uuid": {
+            "type": "string"
+          }
+        }
+      },
+      "Telephone": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "is_main": {
+            "type": "boolean",
+            "example": true
+          },
+          "country": {
+            "type": "object",
+            "$ref": "#/components/schemas/Country"
+          },
+          "telephone_number": {
+            "type": "string"
+          },
+          "is_verified": {
+            "type": "boolean"
+          },
+          "comments": {
+            "type": "object"
+          },
+          "is_archived": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Country": {
+        "type": "object",
+        "properties": {
+          "alpha2": {
+            "type": "string"
+          },
+          "alpha3": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "short_name": {
+            "type": "string"
+          },
+          "name_rus": {
+            "type": "string"
+          },
+          "name_eng": {
+            "type": "string"
+          },
+          "uuid": {
+            "type": "string"
+          }
+        }
+      },
+      "Email": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "email_address": {
+            "type": "string"
+          },
+          "is_verified": {
+            "type": "boolean",
+            "example": true
+          },
+          "is_main": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "Document": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "class": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "uuid": {
+                "type": "string"
+              }
+            }
+          },
+          "type": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "uuid": {
+                "type": "string"
+              },
+              "class_uuid": {
+                "type": "string"
+              },
+              "imenitelny_padezh": {
+                "type": "string"
+              },
+              "roditelny_padezh": {
+                "type": "string"
+              },
+              "short_name": {
+                "type": "string"
+              }
+            }
+          },
+          "subtype": {
+            "type": "object",
+            "example": null,
+            "properties": {
+              "uuid": {
+                "type": "string"
+              },
+              "type_uuid": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "series": {
+            "type": "string",
+            "example": null
+          },
+          "number": {
+            "type": "string"
+          },
+          "gave_organization_name": {
+            "type": "string",
+            "example": null
+          },
+          "gave_department_code": {
+            "type": "string",
+            "example": null
+          },
+          "valid_since_date": {
+            "type": "string"
+          },
+          "expired_date": {
+            "type": "string"
+          },
+          "date_begin": {
+            "type": "string",
+            "example": null
+          },
+          "date_finish": {
+            "type": "string",
+            "example": null
+          },
+          "is_verified": {
+            "type": "string",
+            "example": false
+          },
+          "is_hidden_for_mobile_application": {
+            "type": "string",
+            "example": true
+          },
+          "vin": {
+            "type": "string",
+            "example": null
+          },
+          "vehicle_state_registration_number": {
+            "type": "string",
+            "example": null
+          },
+          "legal_user_uuid": {
+            "type": "string"
+          },
+          "principal_for_power_of_attorney_uuid": {
+            "type": "string"
+          },
+          "account_number_for_transponder": {
+            "type": "string",
+            "example": null
+          }
+        }
+      },
+      "UserGroup": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "operations_managers": {
+            "type": "array",
+            "example": null,
+            "items": {
+              "properties": {
+                "uuid": {
+                  "type": "string",
+                  "example": null
+                }
+              }
+            }
+          },
+          "under_groups": {
+            "type": "array",
+            "example": null,
+            "items": {
+              "properties": {
+                "uuid": {
+                  "type": "string",
+                  "example": null
+                }
+              }
+            }
+          },
+          "business_domain": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "uuid": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "business_subdomain": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "uuid": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "business_tasks_subset": {
+            "type": "array",
+
+            "items": {
+              "properties": {
+                "uuid": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UserGroupDealership": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "operations_managers": {
+            "type": "array",
+            "example": null,
+            "items": {
+              "properties": {
+                "uuid": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "under_groups": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "uuid": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "business_domain": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "uuid": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "business_subdomain": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "uuid": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "business_tasks_subset": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "uuid": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "user_dealerships": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DealershipLite"
+            }
+          }
+        }
+      },
+      "404Response": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "detail": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "400Response": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "detail": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
