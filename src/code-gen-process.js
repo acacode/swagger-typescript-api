@@ -1,21 +1,21 @@
-const { SwaggerSchemaResolver } = require('./swagger-schema-resolver.js'); // +
-const { SchemaComponentsMap } = require('./schema-components-map.js'); // +
-const { NameResolver } = require('./util/name-resolver'); // +
-const { Logger } = require('./util/logger.js'); // +
-const { TypeNameFormatter } = require('./type-name-formatter.js'); // +
-const _ = require('lodash'); // +
-const { SchemaParserFabric } = require('./schema-parser/schema-parser-fabric'); // +
+const { SwaggerSchemaResolver } = require('./swagger-schema-resolver.js');
+const { SchemaComponentsMap } = require('./schema-components-map.js');
+const { NameResolver } = require('./util/name-resolver');
+const { Logger } = require('./util/logger.js');
+const { TypeNameFormatter } = require('./type-name-formatter.js');
+const _ = require('lodash');
+const { SchemaParserFabric } = require('./schema-parser/schema-parser-fabric');
 const { SchemaRoutes } = require('./schema-routes/schema-routes.js');
 const { CodeGenConfig } = require('./configuration.js');
-const { SchemaWalker } = require('./schema-walker'); // +
-const { FileSystem } = require('./util/file-system'); // +
-const { TemplatesWorker } = require('./templates-worker'); // +
+const { SchemaWalker } = require('./schema-walker');
+const { FileSystem } = require('./util/file-system');
+const { TemplatesWorker } = require('./templates-worker');
 const { JavascriptTranslator } = require('./translators/javascript');
-const ts = require('typescript'); // +
+const ts = require('typescript');
 const { CodeFormatter } = require('./code-formatter');
-const { pascalCase } = require('./util/pascal-case'); // +
-const { internalCase } = require('./util/internal-case'); // +
-const { sortByProperty } = require('./util/sort-by-property'); // +
+const { pascalCase } = require('./util/pascal-case');
+const { internalCase } = require('./util/internal-case');
+const { sortByProperty } = require('./util/sort-by-property');
 
 const PATCHABLE_INSTANCES = [
   'schemaWalker',
@@ -102,7 +102,6 @@ class CodeGenProcess {
     );
 
     this.schemaComponentsMap.clear();
-    // тут заполняется schemaComponentsMap._data
     _.each(swagger.usageSchema.components, (component, componentName) =>
       _.each(component, (rawTypeData, typeName) => {
         this.schemaComponentsMap.createComponent(
@@ -124,7 +123,6 @@ class CodeGenProcess {
     );
 
     /**
-     * Массив компонентов, которые прошли через парсер components.schemas и components.responses
      * @type {Record<string, any>[]}
      */
     const parsedSchemas = componentsToParse.map((schemaComponent) => {

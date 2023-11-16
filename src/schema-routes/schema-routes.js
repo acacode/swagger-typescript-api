@@ -81,12 +81,11 @@ class SchemaRoutes {
   }
 
   /**
-   * Проходит по каждому методу типа "get", "post" и тд, кроме "parameters", "x-*", "$ref" - возможно это кривые схемы. И для каждого метода мержит общие параметры внутрь самого метода. То есть paths[pathname].parameters - это общие параметры. И есть paths[pathname].get, paths[pathname].post. У них есть parameters, в эти parameters мержатся paths[pathname].parameters
    * @param routeInfoByMethodsMap
    * @return {*}
    */
   createRequestsMap = (routeInfoByMethodsMap) => {
-    const parameters = _.get(routeInfoByMethodsMap, 'parameters'); // routeInfoByMethodsMap = { "get": { ... }, "post": { ... } }. Вроде бы всегда undefined
+    const parameters = _.get(routeInfoByMethodsMap, 'parameters');
 
     return _.reduce(
       routeInfoByMethodsMap,
@@ -369,7 +368,7 @@ class SchemaRoutes {
     typeName,
   }) => {
     // TODO: make more flexible pick schema without content type
-    const schema = this.getSchemaFromRequestType(requestInfo); // возвращает первый paths[path][method][responses][statusCode][content][0].schema
+    const schema = this.getSchemaFromRequestType(requestInfo);
     const refTypeInfo =
       this.schemaParserFabric.schemaUtils.getSchemaRefType(requestInfo);
 
@@ -1104,9 +1103,8 @@ class SchemaRoutes {
   attachSchema = ({ usageSchema, parsedSchemas }) => {
     this.config.routeNameDuplicatesMap.clear();
 
-    const pathsEntries = _.entries(usageSchema.paths); // создает массив [[key, value]], т.е. [[pathName, { "get": ..., "post": ... }]]
+    const pathsEntries = _.entries(usageSchema.paths);
 
-    // проходимся по каждому элементу
     _.forEach(pathsEntries, ([rawRouteName, routeInfoByMethodsMap]) => {
       const routeInfosMap = this.createRequestsMap(routeInfoByMethodsMap);
 
