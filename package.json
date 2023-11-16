@@ -66,7 +66,8 @@
     "test:extract-enums": "node tests/spec/extract-enums/test.js",
     "test:discriminator": "node tests/spec/discriminator/test.js",
     "test:sort-types": "node tests/spec/sortTypes/test.js",
-    "test:sort-types-false": "node tests/spec/sortTypes-false/test.js"
+    "test:sort-types-false": "node tests/spec/sortTypes-false/test.js",
+    "test:extract-nested-objects": "node tests/spec/extract-nested-objects/test.js"
   },
   "author": "acacode",
   "license": "MIT",
