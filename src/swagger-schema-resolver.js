@@ -151,7 +151,7 @@ class SwaggerSchemaResolver {
     const usagePaths = _.get(usageSchema, 'paths');
     const originalPaths = _.get(originalSchema, 'paths');
 
-    // walk by routes forEach(object, (value, key/index) => { ... })
+    // walk by routes
     _.each(usagePaths, (usagePathObject, route) => {
       const originalPathObject = _.get(originalPaths, route);
 

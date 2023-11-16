@@ -62,7 +62,7 @@ class SchemaComponentsMap {
   }
 
   /**
-   * @params {...string[]} componentNames #/components/NAME
+   * @params {...string[]} componentNames
    * @returns {SchemaComponent[]}
    */
   filter(...componentNames) {
