@@ -13,7 +13,6 @@ const generateApiForTest = (options) =>
     ...options,
     silent: !process.env.TEST_WITH_DEBUG,
     debug: process.env.TEST_WITH_DEBUG,
-    cleanOutput: false,
     debugExtras: options.debugExtras || ["spec", options.testName],
   });
 
