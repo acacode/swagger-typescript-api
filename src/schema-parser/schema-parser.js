@@ -54,10 +54,6 @@ class SchemaParser {
 
     this.typeName = typeName || null;
     this.schema = schema;
-    // console.debug('Schema Parser constructor [typeName]: ', typeName);
-    // console.debug('Schema Parser constructor [schemaPath]: ', schemaPath);
-    // console.debug('Schema Parser constructor [schema]: ', schema);
-    // console.debug('---');
     this.schemaPath = [...(schemaPath || [])];
   }
 
@@ -120,7 +116,6 @@ class SchemaParser {
       return schemaParser.parse();
     },
     [SCHEMA_TYPES.OBJECT]: (schema, typeName) => {
-      // console.debug(typeName, schema.properties);
       const SchemaParser =
         this.config.schemaParsers.object || ObjectSchemaParser;
       const schemaParser = new SchemaParser(
@@ -251,8 +246,6 @@ class SchemaParser {
         this.schema,
         this.typeName,
       );
-      // console.debug(this.schema);
-      // console.debug('---');
       this.schema.$parsed =
         this.config.hooks.onParseSchema(this.schema, parsedSchema) ||
         parsedSchema;
@@ -278,7 +271,6 @@ class SchemaParser {
       parsedSchema,
       'inline',
     );
-    // console.debug('formattedSchema: ', formattedSchema);
     return formattedSchema.content;
   };
 
