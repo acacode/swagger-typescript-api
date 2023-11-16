@@ -191,10 +191,10 @@ class SchemaUtils {
     } else {
       return this.config.componentTypeNameResolver.resolve(
         [
-          ...(prefixes || ['']).map((prefix) =>
+          ...(prefixes || []).map((prefix) =>
             pascalCase(`${prefix} ${typeName}`),
           ),
-          ...(suffixes || ['']).map((suffix) =>
+          ...(suffixes || []).map((suffix) =>
             pascalCase(`${typeName} ${suffix}`),
           ),
         ],

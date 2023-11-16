@@ -41,10 +41,9 @@ class ObjectSchemaParser extends MonoSchemaParser {
   extractNestedObjects = () => {
     const pathTypeName = this.buildTypeNameFromPath();
     if (pathTypeName) {
-      const generatedTypeName = this.schemaUtils.resolveTypeName(
-        pathTypeName,
-        {},
-      );
+      const generatedTypeName = this.schemaUtils.resolveTypeName(pathTypeName, {
+        suffixes: [''],
+      });
       const customComponent = this.schemaComponentsMap.createComponent(
         this.schemaComponentsMap.createRef([
           'components',

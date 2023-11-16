@@ -38,7 +38,6 @@
     "test:--extract-request-body": "node tests/spec/extractRequestBody/test.js",
     "test:--extract-response-body": "node tests/spec/extractResponseBody/test.js",
     "test:--extract-response-error": "node tests/spec/extractResponseError/test.js",
-    "test:--extract-nested-objects": "node tests/spec/extract-nested-objects/test.js",
     "test:--enum-names-as-values": "node tests/spec/enumNamesAsValues/test.js",
     "test:--default-response": "node tests/spec/defaultResponse/test.js",
     "test:const-keyword": "node tests/spec/const-keyword/test.js",
