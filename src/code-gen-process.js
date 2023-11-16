@@ -102,6 +102,7 @@ class CodeGenProcess {
     );
 
     this.schemaComponentsMap.clear();
+    // тут заполняется schemaComponentsMap._data
     _.each(swagger.usageSchema.components, (component, componentName) =>
       _.each(component, (rawTypeData, typeName) => {
         this.schemaComponentsMap.createComponent(
@@ -122,6 +123,10 @@ class CodeGenProcess {
       _.compact(['schemas', this.config.extractResponses && 'responses']),
     );
 
+    /**
+     * Массив компонентов, которые прошли через парсер components.schemas и components.responses
+     * @type {Record<string, any>[]}
+     */
     const parsedSchemas = componentsToParse.map((schemaComponent) => {
       const parsed = this.schemaParserFabric.parseSchema(
         schemaComponent.rawTypeData,

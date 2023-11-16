@@ -62,7 +62,6 @@ class CodeGenConfig {
   componentsMap = {};
   /** flag for catching convertion from swagger 2.0 */
   convertedFromSwagger2 = false;
-  convertObjectsWithoutRef = false;
 
   /** url index from paths used for merging into modules */
   moduleNameIndex = 0;
@@ -77,6 +76,7 @@ class CodeGenConfig {
   extractResponseError = false;
   extractResponses = false;
   extractEnums = false;
+  extractNestedObjects = false;
   fileNames = {
     dataContracts: 'data-contracts',
     routeTypes: 'route-types',

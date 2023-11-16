@@ -98,7 +98,7 @@ interface GenerateApiParamsBase {
   /**
    * extract properties with type object as separated interface, which you can import
    */
-  convertObjectsWithoutRef?: boolean;
+  extractNestedObjects?: boolean;
   /**
    * extract request params to data contract (Also combine path params and query params into one object)
    */
@@ -558,7 +558,7 @@ export interface GenerateApiConfiguration {
     originalSchema: object;
     componentsMap: Record<string, SchemaComponent>;
     convertedFromSwagger2: boolean;
-    convertObjectsWithoutRef: boolean;
+    extractNestedObjects: boolean;
     moduleNameIndex: number;
     moduleNameFirstTag: boolean;
     extraTemplates: { name: string; path: string }[];

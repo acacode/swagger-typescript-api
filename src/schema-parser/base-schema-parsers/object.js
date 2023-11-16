@@ -6,6 +6,11 @@ class ObjectSchemaParser extends MonoSchemaParser {
   parse() {
     const contentProperties = this.getObjectSchemaContent(this.schema);
 
+    if (this.areNestedShouldBeExtracted(contentProperties)) {
+      const parseThread = this.extractNestedObjects();
+      if (parseThread) return parseThread;
+    }
+
     return {
       ...(_.isObject(this.schema) ? this.schema : {}),
       $schemaPath: this.schemaPath.slice(),
@@ -24,6 +29,35 @@ class ObjectSchemaParser extends MonoSchemaParser {
       content: contentProperties,
     };
   }
+
+  areNestedShouldBeExtracted = (contentProperties) => {
+    return (
+      this.config.extractNestedObjects &&
+      !this.typeName &&
+      _.compact(contentProperties).length
+    );
+  };
+
+  extractNestedObjects = () => {
+    const pathTypeName = this.buildTypeNameFromPath();
+    if (pathTypeName) {
+      const generatedTypeName = this.schemaUtils.resolveTypeName(
+        pathTypeName,
+        {},
+      );
+      const customComponent = this.schemaComponentsMap.createComponent(
+        this.schemaComponentsMap.createRef([
+          'components',
+          'schemas',
+          generatedTypeName,
+        ]),
+        {
+          ...this.schema,
+        },
+      );
+      return this.schemaParserFabric.parseSchema(customComponent);
+    }
+  };
 
   getObjectSchemaContent = (schema) => {
     const { properties, additionalProperties } = schema || {};

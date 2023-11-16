@@ -96,7 +96,7 @@ class SchemaParserFabric {
    */
   parseSchema = (schema, typeName = null, schemaPath = []) => {
     const schemaParser = this.createSchemaParser({
-      schema,
+      schema, // схема в данном случае конкретный объект, например из #/components/schemas/User
       typeName,
       schemaPath,
     });

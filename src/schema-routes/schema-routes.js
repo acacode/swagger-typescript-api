@@ -80,9 +80,14 @@ class SchemaRoutes {
     ]);
   }
 
+  /**
+   * Проходит по каждому методу типа "get", "post" и тд, кроме "parameters", "x-*", "$ref" - возможно это кривые схемы. И для каждого метода мержит общие параметры внутрь самого метода. То есть paths[pathname].parameters - это общие параметры. И есть paths[pathname].get, paths[pathname].post. У них есть parameters, в эти parameters мержатся paths[pathname].parameters
+   * @param routeInfoByMethodsMap
+   * @return {*}
+   */
   createRequestsMap = (routeInfoByMethodsMap) => {
-    const parameters = _.get(routeInfoByMethodsMap, 'parameters'); // routeInfoByMethodsMap = { "get": { ... }, "post": { ... } }
-    console.debug(parameters);
+    const parameters = _.get(routeInfoByMethodsMap, 'parameters'); // routeInfoByMethodsMap = { "get": { ... }, "post": { ... } }. Вроде бы всегда undefined
+
     return _.reduce(
       routeInfoByMethodsMap,
       (acc, requestInfo, method) => {

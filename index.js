@@ -100,7 +100,7 @@ const program = cli({
       flags: '--convert-objects-without-ref',
       description:
         'extract properties with type object as separated interface, which you can import',
-      default: codeGenBaseConfig.convertObjectsWithoutRef,
+      default: codeGenBaseConfig.extractNestedObjects,
       internal: { formatter: Boolean },
     },
     {

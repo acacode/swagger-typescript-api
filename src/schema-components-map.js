@@ -68,10 +68,12 @@ class SchemaComponentsMap {
   }
 
   /**
-   * @params {...string[]} componentNames
+   * Фильтрует компоненты из this._data, возвращает только те, что начинаются с одного из переданных компонентов
+   * @params {...string[]} componentNames - имена компонентов #/components/ИМЯ
    * @returns {SchemaComponent[]}
    */
   filter(...componentNames) {
+    // ['schemas']
     return _.filter(this._data, (it) =>
       componentNames.some((componentName) =>
         _.startsWith(it.$ref, `#/components/${componentName}`),

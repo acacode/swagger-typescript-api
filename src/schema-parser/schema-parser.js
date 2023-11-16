@@ -54,6 +54,10 @@ class SchemaParser {
 
     this.typeName = typeName || null;
     this.schema = schema;
+    // console.debug('Schema Parser constructor [typeName]: ', typeName);
+    // console.debug('Schema Parser constructor [schemaPath]: ', schemaPath);
+    // console.debug('Schema Parser constructor [schema]: ', schema);
+    // console.debug('---');
     this.schemaPath = [...(schemaPath || [])];
   }
 
@@ -116,10 +120,6 @@ class SchemaParser {
       return schemaParser.parse();
     },
     [SCHEMA_TYPES.OBJECT]: (schema, typeName) => {
-      // если null, то вложенные, без ref
-      if (typeName === null) {
-        typeName = 'Random' + Math.round(Math.random() * 1000);
-      }
       // console.debug(typeName, schema.properties);
       const SchemaParser =
         this.config.schemaParsers.object || ObjectSchemaParser;
@@ -180,11 +180,12 @@ class SchemaParser {
    * @return {Record<string, any>}
    */
   parseSchema = () => {
-    if (!this.schema)
+    if (!this.schema) {
       return this._baseSchemaParsers[SCHEMA_TYPES.PRIMITIVE](
         null,
         this.typeName,
       );
+    }
 
     let schemaType = null;
     let parsedSchema = null;
@@ -250,6 +251,8 @@ class SchemaParser {
         this.schema,
         this.typeName,
       );
+      // console.debug(this.schema);
+      // console.debug('---');
       this.schema.$parsed =
         this.config.hooks.onParseSchema(this.schema, parsedSchema) ||
         parsedSchema;
