@@ -112,7 +112,7 @@ export class HttpClient<SecurityDataType = unknown> {
             const isFileType = formItem instanceof Blob || formItem instanceof File;
             formData.append(
                 key,
-                isFileType ? formItem : JSON.stringify(formItem)
+                isFileType ? formItem : typeof formItem === "object" && formItem !==null ? JSON.stringify(formItem): String(formItem)
                 );
             }
             return formData;
