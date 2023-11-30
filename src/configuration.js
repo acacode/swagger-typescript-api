@@ -154,6 +154,7 @@ class CodeGenConfig {
   extraTemplates = [];
   input = '';
   modular = false;
+  camelcase = false;
   output = '';
   url = '';
   cleanOutput = false;
