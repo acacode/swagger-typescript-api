@@ -85,6 +85,7 @@ Options:
   --custom-config <string>      custom config: primitiveTypeConstructs, hooks, ...  (default: "")
   --extract-enums               extract all enums from inline interface\type content to typescript enum construction (default: false)
   -h, --help                    display help for command
+  --camelcase                   generate properties key from snake_case to camelCase (default: false)
 
 Commands:
   generate-templates              Generate ".ejs" templates needed for generate api
