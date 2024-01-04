@@ -188,8 +188,9 @@ generateApi({
   }
 })
   .then(({ files, configuration }) => {
-    files.forEach(({ content, name }) => {
-      fs.writeFile(path, content);
+    files.forEach(({ fileContent, fileName, fileExtension }) => {
+      const path = `${PATH_TO_OUTPUT_DIR}/${fileName}${fileExtension}`;
+      fs.writeFile(path, fileContent);
     });
   })
   .catch(e => console.error(e))
