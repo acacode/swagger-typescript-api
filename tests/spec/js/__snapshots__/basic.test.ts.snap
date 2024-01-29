@@ -56,6 +56,9 @@ export class HttpClient {
     }
   }
   createFormData(input) {
+    if (input instanceof FormData) {
+      return input;
+    }
     return Object.keys(input || {}).reduce((formData, key) => {
       const property = input[key];
       const propertyContent = property instanceof Array ? property : [property];
