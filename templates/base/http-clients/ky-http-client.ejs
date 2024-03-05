@@ -99,14 +99,24 @@ export class HttpClient<SecurityDataType = unknown> {
           }
         }
 
+        let headers: Headers | Record<string, string | undefined> | undefined;
+        if (options.headers instanceof Headers) {
+          headers = new Headers(options.headers);
+          if (type && type !== ContentType.FormData) {
+            headers.set('Content-Type', type);
+          }
+        } else {
+          headers = { ...options.headers } as Record<string, string | undefined>;
+          if (type && type !== ContentType.FormData) {
+            headers['Content-Type'] = type;
+          }
+        }
+
         const request = this.ky(path, {
-            ...options,
-            headers: {
-                ...(options.headers || {}),
-                ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
-            },
-            searchParams: query,
-            body: body as any,
+          ...options,
+          headers,
+          searchParams: query,
+          body: body as any,
         });
 
 <% if (config.unwrapResponseData) { %>
