@@ -79,7 +79,7 @@ export class HttpClient<SecurityDataType = unknown> {
     private format?: ResponseType;
 
     constructor({ securityWorker, secure, format, ...options }: ApiConfig<SecurityDataType> = {}) {
-        this.instance = axios.create({ ...options, prefixUrl: options.prefixUrl || "<%~ apiConfig.baseUrl %>" })
+        this.instance = ky.create({ ...options, prefixUrl: options.prefixUrl || "<%~ apiConfig.baseUrl %>" })
         this.secure = secure;
         this.format = format;
         this.securityWorker = securityWorker;
