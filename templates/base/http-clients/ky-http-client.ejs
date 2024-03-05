@@ -42,8 +42,6 @@ export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
 export interface FullRequestParams extends Omit<KyOptions, "json" | "body"> {
-  /** set parameter to `true` for call `securityWorker` for this request */
-  secure?: boolean;
   /** request path */
   path: string;
   /** content type of request body */
@@ -59,8 +57,6 @@ export interface FullRequestParams extends Omit<KyOptions, "json" | "body"> {
 export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
 export interface ApiConfig<SecurityDataType = unknown> extends Omit<KyOptions, "data" | "cancelToken"> {
-  securityWorker?: (securityData: SecurityDataType | null) => Promise<KyOptions | void> | KyOptions | void;
-  secure?: boolean;
   format?: ResponseType;
 }
 
@@ -73,31 +69,11 @@ export enum ContentType {
 
 export class HttpClient<SecurityDataType = unknown> {
     public instance: KyInstance;
-    private securityData: SecurityDataType | null = null;
-    private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
-    private secure?: boolean;
     private format?: ResponseType;
 
-    constructor({ securityWorker, secure, format, ...options }: ApiConfig<SecurityDataType> = {}) {
+    constructor({ format, ...options }: ApiConfig<SecurityDataType> = {}) {
         this.instance = ky.create({ ...options, prefixUrl: options.prefixUrl || "<%~ apiConfig.baseUrl %>" })
-        this.secure = secure;
         this.format = format;
-        this.securityWorker = securityWorker;
-    }
-
-    public setSecurityData = (data: SecurityDataType | null) => {
-        this.securityData = data
-    }
-
-    protected mergeRequestParams(params1: KyOptions, params2?: KyOptions): KyOptions {
-      return {
-        ...params1,
-        ...params2,
-        headers: {
-          ...(params1.headers),
-          ...(params2 && params2.headers),
-        },
-      };
     }
 
     protected stringifyFormItem(formItem: unknown) {
@@ -126,20 +102,17 @@ export class HttpClient<SecurityDataType = unknown> {
     }
 
     public request = async <T = any, _E = any>({
-        secure,
         path,
         type,
         query,
         format,
         body,
-        ...params
+        ...requestParams
 <% if (config.unwrapResponseData) { %>
     }: FullRequestParams): Promise<T> => {
 <% } else { %>
     }: FullRequestParams): ResponsePromise<T> => {
 <% } %>
-        const secureParams = ((typeof secure === 'boolean' ? secure : this.secure) && this.securityWorker && (await this.securityWorker(this.securityData))) || {};
-        const requestParams = this.mergeRequestParams(params, secureParams);
         const responseFormat = (format || this.format) || undefined;
 
         if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
