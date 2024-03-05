@@ -106,7 +106,7 @@ export class HttpClient<SecurityDataType = unknown> {
                 ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
             },
             searchParams: query,
-            body,
+            body: body as any,
         });
 
 <% if (config.unwrapResponseData) { %>
