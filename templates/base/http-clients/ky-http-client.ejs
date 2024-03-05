@@ -5,9 +5,38 @@ const { apiConfig, generateResponses, config } = it;
 import type { KyInstance, Options as KyOptions } from "ky";
 import ky from "ky";
 
-export type KyResponse<Data> = Response & {
+type KyResponse<Data> = Response & {
   json<T extends Data = Data>(): Promise<T>;
 }
+
+export type ResponsePromise<Data> = {
+    arrayBuffer: () => Promise<ArrayBuffer>;
+    blob: () => Promise<Blob>;
+    formData: () => Promise<FormData>;
+    /**
+    Get the response body as JSON.
+
+    @example
+    ```
+    import ky from 'ky';
+
+    const json = await ky(…).json();
+    ```
+
+    @example
+    ```
+    import ky from 'ky';
+
+    interface Result {
+        value: number;
+    }
+
+    const result = await ky(…).json<Result>();
+    ```
+    */
+    json<T extends Data = Data>(): Promise<T>;
+    text: () => Promise<string>;
+} & Promise<KyResponse<Data>>;
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -107,7 +136,7 @@ export class HttpClient<SecurityDataType = unknown> {
 <% if (config.unwrapResponseData) { %>
     }: FullRequestParams): Promise<T> => {
 <% } else { %>
-    }: FullRequestParams): KyResponse<T> => {
+    }: FullRequestParams): ResponsePromise<T> => {
 <% } %>
         const secureParams = ((typeof secure === 'boolean' ? secure : this.secure) && this.securityWorker && (await this.securityWorker(this.securityData))) || {};
         const requestParams = this.mergeRequestParams(params, secureParams);
