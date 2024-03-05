@@ -112,7 +112,7 @@ export class HttpClient<SecurityDataType = unknown> {
           }
         }
 
-        const request = this.ky(path, {
+        const request = this.ky(path.replace(/^\//, ''), {
           ...options,
           headers,
           searchParams: query,
