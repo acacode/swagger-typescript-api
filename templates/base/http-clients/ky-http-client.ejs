@@ -85,7 +85,7 @@ export class HttpClient<SecurityDataType = unknown> {
         query,
         format,
         body,
-        ...requestParams
+        ...options
 <% if (config.unwrapResponseData) { %>
     }: FullRequestParams): Promise<T> => {
 <% } else { %>
@@ -100,9 +100,9 @@ export class HttpClient<SecurityDataType = unknown> {
         }
 
         const request = this.ky(path, {
-            ...requestParams,
+            ...options,
             headers: {
-                ...(requestParams.headers || {}),
+                ...(options.headers || {}),
                 ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
             },
             searchParams: query,
