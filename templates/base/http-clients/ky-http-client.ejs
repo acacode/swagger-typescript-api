@@ -13,27 +13,6 @@ export type ResponsePromise<Data> = {
     arrayBuffer: () => Promise<ArrayBuffer>;
     blob: () => Promise<Blob>;
     formData: () => Promise<FormData>;
-    /**
-    Get the response body as JSON.
-
-    @example
-    ```
-    import ky from 'ky';
-
-    const json = await ky(…).json();
-    ```
-
-    @example
-    ```
-    import ky from 'ky';
-
-    interface Result {
-        value: number;
-    }
-
-    const result = await ky(…).json<Result>();
-    ```
-    */
     json<T extends Data = Data>(): Promise<T>;
     text: () => Promise<string>;
 } & Promise<KyResponse<Data>>;
