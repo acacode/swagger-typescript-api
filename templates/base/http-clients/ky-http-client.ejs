@@ -67,11 +67,11 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-    public instance: KyInstance;
+    public ky: KyInstance;
     private format?: ResponseType;
 
     constructor({ format, ...options }: ApiConfig<SecurityDataType> = {}) {
-        this.instance = ky.create({ ...options, prefixUrl: options.prefixUrl || "<%~ apiConfig.baseUrl %>" })
+        this.ky = ky.create({ ...options, prefixUrl: options.prefixUrl || "<%~ apiConfig.baseUrl %>" })
         this.format = format;
     }
 
@@ -100,7 +100,7 @@ export class HttpClient<SecurityDataType = unknown> {
       }, new FormData());
     }
 
-    public request = async <T = any, _E = any>({
+    public request = <T = any, _E = any>({
         path,
         type,
         query,
@@ -112,30 +112,37 @@ export class HttpClient<SecurityDataType = unknown> {
 <% } else { %>
     }: FullRequestParams): ResponsePromise<T> => {
 <% } %>
-        const responseFormat = (format || this.format) || undefined;
-
-        if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
-          body = this.createFormData(body as Record<string, unknown>);
+        if (body) {
+          if (type === ContentType.FormData) {
+            body = typeof body === "object" ? this.createFormData(body as Record<string, unknown>) : body;
+          } else if (type === ContentType.Text) {
+            body = typeof body !== "string" ? JSON.stringify(body) : body;
+          }
         }
 
-        if (type === ContentType.Text && body && body !== null && typeof body !== "string") {
-          body = JSON.stringify(body);
-        }
-
-        return this.instance.request({
+        const request = this.ky(path, {
             ...requestParams,
             headers: {
                 ...(requestParams.headers || {}),
                 ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
             },
-            params: query,
-            responseType: responseFormat,
-            data: body,
-            url: path,
-<% if (config.unwrapResponseData) { %>
-        }).json();
-<% } else { %>
+            searchParams: query,
+            body,
         });
+
+<% if (config.unwrapResponseData) { %>
+        const responseFormat = (format || this.format) || undefined;
+        return responseFormat === "json"
+          ? request.json()
+          : responseFormat === "arrayBuffer"
+          ? request.arrayBuffer()
+          : responseFormat === "blob"
+          ? request.blob()
+          : responseFormat === "formData"
+          ? request.formData()
+          : request.text();
+<% } else { %>
+        return request;
 <% } %>
     };
 }
