@@ -28,6 +28,8 @@ const descriptionLines = _.compact([
 
 <% if (config.httpClientType === config.constants.HTTP_CLIENT.AXIOS) { %> import type { AxiosRequestConfig, AxiosResponse } from "axios"; <% } %>
 
+<% if (config.httpClientType === config.constants.HTTP_CLIENT.KY) { %> import type { KyResponse } from "ky"; <% } %>
+
 <% if (descriptionLines.length) { %>
 /**
 <% descriptionLines.forEach((descriptionLine) => { %>
