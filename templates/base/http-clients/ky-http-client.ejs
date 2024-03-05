@@ -2,7 +2,7 @@
 const { apiConfig, generateResponses, config } = it;
 %>
 
-import type { KyInstance, Options as KyOptions } from "ky";
+import type { KyInstance, Options as KyOptions, SearchParamsOption } from "ky";
 import ky from "ky";
 
 type KyResponse<Data> = Response & {
@@ -38,16 +38,15 @@ export type ResponsePromise<Data> = {
     text: () => Promise<string>;
 } & Promise<KyResponse<Data>>;
 
-export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
-export interface FullRequestParams extends Omit<KyOptions, "json" | "body"> {
+export interface FullRequestParams extends Omit<KyOptions, "json" | "body" | "searchParams"> {
   /** request path */
   path: string;
   /** content type of request body */
   type?: ContentType;
   /** query params */
-  query?: QueryParamsType;
+  query?: SearchParamsOption;
   /** format of response (i.e. response.json() -> format: "json") */
   format?: ResponseFormat;
   /** request body */
