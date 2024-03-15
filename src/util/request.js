@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const https = require('https');
-const fetch = require('node-fetch-h2');
+const fetch = require('node-fetch');
 
 class Request {
   /**
