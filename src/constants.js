@@ -27,6 +27,7 @@ const SCHEMA_TYPES = {
 
 const HTTP_CLIENT = {
   FETCH: 'fetch',
+  OFETCH: 'ofetch',
   AXIOS: 'axios',
 };
 
