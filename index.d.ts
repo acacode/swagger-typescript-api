@@ -1,6 +1,6 @@
 import {MonoSchemaParser} from "./src/schema-parser/mono-schema-parser";
 
-type HttpClientType = "axios" | "fetch";
+type HttpClientType = "axios" | "fetch" | "ofetch";
 
 interface GenerateApiParamsBase {
   /**
