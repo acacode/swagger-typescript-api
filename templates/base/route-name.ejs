@@ -24,10 +24,10 @@ const methodAliases = {
 
 const createCustomOperationId = (method, route, moduleName) => {
   const hasPathInserts = /\{(\w){1,}\}/g.test(route);
-  const splitedRouteBySlash = _.compact(_.replace(route, /\{(\w){1,}\}/g, "").split("/"));
-  const routeParts = (splitedRouteBySlash.length > 1
-    ? splitedRouteBySlash.splice(1)
-    : splitedRouteBySlash
+  const splittedRouteBySlash = _.compact(_.replace(route, /\{(\w){1,}\}/g, "").split("/"));
+  const routeParts = (splittedRouteBySlash.length > 1
+    ? splittedRouteBySlash.splice(1)
+    : splittedRouteBySlash
   ).join("_");
   return routeParts.length > 3 && methodAliases[method]
     ? methodAliases[method](routeParts, hasPathInserts)
