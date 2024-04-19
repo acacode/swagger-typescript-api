@@ -241,7 +241,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     reproFunc: (
       truckId: string,
       query: {
-        queryId: string;
+        "query.id": string;
       },
       params: RequestParams = {},
     ) =>

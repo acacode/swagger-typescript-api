@@ -512,21 +512,13 @@ export class SchemaRoutes {
       (objectSchema, schemaPart) => {
         if (!schemaPart || !schemaPart.name) return objectSchema;
 
-        let usageName = `${schemaPart.name}`;
-
-        if (usageName.includes(".")) {
-          usageName = lodash.camelCase(usageName);
-        }
-
         return {
           ...objectSchema,
           properties: {
             ...objectSchema.properties,
-            [usageName]: {
+            [schemaPart.name]: {
               ...schemaPart,
               ...(schemaPart.schema || {}),
-              $origName: schemaPart.name,
-              name: usageName,
             },
           },
         };
