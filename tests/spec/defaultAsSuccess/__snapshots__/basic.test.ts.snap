@@ -466,6 +466,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         format: "json",
         ...params,
       }),
+
+    /**
+     * @description Get public details of an Authentiq ID.
+     *
+     * @tags key, get
+     * @name UnderlinesDetail
+     * @request GET:/i_key/underlines/{i__UK}
+     */
+    underlinesDetail: (iUk: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** base64safe encoded public signing key */
+          sub?: string;
+        },
+        Error
+      >({
+        path: `/i_key/underlines/${iUk}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
   };
   login = {
     /**
