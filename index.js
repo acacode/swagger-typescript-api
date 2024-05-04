@@ -163,6 +163,11 @@ const program = cli({
       default: codeGenBaseConfig.httpClientType === HTTP_CLIENT.AXIOS,
     },
     {
+      flags: 'ofetch',
+      description: 'generate ofetch http client',
+      default: codeGenBaseConfig.httpClientType === HTTP_CLIENT.OFETCH,
+    },
+    {
       flags: '--unwrap-response-data',
       description: 'unwrap the data item from the response',
       default: codeGenBaseConfig.unwrapResponseData,
@@ -342,7 +347,6 @@ const main = async () => {
   } catch (e) {
     console.error(e);
     process.exit(1);
-    return;
   }
   process.exit(0);
 };
