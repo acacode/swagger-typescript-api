@@ -6,7 +6,7 @@
 // License text available at https://opensource.org/licenses/MIT
 // Repository https://github.com/acacode/swagger-typescript-api
 
-const { TemplatesGenProcess } = require('./templates-gen-process');
+const { TemplatesGenProcess } = require("./templates-gen-process");
 
 module.exports = {
   generateTemplates: async (config) => {

@@ -1,32 +1,32 @@
-const { SwaggerSchemaResolver } = require('./swagger-schema-resolver.js');
-const { SchemaComponentsMap } = require('./schema-components-map.js');
-const { NameResolver } = require('./util/name-resolver');
-const { Logger } = require('./util/logger.js');
-const { TypeNameFormatter } = require('./type-name-formatter.js');
-const _ = require('lodash');
-const { SchemaParserFabric } = require('./schema-parser/schema-parser-fabric');
-const { SchemaRoutes } = require('./schema-routes/schema-routes.js');
-const { CodeGenConfig } = require('./configuration.js');
-const { SchemaWalker } = require('./schema-walker');
-const { FileSystem } = require('./util/file-system');
-const { TemplatesWorker } = require('./templates-worker');
-const { JavascriptTranslator } = require('./translators/javascript');
-const ts = require('typescript');
-const { CodeFormatter } = require('./code-formatter');
-const { pascalCase } = require('./util/pascal-case');
-const { internalCase } = require('./util/internal-case');
-const { sortByProperty } = require('./util/sort-by-property');
+const { SwaggerSchemaResolver } = require("./swagger-schema-resolver.js");
+const { SchemaComponentsMap } = require("./schema-components-map.js");
+const { NameResolver } = require("./util/name-resolver");
+const { Logger } = require("./util/logger.js");
+const { TypeNameFormatter } = require("./type-name-formatter.js");
+const _ = require("lodash");
+const { SchemaParserFabric } = require("./schema-parser/schema-parser-fabric");
+const { SchemaRoutes } = require("./schema-routes/schema-routes.js");
+const { CodeGenConfig } = require("./configuration.js");
+const { SchemaWalker } = require("./schema-walker");
+const { FileSystem } = require("./util/file-system");
+const { TemplatesWorker } = require("./templates-worker");
+const { JavascriptTranslator } = require("./translators/javascript");
+const ts = require("typescript");
+const { CodeFormatter } = require("./code-formatter");
+const { pascalCase } = require("./util/pascal-case");
+const { internalCase } = require("./util/internal-case");
+const { sortByProperty } = require("./util/sort-by-property");
 
 const PATCHABLE_INSTANCES = [
-  'schemaWalker',
-  'swaggerSchemaResolver',
-  'schemaComponentsMap',
-  'typeNameFormatter',
-  'templatesWorker',
-  'codeFormatter',
-  'schemaParserFabric',
-  'schemaRoutes',
-  'javascriptTranslator',
+  "schemaWalker",
+  "swaggerSchemaResolver",
+  "schemaComponentsMap",
+  "typeNameFormatter",
+  "templatesWorker",
+  "codeFormatter",
+  "schemaParserFabric",
+  "schemaRoutes",
+  "javascriptTranslator",
 ];
 
 class CodeGenProcess {
@@ -92,10 +92,10 @@ class CodeGenProcess {
       originalSchema: swagger.originalSchema,
     });
 
-    this.schemaWalker.addSchema('$usage', swagger.usageSchema);
-    this.schemaWalker.addSchema('$original', swagger.originalSchema);
+    this.schemaWalker.addSchema("$usage", swagger.usageSchema);
+    this.schemaWalker.addSchema("$original", swagger.originalSchema);
 
-    this.logger.event('start generating your typescript api');
+    this.logger.event("start generating your typescript api");
 
     this.config.update(
       this.config.hooks.onInit(this.config, this) || this.config,
@@ -107,7 +107,7 @@ class CodeGenProcess {
       _.each(component, (rawTypeData, typeName) => {
         this.schemaComponentsMap.createComponent(
           this.schemaComponentsMap.createRef([
-            'components',
+            "components",
             componentName,
             typeName,
           ]),
@@ -120,7 +120,7 @@ class CodeGenProcess {
      * @type {SchemaComponent[]}
      */
     const componentsToParse = this.schemaComponentsMap.filter(
-      _.compact(['schemas', this.config.extractResponses && 'responses']),
+      _.compact(["schemas", this.config.extractResponses && "responses"]),
     );
 
     const parsedSchemas = componentsToParse.map((schemaComponent) => {
@@ -186,7 +186,7 @@ class CodeGenProcess {
         });
 
         this.logger.success(
-          `api file`,
+          "api file",
           `"${file.fileName}${file.fileExtension}"`,
           `created in ${this.config.output}`,
         );
@@ -225,7 +225,7 @@ class CodeGenProcess {
         formatters: this.schemaParserFabric.schemaFormatters.base,
         formatModelName: this.typeNameFormatter.format,
         fmtToJSDocLine: function fmtToJSDocLine(line, { eol = true }) {
-          return ` * ${line}${eol ? '\n' : ''}`;
+          return ` * ${line}${eol ? "\n" : ""}`;
         },
         NameResolver: NameResolver,
         _,
@@ -240,8 +240,8 @@ class CodeGenProcess {
     let modelTypes = [];
 
     const modelTypeComponents = _.compact([
-      'schemas',
-      this.config.extractResponses && 'responses',
+      "schemas",
+      this.config.extractResponses && "responses",
     ]);
 
     const getSchemaComponentsCount = () =>
@@ -266,7 +266,7 @@ class CodeGenProcess {
     }
 
     if (this.config.sortTypes) {
-      return modelTypes.sort(sortByProperty('name'));
+      return modelTypes.sort(sortByProperty("name"));
     }
 
     return modelTypes;
@@ -487,7 +487,7 @@ class CodeGenProcess {
             templatesToRender.api,
             configuration,
           ),
-      ]).join('\n'),
+      ]).join("\n"),
     );
   };
 
@@ -503,7 +503,7 @@ class CodeGenProcess {
     const fileExtension = ts.Extension.Ts;
 
     if (configuration.translateToJavaScript) {
-      this.logger.debug('using js translator for', fileName);
+      this.logger.debug("using js translator for", fileName);
       return await this.javascriptTranslator.translate({
         fileName: fileName,
         fileExtension: fileExtension,
@@ -512,7 +512,7 @@ class CodeGenProcess {
     }
 
     if (configuration.customTranslator) {
-      this.logger.debug('using custom translator for', fileName);
+      this.logger.debug("using custom translator for", fileName);
       return await configuration.customTranslator.translate({
         fileName: fileName,
         fileExtension: fileExtension,
@@ -520,7 +520,7 @@ class CodeGenProcess {
       });
     }
 
-    this.logger.debug('generating output for', `${fileName}${fileExtension}`);
+    this.logger.debug("generating output for", `${fileName}${fileExtension}`);
 
     return [
       {
@@ -533,8 +533,8 @@ class CodeGenProcess {
 
   createApiConfig = (swaggerSchema) => {
     const { info, servers, host, basePath, externalDocs, tags } = swaggerSchema;
-    const server = (servers && servers[0]) || { url: '' };
-    const { title = 'No title', version } = info || {};
+    const server = (servers && servers[0]) || { url: "" };
+    const { title = "No title", version } = info || {};
     const { url: serverUrl } = server;
 
     return {
@@ -544,8 +544,8 @@ class CodeGenProcess {
       host,
       externalDocs: _.merge(
         {
-          url: '',
-          description: '',
+          url: "",
+          description: "",
         },
         externalDocs,
       ),

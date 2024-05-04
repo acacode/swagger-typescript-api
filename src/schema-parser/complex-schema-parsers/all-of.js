@@ -1,5 +1,5 @@
-const { MonoSchemaParser } = require('../mono-schema-parser');
-const _ = require('lodash');
+const { MonoSchemaParser } = require("../mono-schema-parser");
+const _ = require("lodash");
 
 // T1 & T2
 class AllOfSchemaParser extends MonoSchemaParser {

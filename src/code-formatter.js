@@ -1,6 +1,6 @@
-const _ = require('lodash');
-const ts = require('typescript');
-const prettier = require('prettier');
+const _ = require("lodash");
+const ts = require("typescript");
+const prettier = require("prettier");
 
 class CodeFormatter {
   /**
@@ -13,13 +13,13 @@ class CodeFormatter {
   }
 
   removeUnusedImports = (content) => {
-    const tempFileName = 'file.ts';
+    const tempFileName = "file.ts";
 
     const host = new TsLanguageServiceHost(tempFileName, content);
     const languageService = ts.createLanguageService(host);
 
     const fileTextChanges = languageService.organizeImports(
-      { type: 'file', fileName: tempFileName },
+      { type: "file", fileName: tempFileName },
       { newLineCharacter: ts.sys.newLine },
     )[0];
 
@@ -79,7 +79,7 @@ class TsLanguageServiceHost {
   }
 
   getNewLine() {
-    return 'newLine' in ts.sys ? ts.sys.newLine : '\n';
+    return "newLine" in ts.sys ? ts.sys.newLine : "\n";
   }
   getScriptFileNames() {
     return [this.fileName];

@@ -1,38 +1,38 @@
-# next release  
+# next release
 
-## 13.0.3  
+## 13.0.3
 
-fix: problem with type `any` as base type of discriminator schema (cases when schema without discriminator is empty)  
+fix: problem with type `any` as base type of discriminator schema (cases when schema without discriminator is empty)
 
-## 13.0.2  
+## 13.0.2
 
 fix: problem with incorrect settings type suffix for internal discriminator mappings
 
-## 13.0.1  
+## 13.0.1
 
-feat: `const` keyword OpenAPI 3.0 draft  
-fix: problem with using `anyOf`  
+feat: `const` keyword OpenAPI 3.0 draft
+fix: problem with using `anyOf`
 feat: `--extract-responses` (nodejs: `extractResponses`) option to extract all schemas from `/components/responses`
-fix: discriminator and mapping with invalid discriminator property name (#551)  
+fix: discriminator and mapping with invalid discriminator property name (#551)
 fix: problem with incorrect resolving type name of discriminator mapping types data contracts
 
-## 13.0.0  
+## 13.0.0
 
-BREAKING_CHANGE: disable support NodeJS 14.x  
-BREAKING_CHANGE: change swagger-typescript-api NodeJS "generateApi" function return type  
-BREAKING_CHANGE: remove `rawModelTypes` from output api configuration  
-feat: `--custom-config <string>` option (#503)  
-feat: `--sort-routes` option, ability to sort routes;  
-fix: critical bugs based with extract types and enums  
-fix: sort types option (sort was not correctly work with nested or extracted types)  
-fix: problems based with extracting enums;  
-fix: nullable enum with integer values (#543)   
-fix: generation enum numbers as strings one (#534)  
-chore: refactoring the axios imports  
-fix: non-object custom spec extensions (#500)  
-fix(docs): input instead of output in readme  
-internal: remove redundant internal scripts  
-internal: change process with using custom templates  
+BREAKING_CHANGE: disable support NodeJS 14.x
+BREAKING_CHANGE: change swagger-typescript-api NodeJS "generateApi" function return type
+BREAKING_CHANGE: remove `rawModelTypes` from output api configuration
+feat: `--custom-config <string>` option (#503)
+feat: `--sort-routes` option, ability to sort routes;
+fix: critical bugs based with extract types and enums
+fix: sort types option (sort was not correctly work with nested or extracted types)
+fix: problems based with extracting enums;
+fix: nullable enum with integer values (#543)
+fix: generation enum numbers as strings one (#534)
+chore: refactoring the axios imports
+fix: non-object custom spec extensions (#500)
+fix(docs): input instead of output in readme
+internal: remove redundant internal scripts
+internal: change process with using custom templates
 
 ```diff
 interface GenerateApiOutput {
@@ -43,42 +43,45 @@ interface GenerateApiOutput {
 }
 ```
 
-internal: refactor schema parser code (preparing it for async code execution)  
-fix: problem with filtering primitive in complex types (#459)  
-feat: add discriminator property support (#456)  
-internal: prepare code + templates for async code execution (next plans)  
-fix: problems with dot in query params (hard fix) (#460)   
-feature: ability to send custom Ts output code translator to js. Example:  
+internal: refactor schema parser code (preparing it for async code execution)
+fix: problem with filtering primitive in complex types (#459)
+feat: add discriminator property support (#456)
+internal: prepare code + templates for async code execution (next plans)
+fix: problems with dot in query params (hard fix) (#460)
+feature: ability to send custom Ts output code translator to js. Example:
+
 ```ts
- const { Translator } = require("swagger-typescript-api/src/translators/translator");
- const { JavascriptTranslator } = require("swagger-typescript-api/src/translators/javascript");
+const {
+  Translator,
+} = require("swagger-typescript-api/src/translators/translator");
+const {
+  JavascriptTranslator,
+} = require("swagger-typescript-api/src/translators/javascript");
 
- class MyTranslator extends Translator { // or use extends JavascriptTranslator
-     translate({ fileName, fileExtension, fileContent }) {
-         // format ts\js code with using this codeFormatter (prettier + ts import fixer)
-         this.codeFormatter.format(fileContent)
-         // config of the code gen process
-         this.config.
-         // logger
-         this.logger.
-
-         return [
-             {
-                 fileName,
-                 fileExtension,
-                 fileContent,
-             }
-         ]
-     }
- }
+class MyTranslator extends Translator {
+  // or use extends JavascriptTranslator
+  translate({ fileName, fileExtension, fileContent }) {
+    // format ts\js code with using this codeFormatter (prettier + ts import fixer)
+    this.codeFormatter.format(fileContent);
+    // config of the code gen process
+    // logger
+    this.config.this.logger.return[
+      {
+        fileName,
+        fileExtension,
+        fileContent,
+      }
+    ];
+  }
+}
 ```
 
-## 12.0.4  
+## 12.0.4
 
-fix: onCreateRoute skip behaviour  
+fix: onCreateRoute skip behaviour
 fix: problems with prefixes\suffixes for extracted requests params, enums
 
-**Full Changelog**: https://github.com/acacode/swagger-typescript-api/compare/12.0.3...12.0.4  
+**Full Changelog**: https://github.com/acacode/swagger-typescript-api/compare/12.0.3...12.0.4
 
 ## 12.0.3
 
@@ -96,6 +99,7 @@ docs: update docs for `requestOptions` nodejs option
 ## 12.0.0
 
 new hooks:
+
 ```ts
 /** calls before parse\process route path */
 onPreBuildRoutePath: (routePath: string) => string | void;
@@ -106,49 +110,49 @@ onInsertPathParam: (paramName: string, index: number, arr: BuildRouteParam[], re
 /** calls before parse any kind of schema */
 onPreParseSchema: (originalSchema: any, typeName: string, schemaType: string) => any;
 ```
+
 BREAKING_CHANGE: add ability to custom prefix for autofix invalid enum keys, invalid type names with nodejs options (`fixInvalidTypeNamePrefix: string`, `fixInvalidEnumKeyPrefix: string`)
 BREAKING_CHANGE: by default all component enum schemas (even numeric) extracting as `enum` TS constructions (#344)
 feature: ability to extract all enums from nested types\interfaces to `enum` TS construction using `--extract-enums` option (#344)
 feature: ability to modify route path params before insert them into string (request url, #446, with using hook `onInsertPathParam`)
 feature: (nodejs) ability to add prefix\suffix for type names and enum keys
+
 ```ts
 typePrefix?: string;
 typeSuffix?: string;
 enumKeyPrefix?: string;
 enumKeySuffix?: string;
 ```
+
 feature: ability to customize resolving process of the extracting type names (`extractingOptions` nodejs option)
+
 ```ts
 extractingOptions = {
   // requestBodySuffix: ["Payload", "Body", "Input"],
   // or
   // requestBodyNameResolver: (typeName, reservedNames) => string;
-
   // requestParamsSuffix: ["Params"],
   // or
   // requestParamsNameResolver: (typeName, reservedNames) => string;
-
   // responseBodySuffix: ["Data", "Result", "Output"],
   // or
   // responseBodyNameResolver: (typeName, reservedNames) => string;
-
   // responseErrorSuffix: ["Error", "Fail", "Fails", "ErrorData", "HttpError", "BadResponse"],
   // or
   // responseErrorNameResolver: (typeName, reservedNames) => string;
-}
+};
 ```
+
 docs: update docs for `extraTemplates` option
 fix: problem with default name of single api file (Api.ts)
 fix: problem based with tuple types (#445)
 fix: problem with `defaultResponseType` declaration type
-
 
 # 11.1.3
 
 fix: problems with `text/*` content types (axios, fetch http clients) (thanks @JochenDiekenbrock, #312, #443)
 fix: problem with `application/json*` content type (thanks @JochenDiekenbrock, #440, #441)
 fix: different query type parameters declarations (in route name `{?accountStatus,createdT`, #439)
-
 
 # 11.1.2
 
@@ -158,9 +162,11 @@ fix: additionalProperties management problem in Swagger 2 (#343)
 fix: hanging cli after execution finished (#436, thanks @Soarc)
 
 # 11.1.1
+
 fix: `--api-class-name` option has no default value (#433)
 
 # 11.1.0
+
 BREAKING_CHANGE: replace `axios` to `node-fetch`
 feat: ability to send request options for getting swagger schema by url (`requestOptions` property)
 
@@ -173,202 +179,220 @@ feat: ability to send request options for getting swagger schema by url (`reques
 
 ## Breaking changes
 
- - `data-contract-jsdoc.ejs` file uses new input structure. Please update your local copy.
- - new codebase (class way)
- - ability to change everything in codegen process configuration with using NodeJS Api
- - ability to call `generateApi` function 2 and more times per 1 NodeJS process.
- - new command `generate-templates` to create source templates
+- `data-contract-jsdoc.ejs` file uses new input structure. Please update your local copy.
+- new codebase (class way)
+- ability to change everything in codegen process configuration with using NodeJS Api
+- ability to call `generateApi` function 2 and more times per 1 NodeJS process.
+- new command `generate-templates` to create source templates
 
 ## [feature] Ability to generate source templates
+
 New command `generate-templates` which allow you to generate source templates which using with option `--templates`
 
 ## [feature] Ability to modify internal codegen typescript structs
+
 Everything which creates codegen about output typescript code now contains in `Ts` field in [`src/configuration`](src/configuration.js).
 And this thing is available for end user modifications with using NodeJS Cli option `codeGenConstructs`.
 It contains almost all which is not contains in `.eta`\ `.ejs` templates. For example: `Record<string, any>`, `readonly typeField?: value`, etc
 
 Structure of `Ts` property
-```ts
- const Ts = {
-    Keyword: {
-      Number: "number",
-      String: "string",
-      Boolean: "boolean",
-      Any: "any",
-      Void: "void",
-      Unknown: "unknown",
-      Null: "null",
-      Undefined: "undefined",
-      Object: "object",
-      File: "File",
-      Date: "Date",
-      Type: "type",
-      Enum: "enum",
-      Interface: "interface",
-      Array: "Array",
-      Record: "Record",
-      Intersection: "&",
-      Union: "|",
-    },
-    CodeGenKeyword: {
-      UtilRequiredKeys: "UtilRequiredKeys",
-    },
-    /**
-     * $A[] or Array<$A>
-     */
-    ArrayType: (content) => {
-      if (this.anotherArrayType) {
-        return Ts.TypeWithGeneric(Ts.Keyword.Array, [content]);
-      }
 
-      return `${Ts.ExpressionGroup(content)}[]`;
-    },
-    /**
-     * "$A"
-     */
-    StringValue: (content) => `"${content}"`,
-    /**
-     * $A
-     */
-    BooleanValue: (content) => `${content}`,
-    /**
-     * $A
-     */
-    NumberValue: (content) => `${content}`,
-    /**
-     * $A
-     */
-    NullValue: (content) => content,
-    /**
-     * $A1 | $A2
-     */
-    UnionType: (contents) => _.join(_.uniq(contents), ` ${Ts.Keyword.Union} `),
-    /**
-     * ($A1)
-     */
-    ExpressionGroup: (content) => (content ? `(${content})` : ""),
-    /**
-     * $A1 & $A2
-     */
-    IntersectionType: (contents) => _.join(_.uniq(contents), ` ${Ts.Keyword.Intersection} `),
-    /**
-     * Record<$A1, $A2>
-     */
-    RecordType: (key, value) => Ts.TypeWithGeneric(Ts.Keyword.Record, [key, value]),
-    /**
-     * readonly $key?:$value
-     */
-    TypeField: ({ readonly, key, optional, value }) =>
-      _.compact([readonly && "readonly ", key, optional && "?", ": ", value]).join(""),
-    /**
-     * [key: $A1]: $A2
-     */
-    InterfaceDynamicField: (key, value) => `[key: ${key}]: ${value}`,
-    /**
-     * $A1 = $A2
-     */
-    EnumField: (key, value) => `${key} = ${value}`,
-    /**
-     * $A0.key = $A0.value,
-     * $A1.key = $A1.value,
-     * $AN.key = $AN.value,
-     */
-    EnumFieldsWrapper: (contents) =>
-      _.map(contents, ({ key, value }) => `  ${Ts.EnumField(key, value)}`).join(",\n"),
-    /**
-     * {\n $A \n}
-     */
-    ObjectWrapper: (content) => `{\n${content}\n}`,
-    /**
-     * /** $A *\/
-     */
-    MultilineComment: (contents, formatFn) =>
-      [
-        ...(contents.length === 1
-          ? [`/** ${contents[0]} */`]
-          : ["/**", ...contents.map((content) => ` * ${content}`), " */"]),
-      ].map((part) => `${formatFn ? formatFn(part) : part}\n`),
-    /**
-     * $A1<...$A2.join(,)>
-     */
-    TypeWithGeneric: (typeName, genericArgs) => {
-      return `${typeName}${genericArgs.length ? `<${genericArgs.join(",")}>` : ""}`;
-    },
-  }
+```ts
+const Ts = {
+  Keyword: {
+    Number: "number",
+    String: "string",
+    Boolean: "boolean",
+    Any: "any",
+    Void: "void",
+    Unknown: "unknown",
+    Null: "null",
+    Undefined: "undefined",
+    Object: "object",
+    File: "File",
+    Date: "Date",
+    Type: "type",
+    Enum: "enum",
+    Interface: "interface",
+    Array: "Array",
+    Record: "Record",
+    Intersection: "&",
+    Union: "|",
+  },
+  CodeGenKeyword: {
+    UtilRequiredKeys: "UtilRequiredKeys",
+  },
+  /**
+   * $A[] or Array<$A>
+   */
+  ArrayType: (content) => {
+    if (this.anotherArrayType) {
+      return Ts.TypeWithGeneric(Ts.Keyword.Array, [content]);
+    }
+
+    return `${Ts.ExpressionGroup(content)}[]`;
+  },
+  /**
+   * "$A"
+   */
+  StringValue: (content) => `"${content}"`,
+  /**
+   * $A
+   */
+  BooleanValue: (content) => `${content}`,
+  /**
+   * $A
+   */
+  NumberValue: (content) => `${content}`,
+  /**
+   * $A
+   */
+  NullValue: (content) => content,
+  /**
+   * $A1 | $A2
+   */
+  UnionType: (contents) => _.join(_.uniq(contents), ` ${Ts.Keyword.Union} `),
+  /**
+   * ($A1)
+   */
+  ExpressionGroup: (content) => (content ? `(${content})` : ""),
+  /**
+   * $A1 & $A2
+   */
+  IntersectionType: (contents) =>
+    _.join(_.uniq(contents), ` ${Ts.Keyword.Intersection} `),
+  /**
+   * Record<$A1, $A2>
+   */
+  RecordType: (key, value) =>
+    Ts.TypeWithGeneric(Ts.Keyword.Record, [key, value]),
+  /**
+   * readonly $key?:$value
+   */
+  TypeField: ({ readonly, key, optional, value }) =>
+    _.compact([
+      readonly && "readonly ",
+      key,
+      optional && "?",
+      ": ",
+      value,
+    ]).join(""),
+  /**
+   * [key: $A1]: $A2
+   */
+  InterfaceDynamicField: (key, value) => `[key: ${key}]: ${value}`,
+  /**
+   * $A1 = $A2
+   */
+  EnumField: (key, value) => `${key} = ${value}`,
+  /**
+   * $A0.key = $A0.value,
+   * $A1.key = $A1.value,
+   * $AN.key = $AN.value,
+   */
+  EnumFieldsWrapper: (contents) =>
+    _.map(contents, ({ key, value }) => `  ${Ts.EnumField(key, value)}`).join(
+      ",\n",
+    ),
+  /**
+   * {\n $A \n}
+   */
+  ObjectWrapper: (content) => `{\n${content}\n}`,
+  /**
+   * /** $A *\/
+   */
+  MultilineComment: (contents, formatFn) =>
+    [
+      ...(contents.length === 1
+        ? [`/** ${contents[0]} */`]
+        : ["/**", ...contents.map((content) => ` * ${content}`), " */"]),
+    ].map((part) => `${formatFn ? formatFn(part) : part}\n`),
+  /**
+   * $A1<...$A2.join(,)>
+   */
+  TypeWithGeneric: (typeName, genericArgs) => {
+    return `${typeName}${
+      genericArgs.length ? `<${genericArgs.join(",")}>` : ""
+    }`;
+  },
+};
 ```
 
 ## [feature] Ability to modify swagger schema type/format to typescript construction translators
+
 Swagger schema has constructions like `{ "type": "string" | "integer" | etc, "format": "date-time" | "float" | "etc" }` where field `type` is not "readable" for TypeScript.
 And because of this `swagger-typescript-api` has key value group to translate swagger schema fields `type`/`format` to TypeScript constructions.
 See more about [swagger schema type/format data here](https://json-schema.org/understanding-json-schema/reference/string.html#dates-and-times)
 For example, current version of default configuration translates this schema
+
 ```json
 {
   "type": "string",
   "format": "date-time"
 }
 ```
-translates to
-```ts
-string
-```
+
+translates to `string`
+
 If you need to see `Date` instead of `string` you are able to change it with using `primitiveTypeConstructs`
+
 ```ts
 generateApiForTest({
   // ...
   primitiveTypeConstructs: (construct) => ({
     string: {
-        'date-time': 'Date'
-    }
-  })
-})
+      "date-time": "Date",
+    },
+  }),
+});
 ```
 
 Structure of `primitiveTypes` property
+
 ```ts
 const primitiveTypes = {
-    integer: () => Ts.Keyword.Number,
-    number: () => Ts.Keyword.Number,
-    boolean: () => Ts.Keyword.Boolean,
-    object: () => Ts.Keyword.Object,
-    file: () => Ts.Keyword.File,
-    string: {
-      $default: () => Ts.Keyword.String,
+  integer: () => Ts.Keyword.Number,
+  number: () => Ts.Keyword.Number,
+  boolean: () => Ts.Keyword.Boolean,
+  object: () => Ts.Keyword.Object,
+  file: () => Ts.Keyword.File,
+  string: {
+    $default: () => Ts.Keyword.String,
 
-      /** formats */
-      binary: () => Ts.Keyword.File,
-      file: () => Ts.Keyword.File,
-      "date-time": () => Ts.Keyword.String,
-      time: () => Ts.Keyword.String,
-      date: () => Ts.Keyword.String,
-      duration: () => Ts.Keyword.String,
-      email: () => Ts.Keyword.String,
-      "idn-email": () => Ts.Keyword.String,
-      "idn-hostname": () => Ts.Keyword.String,
-      ipv4: () => Ts.Keyword.String,
-      ipv6: () => Ts.Keyword.String,
-      uuid: () => Ts.Keyword.String,
-      uri: () => Ts.Keyword.String,
-      "uri-reference": () => Ts.Keyword.String,
-      "uri-template": () => Ts.Keyword.String,
-      "json-pointer": () => Ts.Keyword.String,
-      "relative-json-pointer": () => Ts.Keyword.String,
-      regex: () => Ts.Keyword.String,
-    },
-    array: ({ items, ...schemaPart }, parser) => {
-      const content = parser.getInlineParseContent(items);
-      return parser.safeAddNullToType(schemaPart, Ts.ArrayType(content));
-    },
-  }
+    /** formats */
+    binary: () => Ts.Keyword.File,
+    file: () => Ts.Keyword.File,
+    "date-time": () => Ts.Keyword.String,
+    time: () => Ts.Keyword.String,
+    date: () => Ts.Keyword.String,
+    duration: () => Ts.Keyword.String,
+    email: () => Ts.Keyword.String,
+    "idn-email": () => Ts.Keyword.String,
+    "idn-hostname": () => Ts.Keyword.String,
+    ipv4: () => Ts.Keyword.String,
+    ipv6: () => Ts.Keyword.String,
+    uuid: () => Ts.Keyword.String,
+    uri: () => Ts.Keyword.String,
+    "uri-reference": () => Ts.Keyword.String,
+    "uri-template": () => Ts.Keyword.String,
+    "json-pointer": () => Ts.Keyword.String,
+    "relative-json-pointer": () => Ts.Keyword.String,
+    regex: () => Ts.Keyword.String,
+  },
+  array: ({ items, ...schemaPart }, parser) => {
+    const content = parser.getInlineParseContent(items);
+    return parser.safeAddNullToType(schemaPart, Ts.ArrayType(content));
+  },
+};
 ```
 
 ## Other
+
 feat: `--another-array-type` cli option (#414)
 fix: path params with dot style (truck.id) (#413)
 
-
-
 # 10.0.3
+
 fix: CRLF -> LF (#423)
 docs: add docs for addReadonly nodeJS api flag (#425)
 chore: remove useless trailing whitespaces which make test edit harder (thanks @qboot, #422)
@@ -378,7 +402,7 @@ chore: add logging (project version, node version, npm version)
 # 10.0.2
 
 fix: host.fileExists is not a function
-fix: other problems linked with new typescript version (4.8.*) (thanks @elkeis, @Jnig)
+fix: other problems linked with new typescript version (4.8.\*) (thanks @elkeis, @Jnig)
 fix: problem with required nested properties based on root required properties list
 fix: fetch http client headers content type priority
 fix: fs.rmSync (thanks @smorimoto)
@@ -387,7 +411,7 @@ docs: add documentation for `unwrapResponseData` nodejs option (thanks @simowe)
 BREAKING_CHANGE: rename `.eta` file extensions to `.ejs`. Backward capability should be existed.
 fix: problem with `--sort-types` option
 
-# 10.0.*
+# 10.0.\*
 
 fix: problem with default http request headers in axios client
 
@@ -434,39 +458,47 @@ fix: problem with default http request headers in axios client
 # 9.2.0
 
 Features:
+
 - full response typing for status code, data and headers. (#272, thanks @rustyconover)
 - --unwrap-response-data to unwrap the data item from the response (#268, thanks @laktak)
 
 Fixes:
+
 - fix: formdata in axios template (#277, thanks @tiagoskaneta)
 
 # 9.1.2
 
 Fixes:
+
 - Bug with --single-http-client and private `http` property
 
 # 9.1.1
 
 Fixes:
+
 - Bug with nested objects in FormData (issue #262, thanks @avlnche64)
 
 # 9.1.0
 
 Fixes:
+
 - Critical bug linked with `templateRequire` in ETA templates
 - Critical bugs linked with `--type-prefix`, `--type-suffix`
 
 Internal:
+
 - Improve manual testing scripts
 
 # 9.0.2
 
 Fixes:
+
 - 9.0.1 won't build with tsc when imported (thanks @mastermatt)
 
 # 9.0.1
 
 Fixes:
+
 - Can't compile 9.0.0 version (thanks @Nihisil )
 
 # 9.0.0
@@ -474,6 +506,7 @@ Fixes:
 NOTE: This version is not compatible with previous templates (removed `route.request.params`, `apiConfig.props`, `apiConfig.generic`, `apiConfig.description`, `apiConfig.hasDescription`)
 
 Fixes:
+
 - Consider 2xx a successful status (thanks @wyozi)
 - GET method query option bug (thanks @rhkdgns95, @SaschaGalley)
 - `silent` property missed in `.d.ts` file (thanks @mastermatt)
@@ -482,10 +515,10 @@ Fixes:
 - variable name "params" doesn't uniq (thanks @mixalbl4-127 )
 
 Features:
+
 - `--disableProxy` option (thanks @kel666)
 - `--extract-request-body` option. Allows to extract request body type to data contract
 - Add TSDoc tag for deprecated route (thanks @wyozi)
-
 
 # 8.0.3
 
@@ -494,28 +527,35 @@ Features:
 # 8.0.2
 
 Fixes:
+
 - Wrong working the `format` option in `fetch` http client
 
 # 8.0.1
 
 Fixes:
+
 - Not working `customFetch`
   Error: `Failed to execute 'fetch' on 'Window': Illegal invocation`
 
 # 8.0.0
 
 BREAKING_CHANGES:
+
 - remove default `json` format of the response type (both for `axios` and `fetch` http clients) (issue #213, thanks @po5i)
 
 Features:
+
 - Allow passing custom fetch function (`fetch` http client only)
 - Allow to set global response type format through `HttpClient` constructor
   Example:
+
 ```ts
-    const httpClient = new HttpClient({ format: 'json' });
-    // all request responses will been formatted as json
+const httpClient = new HttpClient({ format: "json" });
+// all request responses will been formatted as json
 ```
+
 Fixes:
+
 - Missing `schema.$ref` in inline enum schemas
 - Array query param values are serialized with the (non-default) comma separated style (issue #222, thanks @Styn, PR #223)
 - TypeScript error "TS6133: 'E' is declared but its value is never read." (`axios` http client) (issue #220, thanks @pmbednarczyk )
@@ -523,6 +563,7 @@ Fixes:
 # 7.0.1
 
 Fixes:
+
 - "securityWorker" is only used if "secure" option is specified on each request (issue #212, thanks @dkamyshov)
   NOTE: added global `secure` option for `axios` http client
 - `index.d.ts` file (add `rawModelTypes`)
@@ -530,16 +571,20 @@ Fixes:
 # 7.0.0
 
 BREAKING_CHANGES:
+
 - format `namespace` name in `--route-types` as camelCase with upper first capitalized letter
   `foo_bar` -> `FooBar`
 
 Fixes:
+
 - Incorrect working the `--route-types` option with `--modular` option (route types should be splitted on files)
 - Fix critical bug linked with enums with boolean type (thanks @haedaal)
 
 Features:
+
 - Ability to return `false` in `onCreateRoute` hook, it allow to ignore route
 - Add output util functions
+
 ```ts
   createFile: (params: {
     path: string;
@@ -570,59 +615,70 @@ Features:
 # 6.4.2
 
 Fixes:
+
 - Bug with missing `name` property in in-path requests parameters
 - Problem with usage `--route-types` with `--modular` option (mising import data contracts)
 
 # 6.4.1
 
 Fixes:
+
 - Bug with axios headers (thanks @mutoe)
 
 # 6.4.0
 
 Features:
+
 - `onFormatRouteName(routeInfo: RawRouteInfo, templateRouteName: string)` hook. Allows to format route name, as you like :)
 
 Fixes:
+
 - Bug with wrong complex types (anyOf, oneOf, allOf) when some child schema contains only description
   ![example](./assets/changelog_assets/fixComplexTypeAny.jpg)
 - Bug with number enums which have `x-enumNames`
 - Problem with not existing `title` property in `info`
 
 Minor:
+
 - Improve description for complex types
 - Improve description in single api file
 
 # 6.3.0
 
 Features:
+
 - `--type-suffix` option. Allows to set suffix for data contract name. (issue #191, thanks @the-ult)
 - `--type-prefix` option. Allows to set prefix for data contract name. (issue #191, thanks @the-ult)
   Examples [here](./spec/typeSuffixPrefix/schema.ts)
 - `onFormatTypeName(usageTypeName, rawTypeName, schemaType)` hook. Allow to format data contract names as you want.
 
 Internal:
+
 - rename and split `checkAndRenameModelName` -> `formatModelName`, `fixModelName`
 
 # 6.2.1
 
 Fixes:
+
 - missing `generateUnionEnums?: boolean;` in `index.d.ts` file (thanks @artsaban)
 - missing default params to axios http client (`--axios`) (issue #192, thanks @Nihisil)
 
 # 6.2.0
 
 Features:
+
 - `--module-name-first-tag` option. Splits routes based on the first tag (thanks @jnpoyser)
 
 # 6.1.2
 
 Fixes:
+
 - Problems with using both `--axios` and `--modular` options together (TS, `organizeImports` crashed the codegeneration)
 
 # 6.1.1
 
 Fixes:
+
 - Problems with `--axios` option
   - ignoring `path`, `format`, `type` payload properties in `request()` method of `HttpClient`
 - Missing `format` property for requests in `--modular` option
@@ -630,77 +686,92 @@ Fixes:
 # 6.1.0
 
 Features:
+
 - `--silent` option. Output only errors to console (default: false)
 
 Fixes:
+
 - Bug with `kebab-case` path params (issue #184, thanks @Mr-sgreen)
 - Typings for `--js` option
 
 # 6.0.0
 
 BREAKING_CHANGES:
+
 - Ability to override only one template (issue #166, thanks @Nihisil)
 - removed `TPromise` type for `--responses` options (perf. problem, issue #182, thanks @mixalbl4-127)
 - breaking changes in `http-client.eta`
 - `securityWorker` now can return `Promise<RequestParams | void> | RequestParams | void`
 
 Features:
+
 - template path prefixes `@base`, `@default`, `@modular` (using in Eta templates, `includeFile()`, see README.md)
 - `--axios` option for axios http client (issue #142, thanks @msklvsk, @mixalbl4-127 )
 
 # 5.1.7
 
 Fixes:
+
 - Do not fail if template file does not exist (issue #166, thanks @armsnyder )
   Caveat: With this fix it will still error if the overridden template uses `includeFile` on a template file that is not overridden
 
 # 5.1.6
 
 Fixes:
+
 - The contentFormatter for ContentType:Json does not correctly format strings (issue #176, thanks @Styn)
 
 # 5.1.5
 
 Fixes:
+
 - ContentType.FormData no longer sets the correct boundary (issue #172, thanks @Styn)
 
 # 5.1.4
 
 Fixes:
+
 - header overwrite in `default` and `modular` API templates (issue #171 by @Styn, thanks @emilecantin for PR with fix)
 
 # 5.1.3
 
 Fixes:
+
 - Ignored `x-nullable` field
 - Schema type names which starts with number or special characters
 
 # 5.1.2
 
 Fixes:
+
 - Linter disable rules is not working (issue #164, thanks @Haritaso)
 
 # 5.1.1
 
 Fixes:
+
 - The HttpResponse type is no longer exported from http-client (issue #161, thanks @Styn)
 
 # 5.1.0
 
 Fixes:
+
 - Bug with optional nested properties of object schema type (issue #156, thanks @Fabiencdp)
 
 Features:
+
 - `onCreateRouteName(routeNameInfo: RouteNameInfo, rawRouteInfo: RawRouteInfo): RouteNameInfo | void` hook
   Which allows to customize route name without customizing `route-name.eta` template
 - Improved content kinds for request infos
 - `--single-http-client` option which allows to send HttpClient instance to Api constructor and not to create many count of HttpClient instances with `--modular` api (issue #155)
 
 Minor:
+
 - A bit improve type declaration file (index.d.ts) for this tool
 - make exportable `ApiConfig` interface
 
 Internal:
+
 - clearing `routeNameDuplicatesMap` before each `parseRoutes()` function call
 - Changed templates:
   - `http-client.eta`
@@ -710,6 +781,7 @@ Internal:
 # 5.0.0
 
 Fixes:
+
 - Request content types auto substitution
   i.e. if request body is form data, then request body content type will be `multipart/form-data`
 - Strange method name (issue #152, thanks @RoXuS)
@@ -717,6 +789,7 @@ Fixes:
 - Critical bug with `:paramName` path params (issue #154)
 
 Features:
+
 - Ability to provide custom formatting `fetch` response
 - `"IMAGE"` content kind for response\request data objects
 - `RequestParams` `RequestHeaders` types for `--route-types` (`routeTypes: true`) option (issue #150, thanks @Fabiencdp )
@@ -726,12 +799,14 @@ Features:
   `HttpClient` instance now have the `abortRequest(cancelToken)` method
 
 BREAKING_CHANGES:
+
 - Fully refactored `http-client.eta` template, make it more flexible and simpler.
   `HttpClient["request"]` takes one argument with type `FullRequestParams`
   (previously it takes many count of arguments which was not flexible)
 - Changed the default response body type from `any` to `void` (issue #14)
 
 Internal:
+
 - Changed templates:
   - `http-client.eta`
   - `procedure-call.eta`
@@ -742,9 +817,11 @@ This version works with previous templates.
 # 4.4.0
 
 Fixes:
+
 - Client generation for `Content-Type: application/x-www-form-urlencoded` (issue #146, thanks @Larox)
 
 Internal:
+
 - Changed templates:
   - `http-client.eta`
   - `procedure-call.eta`
@@ -752,56 +829,65 @@ Internal:
 # 4.3.0
 
 Fixes:
+
 - enum + nullable: true doesn't compute the good type (issue #145, thanks @RoXuS)
 - Underscores are omitted from enum keys (issue #108, thanks @eolant)
 - CLI silently fails if the directory to put new files in doesn't exist yet (issue #141, thanks @Styn)
 
 Features:
+
 - Improved type description
 
 Internal:
+
 - dependencies update:
   - `"js-yaml": "^4.0.0"` (`"^3.14.1"`)
   - `"make-dir": "^3.1.0"`
   - `"swagger2openapi": "^7.0.5"` (`"^7.0.4"`)
 - Difference in templates:
   - `data-contracts.eta`
-  ![dataContracts430](./assets/changelog_assets/http-client-template-diff-4.3.0.jpg)
+    ![dataContracts430](./assets/changelog_assets/http-client-template-diff-4.3.0.jpg)
 
 # 4.2.0
+
 Features:
+
 - new hook `onCreateRequestParams` which allows modify request params (`--extract-request-params` option) before sending it to route info
   ![onCreateRequestParams](./assets/changelog_assets/onCreateRequestParamsHook.jpg)
   How to use:
-  ```ts
-    generateApi({
-      // ... your config,
-      hooks: {
-        onCreateRequestParams: (rawType) => {
-          if (Object.keys(rawType.properties).length > 1) return rawType;
 
-          return rawType;
-        }
-      }
-    })
+  ```ts
+  generateApi({
+    // ... your config,
+    hooks: {
+      onCreateRequestParams: (rawType) => {
+        if (Object.keys(rawType.properties).length > 1) return rawType;
+
+        return rawType;
+      },
+    },
+  });
   ```
+
 - response content types (array of string like `application/json`, `image/png`) which allows to customize declaration of request response
   Exist in `procedure-call.eta` template `it.route.response.contentTypes`
 
 Internal:
+
 - Difference in templates:
   - `procedure-call.eta`
-  ![procedureCallEta1](./assets/changelog_assets/changes_procedure_call_1.jpg)
-
+    ![procedureCallEta1](./assets/changelog_assets/changes_procedure_call_1.jpg)
 
 # 4.1.0
 
 Features:
+
 - Improve `require()` function used in ETA templates (using relative path imports)
 - `--clean-output` option.
   clean output folder before generate api
 
 Fixes:
+
 - Error: `Unexpected token =` (Issue #136, Thanks @jlow-mudbath)
 - Output folder creation (Issue #137, Thanks @Rinta01)
   Create output folder if it is not exist
@@ -809,41 +895,50 @@ Fixes:
 # 4.0.5
 
 BREAKING_CHANGE:
+
 - remove `'prettier-plugin-organize-imports'` dependency from package
 
 Fixes:
+
 - issue #134 (Thanks @mrfratello)
 
 # 4.0.4
 
 Features:
+
 - add `require()` to template `utils` object
 
 Docs:
+
 - add information about contributors
 
 # 4.0.3
 
 Features:
+
 - `--disableStrictSSL` option for disable strict SSL statement with fetching swagger schema. (Thanks @kel666 for PR with feature request)
   This option fix problem #114
 
 # 4.0.2
 
 Fixes:
- - `Unexpected token '.'` on v4 (Thanks @savingprivatebryan for issue #111)
-    Replaced all new syntax sugar like `?.` or `??` to prev. alternatives for support nodejs 12
+
+- `Unexpected token '.'` on v4 (Thanks @savingprivatebryan for issue #111)
+  Replaced all new syntax sugar like `?.` or `??` to prev. alternatives for support nodejs 12
 
 # 4.0.1
 
 Fixes:
+
 - `Cannot find module 'prettier-plugin-organize-imports'` #109
 
 # 4.0.0
 
 BREAKING_CHANGES:
+
 - Migrate from [mustache](https://mustache.github.io/) template engine to [ETA](https://eta.js.org/) template engine. (Thanks @Fl0pZz)
 - Critical change in `HttpResponse` type (Remove `D | null`, `E | null` unions)
+
 ```diff
 interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
 -  data: D | null;
@@ -854,16 +949,19 @@ interface HttpResponse<D extends unknown, E extends unknown = unknown> extends R
 ```
 
 Features:
+
 - `--modular` option. Allows to generate api class per module name.
   Example: [here](./tests/spec/modular)
 - new templates on [ETA](https://eta.js.org/) (enhanced EJS) which can improve your templates! (Thanks @Fl0pZz)
   [ETA extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=shadowtime2000.eta-vscode) (thanks @shadowtime2000)
   Also moved out to templates:
-    - `procedure-call.eta` (request api method template)
-    - `route-name.eta` (api method name template)
-    - `route-docs.eta` (api method docs template)
+
+  - `procedure-call.eta` (request api method template)
+  - `route-name.eta` (api method name template)
+  - `route-docs.eta` (api method docs template)
 
   No worry about strange syntax it is very simple in usage :)
+
 - Optional templates feature (Except templates using in `includeFile` `ETA` directive)
   Now you can store only the `ETA` templates which you need to change for yourself.
 - `--extract-request-params` option. Generate path and query request params data contract and modify request payload args
@@ -884,109 +982,126 @@ Features:
   }>;
   ```
   ```ts
-    generateApi({
-      input: "./schema.json",
-      output: "./__generated__",
-      hooks: {
-        onCreateComponent(component) {
-          // do something
-          return component;
-        },
-        // ...
-      }
-    })
+  generateApi({
+    input: "./schema.json",
+    output: "./__generated__",
+    hooks: {
+      onCreateComponent(component) {
+        // do something
+        return component;
+      },
+      // ...
+    },
+  });
   ```
 
 Internal:
+
 - Update all dependencies to latest
 
 Fixes:
+
 - `x-enumNames` support for enums
 - Problem of complex types (`oneOf`, `allOf`) with `properties` field
 - `additionalProperties: true` should make `[key: string]: any` for object types (Thanks @brookjordan for issue #103)
 
 Common:
+
 - `HttpClient` is exportable by default
 - Improve typings when use `swagger-typescript-api` with NodeJS (`index.d.ts`)
 
 # 3.1.2
+
 Fixes:
+
 - axios vulnerability (#101 issue, thanks @Mvbraathen)
 
 # 3.1.1
 
 Fixes:
+
 - `name.includes is not a function` (issue #98)
 
 # 3.1.0
 
 Features:
+
 - `--moduleNameIndex` option. determines which path index should be used for routes separation (Thanks @nikalun)
   Examples:
-    GET:api/v1/fruites/getFruit -> index:2 -> moduleName -> fruites
-    GET:api/v1/fruites/getFruit -> index:0 -> moduleName -> api
+  GET:api/v1/fruits/getFruit -> index:2 -> moduleName -> fruits
+  GET:api/v1/fruits/getFruit -> index:0 -> moduleName -> api
 
 # 3.0.1
 
 Fixes:
+
 - invalid default templates path (#92, thanks @larrybotha for quick fix)
 
 # 3.0.0
 
 BREAKING_CHANGES:
+
 - Renamed mustache templates:
   - `api.mustache` -> `data-contracts.mustache`
   - `client.mustache` -> `http.client.mustache` + `api.mustache`
 - Split the `client.mustache` template into two parts: `http-client.mustache` and `api.mustache`
 
 Fixes:
+
 - Fixed unsafe clone() of Response causing json() hang. (Thanks @Benjamin-Dobell)
 
 # 2.0.0
 
 Features:
+
 - `--js` CLI option. [[feature request]](https://github.com/acacode/swagger-typescript-api/issues/79)
 
 BREAKING_CHANGES:
+
 - Requests returns `Promise<HttpResponse<Data, Error>>` type.
   `HttpResponse` it is [Fetch.Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) wrapper with fields `data` and `error`
   Example:
+
   ```ts
-    const api = new Api()
+  const api = new Api();
 
-    //
-    const response: HttpResponse<Data, Error> = await api.fruits.getAll()
+  //
+  const response: HttpResponse<Data, Error> = await api.fruits.getAll();
 
-    response.data // Data (can be null if response.ok is false)
-    response.error // Error (can be null if response.ok is true)
+  response.data; // Data (can be null if response.ok is false)
+  response.error; // Error (can be null if response.ok is true)
   ```
+
 - Breaking changes in the `client.mustache` template. Needs to update local custom templates.
 
 Fixes:
-- Security configuration in methods. When the security definition is in the main configuration of the swagger definition
 
+- Security configuration in methods. When the security definition is in the main configuration of the swagger definition
 
 # 1.12.0
 
 Features:
+
 - Can provide ability to generate from swagger JSON directly not from a file? #69 (Thanks @JennieJi)
 
 Fixes:
+
 - handling `x-omitempty` property for definition properties #68
 - Additional properties map to empty interfaces (OpenAPI v3) #76
 - Pattern fields in Path Item Object are treated as operations #75
 - Remove const enum from default template #73
 - enums with spaces throw an error #71
 
-
 # 1.11.0
 
 Features:
+
 - Improve the naming of model types ([#65 issue](https://github.com/acacode/swagger-typescript-api/issues/65))
 
 # 1.10.0
 
 Features:
+
 - `--templates` CLI option. [[feature request]](https://github.com/acacode/swagger-typescript-api/issues/54)
   Provide custom `mustache` templates folder which allows to generate custom code (models, Api class, routes)
 - `--union-enums` CLI option. [[feature request]](https://github.com/acacode/swagger-typescript-api/issues/58)
@@ -999,19 +1114,20 @@ Features:
   }
   ```
   will be converted into:
-      ```
-export type StringEnum = "String1" | "String2" | "String3" | "String4";
-      ```
-
+  ```
+  export type StringEnum = "String1" | "String2" | "String3" | "String4";
+  ```
 
 # 1.8.4
 
 Fixes:
+
 - Multiple types for a property in Swagger 2 are not handled correctly ([#55 issue](https://github.com/acacode/swagger-typescript-api/issues/55))
 
 # 1.8.3
 
 Fixes:
+
 - Generating invalid code in composed schema contexts ([#51 issue](https://github.com/acacode/swagger-typescript-api/issues/51))
   ```yaml
   components:
@@ -1039,14 +1155,17 @@ Fixes:
 # 1.8.2
 
 Fixes:
+
 - Broken types for arrays of union types ([issue](https://github.com/acacode/swagger-typescript-api/issues/49))
 
 # 1.8.1
 
 Fixes:
+
 - form data request body (request body content `multipart/form-data`)
 
 Minor:
+
 - inline comments of the data contract type properties
   ![one line comments](./assets/changelog_assets/one-line-comments.jpg)
 - remove `Array<T>` type usage (now the more simple type `T[]`)
@@ -1058,7 +1177,6 @@ Features:
 - **Partially** support FormData body types
 - Support to generate query params of nested query objects (Partial fix of [this issue](https://github.com/acacode/swagger-typescript-api/issues/45))
 
-
 # 1.7.2
 
 Fixes:
@@ -1067,7 +1185,6 @@ Fixes:
 - Fix bug when path parameters is not set but contains in endpoint url.
   ![path params bug 1](./assets/changelog_assets/bug-with-no-path-args.jpg)
   ![path params bug 2](./assets/changelog_assets/bug-with-no-path-args2.jpg)
-
 
 # 1.7.0
 
@@ -1083,14 +1200,12 @@ Chore:
 
 - default value for `SecurityDataType` Api class generic type
 
-
 # 1.6.3
 
 Fixes:
 
 - Handling of nullable for $ref in OpenAPI 3.0 ([issue](https://github.com/acacode/swagger-typescript-api/issues/39))
   Plus based on this issue was fixed most other problems with using `required` and `nullable` properties
-
 
 # 1.6.2
 

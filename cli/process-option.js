@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const _ = require("lodash");
 
 const optionFormatters = {
   number: (str) => +str,
@@ -13,16 +13,16 @@ const processFlags = (flags) => {
   let name = null;
   const keys = [];
   let value = null;
-  const isNoFlag = flags.includes('--no-');
+  const isNoFlag = flags.includes("--no-");
 
-  _.compact(_.split(flags, ' ').map((str) => str.replace(/,/g, ''))).forEach(
+  _.compact(_.split(flags, " ").map((str) => str.replace(/,/g, ""))).forEach(
     (str) => {
-      if (str.startsWith('-')) {
+      if (str.startsWith("-")) {
         keys.push(str);
       } else if (value === null) {
-        if (str.startsWith('{') || str.startsWith('[') || str.startsWith('<')) {
-          const rawValue = str.replace(/[{[<>}\].]/g, '');
-          const variadic = str.includes('...');
+        if (str.startsWith("{") || str.startsWith("[") || str.startsWith("<")) {
+          const rawValue = str.replace(/[{[<>}\].]/g, "");
+          const variadic = str.includes("...");
           value = {
             raw: str,
             variadic,
@@ -38,9 +38,9 @@ const processFlags = (flags) => {
 
   if (!_.isEmpty(longestKey)) {
     name = _.camelCase(
-      (isNoFlag ? longestKey.replace('--no-', '') : longestKey).replace(
+      (isNoFlag ? longestKey.replace("--no-", "") : longestKey).replace(
         /(--?)/,
-        '',
+        "",
       ),
     );
   }
@@ -58,13 +58,13 @@ const processOption = (option) => {
   const processedFlags = processFlags(option.flags);
 
   if (!processedFlags.name) {
-    console.warn('invalid option', option);
+    console.warn("invalid option", option);
     return null;
   }
 
   return {
     required: !!option.required,
-    description: `${option.description || ''}`,
+    description: `${option.description || ""}`,
     default: option.default,
     flags: processedFlags,
     operation: option.operation,

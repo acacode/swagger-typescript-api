@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const { generateApiForTest } = require("../../helpers/generateApiForTest");
-const { resolve } = require("path");
+const { resolve } = require("node:path");
 const validateGeneratedModule = require("../../helpers/validateGeneratedModule");
 const createSchemaInfos = require("../../helpers/createSchemaInfos");
 const assertGeneratedModule = require("../../helpers/assertGeneratedModule");
@@ -20,6 +20,9 @@ schemas.forEach(({ absolutePath, apiFileName, Exception }) => {
     generateClient: true,
   }).then((output) => {
     validateGeneratedModule(resolve(__dirname, `./${apiFileName}`));
-    assertGeneratedModule(resolve(__dirname, `./${apiFileName}`), resolve(__dirname, `./expected.ts`));
+    assertGeneratedModule(
+      resolve(__dirname, `./${apiFileName}`),
+      resolve(__dirname, "./expected.ts"),
+    );
   });
 });

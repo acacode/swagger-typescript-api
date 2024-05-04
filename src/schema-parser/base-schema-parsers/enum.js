@@ -1,7 +1,7 @@
-const { MonoSchemaParser } = require('../mono-schema-parser');
-const _ = require('lodash');
-const { SCHEMA_TYPES } = require('../../constants');
-const { EnumKeyResolver } = require('../util/enum-key-resolver');
+const { MonoSchemaParser } = require("../mono-schema-parser");
+const _ = require("lodash");
+const { SCHEMA_TYPES } = require("../../constants");
+const { EnumKeyResolver } = require("../util/enum-key-resolver");
 
 class EnumSchemaParser extends MonoSchemaParser {
   /** @type {EnumKeyResolver} */
@@ -19,8 +19,8 @@ class EnumSchemaParser extends MonoSchemaParser {
     });
     const customComponent = this.schemaComponentsMap.createComponent(
       this.schemaComponentsMap.createRef([
-        'components',
-        'schemas',
+        "components",
+        "schemas",
         generatedTypeName,
       ]),
       {
@@ -49,9 +49,9 @@ class EnumSchemaParser extends MonoSchemaParser {
       return this.schemaParserFabric.parseSchema(
         {
           oneOf: this.schema.enum.map((enumNames) => ({
-            type: 'array',
+            type: "array",
             items: enumNames.map((enumName) => ({
-              type: 'string',
+              type: "string",
               enum: [enumName],
             })),
           })),
@@ -70,12 +70,12 @@ class EnumSchemaParser extends MonoSchemaParser {
         return this.config.Ts.NullValue(value);
       }
       if (
-        _.includes(keyType, this.schemaUtils.getSchemaType({ type: 'number' }))
+        _.includes(keyType, this.schemaUtils.getSchemaType({ type: "number" }))
       ) {
         return this.config.Ts.NumberValue(value);
       }
       if (
-        _.includes(keyType, this.schemaUtils.getSchemaType({ type: 'boolean' }))
+        _.includes(keyType, this.schemaUtils.getSchemaType({ type: "boolean" }))
       ) {
         return this.config.Ts.BooleanValue(value);
       }
@@ -139,13 +139,13 @@ class EnumSchemaParser extends MonoSchemaParser {
 
     if (key) {
       formatted = this.typeNameFormatter.format(key, {
-        type: 'enum-key',
+        type: "enum-key",
       });
     }
 
     if (!formatted) {
       formatted = this.typeNameFormatter.format(`${value}`, {
-        type: 'enum-key',
+        type: "enum-key",
       });
     }
 

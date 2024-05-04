@@ -1,6 +1,6 @@
-const { MonoSchemaParser } = require('../mono-schema-parser');
-const _ = require('lodash');
-const { SCHEMA_TYPES } = require('../../constants');
+const { MonoSchemaParser } = require("../mono-schema-parser");
+const _ = require("lodash");
+const { SCHEMA_TYPES } = require("../../constants");
 
 class ComplexSchemaParser extends MonoSchemaParser {
   parse() {
@@ -23,8 +23,8 @@ class ComplexSchemaParser extends MonoSchemaParser {
       name: this.typeName,
       description: this.schemaFormatters.formatDescription(
         this.schema.description ||
-          _.compact(_.map(this.schema[complexType], 'description'))[0] ||
-          '',
+          _.compact(_.map(this.schema[complexType], "description"))[0] ||
+          "",
       ),
       content:
         this.config.Ts.IntersectionType(

@@ -19,15 +19,29 @@ function compile(fileNames) {
   let program = ts.createProgram(fileNames, compilerOptions);
   let emitResult = program.emit();
 
-  let allDiagnostics = ts.getPreEmitDiagnostics(program).concat(emitResult.diagnostics);
+  let allDiagnostics = ts
+    .getPreEmitDiagnostics(program)
+    .concat(emitResult.diagnostics);
 
   allDiagnostics.forEach((diagnostic) => {
     if (diagnostic.file) {
-      let { line, character } = ts.getLineAndCharacterOfPosition(diagnostic.file, diagnostic.start);
-      let message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
-      console.error(`${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`);
+      let { line, character } = ts.getLineAndCharacterOfPosition(
+        diagnostic.file,
+        diagnostic.start,
+      );
+      let message = ts.flattenDiagnosticMessageText(
+        diagnostic.messageText,
+        "\n",
+      );
+      console.error(
+        `${diagnostic.file.fileName} (${line + 1},${
+          character + 1
+        }): ${message}`,
+      );
     } else {
-      console.error(ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"));
+      console.error(
+        ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"),
+      );
     }
   });
 

@@ -1,5 +1,17 @@
 {
   "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    "ignore": [
+      "package.json",
+      "tests/**/*.json",
+      "tests/**/expected.ts",
+      "tests/**/expected/**",
+      "tests/**/generated/**",
+      "tests/**/schema.d.ts",
+      "tests/**/schema.js",
+      "tests/**/schema.ts"
+    ]
+  },
   "formatter": {
     "enabled": true,
     "indentStyle": "space"

@@ -1,10 +1,12 @@
 const { generateApiForTest } = require("../../helpers/generateApiForTest");
-const { resolve } = require("path");
+const { resolve } = require("node:path");
 const validateGeneratedModule = require("../../helpers/validateGeneratedModule");
 const assertGeneratedModule = require("../../helpers/assertGeneratedModule");
 const createSchemaInfos = require("../../helpers/createSchemaInfos");
 
-const schemas = createSchemaInfos({ absolutePathToSchemas: resolve(__dirname, "./") });
+const schemas = createSchemaInfos({
+  absolutePathToSchemas: resolve(__dirname, "./"),
+});
 
 schemas.forEach(({ absolutePath, apiFileName }) => {
   generateApiForTest({
@@ -19,6 +21,9 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
     },
   }).then(() => {
     validateGeneratedModule(resolve(__dirname, `./${apiFileName}`));
-    assertGeneratedModule(resolve(__dirname, `./${apiFileName}`), resolve(__dirname, `./expected.ts`));
+    assertGeneratedModule(
+      resolve(__dirname, `./${apiFileName}`),
+      resolve(__dirname, "./expected.ts"),
+    );
   });
 });

@@ -1,24 +1,24 @@
-const _ = require('lodash');
-const { generateId } = require('../util/id.js');
+const _ = require("lodash");
+const { generateId } = require("../util/id.js");
 const {
   SpecificArgNameResolver,
-} = require('./util/specific-arg-name-resolver');
+} = require("./util/specific-arg-name-resolver");
 const {
   DEFAULT_BODY_ARG_NAME,
   RESERVED_BODY_ARG_NAMES,
   RESERVED_HEADER_ARG_NAMES,
   RESERVED_PATH_ARG_NAMES,
   RESERVED_QUERY_ARG_NAMES,
-} = require('../constants.js');
-const { camelCase } = require('lodash');
+} = require("../constants.js");
+const { camelCase } = require("lodash");
 
 const CONTENT_KIND = {
-  JSON: 'JSON',
-  URL_ENCODED: 'URL_ENCODED',
-  FORM_DATA: 'FORM_DATA',
-  IMAGE: 'IMAGE',
-  OTHER: 'OTHER',
-  TEXT: 'TEXT',
+  JSON: "JSON",
+  URL_ENCODED: "URL_ENCODED",
+  FORM_DATA: "FORM_DATA",
+  IMAGE: "IMAGE",
+  OTHER: "OTHER",
+  TEXT: "TEXT",
 };
 
 class SchemaRoutes {
@@ -75,20 +75,20 @@ class SchemaRoutes {
     this.templatesWorker = templatesWorker;
 
     this.FORM_DATA_TYPES = _.uniq([
-      this.schemaUtils.getSchemaType({ type: 'string', format: 'file' }),
-      this.schemaUtils.getSchemaType({ type: 'string', format: 'binary' }),
+      this.schemaUtils.getSchemaType({ type: "string", format: "file" }),
+      this.schemaUtils.getSchemaType({ type: "string", format: "binary" }),
     ]);
   }
 
   createRequestsMap = (routeInfoByMethodsMap) => {
-    const parameters = _.get(routeInfoByMethodsMap, 'parameters');
+    const parameters = _.get(routeInfoByMethodsMap, "parameters");
 
     return _.reduce(
       routeInfoByMethodsMap,
       (acc, requestInfo, method) => {
         if (
-          _.startsWith(method, 'x-') ||
-          ['parameters', '$ref'].includes(method)
+          _.startsWith(method, "x-") ||
+          ["parameters", "$ref"].includes(method)
         ) {
           return acc;
         }
@@ -109,7 +109,7 @@ class SchemaRoutes {
       this.config.hooks.onPreBuildRoutePath(originalRouteName) ||
       originalRouteName;
 
-    const pathParamMatches = (routeName || '').match(
+    const pathParamMatches = (routeName || "").match(
       /({(([A-z]){1}([a-zA-Z0-9]-?_?\.?)+)([0-9]+)?})|(:(([A-z]){1}([a-zA-Z0-9]-?_?\.?)+)([0-9]+)?:?)/g,
     );
 
@@ -117,24 +117,24 @@ class SchemaRoutes {
     const pathParams = _.reduce(
       pathParamMatches,
       (pathParams, match) => {
-        const paramName = _.replace(match, /\{|\}|:/g, '');
+        const paramName = _.replace(match, /\{|\}|:/g, "");
 
         if (!paramName) return pathParams;
 
-        if (_.includes(paramName, '-')) {
-          this.logger.warn('wrong path param name', paramName);
+        if (_.includes(paramName, "-")) {
+          this.logger.warn("wrong path param name", paramName);
         }
 
         pathParams.push({
           $match: match,
           name: _.camelCase(paramName),
           required: true,
-          type: 'string',
-          description: '',
+          type: "string",
+          description: "",
           schema: {
-            type: 'string',
+            type: "string",
           },
-          in: 'path',
+          in: "path",
         });
 
         return pathParams;
@@ -154,7 +154,7 @@ class SchemaRoutes {
           ) || pathParam.name;
         return _.replace(fixedRoute, pathParam.$match, `\${${insertion}}`);
       },
-      routeName || '',
+      routeName || "",
     );
 
     const queryParamMatches = fixedRoute.match(/(\{\?.*\})/g);
@@ -162,35 +162,35 @@ class SchemaRoutes {
 
     if (queryParamMatches && queryParamMatches.length) {
       queryParamMatches.forEach((match) => {
-        fixedRoute = fixedRoute.replace(match, '');
+        fixedRoute = fixedRoute.replace(match, "");
       });
 
       _.uniq(
         queryParamMatches
-          .join(',')
-          .replace(/(\{\?)|(\})|\s/g, '')
-          .split(','),
+          .join(",")
+          .replace(/(\{\?)|(\})|\s/g, "")
+          .split(","),
       ).forEach((paramName) => {
-        if (_.includes(paramName, '-')) {
-          this.logger.warn('wrong query param name', paramName);
+        if (_.includes(paramName, "-")) {
+          this.logger.warn("wrong query param name", paramName);
         }
 
         queryParams.push({
           $match: paramName,
           name: _.camelCase(paramName),
           required: true,
-          type: 'string',
-          description: '',
+          type: "string",
+          description: "",
           schema: {
-            type: 'string',
+            type: "string",
           },
-          in: 'query',
+          in: "query",
         });
       });
     }
 
     const result = {
-      originalRoute: originalRouteName || '',
+      originalRoute: originalRouteName || "",
       route: fixedRoute,
       pathParams,
       queryParams,
@@ -246,7 +246,7 @@ class SchemaRoutes {
         };
       }
 
-      if (routeParam.in === 'path') {
+      if (routeParam.in === "path") {
         if (!routeParam.name) return;
 
         routeParam.name = _.camelCase(routeParam.name);
@@ -300,29 +300,29 @@ class SchemaRoutes {
   getContentKind = (contentTypes) => {
     if (
       _.some(contentTypes, (contentType) =>
-        _.startsWith(contentType, 'application/json'),
+        _.startsWith(contentType, "application/json"),
       ) ||
-      _.some(contentTypes, (contentType) => _.endsWith(contentType, '+json'))
+      _.some(contentTypes, (contentType) => _.endsWith(contentType, "+json"))
     ) {
       return CONTENT_KIND.JSON;
     }
 
-    if (contentTypes.includes('application/x-www-form-urlencoded')) {
+    if (contentTypes.includes("application/x-www-form-urlencoded")) {
       return CONTENT_KIND.URL_ENCODED;
     }
 
-    if (contentTypes.includes('multipart/form-data')) {
+    if (contentTypes.includes("multipart/form-data")) {
       return CONTENT_KIND.FORM_DATA;
     }
 
     if (
-      _.some(contentTypes, (contentType) => _.includes(contentType, 'image/'))
+      _.some(contentTypes, (contentType) => _.includes(contentType, "image/"))
     ) {
       return CONTENT_KIND.IMAGE;
     }
 
     if (
-      _.some(contentTypes, (contentType) => _.startsWith(contentType, 'text/'))
+      _.some(contentTypes, (contentType) => _.startsWith(contentType, "text/"))
     ) {
       return CONTENT_KIND.TEXT;
     }
@@ -331,13 +331,13 @@ class SchemaRoutes {
   };
 
   isSuccessStatus = (status) =>
-    (this.config.defaultResponseAsSuccess && status === 'default') ||
+    (this.config.defaultResponseAsSuccess && status === "default") ||
     (+status >= this.config.successResponseStatusRange[0] &&
       +status <= this.config.successResponseStatusRange[1]) ||
-    status === '2xx';
+    status === "2xx";
 
   getSchemaFromRequestType = (requestInfo) => {
-    const content = _.get(requestInfo, 'content');
+    const content = _.get(requestInfo, "content");
 
     if (!content) return null;
 
@@ -398,7 +398,7 @@ class SchemaRoutes {
       const typeNameWithoutOpId = _.replace(
         refTypeInfo.typeName,
         operationId,
-        '',
+        "",
       );
       if (
         _.find(parsedSchemas, (schema) => schema.name === typeNameWithoutOpId)
@@ -407,10 +407,10 @@ class SchemaRoutes {
       }
 
       switch (refTypeInfo.componentName) {
-        case 'schemas':
+        case "schemas":
           return this.typeNameFormatter.format(refTypeInfo.typeName);
-        case 'responses':
-        case 'requestBodies':
+        case "responses":
+        case "requestBodies":
           return this.schemaParserFabric.getInlineParseContent(
             this.getSchemaFromRequestType(refTypeInfo.rawTypeData),
             refTypeInfo.typeName || null,
@@ -456,7 +456,7 @@ class SchemaRoutes {
             ),
             description:
               this.schemaParserFabric.schemaFormatters.formatDescription(
-                requestInfo.description || '',
+                requestInfo.description || "",
                 true,
               ),
             status: _.isNaN(+status) ? status : +status,
@@ -472,7 +472,7 @@ class SchemaRoutes {
 
     const contentTypes = this.getContentTypes(responses, [
       ...(produces || []),
-      routeInfo['x-accepts'],
+      routeInfo["x-accepts"],
     ]);
 
     const responseInfos = this.getRequestInfoTypes({
@@ -492,7 +492,7 @@ class SchemaRoutes {
 
     const handleResponseHeaders = (src) => {
       if (!src) {
-        return 'headers: {},';
+        return "headers: {},";
       }
       const headerTypes = Object.fromEntries(
         Object.entries(src).map(([k, v]) => {
@@ -501,7 +501,7 @@ class SchemaRoutes {
       );
       const r = `headers: { ${Object.entries(headerTypes)
         .map(([k, v]) => `"${k}": ${v}`)
-        .join(',')} },`;
+        .join(",")} },`;
       return r;
     };
 
@@ -545,7 +545,7 @@ class SchemaRoutes {
 
         let usageName = `${schemaPart.name}`;
 
-        if (usageName.includes('.')) {
+        if (usageName.includes(".")) {
           usageName = camelCase(usageName);
         }
 
@@ -564,7 +564,7 @@ class SchemaRoutes {
       },
       {
         properties: {},
-        type: 'object',
+        type: "object",
       },
     );
   };
@@ -576,7 +576,7 @@ class SchemaRoutes {
 
     const contentTypes = this.getContentTypes(
       [requestBody],
-      [...(consumes || []), routeInfo['x-contentType']],
+      [...(consumes || []), routeInfo["x-contentType"]],
     );
     let contentKind = this.getContentKind(contentTypes);
 
@@ -650,7 +650,7 @@ class SchemaRoutes {
       type: content,
       required:
         requestBody &&
-        (typeof requestBody.required === 'undefined' || !!requestBody.required),
+        (typeof requestBody.required === "undefined" || !!requestBody.required),
     };
   };
 
@@ -669,7 +669,7 @@ class SchemaRoutes {
         if (pathArgSchema.name) {
           acc[pathArgSchema.name] = {
             ...pathArgSchema,
-            in: 'path',
+            in: "path",
           };
         }
 
@@ -679,12 +679,12 @@ class SchemaRoutes {
     );
 
     const fixedQueryParams = _.reduce(
-      _.get(queryObjectSchema, 'properties', {}),
+      _.get(queryObjectSchema, "properties", {}),
       (acc, property, name) => {
         if (name && _.isObject(property)) {
           acc[name] = {
             ...property,
-            in: 'query',
+            in: "query",
           };
         }
 
@@ -784,17 +784,17 @@ class SchemaRoutes {
           title: errorSchemas
             .map((schema) => schema.title)
             .filter(Boolean)
-            .join(' '),
+            .join(" "),
           description: errorSchemas
             .map((schema) => schema.description)
             .filter(Boolean)
-            .join('\n'),
+            .join("\n"),
         },
         null,
         [routeInfo.operationId],
       );
       const component = this.schemaComponentsMap.createComponent(
-        this.schemaComponentsMap.createRef(['components', 'schemas', typeName]),
+        this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
         { ...schema },
       );
       responseBodyInfo.error.schemas = [component];
@@ -843,7 +843,7 @@ class SchemaRoutes {
     const duplicates = routeNameDuplicatesMap.get(duplicateIdentifier);
 
     const routeNameInfo = {
-      usage: routeName + (duplicates > 1 ? duplicates : ''),
+      usage: routeName + (duplicates > 1 ? duplicates : ""),
       original: routeName,
       duplicate: duplicates > 1,
     };
@@ -891,7 +891,7 @@ class SchemaRoutes {
     const moduleName =
       moduleNameFirstTag && firstTag
         ? _.camelCase(firstTag)
-        : _.camelCase(_.compact(_.split(route, '/'))[moduleNameIndex]);
+        : _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
     let hasSecurity = !!(globalSecurity && globalSecurity.length);
     if (security) {
       hasSecurity = security.length > 0;
@@ -1059,7 +1059,7 @@ class SchemaRoutes {
 
     return {
       id: routeId,
-      namespace: _.replace(moduleName, /^(\d)/, 'v$1'),
+      namespace: _.replace(moduleName, /^(\d)/, "v$1"),
       routeName,
       routeParams,
       requestBodyInfo,
@@ -1156,7 +1156,7 @@ class SchemaRoutes {
     const routeGroups = _.reduce(
       groupedRoutes,
       (acc, routesGroup, moduleName) => {
-        if (moduleName === '$outOfModule') {
+        if (moduleName === "$outOfModule") {
           acc.outOfModule = routesGroup;
         } else {
           if (!acc.combined) acc.combined = [];

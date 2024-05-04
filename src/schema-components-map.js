@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const _ = require("lodash");
 
 class SchemaComponentsMap {
   /** @type {SchemaComponent[]} */
@@ -15,11 +15,11 @@ class SchemaComponentsMap {
   }
 
   createRef = (paths) => {
-    return ['#', ...paths].join('/');
+    return ["#", ...paths].join("/");
   };
 
   parseRef = (ref) => {
-    return ref.split('/');
+    return ref.split("/");
   };
 
   createComponent($ref, rawTypeData) {

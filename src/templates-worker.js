@@ -1,7 +1,7 @@
-const { resolve } = require('path');
-const _ = require('lodash');
-const Eta = require('eta');
-const path = require('path');
+const { resolve } = require("node:path");
+const _ = require("lodash");
+const Eta = require("eta");
+const path = require("node:path");
 
 class TemplatesWorker {
   /**
@@ -34,9 +34,9 @@ class TemplatesWorker {
    * @returns {CodeGenConfig.templatePaths}
    */
   getTemplatePaths = (config) => {
-    const baseTemplatesPath = resolve(__dirname, '../templates/base');
-    const defaultTemplatesPath = resolve(__dirname, '../templates/default');
-    const modularTemplatesPath = resolve(__dirname, '../templates/modular');
+    const baseTemplatesPath = resolve(__dirname, "../templates/base");
+    const defaultTemplatesPath = resolve(__dirname, "../templates/default");
+    const modularTemplatesPath = resolve(__dirname, "../templates/modular");
     const originalTemplatesPath = config.modular
       ? modularTemplatesPath
       : defaultTemplatesPath;
@@ -59,12 +59,12 @@ class TemplatesWorker {
 
   cropExtension = (path) =>
     this.config.templateExtensions.reduce(
-      (path, ext) => (_.endsWith(path, ext) ? path.replace(ext, '') : path),
+      (path, ext) => (_.endsWith(path, ext) ? path.replace(ext, "") : path),
       path,
     );
 
   getTemplateFullPath = (path, fileName) => {
-    const raw = resolve(path, './', this.cropExtension(fileName));
+    const raw = resolve(path, "./", this.cropExtension(fileName));
     const pathVariants = this.config.templateExtensions.map(
       (extension) => `${raw}${extension}`,
     );
@@ -76,13 +76,16 @@ class TemplatesWorker {
 
   requireFnFromTemplate = (packageOrPath) => {
     const isPath =
-      _.startsWith(packageOrPath, './') || _.startsWith(packageOrPath, '../');
+      _.startsWith(packageOrPath, "./") || _.startsWith(packageOrPath, "../");
 
     if (isPath) {
-      return require(path.resolve(
-        this.config.templatePaths.custom || this.config.templatePaths.original,
-        packageOrPath,
-      ));
+      return require(
+        path.resolve(
+          this.config.templatePaths.custom ||
+            this.config.templatePaths.original,
+          packageOrPath,
+        ),
+      );
     }
 
     return require(packageOrPath);
@@ -95,7 +98,7 @@ class TemplatesWorker {
       return this.fileSystem.getFileContent(path);
     }
 
-    if (!fileName) return '';
+    if (!fileName) return "";
 
     const customFullPath =
       templatePaths.custom &&
@@ -120,7 +123,7 @@ class TemplatesWorker {
           `"${_.lowerCase(name)}" template not found in "${
             templatePaths.custom
           }"`,
-          `\nCode generator will use the default template`,
+          "\nCode generator will use the default template",
         );
       } else {
         this.logger.log(
@@ -202,7 +205,7 @@ class TemplatesWorker {
       return this.fileSystem.getFileContent(originalPath);
     }
 
-    return '';
+    return "";
   };
 
   /**
@@ -212,7 +215,7 @@ class TemplatesWorker {
    * @returns {Promise<string|string|void>}
    */
   renderTemplate = (template, configuration, options) => {
-    if (!template) return '';
+    if (!template) return "";
 
     return Eta.render(
       template,

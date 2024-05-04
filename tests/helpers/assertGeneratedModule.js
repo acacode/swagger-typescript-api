@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("node:fs");
 const gitDiff = require("git-diff");
 const _ = require("lodash");
 
@@ -32,7 +32,10 @@ const assertGeneratedModule = (pathToModule1, pathToModule2) => {
       };
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
-        if (line.startsWith(minusLinePrefix1) || line.startsWith(minusLinePrefix2)) {
+        if (
+          line.startsWith(minusLinePrefix1) ||
+          line.startsWith(minusLinePrefix2)
+        ) {
           lineStructs.push({
             pos: i,
             id: Math.random().toString() + i,
@@ -76,7 +79,10 @@ const assertGeneratedModule = (pathToModule1, pathToModule2) => {
       }
 
       const sortedLines = _.sortBy(_.uniqBy(computedLines, "id"), "pos");
-      const maxLine = (sortedLines.map((v) => v.line).sort((a, b) => b.length - a.length)[0] || "").length;
+      const maxLine = (
+        sortedLines.map((v) => v.line).sort((a, b) => b.length - a.length)[0] ||
+        ""
+      ).length;
       const fixedLines = sortedLines.reduce((acc, computedLine, i, arr) => {
         const prev = arr[i - 1];
         if ((prev && computedLine.pos - prev.pos > 10) || !i) {

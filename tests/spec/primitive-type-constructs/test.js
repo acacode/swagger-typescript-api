@@ -1,10 +1,12 @@
 const { generateApiForTest } = require("../../helpers/generateApiForTest");
-const { resolve } = require("path");
+const { resolve } = require("node:path");
 const validateGeneratedModule = require("../../helpers/validateGeneratedModule");
 const createSchemaInfos = require("../../helpers/createSchemaInfos");
 const assertGeneratedModule = require("../../helpers/assertGeneratedModule");
 
-const schemas = createSchemaInfos({ absolutePathToSchemas: resolve(__dirname, "./") });
+const schemas = createSchemaInfos({
+  absolutePathToSchemas: resolve(__dirname, "./"),
+});
 
 schemas.forEach(({ absolutePath, apiFileName }) => {
   const primitiveTypeConstructs = (constructs) => ({
@@ -45,13 +47,18 @@ schemas.forEach(({ absolutePath, apiFileName }) => {
       codeGenConstructs,
     }),
   ]).then((...args) => {
-    validateGeneratedModule(resolve(__dirname, `./another-array-type/${apiFileName}`));
+    validateGeneratedModule(
+      resolve(__dirname, `./another-array-type/${apiFileName}`),
+    );
     assertGeneratedModule(
       resolve(__dirname, `./another-array-type/${apiFileName}`),
-      resolve(__dirname, `./another-array-type/expected.ts`),
+      resolve(__dirname, "./another-array-type/expected.ts"),
     );
 
     validateGeneratedModule(resolve(__dirname, `./base/${apiFileName}`));
-    assertGeneratedModule(resolve(__dirname, `./base/${apiFileName}`), resolve(__dirname, `./base/expected.ts`));
+    assertGeneratedModule(
+      resolve(__dirname, `./base/${apiFileName}`),
+      resolve(__dirname, "./base/expected.ts"),
+    );
   });
 });

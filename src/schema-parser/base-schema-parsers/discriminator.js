@@ -1,6 +1,6 @@
-const _ = require('lodash');
-const { SCHEMA_TYPES } = require('../../constants');
-const { MonoSchemaParser } = require('../mono-schema-parser');
+const _ = require("lodash");
+const { SCHEMA_TYPES } = require("../../constants");
+const { MonoSchemaParser } = require("../mono-schema-parser");
 
 class DiscriminatorSchemaParser extends MonoSchemaParser {
   parse() {
@@ -54,8 +54,8 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     const ts = this.config.Ts;
 
     const refPath = this.schemaComponentsMap.createRef([
-      'components',
-      'schemas',
+      "components",
+      "schemas",
       this.typeName,
     ]);
     const { discriminator } = this.schema;
@@ -85,18 +85,18 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
         ts.ObjectWrapper(
           ts.TypeField({
             key: ts.StringValue(discriminator.propertyName),
-            value: 'Key',
+            value: "Key",
           }),
         ),
-        'Type',
+        "Type",
       ]);
 
       const component = this.schemaParserFabric.createParsedComponent({
         typeName: generatedTypeName,
         schema: {
-          type: 'object',
+          type: "object",
           properties: {},
-          genericArgs: [{ name: 'Key' }, { name: 'Type' }],
+          genericArgs: [{ name: "Key" }, { name: "Type" }],
           internal: true,
         },
       });
@@ -138,7 +138,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
 
     for (const [mappingKey, schema] of mappingEntries) {
       const mappingSchema =
-        typeof schema === 'string' ? { $ref: schema } : schema;
+        typeof schema === "string" ? { $ref: schema } : schema;
 
       this.mutateMappingDependentSchema({
         discPropertyName: discriminator.propertyName,
@@ -169,7 +169,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     let mappingPropertySchemaEnumKeysMap = {};
     let mappingPropertySchema = _.get(
       abstractSchemaStruct?.component?.rawTypeData,
-      ['properties', discPropertyName],
+      ["properties", discPropertyName],
     );
     if (this.schemaUtils.isRefSchema(mappingPropertySchema)) {
       mappingPropertySchema = this.schemaUtils.getSchemaRefType(
@@ -271,7 +271,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
       resolver: this.config.extractingOptions.discriminatorAbstractResolver,
     });
     const component = this.schemaComponentsMap.createComponent(
-      this.schemaComponentsMap.createRef(['components', 'schemas', typeName]),
+      this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
       {
         ...schema,
         internal: true,
