@@ -48,12 +48,12 @@
     "lint:fix": "eslint . --fix",
     "node": "node swagger-test-cli/generate.js",
     "node:debug": "node --nolazy swagger-test-cli/generate.js",
-    "test-all": "npm run test-extended && npm run test-simple && npm run test-specific",
-    "test-all(update-snapshots)": "cross-env UPDATE_SNAPSHOTS=true npm run test-all",
+    "test-all": "yarn test-extended && yarn test-simple && yarn test-specific",
+    "test-all(update-snapshots)": "cross-env UPDATE_SNAPSHOTS=true yarn test-all",
     "test-extended": "node --unhandled-rejections=strict scripts_runner.js generate-extended validate",
     "test-simple": "node --unhandled-rejections=strict scripts_runner.js generate validate",
-    "test-specific": "node --unhandled-rejections=strict scripts_runner.js test:*",
-    "test-specific(update-snapshots)": "cross-env UPDATE_SNAPSHOTS=true node --unhandled-rejections=strict scripts_runner.js test:*",
+    "test-specific": "node --unhandled-rejections=strict scripts_runner.js \"test:*\"",
+    "test-specific(update-snapshots)": "cross-env UPDATE_SNAPSHOTS=true node --unhandled-rejections=strict scripts_runner.js \"test:*\"",
     "test:--add-readonly": "node tests/spec/readonly/test.js",
     "test:--another-array-type": "node tests/spec/another-array-type/test.js",
     "test:--axios": "node tests/spec/axios/test.js",
@@ -99,7 +99,6 @@
     "test:sort-types": "node tests/spec/sortTypes/test.js",
     "test:sort-types-false": "node tests/spec/sortTypes-false/test.js",
     "test:specProperty": "node tests/spec/specProperty/test.js",
-    "update-deps-to-latest": "npx --yes npm-check-updates && npm i",
     "validate": "node tests/validate.js",
     "validate:debug": "node --nolazy tests/validate.js"
   },
@@ -134,5 +133,6 @@
     "husky": "^9.0.11",
     "pretty-quick": "^4.0.0",
     "rimraf": "^5.0.1"
-  }
+  },
+  "packageManager": "yarn@4.2.1"
 }

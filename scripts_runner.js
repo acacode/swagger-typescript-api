@@ -7,11 +7,8 @@ const packageScripts = Object.keys(packageJson.scripts);
 
 const execute = (scriptName) =>
   new Promise((resolve, reject) => {
-    console.log(`npm run ${scriptName}`);
-    const spawned = spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', [
-      'run',
-      scriptName,
-    ]);
+    console.log(`yarn ${scriptName}`);
+    const spawned = spawn('yarn', [scriptName]);
 
     spawned.stdout.on('data', (data) => {
       process.stdout.write(data);

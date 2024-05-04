@@ -18,8 +18,8 @@ jobs:
           node-version: 22
           check-latest: true
 
-      - name: Install npm packages
-        run: npm ci --ignore-scripts
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Run the tests
-        run: npm run test-all
+        run: yarn test-all
