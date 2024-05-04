@@ -6,89 +6,20 @@ on:
 
 jobs:
   build-and-test:
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - macos-latest
-          - ubuntu-latest
-          - windows-latest
-        node-version:
-          - 16.x
-          - 18.x
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout tree
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: Set-up Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 22
+          check-latest: true
 
       - name: Install npm packages
         run: npm ci --ignore-scripts
 
       - name: Run the tests
         run: npm run test-all
-
-  dependabot-auto-approve:
-    name: Dependabot auto-approve
-
-    permissions:
-      pull-requests: write
-
-    needs:
-      - build-and-test
-
-    if: ${{ github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' }}
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Fetch Dependabot metadata
-        id: metadata
-        uses: dependabot/fetch-metadata@v1
-
-      - name: Get the PR review decision
-        id: gh-pr-review
-        run: echo "decision=$(gh pr view --json reviewDecision --jq '. | .reviewDecision' "$PR_URL")" >>"$GITHUB_OUTPUT"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{ github.token }}
-
-      - name: Approve a PR
-        if: ${{ steps.gh-pr-review.outputs.decision != 'APPROVED' && steps.metadata.outputs.update-type == 'version-update:semver-patch' }}
-        run: gh pr review --approve "$PR_URL"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{ github.token }}
-
-  dependabot-auto-merge:
-    name: Dependabot auto-merge
-
-    permissions:
-      contents: write
-      pull-requests: write
-
-    if: ${{ github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' }}
-
-    needs:
-      - build-and-test
-      - dependabot-auto-approve
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Fetch Dependabot metadata
-        id: metadata
-        uses: dependabot/fetch-metadata@v1
-
-      - name: Merge Dependabot PR
-        if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-patch' }}
-        run: gh pr merge --auto --merge "$PR_URL"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{ github.token }}
