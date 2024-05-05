@@ -1,5 +1,4 @@
 const fs = require("node:fs");
-const makeDir = require("make-dir");
 const { resolve } = require("node:path");
 const _ = require("lodash");
 const { Logger } = require("./logger");
@@ -68,7 +67,7 @@ class FileSystem {
 
   createDir = (path) => {
     try {
-      makeDir.sync(path);
+      fs.mkdirSync(path, { recursive: true });
     } catch (e) {
       this.logger.debug("failed to create dir", e);
     }

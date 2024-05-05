@@ -1,6 +1,4 @@
 const _ = require("lodash");
-const https = require("node:https");
-const fetch = require("node-fetch-h2");
 
 class Request {
   /**
@@ -18,23 +16,30 @@ class Request {
   }
 
   /**
-   *
    * @param url {string}
    * @param disableStrictSSL
    * @param authToken
-   * @param options {Partial<import("node-fetch").RequestInit>}
+   * @param options {Partial<RequestInit>}
    * @return {Promise<string>}
    */
   async download({ url, disableStrictSSL, authToken, ...options }) {
     /**
-     * @type {Partial<import("node-fetch").RequestInit>}
+     * @type {Partial<RequestInit>}
      */
     const requestOptions = {};
 
     if (disableStrictSSL && !_.startsWith(url, "http://")) {
-      requestOptions.agent = new https.Agent({
-        rejectUnauthorized: false,
+      const undiciGlobalDispatcher =
+        global[Symbol.for("undici.globalDispatcher.1")];
+      if (!undiciGlobalDispatcher) {
+        throw new Error("Could not find the global Undici dispatcher");
+      }
+      const newDispatcher = new undiciGlobalDispatcher.constructor({
+        connect: {
+          rejectUnauthorized: false,
+        },
       });
+      global[unidiciGlobalDispatcherSymbol] = newDispatcher;
     }
     if (authToken) {
       requestOptions.headers = {
