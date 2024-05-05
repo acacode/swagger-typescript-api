@@ -1,7 +1,7 @@
-# swagger-typescript-api  
+# swagger-typescript-api
 
-# templates/modular  
+# templates/modular
 
-This templates use for multiple api files (`--modular` option)  
+This templates use for multiple api files (`--modular` option)
 
-path prefix `@modular`  
+path prefix `@modular`

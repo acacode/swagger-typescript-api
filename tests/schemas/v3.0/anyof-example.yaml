@@ -10,23 +10,23 @@ paths:
           application/json:
             schema:
               anyOf:
-                - $ref: '#/components/schemas/PetByAge'
-                - $ref: '#/components/schemas/PetByType'
+                - $ref: "#/components/schemas/PetByAge"
+                - $ref: "#/components/schemas/PetByType"
       responses:
-        '200':
+        "200":
           description: Updated
 components:
   schemas:
     PetByAge:
       type: object
-      properties: 
-        age: 
+      properties:
+        age:
           type: integer
-        nickname: 
+        nickname:
           type: string
       required:
         - age
-          
+
     PetByType:
       type: object
       properties:
@@ -35,5 +35,5 @@ components:
           enum: [Cat, Dog]
         hunts:
           type: boolean
-      required: 
+      required:
         - pet_type

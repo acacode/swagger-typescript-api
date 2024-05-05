@@ -419,7 +419,12 @@
                           "type": "string"
                         }
                       },
-                      "required": ["client_id", "client_secret", "webhook_secret", "pem"],
+                      "required": [
+                        "client_id",
+                        "client_secret",
+                        "webhook_secret",
+                        "pem"
+                      ],
                       "additionalProperties": true
                     }
                   ]
@@ -11217,7 +11222,15 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["all", "public", "private", "forks", "sources", "member", "internal"]
+              "enum": [
+                "all",
+                "public",
+                "private",
+                "forks",
+                "sources",
+                "member",
+                "internal"
+              ]
             }
           },
           {
@@ -12592,7 +12605,16 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+              "enum": [
+                "+1",
+                "-1",
+                "laugh",
+                "confused",
+                "heart",
+                "hooray",
+                "rocket",
+                "eyes"
+              ]
             }
           },
           {
@@ -12673,7 +12695,16 @@
                   "content": {
                     "type": "string",
                     "description": "The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the team discussion comment.",
-                    "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+                    "enum": [
+                      "+1",
+                      "-1",
+                      "laugh",
+                      "confused",
+                      "heart",
+                      "hooray",
+                      "rocket",
+                      "eyes"
+                    ]
                   }
                 },
                 "required": ["content"]
@@ -12790,7 +12821,16 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+              "enum": [
+                "+1",
+                "-1",
+                "laugh",
+                "confused",
+                "heart",
+                "hooray",
+                "rocket",
+                "eyes"
+              ]
             }
           },
           {
@@ -12868,7 +12908,16 @@
                   "content": {
                     "type": "string",
                     "description": "The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the team discussion.",
-                    "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+                    "enum": [
+                      "+1",
+                      "-1",
+                      "laugh",
+                      "confused",
+                      "heart",
+                      "hooray",
+                      "rocket",
+                      "eyes"
+                    ]
                   }
                 },
                 "required": ["content"]
@@ -13809,7 +13858,11 @@
                           "description": "Description of the IdP group."
                         }
                       },
-                      "required": ["group_id", "group_name", "group_description"]
+                      "required": [
+                        "group_id",
+                        "group_name",
+                        "group_description"
+                      ]
                     }
                   }
                 },
@@ -19026,7 +19079,10 @@
                     "type": "string"
                   }
                 },
-                "example": ["continuous-integration/travis-ci", "continuous-integration/jenkins"]
+                "example": [
+                  "continuous-integration/travis-ci",
+                  "continuous-integration/jenkins"
+                ]
               }
             }
           },
@@ -22062,7 +22118,16 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+              "enum": [
+                "+1",
+                "-1",
+                "laugh",
+                "confused",
+                "heart",
+                "hooray",
+                "rocket",
+                "eyes"
+              ]
             }
           },
           {
@@ -22146,7 +22211,16 @@
                   "content": {
                     "type": "string",
                     "description": "The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the commit comment.",
-                    "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+                    "enum": [
+                      "+1",
+                      "-1",
+                      "laugh",
+                      "confused",
+                      "heart",
+                      "hooray",
+                      "rocket",
+                      "eyes"
+                    ]
                   }
                 },
                 "required": ["content"]
@@ -25454,7 +25528,13 @@
                         "mode": {
                           "type": "string",
                           "description": "The file mode; one of `100644` for file (blob), `100755` for executable (blob), `040000` for subdirectory (tree), `160000` for submodule (commit), or `120000` for a blob that specifies the path of a symlink.",
-                          "enum": ["100644", "100755", "040000", "160000", "120000"]
+                          "enum": [
+                            "100644",
+                            "100755",
+                            "040000",
+                            "160000",
+                            "120000"
+                          ]
                         },
                         "type": {
                           "type": "string",
@@ -27602,7 +27682,16 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+              "enum": [
+                "+1",
+                "-1",
+                "laugh",
+                "confused",
+                "heart",
+                "hooray",
+                "rocket",
+                "eyes"
+              ]
             }
           },
           {
@@ -27686,7 +27775,16 @@
                   "content": {
                     "type": "string",
                     "description": "The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the issue comment.",
-                    "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+                    "enum": [
+                      "+1",
+                      "-1",
+                      "laugh",
+                      "confused",
+                      "heart",
+                      "hooray",
+                      "rocket",
+                      "eyes"
+                    ]
                   }
                 },
                 "required": ["content"]
@@ -28959,7 +29057,16 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+              "enum": [
+                "+1",
+                "-1",
+                "laugh",
+                "confused",
+                "heart",
+                "hooray",
+                "rocket",
+                "eyes"
+              ]
             }
           },
           {
@@ -29046,7 +29153,16 @@
                   "content": {
                     "type": "string",
                     "description": "The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the issue.",
-                    "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+                    "enum": [
+                      "+1",
+                      "-1",
+                      "laugh",
+                      "confused",
+                      "heart",
+                      "hooray",
+                      "rocket",
+                      "eyes"
+                    ]
                   }
                 },
                 "required": ["content"]
@@ -31657,7 +31773,16 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+              "enum": [
+                "+1",
+                "-1",
+                "laugh",
+                "confused",
+                "heart",
+                "hooray",
+                "rocket",
+                "eyes"
+              ]
             }
           },
           {
@@ -31741,7 +31866,16 @@
                   "content": {
                     "type": "string",
                     "description": "The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the pull request review comment.",
-                    "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+                    "enum": [
+                      "+1",
+                      "-1",
+                      "laugh",
+                      "confused",
+                      "heart",
+                      "hooray",
+                      "rocket",
+                      "eyes"
+                    ]
                   }
                 },
                 "required": ["content"]
@@ -38902,7 +39036,16 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+              "enum": [
+                "+1",
+                "-1",
+                "laugh",
+                "confused",
+                "heart",
+                "hooray",
+                "rocket",
+                "eyes"
+              ]
             }
           },
           {
@@ -38983,7 +39126,16 @@
                   "content": {
                     "type": "string",
                     "description": "The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the team discussion comment.",
-                    "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+                    "enum": [
+                      "+1",
+                      "-1",
+                      "laugh",
+                      "confused",
+                      "heart",
+                      "hooray",
+                      "rocket",
+                      "eyes"
+                    ]
                   }
                 },
                 "required": ["content"]
@@ -39053,7 +39205,16 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+              "enum": [
+                "+1",
+                "-1",
+                "laugh",
+                "confused",
+                "heart",
+                "hooray",
+                "rocket",
+                "eyes"
+              ]
             }
           },
           {
@@ -39131,7 +39292,16 @@
                   "content": {
                     "type": "string",
                     "description": "The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the team discussion.",
-                    "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+                    "enum": [
+                      "+1",
+                      "-1",
+                      "laugh",
+                      "confused",
+                      "heart",
+                      "hooray",
+                      "rocket",
+                      "eyes"
+                    ]
                   }
                 },
                 "required": ["content"]
@@ -40269,7 +40439,11 @@
                           "example": "\"moar cheese pleese\""
                         }
                       },
-                      "required": ["group_id", "group_name", "group_description"]
+                      "required": [
+                        "group_id",
+                        "group_name",
+                        "group_description"
+                      ]
                     }
                   },
                   "synced_at": {
@@ -47240,7 +47414,11 @@
             }
           }
         },
-        "required": ["github_owned_allowed", "patterns_allowed", "verified_allowed"]
+        "required": [
+          "github_owned_allowed",
+          "patterns_allowed",
+          "verified_allowed"
+        ]
       },
       "runner-groups-enterprise": {
         "type": "object",
@@ -47664,7 +47842,15 @@
             "example": true
           }
         },
-        "required": ["id", "node_id", "url", "name", "description", "color", "default"]
+        "required": [
+          "id",
+          "node_id",
+          "url",
+          "name",
+          "description",
+          "color",
+          "default"
+        ]
       },
       "milestone": {
         "title": "Milestone",
@@ -48210,7 +48396,15 @@
             "nullable": true
           }
         },
-        "required": ["id", "type", "actor", "repo", "payload", "public", "created_at"]
+        "required": [
+          "id",
+          "type",
+          "actor",
+          "repo",
+          "payload",
+          "public",
+          "created_at"
+        ]
       },
       "link-with-type": {
         "title": "Link With Type",
@@ -50163,7 +50357,12 @@
             "description": "The note given to the token. This will only be present when the credential is a token."
           }
         },
-        "required": ["login", "credential_id", "credential_type", "credential_authorized_at"]
+        "required": [
+          "login",
+          "credential_id",
+          "credential_type",
+          "credential_authorized_at"
+        ]
       },
       "organization-invitation": {
         "title": "Organization Invitation",
@@ -50539,7 +50738,14 @@
             "required": ["can_create_repository"]
           }
         },
-        "required": ["state", "role", "organization_url", "url", "organization", "user"]
+        "required": [
+          "state",
+          "role",
+          "organization_url",
+          "url",
+          "organization",
+          "user"
+        ]
       },
       "migration": {
         "title": "Migration",
@@ -51122,7 +51328,16 @@
             "description": "The reaction to use",
             "example": "heart",
             "type": "string",
-            "enum": ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
+            "enum": [
+              "+1",
+              "-1",
+              "laugh",
+              "confused",
+              "heart",
+              "hooray",
+              "rocket",
+              "eyes"
+            ]
           },
           "created_at": {
             "type": "string",
@@ -52762,7 +52977,14 @@
             "nullable": true
           }
         },
-        "required": ["id", "tree_id", "message", "timestamp", "author", "committer"]
+        "required": [
+          "id",
+          "tree_id",
+          "message",
+          "timestamp",
+          "author",
+          "committer"
+        ]
       },
       "workflow-run": {
         "title": "Workflow Run",
@@ -53438,7 +53660,15 @@
             }
           }
         },
-        "required": ["url", "users_url", "teams_url", "apps_url", "users", "teams", "apps"]
+        "required": [
+          "url",
+          "users_url",
+          "teams_url",
+          "apps_url",
+          "users",
+          "teams",
+          "apps"
+        ]
       },
       "branch-protection": {
         "title": "Branch Protection",
@@ -53669,7 +53899,14 @@
                 "$ref": "#/components/schemas/verification"
               }
             },
-            "required": ["author", "committer", "comment_count", "message", "tree", "url"]
+            "required": [
+              "author",
+              "committer",
+              "comment_count",
+              "message",
+              "tree",
+              "url"
+            ]
           },
           "author": {
             "nullable": true,
@@ -53824,7 +54061,14 @@
             "example": 1
           }
         },
-        "required": ["name", "commit", "_links", "protection", "protected", "protection_url"]
+        "required": [
+          "name",
+          "commit",
+          "_links",
+          "protection",
+          "protected",
+          "protection_url"
+        ]
       },
       "status-check-policy": {
         "title": "Status Check Policy",
@@ -54074,7 +54318,13 @@
                 "format": "uri"
               }
             },
-            "required": ["title", "summary", "text", "annotations_count", "annotations_url"]
+            "required": [
+              "title",
+              "summary",
+              "text",
+              "annotations_count",
+              "annotations_url"
+            ]
           },
           "name": {
             "description": "The name of the check.",
@@ -54983,7 +55233,12 @@
             "description": "Commit message for the merge commit."
           }
         },
-        "required": ["enabled_by", "merge_method", "commit_title", "commit_message"],
+        "required": [
+          "enabled_by",
+          "merge_method",
+          "commit_title",
+          "commit_message"
+        ],
         "nullable": true
       },
       "pull-request-simple": {
@@ -55403,7 +55658,15 @@
             "format": "uri"
           }
         },
-        "required": ["state", "sha", "total_count", "statuses", "repository", "commit_url", "url"]
+        "required": [
+          "state",
+          "sha",
+          "total_count",
+          "statuses",
+          "repository",
+          "commit_url",
+          "url"
+        ]
       },
       "status": {
         "title": "Status",
@@ -55591,7 +55854,13 @@
             "example": true
           }
         },
-        "required": ["health_percentage", "description", "documentation", "files", "updated_at"]
+        "required": [
+          "health_percentage",
+          "description",
+          "documentation",
+          "files",
+          "updated_at"
+        ]
       },
       "diff-entry": {
         "title": "Diff Entry",
@@ -56580,7 +56849,15 @@
           },
           "state": {
             "description": "The state of the status.",
-            "enum": ["error", "failure", "inactive", "pending", "success", "queued", "in_progress"],
+            "enum": [
+              "error",
+              "failure",
+              "inactive",
+              "pending",
+              "success",
+              "queued",
+              "in_progress"
+            ],
             "example": "success",
             "type": "string"
           },
@@ -56959,7 +57236,15 @@
             "$ref": "#/components/schemas/verification"
           }
         },
-        "required": ["sha", "url", "node_id", "tagger", "object", "tag", "message"]
+        "required": [
+          "sha",
+          "url",
+          "node_id",
+          "tagger",
+          "object",
+          "tag",
+          "message"
+        ]
       },
       "git-tree": {
         "title": "Git Tree",
@@ -57298,7 +57583,15 @@
             "type": "string"
           }
         },
-        "required": ["vcs", "vcs_url", "status", "url", "repository_url", "html_url", "authors_url"]
+        "required": [
+          "vcs",
+          "vcs_url",
+          "status",
+          "url",
+          "repository_url",
+          "html_url",
+          "authors_url"
+        ]
       },
       "porter-author": {
         "title": "Porter Author",
@@ -57329,7 +57622,15 @@
             "format": "uri"
           }
         },
-        "required": ["id", "remote_id", "remote_name", "email", "name", "url", "import_url"]
+        "required": [
+          "id",
+          "remote_id",
+          "remote_name",
+          "email",
+          "name",
+          "url",
+          "import_url"
+        ]
       },
       "porter-large-file": {
         "title": "Porter Large File",
@@ -57669,7 +57970,15 @@
             "type": "boolean"
           }
         },
-        "required": ["id", "key", "url", "title", "verified", "created_at", "read_only"]
+        "required": [
+          "id",
+          "key",
+          "url",
+          "title",
+          "verified",
+          "created_at",
+          "read_only"
+        ]
       },
       "language": {
         "title": "Language",
@@ -60263,7 +60572,14 @@
             "example": "https://api.github.com/repos/octocat/example"
           }
         },
-        "required": ["created_at", "ignored", "reason", "subscribed", "url", "repository_url"]
+        "required": [
+          "created_at",
+          "ignored",
+          "reason",
+          "subscribed",
+          "url",
+          "repository_url"
+        ]
       },
       "tag": {
         "title": "Tag",
@@ -60500,7 +60816,13 @@
             }
           }
         },
-        "required": ["schemas", "totalResults", "itemsPerPage", "startIndex", "Resources"]
+        "required": [
+          "schemas",
+          "totalResults",
+          "itemsPerPage",
+          "startIndex",
+          "Resources"
+        ]
       },
       "scim-enterprise-group": {
         "type": "object",
@@ -60660,7 +60982,13 @@
             }
           }
         },
-        "required": ["schemas", "totalResults", "itemsPerPage", "startIndex", "Resources"]
+        "required": [
+          "schemas",
+          "totalResults",
+          "itemsPerPage",
+          "startIndex",
+          "Resources"
+        ]
       },
       "scim-enterprise-user": {
         "type": "object",
@@ -60916,7 +61244,16 @@
             }
           }
         },
-        "required": ["id", "schemas", "externalId", "userName", "name", "emails", "active", "meta"]
+        "required": [
+          "id",
+          "schemas",
+          "externalId",
+          "userName",
+          "name",
+          "emails",
+          "active",
+          "meta"
+        ]
       },
       "scim-user-list": {
         "title": "SCIM User List",
@@ -60951,7 +61288,13 @@
             }
           }
         },
-        "required": ["schemas", "totalResults", "itemsPerPage", "startIndex", "Resources"]
+        "required": [
+          "schemas",
+          "totalResults",
+          "itemsPerPage",
+          "startIndex",
+          "Resources"
+        ]
       },
       "search-result-text-matches": {
         "title": "Search Result Text Matches",
@@ -61046,7 +61389,16 @@
             "$ref": "#/components/schemas/search-result-text-matches"
           }
         },
-        "required": ["score", "name", "path", "sha", "git_url", "html_url", "url", "repository"]
+        "required": [
+          "score",
+          "name",
+          "path",
+          "sha",
+          "git_url",
+          "html_url",
+          "url",
+          "repository"
+        ]
       },
       "commit-search-result-item": {
         "title": "Commit Search Result Item",
@@ -61122,7 +61474,14 @@
                 "$ref": "#/components/schemas/verification"
               }
             },
-            "required": ["author", "committer", "comment_count", "message", "tree", "url"]
+            "required": [
+              "author",
+              "committer",
+              "comment_count",
+              "message",
+              "tree",
+              "url"
+            ]
           },
           "author": {
             "nullable": true,
@@ -61439,7 +61798,16 @@
             "$ref": "#/components/schemas/search-result-text-matches"
           }
         },
-        "required": ["id", "node_id", "url", "name", "color", "default", "description", "score"]
+        "required": [
+          "id",
+          "node_id",
+          "url",
+          "name",
+          "color",
+          "default",
+          "description",
+          "score"
+        ]
       },
       "repo-search-result-item": {
         "title": "Repo Search Result Item",
@@ -62754,7 +63122,16 @@
             "type": "boolean"
           }
         },
-        "required": ["key_id", "key", "id", "url", "title", "created_at", "verified", "read_only"]
+        "required": [
+          "key_id",
+          "key",
+          "id",
+          "url",
+          "title",
+          "created_at",
+          "verified",
+          "read_only"
+        ]
       },
       "marketplace-account": {
         "title": "Marketplace Account",
@@ -64583,7 +64960,10 @@
               "has_free_trial": true,
               "state": "published",
               "unit_name": null,
-              "bullets": ["Up to 10 private repositories", "3 concurrent builds"]
+              "bullets": [
+                "Up to 10 private repositories",
+                "3 concurrent builds"
+              ]
             }
           },
           "marketplace_purchase": {
@@ -64606,7 +64986,10 @@
               "has_free_trial": true,
               "unit_name": null,
               "state": "published",
-              "bullets": ["Up to 25 private repositories", "11 concurrent builds"]
+              "bullets": [
+                "Up to 25 private repositories",
+                "11 concurrent builds"
+              ]
             }
           }
         }
@@ -64655,7 +65038,10 @@
                 "has_free_trial": true,
                 "state": "published",
                 "unit_name": null,
-                "bullets": ["Up to 10 private repositories", "3 concurrent builds"]
+                "bullets": [
+                  "Up to 10 private repositories",
+                  "3 concurrent builds"
+                ]
               }
             },
             "marketplace_purchase": {
@@ -64678,7 +65064,10 @@
                 "has_free_trial": true,
                 "unit_name": null,
                 "state": "published",
-                "bullets": ["Up to 25 private repositories", "11 concurrent builds"]
+                "bullets": [
+                  "Up to 25 private repositories",
+                  "11 concurrent builds"
+                ]
               }
             }
           }
@@ -77261,121 +77650,19 @@
       "participation-stats": {
         "value": {
           "all": [
-            11,
-            21,
-            15,
-            2,
-            8,
-            1,
-            8,
-            23,
-            17,
-            21,
-            11,
-            10,
-            33,
-            91,
-            38,
-            34,
-            22,
-            23,
-            32,
-            3,
-            43,
-            87,
-            71,
-            18,
-            13,
-            5,
-            13,
-            16,
-            66,
-            27,
-            12,
-            45,
-            110,
-            117,
-            13,
-            8,
-            18,
-            9,
-            19,
-            26,
-            39,
-            12,
-            20,
-            31,
-            46,
-            91,
-            45,
-            10,
-            24,
-            9,
-            29,
-            7
+            11, 21, 15, 2, 8, 1, 8, 23, 17, 21, 11, 10, 33, 91, 38, 34, 22, 23,
+            32, 3, 43, 87, 71, 18, 13, 5, 13, 16, 66, 27, 12, 45, 110, 117, 13,
+            8, 18, 9, 19, 26, 39, 12, 20, 31, 46, 91, 45, 10, 24, 9, 29, 7
           ],
           "owner": [
-            3,
-            2,
-            3,
-            0,
-            2,
-            0,
-            5,
-            14,
-            7,
-            9,
-            1,
-            5,
-            0,
-            48,
-            19,
-            2,
-            0,
-            1,
-            10,
-            2,
-            23,
-            40,
-            35,
-            8,
-            8,
-            2,
-            10,
-            6,
-            30,
-            0,
-            2,
-            9,
-            53,
-            104,
-            3,
-            3,
-            10,
-            4,
-            7,
-            11,
-            21,
-            4,
-            4,
-            22,
-            26,
-            63,
-            11,
-            2,
-            14,
-            1,
-            10,
-            3
+            3, 2, 3, 0, 2, 0, 5, 14, 7, 9, 1, 5, 0, 48, 19, 2, 0, 1, 10, 2, 23,
+            40, 35, 8, 8, 2, 10, 6, 30, 0, 2, 9, 53, 104, 3, 3, 10, 4, 7, 11,
+            21, 4, 4, 22, 26, 63, 11, 2, 14, 1, 10, 3
           ]
         }
       },
       "code-frequency-stat-items-2": {
-        "value": [
-          [0, 0, 5],
-          [0, 1, 43],
-          [0, 2, 21]
-        ]
+        "value": [[0, 0, 5], [0, 1, 43], [0, 2, 21]]
       },
       "status": {
         "value": {
@@ -79478,7 +79765,10 @@
               "has_free_trial": true,
               "unit_name": null,
               "state": "published",
-              "bullets": ["Up to 25 private repositories", "11 concurrent builds"]
+              "bullets": [
+                "Up to 25 private repositories",
+                "11 concurrent builds"
+              ]
             }
           }
         ]

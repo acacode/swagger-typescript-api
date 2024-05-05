@@ -1,7 +1,7 @@
-# swagger-typescript-api  
+# swagger-typescript-api
 
-# templates/default  
+# templates/default
 
-This templates use for single api file (without `--modular` option)  
+This templates use for single api file (without `--modular` option)
 
-path prefix `@default`  
+path prefix `@default`

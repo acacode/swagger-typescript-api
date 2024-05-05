@@ -10,12 +10,12 @@ paths:
           application/json:
             schema:
               oneOf:
-                - $ref: '#/components/schemas/Cat'
-                - $ref: '#/components/schemas/Dog'
+                - $ref: "#/components/schemas/Cat"
+                - $ref: "#/components/schemas/Dog"
               discriminator:
                 propertyName: pet_type
       responses:
-        '200':
+        "200":
           description: Updated
 components:
   schemas:
@@ -28,11 +28,11 @@ components:
           type: string
       discriminator:
         propertyName: pet_type
-    Dog:     # "Dog" is a value for the pet_type property (the discriminator value)
+    Dog: # "Dog" is a value for the pet_type property (the discriminator value)
       required:
         - breed
       allOf: # Combines the main `Pet` schema with `Dog`-specific properties
-        - $ref: '#/components/schemas/Pet'
+        - $ref: "#/components/schemas/Pet"
         - type: object
           # all other properties specific to a `Dog`
           properties:
@@ -41,9 +41,9 @@ components:
             breed:
               type: string
               enum: [Dingo, Husky, Retriever, Shepherd]
-    Cat:     # "Cat" is a value for the pet_type property (the discriminator value)
-      allOf: # Combines the main `Pet` schema with `Cat`-specific properties 
-        - $ref: '#/components/schemas/Pet'
+    Cat: # "Cat" is a value for the pet_type property (the discriminator value)
+      allOf: # Combines the main `Pet` schema with `Cat`-specific properties
+        - $ref: "#/components/schemas/Pet"
         - type: object
           # all other properties specific to a `Cat`
           properties:

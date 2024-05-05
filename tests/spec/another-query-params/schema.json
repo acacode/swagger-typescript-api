@@ -15,14 +15,10 @@
   "paths": {
     "/api/sys/department{?children,createdTime,description,id,name,page,parent,size,sort,updatedTime,customField}": {
       "get": {
-        "tags": [
-          "部门"
-        ],
+        "tags": ["部门"],
         "summary": "部门列表",
         "operationId": "list_2",
-        "produces": [
-          "*/*"
-        ],
+        "produces": ["*/*"],
         "parameters": [
           {
             "name": "page",
@@ -140,11 +136,7 @@
   "definitions": {
     "R«object»": {
       "type": "object",
-      "required": [
-        "code",
-        "data",
-        "msg"
-      ],
+      "required": ["code", "data", "msg"],
       "properties": {
         "code": {
           "type": "integer",

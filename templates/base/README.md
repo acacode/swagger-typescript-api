@@ -1,8 +1,7 @@
-# swagger-typescript-api  
+# swagger-typescript-api
 
-# templates/base  
+# templates/base
 
-This templates use both for multiple api files and single api file  
+This templates use both for multiple api files and single api file
 
-
-path prefix `@base`  
+path prefix `@base`

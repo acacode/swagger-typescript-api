@@ -3,14 +3,14 @@
   "files": {
     "ignore": [
       "package.json",
-      "tests/**/*.json",
       "tests/**/expected.ts",
       "tests/**/expected/**",
       "tests/**/generated/**",
       "tests/**/schema.d.ts",
       "tests/**/schema.js",
       "tests/**/schema.ts"
-    ]
+    ],
+    "maxSize": 10000000
   },
   "formatter": {
     "enabled": true,

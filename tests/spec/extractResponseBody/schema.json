@@ -225,7 +225,10 @@
           }
         ],
         "security": [],
-        "consumes": ["application/x-www-form-urlencoded", "multipart/form-data"],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
         "tags": ["pet"]
       }
     },
@@ -263,7 +266,10 @@
           }
         ],
         "security": [],
-        "consumes": ["multipart/form-data", "application/x-www-form-urlencoded"],
+        "consumes": [
+          "multipart/form-data",
+          "application/x-www-form-urlencoded"
+        ],
         "tags": ["pet"]
       }
     },
@@ -1015,7 +1021,12 @@
     },
     "PetNames": {
       "type": "string",
-      "enum": ["Fluffy Hero", "Piggy Po", "Swagger Typescript Api", "UPPER_CASE"]
+      "enum": [
+        "Fluffy Hero",
+        "Piggy Po",
+        "Swagger Typescript Api",
+        "UPPER_CASE"
+      ]
     },
     "PetIds": {
       "type": "integer",

@@ -21,7 +21,7 @@ paths:
         This is an example operation to show how security is applied to the
         call.
       responses:
-        '200':
+        "200":
           description: OK
   /ping:
     get:
@@ -31,7 +31,7 @@ paths:
         as we want to open it up for all users.
       security: []
       responses:
-        '200':
+        "200":
           description: OK
 components:
   schemas: {}
@@ -40,7 +40,7 @@ components:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: 'http://example.com/oauth/token'
+          tokenUrl: "http://example.com/oauth/token"
           scopes:
             write: allows modifying resources
             read: allows reading resources

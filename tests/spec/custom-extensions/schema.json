@@ -1,8 +1,6 @@
 {
   "swagger": "2.0",
-  "schemes": [
-    "https"
-  ],
+  "schemes": ["https"],
   "host": "example.com",
   "basePath": "/",
   "paths": {
