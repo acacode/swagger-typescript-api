@@ -102,7 +102,7 @@
   },
   "dependencies": {
     "@types/swagger-schema-official": "2.0.25",
-    "cosmiconfig": "8.2.0",
+    "cosmiconfig": "9.0.0",
     "didyoumean": "^1.2.2",
     "eta": "^2.2.0",
     "js-yaml": "4.1.0",
