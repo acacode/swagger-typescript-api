@@ -1,5 +1,5 @@
-const packageJson = require('./package.json');
-const { spawn } = require('child_process');
+const packageJson = require("./package.json");
+const { spawn } = require("node:child_process");
 
 const commands = process.argv.slice(2);
 
@@ -8,25 +8,25 @@ const packageScripts = Object.keys(packageJson.scripts);
 const execute = (scriptName) =>
   new Promise((resolve, reject) => {
     console.log(`yarn ${scriptName}`);
-    const spawned = spawn('yarn', [scriptName]);
+    const spawned = spawn("yarn", [scriptName]);
 
-    spawned.stdout.on('data', (data) => {
+    spawned.stdout.on("data", (data) => {
       process.stdout.write(data);
     });
 
-    spawned.stderr.on('data', (data) => {
+    spawned.stderr.on("data", (data) => {
       process.stderr.write(data);
     });
 
-    spawned.on('error', (error) => {
+    spawned.on("error", (error) => {
       console.error(error);
     });
 
-    spawned.on('message', (message) => {
+    spawned.on("message", (message) => {
       console.log(message);
     });
 
-    spawned.on('close', (code) => {
+    spawned.on("close", (code) => {
       if (code) {
         reject(code);
       } else {
@@ -43,8 +43,8 @@ const run = async () => {
           await execute(scriptName);
         }
 
-        if (command.includes('*')) {
-          const commandPart = command.replace('*', '');
+        if (command.includes("*")) {
+          const commandPart = command.replace("*", "");
           // TODO: refactor
           if (
             scriptName.startsWith(commandPart) ||

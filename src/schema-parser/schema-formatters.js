@@ -1,5 +1,5 @@
-const { SCHEMA_TYPES } = require('../constants');
-const _ = require('lodash');
+const { SCHEMA_TYPES } = require("../constants");
+const _ = require("lodash");
 
 class SchemaFormatters {
   /** @type {CodeGenConfig} */
@@ -100,22 +100,22 @@ class SchemaFormatters {
    * @param parsedSchema {Record<string, any>}
    * @param formatType {"base" | "inline"}
    */
-  formatSchema = (parsedSchema, formatType = 'base') => {
+  formatSchema = (parsedSchema, formatType = "base") => {
     const schemaType =
-      _.get(parsedSchema, ['schemaType']) ||
-      _.get(parsedSchema, ['$parsed', 'schemaType']);
+      _.get(parsedSchema, ["schemaType"]) ||
+      _.get(parsedSchema, ["$parsed", "schemaType"]);
     const formatterFn = _.get(this, [formatType, schemaType]);
     return (formatterFn && formatterFn(parsedSchema)) || parsedSchema;
   };
 
   formatDescription = (description, inline) => {
-    if (!description) return '';
+    if (!description) return "";
 
     let prettified = description;
 
-    prettified = _.replace(prettified, /\*\//g, '*/');
+    prettified = _.replace(prettified, /\*\//g, "*/");
 
-    const hasMultipleLines = _.includes(prettified, '\n');
+    const hasMultipleLines = _.includes(prettified, "\n");
 
     if (!hasMultipleLines) return prettified;
 
@@ -124,18 +124,18 @@ class SchemaFormatters {
         .split(/\n/g)
         .map((part) => _.trim(part))
         .compact()
-        .join(' ')
+        .join(" ")
         .valueOf();
     }
 
-    return _.replace(prettified, /\n$/g, '');
+    return _.replace(prettified, /\n$/g, "");
   };
 
   formatObjectContent = (content) => {
     const fields = [];
 
     for (const part of content) {
-      const extraSpace = '  ';
+      const extraSpace = "  ";
       const result = `${extraSpace}${part.field},\n`;
 
       const renderedJsDoc = this.templatesWorker.renderTemplate(
@@ -146,9 +146,9 @@ class SchemaFormatters {
       );
 
       const routeNameFromTemplate = renderedJsDoc
-        .split('\n')
+        .split("\n")
         .map((c) => `${extraSpace}${c}`)
-        .join('\n');
+        .join("\n");
 
       if (routeNameFromTemplate) {
         fields.push(`${routeNameFromTemplate}${result}`);
@@ -157,7 +157,7 @@ class SchemaFormatters {
       }
     }
 
-    return fields.join('');
+    return fields.join("");
   };
 }
 

@@ -1,9 +1,9 @@
-const _ = require('lodash');
+const _ = require("lodash");
 
 const objectAssign = (target, updaterFn) => {
   if (!updaterFn) return;
   const update =
-    typeof updaterFn === 'function' ? updaterFn(target) : updaterFn;
+    typeof updaterFn === "function" ? updaterFn(target) : updaterFn;
   const undefinedKeys = _.map(
     update,
     (value, key) => value === undefined && key,

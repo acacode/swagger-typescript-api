@@ -1,6 +1,6 @@
-const { MonoSchemaParser } = require('../mono-schema-parser');
-const _ = require('lodash');
-const { SCHEMA_TYPES } = require('../../constants');
+const { MonoSchemaParser } = require("../mono-schema-parser");
+const _ = require("lodash");
+const { SCHEMA_TYPES } = require("../../constants");
 
 class ObjectSchemaParser extends MonoSchemaParser {
   parse() {
@@ -36,7 +36,7 @@ class ObjectSchemaParser extends MonoSchemaParser {
       );
       const rawTypeData = _.get(
         this.schemaUtils.getSchemaRefType(property),
-        'rawTypeData',
+        "rawTypeData",
         {},
       );
       const nullable = !!(rawTypeData.nullable || property.nullable);
@@ -60,17 +60,17 @@ class ObjectSchemaParser extends MonoSchemaParser {
           _.compact(
             _.map(
               property[this.schemaUtils.getComplexType(property)],
-              'description',
+              "description",
             ),
           )[0] ||
           rawTypeData.description ||
           _.compact(
             _.map(
               rawTypeData[this.schemaUtils.getComplexType(rawTypeData)],
-              'description',
+              "description",
             ),
           )[0] ||
-          '',
+          "",
         isRequired: required,
         isNullable: nullable,
         name: fieldName,
@@ -87,7 +87,7 @@ class ObjectSchemaParser extends MonoSchemaParser {
     if (additionalProperties) {
       propertiesContent.push({
         $$raw: { additionalProperties },
-        description: '',
+        description: "",
         isRequired: false,
         field: this.config.Ts.InterfaceDynamicField(
           this.config.Ts.Keyword.String,

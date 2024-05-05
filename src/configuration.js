@@ -1,34 +1,34 @@
 /* eslint-disable no-unused-vars */
-const { objectAssign } = require('./util/object-assign');
-const _ = require('lodash');
-const CONSTANTS = require('./constants');
-const { ComponentTypeNameResolver } = require('./component-type-name-resolver');
-const { cosmiconfigSync } = require('cosmiconfig');
-const ts = require('typescript');
+const { objectAssign } = require("./util/object-assign");
+const _ = require("lodash");
+const CONSTANTS = require("./constants");
+const { ComponentTypeNameResolver } = require("./component-type-name-resolver");
+const { cosmiconfigSync } = require("cosmiconfig");
+const ts = require("typescript");
 
 const TsKeyword = {
-  Number: 'number',
-  String: 'string',
-  Boolean: 'boolean',
-  Any: 'any',
-  Void: 'void',
-  Unknown: 'unknown',
-  Null: 'null',
-  Undefined: 'undefined',
-  Object: 'object',
-  File: 'File',
-  Date: 'Date',
-  Type: 'type',
-  Enum: 'enum',
-  Interface: 'interface',
-  Array: 'Array',
-  Record: 'Record',
-  Intersection: '&',
-  Union: '|',
+  Number: "number",
+  String: "string",
+  Boolean: "boolean",
+  Any: "any",
+  Void: "void",
+  Unknown: "unknown",
+  Null: "null",
+  Undefined: "undefined",
+  Object: "object",
+  File: "File",
+  Date: "Date",
+  Type: "type",
+  Enum: "enum",
+  Interface: "interface",
+  Array: "Array",
+  Record: "Record",
+  Intersection: "&",
+  Union: "|",
 };
 
 const TsCodeGenKeyword = {
-  UtilRequiredKeys: 'UtilRequiredKeys',
+  UtilRequiredKeys: "UtilRequiredKeys",
 };
 
 /**
@@ -37,7 +37,7 @@ const TsCodeGenKeyword = {
 class CodeGenConfig {
   version = CONSTANTS.PROJECT_VERSION;
   /** CLI flag */
-  templates = '';
+  templates = "";
   /** CLI flag */
   generateResponses = false;
   /** CLI flag */
@@ -77,10 +77,10 @@ class CodeGenConfig {
   extractResponses = false;
   extractEnums = false;
   fileNames = {
-    dataContracts: 'data-contracts',
-    routeTypes: 'route-types',
-    httpClient: 'http-client',
-    outOfModuleApi: 'Common',
+    dataContracts: "data-contracts",
+    routeTypes: "route-types",
+    httpClient: "http-client",
+    outOfModuleApi: "Common",
   };
   routeNameDuplicatesMap = new Map();
   prettierOptions = { ...CONSTANTS.PRETTIER_OPTIONS };
@@ -108,28 +108,28 @@ class CodeGenConfig {
   sortRoutes = false;
   templatePaths = {
     /** `templates/base` */
-    base: '',
+    base: "",
     /** `templates/default` */
-    default: '',
+    default: "",
     /** `templates/modular` */
-    modular: '',
+    modular: "",
     /** usage path if `--templates` option is not set */
-    original: '',
+    original: "",
     /** custom path to templates (`--templates`) */
-    custom: '',
+    custom: "",
   };
   /** Record<templateName, templateContent> */
   templatesToRender = {
-    api: '',
-    dataContracts: '',
-    dataContractJsDoc: '',
-    interfaceDataContract: '',
-    typeDataContract: '',
-    enumDataContract: '',
-    objectFieldJsDoc: '',
-    httpClient: '',
-    routeTypes: '',
-    routeName: '',
+    api: "",
+    dataContracts: "",
+    dataContractJsDoc: "",
+    interfaceDataContract: "",
+    typeDataContract: "",
+    enumDataContract: "",
+    objectFieldJsDoc: "",
+    httpClient: "",
+    routeTypes: "",
+    routeName: "",
   };
   /**
    * @type {Record<string, (...args: any[]) => MonoSchemaParser>}
@@ -137,68 +137,68 @@ class CodeGenConfig {
   schemaParsers = {};
   toJS = false;
   silent = false;
-  typePrefix = '';
-  typeSuffix = '';
-  enumKeyPrefix = '';
-  enumKeySuffix = '';
+  typePrefix = "";
+  typeSuffix = "";
+  enumKeyPrefix = "";
+  enumKeySuffix = "";
   patch = false;
   /** @type {ComponentTypeNameResolver} */
   componentTypeNameResolver;
   /** name of the main exported class */
-  apiClassName = 'Api';
+  apiClassName = "Api";
   debug = false;
   anotherArrayType = false;
   internalTemplateOptions = {
     addUtilRequiredKeysType: false,
   };
   extraTemplates = [];
-  input = '';
+  input = "";
   modular = false;
-  output = '';
-  url = '';
+  output = "";
+  url = "";
   cleanOutput = false;
   spec = null;
-  fileName = 'Api.ts';
+  fileName = "Api.ts";
   authorizationToken = void 0;
   requestOptions = null;
 
   jsPrimitiveTypes = [];
   jsEmptyTypes = [];
-  fixInvalidTypeNamePrefix = 'Type';
-  fixInvalidEnumKeyPrefix = 'Value';
+  fixInvalidTypeNamePrefix = "Type";
+  fixInvalidEnumKeyPrefix = "Value";
 
-  enumKeyResolverName = 'Value';
-  typeNameResolverName = 'ComponentType';
-  specificArgNameResolverName = 'arg';
+  enumKeyResolverName = "Value";
+  typeNameResolverName = "ComponentType";
+  specificArgNameResolverName = "arg";
 
   successResponseStatusRange = [200, 299];
 
   /** @type {ExtractingOptions} */
   extractingOptions = {
-    requestBodySuffix: ['Payload', 'Body', 'Input'],
-    requestParamsSuffix: ['Params'],
-    responseBodySuffix: ['Data', 'Result', 'Output'],
+    requestBodySuffix: ["Payload", "Body", "Input"],
+    requestParamsSuffix: ["Params"],
+    responseBodySuffix: ["Data", "Result", "Output"],
     responseErrorSuffix: [
-      'Error',
-      'Fail',
-      'Fails',
-      'ErrorData',
-      'HttpError',
-      'BadResponse',
+      "Error",
+      "Fail",
+      "Fails",
+      "ErrorData",
+      "HttpError",
+      "BadResponse",
     ],
-    enumSuffix: ['Enum'],
-    discriminatorMappingSuffix: ['Mapping', 'Mapper', 'MapType'],
+    enumSuffix: ["Enum"],
+    discriminatorMappingSuffix: ["Mapping", "Mapper", "MapType"],
     discriminatorAbstractPrefix: [
-      'Base',
-      'Abstract',
-      'Discriminator',
-      'Internal',
-      'Polymorph',
+      "Base",
+      "Abstract",
+      "Discriminator",
+      "Internal",
+      "Polymorph",
     ],
   };
 
   compilerTsConfig = {
-    module: 'ESNext',
+    module: "ESNext",
     noImplicitReturns: true,
     alwaysStrict: true,
     target: ts.ScriptTarget.ESNext,
@@ -241,7 +241,7 @@ class CodeGenConfig {
     /**
      * $A
      */
-    NullValue: (content) => `null`,
+    NullValue: (content) => "null",
     /**
      * $A1 | $A2
      */
@@ -250,7 +250,7 @@ class CodeGenConfig {
     /**
      * ($A1)
      */
-    ExpressionGroup: (content) => (content ? `(${content})` : ''),
+    ExpressionGroup: (content) => (content ? `(${content})` : ""),
     /**
      * $A1 & $A2
      */
@@ -266,12 +266,12 @@ class CodeGenConfig {
      */
     TypeField: ({ readonly, key, optional, value }) =>
       _.compact([
-        readonly && 'readonly ',
+        readonly && "readonly ",
         key,
-        optional && '?',
-        ': ',
+        optional && "?",
+        ": ",
         value,
-      ]).join(''),
+      ]).join(""),
     /**
      * [key: $A1]: $A2
      */
@@ -294,7 +294,7 @@ class CodeGenConfig {
       _.map(
         contents,
         ({ key, value }) => `  ${this.Ts.EnumField(key, value)}`,
-      ).join(',\n'),
+      ).join(",\n"),
     /**
      * {\n $A \n}
      */
@@ -306,21 +306,21 @@ class CodeGenConfig {
       [
         ...(contents.length === 1
           ? [`/** ${contents[0]} */`]
-          : ['/**', ...contents.map((content) => ` * ${content}`), ' */']),
+          : ["/**", ...contents.map((content) => ` * ${content}`), " */"]),
       ].map((part) => `${formatFn ? formatFn(part) : part}\n`),
     /**
      * $A1<...$A2.join(,)>
      */
     TypeWithGeneric: (typeName, genericArgs) => {
       return `${typeName}${
-        genericArgs.length ? `<${genericArgs.join(',')}>` : ''
+        genericArgs.length ? `<${genericArgs.join(",")}>` : ""
       }`;
     },
     /**
      * [$A1, $A2, ...$AN]
      */
     Tuple: (values) => {
-      return `[${values.join(', ')}]`;
+      return `[${values.join(", ")}]`;
     },
   };
 
@@ -341,39 +341,39 @@ class CodeGenConfig {
       /** formats */
       binary: () => this.Ts.Keyword.File,
       file: () => this.Ts.Keyword.File,
-      'date-time': () => this.Ts.Keyword.String,
+      "date-time": () => this.Ts.Keyword.String,
       time: () => this.Ts.Keyword.String,
       date: () => this.Ts.Keyword.String,
       duration: () => this.Ts.Keyword.String,
       email: () => this.Ts.Keyword.String,
-      'idn-email': () => this.Ts.Keyword.String,
-      'idn-hostname': () => this.Ts.Keyword.String,
+      "idn-email": () => this.Ts.Keyword.String,
+      "idn-hostname": () => this.Ts.Keyword.String,
       ipv4: () => this.Ts.Keyword.String,
       ipv6: () => this.Ts.Keyword.String,
       uuid: () => this.Ts.Keyword.String,
       uri: () => this.Ts.Keyword.String,
-      'uri-reference': () => this.Ts.Keyword.String,
-      'uri-template': () => this.Ts.Keyword.String,
-      'json-pointer': () => this.Ts.Keyword.String,
-      'relative-json-pointer': () => this.Ts.Keyword.String,
+      "uri-reference": () => this.Ts.Keyword.String,
+      "uri-template": () => this.Ts.Keyword.String,
+      "json-pointer": () => this.Ts.Keyword.String,
+      "relative-json-pointer": () => this.Ts.Keyword.String,
       regex: () => this.Ts.Keyword.String,
     },
   };
 
   templateInfos = [
-    { name: 'api', fileName: 'api' },
-    { name: 'dataContracts', fileName: 'data-contracts' },
-    { name: 'dataContractJsDoc', fileName: 'data-contract-jsdoc' },
-    { name: 'interfaceDataContract', fileName: 'interface-data-contract' },
-    { name: 'typeDataContract', fileName: 'type-data-contract' },
-    { name: 'enumDataContract', fileName: 'enum-data-contract' },
-    { name: 'objectFieldJsDoc', fileName: 'object-field-jsdoc' },
-    { name: 'httpClient', fileName: 'http-client' },
-    { name: 'routeTypes', fileName: 'route-types' },
-    { name: 'routeName', fileName: 'route-name' },
+    { name: "api", fileName: "api" },
+    { name: "dataContracts", fileName: "data-contracts" },
+    { name: "dataContractJsDoc", fileName: "data-contract-jsdoc" },
+    { name: "interfaceDataContract", fileName: "interface-data-contract" },
+    { name: "typeDataContract", fileName: "type-data-contract" },
+    { name: "enumDataContract", fileName: "enum-data-contract" },
+    { name: "objectFieldJsDoc", fileName: "object-field-jsdoc" },
+    { name: "httpClient", fileName: "http-client" },
+    { name: "routeTypes", fileName: "route-types" },
+    { name: "routeName", fileName: "route-name" },
   ];
 
-  templateExtensions = ['.eta', '.ejs'];
+  templateExtensions = [".eta", ".ejs"];
 
   /**
    * @param config {Partial<GenerateApiConfiguration['config']>}
@@ -429,12 +429,12 @@ class CodeGenConfig {
 }
 
 const getDefaultPrettierOptions = () => {
-  const prettier = cosmiconfigSync('prettier').search();
+  const prettier = cosmiconfigSync("prettier").search();
 
   if (prettier) {
     return {
       ...prettier.config,
-      parser: 'typescript',
+      parser: "typescript",
     };
   }
 

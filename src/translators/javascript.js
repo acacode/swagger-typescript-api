@@ -1,5 +1,5 @@
-const ts = require('typescript');
-const { Translator } = require('./translator');
+const ts = require("typescript");
+const { Translator } = require("./translator");
 
 class JavascriptTranslator extends Translator {
   /**
@@ -51,17 +51,17 @@ class JavascriptTranslator extends Translator {
     const dtsFileName = `${input.fileName}${ts.Extension.Dts}`;
     const sourceContent = compiled[jsFileName];
     const tsImportRows = input.fileContent
-      .split('\n')
-      .filter((line) => line.startsWith('import '));
+      .split("\n")
+      .filter((line) => line.startsWith("import "));
     const declarationContent = compiled[dtsFileName]
-      .split('\n')
+      .split("\n")
       .map((line) => {
-        if (line.startsWith('import ')) {
+        if (line.startsWith("import ")) {
           return tsImportRows.shift();
         }
         return line;
       })
-      .join('\n');
+      .join("\n");
 
     return [
       {

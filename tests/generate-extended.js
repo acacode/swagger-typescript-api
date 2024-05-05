@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const { resolve } = require("path");
+const { resolve } = require("node:path");
 const dotenv = require("dotenv");
 const allSchemas = require("./allSchemas");
 const { generateApiForTest } = require("./helpers/generateApiForTest");
@@ -12,9 +12,14 @@ class GenerateExtendedError extends Error {
 
     const stackLines = _.split(this.stack, "\n");
     const realStack = stackLines.slice(1);
-    const stackLineExtraSpace = (realStack[0] && realStack[0].split("at")[0]) || "";
+    const stackLineExtraSpace =
+      (realStack[0] && realStack[0].split("at")[0]) || "";
 
-    this.stack = [stackLines[0], `${stackLineExtraSpace}at ${resolve(outputPath, fileName)}`, ...realStack].join("\n");
+    this.stack = [
+      stackLines[0],
+      `${stackLineExtraSpace}at ${resolve(outputPath, fileName)}`,
+      ...realStack,
+    ].join("\n");
   }
 }
 
@@ -23,8 +28,8 @@ allSchemas.forEach(async ({ absolutePath, apiFileName, outputPath }) => {
   const input = absolutePath;
   const output = outputPath;
 
-  const typePrefix = 'IMySuperPrefix'
-  const typeSuffix = 'MySuperSuffix'
+  const typePrefix = "IMySuperPrefix";
+  const typeSuffix = "MySuperSuffix";
 
   await generateApiForTest({
     name: name,
@@ -50,30 +55,30 @@ allSchemas.forEach(async ({ absolutePath, apiFileName, outputPath }) => {
       if (modelType.name) {
         if (modelType.name.startsWith(`${typePrefix}${typePrefix}`)) {
           throw new GenerateExtendedError(
-              `[${outputPath}][${apiFileName}] modelType has prefix/suffix duplicates - ${modelType.name}`,
-              output,
-              name,
+            `[${outputPath}][${apiFileName}] modelType has prefix/suffix duplicates - ${modelType.name}`,
+            output,
+            name,
           );
         }
         if (!modelType.name.startsWith(typePrefix)) {
           throw new GenerateExtendedError(
-              `[${outputPath}][${apiFileName}] modelType has not prefix/suffix - ${modelType.name}`,
-              output,
-              name,
+            `[${outputPath}][${apiFileName}] modelType has not prefix/suffix - ${modelType.name}`,
+            output,
+            name,
           );
         }
         if (modelType.name.endsWith(`${typeSuffix}${typeSuffix}`)) {
           throw new GenerateExtendedError(
-              `[${outputPath}][${apiFileName}] modelType has prefix/suffix duplicates - ${modelType.name}`,
-              output,
-              name,
+            `[${outputPath}][${apiFileName}] modelType has prefix/suffix duplicates - ${modelType.name}`,
+            output,
+            name,
           );
         }
         if (!modelType.name.endsWith(typeSuffix)) {
           throw new GenerateExtendedError(
-              `[${outputPath}][${apiFileName}] modelType has not prefix/suffix - ${modelType.name}`,
-              output,
-              name,
+            `[${outputPath}][${apiFileName}] modelType has not prefix/suffix - ${modelType.name}`,
+            output,
+            name,
           );
         }
       }

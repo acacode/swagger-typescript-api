@@ -1,21 +1,21 @@
 /* eslint-disable no-unused-vars */
-const { SCHEMA_TYPES } = require('../constants.js');
-const _ = require('lodash');
-const { SchemaFormatters } = require('./schema-formatters');
-const { SchemaUtils } = require('./schema-utils');
+const { SCHEMA_TYPES } = require("../constants.js");
+const _ = require("lodash");
+const { SchemaFormatters } = require("./schema-formatters");
+const { SchemaUtils } = require("./schema-utils");
 const {
   DiscriminatorSchemaParser,
-} = require('./base-schema-parsers/discriminator');
-const { EnumSchemaParser } = require('./base-schema-parsers/enum');
-const { ObjectSchemaParser } = require('./base-schema-parsers/object');
-const { PrimitiveSchemaParser } = require('./base-schema-parsers/primitive');
-const { ComplexSchemaParser } = require('./base-schema-parsers/complex');
-const { OneOfSchemaParser } = require('./complex-schema-parsers/one-of');
-const { AllOfSchemaParser } = require('./complex-schema-parsers/all-of');
-const { AnyOfSchemaParser } = require('./complex-schema-parsers/any-of');
-const { NotSchemaParser } = require('./complex-schema-parsers/not');
-const { ArraySchemaParser } = require('./base-schema-parsers/array');
-const { sortByProperty } = require('../util/sort-by-property');
+} = require("./base-schema-parsers/discriminator");
+const { EnumSchemaParser } = require("./base-schema-parsers/enum");
+const { ObjectSchemaParser } = require("./base-schema-parsers/object");
+const { PrimitiveSchemaParser } = require("./base-schema-parsers/primitive");
+const { ComplexSchemaParser } = require("./base-schema-parsers/complex");
+const { OneOfSchemaParser } = require("./complex-schema-parsers/one-of");
+const { AllOfSchemaParser } = require("./complex-schema-parsers/all-of");
+const { AnyOfSchemaParser } = require("./complex-schema-parsers/any-of");
+const { NotSchemaParser } = require("./complex-schema-parsers/not");
+const { ArraySchemaParser } = require("./base-schema-parsers/array");
+const { sortByProperty } = require("../util/sort-by-property");
 
 class SchemaParser {
   /** @type {SchemaParserFabric} */
@@ -184,7 +184,7 @@ class SchemaParser {
     let schemaType = null;
     let parsedSchema = null;
 
-    if (typeof this.schema === 'string') {
+    if (typeof this.schema === "string") {
       return this.schema;
     }
 
@@ -209,13 +209,13 @@ class SchemaParser {
         this.schema.enum.length === 1 &&
         this.schema.enum[0] == null
       ) {
-        this.logger.debug('invalid enum schema', this.schema);
+        this.logger.debug("invalid enum schema", this.schema);
         this.schema = { type: this.config.Ts.Keyword.Null };
       }
       // schema is response schema
       if (
-        'content' in this.schema &&
-        typeof this.schema['content'] === 'object'
+        "content" in this.schema &&
+        typeof this.schema["content"] === "object"
       ) {
         const schema = this.extractSchemaFromResponseStruct(this.schema);
         const schemaParser = this.schemaParserFabric.createSchemaParser({
@@ -254,7 +254,7 @@ class SchemaParser {
         Array.isArray(this.schema.$parsed?.content)
       ) {
         this.schema.$parsed.content = this.schema.$parsed.content.sort(
-          sortByProperty('name'),
+          sortByProperty("name"),
         );
       }
     }
@@ -268,7 +268,7 @@ class SchemaParser {
     const parsedSchema = this.parseSchema();
     const formattedSchema = this.schemaFormatters.formatSchema(
       parsedSchema,
-      'inline',
+      "inline",
     );
     return formattedSchema.content;
   };
@@ -277,7 +277,7 @@ class SchemaParser {
     const parsedSchema = this.parseSchema();
     const formattedSchema = this.schemaFormatters.formatSchema(
       parsedSchema,
-      'base',
+      "base",
     );
     return formattedSchema.content;
   };
@@ -286,13 +286,13 @@ class SchemaParser {
     const { content, ...extras } = responseStruct;
 
     const firstResponse = _.first(_.values(content));
-    const firstSchema = _.get(firstResponse, 'schema');
+    const firstSchema = _.get(firstResponse, "schema");
 
     if (!firstSchema) return;
 
     return {
       ...extras,
-      ..._.omit(firstResponse, 'schema'),
+      ..._.omit(firstResponse, "schema"),
       ...firstSchema,
     };
   };

@@ -1,4 +1,4 @@
-const { resolve } = require("path");
+const { resolve } = require("node:path");
 const allSchemas = require("./allSchemas");
 const validateGeneratedModule = require("./helpers/validateGeneratedModule");
 

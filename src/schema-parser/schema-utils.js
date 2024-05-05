@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const { SCHEMA_TYPES } = require('../constants');
-const { internalCase } = require('../util/internal-case');
-const { pascalCase } = require('../util/pascal-case');
-const { camelCase } = require('lodash');
+const _ = require("lodash");
+const { SCHEMA_TYPES } = require("../constants");
+const { internalCase } = require("../util/internal-case");
+const { pascalCase } = require("../util/pascal-case");
+const { camelCase } = require("lodash");
 
 class SchemaUtils {
   /** @type {CodeGenConfig} */
@@ -33,15 +33,15 @@ class SchemaUtils {
   };
 
   isRefSchema = (schema) => {
-    return !!(schema && schema['$ref']);
+    return !!(schema && schema["$ref"]);
   };
 
   getEnumNames = (schema) => {
     return (
-      schema['x-enumNames'] ||
-      schema['xEnumNames'] ||
-      schema['x-enumnames'] ||
-      schema['x-enum-varnames']
+      schema["x-enumNames"] ||
+      schema["xEnumNames"] ||
+      schema["x-enumnames"] ||
+      schema["x-enum-varnames"]
     );
   };
 
@@ -52,15 +52,15 @@ class SchemaUtils {
   };
 
   isPropertyRequired = (name, propertySchema, rootSchema) => {
-    if (propertySchema['x-omitempty'] === false) {
+    if (propertySchema["x-omitempty"] === false) {
       return true;
     }
 
     const isRequired = _.isBoolean(propertySchema.required)
       ? !!propertySchema.required
       : _.isArray(rootSchema.required)
-      ? rootSchema.required.includes(name)
-      : !!rootSchema.required;
+        ? rootSchema.required.includes(name)
+        : !!rootSchema.required;
 
     if (this.config.convertedFromSwagger2) {
       return typeof propertySchema.nullable === this.config.Ts.Keyword.Undefined
@@ -74,7 +74,7 @@ class SchemaUtils {
     const { nullable, type: schemaType } = schema || {};
     return (
       (nullable ||
-        !!_.get(schema, 'x-nullable') ||
+        !!_.get(schema, "x-nullable") ||
         schemaType === this.config.Ts.Keyword.Null) &&
       _.isString(type) &&
       !type.includes(` ${this.config.Ts.Keyword.Null}`) &&
@@ -112,7 +112,7 @@ class SchemaUtils {
   };
 
   checkAndAddRequiredKeys = (schema, resultType) => {
-    if ('$$requiredKeys' in schema && schema.$$requiredKeys.length) {
+    if ("$$requiredKeys" in schema && schema.$$requiredKeys.length) {
       this.config.update({
         internalTemplateOptions: {
           addUtilRequiredKeysType: true,
@@ -261,7 +261,7 @@ class SchemaUtils {
 
       const typeAlias =
         _.get(this.config.primitiveTypes, [primitiveType, schema.format]) ||
-        _.get(this.config.primitiveTypes, [primitiveType, '$default']) ||
+        _.get(this.config.primitiveTypes, [primitiveType, "$default"]) ||
         this.config.primitiveTypes[primitiveType];
 
       if (_.isFunction(typeAlias)) {
@@ -288,24 +288,24 @@ class SchemaUtils {
 
     return pascalCase(
       camelCase(
-        _.uniq([schemaPath[0], schemaPath[schemaPath.length - 1]]).join('_'),
+        _.uniq([schemaPath[0], schemaPath[schemaPath.length - 1]]).join("_"),
       ),
     );
   };
 
   isConstantSchema(schema) {
-    return 'const' in schema;
+    return "const" in schema;
   }
 
   formatJsValue = (value) => {
     switch (typeof value) {
-      case 'string': {
+      case "string": {
         return this.config.Ts.StringValue(value);
       }
-      case 'boolean': {
+      case "boolean": {
         return this.config.Ts.BooleanValue(value);
       }
-      case 'number': {
+      case "number": {
         return this.config.Ts.NumberValue(value);
       }
       default: {

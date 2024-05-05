@@ -26,7 +26,7 @@ class Translator {
    */
   // eslint-disable-next-line no-unused-vars
   translate(input) {
-    throw new Error('not implemented');
+    throw new Error("not implemented");
   }
 }
 

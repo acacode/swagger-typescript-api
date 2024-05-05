@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const { SchemaFormatters } = require('./schema-formatters');
-const { SchemaUtils } = require('./schema-utils');
-const { SchemaParser } = require('./schema-parser');
+const _ = require("lodash");
+const { SchemaFormatters } = require("./schema-formatters");
+const { SchemaUtils } = require("./schema-utils");
+const { SchemaParser } = require("./schema-parser");
 
 class SchemaParserFabric {
   /** @type {CodeGenConfig} */
@@ -75,7 +75,7 @@ class SchemaParserFabric {
   createParsedComponent = ({ typeName, schema, schemaPath }) => {
     const schemaCopy = _.cloneDeep(schema);
     const customComponent = this.schemaComponentsMap.createComponent(
-      this.schemaComponentsMap.createRef(['components', 'schemas', typeName]),
+      this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
       schemaCopy,
     );
     const parsed = this.parseSchema(schemaCopy, null, schemaPath);

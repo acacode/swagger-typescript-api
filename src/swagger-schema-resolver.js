@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const converter = require('swagger2openapi');
-const yaml = require('js-yaml');
-const { Request } = require('./util/request');
+const _ = require("lodash");
+const converter = require("swagger2openapi");
+const yaml = require("js-yaml");
+const { Request } = require("./util/request");
 
 class SwaggerSchemaResolver {
   /**
@@ -70,8 +70,8 @@ class SwaggerSchemaResolver {
       const result = _.cloneDeep(swaggerSchema);
       result.info = _.merge(
         {
-          title: 'No title',
-          version: '',
+          title: "No title",
+          version: "",
         },
         result.info,
       );
@@ -84,14 +84,14 @@ class SwaggerSchemaResolver {
           {
             ...converterOptions,
             warnOnly: true,
-            refSiblings: 'preserve',
-            rbname: 'requestBodyName',
+            refSiblings: "preserve",
+            rbname: "requestBodyName",
           },
           (err, options) => {
             const parsedSwaggerSchema = _.get(
               err,
-              'options.openapi',
-              _.get(options, 'openapi'),
+              "options.openapi",
+              _.get(options, "openapi"),
             );
             if (!parsedSwaggerSchema && err) {
               throw new Error(err);
@@ -138,7 +138,7 @@ class SwaggerSchemaResolver {
   }
 
   processSwaggerSchemaFile(file) {
-    if (typeof file !== 'string') return file;
+    if (typeof file !== "string") return file;
 
     try {
       return JSON.parse(file);
@@ -148,8 +148,8 @@ class SwaggerSchemaResolver {
   }
 
   fixSwaggerSchema({ usageSchema, originalSchema }) {
-    const usagePaths = _.get(usageSchema, 'paths');
-    const originalPaths = _.get(originalSchema, 'paths');
+    const usagePaths = _.get(usageSchema, "paths");
+    const originalPaths = _.get(originalSchema, "paths");
 
     // walk by routes
     _.each(usagePaths, (usagePathObject, route) => {
@@ -158,10 +158,10 @@ class SwaggerSchemaResolver {
       // walk by methods
       _.each(usagePathObject, (usageRouteInfo, methodName) => {
         const originalRouteInfo = _.get(originalPathObject, methodName);
-        const usageRouteParams = _.get(usageRouteInfo, 'parameters', []);
-        const originalRouteParams = _.get(originalRouteInfo, 'parameters', []);
+        const usageRouteParams = _.get(usageRouteInfo, "parameters", []);
+        const originalRouteParams = _.get(originalRouteInfo, "parameters", []);
 
-        if (typeof usageRouteInfo === 'object') {
+        if (typeof usageRouteInfo === "object") {
           usageRouteInfo.consumes = _.uniq(
             _.compact([
               ...(usageRouteInfo.consumes || []),

@@ -1,4 +1,4 @@
-import {MonoSchemaParser} from "./src/schema-parser/mono-schema-parser";
+import type { MonoSchemaParser } from "./src/schema-parser/mono-schema-parser";
 
 type HttpClientType = "axios" | "fetch";
 
@@ -145,7 +145,9 @@ interface GenerateApiParamsBase {
    */
   addReadonly?: boolean;
 
-  primitiveTypeConstructs?: (struct: PrimitiveTypeStruct) => Partial<PrimitiveTypeStruct>;
+  primitiveTypeConstructs?: (
+    struct: PrimitiveTypeStruct,
+  ) => Partial<PrimitiveTypeStruct>;
 
   codeGenConstructs?: (struct: CodeGenConstruct) => Partial<CodeGenConstruct>;
 
@@ -213,17 +215,17 @@ interface GenerateApiParamsBase {
   /** fallback name for specific arg name resolver */
   specificArgNameResolverName?: string;
   schemaParsers?: {
-    complexOneOf?:MonoSchemaParser;
-    complexAllOf?:MonoSchemaParser;
-    complexAnyOf?:MonoSchemaParser;
-    complexNot?:MonoSchemaParser;
-    enum?:MonoSchemaParser;
-    object?:MonoSchemaParser;
-    complex?:MonoSchemaParser;
-    primitive?:MonoSchemaParser;
-    discriminator?:MonoSchemaParser;
+    complexOneOf?: MonoSchemaParser;
+    complexAllOf?: MonoSchemaParser;
+    complexAnyOf?: MonoSchemaParser;
+    complexNot?: MonoSchemaParser;
+    enum?: MonoSchemaParser;
+    object?: MonoSchemaParser;
+    complex?: MonoSchemaParser;
+    primitive?: MonoSchemaParser;
+    discriminator?: MonoSchemaParser;
     array?: MonoSchemaParser;
-  }
+  };
 }
 
 type CodeGenConstruct = {
@@ -270,11 +272,18 @@ type CodeGenConstruct = {
 
 type PrimitiveTypeStructValue =
   | string
-  | ((schema: Record<string, any>, parser: import("./src/schema-parser/schema-parser").SchemaParser) => string);
+  | ((
+      schema: Record<string, any>,
+      parser: import("./src/schema-parser/schema-parser").SchemaParser,
+    ) => string);
 
 type PrimitiveTypeStruct = Record<
   "integer" | "number" | "boolean" | "object" | "file" | "string" | "array",
-  string | ({ $default: PrimitiveTypeStructValue } & Record<string, PrimitiveTypeStructValue>)
+  | string
+  | ({ $default: PrimitiveTypeStructValue } & Record<
+      string,
+      PrimitiveTypeStructValue
+    >)
 >;
 
 interface GenerateApiParamsFromPath extends GenerateApiParamsBase {
@@ -298,7 +307,10 @@ interface GenerateApiParamsFromSpecLiteral extends GenerateApiParamsBase {
   spec: import("swagger-schema-official").Spec;
 }
 
-export type GenerateApiParams = GenerateApiParamsFromPath | GenerateApiParamsFromUrl | GenerateApiParamsFromSpecLiteral;
+export type GenerateApiParams =
+  | GenerateApiParamsFromPath
+  | GenerateApiParamsFromUrl
+  | GenerateApiParamsFromSpecLiteral;
 
 type BuildRouteParam = {
   /** {bar} */
@@ -328,11 +340,20 @@ export interface Hooks {
   /** calls after parse\process route path */
   onBuildRoutePath: (data: BuildRoutePath) => BuildRoutePath | void;
   /** calls before insert path param name into string path interpolation */
-  onInsertPathParam: (paramName: string, index: number, arr: BuildRouteParam[], resultRoute: string) => string | void;
+  onInsertPathParam: (
+    paramName: string,
+    index: number,
+    arr: BuildRouteParam[],
+    resultRoute: string,
+  ) => string | void;
   /** calls after parse schema component */
   onCreateComponent: (component: SchemaComponent) => SchemaComponent | void;
   /** calls before parse any kind of schema */
-  onPreParseSchema: (originalSchema: any, typeName: string, schemaType: string) => any;
+  onPreParseSchema: (
+    originalSchema: any,
+    typeName: string,
+    schemaType: string,
+  ) => any;
   /** calls after parse any kind of schema */
   onParseSchema: (originalSchema: any, parsedSchema: any) => any | void;
   /** calls after parse route (return type: customized route (ParsedRoute), nothing change (void), false (ignore this route)) */
@@ -343,18 +364,32 @@ export interface Hooks {
     codeGenProcess: import("./src/code-gen-process").CodeGenProcess,
   ) => C | void;
   /** customize configuration object before sending it to ETA templates */
-  onPrepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C | void;
+  onPrepareConfig?: <C extends GenerateApiConfiguration>(
+    currentConfiguration: C,
+  ) => C | void;
   /** customize route name as you need */
-  onCreateRouteName?: (routeNameInfo: RouteNameInfo, rawRouteInfo: RawRouteInfo) => RouteNameInfo | void;
+  onCreateRouteName?: (
+    routeNameInfo: RouteNameInfo,
+    rawRouteInfo: RawRouteInfo,
+  ) => RouteNameInfo | void;
   /** customize request params (path params, query params) */
-  onCreateRequestParams?: (rawType: SchemaComponent["rawTypeData"]) => SchemaComponent["rawTypeData"] | void;
+  onCreateRequestParams?: (
+    rawType: SchemaComponent["rawTypeData"],
+  ) => SchemaComponent["rawTypeData"] | void;
   /** customize name of model type */
-  onFormatTypeName?: (typeName: string, rawTypeName?: string, schemaType?: "type-name" | "enum-key") => string | void;
+  onFormatTypeName?: (
+    typeName: string,
+    rawTypeName?: string,
+    schemaType?: "type-name" | "enum-key",
+  ) => string | void;
   /** customize name of route (operationId), you can do it with using onCreateRouteName too */
-  onFormatRouteName?: (routeInfo: RawRouteInfo, templateRouteName: string) => string | void;
+  onFormatRouteName?: (
+    routeInfo: RawRouteInfo,
+    templateRouteName: string,
+  ) => string | void;
 }
 
-export interface RouteNameRouteInfo {}
+export type RouteNameRouteInfo = {};
 
 export type RouteNameInfo = {
   usage: string;
@@ -424,10 +459,16 @@ export interface SchemaComponent {
     discriminator?: {
       propertyName?: string;
     };
-    $parsed: ParsedSchema<SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent>;
+    $parsed: ParsedSchema<
+      | SchemaTypeObjectContent
+      | SchemaTypeEnumContent
+      | SchemaTypePrimitiveContent
+    >;
   };
   componentName: "schemas" | "paths";
-  typeData: ParsedSchema<SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent> | null;
+  typeData: ParsedSchema<
+    SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent
+  > | null;
 }
 
 export enum RequestContentKind {
@@ -495,7 +536,10 @@ export enum SCHEMA_TYPES {
   COMPLEX_UNKNOWN = "__unknown",
 }
 
-type MAIN_SCHEMA_TYPES = SCHEMA_TYPES.PRIMITIVE | SCHEMA_TYPES.OBJECT | SCHEMA_TYPES.ENUM;
+type MAIN_SCHEMA_TYPES =
+  | SCHEMA_TYPES.PRIMITIVE
+  | SCHEMA_TYPES.OBJECT
+  | SCHEMA_TYPES.ENUM;
 
 type ExtractingOptions = {
   requestBodySuffix: string[];
@@ -505,13 +549,31 @@ type ExtractingOptions = {
   enumSuffix: string[];
   discriminatorMappingSuffix: string[];
   discriminatorAbstractPrefix: string[];
-  requestBodyNameResolver: (name: string, reservedNames: string) => string | undefined;
-  responseBodyNameResolver: (name: string, reservedNames: string) => string | undefined;
-  responseErrorNameResolver: (name: string, reservedNames: string) => string | undefined;
-  requestParamsNameResolver: (name: string, reservedNames: string) => string | undefined;
+  requestBodyNameResolver: (
+    name: string,
+    reservedNames: string,
+  ) => string | undefined;
+  responseBodyNameResolver: (
+    name: string,
+    reservedNames: string,
+  ) => string | undefined;
+  responseErrorNameResolver: (
+    name: string,
+    reservedNames: string,
+  ) => string | undefined;
+  requestParamsNameResolver: (
+    name: string,
+    reservedNames: string,
+  ) => string | undefined;
   enumNameResolver: (name: string, reservedNames: string) => string | undefined;
-  discriminatorMappingNameResolver: (name: string, reservedNames: string) => string | undefined;
-  discriminatorAbstractResolver: (name: string, reservedNames: string) => string | undefined;
+  discriminatorMappingNameResolver: (
+    name: string,
+    reservedNames: string,
+  ) => string | undefined;
+  discriminatorAbstractResolver: (
+    name: string,
+    reservedNames: string,
+  ) => string | undefined;
 };
 
 export interface GenerateApiConfiguration {
@@ -588,7 +650,9 @@ export interface GenerateApiConfiguration {
     typeNameResolverName: string;
     specificArgNameResolverName: string;
     /** do not use constructor args, it can break functionality of this property, just send class reference */
-    customTranslator?: new (...args: never[]) => typeof import("./src/translators/translator").Translator;
+    customTranslator?: new (
+      ...args: never[]
+    ) => typeof import("./src/translators/translator").Translator;
     internalTemplateOptions: {
       addUtilRequiredKeysType: boolean;
     };
@@ -635,16 +699,28 @@ export interface GenerateApiConfiguration {
     /** @deprecated */
     classNameCase: (value: string) => string;
     pascalCase: (value: string) => string;
-    getInlineParseContent: (rawTypeData: SchemaComponent["rawTypeData"], typeName?: string) => string;
-    getParseContent: (rawTypeData: SchemaComponent["rawTypeData"], typeName?: string) => ModelType;
+    getInlineParseContent: (
+      rawTypeData: SchemaComponent["rawTypeData"],
+      typeName?: string,
+    ) => string;
+    getParseContent: (
+      rawTypeData: SchemaComponent["rawTypeData"],
+      typeName?: string,
+    ) => ModelType;
     getComponentByRef: (ref: string) => SchemaComponent;
     parseSchema: (
       rawSchema: string | SchemaComponent["rawTypeData"],
       typeName?: string,
       formattersMap?: Record<MAIN_SCHEMA_TYPES, (content: ModelType) => string>,
     ) => ModelType;
-    formatters: Record<MAIN_SCHEMA_TYPES, (content: string | object | string[] | object[]) => string>;
-    inlineExtraFormatters: Record<Exclude<MAIN_SCHEMA_TYPES, SCHEMA_TYPES.PRIMITIVE>, (schema: ModelType) => string>;
+    formatters: Record<
+      MAIN_SCHEMA_TYPES,
+      (content: string | object | string[] | object[]) => string
+    >;
+    inlineExtraFormatters: Record<
+      Exclude<MAIN_SCHEMA_TYPES, SCHEMA_TYPES.PRIMITIVE>,
+      (schema: ModelType) => string
+    >;
     formatModelName: (name: string) => string;
     fmtToJSDocLine: (line: string, params?: { eol?: boolean }) => string;
     _: import("lodash").LoDashStatic;
@@ -664,17 +740,28 @@ type FileInfo = {
 export interface GenerateApiOutput {
   configuration: GenerateApiConfiguration;
   files: FileInfo[];
-  createFile: (params: { path: string; fileName: string; content: string; withPrefix?: boolean }) => void;
+  createFile: (params: {
+    path: string;
+    fileName: string;
+    content: string;
+    withPrefix?: boolean;
+  }) => void;
   renderTemplate: (
     templateContent: string,
     data: Record<string, unknown>,
     etaOptions?: import("eta/dist/types/config").PartialConfig,
   ) => string;
-  getTemplate: (params: { fileName?: string; name?: string; path?: string }) => string;
+  getTemplate: (params: {
+    fileName?: string;
+    name?: string;
+    path?: string;
+  }) => string;
   formatTSContent: (content: string) => Promise<string>;
 }
 
-export declare function generateApi(params: GenerateApiParams): Promise<GenerateApiOutput>;
+export declare function generateApi(
+  params: GenerateApiParams,
+): Promise<GenerateApiOutput>;
 
 export interface GenerateTemplatesParams {
   cleanOutput?: boolean;
@@ -684,6 +771,9 @@ export interface GenerateTemplatesParams {
   silent?: boolean;
 }
 
-export interface GenerateTemplatesOutput extends Pick<GenerateApiOutput, "files" | "createFile"> {}
+export interface GenerateTemplatesOutput
+  extends Pick<GenerateApiOutput, "files" | "createFile"> {}
 
-export declare function generateTemplates(params: GenerateTemplatesParams): Promise<GenerateTemplatesOutput>;
+export declare function generateTemplates(
+  params: GenerateTemplatesParams,
+): Promise<GenerateTemplatesOutput>;

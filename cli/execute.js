@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const { root_command, skip_command } = require('./constants');
-const { parseArgs } = require('./parse-args');
-const didYouMean = require('didyoumean');
+const _ = require("lodash");
+const { root_command, skip_command } = require("./constants");
+const { parseArgs } = require("./parse-args");
+const didYouMean = require("didyoumean");
 
 didYouMean.threshold = 0.5;
 
@@ -19,7 +19,7 @@ const execute = (params, commands, instance) => {
 
     if (!usageOptions.length && command.name === root_command) {
       usageOptions.push(
-        command.options.find((option) => option.flags.name === 'help'),
+        command.options.find((option) => option.flags.name === "help"),
       );
     }
 
@@ -32,7 +32,7 @@ const execute = (params, commands, instance) => {
       });
       return;
     } else {
-      let error = '';
+      let error = "";
 
       const processUserOptionData = (userOption, option) => {
         if (userOption) {
@@ -43,7 +43,7 @@ const execute = (params, commands, instance) => {
           if (option.flags.value) {
             if (option.flags.value.variadic) {
               return data.reduce((acc, d) => {
-                acc.push(...d.split(',').map(option.flags.value.formatter));
+                acc.push(...d.split(",").map(option.flags.value.formatter));
                 return acc;
               }, []);
             } else {
@@ -94,7 +94,7 @@ const processArgs = (commands, args) => {
   let command = null;
   let usageOptions = [];
   let walkingOption = null;
-  let error = '';
+  let error = "";
 
   let allFlagKeys = [];
 
@@ -104,10 +104,10 @@ const processArgs = (commands, args) => {
     if (i === 0) {
       command = commands[arg];
 
-      if (!command && !arg.startsWith('-')) {
+      if (!command && !arg.startsWith("-")) {
         const tip = didYouMean(arg, _.keys(commands));
         error = `unknown command ${arg}${
-          tip ? `\n(Did you mean ${tip} ?)` : ''
+          tip ? `\n(Did you mean ${tip} ?)` : ""
         }`;
       } else if (!command) {
         command = commands[root_command];
@@ -123,7 +123,7 @@ const processArgs = (commands, args) => {
 
     if (error) return;
 
-    if (arg.startsWith('-')) {
+    if (arg.startsWith("-")) {
       const option = command.options.find((option) =>
         option.flags.keys.includes(arg),
       );
@@ -131,7 +131,7 @@ const processArgs = (commands, args) => {
       if (!option) {
         const tip = didYouMean(arg, allFlagKeys);
         error = `unknown option ${arg}${
-          tip ? `\n(Did you mean ${tip} ?)` : ''
+          tip ? `\n(Did you mean ${tip} ?)` : ""
         }`;
       }
 
