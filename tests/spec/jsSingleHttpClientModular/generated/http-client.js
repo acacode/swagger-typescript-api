@@ -68,8 +68,8 @@ export class HttpClient {
           property instanceof Blob
             ? property
             : typeof property === "object" && property !== null
-            ? JSON.stringify(property)
-            : `${property}`,
+              ? JSON.stringify(property)
+              : `${property}`,
         );
         return formData;
       }, new FormData()),
