@@ -111,7 +111,7 @@
     "nanoid": "3.3.6",
     "node-emoji": "2.1.3",
     "node-fetch": "^3.3.1",
-    "prettier": "3.0.0",
+    "prettier": "3.2.5",
     "swagger-schema-official": "2.0.0-bab6bed",
     "swagger2openapi": "7.0.8",
     "typescript": "5.4.5"
@@ -120,7 +120,7 @@
     "@biomejs/biome": "1.7.2",
     "@types/lodash": "^4.14.195",
     "@types/node": "^20.4.1",
-    "@types/prettier": "^2.7.3",
+    "@types/prettier": "^3.0.0",
     "axios": "^1.4.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
