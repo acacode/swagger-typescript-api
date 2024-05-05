@@ -115,8 +115,8 @@ export class HttpClient<SecurityDataType = unknown> {
           property instanceof Blob
             ? property
             : typeof property === "object" && property !== null
-            ? JSON.stringify(property)
-            : `${property}`,
+              ? JSON.stringify(property)
+              : `${property}`,
         );
         return formData;
       }, new FormData()),
@@ -246,9 +246,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/wrong-path-params1/${encodeURIComponent(pathParam1)}/${encodeURIComponent(
-          pathParam2,
-        )}/${encodeURIComponent(pathParam3)}/${encodeURIComponent(pathParam4)}`,
+        path: `/wrong-path-params1/${encodeURIComponent(pathParam1)}/${encodeURIComponent(pathParam2)}/${encodeURIComponent(pathParam3)}/${encodeURIComponent(pathParam4)}`,
         method: "DELETE",
         ...params,
       }),
