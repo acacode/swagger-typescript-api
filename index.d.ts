@@ -8,6 +8,11 @@ interface GenerateApiParamsBase {
    */
   name?: string;
 
+  /** 
+   * name of the main exported class
+   */
+  apiClassName?: string;
+
   /**
    * path to folder where will be located the created api module.
    *
