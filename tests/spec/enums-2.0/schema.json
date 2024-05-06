@@ -11,22 +11,22 @@
         "prop-enum-nullable": {
           "type": "integer",
           "x-nullable": true,
-          "enum": [ 0, 1, 2, 3, 4, 5 ]
+          "enum": [0, 1, 2, 3, 4, 5]
         },
         "prop-enum": {
           "type": "integer",
-          "enum": [ 0, 1, 2, 3, 4, 5 ]
+          "enum": [0, 1, 2, 3, 4, 5]
         }
       }
     },
     "x-nullable-enum": {
       "type": "integer",
       "x-nullable": true,
-      "enum": [ 0, 1, 2, 3, 4, 5 ]
+      "enum": [0, 1, 2, 3, 4, 5]
     },
     "simple-enum-non-nullable": {
       "type": "integer",
-      "enum": [ 0, 1, 2, 3, 4, 5 ]
+      "enum": [0, 1, 2, 3, 4, 5]
     },
     "OnlyEnumNames": {
       "x-enumNames": ["Bla", "Blabla", "Boiler"]
@@ -58,7 +58,9 @@
     },
     "SomeInterestEnum": {
       "format": "int32",
-      "enum": [6, 2, 1, 67, 88, 122, 88, 0, 213, 12378, 123125, 32452, 1111, 66666],
+      "enum": [
+        6, 2, 1, 67, 88, 122, 88, 0, 213, 12378, 123125, 32452, 1111, 66666
+      ],
       "type": "integer",
       "x-enumNames": [
         "Bla",
@@ -91,7 +93,7 @@
             "name": "testKek",
             "required": true,
             "type": "integer",
-            "enum": [1,2,3,4,5]
+            "enum": [1, 2, 3, 4, 5]
           }
         ],
         "requestBody": {
@@ -101,8 +103,8 @@
                 "type": "object",
                 "properties": {
                   "someTypeId": {
-                    "type":"integer",
-                    "enum":[1,2,3,4,5]
+                    "type": "integer",
+                    "enum": [1, 2, 3, 4, 5]
                   }
                 }
               }

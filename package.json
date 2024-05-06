@@ -42,6 +42,8 @@
     "cli:help": "node index.js -h",
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
     "cli:yaml": "node index.js -r -d -p ./swagger-test-cli.yaml -n swagger-test-cli.ts",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
     "generate": "node tests/generate.js",
     "generate-extended": "node tests/generate-extended.js",
     "node": "node swagger-test-cli/generate.js",

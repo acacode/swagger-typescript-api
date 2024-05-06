@@ -34,9 +34,7 @@
     },
     "simpleObject": {
       "type": "object",
-      "required": [
-        "objectType"
-      ],
+      "required": ["objectType"],
       "properties": {
         "objectType": {
           "type": "string"
@@ -45,9 +43,7 @@
     },
     "complexObject": {
       "type": "object",
-      "required": [
-        "objectType"
-      ],
+      "required": ["objectType"],
       "properties": {
         "objectType": {
           "type": "string"
@@ -58,10 +54,7 @@
       "enum": ["csv", "file", "kek"]
     },
     "BlockDTOWithEnum": {
-      "required": [
-        "title",
-        "type"
-      ],
+      "required": ["title", "type"],
       "type": "object",
       "properties": {
         "title": {
@@ -94,18 +87,13 @@
           "$ref": "#/components/schemas/BlockDTOWithEnum"
         },
         {
-          "required": [
-            "text",
-            "type"
-          ],
+          "required": ["text", "type"],
           "type": "object",
           "properties": {
             "type": {
               "type": "string",
               "default": "csv",
-              "enum": [
-                "csv"
-              ]
+              "enum": ["csv"]
             },
             "text": {
               "type": "string",
@@ -121,18 +109,13 @@
           "$ref": "#/components/schemas/BlockDTOWithEnum"
         },
         {
-          "required": [
-            "fileId",
-            "type"
-          ],
+          "required": ["fileId", "type"],
           "type": "object",
           "properties": {
             "type": {
               "type": "string",
               "default": "file",
-              "enum": [
-                "file"
-              ]
+              "enum": ["file"]
             },
             "fileId": {
               "type": "string",
@@ -143,9 +126,7 @@
       ]
     },
     "BlockDTO": {
-      "required": [
-        "title"
-      ],
+      "required": ["title"],
       "type": "object",
       "properties": {
         "title": {
@@ -175,18 +156,13 @@
           "$ref": "#/components/schemas/BlockDTO"
         },
         {
-          "required": [
-            "text",
-            "type"
-          ],
+          "required": ["text", "type"],
           "type": "object",
           "properties": {
             "type": {
               "type": "string",
               "default": "csv",
-              "enum": [
-                "csv"
-              ]
+              "enum": ["csv"]
             },
             "text": {
               "type": "string",
@@ -202,18 +178,13 @@
           "$ref": "#/components/schemas/BlockDTO"
         },
         {
-          "required": [
-            "fileId",
-            "type"
-          ],
+          "required": ["fileId", "type"],
           "type": "object",
           "properties": {
             "type": {
               "type": "string",
               "default": "file",
-              "enum": [
-                "file"
-              ]
+              "enum": ["file"]
             },
             "fileId": {
               "type": "string",
@@ -225,9 +196,7 @@
     },
     "Pet": {
       "type": "object",
-      "required": [
-        "pet_type"
-      ],
+      "required": ["pet_type"],
       "properties": {
         "pet_type": {
           "type": "string"
@@ -302,9 +271,7 @@
     },
     "PetWithEnum": {
       "type": "object",
-      "required": [
-        "pet_type"
-      ],
+      "required": ["pet_type"],
       "properties": {
         "pet_type": {
           "$ref": "#/components/schemas/PetEnum"
@@ -439,9 +406,7 @@
     "VariantScale": {
       "type": "object",
       "description": "asdasdasdasdasd",
-      "required": [
-        "replicas"
-      ],
+      "required": ["replicas"],
       "properties": {
         "replicas": {
           "type": "integer",
@@ -453,9 +418,7 @@
     "VariantResources": {
       "type": "object",
       "description": "asdasdasdasdasd",
-      "required": [
-        "resources"
-      ],
+      "required": ["resources"],
       "properties": {
         "resources": {
           "type": "string"
@@ -487,9 +450,7 @@
     "VariantRollback": {
       "type": "object",
       "description": "asdasdasdasdasd",
-      "required": [
-        "revision_id"
-      ],
+      "required": ["revision_id"],
       "properties": {
         "revision_id": {
           "type": "integer",

@@ -990,7 +990,12 @@
         "required": ["data"]
       },
       "WebhookEventTypeEnum": {
-        "enum": ["TRANSACTION_CREATED", "TRANSACTION_SETTLED", "TRANSACTION_DELETED", "PING"],
+        "enum": [
+          "TRANSACTION_CREATED",
+          "TRANSACTION_SETTLED",
+          "TRANSACTION_DELETED",
+          "PING"
+        ],
         "description": "Specifies the type of a webhook event. This can be used to determine what\naction to take in response to the event, such as which relationships to\nexpect.\n"
       },
       "WebhookEventResource": {

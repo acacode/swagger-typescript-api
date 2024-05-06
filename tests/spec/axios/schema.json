@@ -107,7 +107,13 @@
                                 },
                                 "extra": {
                                   "type": "object",
-                                  "required": ["foo", "bar", "baz", "bad", "extra"],
+                                  "required": [
+                                    "foo",
+                                    "bar",
+                                    "baz",
+                                    "bad",
+                                    "extra"
+                                  ],
                                   "properties": {
                                     "foo": {
                                       "type": "string"
@@ -123,7 +129,13 @@
                                     },
                                     "extra": {
                                       "type": "object",
-                                      "required": ["foo", "bar", "baz", "bad", "extra"],
+                                      "required": [
+                                        "foo",
+                                        "bar",
+                                        "baz",
+                                        "bad",
+                                        "extra"
+                                      ],
                                       "properties": {
                                         "foo": {
                                           "type": "string"
@@ -139,7 +151,12 @@
                                         },
                                         "extra": {
                                           "type": "object",
-                                          "required": ["foo", "bar", "baz", "bad"],
+                                          "required": [
+                                            "foo",
+                                            "bar",
+                                            "baz",
+                                            "bad"
+                                          ],
                                           "properties": {
                                             "foo": {
                                               "type": "string"

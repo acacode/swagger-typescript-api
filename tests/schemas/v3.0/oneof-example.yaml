@@ -10,10 +10,10 @@ paths:
           application/json:
             schema:
               oneOf:
-                - $ref: '#/components/schemas/Cat'
-                - $ref: '#/components/schemas/Dog'
+                - $ref: "#/components/schemas/Cat"
+                - $ref: "#/components/schemas/Dog"
       responses:
-        '200':
+        "200":
           description: Updated
 components:
   schemas:

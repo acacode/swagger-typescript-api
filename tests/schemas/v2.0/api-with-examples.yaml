@@ -12,7 +12,7 @@ paths:
         multiple line 2
         multiple line 3
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: |-
@@ -82,7 +82,7 @@ paths:
       operationId: getVersionDetailsv2
       summary: Show API version details
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: |-
@@ -191,4 +191,4 @@ paths:
           type: string
 
 consumes:
-- application/json
+  - application/json

@@ -37,21 +37,21 @@ paths:
           required: true
           type: number
           format: double
-      security: 
+      security:
         - apikey: []
-      tags: 
+      tags:
         - Products
-      responses:  
+      responses:
         "200":
           description: An array of products
           schema:
             type: array
             items:
-              $ref: '#/definitions/Product'
+              $ref: "#/definitions/Product"
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: "#/definitions/Error"
   /estimates/price:
     get:
       summary: Price Estimates
@@ -82,19 +82,19 @@ paths:
           required: true
           type: number
           format: double
-      tags: 
+      tags:
         - Estimates
-      responses:  
+      responses:
         "200":
           description: An array of price estimates by product
           schema:
             type: array
             items:
-              $ref: '#/definitions/PriceEstimate'
+              $ref: "#/definitions/PriceEstimate"
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: "#/definitions/Error"
   /estimates/time:
     get:
       summary: Time Estimates
@@ -121,34 +121,34 @@ paths:
           in: query
           type: string
           description: Unique identifier representing a specific product for a given latitude & longitude.
-      tags: 
+      tags:
         - Estimates
-      responses:  
+      responses:
         "200":
           description: An array of products
           schema:
             type: array
             items:
-              $ref: '#/definitions/Product'
+              $ref: "#/definitions/Product"
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: "#/definitions/Error"
   /me:
     get:
       summary: User Profile
       description: The User Profile endpoint returns information about the Uber user that has authorized with the application.
-      tags: 
+      tags:
         - User
       responses:
         "200":
           description: Profile information for a user
           schema:
-            $ref: '#/definitions/Profile'
+            $ref: "#/definitions/Profile"
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: "#/definitions/Error"
   /history:
     get:
       summary: User Activity
@@ -162,19 +162,19 @@ paths:
         - name: limit
           in: query
           type: integer
-          format: int32 
+          format: int32
           description: Number of items to retrieve. Default is 5, maximum is 100.
-      tags: 
+      tags:
         - User
       responses:
         "200":
           description: History information for the given user
           schema:
-            $ref: '#/definitions/Activities'
+            $ref: "#/definitions/Activities"
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: "#/definitions/Error"
 definitions:
   Product:
     properties:
@@ -198,7 +198,7 @@ definitions:
       products:
         description: Contains the list of products
         type: array
-        items: 
+        items:
           $ref: "#/definitions/Product"
   PriceEstimate:
     properties:
@@ -211,7 +211,7 @@ definitions:
       display_name:
         type: string
         description: Display name of product.
-      estimate: 
+      estimate:
         type: string
         description: Formatted string of estimate in local currency of the start location. Estimate could be a range, a single number (flat rate) or "Metered" for TAXI.
       low_estimate:
@@ -239,7 +239,7 @@ definitions:
         description: Image URL of the Uber user.
       promo_code:
         type: string
-        description: Promo code of the Uber user.   
+        description: Promo code of the Uber user.
   Activity:
     properties:
       uuid:
@@ -262,7 +262,7 @@ definitions:
       history:
         type: array
         items:
-          $ref: '#/definitions/Activity'
+          $ref: "#/definitions/Activity"
   Error:
     properties:
       code:

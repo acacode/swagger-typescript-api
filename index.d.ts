@@ -8,7 +8,7 @@ interface GenerateApiParamsBase {
    */
   name?: string;
 
-  /** 
+  /**
    * name of the main exported class
    */
   apiClassName?: string;
@@ -181,7 +181,7 @@ interface GenerateApiParamsBase {
   extractingOptions?: Partial<ExtractingOptions>;
 
   /** configuration for fetching swagger schema requests */
-  requestOptions?: null | Partial<import("node-fetch").RequestInit>;
+  requestOptions?: null | Partial<RequestInit>;
 
   /** ts compiler configuration object (for --to-js option) */
   compilerTsConfig?: Record<string, any>;
@@ -682,7 +682,7 @@ export interface GenerateApiConfiguration {
     };
     routeNameDuplicatesMap: Map<string, string>;
     apiClassName: string;
-    requestOptions?: import("node-fetch").RequestInit;
+    requestOptions?: RequestInit;
     extractingOptions: ExtractingOptions;
   };
   modelTypes: ModelType[];
@@ -697,7 +697,7 @@ export interface GenerateApiConfiguration {
       routes: ParsedRoute[];
     }[];
   };
-  requestOptions?: null | Partial<import("node-fetch").RequestInit>;
+  requestOptions?: null | Partial<RequestInit>;
   utils: {
     formatDescription: (description: string, inline?: boolean) => string;
     internalCase: (value: string) => string;

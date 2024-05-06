@@ -7,7 +7,15 @@
   "components": {
     "schemas": {
       "enum-root": {
-        "enum": ["100644", "100755", "040000", "160000", "120000", "test1", "test2"],
+        "enum": [
+          "100644",
+          "100755",
+          "040000",
+          "160000",
+          "120000",
+          "test1",
+          "test2"
+        ],
         "type": "string"
       },
       "tree": {
@@ -68,7 +76,9 @@
       },
       "SomeInterestEnum": {
         "format": "int32",
-        "enum": [6, 2, 1, 67, 88, 122, 88, 0, 213, 12378, 123125, 32452, 1111, 66666],
+        "enum": [
+          6, 2, 1, 67, 88, 122, 88, 0, 213, 12378, 123125, 32452, 1111, 66666
+        ],
         "type": "integer",
         "x-enumNames": [
           "Bla",
@@ -95,9 +105,7 @@
   "paths": {
     "/a/b/c": {
       "get": {
-        "tags": [
-          "tag1"
-        ],
+        "tags": ["tag1"],
         "summary": "get A",
         "operationId": "get_a_b_c_get",
         "parameters": [
@@ -138,9 +146,7 @@
             "required": false,
             "schema": {
               "title": "Order By",
-              "enum": [
-                "created_time"
-              ],
+              "enum": ["created_time"],
               "type": "string",
               "default": "created_time"
             },
@@ -151,9 +157,7 @@
             "required": false,
             "schema": {
               "title": "Order By",
-              "enum": [
-                "created_time"
-              ],
+              "enum": ["created_time"],
               "type": "string",
               "default": "created_time"
             },
@@ -164,9 +168,7 @@
             "required": false,
             "schema": {
               "title": "Order By",
-              "enum": [
-                "created_time"
-              ],
+              "enum": ["created_time"],
               "type": "string",
               "default": "created_time"
             },
@@ -204,9 +206,7 @@
     },
     "/c/d/e": {
       "get": {
-        "tags": [
-          "Security Groups"
-        ],
+        "tags": ["Security Groups"],
         "summary": "Get C",
         "operationId": "get_c_d_e_get",
         "parameters": [
@@ -231,7 +231,13 @@
                   "items": {
                     "properties": {
                       "mode": {
-                        "enum": ["100644", "100755", "040000", "160000", "120000"],
+                        "enum": [
+                          "100644",
+                          "100755",
+                          "040000",
+                          "160000",
+                          "120000"
+                        ],
                         "type": "string"
                       },
                       "mode-num": {
@@ -264,7 +270,13 @@
                   "items": {
                     "properties": {
                       "mode": {
-                        "enum": ["100644", "100755", "040000", "160000", "120000"],
+                        "enum": [
+                          "100644",
+                          "100755",
+                          "040000",
+                          "160000",
+                          "120000"
+                        ],
                         "type": "string"
                       },
                       "mode-num": {
@@ -297,7 +309,13 @@
                   "items": {
                     "properties": {
                       "mode": {
-                        "enum": ["100644", "100755", "040000", "160000", "120000"],
+                        "enum": [
+                          "100644",
+                          "100755",
+                          "040000",
+                          "160000",
+                          "120000"
+                        ],
                         "type": "string"
                       },
                       "mode-num": {
@@ -326,9 +344,7 @@
             "required": false,
             "schema": {
               "title": "Order By",
-              "enum": [
-                "created_time"
-              ],
+              "enum": ["created_time"],
               "type": "string",
               "default": "created_time"
             },
@@ -339,9 +355,7 @@
             "required": false,
             "schema": {
               "title": "Order By",
-              "enum": [
-                "created_time"
-              ],
+              "enum": ["created_time"],
               "type": "string",
               "default": "created_time"
             },
@@ -352,9 +366,7 @@
             "required": false,
             "schema": {
               "title": "Order By",
-              "enum": [
-                "created_time"
-              ],
+              "enum": ["created_time"],
               "type": "string",
               "default": "created_time"
             },

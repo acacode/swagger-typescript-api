@@ -1,8 +1,6 @@
 {
   "swagger": "2.0",
-  "schemes": [
-    "https"
-  ],
+  "schemes": ["https"],
   "host": "api.github.com",
   "basePath": "/",
   "info": {
@@ -10,10 +8,7 @@
     "termsOfService": "https://help.github.com/articles/github-terms-of-service/#b-api-terms",
     "title": "GitHub",
     "version": "v3",
-    "x-apisguru-categories": [
-      "collaboration",
-      "developer_tools"
-    ],
+    "x-apisguru-categories": ["collaboration", "developer_tools"],
     "x-logo": {
       "url": "https://api.apis.guru/v2/cache/logo/https_twitter.com_github_profile_image.jpeg"
     },
@@ -31,12 +26,8 @@
   "externalDocs": {
     "url": "https://developer.github.com/v3/"
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "securityDefinitions": {
     "oauth_2_0": {
       "authorizationUrl": "https://github.com/login/oauth/authorize",
@@ -1505,13 +1496,7 @@
           {
             "default": "all",
             "description": "Issues assigned to you / created by you / mentioning you / you're\nsubscribed to updates for / All issues the authenticated user can see\n",
-            "enum": [
-              "assigned",
-              "created",
-              "mentioned",
-              "subscribed",
-              "all"
-            ],
+            "enum": ["assigned", "created", "mentioned", "subscribed", "all"],
             "in": "query",
             "name": "filter",
             "required": true,
@@ -1519,10 +1504,7 @@
           },
           {
             "default": "open",
-            "enum": [
-              "open",
-              "closed"
-            ],
+            "enum": ["open", "closed"],
             "in": "query",
             "name": "state",
             "required": true,
@@ -1537,11 +1519,7 @@
           },
           {
             "default": "created",
-            "enum": [
-              "created",
-              "updated",
-              "comments"
-            ],
+            "enum": ["created", "updated", "comments"],
             "in": "query",
             "name": "sort",
             "required": true,
@@ -1549,10 +1527,7 @@
           },
           {
             "default": "desc",
-            "enum": [
-              "asc",
-              "desc"
-            ],
+            "enum": ["asc", "desc"],
             "in": "query",
             "name": "direction",
             "required": true,
@@ -1634,10 +1609,7 @@
           },
           {
             "description": "Indicates the state of the issues to return. Can be either open or closed.",
-            "enum": [
-              "open",
-              "closed"
-            ],
+            "enum": ["open", "closed"],
             "in": "path",
             "name": "state",
             "required": true,
@@ -1726,10 +1698,7 @@
           {
             "default": "desc",
             "description": "The sort field. if sort param is provided. Can be either asc or desc.",
-            "enum": [
-              "desc",
-              "asc"
-            ],
+            "enum": ["desc", "asc"],
             "in": "query",
             "name": "order",
             "type": "string"
@@ -1748,11 +1717,7 @@
           },
           {
             "description": "The sort field. One of stars, forks, or updated. Default: results are sorted by best match.",
-            "enum": [
-              "updated",
-              "stars",
-              "forks"
-            ],
+            "enum": ["updated", "stars", "forks"],
             "in": "query",
             "name": "sort",
             "type": "string"
@@ -1896,10 +1861,7 @@
           {
             "default": "desc",
             "description": "The sort field. if sort param is provided. Can be either asc or desc.",
-            "enum": [
-              "desc",
-              "asc"
-            ],
+            "enum": ["desc", "asc"],
             "in": "query",
             "name": "order",
             "type": "string"
@@ -1912,11 +1874,7 @@
           },
           {
             "description": "The sort field. One of stars, forks, or updated. Default: results are sorted by best match.",
-            "enum": [
-              "updated",
-              "stars",
-              "forks"
-            ],
+            "enum": ["updated", "stars", "forks"],
             "in": "query",
             "name": "sort",
             "type": "string"
@@ -1996,9 +1954,7 @@
             }
           }
         ],
-        "produces": [
-          "text/html"
-        ],
+        "produces": ["text/html"],
         "responses": {
           "200": {
             "description": "OK",
@@ -2047,9 +2003,7 @@
     },
     "/markdown/raw": {
       "post": {
-        "consumes": [
-          "text/plain"
-        ],
+        "consumes": ["text/plain"],
         "description": "Render a Markdown document in raw mode",
         "parameters": [
           {
@@ -2059,9 +2013,7 @@
             "type": "string"
           }
         ],
-        "produces": [
-          "text/html"
-        ],
+        "produces": ["text/html"],
         "responses": {
           "200": {
             "description": "OK",
@@ -2935,13 +2887,7 @@
           {
             "default": "all",
             "description": "Issues assigned to you / created by you / mentioning you / you're\nsubscribed to updates for / All issues the authenticated user can see\n",
-            "enum": [
-              "assigned",
-              "created",
-              "mentioned",
-              "subscribed",
-              "all"
-            ],
+            "enum": ["assigned", "created", "mentioned", "subscribed", "all"],
             "in": "query",
             "name": "filter",
             "required": true,
@@ -2949,10 +2895,7 @@
           },
           {
             "default": "open",
-            "enum": [
-              "open",
-              "closed"
-            ],
+            "enum": ["open", "closed"],
             "in": "query",
             "name": "state",
             "required": true,
@@ -2967,11 +2910,7 @@
           },
           {
             "default": "created",
-            "enum": [
-              "created",
-              "updated",
-              "comments"
-            ],
+            "enum": ["created", "updated", "comments"],
             "in": "query",
             "name": "sort",
             "required": true,
@@ -2979,10 +2918,7 @@
           },
           {
             "default": "desc",
-            "enum": [
-              "asc",
-              "desc"
-            ],
+            "enum": ["asc", "desc"],
             "in": "query",
             "name": "direction",
             "required": true,
@@ -3630,14 +3566,7 @@
           },
           {
             "default": "all",
-            "enum": [
-              "all",
-              "public",
-              "private",
-              "forks",
-              "sources",
-              "member"
-            ],
+            "enum": ["all", "public", "private", "forks", "sources", "member"],
             "in": "query",
             "name": "type",
             "type": "string"
@@ -6676,11 +6605,7 @@
           },
           {
             "default": "newes",
-            "enum": [
-              "newes",
-              "oldes",
-              "watchers"
-            ],
+            "enum": ["newes", "oldes", "watchers"],
             "in": "query",
             "name": "sort",
             "type": "string"
@@ -8370,13 +8295,7 @@
           {
             "default": "all",
             "description": "Issues assigned to you / created by you / mentioning you / you're\nsubscribed to updates for / All issues the authenticated user can see\n",
-            "enum": [
-              "assigned",
-              "created",
-              "mentioned",
-              "subscribed",
-              "all"
-            ],
+            "enum": ["assigned", "created", "mentioned", "subscribed", "all"],
             "in": "query",
             "name": "filter",
             "required": true,
@@ -8384,10 +8303,7 @@
           },
           {
             "default": "open",
-            "enum": [
-              "open",
-              "closed"
-            ],
+            "enum": ["open", "closed"],
             "in": "query",
             "name": "state",
             "required": true,
@@ -8402,11 +8318,7 @@
           },
           {
             "default": "created",
-            "enum": [
-              "created",
-              "updated",
-              "comments"
-            ],
+            "enum": ["created", "updated", "comments"],
             "in": "query",
             "name": "sort",
             "required": true,
@@ -8414,10 +8326,7 @@
           },
           {
             "default": "desc",
-            "enum": [
-              "asc",
-              "desc"
-            ],
+            "enum": ["asc", "desc"],
             "in": "query",
             "name": "direction",
             "required": true,
@@ -8591,10 +8500,7 @@
           },
           {
             "description": "",
-            "enum": [
-              "created",
-              "updated"
-            ],
+            "enum": ["created", "updated"],
             "in": "query",
             "name": "sort",
             "type": "string"
@@ -10848,10 +10754,7 @@
           {
             "default": "open",
             "description": "String to filter by state.",
-            "enum": [
-              "open",
-              "closed"
-            ],
+            "enum": ["open", "closed"],
             "in": "query",
             "name": "state",
             "type": "string"
@@ -10865,10 +10768,7 @@
           {
             "default": "due_date",
             "description": "",
-            "enum": [
-              "due_date",
-              "completeness"
-            ],
+            "enum": ["due_date", "completeness"],
             "in": "query",
             "name": "sort",
             "type": "string"
@@ -11524,10 +11424,7 @@
           {
             "default": "open",
             "description": "String to filter by state.",
-            "enum": [
-              "open",
-              "closed"
-            ],
+            "enum": ["open", "closed"],
             "in": "query",
             "name": "state",
             "type": "string"
@@ -11706,10 +11603,7 @@
           },
           {
             "description": "",
-            "enum": [
-              "created",
-              "updated"
-            ],
+            "enum": ["created", "updated"],
             "in": "query",
             "name": "sort",
             "type": "string"
@@ -14674,10 +14568,7 @@
             "type": "string"
           },
           {
-            "enum": [
-              "tarball",
-              "zipball"
-            ],
+            "enum": ["tarball", "zipball"],
             "in": "path",
             "name": "archive_format",
             "required": true,
@@ -14816,10 +14707,7 @@
           {
             "default": "desc",
             "description": "The sort field. if sort param is provided. Can be either asc or desc.",
-            "enum": [
-              "desc",
-              "asc"
-            ],
+            "enum": ["desc", "asc"],
             "in": "query",
             "name": "order",
             "type": "string"
@@ -14833,9 +14721,7 @@
           },
           {
             "description": "Can only be 'indexed', which indicates how recently a file has been indexed\nby the GitHub search infrastructure. If not provided, results are sorted\nby best match.\n",
-            "enum": [
-              "indexed"
-            ],
+            "enum": ["indexed"],
             "in": "query",
             "name": "sort",
             "type": "string"
@@ -14903,10 +14789,7 @@
           {
             "default": "desc",
             "description": "The sort field. if sort param is provided. Can be either asc or desc.",
-            "enum": [
-              "desc",
-              "asc"
-            ],
+            "enum": ["desc", "asc"],
             "in": "query",
             "name": "order",
             "type": "string"
@@ -14920,11 +14803,7 @@
           },
           {
             "description": "The sort field. Can be comments, created, or updated. Default: results are sorted by best match.",
-            "enum": [
-              "updated",
-              "created",
-              "comments"
-            ],
+            "enum": ["updated", "created", "comments"],
             "in": "query",
             "name": "sort",
             "type": "string"
@@ -14992,10 +14871,7 @@
           {
             "default": "desc",
             "description": "The sort field. if sort param is provided. Can be either asc or desc.",
-            "enum": [
-              "desc",
-              "asc"
-            ],
+            "enum": ["desc", "asc"],
             "in": "query",
             "name": "order",
             "type": "string"
@@ -15009,11 +14885,7 @@
           },
           {
             "description": "If not provided, results are sorted by best match.",
-            "enum": [
-              "stars",
-              "forks",
-              "updated"
-            ],
+            "enum": ["stars", "forks", "updated"],
             "in": "query",
             "name": "sort",
             "type": "string"
@@ -15081,10 +14953,7 @@
           {
             "default": "desc",
             "description": "The sort field. if sort param is provided. Can be either asc or desc.",
-            "enum": [
-              "desc",
-              "asc"
-            ],
+            "enum": ["desc", "asc"],
             "in": "query",
             "name": "order",
             "type": "string"
@@ -15098,11 +14967,7 @@
           },
           {
             "description": "If not provided, results are sorted by best match.",
-            "enum": [
-              "followers",
-              "repositories",
-              "joined"
-            ],
+            "enum": ["followers", "repositories", "joined"],
             "in": "query",
             "name": "sort",
             "type": "string"
@@ -16404,9 +16269,7 @@
             "type": "string"
           }
         ],
-        "produces": [
-          "application/vnd.github.v3"
-        ],
+        "produces": ["application/vnd.github.v3"],
         "responses": {
           "200": {
             "description": "OK",
@@ -16834,13 +16697,7 @@
           {
             "default": "all",
             "description": "Issues assigned to you / created by you / mentioning you / you're\nsubscribed to updates for / All issues the authenticated user can see\n",
-            "enum": [
-              "assigned",
-              "created",
-              "mentioned",
-              "subscribed",
-              "all"
-            ],
+            "enum": ["assigned", "created", "mentioned", "subscribed", "all"],
             "in": "query",
             "name": "filter",
             "required": true,
@@ -16848,10 +16705,7 @@
           },
           {
             "default": "open",
-            "enum": [
-              "open",
-              "closed"
-            ],
+            "enum": ["open", "closed"],
             "in": "query",
             "name": "state",
             "required": true,
@@ -16866,11 +16720,7 @@
           },
           {
             "default": "created",
-            "enum": [
-              "created",
-              "updated",
-              "comments"
-            ],
+            "enum": ["created", "updated", "comments"],
             "in": "query",
             "name": "sort",
             "required": true,
@@ -16878,10 +16728,7 @@
           },
           {
             "default": "desc",
-            "enum": [
-              "asc",
-              "desc"
-            ],
+            "enum": ["asc", "desc"],
             "in": "query",
             "name": "direction",
             "required": true,
@@ -17270,14 +17117,7 @@
         "parameters": [
           {
             "default": "all",
-            "enum": [
-              "all",
-              "public",
-              "private",
-              "forks",
-              "sources",
-              "member"
-            ],
+            "enum": ["all", "public", "private", "forks", "sources", "member"],
             "in": "query",
             "name": "type",
             "type": "string"
@@ -17417,10 +17257,7 @@
           {
             "default": "created",
             "description": "",
-            "enum": [
-              "created",
-              "updated"
-            ],
+            "enum": ["created", "updated"],
             "in": "query",
             "name": "sort",
             "type": "string"
@@ -18754,14 +18591,7 @@
           },
           {
             "default": "all",
-            "enum": [
-              "all",
-              "public",
-              "private",
-              "forks",
-              "sources",
-              "member"
-            ],
+            "enum": ["all", "public", "private", "forks", "sources", "member"],
             "in": "query",
             "name": "type",
             "type": "string"
@@ -19020,10 +18850,7 @@
           "type": "integer"
         },
         "type": {
-          "enum": [
-            "User",
-            "Organization"
-          ]
+          "enum": ["User", "Organization"]
         },
         "updated_at": {
           "description": "ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ",
@@ -19082,9 +18909,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "name"
-      ],
+      "required": ["name"],
       "type": "object"
     },
     "assets": {
@@ -19105,10 +18930,7 @@
           "type": "string"
         },
         "encoding": {
-          "enum": [
-            "utf-8",
-            "base64"
-          ]
+          "enum": ["utf-8", "base64"]
         },
         "sha": {
           "type": "string"
@@ -19270,9 +19092,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "body"
-      ],
+      "required": ["body"],
       "type": "object"
     },
     "comments": {
@@ -19514,10 +19334,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "sha",
-        "body"
-      ],
+      "required": ["sha", "body"],
       "type": "object"
     },
     "commits": {
@@ -20335,16 +20152,10 @@
           "type": "string"
         },
         "permission": {
-          "enum": [
-            "pull",
-            "push",
-            "admin"
-          ]
+          "enum": ["pull", "push", "admin"]
         }
       },
-      "required": [
-        "name"
-      ],
+      "required": ["name"],
       "type": "object"
     },
     "emailsPost": {
@@ -20939,10 +20750,7 @@
                   "type": "integer"
                 },
                 "state": {
-                  "enum": [
-                    "open",
-                    "closed"
-                  ]
+                  "enum": ["open", "closed"]
                 },
                 "title": {
                   "type": "string"
@@ -20971,10 +20779,7 @@
               "type": "object"
             },
             "state": {
-              "enum": [
-                "open",
-                "closed"
-              ]
+              "enum": ["open", "closed"]
             },
             "title": {
               "type": "string"
@@ -21070,10 +20875,7 @@
                 "type": "integer"
               },
               "state": {
-                "enum": [
-                  "open",
-                  "closed"
-                ]
+                "enum": ["open", "closed"]
               },
               "title": {
                 "type": "string"
@@ -21102,10 +20904,7 @@
             "type": "object"
           },
           "state": {
-            "enum": [
-              "open",
-              "closed"
-            ]
+            "enum": ["open", "closed"]
           },
           "title": {
             "type": "string"
@@ -21477,10 +21276,7 @@
           "type": "integer"
         },
         "state": {
-          "enum": [
-            "open",
-            "closed"
-          ]
+          "enum": ["open", "closed"]
         },
         "title": {
           "type": "string"
@@ -21594,11 +21390,7 @@
           "type": "string"
         },
         "permission": {
-          "enum": [
-            "pull",
-            "push",
-            "admin"
-          ]
+          "enum": ["pull", "push", "admin"]
         },
         "repo_names": {
           "items": {
@@ -21607,9 +21399,7 @@
           "type": "array"
         }
       },
-      "required": [
-        "name"
-      ],
+      "required": ["name"],
       "type": "object"
     },
     "organization": {
@@ -21793,9 +21583,7 @@
           "type": "integer"
         }
       },
-      "required": [
-        "name"
-      ],
+      "required": ["name"],
       "type": "object"
     },
     "pullRequest": {
@@ -22176,10 +21964,7 @@
             "type": "string"
           },
           "state": {
-            "enum": [
-              "open",
-              "closed"
-            ]
+            "enum": ["open", "closed"]
           },
           "title": {
             "type": "string"
@@ -23110,11 +22895,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "message",
-        "parents",
-        "tree"
-      ],
+      "required": ["message", "parents", "tree"],
       "type": "object"
     },
     "repoEdit": {
@@ -23579,11 +23360,7 @@
             },
             "type": {
               "description": "String of the type of the tagged object. Normally this is a commit but it can also be a tree or a blob.",
-              "enum": [
-                "commit",
-                "tree",
-                "blob"
-              ]
+              "enum": ["commit", "tree", "blob"]
             },
             "url": {
               "type": "string"
@@ -23654,20 +23431,10 @@
         },
         "type": {
           "description": "String of the type of the object we’re tagging. Normally this is a commit but it can also be a tree or a blob.",
-          "enum": [
-            "commit",
-            "tree",
-            "blob"
-          ]
+          "enum": ["commit", "tree", "blob"]
         }
       },
-      "required": [
-        "tag",
-        "message",
-        "object",
-        "type",
-        "tagger"
-      ],
+      "required": ["tag", "message", "object", "type", "tagger"],
       "type": "object"
     },
     "tags": {
@@ -23783,13 +23550,7 @@
             "properties": {
               "mode": {
                 "description": "One of 100644 for file (blob), 100755 for executable (blob), 040000 for subdirectory (tree), 160000 for submodule (commit) or 120000 for a blob that specifies the path of a symlink.",
-                "enum": [
-                  "100644",
-                  "100755",
-                  "040000",
-                  "160000",
-                  "120000"
-                ],
+                "enum": ["100644", "100755", "040000", "160000", "120000"],
                 "type": "string"
               },
               "path": {
@@ -23803,11 +23564,7 @@
                 "type": "integer"
               },
               "type": {
-                "enum": [
-                  "blob",
-                  "tree",
-                  "commit"
-                ],
+                "enum": ["blob", "tree", "commit"],
                 "type": "string"
               },
               "url": {

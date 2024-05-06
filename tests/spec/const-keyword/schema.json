@@ -63,7 +63,7 @@
         "const": 666,
         "description": "description",
         "title": "title",
-        "nullable": true,
+        "nullable": true
       },
       "test-number-0": {
         "const": 0,

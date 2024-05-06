@@ -21,5 +21,8 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
+      - name: Check formatting
+        run: yarn format:check
+
       - name: Run the tests
         run: yarn test-all

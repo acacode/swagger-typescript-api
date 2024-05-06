@@ -19,7 +19,7 @@
   "produces": ["application/json"],
   "paths": {},
   "definitions": {
-    "AnyOfWithNullable":  {
+    "AnyOfWithNullable": {
       "anyOf": [
         {
           "type": "string"
@@ -124,10 +124,7 @@
       }
     },
     "ABCOptionalWithRequiredId": {
-      "required": [
-        "id",
-        "b"
-      ],
+      "required": ["id", "b"],
       "properties": {
         "id": {
           "type": "integer",
@@ -141,9 +138,7 @@
       ]
     },
     "NestedObjectWithRequiredId": {
-      "required": [
-        "id"
-      ],
+      "required": ["id"],
       "properties": {
         "id1": {
           "type": "integer",
