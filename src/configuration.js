@@ -60,7 +60,7 @@ class CodeGenConfig {
 
   /** { "#/components/schemas/Foo": @TypeInfo, ... } */
   componentsMap = {};
-  /** flag for catching convertion from swagger 2.0 */
+  /** flag for catching conversion from swagger 2.0 */
   convertedFromSwagger2 = false;
 
   /** url index from paths used for merging into modules */

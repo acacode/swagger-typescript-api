@@ -617,7 +617,7 @@ Features:
 Fixes:
 
 - Bug with missing `name` property in in-path requests parameters
-- Problem with usage `--route-types` with `--modular` option (mising import data contracts)
+- Problem with usage `--route-types` with `--modular` option (missing import data contracts)
 
 # 6.4.1
 
@@ -1347,7 +1347,7 @@ Changes: update documentation (+ add logo), add comment about author in generate
 # 1.0.6
 
 Fixes: route naming, http(s) requests for getting swagger schema, integer enums
-Changes: include only required files into npm pacakge
+Changes: include only required files into npm package
 
 # 1.0.5
 
