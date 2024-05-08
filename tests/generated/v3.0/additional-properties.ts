@@ -227,7 +227,7 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title Additional propeties Example
+ * @title Additional properties Example
  * @version 1.0.0
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {}
