@@ -125,7 +125,7 @@ export class HttpClient {
       signal: (cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal) || null,
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
-      const r = response;
+      const r = response.clone();
       r.data = null;
       r.error = null;
       const data = !responseFormat
