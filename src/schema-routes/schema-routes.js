@@ -110,7 +110,7 @@ class SchemaRoutes {
       originalRouteName;
 
     const pathParamMatches = (routeName || "").match(
-      /({[a-zA-Z]([a-zA-Z0-9-_.])*})|(:[a-zA-Z]([-_.]?[a-zA-Z0-9-_.])*:?)/g,
+      /({[a-zA-Z]([-_.]*[a-zA-Z0-9])*})|(:[a-zA-Z]([-_.]*[a-zA-Z0-9])*:?)/g,
     );
 
     // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
