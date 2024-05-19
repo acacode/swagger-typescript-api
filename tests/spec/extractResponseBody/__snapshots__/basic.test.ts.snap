@@ -449,6 +449,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -548,6 +549,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -565,6 +567,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/pet/\${petId}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -638,6 +641,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.FormData,
+        format: "json",
         ...params,
       }),
   };
@@ -656,6 +660,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/store/inventory\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -673,6 +678,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: body,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -688,6 +694,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetOrderByIdDataTTT, void>({
         path: \`/store/order/\${orderId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -779,6 +786,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/login\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -809,6 +817,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetUserByNameDataTTT, void>({
         path: \`/user/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
