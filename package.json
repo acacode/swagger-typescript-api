@@ -120,7 +120,7 @@
     "@biomejs/biome": "1.7.3",
     "@types/lodash": "4.17.4",
     "@types/node": "20.12.12",
-    "axios": "1.6.8",
+    "axios": "1.7.1",
     "cross-env": "7.0.3",
     "dotenv": "16.4.5",
     "git-diff": "2.0.6",

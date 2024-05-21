@@ -201,14 +201,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.6.8":
-  version: 1.6.8
-  resolution: "axios@npm:1.6.8"
+"axios@npm:1.7.1":
+  version: 1.7.1
+  resolution: "axios@npm:1.7.1"
   dependencies:
     follow-redirects: "npm:^1.15.6"
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10c0/0f22da6f490335479a89878bc7d5a1419484fbb437b564a80c34888fc36759ae4f56ea28d55a191695e5ed327f0bad56e7ff60fb6770c14d1be6501505d47ab9
+  checksum: 10c0/554395472f18f4ddb43b4be2900473bc1a4d589464a8ab16f6954c53d9cace4317d5c9e009d5bb05f098d9565b2fa45f152a5d4cecb87536c8f0c370c25a7770
   languageName: node
   linkType: hard
 
@@ -1092,7 +1092,7 @@ __metadata:
     "@types/lodash": "npm:4.17.4"
     "@types/node": "npm:20.12.12"
     "@types/swagger-schema-official": "npm:^2.0.25"
-    axios: "npm:1.6.8"
+    axios: "npm:1.7.1"
     cosmiconfig: "npm:^9.0.0"
     cross-env: "npm:7.0.3"
     didyoumean: "npm:^1.2.2"
