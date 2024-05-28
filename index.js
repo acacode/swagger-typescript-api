@@ -68,6 +68,12 @@ const program = cli({
       internal: { name: "generateUnionEnums" },
     },
     {
+      flags: "--prefer-types-over-interface",
+      description: "prefer types over interfaces",
+      default: codeGenBaseConfig.preferTypesOverInterface,
+      internal: { name: "preferTypesOverInterface" },
+    },
+    {
       flags: "--add-readonly",
       description: "generate readonly properties",
       default: codeGenBaseConfig.addReadonly,

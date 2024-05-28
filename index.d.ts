@@ -32,6 +32,11 @@ interface GenerateApiParamsBase {
   generateUnionEnums?: boolean;
 
   /**
+   * generate with types instead of interface
+   */
+  preferTypesOverInterface?: boolean;
+
+  /**
    * generate type definitions for API routes (default: false)
    */
   generateRouteTypes?: boolean;
@@ -613,6 +618,7 @@ export interface GenerateApiConfiguration {
     generateRouteTypes: boolean;
     generateClient: boolean;
     generateUnionEnums: boolean;
+    preferTypesOverInterface: boolean;
     swaggerSchema: object;
     originalSchema: object;
     componentsMap: Record<string, SchemaComponent>;
