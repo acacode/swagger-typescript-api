@@ -1,8 +1,13 @@
 name: Builds, tests & co
 
 on:
-  - push
-  - pull_request
+  push:
+  pull_request:
+  release:
+    types:
+      - published
+
+permissions: read-all
 
 jobs:
   build-and-test:
@@ -26,3 +31,26 @@ jobs:
 
       - name: Run the tests
         run: yarn test-all
+
+  publish:
+    if: github.event_name == 'release'
+
+    needs:
+      - build-and-test
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout tree
+        uses: actions/checkout@v4
+
+      - name: Set-up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          check-latest: true
+
+      - name: Publish
+        run: yarn npm publish --tolerate-republish
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
