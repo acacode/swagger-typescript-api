@@ -1,41 +1,27 @@
 {
   "name": "swagger-typescript-api",
-  "version": "13.0.3",
-  "description": "Generate typescript/javascript api from swagger schema",
-  "keywords": [
-    "openapi",
-    "swagger",
-    "typescript",
-    "api",
-    "javascript",
-    "rest",
-    "codegen",
-    "generation",
-    "http"
-  ],
+  "version": "13.0.4",
+  "description": "Generate TypeScript/JavaScript API from Swagger schema",
   "homepage": "https://github.com/acacode/swagger-typescript-api",
-  "bugs": {
-    "url": "https://github.com/acacode/swagger-typescript-api/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/acacode/swagger-typescript-api"
-  },
+  "bugs": "https://github.com/acacode/swagger-typescript-api/issues",
+  "repository": "github:acacode/swagger-typescript-api",
   "license": "MIT",
-  "author": "acacode",
-  "main": "src/index.js",
-  "typings": "./index.d.ts",
+  "author": "Sergey Volkov <js2me@outlook.com>",
+  "contributors": [
+    "Sora Morimoto <sora@morimoto.io>"
+  ],
+  "main": "./src/index.js",
+  "types": "./index.d.ts",
   "bin": {
-    "sta": "index.js",
-    "swagger-typescript-api": "index.js"
+    "sta": "./index.js",
+    "swagger-typescript-api": "./index.js"
   },
   "files": [
-    "src",
-    "index.js",
-    "index.d.ts",
-    "templates",
     "cli",
-    "LICENSE"
+    "src",
+    "templates",
+    "index.d.ts",
+    "index.js"
   ],
   "scripts": {
     "ci": "biome ci .",
@@ -129,5 +115,9 @@
   "packageManager": "yarn@4.2.2",
   "engines": {
     "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   }
 }
