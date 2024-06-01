@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "13.0.4",
+  "version": "13.0.5",
   "description": "Generate TypeScript/JavaScript API from Swagger schema",
   "homepage": "https://github.com/acacode/swagger-typescript-api",
   "bugs": "https://github.com/acacode/swagger-typescript-api/issues",
