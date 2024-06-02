@@ -439,10 +439,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eta@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "eta@npm:2.2.0"
-  checksum: 10c0/643b54d9539d2761bf6c5f4f48df1a5ea2d46c7f5a5fdc47a7d4802a8aa2b6262d4d61f724452e226c18cf82db02d48e65293fcc548f26a3f9d75a5ba7c3b859
+"eta@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "eta@npm:3.4.0"
+  checksum: 10c0/2fe0f2ad9db9ef8b2288736d8b4176403d4c54ee15d0e24e821059f42267ef61cbc7ff4f3c32901de8fcc34185f3425ae0c9988ffb580781cf1588c9a676f4e7
   languageName: node
   linkType: hard
 
@@ -1097,7 +1097,7 @@ __metadata:
     cross-env: "npm:7.0.3"
     didyoumean: "npm:^1.2.2"
     dotenv: "npm:16.4.5"
-    eta: "npm:^2.2.0"
+    eta: "npm:^3.4.0"
     git-diff: "npm:2.0.6"
     js-yaml: "npm:^4.1.0"
     lodash: "npm:^4.17.21"

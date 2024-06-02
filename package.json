@@ -92,7 +92,7 @@
     "@types/swagger-schema-official": "^2.0.25",
     "cosmiconfig": "^9.0.0",
     "didyoumean": "^1.2.2",
-    "eta": "^2.2.0",
+    "eta": "^3.4.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "nanoid": "^3.3.7",
