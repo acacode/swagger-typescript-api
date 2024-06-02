@@ -146,12 +146,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.13.0":
-  version: 20.13.0
-  resolution: "@types/node@npm:20.13.0"
+"@types/node@npm:20.14.0":
+  version: 20.14.0
+  resolution: "@types/node@npm:20.14.0"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 10c0/4fb1ab41d622bbf3434da138bd0f23052e5df3bc59852ea1228cdfe185fd9d66ea71171a68a3106452c883808be7eaa7bc4cd87f534708754d49849e817aa566
+  checksum: 10c0/29ccc7592e9ca6b81d00f3a6673241d08e9042d801b10adfd9ebcbbf326208e0a0133a8d146158db18d02a68b85d9ce1fd94e6e1e5be0da263129bf6e42eb22d
   languageName: node
   linkType: hard
 
@@ -1090,7 +1090,7 @@ __metadata:
   dependencies:
     "@biomejs/biome": "npm:1.7.3"
     "@types/lodash": "npm:4.17.4"
-    "@types/node": "npm:20.13.0"
+    "@types/node": "npm:20.14.0"
     "@types/swagger-schema-official": "npm:^2.0.25"
     axios: "npm:1.7.2"
     cosmiconfig: "npm:^9.0.0"
