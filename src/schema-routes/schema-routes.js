@@ -640,10 +640,11 @@ class SchemaRoutes {
     }
 
     return {
-      paramName:
-        camelCase(requestBodyName ||
-        (requestBody && requestBody.name) ||
-        DEFAULT_BODY_ARG_NAME),
+      paramName: camelCase(
+        requestBodyName ||
+          (requestBody && requestBody.name) ||
+          DEFAULT_BODY_ARG_NAME,
+      ),
       contentTypes,
       contentKind,
       schema,
