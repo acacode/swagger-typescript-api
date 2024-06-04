@@ -103,7 +103,7 @@
     "typescript": "5.4.5"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.7.3",
+    "@biomejs/biome": "1.8.0",
     "@types/lodash": "4.17.4",
     "@types/node": "20.14.1",
     "axios": "1.7.2",
