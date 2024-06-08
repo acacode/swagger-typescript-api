@@ -104,7 +104,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.0",
-    "@types/lodash": "4.17.4",
+    "@types/lodash": "4.17.5",
     "@types/node": "20.14.2",
     "axios": "1.7.2",
     "cross-env": "7.0.3",
