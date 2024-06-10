@@ -112,7 +112,7 @@
     "git-diff": "2.0.6",
     "shx": "0.3.4"
   },
-  "packageManager": "yarn@4.2.2",
+  "packageManager": "yarn@4.3.0",
   "engines": {
     "node": ">=18.0.0"
   },
