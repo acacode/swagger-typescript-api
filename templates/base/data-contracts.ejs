@@ -20,6 +20,10 @@ const dataContractTemplates = {
     return `enum ${contract.name} {\r\n${contract.content} \r\n }`;
   },
   interface: (contract) => {
+    if (config.preferTypesOverInterface) {
+        return `type ${contract.name}${buildGenerics(contract)} = {\r\n${contract.content}}`;
+    }
+
     return `interface ${contract.name}${buildGenerics(contract)} {\r\n${contract.content}}`;
   },
   type: (contract) => {

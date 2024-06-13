@@ -42,6 +42,7 @@ Options:
   -r, --responses               generate additional information about request responses
                                 also add typings for bad responses (default: false)
   --union-enums                 generate all "enum" types as union types (T1 | T2 | TN) (default: false)
+  --prefer-types-over-interface generate types instead of interfaces for DTOs (default: false)
   --add-readonly                generate readonly properties (default: false)
   --route-types                 generate type definitions for API routes (default: false)
   --no-client                   do not generate an API class
@@ -136,7 +137,8 @@ generateApi({
   singleHttpClient: true,
   cleanOutput: false,
   enumNamesAsValues: false,
-  moduleNameFirstTag: false,
+  moduleNameFirstTag: false, 
+  preferTypesOverInterface: false,
   generateUnionEnums: false,
   typePrefix: "",
   typeSuffix: "",

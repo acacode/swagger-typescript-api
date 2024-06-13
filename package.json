@@ -68,6 +68,7 @@
     "test:--templates": "node tests/spec/templates/test.js",
     "test:--type-suffix--type-prefix": "node tests/spec/typeSuffixPrefix/test.js",
     "test:--union-enums": "node tests/spec/unionEnums/test.js",
+    "test:--prefer-types-over-interface": "node tests/spec/preferTypesOverInterface/test.js",
     "test:additionalProperties2.0": "node tests/spec/additional-properties-2.0/test.js",
     "test:another-query-params": "node tests/spec/another-query-params/test.js",
     "test:const-keyword": "node tests/spec/const-keyword/test.js",
