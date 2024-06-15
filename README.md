@@ -1,7 +1,7 @@
 # swagger-typescript-api
 
 - Support for OpenAPI 3.0, 2.0, JSON and YAML
-- Generate the API client with Fetch or Axios from an OpenAPI Specification
+- Generate the API client for Fetch or Axios from an OpenAPI Specification
 
 Any questions you can ask [**here**](https://github.com/acacode/swagger-typescript-api/discussions)
 
