@@ -1,8 +1,7 @@
 # swagger-typescript-api
 
-- Support OpenAPI 3.0, 2.0, JSON, YAML
-- Generate API via swagger scheme
-- Generate API module use [**Fetch**](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) or [**Axios**](https://github.com/axios/axios) to make requests
+- Support for OpenAPI 3.0, 2.0, JSON and YAML
+- Generate the API client with Fetch or Axios from an OpenAPI Specification
 
 Any questions you can ask [**here**](https://github.com/acacode/swagger-typescript-api/discussions)
 
