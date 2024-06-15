@@ -766,7 +766,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^2.3.2, chalk@npm:^2.4.2":
+"chalk@npm:^2.4.2":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
   dependencies:
@@ -890,19 +890,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-env@npm:7.0.3":
-  version: 7.0.3
-  resolution: "cross-env@npm:7.0.3"
-  dependencies:
-    cross-spawn: "npm:^7.0.1"
-  bin:
-    cross-env: src/bin/cross-env.js
-    cross-env-shell: src/bin/cross-env-shell.js
-  checksum: 10c0/f3765c25746c69fcca369655c442c6c886e54ccf3ab8c16847d5ad0e91e2f337d36eedc6599c1227904bf2a228d721e690324446876115bc8e7b32a866735ecf
-  languageName: node
-  linkType: hard
-
-"cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.1, cross-spawn@npm:^7.0.3":
+"cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.3":
   version: 7.0.3
   resolution: "cross-spawn@npm:7.0.3"
   dependencies:
@@ -952,20 +940,6 @@ __metadata:
   version: 29.6.3
   resolution: "diff-sequences@npm:29.6.3"
   checksum: 10c0/32e27ac7dbffdf2fb0eb5a84efd98a9ad084fbabd5ac9abb8757c6770d5320d2acd172830b28c4add29bb873d59420601dfc805ac4064330ce59b1adfd0593b2
-  languageName: node
-  linkType: hard
-
-"diff@npm:^3.5.0":
-  version: 3.5.0
-  resolution: "diff@npm:3.5.0"
-  checksum: 10c0/fc62d5ba9f6d1b8b5833380969037007913d4886997838c247c54ec6934f09ae5a07e17ae28b1f016018149d81df8ad89306f52eac1afa899e0bed49015a64d1
-  languageName: node
-  linkType: hard
-
-"dotenv@npm:16.4.5":
-  version: 16.4.5
-  resolution: "dotenv@npm:16.4.5"
-  checksum: 10c0/48d92870076832af0418b13acd6e5a5a3e83bb00df690d9812e94b24aff62b88ade955ac99a05501305b8dc8f1b0ee7638b18493deb6fe93d680e5220936292f
   languageName: node
   linkType: hard
 
@@ -1280,19 +1254,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"git-diff@npm:2.0.6":
-  version: 2.0.6
-  resolution: "git-diff@npm:2.0.6"
-  dependencies:
-    chalk: "npm:^2.3.2"
-    diff: "npm:^3.5.0"
-    loglevel: "npm:^1.6.1"
-    shelljs: "npm:^0.8.1"
-    shelljs.exec: "npm:^1.1.7"
-  checksum: 10c0/f79aa9016b60598fb458ef8878ee32ffe7aa77c0a3d4291df4e1304152e566b5ce53f1dc867f1aa7421a2df1735731441a119597e54664d57302f2d69d0a8d6a
-  languageName: node
-  linkType: hard
-
 "glob@npm:^10.2.2, glob@npm:^10.3.10":
   version: 10.4.1
   resolution: "glob@npm:10.4.1"
@@ -1577,13 +1538,6 @@ __metadata:
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: 10c0/d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
-  languageName: node
-  linkType: hard
-
-"loglevel@npm:^1.6.1":
-  version: 1.9.1
-  resolution: "loglevel@npm:1.9.1"
-  checksum: 10c0/152f0501cea367cf998c844a38b19f0b5af555756ad7d8650214a1f8c6a5b045e31b8cf5dae27d28339a061624ce3f618aadb333aed386cac041d6ddc5101a39
   languageName: node
   linkType: hard
 
@@ -2311,14 +2265,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shelljs.exec@npm:^1.1.7":
-  version: 1.1.8
-  resolution: "shelljs.exec@npm:1.1.8"
-  checksum: 10c0/8cf51733ccb0d579c781f062c50515d109b298f632edc3c6a9816e11464ba7ff5bf622be5fdd5d0949d8ac5b0b2d846b5a3150fd260802d4d2b961c0a49019cb
-  languageName: node
-  linkType: hard
-
-"shelljs@npm:^0.8.1, shelljs@npm:^0.8.5":
+"shelljs@npm:^0.8.5":
   version: 0.8.5
   resolution: "shelljs@npm:0.8.5"
   dependencies:
@@ -2576,11 +2523,8 @@ __metadata:
     "@types/swagger-schema-official": "npm:^2.0.25"
     axios: "npm:1.7.2"
     cosmiconfig: "npm:^9.0.0"
-    cross-env: "npm:7.0.3"
     didyoumean: "npm:^1.2.2"
-    dotenv: "npm:16.4.5"
     eta: "npm:^2.2.0"
-    git-diff: "npm:2.0.6"
     js-yaml: "npm:^4.1.0"
     lodash: "npm:^4.17.21"
     nanoid: "npm:^3.3.7"

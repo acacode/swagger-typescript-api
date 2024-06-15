@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "13.0.5",
+  "version": "13.0.6",
   "description": "Generate TypeScript/JavaScript API from Swagger schema",
   "homepage": "https://github.com/acacode/swagger-typescript-api",
   "bugs": "https://github.com/acacode/swagger-typescript-api/issues",
@@ -53,9 +53,6 @@
     "@types/lodash": "4.17.5",
     "@types/node": "20.14.2",
     "axios": "1.7.2",
-    "cross-env": "7.0.3",
-    "dotenv": "16.4.5",
-    "git-diff": "2.0.6",
     "shx": "0.3.4",
     "vitest": "1.6.0"
   },
