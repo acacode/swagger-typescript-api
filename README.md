@@ -1,30 +1,16 @@
 # swagger-typescript-api
 
-<img
-  src="https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/swagger-typescript-api-logo.png"
-  title="swagger-typescript-api logo by js2me"
-  align="left"
-  height="180"
-  width="93"
-/>
+- Support OpenAPI 3.0, 2.0, JSON, YAML
+- Generate API via swagger scheme
+- Generate API module use [**Fetch**](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) or [**Axios**](https://github.com/axios/axios) to make requests
 
-- Generate api via swagger scheme
-- Supports OA 3.0, 2.0, JSON, yaml
-- Generated api module use [**Fetch Api**](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) or [**Axios**](https://github.com/axios/axios) to make requests.
+Any questions you can ask [**here**](https://github.com/acacode/swagger-typescript-api/discussions)
 
-<br>
+## Examples
 
-Any questions you can ask [**here**](https://github.com/acacode/swagger-typescript-api/issues) or in [**our Slack**](https://join.slack.com/t/acacode/shared_invite/enQtOTQ5ODgyODQzMzYwLWYxOGI1MzQ3Yzg1ZWI5ZTI5NzNiZjExZTE5OWI1YjQ4NjBiNTk4NWVlNjM5YmU1ZWI2ZDkyMzZkZGIxNjA5NTQ)(**#swagger-typescript-api** channel)
+All examples you can find [**here**](https://github.com/acacode/swagger-typescript-api/tree/main/tests)
 
-![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/components-converter-example.jpg)
-
-Thanks to [JetBrains](https://www.jetbrains.com/?from=swaggertypescriptapi) for providing a free license for their excellent Webstorm IDE.
-
-## 👀 Examples
-
-All examples you can find [**here**](https://github.com/acacode/swagger-typescript-api/tree/master/tests)
-
-## 📄 Usage
+## Usage
 
 ```muse
 Usage: sta [options]
@@ -203,7 +189,7 @@ generateTemplates({
 });
 ```
 
-## 💎 options
+## Options
 
 ### **`--templates`**
 
@@ -487,21 +473,13 @@ generateApi({
 
 See more about [swagger schema type/format data here](https://json-schema.org/understanding-json-schema/reference/string.html#dates-and-times)
 
-## 📄 Mass media
+## Mass media
 
 - [5 Lessons learned about swagger-typescript-api](https://christo8989.medium.com/5-lessons-learned-about-swagger-typescript-api-511240b34c1)
 - [Why Swagger schemes are needed in frontend development ?](https://dev.to/js2me/why-swagger-schemes-are-needed-in-frontend-development-2cb4)
 - [Migration en douceur vers TypeScript (French)](https://www.premieroctet.com/blog/migration-typescript/)
 - [swagger-typescript-api usage (Japanese)](https://zenn.dev/watahaya/articles/2f4a716c47903b)
 
-## 🚀 How it looks
+## License
 
-![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/npx.gif)
-
-![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/auth-example.gif)
-
-![](https://raw.githubusercontent.com/acacode/swagger-typescript-api/master/assets/typings1.gif)
-
-## 📝 License
-
-Licensed under the [MIT License](https://github.com/acacode/swagger-typescript-api/blob/master/LICENSE).
+Licensed under the [MIT License](https://github.com/acacode/swagger-typescript-api/blob/main/LICENSE).
