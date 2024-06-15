@@ -1,5 +1,0 @@
-<% const { config } = it; %>
-<% /* https://github.com/acacode/swagger-typescript-api/tree/next/templates/base/http-clients/ */ %>
-<%~ includeFile(`@base/http-clients/${config.httpClientType}-http-client`, it) %>
-
-/* HTTP CLIENT TEMPLATE */

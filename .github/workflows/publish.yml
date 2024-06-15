@@ -1,13 +1,14 @@
-name: Builds, tests & co
+name: Publish
 
 on:
-  - push
-  - pull_request
+  release:
+    types:
+      - published
 
 permissions: read-all
 
 jobs:
-  build-and-test:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout tree
@@ -19,11 +20,7 @@ jobs:
           node-version: 22
           check-latest: true
 
-      - name: Install dependencies
-        run: yarn install --immutable
-
-      - name: Check formatting
-        run: yarn format:check
-
-      - name: Run the tests
-        run: yarn test
+      - name: Publish
+        run: yarn npm publish --tolerate-republish
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
