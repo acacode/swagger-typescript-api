@@ -69,6 +69,7 @@ export namespace Pets {
     export type RequestHeaders = {};
     export type ResponseBody = Pet[];
   }
+
   /**
    * @description Creates a new pet in the store.  Duplicates are allowed
    * @name AddPet
@@ -81,6 +82,7 @@ export namespace Pets {
     export type RequestHeaders = {};
     export type ResponseBody = Pet;
   }
+
   /**
    * @description Returns a user based on a single ID, if the user does not have access to the pet
    * @name FindPetById
@@ -99,6 +101,7 @@ export namespace Pets {
     export type RequestHeaders = {};
     export type ResponseBody = Pet;
   }
+
   /**
    * @description deletes a single pet based on the ID supplied
    * @name DeletePet

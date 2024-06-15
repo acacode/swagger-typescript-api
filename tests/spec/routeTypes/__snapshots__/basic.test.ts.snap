@@ -2040,6 +2040,7 @@ export namespace Gists {
     };
     export type ResponseBody = Gists;
   }
+
   /**
    * @description Create a gist.
    * @name GistsCreate
@@ -2055,6 +2056,7 @@ export namespace Gists {
     };
     export type ResponseBody = Gist;
   }
+
   /**
    * @description List all public gists.
    * @name PublicList
@@ -2076,6 +2078,7 @@ export namespace Gists {
     };
     export type ResponseBody = Gists;
   }
+
   /**
    * @description List the authenticated user's starred gists.
    * @name StarredList
@@ -2097,6 +2100,7 @@ export namespace Gists {
     };
     export type ResponseBody = Gists;
   }
+
   /**
    * @description Delete a gist.
    * @name GistsDelete
@@ -2115,6 +2119,7 @@ export namespace Gists {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get a single gist.
    * @name GistsDetail
@@ -2133,6 +2138,7 @@ export namespace Gists {
     };
     export type ResponseBody = Gist;
   }
+
   /**
    * @description Edit a gist.
    * @name GistsPartialUpdate
@@ -2151,6 +2157,7 @@ export namespace Gists {
     };
     export type ResponseBody = Gist;
   }
+
   /**
    * @description List comments on a gist.
    * @name CommentsDetail
@@ -2169,6 +2176,7 @@ export namespace Gists {
     };
     export type ResponseBody = Comments;
   }
+
   /**
    * @description Create a commen
    * @name CommentsCreate
@@ -2187,6 +2195,7 @@ export namespace Gists {
     };
     export type ResponseBody = Comment;
   }
+
   /**
    * @description Delete a comment.
    * @name CommentsDelete
@@ -2207,6 +2216,7 @@ export namespace Gists {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get a single comment.
    * @name CommentsDetail2
@@ -2229,6 +2239,7 @@ export namespace Gists {
     };
     export type ResponseBody = Comment;
   }
+
   /**
    * @description Edit a comment.
    * @name CommentsPartialUpdate
@@ -2249,6 +2260,7 @@ export namespace Gists {
     };
     export type ResponseBody = Comment;
   }
+
   /**
    * @description Fork a gist.
    * @name ForksCreate
@@ -2267,6 +2279,7 @@ export namespace Gists {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Unstar a gist.
    * @name StarDelete
@@ -2285,6 +2298,7 @@ export namespace Gists {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Check if a gist is starred.
    * @name StarDetail
@@ -2303,6 +2317,7 @@ export namespace Gists {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Star a gist.
    * @name StarUpdate
@@ -2339,6 +2354,7 @@ export namespace Gitignore {
     };
     export type ResponseBody = Gitignore;
   }
+
   /**
    * @description Get a single template.
    * @name TemplatesDetail
@@ -2420,6 +2436,7 @@ export namespace Legacy {
     };
     export type ResponseBody = SearchIssuesByKeyword;
   }
+
   /**
    * @description Find repositories by keyword. Note, this legacy method does not follow the v3 pagination pattern. This method returns up to 100 results per page and pages can be fetched using the start_page parameter.
    * @name ReposSearchDetail
@@ -2451,6 +2468,7 @@ export namespace Legacy {
     };
     export type ResponseBody = SearchRepositoriesByKeyword;
   }
+
   /**
    * @description This API call is added for compatibility reasons only.
    * @name UserEmailDetail
@@ -2470,6 +2488,7 @@ export namespace Legacy {
     };
     export type ResponseBody = SearchUserByEmail;
   }
+
   /**
    * @description Find users by keyword.
    * @name UserSearchDetail
@@ -2517,6 +2536,7 @@ export namespace Markdown {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Render a Markdown document in raw mode
    * @name PostMarkdown
@@ -2604,6 +2624,7 @@ export namespace Notifications {
     };
     export type ResponseBody = Notifications;
   }
+
   /**
    * @description Mark as read. Marking a notification as "read" removes it from the default view on GitHub.com.
    * @name NotificationsUpdate
@@ -2619,6 +2640,7 @@ export namespace Notifications {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description View a single thread.
    * @name ThreadsDetail
@@ -2637,6 +2659,7 @@ export namespace Notifications {
     };
     export type ResponseBody = Notifications;
   }
+
   /**
    * @description Mark a thread as read
    * @name ThreadsPartialUpdate
@@ -2655,6 +2678,7 @@ export namespace Notifications {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Delete a Thread Subscription.
    * @name ThreadsSubscriptionDelete
@@ -2673,6 +2697,7 @@ export namespace Notifications {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get a Thread Subscription.
    * @name ThreadsSubscriptionDetail
@@ -2691,6 +2716,7 @@ export namespace Notifications {
     };
     export type ResponseBody = Subscription;
   }
+
   /**
    * @description Set a Thread Subscription. This lets you subscribe to a thread, or ignore it. Subscribing to a thread is unnecessary if the user is already subscribed to the repository. Ignoring a thread will mute all future notifications (until you comment or get @mentioned).
    * @name ThreadsSubscriptionUpdate
@@ -2730,6 +2756,7 @@ export namespace Orgs {
     };
     export type ResponseBody = Organization;
   }
+
   /**
    * @description Edit an Organization.
    * @name OrgsPartialUpdate
@@ -2748,6 +2775,7 @@ export namespace Orgs {
     };
     export type ResponseBody = Organization;
   }
+
   /**
    * @description List public events for an organization.
    * @name EventsDetail
@@ -2766,6 +2794,7 @@ export namespace Orgs {
     };
     export type ResponseBody = Events;
   }
+
   /**
    * @description List issues. List all issues for a given organization for the authenticated user.
    * @name IssuesDetail
@@ -2804,6 +2833,7 @@ export namespace Orgs {
     };
     export type ResponseBody = Issues;
   }
+
   /**
    * @description Members list. List all users who are members of an organization. A member is a user tha belongs to at least 1 team in the organization. If the authenticated user is also an owner of this organization then both concealed and public members will be returned. If the requester is not an owner of the organization the query will be redirected to the public members list.
    * @name MembersDetail
@@ -2822,6 +2852,7 @@ export namespace Orgs {
     };
     export type ResponseBody = Users;
   }
+
   /**
    * @description Remove a member. Removing a user from this list will remove them from all teams and they will no longer have any access to the organization's repositories.
    * @name MembersDelete
@@ -2842,6 +2873,7 @@ export namespace Orgs {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Check if a user is, publicly or privately, a member of the organization.
    * @name MembersDetail2
@@ -2864,6 +2896,7 @@ export namespace Orgs {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Public members list. Members of an organization can choose to have their membership publicized or not.
    * @name PublicMembersDetail
@@ -2882,6 +2915,7 @@ export namespace Orgs {
     };
     export type ResponseBody = Users;
   }
+
   /**
    * @description Conceal a user's membership.
    * @name PublicMembersDelete
@@ -2902,6 +2936,7 @@ export namespace Orgs {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Check public membership.
    * @name PublicMembersDetail2
@@ -2924,6 +2959,7 @@ export namespace Orgs {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Publicize a user's membership.
    * @name PublicMembersUpdate
@@ -2944,6 +2980,7 @@ export namespace Orgs {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description List repositories for the specified org.
    * @name ReposDetail
@@ -2965,6 +3002,7 @@ export namespace Orgs {
     };
     export type ResponseBody = Repos;
   }
+
   /**
    * @description Create a new repository for the authenticated user. OAuth users must supply repo scope.
    * @name ReposCreate
@@ -2983,6 +3021,7 @@ export namespace Orgs {
     };
     export type ResponseBody = Repos;
   }
+
   /**
    * @description List teams.
    * @name TeamsDetail
@@ -3001,6 +3040,7 @@ export namespace Orgs {
     };
     export type ResponseBody = Teams;
   }
+
   /**
    * @description Create team. In order to create a team, the authenticated user must be an owner of organization.
    * @name TeamsCreate
@@ -3060,6 +3100,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get repository.
    * @name ReposDetail
@@ -3080,6 +3121,7 @@ export namespace Repos {
     };
     export type ResponseBody = Repo;
   }
+
   /**
    * @description Edit repository.
    * @name ReposPartialUpdate
@@ -3100,6 +3142,7 @@ export namespace Repos {
     };
     export type ResponseBody = Repo;
   }
+
   /**
    * @description List assignees. This call lists all the available assignees (owner + collaborators) to which issues may be assigned.
    * @name AssigneesDetail
@@ -3120,6 +3163,7 @@ export namespace Repos {
     };
     export type ResponseBody = Assignees;
   }
+
   /**
    * @description Check assignee. You may also check to see if a particular user is an assignee for a repository.
    * @name AssigneesDetail2
@@ -3144,6 +3188,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get list of branches
    * @name BranchesDetail
@@ -3164,6 +3209,7 @@ export namespace Repos {
     };
     export type ResponseBody = Branches;
   }
+
   /**
    * @description Get Branch
    * @name BranchesDetail2
@@ -3188,6 +3234,7 @@ export namespace Repos {
     };
     export type ResponseBody = Branch;
   }
+
   /**
    * @description List. When authenticating as an organization owner of an organization-owned repository, all organization owners are included in the list of collaborators. Otherwise, only users with access to the repository are returned in the collaborators list.
    * @name CollaboratorsDetail
@@ -3208,6 +3255,7 @@ export namespace Repos {
     };
     export type ResponseBody = Users;
   }
+
   /**
    * @description Remove collaborator.
    * @name CollaboratorsDelete
@@ -3230,6 +3278,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Check if user is a collaborator
    * @name CollaboratorsDetail2
@@ -3254,6 +3303,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Add collaborator.
    * @name CollaboratorsUpdate
@@ -3276,6 +3326,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description List commit comments for a repository. Comments are ordered by ascending ID.
    * @name CommentsDetail
@@ -3296,6 +3347,7 @@ export namespace Repos {
     };
     export type ResponseBody = RepoComments;
   }
+
   /**
    * @description Delete a commit comment
    * @name CommentsDelete
@@ -3318,6 +3370,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get a single commit comment.
    * @name CommentsDetail2
@@ -3342,6 +3395,7 @@ export namespace Repos {
     };
     export type ResponseBody = CommitComment;
   }
+
   /**
    * @description Update a commit comment.
    * @name CommentsPartialUpdate
@@ -3364,6 +3418,7 @@ export namespace Repos {
     };
     export type ResponseBody = CommitComment;
   }
+
   /**
    * @description List commits on a repository.
    * @name CommitsDetail
@@ -3398,6 +3453,7 @@ export namespace Repos {
     };
     export type ResponseBody = Commits;
   }
+
   /**
    * @description Get the combined Status for a specific Ref The Combined status endpoint is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the blog post for full details. To access this endpoint during the preview period, you must provide a custom media type in the Accept header: application/vnd.github.she-hulk-preview+json
    * @name CommitsStatusDetail
@@ -3419,6 +3475,7 @@ export namespace Repos {
     };
     export type ResponseBody = RefStatus;
   }
+
   /**
    * @description Get a single commit.
    * @name CommitsDetail2
@@ -3443,6 +3500,7 @@ export namespace Repos {
     };
     export type ResponseBody = Commit;
   }
+
   /**
    * @description List comments for a single commitList comments for a single commit.
    * @name CommitsCommentsDetail
@@ -3465,6 +3523,7 @@ export namespace Repos {
     };
     export type ResponseBody = RepoComments;
   }
+
   /**
    * @description Create a commit comment.
    * @name CommitsCommentsCreate
@@ -3487,6 +3546,7 @@ export namespace Repos {
     };
     export type ResponseBody = CommitComment;
   }
+
   /**
    * @description Compare two commits
    * @name CompareDetail
@@ -3509,6 +3569,7 @@ export namespace Repos {
     };
     export type ResponseBody = CompareCommits;
   }
+
   /**
    * @description Delete a file. This method deletes a file in a repository.
    * @name ContentsDelete
@@ -3530,6 +3591,7 @@ export namespace Repos {
     };
     export type ResponseBody = DeleteFile;
   }
+
   /**
    * @description Get contents. This method returns the contents of a file or directory in a repository. Files and symlinks support a custom media type for getting the raw content. Directories and submodules do not support custom media types. Note: This API supports files up to 1 megabyte in size. Here can be many outcomes. For details see "http://developer.github.com/v3/repos/contents/"
    * @name ContentsDetail
@@ -3556,6 +3618,7 @@ export namespace Repos {
     };
     export type ResponseBody = ContentsPath;
   }
+
   /**
    * @description Create a file.
    * @name ContentsUpdate
@@ -3577,6 +3640,7 @@ export namespace Repos {
     };
     export type ResponseBody = CreateFile;
   }
+
   /**
    * @description Get list of contributors.
    * @name ContributorsDetail
@@ -3600,6 +3664,7 @@ export namespace Repos {
     };
     export type ResponseBody = Users;
   }
+
   /**
    * @description Users with pull access can view deployments for a repository
    * @name DeploymentsDetail
@@ -3620,6 +3685,7 @@ export namespace Repos {
     };
     export type ResponseBody = RepoDeployments;
   }
+
   /**
    * @description Users with push access can create a deployment for a given ref
    * @name DeploymentsCreate
@@ -3640,6 +3706,7 @@ export namespace Repos {
     };
     export type ResponseBody = DeploymentResp;
   }
+
   /**
    * @description Users with pull access can view deployment statuses for a deployment
    * @name DeploymentsStatusesDetail
@@ -3662,6 +3729,7 @@ export namespace Repos {
     };
     export type ResponseBody = DeploymentStatuses;
   }
+
   /**
    * @description Create a Deployment Status Users with push access can create deployment statuses for a given deployment:
    * @name DeploymentsStatusesCreate
@@ -3684,6 +3752,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Deprecated. List downloads for a repository.
    * @name DownloadsDetail
@@ -3705,6 +3774,7 @@ export namespace Repos {
     };
     export type ResponseBody = Downloads;
   }
+
   /**
    * @description Deprecated. Delete a download.
    * @name DownloadsDelete
@@ -3728,6 +3798,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Deprecated. Get a single download.
    * @name DownloadsDetail2
@@ -3753,6 +3824,7 @@ export namespace Repos {
     };
     export type ResponseBody = Download;
   }
+
   /**
    * @description Get list of repository events.
    * @name EventsDetail
@@ -3773,6 +3845,7 @@ export namespace Repos {
     };
     export type ResponseBody = Events;
   }
+
   /**
    * @description List forks.
    * @name ForksDetail
@@ -3796,6 +3869,7 @@ export namespace Repos {
     };
     export type ResponseBody = Forks;
   }
+
   /**
    * @description Create a fork. Forking a Repository happens asynchronously. Therefore, you may have to wai a short period before accessing the git objects. If this takes longer than 5 minutes, be sure to contact Support.
    * @name ForksCreate
@@ -3816,6 +3890,7 @@ export namespace Repos {
     };
     export type ResponseBody = Repo;
   }
+
   /**
    * @description Create a Blob.
    * @name GitBlobsCreate
@@ -3836,6 +3911,7 @@ export namespace Repos {
     };
     export type ResponseBody = Blobs;
   }
+
   /**
    * @description Get a Blob. Since blobs can be any arbitrary binary data, the input and responses for the blob API takes an encoding parameter that can be either utf-8 or base64. If your data cannot be losslessly sent as a UTF-8 string, you can base64 encode it.
    * @name GitBlobsDetail
@@ -3858,6 +3934,7 @@ export namespace Repos {
     };
     export type ResponseBody = Blob;
   }
+
   /**
    * @description Create a Commit.
    * @name GitCommitsCreate
@@ -3878,6 +3955,7 @@ export namespace Repos {
     };
     export type ResponseBody = GitCommit;
   }
+
   /**
    * @description Get a Commit.
    * @name GitCommitsDetail
@@ -3900,6 +3978,7 @@ export namespace Repos {
     };
     export type ResponseBody = RepoCommit;
   }
+
   /**
    * @description Get all References
    * @name GitRefsDetail
@@ -3920,6 +3999,7 @@ export namespace Repos {
     };
     export type ResponseBody = Refs;
   }
+
   /**
    * @description Create a Reference
    * @name GitRefsCreate
@@ -3940,6 +4020,7 @@ export namespace Repos {
     };
     export type ResponseBody = HeadBranch;
   }
+
   /**
    * @description Delete a Reference Example: Deleting a branch: DELETE /repos/octocat/Hello-World/git/refs/heads/feature-a Example: Deleting a tag:        DELETE /repos/octocat/Hello-World/git/refs/tags/v1.0
    * @name GitRefsDelete
@@ -3961,6 +4042,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get a Reference
    * @name GitRefsDetail2
@@ -3984,6 +4066,7 @@ export namespace Repos {
     };
     export type ResponseBody = HeadBranch;
   }
+
   /**
    * @description Update a Reference
    * @name GitRefsPartialUpdate
@@ -4005,6 +4088,7 @@ export namespace Repos {
     };
     export type ResponseBody = HeadBranch;
   }
+
   /**
    * @description Create a Tag Object. Note that creating a tag object does not create the reference that makes a tag in Git. If you want to create an annotated tag in Git, you have to do this call to create the tag object, and then create the refs/tags/[tag] reference. If you want to create a lightweight tag, you only have to create the tag reference - this call would be unnecessary.
    * @name GitTagsCreate
@@ -4025,6 +4109,7 @@ export namespace Repos {
     };
     export type ResponseBody = Tag;
   }
+
   /**
    * @description Get a Tag.
    * @name GitTagsDetail
@@ -4046,6 +4131,7 @@ export namespace Repos {
     };
     export type ResponseBody = Tag;
   }
+
   /**
    * @description Create a Tree. The tree creation API will take nested entries as well. If both a tree and a nested path modifying that tree are specified, it will overwrite the contents of that tree with the new path contents and write a new tree out.
    * @name GitTreesCreate
@@ -4066,6 +4152,7 @@ export namespace Repos {
     };
     export type ResponseBody = Trees;
   }
+
   /**
    * @description Get a Tree.
    * @name GitTreesDetail
@@ -4091,6 +4178,7 @@ export namespace Repos {
     };
     export type ResponseBody = Tree;
   }
+
   /**
    * @description Get list of hooks.
    * @name HooksDetail
@@ -4111,6 +4199,7 @@ export namespace Repos {
     };
     export type ResponseBody = Hook;
   }
+
   /**
    * @description Create a hook.
    * @name HooksCreate
@@ -4131,6 +4220,7 @@ export namespace Repos {
     };
     export type ResponseBody = Hook;
   }
+
   /**
    * @description Delete a hook.
    * @name HooksDelete
@@ -4153,6 +4243,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get single hook.
    * @name HooksDetail2
@@ -4177,6 +4268,7 @@ export namespace Repos {
     };
     export type ResponseBody = Hook;
   }
+
   /**
    * @description Edit a hook.
    * @name HooksPartialUpdate
@@ -4199,6 +4291,7 @@ export namespace Repos {
     };
     export type ResponseBody = Hook;
   }
+
   /**
    * @description Test a push hook. This will trigger the hook with the latest push to the current repository if the hook is subscribed to push events. If the hook is not subscribed to push events, the server will respond with 204 but no test POST will be generated. Note: Previously /repos/:owner/:repo/hooks/:id/tes
    * @name HooksTestsCreate
@@ -4221,6 +4314,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description List issues for a repository.
    * @name IssuesDetail
@@ -4261,6 +4355,7 @@ export namespace Repos {
     };
     export type ResponseBody = Issues;
   }
+
   /**
    * @description Create an issue. Any user with pull access to a repository can create an issue.
    * @name IssuesCreate
@@ -4281,6 +4376,7 @@ export namespace Repos {
     };
     export type ResponseBody = Issue;
   }
+
   /**
    * @description List comments in a repository.
    * @name IssuesCommentsDetail
@@ -4310,6 +4406,7 @@ export namespace Repos {
     };
     export type ResponseBody = IssuesComments;
   }
+
   /**
    * @description Delete a comment.
    * @name IssuesCommentsDelete
@@ -4332,6 +4429,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get a single comment.
    * @name IssuesCommentsDetail2
@@ -4356,6 +4454,7 @@ export namespace Repos {
     };
     export type ResponseBody = IssuesComment;
   }
+
   /**
    * @description Edit a comment.
    * @name IssuesCommentsPartialUpdate
@@ -4378,6 +4477,7 @@ export namespace Repos {
     };
     export type ResponseBody = IssuesComment;
   }
+
   /**
    * @description List issue events for a repository.
    * @name IssuesEventsDetail
@@ -4398,6 +4498,7 @@ export namespace Repos {
     };
     export type ResponseBody = IssueEvents;
   }
+
   /**
    * @description Get a single event.
    * @name IssuesEventsDetail2
@@ -4422,6 +4523,7 @@ export namespace Repos {
     };
     export type ResponseBody = IssueEvent;
   }
+
   /**
    * @description Get a single issue
    * @name IssuesDetail2
@@ -4446,6 +4548,7 @@ export namespace Repos {
     };
     export type ResponseBody = Issue;
   }
+
   /**
    * @description Edit an issue. Issue owners and users with push access can edit an issue.
    * @name IssuesPartialUpdate
@@ -4468,6 +4571,7 @@ export namespace Repos {
     };
     export type ResponseBody = Issue;
   }
+
   /**
    * @description List comments on an issue.
    * @name IssuesCommentsDetail3
@@ -4492,6 +4596,7 @@ export namespace Repos {
     };
     export type ResponseBody = IssuesComments;
   }
+
   /**
    * @description Create a comment.
    * @name IssuesCommentsCreate
@@ -4514,6 +4619,7 @@ export namespace Repos {
     };
     export type ResponseBody = IssuesComment;
   }
+
   /**
    * @description List events for an issue.
    * @name IssuesEventsDetail3
@@ -4538,6 +4644,7 @@ export namespace Repos {
     };
     export type ResponseBody = IssueEvents;
   }
+
   /**
    * @description Remove all labels from an issue.
    * @name IssuesLabelsDelete
@@ -4560,6 +4667,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description List labels on an issue.
    * @name IssuesLabelsDetail
@@ -4582,6 +4690,7 @@ export namespace Repos {
     };
     export type ResponseBody = Labels;
   }
+
   /**
    * @description Add labels to an issue.
    * @name IssuesLabelsCreate
@@ -4604,6 +4713,7 @@ export namespace Repos {
     };
     export type ResponseBody = Label;
   }
+
   /**
    * @description Replace all labels for an issue. Sending an empty array ([]) will remove all Labels from the Issue.
    * @name IssuesLabelsUpdate
@@ -4626,6 +4736,7 @@ export namespace Repos {
     };
     export type ResponseBody = Label;
   }
+
   /**
    * @description Remove a label from an issue.
    * @name IssuesLabelsDelete2
@@ -4652,6 +4763,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get list of keys.
    * @name KeysDetail
@@ -4672,6 +4784,7 @@ export namespace Repos {
     };
     export type ResponseBody = Keys;
   }
+
   /**
    * @description Create a key.
    * @name KeysCreate
@@ -4692,6 +4805,7 @@ export namespace Repos {
     };
     export type ResponseBody = UserKeysKeyId;
   }
+
   /**
    * @description Delete a key.
    * @name KeysDelete
@@ -4714,6 +4828,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get a key
    * @name KeysDetail2
@@ -4738,6 +4853,7 @@ export namespace Repos {
     };
     export type ResponseBody = UserKeysKeyId;
   }
+
   /**
    * @description List all labels for this repository.
    * @name LabelsDetail
@@ -4758,6 +4874,7 @@ export namespace Repos {
     };
     export type ResponseBody = Labels;
   }
+
   /**
    * @description Create a label.
    * @name LabelsCreate
@@ -4778,6 +4895,7 @@ export namespace Repos {
     };
     export type ResponseBody = Label;
   }
+
   /**
    * @description Delete a label.
    * @name LabelsDelete
@@ -4800,6 +4918,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get a single label.
    * @name LabelsDetail2
@@ -4824,6 +4943,7 @@ export namespace Repos {
     };
     export type ResponseBody = Label;
   }
+
   /**
    * @description Update a label.
    * @name LabelsPartialUpdate
@@ -4846,6 +4966,7 @@ export namespace Repos {
     };
     export type ResponseBody = Label;
   }
+
   /**
    * @description List languages. List languages for the specified repository. The value on the right of a language is the number of bytes of code written in that language.
    * @name LanguagesDetail
@@ -4866,6 +4987,7 @@ export namespace Repos {
     };
     export type ResponseBody = Languages;
   }
+
   /**
    * @description Perform a merge.
    * @name MergesCreate
@@ -4886,6 +5008,7 @@ export namespace Repos {
     };
     export type ResponseBody = MergesSuccessful;
   }
+
   /**
    * @description List milestones for a repository.
    * @name MilestonesDetail
@@ -4916,6 +5039,7 @@ export namespace Repos {
     };
     export type ResponseBody = Milestone;
   }
+
   /**
    * @description Create a milestone.
    * @name MilestonesCreate
@@ -4936,6 +5060,7 @@ export namespace Repos {
     };
     export type ResponseBody = Milestone;
   }
+
   /**
    * @description Delete a milestone.
    * @name MilestonesDelete
@@ -4958,6 +5083,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get a single milestone.
    * @name MilestonesDetail2
@@ -4982,6 +5108,7 @@ export namespace Repos {
     };
     export type ResponseBody = Milestone;
   }
+
   /**
    * @description Update a milestone.
    * @name MilestonesPartialUpdate
@@ -5004,6 +5131,7 @@ export namespace Repos {
     };
     export type ResponseBody = Milestone;
   }
+
   /**
    * @description Get labels for every issue in a milestone.
    * @name MilestonesLabelsDetail
@@ -5026,6 +5154,7 @@ export namespace Repos {
     };
     export type ResponseBody = Labels;
   }
+
   /**
    * @description List your notifications in a repository List all notifications for the current user.
    * @name NotificationsDetail
@@ -5059,6 +5188,7 @@ export namespace Repos {
     };
     export type ResponseBody = Notifications;
   }
+
   /**
    * @description Mark notifications as read in a repository. Marking all notifications in a repository as "read" removes them from the default view on GitHub.com.
    * @name NotificationsUpdate
@@ -5079,6 +5209,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description List pull requests.
    * @name PullsDetail
@@ -5112,6 +5243,7 @@ export namespace Repos {
     };
     export type ResponseBody = Pulls;
   }
+
   /**
    * @description Create a pull request.
    * @name PullsCreate
@@ -5132,6 +5264,7 @@ export namespace Repos {
     };
     export type ResponseBody = Pulls;
   }
+
   /**
    * @description List comments in a repository. By default, Review Comments are ordered by ascending ID.
    * @name PullsCommentsDetail
@@ -5161,6 +5294,7 @@ export namespace Repos {
     };
     export type ResponseBody = IssuesComments;
   }
+
   /**
    * @description Delete a comment.
    * @name PullsCommentsDelete
@@ -5183,6 +5317,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get a single comment.
    * @name PullsCommentsDetail2
@@ -5207,6 +5342,7 @@ export namespace Repos {
     };
     export type ResponseBody = PullsComment;
   }
+
   /**
    * @description Edit a comment.
    * @name PullsCommentsPartialUpdate
@@ -5229,6 +5365,7 @@ export namespace Repos {
     };
     export type ResponseBody = PullsComment;
   }
+
   /**
    * @description Get a single pull request.
    * @name PullsDetail2
@@ -5253,6 +5390,7 @@ export namespace Repos {
     };
     export type ResponseBody = PullRequest;
   }
+
   /**
    * @description Update a pull request.
    * @name PullsPartialUpdate
@@ -5275,6 +5413,7 @@ export namespace Repos {
     };
     export type ResponseBody = Repo;
   }
+
   /**
    * @description List comments on a pull request.
    * @name PullsCommentsDetail3
@@ -5299,6 +5438,7 @@ export namespace Repos {
     };
     export type ResponseBody = PullsComment;
   }
+
   /**
    * @description Create a comment. #TODO Alternative input ( http://developer.github.com/v3/pulls/comments/ ) description: | Alternative Input. Instead of passing commit_id, path, and position you can reply to an existing Pull Request Comment like this: body Required string in_reply_to Required number - Comment id to reply to.
    * @name PullsCommentsCreate
@@ -5321,6 +5461,7 @@ export namespace Repos {
     };
     export type ResponseBody = PullsComment;
   }
+
   /**
    * @description List commits on a pull request.
    * @name PullsCommitsDetail
@@ -5343,6 +5484,7 @@ export namespace Repos {
     };
     export type ResponseBody = Commits;
   }
+
   /**
    * @description List pull requests files.
    * @name PullsFilesDetail
@@ -5365,6 +5507,7 @@ export namespace Repos {
     };
     export type ResponseBody = Pulls;
   }
+
   /**
    * @description Get if a pull request has been merged.
    * @name PullsMergeDetail
@@ -5387,6 +5530,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Merge a pull request (Merge Button's)
    * @name PullsMergeUpdate
@@ -5409,6 +5553,7 @@ export namespace Repos {
     };
     export type ResponseBody = Merge;
   }
+
   /**
    * @description Get the README. This method returns the preferred README for a repository.
    * @name ReadmeDetail
@@ -5432,6 +5577,7 @@ export namespace Repos {
     };
     export type ResponseBody = ContentsPath;
   }
+
   /**
    * @description Users with push access to the repository will receive all releases (i.e., published releases and draft releases). Users with pull access will receive published releases only
    * @name ReleasesDetail
@@ -5452,6 +5598,7 @@ export namespace Repos {
     };
     export type ResponseBody = Releases;
   }
+
   /**
    * @description Create a release Users with push access to the repository can create a release.
    * @name ReleasesCreate
@@ -5472,6 +5619,7 @@ export namespace Repos {
     };
     export type ResponseBody = Release;
   }
+
   /**
    * @description Delete a release asset
    * @name ReleasesAssetsDelete
@@ -5493,6 +5641,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get a single release asset
    * @name ReleasesAssetsDetail
@@ -5514,6 +5663,7 @@ export namespace Repos {
     };
     export type ResponseBody = Asset;
   }
+
   /**
    * @description Edit a release asset Users with push access to the repository can edit a release asset.
    * @name ReleasesAssetsPartialUpdate
@@ -5535,6 +5685,7 @@ export namespace Repos {
     };
     export type ResponseBody = Asset;
   }
+
   /**
    * @description Users with push access to the repository can delete a release.
    * @name ReleasesDelete
@@ -5556,6 +5707,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get a single release
    * @name ReleasesDetail2
@@ -5579,6 +5731,7 @@ export namespace Repos {
     };
     export type ResponseBody = Release;
   }
+
   /**
    * @description Users with push access to the repository can edit a release
    * @name ReleasesPartialUpdate
@@ -5600,6 +5753,7 @@ export namespace Repos {
     };
     export type ResponseBody = Release;
   }
+
   /**
    * @description List assets for a release
    * @name ReleasesAssetsDetail2
@@ -5623,6 +5777,7 @@ export namespace Repos {
     };
     export type ResponseBody = Assets;
   }
+
   /**
    * @description List Stargazers.
    * @name StargazersDetail
@@ -5643,6 +5798,7 @@ export namespace Repos {
     };
     export type ResponseBody = Users;
   }
+
   /**
    * @description Get the number of additions and deletions per week. Returns a weekly aggregate of the number of additions and deletions pushed to a repository.
    * @name StatsCodeFrequencyDetail
@@ -5663,6 +5819,7 @@ export namespace Repos {
     };
     export type ResponseBody = CodeFrequencyStats;
   }
+
   /**
    * @description Get the last year of commit activity data. Returns the last year of commit activity grouped by week. The days array is a group of commits per day, starting on Sunday.
    * @name StatsCommitActivityDetail
@@ -5683,6 +5840,7 @@ export namespace Repos {
     };
     export type ResponseBody = CommitActivityStats;
   }
+
   /**
    * @description Get contributors list with additions, deletions, and commit counts.
    * @name StatsContributorsDetail
@@ -5703,6 +5861,7 @@ export namespace Repos {
     };
     export type ResponseBody = ContributorsStats;
   }
+
   /**
    * @description Get the weekly commit count for the repo owner and everyone else.
    * @name StatsParticipationDetail
@@ -5723,6 +5882,7 @@ export namespace Repos {
     };
     export type ResponseBody = ParticipationStats;
   }
+
   /**
    * @description Get the number of commits per hour in each day. Each array contains the day number, hour number, and number of commits 0-6 Sunday - Saturday 0-23 Hour of day Number of commits For example, [2, 14, 25] indicates that there were 25 total commits, during the 2.00pm hour on Tuesdays. All times are based on the time zone of individual commits.
    * @name StatsPunchCardDetail
@@ -5743,6 +5903,7 @@ export namespace Repos {
     };
     export type ResponseBody = CodeFrequencyStats;
   }
+
   /**
    * @description List Statuses for a specific Ref.
    * @name StatusesDetail
@@ -5765,6 +5926,7 @@ export namespace Repos {
     };
     export type ResponseBody = Ref;
   }
+
   /**
    * @description Create a Status.
    * @name StatusesCreate
@@ -5787,6 +5949,7 @@ export namespace Repos {
     };
     export type ResponseBody = Ref;
   }
+
   /**
    * @description List watchers.
    * @name SubscribersDetail
@@ -5807,6 +5970,7 @@ export namespace Repos {
     };
     export type ResponseBody = Users;
   }
+
   /**
    * @description Delete a Repository Subscription.
    * @name SubscriptionDelete
@@ -5827,6 +5991,7 @@ export namespace Repos {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get a Repository Subscription.
    * @name SubscriptionDetail
@@ -5847,6 +6012,7 @@ export namespace Repos {
     };
     export type ResponseBody = Subscription;
   }
+
   /**
    * @description Set a Repository Subscription
    * @name SubscriptionUpdate
@@ -5867,6 +6033,7 @@ export namespace Repos {
     };
     export type ResponseBody = Subscription;
   }
+
   /**
    * @description Get list of tags.
    * @name TagsDetail
@@ -5887,6 +6054,7 @@ export namespace Repos {
     };
     export type ResponseBody = Tags;
   }
+
   /**
    * @description Get list of teams
    * @name TeamsDetail
@@ -5907,6 +6075,7 @@ export namespace Repos {
     };
     export type ResponseBody = Teams;
   }
+
   /**
    * @description List Stargazers. New implementation.
    * @name WatchersDetail
@@ -5927,6 +6096,7 @@ export namespace Repos {
     };
     export type ResponseBody = Users;
   }
+
   /**
    * @description Get archive link. This method will return a 302 to a URL to download a tarball or zipball archive for a repository. Please make sure your HTTP framework is configured to follow redirects or you will need to use the Location header to make a second GET request. Note: For private repositories, these links are temporary and expire quickly.
    * @name ReposDetail2
@@ -6022,6 +6192,7 @@ export namespace Search {
     };
     export type ResponseBody = SearchCode;
   }
+
   /**
    * @description Find issues by state and keyword. (This method returns up to 100 results per page.)
    * @name IssuesList
@@ -6047,6 +6218,7 @@ export namespace Search {
     };
     export type ResponseBody = SearchIssues;
   }
+
   /**
    * @description Search repositories.
    * @name RepositoriesList
@@ -6086,6 +6258,7 @@ export namespace Search {
     };
     export type ResponseBody = SearchRepositories;
   }
+
   /**
    * @description Search users.
    * @name UsersList
@@ -6145,6 +6318,7 @@ export namespace Teams {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get team.
    * @name TeamsDetail
@@ -6163,6 +6337,7 @@ export namespace Teams {
     };
     export type ResponseBody = Team;
   }
+
   /**
    * @description Edit team. In order to edit a team, the authenticated user must be an owner of the org that the team is associated with.
    * @name TeamsPartialUpdate
@@ -6181,6 +6356,7 @@ export namespace Teams {
     };
     export type ResponseBody = Team;
   }
+
   /**
    * @description List team members. In order to list members in a team, the authenticated user must be a member of the team.
    * @name MembersDetail
@@ -6199,6 +6375,7 @@ export namespace Teams {
     };
     export type ResponseBody = Users;
   }
+
   /**
    * @description The "Remove team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Remove team membership API instead. It allows you to remove both active and pending memberships. Remove team member. In order to remove a user from a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with. NOTE This does not delete the user, it just remove them from the team.
    * @name MembersDelete
@@ -6220,6 +6397,7 @@ export namespace Teams {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description The "Get team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Get team membership API instead. It allows you to get both active and pending memberships. Get team member. In order to get if a user is a member of a team, the authenticated user mus be a member of the team.
    * @name MembersDetail2
@@ -6243,6 +6421,7 @@ export namespace Teams {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description The API (described below) is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Add team membership API instead. It allows you to invite new organization members to your teams. Add team member. In order to add a user to a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with.
    * @name MembersUpdate
@@ -6264,6 +6443,7 @@ export namespace Teams {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Remove team membership. In order to remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. NOTE: This does not delete the user, it just removes their membership from the team.
    * @name MembershipsDelete
@@ -6284,6 +6464,7 @@ export namespace Teams {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get team membership. In order to get a user's membership with a team, the authenticated user must be a member of the team or an owner of the team's organization.
    * @name MembershipsDetail
@@ -6304,6 +6485,7 @@ export namespace Teams {
     };
     export type ResponseBody = TeamMembership;
   }
+
   /**
    * @description Add team membership. In order to add a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. If the user is already a part of the team's organization (meaning they're on at least one other team in the organization), this endpoint will add the user to the team. If the user is completely unaffiliated with the team's organization (meaning they're on none of the organization's teams), this endpoint will send an invitation to the user via email. This newly-created membership will be in the 'pending' state until the user accepts the invitation, at which point the membership will transition to the 'active' state and the user will be added as a member of the team.
    * @name MembershipsUpdate
@@ -6324,6 +6506,7 @@ export namespace Teams {
     };
     export type ResponseBody = TeamMembership;
   }
+
   /**
    * @description List team repos
    * @name ReposDetail
@@ -6342,6 +6525,7 @@ export namespace Teams {
     };
     export type ResponseBody = TeamRepos;
   }
+
   /**
    * @description In order to remove a repository from a team, the authenticated user must be an owner of the org that the team is associated with. NOTE: This does not delete the repository, it just removes it from the team.
    * @name ReposDelete
@@ -6364,6 +6548,7 @@ export namespace Teams {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Check if a team manages a repository
    * @name ReposDetail2
@@ -6388,6 +6573,7 @@ export namespace Teams {
     };
     export type ResponseBody = any;
   }
+
   /**
    * @description In order to add a repository to a team, the authenticated user must be an owner of the org that the team is associated with. Also, the repository must be owned by the organization, or a direct fork of a repository owned by the organization.
    * @name ReposUpdate
@@ -6428,6 +6614,7 @@ export namespace User {
     };
     export type ResponseBody = User;
   }
+
   /**
    * @description Update the authenticated user.
    * @name UserPartialUpdate
@@ -6443,6 +6630,7 @@ export namespace User {
     };
     export type ResponseBody = User;
   }
+
   /**
    * @description Delete email address(es). You can include a single email address or an array of addresses.
    * @name EmailsDelete
@@ -6458,6 +6646,7 @@ export namespace User {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description List email addresses for a user. In the final version of the API, this method will return an array of hashes with extended information for each email address indicating if the address has been verified and if it's primary email address for GitHub. Until API v3 is finalized, use the application/vnd.github.v3 media type to get other response format.
    * @name EmailsList
@@ -6473,6 +6662,7 @@ export namespace User {
     };
     export type ResponseBody = UserEmails;
   }
+
   /**
    * @description Add email address(es). You can post a single email address or an array of addresses.
    * @name EmailsCreate
@@ -6488,6 +6678,7 @@ export namespace User {
     };
     export type ResponseBody = any;
   }
+
   /**
    * @description List the authenticated user's followers
    * @name FollowersList
@@ -6503,6 +6694,7 @@ export namespace User {
     };
     export type ResponseBody = Users;
   }
+
   /**
    * @description List who the authenticated user is following.
    * @name FollowingList
@@ -6518,6 +6710,7 @@ export namespace User {
     };
     export type ResponseBody = Users;
   }
+
   /**
    * @description Unfollow a user. Unfollowing a user requires the user to be logged in and authenticated with basic auth or OAuth with the user:follow scope.
    * @name FollowingDelete
@@ -6536,6 +6729,7 @@ export namespace User {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Check if you are following a user.
    * @name FollowingDetail
@@ -6554,6 +6748,7 @@ export namespace User {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Follow a user. Following a user requires the user to be logged in and authenticated with basic auth or OAuth with the user:follow scope.
    * @name FollowingUpdate
@@ -6572,6 +6767,7 @@ export namespace User {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description List issues. List all issues across owned and member repositories for the authenticated user.
    * @name IssuesList
@@ -6607,6 +6803,7 @@ export namespace User {
     };
     export type ResponseBody = Issues;
   }
+
   /**
    * @description List your public keys. Lists the current user's keys. Management of public keys via the API requires that you are authenticated through basic auth, or OAuth with the 'user', 'write:public_key' scopes.
    * @name KeysList
@@ -6622,6 +6819,7 @@ export namespace User {
     };
     export type ResponseBody = Gitignore;
   }
+
   /**
    * @description Create a public key.
    * @name KeysCreate
@@ -6637,6 +6835,7 @@ export namespace User {
     };
     export type ResponseBody = UserKeysKeyId;
   }
+
   /**
    * @description Delete a public key. Removes a public key. Requires that you are authenticated via Basic Auth or via OAuth with at least admin:public_key scope.
    * @name KeysDelete
@@ -6655,6 +6854,7 @@ export namespace User {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Get a single public key.
    * @name KeysDetail
@@ -6673,6 +6873,7 @@ export namespace User {
     };
     export type ResponseBody = UserKeysKeyId;
   }
+
   /**
    * @description List public and private organizations for the authenticated user.
    * @name OrgsList
@@ -6688,6 +6889,7 @@ export namespace User {
     };
     export type ResponseBody = Gitignore;
   }
+
   /**
    * @description List repositories for the authenticated user. Note that this does not include repositories owned by organizations which the user can access. You can lis user organizations and list organization repositories separately.
    * @name ReposList
@@ -6706,6 +6908,7 @@ export namespace User {
     };
     export type ResponseBody = Repos;
   }
+
   /**
    * @description Create a new repository for the authenticated user. OAuth users must supply repo scope.
    * @name ReposCreate
@@ -6721,6 +6924,7 @@ export namespace User {
     };
     export type ResponseBody = Repos;
   }
+
   /**
    * @description List repositories being starred by the authenticated user.
    * @name StarredList
@@ -6741,6 +6945,7 @@ export namespace User {
     };
     export type ResponseBody = Gitignore;
   }
+
   /**
    * @description Unstar a repository
    * @name StarredDelete
@@ -6761,6 +6966,7 @@ export namespace User {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Check if you are starring a repository.
    * @name StarredDetail
@@ -6781,6 +6987,7 @@ export namespace User {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Star a repository.
    * @name StarredUpdate
@@ -6801,6 +7008,7 @@ export namespace User {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description List repositories being watched by the authenticated user.
    * @name SubscriptionsList
@@ -6816,6 +7024,7 @@ export namespace User {
     };
     export type ResponseBody = Repos;
   }
+
   /**
    * @description Stop watching a repository
    * @name SubscriptionsDelete
@@ -6837,6 +7046,7 @@ export namespace User {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Check if you are watching a repository.
    * @name SubscriptionsDetail
@@ -6858,6 +7068,7 @@ export namespace User {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description Watch a repository.
    * @name SubscriptionsUpdate
@@ -6879,6 +7090,7 @@ export namespace User {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description List all of the teams across all of the organizations to which the authenticated user belongs. This method requires user or repo scope when authenticating via OAuth.
    * @name TeamsList
@@ -6915,6 +7127,7 @@ export namespace Users {
     };
     export type ResponseBody = Users;
   }
+
   /**
    * @description Get a single user.
    * @name UsersDetail
@@ -6933,6 +7146,7 @@ export namespace Users {
     };
     export type ResponseBody = User;
   }
+
   /**
    * @description If you are authenticated as the given user, you will see your private events. Otherwise, you'll only see public events.
    * @name EventsDetail
@@ -6951,6 +7165,7 @@ export namespace Users {
     };
     export type ResponseBody = any;
   }
+
   /**
    * @description This is the user's organization dashboard. You must be authenticated as the user to view this.
    * @name EventsOrgsDetail
@@ -6970,6 +7185,7 @@ export namespace Users {
     };
     export type ResponseBody = any;
   }
+
   /**
    * @description List a user's followers
    * @name FollowersDetail
@@ -6988,6 +7204,7 @@ export namespace Users {
     };
     export type ResponseBody = Users;
   }
+
   /**
    * @description Check if one user follows another.
    * @name FollowingDetail
@@ -7008,6 +7225,7 @@ export namespace Users {
     };
     export type ResponseBody = void;
   }
+
   /**
    * @description List a users gists.
    * @name GistsDetail
@@ -7032,6 +7250,7 @@ export namespace Users {
     };
     export type ResponseBody = Gists;
   }
+
   /**
    * @description List public keys for a user. Lists the verified public keys for a user. This is accessible by anyone.
    * @name KeysDetail
@@ -7050,6 +7269,7 @@ export namespace Users {
     };
     export type ResponseBody = Gitignore;
   }
+
   /**
    * @description List all public organizations for a user.
    * @name OrgsDetail
@@ -7068,6 +7288,7 @@ export namespace Users {
     };
     export type ResponseBody = Gitignore;
   }
+
   /**
    * @description These are events that you'll only see public events.
    * @name ReceivedEventsDetail
@@ -7086,6 +7307,7 @@ export namespace Users {
     };
     export type ResponseBody = any;
   }
+
   /**
    * @description List public events that a user has received
    * @name ReceivedEventsPublicDetail
@@ -7104,6 +7326,7 @@ export namespace Users {
     };
     export type ResponseBody = any;
   }
+
   /**
    * @description List public repositories for the specified user.
    * @name ReposDetail
@@ -7125,6 +7348,7 @@ export namespace Users {
     };
     export type ResponseBody = Repos;
   }
+
   /**
    * @description List repositories being starred by a user.
    * @name StarredDetail
@@ -7143,6 +7367,7 @@ export namespace Users {
     };
     export type ResponseBody = any;
   }
+
   /**
    * @description List repositories being watched by a user.
    * @name SubscriptionsDetail
