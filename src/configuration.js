@@ -429,7 +429,9 @@ class CodeGenConfig {
 }
 
 const getDefaultPrettierOptions = () => {
-  const prettier = cosmiconfigSync("prettier").search();
+  const prettier = cosmiconfigSync("prettier", {
+    searchStrategy: "global",
+  }).search();
 
   if (prettier) {
     return {
