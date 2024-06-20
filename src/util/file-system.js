@@ -25,7 +25,7 @@ class FileSystem {
   }
 
   getFileContent = (path) => {
-    return fs.readFileSync(path, { encoding: "UTF-8" });
+    return fs.readFileSync(path, { encoding: "utf8" });
   };
 
   readDir = (path) => {
