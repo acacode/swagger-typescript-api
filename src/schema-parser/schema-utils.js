@@ -33,13 +33,13 @@ class SchemaUtils {
   };
 
   isRefSchema = (schema) => {
-    return !!schema?.["$ref"];
+    return !!schema?.$ref;
   };
 
   getEnumNames = (schema) => {
     return (
       schema["x-enumNames"] ||
-      schema["xEnumNames"] ||
+      schema.xEnumNames ||
       schema["x-enumnames"] ||
       schema["x-enum-varnames"]
     );

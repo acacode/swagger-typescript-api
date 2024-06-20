@@ -213,10 +213,7 @@ class SchemaParser {
         this.schema = { type: this.config.Ts.Keyword.Null };
       }
       // schema is response schema
-      if (
-        "content" in this.schema &&
-        typeof this.schema["content"] === "object"
-      ) {
+      if ("content" in this.schema && typeof this.schema.content === "object") {
         const schema = this.extractSchemaFromResponseStruct(this.schema);
         const schemaParser = this.schemaParserFabric.createSchemaParser({
           schema,
