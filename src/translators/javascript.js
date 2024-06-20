@@ -1,5 +1,5 @@
-const ts = require("typescript");
-const { Translator } = require("./translator");
+import ts from "typescript";
+import { Translator } from "./translator.js";
 
 class JavascriptTranslator extends Translator {
   /**
@@ -78,6 +78,4 @@ class JavascriptTranslator extends Translator {
   };
 }
 
-module.exports = {
-  JavascriptTranslator,
-};
+export { JavascriptTranslator };

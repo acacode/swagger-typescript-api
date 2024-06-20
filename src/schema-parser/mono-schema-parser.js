@@ -43,6 +43,4 @@ class MonoSchemaParser {
   };
 }
 
-module.exports = {
-  MonoSchemaParser,
-};
+export { MonoSchemaParser };

@@ -1,21 +1,21 @@
-const { SwaggerSchemaResolver } = require("./swagger-schema-resolver.js");
-const { SchemaComponentsMap } = require("./schema-components-map.js");
-const { NameResolver } = require("./util/name-resolver");
-const { Logger } = require("./util/logger.js");
-const { TypeNameFormatter } = require("./type-name-formatter.js");
-const _ = require("lodash");
-const { SchemaParserFabric } = require("./schema-parser/schema-parser-fabric");
-const { SchemaRoutes } = require("./schema-routes/schema-routes.js");
-const { CodeGenConfig } = require("./configuration.js");
-const { SchemaWalker } = require("./schema-walker");
-const { FileSystem } = require("./util/file-system");
-const { TemplatesWorker } = require("./templates-worker");
-const { JavascriptTranslator } = require("./translators/javascript");
-const ts = require("typescript");
-const { CodeFormatter } = require("./code-formatter");
-const { pascalCase } = require("./util/pascal-case");
-const { internalCase } = require("./util/internal-case");
-const { sortByProperty } = require("./util/sort-by-property");
+import _ from "lodash";
+import ts from "typescript";
+import { CodeFormatter } from "./code-formatter.js";
+import { CodeGenConfig } from "./configuration.js";
+import { SchemaComponentsMap } from "./schema-components-map.js";
+import { SchemaParserFabric } from "./schema-parser/schema-parser-fabric.js";
+import { SchemaRoutes } from "./schema-routes/schema-routes.js";
+import { SchemaWalker } from "./schema-walker.js";
+import { SwaggerSchemaResolver } from "./swagger-schema-resolver.js";
+import { TemplatesWorker } from "./templates-worker.js";
+import { JavascriptTranslator } from "./translators/javascript.js";
+import { TypeNameFormatter } from "./type-name-formatter.js";
+import { FileSystem } from "./util/file-system.js";
+import { internalCase } from "./util/internal-case.js";
+import { Logger } from "./util/logger.js";
+import { NameResolver } from "./util/name-resolver.js";
+import { pascalCase } from "./util/pascal-case.js";
+import { sortByProperty } from "./util/sort-by-property.js";
 
 const PATCHABLE_INSTANCES = [
   "schemaWalker",
@@ -566,6 +566,4 @@ class CodeGenProcess {
   };
 }
 
-module.exports = {
-  CodeGenProcess,
-};
+export { CodeGenProcess };

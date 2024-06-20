@@ -1,16 +1,13 @@
-const _ = require("lodash");
-const { generateId } = require("../util/id.js");
-const {
-  SpecificArgNameResolver,
-} = require("./util/specific-arg-name-resolver");
-const {
+import _ from "lodash";
+import {
   DEFAULT_BODY_ARG_NAME,
   RESERVED_BODY_ARG_NAMES,
   RESERVED_HEADER_ARG_NAMES,
   RESERVED_PATH_ARG_NAMES,
   RESERVED_QUERY_ARG_NAMES,
-} = require("../constants.js");
-const { camelCase } = require("lodash");
+} from "../constants.js";
+import { generateId } from "../util/id.js";
+import { SpecificArgNameResolver } from "./util/specific-arg-name-resolver.js";
 
 const CONTENT_KIND = {
   JSON: "JSON",
@@ -540,7 +537,7 @@ class SchemaRoutes {
         let usageName = `${schemaPart.name}`;
 
         if (usageName.includes(".")) {
-          usageName = camelCase(usageName);
+          usageName = _.camelCase(usageName);
         }
 
         return {
@@ -1208,6 +1205,4 @@ class SchemaRoutes {
   };
 }
 
-module.exports = {
-  SchemaRoutes,
-};
+export { SchemaRoutes };

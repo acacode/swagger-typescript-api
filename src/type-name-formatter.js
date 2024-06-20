@@ -1,4 +1,4 @@
-const _ = require("lodash");
+import _ from "lodash";
 
 /**
  * @typedef {"enum-key" | "type-name"} FormattingSchemaType
@@ -108,6 +108,4 @@ class TypeNameFormatter {
   };
 }
 
-module.exports = {
-  TypeNameFormatter,
-};
+export { TypeNameFormatter };

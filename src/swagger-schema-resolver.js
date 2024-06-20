@@ -1,7 +1,7 @@
-const _ = require("lodash");
-const converter = require("swagger2openapi");
-const yaml = require("js-yaml");
-const { Request } = require("./util/request");
+import yaml from "js-yaml";
+import _ from "lodash";
+import converter from "swagger2openapi";
+import { Request } from "./util/request.js";
 
 class SwaggerSchemaResolver {
   /**
@@ -192,6 +192,4 @@ class SwaggerSchemaResolver {
   }
 }
 
-module.exports = {
-  SwaggerSchemaResolver,
-};
+export { SwaggerSchemaResolver };

@@ -1,7 +1,7 @@
-const _ = require("lodash");
-const { SchemaFormatters } = require("./schema-formatters");
-const { SchemaUtils } = require("./schema-utils");
-const { SchemaParser } = require("./schema-parser");
+import _ from "lodash";
+import { SchemaFormatters } from "./schema-formatters.js";
+import { SchemaParser } from "./schema-parser.js";
+import { SchemaUtils } from "./schema-utils.js";
 
 class SchemaParserFabric {
   /** @type {CodeGenConfig} */
@@ -127,6 +127,4 @@ class SchemaParserFabric {
   };
 }
 
-module.exports = {
-  SchemaParserFabric,
-};
+export { SchemaParserFabric };

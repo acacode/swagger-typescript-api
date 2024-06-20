@@ -478,6 +478,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tsconfig/node18@npm:18.2.4":
+  version: 18.2.4
+  resolution: "@tsconfig/node18@npm:18.2.4"
+  checksum: 10c0/cdfd17f212660374eb2765cd5907b2252e43cfa2623cd52307a49f004327ef49bbe7d53c78b0aca57f33e9a5cb0d7d2eb5ded9be1235e6212f65c9f0699322b6
+  languageName: node
+  linkType: hard
+
+"@tsconfig/strictest@npm:2.0.5":
+  version: 2.0.5
+  resolution: "@tsconfig/strictest@npm:2.0.5"
+  checksum: 10c0/cfc86da2d57f7b4b0827701b132c37a4974284e5c40649656c0e474866dfd8a69f57c6718230d8a8139967e2a95438586b8224c13ab0ff9d3a43eda771c50cc4
+  languageName: node
+  linkType: hard
+
 "@types/didyoumean@npm:1.2.2":
   version: 1.2.2
   resolution: "@types/didyoumean@npm:1.2.2"
@@ -2566,6 +2580,8 @@ __metadata:
   resolution: "swagger-typescript-api@workspace:."
   dependencies:
     "@biomejs/biome": "npm:1.8.2"
+    "@tsconfig/node18": "npm:18.2.4"
+    "@tsconfig/strictest": "npm:2.0.5"
     "@types/didyoumean": "npm:1.2.2"
     "@types/js-yaml": "npm:4.0.9"
     "@types/lodash": "npm:4.17.5"

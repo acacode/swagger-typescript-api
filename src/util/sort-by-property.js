@@ -12,6 +12,4 @@ const sortByProperty = (propertyName) => (o1, o2) => {
   return 0;
 };
 
-module.exports = {
-  sortByProperty,
-};
+export { sortByProperty };

@@ -1,9 +1,9 @@
 {
+  "extends": ["@tsconfig/strictest", "@tsconfig/node18"],
   "compilerOptions": {
-    "allowJs": true,
+    "checkJs": false,
     "noEmit": true,
-    "noEmitOnError": true,
-    "noImplicitAny": true,
-    "strict": true
+    "noPropertyAccessFromIndexSignature": false,
+    "resolveJsonModule": true
   }
 }

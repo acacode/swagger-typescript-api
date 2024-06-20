@@ -1,4 +1,4 @@
-const { NameResolver } = require("../../util/name-resolver");
+import { NameResolver } from "../../util/name-resolver.js";
 
 class EnumKeyResolver extends NameResolver {
   counter = 1;
@@ -21,6 +21,4 @@ class EnumKeyResolver extends NameResolver {
   }
 }
 
-module.exports = {
-  EnumKeyResolver,
-};
+export { EnumKeyResolver };

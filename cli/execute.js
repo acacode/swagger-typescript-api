@@ -1,7 +1,7 @@
-const _ = require("lodash");
-const { root_command, skip_command } = require("./constants");
-const { parseArgs } = require("./parse-args");
-const didYouMean = require("didyoumean");
+import didYouMean from "didyoumean";
+import _ from "lodash";
+import { root_command, skip_command } from "./constants.js";
+import { parseArgs } from "./parse-args.js";
 
 didYouMean.threshold = 0.5;
 
@@ -177,6 +177,4 @@ const processArgs = (commands, args) => {
   };
 };
 
-module.exports = {
-  execute,
-};
+export { execute };

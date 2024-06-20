@@ -1,4 +1,4 @@
-const _ = require("lodash");
+import _ from "lodash";
 
 // TODO: WIP
 // this class will be needed to walk by schema everywhere
@@ -88,6 +88,4 @@ class SchemaWalker {
   };
 }
 
-module.exports = {
-  SchemaWalker,
-};
+export { SchemaWalker };

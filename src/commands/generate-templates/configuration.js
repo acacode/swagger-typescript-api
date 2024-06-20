@@ -1,5 +1,5 @@
-const { objectAssign } = require("../../util/object-assign");
-const { HTTP_CLIENT, PROJECT_VERSION } = require("../../constants");
+import { HTTP_CLIENT, PROJECT_VERSION } from "../../constants.js";
+import { objectAssign } from "../../util/object-assign.js";
 
 /**
  * @type {GenerateTemplatesParams}}
@@ -28,6 +28,4 @@ class TemplatesGenConfig {
   };
 }
 
-module.exports = {
-  TemplatesGenConfig,
-};
+export { TemplatesGenConfig };

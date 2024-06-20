@@ -18,10 +18,9 @@ describe("basic", async () => {
   });
 
   test("--type-prefix and --type-suffix", async () => {
-    // @ts-expect-error
     await generateApi({
       name: "schema",
-      input: path.resolve(__dirname, "schema.json"),
+      input: path.resolve(import.meta.dirname, "schema.json"),
       output: tmpdir,
       silent: true,
       generateClient: true,

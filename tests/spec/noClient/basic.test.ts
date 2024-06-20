@@ -18,10 +18,9 @@ describe("basic", async () => {
   });
 
   test("--no-client", async () => {
-    // @ts-expect-error
     await generateApi({
       name: "schema",
-      input: path.resolve(__dirname, "schema.json"),
+      input: path.resolve(import.meta.dirname, "schema.json"),
       output: tmpdir,
       silent: true,
       generateClient: false,

@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
-const { objectAssign } = require("./util/object-assign");
-const _ = require("lodash");
-const CONSTANTS = require("./constants");
-const { ComponentTypeNameResolver } = require("./component-type-name-resolver");
-const { cosmiconfigSync } = require("cosmiconfig");
-const ts = require("typescript");
+import { cosmiconfigSync } from "cosmiconfig";
+import _ from "lodash";
+import ts from "typescript";
+import { ComponentTypeNameResolver } from "./component-type-name-resolver.js";
+import * as CONSTANTS from "./constants.js";
+import { objectAssign } from "./util/object-assign.js";
 
 const TsKeyword = {
   Number: "number",
@@ -443,6 +442,4 @@ const getDefaultPrettierOptions = () => {
   return { ...CONSTANTS.PRETTIER_OPTIONS };
 };
 
-module.exports = {
-  CodeGenConfig,
-};
+export { CodeGenConfig };

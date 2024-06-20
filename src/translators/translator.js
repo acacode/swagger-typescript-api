@@ -30,6 +30,4 @@ class Translator {
   }
 }
 
-module.exports = {
-  Translator,
-};
+export { Translator };

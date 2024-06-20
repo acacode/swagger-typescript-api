@@ -1,7 +1,8 @@
-const fs = require("node:fs");
-const { resolve } = require("node:path");
-const _ = require("lodash");
-const { Logger } = require("./logger");
+import fs from "node:fs";
+import { dirname, resolve } from "node:path";
+import url from "node:url";
+import _ from "lodash";
+import { Logger } from "./logger.js";
 
 const FILE_PREFIX = `/* eslint-disable */
 /* tslint:disable */
@@ -83,6 +84,7 @@ class FileSystem {
   };
 
   createFile = ({ path, fileName, content, withPrefix }) => {
+    const __dirname = dirname(url.fileURLToPath(import.meta.url));
     const absolutePath = resolve(__dirname, path, `./${fileName}`);
     const fileContent = `${withPrefix ? FILE_PREFIX : ""}${content}`;
 
@@ -90,6 +92,4 @@ class FileSystem {
   };
 }
 
-module.exports = {
-  FileSystem,
-};
+export { FileSystem };

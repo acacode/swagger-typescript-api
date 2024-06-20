@@ -1,4 +1,4 @@
-const _ = require("lodash");
+import _ from "lodash";
 
 class SchemaComponentsMap {
   /** @type {SchemaComponent[]} */
@@ -73,6 +73,4 @@ class SchemaComponentsMap {
   }
 }
 
-module.exports = {
-  SchemaComponentsMap,
-};
+export { SchemaComponentsMap };

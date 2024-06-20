@@ -1,5 +1,5 @@
-const { getRandomInt } = require("./util/random");
-const { NameResolver } = require("./util/name-resolver");
+import { NameResolver } from "./util/name-resolver.js";
+import { getRandomInt } from "./util/random.js";
 
 class ComponentTypeNameResolver extends NameResolver {
   counter = 1;
@@ -39,6 +39,4 @@ class ComponentTypeNameResolver extends NameResolver {
   }
 }
 
-module.exports = {
-  ComponentTypeNameResolver,
-};
+export { ComponentTypeNameResolver };

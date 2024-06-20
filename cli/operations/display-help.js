@@ -1,5 +1,5 @@
-const _ = require("lodash");
-const { root_command } = require("../constants");
+import _ from "lodash";
+import { root_command } from "../constants.js";
 
 const generateOptionsOutput = (options) =>
   options.reduce(
@@ -174,6 +174,4 @@ ${command.description}`
 ${outputTest}`);
 };
 
-module.exports = {
-  displayHelp,
-};
+export { displayHelp };

@@ -18,10 +18,9 @@ describe("basic", async () => {
   });
 
   test("--union-enums", async () => {
-    // @ts-expect-error
     await generateApi({
       name: "schema",
-      input: path.resolve(__dirname, "schema.json"),
+      input: path.resolve(import.meta.dirname, "schema.json"),
       output: tmpdir,
       silent: true,
       generateUnionEnums: true,
