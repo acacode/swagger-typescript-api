@@ -160,7 +160,7 @@ class SchemaRoutes {
     const queryParamMatches = fixedRoute.match(/(\{\?.*\})/g);
     const queryParams = [];
 
-    if (queryParamMatches && queryParamMatches.length) {
+    if (queryParamMatches?.length) {
       queryParamMatches.forEach((match) => {
         fixedRoute = fixedRoute.replace(match, "");
       });
@@ -220,11 +220,7 @@ class SchemaRoutes {
         this.schemaParserFabric.schemaUtils.getSchemaRefType(parameter);
       let routeParam = null;
 
-      if (
-        refTypeInfo &&
-        refTypeInfo.rawTypeData.in &&
-        refTypeInfo.rawTypeData
-      ) {
+      if (refTypeInfo?.rawTypeData.in && refTypeInfo.rawTypeData) {
         if (!routeParams[refTypeInfo.rawTypeData.in]) {
           routeParams[refTypeInfo.rawTypeData.in] = [];
         }
@@ -345,7 +341,7 @@ class SchemaRoutes {
 
     /* for example: dataType = "multipart/form-data" */
     for (const dataType in content) {
-      if (content[dataType] && content[dataType].schema) {
+      if (content[dataType]?.schema) {
         return {
           ...content[dataType].schema,
           dataType,
@@ -510,9 +506,7 @@ class SchemaRoutes {
       responses: responseInfos,
       success: {
         schema: successResponse,
-        type:
-          (successResponse && successResponse.type) ||
-          this.config.Ts.Keyword.Any,
+        type: successResponse?.type || this.config.Ts.Keyword.Any,
       },
       error: {
         schemas: errorResponses,
@@ -640,10 +634,7 @@ class SchemaRoutes {
     }
 
     return {
-      paramName:
-        requestBodyName ||
-        (requestBody && requestBody.name) ||
-        DEFAULT_BODY_ARG_NAME,
+      paramName: requestBodyName || requestBody?.name || DEFAULT_BODY_ARG_NAME,
       contentTypes,
       contentKind,
       schema,
@@ -892,7 +883,7 @@ class SchemaRoutes {
       moduleNameFirstTag && firstTag
         ? _.camelCase(firstTag)
         : _.camelCase(_.compact(_.split(route, "/"))[moduleNameIndex]);
-    let hasSecurity = !!(globalSecurity && globalSecurity.length);
+    let hasSecurity = !!globalSecurity?.length;
     if (security) {
       hasSecurity = security.length > 0;
     }

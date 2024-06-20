@@ -33,7 +33,7 @@ class SchemaUtils {
   };
 
   isRefSchema = (schema) => {
-    return !!(schema && schema["$ref"]);
+    return !!schema?.["$ref"];
   };
 
   getEnumNames = (schema) => {
@@ -143,9 +143,7 @@ class SchemaUtils {
     const refData = this.getSchemaRefType(childSchema);
 
     if (refData) {
-      const refObjectProperties = _.keys(
-        (refData.rawTypeData && refData.rawTypeData.properties) || {},
-      );
+      const refObjectProperties = _.keys(refData.rawTypeData?.properties || {});
       const existedRequiredKeys = refObjectProperties.filter((key) =>
         required.includes(key),
       );

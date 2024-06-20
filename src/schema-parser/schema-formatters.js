@@ -105,7 +105,7 @@ class SchemaFormatters {
       _.get(parsedSchema, ["schemaType"]) ||
       _.get(parsedSchema, ["$parsed", "schemaType"]);
     const formatterFn = _.get(this, [formatType, schemaType]);
-    return (formatterFn && formatterFn(parsedSchema)) || parsedSchema;
+    return formatterFn?.(parsedSchema) || parsedSchema;
   };
 
   formatDescription = (description, inline) => {

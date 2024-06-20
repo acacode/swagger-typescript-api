@@ -533,7 +533,7 @@ class CodeGenProcess {
 
   createApiConfig = (swaggerSchema) => {
     const { info, servers, host, basePath, externalDocs, tags } = swaggerSchema;
-    const server = (servers && servers[0]) || { url: "" };
+    const server = servers?.[0] || { url: "" };
     const { title = "No title", version } = info || {};
     const { url: serverUrl } = server;
 
