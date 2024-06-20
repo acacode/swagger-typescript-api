@@ -38,7 +38,7 @@ class EnumSchemaParser extends MonoSchemaParser {
     }
 
     const refType = this.schemaUtils.getSchemaRefType(this.schema);
-    const $ref = (refType && refType.$ref) || null;
+    const $ref = refType?.$ref || null;
 
     // fix schema when enum has length 1+ but value is []
     if (Array.isArray(this.schema.enum)) {

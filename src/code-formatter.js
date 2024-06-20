@@ -23,7 +23,7 @@ class CodeFormatter {
       { newLineCharacter: ts.sys.newLine },
     )[0];
 
-    if (fileTextChanges && fileTextChanges.textChanges.length) {
+    if (fileTextChanges?.textChanges.length) {
       return _.reduceRight(
         fileTextChanges.textChanges,
         (content, { span, newText }) =>
