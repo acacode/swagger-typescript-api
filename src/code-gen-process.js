@@ -119,11 +119,14 @@ class CodeGenProcess {
     /**
      * @type {SchemaComponent[]}
      */
-    const componentsToParse = _.sortBy(this.schemaComponentsMap.filter(
+    const componentsToParse = _.sortBy(
+      this.schemaComponentsMap.filter(
         _.compact(['schemas', this.config.extractResponses && 'responses']),
-    ), (value) => {
+      ),
+      (value) => {
         return value.rawTypeData.hasOwnProperty("discriminator") ? 0 : 1;
-    });
+      }
+    );
 
     const parsedSchemas = componentsToParse.map((schemaComponent) => {
       const parsed = this.schemaParserFabric.parseSchema(
