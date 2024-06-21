@@ -198,7 +198,7 @@ class CodeGenConfig {
   };
 
   compilerTsConfig = {
-    module: "ESNext",
+    module: ts.ModuleKind.ESNext,
     noImplicitReturns: true,
     alwaysStrict: true,
     target: ts.ScriptTarget.ESNext,
