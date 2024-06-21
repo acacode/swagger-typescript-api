@@ -125,7 +125,7 @@ class CodeGenProcess {
       ),
       (value) => {
         return value.rawTypeData.hasOwnProperty("discriminator") ? 0 : 1;
-      }
+      },
     );
 
     const parsedSchemas = componentsToParse.map((schemaComponent) => {
