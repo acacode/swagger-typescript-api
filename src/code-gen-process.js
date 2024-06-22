@@ -121,7 +121,7 @@ class CodeGenProcess {
      */
     const componentsToParse = _.sortBy(
       this.schemaComponentsMap.filter(
-        _.compact(['schemas', this.config.extractResponses && 'responses']),
+        _.compact(["schemas", this.config.extractResponses && "responses"]),
       ),
       (value) => {
         return value.rawTypeData.hasOwnProperty("discriminator") ? 0 : 1;
