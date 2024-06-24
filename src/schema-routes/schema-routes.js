@@ -10,7 +10,6 @@ const {
   RESERVED_PATH_ARG_NAMES,
   RESERVED_QUERY_ARG_NAMES,
 } = require("../constants.js");
-const { camelCase } = require("lodash");
 
 const CONTENT_KIND = {
   JSON: "JSON",
@@ -537,21 +536,13 @@ class SchemaRoutes {
       (objectSchema, schemaPart) => {
         if (!schemaPart || !schemaPart.name) return objectSchema;
 
-        let usageName = `${schemaPart.name}`;
-
-        if (usageName.includes(".")) {
-          usageName = camelCase(usageName);
-        }
-
         return {
           ...objectSchema,
           properties: {
             ...objectSchema.properties,
-            [usageName]: {
+            [schemaPart.name]: {
               ...schemaPart,
               ...(schemaPart.schema || {}),
-              $origName: schemaPart.name,
-              name: usageName,
             },
           },
         };
