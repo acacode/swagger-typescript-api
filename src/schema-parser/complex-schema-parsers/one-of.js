@@ -1,5 +1,5 @@
-const { MonoSchemaParser } = require("../mono-schema-parser");
-const _ = require("lodash");
+import _ from "lodash";
+import { MonoSchemaParser } from "../mono-schema-parser.js";
 
 // T1 | T2
 class OneOfSchemaParser extends MonoSchemaParser {
@@ -24,4 +24,4 @@ class OneOfSchemaParser extends MonoSchemaParser {
   }
 }
 
-module.exports = { OneOfSchemaParser };
+export { OneOfSchemaParser };

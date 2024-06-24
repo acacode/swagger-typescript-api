@@ -1,6 +1,6 @@
-const _ = require("lodash");
-const { SCHEMA_TYPES } = require("../../constants");
-const { MonoSchemaParser } = require("../mono-schema-parser");
+import _ from "lodash";
+import { SCHEMA_TYPES } from "../../constants.js";
+import { MonoSchemaParser } from "../mono-schema-parser.js";
 
 class DiscriminatorSchemaParser extends MonoSchemaParser {
   parse() {
@@ -302,6 +302,4 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
   };
 }
 
-module.exports = {
-  DiscriminatorSchemaParser,
-};
+export { DiscriminatorSchemaParser };

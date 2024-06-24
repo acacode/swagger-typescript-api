@@ -18,15 +18,13 @@ describe("basic", async () => {
   });
 
   test("on-insert-path-param", async () => {
-    // @ts-expect-error
     await generateApi({
       name: "schema",
-      input: path.resolve(__dirname, "schema.json"),
+      input: path.resolve(import.meta.dirname, "schema.json"),
       output: tmpdir,
       silent: true,
       generateClient: true,
       hooks: {
-        // @ts-expect-error
         onInsertPathParam: (paramName) => `encodeURIComponent(${paramName})`,
       },
     });

@@ -3,7 +3,7 @@ import * as path from "node:path";
 
 export async function collectAllSchemas() {
   const schemas = [];
-  const schemaPath = path.join(__dirname, "fixtures", "schemas");
+  const schemaPath = path.join(import.meta.dirname, "fixtures", "schemas");
   const schemaFiles = await fs.readdir(schemaPath, { recursive: true });
   for (const schemaFile of schemaFiles) {
     if (

@@ -1,4 +1,4 @@
-const _ = require("lodash");
+import _ from "lodash";
 
 const optionFormatters = {
   number: (str) => +str,
@@ -72,6 +72,4 @@ const processOption = (option) => {
   };
 };
 
-module.exports = {
-  processOption,
-};
+export { processOption };

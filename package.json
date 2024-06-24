@@ -10,6 +10,7 @@
   "contributors": [
     "Sora Morimoto <sora@morimoto.io>"
   ],
+  "type": "module",
   "main": "./src/index.js",
   "types": "./index.d.ts",
   "bin": {
@@ -50,6 +51,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.2",
+    "@tsconfig/node18": "18.2.4",
+    "@tsconfig/strictest": "2.0.5",
     "@types/didyoumean": "1.2.2",
     "@types/js-yaml": "4.0.9",
     "@types/lodash": "4.17.5",

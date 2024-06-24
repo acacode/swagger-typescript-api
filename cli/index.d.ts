@@ -1,18 +1,19 @@
 type CliStructOption = {
-  flags?: string;
-  description?: string;
   default?: unknown;
+  description?: string;
+  flags?: string;
   internal?: { name?: string; formatter?: (value: any) => any };
+  required?: boolean;
 };
 
 type CliStruct = {
+  alias?: string;
+  commands?: CliStruct[];
+  description?: string;
   inherited?: string | null;
   name?: string;
-  alias?: string;
-  version?: string;
-  description?: string;
   options: CliStructOption[];
-  commands?: CliStruct[];
+  version?: string;
 };
 
 type ExecuteOptions = {

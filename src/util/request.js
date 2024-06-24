@@ -1,4 +1,4 @@
-const _ = require("lodash");
+import _ from "lodash";
 
 class Request {
   /**
@@ -60,6 +60,4 @@ class Request {
   }
 }
 
-module.exports = {
-  Request,
-};
+export { Request };

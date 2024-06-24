@@ -1,5 +1,5 @@
-const { emojify } = require("node-emoji");
-const _ = require("lodash");
+import _ from "lodash";
+import { emojify } from "node-emoji";
 
 class Logger {
   firstLog = true;
@@ -139,6 +139,4 @@ class Logger {
   };
 }
 
-module.exports = {
-  Logger,
-};
+export { Logger };

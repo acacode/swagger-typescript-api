@@ -1,4 +1,4 @@
-const { NameResolver } = require("../../util/name-resolver");
+import { NameResolver } from "../../util/name-resolver.js";
 
 class SpecificArgNameResolver extends NameResolver {
   counter = 1;
@@ -21,6 +21,4 @@ class SpecificArgNameResolver extends NameResolver {
   }
 }
 
-module.exports = {
-  SpecificArgNameResolver,
-};
+export { SpecificArgNameResolver };

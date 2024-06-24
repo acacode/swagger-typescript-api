@@ -1,28 +1,23 @@
 #!/usr/bin/env node
 
-// Copyright (c) 2019-present acacode
-// Node module: swagger-typescript-api
-// This file is licensed under the MIT License.
-// License text available at https://opensource.org/licenses/MIT
-// Repository https://github.com/acacode/swagger-typescript-api
+import { createRequire } from "node:module";
+import { resolve } from "node:path";
+import { cli } from "./cli/index.js";
+import { TemplatesGenConfig } from "./src/commands/generate-templates/configuration.js";
+import { CodeGenConfig } from "./src/configuration.js";
+import { HTTP_CLIENT } from "./src/constants.js";
+import { generateApi, generateTemplates } from "./src/index.js";
 
-const { version, name } = require("./package.json");
-const { cli } = require("./cli");
-const { generateApi, generateTemplates } = require("./src");
-const { HTTP_CLIENT } = require("./src/constants");
-const { resolve } = require("node:path");
-const { CodeGenConfig } = require("./src/configuration");
-const {
-  TemplatesGenConfig,
-} = require("./src/commands/generate-templates/configuration");
+const require = createRequire(import.meta.url);
+const packageJson = require("./package.json");
 
 const codeGenBaseConfig = new CodeGenConfig({});
 const templateGenBaseConfig = new TemplatesGenConfig({});
 
 const program = cli({
-  name: name,
+  name: packageJson.name,
   alias: "sta",
-  version: version,
+  version: packageJson.version,
   description:
     "Generate api via swagger scheme.\nSupports OA 3.0, 2.0, JSON, yaml.",
   options: [

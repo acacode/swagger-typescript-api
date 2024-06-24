@@ -1,5 +1,7 @@
-const _ = require("lodash");
+import _ from "lodash";
 
-module.exports = {
-  pascalCase: (value) => _.upperFirst(_.camelCase(value)),
-};
+function pascalCase(value) {
+  return _.upperFirst(_.camelCase(value));
+}
+
+export { pascalCase };

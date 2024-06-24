@@ -1,4 +1,4 @@
-const _ = require("lodash");
+import _ from "lodash";
 
 class NameResolver {
   reservedNames = [];
@@ -100,6 +100,4 @@ class NameResolver {
   }
 }
 
-module.exports = {
-  NameResolver,
-};
+export { NameResolver };

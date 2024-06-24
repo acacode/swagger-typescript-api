@@ -1,7 +1,7 @@
-const { MonoSchemaParser } = require("../mono-schema-parser");
-const _ = require("lodash");
-const { SCHEMA_TYPES } = require("../../constants");
-const { EnumKeyResolver } = require("../util/enum-key-resolver");
+import _ from "lodash";
+import { SCHEMA_TYPES } from "../../constants.js";
+import { MonoSchemaParser } from "../mono-schema-parser.js";
+import { EnumKeyResolver } from "../util/enum-key-resolver.js";
 
 class EnumSchemaParser extends MonoSchemaParser {
   /** @type {EnumKeyResolver} */
@@ -153,6 +153,4 @@ class EnumSchemaParser extends MonoSchemaParser {
   };
 }
 
-module.exports = {
-  EnumSchemaParser,
-};
+export { EnumSchemaParser };

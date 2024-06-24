@@ -1,5 +1,5 @@
-const { SCHEMA_TYPES } = require("../constants");
-const _ = require("lodash");
+import _ from "lodash";
+import { SCHEMA_TYPES } from "../constants.js";
 
 class SchemaFormatters {
   /** @type {CodeGenConfig} */
@@ -161,6 +161,4 @@ class SchemaFormatters {
   };
 }
 
-module.exports = {
-  SchemaFormatters,
-};
+export { SchemaFormatters };

@@ -1,8 +1,7 @@
-const _ = require("lodash");
-const { SCHEMA_TYPES } = require("../constants");
-const { internalCase } = require("../util/internal-case");
-const { pascalCase } = require("../util/pascal-case");
-const { camelCase } = require("lodash");
+import _ from "lodash";
+import { SCHEMA_TYPES } from "../constants.js";
+import { internalCase } from "../util/internal-case.js";
+import { pascalCase } from "../util/pascal-case.js";
 
 class SchemaUtils {
   /** @type {CodeGenConfig} */
@@ -285,7 +284,7 @@ class SchemaUtils {
     if (!schemaPath || !schemaPath[0]) return null;
 
     return pascalCase(
-      camelCase(
+      _.camelCase(
         _.uniq([schemaPath[0], schemaPath[schemaPath.length - 1]]).join("_"),
       ),
     );
@@ -317,6 +316,4 @@ class SchemaUtils {
   };
 }
 
-module.exports = {
-  SchemaUtils,
-};
+export { SchemaUtils };

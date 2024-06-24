@@ -1,21 +1,18 @@
-/* eslint-disable no-unused-vars */
-const { SCHEMA_TYPES } = require("../constants.js");
-const _ = require("lodash");
-const { SchemaFormatters } = require("./schema-formatters");
-const { SchemaUtils } = require("./schema-utils");
-const {
-  DiscriminatorSchemaParser,
-} = require("./base-schema-parsers/discriminator");
-const { EnumSchemaParser } = require("./base-schema-parsers/enum");
-const { ObjectSchemaParser } = require("./base-schema-parsers/object");
-const { PrimitiveSchemaParser } = require("./base-schema-parsers/primitive");
-const { ComplexSchemaParser } = require("./base-schema-parsers/complex");
-const { OneOfSchemaParser } = require("./complex-schema-parsers/one-of");
-const { AllOfSchemaParser } = require("./complex-schema-parsers/all-of");
-const { AnyOfSchemaParser } = require("./complex-schema-parsers/any-of");
-const { NotSchemaParser } = require("./complex-schema-parsers/not");
-const { ArraySchemaParser } = require("./base-schema-parsers/array");
-const { sortByProperty } = require("../util/sort-by-property");
+import _ from "lodash";
+import { SCHEMA_TYPES } from "../constants.js";
+import { sortByProperty } from "../util/sort-by-property.js";
+import { ArraySchemaParser } from "./base-schema-parsers/array.js";
+import { ComplexSchemaParser } from "./base-schema-parsers/complex.js";
+import { DiscriminatorSchemaParser } from "./base-schema-parsers/discriminator.js";
+import { EnumSchemaParser } from "./base-schema-parsers/enum.js";
+import { ObjectSchemaParser } from "./base-schema-parsers/object.js";
+import { PrimitiveSchemaParser } from "./base-schema-parsers/primitive.js";
+import { AllOfSchemaParser } from "./complex-schema-parsers/all-of.js";
+import { AnyOfSchemaParser } from "./complex-schema-parsers/any-of.js";
+import { NotSchemaParser } from "./complex-schema-parsers/not.js";
+import { OneOfSchemaParser } from "./complex-schema-parsers/one-of.js";
+import { SchemaFormatters } from "./schema-formatters.js";
+import { SchemaUtils } from "./schema-utils.js";
 
 class SchemaParser {
   /** @type {SchemaParserFabric} */
@@ -295,6 +292,4 @@ class SchemaParser {
   };
 }
 
-module.exports = {
-  SchemaParser,
-};
+export { SchemaParser };

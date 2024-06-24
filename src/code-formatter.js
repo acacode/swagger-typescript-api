@@ -1,6 +1,6 @@
-const _ = require("lodash");
-const ts = require("typescript");
-const prettier = require("prettier");
+import _ from "lodash";
+import prettier from "prettier";
+import ts from "typescript";
 
 class CodeFormatter {
   /**
@@ -111,6 +111,4 @@ class TsLanguageServiceHost {
   }
 }
 
-module.exports = {
-  CodeFormatter,
-};
+export { CodeFormatter };

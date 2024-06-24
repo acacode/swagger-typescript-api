@@ -1,9 +1,9 @@
-const _ = require("lodash");
-const { reservedOptions, root_command } = require("./constants");
-const { processOption } = require("./process-option");
-const { execute } = require("./execute");
-const { displayHelp } = require("./operations/display-help");
-const { displayVersion } = require("./operations/display-version");
+import _ from "lodash";
+import { reservedOptions, root_command } from "./constants.js";
+import { execute } from "./execute.js";
+import { displayHelp } from "./operations/display-help.js";
+import { displayVersion } from "./operations/display-version.js";
+import { processOption } from "./process-option.js";
 
 const cli = (input) => {
   const commands = {};
@@ -91,6 +91,4 @@ const cli = (input) => {
   return instance;
 };
 
-module.exports = {
-  cli,
-};
+export { cli };

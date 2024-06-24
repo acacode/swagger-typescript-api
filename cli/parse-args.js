@@ -21,6 +21,4 @@ const parseArgs = (args, type) => {
   }
 };
 
-module.exports = {
-  parseArgs,
-};
+export { parseArgs };

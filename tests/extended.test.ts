@@ -21,7 +21,6 @@ describe("extended", async () => {
   const schemas = await collectAllSchemas();
 
   test.each(schemas)("$name", async (schema) => {
-    // @ts-expect-error
     await generateApi({
       name: schema.name,
       input: schema.filePath,

@@ -1,4 +1,4 @@
-const _ = require("lodash");
+import _ from "lodash";
 
 const objectAssign = (target, updaterFn) => {
   if (!updaterFn) return;
@@ -14,6 +14,4 @@ const objectAssign = (target, updaterFn) => {
   });
 };
 
-module.exports = {
-  objectAssign,
-};
+export { objectAssign };
