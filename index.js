@@ -1,15 +1,12 @@
 #!/usr/bin/env node
 
-import { createRequire } from "node:module";
 import { resolve } from "node:path";
 import { cli } from "./cli/index.js";
+import packageJson from "./package.json";
 import { TemplatesGenConfig } from "./src/commands/generate-templates/configuration.js";
 import { CodeGenConfig } from "./src/configuration.js";
 import { HTTP_CLIENT } from "./src/constants.js";
 import { generateApi, generateTemplates } from "./src/index.js";
-
-const require = createRequire(import.meta.url);
-const packageJson = require("./package.json");
 
 const codeGenBaseConfig = new CodeGenConfig({});
 const templateGenBaseConfig = new TemplatesGenConfig({});

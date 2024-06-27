@@ -1,9 +1,13 @@
 {
-  "extends": ["@tsconfig/strictest", "@tsconfig/node18"],
+  "extends": [
+    "@tsconfig/strictest/tsconfig.json",
+    "@tsconfig/node18/tsconfig.json"
+  ],
   "compilerOptions": {
     "checkJs": false,
     "noEmit": true,
     "noPropertyAccessFromIndexSignature": false,
     "resolveJsonModule": true
-  }
+  },
+  "exclude": ["dist", "node_modules"]
 }
