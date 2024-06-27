@@ -19,11 +19,10 @@ jobs:
           node-version: 22
           check-latest: true
 
-      - name: Install dependencies
-        run: yarn install --immutable
+      - run: yarn install --immutable
 
-      - name: Check formatting
-        run: yarn format:check
+      - run: yarn format:check
 
-      - name: Run the tests
-        run: yarn test
+      - run: yarn build
+
+      - run: yarn test
