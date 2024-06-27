@@ -11,29 +11,39 @@
     "Sora Morimoto <sora@morimoto.io>"
   ],
   "type": "module",
-  "main": "./src/index.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./index.d.ts",
+        "default": "./dist/lib.js"
+      },
+      "require": {
+        "types": "./index.d.ts",
+        "default": "./dist/lib.cjs"
+      }
+    }
+  },
+  "main": "./dist/lib.cjs",
+  "module": "./dist/lib.js",
   "types": "./index.d.ts",
   "bin": {
-    "sta": "./index.js",
-    "swagger-typescript-api": "./index.js"
+    "sta": "./dist/cli.js",
+    "swagger-typescript-api": "./dist/cli.js"
   },
   "files": [
-    "cli",
-    "src",
+    "dist",
     "templates",
-    "index.d.ts",
-    "index.js"
+    "index.d.ts"
   ],
   "scripts": {
+    "build": "tsup",
     "ci": "biome ci .",
     "cli:help": "node index.js -h",
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
     "cli:yaml": "node index.js -r -d -p ./swagger-test-cli.yaml -n swagger-test-cli.ts",
     "format": "biome format --write .",
     "format:check": "biome format .",
-    "test": "vitest run",
-    "validate": "node tests/validate.js",
-    "validate:debug": "node --nolazy tests/validate.js"
+    "test": "vitest run"
   },
   "dependencies": {
     "@types/swagger-schema-official": "^2.0.25",
@@ -60,6 +70,7 @@
     "@types/swagger2openapi": "7.0.4",
     "axios": "1.7.2",
     "shx": "0.3.4",
+    "tsup": "8.1.0",
     "vitest": "1.6.0"
   },
   "packageManager": "yarn@4.3.1",

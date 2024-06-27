@@ -1,7 +1,4 @@
-import { createRequire } from "node:module";
-
-const require = createRequire(import.meta.url);
-const packageJson = require("../package.json");
+import packageJson from "../package.json";
 
 const DEFAULT_BODY_ARG_NAME = "data";
 
