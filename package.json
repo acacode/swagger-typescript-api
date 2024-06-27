@@ -50,7 +50,7 @@
     "typescript": "~5.5.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.8.2",
+    "@biomejs/biome": "1.8.3",
     "@tsconfig/node18": "18.2.4",
     "@tsconfig/strictest": "2.0.5",
     "@types/didyoumean": "1.2.2",
