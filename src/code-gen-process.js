@@ -204,32 +204,59 @@ class CodeGenProcess {
   }
 
   getRenderTemplateData = () => {
+    const { schemaParserFabric } = this;
+    const { schemaFormatters } = schemaParserFabric;
     return {
       utils: {
         Ts: this.config.Ts,
         formatDescription:
-          this.schemaParserFabric.schemaFormatters.formatDescription,
+          schemaParserFabric.schemaFormatters.formatDescription.bind(
+            schemaFormatters,
+          ),
         internalCase: internalCase,
         classNameCase: pascalCase,
         pascalCase: pascalCase,
-        getInlineParseContent: this.schemaParserFabric.getInlineParseContent,
-        getParseContent: this.schemaParserFabric.getParseContent,
-        getComponentByRef: this.schemaComponentsMap.get,
-        parseSchema: this.schemaParserFabric.parseSchema,
-        checkAndAddNull: this.schemaParserFabric.schemaUtils.safeAddNullToType,
+        getInlineParseContent:
+          schemaParserFabric.getInlineParseContent.bind(schemaParserFabric),
+        getParseContent:
+          schemaParserFabric.getParseContent.bind(schemaParserFabric),
+        getComponentByRef: this.schemaComponentsMap.get.bind(
+          this.schemaComponentsMap,
+        ),
+        parseSchema: schemaParserFabric.parseSchema.bind(schemaParserFabric),
+        checkAndAddNull: schemaParserFabric.schemaUtils.safeAddNullToType.bind(
+          schemaParserFabric.schemaUtils,
+        ),
         safeAddNullToType:
-          this.schemaParserFabric.schemaUtils.safeAddNullToType,
+          schemaParserFabric.schemaUtils.safeAddNullToType.bind(
+            schemaParserFabric.schemaUtils,
+          ),
         isNeedToAddNull:
-          this.schemaParserFabric.schemaUtils.isNullMissingInType,
-        inlineExtraFormatters: this.schemaParserFabric.schemaFormatters.inline,
-        formatters: this.schemaParserFabric.schemaFormatters.base,
-        formatModelName: this.typeNameFormatter.format,
+          schemaParserFabric.schemaUtils.isNullMissingInType.bind(
+            schemaParserFabric.schemaUtils,
+          ),
+        inlineExtraFormatters: Object.keys(schemaFormatters.inline).reduce(
+          (prev, each) => {
+            return (prev[each] =
+              schemaFormatters.inline[each].bind(schemaFormatters));
+          },
+          {},
+        ),
+        formatters: Object.keys(schemaFormatters.base).reduce((prev, each) => {
+          return (prev[each] =
+            schemaFormatters.base[each].bind(schemaFormatters));
+        }, {}),
+        formatModelName: this.typeNameFormatter.format.bind(
+          this.typeNameFormatter,
+        ),
         fmtToJSDocLine: function fmtToJSDocLine(line, { eol = true }) {
           return ` * ${line}${eol ? "\n" : ""}`;
         },
         NameResolver: NameResolver,
         _,
-        require: this.templatesWorker.requireFnFromTemplate,
+        require: this.templatesWorker.requireFnFromTemplate.bind(
+          this.templatesWorker,
+        ),
       },
       config: this.config,
     };

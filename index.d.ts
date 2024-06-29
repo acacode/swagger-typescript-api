@@ -718,6 +718,14 @@ export interface GenerateApiConfiguration {
       typeName?: string,
       formattersMap?: Record<MAIN_SCHEMA_TYPES, (content: ModelType) => string>,
     ) => ModelType;
+    safeAddNullToType: (
+      schema: { type: string; nullable?: boolean; "x-nullable"?: boolean },
+      type: unknown,
+    ) => string;
+    isNeedToAddNull: (
+      schema: { type: string; nullable?: boolean; "x-nullable"?: boolean },
+      type: unknown,
+    ) => boolean;
     formatters: Record<
       MAIN_SCHEMA_TYPES,
       (content: string | object | string[] | object[]) => string
