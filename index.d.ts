@@ -192,7 +192,7 @@ interface GenerateApiParamsBase {
    *
    * @example
    * ```ts
-   * const { Translator } = require("swagger-typescript-api/src/translators/translator");
+   * import { Translator } from "swagger-typescript-api/src/translators/translator";
    *
    * class MyTranslator extends Translator {
    *

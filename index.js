@@ -301,7 +301,7 @@ const main = async () => {
     try {
       const customConfigPath = resolve(process.cwd(), options.customConfig);
       console.log(`✨ found custom config at: ${customConfigPath}`);
-      customConfig = require(customConfigPath);
+      customConfig = await import(customConfigPath);
     } catch (e) {
       /* empty */
     }

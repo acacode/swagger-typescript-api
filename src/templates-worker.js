@@ -76,21 +76,21 @@ class TemplatesWorker {
     );
   };
 
-  requireFnFromTemplate = (packageOrPath) => {
+  requireFnFromTemplate = async (packageOrPath) => {
     const isPath =
       _.startsWith(packageOrPath, "./") || _.startsWith(packageOrPath, "../");
 
     if (isPath) {
-      return require(
+      return await import(
         path.resolve(
           this.config.templatePaths.custom ||
             this.config.templatePaths.original,
           packageOrPath,
-        ),
+        )
       );
     }
 
-    return require(packageOrPath);
+    return await import(packageOrPath);
   };
 
   getTemplate = ({ fileName, name, path }) => {
