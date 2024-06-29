@@ -80,9 +80,9 @@ npx swagger-typescript-api -p ./swagger.json -o ./src -n myApi.ts
 You can use this package from nodejs:
 
 ```js
-const { generateApi, generateTemplates } = require("swagger-typescript-api");
-const path = require("path");
-const fs = require("fs");
+import fs from "node:fs";
+import path from "node:path";
+import { generateApi, generateTemplates } from "swagger-typescript-api";
 
 /* NOTE: all fields are optional expect one of `input`, `url`, `spec` */
 generateApi({
