@@ -6,6 +6,11 @@ export default defineConfig({
     cli: "index.js",
   },
   clean: true,
+  dts: {
+    entry: {
+      types: "types/index.d.ts",
+    },
+  },
   format: ["esm", "cjs"],
   minify: true,
   sourcemap: true,
