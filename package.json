@@ -14,26 +14,25 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./index.d.ts",
+        "types": "./dist/types.d.ts",
         "default": "./dist/lib.js"
       },
       "require": {
-        "types": "./index.d.ts",
+        "types": "./dist/types.d.cts",
         "default": "./dist/lib.cjs"
       }
     }
   },
   "main": "./dist/lib.cjs",
   "module": "./dist/lib.js",
-  "types": "./index.d.ts",
+  "types": "./dist/index.d.cts",
   "bin": {
     "sta": "./dist/cli.js",
     "swagger-typescript-api": "./dist/cli.js"
   },
   "files": [
     "dist",
-    "templates",
-    "index.d.ts"
+    "templates"
   ],
   "scripts": {
     "build": "tsup",

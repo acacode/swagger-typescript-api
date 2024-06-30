@@ -1,4 +1,4 @@
-import type { MonoSchemaParser } from "./src/schema-parser/mono-schema-parser";
+import type { MonoSchemaParser } from "../src/schema-parser/mono-schema-parser";
 
 type HttpClientType = "axios" | "fetch";
 
@@ -212,7 +212,7 @@ interface GenerateApiParamsBase {
    * }
    * ```
    */
-  customTranslator?: new () => typeof import("./src/translators/translator").Translator;
+  customTranslator?: new () => typeof import("../src/translators/translator").Translator;
   /** fallback name for enum key resolver */
   enumKeyResolverName?: string;
   /** fallback name for type name resolver */
@@ -279,7 +279,7 @@ type PrimitiveTypeStructValue =
   | string
   | ((
       schema: Record<string, any>,
-      parser: import("./src/schema-parser/schema-parser").SchemaParser,
+      parser: import("../src/schema-parser/schema-parser").SchemaParser,
     ) => string);
 
 type PrimitiveTypeStruct = Record<
@@ -366,7 +366,7 @@ export interface Hooks {
   /** Start point of work this tool (after fetching schema) */
   onInit?: <C extends GenerateApiConfiguration["config"]>(
     configuration: C,
-    codeGenProcess: import("./src/code-gen-process").CodeGenProcess,
+    codeGenProcess: import("../src/code-gen-process").CodeGenProcess,
   ) => C | void;
   /** customize configuration object before sending it to ETA templates */
   onPrepareConfig?: <C extends GenerateApiConfiguration>(
@@ -657,11 +657,11 @@ export interface GenerateApiConfiguration {
     /** do not use constructor args, it can break functionality of this property, just send class reference */
     customTranslator?: new (
       ...args: never[]
-    ) => typeof import("./src/translators/translator").Translator;
+    ) => typeof import("../src/translators/translator").Translator;
     internalTemplateOptions: {
       addUtilRequiredKeysType: boolean;
     };
-    componentTypeNameResolver: typeof import("./src/component-type-name-resolver").ComponentTypeNameResolver;
+    componentTypeNameResolver: typeof import("../src/component-type-name-resolver").ComponentTypeNameResolver;
     fileNames: {
       dataContracts: string;
       routeTypes: string;
@@ -754,7 +754,7 @@ export interface GenerateApiOutput {
   renderTemplate: (
     templateContent: string,
     data: Record<string, unknown>,
-    etaOptions?: import("eta/dist/types/config").PartialConfig,
+    etaOptions?: Partial<import("eta").EtaConfig>,
   ) => string;
   getTemplate: (params: {
     fileName?: string;
