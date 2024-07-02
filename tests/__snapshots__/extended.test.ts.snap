@@ -2617,6 +2617,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
   };
@@ -2636,6 +2637,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -2655,6 +2657,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: payload,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -2674,6 +2677,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -2692,6 +2696,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -2709,6 +2714,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/dashboards/\${dashboardId}/blocks\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -2726,6 +2732,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/dashboards\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -2744,6 +2751,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -2761,6 +2769,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/feeds\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -2779,6 +2788,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -2796,6 +2806,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/groups/\${groupKey}/feeds\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -2813,6 +2824,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/groups\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -2830,6 +2842,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/\${type}/\${typeId}/acl\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -2847,6 +2860,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/tokens\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -2864,6 +2878,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/triggers\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -2896,6 +2911,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -2929,6 +2945,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -2947,6 +2964,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -2986,6 +3004,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: block,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3013,6 +3032,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: dashboard,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3045,6 +3065,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: datum,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3074,6 +3095,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: feed,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3101,6 +3123,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: group,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3125,6 +3148,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: group_feed_data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3154,6 +3178,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: feed,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3187,6 +3212,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: datum,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3218,6 +3244,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: permission,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3243,6 +3270,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: token,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3268,6 +3296,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: trigger,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3302,6 +3331,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/dashboards/\${dashboardId}/blocks/\${id}\`,
         method: "DELETE",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3319,6 +3349,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/dashboards/\${id}\`,
         method: "DELETE",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3336,6 +3367,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/feeds/\${feedKey}/data/\${id}\`,
         method: "DELETE",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3370,6 +3402,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/groups/\${groupKey}\`,
         method: "DELETE",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3387,6 +3420,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/\${type}/\${typeId}/acl/\${id}\`,
         method: "DELETE",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3404,6 +3438,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/tokens/\${id}\`,
         method: "DELETE",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3421,6 +3456,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/triggers/\${id}\`,
         method: "DELETE",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3440,6 +3476,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         query: query,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3458,6 +3495,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3475,6 +3513,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/dashboards/\${dashboardId}/blocks/\${id}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3492,6 +3531,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/throttle\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3509,6 +3549,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/dashboards/\${id}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3527,6 +3568,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3544,6 +3586,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/feeds/\${feedKey}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3561,6 +3604,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/feeds/\${feedKey}/details\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3578,6 +3622,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/groups/\${groupKey}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3595,6 +3640,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/\${type}/\${typeId}/acl/\${id}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3612,6 +3658,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/tokens/\${id}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3629,6 +3676,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/\${username}/triggers/\${id}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3648,6 +3696,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         query: query,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3667,6 +3716,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         query: query,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3686,6 +3736,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         query: query,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3704,6 +3755,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3744,6 +3796,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: block,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3772,6 +3825,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: dashboard,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3805,6 +3859,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: datum,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3834,6 +3889,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: feed,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3862,6 +3918,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: group,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3894,6 +3951,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: permission,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3920,6 +3978,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: token,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -3946,6 +4005,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: trigger,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -4004,6 +4064,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: block,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -4032,6 +4093,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: dashboard,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -4065,6 +4127,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: datum,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -4094,6 +4157,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: feed,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -4122,6 +4186,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: group,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -4154,6 +4219,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: permission,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -4180,6 +4246,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: token,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -4206,6 +4273,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: trigger,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -5906,6 +5974,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -5925,6 +5994,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -5992,6 +6062,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/pet/\${petId}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -6066,6 +6137,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.FormData,
+        format: "json",
         ...params,
       }),
   };
@@ -6099,6 +6171,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/store/inventory\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -6114,6 +6187,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetOrderByIdData, void>({
         path: \`/store/order/\${orderId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -6131,6 +6205,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: body,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -6213,6 +6288,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetUserByNameData, void>({
         path: \`/user/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -6229,6 +6305,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/login\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -6586,6 +6663,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/api/Foo/GetBar\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -6600,6 +6678,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<FooGetBarDescriptionsData, any>({
         path: \`/api/Foo/GetBarDescriptions\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -7162,6 +7241,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     this.request<ListVersionsv2Data, void>({
       path: \`/\`,
       method: "GET",
+      format: "json",
       ...params,
     });
 
@@ -7177,6 +7257,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetVersionDetailsv2Data, any>({
         path: \`/v2\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
   };
@@ -7478,6 +7559,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     this.request<ListVersionsv2Data, void>({
       path: \`/\`,
       method: "GET",
+      format: "json",
       ...params,
     });
 
@@ -7493,6 +7575,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetVersionDetailsv2Data, any>({
         path: \`/v2\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
   };
@@ -8281,6 +8364,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetKeyData, GetKeyError>({
         path: \`/key/\${pk}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -8310,6 +8394,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/key/\${pk}\`,
         method: "PUT",
         body: body,
+        format: "json",
         ...params,
       }),
 
@@ -8325,6 +8410,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/key\`,
         method: "POST",
         body: body,
+        format: "json",
         ...params,
       }),
 
@@ -8340,6 +8426,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/key/\${pk}\`,
         method: "DELETE",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -8355,6 +8442,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/key\`,
         method: "DELETE",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -8370,6 +8458,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/key/\${pk}\`,
         method: "POST",
         body: body,
+        format: "json",
         ...params,
       }),
   };
@@ -8387,6 +8476,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         query: query,
         body: body,
+        format: "json",
         ...params,
       }),
   };
@@ -8403,6 +8493,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/scope/\${job}\`,
         method: "POST",
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -8417,6 +8508,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<SignDeleteData, SignDeleteError>({
         path: \`/scope/\${job}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
 
@@ -8433,6 +8525,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         query: query,
         body: body,
+        format: "json",
         ...params,
       }),
 
@@ -8447,6 +8540,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<SignRetrieveData, SignRetrieveError>({
         path: \`/scope/\${job}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -8763,6 +8857,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/streams\`,
         method: "POST",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -9974,6 +10069,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -45652,6 +45748,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     this.request<MetaRootData, any>({
       path: \`/\`,
       method: "GET",
+      format: "json",
       ...params,
     });
 
@@ -45682,6 +45779,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -45712,6 +45810,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<AppsGetAuthenticatedData, any>({
         path: \`/app\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -45734,6 +45833,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/app/installations/\${installationId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -45749,6 +45849,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<AppsGetWebhookConfigForAppData, any>({
         path: \`/app/hook/config\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -45765,6 +45866,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/app/installations\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -45812,6 +45914,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -45828,6 +45931,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<AppsCreateFromManifestData, BasicError | ValidationErrorSimple>({
         path: \`/app-manifests/\${code}/conversions\`,
         method: "POST",
+        format: "json",
         ...params,
       }),
   };
@@ -45845,6 +45949,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<AppsCheckAuthorizationData, BasicError>({
         path: \`/applications/\${clientId}/tokens/\${accessToken}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -45862,6 +45967,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -45912,6 +46018,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<AppsResetAuthorizationData, any>({
         path: \`/applications/\${clientId}/tokens/\${accessToken}\`,
         method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -45929,6 +46036,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -45978,6 +46086,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -46010,6 +46119,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<OauthAuthorizationsGetGrantData, BasicError>({
         path: \`/applications/grants/\${grantId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -46027,6 +46137,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/applications/grants\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -46050,6 +46161,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/apps/\${appSlug}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
   };
@@ -46072,6 +46184,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -46104,6 +46217,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<OauthAuthorizationsGetAuthorizationData, BasicError>({
         path: \`/authorizations/\${authorizationId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -46126,6 +46240,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -46149,6 +46264,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -46169,6 +46285,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/authorizations\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -46191,6 +46308,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -46213,6 +46331,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/codes_of_conduct\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -46235,6 +46354,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/codes_of_conduct/\${key}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
   };
@@ -46265,6 +46385,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -46281,6 +46402,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<EmojisGetData, any>({
         path: \`/emojis\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
   };
@@ -46298,6 +46420,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/enterprises/\${enterprise}/audit-log\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -46313,6 +46436,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<BillingGetGithubActionsBillingGheData, any>({
         path: \`/enterprises/\${enterprise}/settings/billing/actions\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -46328,6 +46452,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<BillingGetGithubPackagesBillingGheData, any>({
         path: \`/enterprises/\${enterprise}/settings/billing/packages\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -46343,6 +46468,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<BillingGetSharedStorageBillingGheData, any>({
         path: \`/enterprises/\${enterprise}/settings/billing/shared-storage\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -46398,6 +46524,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<EnterpriseAdminCreateRegistrationTokenForEnterpriseData, any>({
         path: \`/enterprises/\${enterprise}/actions/runners/registration-token\`,
         method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -46413,6 +46540,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<EnterpriseAdminCreateRemoveTokenForEnterpriseData, any>({
         path: \`/enterprises/\${enterprise}/actions/runners/remove-token\`,
         method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -46434,6 +46562,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -46525,6 +46654,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<EnterpriseAdminGetAllowedActionsEnterpriseData, any>({
         path: \`/enterprises/\${enterprise}/actions/permissions/selected-actions\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -46540,6 +46670,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<EnterpriseAdminGetGithubActionsPermissionsEnterpriseData, any>({
         path: \`/enterprises/\${enterprise}/actions/permissions\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -46559,6 +46690,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<EnterpriseAdminGetSelfHostedRunnerForEnterpriseData, any>({
         path: \`/enterprises/\${enterprise}/actions/runners/\${runnerId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -46578,6 +46710,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<EnterpriseAdminGetSelfHostedRunnerGroupForEnterpriseData, any>({
         path: \`/enterprises/\${enterprise}/actions/runner-groups/\${runnerGroupId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -46597,6 +46730,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/enterprises/\${enterprise}/actions/runner-groups/\${runnerGroupId}/organizations\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -46612,6 +46746,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<EnterpriseAdminListRunnerApplicationsForEnterpriseData, any>({
         path: \`/enterprises/\${enterprise}/actions/runners/downloads\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -46631,6 +46766,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/enterprises/\${enterprise}/actions/permissions/organizations\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -46650,6 +46786,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/enterprises/\${enterprise}/actions/runner-groups\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -46669,6 +46806,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/enterprises/\${enterprise}/actions/runners\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -46688,6 +46826,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/enterprises/\${enterprise}/actions/runner-groups/\${runnerGroupId}/runners\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -46857,6 +46996,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -46882,6 +47022,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/events\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -46898,6 +47039,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActivityGetFeedsData, any>({
         path: \`/feeds\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
   };
@@ -46931,6 +47073,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -46948,6 +47091,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -46993,6 +47137,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GistsForkData, BasicError | ValidationError>({
         path: \`/gists/\${gistId}/forks\`,
         method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -47020,6 +47165,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/gists/\${gistId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -47047,6 +47193,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/gists/\${gistId}/comments/\${commentId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -47062,6 +47209,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GistsGetRevisionData, BasicError | ValidationError>({
         path: \`/gists/\${gistId}/\${sha}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -47078,6 +47226,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/gists\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -47094,6 +47243,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/gists/\${gistId}/comments\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -47110,6 +47260,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/gists/\${gistId}/commits\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -47126,6 +47277,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/gists/\${gistId}/forks\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -47142,6 +47294,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/gists/public\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -47158,6 +47311,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/gists/starred\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -47205,6 +47359,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -47227,6 +47382,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -47243,6 +47399,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GitignoreGetAllTemplatesData, any>({
         path: \`/gitignore/templates\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -47258,6 +47415,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GitignoreGetTemplateData, any>({
         path: \`/gitignore/templates/\${name}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
   };
@@ -47278,6 +47436,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/installation/repositories\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -47310,6 +47469,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/issues\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -47326,6 +47486,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<LicensesGetData, BasicError>({
         path: \`/licenses/\${license}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -47342,6 +47503,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/licenses\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -47393,6 +47555,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<AppsGetSubscriptionPlanForAccountData, AppsGetSubscriptionPlanForAccountError>({
         path: \`/marketplace_listing/accounts/\${accountId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -47408,6 +47571,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<AppsGetSubscriptionPlanForAccountStubbedData, BasicError | void>({
         path: \`/marketplace_listing/stubbed/accounts/\${accountId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -47424,6 +47588,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/marketplace_listing/plans/\${planId}/accounts\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -47443,6 +47608,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/marketplace_listing/stubbed/plans/\${planId}/accounts\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -47459,6 +47625,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/marketplace_listing/plans\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -47475,6 +47642,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/marketplace_listing/stubbed/plans\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -47491,6 +47659,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<MetaGetData, any>({
         path: \`/meta\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
   };
@@ -47511,6 +47680,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/networks/\${owner}/\${repo}/events\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -47542,6 +47712,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActivityGetThreadData, BasicError>({
         path: \`/notifications/threads/\${threadId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -47557,6 +47728,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActivityGetThreadSubscriptionForAuthenticatedUserData, BasicError>({
         path: \`/notifications/threads/\${threadId}/subscription\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -47576,6 +47748,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/notifications\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -47593,6 +47766,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -47629,6 +47803,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -47663,6 +47838,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/organizations\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -47761,6 +47937,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsCreateRegistrationTokenForOrgData, any>({
         path: \`/orgs/\${org}/actions/runners/registration-token\`,
         method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -47776,6 +47953,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsCreateRemoveTokenForOrgData, any>({
         path: \`/orgs/\${org}/actions/runners/remove-token\`,
         method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -47797,6 +47975,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -47895,6 +48074,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetAllowedActionsOrganizationData, any>({
         path: \`/orgs/\${org}/actions/permissions/selected-actions\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -47910,6 +48090,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetGithubActionsPermissionsOrganizationData, any>({
         path: \`/orgs/\${org}/actions/permissions\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -47925,6 +48106,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetOrgPublicKeyData, any>({
         path: \`/orgs/\${org}/actions/secrets/public-key\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -47940,6 +48122,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetOrgSecretData, any>({
         path: \`/orgs/\${org}/actions/secrets/\${secretName}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -47955,6 +48138,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetSelfHostedRunnerForOrgData, any>({
         path: \`/orgs/\${org}/actions/runners/\${runnerId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -47970,6 +48154,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetSelfHostedRunnerGroupForOrgData, any>({
         path: \`/orgs/\${org}/actions/runner-groups/\${runnerGroupId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -47986,6 +48171,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/actions/secrets\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48005,6 +48191,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsListRepoAccessToSelfHostedRunnerGroupInOrgData, any>({
         path: \`/orgs/\${org}/actions/runner-groups/\${runnerGroupId}/repositories\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -48020,6 +48207,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsListRunnerApplicationsForOrgData, any>({
         path: \`/orgs/\${org}/actions/runners/downloads\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -48035,6 +48223,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsListSelectedReposForOrgSecretData, any>({
         path: \`/orgs/\${org}/actions/secrets/\${secretName}/repositories\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -48054,6 +48243,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/actions/permissions/repositories\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48073,6 +48263,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/actions/runner-groups\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48092,6 +48283,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/actions/runners\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48111,6 +48303,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/actions/runner-groups/\${runnerGroupId}/runners\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48318,6 +48511,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -48334,6 +48528,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/events\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48349,6 +48544,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<AppsGetOrgInstallationData, any>({
         path: \`/orgs/\${org}/installation\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -48364,6 +48560,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<BillingGetGithubActionsBillingOrgData, any>({
         path: \`/orgs/\${org}/settings/billing/actions\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -48379,6 +48576,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<BillingGetGithubPackagesBillingOrgData, any>({
         path: \`/orgs/\${org}/settings/billing/packages\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -48394,6 +48592,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<BillingGetSharedStorageBillingOrgData, any>({
         path: \`/orgs/\${org}/settings/billing/shared-storage\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -48409,6 +48608,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<InteractionsGetRestrictionsForOrgData, any>({
         path: \`/orgs/\${org}/interaction-limits\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -48441,6 +48641,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -48457,6 +48658,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/issues\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48502,6 +48704,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<MigrationsGetStatusForOrgData, BasicError>({
         path: \`/orgs/\${org}/migrations/\${migrationId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -48518,6 +48721,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/migrations\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48537,6 +48741,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/migrations/\${migrationId}/repositories\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48554,6 +48759,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -48676,6 +48882,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -48693,6 +48900,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -48723,6 +48931,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<OrgsGetData, BasicError>({
         path: \`/orgs/\${org}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -48739,6 +48948,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/audit-log\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48754,6 +48964,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<OrgsGetMembershipForUserData, BasicError>({
         path: \`/orgs/\${org}/memberships/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -48769,6 +48980,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<OrgsGetWebhookData, BasicError>({
         path: \`/orgs/\${org}/hooks/\${hookId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -48784,6 +48996,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<OrgsGetWebhookConfigForOrgData, any>({
         path: \`/orgs/\${org}/hooks/\${hookId}/config\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -48800,6 +49013,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/installations\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48821,6 +49035,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/orgs/\${org}/blocks\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -48837,6 +49052,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/failed_invitations\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48856,6 +49072,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/invitations/\${invitationId}/teams\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48872,6 +49089,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/members\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48888,6 +49106,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/outside_collaborators\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48904,6 +49123,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/invitations\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48920,6 +49140,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/public_members\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -48935,6 +49156,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<OrgsListSamlSsoAuthorizationsData, any>({
         path: \`/orgs/\${org}/credential-authorizations\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -48951,6 +49173,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/hooks\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -49063,6 +49286,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -49110,6 +49334,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -49127,6 +49352,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -49149,6 +49375,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -49166,6 +49393,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -49182,6 +49410,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/projects\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -49206,6 +49435,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -49229,6 +49459,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -49291,6 +49522,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/teams/\${teamSlug}/discussions/\${discussionNumber}/comments/\${commentNumber}/reactions\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -49310,6 +49542,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/teams/\${teamSlug}/discussions/\${discussionNumber}/reactions\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -49327,6 +49560,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -49343,6 +49577,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/repos\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -49366,6 +49601,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -49433,6 +49669,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<TeamsCheckPermissionsForProjectInOrgData, void>({
         path: \`/orgs/\${org}/teams/\${teamSlug}/projects/\${projectId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -49454,6 +49691,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<TeamsCheckPermissionsForRepoInOrgData, void>({
         path: \`/orgs/\${org}/teams/\${teamSlug}/repos/\${owner}/\${repo}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -49471,6 +49709,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -49494,6 +49733,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -49516,6 +49756,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -49538,6 +49779,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -49604,6 +49846,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<TeamsGetByNameData, BasicError>({
         path: \`/orgs/\${org}/teams/\${teamSlug}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -49625,6 +49868,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<TeamsGetDiscussionCommentInOrgData, any>({
         path: \`/orgs/\${org}/teams/\${teamSlug}/discussions/\${discussionNumber}/comments/\${commentNumber}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -49640,6 +49884,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<TeamsGetDiscussionInOrgData, any>({
         path: \`/orgs/\${org}/teams/\${teamSlug}/discussions/\${discussionNumber}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -49655,6 +49900,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<TeamsGetMembershipForUserInOrgData, void>({
         path: \`/orgs/\${org}/teams/\${teamSlug}/memberships/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -49671,6 +49917,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/teams\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -49687,6 +49934,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/teams/\${teamSlug}/teams\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -49706,6 +49954,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/teams/\${teamSlug}/discussions/\${discussionNumber}/comments\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -49725,6 +49974,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/teams/\${teamSlug}/discussions\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -49741,6 +49991,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/team-sync/groups\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -49756,6 +50007,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<TeamsListIdpGroupsInOrgData, any>({
         path: \`/orgs/\${org}/teams/\${teamSlug}/team-sync/group-mappings\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -49772,6 +50024,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/teams/\${teamSlug}/members\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -49791,6 +50044,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/teams/\${teamSlug}/invitations\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -49807,6 +50061,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/teams/\${teamSlug}/projects\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -49823,6 +50078,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/orgs/\${org}/teams/\${teamSlug}/repos\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -49892,6 +50148,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -49915,6 +50172,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -49932,6 +50190,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -49980,6 +50239,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -49997,6 +50257,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -50057,6 +50318,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ProjectsGetData, BasicError>({
         path: \`/projects/\${projectId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50072,6 +50334,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ProjectsGetCardData, BasicError>({
         path: \`/projects/columns/cards/\${cardId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50087,6 +50350,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ProjectsGetColumnData, BasicError>({
         path: \`/projects/columns/\${columnId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50110,6 +50374,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/projects/\${projectId}/collaborators/\${username}/permission\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50126,6 +50391,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/projects/columns/\${columnId}/cards\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -50150,6 +50416,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/projects/\${projectId}/collaborators\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -50166,6 +50433,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/projects/\${projectId}/columns\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -50183,6 +50451,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -50200,6 +50469,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -50240,6 +50510,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -50257,6 +50528,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -50274,6 +50546,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -50290,6 +50563,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<RateLimitGetData, BasicError>({
         path: \`/rate_limit\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
   };
@@ -50368,6 +50642,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsCreateRegistrationTokenForRepoData, any>({
         path: \`/repos/\${owner}/\${repo}/actions/runners/registration-token\`,
         method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -50383,6 +50658,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsCreateRemoveTokenForRepoData, any>({
         path: \`/repos/\${owner}/\${repo}/actions/runners/remove-token\`,
         method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -50582,6 +50858,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetAllowedActionsRepositoryData, any>({
         path: \`/repos/\${owner}/\${repo}/actions/permissions/selected-actions\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50597,6 +50874,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetArtifactData, any>({
         path: \`/repos/\${owner}/\${repo}/actions/artifacts/\${artifactId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50612,6 +50890,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetGithubActionsPermissionsRepositoryData, any>({
         path: \`/repos/\${owner}/\${repo}/actions/permissions\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50627,6 +50906,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetJobForWorkflowRunData, any>({
         path: \`/repos/\${owner}/\${repo}/actions/jobs/\${jobId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50642,6 +50922,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetRepoPublicKeyData, any>({
         path: \`/repos/\${owner}/\${repo}/actions/secrets/public-key\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50657,6 +50938,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetRepoSecretData, any>({
         path: \`/repos/\${owner}/\${repo}/actions/secrets/\${secretName}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50672,6 +50954,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetSelfHostedRunnerForRepoData, any>({
         path: \`/repos/\${owner}/\${repo}/actions/runners/\${runnerId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50687,6 +50970,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetWorkflowData, any>({
         path: \`/repos/\${owner}/\${repo}/actions/workflows/\${workflowId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50702,6 +50986,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetWorkflowRunData, any>({
         path: \`/repos/\${owner}/\${repo}/actions/runs/\${runId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50717,6 +51002,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetWorkflowRunUsageData, any>({
         path: \`/repos/\${owner}/\${repo}/actions/runs/\${runId}/timing\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50732,6 +51018,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsGetWorkflowUsageData, any>({
         path: \`/repos/\${owner}/\${repo}/actions/workflows/\${workflowId}/timing\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50751,6 +51038,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/actions/artifacts\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -50770,6 +51058,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/actions/runs/\${runId}/jobs\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -50786,6 +51075,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/actions/secrets\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -50802,6 +51092,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/actions/workflows\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -50817,6 +51108,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActionsListRunnerApplicationsForRepoData, any>({
         path: \`/repos/\${owner}/\${repo}/actions/runners/downloads\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50836,6 +51128,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/actions/runners\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -50855,6 +51148,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/actions/runs/\${runId}/artifacts\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -50874,6 +51168,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/actions/workflows/\${workflowId}/runs\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -50893,6 +51188,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/actions/runs\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -50982,6 +51278,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ActivityGetRepoSubscriptionData, BasicError | void>({
         path: \`/repos/\${owner}/\${repo}/subscription\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -50998,6 +51295,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/events\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -51017,6 +51315,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/notifications\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -51036,6 +51335,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/stargazers\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -51055,6 +51355,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/subscribers\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -51099,6 +51400,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51114,6 +51416,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<AppsGetRepoInstallationData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/installation\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -51131,6 +51434,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51148,6 +51452,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51163,6 +51468,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ChecksGetData, any>({
         path: \`/repos/\${owner}/\${repo}/check-runs/\${checkRunId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -51178,6 +51484,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ChecksGetSuiteData, any>({
         path: \`/repos/\${owner}/\${repo}/check-suites/\${checkSuiteId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -51197,6 +51504,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/check-runs/\${checkRunId}/annotations\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -51213,6 +51521,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/commits/\${ref}/check-runs\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -51232,6 +51541,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/check-suites/\${checkSuiteId}/check-runs\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -51251,6 +51561,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/commits/\${ref}/check-suites\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -51288,6 +51599,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51311,6 +51623,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51335,6 +51648,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/repos/\${owner}/\${repo}/code-scanning/alerts/\${alertNumber}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -51361,6 +51675,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/code-scanning/alerts\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -51380,6 +51695,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/code-scanning/analyses\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -51403,6 +51719,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51440,6 +51757,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<CodesOfConductGetForRepoData, any>({
         path: \`/repos/\${owner}/\${repo}/community/code_of_conduct\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -51457,6 +51775,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51474,6 +51793,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51491,6 +51811,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51508,6 +51829,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51525,6 +51847,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51555,6 +51878,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GitGetBlobData, BasicError | ValidationError>({
         path: \`/repos/\${owner}/\${repo}/git/blobs/\${fileSha}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -51570,6 +51894,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GitGetCommitData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/git/commits/\${commitSha}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -51585,6 +51910,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GitGetRefData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/git/ref/\${ref}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -51600,6 +51926,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GitGetTagData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/git/tags/\${tagSha}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -51616,6 +51943,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/git/trees/\${treeSha}\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -51632,6 +51960,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/git/matching-refs/\${ref}\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -51649,6 +51978,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51664,6 +51994,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<InteractionsGetRestrictionsForRepoData, any>({
         path: \`/repos/\${owner}/\${repo}/interaction-limits\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -51701,6 +52032,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51724,6 +52056,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51747,6 +52080,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51788,6 +52122,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51811,6 +52146,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51828,6 +52164,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51850,6 +52187,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -51910,6 +52248,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<IssuesGetData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/issues/\${issueNumber}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -51925,6 +52264,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<IssuesGetCommentData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/issues/comments/\${commentId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -51940,6 +52280,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<IssuesGetEventData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/issues/events/\${eventId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -51955,6 +52296,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<IssuesGetLabelData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/labels/\${name}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -51970,6 +52312,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<IssuesGetMilestoneData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/milestones/\${milestoneNumber}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -51986,6 +52329,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/assignees\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52005,6 +52349,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/issues/\${issueNumber}/comments\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52024,6 +52369,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/issues/comments\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52040,6 +52386,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/issues/\${issueNumber}/events\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52056,6 +52403,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/issues/events\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52082,6 +52430,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/issues/\${issueNumber}/timeline\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52098,6 +52447,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/issues\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52117,6 +52467,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/milestones/\${milestoneNumber}/labels\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52133,6 +52484,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/labels\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52152,6 +52504,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/issues/\${issueNumber}/labels\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52168,6 +52521,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/milestones\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52229,6 +52583,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "DELETE",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -52244,6 +52599,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<IssuesRemoveLabelData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/issues/\${issueNumber}/labels/\${name}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
 
@@ -52267,6 +52623,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -52314,6 +52671,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -52337,6 +52695,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -52360,6 +52719,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -52383,6 +52743,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -52398,6 +52759,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<LicensesGetForRepoData, any>({
         path: \`/repos/\${owner}/\${repo}/license\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -52432,6 +52794,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/import/authors\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52447,6 +52810,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<MigrationsGetImportStatusData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/import\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -52462,6 +52826,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<MigrationsGetLargeFilesData, any>({
         path: \`/repos/\${owner}/\${repo}/import/large_files\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -52485,6 +52850,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -52507,6 +52873,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -52529,6 +52896,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -52551,6 +52919,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -52573,6 +52942,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -52589,6 +52959,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/projects\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52621,6 +52992,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -52645,6 +53017,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -52668,6 +53041,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -52691,6 +53065,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -52712,6 +53087,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<PullsDeletePendingReviewData, BasicError | ValidationErrorSimple>({
         path: \`/repos/\${owner}/\${repo}/pulls/\${pullNumber}/reviews/\${reviewId}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
 
@@ -52751,6 +53127,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -52766,6 +53143,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<PullsGetData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/pulls/\${pullNumber}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -52781,6 +53159,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<PullsGetReviewData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/pulls/\${pullNumber}/reviews/\${reviewId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -52796,6 +53175,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<PullsGetReviewCommentData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/pulls/comments/\${commentId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -52812,6 +53192,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/pulls\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52831,6 +53212,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/pulls/\${pullNumber}/reviews/\${reviewId}/comments\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52847,6 +53229,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/pulls/\${pullNumber}/commits\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52863,6 +53246,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/pulls/\${pullNumber}/files\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52882,6 +53266,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/pulls/\${pullNumber}/requested_reviewers\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52901,6 +53286,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/pulls/\${pullNumber}/comments\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52920,6 +53306,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/pulls/comments\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52936,6 +53323,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/pulls/\${pullNumber}/reviews\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -52959,6 +53347,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53005,6 +53394,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53029,6 +53419,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53052,6 +53443,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53083,6 +53475,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53107,6 +53500,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53130,6 +53524,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53160,6 +53555,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53190,6 +53586,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53220,6 +53617,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53250,6 +53648,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53360,6 +53759,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/comments/\${commentId}/reactions\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -53386,6 +53786,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/issues/\${issueNumber}/reactions\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -53412,6 +53813,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/issues/comments/\${commentId}/reactions\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -53438,6 +53840,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/pulls/comments/\${commentId}/reactions\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -53461,6 +53864,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53484,6 +53888,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53507,6 +53912,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53530,6 +53936,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53553,6 +53960,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53598,6 +54006,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposCompareCommitsData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/compare/\${base}...\${head}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -53621,6 +54030,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53636,6 +54046,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposCreateCommitSignatureProtectionData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/branches/\${branch}/protection/required_signatures\`,
         method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -53659,6 +54070,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53681,6 +54093,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53703,6 +54116,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53726,6 +54140,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53765,6 +54180,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53788,6 +54204,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53818,6 +54235,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53835,6 +54253,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53857,6 +54276,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -53874,6 +54294,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -54026,6 +54447,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "DELETE",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -54229,6 +54651,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetData, BasicError>({
         path: \`/repos/\${owner}/\${repo}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54244,6 +54667,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetAccessRestrictionsData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/branches/\${branch}/protection/restrictions\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54259,6 +54683,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetAdminBranchProtectionData, any>({
         path: \`/repos/\${owner}/\${repo}/branches/\${branch}/protection/enforce_admins\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54274,6 +54699,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetAllStatusCheckContextsData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/branches/\${branch}/protection/required_status_checks/contexts\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54296,6 +54722,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/repos/\${owner}/\${repo}/topics\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54316,6 +54743,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetAppsWithAccessToProtectedBranchData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/branches/\${branch}/protection/restrictions/apps\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54338,6 +54766,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/repos/\${owner}/\${repo}/branches/\${branch}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54353,6 +54782,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetBranchProtectionData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/branches/\${branch}/protection\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54369,6 +54799,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/traffic/clones\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -54384,6 +54815,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetCodeFrequencyStatsData, any>({
         path: \`/repos/\${owner}/\${repo}/stats/code_frequency\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54399,6 +54831,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetCollaboratorPermissionLevelData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/collaborators/\${username}/permission\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54414,6 +54847,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetCombinedStatusForRefData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/commits/\${ref}/status\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54429,6 +54863,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetCommitData, BasicError | ValidationError>({
         path: \`/repos/\${owner}/\${repo}/commits/\${ref}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54444,6 +54879,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetCommitActivityStatsData, any>({
         path: \`/repos/\${owner}/\${repo}/stats/commit_activity\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54459,6 +54895,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetCommitCommentData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/comments/\${commentId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54474,6 +54911,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetCommitSignatureProtectionData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/branches/\${branch}/protection/required_signatures\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54489,6 +54927,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetCommunityProfileMetricsData, any>({
         path: \`/repos/\${owner}/\${repo}/community/profile\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54505,6 +54944,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/contents/\${path}\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -54520,6 +54960,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetContributorsStatsData, any>({
         path: \`/repos/\${owner}/\${repo}/stats/contributors\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54535,6 +54976,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetDeployKeyData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/keys/\${keyId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54550,6 +54992,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetDeploymentData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/deployments/\${deploymentId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54578,6 +55021,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/repos/\${owner}/\${repo}/deployments/\${deploymentId}/statuses/\${statusId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54593,6 +55037,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetLatestPagesBuildData, any>({
         path: \`/repos/\${owner}/\${repo}/pages/builds/latest\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54608,6 +55053,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetLatestReleaseData, any>({
         path: \`/repos/\${owner}/\${repo}/releases/latest\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54623,6 +55069,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetPagesData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/pages\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54638,6 +55085,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetPagesBuildData, any>({
         path: \`/repos/\${owner}/\${repo}/pages/builds/\${buildId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54653,6 +55101,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetParticipationStatsData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/stats/participation\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54668,6 +55117,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetPullRequestReviewProtectionData, any>({
         path: \`/repos/\${owner}/\${repo}/branches/\${branch}/protection/required_pull_request_reviews\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54683,6 +55133,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetPunchCardStatsData, any>({
         path: \`/repos/\${owner}/\${repo}/stats/punch_card\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54699,6 +55150,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/readme\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -54714,6 +55166,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetReleaseData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/releases/\${releaseId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54736,6 +55189,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/repos/\${owner}/\${repo}/releases/assets/\${assetId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54751,6 +55205,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetReleaseByTagData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/releases/tags/\${tag}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54766,6 +55221,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetStatusChecksProtectionData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/branches/\${branch}/protection/required_status_checks\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54786,6 +55242,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetTeamsWithAccessToProtectedBranchData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/branches/\${branch}/protection/restrictions/teams\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54801,6 +55258,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetTopPathsData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/traffic/popular/paths\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54816,6 +55274,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetTopReferrersData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/traffic/popular/referrers\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54836,6 +55295,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetUsersWithAccessToProtectedBranchData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/branches/\${branch}/protection/restrictions/users\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54852,6 +55312,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/traffic/views\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -54867,6 +55328,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetWebhookData, BasicError>({
         path: \`/repos/\${owner}/\${repo}/hooks/\${hookId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54882,6 +55344,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposGetWebhookConfigForRepoData, any>({
         path: \`/repos/\${owner}/\${repo}/hooks/\${hookId}/config\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54898,6 +55361,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/branches\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -54920,6 +55384,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/repos/\${owner}/\${repo}/commits/\${commitSha}/branches-where-head\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54936,6 +55401,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/collaborators\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -54955,6 +55421,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/commits/\${commitSha}/comments\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -54974,6 +55441,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/comments\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -54990,6 +55458,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/commits\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -55009,6 +55478,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/commits/\${ref}/statuses\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -55025,6 +55495,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/contributors\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -55041,6 +55512,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/keys\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -55057,6 +55529,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/deployments\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -55076,6 +55549,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/deployments/\${deploymentId}/statuses\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -55092,6 +55566,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/forks\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -55108,6 +55583,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/invitations\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -55123,6 +55599,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposListLanguagesData, any>({
         path: \`/repos/\${owner}/\${repo}/languages\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -55139,6 +55616,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/pages/builds\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -55164,6 +55642,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/commits/\${commitSha}/pulls\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -55183,6 +55662,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/releases/\${releaseId}/assets\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -55199,6 +55679,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/releases\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -55215,6 +55696,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/tags\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -55231,6 +55713,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/teams\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -55247,6 +55730,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/hooks\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -55264,6 +55748,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55302,6 +55787,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "DELETE",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55340,6 +55826,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "DELETE",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55378,6 +55865,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "DELETE",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55401,6 +55889,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "DELETE",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55424,6 +55913,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55454,6 +55944,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55469,6 +55960,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposRequestPagesBuildData, any>({
         path: \`/repos/\${owner}/\${repo}/pages/builds\`,
         method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -55484,6 +55976,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ReposSetAdminBranchProtectionData, any>({
         path: \`/repos/\${owner}/\${repo}/branches/\${branch}/protection/enforce_admins\`,
         method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -55507,6 +56000,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55530,6 +56024,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55553,6 +56048,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55576,6 +56072,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55608,6 +56105,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55625,6 +56123,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55656,6 +56155,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55679,6 +56179,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55724,6 +56225,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55747,6 +56249,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55770,6 +56273,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55793,6 +56297,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55816,6 +56321,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55839,6 +56345,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55862,6 +56369,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55883,6 +56391,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         query: query,
         body: data,
+        format: "json",
         ...params,
       }),
 
@@ -55905,6 +56414,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/repos/\${owner}/\${repo}/secret-scanning/alerts/\${alertNumber}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -55931,6 +56441,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repos/\${owner}/\${repo}/secret-scanning/alerts\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -55961,6 +56472,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -55978,6 +56490,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/repositories\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -56032,6 +56545,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<EnterpriseAdminGetProvisioningInformationForEnterpriseGroupData, any>({
         path: \`/scim/v2/enterprises/\${enterprise}/Groups/\${scimGroupId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -56051,6 +56565,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<EnterpriseAdminGetProvisioningInformationForEnterpriseUserData, any>({
         path: \`/scim/v2/enterprises/\${enterprise}/Users/\${scimUserId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -56070,6 +56585,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/scim/v2/enterprises/\${enterprise}/Groups\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -56089,6 +56605,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/scim/v2/enterprises/\${enterprise}/Users\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -56110,6 +56627,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -56131,6 +56649,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -56153,6 +56672,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -56175,6 +56695,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -56197,6 +56718,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -56219,6 +56741,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -56249,6 +56772,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ScimGetProvisioningInformationForUserData, ScimError>({
         path: \`/scim/v2/organizations/\${org}/Users/\${scimUserId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -56268,6 +56792,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/scim/v2/organizations/\${org}/Users\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -56285,6 +56810,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -56307,6 +56833,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -56329,6 +56856,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -56355,6 +56883,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/search/code\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -56377,6 +56906,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/search/commits\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -56402,6 +56932,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/search/issues\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -56418,6 +56949,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/search/labels\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -56442,6 +56974,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/search/repositories\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -56464,6 +56997,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/search/topics\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -56488,6 +57022,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/search/users\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -56513,6 +57048,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -56536,6 +57072,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -56556,6 +57093,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/teams/\${teamId}/discussions/\${discussionNumber}/comments/\${commentNumber}/reactions\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -56576,6 +57114,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/teams/\${teamId}/discussions/\${discussionNumber}/reactions\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -56615,6 +57154,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -56684,6 +57224,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/teams/\${teamId}/projects/\${projectId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -56700,6 +57241,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<TeamsCheckPermissionsForRepoLegacyData, void>({
         path: \`/teams/\${teamId}/repos/\${owner}/\${repo}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -56723,6 +57265,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -56745,6 +57288,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -56767,6 +57311,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -56841,6 +57386,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<TeamsGetDiscussionCommentLegacyData, any>({
         path: \`/teams/\${teamId}/discussions/\${discussionNumber}/comments/\${commentNumber}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -56857,6 +57403,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<TeamsGetDiscussionLegacyData, any>({
         path: \`/teams/\${teamId}/discussions/\${discussionNumber}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -56873,6 +57420,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<TeamsGetLegacyData, BasicError>({
         path: \`/teams/\${teamId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -56905,6 +57453,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<TeamsGetMembershipForUserLegacyData, BasicError>({
         path: \`/teams/\${teamId}/memberships/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -56922,6 +57471,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/teams/\${teamId}/teams\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -56942,6 +57492,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/teams/\${teamId}/discussions/\${discussionNumber}/comments\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -56959,6 +57510,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/teams/\${teamId}/discussions\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -56975,6 +57527,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<TeamsListIdpGroupsForLegacyData, BasicError>({
         path: \`/teams/\${teamId}/team-sync/group-mappings\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -56992,6 +57545,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/teams/\${teamId}/members\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57012,6 +57566,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/teams/\${teamId}/invitations\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57036,6 +57591,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/teams/\${teamId}/projects\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57053,6 +57609,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/teams/\${teamId}/repos\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57149,6 +57706,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -57172,6 +57730,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -57190,6 +57749,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -57228,6 +57788,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/starred\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57247,6 +57808,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/subscriptions\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57311,6 +57873,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/installations/\${installationId}/repositories\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57337,6 +57900,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/installations\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57356,6 +57920,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/marketplace_purchases\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57375,6 +57940,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/marketplace_purchases/stubbed\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57405,6 +57971,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<InteractionsGetRestrictionsForAuthenticatedUserData, any>({
         path: \`/user/interaction-limits\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -57437,6 +58004,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -57453,6 +58021,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/issues\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57502,6 +58071,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/migrations/\${migrationId}\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57518,6 +58088,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/migrations\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57537,6 +58108,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/migrations/\${migrationId}/repositories\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57557,6 +58129,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -57587,6 +58160,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<OrgsGetMembershipForAuthenticatedUserData, BasicError>({
         path: \`/user/memberships/orgs/\${org}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -57603,6 +58177,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/orgs\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57622,6 +58197,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/memberships/orgs\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57643,6 +58219,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -57668,6 +58245,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -57700,6 +58278,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -57731,6 +58310,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/repos\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57750,6 +58330,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/repository_invitations\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57766,6 +58347,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/teams\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -57783,6 +58365,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -57845,6 +58428,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -57865,6 +58449,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -57942,6 +58527,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<UsersGetAuthenticatedData, BasicError>({
         path: \`/user\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -57957,6 +58543,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<UsersGetGpgKeyForAuthenticatedData, BasicError>({
         path: \`/user/gpg_keys/\${gpgKeyId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -57972,6 +58559,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<UsersGetPublicSshKeyForAuthenticatedData, BasicError>({
         path: \`/user/keys/\${keyId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -57994,6 +58582,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: \`/user/blocks\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -58010,6 +58599,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/emails\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58026,6 +58616,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/following\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58045,6 +58636,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/followers\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58061,6 +58653,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/gpg_keys\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58080,6 +58673,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/public_emails\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58099,6 +58693,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/keys\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58119,6 +58714,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -58166,6 +58762,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -58186,6 +58783,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${username}/events\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58205,6 +58803,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${username}/events/orgs/\${org}\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58224,6 +58823,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${username}/events/public\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58243,6 +58843,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${username}/received_events\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58262,6 +58863,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${username}/received_events/public\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58281,6 +58883,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${username}/starred\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58300,6 +58903,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${username}/subscriptions\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58315,6 +58919,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<AppsGetUserInstallationData, any>({
         path: \`/users/\${username}/installation\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -58330,6 +58935,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<BillingGetGithubActionsBillingUserData, any>({
         path: \`/users/\${username}/settings/billing/actions\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -58345,6 +58951,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<BillingGetGithubPackagesBillingUserData, any>({
         path: \`/users/\${username}/settings/billing/packages\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -58360,6 +58967,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<BillingGetSharedStorageBillingUserData, any>({
         path: \`/users/\${username}/settings/billing/shared-storage\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -58376,6 +58984,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${username}/gists\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58392,6 +59001,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${username}/orgs\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58415,6 +59025,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${username}/projects\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58431,6 +59042,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${username}/repos\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58461,6 +59073,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<UsersGetByUsernameData, BasicError>({
         path: \`/users/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -58477,6 +59090,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${username}/hovercard\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58493,6 +59107,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58509,6 +59124,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${username}/followers\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58525,6 +59141,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${username}/following\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58541,6 +59158,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${username}/gpg_keys\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -58560,6 +59178,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${username}/keys\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -58949,6 +59568,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/trip/\${tripId}/stop\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -58964,6 +59584,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/trip\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
   };
@@ -59928,6 +60549,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/gifs/\${gifId}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -59946,6 +60568,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -59964,6 +60587,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -59982,6 +60606,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -60000,6 +60625,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -60018,6 +60644,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
   };
@@ -60037,6 +60664,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -60055,6 +60683,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -60073,6 +60702,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -60091,6 +60721,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
   };
@@ -60483,6 +61114,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetPullRequestsByIdData, any>({
         path: \`/2.0/repositories/\${username}/\${slug}/pullrequests/\${pid}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -60500,6 +61132,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/2.0/repositories/\${username}/\${slug}/pullrequests\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -60513,6 +61146,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetRepositoriesByOwnerData, any>({
         path: \`/2.0/repositories/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -60526,6 +61160,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetRepositoryData, any>({
         path: \`/2.0/repositories/\${username}/\${slug}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -60539,6 +61174,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetUserByNameData, any>({
         path: \`/2.0/users/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -61393,6 +62029,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/pets/\${param1}/\${param2}/\${param3}\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -62033,6 +62670,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -62049,6 +62687,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/auth/refresh\`,
         method: "POST",
         secure: true,
+        format: "json",
         ...params,
       }),
   };
@@ -62068,6 +62707,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -62084,6 +62724,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/jobs/\${id}\`,
         method: "DELETE",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -62100,6 +62741,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/jobs/\${id}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -62116,6 +62758,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/jobs\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -62134,6 +62777,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: params,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...requestParams,
       }),
   };
@@ -62153,6 +62797,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -62167,6 +62812,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<DeleteProjectData, any>({
         path: \`/projects/\${id}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
 
@@ -62181,6 +62827,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetProjectsData, any>({
         path: \`/projects\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -62199,6 +62846,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -62557,6 +63205,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/pets\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -62572,6 +63221,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ShowPetByIdData, ShowPetByIdError>({
         path: \`/pets/\${petId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
   };
@@ -62928,6 +63578,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/pets\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -62943,6 +63594,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ShowPetByIdData, ShowPetByIdError>({
         path: \`/pets/\${petId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
   };
@@ -63312,6 +63964,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -63338,6 +63991,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<FindPetByIdData, FindPetByIdError>({
         path: \`/pets/\${id}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -63352,6 +64006,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/pets\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -63775,6 +64430,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: pet,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -63801,6 +64457,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<FindPetByIdData, FindPetByIdError>({
         path: \`/pets/\${id}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -63815,6 +64472,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/pets\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -64091,6 +64749,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<PetsListData, any>({
         path: \`/pets\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
   };
@@ -64468,6 +65127,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: pet,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -64494,6 +65154,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<FindPetByIdData, FindPetByIdError>({
         path: \`/pets/\${id}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -64508,6 +65169,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/pets\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -65316,6 +65978,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -65335,6 +65998,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -65352,6 +66016,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/pet/\${petId}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -65409,6 +66074,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.FormData,
+        format: "json",
         ...params,
       }),
   };
@@ -65442,6 +66108,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/store/inventory\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -65457,6 +66124,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetOrderByIdData, void>({
         path: \`/store/order/\${orderId}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -65474,6 +66142,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: body,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -65556,6 +66225,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetUserByNameData, void>({
         path: \`/user/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -65572,6 +66242,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/user/login\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -65974,6 +66645,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: pet,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -66000,6 +66672,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<FindPetByIdData, FindPetByIdError>({
         path: \`/pets/\${id}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -66014,6 +66687,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/pets\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -66308,6 +66982,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/foobarbaz/\${query}\`,
         method: "GET",
         query: queryParams,
+        format: "json",
         ...params,
       }),
   };
@@ -66814,6 +67489,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetDataData, any>({
         path: \`/api\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
   };
@@ -67770,6 +68446,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -67786,6 +68463,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/auth/refresh\`,
         method: "POST",
         secure: true,
+        format: "json",
         ...params,
       }),
   };
@@ -67805,6 +68483,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -67821,6 +68500,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/jobs/\${id}\`,
         method: "DELETE",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -67837,6 +68517,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/jobs/\${id}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -67853,6 +68534,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/jobs\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -67871,6 +68553,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -67890,6 +68573,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -67906,6 +68590,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`x-route\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
   };
@@ -67925,6 +68610,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -67939,6 +68625,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetProjectsData, any>({
         path: \`/projects\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -67957,6 +68644,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -67976,6 +68664,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -67992,6 +68681,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users/\${id}\`,
         method: "DELETE",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -68008,6 +68698,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/users\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -68026,6 +68717,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
@@ -68592,6 +69284,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
   };
@@ -68609,6 +69302,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/estimates/price\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -68625,6 +69319,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/estimates/time\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -68641,6 +69336,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetMeData, GetMeError>({
         path: \`/me\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
   };
@@ -68658,6 +69354,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/history\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
   };
@@ -70304,6 +71001,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/accounts/\${id}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -70322,6 +71020,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -70340,6 +71039,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
   };
@@ -70358,6 +71058,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/categories/\${id}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -70376,6 +71077,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
   };
@@ -70394,6 +71096,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/util/ping\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
   };
@@ -70413,6 +71116,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
   };
@@ -70469,6 +71173,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/transactions/\${id}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -70487,6 +71192,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
   };
@@ -70506,6 +71212,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -70523,6 +71230,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/webhooks/\${webhookId}/ping\`,
         method: "POST",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -70542,6 +71250,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -70576,6 +71285,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/webhooks/\${id}\`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -70594,6 +71304,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
         ...params,
       }),
   };
@@ -70956,6 +71667,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     this.request<ListDataSetsData, any>({
       path: \`/\`,
       method: "GET",
+      format: "json",
       ...params,
     });
 
@@ -70972,6 +71684,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ListSearchableFieldsData, ListSearchableFieldsError>({
         path: \`/\${dataset}/\${version}/fields\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -70989,6 +71702,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.UrlEncoded,
+        format: "json",
         ...params,
       }),
   };
@@ -71628,6 +72342,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetPullRequestsByIdData, any>({
         path: \`/2.0/repositories/\${username}/\${slug}/pullrequests/\${pid}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -71645,6 +72360,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: \`/2.0/repositories/\${username}/\${slug}/pullrequests\`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 
@@ -71658,6 +72374,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetRepositoriesByOwnerData, any>({
         path: \`/2.0/repositories/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -71671,6 +72388,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetRepositoryData, any>({
         path: \`/2.0/repositories/\${username}/\${slug}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -71684,6 +72402,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<GetUserByNameData, any>({
         path: \`/2.0/users/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 

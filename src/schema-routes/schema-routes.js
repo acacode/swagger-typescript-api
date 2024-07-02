@@ -729,12 +729,14 @@ class SchemaRoutes {
       let successResponse = responseBodyInfo.success;
 
       if (successResponse.schema && !successResponse.schema.$ref) {
+        const contentKind = successResponse.schema.contentKind;
         const schema = this.getSchemaFromRequestType(successResponse.schema);
         successResponse.schema = this.schemaParserFabric.createParsedComponent({
           schema,
           typeName,
           schemaPath: [routeInfo.operationId],
         });
+        successResponse.schema.contentKind = contentKind;
         successResponse.type = this.schemaParserFabric.getInlineParseContent({
           $ref: successResponse.schema.$ref,
         });
