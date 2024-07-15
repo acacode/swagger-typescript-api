@@ -296,14 +296,18 @@ const main = async () => {
   const { command, options } = await program.execute({ args: process.argv });
 
   let customConfig = null;
+  let customConfigPath;
 
   if (options.customConfig) {
     try {
-      const customConfigPath = resolve(process.cwd(), options.customConfig);
-      console.log(`✨ found custom config at: ${customConfigPath}`);
+      customConfigPath = resolve(process.cwd(), options.customConfig);
       customConfig = await import(customConfigPath);
+      customConfig = customConfig.default || customConfig;
     } catch (e) {
-      /* empty */
+      console.error("Error loading custom config", e);
+    }
+    if (customConfig) {
+      console.log(`✨ found custom config at: ${customConfigPath}`);
     }
   }
 
