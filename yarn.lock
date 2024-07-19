@@ -1531,7 +1531,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"execa@npm:^5.0.0":
+"execa@npm:^5.1.1":
   version: 5.1.1
   resolution: "execa@npm:5.1.1"
   dependencies:
@@ -1759,7 +1759,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globby@npm:^11.0.3":
+"globby@npm:^11.1.0":
   version: 11.1.0
   resolution: "globby@npm:11.1.0"
   dependencies:
@@ -3245,7 +3245,7 @@ __metadata:
     shx: "npm:0.3.4"
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
-    tsup: "npm:8.1.2"
+    tsup: "npm:8.2.0"
     typescript: "npm:~5.5.3"
     vitest: "npm:2.0.3"
   bin:
@@ -3378,9 +3378,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsup@npm:8.1.2":
-  version: 8.1.2
-  resolution: "tsup@npm:8.1.2"
+"tsup@npm:8.2.0":
+  version: 8.2.0
+  resolution: "tsup@npm:8.2.0"
   dependencies:
     bundle-require: "npm:^5.0.0"
     cac: "npm:^6.7.14"
@@ -3388,8 +3388,8 @@ __metadata:
     consola: "npm:^3.2.3"
     debug: "npm:^4.3.5"
     esbuild: "npm:^0.23.0"
-    execa: "npm:^5.0.0"
-    globby: "npm:^11.0.3"
+    execa: "npm:^5.1.1"
+    globby: "npm:^11.1.0"
     joycon: "npm:^3.1.1"
     postcss-load-config: "npm:^6.0.1"
     resolve-from: "npm:^5.0.0"
@@ -3414,7 +3414,7 @@ __metadata:
   bin:
     tsup: dist/cli-default.js
     tsup-node: dist/cli-node.js
-  checksum: 10c0/1eb472566887428bb27f51e048f8dc70798dffee79f712a77f8cd5c5dcd725b1eb54611010663b0e6fb34dc17dc7a8ef3048af50f216b649d2bec72c2bad104e
+  checksum: 10c0/79e46604e64118c223a8898a37ed96a11a9d8f89f5eb527b10addf734000fa3b7cea6ff50cb256fc7057a689ce2d6cb9ccd5b2063ee80643673f20bf532c70d5
   languageName: node
   linkType: hard
 
