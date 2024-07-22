@@ -69,7 +69,7 @@
     "@types/swagger2openapi": "7.0.4",
     "axios": "1.7.2",
     "shx": "0.3.4",
-    "tsup": "8.2.1",
+    "tsup": "8.2.2",
     "vitest": "2.0.4"
   },
   "packageManager": "yarn@4.3.1",
