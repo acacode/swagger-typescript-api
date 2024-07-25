@@ -3420,7 +3420,7 @@ __metadata:
     shx: "npm:0.3.4"
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
-    tsup: "npm:8.2.2"
+    tsup: "npm:8.2.3"
     typescript: "npm:~5.5.3"
     vitest: "npm:2.0.4"
   bin:
@@ -3553,9 +3553,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsup@npm:8.2.2":
-  version: 8.2.2
-  resolution: "tsup@npm:8.2.2"
+"tsup@npm:8.2.3":
+  version: 8.2.3
+  resolution: "tsup@npm:8.2.3"
   dependencies:
     bundle-require: "npm:^5.0.0"
     cac: "npm:^6.7.14"
@@ -3590,7 +3590,7 @@ __metadata:
   bin:
     tsup: dist/cli-default.js
     tsup-node: dist/cli-node.js
-  checksum: 10c0/d13461553517701affc75f6ae2f4988b4493da630d99504f20db4f9a822bfebf07d0dfc4f2057d0428711607aacdc541adcb641af395443e463a3a35c277d9a4
+  checksum: 10c0/4a6fba80b441b400e44633db7e52d383cfd502119e6bdf7680ac07d5110eab2473d8b980a664c1564d0418d89c0e680b24a9f43d2d7da1193ce72259a863725a
   languageName: node
   linkType: hard
 
