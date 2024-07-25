@@ -324,17 +324,41 @@ class CodeGenProcess {
 
     if (!_.isEmpty(configuration.extraTemplates)) {
       for (const extraTemplate of configuration.extraTemplates) {
-        const content = this.templatesWorker.renderTemplate(
-          this.fileSystem.getFileContent(extraTemplate.path),
-          configuration,
-        );
-        output.push(
-          ...(await this.createOutputFileInfo(
+        if(extraTemplate.modular){
+          for (const route of configuration.routes.combined) {
+              const extraTemplateContent = this.templatesWorker.renderTemplate(
+                this.fileSystem.getFileContent(extraTemplate.path),
+                {
+                  ...configuration,
+                  route,
+                },
+              );
+                            
+              output.push(
+                ...(await this.createOutputFileInfo(
+                  configuration,
+                  extraTemplate.name({
+                    ...configuration,
+                    route,
+                  }),
+                  extraTemplateContent,
+                )),
+              );
+            }
+        }else{
+          const content = this.templatesWorker.renderTemplate(
+            this.fileSystem.getFileContent(extraTemplate.path),
             configuration,
-            extraTemplate.name,
-            content,
-          )),
-        );
+          );
+          output.push(
+            ...(await this.createOutputFileInfo(
+              configuration,
+              extraTemplate.name,
+              content,
+            )),
+          );
+        }
+        
       }
     }
 

@@ -1,0 +1,20 @@
+<%
+const { utils, route, config, modelTypes } = it;
+const { _, pascalCase, require } = utils;
+const apiClassName = pascalCase(route.moduleName);
+%>
+
+/**
+  <%= it.apiConfig.info.title %>
+
+  <%= it.apiConfig.info.version %>
+
+  <%= it.apiConfig.info.description %>
+
+*/
+export class <%= apiClassName %> {
+    private request(params: Record<string, any>) {
+        return fetch(params as any)
+    }
+}
+
