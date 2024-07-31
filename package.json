@@ -65,7 +65,7 @@
     "@types/didyoumean": "1.2.2",
     "@types/js-yaml": "4.0.9",
     "@types/lodash": "4.17.7",
-    "@types/node": "22.0.0",
+    "@types/node": "22.0.1",
     "@types/swagger2openapi": "7.0.4",
     "axios": "1.7.2",
     "shx": "0.3.4",

@@ -744,12 +744,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:22.0.0":
+"@types/node@npm:*":
   version: 22.0.0
   resolution: "@types/node@npm:22.0.0"
   dependencies:
     undici-types: "npm:~6.11.1"
   checksum: 10c0/af26a8ec7266c857b0ced75dc3a93c6b65280d1fa40d1b4488c814d30831c5c752489c99ecb5698daec1376145b1a9ddd08350882dc2e07769917a5f22a460bc
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:22.0.1":
+  version: 22.0.1
+  resolution: "@types/node@npm:22.0.1"
+  dependencies:
+    undici-types: "npm:~6.11.1"
+  checksum: 10c0/15498122770dc9476391c59302cb4635091a05c334bfa462db151b490e5bbed66a989d1e56b2662ec44897ba3d74a338ddfd59b4cd039839d995e40056ab632b
   languageName: node
   linkType: hard
 
@@ -3221,7 +3230,7 @@ __metadata:
     "@types/didyoumean": "npm:1.2.2"
     "@types/js-yaml": "npm:4.0.9"
     "@types/lodash": "npm:4.17.7"
-    "@types/node": "npm:22.0.0"
+    "@types/node": "npm:22.0.1"
     "@types/swagger-schema-official": "npm:^2.0.25"
     "@types/swagger2openapi": "npm:7.0.4"
     axios: "npm:1.7.2"
