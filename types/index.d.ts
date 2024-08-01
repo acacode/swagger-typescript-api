@@ -184,7 +184,7 @@ interface GenerateApiParamsBase {
   requestOptions?: null | Partial<RequestInit>;
 
   /** ts compiler configuration object (for --to-js option) */
-  compilerTsConfig?: Record<string, any>;
+  compilerTsConfig?: Record<string, unknown>;
 
   /**
    * custom ts->* translator
@@ -257,28 +257,28 @@ type CodeGenConstruct = {
   CodeGenKeyword: {
     UtilRequiredKeys: string;
   };
-  ArrayType: (content: any) => string;
-  StringValue: (content: any) => string;
-  BooleanValue: (content: any) => string;
-  NumberValue: (content: any) => string;
-  NullValue: (content: any) => string;
-  UnionType: (content: any) => string;
-  ExpressionGroup: (content: any) => string;
-  IntersectionType: (content: any) => string;
-  RecordType: (content: any) => string;
-  TypeField: (content: any) => string;
-  InterfaceDynamicField: (content: any) => string;
-  EnumField: (content: any) => string;
-  EnumFieldsWrapper: (content: any) => string;
-  ObjectWrapper: (content: any) => string;
-  MultilineComment: (content: any) => string;
-  TypeWithGeneric: (content: any) => string;
+  ArrayType: (content: unknown) => string;
+  StringValue: (content: unknown) => string;
+  BooleanValue: (content: unknown) => string;
+  NumberValue: (content: unknown) => string;
+  NullValue: (content: unknown) => string;
+  UnionType: (content: unknown) => string;
+  ExpressionGroup: (content: unknown) => string;
+  IntersectionType: (content: unknown) => string;
+  RecordType: (content: unknown) => string;
+  TypeField: (content: unknown) => string;
+  InterfaceDynamicField: (content: unknown) => string;
+  EnumField: (content: unknown) => string;
+  EnumFieldsWrapper: (content: unknown) => string;
+  ObjectWrapper: (content: unknown) => string;
+  MultilineComment: (content: unknown) => string;
+  TypeWithGeneric: (content: unknown) => string;
 };
 
 type PrimitiveTypeStructValue =
   | string
   | ((
-      schema: Record<string, any>,
+      schema: Record<string, unknown>,
       parser: import("../src/schema-parser/schema-parser").SchemaParser,
     ) => string);
 
@@ -341,60 +341,65 @@ type BuildRoutePath = {
 
 export interface Hooks {
   /** calls before parse\process route path */
-  onPreBuildRoutePath: (routePath: string) => string | void;
+  onPreBuildRoutePath: (routePath: string) => string | undefined;
   /** calls after parse\process route path */
-  onBuildRoutePath: (data: BuildRoutePath) => BuildRoutePath | void;
+  onBuildRoutePath: (data: BuildRoutePath) => BuildRoutePath | undefined;
   /** calls before insert path param name into string path interpolation */
   onInsertPathParam: (
     paramName: string,
     index: number,
     arr: BuildRouteParam[],
     resultRoute: string,
-  ) => string | void;
+  ) => string | undefined;
   /** calls after parse schema component */
-  onCreateComponent: (component: SchemaComponent) => SchemaComponent | void;
+  onCreateComponent: (
+    component: SchemaComponent,
+  ) => SchemaComponent | undefined;
   /** calls before parse any kind of schema */
   onPreParseSchema: (
-    originalSchema: any,
+    originalSchema: unknown,
     typeName: string,
     schemaType: string,
-  ) => any;
+  ) => undefined;
   /** calls after parse any kind of schema */
-  onParseSchema: (originalSchema: any, parsedSchema: any) => any | void;
+  onParseSchema: (
+    originalSchema: unknown,
+    parsedSchema: unknown,
+  ) => unknown | undefined;
   /** calls after parse route (return type: customized route (ParsedRoute), nothing change (void), false (ignore this route)) */
-  onCreateRoute: (routeData: ParsedRoute) => ParsedRoute | void | false;
+  onCreateRoute: (routeData: ParsedRoute) => ParsedRoute | false | undefined;
   /** Start point of work this tool (after fetching schema) */
   onInit?: <C extends GenerateApiConfiguration["config"]>(
     configuration: C,
     codeGenProcess: import("../src/code-gen-process").CodeGenProcess,
-  ) => C | void;
+  ) => C | undefined;
   /** customize configuration object before sending it to ETA templates */
   onPrepareConfig?: <C extends GenerateApiConfiguration>(
     currentConfiguration: C,
-  ) => C | void;
+  ) => C | undefined;
   /** customize route name as you need */
   onCreateRouteName?: (
     routeNameInfo: RouteNameInfo,
     rawRouteInfo: RawRouteInfo,
-  ) => RouteNameInfo | void;
+  ) => RouteNameInfo | undefined;
   /** customize request params (path params, query params) */
   onCreateRequestParams?: (
     rawType: SchemaComponent["rawTypeData"],
-  ) => SchemaComponent["rawTypeData"] | void;
+  ) => SchemaComponent["rawTypeData"] | undefined;
   /** customize name of model type */
   onFormatTypeName?: (
     typeName: string,
     rawTypeName?: string,
     schemaType?: "type-name" | "enum-key",
-  ) => string | void;
+  ) => string | undefined;
   /** customize name of route (operationId), you can do it with using onCreateRouteName too */
   onFormatRouteName?: (
     routeInfo: RawRouteInfo,
     templateRouteName: string,
-  ) => string | void;
+  ) => string | undefined;
 }
 
-export type RouteNameRouteInfo = {};
+export type RouteNameRouteInfo = Record<unknown, unknown>;
 
 export type RouteNameInfo = {
   usage: string;
@@ -407,7 +412,7 @@ export type SchemaTypePrimitiveContent = {
   schemaType: string;
   type: string;
   typeIdentifier: string;
-  name?: any;
+  name?: unknown;
   description: string;
   content: string;
 };
@@ -593,7 +598,7 @@ export interface GenerateApiConfiguration {
     input: string;
     output: string;
     url: string;
-    spec: any;
+    spec: unknown;
     fileName: string;
     templatePaths: {
       /** `templates/base` */
@@ -650,7 +655,7 @@ export interface GenerateApiConfiguration {
     hooks: Hooks;
     enumNamesAsValues: boolean;
     version: string;
-    compilerTsConfig: Record<string, any>;
+    compilerTsConfig: Record<string, unknown>;
     enumKeyResolverName: string;
     typeNameResolverName: string;
     specificArgNameResolverName: string;
