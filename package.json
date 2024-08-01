@@ -36,12 +36,13 @@
   ],
   "scripts": {
     "build": "tsup",
-    "ci": "biome ci .",
     "cli:help": "node index.js -h",
     "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
     "cli:yaml": "node index.js -r -d -p ./swagger-test-cli.yaml -n swagger-test-cli.ts",
     "format": "biome format --write .",
     "format:check": "biome format .",
+    "lint": "biome check",
+    "prepublishOnly": "pnpm build",
     "test": "vitest run"
   },
   "dependencies": {
@@ -72,12 +73,13 @@
     "tsup": "8.2.3",
     "vitest": "2.0.5"
   },
-  "packageManager": "yarn@4.3.1",
+  "packageManager": "pnpm@9.6.0",
   "engines": {
     "node": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public",
+    "provenance": true,
     "registry": "https://registry.npmjs.org"
   }
 }

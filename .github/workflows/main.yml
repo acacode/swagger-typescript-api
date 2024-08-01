@@ -19,10 +19,12 @@ jobs:
           node-version: 22
           check-latest: true
 
-      - run: yarn install --immutable
+      - run: corepack enable
 
-      - run: yarn format:check
+      - run: pnpm install --frozen-lockfile
 
-      - run: yarn build
+      - run: pnpm format:check
 
-      - run: yarn test
+      - run: pnpm build
+
+      - run: pnpm test
