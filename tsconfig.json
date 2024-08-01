@@ -7,9 +7,7 @@
     "checkJs": false,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "noEmit": true,
-    "noPropertyAccessFromIndexSignature": false,
-    "resolveJsonModule": true
+    "noEmit": true
   },
   "exclude": ["dist"]
 }
