@@ -24,12 +24,11 @@ jobs:
         with:
           node-version: 22
           check-latest: true
-          registry-url: https://registry.npmjs.org
 
       - run: corepack enable
 
-      - run: pnpm install --frozen-lockfile
+      - run: yarn install --immutable
 
-      - run: pnpm publish --no-git-checks
+      - run: yarn npm publish --tolerate-republish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
