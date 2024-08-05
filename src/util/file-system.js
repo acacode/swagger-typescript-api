@@ -87,7 +87,10 @@ class FileSystem {
     const __dirname = dirname(url.fileURLToPath(import.meta.url));
     const absolutePath = resolve(__dirname, path, `./${fileName}`);
     const fileContent = `${withPrefix ? FILE_PREFIX : ""}${content}`;
-
+    const dirPath = dirname(absolutePath);
+    if (!this.pathIsExist(dirPath)) {
+      this.createDir(dirPath);
+    }
     return fs.writeFileSync(absolutePath, fileContent, _.noop);
   };
 }
