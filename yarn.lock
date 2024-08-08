@@ -1515,10 +1515,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eta@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "eta@npm:2.2.0"
-  checksum: 10c0/643b54d9539d2761bf6c5f4f48df1a5ea2d46c7f5a5fdc47a7d4802a8aa2b6262d4d61f724452e226c18cf82db02d48e65293fcc548f26a3f9d75a5ba7c3b859
+"eta@npm:^3.4.1":
+  version: 3.4.1
+  resolution: "eta@npm:3.4.1"
+  checksum: 10c0/6ebc061ee1e5dc622433ddd6bfa2f856ae0760507c0759cfc942360a41343fe67b38f4e86b043dbe27c1a15b95aa890d5a027a10237f6e4e433ef43a584e4db4
   languageName: node
   linkType: hard
 
@@ -3227,7 +3227,7 @@ __metadata:
     axios: "npm:1.7.3"
     cosmiconfig: "npm:^9.0.0"
     didyoumean: "npm:^1.2.2"
-    eta: "npm:^2.2.0"
+    eta: "npm:^3.4.1"
     js-yaml: "npm:^4.1.0"
     lodash: "npm:^4.17.21"
     nanoid: "npm:^3.3.7"
