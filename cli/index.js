@@ -12,7 +12,7 @@ const cli = (input) => {
     commands[command.name] = {
       name: command.name,
       description: `${command.description || ""}`,
-      options: lodash.compact(lodash.map(command.options, processOption)),
+      options: lodash.compact(command.options.map(processOption)),
     };
 
     if (addVersion) {
@@ -57,7 +57,7 @@ const cli = (input) => {
     },
   );
 
-  lodash.forEach(input.options, (option) => {
+  for (const option of input.options) {
     const processed = processOption(option);
 
     if (!processed) return;
@@ -68,7 +68,7 @@ const cli = (input) => {
     }
 
     commands[root_command].options.push(processed);
-  });
+  }
 
   commands[root_command].options.unshift(
     processOption({
@@ -86,7 +86,9 @@ const cli = (input) => {
     }),
   );
 
-  lodash.forEach(input.commands, addCommand);
+  for (const command of input.commands) {
+    addCommand(command);
+  }
 
   return instance;
 };

@@ -45,7 +45,7 @@ class FileSystem {
   };
 
   cropExtension = (fileName) => {
-    const fileNameParts = lodash.split(fileName, ".");
+    const fileNameParts = fileName.split(".");
 
     if (fileNameParts.length > 1) {
       fileNameParts.pop();

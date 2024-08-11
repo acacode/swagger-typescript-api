@@ -7,7 +7,7 @@ class ObjectSchemaParser extends MonoSchemaParser {
     const contentProperties = this.getObjectSchemaContent(this.schema);
 
     return {
-      ...(lodash.isObject(this.schema) ? this.schema : {}),
+      ...(typeof this.schema === "object" ? this.schema : {}),
       $schemaPath: this.schemaPath.slice(),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.OBJECT,
@@ -17,10 +17,9 @@ class ObjectSchemaParser extends MonoSchemaParser {
       description: this.schemaFormatters.formatDescription(
         this.schema.description,
       ),
-      allFieldsAreOptional: !lodash.some(
-        lodash.values(contentProperties),
-        (part) => part.isRequired,
-      ),
+      allFieldsAreOptional: !contentProperties
+        .values()
+        .some((part) => part.isRequired),
       content: contentProperties,
     };
   }

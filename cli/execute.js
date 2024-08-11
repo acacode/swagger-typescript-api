@@ -98,14 +98,14 @@ const processArgs = (commands, args) => {
 
   let allFlagKeys = [];
 
-  lodash.forEach(args, (arg, i) => {
+  args.forEach((arg, i) => {
     if (error) return;
 
     if (i === 0) {
       command = commands[arg];
 
       if (!command && !arg.startsWith("-")) {
-        const tip = didYouMean(arg, lodash.keys(commands));
+        const tip = didYouMean(arg, commands.keys());
         error = `unknown command ${arg}${
           tip ? `\n(Did you mean ${tip} ?)` : ""
         }`;

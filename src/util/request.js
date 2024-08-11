@@ -28,7 +28,7 @@ class Request {
      */
     const requestOptions = {};
 
-    if (disableStrictSSL && !lodash.startsWith(url, "http://")) {
+    if (disableStrictSSL && !url.startsWith("http://")) {
       const undiciGlobalDispatcher =
         global[Symbol.for("undici.globalDispatcher.1")];
       if (!undiciGlobalDispatcher) {

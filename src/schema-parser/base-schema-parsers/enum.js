@@ -70,18 +70,12 @@ class EnumSchemaParser extends MonoSchemaParser {
         return this.config.Ts.NullValue(value);
       }
       if (
-        lodash.includes(
-          keyType,
-          this.schemaUtils.getSchemaType({ type: "number" }),
-        )
+        keyType.includes(this.schemaUtils.getSchemaType({ type: "number" }))
       ) {
         return this.config.Ts.NumberValue(value);
       }
       if (
-        lodash.includes(
-          keyType,
-          this.schemaUtils.getSchemaType({ type: "boolean" }),
-        )
+        keyType.includes(this.schemaUtils.getSchemaType({ type: "boolean" }))
       ) {
         return this.config.Ts.BooleanValue(value);
       }
@@ -89,15 +83,15 @@ class EnumSchemaParser extends MonoSchemaParser {
       return this.config.Ts.StringValue(value);
     };
 
-    if (lodash.isArray(enumNames) && lodash.size(enumNames)) {
-      content = lodash.map(enumNames, (enumName, index) => {
+    if (Array.isArray(enumNames) && lodash.size(enumNames)) {
+      content = enumNames.map((enumName, index) => {
         const enumValue = lodash.get(this.schema.enum, index);
         const formattedKey = this.formatEnumKey({
           key: enumName,
           value: enumValue,
         });
 
-        if (this.config.enumNamesAsValues || lodash.isUndefined(enumValue)) {
+        if (this.config.enumNamesAsValues || enumValue === undefined) {
           return {
             key: formattedKey,
             type: this.config.Ts.Keyword.String,
@@ -112,7 +106,7 @@ class EnumSchemaParser extends MonoSchemaParser {
         };
       });
     } else {
-      content = lodash.map(this.schema.enum, (value) => {
+      content = this.schema.enum.map((value) => {
         return {
           key: this.formatEnumKey({ value }),
           type: keyType,
@@ -122,7 +116,7 @@ class EnumSchemaParser extends MonoSchemaParser {
     }
 
     return {
-      ...(lodash.isObject(this.schema) ? this.schema : {}),
+      ...(typeof this.schema === "object" ? this.schema : {}),
       $ref: $ref,
       typeName: this.typeName || ($ref && refType.typeName) || null,
       $parsedSchema: true,

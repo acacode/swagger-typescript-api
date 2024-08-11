@@ -24,8 +24,7 @@ class CodeFormatter {
     )[0];
 
     if (fileTextChanges?.textChanges.length) {
-      return lodash.reduceRight(
-        fileTextChanges.textChanges,
+      return fileTextChanges.textChanges.reduceRight(
         (content, { span, newText }) =>
           `${content.slice(0, span.start)}${newText}${content.slice(
             span.start + span.length,

@@ -73,7 +73,7 @@ class SchemaParserFabric {
   };
 
   createParsedComponent = ({ typeName, schema, schemaPath }) => {
-    const schemaCopy = lodash.cloneDeep(schema);
+    const schemaCopy = structuredClone(schema);
     const customComponent = this.schemaComponentsMap.createComponent(
       this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
       schemaCopy,

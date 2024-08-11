@@ -14,7 +14,7 @@ class ComplexSchemaParser extends MonoSchemaParser {
     ](this.schema);
 
     return {
-      ...(lodash.isObject(this.schema) ? this.schema : {}),
+      ...(typeof this.schema === "object" ? this.schema : {}),
       $schemaPath: this.schemaPath.slice(),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.COMPLEX,

@@ -67,7 +67,7 @@ class SwaggerSchemaResolver {
    */
   convertSwaggerObject(swaggerSchema, converterOptions) {
     return new Promise((resolve) => {
-      const result = lodash.cloneDeep(swaggerSchema);
+      const result = structuredClone(swaggerSchema);
       result.info = lodash.merge(
         {
           title: "No title",
@@ -106,7 +106,7 @@ class SwaggerSchemaResolver {
       } else {
         resolve({
           usageSchema: result,
-          originalSchema: lodash.cloneDeep(result),
+          originalSchema: structuredClone(result),
         });
       }
     });
@@ -181,8 +181,7 @@ class SwaggerSchemaResolver {
         }
 
         lodash.each(originalRouteParams, (originalRouteParam) => {
-          const existUsageParam = lodash.find(
-            usageRouteParams,
+          const existUsageParam = usageRouteParams.find(
             (param) =>
               originalRouteParam.in === param.in &&
               originalRouteParam.name === param.name,

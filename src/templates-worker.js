@@ -61,8 +61,7 @@ class TemplatesWorker {
 
   cropExtension = (path) =>
     this.config.templateExtensions.reduce(
-      (path, ext) =>
-        lodash.endsWith(path, ext) ? path.replace(ext, "") : path,
+      (path, ext) => (path.endsWith(ext) ? path.replace(ext, "") : path),
       path,
     );
 
@@ -79,8 +78,7 @@ class TemplatesWorker {
 
   requireFnFromTemplate = async (packageOrPath) => {
     const isPath =
-      lodash.startsWith(packageOrPath, "./") ||
-      lodash.startsWith(packageOrPath, "../");
+      packageOrPath.startsWith("./") || packageOrPath.startsWith("../");
 
     if (isPath) {
       return await import(
@@ -112,7 +110,7 @@ class TemplatesWorker {
 
     if (fileContent) {
       this.logger.log(
-        `"${lodash.lowerCase(name)}" template found in "${templatePaths.custom}"`,
+        `"${name.toLowerCase()}" template found in "${templatePaths.custom}"`,
       );
       return fileContent;
     }
@@ -124,16 +122,14 @@ class TemplatesWorker {
     } else {
       if (templatePaths.custom) {
         this.logger.warn(
-          `"${lodash.lowerCase(name)}" template not found in "${
+          `"${name.toLowerCase()}" template not found in "${
             templatePaths.custom
           }"`,
           "\nCode generator will use the default template",
         );
       } else {
         this.logger.log(
-          `Code generator will use the default template for "${lodash.lowerCase(
-            name,
-          )}"`,
+          `Code generator will use the default template for "${name.toLowerCase()}"`,
         );
       }
     }
@@ -178,11 +174,10 @@ class TemplatesWorker {
   getTemplateContent = (path) => {
     const foundTemplatePathKey = lodash
       .keys(this.config.templatePaths)
-      .find((key) => lodash.startsWith(path, `@${key}`));
+      .find((key) => path.startsWith(`@${key}`));
 
     const rawPath = resolve(
-      lodash.replace(
-        path,
+      path.replace(
         `@${foundTemplatePathKey}`,
         this.config.templatePaths[foundTemplatePathKey],
       ),

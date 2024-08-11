@@ -36,7 +36,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     );
 
     return {
-      ...(lodash.isObject(this.schema) ? this.schema : {}),
+      ...(typeof this.schema === "object" ? this.schema : {}),
       $schemaPath: this.schemaPath.slice(),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.COMPLEX,
@@ -121,19 +121,19 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
 
       if (ableToCreateMappingType) {
         return ts.TypeWithGeneric(mappingTypeName, [mappingUsageKey, content]);
-      } else {
-        return ts.ExpressionGroup(
-          ts.IntersectionType([
-            ts.ObjectWrapper(
-              ts.TypeField({
-                key: discriminator.propertyName,
-                value: mappingUsageKey,
-              }),
-            ),
-            content,
-          ]),
-        );
       }
+
+      return ts.ExpressionGroup(
+        ts.IntersectionType([
+          ts.ObjectWrapper(
+            ts.TypeField({
+              key: discriminator.propertyName,
+              value: mappingUsageKey,
+            }),
+          ),
+          content,
+        ]),
+      );
     };
 
     for (const [mappingKey, schema] of mappingEntries) {
@@ -213,8 +213,8 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
       const mappingRefSchema =
         this.schemaUtils.getSchemaRefType(mappingSchema)?.rawTypeData;
       if (mappingRefSchema) {
-        complexSchemaKeys.forEach((schemaKey) => {
-          if (lodash.isArray(mappingRefSchema[schemaKey])) {
+        for (const schemaKey of complexSchemaKeys) {
+          if (Array.isArray(mappingRefSchema[schemaKey])) {
             mappingRefSchema[schemaKey] = mappingRefSchema[schemaKey].map(
               (schema) => {
                 if (schema.$ref === refPath) {
@@ -251,7 +251,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
               },
             );
           }
-        });
+        }
       }
     }
   };
@@ -263,13 +263,12 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
       this.schemaParser._complexSchemaParsers,
     );
     const schema = lodash.omit(
-      lodash.clone(noDiscriminatorSchema),
+      structuredClone(noDiscriminatorSchema),
       complexSchemaKeys,
     );
     const schemaIsAny =
-      this.schemaParserFabric.getInlineParseContent(
-        lodash.cloneDeep(schema),
-      ) === this.config.Ts.Keyword.Any;
+      this.schemaParserFabric.getInlineParseContent(structuredClone(schema)) ===
+      this.config.Ts.Keyword.Any;
     const schemaIsEmpty = !lodash.keys(schema).length;
 
     if (schemaIsEmpty || schemaIsAny) return null;

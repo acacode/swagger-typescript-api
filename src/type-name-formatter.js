@@ -59,11 +59,9 @@ class TypeNameFormatter {
 
     const fixedModelName = this.fixModelName(name, { type: schemaType });
 
-    const formattedName = lodash.replace(
-      lodash.startCase(`${typePrefix}_${fixedModelName}_${typeSuffix}`),
-      /\s/g,
-      "",
-    );
+    const formattedName = lodash
+      .startCase(`${typePrefix}_${fixedModelName}_${typeSuffix}`)
+      .replace(/\s/g, "");
     const formattedResultName =
       this.config.hooks.onFormatTypeName(formattedName, name, schemaType) ||
       formattedName;

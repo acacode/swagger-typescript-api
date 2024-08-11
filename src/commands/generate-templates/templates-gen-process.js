@@ -59,7 +59,7 @@ class TemplatesGenProcess {
         this.fileSystem.createDir(outputPath);
       }
 
-      templates.forEach((template) => {
+      for (const template of templates) {
         const templateName = this.fileSystem.cropExtension(template.name);
         const templateEjsPath = path.resolve(outputPath, `${templateName}.ejs`);
         const templateEtaPath = path.resolve(outputPath, `${templateName}.eta`);
@@ -94,7 +94,7 @@ class TemplatesGenProcess {
             });
           }
         }
-      });
+      }
 
       this.logger.success(
         `source templates has been successfully created in "${outputPath}"`,
