@@ -1,7 +1,7 @@
-import _ from "lodash";
+import * as lodash from "lodash";
 
 function internalCase(value) {
-  return _.camelCase(_.lowerCase(value));
+  return lodash.camelCase(lodash.lowerCase(value));
 }
 
 export { internalCase };

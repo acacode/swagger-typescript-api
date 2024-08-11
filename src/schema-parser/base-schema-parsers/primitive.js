@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as lodash from "lodash";
 import { SCHEMA_TYPES } from "../../constants.js";
 import { MonoSchemaParser } from "../mono-schema-parser.js";
 
@@ -9,7 +9,7 @@ class PrimitiveSchemaParser extends MonoSchemaParser {
       this.schema || {};
 
     if (type === this.config.Ts.Keyword.Object && additionalProperties) {
-      const fieldType = _.isObject(additionalProperties)
+      const fieldType = lodash.isObject(additionalProperties)
         ? this.schemaParserFabric
             .createSchemaParser({
               schema: additionalProperties,
@@ -23,14 +23,14 @@ class PrimitiveSchemaParser extends MonoSchemaParser {
       );
     }
 
-    if (_.isArray(type) && type.length) {
+    if (lodash.isArray(type) && type.length) {
       contentType = this.schemaParser._complexSchemaParsers.oneOf({
-        ...(_.isObject(this.schema) ? this.schema : {}),
+        ...(lodash.isObject(this.schema) ? this.schema : {}),
         oneOf: type.map((type) => ({ type })),
       });
     }
 
-    if (_.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
+    if (lodash.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
       contentType = this.config.Ts.Tuple(
         items.map((item) =>
           this.schemaParserFabric
@@ -41,7 +41,7 @@ class PrimitiveSchemaParser extends MonoSchemaParser {
     }
 
     return {
-      ...(_.isObject(this.schema) ? this.schema : {}),
+      ...(lodash.isObject(this.schema) ? this.schema : {}),
       $schemaPath: this.schemaPath.slice(),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.PRIMITIVE,

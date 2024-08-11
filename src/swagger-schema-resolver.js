@@ -1,6 +1,6 @@
-import yaml from "js-yaml";
-import _ from "lodash";
-import converter from "swagger2openapi";
+import * as yaml from "js-yaml";
+import * as lodash from "lodash";
+import * as swagger2openapi from "swagger2openapi";
 import { Request } from "./util/request.js";
 
 class SwaggerSchemaResolver {
@@ -67,8 +67,8 @@ class SwaggerSchemaResolver {
    */
   convertSwaggerObject(swaggerSchema, converterOptions) {
     return new Promise((resolve) => {
-      const result = _.cloneDeep(swaggerSchema);
-      result.info = _.merge(
+      const result = lodash.cloneDeep(swaggerSchema);
+      result.info = lodash.merge(
         {
           title: "No title",
           version: "",
@@ -77,9 +77,9 @@ class SwaggerSchemaResolver {
       );
 
       if (!result.openapi) {
-        result.paths = _.merge({}, result.paths);
+        result.paths = lodash.merge({}, result.paths);
 
-        converter.convertObj(
+        swagger2openapi.convertObj(
           result,
           {
             ...converterOptions,
@@ -88,10 +88,10 @@ class SwaggerSchemaResolver {
             rbname: "requestBodyName",
           },
           (err, options) => {
-            const parsedSwaggerSchema = _.get(
+            const parsedSwaggerSchema = lodash.get(
               err,
               "options.openapi",
-              _.get(options, "openapi"),
+              lodash.get(options, "openapi"),
             );
             if (!parsedSwaggerSchema && err) {
               throw new Error(err);
@@ -106,7 +106,7 @@ class SwaggerSchemaResolver {
       } else {
         resolve({
           usageSchema: result,
-          originalSchema: _.cloneDeep(result),
+          originalSchema: lodash.cloneDeep(result),
         });
       }
     });
@@ -148,36 +148,40 @@ class SwaggerSchemaResolver {
   }
 
   fixSwaggerSchema({ usageSchema, originalSchema }) {
-    const usagePaths = _.get(usageSchema, "paths");
-    const originalPaths = _.get(originalSchema, "paths");
+    const usagePaths = lodash.get(usageSchema, "paths");
+    const originalPaths = lodash.get(originalSchema, "paths");
 
     // walk by routes
-    _.each(usagePaths, (usagePathObject, route) => {
-      const originalPathObject = _.get(originalPaths, route);
+    lodash.each(usagePaths, (usagePathObject, route) => {
+      const originalPathObject = lodash.get(originalPaths, route);
 
       // walk by methods
-      _.each(usagePathObject, (usageRouteInfo, methodName) => {
-        const originalRouteInfo = _.get(originalPathObject, methodName);
-        const usageRouteParams = _.get(usageRouteInfo, "parameters", []);
-        const originalRouteParams = _.get(originalRouteInfo, "parameters", []);
+      lodash.each(usagePathObject, (usageRouteInfo, methodName) => {
+        const originalRouteInfo = lodash.get(originalPathObject, methodName);
+        const usageRouteParams = lodash.get(usageRouteInfo, "parameters", []);
+        const originalRouteParams = lodash.get(
+          originalRouteInfo,
+          "parameters",
+          [],
+        );
 
         if (typeof usageRouteInfo === "object") {
-          usageRouteInfo.consumes = _.uniq(
-            _.compact([
+          usageRouteInfo.consumes = lodash.uniq(
+            lodash.compact([
               ...(usageRouteInfo.consumes || []),
               ...(originalRouteInfo.consumes || []),
             ]),
           );
-          usageRouteInfo.produces = _.uniq(
-            _.compact([
+          usageRouteInfo.produces = lodash.uniq(
+            lodash.compact([
               ...(usageRouteInfo.produces || []),
               ...(originalRouteInfo.produces || []),
             ]),
           );
         }
 
-        _.each(originalRouteParams, (originalRouteParam) => {
-          const existUsageParam = _.find(
+        lodash.each(originalRouteParams, (originalRouteParam) => {
+          const existUsageParam = lodash.find(
             usageRouteParams,
             (param) =>
               originalRouteParam.in === param.in &&

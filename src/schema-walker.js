@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as lodash from "lodash";
 
 // TODO: WIP
 // this class will be needed to walk by schema everywhere
@@ -24,7 +24,7 @@ class SchemaWalker {
    * @param schema {Record<string, any>}
    */
   addSchema = (name, schema) => {
-    this.schemas.set(name, _.cloneDeep(schema));
+    this.schemas.set(name, lodash.cloneDeep(schema));
   };
 
   /**
@@ -80,7 +80,7 @@ class SchemaWalker {
 
   _getRefDataFromSchema = (schema, ref) => {
     const path = ref.replace("#", "").split("/");
-    const refData = _.get(schema, path);
+    const refData = lodash.get(schema, path);
     if (refData) {
       this.caches.set(ref, refData);
     }

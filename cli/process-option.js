@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as lodash from "lodash";
 
 const optionFormatters = {
   number: (str) => +str,
@@ -15,8 +15,9 @@ const processFlags = (flags) => {
   let value = null;
   const isNoFlag = flags.includes("--no-");
 
-  _.compact(_.split(flags, " ").map((str) => str.replace(/,/g, ""))).forEach(
-    (str) => {
+  lodash
+    .compact(lodash.split(flags, " ").map((str) => str.replace(/,/g, "")))
+    .forEach((str) => {
       if (str.startsWith("-")) {
         keys.push(str);
       } else if (value === null) {
@@ -31,13 +32,12 @@ const processFlags = (flags) => {
           };
         }
       }
-    },
-  );
+    });
 
   const longestKey = keys.slice().sort((a, b) => b.length - a.length)[0];
 
-  if (!_.isEmpty(longestKey)) {
-    name = _.camelCase(
+  if (!lodash.isEmpty(longestKey)) {
+    name = lodash.camelCase(
       (isNoFlag ? longestKey.replace("--no-", "") : longestKey).replace(
         /(--?)/,
         "",

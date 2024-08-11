@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as lodash from "lodash";
 
 class Request {
   /**
@@ -28,7 +28,7 @@ class Request {
      */
     const requestOptions = {};
 
-    if (disableStrictSSL && !_.startsWith(url, "http://")) {
+    if (disableStrictSSL && !lodash.startsWith(url, "http://")) {
       const undiciGlobalDispatcher =
         global[Symbol.for("undici.globalDispatcher.1")];
       if (!undiciGlobalDispatcher) {
@@ -47,7 +47,7 @@ class Request {
       };
     }
 
-    _.merge(requestOptions, options, this.config.requestOptions);
+    lodash.merge(requestOptions, options, this.config.requestOptions);
 
     try {
       const response = await fetch(url, requestOptions);
