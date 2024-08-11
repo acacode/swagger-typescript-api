@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "13.0.17",
+  "version": "13.0.18",
   "description": "Generate the API client for Fetch or Axios from an OpenAPI Specification",
   "homepage": "https://github.com/acacode/swagger-typescript-api",
   "bugs": "https://github.com/acacode/swagger-typescript-api/issues",
@@ -42,7 +42,7 @@
     "format": "biome format --write .",
     "format:check": "biome format .",
     "lint": "biome check",
-    "prepublishOnly": "pnpm build",
+    "prepack": "tsup",
     "test": "vitest run"
   },
   "dependencies": {
