@@ -1,4 +1,4 @@
-import * as lodash from "lodash";
+import lodash from "lodash";
 
 // TODO: WIP
 // this class will be needed to walk by schema everywhere

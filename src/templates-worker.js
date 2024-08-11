@@ -1,7 +1,7 @@
 import * as path from "node:path";
 import * as url from "node:url";
 import * as Eta from "eta";
-import * as lodash from "lodash";
+import lodash from "lodash";
 
 class TemplatesWorker {
   /**

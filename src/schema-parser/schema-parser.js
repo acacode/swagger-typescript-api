@@ -1,4 +1,4 @@
-import * as lodash from "lodash";
+import lodash from "lodash";
 import { SCHEMA_TYPES } from "../constants.js";
 import { sortByProperty } from "../util/sort-by-property.js";
 import { ArraySchemaParser } from "./base-schema-parsers/array.js";

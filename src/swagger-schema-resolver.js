@@ -1,5 +1,5 @@
 import * as yaml from "js-yaml";
-import * as lodash from "lodash";
+import lodash from "lodash";
 import * as swagger2openapi from "swagger2openapi";
 import { Request } from "./util/request.js";
 

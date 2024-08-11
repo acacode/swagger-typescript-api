@@ -1,4 +1,4 @@
-import * as lodash from "lodash";
+import lodash from "lodash";
 import { root_command } from "../constants.js";
 
 const generateOptionsOutput = (options) =>

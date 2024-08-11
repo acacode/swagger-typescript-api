@@ -1,4 +1,4 @@
-import * as lodash from "lodash";
+import lodash from "lodash";
 
 /**
  * @typedef {"enum-key" | "type-name"} FormattingSchemaType

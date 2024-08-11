@@ -1,7 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import * as url from "node:url";
-import * as lodash from "lodash";
+import lodash from "lodash";
 import { Logger } from "./logger.js";
 
 const FILE_PREFIX = `/* eslint-disable */

@@ -1,4 +1,4 @@
-import * as lodash from "lodash";
+import lodash from "lodash";
 import {
   DEFAULT_BODY_ARG_NAME,
   RESERVED_BODY_ARG_NAMES,

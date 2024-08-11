@@ -1,4 +1,4 @@
-import * as lodash from "lodash";
+import lodash from "lodash";
 import { SchemaFormatters } from "./schema-formatters.js";
 import { SchemaParser } from "./schema-parser.js";
 import { SchemaUtils } from "./schema-utils.js";

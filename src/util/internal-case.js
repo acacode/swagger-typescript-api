@@ -1,4 +1,4 @@
-import * as lodash from "lodash";
+import lodash from "lodash";
 
 function internalCase(value) {
   return lodash.camelCase(lodash.lowerCase(value));

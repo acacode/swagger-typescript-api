@@ -1,5 +1,5 @@
 import didYouMean from "didyoumean";
-import * as lodash from "lodash";
+import lodash from "lodash";
 import { root_command, skip_command } from "./constants.js";
 import { parseArgs } from "./parse-args.js";
 

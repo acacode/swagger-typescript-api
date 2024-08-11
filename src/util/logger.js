@@ -1,4 +1,4 @@
-import * as lodash from "lodash";
+import lodash from "lodash";
 import * as nodeEmoji from "node-emoji";
 
 class Logger {

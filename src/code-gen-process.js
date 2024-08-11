@@ -1,4 +1,4 @@
-import * as lodash from "lodash";
+import lodash from "lodash";
 import * as typescript from "typescript";
 import { CodeFormatter } from "./code-formatter.js";
 import { CodeGenConfig } from "./configuration.js";
