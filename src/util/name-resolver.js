@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as lodash from "lodash";
 
 class NameResolver {
   reservedNames = [];
@@ -25,7 +25,7 @@ class NameResolver {
    * @param {string[]} names
    */
   reserve(names) {
-    const fixedNames = _.uniq(_.compact(names));
+    const fixedNames = lodash.uniq(lodash.compact(names));
     for (const name of fixedNames) {
       if (this.reservedNames.indexOf(name) === -1) {
         this.reservedNames.push(name);
@@ -40,7 +40,10 @@ class NameResolver {
   }
 
   isReserved(name) {
-    return _.some(this.reservedNames, (reservedName) => reservedName === name);
+    return lodash.some(
+      this.reservedNames,
+      (reservedName) => reservedName === name,
+    );
   }
 
   /**
@@ -72,9 +75,9 @@ class NameResolver {
       return usageName;
     } else if (Array.isArray(variants)) {
       let usageName = null;
-      const uniqVariants = _.uniq(_.compact(variants));
+      const uniqVariants = lodash.uniq(lodash.compact(variants));
 
-      _.forEach(uniqVariants, (variant) => {
+      lodash.forEach(uniqVariants, (variant) => {
         if (!usageName && (!shouldReserve || !this.isReserved(variant))) {
           usageName = variant;
         }

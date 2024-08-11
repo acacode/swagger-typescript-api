@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as lodash from "lodash";
 import { reservedOptions, root_command } from "./constants.js";
 import { execute } from "./execute.js";
 import { displayHelp } from "./operations/display-help.js";
@@ -12,7 +12,7 @@ const cli = (input) => {
     commands[command.name] = {
       name: command.name,
       description: `${command.description || ""}`,
-      options: _.compact(_.map(command.options, processOption)),
+      options: lodash.compact(lodash.map(command.options, processOption)),
     };
 
     if (addVersion) {
@@ -57,7 +57,7 @@ const cli = (input) => {
     },
   );
 
-  _.forEach(input.options, (option) => {
+  lodash.forEach(input.options, (option) => {
     const processed = processOption(option);
 
     if (!processed) return;
@@ -86,7 +86,7 @@ const cli = (input) => {
     }),
   );
 
-  _.forEach(input.commands, addCommand);
+  lodash.forEach(input.commands, addCommand);
 
   return instance;
 };

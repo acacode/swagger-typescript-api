@@ -1,4 +1,4 @@
-import ts from "typescript";
+import * as typescript from "typescript";
 import { Translator } from "./translator.js";
 
 class JavascriptTranslator extends Translator {
@@ -9,7 +9,10 @@ class JavascriptTranslator extends Translator {
   compileTSCode = (input) => {
     const fileNameFull = `${input.fileName}${input.fileExtension}`;
     const output = {};
-    const host = ts.createCompilerHost(this.config.compilerTsConfig, true);
+    const host = typescript.createCompilerHost(
+      this.config.compilerTsConfig,
+      true,
+    );
     const fileNames = [fileNameFull];
     const originalSourceFileGet = host.getSourceFile.bind(host);
     host.getSourceFile = (
@@ -26,12 +29,12 @@ class JavascriptTranslator extends Translator {
           shouldCreateNewSourceFile,
         );
 
-      return ts.createSourceFile(
+      return typescript.createSourceFile(
         sourceFileName,
         input.fileContent,
         languageVersion,
         true,
-        ts.ScriptKind.TS,
+        typescript.ScriptKind.TS,
       );
     };
 
@@ -39,7 +42,9 @@ class JavascriptTranslator extends Translator {
       output[fileName] = contents;
     };
 
-    ts.createProgram(fileNames, this.config.compilerTsConfig, host).emit();
+    typescript
+      .createProgram(fileNames, this.config.compilerTsConfig, host)
+      .emit();
 
     return output;
   };
@@ -47,8 +52,8 @@ class JavascriptTranslator extends Translator {
   translate = async (input) => {
     const compiled = this.compileTSCode(input);
 
-    const jsFileName = `${input.fileName}${ts.Extension.Js}`;
-    const dtsFileName = `${input.fileName}${ts.Extension.Dts}`;
+    const jsFileName = `${input.fileName}${typescript.Extension.Js}`;
+    const dtsFileName = `${input.fileName}${typescript.Extension.Dts}`;
     const sourceContent = compiled[jsFileName];
     const tsImportRows = input.fileContent
       .split("\n")
@@ -66,12 +71,12 @@ class JavascriptTranslator extends Translator {
     return [
       {
         fileName: input.fileName,
-        fileExtension: ts.Extension.Js,
+        fileExtension: typescript.Extension.Js,
         fileContent: await this.codeFormatter.formatCode(sourceContent),
       },
       {
         fileName: input.fileName,
-        fileExtension: ts.Extension.Dts,
+        fileExtension: typescript.Extension.Dts,
         fileContent: await this.codeFormatter.formatCode(declarationContent),
       },
     ];

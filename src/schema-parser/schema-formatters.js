@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as lodash from "lodash";
 import { SCHEMA_TYPES } from "../constants.js";
 
 class SchemaFormatters {
@@ -28,7 +28,7 @@ class SchemaFormatters {
           ...parsedSchema,
           $content: parsedSchema.content,
           content: this.config.Ts.UnionType(
-            _.map(parsedSchema.content, ({ value }) => value),
+            lodash.map(parsedSchema.content, ({ value }) => value),
           ),
         };
       }
@@ -62,15 +62,15 @@ class SchemaFormatters {
         content: parsedSchema.$ref
           ? parsedSchema.typeName
           : this.config.Ts.UnionType(
-              _.compact([
-                ..._.map(parsedSchema.content, ({ value }) => `${value}`),
+              lodash.compact([
+                ...lodash.map(parsedSchema.content, ({ value }) => `${value}`),
                 parsedSchema.nullable && this.config.Ts.Keyword.Null,
               ]),
             ) || this.config.Ts.Keyword.Any,
       };
     },
     [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
-      if (_.isString(parsedSchema.content)) {
+      if (lodash.isString(parsedSchema.content)) {
         return {
           ...parsedSchema,
           typeIdentifier: this.config.Ts.Keyword.Type,
@@ -102,9 +102,9 @@ class SchemaFormatters {
    */
   formatSchema = (parsedSchema, formatType = "base") => {
     const schemaType =
-      _.get(parsedSchema, ["schemaType"]) ||
-      _.get(parsedSchema, ["$parsed", "schemaType"]);
-    const formatterFn = _.get(this, [formatType, schemaType]);
+      lodash.get(parsedSchema, ["schemaType"]) ||
+      lodash.get(parsedSchema, ["$parsed", "schemaType"]);
+    const formatterFn = lodash.get(this, [formatType, schemaType]);
     return formatterFn?.(parsedSchema) || parsedSchema;
   };
 
@@ -113,22 +113,23 @@ class SchemaFormatters {
 
     let prettified = description;
 
-    prettified = _.replace(prettified, /\*\//g, "*/");
+    prettified = lodash.replace(prettified, /\*\//g, "*/");
 
-    const hasMultipleLines = _.includes(prettified, "\n");
+    const hasMultipleLines = lodash.includes(prettified, "\n");
 
     if (!hasMultipleLines) return prettified;
 
     if (inline) {
-      return _(prettified)
+      return lodash
+        ._(prettified)
         .split(/\n/g)
-        .map((part) => _.trim(part))
+        .map((part) => lodash.trim(part))
         .compact()
         .join(" ")
         .valueOf();
     }
 
-    return _.replace(prettified, /\n$/g, "");
+    return lodash.replace(prettified, /\n$/g, "");
   };
 
   formatObjectContent = (content) => {

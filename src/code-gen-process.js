@@ -1,5 +1,5 @@
-import _ from "lodash";
-import ts from "typescript";
+import * as lodash from "lodash";
+import * as typescript from "typescript";
 import { CodeFormatter } from "./code-formatter.js";
 import { CodeGenConfig } from "./configuration.js";
 import { SchemaComponentsMap } from "./schema-components-map.js";
@@ -103,8 +103,8 @@ class CodeGenProcess {
 
     this.schemaComponentsMap.clear();
 
-    _.each(swagger.usageSchema.components, (component, componentName) =>
-      _.each(component, (rawTypeData, typeName) => {
+    lodash.each(swagger.usageSchema.components, (component, componentName) =>
+      lodash.each(component, (rawTypeData, typeName) => {
         this.schemaComponentsMap.createComponent(
           this.schemaComponentsMap.createRef([
             "components",
@@ -120,7 +120,7 @@ class CodeGenProcess {
      * @type {SchemaComponent[]}
      */
     const componentsToParse = this.schemaComponentsMap.filter(
-      _.compact(["schemas", this.config.extractResponses && "responses"]),
+      lodash.compact(["schemas", this.config.extractResponses && "responses"]),
     );
 
     const parsedSchemas = componentsToParse.map((schemaComponent) => {
@@ -228,7 +228,7 @@ class CodeGenProcess {
           return ` * ${line}${eol ? "\n" : ""}`;
         },
         NameResolver: NameResolver,
-        _,
+        _: lodash,
         require: this.templatesWorker.requireFnFromTemplate,
       },
       config: this.config,
@@ -239,7 +239,7 @@ class CodeGenProcess {
     const components = this.schemaComponentsMap.getComponents();
     let modelTypes = [];
 
-    const modelTypeComponents = _.compact([
+    const modelTypeComponents = lodash.compact([
       "schemas",
       this.config.extractResponses && "responses",
     ]);
@@ -322,7 +322,7 @@ class CodeGenProcess {
       ? await this.createMultipleFileInfos(templatesToRender, configuration)
       : await this.createSingleFileInfo(templatesToRender, configuration);
 
-    if (!_.isEmpty(configuration.extraTemplates)) {
+    if (!lodash.isEmpty(configuration.extraTemplates)) {
       for (const extraTemplate of configuration.extraTemplates) {
         const content = this.templatesWorker.renderTemplate(
           this.fileSystem.getFileContent(extraTemplate.path),
@@ -467,27 +467,29 @@ class CodeGenProcess {
     return await this.createOutputFileInfo(
       configuration,
       configuration.fileName,
-      _.compact([
-        this.templatesWorker.renderTemplate(
-          templatesToRender.dataContracts,
-          configuration,
-        ),
-        generateRouteTypes &&
+      lodash
+        .compact([
           this.templatesWorker.renderTemplate(
-            templatesToRender.routeTypes,
+            templatesToRender.dataContracts,
             configuration,
           ),
-        generateClient &&
-          this.templatesWorker.renderTemplate(
-            templatesToRender.httpClient,
-            configuration,
-          ),
-        generateClient &&
-          this.templatesWorker.renderTemplate(
-            templatesToRender.api,
-            configuration,
-          ),
-      ]).join("\n"),
+          generateRouteTypes &&
+            this.templatesWorker.renderTemplate(
+              templatesToRender.routeTypes,
+              configuration,
+            ),
+          generateClient &&
+            this.templatesWorker.renderTemplate(
+              templatesToRender.httpClient,
+              configuration,
+            ),
+          generateClient &&
+            this.templatesWorker.renderTemplate(
+              templatesToRender.api,
+              configuration,
+            ),
+        ])
+        .join("\n"),
     );
   };
 
@@ -500,7 +502,7 @@ class CodeGenProcess {
    */
   createOutputFileInfo = async (configuration, fileNameFull, content) => {
     const fileName = this.fileSystem.cropExtension(fileNameFull);
-    const fileExtension = ts.Extension.Ts;
+    const fileExtension = typescript.Extension.Ts;
 
     if (configuration.translateToJavaScript) {
       this.logger.debug("using js translator for", fileName);
@@ -542,14 +544,14 @@ class CodeGenProcess {
       servers: servers || [],
       basePath,
       host,
-      externalDocs: _.merge(
+      externalDocs: lodash.merge(
         {
           url: "",
           description: "",
         },
         externalDocs,
       ),
-      tags: _.compact(tags),
+      tags: lodash.compact(tags),
       baseUrl: serverUrl,
       title,
       version,

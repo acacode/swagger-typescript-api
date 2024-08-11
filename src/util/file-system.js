@@ -1,7 +1,7 @@
-import fs from "node:fs";
+import * as fs from "node:fs";
 import { dirname, resolve } from "node:path";
-import url from "node:url";
-import _ from "lodash";
+import * as url from "node:url";
+import * as lodash from "lodash";
 import { Logger } from "./logger.js";
 
 const FILE_PREFIX = `/* eslint-disable */
@@ -45,7 +45,7 @@ class FileSystem {
   };
 
   cropExtension = (fileName) => {
-    const fileNameParts = _.split(fileName, ".");
+    const fileNameParts = lodash.split(fileName, ".");
 
     if (fileNameParts.length > 1) {
       fileNameParts.pop();
@@ -88,7 +88,7 @@ class FileSystem {
     const absolutePath = resolve(__dirname, path, `./${fileName}`);
     const fileContent = `${withPrefix ? FILE_PREFIX : ""}${content}`;
 
-    return fs.writeFileSync(absolutePath, fileContent, _.noop);
+    return fs.writeFileSync(absolutePath, fileContent, lodash.noop);
   };
 }
 

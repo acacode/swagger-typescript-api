@@ -1,8 +1,8 @@
 import { resolve } from "node:path";
-import path from "node:path";
-import url from "node:url";
+import * as path from "node:path";
+import * as url from "node:url";
 import * as Eta from "eta";
-import _ from "lodash";
+import * as lodash from "lodash";
 
 class TemplatesWorker {
   /**
@@ -61,7 +61,8 @@ class TemplatesWorker {
 
   cropExtension = (path) =>
     this.config.templateExtensions.reduce(
-      (path, ext) => (_.endsWith(path, ext) ? path.replace(ext, "") : path),
+      (path, ext) =>
+        lodash.endsWith(path, ext) ? path.replace(ext, "") : path,
       path,
     );
 
@@ -78,7 +79,8 @@ class TemplatesWorker {
 
   requireFnFromTemplate = async (packageOrPath) => {
     const isPath =
-      _.startsWith(packageOrPath, "./") || _.startsWith(packageOrPath, "../");
+      lodash.startsWith(packageOrPath, "./") ||
+      lodash.startsWith(packageOrPath, "../");
 
     if (isPath) {
       return await import(
@@ -110,7 +112,7 @@ class TemplatesWorker {
 
     if (fileContent) {
       this.logger.log(
-        `"${_.lowerCase(name)}" template found in "${templatePaths.custom}"`,
+        `"${lodash.lowerCase(name)}" template found in "${templatePaths.custom}"`,
       );
       return fileContent;
     }
@@ -122,14 +124,14 @@ class TemplatesWorker {
     } else {
       if (templatePaths.custom) {
         this.logger.warn(
-          `"${_.lowerCase(name)}" template not found in "${
+          `"${lodash.lowerCase(name)}" template not found in "${
             templatePaths.custom
           }"`,
           "\nCode generator will use the default template",
         );
       } else {
         this.logger.log(
-          `Code generator will use the default template for "${_.lowerCase(
+          `Code generator will use the default template for "${lodash.lowerCase(
             name,
           )}"`,
         );
@@ -155,7 +157,7 @@ class TemplatesWorker {
       );
     }
 
-    return _.reduce(
+    return lodash.reduce(
       this.config.templateInfos,
       (acc, { fileName, name }) => ({
         ...acc,
@@ -174,12 +176,12 @@ class TemplatesWorker {
   };
 
   getTemplateContent = (path) => {
-    const foundTemplatePathKey = _.keys(this.config.templatePaths).find((key) =>
-      _.startsWith(path, `@${key}`),
-    );
+    const foundTemplatePathKey = lodash
+      .keys(this.config.templatePaths)
+      .find((key) => lodash.startsWith(path, `@${key}`));
 
     const rawPath = resolve(
-      _.replace(
+      lodash.replace(
         path,
         `@${foundTemplatePathKey}`,
         this.config.templatePaths[foundTemplatePathKey],

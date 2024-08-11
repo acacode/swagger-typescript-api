@@ -1,6 +1,6 @@
-import { cosmiconfigSync } from "cosmiconfig";
-import _ from "lodash";
-import ts from "typescript";
+import * as cosmiconfig from "cosmiconfig";
+import * as lodash from "lodash";
+import * as typescript from "typescript";
 import { ComponentTypeNameResolver } from "./component-type-name-resolver.js";
 import * as CONSTANTS from "./constants.js";
 import { objectAssign } from "./util/object-assign.js";
@@ -197,10 +197,10 @@ class CodeGenConfig {
   };
 
   compilerTsConfig = {
-    module: ts.ModuleKind.ESNext,
+    module: typescript.ModuleKind.ESNext,
     noImplicitReturns: true,
     alwaysStrict: true,
-    target: ts.ScriptTarget.ESNext,
+    target: typescript.ScriptTarget.ESNext,
     declaration: true,
     noImplicitAny: false,
     sourceMap: false,
@@ -213,8 +213,8 @@ class CodeGenConfig {
   customTranslator;
 
   Ts = {
-    Keyword: _.cloneDeep(TsKeyword),
-    CodeGenKeyword: _.cloneDeep(TsCodeGenKeyword),
+    Keyword: lodash.cloneDeep(TsKeyword),
+    CodeGenKeyword: lodash.cloneDeep(TsCodeGenKeyword),
     /**
      * $A[] or Array<$A>
      */
@@ -245,7 +245,7 @@ class CodeGenConfig {
      * $A1 | $A2
      */
     UnionType: (contents) =>
-      _.join(_.uniq(contents), ` ${this.Ts.Keyword.Union} `),
+      lodash.join(lodash.uniq(contents), ` ${this.Ts.Keyword.Union} `),
     /**
      * ($A1)
      */
@@ -254,7 +254,7 @@ class CodeGenConfig {
      * $A1 & $A2
      */
     IntersectionType: (contents) =>
-      _.join(_.uniq(contents), ` ${this.Ts.Keyword.Intersection} `),
+      lodash.join(lodash.uniq(contents), ` ${this.Ts.Keyword.Intersection} `),
     /**
      * Record<$A1, $A2>
      */
@@ -264,13 +264,9 @@ class CodeGenConfig {
      * readonly $key?:$value
      */
     TypeField: ({ readonly, key, optional, value }) =>
-      _.compact([
-        readonly && "readonly ",
-        key,
-        optional && "?",
-        ": ",
-        value,
-      ]).join(""),
+      lodash
+        .compact([readonly && "readonly ", key, optional && "?", ": ", value])
+        .join(""),
     /**
      * [key: $A1]: $A2
      */
@@ -290,10 +286,9 @@ class CodeGenConfig {
      * $AN.key = $AN.value,
      */
     EnumFieldsWrapper: (contents) =>
-      _.map(
-        contents,
-        ({ key, value }) => `  ${this.Ts.EnumField(key, value)}`,
-      ).join(",\n"),
+      lodash
+        .map(contents, ({ key, value }) => `  ${this.Ts.EnumField(key, value)}`)
+        .join(",\n"),
     /**
      * {\n $A \n}
      */
@@ -397,7 +392,7 @@ class CodeGenConfig {
         prettierOptions === undefined
           ? getDefaultPrettierOptions()
           : prettierOptions,
-      hooks: _.merge(this.hooks, hooks || {}),
+      hooks: lodash.merge(this.hooks, hooks || {}),
       constants: {
         ...CONSTANTS,
         ...constants,
@@ -428,9 +423,11 @@ class CodeGenConfig {
 }
 
 const getDefaultPrettierOptions = () => {
-  const prettier = cosmiconfigSync("prettier", {
-    searchStrategy: "global",
-  }).search();
+  const prettier = cosmiconfig
+    .cosmiconfigSync("prettier", {
+      searchStrategy: "global",
+    })
+    .search();
 
   if (prettier) {
     return {

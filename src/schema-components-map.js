@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as lodash from "lodash";
 
 class SchemaComponentsMap {
   /** @type {SchemaComponent[]} */
@@ -61,9 +61,9 @@ class SchemaComponentsMap {
    * @returns {SchemaComponent[]}
    */
   filter(...componentNames) {
-    return _.filter(this._data, (it) =>
+    return lodash.filter(this._data, (it) =>
       componentNames.some((componentName) =>
-        _.startsWith(it.$ref, `#/components/${componentName}`),
+        lodash.startsWith(it.$ref, `#/components/${componentName}`),
       ),
     );
   }

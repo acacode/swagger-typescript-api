@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as lodash from "lodash";
 import { root_command } from "../constants.js";
 
 const generateOptionsOutput = (options) =>
@@ -62,32 +62,31 @@ const displayAllHelp = (commands, instance) => {
     commands[root_command].options,
   );
 
-  const { commands: commandLabels, maxLength: maxCommandLength } = _.filter(
-    commands,
-    (command) => command.name !== root_command,
-  ).reduce(
-    (acc, command) => {
-      const options = generateOptionsOutput(command.options);
-      const name = `${command.name}${options.length ? " [options]" : ""}`;
-      const description = command.description;
+  const { commands: commandLabels, maxLength: maxCommandLength } = lodash
+    .filter(commands, (command) => command.name !== root_command)
+    .reduce(
+      (acc, command) => {
+        const options = generateOptionsOutput(command.options);
+        const name = `${command.name}${options.length ? " [options]" : ""}`;
+        const description = command.description;
 
-      const maxLength = Math.max(name.length, options.maxLength);
-      if (maxLength > acc.maxLength) {
-        acc.maxLength = maxLength;
-      }
+        const maxLength = Math.max(name.length, options.maxLength);
+        if (maxLength > acc.maxLength) {
+          acc.maxLength = maxLength;
+        }
 
-      acc.commands.push({
-        description,
-        name,
-        options,
-      });
-      return acc;
-    },
-    {
-      commands: [],
-      maxLength: maxOptionLength,
-    },
-  );
+        acc.commands.push({
+          description,
+          name,
+          options,
+        });
+        return acc;
+      },
+      {
+        commands: [],
+        maxLength: maxOptionLength,
+      },
+    );
 
   const optionsOutput = generateOptionsTextOutput(options, maxOptionLength, 2);
 

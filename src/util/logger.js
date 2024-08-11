@@ -1,5 +1,5 @@
-import _ from "lodash";
-import { emojify } from "node-emoji";
+import * as lodash from "lodash";
+import * as nodeEmoji from "node-emoji";
 
 class Logger {
   firstLog = true;
@@ -15,7 +15,7 @@ class Logger {
   createLogMessage = ({ type, emojiName, messages }) => {
     if (this.config.silent) return;
 
-    const emoji = emojify(emojiName);
+    const emoji = nodeEmoji.emojify(emojiName);
 
     if (this.firstLog) {
       this.firstLog = false;
@@ -43,8 +43,8 @@ class Logger {
       }
       logFn(
         "[message]",
-        ..._.map(messages, (message) =>
-          _.startsWith(message, "\n")
+        ...lodash.map(messages, (message) =>
+          lodash.startsWith(message, "\n")
             ? `\n          ${message.replace(/\n/, "")}`
             : message,
         ),
@@ -56,8 +56,8 @@ class Logger {
     console[type](
       emoji,
       " ",
-      ..._.map(messages, (message) =>
-        _.startsWith(message, "\n")
+      ...lodash.map(messages, (message) =>
+        lodash.startsWith(message, "\n")
           ? `\n${emoji}   ${message.replace(/\n/, "")}`
           : message,
       ),

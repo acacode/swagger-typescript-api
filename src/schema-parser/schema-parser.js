@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as lodash from "lodash";
 import { SCHEMA_TYPES } from "../constants.js";
 import { sortByProperty } from "../util/sort-by-property.js";
 import { ArraySchemaParser } from "./base-schema-parsers/array.js";
@@ -227,7 +227,7 @@ class SchemaParser {
 
       this.schemaPath.push(this.typeName);
 
-      _.merge(
+      lodash.merge(
         this.schema,
         this.config.hooks.onPreParseSchema(
           this.schema,
@@ -279,14 +279,14 @@ class SchemaParser {
   extractSchemaFromResponseStruct = (responseStruct) => {
     const { content, ...extras } = responseStruct;
 
-    const firstResponse = _.first(_.values(content));
-    const firstSchema = _.get(firstResponse, "schema");
+    const firstResponse = lodash.first(lodash.values(content));
+    const firstSchema = lodash.get(firstResponse, "schema");
 
     if (!firstSchema) return;
 
     return {
       ...extras,
-      ..._.omit(firstResponse, "schema"),
+      ...lodash.omit(firstResponse, "schema"),
       ...firstSchema,
     };
   };

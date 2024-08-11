@@ -1,5 +1,5 @@
 import didYouMean from "didyoumean";
-import _ from "lodash";
+import * as lodash from "lodash";
 import { root_command, skip_command } from "./constants.js";
 import { parseArgs } from "./parse-args.js";
 
@@ -98,14 +98,14 @@ const processArgs = (commands, args) => {
 
   let allFlagKeys = [];
 
-  _.forEach(args, (arg, i) => {
+  lodash.forEach(args, (arg, i) => {
     if (error) return;
 
     if (i === 0) {
       command = commands[arg];
 
       if (!command && !arg.startsWith("-")) {
-        const tip = didYouMean(arg, _.keys(commands));
+        const tip = didYouMean(arg, lodash.keys(commands));
         error = `unknown command ${arg}${
           tip ? `\n(Did you mean ${tip} ?)` : ""
         }`;

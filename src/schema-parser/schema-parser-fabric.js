@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as lodash from "lodash";
 import { SchemaFormatters } from "./schema-formatters.js";
 import { SchemaParser } from "./schema-parser.js";
 import { SchemaUtils } from "./schema-utils.js";
@@ -73,7 +73,7 @@ class SchemaParserFabric {
   };
 
   createParsedComponent = ({ typeName, schema, schemaPath }) => {
-    const schemaCopy = _.cloneDeep(schema);
+    const schemaCopy = lodash.cloneDeep(schema);
     const customComponent = this.schemaComponentsMap.createComponent(
       this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
       schemaCopy,

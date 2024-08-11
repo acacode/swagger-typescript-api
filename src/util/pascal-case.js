@@ -1,7 +1,7 @@
-import _ from "lodash";
+import * as lodash from "lodash";
 
 function pascalCase(value) {
-  return _.upperFirst(_.camelCase(value));
+  return lodash.upperFirst(lodash.camelCase(value));
 }
 
 export { pascalCase };
