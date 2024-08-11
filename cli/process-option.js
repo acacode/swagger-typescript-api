@@ -15,28 +15,30 @@ const processFlags = (flags) => {
   let value = null;
   const isNoFlag = flags.includes("--no-");
 
-  lodash
-    .compact(lodash.split(flags, " ").map((str) => str.replace(/,/g, "")))
-    .forEach((str) => {
-      if (str.startsWith("-")) {
-        keys.push(str);
-      } else if (value === null) {
-        if (str.startsWith("{") || str.startsWith("[") || str.startsWith("<")) {
-          const rawValue = str.replace(/[{[<>}\].]/g, "");
-          const variadic = str.includes("...");
-          value = {
-            raw: str,
-            variadic,
-            name: rawValue,
-            formatter: optionFormatters[rawValue] || optionFormatters.string,
-          };
-        }
+  const strArr = lodash.compact(
+    flags.split(" ").map((str) => str.replace(/,/g, "")),
+  );
+
+  for (const str of strArr) {
+    if (str.startsWith("-")) {
+      keys.push(str);
+    } else if (value === null) {
+      if (str.startsWith("{") || str.startsWith("[") || str.startsWith("<")) {
+        const rawValue = str.replace(/[{[<>}\].]/g, "");
+        const variadic = str.includes("...");
+        value = {
+          raw: str,
+          variadic,
+          name: rawValue,
+          formatter: optionFormatters[rawValue] || optionFormatters.string,
+        };
       }
-    });
+    }
+  }
 
   const longestKey = keys.slice().sort((a, b) => b.length - a.length)[0];
 
-  if (!lodash.isEmpty(longestKey)) {
+  if (longestKey !== "") {
     name = lodash.camelCase(
       (isNoFlag ? longestKey.replace("--no-", "") : longestKey).replace(
         /(--?)/,

@@ -7,7 +7,7 @@ class ArraySchemaParser extends MonoSchemaParser {
     let contentType;
     const { type, description, items } = this.schema || {};
 
-    if (lodash.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
+    if (Array.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
       const tupleContent = [];
       for (const item of items) {
         tupleContent.push(
@@ -25,7 +25,7 @@ class ArraySchemaParser extends MonoSchemaParser {
     }
 
     return {
-      ...(lodash.isObject(this.schema) ? this.schema : {}),
+      ...(typeof this.schema === "object" ? this.schema : {}),
       $schemaPath: this.schemaPath.slice(),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.PRIMITIVE,

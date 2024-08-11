@@ -40,10 +40,7 @@ class NameResolver {
   }
 
   isReserved(name) {
-    return lodash.some(
-      this.reservedNames,
-      (reservedName) => reservedName === name,
-    );
+    return this.reservedNames.some((reservedName) => reservedName === name);
   }
 
   /**
@@ -73,15 +70,17 @@ class NameResolver {
 
       shouldReserve && this.reserve([usageName]);
       return usageName;
-    } else if (Array.isArray(variants)) {
+    }
+
+    if (Array.isArray(variants)) {
       let usageName = null;
       const uniqVariants = lodash.uniq(lodash.compact(variants));
 
-      lodash.forEach(uniqVariants, (variant) => {
+      for (const variant of uniqVariants) {
         if (!usageName && (!shouldReserve || !this.isReserved(variant))) {
           usageName = variant;
         }
-      });
+      }
 
       if (usageName) {
         shouldReserve && this.reserve([usageName]);

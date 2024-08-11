@@ -213,8 +213,8 @@ class CodeGenConfig {
   customTranslator;
 
   Ts = {
-    Keyword: lodash.cloneDeep(TsKeyword),
-    CodeGenKeyword: lodash.cloneDeep(TsCodeGenKeyword),
+    Keyword: structuredClone(TsKeyword),
+    CodeGenKeyword: structuredClone(TsCodeGenKeyword),
     /**
      * $A[] or Array<$A>
      */

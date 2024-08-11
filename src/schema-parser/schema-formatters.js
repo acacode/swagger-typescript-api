@@ -28,7 +28,7 @@ class SchemaFormatters {
           ...parsedSchema,
           $content: parsedSchema.content,
           content: this.config.Ts.UnionType(
-            lodash.map(parsedSchema.content, ({ value }) => value),
+            parsedSchema.content.map(({ value }) => value),
           ),
         };
       }
@@ -63,20 +63,19 @@ class SchemaFormatters {
           ? parsedSchema.typeName
           : this.config.Ts.UnionType(
               lodash.compact([
-                ...lodash.map(parsedSchema.content, ({ value }) => `${value}`),
+                ...parsedSchema.content.map(({ value }) => `${value}`),
                 parsedSchema.nullable && this.config.Ts.Keyword.Null,
               ]),
             ) || this.config.Ts.Keyword.Any,
       };
     },
     [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
-      if (lodash.isString(parsedSchema.content)) {
+      if (typeof parsedSchema.content === "string")
         return {
           ...parsedSchema,
           typeIdentifier: this.config.Ts.Keyword.Type,
           content: this.schemaUtils.safeAddNullToType(parsedSchema.content),
         };
-      }
 
       return {
         ...parsedSchema,
@@ -111,25 +110,21 @@ class SchemaFormatters {
   formatDescription = (description, inline) => {
     if (!description) return "";
 
-    let prettified = description;
+    const hasMultipleLines = description.includes("\n");
 
-    prettified = lodash.replace(prettified, /\*\//g, "*/");
-
-    const hasMultipleLines = lodash.includes(prettified, "\n");
-
-    if (!hasMultipleLines) return prettified;
+    if (!hasMultipleLines) return description;
 
     if (inline) {
       return lodash
-        ._(prettified)
+        ._(description)
         .split(/\n/g)
-        .map((part) => lodash.trim(part))
+        .map((part) => part.trim())
         .compact()
         .join(" ")
         .valueOf();
     }
 
-    return lodash.replace(prettified, /\n$/g, "");
+    return description.replace(/\n$/g, "");
   };
 
   formatObjectContent = (content) => {

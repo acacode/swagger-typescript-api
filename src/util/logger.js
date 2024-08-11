@@ -43,21 +43,21 @@ class Logger {
       }
       logFn(
         "[message]",
-        ...lodash.map(messages, (message) =>
-          lodash.startsWith(message, "\n")
+        ...messages.map((message) =>
+          message.startsWith("\n")
             ? `\n          ${message.replace(/\n/, "")}`
             : message,
         ),
       );
-      logFn(trace.join("\n") + "\n---");
+      logFn(`${trace.join("\n")}\n---`);
       return;
     }
 
     console[type](
       emoji,
       " ",
-      ...lodash.map(messages, (message) =>
-        lodash.startsWith(message, "\n")
+      ...messages.map((message) =>
+        message.startsWith("\n")
           ? `\n${emoji}   ${message.replace(/\n/, "")}`
           : message,
       ),

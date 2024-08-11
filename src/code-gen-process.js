@@ -177,7 +177,7 @@ class CodeGenProcess {
     const isDirPath = this.fileSystem.pathIsDir(this.config.output);
 
     if (isDirPath) {
-      files.forEach((file) => {
+      for (const file of files) {
         this.fileSystem.createFile({
           path: this.config.output,
           fileName: `${file.fileName}${file.fileExtension}`,
@@ -190,7 +190,7 @@ class CodeGenProcess {
           `"${file.fileName}${file.fileExtension}"`,
           `created in ${this.config.output}`,
         );
-      });
+      }
     }
 
     return {
@@ -289,7 +289,12 @@ class CodeGenProcess {
           rawTypeData,
         )
       : rawTypeData;
-    let { typeIdentifier, name: originalName, content, description } = typeData;
+    const {
+      typeIdentifier,
+      name: originalName,
+      content,
+      description,
+    } = typeData;
     const name = this.typeNameFormatter.format(originalName);
 
     if (name === null) return null;
@@ -560,11 +565,11 @@ class CodeGenProcess {
 
   injectClassInstance = (key, value) => {
     this[key] = value;
-    PATCHABLE_INSTANCES.forEach((instanceKey) => {
+    for (const instanceKey of PATCHABLE_INSTANCES) {
       if (instanceKey !== key && key in this[instanceKey]) {
         this[instanceKey][key] = value;
       }
-    });
+    }
   };
 }
 

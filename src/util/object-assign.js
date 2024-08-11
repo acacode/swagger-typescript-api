@@ -8,9 +8,9 @@ const objectAssign = (target, updaterFn) => {
     .map(update, (value, key) => value === undefined && key)
     .filter(Boolean);
   Object.assign(target, lodash.merge(target, update));
-  undefinedKeys.forEach((key) => {
+  for (const key of undefinedKeys) {
     target[key] = undefined;
-  });
+  }
 };
 
 export { objectAssign };

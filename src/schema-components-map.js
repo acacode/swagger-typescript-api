@@ -61,9 +61,9 @@ class SchemaComponentsMap {
    * @returns {SchemaComponent[]}
    */
   filter(...componentNames) {
-    return lodash.filter(this._data, (it) =>
+    return this._data.filter((it) =>
       componentNames.some((componentName) =>
-        lodash.startsWith(it.$ref, `#/components/${componentName}`),
+        it.$ref.startsWith(`#/components/${componentName}`),
       ),
     );
   }

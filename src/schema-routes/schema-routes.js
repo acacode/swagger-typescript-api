@@ -84,7 +84,7 @@ class SchemaRoutes {
       routeInfoByMethodsMap,
       (acc, requestInfo, method) => {
         if (
-          lodash.startsWith(method, "x-") ||
+          method.startsWith("x-") ||
           ["parameters", "$ref"].includes(method)
         ) {
           return acc;
@@ -116,11 +116,11 @@ class SchemaRoutes {
     const pathParams = lodash.reduce(
       pathParamMatches,
       (pathParams, match) => {
-        const paramName = lodash.replace(match, /\{|\}|:/g, "");
+        const paramName = match.replace(/\{|\}|:/g, "");
 
         if (!paramName) return pathParams;
 
-        if (lodash.includes(paramName, "-")) {
+        if (paramName.includes("-")) {
           this.logger.warn("wrong path param name", paramName);
         }
 
@@ -141,53 +141,49 @@ class SchemaRoutes {
       [],
     );
 
-    let fixedRoute = lodash.reduce(
-      pathParams,
-      (fixedRoute, pathParam, i, arr) => {
-        const insertion =
-          this.config.hooks.onInsertPathParam(
-            pathParam.name,
-            i,
-            arr,
-            fixedRoute,
-          ) || pathParam.name;
-        return lodash.replace(fixedRoute, pathParam.$match, `\${${insertion}}`);
-      },
-      routeName || "",
-    );
+    let fixedRoute = pathParams.reduce((fixedRoute, pathParam, i, arr) => {
+      const insertion =
+        this.config.hooks.onInsertPathParam(
+          pathParam.name,
+          i,
+          arr,
+          fixedRoute,
+        ) || pathParam.name;
+      return fixedRoute.replace(pathParam.$match, `\${${insertion}}`);
+    }, routeName || "");
 
     const queryParamMatches = fixedRoute.match(/(\{\?.*\})/g);
     const queryParams = [];
 
     if (queryParamMatches?.length) {
-      queryParamMatches.forEach((match) => {
+      for (const match of queryParamMatches) {
         fixedRoute = fixedRoute.replace(match, "");
-      });
+      }
 
-      lodash
-        .uniq(
-          queryParamMatches
-            .join(",")
-            .replace(/(\{\?)|(\})|\s/g, "")
-            .split(","),
-        )
-        .forEach((paramName) => {
-          if (lodash.includes(paramName, "-")) {
-            this.logger.warn("wrong query param name", paramName);
-          }
+      const paramNames = lodash.uniq(
+        queryParamMatches
+          .join(",")
+          .replace(/(\{\?)|(\})|\s/g, "")
+          .split(","),
+      );
 
-          queryParams.push({
-            $match: paramName,
-            name: lodash.camelCase(paramName),
-            required: true,
+      for (const paramName of paramNames) {
+        if (paramName.includes("-")) {
+          this.logger.warn("wrong query param name", paramName);
+        }
+
+        queryParams.push({
+          $match: paramName,
+          name: lodash.camelCase(paramName),
+          required: true,
+          type: "string",
+          description: "",
+          schema: {
             type: "string",
-            description: "",
-            schema: {
-              type: "string",
-            },
-            in: "query",
-          });
+          },
+          in: "query",
         });
+      }
     }
 
     const result = {
@@ -255,27 +251,26 @@ class SchemaRoutes {
     });
 
     // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
-    lodash.each(pathParamsFromRouteName, (pathParam) => {
-      const alreadyExist = lodash.some(
-        routeParams.path,
+    for (const pathParam of pathParamsFromRouteName) {
+      const alreadyExist = routeParams.path.some(
         (parameter) => parameter.name === pathParam.name,
       );
 
       if (!alreadyExist) {
         routeParams.path.push(pathParam);
       }
-    });
+    }
+
     // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
-    lodash.each(queryParamsFromRouteName, (queryParam) => {
-      const alreadyExist = lodash.some(
-        routeParams.query,
+    for (const queryParam of queryParamsFromRouteName) {
+      const alreadyExist = routeParams.query.some(
         (parameter) => parameter.name === queryParam.name,
       );
 
       if (!alreadyExist) {
         routeParams.query.push(queryParam);
       }
-    });
+    }
 
     return routeParams;
   };
@@ -296,12 +291,10 @@ class SchemaRoutes {
 
   getContentKind = (contentTypes) => {
     if (
-      lodash.some(contentTypes, (contentType) =>
-        lodash.startsWith(contentType, "application/json"),
+      contentTypes.some((contentType) =>
+        contentType.startsWith("application/json"),
       ) ||
-      lodash.some(contentTypes, (contentType) =>
-        lodash.endsWith(contentType, "+json"),
-      )
+      contentTypes.some((contentType) => contentType.endsWith("+json"))
     ) {
       return CONTENT_KIND.JSON;
     }
@@ -314,19 +307,11 @@ class SchemaRoutes {
       return CONTENT_KIND.FORM_DATA;
     }
 
-    if (
-      lodash.some(contentTypes, (contentType) =>
-        lodash.includes(contentType, "image/"),
-      )
-    ) {
+    if (contentTypes.some((contentType) => contentType.includes("image/"))) {
       return CONTENT_KIND.IMAGE;
     }
 
-    if (
-      lodash.some(contentTypes, (contentType) =>
-        lodash.startsWith(contentType, "text/"),
-      )
-    ) {
+    if (contentTypes.some((contentType) => contentType.startsWith("text/"))) {
       return CONTENT_KIND.TEXT;
     }
 
@@ -377,12 +362,11 @@ class SchemaRoutes {
         typeName,
         [operationId],
       );
-      const foundedSchemaByName = lodash.find(
-        parsedSchemas,
+      const foundedSchemaByName = parsedSchemas.find(
         (parsedSchema) =>
           this.typeNameFormatter.format(parsedSchema.name) === content,
       );
-      const foundSchemaByContent = lodash.find(parsedSchemas, (parsedSchema) =>
+      const foundSchemaByContent = parsedSchemas.find((parsedSchema) =>
         lodash.isEqual(parsedSchema.content, content),
       );
 
@@ -398,17 +382,8 @@ class SchemaRoutes {
       // const foundedSchemaByName = _.find(parsedSchemas, ({ name }) => name === refType || name === refTypeWithoutOpId)
 
       // TODO:HACK fix problem of swagger2opeanpi
-      const typeNameWithoutOpId = lodash.replace(
-        refTypeInfo.typeName,
-        operationId,
-        "",
-      );
-      if (
-        lodash.find(
-          parsedSchemas,
-          (schema) => schema.name === typeNameWithoutOpId,
-        )
-      ) {
+      const typeNameWithoutOpId = refTypeInfo.typeName.replace(operationId, "");
+      if (parsedSchemas.find((schema) => schema.name === typeNameWithoutOpId)) {
         return this.typeNameFormatter.format(typeNameWithoutOpId);
       }
 
@@ -465,7 +440,7 @@ class SchemaRoutes {
                 requestInfo.description || "",
                 true,
               ),
-            status: lodash.isNaN(+status) ? status : +status,
+            status: Number.isNaN(+status) ? status : +status,
             isSuccess: this.isSuccessStatus(status),
           },
         ];
@@ -542,8 +517,7 @@ class SchemaRoutes {
   };
 
   convertRouteParamsIntoObject = (params) => {
-    return lodash.reduce(
-      params,
+    return params.reduce(
       (objectSchema, schemaPart) => {
         if (!schemaPart || !schemaPart.name) return objectSchema;
 
@@ -625,7 +599,7 @@ class SchemaRoutes {
       // but request body data type contains form data types like File
       if (
         this.FORM_DATA_TYPES.some((dataType) =>
-          lodash.includes(content, `: ${dataType}`),
+          content.includes(`: ${dataType}`),
         )
       ) {
         contentKind = CONTENT_KIND.FORM_DATA;
@@ -664,25 +638,21 @@ class SchemaRoutes {
   }) => {
     if (!queryParams || !queryParams.length) return null;
 
-    const pathParams = lodash.reduce(
-      pathArgsSchemas,
-      (acc, pathArgSchema) => {
-        if (pathArgSchema.name) {
-          acc[pathArgSchema.name] = {
-            ...pathArgSchema,
-            in: "path",
-          };
-        }
+    const pathParams = pathArgsSchemas.reduce((acc, pathArgSchema) => {
+      if (pathArgSchema.name) {
+        acc[pathArgSchema.name] = {
+          ...pathArgSchema,
+          in: "path",
+        };
+      }
 
-        return acc;
-      },
-      {},
-    );
+      return acc;
+    }, {});
 
     const fixedQueryParams = lodash.reduce(
       lodash.get(queryObjectSchema, "properties", {}),
       (acc, property, name) => {
-        if (name && lodash.isObject(property)) {
+        if (name && typeof property === "object") {
           acc[name] = {
             ...property,
             in: "query",
@@ -739,7 +709,7 @@ class SchemaRoutes {
         responseBodyInfo.success.schema,
       );
 
-      let successResponse = responseBodyInfo.success;
+      const successResponse = responseBodyInfo.success;
 
       if (successResponse.schema && !successResponse.schema.$ref) {
         const contentKind = successResponse.schema.contentKind;
@@ -894,9 +864,7 @@ class SchemaRoutes {
     const moduleName =
       moduleNameFirstTag && firstTag
         ? lodash.camelCase(firstTag)
-        : lodash.camelCase(
-            lodash.compact(lodash.split(route, "/"))[moduleNameIndex],
-          );
+        : lodash.camelCase(lodash.compact(route.split("/"))[moduleNameIndex]);
     let hasSecurity = !!globalSecurity?.length;
     if (security) {
       hasSecurity = security.length > 0;
@@ -1065,7 +1033,7 @@ class SchemaRoutes {
 
     return {
       id: routeId,
-      namespace: lodash.replace(moduleName, /^(\d)/, "v$1"),
+      namespace: moduleName.replace(/^(\d)/, "v$1"),
       routeName,
       routeParams,
       requestBodyInfo,
@@ -1107,10 +1075,10 @@ class SchemaRoutes {
 
     const pathsEntries = lodash.entries(usageSchema.paths);
 
-    lodash.forEach(pathsEntries, ([rawRouteName, routeInfoByMethodsMap]) => {
+    for (const [rawRouteName, routeInfoByMethodsMap] of pathsEntries) {
       const routeInfosMap = this.createRequestsMap(routeInfoByMethodsMap);
 
-      lodash.forEach(routeInfosMap, (routeInfo, method) => {
+      for (const [method, routeInfo] of Object.entries(routeInfosMap)) {
         const parsedRouteInfo = this.parseRouteInfo(
           rawRouteName,
           routeInfo,
@@ -1135,8 +1103,8 @@ class SchemaRoutes {
 
           this.routes.push(route);
         }
-      });
-    });
+      }
+    }
   };
 
   getGroupedRoutes = () => {
@@ -1169,7 +1137,7 @@ class SchemaRoutes {
 
           acc.combined.push({
             moduleName,
-            routes: lodash.map(routesGroup, (route) => {
+            routes: routesGroup.map((route) => {
               const { original: originalName, usage: usageName } =
                 route.routeName;
 
@@ -1178,8 +1146,7 @@ class SchemaRoutes {
               if (
                 routesGroup.length > 1 &&
                 usageName !== originalName &&
-                !lodash.some(
-                  routesGroup,
+                !routesGroup.some(
                   ({ routeName, id }) =>
                     id !== route.id && originalName === routeName.original,
                 )

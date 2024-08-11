@@ -27,7 +27,7 @@ class SchemaUtils {
 
   getRequiredProperties = (schema) => {
     return lodash.uniq(
-      (schema && lodash.isArray(schema.required) && schema.required) || [],
+      (schema && Array.isArray(schema.required) && schema.required) || [],
     );
   };
 
@@ -55,11 +55,12 @@ class SchemaUtils {
       return true;
     }
 
-    const isRequired = lodash.isBoolean(propertySchema.required)
-      ? !!propertySchema.required
-      : lodash.isArray(rootSchema.required)
-        ? rootSchema.required.includes(name)
-        : !!rootSchema.required;
+    const isRequired =
+      typeof propertySchema.required === "boolean"
+        ? !!propertySchema.required
+        : Array.isArray(rootSchema.required)
+          ? rootSchema.required.includes(name)
+          : !!rootSchema.required;
 
     if (this.config.convertedFromSwagger2) {
       return typeof propertySchema.nullable === this.config.Ts.Keyword.Undefined
@@ -75,7 +76,7 @@ class SchemaUtils {
       (nullable ||
         !!lodash.get(schema, "x-nullable") ||
         schemaType === this.config.Ts.Keyword.Null) &&
-      lodash.isString(type) &&
+      typeof type === "string" &&
       !type.includes(` ${this.config.Ts.Keyword.Null}`) &&
       !type.includes(`${this.config.Ts.Keyword.Null} `)
     );
@@ -155,7 +156,9 @@ class SchemaUtils {
         ...childSchema,
         $$requiredKeys: existedRequiredKeys,
       };
-    } else if (childSchema.properties) {
+    }
+
+    if (childSchema.properties) {
       const childSchemaProperties = lodash.keys(childSchema.properties);
       const existedRequiredKeys = childSchemaProperties.filter((key) =>
         required.includes(key),
@@ -176,7 +179,7 @@ class SchemaUtils {
   };
 
   filterSchemaContents = (contents, filterFn) => {
-    return lodash.uniq(lodash.filter(contents, (type) => filterFn(type)));
+    return lodash.uniq(contents.filter((type) => filterFn(type)));
   };
 
   resolveTypeName = (
@@ -187,19 +190,19 @@ class SchemaUtils {
       return this.config.componentTypeNameResolver.resolve(null, (reserved) => {
         return resolver(pascalCase(typeName), reserved);
       });
-    } else {
-      return this.config.componentTypeNameResolver.resolve(
-        [
-          ...(prefixes || []).map((prefix) =>
-            pascalCase(`${prefix} ${typeName}`),
-          ),
-          ...(suffixes || []).map((suffix) =>
-            pascalCase(`${typeName} ${suffix}`),
-          ),
-        ],
-        shouldReserve,
-      );
     }
+
+    return this.config.componentTypeNameResolver.resolve(
+      [
+        ...(prefixes || []).map((prefix) =>
+          pascalCase(`${prefix} ${typeName}`),
+        ),
+        ...(suffixes || []).map((suffix) =>
+          pascalCase(`${typeName} ${suffix}`),
+        ),
+      ],
+      shouldReserve,
+    );
   };
 
   getComplexType = (schema) => {
@@ -269,7 +272,7 @@ class SchemaUtils {
         lodash.get(this.config.primitiveTypes, [primitiveType, "$default"]) ||
         this.config.primitiveTypes[primitiveType];
 
-      if (lodash.isFunction(typeAlias)) {
+      if (typeof typeAlias === "function") {
         resultType = typeAlias(schema, this);
       } else {
         resultType = typeAlias || primitiveType;

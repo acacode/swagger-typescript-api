@@ -24,7 +24,7 @@ class SchemaWalker {
    * @param schema {Record<string, any>}
    */
   addSchema = (name, schema) => {
-    this.schemas.set(name, lodash.cloneDeep(schema));
+    this.schemas.set(name, structuredClone(schema));
   };
 
   /**
