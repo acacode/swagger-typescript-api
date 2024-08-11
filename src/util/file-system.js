@@ -1,5 +1,5 @@
 import * as fs from "node:fs";
-import { dirname, resolve } from "node:path";
+import * as path from "node:path";
 import * as url from "node:url";
 import * as lodash from "lodash";
 import { Logger } from "./logger.js";
@@ -83,9 +83,9 @@ class FileSystem {
     return !!path && fs.existsSync(path);
   };
 
-  createFile = ({ path, fileName, content, withPrefix }) => {
-    const __dirname = dirname(url.fileURLToPath(import.meta.url));
-    const absolutePath = resolve(__dirname, path, `./${fileName}`);
+  createFile = ({ path: path_, fileName, content, withPrefix }) => {
+    const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+    const absolutePath = path.resolve(__dirname, path_, `./${fileName}`);
     const fileContent = `${withPrefix ? FILE_PREFIX : ""}${content}`;
 
     return fs.writeFileSync(absolutePath, fileContent, lodash.noop);

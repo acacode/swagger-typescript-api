@@ -1,4 +1,3 @@
-import { resolve } from "node:path";
 import * as path from "node:path";
 import * as url from "node:url";
 import * as Eta from "eta";
@@ -36,14 +35,21 @@ class TemplatesWorker {
    */
   getTemplatePaths = (config) => {
     const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
-    const baseTemplatesPath = resolve(__dirname, "../templates/base");
-    const defaultTemplatesPath = resolve(__dirname, "../templates/default");
-    const modularTemplatesPath = resolve(__dirname, "../templates/modular");
+    const baseTemplatesPath = path.resolve(__dirname, "../templates/base");
+    const defaultTemplatesPath = path.resolve(
+      __dirname,
+      "../templates/default",
+    );
+    const modularTemplatesPath = path.resolve(
+      __dirname,
+      "../templates/modular",
+    );
     const originalTemplatesPath = config.modular
       ? modularTemplatesPath
       : defaultTemplatesPath;
     const customTemplatesPath =
-      (config.templates && resolve(process.cwd(), config.templates)) || null;
+      (config.templates && path.resolve(process.cwd(), config.templates)) ||
+      null;
 
     return {
       /** `templates/base` */
@@ -65,8 +71,8 @@ class TemplatesWorker {
       path,
     );
 
-  getTemplateFullPath = (path, fileName) => {
-    const raw = resolve(path, "./", this.cropExtension(fileName));
+  getTemplateFullPath = (path_, fileName) => {
+    const raw = path.resolve(path_, "./", this.cropExtension(fileName));
     const pathVariants = this.config.templateExtensions.map(
       (extension) => `${raw}${extension}`,
     );
@@ -171,13 +177,13 @@ class TemplatesWorker {
     return pathVariants.find((variant) => this.fileSystem.pathIsExist(variant));
   };
 
-  getTemplateContent = (path) => {
+  getTemplateContent = (path_) => {
     const foundTemplatePathKey = lodash
       .keys(this.config.templatePaths)
-      .find((key) => path.startsWith(`@${key}`));
+      .find((key) => path_.startsWith(`@${key}`));
 
-    const rawPath = resolve(
-      path.replace(
+    const rawPath = path.resolve(
+      path_.replace(
         `@${foundTemplatePathKey}`,
         this.config.templatePaths[foundTemplatePathKey],
       ),
@@ -190,14 +196,16 @@ class TemplatesWorker {
 
     const customPath =
       this.config.templatePaths.custom &&
-      this.findTemplateWithExt(resolve(this.config.templatePaths.custom, path));
+      this.findTemplateWithExt(
+        path.resolve(this.config.templatePaths.custom, path_),
+      );
 
     if (customPath) {
       return this.fileSystem.getFileContent(customPath);
     }
 
     const originalPath = this.findTemplateWithExt(
-      resolve(this.config.templatePaths.original, path),
+      path.resolve(this.config.templatePaths.original, path_),
     );
 
     if (originalPath) {
