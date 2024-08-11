@@ -1,4 +1,4 @@
-import * as lodash from "lodash";
+import lodash from "lodash";
 import { reservedOptions, root_command } from "./constants.js";
 import { execute } from "./execute.js";
 import { displayHelp } from "./operations/display-help.js";

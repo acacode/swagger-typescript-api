@@ -1,4 +1,4 @@
-import * as lodash from "lodash";
+import lodash from "lodash";
 
 const optionFormatters = {
   number: (str) => +str,

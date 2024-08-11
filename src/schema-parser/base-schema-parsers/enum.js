@@ -1,4 +1,4 @@
-import * as lodash from "lodash";
+import lodash from "lodash";
 import { SCHEMA_TYPES } from "../../constants.js";
 import { MonoSchemaParser } from "../mono-schema-parser.js";
 import { EnumKeyResolver } from "../util/enum-key-resolver.js";

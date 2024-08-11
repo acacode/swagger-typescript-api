@@ -1,4 +1,4 @@
-import * as lodash from "lodash";
+import lodash from "lodash";
 
 function pascalCase(value) {
   return lodash.upperFirst(lodash.camelCase(value));

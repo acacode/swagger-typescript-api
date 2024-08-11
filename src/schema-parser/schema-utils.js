@@ -1,4 +1,4 @@
-import * as lodash from "lodash";
+import lodash from "lodash";
 import { SCHEMA_TYPES } from "../constants.js";
 import { internalCase } from "../util/internal-case.js";
 import { pascalCase } from "../util/pascal-case.js";

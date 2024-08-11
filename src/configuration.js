@@ -1,5 +1,5 @@
 import * as cosmiconfig from "cosmiconfig";
-import * as lodash from "lodash";
+import lodash from "lodash";
 import * as typescript from "typescript";
 import { ComponentTypeNameResolver } from "./component-type-name-resolver.js";
 import * as CONSTANTS from "./constants.js";

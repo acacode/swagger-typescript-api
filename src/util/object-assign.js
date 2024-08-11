@@ -1,4 +1,4 @@
-import * as lodash from "lodash";
+import lodash from "lodash";
 
 const objectAssign = (target, updaterFn) => {
   if (!updaterFn) return;
