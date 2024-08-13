@@ -86,7 +86,7 @@ const cli = (input) => {
     }),
   );
 
-  for (const command of input.commands) {
+  for (const command of Object.entries(input.commands ?? {})) {
     addCommand(command);
   }
 
