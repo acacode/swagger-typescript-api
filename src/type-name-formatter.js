@@ -24,13 +24,8 @@ class TypeNameFormatter {
    * @param options {{ type?: FormattingSchemaType }}
    * @return {string}
    */
-  format = (name, options) => {
-    options = options || {};
-
-    /**
-     * @type {FormattingSchemaType}
-     */
-    const schemaType = options.type || "type-name";
+  format = (name, options = {}) => {
+    const schemaType = options.type ?? "type-name";
 
     const typePrefix =
       schemaType === "enum-key"
