@@ -17,9 +17,7 @@ class ObjectSchemaParser extends MonoSchemaParser {
       description: this.schemaFormatters.formatDescription(
         this.schema.description,
       ),
-      allFieldsAreOptional: !contentProperties
-        .values()
-        .some((part) => part.isRequired),
+      allFieldsAreOptional: !contentProperties.some((part) => part.isRequired),
       content: contentProperties,
     };
   }
