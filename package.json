@@ -68,7 +68,7 @@
     "@types/lodash": "4.17.7",
     "@types/node": "22.2.0",
     "@types/swagger2openapi": "7.0.4",
-    "axios": "1.7.3",
+    "axios": "1.7.4",
     "shx": "0.3.4",
     "tsup": "8.2.4",
     "vitest": "2.0.5"
