@@ -841,13 +841,11 @@ class SchemaRoutes {
       operationId,
       requestBody,
       security,
-      // eslint-disable-next-line no-unused-vars
       parameters,
       summary,
       description,
       tags,
       responses,
-      // eslint-disable-next-line no-unused-vars
       requestBodyName,
       produces,
       consumes,

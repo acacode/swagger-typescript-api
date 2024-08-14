@@ -4,7 +4,6 @@ import { parseArgs } from "./parse-args.js";
 
 didYouMean.threshold = 0.5;
 
-// eslint-disable-next-line no-unused-vars
 const execute = (params, commands, instance) => {
   const args = parseArgs(params.args, params.from);
 

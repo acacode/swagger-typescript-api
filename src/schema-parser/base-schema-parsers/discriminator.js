@@ -257,7 +257,6 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
   };
 
   createAbstractSchemaStruct = () => {
-    // eslint-disable-next-line no-unused-vars
     const { discriminator, ...noDiscriminatorSchema } = this.schema;
     const complexSchemaKeys = lodash.keys(
       this.schemaParser._complexSchemaParsers,

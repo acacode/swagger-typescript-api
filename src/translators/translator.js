@@ -24,7 +24,6 @@ class Translator {
    * @param input {TranslatorIO}
    * @return {Promise<TranslatorIO[]>}
    */
-  // eslint-disable-next-line no-unused-vars
   translate(input) {
     throw new Error("not implemented");
   }
