@@ -1,5 +1,3 @@
-import lodash from "lodash";
-
 class SchemaComponentsMap {
   /** @type {SchemaComponent[]} */
   _data = [];

@@ -1,4 +1,3 @@
-import lodash from "lodash";
 import * as prettier from "prettier";
 import * as typescript from "typescript";
 
