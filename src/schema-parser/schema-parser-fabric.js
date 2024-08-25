@@ -5,8 +5,6 @@ import { SchemaUtils } from "./schema-utils.js";
 class SchemaParserFabric {
   /** @type {CodeGenConfig} */
   config;
-  /** @type {Logger} */
-  logger;
   /** @type {SchemaComponentsMap} */
   schemaComponentsMap;
   /** @type {TypeNameFormatter} */
@@ -22,14 +20,12 @@ class SchemaParserFabric {
 
   constructor({
     config,
-    logger,
     templatesWorker,
     schemaComponentsMap,
     typeNameFormatter,
     schemaWalker,
   }) {
     this.config = config;
-    this.logger = logger;
     this.schemaComponentsMap = schemaComponentsMap;
     this.typeNameFormatter = typeNameFormatter;
     this.templatesWorker = templatesWorker;

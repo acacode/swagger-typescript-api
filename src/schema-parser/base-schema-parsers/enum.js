@@ -9,7 +9,7 @@ class EnumSchemaParser extends MonoSchemaParser {
 
   constructor(...args) {
     super(...args);
-    this.enumKeyResolver = new EnumKeyResolver(this.config, this.logger, []);
+    this.enumKeyResolver = new EnumKeyResolver(this.config, []);
   }
 
   extractEnum = (pathTypeName) => {

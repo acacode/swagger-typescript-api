@@ -1,8 +1,8 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import * as url from "node:url";
+import { consola } from "consola";
 import lodash from "lodash";
-import { Logger } from "./logger.js";
 
 const FILE_PREFIX = `/* eslint-disable */
 /* tslint:disable */
@@ -18,13 +18,6 @@ const FILE_PREFIX = `/* eslint-disable */
 `;
 
 class FileSystem {
-  /** @type {Logger} */
-  logger;
-
-  constructor({ logger = new Logger("file-system") } = {}) {
-    this.logger = logger;
-  }
-
   getFileContent = (path) => {
     return fs.readFileSync(path, { encoding: "utf8" });
   };
@@ -62,7 +55,7 @@ class FileSystem {
         fs.rmdirSync(path, { recursive: true });
       }
     } catch (e) {
-      this.logger.debug("failed to remove dir", e);
+      consola.debug("failed to remove dir", e);
     }
   };
 
@@ -70,7 +63,7 @@ class FileSystem {
     try {
       fs.mkdirSync(path, { recursive: true });
     } catch (e) {
-      this.logger.debug("failed to create dir", e);
+      consola.debug("failed to create dir", e);
     }
   };
 

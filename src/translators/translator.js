@@ -3,8 +3,6 @@
  */
 
 class Translator {
-  /** @type {Logger} */
-  logger;
   /** @type {CodeGenConfig} */
   config;
   /** @type {CodeFormatter} */
@@ -14,7 +12,6 @@ class Translator {
    * @param codeGenProcess
    */
   constructor(codeGenProcess) {
-    this.logger = codeGenProcess.logger;
     this.config = codeGenProcess.config;
     this.codeFormatter = codeGenProcess.codeFormatter;
   }

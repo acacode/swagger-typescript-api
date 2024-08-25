@@ -1,3 +1,4 @@
+import { consola } from "consola";
 import lodash from "lodash";
 
 /**
@@ -7,16 +8,11 @@ import lodash from "lodash";
 class TypeNameFormatter {
   /** @type {Map<string, string>} */
   formattedModelNamesMap = new Map();
-
   /** @type {CodeGenConfig} */
   config;
 
-  /** @type {Logger} */
-  logger;
-
-  constructor({ config, logger }) {
+  constructor({ config }) {
     this.config = config;
-    this.logger = logger;
   }
 
   /**
@@ -39,7 +35,7 @@ class TypeNameFormatter {
     const hashKey = `${typePrefix}_${name}_${typeSuffix}`;
 
     if (typeof name !== "string") {
-      this.logger.warn("wrong name of the model name", name);
+      consola.warn("wrong name of the model name", name);
       return name;
     }
 

@@ -1,3 +1,4 @@
+import { consola } from "consola";
 import lodash from "lodash";
 import {
   DEFAULT_BODY_ARG_NAME,
@@ -40,10 +41,6 @@ class SchemaRoutes {
    */
   schemaComponentsMap;
   /**
-   * @type {Logger}
-   */
-  logger;
-  /**
    * @type {TemplatesWorker}
    */
   templatesWorker;
@@ -59,7 +56,6 @@ class SchemaRoutes {
     config,
     schemaParserFabric,
     schemaComponentsMap,
-    logger,
     templatesWorker,
     typeNameFormatter,
   }) {
@@ -68,7 +64,6 @@ class SchemaRoutes {
     this.schemaUtils = this.schemaParserFabric.schemaUtils;
     this.typeNameFormatter = typeNameFormatter;
     this.schemaComponentsMap = schemaComponentsMap;
-    this.logger = logger;
     this.templatesWorker = templatesWorker;
 
     this.FORM_DATA_TYPES = lodash.uniq([
@@ -121,7 +116,7 @@ class SchemaRoutes {
         if (!paramName) return pathParams;
 
         if (paramName.includes("-")) {
-          this.logger.warn("wrong path param name", paramName);
+          consola.warn("wrong path param name", paramName);
         }
 
         pathParams.push({
@@ -169,7 +164,7 @@ class SchemaRoutes {
 
       for (const paramName of paramNames) {
         if (paramName.includes("-")) {
-          this.logger.warn("wrong query param name", paramName);
+          consola.warn("wrong query param name", paramName);
         }
 
         queryParams.push({
@@ -803,9 +798,9 @@ class SchemaRoutes {
         routeNameDuplicatesMap.get(duplicateIdentifier) + 1,
       );
 
-      this.logger.warn(
-        `Module "${moduleName}" already has method "${routeName}()"`,
-        `\nThis method has been renamed to "${
+      consola.warn(
+        `Module "${moduleName}" already has method "${routeName}()".`,
+        `This method has been renamed to "${
           routeName + routeNameDuplicatesMap.get(duplicateIdentifier)
         }()" to solve conflict names.`,
       );
@@ -971,7 +966,6 @@ class SchemaRoutes {
 
     const nameResolver = new SpecificArgNameResolver(
       this.config,
-      this.logger,
       pathArgsNames,
     );
 

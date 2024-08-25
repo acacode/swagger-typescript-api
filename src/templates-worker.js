@@ -1,5 +1,6 @@
 import * as path from "node:path";
 import * as url from "node:url";
+import { consola } from "consola";
 import * as Eta from "eta";
 import lodash from "lodash";
 
@@ -8,12 +9,6 @@ class TemplatesWorker {
    * @type {CodeGenConfig}
    */
   config;
-
-  /**
-   * @type {Logger}
-   */
-  logger;
-
   /**
    * @type {FileSystem}
    */
@@ -21,9 +16,8 @@ class TemplatesWorker {
 
   getRenderTemplateData;
 
-  constructor({ config, logger, fileSystem, getRenderTemplateData }) {
+  constructor({ config, fileSystem, getRenderTemplateData }) {
     this.config = config;
-    this.logger = logger;
     this.fileSystem = fileSystem;
     this.getRenderTemplateData = getRenderTemplateData;
   }
@@ -115,7 +109,7 @@ class TemplatesWorker {
       customFullPath && this.fileSystem.getFileContent(customFullPath);
 
     if (fileContent) {
-      this.logger.log(
+      consola.info(
         `"${name.toLowerCase()}" template found in "${templatePaths.custom}"`,
       );
       return fileContent;
@@ -127,14 +121,14 @@ class TemplatesWorker {
       fileContent = this.fileSystem.getFileContent(baseFullPath);
     } else {
       if (templatePaths.custom) {
-        this.logger.warn(
-          `"${name.toLowerCase()}" template not found in "${
-            templatePaths.custom
-          }"`,
-          "\nCode generator will use the default template",
+        consola.warn(
+          "Code generator will use the default template:",
+          `"${name.toLowerCase()}"`,
+          "template not found in",
+          `"${templatePaths.custom}"`,
         );
       } else {
-        this.logger.log(
+        consola.info(
           `Code generator will use the default template for "${name.toLowerCase()}"`,
         );
       }
@@ -154,7 +148,7 @@ class TemplatesWorker {
 
   getTemplates = ({ templatePaths }) => {
     if (templatePaths.custom) {
-      this.logger.log(
+      consola.info(
         `try to read templates from directory "${templatePaths.custom}"`,
       );
     }
