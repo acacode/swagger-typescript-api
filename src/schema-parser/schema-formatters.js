@@ -4,8 +4,6 @@ import { SCHEMA_TYPES } from "../constants.js";
 class SchemaFormatters {
   /** @type {CodeGenConfig} */
   config;
-  /** @type {Logger} */
-  logger;
   /** @type {TemplatesWorker} */
   templatesWorker;
   /** @type {SchemaUtils} */
@@ -16,7 +14,6 @@ class SchemaFormatters {
    */
   constructor(schemaParser) {
     this.config = schemaParser.config;
-    this.logger = schemaParser.logger;
     this.schemaUtils = schemaParser.schemaUtils;
     this.templatesWorker = schemaParser.templatesWorker;
   }

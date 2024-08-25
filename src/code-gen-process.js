@@ -1,3 +1,4 @@
+import { consola } from "consola";
 import lodash from "lodash";
 import * as typescript from "typescript";
 import { CodeFormatter } from "./code-formatter.js";
@@ -12,7 +13,6 @@ import { JavascriptTranslator } from "./translators/javascript.js";
 import { TypeNameFormatter } from "./type-name-formatter.js";
 import { FileSystem } from "./util/file-system.js";
 import { internalCase } from "./util/internal-case.js";
-import { Logger } from "./util/logger.js";
 import { NameResolver } from "./util/name-resolver.js";
 import { pascalCase } from "./util/pascal-case.js";
 import { sortByProperty } from "./util/sort-by-property.js";
@@ -36,8 +36,6 @@ class CodeGenProcess {
   swaggerSchemaResolver;
   /** @type {SchemaComponentsMap} */
   schemaComponentsMap;
-  /** @type {Logger} */
-  logger;
   /** @type {TypeNameFormatter} */
   typeNameFormatter;
   /** @type {SchemaParserFabric} */
@@ -61,7 +59,6 @@ class CodeGenProcess {
    */
   constructor(config) {
     this.config = new CodeGenConfig(config);
-    this.logger = new Logger(this);
     this.fileSystem = new FileSystem(this);
     this.schemaWalker = new SchemaWalker(this);
     this.swaggerSchemaResolver = new SwaggerSchemaResolver(this);
@@ -72,7 +69,6 @@ class CodeGenProcess {
     this.schemaParserFabric = new SchemaParserFabric(this);
     this.schemaRoutes = new SchemaRoutes(this);
     this.javascriptTranslator = new JavascriptTranslator(this);
-    this.config.componentTypeNameResolver.logger = this.logger;
   }
 
   async start() {
@@ -95,7 +91,7 @@ class CodeGenProcess {
     this.schemaWalker.addSchema("$usage", swagger.usageSchema);
     this.schemaWalker.addSchema("$original", swagger.originalSchema);
 
-    this.logger.event("start generating your typescript api");
+    consola.info("start generating your typescript api");
 
     this.config.update(
       this.config.hooks.onInit(this.config, this) || this.config,
@@ -160,11 +156,11 @@ class CodeGenProcess {
 
     if (this.fileSystem.pathIsExist(this.config.output)) {
       if (this.config.cleanOutput) {
-        this.logger.debug(`cleaning dir ${this.config.output}`);
+        consola.debug("cleaning dir", this.config.output);
         this.fileSystem.cleanDir(this.config.output);
       }
     } else {
-      this.logger.debug(
+      consola.debug(
         `path ${this.config.output} is not exist. creating dir by this path`,
       );
       this.fileSystem.createDir(this.config.output);
@@ -185,7 +181,7 @@ class CodeGenProcess {
           withPrefix: true,
         });
 
-        this.logger.success(
+        consola.success(
           "api file",
           `"${file.fileName}${file.fileExtension}"`,
           `created in ${this.config.output}`,
@@ -510,7 +506,7 @@ class CodeGenProcess {
     const fileExtension = typescript.Extension.Ts;
 
     if (configuration.translateToJavaScript) {
-      this.logger.debug("using js translator for", fileName);
+      consola.debug("using js translator for", fileName);
       return await this.javascriptTranslator.translate({
         fileName: fileName,
         fileExtension: fileExtension,
@@ -519,7 +515,7 @@ class CodeGenProcess {
     }
 
     if (configuration.customTranslator) {
-      this.logger.debug("using custom translator for", fileName);
+      consola.debug("using custom translator for", fileName);
       return await configuration.customTranslator.translate({
         fileName: fileName,
         fileExtension: fileExtension,
@@ -527,7 +523,7 @@ class CodeGenProcess {
       });
     }
 
-    this.logger.debug("generating output for", `${fileName}${fileExtension}`);
+    consola.debug("generating output for", `${fileName}${fileExtension}`);
 
     return [
       {

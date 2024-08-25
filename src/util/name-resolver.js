@@ -1,3 +1,4 @@
+import { consola } from "consola";
 import lodash from "lodash";
 
 class NameResolver {
@@ -6,17 +7,13 @@ class NameResolver {
 
   /** @type {CodeGenConfig} */
   config;
-  /** @type {Logger} */
-  logger;
 
   /**
    * @param {CodeGenConfig} config;
-   * @param {Logger} logger;
    * @param {string[]} reservedNames
    */
-  constructor(config, logger, reservedNames, getFallbackName) {
+  constructor(config, reservedNames, getFallbackName) {
     this.config = config;
-    this.logger = logger;
     this.getFallbackName = getFallbackName;
     this.reserve(reservedNames);
   }
@@ -57,7 +54,7 @@ class NameResolver {
         const variant = resolver(variants, extras);
 
         if (variant === undefined) {
-          this.logger.warn(
+          consola.warn(
             "unable to resolve name. current reserved names: ",
             this.reservedNames,
           );
@@ -87,14 +84,14 @@ class NameResolver {
         return usageName;
       }
 
-      this.logger.debug(
+      consola.debug(
         "trying to resolve name with using fallback name generator using variants",
         variants,
       );
       return this.resolve(variants, this.getFallbackName, extras);
     }
 
-    this.logger.debug(
+    consola.debug(
       "problem with reserving names. current reserved names: ",
       this.reservedNames,
     );

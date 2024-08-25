@@ -1,3 +1,4 @@
+import { consola } from "consola";
 import { NameResolver } from "./util/name-resolver.js";
 import { getRandomInt } from "./util/random.js";
 
@@ -8,11 +9,10 @@ class ComponentTypeNameResolver extends NameResolver {
 
   /**
    * @param {CodeGenConfig} config;
-   * @param {Logger} logger;
    * @param {string[]} reservedNames
    */
-  constructor(config, logger, reservedNames) {
-    super(config, logger, reservedNames, (variants) => {
+  constructor(config, reservedNames) {
+    super(config, reservedNames, (variants) => {
       const randomVariant = variants[getRandomInt(0, variants.length - 1)];
       if (randomVariant) {
         if (!this.countersByVariant.has(randomVariant)) {
@@ -21,7 +21,7 @@ class ComponentTypeNameResolver extends NameResolver {
         const variantCounter = this.countersByVariant.get(randomVariant) + 1;
         this.countersByVariant.set(randomVariant, variantCounter);
         const dirtyResolvedName = `${randomVariant}${variantCounter}`;
-        this.logger.debug(
+        consola.debug(
           "generated dirty resolved type name for component - ",
           dirtyResolvedName,
         );
@@ -30,7 +30,7 @@ class ComponentTypeNameResolver extends NameResolver {
 
       const fallbackName = `${this.config.componentTypeNameResolver}${this
         .fallbackNameCounter++}`;
-      this.logger.debug(
+      consola.debug(
         "generated fallback type name for component - ",
         fallbackName,
       );

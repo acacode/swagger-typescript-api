@@ -1,3 +1,4 @@
+import { consola } from "consola";
 import lodash from "lodash";
 import { SCHEMA_TYPES } from "../constants.js";
 import { sortByProperty } from "../util/sort-by-property.js";
@@ -19,8 +20,6 @@ class SchemaParser {
   schemaParserFabric;
   /** @type {CodeGenConfig} */
   config;
-  /** @type {Logger} */
-  logger;
   /** @type {SchemaComponentsMap} */
   schemaComponentsMap;
   /** @type {TypeNameFormatter} */
@@ -41,7 +40,6 @@ class SchemaParser {
   constructor(schemaParserFabric, { typeName, schema, schemaPath } = {}) {
     this.schemaParserFabric = schemaParserFabric;
     this.config = schemaParserFabric.config;
-    this.logger = schemaParserFabric.logger;
     this.templatesWorker = schemaParserFabric.templatesWorker;
     this.schemaComponentsMap = schemaParserFabric.schemaComponentsMap;
     this.typeNameFormatter = schemaParserFabric.typeNameFormatter;
@@ -206,7 +204,7 @@ class SchemaParser {
         this.schema.enum.length === 1 &&
         this.schema.enum[0] == null
       ) {
-        this.logger.debug("invalid enum schema", this.schema);
+        consola.debug("invalid enum schema", this.schema);
         this.schema = { type: this.config.Ts.Keyword.Null };
       }
       // schema is response schema

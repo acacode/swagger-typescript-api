@@ -1,3 +1,4 @@
+import { consola } from "consola";
 import * as yaml from "js-yaml";
 import lodash from "lodash";
 import * as swagger2openapi from "swagger2openapi";
@@ -9,10 +10,6 @@ class SwaggerSchemaResolver {
    */
   config;
   /**
-   * @type {Logger}
-   */
-  logger;
-  /**
    * @type {FileSystem}
    */
   fileSystem;
@@ -21,11 +18,10 @@ class SwaggerSchemaResolver {
    */
   request;
 
-  constructor({ config, logger, fileSystem }) {
+  constructor({ config, fileSystem }) {
     this.config = config;
-    this.logger = logger;
     this.fileSystem = fileSystem;
-    this.request = new Request(config, logger);
+    this.request = new Request(config);
   }
 
   /**
@@ -113,7 +109,7 @@ class SwaggerSchemaResolver {
   }
 
   getSwaggerSchemaByPath = (pathToSwagger) => {
-    this.logger.log(`try to get swagger by path "${pathToSwagger}"`);
+    consola.info(`try to get swagger by path "${pathToSwagger}"`);
     return this.fileSystem.getFileContent(pathToSwagger);
   };
 
@@ -127,7 +123,7 @@ class SwaggerSchemaResolver {
     if (this.fileSystem.pathIsExist(pathToSwagger)) {
       return this.getSwaggerSchemaByPath(pathToSwagger);
     } else {
-      this.logger.log(`try to get swagger by URL "${urlToSwagger}"`);
+      consola.info(`try to get swagger by URL "${urlToSwagger}"`);
       return await this.request.download({
         url: urlToSwagger,
         disableStrictSSL,

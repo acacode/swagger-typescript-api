@@ -199,7 +199,6 @@ interface GenerateApiParamsBase {
    *     translate({ fileName, fileExtension, fileContent }) {
    *         this.codeFormatter.format()
    *         this.config.
-   *         this.logger.
    *
    *         return [
    *             {

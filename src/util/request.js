@@ -1,3 +1,4 @@
+import { consola } from "consola";
 import lodash from "lodash";
 
 class Request {
@@ -5,14 +6,9 @@ class Request {
    * @type {CodeGenConfig}
    */
   config;
-  /**
-   * @type {Logger}
-   */
-  logger;
 
-  constructor(config, logger) {
+  constructor(config) {
     this.config = config;
-    this.logger = logger;
   }
 
   /**
@@ -54,7 +50,7 @@ class Request {
       return await response.text();
     } catch (error) {
       const message = `error while fetching data from URL "${url}"`;
-      this.logger.error(message, "response" in error ? error.response : error);
+      consola.error(message, "response" in error ? error.response : error);
       return message;
     }
   }
