@@ -73,7 +73,7 @@
     "tsup": "8.2.4",
     "vitest": "2.0.5"
   },
-  "packageManager": "yarn@4.4.0",
+  "packageManager": "yarn@4.4.1",
   "engines": {
     "node": ">=18.0.0"
   },
