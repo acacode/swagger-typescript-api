@@ -1,0 +1,66 @@
+import type { SchemaComponent } from "../types/index.js";
+import type { CodeGenConfig } from "./configuration.js";
+
+export class SchemaComponentsMap {
+  _data: SchemaComponent[] = [];
+  config: CodeGenConfig;
+
+  constructor(config: CodeGenConfig) {
+    this.config = config;
+  }
+
+  clear() {
+    this._data = [];
+  }
+
+  createRef = (paths: string[]) => {
+    return ["#", ...paths].join("/");
+  };
+
+  parseRef = (ref: string) => {
+    return ref.split("/");
+  };
+
+  createComponent($ref: string, rawTypeData: string) {
+    const parsed = this.parseRef($ref);
+    const typeName = parsed[parsed.length - 1];
+    const componentName = parsed[parsed.length - 2];
+    const componentSchema = {
+      $ref,
+      typeName,
+      rawTypeData,
+      componentName,
+      /** result from schema parser */
+      typeData: null,
+    };
+
+    const usageComponent =
+      this.config.hooks.onCreateComponent(componentSchema) || componentSchema;
+
+    const refIndex = this._data.findIndex((c) => c.$ref === $ref);
+
+    if (refIndex === -1) {
+      this._data.push(usageComponent);
+    } else {
+      this._data[refIndex] = usageComponent;
+    }
+
+    return usageComponent;
+  }
+
+  getComponents() {
+    return this._data;
+  }
+
+  filter(...componentNames: string[]) {
+    return this._data.filter((it) =>
+      componentNames.some((componentName) =>
+        it.$ref.startsWith(`#/components/${componentName}`),
+      ),
+    );
+  }
+
+  get($ref: string) {
+    return this._data.find((c) => c.$ref === $ref) || null;
+  }
+}

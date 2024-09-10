@@ -1,8 +1,13 @@
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 
+interface Schema {
+  name: string;
+  filePath: string;
+}
+
 export async function collectAllSchemas() {
-  const schemas = [];
+  const schemas: Schema[] = [];
   const schemaPath = path.join(import.meta.dirname, "fixtures", "schemas");
   const schemaFiles = await fs.readdir(schemaPath, { recursive: true });
   for (const schemaFile of schemaFiles) {
