@@ -22,7 +22,7 @@ describe("simple", async () => {
 
   test.each(schemas)("$name", async (schema) => {
     await generateApi({
-      name: schema.name,
+      fileName: schema.name,
       input: schema.filePath,
       output: tmpdir,
       silent: true,

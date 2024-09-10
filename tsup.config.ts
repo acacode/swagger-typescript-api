@@ -3,7 +3,7 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: {
     lib: "src/index.js",
-    cli: "index.js",
+    cli: "index.ts",
   },
   clean: true,
   dts: {
