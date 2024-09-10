@@ -1,4 +1,4 @@
-import packageJson from "../package.json";
+import packageJson from "../package.json" with { type: "json" };
 
 const DEFAULT_BODY_ARG_NAME = "data";
 

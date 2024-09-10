@@ -19,7 +19,7 @@ describe("basic", async () => {
 
   test("--extract-request-params", async () => {
     await generateApi({
-      name: "schema",
+      fileName: "schema",
       input: path.resolve(import.meta.dirname, "schema.json"),
       output: tmpdir,
       silent: true,

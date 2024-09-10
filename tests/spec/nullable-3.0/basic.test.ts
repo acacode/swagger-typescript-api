@@ -19,7 +19,7 @@ describe("basic", async () => {
 
   test("nullable-3.0 refs", async () => {
     await generateApi({
-      name: "schema",
+      fileName: "schema",
       input: path.resolve(import.meta.dirname, "schema.json"),
       output: tmpdir,
       silent: true,

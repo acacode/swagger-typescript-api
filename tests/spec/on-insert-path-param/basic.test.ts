@@ -19,7 +19,7 @@ describe("basic", async () => {
 
   test("on-insert-path-param", async () => {
     await generateApi({
-      name: "schema",
+      fileName: "schema",
       input: path.resolve(import.meta.dirname, "schema.json"),
       output: tmpdir,
       silent: true,
