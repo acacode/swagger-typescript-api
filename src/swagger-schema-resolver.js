@@ -122,15 +122,14 @@ class SwaggerSchemaResolver {
   ) {
     if (this.fileSystem.pathIsExist(pathToSwagger)) {
       return this.getSwaggerSchemaByPath(pathToSwagger);
-    } else {
-      consola.info(`try to get swagger by URL "${urlToSwagger}"`);
-      return await this.request.download({
-        url: urlToSwagger,
-        disableStrictSSL,
-        authToken,
-        disableProxy,
-      });
     }
+    consola.info(`try to get swagger by URL "${urlToSwagger}"`);
+    return await this.request.download({
+      url: urlToSwagger,
+      disableStrictSSL,
+      authToken,
+      disableProxy,
+    });
   }
 
   processSwaggerSchemaFile(file) {
