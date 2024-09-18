@@ -36145,11 +36145,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description list stops for a trip identified by {trip_id}
      *
-     * @name StopDetail
+     * @name StopList
      * @request GET:/trip/{trip_id}/stop
      * @secure
      */
-    stopDetail: (tripId: string, params: RequestParams = {}) =>
+    stopList: (tripId: string, params: RequestParams = {}) =>
       this.request<Step[], any>({
         path: \`/trip/\${tripId}/stop\`,
         method: "GET",
@@ -44828,12 +44828,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @description Retrieve a list of all transactions for a specific account. The returned list is [paginated](#pagination) and can be scrolled by following the \`next\` and \`prev\` links where present. To narrow the results to a specific date range pass one or both of \`filter[since]\` and \`filter[until]\` in the query string. These filter parameters **should not** be used for pagination. Results are ordered newest first to oldest last.
      *
      * @tags Transactions
-     * @name TransactionsDetail
+     * @name TransactionsList
      * @summary List transactions by account
      * @request GET:/accounts/{accountId}/transactions
      * @secure
      */
-    transactionsDetail: (
+    transactionsList: (
       accountId: string,
       query?: {
         /**
@@ -45219,12 +45219,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @description Retrieve a list of delivery logs for a webhook by providing its unique identifier. This is useful for analysis and debugging purposes. The returned list is [paginated](#pagination) and can be scrolled by following the \`next\` and \`prev\` links where present. Results are ordered newest first to oldest last. Logs may be automatically purged after a period of time.
      *
      * @tags Webhooks
-     * @name LogsDetail
+     * @name LogsList
      * @summary List webhook logs
      * @request GET:/webhooks/{webhookId}/logs
      * @secure
      */
-    logsDetail: (
+    logsList: (
       webhookId: string,
       query?: {
         /**
