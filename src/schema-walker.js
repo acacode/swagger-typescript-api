@@ -1,10 +1,9 @@
-const _ = require("lodash");
+import { consola } from "consola";
+import lodash from "lodash";
 
 // TODO: WIP
 // this class will be needed to walk by schema everywhere
 class SchemaWalker {
-  /** @type {Logger} */
-  logger;
   /** @type {CodeGenConfig} */
   config;
   /** @type {SwaggerSchemaResolver} */
@@ -14,8 +13,7 @@ class SchemaWalker {
   /** @type {Map<string, Record<string, any>>} */
   caches = new Map();
 
-  constructor({ config, logger }) {
-    this.logger = logger;
+  constructor({ config }) {
     this.config = config;
   }
 
@@ -24,7 +22,7 @@ class SchemaWalker {
    * @param schema {Record<string, any>}
    */
   addSchema = (name, schema) => {
-    this.schemas.set(name, _.cloneDeep(schema));
+    this.schemas.set(name, structuredClone(schema));
   };
 
   /**
@@ -32,7 +30,7 @@ class SchemaWalker {
    * @returns {any}
    */
   findByRef = (ref) => {
-    this.logger.debug("try to resolve ref by path", ref);
+    consola.debug("try to resolve ref by path", ref);
 
     if (this.caches.has(ref)) {
       return this.caches.get(ref);
@@ -47,7 +45,7 @@ class SchemaWalker {
         }
       }
     } else if (this._isRemoteRef(ref)) {
-      this.logger.debug("remote refs not supported", ref);
+      consola.debug("remote refs not supported", ref);
       return null;
     } else {
       const [address, path] = path.split("#");
@@ -80,7 +78,7 @@ class SchemaWalker {
 
   _getRefDataFromSchema = (schema, ref) => {
     const path = ref.replace("#", "").split("/");
-    const refData = _.get(schema, path);
+    const refData = lodash.get(schema, path);
     if (refData) {
       this.caches.set(ref, refData);
     }
@@ -88,6 +86,4 @@ class SchemaWalker {
   };
 }
 
-module.exports = {
-  SchemaWalker,
-};
+export { SchemaWalker };

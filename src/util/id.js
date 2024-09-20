@@ -1,9 +1,7 @@
-const { customAlphabet } = require("nanoid");
+import * as nanoid from "nanoid";
 
 const ALPHABET = "abcdefghijklmnopqrstuvwxyz0123456789";
 
-const generateId = customAlphabet(ALPHABET, 12);
+const generateId = nanoid.customAlphabet(ALPHABET, 12);
 
-module.exports = {
-  generateId,
-};
+export { generateId };

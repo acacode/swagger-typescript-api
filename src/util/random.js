@@ -8,7 +8,4 @@ const getRandomInt = (min = 0, max = 1) => {
   return Math.round(getRandomFloat(min, max));
 };
 
-module.exports = {
-  getRandomInt,
-  getRandomFloat,
-};
+export { getRandomInt, getRandomFloat };

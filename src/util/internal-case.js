@@ -1,5 +1,7 @@
-const _ = require("lodash");
+import lodash from "lodash";
 
-module.exports = {
-  internalCase: (value) => _.camelCase(_.lowerCase(value)),
-};
+function internalCase(value) {
+  return lodash.camelCase(lodash.lowerCase(value));
+}
+
+export { internalCase };

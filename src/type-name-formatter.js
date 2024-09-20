@@ -1,4 +1,5 @@
-const _ = require("lodash");
+import { consola } from "consola";
+import lodash from "lodash";
 
 /**
  * @typedef {"enum-key" | "type-name"} FormattingSchemaType
@@ -7,16 +8,11 @@ const _ = require("lodash");
 class TypeNameFormatter {
   /** @type {Map<string, string>} */
   formattedModelNamesMap = new Map();
-
   /** @type {CodeGenConfig} */
   config;
 
-  /** @type {Logger} */
-  logger;
-
-  constructor({ config, logger }) {
+  constructor({ config }) {
     this.config = config;
-    this.logger = logger;
   }
 
   /**
@@ -24,13 +20,8 @@ class TypeNameFormatter {
    * @param options {{ type?: FormattingSchemaType }}
    * @return {string}
    */
-  format = (name, options) => {
-    options = options || {};
-
-    /**
-     * @type {FormattingSchemaType}
-     */
-    const schemaType = options.type || "type-name";
+  format = (name, options = {}) => {
+    const schemaType = options.type ?? "type-name";
 
     const typePrefix =
       schemaType === "enum-key"
@@ -44,13 +35,13 @@ class TypeNameFormatter {
     const hashKey = `${typePrefix}_${name}_${typeSuffix}`;
 
     if (typeof name !== "string") {
-      this.logger.warn("wrong name of the model name", name);
+      consola.warn("wrong name of the model name", name);
       return name;
     }
 
     // constant names like LEFT_ARROW, RIGHT_FORWARD, ETC_KEY, _KEY_NUM_
     if (/^([A-Z_]{1,})$/g.test(name)) {
-      return _.compact([typePrefix, name, typeSuffix]).join("_");
+      return lodash.compact([typePrefix, name, typeSuffix]).join("_");
     }
 
     if (this.formattedModelNamesMap.has(hashKey)) {
@@ -59,11 +50,9 @@ class TypeNameFormatter {
 
     const fixedModelName = this.fixModelName(name, { type: schemaType });
 
-    const formattedName = _.replace(
-      _.startCase(`${typePrefix}_${fixedModelName}_${typeSuffix}`),
-      /\s/g,
-      "",
-    );
+    const formattedName = lodash
+      .startCase(`${typePrefix}_${fixedModelName}_${typeSuffix}`)
+      .replace(/\s/g, "");
     const formattedResultName =
       this.config.hooks.onFormatTypeName(formattedName, name, schemaType) ||
       formattedName;
@@ -101,13 +90,11 @@ class TypeNameFormatter {
           .replace(/(\.?%22)|\./g, "_")
           .replace(/__+$/, "");
 
-      if (name.includes("-")) name = _.startCase(name).replace(/ /g, "");
+      if (name.includes("-")) name = lodash.startCase(name).replace(/ /g, "");
     }
 
     return name;
   };
 }
 
-module.exports = {
-  TypeNameFormatter,
-};
+export { TypeNameFormatter };

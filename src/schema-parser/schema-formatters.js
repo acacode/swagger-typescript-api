@@ -1,11 +1,9 @@
-const { SCHEMA_TYPES } = require("../constants");
-const _ = require("lodash");
+import lodash from "lodash";
+import { SCHEMA_TYPES } from "../constants.js";
 
 class SchemaFormatters {
   /** @type {CodeGenConfig} */
   config;
-  /** @type {Logger} */
-  logger;
   /** @type {TemplatesWorker} */
   templatesWorker;
   /** @type {SchemaUtils} */
@@ -16,7 +14,6 @@ class SchemaFormatters {
    */
   constructor(schemaParser) {
     this.config = schemaParser.config;
-    this.logger = schemaParser.logger;
     this.schemaUtils = schemaParser.schemaUtils;
     this.templatesWorker = schemaParser.templatesWorker;
   }
@@ -28,7 +25,7 @@ class SchemaFormatters {
           ...parsedSchema,
           $content: parsedSchema.content,
           content: this.config.Ts.UnionType(
-            _.map(parsedSchema.content, ({ value }) => value),
+            parsedSchema.content.map(({ value }) => value),
           ),
         };
       }
@@ -62,21 +59,20 @@ class SchemaFormatters {
         content: parsedSchema.$ref
           ? parsedSchema.typeName
           : this.config.Ts.UnionType(
-              _.compact([
-                ..._.map(parsedSchema.content, ({ value }) => `${value}`),
+              lodash.compact([
+                ...parsedSchema.content.map(({ value }) => `${value}`),
                 parsedSchema.nullable && this.config.Ts.Keyword.Null,
               ]),
             ) || this.config.Ts.Keyword.Any,
       };
     },
     [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
-      if (_.isString(parsedSchema.content)) {
+      if (typeof parsedSchema.content === "string")
         return {
           ...parsedSchema,
           typeIdentifier: this.config.Ts.Keyword.Type,
           content: this.schemaUtils.safeAddNullToType(parsedSchema.content),
         };
-      }
 
       return {
         ...parsedSchema,
@@ -102,33 +98,30 @@ class SchemaFormatters {
    */
   formatSchema = (parsedSchema, formatType = "base") => {
     const schemaType =
-      _.get(parsedSchema, ["schemaType"]) ||
-      _.get(parsedSchema, ["$parsed", "schemaType"]);
-    const formatterFn = _.get(this, [formatType, schemaType]);
-    return (formatterFn && formatterFn(parsedSchema)) || parsedSchema;
+      lodash.get(parsedSchema, ["schemaType"]) ||
+      lodash.get(parsedSchema, ["$parsed", "schemaType"]);
+    const formatterFn = lodash.get(this, [formatType, schemaType]);
+    return formatterFn?.(parsedSchema) || parsedSchema;
   };
 
   formatDescription = (description, inline) => {
     if (!description) return "";
 
-    let prettified = description;
+    const hasMultipleLines = description.includes("\n");
 
-    prettified = _.replace(prettified, /\*\//g, "*/");
-
-    const hasMultipleLines = _.includes(prettified, "\n");
-
-    if (!hasMultipleLines) return prettified;
+    if (!hasMultipleLines) return description;
 
     if (inline) {
-      return _(prettified)
+      return lodash
+        ._(description)
         .split(/\n/g)
-        .map((part) => _.trim(part))
+        .map((part) => part.trim())
         .compact()
         .join(" ")
         .valueOf();
     }
 
-    return _.replace(prettified, /\n$/g, "");
+    return description.replace(/\n$/g, "");
   };
 
   formatObjectContent = (content) => {
@@ -161,6 +154,4 @@ class SchemaFormatters {
   };
 }
 
-module.exports = {
-  SchemaFormatters,
-};
+export { SchemaFormatters };

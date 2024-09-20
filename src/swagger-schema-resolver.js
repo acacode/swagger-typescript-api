@@ -1,17 +1,14 @@
-const _ = require("lodash");
-const converter = require("swagger2openapi");
-const yaml = require("js-yaml");
-const { Request } = require("./util/request");
+import { consola } from "consola";
+import * as yaml from "js-yaml";
+import lodash from "lodash";
+import * as swagger2openapi from "swagger2openapi";
+import { Request } from "./util/request.js";
 
 class SwaggerSchemaResolver {
   /**
    * @type {CodeGenConfig}
    */
   config;
-  /**
-   * @type {Logger}
-   */
-  logger;
   /**
    * @type {FileSystem}
    */
@@ -21,11 +18,10 @@ class SwaggerSchemaResolver {
    */
   request;
 
-  constructor({ config, logger, fileSystem }) {
+  constructor({ config, fileSystem }) {
     this.config = config;
-    this.logger = logger;
     this.fileSystem = fileSystem;
-    this.request = new Request(config, logger);
+    this.request = new Request(config);
   }
 
   /**
@@ -67,8 +63,8 @@ class SwaggerSchemaResolver {
    */
   convertSwaggerObject(swaggerSchema, converterOptions) {
     return new Promise((resolve) => {
-      const result = _.cloneDeep(swaggerSchema);
-      result.info = _.merge(
+      const result = structuredClone(swaggerSchema);
+      result.info = lodash.merge(
         {
           title: "No title",
           version: "",
@@ -77,9 +73,9 @@ class SwaggerSchemaResolver {
       );
 
       if (!result.openapi) {
-        result.paths = _.merge({}, result.paths);
+        result.paths = lodash.merge({}, result.paths);
 
-        converter.convertObj(
+        swagger2openapi.convertObj(
           result,
           {
             ...converterOptions,
@@ -88,10 +84,10 @@ class SwaggerSchemaResolver {
             rbname: "requestBodyName",
           },
           (err, options) => {
-            const parsedSwaggerSchema = _.get(
+            const parsedSwaggerSchema = lodash.get(
               err,
               "options.openapi",
-              _.get(options, "openapi"),
+              lodash.get(options, "openapi"),
             );
             if (!parsedSwaggerSchema && err) {
               throw new Error(err);
@@ -106,14 +102,14 @@ class SwaggerSchemaResolver {
       } else {
         resolve({
           usageSchema: result,
-          originalSchema: _.cloneDeep(result),
+          originalSchema: structuredClone(result),
         });
       }
     });
   }
 
   getSwaggerSchemaByPath = (pathToSwagger) => {
-    this.logger.log(`try to get swagger by path "${pathToSwagger}"`);
+    consola.info(`try to get swagger by path "${pathToSwagger}"`);
     return this.fileSystem.getFileContent(pathToSwagger);
   };
 
@@ -126,15 +122,14 @@ class SwaggerSchemaResolver {
   ) {
     if (this.fileSystem.pathIsExist(pathToSwagger)) {
       return this.getSwaggerSchemaByPath(pathToSwagger);
-    } else {
-      this.logger.log(`try to get swagger by URL "${urlToSwagger}"`);
-      return await this.request.download({
-        url: urlToSwagger,
-        disableStrictSSL,
-        authToken,
-        disableProxy,
-      });
     }
+    consola.info(`try to get swagger by URL "${urlToSwagger}"`);
+    return await this.request.download({
+      url: urlToSwagger,
+      disableStrictSSL,
+      authToken,
+      disableProxy,
+    });
   }
 
   processSwaggerSchemaFile(file) {
@@ -148,37 +143,40 @@ class SwaggerSchemaResolver {
   }
 
   fixSwaggerSchema({ usageSchema, originalSchema }) {
-    const usagePaths = _.get(usageSchema, "paths");
-    const originalPaths = _.get(originalSchema, "paths");
+    const usagePaths = lodash.get(usageSchema, "paths");
+    const originalPaths = lodash.get(originalSchema, "paths");
 
     // walk by routes
-    _.each(usagePaths, (usagePathObject, route) => {
-      const originalPathObject = _.get(originalPaths, route);
+    lodash.each(usagePaths, (usagePathObject, route) => {
+      const originalPathObject = lodash.get(originalPaths, route);
 
       // walk by methods
-      _.each(usagePathObject, (usageRouteInfo, methodName) => {
-        const originalRouteInfo = _.get(originalPathObject, methodName);
-        const usageRouteParams = _.get(usageRouteInfo, "parameters", []);
-        const originalRouteParams = _.get(originalRouteInfo, "parameters", []);
+      lodash.each(usagePathObject, (usageRouteInfo, methodName) => {
+        const originalRouteInfo = lodash.get(originalPathObject, methodName);
+        const usageRouteParams = lodash.get(usageRouteInfo, "parameters", []);
+        const originalRouteParams = lodash.get(
+          originalRouteInfo,
+          "parameters",
+          [],
+        );
 
         if (typeof usageRouteInfo === "object") {
-          usageRouteInfo.consumes = _.uniq(
-            _.compact([
+          usageRouteInfo.consumes = lodash.uniq(
+            lodash.compact([
               ...(usageRouteInfo.consumes || []),
               ...(originalRouteInfo.consumes || []),
             ]),
           );
-          usageRouteInfo.produces = _.uniq(
-            _.compact([
+          usageRouteInfo.produces = lodash.uniq(
+            lodash.compact([
               ...(usageRouteInfo.produces || []),
               ...(originalRouteInfo.produces || []),
             ]),
           );
         }
 
-        _.each(originalRouteParams, (originalRouteParam) => {
-          const existUsageParam = _.find(
-            usageRouteParams,
+        lodash.each(originalRouteParams, (originalRouteParam) => {
+          const existUsageParam = usageRouteParams.find(
             (param) =>
               originalRouteParam.in === param.in &&
               originalRouteParam.name === param.name,
@@ -192,6 +190,4 @@ class SwaggerSchemaResolver {
   }
 }
 
-module.exports = {
-  SwaggerSchemaResolver,
-};
+export { SwaggerSchemaResolver };

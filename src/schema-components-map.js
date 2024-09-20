@@ -1,5 +1,3 @@
-const _ = require("lodash");
-
 class SchemaComponentsMap {
   /** @type {SchemaComponent[]} */
   _data = [];
@@ -61,9 +59,9 @@ class SchemaComponentsMap {
    * @returns {SchemaComponent[]}
    */
   filter(...componentNames) {
-    return _.filter(this._data, (it) =>
+    return this._data.filter((it) =>
       componentNames.some((componentName) =>
-        _.startsWith(it.$ref, `#/components/${componentName}`),
+        it.$ref.startsWith(`#/components/${componentName}`),
       ),
     );
   }
@@ -73,6 +71,4 @@ class SchemaComponentsMap {
   }
 }
 
-module.exports = {
-  SchemaComponentsMap,
-};
+export { SchemaComponentsMap };

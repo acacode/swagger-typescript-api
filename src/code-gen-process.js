@@ -1,21 +1,21 @@
-const { SwaggerSchemaResolver } = require("./swagger-schema-resolver.js");
-const { SchemaComponentsMap } = require("./schema-components-map.js");
-const { NameResolver } = require("./util/name-resolver");
-const { Logger } = require("./util/logger.js");
-const { TypeNameFormatter } = require("./type-name-formatter.js");
-const _ = require("lodash");
-const { SchemaParserFabric } = require("./schema-parser/schema-parser-fabric");
-const { SchemaRoutes } = require("./schema-routes/schema-routes.js");
-const { CodeGenConfig } = require("./configuration.js");
-const { SchemaWalker } = require("./schema-walker");
-const { FileSystem } = require("./util/file-system");
-const { TemplatesWorker } = require("./templates-worker");
-const { JavascriptTranslator } = require("./translators/javascript");
-const ts = require("typescript");
-const { CodeFormatter } = require("./code-formatter");
-const { pascalCase } = require("./util/pascal-case");
-const { internalCase } = require("./util/internal-case");
-const { sortByProperty } = require("./util/sort-by-property");
+import { consola } from "consola";
+import lodash from "lodash";
+import * as typescript from "typescript";
+import { CodeFormatter } from "./code-formatter.js";
+import { CodeGenConfig } from "./configuration.js";
+import { SchemaComponentsMap } from "./schema-components-map.js";
+import { SchemaParserFabric } from "./schema-parser/schema-parser-fabric.js";
+import { SchemaRoutes } from "./schema-routes/schema-routes.js";
+import { SchemaWalker } from "./schema-walker.js";
+import { SwaggerSchemaResolver } from "./swagger-schema-resolver.js";
+import { TemplatesWorker } from "./templates-worker.js";
+import { JavascriptTranslator } from "./translators/javascript.js";
+import { TypeNameFormatter } from "./type-name-formatter.js";
+import { FileSystem } from "./util/file-system.js";
+import { internalCase } from "./util/internal-case.js";
+import { NameResolver } from "./util/name-resolver.js";
+import { pascalCase } from "./util/pascal-case.js";
+import { sortByProperty } from "./util/sort-by-property.js";
 
 const PATCHABLE_INSTANCES = [
   "schemaWalker",
@@ -36,8 +36,6 @@ class CodeGenProcess {
   swaggerSchemaResolver;
   /** @type {SchemaComponentsMap} */
   schemaComponentsMap;
-  /** @type {Logger} */
-  logger;
   /** @type {TypeNameFormatter} */
   typeNameFormatter;
   /** @type {SchemaParserFabric} */
@@ -61,7 +59,6 @@ class CodeGenProcess {
    */
   constructor(config) {
     this.config = new CodeGenConfig(config);
-    this.logger = new Logger(this);
     this.fileSystem = new FileSystem(this);
     this.schemaWalker = new SchemaWalker(this);
     this.swaggerSchemaResolver = new SwaggerSchemaResolver(this);
@@ -72,7 +69,6 @@ class CodeGenProcess {
     this.schemaParserFabric = new SchemaParserFabric(this);
     this.schemaRoutes = new SchemaRoutes(this);
     this.javascriptTranslator = new JavascriptTranslator(this);
-    this.config.componentTypeNameResolver.logger = this.logger;
   }
 
   async start() {
@@ -95,7 +91,7 @@ class CodeGenProcess {
     this.schemaWalker.addSchema("$usage", swagger.usageSchema);
     this.schemaWalker.addSchema("$original", swagger.originalSchema);
 
-    this.logger.event("start generating your typescript api");
+    consola.info("start generating your typescript api");
 
     this.config.update(
       this.config.hooks.onInit(this.config, this) || this.config,
@@ -103,8 +99,8 @@ class CodeGenProcess {
 
     this.schemaComponentsMap.clear();
 
-    _.each(swagger.usageSchema.components, (component, componentName) =>
-      _.each(component, (rawTypeData, typeName) => {
+    lodash.each(swagger.usageSchema.components, (component, componentName) =>
+      lodash.each(component, (rawTypeData, typeName) => {
         this.schemaComponentsMap.createComponent(
           this.schemaComponentsMap.createRef([
             "components",
@@ -120,7 +116,7 @@ class CodeGenProcess {
      * @type {SchemaComponent[]}
      */
     const componentsToParse = this.schemaComponentsMap.filter(
-      _.compact(["schemas", this.config.extractResponses && "responses"]),
+      lodash.compact(["schemas", this.config.extractResponses && "responses"]),
     );
 
     const parsedSchemas = componentsToParse.map((schemaComponent) => {
@@ -160,11 +156,11 @@ class CodeGenProcess {
 
     if (this.fileSystem.pathIsExist(this.config.output)) {
       if (this.config.cleanOutput) {
-        this.logger.debug(`cleaning dir ${this.config.output}`);
+        consola.debug("cleaning dir", this.config.output);
         this.fileSystem.cleanDir(this.config.output);
       }
     } else {
-      this.logger.debug(
+      consola.debug(
         `path ${this.config.output} is not exist. creating dir by this path`,
       );
       this.fileSystem.createDir(this.config.output);
@@ -177,7 +173,7 @@ class CodeGenProcess {
     const isDirPath = this.fileSystem.pathIsDir(this.config.output);
 
     if (isDirPath) {
-      files.forEach((file) => {
+      for (const file of files) {
         this.fileSystem.createFile({
           path: this.config.output,
           fileName: `${file.fileName}${file.fileExtension}`,
@@ -185,12 +181,12 @@ class CodeGenProcess {
           withPrefix: true,
         });
 
-        this.logger.success(
+        consola.success(
           "api file",
           `"${file.fileName}${file.fileExtension}"`,
           `created in ${this.config.output}`,
         );
-      });
+      }
     }
 
     return {
@@ -228,7 +224,7 @@ class CodeGenProcess {
           return ` * ${line}${eol ? "\n" : ""}`;
         },
         NameResolver: NameResolver,
-        _,
+        _: lodash,
         require: this.templatesWorker.requireFnFromTemplate,
       },
       config: this.config,
@@ -239,7 +235,7 @@ class CodeGenProcess {
     const components = this.schemaComponentsMap.getComponents();
     let modelTypes = [];
 
-    const modelTypeComponents = _.compact([
+    const modelTypeComponents = lodash.compact([
       "schemas",
       this.config.extractResponses && "responses",
     ]);
@@ -289,7 +285,12 @@ class CodeGenProcess {
           rawTypeData,
         )
       : rawTypeData;
-    let { typeIdentifier, name: originalName, content, description } = typeData;
+    const {
+      typeIdentifier,
+      name: originalName,
+      content,
+      description,
+    } = typeData;
     const name = this.typeNameFormatter.format(originalName);
 
     if (name === null) return null;
@@ -322,7 +323,7 @@ class CodeGenProcess {
       ? await this.createMultipleFileInfos(templatesToRender, configuration)
       : await this.createSingleFileInfo(templatesToRender, configuration);
 
-    if (!_.isEmpty(configuration.extraTemplates)) {
+    if (!lodash.isEmpty(configuration.extraTemplates)) {
       for (const extraTemplate of configuration.extraTemplates) {
         const content = this.templatesWorker.renderTemplate(
           this.fileSystem.getFileContent(extraTemplate.path),
@@ -467,27 +468,29 @@ class CodeGenProcess {
     return await this.createOutputFileInfo(
       configuration,
       configuration.fileName,
-      _.compact([
-        this.templatesWorker.renderTemplate(
-          templatesToRender.dataContracts,
-          configuration,
-        ),
-        generateRouteTypes &&
+      lodash
+        .compact([
           this.templatesWorker.renderTemplate(
-            templatesToRender.routeTypes,
+            templatesToRender.dataContracts,
             configuration,
           ),
-        generateClient &&
-          this.templatesWorker.renderTemplate(
-            templatesToRender.httpClient,
-            configuration,
-          ),
-        generateClient &&
-          this.templatesWorker.renderTemplate(
-            templatesToRender.api,
-            configuration,
-          ),
-      ]).join("\n"),
+          generateRouteTypes &&
+            this.templatesWorker.renderTemplate(
+              templatesToRender.routeTypes,
+              configuration,
+            ),
+          generateClient &&
+            this.templatesWorker.renderTemplate(
+              templatesToRender.httpClient,
+              configuration,
+            ),
+          generateClient &&
+            this.templatesWorker.renderTemplate(
+              templatesToRender.api,
+              configuration,
+            ),
+        ])
+        .join("\n"),
     );
   };
 
@@ -500,10 +503,10 @@ class CodeGenProcess {
    */
   createOutputFileInfo = async (configuration, fileNameFull, content) => {
     const fileName = this.fileSystem.cropExtension(fileNameFull);
-    const fileExtension = ts.Extension.Ts;
+    const fileExtension = typescript.Extension.Ts;
 
     if (configuration.translateToJavaScript) {
-      this.logger.debug("using js translator for", fileName);
+      consola.debug("using js translator for", fileName);
       return await this.javascriptTranslator.translate({
         fileName: fileName,
         fileExtension: fileExtension,
@@ -512,7 +515,7 @@ class CodeGenProcess {
     }
 
     if (configuration.customTranslator) {
-      this.logger.debug("using custom translator for", fileName);
+      consola.debug("using custom translator for", fileName);
       return await configuration.customTranslator.translate({
         fileName: fileName,
         fileExtension: fileExtension,
@@ -520,7 +523,7 @@ class CodeGenProcess {
       });
     }
 
-    this.logger.debug("generating output for", `${fileName}${fileExtension}`);
+    consola.debug("generating output for", `${fileName}${fileExtension}`);
 
     return [
       {
@@ -533,7 +536,7 @@ class CodeGenProcess {
 
   createApiConfig = (swaggerSchema) => {
     const { info, servers, host, basePath, externalDocs, tags } = swaggerSchema;
-    const server = (servers && servers[0]) || { url: "" };
+    const server = servers?.[0] || { url: "" };
     const { title = "No title", version } = info || {};
     const { url: serverUrl } = server;
 
@@ -542,14 +545,14 @@ class CodeGenProcess {
       servers: servers || [],
       basePath,
       host,
-      externalDocs: _.merge(
+      externalDocs: lodash.merge(
         {
           url: "",
           description: "",
         },
         externalDocs,
       ),
-      tags: _.compact(tags),
+      tags: lodash.compact(tags),
       baseUrl: serverUrl,
       title,
       version,
@@ -558,14 +561,12 @@ class CodeGenProcess {
 
   injectClassInstance = (key, value) => {
     this[key] = value;
-    PATCHABLE_INSTANCES.forEach((instanceKey) => {
+    for (const instanceKey of PATCHABLE_INSTANCES) {
       if (instanceKey !== key && key in this[instanceKey]) {
         this[instanceKey][key] = value;
       }
-    });
+    }
   };
 }
 
-module.exports = {
-  CodeGenProcess,
-};
+export { CodeGenProcess };

@@ -1,14 +1,14 @@
 {
+  "extends": [
+    "@tsconfig/strictest/tsconfig.json",
+    "@tsconfig/node18/tsconfig.json"
+  ],
   "compilerOptions": {
-    "allowJs": true,
-    "noEmitOnError": true,
-    "noImplicitAny": true,
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "strict": true,
+    "checkJs": false,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "noEmit": true,
-    "typeRoots": ["node_modules/@types"],
-    "types": []
-  }
+    "resolveJsonModule": true
+  },
+  "exclude": ["dist"]
 }

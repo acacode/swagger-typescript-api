@@ -1,20 +1,12 @@
 {
   "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "ignore": [
-      "package.json",
-      "tests/**/expected.ts",
-      "tests/**/expected/**",
-      "tests/**/generated/**",
-      "tests/**/schema.d.ts",
-      "tests/**/schema.js",
-      "tests/**/schema.ts"
-    ],
+    "ignore": ["package.json"],
     "maxSize": 10000000
   },
   "formatter": {
     "enabled": true,
-    "indentStyle": "space"
+    "useEditorconfig": true
   },
   "linter": {
     "enabled": true,

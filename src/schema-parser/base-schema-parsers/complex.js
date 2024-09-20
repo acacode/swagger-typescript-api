@@ -1,20 +1,20 @@
-const { MonoSchemaParser } = require("../mono-schema-parser");
-const _ = require("lodash");
-const { SCHEMA_TYPES } = require("../../constants");
+import lodash from "lodash";
+import { SCHEMA_TYPES } from "../../constants.js";
+import { MonoSchemaParser } from "../mono-schema-parser.js";
 
 class ComplexSchemaParser extends MonoSchemaParser {
   parse() {
     const complexType = this.schemaUtils.getComplexType(this.schema);
-    const simpleSchema = _.omit(
-      _.clone(this.schema),
-      _.keys(this.schemaParser._complexSchemaParsers),
+    const simpleSchema = lodash.omit(
+      lodash.clone(this.schema),
+      lodash.keys(this.schemaParser._complexSchemaParsers),
     );
     const complexSchemaContent = this.schemaParser._complexSchemaParsers[
       complexType
     ](this.schema);
 
     return {
-      ...(_.isObject(this.schema) ? this.schema : {}),
+      ...(typeof this.schema === "object" ? this.schema : {}),
       $schemaPath: this.schemaPath.slice(),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.COMPLEX,
@@ -23,12 +23,14 @@ class ComplexSchemaParser extends MonoSchemaParser {
       name: this.typeName,
       description: this.schemaFormatters.formatDescription(
         this.schema.description ||
-          _.compact(_.map(this.schema[complexType], "description"))[0] ||
+          lodash.compact(
+            lodash.map(this.schema[complexType], "description"),
+          )[0] ||
           "",
       ),
       content:
         this.config.Ts.IntersectionType(
-          _.compact([
+          lodash.compact([
             this.config.Ts.ExpressionGroup(complexSchemaContent),
             this.schemaUtils.getInternalSchemaType(simpleSchema) ===
               SCHEMA_TYPES.OBJECT &&
@@ -46,6 +48,4 @@ class ComplexSchemaParser extends MonoSchemaParser {
   }
 }
 
-module.exports = {
-  ComplexSchemaParser,
-};
+export { ComplexSchemaParser };

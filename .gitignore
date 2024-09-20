@@ -1,11 +1,3 @@
-/.yarn/*
-!/.yarn/releases
-
-/.idea/
-/.vscode/
+/.yarn/
 /dist/
 /node_modules/
-
-.env
-swagger-test-cli
-swagger-test-cli.*

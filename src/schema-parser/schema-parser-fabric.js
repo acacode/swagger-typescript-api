@@ -1,13 +1,10 @@
-const _ = require("lodash");
-const { SchemaFormatters } = require("./schema-formatters");
-const { SchemaUtils } = require("./schema-utils");
-const { SchemaParser } = require("./schema-parser");
+import { SchemaFormatters } from "./schema-formatters.js";
+import { SchemaParser } from "./schema-parser.js";
+import { SchemaUtils } from "./schema-utils.js";
 
 class SchemaParserFabric {
   /** @type {CodeGenConfig} */
   config;
-  /** @type {Logger} */
-  logger;
   /** @type {SchemaComponentsMap} */
   schemaComponentsMap;
   /** @type {TypeNameFormatter} */
@@ -23,14 +20,12 @@ class SchemaParserFabric {
 
   constructor({
     config,
-    logger,
     templatesWorker,
     schemaComponentsMap,
     typeNameFormatter,
     schemaWalker,
   }) {
     this.config = config;
-    this.logger = logger;
     this.schemaComponentsMap = schemaComponentsMap;
     this.typeNameFormatter = typeNameFormatter;
     this.templatesWorker = templatesWorker;
@@ -73,7 +68,7 @@ class SchemaParserFabric {
   };
 
   createParsedComponent = ({ typeName, schema, schemaPath }) => {
-    const schemaCopy = _.cloneDeep(schema);
+    const schemaCopy = structuredClone(schema);
     const customComponent = this.schemaComponentsMap.createComponent(
       this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
       schemaCopy,
@@ -127,6 +122,4 @@ class SchemaParserFabric {
   };
 }
 
-module.exports = {
-  SchemaParserFabric,
-};
+export { SchemaParserFabric };

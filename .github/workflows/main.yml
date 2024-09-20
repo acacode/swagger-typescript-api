@@ -4,10 +4,11 @@ on:
   - push
   - pull_request
 
+permissions: read-all
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout tree
         uses: actions/checkout@v4
@@ -18,11 +19,12 @@ jobs:
           node-version: 22
           check-latest: true
 
-      - name: Install dependencies
-        run: yarn install --immutable
+      - run: corepack enable
 
-      - name: Check formatting
-        run: yarn format:check
+      - run: yarn install --immutable
 
-      - name: Run the tests
-        run: yarn test-all
+      - run: yarn format:check
+
+      - run: yarn build
+
+      - run: yarn test

@@ -1,13 +1,13 @@
-const { MonoSchemaParser } = require("../mono-schema-parser");
-const _ = require("lodash");
-const { SCHEMA_TYPES } = require("../../constants");
+import lodash from "lodash";
+import { SCHEMA_TYPES } from "../../constants.js";
+import { MonoSchemaParser } from "../mono-schema-parser.js";
 
 class ObjectSchemaParser extends MonoSchemaParser {
   parse() {
     const contentProperties = this.getObjectSchemaContent(this.schema);
 
     return {
-      ...(_.isObject(this.schema) ? this.schema : {}),
+      ...(typeof this.schema === "object" ? this.schema : {}),
       $schemaPath: this.schemaPath.slice(),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.OBJECT,
@@ -17,10 +17,7 @@ class ObjectSchemaParser extends MonoSchemaParser {
       description: this.schemaFormatters.formatDescription(
         this.schema.description,
       ),
-      allFieldsAreOptional: !_.some(
-        _.values(contentProperties),
-        (part) => part.isRequired,
-      ),
+      allFieldsAreOptional: !contentProperties.some((part) => part.isRequired),
       content: contentProperties,
     };
   }
@@ -28,13 +25,13 @@ class ObjectSchemaParser extends MonoSchemaParser {
   getObjectSchemaContent = (schema) => {
     const { properties, additionalProperties } = schema || {};
 
-    const propertiesContent = _.map(properties, (property, name) => {
+    const propertiesContent = lodash.map(properties, (property, name) => {
       const required = this.schemaUtils.isPropertyRequired(
         name,
         property,
         schema,
       );
-      const rawTypeData = _.get(
+      const rawTypeData = lodash.get(
         this.schemaUtils.getSchemaRefType(property),
         "rawTypeData",
         {},
@@ -57,15 +54,15 @@ class ObjectSchemaParser extends MonoSchemaParser {
         title: property.title,
         description:
           property.description ||
-          _.compact(
-            _.map(
+          lodash.compact(
+            lodash.map(
               property[this.schemaUtils.getComplexType(property)],
               "description",
             ),
           )[0] ||
           rawTypeData.description ||
-          _.compact(
-            _.map(
+          lodash.compact(
+            lodash.map(
               rawTypeData[this.schemaUtils.getComplexType(rawTypeData)],
               "description",
             ),
@@ -100,6 +97,4 @@ class ObjectSchemaParser extends MonoSchemaParser {
   };
 }
 
-module.exports = {
-  ObjectSchemaParser,
-};
+export { ObjectSchemaParser };

@@ -1,6 +1,6 @@
-const _ = require("lodash");
-const { SCHEMA_TYPES } = require("../../constants");
-const { MonoSchemaParser } = require("../mono-schema-parser");
+import lodash from "lodash";
+import { SCHEMA_TYPES } from "../../constants.js";
+import { MonoSchemaParser } from "../mono-schema-parser.js";
 
 class DiscriminatorSchemaParser extends MonoSchemaParser {
   parse() {
@@ -36,7 +36,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     );
 
     return {
-      ...(_.isObject(this.schema) ? this.schema : {}),
+      ...(typeof this.schema === "object" ? this.schema : {}),
       $schemaPath: this.schemaPath.slice(),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.COMPLEX,
@@ -59,7 +59,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
       this.typeName,
     ]);
     const { discriminator } = this.schema;
-    const mappingEntries = _.entries(discriminator.mapping);
+    const mappingEntries = lodash.entries(discriminator.mapping);
     const ableToCreateMappingType =
       !skipMappingType &&
       !!(abstractSchemaStruct?.typeName && mappingEntries.length);
@@ -121,19 +121,19 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
 
       if (ableToCreateMappingType) {
         return ts.TypeWithGeneric(mappingTypeName, [mappingUsageKey, content]);
-      } else {
-        return ts.ExpressionGroup(
-          ts.IntersectionType([
-            ts.ObjectWrapper(
-              ts.TypeField({
-                key: discriminator.propertyName,
-                value: mappingUsageKey,
-              }),
-            ),
-            content,
-          ]),
-        );
       }
+
+      return ts.ExpressionGroup(
+        ts.IntersectionType([
+          ts.ObjectWrapper(
+            ts.TypeField({
+              key: discriminator.propertyName,
+              value: mappingUsageKey,
+            }),
+          ),
+          content,
+        ]),
+      );
     };
 
     for (const [mappingKey, schema] of mappingEntries) {
@@ -167,7 +167,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     const ts = this.config.Ts;
 
     let mappingPropertySchemaEnumKeysMap = {};
-    let mappingPropertySchema = _.get(
+    let mappingPropertySchema = lodash.get(
       abstractSchemaStruct?.component?.rawTypeData,
       ["properties", discPropertyName],
     );
@@ -180,7 +180,7 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     if (
       mappingPropertySchema?.rawTypeData?.$parsed?.type === SCHEMA_TYPES.ENUM
     ) {
-      mappingPropertySchemaEnumKeysMap = _.reduce(
+      mappingPropertySchemaEnumKeysMap = lodash.reduce(
         mappingPropertySchema.rawTypeData.$parsed.enum,
         (acc, key, index) => {
           const enumKey =
@@ -205,14 +205,16 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
     refPath,
     mappingPropertySchemaEnumKeysMap,
   }) => {
-    const complexSchemaKeys = _.keys(this.schemaParser._complexSchemaParsers);
+    const complexSchemaKeys = lodash.keys(
+      this.schemaParser._complexSchemaParsers,
+    );
     // override parent dependencies
     if (mappingSchema.$ref && abstractSchemaStruct?.component?.$ref) {
       const mappingRefSchema =
         this.schemaUtils.getSchemaRefType(mappingSchema)?.rawTypeData;
       if (mappingRefSchema) {
-        complexSchemaKeys.forEach((schemaKey) => {
-          if (_.isArray(mappingRefSchema[schemaKey])) {
+        for (const schemaKey of complexSchemaKeys) {
+          if (Array.isArray(mappingRefSchema[schemaKey])) {
             mappingRefSchema[schemaKey] = mappingRefSchema[schemaKey].map(
               (schema) => {
                 if (schema.$ref === refPath) {
@@ -249,20 +251,24 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
               },
             );
           }
-        });
+        }
       }
     }
   };
 
   createAbstractSchemaStruct = () => {
-    // eslint-disable-next-line no-unused-vars
     const { discriminator, ...noDiscriminatorSchema } = this.schema;
-    const complexSchemaKeys = _.keys(this.schemaParser._complexSchemaParsers);
-    const schema = _.omit(_.clone(noDiscriminatorSchema), complexSchemaKeys);
+    const complexSchemaKeys = lodash.keys(
+      this.schemaParser._complexSchemaParsers,
+    );
+    const schema = lodash.omit(
+      structuredClone(noDiscriminatorSchema),
+      complexSchemaKeys,
+    );
     const schemaIsAny =
-      this.schemaParserFabric.getInlineParseContent(_.cloneDeep(schema)) ===
+      this.schemaParserFabric.getInlineParseContent(structuredClone(schema)) ===
       this.config.Ts.Keyword.Any;
-    const schemaIsEmpty = !_.keys(schema).length;
+    const schemaIsEmpty = !lodash.keys(schema).length;
 
     if (schemaIsEmpty || schemaIsAny) return null;
 
@@ -302,6 +308,4 @@ class DiscriminatorSchemaParser extends MonoSchemaParser {
   };
 }
 
-module.exports = {
-  DiscriminatorSchemaParser,
-};
+export { DiscriminatorSchemaParser };

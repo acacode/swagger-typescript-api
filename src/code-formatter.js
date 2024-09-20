@@ -1,6 +1,5 @@
-const _ = require("lodash");
-const ts = require("typescript");
-const prettier = require("prettier");
+import * as prettier from "prettier";
+import * as typescript from "typescript";
 
 class CodeFormatter {
   /**
@@ -16,16 +15,15 @@ class CodeFormatter {
     const tempFileName = "file.ts";
 
     const host = new TsLanguageServiceHost(tempFileName, content);
-    const languageService = ts.createLanguageService(host);
+    const languageService = typescript.createLanguageService(host);
 
     const fileTextChanges = languageService.organizeImports(
       { type: "file", fileName: tempFileName },
-      { newLineCharacter: ts.sys.newLine },
+      { newLineCharacter: typescript.sys.newLine },
     )[0];
 
-    if (fileTextChanges && fileTextChanges.textChanges.length) {
-      return _.reduceRight(
-        fileTextChanges.textChanges,
+    if (fileTextChanges?.textChanges.length) {
+      return fileTextChanges.textChanges.reduceRight(
         (content, { span, newText }) =>
           `${content.slice(0, span.start)}${newText}${content.slice(
             span.start + span.length,
@@ -65,21 +63,25 @@ class CodeFormatter {
 
 class TsLanguageServiceHost {
   constructor(fileName, content) {
-    const tsconfig = ts.findConfigFile(fileName, ts.sys.fileExists);
+    const tsconfig = typescript.findConfigFile(
+      fileName,
+      typescript.sys.fileExists,
+    );
 
     Object.assign(this, {
       fileName,
       content,
       compilerOptions: tsconfig
-        ? ts.convertCompilerOptionsFromJson(
-            ts.readConfigFile(tsconfig, ts.sys.readFile).config.compilerOptions,
+        ? typescript.convertCompilerOptionsFromJson(
+            typescript.readConfigFile(tsconfig, typescript.sys.readFile).config
+              .compilerOptions,
           ).options
-        : ts.getDefaultCompilerOptions(),
+        : typescript.getDefaultCompilerOptions(),
     });
   }
 
   getNewLine() {
-    return "newLine" in ts.sys ? ts.sys.newLine : "\n";
+    return "newLine" in typescript.sys ? typescript.sys.newLine : "\n";
   }
   getScriptFileNames() {
     return [this.fileName];
@@ -88,29 +90,27 @@ class TsLanguageServiceHost {
     return this.compilerOptions;
   }
   getDefaultLibFileName() {
-    return ts.getDefaultLibFileName(this.getCompilationSettings());
+    return typescript.getDefaultLibFileName(this.getCompilationSettings());
   }
   getCurrentDirectory() {
     return process.cwd();
   }
   getScriptVersion() {
-    return ts.version;
+    return typescript.version;
   }
   getScriptSnapshot() {
-    return ts.ScriptSnapshot.fromString(this.content);
+    return typescript.ScriptSnapshot.fromString(this.content);
   }
   readFile(fileName, encoding) {
     if (fileName === this.fileName) {
       return this.content;
     }
 
-    return ts.sys.readFile(fileName, encoding);
+    return typescript.sys.readFile(fileName, encoding);
   }
   fileExists(path) {
-    return ts.sys.fileExists(path);
+    return typescript.sys.fileExists(path);
   }
 }
 
-module.exports = {
-  CodeFormatter,
-};
+export { CodeFormatter };

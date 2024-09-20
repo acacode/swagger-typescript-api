@@ -1,8 +1,7 @@
-const _ = require("lodash");
-const { SCHEMA_TYPES } = require("../constants");
-const { internalCase } = require("../util/internal-case");
-const { pascalCase } = require("../util/pascal-case");
-const { camelCase } = require("lodash");
+import lodash from "lodash";
+import { SCHEMA_TYPES } from "../constants.js";
+import { internalCase } from "../util/internal-case.js";
+import { pascalCase } from "../util/pascal-case.js";
 
 class SchemaUtils {
   /** @type {CodeGenConfig} */
@@ -27,19 +26,19 @@ class SchemaUtils {
   }
 
   getRequiredProperties = (schema) => {
-    return _.uniq(
-      (schema && _.isArray(schema.required) && schema.required) || [],
+    return lodash.uniq(
+      (schema && Array.isArray(schema.required) && schema.required) || [],
     );
   };
 
   isRefSchema = (schema) => {
-    return !!(schema && schema["$ref"]);
+    return !!schema?.$ref;
   };
 
   getEnumNames = (schema) => {
     return (
       schema["x-enumNames"] ||
-      schema["xEnumNames"] ||
+      schema.xEnumNames ||
       schema["x-enumnames"] ||
       schema["x-enum-varnames"]
     );
@@ -56,11 +55,12 @@ class SchemaUtils {
       return true;
     }
 
-    const isRequired = _.isBoolean(propertySchema.required)
-      ? !!propertySchema.required
-      : _.isArray(rootSchema.required)
-        ? rootSchema.required.includes(name)
-        : !!rootSchema.required;
+    const isRequired =
+      typeof propertySchema.required === "boolean"
+        ? !!propertySchema.required
+        : Array.isArray(rootSchema.required)
+          ? rootSchema.required.includes(name)
+          : !!rootSchema.required;
 
     if (this.config.convertedFromSwagger2) {
       return typeof propertySchema.nullable === this.config.Ts.Keyword.Undefined
@@ -74,9 +74,9 @@ class SchemaUtils {
     const { nullable, type: schemaType } = schema || {};
     return (
       (nullable ||
-        !!_.get(schema, "x-nullable") ||
+        !!lodash.get(schema, "x-nullable") ||
         schemaType === this.config.Ts.Keyword.Null) &&
-      _.isString(type) &&
+      typeof type === "string" &&
       !type.includes(` ${this.config.Ts.Keyword.Null}`) &&
       !type.includes(`${this.config.Ts.Keyword.Null} `)
     );
@@ -101,7 +101,7 @@ class SchemaUtils {
 
       return internalCase(enumFieldType);
     }
-    if (_.keys(schema.properties).length) {
+    if (lodash.keys(schema.properties).length) {
       return SCHEMA_TYPES.OBJECT;
     }
     if (schema.items) {
@@ -135,7 +135,7 @@ class SchemaUtils {
   makeAddRequiredToChildSchema = (parentSchema, childSchema) => {
     if (!childSchema) return childSchema;
 
-    const required = _.uniq([
+    const required = lodash.uniq([
       ...this.getRequiredProperties(parentSchema),
       ...this.getRequiredProperties(childSchema),
     ]);
@@ -143,8 +143,8 @@ class SchemaUtils {
     const refData = this.getSchemaRefType(childSchema);
 
     if (refData) {
-      const refObjectProperties = _.keys(
-        (refData.rawTypeData && refData.rawTypeData.properties) || {},
+      const refObjectProperties = lodash.keys(
+        refData.rawTypeData?.properties || {},
       );
       const existedRequiredKeys = refObjectProperties.filter((key) =>
         required.includes(key),
@@ -156,8 +156,10 @@ class SchemaUtils {
         ...childSchema,
         $$requiredKeys: existedRequiredKeys,
       };
-    } else if (childSchema.properties) {
-      const childSchemaProperties = _.keys(childSchema.properties);
+    }
+
+    if (childSchema.properties) {
+      const childSchemaProperties = lodash.keys(childSchema.properties);
       const existedRequiredKeys = childSchemaProperties.filter((key) =>
         required.includes(key),
       );
@@ -165,7 +167,7 @@ class SchemaUtils {
       if (!existedRequiredKeys.length) return childSchema;
 
       return {
-        required: _.uniq([
+        required: lodash.uniq([
           ...this.getRequiredProperties(childSchema),
           ...existedRequiredKeys,
         ]),
@@ -177,7 +179,7 @@ class SchemaUtils {
   };
 
   filterSchemaContents = (contents, filterFn) => {
-    return _.uniq(_.filter(contents, (type) => filterFn(type)));
+    return lodash.uniq(contents.filter((type) => filterFn(type)));
   };
 
   resolveTypeName = (
@@ -188,19 +190,19 @@ class SchemaUtils {
       return this.config.componentTypeNameResolver.resolve(null, (reserved) => {
         return resolver(pascalCase(typeName), reserved);
       });
-    } else {
-      return this.config.componentTypeNameResolver.resolve(
-        [
-          ...(prefixes || []).map((prefix) =>
-            pascalCase(`${prefix} ${typeName}`),
-          ),
-          ...(suffixes || []).map((suffix) =>
-            pascalCase(`${typeName} ${suffix}`),
-          ),
-        ],
-        shouldReserve,
-      );
     }
+
+    return this.config.componentTypeNameResolver.resolve(
+      [
+        ...(prefixes || []).map((prefix) =>
+          pascalCase(`${prefix} ${typeName}`),
+        ),
+        ...(suffixes || []).map((suffix) =>
+          pascalCase(`${typeName} ${suffix}`),
+        ),
+      ],
+      shouldReserve,
+    );
   };
 
   getComplexType = (schema) => {
@@ -214,7 +216,10 @@ class SchemaUtils {
   };
 
   getInternalSchemaType = (schema) => {
-    if (!_.isEmpty(schema.enum) || !_.isEmpty(this.getEnumNames(schema))) {
+    if (
+      !lodash.isEmpty(schema.enum) ||
+      !lodash.isEmpty(this.getEnumNames(schema))
+    ) {
       return SCHEMA_TYPES.ENUM;
     }
     if (schema.discriminator) {
@@ -223,7 +228,7 @@ class SchemaUtils {
     if (schema.allOf || schema.oneOf || schema.anyOf || schema.not) {
       return SCHEMA_TYPES.COMPLEX;
     }
-    if (!_.isEmpty(schema.properties)) {
+    if (!lodash.isEmpty(schema.properties)) {
       return SCHEMA_TYPES.OBJECT;
     }
     if (schema.type === SCHEMA_TYPES.ARRAY) {
@@ -260,11 +265,14 @@ class SchemaUtils {
       }
 
       const typeAlias =
-        _.get(this.config.primitiveTypes, [primitiveType, schema.format]) ||
-        _.get(this.config.primitiveTypes, [primitiveType, "$default"]) ||
+        lodash.get(this.config.primitiveTypes, [
+          primitiveType,
+          schema.format,
+        ]) ||
+        lodash.get(this.config.primitiveTypes, [primitiveType, "$default"]) ||
         this.config.primitiveTypes[primitiveType];
 
-      if (_.isFunction(typeAlias)) {
+      if (typeof typeAlias === "function") {
         resultType = typeAlias(schema, this);
       } else {
         resultType = typeAlias || primitiveType;
@@ -282,13 +290,15 @@ class SchemaUtils {
   };
 
   buildTypeNameFromPath = (schemaPath) => {
-    schemaPath = _.uniq(_.compact(schemaPath));
+    schemaPath = lodash.uniq(lodash.compact(schemaPath));
 
     if (!schemaPath || !schemaPath[0]) return null;
 
     return pascalCase(
-      camelCase(
-        _.uniq([schemaPath[0], schemaPath[schemaPath.length - 1]]).join("_"),
+      lodash.camelCase(
+        lodash
+          .uniq([schemaPath[0], schemaPath[schemaPath.length - 1]])
+          .join("_"),
       ),
     );
   };
@@ -319,6 +329,4 @@ class SchemaUtils {
   };
 }
 
-module.exports = {
-  SchemaUtils,
-};
+export { SchemaUtils };

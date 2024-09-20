@@ -1,6 +1,5 @@
-const { MonoSchemaParser } = require("../mono-schema-parser");
-const _ = require("lodash");
-const { SCHEMA_TYPES } = require("../../constants");
+import { SCHEMA_TYPES } from "../../constants.js";
+import { MonoSchemaParser } from "../mono-schema-parser.js";
 
 class PrimitiveSchemaParser extends MonoSchemaParser {
   parse() {
@@ -9,28 +8,29 @@ class PrimitiveSchemaParser extends MonoSchemaParser {
       this.schema || {};
 
     if (type === this.config.Ts.Keyword.Object && additionalProperties) {
-      const fieldType = _.isObject(additionalProperties)
-        ? this.schemaParserFabric
-            .createSchemaParser({
-              schema: additionalProperties,
-              schemaPath: this.schemaPath,
-            })
-            .getInlineParseContent()
-        : this.config.Ts.Keyword.Any;
+      const fieldType =
+        typeof additionalProperties === "object"
+          ? this.schemaParserFabric
+              .createSchemaParser({
+                schema: additionalProperties,
+                schemaPath: this.schemaPath,
+              })
+              .getInlineParseContent()
+          : this.config.Ts.Keyword.Any;
       contentType = this.config.Ts.RecordType(
         this.config.Ts.Keyword.String,
         fieldType,
       );
     }
 
-    if (_.isArray(type) && type.length) {
+    if (Array.isArray(type) && type.length) {
       contentType = this.schemaParser._complexSchemaParsers.oneOf({
-        ...(_.isObject(this.schema) ? this.schema : {}),
+        ...(typeof this.schema === "object" ? this.schema : {}),
         oneOf: type.map((type) => ({ type })),
       });
     }
 
-    if (_.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
+    if (Array.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
       contentType = this.config.Ts.Tuple(
         items.map((item) =>
           this.schemaParserFabric
@@ -41,7 +41,7 @@ class PrimitiveSchemaParser extends MonoSchemaParser {
     }
 
     return {
-      ...(_.isObject(this.schema) ? this.schema : {}),
+      ...(typeof this.schema === "object" ? this.schema : {}),
       $schemaPath: this.schemaPath.slice(),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.PRIMITIVE,
@@ -58,6 +58,4 @@ class PrimitiveSchemaParser extends MonoSchemaParser {
   }
 }
 
-module.exports = {
-  PrimitiveSchemaParser,
-};
+export { PrimitiveSchemaParser };

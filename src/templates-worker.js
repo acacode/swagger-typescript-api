@@ -1,19 +1,14 @@
-const { resolve } = require("node:path");
-const _ = require("lodash");
-const Eta = require("eta");
-const path = require("node:path");
+import * as path from "node:path";
+import * as url from "node:url";
+import { consola } from "consola";
+import * as Eta from "eta";
+import lodash from "lodash";
 
 class TemplatesWorker {
   /**
    * @type {CodeGenConfig}
    */
   config;
-
-  /**
-   * @type {Logger}
-   */
-  logger;
-
   /**
    * @type {FileSystem}
    */
@@ -21,9 +16,8 @@ class TemplatesWorker {
 
   getRenderTemplateData;
 
-  constructor({ config, logger, fileSystem, getRenderTemplateData }) {
+  constructor({ config, fileSystem, getRenderTemplateData }) {
     this.config = config;
-    this.logger = logger;
     this.fileSystem = fileSystem;
     this.getRenderTemplateData = getRenderTemplateData;
   }
@@ -34,14 +28,22 @@ class TemplatesWorker {
    * @returns {CodeGenConfig.templatePaths}
    */
   getTemplatePaths = (config) => {
-    const baseTemplatesPath = resolve(__dirname, "../templates/base");
-    const defaultTemplatesPath = resolve(__dirname, "../templates/default");
-    const modularTemplatesPath = resolve(__dirname, "../templates/modular");
+    const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+    const baseTemplatesPath = path.resolve(__dirname, "../templates/base");
+    const defaultTemplatesPath = path.resolve(
+      __dirname,
+      "../templates/default",
+    );
+    const modularTemplatesPath = path.resolve(
+      __dirname,
+      "../templates/modular",
+    );
     const originalTemplatesPath = config.modular
       ? modularTemplatesPath
       : defaultTemplatesPath;
     const customTemplatesPath =
-      (config.templates && resolve(process.cwd(), config.templates)) || null;
+      (config.templates && path.resolve(process.cwd(), config.templates)) ||
+      null;
 
     return {
       /** `templates/base` */
@@ -59,12 +61,12 @@ class TemplatesWorker {
 
   cropExtension = (path) =>
     this.config.templateExtensions.reduce(
-      (path, ext) => (_.endsWith(path, ext) ? path.replace(ext, "") : path),
+      (path, ext) => (path.endsWith(ext) ? path.replace(ext, "") : path),
       path,
     );
 
-  getTemplateFullPath = (path, fileName) => {
-    const raw = resolve(path, "./", this.cropExtension(fileName));
+  getTemplateFullPath = (path_, fileName) => {
+    const raw = path.resolve(path_, "./", this.cropExtension(fileName));
     const pathVariants = this.config.templateExtensions.map(
       (extension) => `${raw}${extension}`,
     );
@@ -74,21 +76,21 @@ class TemplatesWorker {
     );
   };
 
-  requireFnFromTemplate = (packageOrPath) => {
+  requireFnFromTemplate = async (packageOrPath) => {
     const isPath =
-      _.startsWith(packageOrPath, "./") || _.startsWith(packageOrPath, "../");
+      packageOrPath.startsWith("./") || packageOrPath.startsWith("../");
 
     if (isPath) {
-      return require(
+      return await import(
         path.resolve(
           this.config.templatePaths.custom ||
             this.config.templatePaths.original,
           packageOrPath,
-        ),
+        )
       );
     }
 
-    return require(packageOrPath);
+    return await import(packageOrPath);
   };
 
   getTemplate = ({ fileName, name, path }) => {
@@ -107,8 +109,8 @@ class TemplatesWorker {
       customFullPath && this.fileSystem.getFileContent(customFullPath);
 
     if (fileContent) {
-      this.logger.log(
-        `"${_.lowerCase(name)}" template found in "${templatePaths.custom}"`,
+      consola.info(
+        `"${name.toLowerCase()}" template found in "${templatePaths.custom}"`,
       );
       return fileContent;
     }
@@ -119,17 +121,15 @@ class TemplatesWorker {
       fileContent = this.fileSystem.getFileContent(baseFullPath);
     } else {
       if (templatePaths.custom) {
-        this.logger.warn(
-          `"${_.lowerCase(name)}" template not found in "${
-            templatePaths.custom
-          }"`,
-          "\nCode generator will use the default template",
+        consola.warn(
+          "Code generator will use the default template:",
+          `"${name.toLowerCase()}"`,
+          "template not found in",
+          `"${templatePaths.custom}"`,
         );
       } else {
-        this.logger.log(
-          `Code generator will use the default template for "${_.lowerCase(
-            name,
-          )}"`,
+        consola.info(
+          `Code generator will use the default template for "${name.toLowerCase()}"`,
         );
       }
     }
@@ -148,12 +148,12 @@ class TemplatesWorker {
 
   getTemplates = ({ templatePaths }) => {
     if (templatePaths.custom) {
-      this.logger.log(
+      consola.info(
         `try to read templates from directory "${templatePaths.custom}"`,
       );
     }
 
-    return _.reduce(
+    return lodash.reduce(
       this.config.templateInfos,
       (acc, { fileName, name }) => ({
         ...acc,
@@ -171,14 +171,13 @@ class TemplatesWorker {
     return pathVariants.find((variant) => this.fileSystem.pathIsExist(variant));
   };
 
-  getTemplateContent = (path) => {
-    const foundTemplatePathKey = _.keys(this.config.templatePaths).find((key) =>
-      _.startsWith(path, `@${key}`),
-    );
+  getTemplateContent = (path_) => {
+    const foundTemplatePathKey = lodash
+      .keys(this.config.templatePaths)
+      .find((key) => path_.startsWith(`@${key}`));
 
-    const rawPath = resolve(
-      _.replace(
-        path,
+    const rawPath = path.resolve(
+      path_.replace(
         `@${foundTemplatePathKey}`,
         this.config.templatePaths[foundTemplatePathKey],
       ),
@@ -191,14 +190,16 @@ class TemplatesWorker {
 
     const customPath =
       this.config.templatePaths.custom &&
-      this.findTemplateWithExt(resolve(this.config.templatePaths.custom, path));
+      this.findTemplateWithExt(
+        path.resolve(this.config.templatePaths.custom, path_),
+      );
 
     if (customPath) {
       return this.fileSystem.getFileContent(customPath);
     }
 
     const originalPath = this.findTemplateWithExt(
-      resolve(this.config.templatePaths.original, path),
+      path.resolve(this.config.templatePaths.original, path_),
     );
 
     if (originalPath) {
@@ -238,6 +239,4 @@ class TemplatesWorker {
   };
 }
 
-module.exports = {
-  TemplatesWorker,
-};
+export { TemplatesWorker };

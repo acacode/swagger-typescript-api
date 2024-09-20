@@ -1,7 +1,10 @@
-const { TemplatesGenConfig } = require("./configuration");
-const { FileSystem } = require("../../util/file-system");
-const { Logger } = require("../../util/logger");
-const path = require("node:path");
+import path from "node:path";
+import url from "node:url";
+import { consola } from "consola";
+import { FileSystem } from "../../util/file-system.js";
+import { TemplatesGenConfig } from "./configuration.js";
+
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 class TemplatesGenProcess {
   /**
@@ -12,10 +15,6 @@ class TemplatesGenProcess {
    * @type {FileSystem}
    */
   fileSystem;
-  /**
-   * @type {Logger}
-   */
-  logger;
 
   rootDir = path.resolve(__dirname, "../../../");
 
@@ -30,7 +29,6 @@ class TemplatesGenProcess {
 
   constructor(config) {
     this.config = new TemplatesGenConfig(config);
-    this.logger = new Logger(this);
     this.fileSystem = new FileSystem(this);
   }
 
@@ -38,14 +36,12 @@ class TemplatesGenProcess {
    * @return {Promise<GenerateTemplatesOutput>}
    */
   async start() {
-    this.logger.event(
-      'start generating source templates ".ejs" for code generator',
-    );
+    consola.info('start generating source templates ".ejs" for code generator');
 
     const templates = this.getTemplates();
 
     if (this.config.output) {
-      this.logger.log("preparing output directory for source templates");
+      consola.info("preparing output directory for source templates");
       const outputPath = path.resolve(process.cwd(), this.config.output);
 
       if (this.fileSystem.pathIsExist(outputPath)) {
@@ -56,7 +52,7 @@ class TemplatesGenProcess {
         this.fileSystem.createDir(outputPath);
       }
 
-      templates.forEach((template) => {
+      for (const template of templates) {
         const templateName = this.fileSystem.cropExtension(template.name);
         const templateEjsPath = path.resolve(outputPath, `${templateName}.ejs`);
         const templateEtaPath = path.resolve(outputPath, `${templateName}.eta`);
@@ -91,9 +87,9 @@ class TemplatesGenProcess {
             });
           }
         }
-      });
+      }
 
-      this.logger.success(
+      consola.success(
         `source templates has been successfully created in "${outputPath}"`,
       );
     }
@@ -199,6 +195,4 @@ class TemplatesGenProcess {
   };
 }
 
-module.exports = {
-  TemplatesGenProcess,
-};
+export { TemplatesGenProcess };

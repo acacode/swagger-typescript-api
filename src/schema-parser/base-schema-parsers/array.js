@@ -1,13 +1,12 @@
-const { MonoSchemaParser } = require("../mono-schema-parser");
-const _ = require("lodash");
-const { SCHEMA_TYPES } = require("../../constants");
+import { SCHEMA_TYPES } from "../../constants.js";
+import { MonoSchemaParser } from "../mono-schema-parser.js";
 
 class ArraySchemaParser extends MonoSchemaParser {
   parse() {
     let contentType;
     const { type, description, items } = this.schema || {};
 
-    if (_.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
+    if (Array.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
       const tupleContent = [];
       for (const item of items) {
         tupleContent.push(
@@ -25,7 +24,7 @@ class ArraySchemaParser extends MonoSchemaParser {
     }
 
     return {
-      ...(_.isObject(this.schema) ? this.schema : {}),
+      ...(typeof this.schema === "object" ? this.schema : {}),
       $schemaPath: this.schemaPath.slice(),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.PRIMITIVE,
@@ -38,6 +37,4 @@ class ArraySchemaParser extends MonoSchemaParser {
   }
 }
 
-module.exports = {
-  ArraySchemaParser,
-};
+export { ArraySchemaParser };

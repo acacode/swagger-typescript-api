@@ -1,18 +1,18 @@
-const { NameResolver } = require("../../util/name-resolver");
+import { consola } from "consola";
+import { NameResolver } from "../../util/name-resolver.js";
 
 class SpecificArgNameResolver extends NameResolver {
   counter = 1;
   /**
    * @param {CodeGenConfig} config;
-   * @param {Logger} logger;
    * @param {string[]} reservedNames
    */
-  constructor(config, logger, reservedNames) {
-    super(config, logger, reservedNames, (variants) => {
+  constructor(config, reservedNames) {
+    super(config, reservedNames, (variants) => {
       const generatedVariant =
         (variants[0] && `${variants[0]}${this.counter++}`) ||
         `${this.config.specificArgNameResolverName}${this.counter++}`;
-      this.logger.debug(
+      consola.debug(
         "generated fallback type name for specific arg - ",
         generatedVariant,
       );
@@ -21,6 +21,4 @@ class SpecificArgNameResolver extends NameResolver {
   }
 }
 
-module.exports = {
-  SpecificArgNameResolver,
-};
+export { SpecificArgNameResolver };

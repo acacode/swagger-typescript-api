@@ -1,29 +1,25 @@
-/* eslint-disable no-unused-vars */
-const { SCHEMA_TYPES } = require("../constants.js");
-const _ = require("lodash");
-const { SchemaFormatters } = require("./schema-formatters");
-const { SchemaUtils } = require("./schema-utils");
-const {
-  DiscriminatorSchemaParser,
-} = require("./base-schema-parsers/discriminator");
-const { EnumSchemaParser } = require("./base-schema-parsers/enum");
-const { ObjectSchemaParser } = require("./base-schema-parsers/object");
-const { PrimitiveSchemaParser } = require("./base-schema-parsers/primitive");
-const { ComplexSchemaParser } = require("./base-schema-parsers/complex");
-const { OneOfSchemaParser } = require("./complex-schema-parsers/one-of");
-const { AllOfSchemaParser } = require("./complex-schema-parsers/all-of");
-const { AnyOfSchemaParser } = require("./complex-schema-parsers/any-of");
-const { NotSchemaParser } = require("./complex-schema-parsers/not");
-const { ArraySchemaParser } = require("./base-schema-parsers/array");
-const { sortByProperty } = require("../util/sort-by-property");
+import { consola } from "consola";
+import lodash from "lodash";
+import { SCHEMA_TYPES } from "../constants.js";
+import { sortByProperty } from "../util/sort-by-property.js";
+import { ArraySchemaParser } from "./base-schema-parsers/array.js";
+import { ComplexSchemaParser } from "./base-schema-parsers/complex.js";
+import { DiscriminatorSchemaParser } from "./base-schema-parsers/discriminator.js";
+import { EnumSchemaParser } from "./base-schema-parsers/enum.js";
+import { ObjectSchemaParser } from "./base-schema-parsers/object.js";
+import { PrimitiveSchemaParser } from "./base-schema-parsers/primitive.js";
+import { AllOfSchemaParser } from "./complex-schema-parsers/all-of.js";
+import { AnyOfSchemaParser } from "./complex-schema-parsers/any-of.js";
+import { NotSchemaParser } from "./complex-schema-parsers/not.js";
+import { OneOfSchemaParser } from "./complex-schema-parsers/one-of.js";
+import { SchemaFormatters } from "./schema-formatters.js";
+import { SchemaUtils } from "./schema-utils.js";
 
 class SchemaParser {
   /** @type {SchemaParserFabric} */
   schemaParserFabric;
   /** @type {CodeGenConfig} */
   config;
-  /** @type {Logger} */
-  logger;
   /** @type {SchemaComponentsMap} */
   schemaComponentsMap;
   /** @type {TypeNameFormatter} */
@@ -44,7 +40,6 @@ class SchemaParser {
   constructor(schemaParserFabric, { typeName, schema, schemaPath } = {}) {
     this.schemaParserFabric = schemaParserFabric;
     this.config = schemaParserFabric.config;
-    this.logger = schemaParserFabric.logger;
     this.templatesWorker = schemaParserFabric.templatesWorker;
     this.schemaComponentsMap = schemaParserFabric.schemaComponentsMap;
     this.typeNameFormatter = schemaParserFabric.typeNameFormatter;
@@ -209,14 +204,11 @@ class SchemaParser {
         this.schema.enum.length === 1 &&
         this.schema.enum[0] == null
       ) {
-        this.logger.debug("invalid enum schema", this.schema);
+        consola.debug("invalid enum schema", this.schema);
         this.schema = { type: this.config.Ts.Keyword.Null };
       }
       // schema is response schema
-      if (
-        "content" in this.schema &&
-        typeof this.schema["content"] === "object"
-      ) {
+      if ("content" in this.schema && typeof this.schema.content === "object") {
         const schema = this.extractSchemaFromResponseStruct(this.schema);
         const schemaParser = this.schemaParserFabric.createSchemaParser({
           schema,
@@ -233,7 +225,7 @@ class SchemaParser {
 
       this.schemaPath.push(this.typeName);
 
-      _.merge(
+      lodash.merge(
         this.schema,
         this.config.hooks.onPreParseSchema(
           this.schema,
@@ -285,19 +277,17 @@ class SchemaParser {
   extractSchemaFromResponseStruct = (responseStruct) => {
     const { content, ...extras } = responseStruct;
 
-    const firstResponse = _.first(_.values(content));
-    const firstSchema = _.get(firstResponse, "schema");
+    const firstResponse = lodash.first(lodash.values(content));
+    const firstSchema = lodash.get(firstResponse, "schema");
 
     if (!firstSchema) return;
 
     return {
       ...extras,
-      ..._.omit(firstResponse, "schema"),
+      ...lodash.omit(firstResponse, "schema"),
       ...firstSchema,
     };
   };
 }
 
-module.exports = {
-  SchemaParser,
-};
+export { SchemaParser };

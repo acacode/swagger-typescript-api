@@ -1,7 +1,7 @@
-const { MonoSchemaParser } = require("../mono-schema-parser");
-const _ = require("lodash");
-const { SCHEMA_TYPES } = require("../../constants");
-const { EnumKeyResolver } = require("../util/enum-key-resolver");
+import lodash from "lodash";
+import { SCHEMA_TYPES } from "../../constants.js";
+import { MonoSchemaParser } from "../mono-schema-parser.js";
+import { EnumKeyResolver } from "../util/enum-key-resolver.js";
 
 class EnumSchemaParser extends MonoSchemaParser {
   /** @type {EnumKeyResolver} */
@@ -9,7 +9,7 @@ class EnumSchemaParser extends MonoSchemaParser {
 
   constructor(...args) {
     super(...args);
-    this.enumKeyResolver = new EnumKeyResolver(this.config, this.logger, []);
+    this.enumKeyResolver = new EnumKeyResolver(this.config, []);
   }
 
   extractEnum = (pathTypeName) => {
@@ -38,7 +38,7 @@ class EnumSchemaParser extends MonoSchemaParser {
     }
 
     const refType = this.schemaUtils.getSchemaRefType(this.schema);
-    const $ref = (refType && refType.$ref) || null;
+    const $ref = refType?.$ref || null;
 
     // fix schema when enum has length 1+ but value is []
     if (Array.isArray(this.schema.enum)) {
@@ -70,12 +70,12 @@ class EnumSchemaParser extends MonoSchemaParser {
         return this.config.Ts.NullValue(value);
       }
       if (
-        _.includes(keyType, this.schemaUtils.getSchemaType({ type: "number" }))
+        keyType.includes(this.schemaUtils.getSchemaType({ type: "number" }))
       ) {
         return this.config.Ts.NumberValue(value);
       }
       if (
-        _.includes(keyType, this.schemaUtils.getSchemaType({ type: "boolean" }))
+        keyType.includes(this.schemaUtils.getSchemaType({ type: "boolean" }))
       ) {
         return this.config.Ts.BooleanValue(value);
       }
@@ -83,15 +83,15 @@ class EnumSchemaParser extends MonoSchemaParser {
       return this.config.Ts.StringValue(value);
     };
 
-    if (_.isArray(enumNames) && _.size(enumNames)) {
-      content = _.map(enumNames, (enumName, index) => {
-        const enumValue = _.get(this.schema.enum, index);
+    if (Array.isArray(enumNames) && lodash.size(enumNames)) {
+      content = enumNames.map((enumName, index) => {
+        const enumValue = lodash.get(this.schema.enum, index);
         const formattedKey = this.formatEnumKey({
           key: enumName,
           value: enumValue,
         });
 
-        if (this.config.enumNamesAsValues || _.isUndefined(enumValue)) {
+        if (this.config.enumNamesAsValues || enumValue === undefined) {
           return {
             key: formattedKey,
             type: this.config.Ts.Keyword.String,
@@ -106,7 +106,7 @@ class EnumSchemaParser extends MonoSchemaParser {
         };
       });
     } else {
-      content = _.map(this.schema.enum, (value) => {
+      content = this.schema.enum.map((value) => {
         return {
           key: this.formatEnumKey({ value }),
           type: keyType,
@@ -116,7 +116,7 @@ class EnumSchemaParser extends MonoSchemaParser {
     }
 
     return {
-      ...(_.isObject(this.schema) ? this.schema : {}),
+      ...(typeof this.schema === "object" ? this.schema : {}),
       $ref: $ref,
       typeName: this.typeName || ($ref && refType.typeName) || null,
       $parsedSchema: true,
@@ -153,6 +153,4 @@ class EnumSchemaParser extends MonoSchemaParser {
   };
 }
 
-module.exports = {
-  EnumSchemaParser,
-};
+export { EnumSchemaParser };

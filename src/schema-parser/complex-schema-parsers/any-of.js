@@ -1,11 +1,10 @@
-const { MonoSchemaParser } = require("../mono-schema-parser");
-const _ = require("lodash");
+import { MonoSchemaParser } from "../mono-schema-parser.js";
 
 // T1 | T2
 class AnyOfSchemaParser extends MonoSchemaParser {
   parse() {
     const ignoreTypes = [this.config.Ts.Keyword.Any];
-    const combined = _.map(this.schema.anyOf, (childSchema) =>
+    const combined = this.schema.anyOf.map((childSchema) =>
       this.schemaParserFabric.getInlineParseContent(
         this.schemaUtils.makeAddRequiredToChildSchema(this.schema, childSchema),
         null,
@@ -24,4 +23,4 @@ class AnyOfSchemaParser extends MonoSchemaParser {
   }
 }
 
-module.exports = { AnyOfSchemaParser };
+export { AnyOfSchemaParser };

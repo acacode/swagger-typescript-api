@@ -1,7 +1,8 @@
-const fs = require("node:fs");
-const { resolve } = require("node:path");
-const _ = require("lodash");
-const { Logger } = require("./logger");
+import * as fs from "node:fs";
+import * as path from "node:path";
+import * as url from "node:url";
+import { consola } from "consola";
+import lodash from "lodash";
 
 const FILE_PREFIX = `/* eslint-disable */
 /* tslint:disable */
@@ -17,15 +18,8 @@ const FILE_PREFIX = `/* eslint-disable */
 `;
 
 class FileSystem {
-  /** @type {Logger} */
-  logger;
-
-  constructor({ logger = new Logger("file-system") } = {}) {
-    this.logger = logger;
-  }
-
   getFileContent = (path) => {
-    return fs.readFileSync(path, { encoding: "UTF-8" });
+    return fs.readFileSync(path, { encoding: "utf8" });
   };
 
   readDir = (path) => {
@@ -44,7 +38,7 @@ class FileSystem {
   };
 
   cropExtension = (fileName) => {
-    const fileNameParts = _.split(fileName, ".");
+    const fileNameParts = fileName.split(".");
 
     if (fileNameParts.length > 1) {
       fileNameParts.pop();
@@ -61,7 +55,7 @@ class FileSystem {
         fs.rmdirSync(path, { recursive: true });
       }
     } catch (e) {
-      this.logger.debug("failed to remove dir", e);
+      consola.debug("failed to remove dir", e);
     }
   };
 
@@ -69,7 +63,7 @@ class FileSystem {
     try {
       fs.mkdirSync(path, { recursive: true });
     } catch (e) {
-      this.logger.debug("failed to create dir", e);
+      consola.debug("failed to create dir", e);
     }
   };
 
@@ -82,14 +76,13 @@ class FileSystem {
     return !!path && fs.existsSync(path);
   };
 
-  createFile = ({ path, fileName, content, withPrefix }) => {
-    const absolutePath = resolve(__dirname, path, `./${fileName}`);
+  createFile = ({ path: path_, fileName, content, withPrefix }) => {
+    const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+    const absolutePath = path.resolve(__dirname, path_, `./${fileName}`);
     const fileContent = `${withPrefix ? FILE_PREFIX : ""}${content}`;
 
-    return fs.writeFileSync(absolutePath, fileContent, _.noop);
+    return fs.writeFileSync(absolutePath, fileContent, lodash.noop);
   };
 }
 
-module.exports = {
-  FileSystem,
-};
+export { FileSystem };

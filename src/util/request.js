@@ -1,18 +1,14 @@
-const _ = require("lodash");
+import { consola } from "consola";
+import lodash from "lodash";
 
 class Request {
   /**
    * @type {CodeGenConfig}
    */
   config;
-  /**
-   * @type {Logger}
-   */
-  logger;
 
-  constructor(config, logger) {
+  constructor(config) {
     this.config = config;
-    this.logger = logger;
   }
 
   /**
@@ -28,7 +24,7 @@ class Request {
      */
     const requestOptions = {};
 
-    if (disableStrictSSL && !_.startsWith(url, "http://")) {
+    if (disableStrictSSL && !url.startsWith("http://")) {
       const undiciGlobalDispatcher =
         global[Symbol.for("undici.globalDispatcher.1")];
       if (!undiciGlobalDispatcher) {
@@ -47,19 +43,17 @@ class Request {
       };
     }
 
-    _.merge(requestOptions, options, this.config.requestOptions);
+    lodash.merge(requestOptions, options, this.config.requestOptions);
 
     try {
       const response = await fetch(url, requestOptions);
       return await response.text();
     } catch (error) {
       const message = `error while fetching data from URL "${url}"`;
-      this.logger.error(message, "response" in error ? error.response : error);
+      consola.error(message, "response" in error ? error.response : error);
       return message;
     }
   }
 }
 
-module.exports = {
-  Request,
-};
+export { Request };
