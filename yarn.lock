@@ -686,10 +686,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:4.17.8":
-  version: 4.17.8
-  resolution: "@types/lodash@npm:4.17.8"
-  checksum: 10c0/e29d5fc3e4887ffe0e8365170ccc406a54f34692c3922b3ddaf6b1e208bf099fe512f53a512bf101200e3f4f50d13de8e99219c4859c2711b91c9e15d8c61ef4
+"@types/lodash@npm:4.17.9":
+  version: 4.17.9
+  resolution: "@types/lodash@npm:4.17.9"
+  checksum: 10c0/54de935e835508b5f835a5dfaedd2b9a299685a21d11e9c5cd2dde57331d03bc2f98b71d2424ca8460f447ecd55a673e45ccdb70e58f9f72745710f6b91abc60
   languageName: node
   linkType: hard
 
@@ -2808,7 +2808,7 @@ __metadata:
     "@tsconfig/node18": "npm:18.2.4"
     "@tsconfig/strictest": "npm:2.0.5"
     "@types/js-yaml": "npm:4.0.9"
-    "@types/lodash": "npm:4.17.8"
+    "@types/lodash": "npm:4.17.9"
     "@types/node": "npm:22.6.0"
     "@types/swagger-schema-official": "npm:^2.0.25"
     "@types/swagger2openapi": "npm:7.0.4"
