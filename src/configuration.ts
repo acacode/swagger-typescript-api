@@ -1,5 +1,6 @@
 import * as cosmiconfig from "cosmiconfig";
 import lodash from "lodash";
+import type { OpenAPI } from "openapi-types";
 import * as typescript from "typescript";
 import type {
   ExtractingOptions,
@@ -9,6 +10,7 @@ import { ComponentTypeNameResolver } from "./component-type-name-resolver.js";
 import * as CONSTANTS from "./constants.js";
 import type { MonoSchemaParser } from "./schema-parser/mono-schema-parser.js";
 import type { SchemaParser } from "./schema-parser/schema-parser.js";
+import type { Translator } from "./translators/translator.js";
 import { objectAssign } from "./util/object-assign.js";
 
 const TsKeyword = {
@@ -162,7 +164,7 @@ export class CodeGenConfig {
   output = "";
   url = "";
   cleanOutput = false;
-  spec = null;
+  spec: OpenAPI.Document | null = null;
   fileName = "Api.ts";
   authorizationToken: string | undefined;
   requestOptions = null;
@@ -215,7 +217,7 @@ export class CodeGenConfig {
     emitDecoratorMetadata: true,
     skipLibCheck: true,
   };
-  customTranslator;
+  customTranslator?: new () => Translator;
 
   Ts = {
     Keyword: structuredClone(TsKeyword),
@@ -334,10 +336,10 @@ export class CodeGenConfig {
   primitiveTypes: Record<
     string,
     | string
-    | ((schema: any, parser: SchemaParser) => string)
+    | ((schema: OpenAPI.Document, parser: SchemaParser) => string)
     | ({ $default: string } & Record<
         string,
-        string | ((schema: any, parser: SchemaParser) => string)
+        string | ((schema: OpenAPI.Document, parser: SchemaParser) => string)
       >)
   > = {
     integer: () => this.Ts.Keyword.Number,
@@ -419,11 +421,7 @@ export class CodeGenConfig {
       this.Ts.Keyword.Boolean,
     ];
     this.jsEmptyTypes = [this.Ts.Keyword.Null, this.Ts.Keyword.Undefined];
-    this.componentTypeNameResolver = new ComponentTypeNameResolver(
-      this,
-      null,
-      [],
-    );
+    this.componentTypeNameResolver = new ComponentTypeNameResolver(this, []);
   }
 
   update = (update: Partial<GenerateApiConfiguration["config"]>) => {

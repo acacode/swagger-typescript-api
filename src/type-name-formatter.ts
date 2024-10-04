@@ -60,27 +60,28 @@ export class TypeNameFormatter {
     name: string,
     options: { type?: FormattingSchemaType },
   ): string => {
-    const { type } = options || {};
-
     if (!this.isValidName(name)) {
       if (!/^[a-zA-Z_$]/g.test(name)) {
         const fixPrefix =
-          type === "enum-key"
+          options.type === "enum-key"
             ? this.config.fixInvalidEnumKeyPrefix
             : this.config.fixInvalidTypeNamePrefix;
-        name = `${fixPrefix} ${name}`;
+        return `${fixPrefix} ${name}`;
       }
 
       // specific replaces for TSOA 3.x
-      if (name.includes("."))
-        name = name
+      if (name.includes(".")) {
+        return name
           .replace(/Exclude_keyof[A-Za-z]+/g, () => "ExcludeKeys")
           .replace(/%22~AND~%22/g, "And")
           .replace(/%22~OR~%22/g, "Or")
           .replace(/(\.?%22)|\./g, "_")
           .replace(/__+$/, "");
+      }
 
-      if (name.includes("-")) name = lodash.startCase(name).replace(/ /g, "");
+      if (name.includes("-")) {
+        return lodash.startCase(name).replace(/ /g, "");
+      }
     }
 
     return name;

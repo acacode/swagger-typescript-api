@@ -162,7 +162,7 @@ export class CodeGenProcess {
       fileName: this.config.fileName,
       translateToJavaScript: this.config.toJS,
       customTranslator: this.config.customTranslator
-        ? new this.config.customTranslator(this)
+        ? new this.config.customTranslator()
         : null,
       utils: this.getRenderTemplateData().utils,
     };

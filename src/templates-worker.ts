@@ -171,16 +171,18 @@ export class TemplatesWorker {
       .keys(this.config.templatePaths)
       .find((key) => path_.startsWith(`@${key}`));
 
-    const rawPath = path.resolve(
-      path_.replace(
-        `@${foundTemplatePathKey}`,
-        this.config.templatePaths[foundTemplatePathKey],
-      ),
-    );
-    const fixedPath = this.findTemplateWithExt(rawPath);
+    if (foundTemplatePathKey) {
+      const rawPath = path.resolve(
+        path_.replace(
+          `@${foundTemplatePathKey}`,
+          lodash.get(this.config.templatePaths, foundTemplatePathKey),
+        ),
+      );
+      const fixedPath = this.findTemplateWithExt(rawPath);
 
-    if (fixedPath) {
-      return this.fileSystem.getFileContent(fixedPath);
+      if (fixedPath) {
+        return this.fileSystem.getFileContent(fixedPath);
+      }
     }
 
     const customPath =

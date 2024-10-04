@@ -1,7 +1,10 @@
 import path from "node:path";
 import url from "node:url";
 import { consola } from "consola";
-import type { GenerateTemplatesOutput } from "../../../types/index.js";
+import type {
+  GenerateTemplatesOutput,
+  GenerateTemplatesParams,
+} from "../../../types/index.js";
 import { FileSystem } from "../../util/file-system.js";
 import { TemplatesGenConfig } from "./configuration.js";
 
@@ -22,7 +25,7 @@ export class TemplatesGenProcess {
 
   importTemplatePrefixes = ["@base", "@modular", "@default"];
 
-  constructor(config) {
+  constructor(config: GenerateTemplatesParams) {
     this.config = new TemplatesGenConfig(config);
     this.fileSystem = new FileSystem();
   }

@@ -1,4 +1,6 @@
+import type { ComponentTypeNameResolver } from "../src/component-type-name-resolver.js";
 import type { MonoSchemaParser } from "../src/schema-parser/mono-schema-parser.js";
+import type { Translator } from "../src/translators/translator.js";
 
 type HttpClientType = "axios" | "fetch";
 
@@ -209,7 +211,7 @@ interface GenerateApiParamsBase {
    * }
    * ```
    */
-  customTranslator?: new () => typeof import("../src/translators/translator.js").Translator;
+  customTranslator?: new () => Translator;
   /** fallback name for enum key resolver */
   enumKeyResolverName?: string;
   /** fallback name for type name resolver */
@@ -655,14 +657,11 @@ export interface GenerateApiConfiguration {
     enumKeyResolverName: string;
     typeNameResolverName: string;
     specificArgNameResolverName: string;
-    /** do not use constructor args, it can break functionality of this property, just send class reference */
-    customTranslator?: new (
-      ...args: never[]
-    ) => typeof import("../src/translators/translator.js").Translator;
+    customTranslator?: new () => Translator;
     internalTemplateOptions: {
       addUtilRequiredKeysType: boolean;
     };
-    componentTypeNameResolver: typeof import("../src/component-type-name-resolver.js").ComponentTypeNameResolver;
+    componentTypeNameResolver: ComponentTypeNameResolver;
     fileNames: {
       dataContracts: string;
       routeTypes: string;

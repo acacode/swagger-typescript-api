@@ -1,6 +1,7 @@
 import { consola } from "consola";
 import * as yaml from "js-yaml";
 import lodash from "lodash";
+import type { OpenAPI, OpenAPIV2 } from "openapi-types";
 import * as swagger2openapi from "swagger2openapi";
 import type { CodeGenConfig } from "./configuration.js";
 import type { FileSystem } from "./util/file-system.js";
@@ -20,7 +21,7 @@ export class SwaggerSchemaResolver {
   async create() {
     const { spec, patch, input, url, authorizationToken } = this.config;
 
-    if (this.config.spec) {
+    if (spec) {
       return await this.convertSwaggerObject(spec, { patch });
     }
 
@@ -35,11 +36,11 @@ export class SwaggerSchemaResolver {
   }
 
   convertSwaggerObject(
-    swaggerSchema: Record<string, unknown>,
+    swaggerSchema: OpenAPI.Document,
     converterOptions: { patch?: boolean },
   ): Promise<{
-    usageSchema: Record<string, any>;
-    originalSchema: Record<string, unknown>;
+    usageSchema: OpenAPI.Document;
+    originalSchema: OpenAPI.Document;
   }> {
     return new Promise((resolve) => {
       const result = structuredClone(swaggerSchema);
@@ -51,11 +52,11 @@ export class SwaggerSchemaResolver {
         result.info,
       );
 
-      if (!result.openapi) {
+      if (!Object.hasOwn(result, "openapi")) {
         result.paths = lodash.merge({}, result.paths);
 
         swagger2openapi.convertObj(
-          result,
+          result as OpenAPIV2.Document,
           {
             ...converterOptions,
             warnOnly: true,
@@ -95,7 +96,7 @@ export class SwaggerSchemaResolver {
   async fetchSwaggerSchemaFile(
     pathToSwagger: string,
     urlToSwagger: string,
-    authToken: string,
+    authToken?: string,
   ) {
     if (this.fileSystem.pathIsExist(pathToSwagger)) {
       return this.getSwaggerSchemaByPath(pathToSwagger);
@@ -103,7 +104,7 @@ export class SwaggerSchemaResolver {
     consola.info(`try to get swagger by URL "${urlToSwagger}"`);
     return await this.request.download({
       url: urlToSwagger,
-      authToken,
+      authToken: authToken,
     });
   }
 
