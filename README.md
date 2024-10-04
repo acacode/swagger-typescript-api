@@ -39,8 +39,6 @@ Options:
   --js                          generate js api module with declaration file (default: false)
   --module-name-index <number>  determines which path index should be used for routes separation (example: GET:/fruits/getFruit -> index:0 -> moduleName -> fruits) (default: 0)
   --module-name-first-tag       splits routes based on the first tag (default: false)
-  --disableStrictSSL            disabled strict SSL (default: false)
-  --disableProxy                disabled proxy (default: false)
   --axios                       generate axios http client (default: false)
   --unwrap-response-data        unwrap the data item from the response (default: false)
   --disable-throw-on-error      Do not throw an error when response.ok is not true (default: false)
@@ -403,7 +401,7 @@ type PrimitiveTypeStructValue =
   | string
   | ((
       schema: Record<string, any>,
-      parser: import("./src/schema-parser/schema-parser").SchemaParser,
+      parser: import("./src/schema-parser/schema-parser").SchemaParser
     ) => string);
 
 type PrimitiveTypeStruct = Record<
@@ -416,7 +414,7 @@ type PrimitiveTypeStruct = Record<
 >;
 
 declare const primitiveTypeConstructs: (
-  struct: PrimitiveTypeStruct,
+  struct: PrimitiveTypeStruct
 ) => Partial<PrimitiveTypeStruct>;
 
 generateApi({

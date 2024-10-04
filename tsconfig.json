@@ -4,10 +4,11 @@
     "@tsconfig/node18/tsconfig.json"
   ],
   "compilerOptions": {
-    "checkJs": false,
+    "exactOptionalPropertyTypes": false,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "noEmit": true,
+    "noPropertyAccessFromIndexSignature": false,
     "resolveJsonModule": true
   },
   "exclude": ["dist"]
