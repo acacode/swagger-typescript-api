@@ -6,7 +6,7 @@ import { getRandomInt } from "./util/random.js";
 export class ComponentTypeNameResolver extends NameResolver {
   counter = 1;
   fallbackNameCounter = 1;
-  countersByVariant = new Map();
+  countersByVariant = new Map<string, number>();
 
   constructor(config: CodeGenConfig, reservedNames: string[]) {
     super(config, reservedNames, (variants) => {
@@ -15,7 +15,8 @@ export class ComponentTypeNameResolver extends NameResolver {
         if (!this.countersByVariant.has(randomVariant)) {
           this.countersByVariant.set(randomVariant, 0);
         }
-        const variantCounter = this.countersByVariant.get(randomVariant) + 1;
+        const variantCounter =
+          (this.countersByVariant.get(randomVariant) as number) + 1;
         this.countersByVariant.set(randomVariant, variantCounter);
         const dirtyResolvedName = `${randomVariant}${variantCounter}`;
         consola.debug(

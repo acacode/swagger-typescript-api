@@ -1,4 +1,5 @@
 import lodash from "lodash";
+import type { OpenAPI } from "openapi-types";
 import type { CodeGenConfig } from "./configuration.js";
 import type { SwaggerSchemaResolver } from "./swagger-schema-resolver.js";
 
@@ -7,8 +8,8 @@ import type { SwaggerSchemaResolver } from "./swagger-schema-resolver.js";
 export class SchemaWalker {
   config: CodeGenConfig;
   swaggerSchemaResolver: SwaggerSchemaResolver;
-  schemas = new Map<string, Record<string, any>>();
-  caches = new Map<string, Record<string, any>>();
+  schemas = new Map<string, OpenAPI.Document>();
+  caches = new Map<string, OpenAPI.Document>();
 
   constructor(
     config: CodeGenConfig,
@@ -18,7 +19,7 @@ export class SchemaWalker {
     this.swaggerSchemaResolver = swaggerSchemaResolver;
   }
 
-  addSchema = (name: string, schema: Record<string, unknown>) => {
+  addSchema = (name: string, schema: OpenAPI.Document) => {
     this.schemas.set(name, structuredClone(schema));
   };
 
