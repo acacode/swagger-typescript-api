@@ -53,6 +53,9 @@ const generateTemplatesCommand = defineCommand({
     },
   },
   run: async ({ args }) => {
+    if (args.debug) consola.level = Number.MAX_SAFE_INTEGER;
+    if (args.silent) consola.level = 0;
+
     await generateTemplates({
       cleanOutput: args["clean-output"],
       httpClientType: args["http-client"],
@@ -270,6 +273,9 @@ const generateCommand = defineCommand({
     },
   },
   run: async ({ args }) => {
+    if (args.debug) consola.level = Number.MAX_SAFE_INTEGER;
+    if (args.silent) consola.level = 0;
+
     let customConfig = null;
     let customConfigPath: string | undefined;
 
