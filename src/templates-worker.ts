@@ -38,7 +38,8 @@ export class TemplatesWorker {
     const originalTemplatesPath = config.modular
       ? modularTemplatesPath
       : defaultTemplatesPath;
-    const customTemplatesPath = path.resolve(process.cwd(), config.templates);
+    const customTemplatesPath =
+      config.templates && path.resolve(process.cwd(), config.templates);
 
     return {
       /** `templates/base` */
