@@ -6,6 +6,7 @@ import { TemplatesGenConfig } from "./src/commands/generate-templates/configurat
 import { CodeGenConfig } from "./src/configuration.js";
 import { HTTP_CLIENT } from "./src/constants.js";
 import { generateApi, generateTemplates } from "./src/index.js";
+import { pathToFileURL } from "url";
 
 const templateGenBaseConfig = new TemplatesGenConfig({});
 
@@ -282,7 +283,7 @@ const generateCommand = defineCommand({
     if (args["custom-config"]) {
       try {
         customConfigPath = path.resolve(process.cwd(), args["custom-config"]);
-        customConfig = await import(customConfigPath);
+        customConfig = await import(pathToFileURL(customConfigPath).toString());
         customConfig = customConfig.default || customConfig;
       } catch (error) {
         consola.error("Error loading custom config:", error);
