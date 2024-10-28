@@ -702,12 +702,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:22.8.1":
-  version: 22.8.1
-  resolution: "@types/node@npm:22.8.1"
+"@types/node@npm:22.8.2":
+  version: 22.8.2
+  resolution: "@types/node@npm:22.8.2"
   dependencies:
     undici-types: "npm:~6.19.8"
-  checksum: 10c0/83550fdf72a7db5b55eceac3f4fb038844eaee20202bdd2297a8248370cfa08317bda1605b781a8043eda4f173b75e73632e652fc85509eb14dfef78fa17337f
+  checksum: 10c0/c6fa6c54c23e61015cace1517c4101602cae0ff3c4f6604f6cdb89875143921830e5602cabe8b4f90f90363451687a0497f1d07d30be8104fee758d6d44c90ac
   languageName: node
   linkType: hard
 
@@ -2621,7 +2621,7 @@ __metadata:
     "@tsconfig/strictest": "npm:2.0.5"
     "@types/js-yaml": "npm:4.0.9"
     "@types/lodash": "npm:4.17.12"
-    "@types/node": "npm:22.8.1"
+    "@types/node": "npm:22.8.2"
     "@types/swagger-schema-official": "npm:^2.0.25"
     "@types/swagger2openapi": "npm:7.0.4"
     axios: "npm:1.7.7"
