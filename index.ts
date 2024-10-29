@@ -1,4 +1,5 @@
 import * as path from "node:path";
+import * as url from "node:url";
 import { defineCommand, runMain } from "citty";
 import { consola } from "consola";
 import packageJson from "./package.json" with { type: "json" };
@@ -6,7 +7,6 @@ import { TemplatesGenConfig } from "./src/commands/generate-templates/configurat
 import { CodeGenConfig } from "./src/configuration.js";
 import { HTTP_CLIENT } from "./src/constants.js";
 import { generateApi, generateTemplates } from "./src/index.js";
-import { pathToFileURL } from "url";
 
 const templateGenBaseConfig = new TemplatesGenConfig({});
 
@@ -277,21 +277,21 @@ const generateCommand = defineCommand({
     if (args.debug) consola.level = Number.MAX_SAFE_INTEGER;
     if (args.silent) consola.level = 0;
 
-    let customConfig = null;
-    let customConfigPath: string | undefined;
+    let customConfig;
 
     if (args["custom-config"]) {
       try {
-        customConfigPath = path.resolve(process.cwd(), args["custom-config"]);
-        customConfig = await import(pathToFileURL(customConfigPath).toString());
+        const customConfigPath = url
+          .pathToFileURL(path.resolve(process.cwd(), args["custom-config"]))
+          .toString();
+        customConfig = await import(customConfigPath);
         customConfig = customConfig.default || customConfig;
+        if (customConfig) {
+          consola.info(`Found custom config at: ${customConfigPath}`);
+        }
       } catch (error) {
         consola.error("Error loading custom config:", error);
       }
-    }
-
-    if (customConfig) {
-      consola.info(`Found custom config at: ${customConfigPath}`);
     }
 
     await generateApi({
