@@ -64,7 +64,7 @@
     "@tsconfig/node18": "18.2.4",
     "@tsconfig/strictest": "2.0.5",
     "@types/js-yaml": "4.0.9",
-    "@types/lodash": "4.17.12",
+    "@types/lodash": "4.17.13",
     "@types/node": "22.8.2",
     "@types/swagger2openapi": "7.0.4",
     "axios": "1.7.7",
