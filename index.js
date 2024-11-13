@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 import { cli } from "./cli/index.js";
 import packageJson from "./package.json";
 import { TemplatesGenConfig } from "./src/commands/generate-templates/configuration.js";
@@ -295,19 +296,20 @@ program.addCommand({
 const main = async () => {
   const { command, options } = await program.execute({ args: process.argv });
 
-  let customConfig = null;
-  let customConfigPath;
+  let customConfig;
 
   if (options.customConfig) {
     try {
-      customConfigPath = resolve(process.cwd(), options.customConfig);
+      const customConfigPath = pathToFileURL(
+        resolve(process.cwd(), options.customConfig),
+      ).toString();
       customConfig = await import(customConfigPath);
       customConfig = customConfig.default || customConfig;
+      if (customConfig) {
+        console.log(`✨ found custom config at: ${customConfigPath}`);
+      }
     } catch (e) {
       console.error("Error loading custom config", e);
-    }
-    if (customConfig) {
-      console.log(`✨ found custom config at: ${customConfigPath}`);
     }
   }
 
