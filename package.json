@@ -54,7 +54,7 @@
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "nanoid": "^3.3.7",
-    "prettier": "~3.3.3",
+    "prettier": "~3.4.1",
     "swagger-schema-official": "2.0.0-bab6bed",
     "swagger2openapi": "^7.0.8",
     "typescript": "~5.7.2"
