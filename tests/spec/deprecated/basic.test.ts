@@ -23,7 +23,6 @@ describe("basic", async () => {
       input: path.resolve(import.meta.dirname, "schema.json"),
       output: tmpdir,
       silent: true,
-      queryParamsWithBrackets: true,
     });
 
     const content = await fs.readFile(path.join(tmpdir, "schema.ts"), {

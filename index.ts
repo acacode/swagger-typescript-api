@@ -1,4 +1,5 @@
 import * as path from "node:path";
+import * as url from "node:url";
 import { defineCommand, runMain } from "citty";
 import { consola } from "consola";
 import packageJson from "./package.json" with { type: "json" };
@@ -53,6 +54,9 @@ const generateTemplatesCommand = defineCommand({
     },
   },
   run: async ({ args }) => {
+    if (args.debug) consola.level = Number.MAX_SAFE_INTEGER;
+    if (args.silent) consola.level = 0;
+
     await generateTemplates({
       cleanOutput: args["clean-output"],
       httpClientType: args["http-client"],
@@ -175,27 +179,17 @@ const generateCommand = defineCommand({
       type: "string",
       description:
         "determines which path index should be used for routes separation (example: GET:/fruits/getFruit -> index:0 -> moduleName -> fruits)",
-      default: codeGenBaseConfig.moduleNameIndex,
+      default: codeGenBaseConfig.moduleNameIndex.toString(),
     },
     "module-name-first-tag": {
       type: "boolean",
       description: "splits routes based on the first tag",
       default: codeGenBaseConfig.moduleNameFirstTag,
     },
-    disableStrictSSL: {
-      type: "boolean",
-      description: "disabled strict SSL",
-      default: codeGenBaseConfig.disableStrictSSL,
-    },
-    disableProxy: {
-      type: "boolean",
-      description: "disabled proxy",
-      default: codeGenBaseConfig.disableProxy,
-    },
     axios: {
       type: "boolean",
       description: "generate axios http client",
-      default: codeGenBaseConfig.httpClientType === HTTP_CLIENT.AXIOS,
+      default: false,
     },
     "unwrap-response-data": {
       type: "boolean",
@@ -223,12 +217,12 @@ const generateCommand = defineCommand({
       default: codeGenBaseConfig.defaultResponseType,
     },
     "type-prefix": {
-      type: "boolean",
+      type: "string",
       description: "data contract name prefix",
       default: codeGenBaseConfig.typePrefix,
     },
     "type-suffix": {
-      type: "boolean",
+      type: "string",
       description: "data contract name suffix",
       default: codeGenBaseConfig.typeSuffix,
     },
@@ -277,25 +271,27 @@ const generateCommand = defineCommand({
     "custom-config": {
       type: "string",
       description: "custom config: primitiveTypeConstructs, hooks, ... ",
-      default: "",
     },
   },
   run: async ({ args }) => {
-    let customConfig = null;
-    let customConfigPath: string | undefined;
+    if (args.debug) consola.level = Number.MAX_SAFE_INTEGER;
+    if (args.silent) consola.level = 0;
+
+    let customConfig;
 
     if (args["custom-config"]) {
       try {
-        customConfigPath = path.resolve(process.cwd(), args["custom-config"]);
+        const customConfigPath = url
+          .pathToFileURL(path.resolve(process.cwd(), args["custom-config"]))
+          .toString();
         customConfig = await import(customConfigPath);
         customConfig = customConfig.default || customConfig;
+        if (customConfig) {
+          consola.info(`Found custom config at: ${customConfigPath}`);
+        }
       } catch (error) {
         consola.error("Error loading custom config:", error);
       }
-    }
-
-    if (customConfig) {
-      consola.info(`Found custom config at: ${customConfigPath}`);
     }
 
     await generateApi({
@@ -306,8 +302,6 @@ const generateCommand = defineCommand({
       debug: args.debug,
       defaultResponseAsSuccess: args["default-as-success"],
       defaultResponseType: args["default-response"],
-      disableProxy: args.disableProxy,
-      disableStrictSSL: args.disableStrictSSL,
       disableThrowOnError: args["disable-throw-on-error"],
       enumNamesAsValues: args["enum-names-as-values"],
       extractEnums: args["extract-enums"],
@@ -325,11 +319,11 @@ const generateCommand = defineCommand({
         args["http-client"] || args.axios
           ? HTTP_CLIENT.AXIOS
           : HTTP_CLIENT.FETCH,
-      input: path.resolve(process.cwd(), args.path),
+      input: path.resolve(process.cwd(), args.path as string),
       modular: args.modular,
       moduleNameFirstTag: args["module-name-first-tag"],
       moduleNameIndex: +args["module-name-index"] || 0,
-      output: path.resolve(process.cwd(), args.output || "."),
+      output: path.resolve(process.cwd(), (args.output as string) || "."),
       patch: args.patch,
       silent: args.silent,
       singleHttpClient: args["single-http-client"],
