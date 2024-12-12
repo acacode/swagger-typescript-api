@@ -296,7 +296,10 @@ export class SchemaRoutes {
       return CONTENT_KIND.FORM_DATA;
     }
 
-    if (contentTypes.some((contentType) => contentType.includes("image/"))) {
+    if (
+      contentTypes.some((contentType) => contentType.includes("image/")) || 
+      contentTypes.some((contentType) => contentType.includes("application/octet-stream"))
+    ) {
       return CONTENT_KIND.IMAGE;
     }
 
