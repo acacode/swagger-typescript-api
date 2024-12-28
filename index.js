@@ -164,7 +164,7 @@ const program = cli({
     },
     {
       flags: '--ky',
-      description: 'generate axios http client',
+      description: 'generate ky http client',
       default: codeGenBaseConfig.httpClientType === HTTP_CLIENT.KY,
     },
     {
