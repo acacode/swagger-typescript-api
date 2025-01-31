@@ -3,6 +3,7 @@
 exports[`basic > --axios --single-http-client 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##

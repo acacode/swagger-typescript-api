@@ -3,6 +3,7 @@
 exports[`simple > 'adafruit' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -2317,6 +2318,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'additional-properties' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -2554,6 +2556,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'additional-properties2' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -2787,6 +2790,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'allof-example' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -3048,6 +3052,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'another-example' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -3883,6 +3888,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'another-schema' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -4188,6 +4194,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'anyof-example' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -4445,6 +4452,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'api-with-examples' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -4707,6 +4715,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'api-with-examples' 2`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -5003,6 +5012,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'authentiq' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -5650,6 +5660,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'callback-example' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -5917,6 +5928,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'components-responses' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -6169,6 +6181,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'enums' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -6458,6 +6471,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'example1' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -6757,6 +6771,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'explode-param-3' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -7055,6 +7070,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'file-formdata-example' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -7315,6 +7331,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'full-swagger-scheme' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -35803,6 +35820,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'furkot-example' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -36147,6 +36165,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'giphy' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -37026,6 +37045,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'link-example' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -37366,6 +37386,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'no-definitions-schema' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -37610,6 +37631,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'oneof-example' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -37867,6 +37889,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'path-args' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -38130,6 +38153,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'personal-api-example' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -38740,6 +38764,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'petstore' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -39048,6 +39073,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'petstore' 2`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -39354,6 +39380,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'petstore-expanded' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -39677,6 +39704,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'petstore-expanded' 2`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -40034,6 +40062,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'petstore-minimal' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -40294,6 +40323,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'petstore-simple' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -40625,6 +40655,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'petstore-swagger-io' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -41314,6 +41345,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'petstore-with-external-docs' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -41638,6 +41670,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'query-path-param' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -41899,6 +41932,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'recursive-schema' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -42139,6 +42173,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'responses' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -42392,6 +42427,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'swaggerhub-template' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -42658,6 +42694,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'tsoa-odd-types-3' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -43289,6 +43326,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'uber' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -43765,6 +43803,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'up-banking' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -45212,6 +45251,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'uspto' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -45551,6 +45591,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'wrong-enum-subtypes' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -45787,6 +45828,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 exports[`simple > 'wrong-schema-names' 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
