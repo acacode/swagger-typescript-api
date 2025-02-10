@@ -20,6 +20,8 @@ export class TemplatesWorker {
     this.config = config;
     this.fileSystem = fileSystem;
     this.getRenderTemplateData = getRenderTemplateData;
+    if (this.config.debug) consola.level = Number.MAX_SAFE_INTEGER;
+    if (this.config.silent) consola.level = 0;
   }
 
   getTemplatePaths = (

@@ -1,8 +1,9 @@
 import type { ComponentTypeNameResolver } from "../src/component-type-name-resolver.js";
+import type { HTTP_CLIENT } from "../src/constants.js";
 import type { MonoSchemaParser } from "../src/schema-parser/mono-schema-parser.js";
 import type { Translator } from "../src/translators/translator.js";
 
-type HttpClientType = "axios" | "fetch";
+export type HttpClientType = (typeof HTTP_CLIENT)[keyof typeof HTTP_CLIENT];
 
 interface GenerateApiParamsBase {
   /**
@@ -773,7 +774,9 @@ export interface GenerateTemplatesParams {
   output?: string;
   httpClientType?: HttpClientType;
   modular?: boolean;
+  rewrite?: boolean;
   silent?: boolean;
+  debug?: boolean;
 }
 
 export interface GenerateTemplatesOutput
