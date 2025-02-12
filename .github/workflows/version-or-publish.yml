@@ -1,0 +1,39 @@
+name: Version or Publish
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions: read-all
+
+jobs:
+  release:
+    if: ${{ github.repository_owner == 'acacode' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to create release
+      issues: write # to post issue comments
+      pull-requests: write # to create pull request
+    steps:
+      - name: Checkout tree
+        uses: actions/checkout@v4
+
+      - name: Set-up Node.js
+        uses: actions/setup-node@v4
+        with:
+          check-latest: true
+          node-version-file: .nvmrc
+
+      - run: corepack enable
+      - run: yarn install --immutable
+
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
+        with:
+          publish: yarn npm publish --tolerate-republish
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
