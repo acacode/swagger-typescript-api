@@ -59295,7 +59295,7 @@ export enum StepModeEnum {
   Other = "other",
 }
 
-export type StopDetailData = Step[];
+export type StopListData = Step[];
 
 export interface Trip {
   /**
@@ -59321,11 +59321,11 @@ export type TripListData = Trip[];
 export namespace Trip {
   /**
    * @description list stops for a trip identified by {trip_id}
-   * @name StopDetail
+   * @name StopList
    * @request GET:/trip/{trip_id}/stop
    * @secure
    */
-  export namespace StopDetail {
+  export namespace StopList {
     export type RequestParams = {
       /** id of the trip */
       tripId: string;
@@ -59333,7 +59333,7 @@ export namespace Trip {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = StopDetailData;
+    export type ResponseBody = StopListData;
   }
 
   /**
@@ -59577,12 +59577,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description list stops for a trip identified by {trip_id}
      *
-     * @name StopDetail
+     * @name StopList
      * @request GET:/trip/{trip_id}/stop
      * @secure
      */
-    stopDetail: (tripId: string, params: RequestParams = {}) =>
-      this.request<StopDetailData, any>({
+    stopList: (tripId: string, params: RequestParams = {}) =>
+      this.request<StopListData, any>({
         path: \`/trip/\${tripId}/stop\`,
         method: "GET",
         secure: true,
@@ -69761,9 +69761,9 @@ export interface ListWebhooksResponse {
   };
 }
 
-export type LogsDetailData = ListWebhookDeliveryLogsResponse;
+export type LogsListData = ListWebhookDeliveryLogsResponse;
 
-export interface LogsDetailParams {
+export interface LogsListParams {
   /**
    * The number of records to return in each page.
    * @example 30
@@ -70016,7 +70016,57 @@ export enum TransactionStatusEnum {
 
 export type TransactionsDetailData = GetTransactionResponse;
 
-export interface TransactionsDetailParams1 {
+export type TransactionsListData = ListTransactionsResponse;
+
+export interface TransactionsListParams {
+  /**
+   * The category identifier for which to filter transactions.
+   * Both parent and child categories can be filtered through
+   * this parameter. Providing an invalid category identifier
+   * results in a \`404\` response.
+   * @example "good-life"
+   */
+  "filter[category]"?: string;
+  /**
+   * The start date-time from which to return records,
+   * formatted according to rfc-3339. Not to be used for
+   * pagination purposes.
+   * @format date-time
+   * @example "2020-01-01T01:02:03+10:00"
+   */
+  "filter[since]"?: string;
+  /**
+   * The transaction status for which to return records. This
+   * can be used to filter \`HELD\` transactions from those
+   * that are \`SETTLED\`.
+   * @example "HELD"
+   */
+  "filter[status]"?: TransactionStatusEnum;
+  /**
+   * A transaction tag to filter for which to return records.
+   * If the tag does not exist, zero records are returned and
+   * a success response is given.
+   * @example "Holiday"
+   */
+  "filter[tag]"?: string;
+  /**
+   * The end date-time up to which to return records,
+   * formatted according to rfc-3339. Not to be used for
+   * pagination purposes.
+   * @format date-time
+   * @example "2020-02-01T01:02:03+10:00"
+   */
+  "filter[until]"?: string;
+  /**
+   * The number of records to return in each page.
+   * @example 30
+   */
+  "page[size]"?: number;
+  /** Blablabla bla */
+  someEnumName?: SomeEnumName;
+}
+
+export interface TransactionsListParams2 {
   /**
    * The category identifier for which to filter transactions.
    * Both parent and child categories can be filtered through
@@ -70067,57 +70117,7 @@ export interface TransactionsDetailParams1 {
   accountId: string;
 }
 
-export type TransactionsDetailResult = ListTransactionsResponse;
-
-export type TransactionsListData = ListTransactionsResponse;
-
-export interface TransactionsListParams {
-  /**
-   * The category identifier for which to filter transactions.
-   * Both parent and child categories can be filtered through
-   * this parameter. Providing an invalid category identifier
-   * results in a \`404\` response.
-   * @example "good-life"
-   */
-  "filter[category]"?: string;
-  /**
-   * The start date-time from which to return records,
-   * formatted according to rfc-3339. Not to be used for
-   * pagination purposes.
-   * @format date-time
-   * @example "2020-01-01T01:02:03+10:00"
-   */
-  "filter[since]"?: string;
-  /**
-   * The transaction status for which to return records. This
-   * can be used to filter \`HELD\` transactions from those
-   * that are \`SETTLED\`.
-   * @example "HELD"
-   */
-  "filter[status]"?: TransactionStatusEnum;
-  /**
-   * A transaction tag to filter for which to return records.
-   * If the tag does not exist, zero records are returned and
-   * a success response is given.
-   * @example "Holiday"
-   */
-  "filter[tag]"?: string;
-  /**
-   * The end date-time up to which to return records,
-   * formatted according to rfc-3339. Not to be used for
-   * pagination purposes.
-   * @format date-time
-   * @example "2020-02-01T01:02:03+10:00"
-   */
-  "filter[until]"?: string;
-  /**
-   * The number of records to return in each page.
-   * @example 30
-   */
-  "page[size]"?: number;
-  /** Blablabla bla */
-  someEnumName?: SomeEnumName;
-}
+export type TransactionsListResult = ListTransactionsResponse;
 
 /** Request to add or remove tags associated with a transaction. */
 export interface UpdateTransactionTagsRequest {
@@ -70385,12 +70385,12 @@ export namespace Accounts {
   /**
    * @description Retrieve a list of all transactions for a specific account. The returned list is [paginated](#pagination) and can be scrolled by following the \`next\` and \`prev\` links where present. To narrow the results to a specific date range pass one or both of \`filter[since]\` and \`filter[until]\` in the query string. These filter parameters **should not** be used for pagination. Results are ordered newest first to oldest last.
    * @tags Transactions
-   * @name TransactionsDetail
+   * @name TransactionsList
    * @summary List transactions by account
    * @request GET:/accounts/{accountId}/transactions
    * @secure
    */
-  export namespace TransactionsDetail {
+  export namespace TransactionsList {
     export type RequestParams = {
       /**
        * The unique identifier for the account.
@@ -70445,7 +70445,7 @@ export namespace Accounts {
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = TransactionsDetailResult;
+    export type ResponseBody = TransactionsListResult;
   }
 }
 
@@ -70673,12 +70673,12 @@ export namespace Webhooks {
   /**
    * @description Retrieve a list of delivery logs for a webhook by providing its unique identifier. This is useful for analysis and debugging purposes. The returned list is [paginated](#pagination) and can be scrolled by following the \`next\` and \`prev\` links where present. Results are ordered newest first to oldest last. Logs may be automatically purged after a period of time.
    * @tags Webhooks
-   * @name LogsDetail
+   * @name LogsList
    * @summary List webhook logs
    * @request GET:/webhooks/{webhookId}/logs
    * @secure
    */
-  export namespace LogsDetail {
+  export namespace LogsList {
     export type RequestParams = {
       /**
        * The unique identifier for the webhook.
@@ -70695,7 +70695,7 @@ export namespace Webhooks {
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = LogsDetailData;
+    export type ResponseBody = LogsListData;
   }
 
   /**
@@ -71067,13 +71067,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @description Retrieve a list of all transactions for a specific account. The returned list is [paginated](#pagination) and can be scrolled by following the \`next\` and \`prev\` links where present. To narrow the results to a specific date range pass one or both of \`filter[since]\` and \`filter[until]\` in the query string. These filter parameters **should not** be used for pagination. Results are ordered newest first to oldest last.
      *
      * @tags Transactions
-     * @name TransactionsDetail
+     * @name TransactionsList
      * @summary List transactions by account
      * @request GET:/accounts/{accountId}/transactions
      * @secure
      */
-    transactionsDetail: ({ accountId, ...query }: TransactionsDetailParams1, params: RequestParams = {}) =>
-      this.request<TransactionsDetailResult, any>({
+    transactionsList: ({ accountId, ...query }: TransactionsListParams2, params: RequestParams = {}) =>
+      this.request<TransactionsListResult, any>({
         path: \`/accounts/\${accountId}/transactions\`,
         method: "GET",
         query: query,
@@ -71240,13 +71240,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @description Retrieve a list of delivery logs for a webhook by providing its unique identifier. This is useful for analysis and debugging purposes. The returned list is [paginated](#pagination) and can be scrolled by following the \`next\` and \`prev\` links where present. Results are ordered newest first to oldest last. Logs may be automatically purged after a period of time.
      *
      * @tags Webhooks
-     * @name LogsDetail
+     * @name LogsList
      * @summary List webhook logs
      * @request GET:/webhooks/{webhookId}/logs
      * @secure
      */
-    logsDetail: ({ webhookId, ...query }: LogsDetailParams, params: RequestParams = {}) =>
-      this.request<LogsDetailData, any>({
+    logsList: ({ webhookId, ...query }: LogsListParams, params: RequestParams = {}) =>
+      this.request<LogsListData, any>({
         path: \`/webhooks/\${webhookId}/logs\`,
         method: "GET",
         query: query,

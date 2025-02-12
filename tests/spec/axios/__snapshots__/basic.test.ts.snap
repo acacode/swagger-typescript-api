@@ -2284,10 +2284,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List comments on a gist.
      *
-     * @name CommentsDetail
+     * @name CommentsList
      * @request GET:/gists/{id}/comments
      */
-    commentsDetail: (id: number, params: RequestParams = {}) =>
+    commentsList: (id: number, params: RequestParams = {}) =>
       this.request<Comments, void>({
         path: \`/gists/\${id}/comments\`,
         method: "GET",
@@ -2326,12 +2326,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get a single comment.
      *
-     * @name CommentsDetail2
+     * @name CommentsDetail
      * @request GET:/gists/{id}/comments/{commentId}
-     * @originalName commentsDetail
-     * @duplicate
      */
-    commentsDetail2: (id: number, commentId: number, params: RequestParams = {}) =>
+    commentsDetail: (id: number, commentId: number, params: RequestParams = {}) =>
       this.request<Comment, void>({
         path: \`/gists/\${id}/comments/\${commentId}\`,
         method: "GET",
@@ -2384,10 +2382,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Check if a gist is starred.
      *
-     * @name StarDetail
+     * @name StarList
      * @request GET:/gists/{id}/star
      */
-    starDetail: (id: number, params: RequestParams = {}) =>
+    starList: (id: number, params: RequestParams = {}) =>
       this.request<void, void>({
         path: \`/gists/\${id}/star\`,
         method: "GET",
@@ -2623,10 +2621,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List public events for a network of repositories.
      *
-     * @name EventsDetail
+     * @name EventsList
      * @request GET:/networks/{owner}/{repo}/events
      */
-    eventsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    eventsList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Events, void>({
         path: \`/networks/\${owner}/\${repo}/events\`,
         method: "GET",
@@ -2723,10 +2721,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get a Thread Subscription.
      *
-     * @name ThreadsSubscriptionDetail
+     * @name ThreadsSubscriptionList
      * @request GET:/notifications/threads/{id}/subscription
      */
-    threadsSubscriptionDetail: (id: number, params: RequestParams = {}) =>
+    threadsSubscriptionList: (id: number, params: RequestParams = {}) =>
       this.request<Subscription, void>({
         path: \`/notifications/threads/\${id}/subscription\`,
         method: "GET",
@@ -2784,10 +2782,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List public events for an organization.
      *
-     * @name EventsDetail
+     * @name EventsList
      * @request GET:/orgs/{org}/events
      */
-    eventsDetail: (org: string, params: RequestParams = {}) =>
+    eventsList: (org: string, params: RequestParams = {}) =>
       this.request<Events, void>({
         path: \`/orgs/\${org}/events\`,
         method: "GET",
@@ -2798,10 +2796,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List issues. List all issues for a given organization for the authenticated user.
      *
-     * @name IssuesDetail
+     * @name IssuesList
      * @request GET:/orgs/{org}/issues
      */
-    issuesDetail: (
+    issuesList: (
       org: string,
       query: {
         /**
@@ -2837,10 +2835,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Members list. List all users who are members of an organization. A member is a user tha belongs to at least 1 team in the organization. If the authenticated user is also an owner of this organization then both concealed and public members will be returned. If the requester is not an owner of the organization the query will be redirected to the public members list.
      *
-     * @name MembersDetail
+     * @name MembersList
      * @request GET:/orgs/{org}/members
      */
-    membersDetail: (org: string, params: RequestParams = {}) =>
+    membersList: (org: string, params: RequestParams = {}) =>
       this.request<Users, void>({
         path: \`/orgs/\${org}/members\`,
         method: "GET",
@@ -2864,12 +2862,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Check if a user is, publicly or privately, a member of the organization.
      *
-     * @name MembersDetail2
+     * @name MembersDetail
      * @request GET:/orgs/{org}/members/{username}
-     * @originalName membersDetail
-     * @duplicate
      */
-    membersDetail2: (org: string, username: string, params: RequestParams = {}) =>
+    membersDetail: (org: string, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: \`/orgs/\${org}/members/\${username}\`,
         method: "GET",
@@ -2879,10 +2875,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Public members list. Members of an organization can choose to have their membership publicized or not.
      *
-     * @name PublicMembersDetail
+     * @name PublicMembersList
      * @request GET:/orgs/{org}/public_members
      */
-    publicMembersDetail: (org: string, params: RequestParams = {}) =>
+    publicMembersList: (org: string, params: RequestParams = {}) =>
       this.request<Users, void>({
         path: \`/orgs/\${org}/public_members\`,
         method: "GET",
@@ -2906,12 +2902,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Check public membership.
      *
-     * @name PublicMembersDetail2
+     * @name PublicMembersDetail
      * @request GET:/orgs/{org}/public_members/{username}
-     * @originalName publicMembersDetail
-     * @duplicate
      */
-    publicMembersDetail2: (org: string, username: string, params: RequestParams = {}) =>
+    publicMembersDetail: (org: string, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: \`/orgs/\${org}/public_members/\${username}\`,
         method: "GET",
@@ -2934,10 +2928,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List repositories for the specified org.
      *
-     * @name ReposDetail
+     * @name ReposList
      * @request GET:/orgs/{org}/repos
      */
-    reposDetail: (
+    reposList: (
       org: string,
       query?: {
         /** @default "all" */
@@ -2971,10 +2965,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List teams.
      *
-     * @name TeamsDetail
+     * @name TeamsList
      * @request GET:/orgs/{org}/teams
      */
-    teamsDetail: (org: string, params: RequestParams = {}) =>
+    teamsList: (org: string, params: RequestParams = {}) =>
       this.request<Teams, void>({
         path: \`/orgs/\${org}/teams\`,
         method: "GET",
@@ -3060,10 +3054,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List assignees. This call lists all the available assignees (owner + collaborators) to which issues may be assigned.
      *
-     * @name AssigneesDetail
+     * @name AssigneesList
      * @request GET:/repos/{owner}/{repo}/assignees
      */
-    assigneesDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    assigneesList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Assignees, void>({
         path: \`/repos/\${owner}/\${repo}/assignees\`,
         method: "GET",
@@ -3074,12 +3068,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Check assignee. You may also check to see if a particular user is an assignee for a repository.
      *
-     * @name AssigneesDetail2
+     * @name AssigneesDetail
      * @request GET:/repos/{owner}/{repo}/assignees/{assignee}
-     * @originalName assigneesDetail
-     * @duplicate
      */
-    assigneesDetail2: (owner: string, repo: string, assignee: string, params: RequestParams = {}) =>
+    assigneesDetail: (owner: string, repo: string, assignee: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: \`/repos/\${owner}/\${repo}/assignees/\${assignee}\`,
         method: "GET",
@@ -3089,10 +3081,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get list of branches
      *
-     * @name BranchesDetail
+     * @name BranchesList
      * @request GET:/repos/{owner}/{repo}/branches
      */
-    branchesDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    branchesList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Branches, void>({
         path: \`/repos/\${owner}/\${repo}/branches\`,
         method: "GET",
@@ -3103,12 +3095,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get Branch
      *
-     * @name BranchesDetail2
+     * @name BranchesDetail
      * @request GET:/repos/{owner}/{repo}/branches/{branch}
-     * @originalName branchesDetail
-     * @duplicate
      */
-    branchesDetail2: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
+    branchesDetail: (owner: string, repo: string, branch: string, params: RequestParams = {}) =>
       this.request<Branch, void>({
         path: \`/repos/\${owner}/\${repo}/branches/\${branch}\`,
         method: "GET",
@@ -3119,10 +3109,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List. When authenticating as an organization owner of an organization-owned repository, all organization owners are included in the list of collaborators. Otherwise, only users with access to the repository are returned in the collaborators list.
      *
-     * @name CollaboratorsDetail
+     * @name CollaboratorsList
      * @request GET:/repos/{owner}/{repo}/collaborators
      */
-    collaboratorsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    collaboratorsList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Users, void>({
         path: \`/repos/\${owner}/\${repo}/collaborators\`,
         method: "GET",
@@ -3146,12 +3136,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Check if user is a collaborator
      *
-     * @name CollaboratorsDetail2
+     * @name CollaboratorsDetail
      * @request GET:/repos/{owner}/{repo}/collaborators/{user}
-     * @originalName collaboratorsDetail
-     * @duplicate
      */
-    collaboratorsDetail2: (owner: string, repo: string, user: string, params: RequestParams = {}) =>
+    collaboratorsDetail: (owner: string, repo: string, user: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: \`/repos/\${owner}/\${repo}/collaborators/\${user}\`,
         method: "GET",
@@ -3174,10 +3162,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List commit comments for a repository. Comments are ordered by ascending ID.
      *
-     * @name CommentsDetail
+     * @name CommentsList
      * @request GET:/repos/{owner}/{repo}/comments
      */
-    commentsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    commentsList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<RepoComments, void>({
         path: \`/repos/\${owner}/\${repo}/comments\`,
         method: "GET",
@@ -3201,12 +3189,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get a single commit comment.
      *
-     * @name CommentsDetail2
+     * @name CommentsDetail
      * @request GET:/repos/{owner}/{repo}/comments/{commentId}
-     * @originalName commentsDetail
-     * @duplicate
      */
-    commentsDetail2: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
+    commentsDetail: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
       this.request<CommitComment, void>({
         path: \`/repos/\${owner}/\${repo}/comments/\${commentId}\`,
         method: "GET",
@@ -3238,10 +3224,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List commits on a repository.
      *
-     * @name CommitsDetail
+     * @name CommitsList
      * @request GET:/repos/{owner}/{repo}/commits
      */
-    commitsDetail: (
+    commitsList: (
       owner: string,
       repo: string,
       query?: {
@@ -3272,10 +3258,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get the combined Status for a specific Ref The Combined status endpoint is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the blog post for full details. To access this endpoint during the preview period, you must provide a custom media type in the Accept header: application/vnd.github.she-hulk-preview+json
      *
-     * @name CommitsStatusDetail
+     * @name CommitsStatusList
      * @request GET:/repos/{owner}/{repo}/commits/{ref}/status
      */
-    commitsStatusDetail: (owner: string, repo: string, ref: string, params: RequestParams = {}) =>
+    commitsStatusList: (owner: string, repo: string, ref: string, params: RequestParams = {}) =>
       this.request<RefStatus, void>({
         path: \`/repos/\${owner}/\${repo}/commits/\${ref}/status\`,
         method: "GET",
@@ -3286,12 +3272,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get a single commit.
      *
-     * @name CommitsDetail2
+     * @name CommitsDetail
      * @request GET:/repos/{owner}/{repo}/commits/{shaCode}
-     * @originalName commitsDetail
-     * @duplicate
      */
-    commitsDetail2: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
+    commitsDetail: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
       this.request<Commit, void>({
         path: \`/repos/\${owner}/\${repo}/commits/\${shaCode}\`,
         method: "GET",
@@ -3302,10 +3286,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List comments for a single commitList comments for a single commit.
      *
-     * @name CommitsCommentsDetail
+     * @name CommitsCommentsList
      * @request GET:/repos/{owner}/{repo}/commits/{shaCode}/comments
      */
-    commitsCommentsDetail: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
+    commitsCommentsList: (owner: string, repo: string, shaCode: string, params: RequestParams = {}) =>
       this.request<RepoComments, void>({
         path: \`/repos/\${owner}/\${repo}/commits/\${shaCode}/comments\`,
         method: "GET",
@@ -3410,10 +3394,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get list of contributors.
      *
-     * @name ContributorsDetail
+     * @name ContributorsList
      * @request GET:/repos/{owner}/{repo}/contributors
      */
-    contributorsDetail: (
+    contributorsList: (
       owner: string,
       repo: string,
       query: {
@@ -3433,10 +3417,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Users with pull access can view deployments for a repository
      *
-     * @name DeploymentsDetail
+     * @name DeploymentsList
      * @request GET:/repos/{owner}/{repo}/deployments
      */
-    deploymentsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    deploymentsList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<RepoDeployments, void>({
         path: \`/repos/\${owner}/\${repo}/deployments\`,
         method: "GET",
@@ -3463,10 +3447,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Users with pull access can view deployment statuses for a deployment
      *
-     * @name DeploymentsStatusesDetail
+     * @name DeploymentsStatusesList
      * @request GET:/repos/{owner}/{repo}/deployments/{id}/statuses
      */
-    deploymentsStatusesDetail: (owner: string, repo: string, id: number, params: RequestParams = {}) =>
+    deploymentsStatusesList: (owner: string, repo: string, id: number, params: RequestParams = {}) =>
       this.request<DeploymentStatuses, void>({
         path: \`/repos/\${owner}/\${repo}/deployments/\${id}/statuses\`,
         method: "GET",
@@ -3498,11 +3482,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Deprecated. List downloads for a repository.
      *
-     * @name DownloadsDetail
+     * @name DownloadsList
      * @request GET:/repos/{owner}/{repo}/downloads
      * @deprecated
      */
-    downloadsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    downloadsList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Downloads, void>({
         path: \`/repos/\${owner}/\${repo}/downloads\`,
         method: "GET",
@@ -3527,13 +3511,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Deprecated. Get a single download.
      *
-     * @name DownloadsDetail2
+     * @name DownloadsDetail
      * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
      * @deprecated
-     * @originalName downloadsDetail
-     * @duplicate
      */
-    downloadsDetail2: (owner: string, repo: string, downloadId: number, params: RequestParams = {}) =>
+    downloadsDetail: (owner: string, repo: string, downloadId: number, params: RequestParams = {}) =>
       this.request<Download, void>({
         path: \`/repos/\${owner}/\${repo}/downloads/\${downloadId}\`,
         method: "GET",
@@ -3544,10 +3526,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get list of repository events.
      *
-     * @name EventsDetail
+     * @name EventsList
      * @request GET:/repos/{owner}/{repo}/events
      */
-    eventsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    eventsList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Events, void>({
         path: \`/repos/\${owner}/\${repo}/events\`,
         method: "GET",
@@ -3558,10 +3540,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List forks.
      *
-     * @name ForksDetail
+     * @name ForksList
      * @request GET:/repos/{owner}/{repo}/forks
      */
-    forksDetail: (
+    forksList: (
       owner: string,
       repo: string,
       query?: {
@@ -3657,10 +3639,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get all References
      *
-     * @name GitRefsDetail
+     * @name GitRefsList
      * @request GET:/repos/{owner}/{repo}/git/refs
      */
-    gitRefsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    gitRefsList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Refs, void>({
         path: \`/repos/\${owner}/\${repo}/git/refs\`,
         method: "GET",
@@ -3700,12 +3682,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get a Reference
      *
-     * @name GitRefsDetail2
+     * @name GitRefsDetail
      * @request GET:/repos/{owner}/{repo}/git/refs/{ref}
-     * @originalName gitRefsDetail
-     * @duplicate
      */
-    gitRefsDetail2: (owner: string, repo: string, ref: string, params: RequestParams = {}) =>
+    gitRefsDetail: (owner: string, repo: string, ref: string, params: RequestParams = {}) =>
       this.request<HeadBranch, void>({
         path: \`/repos/\${owner}/\${repo}/git/refs/\${ref}\`,
         method: "GET",
@@ -3802,10 +3782,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get list of hooks.
      *
-     * @name HooksDetail
+     * @name HooksList
      * @request GET:/repos/{owner}/{repo}/hooks
      */
-    hooksDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    hooksList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Hook, void>({
         path: \`/repos/\${owner}/\${repo}/hooks\`,
         method: "GET",
@@ -3844,12 +3824,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get single hook.
      *
-     * @name HooksDetail2
+     * @name HooksDetail
      * @request GET:/repos/{owner}/{repo}/hooks/{hookId}
-     * @originalName hooksDetail
-     * @duplicate
      */
-    hooksDetail2: (owner: string, repo: string, hookId: number, params: RequestParams = {}) =>
+    hooksDetail: (owner: string, repo: string, hookId: number, params: RequestParams = {}) =>
       this.request<Hook, void>({
         path: \`/repos/\${owner}/\${repo}/hooks/\${hookId}\`,
         method: "GET",
@@ -3888,10 +3866,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List issues for a repository.
      *
-     * @name IssuesDetail
+     * @name IssuesList
      * @request GET:/repos/{owner}/{repo}/issues
      */
-    issuesDetail: (
+    issuesList: (
       owner: string,
       repo: string,
       query: {
@@ -3943,10 +3921,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List comments in a repository.
      *
-     * @name IssuesCommentsDetail
+     * @name IssuesCommentsList
      * @request GET:/repos/{owner}/{repo}/issues/comments
      */
-    issuesCommentsDetail: (
+    issuesCommentsList: (
       owner: string,
       repo: string,
       query?: {
@@ -3985,12 +3963,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get a single comment.
      *
-     * @name IssuesCommentsDetail2
+     * @name IssuesCommentsDetail
      * @request GET:/repos/{owner}/{repo}/issues/comments/{commentId}
-     * @originalName issuesCommentsDetail
-     * @duplicate
      */
-    issuesCommentsDetail2: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
+    issuesCommentsDetail: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
       this.request<IssuesComment, void>({
         path: \`/repos/\${owner}/\${repo}/issues/comments/\${commentId}\`,
         method: "GET",
@@ -4022,10 +3998,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List issue events for a repository.
      *
-     * @name IssuesEventsDetail
+     * @name IssuesEventsList
      * @request GET:/repos/{owner}/{repo}/issues/events
      */
-    issuesEventsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    issuesEventsList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<IssueEvents, void>({
         path: \`/repos/\${owner}/\${repo}/issues/events\`,
         method: "GET",
@@ -4036,12 +4012,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get a single event.
      *
-     * @name IssuesEventsDetail2
+     * @name IssuesEventsDetail
      * @request GET:/repos/{owner}/{repo}/issues/events/{eventId}
-     * @originalName issuesEventsDetail
-     * @duplicate
      */
-    issuesEventsDetail2: (owner: string, repo: string, eventId: number, params: RequestParams = {}) =>
+    issuesEventsDetail: (owner: string, repo: string, eventId: number, params: RequestParams = {}) =>
       this.request<IssueEvent, void>({
         path: \`/repos/\${owner}/\${repo}/issues/events/\${eventId}\`,
         method: "GET",
@@ -4052,12 +4026,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get a single issue
      *
-     * @name IssuesDetail2
+     * @name IssuesDetail
      * @request GET:/repos/{owner}/{repo}/issues/{number}
-     * @originalName issuesDetail
-     * @duplicate
      */
-    issuesDetail2: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    issuesDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<Issue, void>({
         path: \`/repos/\${owner}/\${repo}/issues/\${number}\`,
         method: "GET",
@@ -4083,12 +4055,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List comments on an issue.
      *
-     * @name IssuesCommentsDetail3
+     * @name IssuesCommentsList2
      * @request GET:/repos/{owner}/{repo}/issues/{number}/comments
-     * @originalName issuesCommentsDetail
+     * @originalName issuesCommentsList
      * @duplicate
      */
-    issuesCommentsDetail3: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    issuesCommentsList2: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<IssuesComments, void>({
         path: \`/repos/\${owner}/\${repo}/issues/\${number}/comments\`,
         method: "GET",
@@ -4120,12 +4092,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List events for an issue.
      *
-     * @name IssuesEventsDetail3
+     * @name IssuesEventsList2
      * @request GET:/repos/{owner}/{repo}/issues/{number}/events
-     * @originalName issuesEventsDetail
+     * @originalName issuesEventsList
      * @duplicate
      */
-    issuesEventsDetail3: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    issuesEventsList2: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<IssueEvents, void>({
         path: \`/repos/\${owner}/\${repo}/issues/\${number}/events\`,
         method: "GET",
@@ -4149,10 +4121,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List labels on an issue.
      *
-     * @name IssuesLabelsDetail
+     * @name IssuesLabelsList
      * @request GET:/repos/{owner}/{repo}/issues/{number}/labels
      */
-    issuesLabelsDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    issuesLabelsList: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<Labels, void>({
         path: \`/repos/\${owner}/\${repo}/issues/\${number}/labels\`,
         method: "GET",
@@ -4208,10 +4180,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get list of keys.
      *
-     * @name KeysDetail
+     * @name KeysList
      * @request GET:/repos/{owner}/{repo}/keys
      */
-    keysDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    keysList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Keys, void>({
         path: \`/repos/\${owner}/\${repo}/keys\`,
         method: "GET",
@@ -4250,12 +4222,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get a key
      *
-     * @name KeysDetail2
+     * @name KeysDetail
      * @request GET:/repos/{owner}/{repo}/keys/{keyId}
-     * @originalName keysDetail
-     * @duplicate
      */
-    keysDetail2: (owner: string, repo: string, keyId: number, params: RequestParams = {}) =>
+    keysDetail: (owner: string, repo: string, keyId: number, params: RequestParams = {}) =>
       this.request<UserKeysKeyId, void>({
         path: \`/repos/\${owner}/\${repo}/keys/\${keyId}\`,
         method: "GET",
@@ -4266,10 +4236,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List all labels for this repository.
      *
-     * @name LabelsDetail
+     * @name LabelsList
      * @request GET:/repos/{owner}/{repo}/labels
      */
-    labelsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    labelsList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Labels, void>({
         path: \`/repos/\${owner}/\${repo}/labels\`,
         method: "GET",
@@ -4308,12 +4278,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get a single label.
      *
-     * @name LabelsDetail2
+     * @name LabelsDetail
      * @request GET:/repos/{owner}/{repo}/labels/{name}
-     * @originalName labelsDetail
-     * @duplicate
      */
-    labelsDetail2: (owner: string, repo: string, name: string, params: RequestParams = {}) =>
+    labelsDetail: (owner: string, repo: string, name: string, params: RequestParams = {}) =>
       this.request<Label, void>({
         path: \`/repos/\${owner}/\${repo}/labels/\${name}\`,
         method: "GET",
@@ -4339,10 +4307,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List languages. List languages for the specified repository. The value on the right of a language is the number of bytes of code written in that language.
      *
-     * @name LanguagesDetail
+     * @name LanguagesList
      * @request GET:/repos/{owner}/{repo}/languages
      */
-    languagesDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    languagesList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Languages, void>({
         path: \`/repos/\${owner}/\${repo}/languages\`,
         method: "GET",
@@ -4369,10 +4337,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List milestones for a repository.
      *
-     * @name MilestonesDetail
+     * @name MilestonesList
      * @request GET:/repos/{owner}/{repo}/milestones
      */
-    milestonesDetail: (
+    milestonesList: (
       owner: string,
       repo: string,
       query?: {
@@ -4427,12 +4395,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get a single milestone.
      *
-     * @name MilestonesDetail2
+     * @name MilestonesDetail
      * @request GET:/repos/{owner}/{repo}/milestones/{number}
-     * @originalName milestonesDetail
-     * @duplicate
      */
-    milestonesDetail2: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    milestonesDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<Milestone, void>({
         path: \`/repos/\${owner}/\${repo}/milestones/\${number}\`,
         method: "GET",
@@ -4464,10 +4430,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get labels for every issue in a milestone.
      *
-     * @name MilestonesLabelsDetail
+     * @name MilestonesLabelsList
      * @request GET:/repos/{owner}/{repo}/milestones/{number}/labels
      */
-    milestonesLabelsDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    milestonesLabelsList: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<Labels, void>({
         path: \`/repos/\${owner}/\${repo}/milestones/\${number}/labels\`,
         method: "GET",
@@ -4478,10 +4444,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List your notifications in a repository List all notifications for the current user.
      *
-     * @name NotificationsDetail
+     * @name NotificationsList
      * @request GET:/repos/{owner}/{repo}/notifications
      */
-    notificationsDetail: (
+    notificationsList: (
       owner: string,
       repo: string,
       query?: {
@@ -4525,10 +4491,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List pull requests.
      *
-     * @name PullsDetail
+     * @name PullsList
      * @request GET:/repos/{owner}/{repo}/pulls
      */
-    pullsDetail: (
+    pullsList: (
       owner: string,
       repo: string,
       query?: {
@@ -4574,10 +4540,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List comments in a repository. By default, Review Comments are ordered by ascending ID.
      *
-     * @name PullsCommentsDetail
+     * @name PullsCommentsList
      * @request GET:/repos/{owner}/{repo}/pulls/comments
      */
-    pullsCommentsDetail: (
+    pullsCommentsList: (
       owner: string,
       repo: string,
       query?: {
@@ -4616,12 +4582,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get a single comment.
      *
-     * @name PullsCommentsDetail2
+     * @name PullsCommentsDetail
      * @request GET:/repos/{owner}/{repo}/pulls/comments/{commentId}
-     * @originalName pullsCommentsDetail
-     * @duplicate
      */
-    pullsCommentsDetail2: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
+    pullsCommentsDetail: (owner: string, repo: string, commentId: number, params: RequestParams = {}) =>
       this.request<PullsComment, void>({
         path: \`/repos/\${owner}/\${repo}/pulls/comments/\${commentId}\`,
         method: "GET",
@@ -4653,12 +4617,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get a single pull request.
      *
-     * @name PullsDetail2
+     * @name PullsDetail
      * @request GET:/repos/{owner}/{repo}/pulls/{number}
-     * @originalName pullsDetail
-     * @duplicate
      */
-    pullsDetail2: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    pullsDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<PullRequest, void>({
         path: \`/repos/\${owner}/\${repo}/pulls/\${number}\`,
         method: "GET",
@@ -4685,12 +4647,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List comments on a pull request.
      *
-     * @name PullsCommentsDetail3
+     * @name PullsCommentsList2
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/comments
-     * @originalName pullsCommentsDetail
+     * @originalName pullsCommentsList
      * @duplicate
      */
-    pullsCommentsDetail3: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    pullsCommentsList2: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<PullsComment, void>({
         path: \`/repos/\${owner}/\${repo}/pulls/\${number}/comments\`,
         method: "GET",
@@ -4723,10 +4685,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List commits on a pull request.
      *
-     * @name PullsCommitsDetail
+     * @name PullsCommitsList
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/commits
      */
-    pullsCommitsDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    pullsCommitsList: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<Commits, void>({
         path: \`/repos/\${owner}/\${repo}/pulls/\${number}/commits\`,
         method: "GET",
@@ -4737,10 +4699,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List pull requests files.
      *
-     * @name PullsFilesDetail
+     * @name PullsFilesList
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/files
      */
-    pullsFilesDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    pullsFilesList: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<Pulls, void>({
         path: \`/repos/\${owner}/\${repo}/pulls/\${number}/files\`,
         method: "GET",
@@ -4751,10 +4713,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get if a pull request has been merged.
      *
-     * @name PullsMergeDetail
+     * @name PullsMergeList
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/merge
      */
-    pullsMergeDetail: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
+    pullsMergeList: (owner: string, repo: string, number: number, params: RequestParams = {}) =>
       this.request<void, void>({
         path: \`/repos/\${owner}/\${repo}/pulls/\${number}/merge\`,
         method: "GET",
@@ -4780,10 +4742,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get the README. This method returns the preferred README for a repository.
      *
-     * @name ReadmeDetail
+     * @name ReadmeList
      * @request GET:/repos/{owner}/{repo}/readme
      */
-    readmeDetail: (
+    readmeList: (
       owner: string,
       repo: string,
       query?: {
@@ -4803,10 +4765,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Users with push access to the repository will receive all releases (i.e., published releases and draft releases). Users with pull access will receive published releases only
      *
-     * @name ReleasesDetail
+     * @name ReleasesList
      * @request GET:/repos/{owner}/{repo}/releases
      */
-    releasesDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    releasesList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Releases, void>({
         path: \`/repos/\${owner}/\${repo}/releases\`,
         method: "GET",
@@ -4894,12 +4856,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get a single release
      *
-     * @name ReleasesDetail2
+     * @name ReleasesDetail
      * @request GET:/repos/{owner}/{repo}/releases/{id}
-     * @originalName releasesDetail
-     * @duplicate
      */
-    releasesDetail2: (owner: string, repo: string, id: string, params: RequestParams = {}) =>
+    releasesDetail: (owner: string, repo: string, id: string, params: RequestParams = {}) =>
       this.request<Release, void>({
         path: \`/repos/\${owner}/\${repo}/releases/\${id}\`,
         method: "GET",
@@ -4925,12 +4885,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List assets for a release
      *
-     * @name ReleasesAssetsDetail2
+     * @name ReleasesAssetsList
      * @request GET:/repos/{owner}/{repo}/releases/{id}/assets
-     * @originalName releasesAssetsDetail
-     * @duplicate
      */
-    releasesAssetsDetail2: (owner: string, repo: string, id: string, params: RequestParams = {}) =>
+    releasesAssetsList: (owner: string, repo: string, id: string, params: RequestParams = {}) =>
       this.request<Assets, void>({
         path: \`/repos/\${owner}/\${repo}/releases/\${id}/assets\`,
         method: "GET",
@@ -4941,10 +4899,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List Stargazers.
      *
-     * @name StargazersDetail
+     * @name StargazersList
      * @request GET:/repos/{owner}/{repo}/stargazers
      */
-    stargazersDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    stargazersList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Users, void>({
         path: \`/repos/\${owner}/\${repo}/stargazers\`,
         method: "GET",
@@ -4955,10 +4913,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get the number of additions and deletions per week. Returns a weekly aggregate of the number of additions and deletions pushed to a repository.
      *
-     * @name StatsCodeFrequencyDetail
+     * @name StatsCodeFrequencyList
      * @request GET:/repos/{owner}/{repo}/stats/code_frequency
      */
-    statsCodeFrequencyDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    statsCodeFrequencyList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<CodeFrequencyStats, void>({
         path: \`/repos/\${owner}/\${repo}/stats/code_frequency\`,
         method: "GET",
@@ -4969,10 +4927,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get the last year of commit activity data. Returns the last year of commit activity grouped by week. The days array is a group of commits per day, starting on Sunday.
      *
-     * @name StatsCommitActivityDetail
+     * @name StatsCommitActivityList
      * @request GET:/repos/{owner}/{repo}/stats/commit_activity
      */
-    statsCommitActivityDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    statsCommitActivityList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<CommitActivityStats, void>({
         path: \`/repos/\${owner}/\${repo}/stats/commit_activity\`,
         method: "GET",
@@ -4983,10 +4941,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get contributors list with additions, deletions, and commit counts.
      *
-     * @name StatsContributorsDetail
+     * @name StatsContributorsList
      * @request GET:/repos/{owner}/{repo}/stats/contributors
      */
-    statsContributorsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    statsContributorsList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<ContributorsStats, void>({
         path: \`/repos/\${owner}/\${repo}/stats/contributors\`,
         method: "GET",
@@ -4997,10 +4955,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get the weekly commit count for the repo owner and everyone else.
      *
-     * @name StatsParticipationDetail
+     * @name StatsParticipationList
      * @request GET:/repos/{owner}/{repo}/stats/participation
      */
-    statsParticipationDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    statsParticipationList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<ParticipationStats, void>({
         path: \`/repos/\${owner}/\${repo}/stats/participation\`,
         method: "GET",
@@ -5011,10 +4969,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get the number of commits per hour in each day. Each array contains the day number, hour number, and number of commits 0-6 Sunday - Saturday 0-23 Hour of day Number of commits For example, [2, 14, 25] indicates that there were 25 total commits, during the 2.00pm hour on Tuesdays. All times are based on the time zone of individual commits.
      *
-     * @name StatsPunchCardDetail
+     * @name StatsPunchCardList
      * @request GET:/repos/{owner}/{repo}/stats/punch_card
      */
-    statsPunchCardDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    statsPunchCardList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<CodeFrequencyStats, void>({
         path: \`/repos/\${owner}/\${repo}/stats/punch_card\`,
         method: "GET",
@@ -5055,10 +5013,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List watchers.
      *
-     * @name SubscribersDetail
+     * @name SubscribersList
      * @request GET:/repos/{owner}/{repo}/subscribers
      */
-    subscribersDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    subscribersList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Users, void>({
         path: \`/repos/\${owner}/\${repo}/subscribers\`,
         method: "GET",
@@ -5082,10 +5040,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get a Repository Subscription.
      *
-     * @name SubscriptionDetail
+     * @name SubscriptionList
      * @request GET:/repos/{owner}/{repo}/subscription
      */
-    subscriptionDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    subscriptionList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Subscription, void>({
         path: \`/repos/\${owner}/\${repo}/subscription\`,
         method: "GET",
@@ -5112,10 +5070,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get list of tags.
      *
-     * @name TagsDetail
+     * @name TagsList
      * @request GET:/repos/{owner}/{repo}/tags
      */
-    tagsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    tagsList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Tags, void>({
         path: \`/repos/\${owner}/\${repo}/tags\`,
         method: "GET",
@@ -5126,10 +5084,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Get list of teams
      *
-     * @name TeamsDetail
+     * @name TeamsList
      * @request GET:/repos/{owner}/{repo}/teams
      */
-    teamsDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    teamsList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Teams, void>({
         path: \`/repos/\${owner}/\${repo}/teams\`,
         method: "GET",
@@ -5140,10 +5098,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List Stargazers. New implementation.
      *
-     * @name WatchersDetail
+     * @name WatchersList
      * @request GET:/repos/{owner}/{repo}/watchers
      */
-    watchersDetail: (owner: string, repo: string, params: RequestParams = {}) =>
+    watchersList: (owner: string, repo: string, params: RequestParams = {}) =>
       this.request<Users, void>({
         path: \`/repos/\${owner}/\${repo}/watchers\`,
         method: "GET",
@@ -5402,10 +5360,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List team members. In order to list members in a team, the authenticated user must be a member of the team.
      *
-     * @name MembersDetail
+     * @name MembersList
      * @request GET:/teams/{teamId}/members
      */
-    membersDetail: (teamId: number, params: RequestParams = {}) =>
+    membersList: (teamId: number, params: RequestParams = {}) =>
       this.request<Users, void>({
         path: \`/teams/\${teamId}/members\`,
         method: "GET",
@@ -5430,13 +5388,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description The "Get team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Get team membership API instead. It allows you to get both active and pending memberships. Get team member. In order to get if a user is a member of a team, the authenticated user mus be a member of the team.
      *
-     * @name MembersDetail2
+     * @name MembersDetail
      * @request GET:/teams/{teamId}/members/{username}
      * @deprecated
-     * @originalName membersDetail
-     * @duplicate
      */
-    membersDetail2: (teamId: number, username: string, params: RequestParams = {}) =>
+    membersDetail: (teamId: number, username: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: \`/teams/\${teamId}/members/\${username}\`,
         method: "GET",
@@ -5501,10 +5457,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List team repos
      *
-     * @name ReposDetail
+     * @name ReposList
      * @request GET:/teams/{teamId}/repos
      */
-    reposDetail: (teamId: number, params: RequestParams = {}) =>
+    reposList: (teamId: number, params: RequestParams = {}) =>
       this.request<TeamRepos, void>({
         path: \`/teams/\${teamId}/repos\`,
         method: "GET",
@@ -5528,12 +5484,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Check if a team manages a repository
      *
-     * @name ReposDetail2
+     * @name ReposDetail
      * @request GET:/teams/{teamId}/repos/{owner}/{repo}
-     * @originalName reposDetail
-     * @duplicate
      */
-    reposDetail2: (teamId: number, owner: string, repo: string, params: RequestParams = {}) =>
+    reposDetail: (teamId: number, owner: string, repo: string, params: RequestParams = {}) =>
       this.request<any, void>({
         path: \`/teams/\${teamId}/repos/\${owner}/\${repo}\`,
         method: "GET",
@@ -6008,10 +5962,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description If you are authenticated as the given user, you will see your private events. Otherwise, you'll only see public events.
      *
-     * @name EventsDetail
+     * @name EventsList
      * @request GET:/users/{username}/events
      */
-    eventsDetail: (username: string, params: RequestParams = {}) =>
+    eventsList: (username: string, params: RequestParams = {}) =>
       this.request<any, void>({
         path: \`/users/\${username}/events\`,
         method: "GET",
@@ -6034,10 +5988,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List a user's followers
      *
-     * @name FollowersDetail
+     * @name FollowersList
      * @request GET:/users/{username}/followers
      */
-    followersDetail: (username: string, params: RequestParams = {}) =>
+    followersList: (username: string, params: RequestParams = {}) =>
       this.request<Users, void>({
         path: \`/users/\${username}/followers\`,
         method: "GET",
@@ -6061,10 +6015,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List a users gists.
      *
-     * @name GistsDetail
+     * @name GistsList
      * @request GET:/users/{username}/gists
      */
-    gistsDetail: (
+    gistsList: (
       username: string,
       query?: {
         /**
@@ -6086,10 +6040,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List public keys for a user. Lists the verified public keys for a user. This is accessible by anyone.
      *
-     * @name KeysDetail
+     * @name KeysList
      * @request GET:/users/{username}/keys
      */
-    keysDetail: (username: string, params: RequestParams = {}) =>
+    keysList: (username: string, params: RequestParams = {}) =>
       this.request<Gitignore, void>({
         path: \`/users/\${username}/keys\`,
         method: "GET",
@@ -6100,10 +6054,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List all public organizations for a user.
      *
-     * @name OrgsDetail
+     * @name OrgsList
      * @request GET:/users/{username}/orgs
      */
-    orgsDetail: (username: string, params: RequestParams = {}) =>
+    orgsList: (username: string, params: RequestParams = {}) =>
       this.request<Gitignore, void>({
         path: \`/users/\${username}/orgs\`,
         method: "GET",
@@ -6114,10 +6068,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description These are events that you'll only see public events.
      *
-     * @name ReceivedEventsDetail
+     * @name ReceivedEventsList
      * @request GET:/users/{username}/received_events
      */
-    receivedEventsDetail: (username: string, params: RequestParams = {}) =>
+    receivedEventsList: (username: string, params: RequestParams = {}) =>
       this.request<any, void>({
         path: \`/users/\${username}/received_events\`,
         method: "GET",
@@ -6127,10 +6081,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List public events that a user has received
      *
-     * @name ReceivedEventsPublicDetail
+     * @name ReceivedEventsPublicList
      * @request GET:/users/{username}/received_events/public
      */
-    receivedEventsPublicDetail: (username: string, params: RequestParams = {}) =>
+    receivedEventsPublicList: (username: string, params: RequestParams = {}) =>
       this.request<any, void>({
         path: \`/users/\${username}/received_events/public\`,
         method: "GET",
@@ -6140,10 +6094,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List public repositories for the specified user.
      *
-     * @name ReposDetail
+     * @name ReposList
      * @request GET:/users/{username}/repos
      */
-    reposDetail: (
+    reposList: (
       username: string,
       query?: {
         /** @default "all" */
@@ -6162,10 +6116,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List repositories being starred by a user.
      *
-     * @name StarredDetail
+     * @name StarredList
      * @request GET:/users/{username}/starred
      */
-    starredDetail: (username: string, params: RequestParams = {}) =>
+    starredList: (username: string, params: RequestParams = {}) =>
       this.request<any, void>({
         path: \`/users/\${username}/starred\`,
         method: "GET",
@@ -6175,10 +6129,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description List repositories being watched by a user.
      *
-     * @name SubscriptionsDetail
+     * @name SubscriptionsList
      * @request GET:/users/{username}/subscriptions
      */
-    subscriptionsDetail: (username: string, params: RequestParams = {}) =>
+    subscriptionsList: (username: string, params: RequestParams = {}) =>
       this.request<any, void>({
         path: \`/users/\${username}/subscriptions\`,
         method: "GET",

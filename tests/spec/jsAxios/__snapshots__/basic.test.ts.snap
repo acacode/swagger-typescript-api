@@ -311,10 +311,10 @@ export class Api extends HttpClient {
     /**
      * @description List comments on a gist.
      *
-     * @name CommentsDetail
+     * @name CommentsList
      * @request GET:/gists/{id}/comments
      */
-    commentsDetail: (id, params = {}) =>
+    commentsList: (id, params = {}) =>
       this.request({
         path: \`/gists/\${id}/comments\`,
         method: "GET",
@@ -350,12 +350,10 @@ export class Api extends HttpClient {
     /**
      * @description Get a single comment.
      *
-     * @name CommentsDetail2
+     * @name CommentsDetail
      * @request GET:/gists/{id}/comments/{commentId}
-     * @originalName commentsDetail
-     * @duplicate
      */
-    commentsDetail2: (id, commentId, params = {}) =>
+    commentsDetail: (id, commentId, params = {}) =>
       this.request({
         path: \`/gists/\${id}/comments/\${commentId}\`,
         method: "GET",
@@ -404,10 +402,10 @@ export class Api extends HttpClient {
     /**
      * @description Check if a gist is starred.
      *
-     * @name StarDetail
+     * @name StarList
      * @request GET:/gists/{id}/star
      */
-    starDetail: (id, params = {}) =>
+    starList: (id, params = {}) =>
       this.request({
         path: \`/gists/\${id}/star\`,
         method: "GET",
@@ -578,10 +576,10 @@ export class Api extends HttpClient {
     /**
      * @description List public events for a network of repositories.
      *
-     * @name EventsDetail
+     * @name EventsList
      * @request GET:/networks/{owner}/{repo}/events
      */
-    eventsDetail: (owner, repo, params = {}) =>
+    eventsList: (owner, repo, params = {}) =>
       this.request({
         path: \`/networks/\${owner}/\${repo}/events\`,
         method: "GET",
@@ -657,10 +655,10 @@ export class Api extends HttpClient {
     /**
      * @description Get a Thread Subscription.
      *
-     * @name ThreadsSubscriptionDetail
+     * @name ThreadsSubscriptionList
      * @request GET:/notifications/threads/{id}/subscription
      */
-    threadsSubscriptionDetail: (id, params = {}) =>
+    threadsSubscriptionList: (id, params = {}) =>
       this.request({
         path: \`/notifications/threads/\${id}/subscription\`,
         method: "GET",
@@ -715,10 +713,10 @@ export class Api extends HttpClient {
     /**
      * @description List public events for an organization.
      *
-     * @name EventsDetail
+     * @name EventsList
      * @request GET:/orgs/{org}/events
      */
-    eventsDetail: (org, params = {}) =>
+    eventsList: (org, params = {}) =>
       this.request({
         path: \`/orgs/\${org}/events\`,
         method: "GET",
@@ -728,10 +726,10 @@ export class Api extends HttpClient {
     /**
      * @description List issues. List all issues for a given organization for the authenticated user.
      *
-     * @name IssuesDetail
+     * @name IssuesList
      * @request GET:/orgs/{org}/issues
      */
-    issuesDetail: (org, query, params = {}) =>
+    issuesList: (org, query, params = {}) =>
       this.request({
         path: \`/orgs/\${org}/issues\`,
         method: "GET",
@@ -742,10 +740,10 @@ export class Api extends HttpClient {
     /**
      * @description Members list. List all users who are members of an organization. A member is a user tha belongs to at least 1 team in the organization. If the authenticated user is also an owner of this organization then both concealed and public members will be returned. If the requester is not an owner of the organization the query will be redirected to the public members list.
      *
-     * @name MembersDetail
+     * @name MembersList
      * @request GET:/orgs/{org}/members
      */
-    membersDetail: (org, params = {}) =>
+    membersList: (org, params = {}) =>
       this.request({
         path: \`/orgs/\${org}/members\`,
         method: "GET",
@@ -767,12 +765,10 @@ export class Api extends HttpClient {
     /**
      * @description Check if a user is, publicly or privately, a member of the organization.
      *
-     * @name MembersDetail2
+     * @name MembersDetail
      * @request GET:/orgs/{org}/members/{username}
-     * @originalName membersDetail
-     * @duplicate
      */
-    membersDetail2: (org, username, params = {}) =>
+    membersDetail: (org, username, params = {}) =>
       this.request({
         path: \`/orgs/\${org}/members/\${username}\`,
         method: "GET",
@@ -781,10 +777,10 @@ export class Api extends HttpClient {
     /**
      * @description Public members list. Members of an organization can choose to have their membership publicized or not.
      *
-     * @name PublicMembersDetail
+     * @name PublicMembersList
      * @request GET:/orgs/{org}/public_members
      */
-    publicMembersDetail: (org, params = {}) =>
+    publicMembersList: (org, params = {}) =>
       this.request({
         path: \`/orgs/\${org}/public_members\`,
         method: "GET",
@@ -806,12 +802,10 @@ export class Api extends HttpClient {
     /**
      * @description Check public membership.
      *
-     * @name PublicMembersDetail2
+     * @name PublicMembersDetail
      * @request GET:/orgs/{org}/public_members/{username}
-     * @originalName publicMembersDetail
-     * @duplicate
      */
-    publicMembersDetail2: (org, username, params = {}) =>
+    publicMembersDetail: (org, username, params = {}) =>
       this.request({
         path: \`/orgs/\${org}/public_members/\${username}\`,
         method: "GET",
@@ -832,10 +826,10 @@ export class Api extends HttpClient {
     /**
      * @description List repositories for the specified org.
      *
-     * @name ReposDetail
+     * @name ReposList
      * @request GET:/orgs/{org}/repos
      */
-    reposDetail: (org, query, params = {}) =>
+    reposList: (org, query, params = {}) =>
       this.request({
         path: \`/orgs/\${org}/repos\`,
         method: "GET",
@@ -860,10 +854,10 @@ export class Api extends HttpClient {
     /**
      * @description List teams.
      *
-     * @name TeamsDetail
+     * @name TeamsList
      * @request GET:/orgs/{org}/teams
      */
-    teamsDetail: (org, params = {}) =>
+    teamsList: (org, params = {}) =>
       this.request({
         path: \`/orgs/\${org}/teams\`,
         method: "GET",
@@ -945,10 +939,10 @@ export class Api extends HttpClient {
     /**
      * @description List assignees. This call lists all the available assignees (owner + collaborators) to which issues may be assigned.
      *
-     * @name AssigneesDetail
+     * @name AssigneesList
      * @request GET:/repos/{owner}/{repo}/assignees
      */
-    assigneesDetail: (owner, repo, params = {}) =>
+    assigneesList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/assignees\`,
         method: "GET",
@@ -958,12 +952,10 @@ export class Api extends HttpClient {
     /**
      * @description Check assignee. You may also check to see if a particular user is an assignee for a repository.
      *
-     * @name AssigneesDetail2
+     * @name AssigneesDetail
      * @request GET:/repos/{owner}/{repo}/assignees/{assignee}
-     * @originalName assigneesDetail
-     * @duplicate
      */
-    assigneesDetail2: (owner, repo, assignee, params = {}) =>
+    assigneesDetail: (owner, repo, assignee, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/assignees/\${assignee}\`,
         method: "GET",
@@ -972,10 +964,10 @@ export class Api extends HttpClient {
     /**
      * @description Get list of branches
      *
-     * @name BranchesDetail
+     * @name BranchesList
      * @request GET:/repos/{owner}/{repo}/branches
      */
-    branchesDetail: (owner, repo, params = {}) =>
+    branchesList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/branches\`,
         method: "GET",
@@ -985,12 +977,10 @@ export class Api extends HttpClient {
     /**
      * @description Get Branch
      *
-     * @name BranchesDetail2
+     * @name BranchesDetail
      * @request GET:/repos/{owner}/{repo}/branches/{branch}
-     * @originalName branchesDetail
-     * @duplicate
      */
-    branchesDetail2: (owner, repo, branch, params = {}) =>
+    branchesDetail: (owner, repo, branch, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/branches/\${branch}\`,
         method: "GET",
@@ -1000,10 +990,10 @@ export class Api extends HttpClient {
     /**
      * @description List. When authenticating as an organization owner of an organization-owned repository, all organization owners are included in the list of collaborators. Otherwise, only users with access to the repository are returned in the collaborators list.
      *
-     * @name CollaboratorsDetail
+     * @name CollaboratorsList
      * @request GET:/repos/{owner}/{repo}/collaborators
      */
-    collaboratorsDetail: (owner, repo, params = {}) =>
+    collaboratorsList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/collaborators\`,
         method: "GET",
@@ -1025,12 +1015,10 @@ export class Api extends HttpClient {
     /**
      * @description Check if user is a collaborator
      *
-     * @name CollaboratorsDetail2
+     * @name CollaboratorsDetail
      * @request GET:/repos/{owner}/{repo}/collaborators/{user}
-     * @originalName collaboratorsDetail
-     * @duplicate
      */
-    collaboratorsDetail2: (owner, repo, user, params = {}) =>
+    collaboratorsDetail: (owner, repo, user, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/collaborators/\${user}\`,
         method: "GET",
@@ -1051,10 +1039,10 @@ export class Api extends HttpClient {
     /**
      * @description List commit comments for a repository. Comments are ordered by ascending ID.
      *
-     * @name CommentsDetail
+     * @name CommentsList
      * @request GET:/repos/{owner}/{repo}/comments
      */
-    commentsDetail: (owner, repo, params = {}) =>
+    commentsList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/comments\`,
         method: "GET",
@@ -1076,12 +1064,10 @@ export class Api extends HttpClient {
     /**
      * @description Get a single commit comment.
      *
-     * @name CommentsDetail2
+     * @name CommentsDetail
      * @request GET:/repos/{owner}/{repo}/comments/{commentId}
-     * @originalName commentsDetail
-     * @duplicate
      */
-    commentsDetail2: (owner, repo, commentId, params = {}) =>
+    commentsDetail: (owner, repo, commentId, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/comments/\${commentId}\`,
         method: "GET",
@@ -1105,10 +1091,10 @@ export class Api extends HttpClient {
     /**
      * @description List commits on a repository.
      *
-     * @name CommitsDetail
+     * @name CommitsList
      * @request GET:/repos/{owner}/{repo}/commits
      */
-    commitsDetail: (owner, repo, query, params = {}) =>
+    commitsList: (owner, repo, query, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/commits\`,
         method: "GET",
@@ -1119,10 +1105,10 @@ export class Api extends HttpClient {
     /**
      * @description Get the combined Status for a specific Ref The Combined status endpoint is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the blog post for full details. To access this endpoint during the preview period, you must provide a custom media type in the Accept header: application/vnd.github.she-hulk-preview+json
      *
-     * @name CommitsStatusDetail
+     * @name CommitsStatusList
      * @request GET:/repos/{owner}/{repo}/commits/{ref}/status
      */
-    commitsStatusDetail: (owner, repo, ref, params = {}) =>
+    commitsStatusList: (owner, repo, ref, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/commits/\${ref}/status\`,
         method: "GET",
@@ -1132,12 +1118,10 @@ export class Api extends HttpClient {
     /**
      * @description Get a single commit.
      *
-     * @name CommitsDetail2
+     * @name CommitsDetail
      * @request GET:/repos/{owner}/{repo}/commits/{shaCode}
-     * @originalName commitsDetail
-     * @duplicate
      */
-    commitsDetail2: (owner, repo, shaCode, params = {}) =>
+    commitsDetail: (owner, repo, shaCode, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/commits/\${shaCode}\`,
         method: "GET",
@@ -1147,10 +1131,10 @@ export class Api extends HttpClient {
     /**
      * @description List comments for a single commitList comments for a single commit.
      *
-     * @name CommitsCommentsDetail
+     * @name CommitsCommentsList
      * @request GET:/repos/{owner}/{repo}/commits/{shaCode}/comments
      */
-    commitsCommentsDetail: (owner, repo, shaCode, params = {}) =>
+    commitsCommentsList: (owner, repo, shaCode, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/commits/\${shaCode}/comments\`,
         method: "GET",
@@ -1232,10 +1216,10 @@ export class Api extends HttpClient {
     /**
      * @description Get list of contributors.
      *
-     * @name ContributorsDetail
+     * @name ContributorsList
      * @request GET:/repos/{owner}/{repo}/contributors
      */
-    contributorsDetail: (owner, repo, query, params = {}) =>
+    contributorsList: (owner, repo, query, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/contributors\`,
         method: "GET",
@@ -1246,10 +1230,10 @@ export class Api extends HttpClient {
     /**
      * @description Users with pull access can view deployments for a repository
      *
-     * @name DeploymentsDetail
+     * @name DeploymentsList
      * @request GET:/repos/{owner}/{repo}/deployments
      */
-    deploymentsDetail: (owner, repo, params = {}) =>
+    deploymentsList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/deployments\`,
         method: "GET",
@@ -1274,10 +1258,10 @@ export class Api extends HttpClient {
     /**
      * @description Users with pull access can view deployment statuses for a deployment
      *
-     * @name DeploymentsStatusesDetail
+     * @name DeploymentsStatusesList
      * @request GET:/repos/{owner}/{repo}/deployments/{id}/statuses
      */
-    deploymentsStatusesDetail: (owner, repo, id, params = {}) =>
+    deploymentsStatusesList: (owner, repo, id, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/deployments/\${id}/statuses\`,
         method: "GET",
@@ -1301,11 +1285,11 @@ export class Api extends HttpClient {
     /**
      * @description Deprecated. List downloads for a repository.
      *
-     * @name DownloadsDetail
+     * @name DownloadsList
      * @request GET:/repos/{owner}/{repo}/downloads
      * @deprecated
      */
-    downloadsDetail: (owner, repo, params = {}) =>
+    downloadsList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/downloads\`,
         method: "GET",
@@ -1328,13 +1312,11 @@ export class Api extends HttpClient {
     /**
      * @description Deprecated. Get a single download.
      *
-     * @name DownloadsDetail2
+     * @name DownloadsDetail
      * @request GET:/repos/{owner}/{repo}/downloads/{downloadId}
      * @deprecated
-     * @originalName downloadsDetail
-     * @duplicate
      */
-    downloadsDetail2: (owner, repo, downloadId, params = {}) =>
+    downloadsDetail: (owner, repo, downloadId, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/downloads/\${downloadId}\`,
         method: "GET",
@@ -1344,10 +1326,10 @@ export class Api extends HttpClient {
     /**
      * @description Get list of repository events.
      *
-     * @name EventsDetail
+     * @name EventsList
      * @request GET:/repos/{owner}/{repo}/events
      */
-    eventsDetail: (owner, repo, params = {}) =>
+    eventsList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/events\`,
         method: "GET",
@@ -1357,10 +1339,10 @@ export class Api extends HttpClient {
     /**
      * @description List forks.
      *
-     * @name ForksDetail
+     * @name ForksList
      * @request GET:/repos/{owner}/{repo}/forks
      */
-    forksDetail: (owner, repo, query, params = {}) =>
+    forksList: (owner, repo, query, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/forks\`,
         method: "GET",
@@ -1442,10 +1424,10 @@ export class Api extends HttpClient {
     /**
      * @description Get all References
      *
-     * @name GitRefsDetail
+     * @name GitRefsList
      * @request GET:/repos/{owner}/{repo}/git/refs
      */
-    gitRefsDetail: (owner, repo, params = {}) =>
+    gitRefsList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/git/refs\`,
         method: "GET",
@@ -1482,12 +1464,10 @@ export class Api extends HttpClient {
     /**
      * @description Get a Reference
      *
-     * @name GitRefsDetail2
+     * @name GitRefsDetail
      * @request GET:/repos/{owner}/{repo}/git/refs/{ref}
-     * @originalName gitRefsDetail
-     * @duplicate
      */
-    gitRefsDetail2: (owner, repo, ref, params = {}) =>
+    gitRefsDetail: (owner, repo, ref, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/git/refs/\${ref}\`,
         method: "GET",
@@ -1569,10 +1549,10 @@ export class Api extends HttpClient {
     /**
      * @description Get list of hooks.
      *
-     * @name HooksDetail
+     * @name HooksList
      * @request GET:/repos/{owner}/{repo}/hooks
      */
-    hooksDetail: (owner, repo, params = {}) =>
+    hooksList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/hooks\`,
         method: "GET",
@@ -1608,12 +1588,10 @@ export class Api extends HttpClient {
     /**
      * @description Get single hook.
      *
-     * @name HooksDetail2
+     * @name HooksDetail
      * @request GET:/repos/{owner}/{repo}/hooks/{hookId}
-     * @originalName hooksDetail
-     * @duplicate
      */
-    hooksDetail2: (owner, repo, hookId, params = {}) =>
+    hooksDetail: (owner, repo, hookId, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/hooks/\${hookId}\`,
         method: "GET",
@@ -1649,10 +1627,10 @@ export class Api extends HttpClient {
     /**
      * @description List issues for a repository.
      *
-     * @name IssuesDetail
+     * @name IssuesList
      * @request GET:/repos/{owner}/{repo}/issues
      */
-    issuesDetail: (owner, repo, query, params = {}) =>
+    issuesList: (owner, repo, query, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/issues\`,
         method: "GET",
@@ -1677,10 +1655,10 @@ export class Api extends HttpClient {
     /**
      * @description List comments in a repository.
      *
-     * @name IssuesCommentsDetail
+     * @name IssuesCommentsList
      * @request GET:/repos/{owner}/{repo}/issues/comments
      */
-    issuesCommentsDetail: (owner, repo, query, params = {}) =>
+    issuesCommentsList: (owner, repo, query, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/issues/comments\`,
         method: "GET",
@@ -1703,12 +1681,10 @@ export class Api extends HttpClient {
     /**
      * @description Get a single comment.
      *
-     * @name IssuesCommentsDetail2
+     * @name IssuesCommentsDetail
      * @request GET:/repos/{owner}/{repo}/issues/comments/{commentId}
-     * @originalName issuesCommentsDetail
-     * @duplicate
      */
-    issuesCommentsDetail2: (owner, repo, commentId, params = {}) =>
+    issuesCommentsDetail: (owner, repo, commentId, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/issues/comments/\${commentId}\`,
         method: "GET",
@@ -1732,10 +1708,10 @@ export class Api extends HttpClient {
     /**
      * @description List issue events for a repository.
      *
-     * @name IssuesEventsDetail
+     * @name IssuesEventsList
      * @request GET:/repos/{owner}/{repo}/issues/events
      */
-    issuesEventsDetail: (owner, repo, params = {}) =>
+    issuesEventsList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/issues/events\`,
         method: "GET",
@@ -1745,12 +1721,10 @@ export class Api extends HttpClient {
     /**
      * @description Get a single event.
      *
-     * @name IssuesEventsDetail2
+     * @name IssuesEventsDetail
      * @request GET:/repos/{owner}/{repo}/issues/events/{eventId}
-     * @originalName issuesEventsDetail
-     * @duplicate
      */
-    issuesEventsDetail2: (owner, repo, eventId, params = {}) =>
+    issuesEventsDetail: (owner, repo, eventId, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/issues/events/\${eventId}\`,
         method: "GET",
@@ -1760,12 +1734,10 @@ export class Api extends HttpClient {
     /**
      * @description Get a single issue
      *
-     * @name IssuesDetail2
+     * @name IssuesDetail
      * @request GET:/repos/{owner}/{repo}/issues/{number}
-     * @originalName issuesDetail
-     * @duplicate
      */
-    issuesDetail2: (owner, repo, number, params = {}) =>
+    issuesDetail: (owner, repo, number, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/issues/\${number}\`,
         method: "GET",
@@ -1789,12 +1761,12 @@ export class Api extends HttpClient {
     /**
      * @description List comments on an issue.
      *
-     * @name IssuesCommentsDetail3
+     * @name IssuesCommentsList2
      * @request GET:/repos/{owner}/{repo}/issues/{number}/comments
-     * @originalName issuesCommentsDetail
+     * @originalName issuesCommentsList
      * @duplicate
      */
-    issuesCommentsDetail3: (owner, repo, number, params = {}) =>
+    issuesCommentsList2: (owner, repo, number, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/issues/\${number}/comments\`,
         method: "GET",
@@ -1818,12 +1790,12 @@ export class Api extends HttpClient {
     /**
      * @description List events for an issue.
      *
-     * @name IssuesEventsDetail3
+     * @name IssuesEventsList2
      * @request GET:/repos/{owner}/{repo}/issues/{number}/events
-     * @originalName issuesEventsDetail
+     * @originalName issuesEventsList
      * @duplicate
      */
-    issuesEventsDetail3: (owner, repo, number, params = {}) =>
+    issuesEventsList2: (owner, repo, number, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/issues/\${number}/events\`,
         method: "GET",
@@ -1845,10 +1817,10 @@ export class Api extends HttpClient {
     /**
      * @description List labels on an issue.
      *
-     * @name IssuesLabelsDetail
+     * @name IssuesLabelsList
      * @request GET:/repos/{owner}/{repo}/issues/{number}/labels
      */
-    issuesLabelsDetail: (owner, repo, number, params = {}) =>
+    issuesLabelsList: (owner, repo, number, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/issues/\${number}/labels\`,
         method: "GET",
@@ -1900,10 +1872,10 @@ export class Api extends HttpClient {
     /**
      * @description Get list of keys.
      *
-     * @name KeysDetail
+     * @name KeysList
      * @request GET:/repos/{owner}/{repo}/keys
      */
-    keysDetail: (owner, repo, params = {}) =>
+    keysList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/keys\`,
         method: "GET",
@@ -1939,12 +1911,10 @@ export class Api extends HttpClient {
     /**
      * @description Get a key
      *
-     * @name KeysDetail2
+     * @name KeysDetail
      * @request GET:/repos/{owner}/{repo}/keys/{keyId}
-     * @originalName keysDetail
-     * @duplicate
      */
-    keysDetail2: (owner, repo, keyId, params = {}) =>
+    keysDetail: (owner, repo, keyId, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/keys/\${keyId}\`,
         method: "GET",
@@ -1954,10 +1924,10 @@ export class Api extends HttpClient {
     /**
      * @description List all labels for this repository.
      *
-     * @name LabelsDetail
+     * @name LabelsList
      * @request GET:/repos/{owner}/{repo}/labels
      */
-    labelsDetail: (owner, repo, params = {}) =>
+    labelsList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/labels\`,
         method: "GET",
@@ -1993,12 +1963,10 @@ export class Api extends HttpClient {
     /**
      * @description Get a single label.
      *
-     * @name LabelsDetail2
+     * @name LabelsDetail
      * @request GET:/repos/{owner}/{repo}/labels/{name}
-     * @originalName labelsDetail
-     * @duplicate
      */
-    labelsDetail2: (owner, repo, name, params = {}) =>
+    labelsDetail: (owner, repo, name, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/labels/\${name}\`,
         method: "GET",
@@ -2022,10 +1990,10 @@ export class Api extends HttpClient {
     /**
      * @description List languages. List languages for the specified repository. The value on the right of a language is the number of bytes of code written in that language.
      *
-     * @name LanguagesDetail
+     * @name LanguagesList
      * @request GET:/repos/{owner}/{repo}/languages
      */
-    languagesDetail: (owner, repo, params = {}) =>
+    languagesList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/languages\`,
         method: "GET",
@@ -2050,10 +2018,10 @@ export class Api extends HttpClient {
     /**
      * @description List milestones for a repository.
      *
-     * @name MilestonesDetail
+     * @name MilestonesList
      * @request GET:/repos/{owner}/{repo}/milestones
      */
-    milestonesDetail: (owner, repo, query, params = {}) =>
+    milestonesList: (owner, repo, query, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/milestones\`,
         method: "GET",
@@ -2090,12 +2058,10 @@ export class Api extends HttpClient {
     /**
      * @description Get a single milestone.
      *
-     * @name MilestonesDetail2
+     * @name MilestonesDetail
      * @request GET:/repos/{owner}/{repo}/milestones/{number}
-     * @originalName milestonesDetail
-     * @duplicate
      */
-    milestonesDetail2: (owner, repo, number, params = {}) =>
+    milestonesDetail: (owner, repo, number, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/milestones/\${number}\`,
         method: "GET",
@@ -2119,10 +2085,10 @@ export class Api extends HttpClient {
     /**
      * @description Get labels for every issue in a milestone.
      *
-     * @name MilestonesLabelsDetail
+     * @name MilestonesLabelsList
      * @request GET:/repos/{owner}/{repo}/milestones/{number}/labels
      */
-    milestonesLabelsDetail: (owner, repo, number, params = {}) =>
+    milestonesLabelsList: (owner, repo, number, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/milestones/\${number}/labels\`,
         method: "GET",
@@ -2132,10 +2098,10 @@ export class Api extends HttpClient {
     /**
      * @description List your notifications in a repository List all notifications for the current user.
      *
-     * @name NotificationsDetail
+     * @name NotificationsList
      * @request GET:/repos/{owner}/{repo}/notifications
      */
-    notificationsDetail: (owner, repo, query, params = {}) =>
+    notificationsList: (owner, repo, query, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/notifications\`,
         method: "GET",
@@ -2159,10 +2125,10 @@ export class Api extends HttpClient {
     /**
      * @description List pull requests.
      *
-     * @name PullsDetail
+     * @name PullsList
      * @request GET:/repos/{owner}/{repo}/pulls
      */
-    pullsDetail: (owner, repo, query, params = {}) =>
+    pullsList: (owner, repo, query, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/pulls\`,
         method: "GET",
@@ -2188,10 +2154,10 @@ export class Api extends HttpClient {
     /**
      * @description List comments in a repository. By default, Review Comments are ordered by ascending ID.
      *
-     * @name PullsCommentsDetail
+     * @name PullsCommentsList
      * @request GET:/repos/{owner}/{repo}/pulls/comments
      */
-    pullsCommentsDetail: (owner, repo, query, params = {}) =>
+    pullsCommentsList: (owner, repo, query, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/pulls/comments\`,
         method: "GET",
@@ -2214,12 +2180,10 @@ export class Api extends HttpClient {
     /**
      * @description Get a single comment.
      *
-     * @name PullsCommentsDetail2
+     * @name PullsCommentsDetail
      * @request GET:/repos/{owner}/{repo}/pulls/comments/{commentId}
-     * @originalName pullsCommentsDetail
-     * @duplicate
      */
-    pullsCommentsDetail2: (owner, repo, commentId, params = {}) =>
+    pullsCommentsDetail: (owner, repo, commentId, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/pulls/comments/\${commentId}\`,
         method: "GET",
@@ -2243,12 +2207,10 @@ export class Api extends HttpClient {
     /**
      * @description Get a single pull request.
      *
-     * @name PullsDetail2
+     * @name PullsDetail
      * @request GET:/repos/{owner}/{repo}/pulls/{number}
-     * @originalName pullsDetail
-     * @duplicate
      */
-    pullsDetail2: (owner, repo, number, params = {}) =>
+    pullsDetail: (owner, repo, number, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/pulls/\${number}\`,
         method: "GET",
@@ -2273,12 +2235,12 @@ export class Api extends HttpClient {
     /**
      * @description List comments on a pull request.
      *
-     * @name PullsCommentsDetail3
+     * @name PullsCommentsList2
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/comments
-     * @originalName pullsCommentsDetail
+     * @originalName pullsCommentsList
      * @duplicate
      */
-    pullsCommentsDetail3: (owner, repo, number, params = {}) =>
+    pullsCommentsList2: (owner, repo, number, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/pulls/\${number}/comments\`,
         method: "GET",
@@ -2303,10 +2265,10 @@ export class Api extends HttpClient {
     /**
      * @description List commits on a pull request.
      *
-     * @name PullsCommitsDetail
+     * @name PullsCommitsList
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/commits
      */
-    pullsCommitsDetail: (owner, repo, number, params = {}) =>
+    pullsCommitsList: (owner, repo, number, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/pulls/\${number}/commits\`,
         method: "GET",
@@ -2316,10 +2278,10 @@ export class Api extends HttpClient {
     /**
      * @description List pull requests files.
      *
-     * @name PullsFilesDetail
+     * @name PullsFilesList
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/files
      */
-    pullsFilesDetail: (owner, repo, number, params = {}) =>
+    pullsFilesList: (owner, repo, number, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/pulls/\${number}/files\`,
         method: "GET",
@@ -2329,10 +2291,10 @@ export class Api extends HttpClient {
     /**
      * @description Get if a pull request has been merged.
      *
-     * @name PullsMergeDetail
+     * @name PullsMergeList
      * @request GET:/repos/{owner}/{repo}/pulls/{number}/merge
      */
-    pullsMergeDetail: (owner, repo, number, params = {}) =>
+    pullsMergeList: (owner, repo, number, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/pulls/\${number}/merge\`,
         method: "GET",
@@ -2356,10 +2318,10 @@ export class Api extends HttpClient {
     /**
      * @description Get the README. This method returns the preferred README for a repository.
      *
-     * @name ReadmeDetail
+     * @name ReadmeList
      * @request GET:/repos/{owner}/{repo}/readme
      */
-    readmeDetail: (owner, repo, query, params = {}) =>
+    readmeList: (owner, repo, query, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/readme\`,
         method: "GET",
@@ -2370,10 +2332,10 @@ export class Api extends HttpClient {
     /**
      * @description Users with push access to the repository will receive all releases (i.e., published releases and draft releases). Users with pull access will receive published releases only
      *
-     * @name ReleasesDetail
+     * @name ReleasesList
      * @request GET:/repos/{owner}/{repo}/releases
      */
-    releasesDetail: (owner, repo, params = {}) =>
+    releasesList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/releases\`,
         method: "GET",
@@ -2449,12 +2411,10 @@ export class Api extends HttpClient {
     /**
      * @description Get a single release
      *
-     * @name ReleasesDetail2
+     * @name ReleasesDetail
      * @request GET:/repos/{owner}/{repo}/releases/{id}
-     * @originalName releasesDetail
-     * @duplicate
      */
-    releasesDetail2: (owner, repo, id, params = {}) =>
+    releasesDetail: (owner, repo, id, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/releases/\${id}\`,
         method: "GET",
@@ -2478,12 +2438,10 @@ export class Api extends HttpClient {
     /**
      * @description List assets for a release
      *
-     * @name ReleasesAssetsDetail2
+     * @name ReleasesAssetsList
      * @request GET:/repos/{owner}/{repo}/releases/{id}/assets
-     * @originalName releasesAssetsDetail
-     * @duplicate
      */
-    releasesAssetsDetail2: (owner, repo, id, params = {}) =>
+    releasesAssetsList: (owner, repo, id, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/releases/\${id}/assets\`,
         method: "GET",
@@ -2493,10 +2451,10 @@ export class Api extends HttpClient {
     /**
      * @description List Stargazers.
      *
-     * @name StargazersDetail
+     * @name StargazersList
      * @request GET:/repos/{owner}/{repo}/stargazers
      */
-    stargazersDetail: (owner, repo, params = {}) =>
+    stargazersList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/stargazers\`,
         method: "GET",
@@ -2506,10 +2464,10 @@ export class Api extends HttpClient {
     /**
      * @description Get the number of additions and deletions per week. Returns a weekly aggregate of the number of additions and deletions pushed to a repository.
      *
-     * @name StatsCodeFrequencyDetail
+     * @name StatsCodeFrequencyList
      * @request GET:/repos/{owner}/{repo}/stats/code_frequency
      */
-    statsCodeFrequencyDetail: (owner, repo, params = {}) =>
+    statsCodeFrequencyList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/stats/code_frequency\`,
         method: "GET",
@@ -2519,10 +2477,10 @@ export class Api extends HttpClient {
     /**
      * @description Get the last year of commit activity data. Returns the last year of commit activity grouped by week. The days array is a group of commits per day, starting on Sunday.
      *
-     * @name StatsCommitActivityDetail
+     * @name StatsCommitActivityList
      * @request GET:/repos/{owner}/{repo}/stats/commit_activity
      */
-    statsCommitActivityDetail: (owner, repo, params = {}) =>
+    statsCommitActivityList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/stats/commit_activity\`,
         method: "GET",
@@ -2532,10 +2490,10 @@ export class Api extends HttpClient {
     /**
      * @description Get contributors list with additions, deletions, and commit counts.
      *
-     * @name StatsContributorsDetail
+     * @name StatsContributorsList
      * @request GET:/repos/{owner}/{repo}/stats/contributors
      */
-    statsContributorsDetail: (owner, repo, params = {}) =>
+    statsContributorsList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/stats/contributors\`,
         method: "GET",
@@ -2545,10 +2503,10 @@ export class Api extends HttpClient {
     /**
      * @description Get the weekly commit count for the repo owner and everyone else.
      *
-     * @name StatsParticipationDetail
+     * @name StatsParticipationList
      * @request GET:/repos/{owner}/{repo}/stats/participation
      */
-    statsParticipationDetail: (owner, repo, params = {}) =>
+    statsParticipationList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/stats/participation\`,
         method: "GET",
@@ -2558,10 +2516,10 @@ export class Api extends HttpClient {
     /**
      * @description Get the number of commits per hour in each day. Each array contains the day number, hour number, and number of commits 0-6 Sunday - Saturday 0-23 Hour of day Number of commits For example, [2, 14, 25] indicates that there were 25 total commits, during the 2.00pm hour on Tuesdays. All times are based on the time zone of individual commits.
      *
-     * @name StatsPunchCardDetail
+     * @name StatsPunchCardList
      * @request GET:/repos/{owner}/{repo}/stats/punch_card
      */
-    statsPunchCardDetail: (owner, repo, params = {}) =>
+    statsPunchCardList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/stats/punch_card\`,
         method: "GET",
@@ -2599,10 +2557,10 @@ export class Api extends HttpClient {
     /**
      * @description List watchers.
      *
-     * @name SubscribersDetail
+     * @name SubscribersList
      * @request GET:/repos/{owner}/{repo}/subscribers
      */
-    subscribersDetail: (owner, repo, params = {}) =>
+    subscribersList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/subscribers\`,
         method: "GET",
@@ -2624,10 +2582,10 @@ export class Api extends HttpClient {
     /**
      * @description Get a Repository Subscription.
      *
-     * @name SubscriptionDetail
+     * @name SubscriptionList
      * @request GET:/repos/{owner}/{repo}/subscription
      */
-    subscriptionDetail: (owner, repo, params = {}) =>
+    subscriptionList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/subscription\`,
         method: "GET",
@@ -2652,10 +2610,10 @@ export class Api extends HttpClient {
     /**
      * @description Get list of tags.
      *
-     * @name TagsDetail
+     * @name TagsList
      * @request GET:/repos/{owner}/{repo}/tags
      */
-    tagsDetail: (owner, repo, params = {}) =>
+    tagsList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/tags\`,
         method: "GET",
@@ -2665,10 +2623,10 @@ export class Api extends HttpClient {
     /**
      * @description Get list of teams
      *
-     * @name TeamsDetail
+     * @name TeamsList
      * @request GET:/repos/{owner}/{repo}/teams
      */
-    teamsDetail: (owner, repo, params = {}) =>
+    teamsList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/teams\`,
         method: "GET",
@@ -2678,10 +2636,10 @@ export class Api extends HttpClient {
     /**
      * @description List Stargazers. New implementation.
      *
-     * @name WatchersDetail
+     * @name WatchersList
      * @request GET:/repos/{owner}/{repo}/watchers
      */
-    watchersDetail: (owner, repo, params = {}) =>
+    watchersList: (owner, repo, params = {}) =>
       this.request({
         path: \`/repos/\${owner}/\${repo}/watchers\`,
         method: "GET",
@@ -2821,10 +2779,10 @@ export class Api extends HttpClient {
     /**
      * @description List team members. In order to list members in a team, the authenticated user must be a member of the team.
      *
-     * @name MembersDetail
+     * @name MembersList
      * @request GET:/teams/{teamId}/members
      */
-    membersDetail: (teamId, params = {}) =>
+    membersList: (teamId, params = {}) =>
       this.request({
         path: \`/teams/\${teamId}/members\`,
         method: "GET",
@@ -2847,13 +2805,11 @@ export class Api extends HttpClient {
     /**
      * @description The "Get team member" API is deprecated and is scheduled for removal in the next major version of the API. We recommend using the Get team membership API instead. It allows you to get both active and pending memberships. Get team member. In order to get if a user is a member of a team, the authenticated user mus be a member of the team.
      *
-     * @name MembersDetail2
+     * @name MembersDetail
      * @request GET:/teams/{teamId}/members/{username}
      * @deprecated
-     * @originalName membersDetail
-     * @duplicate
      */
-    membersDetail2: (teamId, username, params = {}) =>
+    membersDetail: (teamId, username, params = {}) =>
       this.request({
         path: \`/teams/\${teamId}/members/\${username}\`,
         method: "GET",
@@ -2913,10 +2869,10 @@ export class Api extends HttpClient {
     /**
      * @description List team repos
      *
-     * @name ReposDetail
+     * @name ReposList
      * @request GET:/teams/{teamId}/repos
      */
-    reposDetail: (teamId, params = {}) =>
+    reposList: (teamId, params = {}) =>
       this.request({
         path: \`/teams/\${teamId}/repos\`,
         method: "GET",
@@ -2938,12 +2894,10 @@ export class Api extends HttpClient {
     /**
      * @description Check if a team manages a repository
      *
-     * @name ReposDetail2
+     * @name ReposDetail
      * @request GET:/teams/{teamId}/repos/{owner}/{repo}
-     * @originalName reposDetail
-     * @duplicate
      */
-    reposDetail2: (teamId, owner, repo, params = {}) =>
+    reposDetail: (teamId, owner, repo, params = {}) =>
       this.request({
         path: \`/teams/\${teamId}/repos/\${owner}/\${repo}\`,
         method: "GET",
@@ -3346,10 +3300,10 @@ export class Api extends HttpClient {
     /**
      * @description If you are authenticated as the given user, you will see your private events. Otherwise, you'll only see public events.
      *
-     * @name EventsDetail
+     * @name EventsList
      * @request GET:/users/{username}/events
      */
-    eventsDetail: (username, params = {}) =>
+    eventsList: (username, params = {}) =>
       this.request({
         path: \`/users/\${username}/events\`,
         method: "GET",
@@ -3370,10 +3324,10 @@ export class Api extends HttpClient {
     /**
      * @description List a user's followers
      *
-     * @name FollowersDetail
+     * @name FollowersList
      * @request GET:/users/{username}/followers
      */
-    followersDetail: (username, params = {}) =>
+    followersList: (username, params = {}) =>
       this.request({
         path: \`/users/\${username}/followers\`,
         method: "GET",
@@ -3395,10 +3349,10 @@ export class Api extends HttpClient {
     /**
      * @description List a users gists.
      *
-     * @name GistsDetail
+     * @name GistsList
      * @request GET:/users/{username}/gists
      */
-    gistsDetail: (username, query, params = {}) =>
+    gistsList: (username, query, params = {}) =>
       this.request({
         path: \`/users/\${username}/gists\`,
         method: "GET",
@@ -3409,10 +3363,10 @@ export class Api extends HttpClient {
     /**
      * @description List public keys for a user. Lists the verified public keys for a user. This is accessible by anyone.
      *
-     * @name KeysDetail
+     * @name KeysList
      * @request GET:/users/{username}/keys
      */
-    keysDetail: (username, params = {}) =>
+    keysList: (username, params = {}) =>
       this.request({
         path: \`/users/\${username}/keys\`,
         method: "GET",
@@ -3422,10 +3376,10 @@ export class Api extends HttpClient {
     /**
      * @description List all public organizations for a user.
      *
-     * @name OrgsDetail
+     * @name OrgsList
      * @request GET:/users/{username}/orgs
      */
-    orgsDetail: (username, params = {}) =>
+    orgsList: (username, params = {}) =>
       this.request({
         path: \`/users/\${username}/orgs\`,
         method: "GET",
@@ -3435,10 +3389,10 @@ export class Api extends HttpClient {
     /**
      * @description These are events that you'll only see public events.
      *
-     * @name ReceivedEventsDetail
+     * @name ReceivedEventsList
      * @request GET:/users/{username}/received_events
      */
-    receivedEventsDetail: (username, params = {}) =>
+    receivedEventsList: (username, params = {}) =>
       this.request({
         path: \`/users/\${username}/received_events\`,
         method: "GET",
@@ -3447,10 +3401,10 @@ export class Api extends HttpClient {
     /**
      * @description List public events that a user has received
      *
-     * @name ReceivedEventsPublicDetail
+     * @name ReceivedEventsPublicList
      * @request GET:/users/{username}/received_events/public
      */
-    receivedEventsPublicDetail: (username, params = {}) =>
+    receivedEventsPublicList: (username, params = {}) =>
       this.request({
         path: \`/users/\${username}/received_events/public\`,
         method: "GET",
@@ -3459,10 +3413,10 @@ export class Api extends HttpClient {
     /**
      * @description List public repositories for the specified user.
      *
-     * @name ReposDetail
+     * @name ReposList
      * @request GET:/users/{username}/repos
      */
-    reposDetail: (username, query, params = {}) =>
+    reposList: (username, query, params = {}) =>
       this.request({
         path: \`/users/\${username}/repos\`,
         method: "GET",
@@ -3473,10 +3427,10 @@ export class Api extends HttpClient {
     /**
      * @description List repositories being starred by a user.
      *
-     * @name StarredDetail
+     * @name StarredList
      * @request GET:/users/{username}/starred
      */
-    starredDetail: (username, params = {}) =>
+    starredList: (username, params = {}) =>
       this.request({
         path: \`/users/\${username}/starred\`,
         method: "GET",
@@ -3485,10 +3439,10 @@ export class Api extends HttpClient {
     /**
      * @description List repositories being watched by a user.
      *
-     * @name SubscriptionsDetail
+     * @name SubscriptionsList
      * @request GET:/users/{username}/subscriptions
      */
-    subscriptionsDetail: (username, params = {}) =>
+    subscriptionsList: (username, params = {}) =>
       this.request({
         path: \`/users/\${username}/subscriptions\`,
         method: "GET",
