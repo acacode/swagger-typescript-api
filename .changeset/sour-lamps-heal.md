@@ -2,4 +2,4 @@
 "swagger-typescript-api": patch
 ---
 
-Add ts-nocheck comment to auto-generated file.
+Add ts-nocheck comment to auto-generated file
