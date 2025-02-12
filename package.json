@@ -14,18 +14,15 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/types.d.ts",
         "default": "./dist/lib.js"
       },
       "require": {
-        "types": "./dist/types.d.cts",
         "default": "./dist/lib.cjs"
       }
     }
   },
   "main": "./dist/lib.cjs",
   "module": "./dist/lib.js",
-  "types": "./dist/types.d.cts",
   "bin": {
     "sta": "./dist/cli.js",
     "swagger-typescript-api": "./dist/cli.js"
