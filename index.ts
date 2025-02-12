@@ -7,6 +7,7 @@ import { TemplatesGenConfig } from "./src/commands/generate-templates/configurat
 import { CodeGenConfig } from "./src/configuration.js";
 import { HTTP_CLIENT } from "./src/constants.js";
 import { generateApi, generateTemplates } from "./src/index.js";
+import type { HttpClientType } from "./types/index.js";
 
 const templateGenBaseConfig = new TemplatesGenConfig({});
 
@@ -52,18 +53,21 @@ const generateTemplatesCommand = defineCommand({
       description: "Output only errors to console",
       default: templateGenBaseConfig.silent,
     },
+    debug: {
+      type: "boolean",
+      description: "additional information about processes inside this tool",
+      default: templateGenBaseConfig.debug,
+    },
   },
   run: async ({ args }) => {
-    if (args.debug) consola.level = Number.MAX_SAFE_INTEGER;
-    if (args.silent) consola.level = 0;
-
     await generateTemplates({
       cleanOutput: args["clean-output"],
-      httpClientType: args["http-client"],
+      httpClientType: args["http-client"] as HttpClientType,
       modular: args.modular,
       output: args.output,
       rewrite: args.rewrite,
       silent: args.silent,
+      debug: args.debug,
     });
   },
 });
@@ -274,9 +278,6 @@ const generateCommand = defineCommand({
     },
   },
   run: async ({ args }) => {
-    if (args.debug) consola.level = Number.MAX_SAFE_INTEGER;
-    if (args.silent) consola.level = 0;
-
     let customConfig;
 
     if (args["custom-config"]) {
