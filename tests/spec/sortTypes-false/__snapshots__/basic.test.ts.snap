@@ -1997,9 +1997,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       data: Events,
       query?: {
         queryParam1?: number;
-        fooBarBaz?: number;
+        "foo.bar.baz"?: number;
         queryParam2?: number;
-        queryParamBar3?: number;
+        "query.param.bar.3"?: number;
         queryParam3?: string[];
       },
       params: RequestParams = {},
