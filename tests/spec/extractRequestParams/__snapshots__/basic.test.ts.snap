@@ -495,7 +495,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         },
         Error
       >({
-        path: `/i_key/${iPk}`,
+        path: \`/i_key/\${iPk}\`,
         method: "GET",
         format: "json",
         ...params,
@@ -516,7 +516,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         },
         Error
       >({
-        path: `/i_key/underlines/${iUk}`,
+        path: \`/i_key/underlines/\${iUk}\`,
         method: "GET",
         format: "json",
         ...params,
