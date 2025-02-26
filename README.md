@@ -84,7 +84,7 @@ import { generateApi, generateTemplates } from "swagger-typescript-api";
 
 /* NOTE: all fields are optional expect one of `input`, `url`, `spec` */
 generateApi({
-  name: "MySuperbApi.ts",
+  fileName: "MySuperbApi.ts",
   // set to `false` to prevent the tool from writing to disk
   output: path.resolve(process.cwd(), "./src/__generated__"),
   url: "http://api.com/swagger.json",
