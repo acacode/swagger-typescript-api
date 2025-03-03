@@ -97,9 +97,25 @@ export class HttpClient<SecurityDataType = unknown> {
     return this.encodeQueryParam(key, query[key]);
   }
 
+  protected isPlainObject(value: unknown): value is Record<string, unknown> {
+    if (value === null || typeof value !== "object" || Array.isArray(value)) {
+      return false;
+    }
+
+    const prototype = Object.getPrototypeOf(value);
+    return prototype === Object.prototype || prototype === null;
+  }
+
   protected addArrayQueryParam(query: QueryParamsType, key: string) {
-    const value = query[key];
-    return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
+    const rawValue = query[key];
+    const value = Array.isArray(rawValue)
+      ? rawValue.map((value, index) => [index, value])
+      : Object.entries(rawValue as Record<string, unknown>);
+    return value
+      .map(([arrayKey, value]: any) =>
+        this.encodeQueryParam(\`\${key}[\${arrayKey}]\`, value),
+      )
+      .join("&");
   }
 
   protected toQueryString(rawQuery?: QueryParamsType): string {
@@ -108,11 +124,13 @@ export class HttpClient<SecurityDataType = unknown> {
       (key) => "undefined" !== typeof query[key],
     );
     return keys
-      .map((key) =>
-        Array.isArray(query[key])
+      .map((key) => {
+        const value = query[key];
+
+        return Array.isArray(value) || this.isPlainObject(value)
           ? this.addArrayQueryParam(query, key)
-          : this.addQueryParam(query, key),
-      )
+          : this.addQueryParam(query, key);
+      })
       .join("&");
   }
 
