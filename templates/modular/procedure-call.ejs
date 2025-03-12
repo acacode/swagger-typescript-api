@@ -20,15 +20,17 @@ const requestConfigParam = {
 }
 
 const argToTmpl = ({ name, optional, type, defaultValue }) => `${name}${!defaultValue && optional ? '?' : ''}: ${type}${defaultValue ? ` = ${defaultValue}` : ''}`;
-
-const rawWrapperArgs = config.extractRequestParams ?
+const requestParamsArgs = [
+    _.join(pathParamsNames, ", "),
+    query != null ? `...${queryName}` : ''
+].filter(Boolean).join(', ')
+const rawWrapperArgs = requestParams ?
     _.compact([
-        requestParams && {
-          name: pathParams.length ? `{ ${_.join(pathParamsNames, ", ")}, ...${queryName} }` : queryName,
+        {
+          name: `{ ${requestParamsArgs} }`,
           optional: false,
           type: getInlineParseContent(requestParams),
         },
-        ...(!requestParams ? pathParams : []),
         payload,
         requestConfigParam,
     ]) :
