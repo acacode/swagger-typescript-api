@@ -97,7 +97,7 @@ export class SchemaRoutes {
 
     // TODO forbid leading symbols [\]^` in a major release (allowed yet for backwards compatibility)
     const pathParamMatches = (routeName || "").match(
-      /({[a-zA-Z_[\\\]^`]([-_.]*[a-zA-Z0-9])*})|(:[a-zA-Z_[\\\]^`]([-_.]*[a-zA-Z0-9])*:?)/g,
+      /({[\w[\\\]^`][-_.\w]*})|(:[\w[\\\]^`][-_.\w]*:?)/g,
     );
 
     // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
