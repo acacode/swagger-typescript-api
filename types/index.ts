@@ -9,7 +9,7 @@ interface GenerateApiParamsBase {
   /**
    * default 'api.ts'
    */
-  name?: string;
+  fileName?: string;
 
   /**
    * name of the main exported class
