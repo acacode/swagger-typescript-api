@@ -1,6 +1,6 @@
 # swagger-typescript-api
 
-## 13.0.23
+## 13.0.24
 
 ### Patch Changes
 
