@@ -95,8 +95,9 @@ export class SchemaRoutes {
       this.config.hooks.onPreBuildRoutePath(originalRouteName) ||
       originalRouteName;
 
+    // TODO forbid leading symbols [\]^` in a major release (allowed yet for backwards compatibility)
     const pathParamMatches = (routeName || "").match(
-      /({(([A-z]){1}([a-zA-Z0-9]-?_?\.?)+)([0-9]+)?})|(:(([A-z]){1}([a-zA-Z0-9]-?_?\.?)+)([0-9]+)?:?)/g,
+      /({[\w[\\\]^`][-_.\w]*})|(:[\w[\\\]^`][-_.\w]*:?)/g,
     );
 
     // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
