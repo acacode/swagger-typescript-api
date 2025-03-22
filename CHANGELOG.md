@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.0.25
+
+### Patch Changes
+
+- [#1064](https://github.com/acacode/swagger-typescript-api/pull/1064) [`0d4a3ce`](https://github.com/acacode/swagger-typescript-api/commit/0d4a3ce23df12b7154285a1f4540aad672182391) Thanks [@nicky1038](https://github.com/nicky1038)! - Fix query params detection on route name parsing
+
 ## 13.0.24
 
 ### Patch Changes
