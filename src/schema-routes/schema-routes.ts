@@ -614,13 +614,12 @@ export class SchemaRoutes {
   };
 
   createRequestParamsSchema = ({
-    queryParams,
     queryObjectSchema,
     pathArgsSchemas,
     extractRequestParams,
     routeName,
   }) => {
-    if (!queryParams || !queryParams.length) return null;
+    if (!extractRequestParams) return null;
 
     const pathParams = pathArgsSchemas.reduce((acc, pathArgSchema) => {
       if (pathArgSchema.name) {
@@ -656,26 +655,24 @@ export class SchemaRoutes {
       },
     };
 
+    if (!Object.keys(schema.properties).length) return null;
+
     const fixedSchema = this.config.hooks.onCreateRequestParams(schema);
 
     if (fixedSchema) return fixedSchema;
 
-    if (extractRequestParams) {
-      const generatedTypeName = this.schemaUtils.resolveTypeName(
-        routeName.usage,
-        {
-          suffixes: this.config.extractingOptions.requestParamsSuffix,
-          resolver: this.config.extractingOptions.requestParamsNameResolver,
-        },
-      );
+    const generatedTypeName = this.schemaUtils.resolveTypeName(
+      routeName.usage,
+      {
+        suffixes: this.config.extractingOptions.requestParamsSuffix,
+        resolver: this.config.extractingOptions.requestParamsNameResolver,
+      },
+    );
 
-      return this.schemaParserFabric.createParsedComponent({
-        typeName: generatedTypeName,
-        schema: schema,
-      });
-    }
-
-    return schema;
+    return this.schemaParserFabric.createParsedComponent({
+      typeName: generatedTypeName,
+      schema: schema,
+    });
   };
 
   extractResponseBodyIfItNeeded = (routeInfo, responseBodyInfo, routeName) => {
@@ -908,7 +905,6 @@ export class SchemaRoutes {
     );
 
     const requestParamsSchema = this.createRequestParamsSchema({
-      queryParams: routeParams.query,
       pathArgsSchemas: routeParams.path,
       queryObjectSchema,
       extractRequestParams,
