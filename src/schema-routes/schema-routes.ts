@@ -818,7 +818,7 @@ export class SchemaRoutes {
     method,
     usageSchema,
     parsedSchemas,
-  ) => {
+  ): ParsedRoute => {
     const { security: globalSecurity } = usageSchema;
     const { moduleNameIndex, moduleNameFirstTag, extractRequestParams } =
       this.config;

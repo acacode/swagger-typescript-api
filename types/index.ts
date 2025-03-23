@@ -514,12 +514,76 @@ export type RawRouteInfo = {
   consumes?: string[];
 };
 
+export interface ParsedRouteRequest {
+  contentTypes?: string[];
+  formData?: boolean;
+  headers?: {
+    name: string | null;
+    optional: boolean | undefined;
+    type: Record<string, any>;
+  };
+  isQueryBody?: boolean;
+  method?: string;
+  parameters?: Record<string, unknown>[];
+  path?: string;
+  pathParams?: Record<string, unknown>;
+  payload?: { name: string | null; optional?: boolean; type: string };
+  query?: Record<string, unknown>;
+  requestParams?: Record<string, unknown> | null;
+  security?: boolean;
+}
+
+export interface ParsedRouteResponse {
+  contentTypes?: string[];
+  errorType?: string;
+  fullTypes?: string;
+  type?: string;
+}
+
 export interface ParsedRoute {
   id: string;
-  jsDocLines: string;
   namespace: string;
-  request: Request;
-  response: Response;
+  // biome-ignore lint/suspicious/noExplicitAny: TODO
+  routeParams?: Record<string, any>;
+  requestBodyInfo?: {
+    // biome-ignore lint/suspicious/noExplicitAny: TODO
+    paramName: any;
+    // biome-ignore lint/suspicious/noExplicitAny: TODO
+    contentTypes: any[];
+    contentKind: string;
+    // biome-ignore lint/suspicious/noExplicitAny: TODO
+    schema: any;
+    // biome-ignore lint/suspicious/noExplicitAny: TODO
+    type: any;
+    // biome-ignore lint/suspicious/noExplicitAny: TODO
+    required: any;
+  };
+  responseBodyInfo?: {
+    // biome-ignore lint/suspicious/noExplicitAny: TODO
+    contentTypes: any[];
+    // biome-ignore lint/suspicious/noExplicitAny: TODO
+    responses: any[];
+    // biome-ignore lint/suspicious/noExplicitAny: TODO
+    success?: Record<string, any>;
+    // biome-ignore lint/suspicious/noExplicitAny: TODO
+    error?: Record<string, any>;
+    // biome-ignore lint/suspicious/noExplicitAny: TODO
+    full?: Record<string, any>;
+  };
+  // biome-ignore lint/suspicious/noExplicitAny: TODO
+  specificArgs?: Record<string, any>;
+  // biome-ignore lint/suspicious/noExplicitAny: TODO
+  queryObjectSchema?: Record<string, any>;
+  // biome-ignore lint/suspicious/noExplicitAny: TODO
+  pathObjectSchema?: Record<string, any>;
+  // biome-ignore lint/suspicious/noExplicitAny: TODO
+  headersObjectSchema?: Record<string, any>;
+  // biome-ignore lint/suspicious/noExplicitAny: TODO
+  responseBodySchema?: Record<string, any>;
+  requestBodySchema?: Record<string, any>;
+  specificArgNameResolver?: Record<string, any>;
+  request: ParsedRouteRequest;
+  response: ParsedRouteResponse;
   routeName: RouteNameInfo;
   raw: RawRouteInfo;
 }
