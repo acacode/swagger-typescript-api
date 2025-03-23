@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import * as path from "node:path";
 import * as url from "node:url";
 import { defineCommand, runMain } from "citty";
