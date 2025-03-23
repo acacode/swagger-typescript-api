@@ -1,5 +1,15 @@
 # swagger-typescript-api
 
+## 13.0.25
+
+### Patch Changes
+
+- [#1102](https://github.com/acacode/swagger-typescript-api/pull/1102) [`13da52a`](https://github.com/acacode/swagger-typescript-api/commit/13da52aa9eab24f90f06316943e810b34767324b) Thanks [@smorimoto](https://github.com/smorimoto)! - Fix CLI executable by adding the required shebang to the entry file.
+
+- [#1102](https://github.com/acacode/swagger-typescript-api/pull/1102) [`13da52a`](https://github.com/acacode/swagger-typescript-api/commit/13da52aa9eab24f90f06316943e810b34767324b) Thanks [@smorimoto](https://github.com/smorimoto)! - Fix query params detection on route name parsing
+
+- [#1102](https://github.com/acacode/swagger-typescript-api/pull/1102) [`13da52a`](https://github.com/acacode/swagger-typescript-api/commit/13da52aa9eab24f90f06316943e810b34767324b) Thanks [@smorimoto](https://github.com/smorimoto)! - Improve type safety by adding proper types to SchemaComponent and introducing flags for extracted elements such as request parameters, request body, response body, and response errors.
+
 ## 13.0.24
 
 ### Patch Changes
