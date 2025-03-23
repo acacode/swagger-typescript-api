@@ -1,5 +1,6 @@
 import type {
   ParsedSchema,
+  SchemaComponent,
   SchemaTypeEnumContent,
   SchemaTypeObjectContent,
   SchemaTypePrimitiveContent,
@@ -63,7 +64,11 @@ export class SchemaParserFabric {
     return parser.schema;
   };
 
-  createParsedComponent = ({ typeName, schema, schemaPath }) => {
+  createParsedComponent = ({
+    typeName,
+    schema,
+    schemaPath,
+  }): SchemaComponent => {
     const schemaCopy = structuredClone(schema);
     const customComponent = this.schemaComponentsMap.createComponent(
       this.schemaComponentsMap.createRef(["components", "schemas", typeName]),

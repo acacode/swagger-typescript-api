@@ -597,6 +597,10 @@ export class SchemaRoutes {
         typeName,
         schemaPath: [operationId],
       });
+
+      if (schema?.typeData) {
+        schema.typeData.isExtractedRequestBody = true;
+      }
       content = this.schemaParserFabric.getInlineParseContent({
         $ref: schema.$ref,
       });
@@ -670,10 +674,16 @@ export class SchemaRoutes {
         },
       );
 
-      return this.schemaParserFabric.createParsedComponent({
+      const component = this.schemaParserFabric.createParsedComponent({
         typeName: generatedTypeName,
         schema: schema,
       });
+
+      if (component.typeData) {
+        component.typeData.isExtractedRequestParams = true;
+      }
+
+      return component;
     }
 
     return schema;
@@ -705,6 +715,9 @@ export class SchemaRoutes {
           schemaPath: [routeInfo.operationId],
         });
         successResponse.schema.contentKind = contentKind;
+        if (successResponse.schema.typeData) {
+          successResponse.schema.typeData.isExtractedResponseBody = true;
+        }
         successResponse.type = this.schemaParserFabric.getInlineParseContent({
           $ref: successResponse.schema.$ref,
         });
@@ -756,6 +769,9 @@ export class SchemaRoutes {
         { ...schema },
       );
       responseBodyInfo.error.schemas = [component];
+      if (component.typeData) {
+        component.typeData.isExtractedResponseError = true;
+      }
       responseBodyInfo.error.type = this.typeNameFormatter.format(
         component.typeName,
       );
@@ -818,7 +834,7 @@ export class SchemaRoutes {
     method,
     usageSchema,
     parsedSchemas,
-  ) => {
+  ): ParsedRoute => {
     const { security: globalSecurity } = usageSchema;
     const { moduleNameIndex, moduleNameFirstTag, extractRequestParams } =
       this.config;
