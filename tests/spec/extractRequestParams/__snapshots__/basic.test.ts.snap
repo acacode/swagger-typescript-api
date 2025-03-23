@@ -78,6 +78,26 @@ export interface KeyRevoke2Params {
   pk: string;
 }
 
+export interface GetKeyParams {
+  /** Public Signing Key - Authentiq ID (43 chars) */
+  pk: string;
+}
+
+export interface HeadKeyParams {
+  /** Public Signing Key - Authentiq ID (43 chars) */
+  pk: string;
+}
+
+export interface KeyUpdateParams {
+  /** Public Signing Key - Authentiq ID (43 chars) */
+  pk: string;
+}
+
+export interface KeyBindParams {
+  /** Public Signing Key - Authentiq ID (43 chars) */
+  pk: string;
+}
+
 export interface PushLoginRequestParams {
   /** URI App will connect to */
   callback: string;
@@ -86,6 +106,31 @@ export interface PushLoginRequestParams {
 export interface SignRequestParams {
   /** test only mode, using test issuer */
   test?: number;
+}
+
+export interface SignDeleteParams {
+  /** Job ID (20 chars) */
+  job: string;
+}
+
+export interface SignRetrieveParams {
+  /** Job ID (20 chars) */
+  job: string;
+}
+
+export interface SignRetrieveHeadParams {
+  /** Job ID (20 chars) */
+  job: string;
+}
+
+export interface SignConfirmParams {
+  /** Job ID (20 chars) */
+  job: string;
+}
+
+export interface SignUpdateParams {
+  /** Job ID (20 chars) */
+  job: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -317,7 +362,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeyRevokeNosecret
      * @request DELETE:/key
      */
-    keyRevokeNosecret: (query: KeyRevokeNosecretParams, params: RequestParams = {}) =>
+    keyRevokeNosecret: ({ ...query }: KeyRevokeNosecretParams, params: RequestParams = {}) =>
       this.request<
         {
           /** pending or done */
@@ -401,7 +446,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GetKey
      * @request GET:/key/{PK}
      */
-    getKey: (pk: string, params: RequestParams = {}) =>
+    getKey: ({ pk }: GetKeyParams, params: RequestParams = {}) =>
       this.request<
         {
           /** @format date-time */
@@ -425,7 +470,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name HeadKey
      * @request HEAD:/key/{PK}
      */
-    headKey: (pk: string, params: RequestParams = {}) =>
+    headKey: ({ pk }: HeadKeyParams, params: RequestParams = {}) =>
       this.request<void, Error>({
         path: \`/key/\${pk}\`,
         method: "HEAD",
@@ -439,7 +484,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeyUpdate
      * @request POST:/key/{PK}
      */
-    keyUpdate: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
+    keyUpdate: ({ pk }: KeyUpdateParams, body: AuthentiqID, params: RequestParams = {}) =>
       this.request<
         {
           /** confirmed */
@@ -461,7 +506,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name KeyBind
      * @request PUT:/key/{PK}
      */
-    keyBind: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
+    keyBind: ({ pk }: KeyBindParams, body: AuthentiqID, params: RequestParams = {}) =>
       this.request<
         {
           /** confirmed */
@@ -530,7 +575,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name PushLoginRequest
      * @request POST:/login
      */
-    pushLoginRequest: (query: PushLoginRequestParams, body: PushToken, params: RequestParams = {}) =>
+    pushLoginRequest: ({ ...query }: PushLoginRequestParams, body: PushToken, params: RequestParams = {}) =>
       this.request<
         {
           /** sent */
@@ -554,7 +599,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name SignRequest
      * @request POST:/scope
      */
-    signRequest: (query: SignRequestParams, body: Claims, params: RequestParams = {}) =>
+    signRequest: ({ ...query }: SignRequestParams, body: Claims, params: RequestParams = {}) =>
       this.request<
         {
           /** 20-character ID */
@@ -579,7 +624,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name SignDelete
      * @request DELETE:/scope/{job}
      */
-    signDelete: (job: string, params: RequestParams = {}) =>
+    signDelete: ({ job }: SignDeleteParams, params: RequestParams = {}) =>
       this.request<
         {
           /** done */
@@ -600,7 +645,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name SignRetrieve
      * @request GET:/scope/{job}
      */
-    signRetrieve: (job: string, params: RequestParams = {}) =>
+    signRetrieve: ({ job }: SignRetrieveParams, params: RequestParams = {}) =>
       this.request<
         {
           exp?: number;
@@ -623,7 +668,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name SignRetrieveHead
      * @request HEAD:/scope/{job}
      */
-    signRetrieveHead: (job: string, params: RequestParams = {}) =>
+    signRetrieveHead: ({ job }: SignRetrieveHeadParams, params: RequestParams = {}) =>
       this.request<void, Error>({
         path: \`/scope/\${job}\`,
         method: "HEAD",
@@ -637,7 +682,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name SignConfirm
      * @request POST:/scope/{job}
      */
-    signConfirm: (job: string, params: RequestParams = {}) =>
+    signConfirm: ({ job }: SignConfirmParams, params: RequestParams = {}) =>
       this.request<
         {
           /** confirmed */
@@ -659,7 +704,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name SignUpdate
      * @request PUT:/scope/{job}
      */
-    signUpdate: (job: string, params: RequestParams = {}) =>
+    signUpdate: ({ job }: SignUpdateParams, params: RequestParams = {}) =>
       this.request<
         {
           /** result is JWT or JSON?? */
