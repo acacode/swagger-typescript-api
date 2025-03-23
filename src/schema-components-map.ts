@@ -21,11 +21,16 @@ export class SchemaComponentsMap {
     return ref.split("/");
   };
 
-  createComponent($ref: string, rawTypeData: string) {
+  createComponent(
+    $ref: string,
+    rawTypeData: SchemaComponent["rawTypeData"],
+  ): SchemaComponent {
     const parsed = this.parseRef($ref);
-    const typeName = parsed[parsed.length - 1];
-    const componentName = parsed[parsed.length - 2];
-    const componentSchema = {
+    const typeName = parsed[parsed.length - 1]!;
+    const componentName = parsed[
+      parsed.length - 2
+    ] as SchemaComponent["componentName"];
+    const componentSchema: SchemaComponent = {
       $ref,
       typeName,
       rawTypeData,
@@ -52,7 +57,7 @@ export class SchemaComponentsMap {
     return this._data;
   }
 
-  filter(...componentNames: string[]) {
+  filter(...componentNames: (string[] | string)[]) {
     return this._data.filter((it) =>
       componentNames.some((componentName) =>
         it.$ref.startsWith(`#/components/${componentName}`),

@@ -442,6 +442,10 @@ export interface ParsedSchema<C> {
   description?: string;
   allFieldsAreOptional?: boolean;
   content: C;
+  isExtractedRequestParams?: boolean;
+  isExtractedRequestBody?: boolean;
+  isExtractedResponseBody?: boolean;
+  isExtractedResponseError?: boolean;
 }
 
 export interface PathArgInfo {

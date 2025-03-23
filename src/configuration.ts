@@ -5,6 +5,8 @@ import * as typescript from "typescript";
 import type {
   ExtractingOptions,
   GenerateApiConfiguration,
+  Hooks,
+  SchemaComponent,
 } from "../types/index.js";
 import { ComponentTypeNameResolver } from "./component-type-name-resolver.js";
 import * as CONSTANTS from "./constants.js";
@@ -86,11 +88,11 @@ export class CodeGenConfig {
   };
   routeNameDuplicatesMap = new Map();
   prettierOptions = { ...CONSTANTS.PRETTIER_OPTIONS };
-  hooks = {
+  hooks: Hooks = {
     onPreBuildRoutePath: (_routePath: unknown) => void 0,
     onBuildRoutePath: (_routeData: unknown) => void 0,
     onInsertPathParam: (_pathParam: unknown) => void 0,
-    onCreateComponent: (schema: unknown) => schema,
+    onCreateComponent: (schema: SchemaComponent) => schema,
     onPreParseSchema: (
       _originalSchema: unknown,
       _typeName: unknown,
