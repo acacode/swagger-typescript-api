@@ -34,7 +34,7 @@ jobs:
         uses: changesets/action@v1
         with:
           version: yarn changeset version
-          publish: yarn npm publish --tolerate-republish
+          publish: yarn npm publish --tolerate-republish && yarn changeset tag
         env:
           GITHUB_TOKEN: ${{ github.token }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
