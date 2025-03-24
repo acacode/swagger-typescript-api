@@ -146,6 +146,7 @@ const generateCommand = defineCommand({
       default: codeGenBaseConfig.enumNamesAsValues,
     },
     "extract-request-params": {
+      type: "boolean",
       description:
         "extract request params to data contract (Also combine path params and query params into one object)",
       default: codeGenBaseConfig.extractRequestParams,
@@ -280,7 +281,7 @@ const generateCommand = defineCommand({
     },
   },
   run: async ({ args }) => {
-    let customConfig;
+    let customConfig = undefined;
 
     if (args["custom-config"]) {
       try {
@@ -314,7 +315,7 @@ const generateCommand = defineCommand({
       extractResponseError: args["extract-response-error"],
       extractResponses: args["extract-responses"],
       fileName: args.name,
-      generateClient: !(args.axios || args["no-client"]),
+      generateClient: !args["no-client"],
       generateResponses: args.responses,
       generateRouteTypes: args["route-types"],
       generateUnionEnums: args["union-enums"],
