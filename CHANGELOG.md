@@ -1,5 +1,19 @@
 # swagger-typescript-api
 
+## 13.0.27
+
+### Patch Changes
+
+- [#1119](https://github.com/acacode/swagger-typescript-api/pull/1119) [`c5e8d45`](https://github.com/acacode/swagger-typescript-api/commit/c5e8d45d08edad509c23b3f66c2a6c0ffed570a2) Thanks [@smorimoto](https://github.com/smorimoto)! - Add `shims` option in tsup configuration and update `rootDir` path in templates generation process.
+
+- [#1119](https://github.com/acacode/swagger-typescript-api/pull/1119) [`c5e8d45`](https://github.com/acacode/swagger-typescript-api/commit/c5e8d45d08edad509c23b3f66c2a6c0ffed570a2) Thanks [@smorimoto](https://github.com/smorimoto)! - Resolve internal references in Swagger v2 to OpenAPI v3 conversion by adding `resolveInternal` option and enhancing type definitions for request payloads.
+
+- [#1119](https://github.com/acacode/swagger-typescript-api/pull/1119) [`c5e8d45`](https://github.com/acacode/swagger-typescript-api/commit/c5e8d45d08edad509c23b3f66c2a6c0ffed570a2) Thanks [@smorimoto](https://github.com/smorimoto)! - Fix default value for `no-client` option in `generateCommand` to `false`.
+
+- [#1119](https://github.com/acacode/swagger-typescript-api/pull/1119) [`c5e8d45`](https://github.com/acacode/swagger-typescript-api/commit/c5e8d45d08edad509c23b3f66c2a6c0ffed570a2) Thanks [@smorimoto](https://github.com/smorimoto)! - Add `required` property to output path in `generateTemplatesCommand`.
+
+- [#1119](https://github.com/acacode/swagger-typescript-api/pull/1119) [`c5e8d45`](https://github.com/acacode/swagger-typescript-api/commit/c5e8d45d08edad509c23b3f66c2a6c0ffed570a2) Thanks [@smorimoto](https://github.com/smorimoto)! - Fix documentation and type definition to align with actual implementation by renaming `name` to `fileName`.
+
 ## 13.0.26
 
 ### Patch Changes
