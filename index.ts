@@ -315,7 +315,7 @@ const generateCommand = defineCommand({
       extractResponseError: args["extract-response-error"],
       extractResponses: args["extract-responses"],
       fileName: args.name,
-      generateClient: !(args.axios || args["no-client"]),
+      generateClient: !args["no-client"],
       generateResponses: args.responses,
       generateRouteTypes: args["route-types"],
       generateUnionEnums: args["union-enums"],
