@@ -33,7 +33,7 @@ jobs:
       - name: Create Release Pull Request
         uses: changesets/action@v1
         with:
-          version: yarn changeset version
+          version: yarn version
           publish: yarn npm publish --tolerate-republish
         env:
           GITHUB_TOKEN: ${{ github.token }}
