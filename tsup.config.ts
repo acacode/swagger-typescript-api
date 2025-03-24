@@ -8,6 +8,7 @@ export default defineConfig({
   clean: true,
   format: ["esm", "cjs"],
   minify: true,
+  shims: true,
   sourcemap: true,
   splitting: true,
   target: "node18",
