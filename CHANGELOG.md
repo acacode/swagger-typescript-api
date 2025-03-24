@@ -1,5 +1,17 @@
 # swagger-typescript-api
 
+## 13.0.26
+
+### Patch Changes
+
+- [#1106](https://github.com/acacode/swagger-typescript-api/pull/1106) [`9208816`](https://github.com/acacode/swagger-typescript-api/commit/920881663b9601e026b1798896f41eeb6112cd91) Thanks [@smorimoto](https://github.com/smorimoto)! - Add boolean type for `extract-request-params` in command configuration.
+
+- [#1106](https://github.com/acacode/swagger-typescript-api/pull/1106) [`c124f88`](https://github.com/acacode/swagger-typescript-api/commit/c124f888e93547f408ed15cb2ca41b9ed145c1d2) Thanks [@smorimoto](https://github.com/smorimoto)! - Fix generateClient logic to exclude only `no-client` argument.
+
+- [#1108](https://github.com/acacode/swagger-typescript-api/pull/1108) [`1e3b70e`](https://github.com/acacode/swagger-typescript-api/commit/1e3b70ea476ef4b5a6cdb407ce250a58ff64368b) Thanks [@smorimoto](https://github.com/smorimoto)! - Fix default value for `no-client` argument in command configuration.
+
+- [#1106](https://github.com/acacode/swagger-typescript-api/pull/1106) [`4809884`](https://github.com/acacode/swagger-typescript-api/commit/480988407de42d5be5a2be58bd700e2e3dc89e37) Thanks [@smorimoto](https://github.com/smorimoto)! - Initialise `customConfig` to `undefined` in command run function.
+
 ## 13.0.25
 
 ### Patch Changes
