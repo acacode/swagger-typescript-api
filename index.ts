@@ -43,6 +43,7 @@ const generateTemplatesCommand = defineCommand({
       alias: "o",
       description: "output path of generated templates",
       default: templateGenBaseConfig.output,
+      required: true,
     },
     rewrite: {
       type: "boolean",
