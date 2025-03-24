@@ -146,6 +146,7 @@ const generateCommand = defineCommand({
       default: codeGenBaseConfig.enumNamesAsValues,
     },
     "extract-request-params": {
+      type: "boolean",
       description:
         "extract request params to data contract (Also combine path params and query params into one object)",
       default: codeGenBaseConfig.extractRequestParams,
