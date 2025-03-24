@@ -281,7 +281,7 @@ const generateCommand = defineCommand({
     },
   },
   run: async ({ args }) => {
-    let customConfig;
+    let customConfig = undefined;
 
     if (args["custom-config"]) {
       try {
