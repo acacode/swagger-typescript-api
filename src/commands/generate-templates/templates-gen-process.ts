@@ -14,7 +14,7 @@ export class TemplatesGenProcess {
   config: TemplatesGenConfig;
   fileSystem: FileSystem;
 
-  rootDir = path.resolve(__dirname, "../../../");
+  rootDir = path.resolve(__dirname, "..");
 
   paths = {
     baseTemplates: "templates/base",
