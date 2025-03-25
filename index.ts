@@ -330,7 +330,7 @@ const generateCommand = defineCommand({
       generateClient: args.client,
       generateResponses: args.responses,
       generateRouteTypes: args["route-types"],
-      generateUnionEnums: args["union-enums"],
+      generateUnionEnums: args["generate-union-enums"],
       httpClientType:
         args["http-client"] || args.axios
           ? HTTP_CLIENT.AXIOS
