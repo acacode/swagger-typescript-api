@@ -7,12 +7,12 @@ import { objectAssign } from "../../util/object-assign.js";
 
 export class TemplatesGenConfig {
   cleanOutput = false;
-  output = undefined;
+  debug = false;
   httpClientType: HttpClientType = HTTP_CLIENT.FETCH;
   modular = false;
+  output = undefined;
   rewrite = false;
   silent = false;
-  debug = false;
   version = PROJECT_VERSION;
 
   constructor(config: GenerateTemplatesParams) {

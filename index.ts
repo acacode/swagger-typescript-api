@@ -25,6 +25,11 @@ const generateTemplatesCommand = defineCommand({
         "clean output folder before generate template. WARNING: May cause data loss",
       default: templateGenBaseConfig.cleanOutput,
     },
+    debug: {
+      type: "boolean",
+      description: "additional information about processes inside this tool",
+      default: templateGenBaseConfig.debug,
+    },
     "http-client": {
       type: "string",
       description: `http client type (possible values: ${Object.values(
@@ -56,11 +61,6 @@ const generateTemplatesCommand = defineCommand({
       description: "Output only errors to console",
       default: templateGenBaseConfig.silent,
     },
-    debug: {
-      type: "boolean",
-      description: "additional information about processes inside this tool",
-      default: templateGenBaseConfig.debug,
-    },
   },
   run: async ({ args }) => {
     await generateTemplates({
@@ -83,28 +83,45 @@ const generateCommand = defineCommand({
     description: packageJson.description,
   },
   args: {
-    path: {
-      type: "string",
-      alias: "p",
-      description: "path/url to swagger scheme",
-      required: true,
+    "add-readonly": {
+      type: "boolean",
+      description: "generate readonly properties",
+      default: codeGenBaseConfig.addReadonly,
     },
-    output: {
-      type: "string",
-      alias: "o",
-      description: "output path of typescript api file",
-      default: "./",
+    "another-array-type": {
+      type: "boolean",
+      description: "generate array types as Array<Type> (by default Type[])",
+      default: codeGenBaseConfig.anotherArrayType,
     },
-    name: {
+    "api-class-name": {
       type: "string",
-      alias: "n",
-      description: "name of output typescript api file",
-      default: codeGenBaseConfig.fileName,
+      description: "name of the api class",
+      default: codeGenBaseConfig.apiClassName,
     },
-    templates: {
+    axios: {
+      type: "boolean",
+      description: "generate axios http client",
+      default: false,
+    },
+    "clean-output": {
+      type: "boolean",
+      description:
+        "clean output folder before generate api. WARNING: May cause data loss",
+      default: codeGenBaseConfig.cleanOutput,
+    },
+    client: {
+      type: "boolean",
+      description: "do not generate an API class",
+      default: codeGenBaseConfig.generateClient,
+    },
+    "custom-config": {
       type: "string",
-      alias: "t",
-      description: "path to folder containing templates",
+      description: "custom config: primitiveTypeConstructs, hooks, ... ",
+    },
+    debug: {
+      type: "boolean",
+      description: "additional information about processes inside this tool",
+      default: codeGenBaseConfig.debug,
     },
     "default-as-success": {
       type: "boolean",
@@ -113,32 +130,15 @@ const generateCommand = defineCommand({
         'use "default" response status code as success response too. some swagger schemas use "default" response status code as success response type by default.',
       default: codeGenBaseConfig.defaultResponseAsSuccess,
     },
-    responses: {
-      type: "boolean",
-      alias: "r",
-      description:
-        "generate additional information about request responses also add typings for bad responses",
-      default: codeGenBaseConfig.generateResponses,
+    "default-response": {
+      type: "string",
+      description: "default type for empty response schema",
+      default: codeGenBaseConfig.defaultResponseType,
     },
-    "union-enums": {
+    "disable-throw-on-error": {
       type: "boolean",
-      description: 'generate all "enum" types as union types (T1 | T2 | TN)',
-      default: codeGenBaseConfig.generateUnionEnums,
-    },
-    "add-readonly": {
-      type: "boolean",
-      description: "generate readonly properties",
-      default: codeGenBaseConfig.addReadonly,
-    },
-    "route-types": {
-      type: "boolean",
-      description: "generate type definitions for API routes",
-      default: codeGenBaseConfig.generateRouteTypes,
-    },
-    client: {
-      type: "boolean",
-      description: "do not generate an API class",
-      default: codeGenBaseConfig.generateClient,
+      description: "Do not throw an error when response.ok is not true",
+      default: codeGenBaseConfig.disableThrowOnError,
     },
     "enum-names-as-values": {
       type: "boolean",
@@ -146,16 +146,22 @@ const generateCommand = defineCommand({
         "use values in 'x-enumNames' as enum values (not only as keys)",
       default: codeGenBaseConfig.enumNamesAsValues,
     },
-    "extract-request-params": {
+    "extract-enums": {
       type: "boolean",
       description:
-        "extract request params to data contract (Also combine path params and query params into one object)",
-      default: codeGenBaseConfig.extractRequestParams,
+        "extract all enums from inline interface/type content to typescript enum construction",
+      default: codeGenBaseConfig.extractEnums,
     },
     "extract-request-body": {
       type: "boolean",
       description: "extract request body type to data contract",
       default: codeGenBaseConfig.extractRequestBody,
+    },
+    "extract-request-params": {
+      type: "boolean",
+      description:
+        "extract request params to data contract (Also combine path params and query params into one object)",
+      default: codeGenBaseConfig.extractRequestParams,
     },
     "extract-response-body": {
       type: "boolean",
@@ -172,16 +178,32 @@ const generateCommand = defineCommand({
       description: "extract all responses described in /components/responses",
       default: codeGenBaseConfig.extractResponses,
     },
+    "generate-union-enums": {
+      type: "boolean",
+      description: 'generate all "enum" types as union types (T1 | T2 | TN)',
+      default: codeGenBaseConfig.generateUnionEnums,
+    },
+    "http-client": {
+      type: "string",
+      description: `http client type (possible values: ${Object.values(
+        HTTP_CLIENT,
+      )})`,
+    },
+    js: {
+      type: "boolean",
+      description: "generate js api module with declaration file",
+      default: codeGenBaseConfig.toJS,
+    },
     modular: {
       type: "boolean",
       description:
         "generate separated files for http client, data contracts, and routes",
       default: codeGenBaseConfig.modular,
     },
-    js: {
+    "module-name-first-tag": {
       type: "boolean",
-      description: "generate js api module with declaration file",
-      default: codeGenBaseConfig.toJS,
+      description: "splits routes based on the first tag",
+      default: codeGenBaseConfig.moduleNameFirstTag,
     },
     "module-name-index": {
       type: "string",
@@ -189,40 +211,65 @@ const generateCommand = defineCommand({
         "determines which path index should be used for routes separation (example: GET:/fruits/getFruit -> index:0 -> moduleName -> fruits)",
       default: codeGenBaseConfig.moduleNameIndex.toString(),
     },
-    "module-name-first-tag": {
-      type: "boolean",
-      description: "splits routes based on the first tag",
-      default: codeGenBaseConfig.moduleNameFirstTag,
+    name: {
+      type: "string",
+      alias: "n",
+      description: "name of output typescript api file",
+      default: codeGenBaseConfig.fileName,
     },
-    axios: {
-      type: "boolean",
-      description: "generate axios http client",
-      default: false,
+    output: {
+      type: "string",
+      alias: "o",
+      description: "output path of typescript api file",
+      default: "./",
     },
-    "unwrap-response-data": {
+    patch: {
       type: "boolean",
-      description: "unwrap the data item from the response",
-      default: codeGenBaseConfig.unwrapResponseData,
+      description: "fix up small errors in the swagger source definition",
+      default: codeGenBaseConfig.patch,
     },
-    "disable-throw-on-error": {
-      type: "boolean",
-      description: "Do not throw an error when response.ok is not true",
-      default: codeGenBaseConfig.disableThrowOnError,
+    path: {
+      type: "string",
+      alias: "p",
+      description: "path/url to swagger scheme",
+      required: true,
     },
-    "single-http-client": {
+    responses: {
       type: "boolean",
-      description: "Ability to send HttpClient instance to Api constructor",
-      default: codeGenBaseConfig.singleHttpClient,
+      alias: "r",
+      description:
+        "generate additional information about request responses also add typings for bad responses",
+      default: codeGenBaseConfig.generateResponses,
+    },
+    "route-types": {
+      type: "boolean",
+      description: "generate type definitions for API routes",
+      default: codeGenBaseConfig.generateRouteTypes,
     },
     silent: {
       type: "boolean",
       description: "Output only errors to console",
       default: codeGenBaseConfig.silent,
     },
-    "default-response": {
+    "single-http-client": {
+      type: "boolean",
+      description: "Ability to send HttpClient instance to Api constructor",
+      default: codeGenBaseConfig.singleHttpClient,
+    },
+    "sort-routes": {
+      type: "boolean",
+      description: "sort routes in alphabetical order",
+      default: codeGenBaseConfig.sortRoutes,
+    },
+    "sort-types": {
+      type: "boolean",
+      description: "sort fields and types",
+      default: codeGenBaseConfig.sortTypes,
+    },
+    templates: {
       type: "string",
-      description: "default type for empty response schema",
-      default: codeGenBaseConfig.defaultResponseType,
+      alias: "t",
+      description: "path to folder containing templates",
     },
     "type-prefix": {
       type: "string",
@@ -234,51 +281,15 @@ const generateCommand = defineCommand({
       description: "data contract name suffix",
       default: codeGenBaseConfig.typeSuffix,
     },
-    "clean-output": {
+    "union-enums": {
       type: "boolean",
-      description:
-        "clean output folder before generate api. WARNING: May cause data loss",
-      default: codeGenBaseConfig.cleanOutput,
+      description: 'generate all "enum" types as union types (T1 | T2 | TN)',
+      default: codeGenBaseConfig.generateUnionEnums,
     },
-    "api-class-name": {
-      type: "string",
-      description: "name of the api class",
-      default: codeGenBaseConfig.apiClassName,
-    },
-    patch: {
+    "unwrap-response-data": {
       type: "boolean",
-      description: "fix up small errors in the swagger source definition",
-      default: codeGenBaseConfig.patch,
-    },
-    debug: {
-      type: "boolean",
-      description: "additional information about processes inside this tool",
-      default: codeGenBaseConfig.debug,
-    },
-    "another-array-type": {
-      type: "boolean",
-      description: "generate array types as Array<Type> (by default Type[])",
-      default: codeGenBaseConfig.anotherArrayType,
-    },
-    "sort-types": {
-      type: "boolean",
-      description: "sort fields and types",
-      default: codeGenBaseConfig.sortTypes,
-    },
-    "extract-enums": {
-      type: "boolean",
-      description:
-        "extract all enums from inline interface/type content to typescript enum construction",
-      default: codeGenBaseConfig.extractEnums,
-    },
-    "sort-routes": {
-      type: "boolean",
-      description: "sort routes in alphabetical order",
-      default: codeGenBaseConfig.sortRoutes,
-    },
-    "custom-config": {
-      type: "string",
-      description: "custom config: primitiveTypeConstructs, hooks, ... ",
+      description: "unwrap the data item from the response",
+      default: codeGenBaseConfig.unwrapResponseData,
     },
   },
   run: async ({ args }) => {
