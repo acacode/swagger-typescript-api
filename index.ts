@@ -135,10 +135,10 @@ const generateCommand = defineCommand({
       description: "generate type definitions for API routes",
       default: codeGenBaseConfig.generateRouteTypes,
     },
-    "no-client": {
+    "client": {
       type: "boolean",
-      description: "do not generate an API class",
-      default: false,
+      description: "generate an API class",
+      default: true,
     },
     "enum-names-as-values": {
       type: "boolean",
@@ -316,7 +316,7 @@ const generateCommand = defineCommand({
       extractResponseError: args["extract-response-error"],
       extractResponses: args["extract-responses"],
       fileName: args.name,
-      generateClient: !args["no-client"],
+      generateClient: args.client,
       generateResponses: args.responses,
       generateRouteTypes: args["route-types"],
       generateUnionEnums: args["union-enums"],
