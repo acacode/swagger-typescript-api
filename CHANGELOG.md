@@ -1,5 +1,17 @@
 # swagger-typescript-api
 
+## 13.0.28
+
+### Patch Changes
+
+- [`6851bdc`](https://github.com/acacode/swagger-typescript-api/commit/6851bdcafa83a80a2be09ea3d95b2ec45b81d24a) Thanks [@smorimoto](https://github.com/smorimoto)! - Fix description for `client` option in `generateCommand`.
+
+- [#1121](https://github.com/acacode/swagger-typescript-api/pull/1121) [`5eadf67`](https://github.com/acacode/swagger-typescript-api/commit/5eadf67b038ef16f0489c6c7b614f3fdc57f1498) Thanks [@takayukioda](https://github.com/takayukioda)! - Fix to not use `no-` prefix in options.
+
+- [`edca5de`](https://github.com/acacode/swagger-typescript-api/commit/edca5ded764b0fa4356ac49389f5d71b6784352d) Thanks [@smorimoto](https://github.com/smorimoto)! - Fix option name for `generateUnionEnums` in `generateCommand`.
+
+- [`9fa8f41`](https://github.com/acacode/swagger-typescript-api/commit/9fa8f4113c8c24070da79cf2d3242ba433ca94d3) Thanks [@smorimoto](https://github.com/smorimoto)! - Sort the CLI arguments alphabetically.
+
 ## 13.0.27
 
 ### Patch Changes
