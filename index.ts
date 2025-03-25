@@ -137,7 +137,7 @@ const generateCommand = defineCommand({
     },
     client: {
       type: "boolean",
-      description: "generate an API class",
+      description: "do not generate an API class",
       default: codeGenBaseConfig.generateClient,
     },
     "enum-names-as-values": {
