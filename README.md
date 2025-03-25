@@ -29,7 +29,7 @@ Options:
   --union-enums                 generate all "enum" types as union types (T1 | T2 | TN) (default: false)
   --add-readonly                generate readonly properties (default: false)
   --route-types                 generate type definitions for API routes (default: false)
-  --no-client                   do not generate an API class
+  --[no-]client                 generate an API class (default: true)
   --enum-names-as-values        use values in 'x-enumNames' as enum values (not only as keys) (default: false)
   --extract-request-params      extract request params to data contract (Also combine path params and query params into one object) (default: false)
   --extract-request-body        extract request body type to data contract (default: false)
