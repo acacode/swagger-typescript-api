@@ -135,7 +135,7 @@ const generateCommand = defineCommand({
       description: "generate type definitions for API routes",
       default: codeGenBaseConfig.generateRouteTypes,
     },
-    "client": {
+    client: {
       type: "boolean",
       description: "generate an API class",
       default: true,
