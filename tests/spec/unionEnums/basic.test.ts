@@ -17,7 +17,7 @@ describe("basic", async () => {
     await fs.rm(tmpdir, { recursive: true });
   });
 
-  test("--union-enums", async () => {
+  test("--generate-union-enums", async () => {
     await generateApi({
       fileName: "schema",
       input: path.resolve(import.meta.dirname, "schema.json"),
