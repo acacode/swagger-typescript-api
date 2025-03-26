@@ -1,4 +1,3 @@
-import * as cosmiconfig from "cosmiconfig";
 import lodash from "lodash";
 import type { OpenAPI } from "openapi-types";
 import * as typescript from "typescript";
@@ -87,7 +86,6 @@ export class CodeGenConfig {
     outOfModuleApi: "Common",
   };
   routeNameDuplicatesMap = new Map();
-  prettierOptions = { ...CONSTANTS.PRETTIER_OPTIONS };
   hooks: Hooks = {
     onPreBuildRoutePath: (_routePath: unknown) => void 0,
     onBuildRoutePath: (_routeData: unknown) => void 0,
@@ -390,7 +388,6 @@ export class CodeGenConfig {
   templateExtensions = [".eta", ".ejs"];
 
   constructor({
-    prettierOptions = getDefaultPrettierOptions(),
     codeGenConstructs,
     primitiveTypeConstructs,
     constants,
@@ -405,10 +402,6 @@ export class CodeGenConfig {
 
     this.update({
       ...otherConfig,
-      prettierOptions:
-        prettierOptions === undefined
-          ? getDefaultPrettierOptions()
-          : prettierOptions,
       hooks: lodash.merge(this.hooks, hooks || {}),
       constants: {
         ...CONSTANTS,
@@ -430,20 +423,3 @@ export class CodeGenConfig {
     objectAssign(this, update);
   };
 }
-
-const getDefaultPrettierOptions = () => {
-  const prettier = cosmiconfig
-    .cosmiconfigSync("prettier", {
-      searchStrategy: "global",
-    })
-    .search();
-
-  if (prettier) {
-    return {
-      ...prettier.config,
-      parser: "typescript",
-    };
-  }
-
-  return { ...CONSTANTS.PRETTIER_OPTIONS };
-};

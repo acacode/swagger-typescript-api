@@ -1,4 +1,6 @@
-import * as prettier from "prettier";
+import * as path from "node:path";
+import { Biome, Distribution } from "@biomejs/js-api";
+import * as nanoid from "nanoid";
 import * as typescript from "typescript";
 import type { CodeGenConfig } from "./configuration.js";
 
@@ -34,23 +36,27 @@ export class CodeFormatter {
     return content;
   };
 
-  prettierFormat = async (content: string) => {
-    const formatted = await prettier.format(
-      content,
-      this.config.prettierOptions,
-    );
-    return formatted;
+  format = async (content: string) => {
+    const biome = await Biome.create({ distribution: Distribution.NODE });
+    biome.applyConfiguration({
+      files: { maxSize: Number.MAX_SAFE_INTEGER },
+      formatter: { indentStyle: "space" },
+    });
+    const formatted = biome.formatContent(content, {
+      filePath: path.format({ name: nanoid.nanoid(), ext: "ts" }),
+    });
+    return formatted.content;
   };
 
   formatCode = async (
     code: string,
-    { removeUnusedImports = true, prettierFormat = true } = {},
+    { removeUnusedImports = true, format = true } = {},
   ) => {
     if (removeUnusedImports) {
       code = this.removeUnusedImports(code);
     }
-    if (prettierFormat) {
-      code = await this.prettierFormat(code);
+    if (format) {
+      code = await this.format(code);
     }
     return code;
   };

@@ -21,13 +21,6 @@ export const HTTP_CLIENT = {
   AXIOS: "axios",
 } as const;
 
-export const PRETTIER_OPTIONS = {
-  printWidth: 120,
-  tabWidth: 2,
-  trailingComma: "all",
-  parser: "typescript",
-} as const;
-
 export const PROJECT_VERSION = packageJson.version;
 
 export const RESERVED_BODY_ARG_NAMES = ["data", "body", "reqBody"];

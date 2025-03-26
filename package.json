@@ -43,16 +43,16 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@biomejs/js-api": "^0.7.1",
+    "@biomejs/wasm-nodejs": "^1.9.4",
     "@types/swagger-schema-official": "^2.0.25",
     "c12": "^3.0.2",
     "citty": "^0.1.6",
     "consola": "^3.4.2",
-    "cosmiconfig": "^9.0.0",
     "eta": "^2.2.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "nanoid": "^5.1.5",
-    "prettier": "~3.5.3",
     "swagger-schema-official": "2.0.0-bab6bed",
     "swagger2openapi": "^7.0.8",
     "typescript": "~5.8.2"

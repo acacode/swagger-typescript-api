@@ -108,10 +108,6 @@ interface GenerateApiParamsBase {
    */
   extractResponseError?: boolean;
   /**
-   * prettier configuration
-   */
-  prettier?: object;
-  /**
    * Output only errors to console (default: false)
    */
   silent?: boolean;

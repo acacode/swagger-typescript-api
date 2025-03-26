@@ -46,7 +46,10 @@ export type FileBlockWithEnumDTO = BaseBlockDtoWithEnum & {
 };
 
 export type BlockDTO = BaseBlockDto &
-  (BaseBlockDtoTypeMapping<"csv", CsvBlockDTO> | BaseBlockDtoTypeMapping<"file", FileBlockDTO>);
+  (
+    | BaseBlockDtoTypeMapping<"csv", CsvBlockDTO>
+    | BaseBlockDtoTypeMapping<"file", FileBlockDTO>
+  );
 
 export type CsvBlockDTO = BaseBlockDto & {
   /** @default "csv" */
@@ -61,7 +64,11 @@ export type FileBlockDTO = BaseBlockDto & {
 };
 
 export type Pet = BasePet &
-  (BasePetPetTypeMapping<"dog", Dog> | BasePetPetTypeMapping<"cat", Cat> | BasePetPetTypeMapping<"lizard", Lizard>);
+  (
+    | BasePetPetTypeMapping<"dog", Dog>
+    | BasePetPetTypeMapping<"cat", Cat>
+    | BasePetPetTypeMapping<"lizard", Lizard>
+  );
 
 export type PetOnlyDiscriminator =
   | ({
@@ -111,11 +118,12 @@ export type LizardWithEnum = BasePetWithEnum & {
   lovesRocks?: boolean;
 };
 
-export type InvalidDiscriminatorPropertyName = BaseInvalidDiscriminatorPropertyName &
-  (
-    | BaseInvalidDiscriminatorPropertyNameTypeMapping<"num", number>
-    | BaseInvalidDiscriminatorPropertyNameTypeMapping<"str", string>
-  );
+export type InvalidDiscriminatorPropertyName =
+  BaseInvalidDiscriminatorPropertyName &
+    (
+      | BaseInvalidDiscriminatorPropertyNameTypeMapping<"num", number>
+      | BaseInvalidDiscriminatorPropertyNameTypeMapping<"str", string>
+    );
 
 /** kek pek */
 export type Variant =
