@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 
 import * as path from "node:path";
-import * as url from "node:url";
+import { loadConfig } from "c12";
 import { defineCommand, runMain } from "citty";
-import { consola } from "consola";
 import packageJson from "./package.json" with { type: "json" };
 import { TemplatesGenConfig } from "./src/commands/generate-templates/configuration.js";
 import { CodeGenConfig } from "./src/configuration.js";
 import { HTTP_CLIENT } from "./src/constants.js";
 import { generateApi, generateTemplates } from "./src/index.js";
-import type { HttpClientType } from "./types/index.js";
+import type { GenerateApiParams, HttpClientType } from "./types/index.js";
 
 const templateGenBaseConfig = new TemplatesGenConfig({});
 
@@ -288,22 +287,9 @@ const generateCommand = defineCommand({
     },
   },
   run: async ({ args }) => {
-    let customConfig = undefined;
-
-    if (args["custom-config"]) {
-      try {
-        const customConfigPath = url
-          .pathToFileURL(path.resolve(process.cwd(), args["custom-config"]))
-          .toString();
-        customConfig = await import(customConfigPath);
-        customConfig = customConfig.default || customConfig;
-        if (customConfig) {
-          consola.info(`Found custom config at: ${customConfigPath}`);
-        }
-      } catch (error) {
-        consola.error("Error loading custom config:", error);
-      }
-    }
+    const customConfig = await loadConfig<GenerateApiParams>({
+      configFile: args["custom-config"],
+    });
 
     await generateApi({
       addReadonly: args["add-readonly"],
@@ -346,7 +332,7 @@ const generateCommand = defineCommand({
       typeSuffix: args["type-suffix"],
       unwrapResponseData: args["unwrap-response-data"],
       url: args.path,
-      ...customConfig,
+      ...customConfig.config,
     });
   },
 });
