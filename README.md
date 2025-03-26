@@ -108,13 +108,6 @@ generateApi({
   extractRequestBody: false,
   extractEnums: false,
   unwrapResponseData: false,
-  prettier: {
-    // By default prettier config is load from your project
-    printWidth: 120,
-    tabWidth: 2,
-    trailingComma: "all",
-    parser: "typescript",
-  },
   defaultResponseType: "void",
   singleHttpClient: true,
   cleanOutput: false,
