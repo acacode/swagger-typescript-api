@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@types/swagger-schema-official": "^2.0.25",
-    "c12": "3.0.2",
+    "c12": "^3.0.2",
     "citty": "^0.1.6",
     "consola": "^3.4.2",
     "cosmiconfig": "^9.0.0",

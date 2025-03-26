@@ -24,11 +24,11 @@ __metadata:
   linkType: hard
 
 "@babel/runtime@npm:^7.5.5":
-  version: 7.26.10
-  resolution: "@babel/runtime@npm:7.26.10"
+  version: 7.27.0
+  resolution: "@babel/runtime@npm:7.27.0"
   dependencies:
     regenerator-runtime: "npm:^0.14.0"
-  checksum: 10c0/6dc6d88c7908f505c4f7770fb4677dfa61f68f659b943c2be1f2a99cb6680343462867abf2d49822adc435932919b36c77ac60125793e719ea8745f2073d3745
+  checksum: 10c0/35091ea9de48bd7fd26fb177693d64f4d195eb58ab2b142b893b7f3fa0f1d7c677604d36499ae0621a3703f35ba0c6a8f6c572cc8f7dc0317213841e493cf663
   languageName: node
   linkType: hard
 
@@ -861,10 +861,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/estree@npm:1.0.6, @types/estree@npm:^1.0.0":
+"@types/estree@npm:1.0.6":
   version: 1.0.6
   resolution: "@types/estree@npm:1.0.6"
   checksum: 10c0/cdfd751f6f9065442cd40957c07fd80361c962869aa853c1c2fd03e101af8b9389d8ff4955a43a6fcfa223dd387a089937f95be0f3eec21ca527039fd2d9859a
+  languageName: node
+  linkType: hard
+
+"@types/estree@npm:^1.0.0":
+  version: 1.0.7
+  resolution: "@types/estree@npm:1.0.7"
+  checksum: 10c0/be815254316882f7c40847336cd484c3bc1c3e34f710d197160d455dc9d6d050ffbf4c3bc76585dba86f737f020ab20bdb137ebe0e9116b0c86c7c0342221b8c
   languageName: node
   linkType: hard
 
@@ -882,16 +889,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
-  version: 22.13.11
-  resolution: "@types/node@npm:22.13.11"
-  dependencies:
-    undici-types: "npm:~6.20.0"
-  checksum: 10c0/f6ee33d36372242535c38640fe7550a6640d8a775ec19b55bfc11775b521cba072d892ca92a912332ce01b317293d645c1bf767f3f882ec719f2404a3d2a5b96
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:22.13.13":
+"@types/node@npm:*, @types/node@npm:22.13.13":
   version: 22.13.13
   resolution: "@types/node@npm:22.13.13"
   dependencies:
@@ -1156,7 +1154,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"c12@npm:3.0.2":
+"c12@npm:^3.0.2":
   version: 3.0.2
   resolution: "c12@npm:3.0.2"
   dependencies:
@@ -3462,7 +3460,7 @@ __metadata:
     "@types/swagger-schema-official": "npm:^2.0.25"
     "@types/swagger2openapi": "npm:7.0.4"
     axios: "npm:1.8.4"
-    c12: "npm:3.0.2"
+    c12: "npm:^3.0.2"
     citty: "npm:^0.1.6"
     consola: "npm:^3.4.2"
     cosmiconfig: "npm:^9.0.0"
