@@ -26,7 +26,7 @@ Options:
                                 some swagger schemas use "default" response status code as success response type by default. (default: false)
   -r, --responses               generate additional information about request responses
                                 also add typings for bad responses (default: false)
-  --union-enums                 generate all "enum" types as union types (T1 | T2 | TN) (default: false)
+  --generate-union-enums                 generate all "enum" types as union types (T1 | T2 | TN) (default: false)
   --add-readonly                generate readonly properties (default: false)
   --route-types                 generate type definitions for API routes (default: false)
   --[no-]client                 generate an API class (default: true)

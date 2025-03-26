@@ -281,11 +281,6 @@ const generateCommand = defineCommand({
       description: "data contract name suffix",
       default: codeGenBaseConfig.typeSuffix,
     },
-    "union-enums": {
-      type: "boolean",
-      description: 'generate all "enum" types as union types (T1 | T2 | TN)',
-      default: codeGenBaseConfig.generateUnionEnums,
-    },
     "unwrap-response-data": {
       type: "boolean",
       description: "unwrap the data item from the response",
