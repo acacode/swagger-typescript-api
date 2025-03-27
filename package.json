@@ -40,7 +40,8 @@
     "format:check": "biome format .",
     "lint": "biome check",
     "prepack": "tsup",
-    "test": "vitest run"
+    "test": "vitest run",
+    "typedoc": "typedoc"
   },
   "dependencies": {
     "@biomejs/js-api": "^0.7.1",
@@ -70,6 +71,7 @@
     "axios": "1.8.4",
     "openapi-types": "12.1.3",
     "tsup": "8.4.0",
+    "typedoc": "0.28.1",
     "vitest": "3.0.9"
   },
   "packageManager": "yarn@4.7.0",
@@ -79,5 +81,11 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
+  },
+  "typedocOptions": {
+    "entryPoints": [
+      "src/index.ts"
+    ],
+    "skipErrorChecking": true
   }
 }

@@ -12,11 +12,11 @@ permissions: read-all
 jobs:
   release:
     if: ${{ github.repository_owner == 'acacode' }}
-    runs-on: ubuntu-latest
     permissions:
       contents: write # to create release
       issues: write # to post issue comments
       pull-requests: write # to create pull request
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout tree
         uses: actions/checkout@v4
