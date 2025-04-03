@@ -1225,27 +1225,27 @@ __metadata:
   linkType: hard
 
 "c12@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "c12@npm:3.0.2"
+  version: 3.0.3
+  resolution: "c12@npm:3.0.3"
   dependencies:
     chokidar: "npm:^4.0.3"
-    confbox: "npm:^0.1.8"
+    confbox: "npm:^0.2.2"
     defu: "npm:^6.1.4"
     dotenv: "npm:^16.4.7"
-    exsolve: "npm:^1.0.0"
+    exsolve: "npm:^1.0.4"
     giget: "npm:^2.0.0"
     jiti: "npm:^2.4.2"
-    ohash: "npm:^2.0.5"
+    ohash: "npm:^2.0.11"
     pathe: "npm:^2.0.3"
     perfect-debounce: "npm:^1.0.0"
-    pkg-types: "npm:^2.0.0"
+    pkg-types: "npm:^2.1.0"
     rc9: "npm:^2.1.2"
   peerDependencies:
     magicast: ^0.3.5
   peerDependenciesMeta:
     magicast:
       optional: true
-  checksum: 10c0/5ff4193c396f7ab05b52bcce9146b954e16cda16c317e018b8aa8d810b7cc678978fdcb203f6dde99276949ec25bb49104c7022d6c8915245425404abcb39750
+  checksum: 10c0/bacf4aa499db90e7198dc4927c7385e721320b71db1073390c291a2e45b8ca2e7beb8b7c2d725e212eeb19df8c52ac5fefba1300a94a29830d585cb002d85c4e
   languageName: node
   linkType: hard
 
@@ -1395,17 +1395,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"confbox@npm:^0.1.8":
-  version: 0.1.8
-  resolution: "confbox@npm:0.1.8"
-  checksum: 10c0/fc2c68d97cb54d885b10b63e45bd8da83a8a71459d3ecf1825143dd4c7f9f1b696b3283e07d9d12a144c1301c2ebc7842380bdf0014e55acc4ae1c9550102418
-  languageName: node
-  linkType: hard
-
 "confbox@npm:^0.2.1":
   version: 0.2.1
   resolution: "confbox@npm:0.2.1"
   checksum: 10c0/bd47ab24bf2c3c6ec3386ca59e934b34421c39b0a50aa8c47ab5da7fdf663965ed4793240e5377e74d91b73d3dcd05568c0e91608a72b327877f60cc51ec39e2
+  languageName: node
+  linkType: hard
+
+"confbox@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "confbox@npm:0.2.2"
+  checksum: 10c0/7c246588d533d31e8cdf66cb4701dff6de60f9be77ab54c0d0338e7988750ac56863cc0aca1b3f2046f45ff223a765d3e5d4977a7674485afcd37b6edf3fd129
   languageName: node
   linkType: hard
 
@@ -1758,7 +1758,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"exsolve@npm:^1.0.0, exsolve@npm:^1.0.1":
+"exsolve@npm:^1.0.1, exsolve@npm:^1.0.4":
   version: 1.0.4
   resolution: "exsolve@npm:1.0.4"
   checksum: 10c0/475a5cb8961fdc91dfe0ff7d5fad601cce3ac27226e3966d18277c10ddace696adc986871115383c449bac110c02e6eaaf5ae9d983b2cc731df805ecb55f2482
@@ -2744,7 +2744,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ohash@npm:^2.0.5":
+"ohash@npm:^2.0.11":
   version: 2.0.11
   resolution: "ohash@npm:2.0.11"
   checksum: 10c0/d07c8d79cc26da082c1a7c8d5b56c399dd4ed3b2bd069fcae6bae78c99a9bcc3ad813b1e1f49ca2f335292846d689c6141a762cf078727d2302a33d414e69c79
@@ -2923,7 +2923,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pkg-types@npm:^2.0.0":
+"pkg-types@npm:^2.0.0, pkg-types@npm:^2.1.0":
   version: 2.1.0
   resolution: "pkg-types@npm:2.1.0"
   dependencies:
