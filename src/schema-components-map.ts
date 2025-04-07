@@ -68,4 +68,13 @@ export class SchemaComponentsMap {
   get($ref: string) {
     return this._data.find((c) => c.$ref === $ref) || null;
   }
+
+  // Ensure enums are at the top of components list
+  enumsFirst() {
+    this._data.sort((a, b) => {
+      if (Object.keys(a.rawTypeData || {}).includes("enum")) return -1;
+      if (Object.keys(b.rawTypeData || {}).includes("enum")) return 1;
+      return 0;
+    });
+  }
 }
