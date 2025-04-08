@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`basic > --enum-names-as-values 1`] = `
+exports[`basic > enum not first in components 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
@@ -13,197 +13,35 @@ exports[`basic > --enum-names-as-values 1`] = `
  * ---------------------------------------------------------------
  */
 
-export enum JobKind {
-  COMPANY = "COMPANY",
-  PERSONAL = "PERSONAL",
-  FREELANCE = "FREELANCE",
-  OPEN_SOURCE = "OPEN_SOURCE",
+export enum ExampleEnum {
+  Example1 = "Example1",
+  Example2 = "Example2",
 }
 
-export enum PetIdsWithWrongEnum {
-  Value10 = 10,
-  Value20 = 20,
-  Value30 = 30,
-  Value40 = 40,
+export interface DtoExample1 {
+  name: string;
+  age: number;
+  toto?: DtoExample2;
 }
 
-export enum PetIds {
-  Value10 = 10,
-  Value20 = 20,
-  Value30 = 30,
-  Value40 = 40,
-}
-
-/**
- * FooBar
- * @format int32
- */
-export enum IntEnumWithNames {
-  Unknown = "Unknown",
-  String = "String",
-  Int32 = "Int32",
-  Int64 = "Int64",
-  Double = "Double",
-  DateTime = "DateTime",
-  Test2 = "Test2",
-  Test23 = "Test23",
-  Tess44 = "Tess44",
-  BooFar = "BooFar",
-}
-
-export type TestAllOfDc = (FooBarBaz & FooBar) & {
-  prop?: string;
-};
-
-export type TestAllOfDc2 = FooBarBaz & {
-  prop?: string;
-};
-
-export type TestAnyOfDc = (FooBarBaz | FooBar) & {
-  prop?: string;
-};
-
-export type TestOneOfDc = (FooBarBaz | FooBar) & {
-  prop?: string;
-};
-
-/** Information about job */
-export interface FooBarBaz {
-  id?: string;
-  kind?: JobKind;
-  name?: string;
-  link?: string;
-}
-
-/** Information about job */
-export interface FooBar {
-  kind?: JobKind;
-}
-
-/** Information about job */
-export interface FooBaz {
-  name?: string;
-  link?: string;
-}
-
-/** From T, pick a set of properties whose keys are in the union K */
-export interface PickUserTypeExcludeKeysIdOrId {
-  username: string;
-  password: string;
-}
-
-export type OmitUserTypeIdOrId = PickUserTypeExcludeKeysIdOrId;
-
-export type OmitIdUserType = OmitUserTypeIdOrId;
-
-export type AuthUserType = OmitIdUserType;
-
-/** Information about job */
-export interface JobType {
-  id: string;
-  kind: JobKind;
-  name?: string;
-  link?: string;
-  /**
-   * Exist only in open source jobs
-   * Format: \`\${username}/\${projectName}\`
-   */
-  github?: string;
-  /**
-   * Exist only in open source jobs
-   * Format: \`\${orgname}/\${projectName}\`
-   */
-  npm?: string;
-  /**
-   * Exist only in open source jobs
-   * Means project is dev. tool (like swagger code generator)
-   */
-  isTool?: boolean;
-  /** web site address */
-  address?: string;
-}
-
-/** From T, pick a set of properties whose keys are in the union K */
-export interface PickJobTypeExcludeKeysIdOrId {
-  kind: JobKind;
-  name?: string;
-  link?: string;
-  /**
-   * Exist only in open source jobs
-   * Format: \`\${username}/\${projectName}\`
-   */
-  github?: string;
-  /**
-   * Exist only in open source jobs
-   * Format: \`\${orgname}/\${projectName}\`
-   */
-  npm?: string;
-  /**
-   * Exist only in open source jobs
-   * Means project is dev. tool (like swagger code generator)
-   */
-  isTool?: boolean;
-  /** web site address */
-  address?: string;
-}
-
-export type OmitJobTypeIdOrId = PickJobTypeExcludeKeysIdOrId;
-
-export type OmitIdJobType = OmitJobTypeIdOrId;
-
-export type JobUpdateType = OmitIdJobType;
-
-/** From T, pick a set of properties whose keys are in the union K */
-export interface PickProjectTypeExcludeKeysJob {
-  id: string;
-  name?: string;
-  /** @format double */
-  year: number;
+export interface DtoExample2 {
+  title: string;
   description: string;
-  notImportant?: boolean;
-  prefix?: string;
-  tags: string[];
-  teamSize: string;
 }
 
-export type OmitProjectTypeJob = PickProjectTypeExcludeKeysJob;
+export type ExampleObject = BaseExampleObject &
+  (
+    | BaseExampleObjectTypeMapping<ExampleEnum.Example1, DtoExample1>
+    | BaseExampleObjectTypeMapping<ExampleEnum.Example2, DtoExample2>
+  );
 
-export type ExtractedProjectType = OmitProjectTypeJob & {
-  /** Information about job */
-  job: JobType;
-};
-
-/** From T, pick a set of properties whose keys are in the union K */
-export interface PickProjectTypeExcludeKeysIdOrId {
-  name?: string;
-  job: string;
-  /** @format double */
-  year: number;
-  description: string;
-  notImportant?: boolean;
-  prefix?: string;
-  tags: string[];
-  teamSize: string;
+interface BaseExampleObject {
+  type?: ExampleEnum;
 }
 
-export type OmitProjectTypeIdOrId = PickProjectTypeExcludeKeysIdOrId;
-
-export type OmitIdProjectType = OmitProjectTypeIdOrId;
-
-export type ProjectUpdateType = OmitIdProjectType;
-
-export interface ProjectType {
-  id: string;
-  /** @format double */
-  year: number;
-  description: string;
-  job: string;
-  name?: string;
-  notImportant?: boolean;
-  prefix?: string;
-  tags: string[];
-  teamSize: string;
-}
+type BaseExampleObjectTypeMapping<Key, Type> = {
+  type: Key;
+} & Type;
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -450,206 +288,27 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title No title
+ * @title example-service
+ * @version 0.0.1
  * @baseUrl http://localhost:8080/api/v1
+ *
+ * API definition for example service
  */
 export class Api<
   SecurityDataType extends unknown,
 > extends HttpClient<SecurityDataType> {
-  auth = {
+  api = {
     /**
      * No description
      *
-     * @tags Auth
-     * @name Login
-     * @request POST:/auth
+     * @tags test-api
+     * @name GetExample
+     * @request GET:/api/example
      */
-    login: (data: AuthUserType, params: RequestParams = {}) =>
-      this.request<string, any>({
-        path: \`/auth\`,
-        method: "POST",
-        body: data,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Auth
-     * @name Refresh
-     * @request POST:/auth/refresh
-     * @secure
-     */
-    refresh: (params: RequestParams = {}) =>
-      this.request<string, any>({
-        path: \`/auth/refresh\`,
-        method: "POST",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-  };
-  jobs = {
-    /**
-     * No description
-     *
-     * @tags Jobs
-     * @name GetJobs
-     * @request GET:/jobs
-     * @secure
-     */
-    getJobs: (params: RequestParams = {}) =>
-      this.request<JobType[], any>({
-        path: \`/jobs\`,
+    getExample: (params: RequestParams = {}) =>
+      this.request<ExampleObject, any>({
+        path: \`/api/example\`,
         method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Jobs
-     * @name AddJob
-     * @request POST:/jobs
-     * @secure
-     */
-    addJob: (data: JobUpdateType, params: RequestParams = {}) =>
-      this.request<string, any>({
-        path: \`/jobs\`,
-        method: "POST",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Jobs
-     * @name GetJob
-     * @request GET:/jobs/{id}
-     * @secure
-     */
-    getJob: (id: string, params: RequestParams = {}) =>
-      this.request<JobType, void>({
-        path: \`/jobs/\${id}\`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Jobs
-     * @name UpdateJob
-     * @request PATCH:/jobs/{id}
-     * @secure
-     */
-    updateJob: (id: string, data: JobUpdateType, params: RequestParams = {}) =>
-      this.request<JobType, any>({
-        path: \`/jobs/\${id}\`,
-        method: "PATCH",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Jobs
-     * @name DeleteJob
-     * @request DELETE:/jobs/{id}
-     * @secure
-     */
-    deleteJob: (id: string, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: \`/jobs/\${id}\`,
-        method: "DELETE",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-  };
-  projects = {
-    /**
-     * No description
-     *
-     * @tags Projects
-     * @name GetProjects
-     * @request GET:/projects
-     */
-    getProjects: (params: RequestParams = {}) =>
-      this.request<ExtractedProjectType[], any>({
-        path: \`/projects\`,
-        method: "GET",
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Projects
-     * @name AddProjects
-     * @request POST:/projects
-     * @secure
-     */
-    addProjects: (data: ProjectUpdateType, params: RequestParams = {}) =>
-      this.request<string, any>({
-        path: \`/projects\`,
-        method: "POST",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Projects
-     * @name UpdateProject
-     * @request PATCH:/projects/{id}
-     * @secure
-     */
-    updateProject: (
-      id: string,
-      data: ProjectUpdateType,
-      params: RequestParams = {},
-    ) =>
-      this.request<ProjectType, any>({
-        path: \`/projects/\${id}\`,
-        method: "PATCH",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Projects
-     * @name DeleteProject
-     * @request DELETE:/projects/{id}
-     */
-    deleteProject: (id: string, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: \`/projects/\${id}\`,
-        method: "DELETE",
         format: "json",
         ...params,
       }),

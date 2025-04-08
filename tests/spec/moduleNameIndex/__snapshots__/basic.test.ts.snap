@@ -13,6 +13,19 @@ exports[`basic > --module-name-index 1`] = `
  * ---------------------------------------------------------------
  */
 
+export enum PetIds {
+  Value10 = 10,
+  Value20 = 20,
+  Value30 = 30,
+  Value40 = 40,
+}
+
+export enum PetNames {
+  FluffyHero = "Fluffy Hero",
+  PiggyPo = "Piggy Po",
+  SwaggerTypescriptApi = "Swagger Typescript Api",
+}
+
 /**
  * Pet Order
  * An order for a pets from the pet store
@@ -74,19 +87,6 @@ export interface Tag {
   /** @format int64 */
   id?: number;
   name?: string;
-}
-
-export enum PetNames {
-  FluffyHero = "Fluffy Hero",
-  PiggyPo = "Piggy Po",
-  SwaggerTypescriptApi = "Swagger Typescript Api",
-}
-
-export enum PetIds {
-  Value10 = 10,
-  Value20 = 20,
-  Value30 = 30,
-  Value40 = 40,
 }
 
 /**

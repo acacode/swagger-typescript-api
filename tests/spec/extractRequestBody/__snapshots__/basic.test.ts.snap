@@ -13,6 +13,27 @@ exports[`basic > --extract-request-body 1`] = `
  * ---------------------------------------------------------------
  */
 
+export enum PetIdsWithWrongEnumTTT {
+  Value10 = 10,
+  Value20 = 20,
+  Value30 = 30,
+  Value40 = 40,
+}
+
+export enum PetIdsTTT {
+  Value10 = 10,
+  Value20 = 20,
+  Value30 = 30,
+  Value40 = 40,
+}
+
+export enum PetNamesTTT {
+  FluffyHero = "Fluffy Hero",
+  PiggyPo = "Piggy Po",
+  SwaggerTypescriptApi = "Swagger Typescript Api",
+  UPPER_CASE = "UPPER_CASE",
+}
+
 /**
  * Pet Order
  * An order for a pets from the pet store
@@ -74,27 +95,6 @@ export interface TagTTT {
   /** @format int64 */
   id?: number;
   name?: string;
-}
-
-export enum PetNamesTTT {
-  FluffyHero = "Fluffy Hero",
-  PiggyPo = "Piggy Po",
-  SwaggerTypescriptApi = "Swagger Typescript Api",
-  UPPER_CASE = "UPPER_CASE",
-}
-
-export enum PetIdsTTT {
-  Value10 = 10,
-  Value20 = 20,
-  Value30 = 30,
-  Value40 = 40,
-}
-
-export enum PetIdsWithWrongEnumTTT {
-  Value10 = 10,
-  Value20 = 20,
-  Value30 = 30,
-  Value40 = 40,
 }
 
 /**

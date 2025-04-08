@@ -13,6 +13,18 @@ exports[`basic > discriminator 1`] = `
  * ---------------------------------------------------------------
  */
 
+export enum PetEnum {
+  Dog = "dog",
+  Lizard = "lizard",
+  Cat = "cat",
+}
+
+export enum BlockDTOEnum {
+  Csv = "csv",
+  File = "file",
+  Kek = "kek",
+}
+
 export type SimpleDiscriminator = SimpleObject | ComplexObject;
 
 export interface SimpleObject {
@@ -21,12 +33,6 @@ export interface SimpleObject {
 
 export interface ComplexObject {
   objectType: string;
-}
-
-export enum BlockDTOEnum {
-  Csv = "csv",
-  File = "file",
-  Kek = "kek",
 }
 
 export type BlockDTOWithEnum = BaseBlockDtoWithEnum &
@@ -92,12 +98,6 @@ export type Dog = BasePet & {
 export type Lizard = BasePet & {
   lovesRocks?: boolean;
 };
-
-export enum PetEnum {
-  Dog = "dog",
-  Lizard = "lizard",
-  Cat = "cat",
-}
 
 export type PetWithEnum = BasePetWithEnum &
   (
