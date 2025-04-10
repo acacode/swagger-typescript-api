@@ -77,12 +77,13 @@
     "typedoc": "0.28.2",
     "vitest": "3.1.1"
   },
-  "packageManager": "yarn@4.8.1",
+  "packageManager": "yarn@4.9.0",
   "engines": {
     "node": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public",
+    "provenance": true,
     "registry": "https://registry.npmjs.org"
   },
   "typedocOptions": {
