@@ -50,7 +50,7 @@
     "@biomejs/js-api": "^0.7.1",
     "@biomejs/wasm-nodejs": "^1.9.4",
     "@types/swagger-schema-official": "^2.0.25",
-    "c12": "^3.0.2",
+    "c12": "^3.0.3",
     "citty": "^0.1.6",
     "consola": "^3.4.2",
     "eta": "^2.2.0",
@@ -59,7 +59,7 @@
     "nanoid": "^5.1.5",
     "swagger-schema-official": "2.0.0-bab6bed",
     "swagger2openapi": "^7.0.8",
-    "typescript": "~5.8.2"
+    "typescript": "~5.8.3"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
