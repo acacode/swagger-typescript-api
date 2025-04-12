@@ -5,8 +5,10 @@ export default defineConfig({
     lib: "src/index.ts",
     cli: "index.ts",
   },
-  dts: {
-    entry: "src/index.ts",
+  experimentalDts: {
+    entry: {
+      lib: "src/index.ts",
+    },
     compilerOptions: {
       noCheck: true,
     },
