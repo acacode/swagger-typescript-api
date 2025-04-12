@@ -14,18 +14,18 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/index.d.ts",
+        "types": "./dist/lib.d.ts",
         "default": "./dist/lib.js"
       },
       "require": {
-        "types": "./dist/index.d.cts",
+        "types": "./dist/lib.d.cts",
         "default": "./dist/lib.cjs"
       }
     }
   },
   "main": "./dist/lib.cjs",
   "module": "./dist/lib.js",
-  "types": "./dist/index.d.cts",
+  "types": "./dist/lib.d.cts",
   "bin": {
     "sta": "./dist/cli.js",
     "swagger-typescript-api": "./dist/cli.js"
@@ -65,6 +65,7 @@
     "@biomejs/biome": "1.9.4",
     "@changesets/changelog-github": "0.5.1",
     "@changesets/cli": "2.28.1",
+    "@microsoft/api-extractor": "7.52.3",
     "@tsconfig/node18": "18.2.4",
     "@tsconfig/strictest": "2.0.5",
     "@types/js-yaml": "4.0.9",
