@@ -14,6 +14,7 @@ jobs:
     if: ${{ github.repository_owner == 'acacode' }}
     permissions:
       contents: write # to create release
+      id-token: write # to generate provenance
       issues: write # to post issue comments
       pull-requests: write # to create pull request
     runs-on: ubuntu-latest
