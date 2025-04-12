@@ -10,6 +10,8 @@
 
 - [#1171](https://github.com/acacode/swagger-typescript-api/pull/1171) [`c1cc45a`](https://github.com/acacode/swagger-typescript-api/commit/c1cc45a6f27698f2b21cc35696cf529b0e9a210d) Thanks [@smorimoto](https://github.com/smorimoto)! - Fix TypeScript declaration file path.
 
+- [#1149](https://github.com/acacode/swagger-typescript-api/pull/1149) [`9d2d66a`](https://github.com/acacode/swagger-typescript-api/commit/9d2d66ab52a7eaba70b51cf2d52e6528f7f69ff5) Thanks [@smorimoto](https://github.com/smorimoto)! - Re-add TypeScript definitions for better type support.
+
 - [#1145](https://github.com/acacode/swagger-typescript-api/pull/1145) [`73f6bfd`](https://github.com/acacode/swagger-typescript-api/commit/73f6bfddb501211a30f9dca0e1098f905761badb) Thanks [@smorimoto](https://github.com/smorimoto)! - Replace Prettier with Biome as the code formatter to improve performance during the code generation phase.
 
 - [#1141](https://github.com/acacode/swagger-typescript-api/pull/1141) [`821bfad`](https://github.com/acacode/swagger-typescript-api/commit/821bfad0dc8dffc7a8571a052b38f96c3d1c8087) Thanks [@dding-g](https://github.com/dding-g)! - Remove redundant `union-enums` option in favor of `generate-union-enums`.
