@@ -1,5 +1,19 @@
 # swagger-typescript-api
 
+## 13.1.0
+
+### Minor Changes
+
+- [#1144](https://github.com/acacode/swagger-typescript-api/pull/1144) [`ea1df18`](https://github.com/acacode/swagger-typescript-api/commit/ea1df18aebec54109972f22e32199a5aeacf7c7f) Thanks [@smorimoto](https://github.com/smorimoto)! - Use `c12` for wider configuration file format support.
+
+### Patch Changes
+
+- [#1171](https://github.com/acacode/swagger-typescript-api/pull/1171) [`c1cc45a`](https://github.com/acacode/swagger-typescript-api/commit/c1cc45a6f27698f2b21cc35696cf529b0e9a210d) Thanks [@smorimoto](https://github.com/smorimoto)! - Fix TypeScript declaration file path.
+
+- [#1145](https://github.com/acacode/swagger-typescript-api/pull/1145) [`73f6bfd`](https://github.com/acacode/swagger-typescript-api/commit/73f6bfddb501211a30f9dca0e1098f905761badb) Thanks [@smorimoto](https://github.com/smorimoto)! - Replace Prettier with Biome as the code formatter to improve performance during the code generation phase.
+
+- [#1141](https://github.com/acacode/swagger-typescript-api/pull/1141) [`821bfad`](https://github.com/acacode/swagger-typescript-api/commit/821bfad0dc8dffc7a8571a052b38f96c3d1c8087) Thanks [@dding-g](https://github.com/dding-g)! - Remove redundant `union-enums` option in favor of `generate-union-enums`.
+
 ## 13.0.28
 
 ### Patch Changes
@@ -448,7 +462,7 @@ const Ts = {
    */
   EnumFieldsWrapper: (contents) =>
     _.map(contents, ({ key, value }) => `  ${Ts.EnumField(key, value)}`).join(
-      ",\n",
+      ",\n"
     ),
   /**
    * {\n $A \n}
@@ -467,7 +481,9 @@ const Ts = {
    * $A1<...$A2.join(,)>
    */
   TypeWithGeneric: (typeName, genericArgs) => {
-    return `${typeName}${genericArgs.length ? `<${genericArgs.join(",")}>` : ""}`;
+    return `${typeName}${
+      genericArgs.length ? `<${genericArgs.join(",")}>` : ""
+    }`;
   },
 };
 ```
