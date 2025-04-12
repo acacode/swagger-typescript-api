@@ -7,7 +7,7 @@
   "repository": "github:acacode/swagger-typescript-api",
   "license": "MIT",
   "author": "Sergey Volkov <js2me@outlook.com>",
-  "contributors": [
+  "maintainers": [
     "Sora Morimoto <sora@morimoto.io>"
   ],
   "type": "module",
