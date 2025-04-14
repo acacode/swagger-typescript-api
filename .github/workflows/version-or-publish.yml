@@ -38,4 +38,4 @@ jobs:
           publish: yarn npm publish --tolerate-republish
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
