@@ -127,6 +127,8 @@ export class CodeGenProcess {
       }),
     );
 
+    this.schemaComponentsMap.enumsFirst();
+
     const componentsToParse: SchemaComponent[] =
       this.schemaComponentsMap.filter(
         lodash.compact([
