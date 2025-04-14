@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.1.1
+
+### Patch Changes
+
+- [#1163](https://github.com/acacode/swagger-typescript-api/pull/1163) [`e477b58`](https://github.com/acacode/swagger-typescript-api/commit/e477b5850504b3f4829b2749d1dbc5d310e9bca1) Thanks [@RoXuS](https://github.com/RoXuS)! - Ensure enums are at the top of the components to avoid issue on recursive schema parsing.
+
 ## 13.1.0
 
 ### Minor Changes
