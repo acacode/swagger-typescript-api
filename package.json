@@ -64,7 +64,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@changesets/changelog-github": "0.5.1",
-    "@changesets/cli": "2.29.0",
+    "@changesets/cli": "2.29.1",
     "@microsoft/api-extractor": "7.52.3",
     "@tsconfig/node18": "18.2.4",
     "@tsconfig/strictest": "2.0.5",
