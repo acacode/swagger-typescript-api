@@ -13,7 +13,7 @@ export class SchemaComponentsMap {
     this._data = [];
   }
 
-  createRef = (paths: string[]): string => {
+  createRef = (paths: string[]) => {
     if (!Array.isArray(paths)) {
       throw new Error(`Expected an array, but received: ${typeof paths}`);
     }
@@ -23,7 +23,7 @@ export class SchemaComponentsMap {
     return ["#", ...paths].join("/");
   };
 
-  parseRef = (ref: string): string[] => {
+  parseRef = (ref: string) => {
     if (!ref.startsWith("#/")) {
       throw new Error(`Invalid ref format: ${ref}. It should start with "#/"`);
     }
@@ -32,7 +32,7 @@ export class SchemaComponentsMap {
 
   createComponent(
     $ref: string,
-    rawTypeData: SchemaComponent["rawTypeData"]
+    rawTypeData: SchemaComponent["rawTypeData"],
   ): SchemaComponent {
     const parsed = this.parseRef($ref);
     const typeName = parsed[parsed.length - 1]!;
@@ -69,8 +69,8 @@ export class SchemaComponentsMap {
   filter(...componentNames: (string[] | string)[]) {
     return this._data.filter((it) =>
       componentNames.some((componentName) =>
-        it.$ref.startsWith(`#/components/${componentName}`)
-      )
+        it.$ref.startsWith(`#/components/${componentName}`),
+      ),
     );
   }
 
