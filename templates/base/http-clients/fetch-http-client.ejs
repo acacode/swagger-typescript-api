@@ -106,16 +106,28 @@ export class HttpClient<SecurityDataType = unknown> {
         [ContentType.Text]: (input:any) => input !== null && typeof input !== "string" ? JSON.stringify(input) : input,
         [ContentType.FormData]: (input: any) =>
             Object.keys(input || {}).reduce((formData, key) => {
-                const property = input[key];
-                formData.append(
+              const property = input[key];
+
+              // array of property should be added item by item in formData with the same key
+              if (Array.isArray(property)) {
+                for (const item of property) {
+                  formData.append(
                     key,
-                    property instanceof Blob ?
-                        property :
-                    typeof property === "object" && property !== null ?
-                        JSON.stringify(property) :
-                    `${property}`
+                    item instanceof Blob ? item : typeof item === "object" && item !== null ? JSON.stringify(item) : `${item}`
+                  );
+                }
+              } else {
+                formData.append(
+                  key,
+                  property instanceof Blob
+                    ? property
+                    : typeof property === "object" && property !== null
+                      ? JSON.stringify(property)
+                      : `${property}`
                 );
-                return formData;
+              }
+
+              return formData;
             }, new FormData()),
         [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
     }
