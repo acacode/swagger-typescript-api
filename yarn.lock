@@ -682,9 +682,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@microsoft/api-extractor@npm:7.52.3":
-  version: 7.52.3
-  resolution: "@microsoft/api-extractor@npm:7.52.3"
+"@microsoft/api-extractor@npm:7.52.4":
+  version: 7.52.4
+  resolution: "@microsoft/api-extractor@npm:7.52.4"
   dependencies:
     "@microsoft/api-extractor-model": "npm:7.30.5"
     "@microsoft/tsdoc": "npm:~0.15.1"
@@ -701,7 +701,7 @@ __metadata:
     typescript: "npm:5.8.2"
   bin:
     api-extractor: bin/api-extractor
-  checksum: 10c0/3c48f46b9bc3f90ca632ab0a61226e9f54a5c86317fec34e98fad30c9575535d8f463b29717ea00b3aaa22d44c8f8b62dee17beadce07e167183ca4db4c14d1f
+  checksum: 10c0/a29d35b4ee3011dcb56a3da35a4d60383d9b89d700b847c29bcb92370ba2016ae7f16f78a949ac4644371344f8a9f81e29a64f4ce6214214e47636c6f4011439
   languageName: node
   linkType: hard
 
@@ -3839,7 +3839,7 @@ __metadata:
     "@biomejs/wasm-nodejs": "npm:^1.9.4"
     "@changesets/changelog-github": "npm:0.5.1"
     "@changesets/cli": "npm:2.29.2"
-    "@microsoft/api-extractor": "npm:7.52.3"
+    "@microsoft/api-extractor": "npm:7.52.4"
     "@tsconfig/node18": "npm:18.2.4"
     "@tsconfig/strictest": "npm:2.0.5"
     "@types/js-yaml": "npm:4.0.9"
