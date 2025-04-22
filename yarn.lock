@@ -682,9 +682,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@microsoft/api-extractor@npm:7.52.4":
-  version: 7.52.4
-  resolution: "@microsoft/api-extractor@npm:7.52.4"
+"@microsoft/api-extractor@npm:7.52.5":
+  version: 7.52.5
+  resolution: "@microsoft/api-extractor@npm:7.52.5"
   dependencies:
     "@microsoft/api-extractor-model": "npm:7.30.5"
     "@microsoft/tsdoc": "npm:~0.15.1"
@@ -692,7 +692,7 @@ __metadata:
     "@rushstack/node-core-library": "npm:5.13.0"
     "@rushstack/rig-package": "npm:0.5.3"
     "@rushstack/terminal": "npm:0.15.2"
-    "@rushstack/ts-command-line": "npm:4.23.7"
+    "@rushstack/ts-command-line": "npm:5.0.0"
     lodash: "npm:~4.17.15"
     minimatch: "npm:~3.0.3"
     resolve: "npm:~1.22.1"
@@ -701,7 +701,7 @@ __metadata:
     typescript: "npm:5.8.2"
   bin:
     api-extractor: bin/api-extractor
-  checksum: 10c0/a29d35b4ee3011dcb56a3da35a4d60383d9b89d700b847c29bcb92370ba2016ae7f16f78a949ac4644371344f8a9f81e29a64f4ce6214214e47636c6f4011439
+  checksum: 10c0/e794ab6fcee959ba5ccc0a8cf23670e690be24ebb311e1ef607ffeb6f3e2e718f91c319e0963d0c15ae626975574b2365c4feb686fdc40819f045c2b4ef85a00
   languageName: node
   linkType: hard
 
@@ -966,15 +966,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rushstack/ts-command-line@npm:4.23.7":
-  version: 4.23.7
-  resolution: "@rushstack/ts-command-line@npm:4.23.7"
+"@rushstack/ts-command-line@npm:5.0.0":
+  version: 5.0.0
+  resolution: "@rushstack/ts-command-line@npm:5.0.0"
   dependencies:
     "@rushstack/terminal": "npm:0.15.2"
     "@types/argparse": "npm:1.0.38"
     argparse: "npm:~1.0.9"
     string-argv: "npm:~0.3.1"
-  checksum: 10c0/d77d2099ed295a0ef66f0763ad4cdbd64b7ab998dda0e5714d13ae34156c813ee59fa92633763ed6f2b5eeea98afaee143f1088e2f58b0d88b920694194e739d
+  checksum: 10c0/beacc9c1f4a00f109f729839323351e726216d34a660d572d30e284724114a0141f36be1f027c278a984c1e70e4958a5a3d599421a125638f12937e5c72af017
   languageName: node
   linkType: hard
 
@@ -3851,7 +3851,7 @@ __metadata:
     "@biomejs/wasm-nodejs": "npm:^1.9.4"
     "@changesets/changelog-github": "npm:0.5.1"
     "@changesets/cli": "npm:2.29.2"
-    "@microsoft/api-extractor": "npm:7.52.4"
+    "@microsoft/api-extractor": "npm:7.52.5"
     "@tsconfig/node18": "npm:18.2.4"
     "@tsconfig/strictest": "npm:2.0.5"
     "@types/js-yaml": "npm:4.0.9"
