@@ -18,9 +18,7 @@
   "paths": {
     "/pets": {
       "post": {
-        "tags": [
-          "pet"
-        ],
+        "tags": ["pet"],
         "summary": "Add a new pet to the store.",
         "description": "Add a new pet to the store.",
         "operationId": "addPet",
@@ -30,9 +28,7 @@
             "application/vnd.api+json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "data"
-                ],
+                "required": ["data"],
                 "properties": {
                   "data": {
                     "$ref": "#/components/schemas/Pet"
@@ -54,9 +50,7 @@
     },
     "/pets/{petId}": {
       "patch": {
-        "tags": [
-          "pet"
-        ],
+        "tags": ["pet"],
         "summary": "Update an existing pet.",
         "description": "Update an existing pet by Id.",
         "operationId": "updatePet",
@@ -77,9 +71,7 @@
             "application/vnd.api+json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "data"
-                ],
+                "required": ["data"],
                 "properties": {
                   "data": {
                     "$ref": "#/components/schemas/Pet"
@@ -104,10 +96,7 @@
     "schemas": {
       "Pet": {
         "type": "object",
-        "required": [
-          "type",
-          "attributes"
-        ],
+        "required": ["type", "attributes"],
         "properties": {
           "id": {
             "type": "string",
@@ -115,27 +104,18 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "pet"
-            ]
+            "enum": ["pet"]
           },
           "attributes": {
             "type": "object",
-            "required": [
-              "name",
-              "photoUrls"
-            ],
+            "required": ["name", "photoUrls"],
             "properties": {
               "name": {
                 "type": "string"
               },
               "status": {
                 "type": "string",
-                "enum": [
-                  "available",
-                  "pending",
-                  "sold"
-                ]
+                "enum": ["available", "pending", "sold"]
               },
               "photoUrls": {
                 "type": "array",
@@ -166,9 +146,7 @@
           "application/vnd.api+json": {
             "schema": {
               "type": "object",
-              "required": [
-                "data"
-              ],
+              "required": ["data"],
               "properties": {
                 "data": {
                   "$ref": "#/components/schemas/Pet"
@@ -184,9 +162,7 @@
           "application/vnd.api+json": {
             "schema": {
               "type": "object",
-              "required": [
-                "errors"
-              ],
+              "required": ["errors"],
               "properties": {
                 "errors": {
                   "type": "array",
