@@ -9,7 +9,9 @@
     "moduleResolution": "NodeNext",
     "noEmit": true,
     "noPropertyAccessFromIndexSignature": false,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
   },
   "exclude": ["dist"]
 }
