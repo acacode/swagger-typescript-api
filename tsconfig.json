@@ -10,8 +10,7 @@
     "noEmit": true,
     "noPropertyAccessFromIndexSignature": false,
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": ["dist"]
 }
