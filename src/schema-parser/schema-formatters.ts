@@ -2,8 +2,8 @@ import lodash from "lodash";
 import type { CodeGenConfig } from "../configuration.js";
 import { SCHEMA_TYPES } from "../constants.js";
 import type { TemplatesWorker } from "../templates-worker.js";
-import type { SchemaParserFabric } from "./schema-parser-fabric.js";
 import type { SchemaParser } from "./schema-parser.js";
+import type { SchemaParserFabric } from "./schema-parser-fabric.js";
 import type { SchemaUtils } from "./schema-utils.js";
 
 export class SchemaFormatters {

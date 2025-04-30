@@ -2,8 +2,8 @@ import type { CodeGenConfig } from "../configuration.js";
 import type { SchemaComponentsMap } from "../schema-components-map.js";
 import type { TypeNameFormatter } from "../type-name-formatter.js";
 import type { SchemaFormatters } from "./schema-formatters.js";
-import type { SchemaParserFabric } from "./schema-parser-fabric.js";
 import type { SchemaParser } from "./schema-parser.js";
+import type { SchemaParserFabric } from "./schema-parser-fabric.js";
 import type { SchemaUtils } from "./schema-utils.js";
 
 export class MonoSchemaParser {

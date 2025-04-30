@@ -11,5 +11,5 @@ export async function generateApi(
   return await codeGenProcess.start();
 }
 
-export * as constants from "./constants.js";
 export { generateTemplates } from "./commands/generate-templates/index.js";
+export * as constants from "./constants.js";
