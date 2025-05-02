@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.1.2
+
+### Patch Changes
+
+- [#1198](https://github.com/acacode/swagger-typescript-api/pull/1198) [`1cb1c9c`](https://github.com/acacode/swagger-typescript-api/commit/1cb1c9c0d39dacefb89a6b44eaf2a6266334f3c6) Thanks [@smorimoto](https://github.com/smorimoto)! - Integrate `generateCommand` arguments and run method into main command.
+
 ## 13.1.1
 
 ### Patch Changes
