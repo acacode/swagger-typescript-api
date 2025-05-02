@@ -343,6 +343,8 @@ const main = defineCommand({
     description: packageJson.description,
     version: packageJson.version,
   },
+  args: generateCommand.args,
+  run: generateCommand.run,
   subCommands: {
     generate: generateCommand,
     "generate-templates": generateTemplatesCommand,
