@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.1.3
+
+### Patch Changes
+
+- [#1200](https://github.com/acacode/swagger-typescript-api/pull/1200) [`3cc0194`](https://github.com/acacode/swagger-typescript-api/commit/3cc01941e25be15856eabde81417401a12d73ec5) Thanks [@smorimoto](https://github.com/smorimoto)! - Search `swagger-typescript-api.config` instead of `config` by default.
+
 ## 13.1.2
 
 ### Patch Changes
