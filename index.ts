@@ -288,6 +288,7 @@ const generateCommand = defineCommand({
   },
   run: async ({ args }) => {
     const customConfig = await loadConfig<GenerateApiParams>({
+      name: "swagger-typescript-api",
       configFile: args["custom-config"],
     });
 
