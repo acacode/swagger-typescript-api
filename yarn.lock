@@ -805,10 +805,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxc-project/types@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-project/types@npm:0.67.0"
-  checksum: 10c0/65fdd3bf14df4f115721fdfa8ca99edbd6d2c0db299ee6563fb5131608f8e4883d462db86dbfa26bf5df5f6468fb58cabe4c3cc4fe75d6b429cdd57b6c056f51
+"@oxc-project/types@npm:0.68.1":
+  version: 0.68.1
+  resolution: "@oxc-project/types@npm:0.68.1"
+  checksum: 10c0/3a74929b8bdf9795b4303c4f14ca98d3cef717d56ee8d3acef6f47c328e0f74ffe611d90dea250dd079bca1a604d6c26bf569366153cbef49056c6b7b43a696e
   languageName: node
   linkType: hard
 
@@ -905,78 +905,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxc-transform/binding-darwin-arm64@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-transform/binding-darwin-arm64@npm:0.67.0"
-  conditions: os=darwin & cpu=arm64
-  languageName: node
-  linkType: hard
-
-"@oxc-transform/binding-darwin-x64@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-transform/binding-darwin-x64@npm:0.67.0"
-  conditions: os=darwin & cpu=x64
-  languageName: node
-  linkType: hard
-
-"@oxc-transform/binding-linux-arm-gnueabihf@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-transform/binding-linux-arm-gnueabihf@npm:0.67.0"
-  conditions: os=linux & cpu=arm
-  languageName: node
-  linkType: hard
-
-"@oxc-transform/binding-linux-arm64-gnu@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-transform/binding-linux-arm64-gnu@npm:0.67.0"
-  conditions: os=linux & cpu=arm64 & libc=glibc
-  languageName: node
-  linkType: hard
-
-"@oxc-transform/binding-linux-arm64-musl@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-transform/binding-linux-arm64-musl@npm:0.67.0"
-  conditions: os=linux & cpu=arm64 & libc=musl
-  languageName: node
-  linkType: hard
-
-"@oxc-transform/binding-linux-x64-gnu@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-transform/binding-linux-x64-gnu@npm:0.67.0"
-  conditions: os=linux & cpu=x64 & libc=glibc
-  languageName: node
-  linkType: hard
-
-"@oxc-transform/binding-linux-x64-musl@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-transform/binding-linux-x64-musl@npm:0.67.0"
-  conditions: os=linux & cpu=x64 & libc=musl
-  languageName: node
-  linkType: hard
-
-"@oxc-transform/binding-wasm32-wasi@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-transform/binding-wasm32-wasi@npm:0.67.0"
-  dependencies:
-    "@napi-rs/wasm-runtime": "npm:^0.2.9"
-  conditions: cpu=wasm32
-  languageName: node
-  linkType: hard
-
-"@oxc-transform/binding-win32-arm64-msvc@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-transform/binding-win32-arm64-msvc@npm:0.67.0"
-  conditions: os=win32 & cpu=arm64
-  languageName: node
-  linkType: hard
-
-"@oxc-transform/binding-win32-x64-msvc@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-transform/binding-win32-x64-msvc@npm:0.67.0"
-  conditions: os=win32 & cpu=x64
-  languageName: node
-  linkType: hard
-
 "@pkgjs/parseargs@npm:^0.11.0":
   version: 0.11.0
   resolution: "@pkgjs/parseargs@npm:0.11.0"
@@ -993,88 +921,88 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rolldown/binding-darwin-arm64@npm:1.0.0-beta.8-commit.852c603":
-  version: 1.0.0-beta.8-commit.852c603
-  resolution: "@rolldown/binding-darwin-arm64@npm:1.0.0-beta.8-commit.852c603"
+"@rolldown/binding-darwin-arm64@npm:1.0.0-beta.8-commit.534fde3":
+  version: 1.0.0-beta.8-commit.534fde3
+  resolution: "@rolldown/binding-darwin-arm64@npm:1.0.0-beta.8-commit.534fde3"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@rolldown/binding-darwin-x64@npm:1.0.0-beta.8-commit.852c603":
-  version: 1.0.0-beta.8-commit.852c603
-  resolution: "@rolldown/binding-darwin-x64@npm:1.0.0-beta.8-commit.852c603"
+"@rolldown/binding-darwin-x64@npm:1.0.0-beta.8-commit.534fde3":
+  version: 1.0.0-beta.8-commit.534fde3
+  resolution: "@rolldown/binding-darwin-x64@npm:1.0.0-beta.8-commit.534fde3"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@rolldown/binding-freebsd-x64@npm:1.0.0-beta.8-commit.852c603":
-  version: 1.0.0-beta.8-commit.852c603
-  resolution: "@rolldown/binding-freebsd-x64@npm:1.0.0-beta.8-commit.852c603"
+"@rolldown/binding-freebsd-x64@npm:1.0.0-beta.8-commit.534fde3":
+  version: 1.0.0-beta.8-commit.534fde3
+  resolution: "@rolldown/binding-freebsd-x64@npm:1.0.0-beta.8-commit.534fde3"
   conditions: os=freebsd & cpu=x64
   languageName: node
   linkType: hard
 
-"@rolldown/binding-linux-arm-gnueabihf@npm:1.0.0-beta.8-commit.852c603":
-  version: 1.0.0-beta.8-commit.852c603
-  resolution: "@rolldown/binding-linux-arm-gnueabihf@npm:1.0.0-beta.8-commit.852c603"
+"@rolldown/binding-linux-arm-gnueabihf@npm:1.0.0-beta.8-commit.534fde3":
+  version: 1.0.0-beta.8-commit.534fde3
+  resolution: "@rolldown/binding-linux-arm-gnueabihf@npm:1.0.0-beta.8-commit.534fde3"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@rolldown/binding-linux-arm64-gnu@npm:1.0.0-beta.8-commit.852c603":
-  version: 1.0.0-beta.8-commit.852c603
-  resolution: "@rolldown/binding-linux-arm64-gnu@npm:1.0.0-beta.8-commit.852c603"
+"@rolldown/binding-linux-arm64-gnu@npm:1.0.0-beta.8-commit.534fde3":
+  version: 1.0.0-beta.8-commit.534fde3
+  resolution: "@rolldown/binding-linux-arm64-gnu@npm:1.0.0-beta.8-commit.534fde3"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@rolldown/binding-linux-arm64-musl@npm:1.0.0-beta.8-commit.852c603":
-  version: 1.0.0-beta.8-commit.852c603
-  resolution: "@rolldown/binding-linux-arm64-musl@npm:1.0.0-beta.8-commit.852c603"
+"@rolldown/binding-linux-arm64-musl@npm:1.0.0-beta.8-commit.534fde3":
+  version: 1.0.0-beta.8-commit.534fde3
+  resolution: "@rolldown/binding-linux-arm64-musl@npm:1.0.0-beta.8-commit.534fde3"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@rolldown/binding-linux-x64-gnu@npm:1.0.0-beta.8-commit.852c603":
-  version: 1.0.0-beta.8-commit.852c603
-  resolution: "@rolldown/binding-linux-x64-gnu@npm:1.0.0-beta.8-commit.852c603"
+"@rolldown/binding-linux-x64-gnu@npm:1.0.0-beta.8-commit.534fde3":
+  version: 1.0.0-beta.8-commit.534fde3
+  resolution: "@rolldown/binding-linux-x64-gnu@npm:1.0.0-beta.8-commit.534fde3"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@rolldown/binding-linux-x64-musl@npm:1.0.0-beta.8-commit.852c603":
-  version: 1.0.0-beta.8-commit.852c603
-  resolution: "@rolldown/binding-linux-x64-musl@npm:1.0.0-beta.8-commit.852c603"
+"@rolldown/binding-linux-x64-musl@npm:1.0.0-beta.8-commit.534fde3":
+  version: 1.0.0-beta.8-commit.534fde3
+  resolution: "@rolldown/binding-linux-x64-musl@npm:1.0.0-beta.8-commit.534fde3"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@rolldown/binding-wasm32-wasi@npm:1.0.0-beta.8-commit.852c603":
-  version: 1.0.0-beta.8-commit.852c603
-  resolution: "@rolldown/binding-wasm32-wasi@npm:1.0.0-beta.8-commit.852c603"
+"@rolldown/binding-wasm32-wasi@npm:1.0.0-beta.8-commit.534fde3":
+  version: 1.0.0-beta.8-commit.534fde3
+  resolution: "@rolldown/binding-wasm32-wasi@npm:1.0.0-beta.8-commit.534fde3"
   dependencies:
     "@napi-rs/wasm-runtime": "npm:^0.2.4"
   conditions: cpu=wasm32
   languageName: node
   linkType: hard
 
-"@rolldown/binding-win32-arm64-msvc@npm:1.0.0-beta.8-commit.852c603":
-  version: 1.0.0-beta.8-commit.852c603
-  resolution: "@rolldown/binding-win32-arm64-msvc@npm:1.0.0-beta.8-commit.852c603"
+"@rolldown/binding-win32-arm64-msvc@npm:1.0.0-beta.8-commit.534fde3":
+  version: 1.0.0-beta.8-commit.534fde3
+  resolution: "@rolldown/binding-win32-arm64-msvc@npm:1.0.0-beta.8-commit.534fde3"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@rolldown/binding-win32-ia32-msvc@npm:1.0.0-beta.8-commit.852c603":
-  version: 1.0.0-beta.8-commit.852c603
-  resolution: "@rolldown/binding-win32-ia32-msvc@npm:1.0.0-beta.8-commit.852c603"
+"@rolldown/binding-win32-ia32-msvc@npm:1.0.0-beta.8-commit.534fde3":
+  version: 1.0.0-beta.8-commit.534fde3
+  resolution: "@rolldown/binding-win32-ia32-msvc@npm:1.0.0-beta.8-commit.534fde3"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@rolldown/binding-win32-x64-msvc@npm:1.0.0-beta.8-commit.852c603":
-  version: 1.0.0-beta.8-commit.852c603
-  resolution: "@rolldown/binding-win32-x64-msvc@npm:1.0.0-beta.8-commit.852c603"
+"@rolldown/binding-win32-x64-msvc@npm:1.0.0-beta.8-commit.534fde3":
+  version: 1.0.0-beta.8-commit.534fde3
+  resolution: "@rolldown/binding-win32-x64-msvc@npm:1.0.0-beta.8-commit.534fde3"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -1354,15 +1282,6 @@ __metadata:
   version: 3.0.3
   resolution: "@types/unist@npm:3.0.3"
   checksum: 10c0/2b1e4adcab78388e088fcc3c0ae8700f76619dbcb4741d7d201f87e2cb346bfc29a89003cfea2d76c996e1061452e14fcd737e8b25aacf949c1f2d6b2bc3dd60
-  languageName: node
-  linkType: hard
-
-"@valibot/to-json-schema@npm:1.0.0":
-  version: 1.0.0
-  resolution: "@valibot/to-json-schema@npm:1.0.0"
-  peerDependencies:
-    valibot: ^1.0.0
-  checksum: 10c0/700fd47cc48cae133804baa33274e3c2e7d6aa166ab16e472570f6d5f988c5147348cd184e24f806f448861954d64c6425bc1d75a0f014aa19c792c4449ddc31
   languageName: node
   linkType: hard
 
@@ -3174,45 +3093,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"oxc-transform@npm:^0.67.0":
-  version: 0.67.0
-  resolution: "oxc-transform@npm:0.67.0"
-  dependencies:
-    "@oxc-transform/binding-darwin-arm64": "npm:0.67.0"
-    "@oxc-transform/binding-darwin-x64": "npm:0.67.0"
-    "@oxc-transform/binding-linux-arm-gnueabihf": "npm:0.67.0"
-    "@oxc-transform/binding-linux-arm64-gnu": "npm:0.67.0"
-    "@oxc-transform/binding-linux-arm64-musl": "npm:0.67.0"
-    "@oxc-transform/binding-linux-x64-gnu": "npm:0.67.0"
-    "@oxc-transform/binding-linux-x64-musl": "npm:0.67.0"
-    "@oxc-transform/binding-wasm32-wasi": "npm:0.67.0"
-    "@oxc-transform/binding-win32-arm64-msvc": "npm:0.67.0"
-    "@oxc-transform/binding-win32-x64-msvc": "npm:0.67.0"
-  dependenciesMeta:
-    "@oxc-transform/binding-darwin-arm64":
-      optional: true
-    "@oxc-transform/binding-darwin-x64":
-      optional: true
-    "@oxc-transform/binding-linux-arm-gnueabihf":
-      optional: true
-    "@oxc-transform/binding-linux-arm64-gnu":
-      optional: true
-    "@oxc-transform/binding-linux-arm64-musl":
-      optional: true
-    "@oxc-transform/binding-linux-x64-gnu":
-      optional: true
-    "@oxc-transform/binding-linux-x64-musl":
-      optional: true
-    "@oxc-transform/binding-wasm32-wasi":
-      optional: true
-    "@oxc-transform/binding-win32-arm64-msvc":
-      optional: true
-    "@oxc-transform/binding-win32-x64-msvc":
-      optional: true
-  checksum: 10c0/1a69e2ef16840f8c2235504ecbfd2823ecf17c6c01f79f3bb4300ce1a486b2d9f57963f3d1a49a9b8575e4ff73c7a24e2413868a95244225ee3339155c9c7fd7
-  languageName: node
-  linkType: hard
-
 "p-filter@npm:^2.1.0":
   version: 2.1.0
   resolution: "p-filter@npm:2.1.0"
@@ -3504,9 +3384,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rolldown-plugin-dts@npm:^0.10.0":
-  version: 0.10.1
-  resolution: "rolldown-plugin-dts@npm:0.10.1"
+"rolldown-plugin-dts@npm:^0.11.0":
+  version: 0.11.0
+  resolution: "rolldown-plugin-dts@npm:0.11.0"
   dependencies:
     "@babel/generator": "npm:^7.27.1"
     "@babel/parser": "npm:^7.27.1"
@@ -3515,39 +3395,36 @@ __metadata:
     debug: "npm:^4.4.0"
     dts-resolver: "npm:^1.1.0"
     get-tsconfig: "npm:^4.10.0"
-    oxc-transform: "npm:^0.67.0"
   peerDependencies:
-    rolldown: ^1.0.0-beta.7
+    rolldown: ^1.0.0-beta.8-commit.534fde3
     typescript: ^5.0.0
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/be46bd1c3b97ffa6c2aca263613c428f7e07920f31a7fccf48e71afebcd51b7e52ee204f23d46fff380e40bc8136f151494bab63622f3bc68da51dbd9af55e63
+  checksum: 10c0/2bccfb8e9b73590c568d154ccdaa806aaf642ac3d0a7fc047b30038a8021b67f30cfc73405d6e6534689e20b3a0dd29fe04cbf27c1829b43877a8e75250fc418
   languageName: node
   linkType: hard
 
-"rolldown@npm:1.0.0-beta.8-commit.852c603":
-  version: 1.0.0-beta.8-commit.852c603
-  resolution: "rolldown@npm:1.0.0-beta.8-commit.852c603"
+"rolldown@npm:1.0.0-beta.8-commit.534fde3":
+  version: 1.0.0-beta.8-commit.534fde3
+  resolution: "rolldown@npm:1.0.0-beta.8-commit.534fde3"
   dependencies:
-    "@oxc-project/types": "npm:0.67.0"
-    "@rolldown/binding-darwin-arm64": "npm:1.0.0-beta.8-commit.852c603"
-    "@rolldown/binding-darwin-x64": "npm:1.0.0-beta.8-commit.852c603"
-    "@rolldown/binding-freebsd-x64": "npm:1.0.0-beta.8-commit.852c603"
-    "@rolldown/binding-linux-arm-gnueabihf": "npm:1.0.0-beta.8-commit.852c603"
-    "@rolldown/binding-linux-arm64-gnu": "npm:1.0.0-beta.8-commit.852c603"
-    "@rolldown/binding-linux-arm64-musl": "npm:1.0.0-beta.8-commit.852c603"
-    "@rolldown/binding-linux-x64-gnu": "npm:1.0.0-beta.8-commit.852c603"
-    "@rolldown/binding-linux-x64-musl": "npm:1.0.0-beta.8-commit.852c603"
-    "@rolldown/binding-wasm32-wasi": "npm:1.0.0-beta.8-commit.852c603"
-    "@rolldown/binding-win32-arm64-msvc": "npm:1.0.0-beta.8-commit.852c603"
-    "@rolldown/binding-win32-ia32-msvc": "npm:1.0.0-beta.8-commit.852c603"
-    "@rolldown/binding-win32-x64-msvc": "npm:1.0.0-beta.8-commit.852c603"
-    "@valibot/to-json-schema": "npm:1.0.0"
+    "@oxc-project/types": "npm:0.68.1"
+    "@rolldown/binding-darwin-arm64": "npm:1.0.0-beta.8-commit.534fde3"
+    "@rolldown/binding-darwin-x64": "npm:1.0.0-beta.8-commit.534fde3"
+    "@rolldown/binding-freebsd-x64": "npm:1.0.0-beta.8-commit.534fde3"
+    "@rolldown/binding-linux-arm-gnueabihf": "npm:1.0.0-beta.8-commit.534fde3"
+    "@rolldown/binding-linux-arm64-gnu": "npm:1.0.0-beta.8-commit.534fde3"
+    "@rolldown/binding-linux-arm64-musl": "npm:1.0.0-beta.8-commit.534fde3"
+    "@rolldown/binding-linux-x64-gnu": "npm:1.0.0-beta.8-commit.534fde3"
+    "@rolldown/binding-linux-x64-musl": "npm:1.0.0-beta.8-commit.534fde3"
+    "@rolldown/binding-wasm32-wasi": "npm:1.0.0-beta.8-commit.534fde3"
+    "@rolldown/binding-win32-arm64-msvc": "npm:1.0.0-beta.8-commit.534fde3"
+    "@rolldown/binding-win32-ia32-msvc": "npm:1.0.0-beta.8-commit.534fde3"
+    "@rolldown/binding-win32-x64-msvc": "npm:1.0.0-beta.8-commit.534fde3"
     ansis: "npm:^3.17.0"
-    valibot: "npm:1.0.0"
   peerDependencies:
-    "@oxc-project/runtime": 0.67.0
+    "@oxc-project/runtime": 0.68.1
   dependenciesMeta:
     "@rolldown/binding-darwin-arm64":
       optional: true
@@ -3578,7 +3455,7 @@ __metadata:
       optional: true
   bin:
     rolldown: bin/cli.mjs
-  checksum: 10c0/5ec8911f5d0f98adf8a8d7ef126fb1b479b520ff5367e361ea771d2dc8c26db2fade13f3db166c319a63999e77fcbea5059e336e325481bb5c6311dda6415063
+  checksum: 10c0/4fd80018658eaa9e20cad0c85e5bae01c316535f9f77a2835548d5c651200256850e12ac894d943410c9ae0bf02c2946110c6e061ae65fc00f8dba8a065f5447
   languageName: node
   linkType: hard
 
@@ -3938,7 +3815,7 @@ __metadata:
     openapi-types: "npm:12.1.3"
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
-    tsdown: "npm:0.11.0-beta.3"
+    tsdown: "npm:0.11.0-beta.4"
     typedoc: "npm:0.28.4"
     typescript: "npm:~5.8.3"
     vitest: "npm:3.1.2"
@@ -4069,9 +3946,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:0.11.0-beta.3":
-  version: 0.11.0-beta.3
-  resolution: "tsdown@npm:0.11.0-beta.3"
+"tsdown@npm:0.11.0-beta.4":
+  version: 0.11.0-beta.4
+  resolution: "tsdown@npm:0.11.0-beta.4"
   dependencies:
     ansis: "npm:^3.17.0"
     cac: "npm:^6.7.14"
@@ -4080,8 +3957,8 @@ __metadata:
     diff: "npm:^7.0.0"
     empathic: "npm:^1.1.0"
     hookable: "npm:^5.5.3"
-    rolldown: "npm:1.0.0-beta.8-commit.852c603"
-    rolldown-plugin-dts: "npm:^0.10.0"
+    rolldown: "npm:1.0.0-beta.8-commit.534fde3"
+    rolldown-plugin-dts: "npm:^0.11.0"
     semver: "npm:^7.7.1"
     tinyexec: "npm:^1.0.1"
     tinyglobby: "npm:^0.2.13"
@@ -4099,7 +3976,7 @@ __metadata:
       optional: true
   bin:
     tsdown: dist/run.js
-  checksum: 10c0/bfb4d705cf4c13be4de08355bf550c2d758c37fd43f54bb7e57d708a44375f6158dafc87d6bcf9311a30cfd16132ac7dd014a7bc765e7761aa408b9ee16285f6
+  checksum: 10c0/6630f8ced9a8980cc2106b3da3adf5cdbfc788180ae0fbfe8066a9ab11927c5d993709da77b4346a2d5c7bbf9685ceba53e2cbee0b3478652649b6217cae1f7e
   languageName: node
   linkType: hard
 
@@ -4195,18 +4072,6 @@ __metadata:
   version: 0.1.2
   resolution: "universalify@npm:0.1.2"
   checksum: 10c0/e70e0339f6b36f34c9816f6bf9662372bd241714dc77508d231d08386d94f2c4aa1ba1318614f92015f40d45aae1b9075cd30bd490efbe39387b60a76ca3f045
-  languageName: node
-  linkType: hard
-
-"valibot@npm:1.0.0":
-  version: 1.0.0
-  resolution: "valibot@npm:1.0.0"
-  peerDependencies:
-    typescript: ">=5"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 10c0/fd80529ce5445e2340b0a2c3d88a61a86180b652eb6bc24da7d0da476b214d8a04f7621ee355f627a1a2dc2b29f39d179effb60e8067b7cf58e300d77dae8f51
   languageName: node
   linkType: hard
 
