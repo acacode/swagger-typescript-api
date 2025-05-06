@@ -3393,9 +3393,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rolldown-plugin-dts@npm:^0.11.0":
-  version: 0.11.0
-  resolution: "rolldown-plugin-dts@npm:0.11.0"
+"rolldown-plugin-dts@npm:^0.11.1":
+  version: 0.11.1
+  resolution: "rolldown-plugin-dts@npm:0.11.1"
   dependencies:
     "@babel/generator": "npm:^7.27.1"
     "@babel/parser": "npm:^7.27.1"
@@ -3410,7 +3410,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/2bccfb8e9b73590c568d154ccdaa806aaf642ac3d0a7fc047b30038a8021b67f30cfc73405d6e6534689e20b3a0dd29fe04cbf27c1829b43877a8e75250fc418
+  checksum: 10c0/4c36ac99a075244950c4bddc3041532abf508766772c2cc04e18808d3e0908f02bc0f5b4c42ab7a7fff5859c3d511e73ed6b96a904b1d8704ec76657cd4936ef
   languageName: node
   linkType: hard
 
@@ -3824,7 +3824,7 @@ __metadata:
     openapi-types: "npm:12.1.3"
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
-    tsdown: "npm:0.11.0-beta.4"
+    tsdown: "npm:0.11.0"
     typedoc: "npm:0.28.4"
     typescript: "npm:~5.8.3"
     vitest: "npm:3.1.3"
@@ -3955,9 +3955,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:0.11.0-beta.4":
-  version: 0.11.0-beta.4
-  resolution: "tsdown@npm:0.11.0-beta.4"
+"tsdown@npm:0.11.0":
+  version: 0.11.0
+  resolution: "tsdown@npm:0.11.0"
   dependencies:
     ansis: "npm:^3.17.0"
     cac: "npm:^6.7.14"
@@ -3967,7 +3967,7 @@ __metadata:
     empathic: "npm:^1.1.0"
     hookable: "npm:^5.5.3"
     rolldown: "npm:1.0.0-beta.8-commit.534fde3"
-    rolldown-plugin-dts: "npm:^0.11.0"
+    rolldown-plugin-dts: "npm:^0.11.1"
     semver: "npm:^7.7.1"
     tinyexec: "npm:^1.0.1"
     tinyglobby: "npm:^0.2.13"
@@ -3985,7 +3985,7 @@ __metadata:
       optional: true
   bin:
     tsdown: dist/run.js
-  checksum: 10c0/6630f8ced9a8980cc2106b3da3adf5cdbfc788180ae0fbfe8066a9ab11927c5d993709da77b4346a2d5c7bbf9685ceba53e2cbee0b3478652649b6217cae1f7e
+  checksum: 10c0/28776261ddda94e8c922817955d15316207a02e83d22dd2953814af83c9c62d2422bd9357454a84e2dc49f0a33809579671e5f7e165334fef61d260b142fed1e
   languageName: node
   linkType: hard
 
