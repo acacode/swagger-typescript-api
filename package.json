@@ -75,7 +75,7 @@
     "openapi-types": "12.1.3",
     "tsdown": "0.11.0-beta.4",
     "typedoc": "0.28.4",
-    "vitest": "3.1.2"
+    "vitest": "3.1.3"
   },
   "packageManager": "yarn@4.9.1",
   "engines": {
