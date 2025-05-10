@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`basic > --single-http-client 1`] = `
+exports[`basic > jsonapi-media-type 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
@@ -12,6 +12,22 @@ exports[`basic > --single-http-client 1`] = `
  * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
  * ---------------------------------------------------------------
  */
+
+export interface Pet {
+  /** @format uuid */
+  id?: string;
+  type: "pet";
+  attributes: {
+    name: string;
+    status?: "available" | "pending" | "sold";
+    photoUrls: string[];
+  };
+}
+
+export interface Error {
+  status?: string;
+  detail?: string;
+}
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -66,7 +82,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "https://6-dot-authentiqio.appspot.com";
+  public baseUrl: string = "https://api.petstore.localhost";
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private abortControllers = new Map<CancelToken, AbortController>();
@@ -263,44 +279,70 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title Authentiq
- * @version 6
- * @license Apache 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
- * @termsOfService http://authentiq.com/terms/
- * @baseUrl https://6-dot-authentiqio.appspot.com
- * @contact Authentiq team <hello@authentiq.com> (http://authentiq.io/support)
- *
- * Strong authentication, without the passwords.
+ * @title JSON:API Swagger Petstore
+ * @version 1.1
+ * @baseUrl https://api.petstore.localhost
  */
-export class Api<SecurityDataType extends unknown> {
-  http: HttpClient<SecurityDataType>;
-
-  constructor(http: HttpClient<SecurityDataType>) {
-    this.http = http;
-  }
-
-  key = {
+export class Api<
+  SecurityDataType extends unknown,
+> extends HttpClient<SecurityDataType> {
+  pets = {
     /**
-     * @description Register a new ID \`JWT(sub, devtoken)\` v5: \`JWT(sub, pk, devtoken, ...)\` See: https://github.com/skion/authentiq/wiki/JWT-Examples
+     * @description Add a new pet to the store.
      *
-     * @tags key, post
-     * @name KeyRegister
-     * @request POST:/key
+     * @tags pet
+     * @name AddPet
+     * @summary Add a new pet to the store.
+     * @request POST:/pets
      */
-    keyRegister: (body: any, params: RequestParams = {}) =>
-      this.http.request<
+    addPet: (
+      data: {
+        data: Pet;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
         {
-          /** revoke key */
-          secret?: string;
-          /** registered */
-          status?: string;
+          data: Pet;
         },
-        any
+        {
+          errors: Error[];
+        }
       >({
-        path: \`/key\`,
+        path: \`/pets\`,
         method: "POST",
-        body: body,
-        format: "json",
+        body: data,
+        type: ContentType.JsonApi,
+        ...params,
+      }),
+
+    /**
+     * @description Update an existing pet by Id.
+     *
+     * @tags pet
+     * @name UpdatePet
+     * @summary Update an existing pet.
+     * @request PATCH:/pets/{petId}
+     */
+    updatePet: (
+      petId: string,
+      data: {
+        data: Pet;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          data: Pet;
+        },
+        {
+          errors: Error[];
+        }
+      >({
+        path: \`/pets/\${petId}\`,
+        method: "PATCH",
+        body: data,
+        type: ContentType.JsonApi,
         ...params,
       }),
   };
