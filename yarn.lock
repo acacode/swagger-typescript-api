@@ -3716,7 +3716,7 @@ __metadata:
     openapi-types: "npm:12.1.3"
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
-    tsdown: "npm:0.11.8"
+    tsdown: "npm:0.11.9"
     typedoc: "npm:0.28.4"
     typescript: "npm:~5.8.3"
     vitest: "npm:3.1.3"
@@ -3847,9 +3847,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:0.11.8":
-  version: 0.11.8
-  resolution: "tsdown@npm:0.11.8"
+"tsdown@npm:0.11.9":
+  version: 0.11.9
+  resolution: "tsdown@npm:0.11.9"
   dependencies:
     ansis: "npm:^4.0.0"
     cac: "npm:^6.7.14"
@@ -3880,7 +3880,7 @@ __metadata:
       optional: true
   bin:
     tsdown: dist/run.js
-  checksum: 10c0/7cd70dd7c5e53a237660e2653f8f3f00d5ef78ed3e5e7f87040ac3f739bee2140a11a35b8ce70aa355ce814407b452ce9378726a376a23152e48208daf68e9b8
+  checksum: 10c0/a5330b063a514079c16262f3498228b44ffca7c96d8de67c76feb093e465794c7d3083ba8f4a8111d4097cc3a241e0e1ac0f93287a4d291e1c55a0def0c169f6
   languageName: node
   linkType: hard
 
