@@ -162,13 +162,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/js-api@npm:^0.7.1":
-  version: 0.7.1
-  resolution: "@biomejs/js-api@npm:0.7.1"
+"@biomejs/js-api@npm:^0.8.0-beta.2":
+  version: 0.8.0-beta.2
+  resolution: "@biomejs/js-api@npm:0.8.0-beta.2"
   peerDependencies:
-    "@biomejs/wasm-bundler": ^1.9.2
-    "@biomejs/wasm-nodejs": ^1.9.2
-    "@biomejs/wasm-web": ^1.9.2
+    "@biomejs/wasm-bundler": ^1.9.4
+    "@biomejs/wasm-nodejs": ^1.9.4
+    "@biomejs/wasm-web": ^1.9.4
   peerDependenciesMeta:
     "@biomejs/wasm-bundler":
       optional: true
@@ -176,14 +176,14 @@ __metadata:
       optional: true
     "@biomejs/wasm-web":
       optional: true
-  checksum: 10c0/eb2be90535d44c74f769a45a19f74f4e4d0cdbfe609c00e03003077ab1c66c7c7f7fd71af916294cf049167861e2b92343299279a18dd9746f5362038be32cac
+  checksum: 10c0/711f0f169e40ad06da501aefd4598a7e81833fe9defb6b913d9103b35ccb07edbe41be7d884a3c5219d83c023047949ac436464d2aaefb35d29f1a91cad8a938
   languageName: node
   linkType: hard
 
-"@biomejs/wasm-nodejs@npm:^1.9.4":
-  version: 1.9.4
-  resolution: "@biomejs/wasm-nodejs@npm:1.9.4"
-  checksum: 10c0/9cb7c1fefbb3c4445a241d060b909b4856203277cf5a8d1745eb84511170889bb95555813388015bbf98e25c1cf15a203068ec31de9d51c07442386af2e3c7a4
+"@biomejs/wasm-nodejs@npm:^2.0.0-beta.4":
+  version: 2.0.0-beta.4
+  resolution: "@biomejs/wasm-nodejs@npm:2.0.0-beta.4"
+  checksum: 10c0/9df41c024104bbc99c69cdd0584c2c0db5bbccf11b163cb125e0a5d76101022a4634cd23af60950f841697568b844d34000d146f7f60716d106f6bba9c636174
   languageName: node
   linkType: hard
 
@@ -3694,8 +3694,8 @@ __metadata:
   resolution: "swagger-typescript-api@workspace:."
   dependencies:
     "@biomejs/biome": "npm:2.0.0-beta.4"
-    "@biomejs/js-api": "npm:^0.7.1"
-    "@biomejs/wasm-nodejs": "npm:^1.9.4"
+    "@biomejs/js-api": "npm:^0.8.0-beta.2"
+    "@biomejs/wasm-nodejs": "npm:^2.0.0-beta.4"
     "@changesets/changelog-github": "npm:0.5.1"
     "@changesets/cli": "npm:2.29.4"
     "@tsconfig/node18": "npm:18.2.4"
