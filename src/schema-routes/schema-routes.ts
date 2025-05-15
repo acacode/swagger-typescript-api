@@ -22,6 +22,7 @@ import { SpecificArgNameResolver } from "./util/specific-arg-name-resolver.js";
 
 const CONTENT_KIND = {
   JSON: "JSON",
+  JSON_API: "JSON_API",
   URL_ENCODED: "URL_ENCODED",
   FORM_DATA: "FORM_DATA",
   IMAGE: "IMAGE",
@@ -280,6 +281,10 @@ export class SchemaRoutes {
     );
 
   getContentKind = (contentTypes) => {
+    if (contentTypes.includes("application/vnd.api+json")) {
+      return CONTENT_KIND.JSON_API;
+    }
+
     if (
       contentTypes.some((contentType) =>
         contentType.startsWith("application/json"),
