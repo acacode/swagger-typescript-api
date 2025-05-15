@@ -2,4 +2,4 @@
 "swagger-typescript-api": minor
 ---
 
-Add support for json:api content type
+Add support for json:api content type.
