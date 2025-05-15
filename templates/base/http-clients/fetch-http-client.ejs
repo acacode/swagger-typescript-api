@@ -183,7 +183,7 @@ export class HttpClient<SecurityDataType = unknown> {
             ...requestParams,
             headers: {
             ...(requestParams.headers || {}),
-            ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
+            ...(requestParams.type && requestParams.type !== ContentType.FormData ? { "Content-Type": requestParams.type } : {}),
             },
             signal: (cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal) || null,
             body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
