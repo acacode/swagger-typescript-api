@@ -30,7 +30,7 @@ export class NameResolver {
   }
 
   unreserve(names: string[]) {
-    this.reservedNames.filter(
+    this.reservedNames = this.reservedNames.filter(
       (reservedName) => !names.some((name) => name === reservedName),
     );
   }
