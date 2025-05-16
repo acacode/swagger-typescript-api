@@ -376,7 +376,7 @@ export class SchemaRoutes {
       // const refTypeWithoutOpId = refType.replace(operationId, '');
       // const foundedSchemaByName = _.find(parsedSchemas, ({ name }) => name === refType || name === refTypeWithoutOpId)
 
-      // TODO:HACK fix problem of swagger2opeanpi
+      // TODO:HACK fix problem of swagger2openapi
       const typeNameWithoutOpId = refTypeInfo.typeName.replace(operationId, "");
       if (parsedSchemas.find((schema) => schema.name === typeNameWithoutOpId)) {
         return this.typeNameFormatter.format(typeNameWithoutOpId);
