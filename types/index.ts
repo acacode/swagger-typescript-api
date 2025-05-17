@@ -1,3 +1,4 @@
+import type { Spec } from "swagger-schema-official";
 import type { ComponentTypeNameResolver } from "../src/component-type-name-resolver.js";
 import type { HTTP_CLIENT } from "../src/constants.js";
 import type { Translator } from "../src/translators/translator.js";
@@ -410,7 +411,7 @@ export interface GenerateApiConfiguration {
     /**
      * swagger schema JSON
      */
-    spec: unknown;
+    spec: Spec;
     /**
      * default 'api.ts'
      */
