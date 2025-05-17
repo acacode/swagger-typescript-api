@@ -230,7 +230,7 @@ const generateCommand = defineCommand({
     path: {
       type: "string",
       alias: "p",
-      description: "path/url to swagger scheme",
+      description: "path/url to swagger schema",
       required: true,
     },
     responses: {

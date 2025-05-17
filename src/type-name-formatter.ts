@@ -27,7 +27,7 @@ export class TypeNameFormatter {
     const hashKey = `${typePrefix}_${name}_${typeSuffix}`;
 
     if (typeof name !== "string") {
-      consola.warn("wrong name of the model name", name);
+      consola.warn("wrong model name", name);
       return name;
     }
 
