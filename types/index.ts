@@ -1,233 +1,8 @@
 import type { ComponentTypeNameResolver } from "../src/component-type-name-resolver.js";
 import type { HTTP_CLIENT } from "../src/constants.js";
-import type { MonoSchemaParser } from "../src/schema-parser/mono-schema-parser.js";
 import type { Translator } from "../src/translators/translator.js";
 
 export type HttpClientType = (typeof HTTP_CLIENT)[keyof typeof HTTP_CLIENT];
-
-interface GenerateApiParamsBase {
-  /**
-   * default 'api.ts'
-   */
-  fileName?: string;
-
-  /**
-   * name of the main exported class
-   */
-  apiClassName?: string;
-
-  /**
-   * path to folder where will be located the created api module.
-   *
-   * may set to `false` to skip writing content to disk. in this case,
-   * you may access the `files` on the return value.
-   */
-  output?: string | false;
-
-  /**
-   * path to folder containing templates (default: ./src/templates)
-   */
-  templates?: string;
-
-  /**
-   * generate all "enum" types as union types (T1 | T2 | TN) (default: false)
-   */
-  generateUnionEnums?: boolean;
-
-  /**
-   * generate type definitions for API routes (default: false)
-   */
-  generateRouteTypes?: boolean;
-
-  /**
-   * do not generate an API class
-   */
-  generateClient?: boolean;
-  /**
-   * generated http client type
-   */
-  httpClientType?: HttpClientType;
-  /**
-   * use "default" response status code as success response too.
-   * some swagger schemas use "default" response status code as success response type by default.
-   */
-  defaultResponseAsSuccess?: boolean;
-
-  /**
-   * generate additional information about request responses
-   * also add typings for bad responses
-   */
-  generateResponses?: boolean;
-
-  /**
-   * unwrap the data item from the response
-   */
-  unwrapResponseData?: boolean;
-
-  /**
-   * sort data contracts in alphabetical order
-   */
-  sortTypes?: boolean;
-
-  /**
-   * sort routes in alphabetical order
-   */
-  sortRoutes?: boolean;
-
-  /**
-   * generate js api module with declaration file (default: false)
-   */
-  toJS?: boolean;
-
-  /**
-   * determines which path index should be used for routes separation
-   */
-  moduleNameIndex?: number;
-  /**
-   * users operation's first tag for route separation
-   */
-  moduleNameFirstTag?: boolean;
-  /**
-   * generate separated files for http client, data contracts, and routes (default: false)
-   */
-  modular?: boolean;
-  /**
-   * extract request params to data contract (Also combine path params and query params into one object)
-   */
-  extractRequestParams?: boolean;
-  /**
-   * extract request body type to data contract
-   */
-  extractRequestBody?: boolean;
-  /**
-   * extract response body type to data contract
-   */
-  extractResponseBody?: boolean;
-  /**
-   * extract response error type to data contract
-   */
-  extractResponseError?: boolean;
-  /**
-   * Output only errors to console (default: false)
-   */
-  silent?: boolean;
-  /**
-   * default type for empty response schema (default: "void")
-   */
-  defaultResponseType?: string;
-  /**
-   * Ability to send HttpClient instance to Api constructor
-   */
-  singleHttpClient?: boolean;
-  cleanOutput?: boolean;
-  enumNamesAsValues?: boolean;
-
-  hooks?: Partial<Hooks>;
-  /**
-   *  extra templates
-   */
-  extraTemplates?: { name: string; path: string }[];
-
-  /**
-   * fix up small errors in the swagger source definition
-   */
-  patch?: boolean;
-  /**
-   *  authorization token
-   */
-  authorizationToken?: string;
-  /**
-   * generate readonly properties (default: false)
-   */
-  addReadonly?: boolean;
-
-  primitiveTypeConstructs?: (
-    struct: PrimitiveTypeStruct,
-  ) => Partial<PrimitiveTypeStruct>;
-
-  codeGenConstructs?: (struct: CodeGenConstruct) => Partial<CodeGenConstruct>;
-
-  /** extract all enums from nested types\interfaces to `enum` construction */
-  extractEnums?: boolean;
-
-  /** prefix string value needed to fix invalid type names (default: 'Type') */
-  fixInvalidTypeNamePrefix?: string;
-
-  /** prefix string value needed to fix invalid enum keys (default: 'Value') */
-  fixInvalidEnumKeyPrefix?: string;
-
-  /** prefix string value for enum keys */
-  enumKeyPrefix?: string;
-
-  /** suffix string value for enum keys */
-  enumKeySuffix?: string;
-
-  /** prefix string value for type names */
-  typePrefix?: string;
-
-  /** suffix string value for type names */
-  typeSuffix?: string;
-
-  /** extra configuration for extracting type names operations */
-  extractingOptions?: ExtractingOptions;
-
-  /** configuration for fetching swagger schema requests */
-  requestOptions?: Partial<RequestInit>;
-
-  /** ts compiler configuration object (for --to-js option) */
-  compilerTsConfig?: Record<string, unknown>;
-
-  /** extract all enums from inline interface\\type content to typescript enum construction */
-  extractResponses?: boolean;
-
-  /** generate array types as Array<Type> (by default Type[]) */
-  anotherArrayType?: boolean;
-
-  /**
-   * custom ts->* translator
-   * do not use constructor args, it can break functionality of this property, just send class reference
-   *
-   * @example
-   * ```ts
-   * import { Translator } from "swagger-typescript-api/src/translators/translator";
-   *
-   * class MyTranslator extends Translator {
-   *
-   *     translate({ fileName, fileExtension, fileContent }) {
-   *         this.codeFormatter.format()
-   *         this.config.
-   *
-   *         return [
-   *             {
-   *                 fileName,
-   *                 fileExtension,
-   *                 fileContent,
-   *             }
-   *         ]
-   *     }
-   * }
-   * ```
-   */
-  customTranslator?: new () => Translator;
-  /** fallback name for enum key resolver */
-  enumKeyResolverName?: string;
-  /** fallback name for type name resolver */
-  typeNameResolverName?: string;
-  /** fallback name for specific arg name resolver */
-  specificArgNameResolverName?: string;
-  schemaParsers?: {
-    complexOneOf?: MonoSchemaParser;
-    complexAllOf?: MonoSchemaParser;
-    complexAnyOf?: MonoSchemaParser;
-    complexNot?: MonoSchemaParser;
-    enum?: MonoSchemaParser;
-    object?: MonoSchemaParser;
-    complex?: MonoSchemaParser;
-    primitive?: MonoSchemaParser;
-    discriminator?: MonoSchemaParser;
-    array?: MonoSchemaParser;
-  };
-}
 
 type CodeGenConstruct = {
   Keyword: {
@@ -270,48 +45,6 @@ type CodeGenConstruct = {
   MultilineComment: (content: unknown) => string;
   TypeWithGeneric: (content: unknown) => string;
 };
-
-type PrimitiveTypeStructValue =
-  | string
-  | ((
-      schema: Record<string, unknown>,
-      parser: import("../src/schema-parser/schema-parser.js").SchemaParser,
-    ) => string);
-
-type PrimitiveTypeStruct = Record<
-  "integer" | "number" | "boolean" | "object" | "file" | "string" | "array",
-  | string
-  | ({ $default: PrimitiveTypeStructValue } & Record<
-      string,
-      PrimitiveTypeStructValue
-    >)
->;
-
-interface GenerateApiParamsFromPath extends GenerateApiParamsBase {
-  /**
-   * path to swagger schema
-   */
-  input: string;
-}
-
-interface GenerateApiParamsFromUrl extends GenerateApiParamsBase {
-  /**
-   * url to swagger schema
-   */
-  url: string;
-}
-
-interface GenerateApiParamsFromSpecLiteral extends GenerateApiParamsBase {
-  /**
-   * swagger schema JSON
-   */
-  spec: import("swagger-schema-official").Spec;
-}
-
-export type GenerateApiParams =
-  | GenerateApiParamsFromPath
-  | GenerateApiParamsFromUrl
-  | GenerateApiParamsFromSpecLiteral;
 
 type BuildRouteParam = {
   /** {bar} */
@@ -659,10 +392,28 @@ export interface GenerateApiConfiguration {
     hasDescription: boolean;
   };
   config: {
+    /**
+     * path to swagger schema
+     */
     input: string;
+    /**
+     * path to folder where will be located the created api module.
+     *
+     * may set to `false` to skip writing content to disk. in this case,
+     * you may access the `files` on the return value.
+     */
     output: string | false;
+    /**
+     * url to swagger schema
+     */
     url: string;
+    /**
+     * swagger schema JSON
+     */
     spec: unknown;
+    /**
+     * default 'api.ts'
+     */
     fileName: string;
     templatePaths: {
       /** `templates/base` */
@@ -676,52 +427,182 @@ export interface GenerateApiConfiguration {
       /** custom path to templates (`--templates`) */
       custom: string | null;
     };
+    /**
+     * authorization token
+     */
     authorizationToken?: string;
+    /**
+     * generate additional information about request responses
+     * also add typings for bad responses
+     */
     generateResponses: boolean;
+    /**
+     * use "default" response status code as success response too.
+     * some swagger schemas use "default" response status code as success response type by default.
+     */
     defaultResponseAsSuccess: boolean;
+    /**
+     * generate type definitions for API routes (default: false)
+     */
     generateRouteTypes: boolean;
+    /**
+     * do not generate an API class
+     */
     generateClient: boolean;
+    /**
+     * generate all "enum" types as union types (T1 | T2 | TN) (default: false)
+     */
     generateUnionEnums: boolean;
     swaggerSchema: object;
     originalSchema: object;
     componentsMap: Record<string, SchemaComponent>;
     convertedFromSwagger2: boolean;
+    /**
+     * determines which path index should be used for routes separation
+     */
     moduleNameIndex: number;
+    /**
+     * users operation's first tag for route separation
+     */
     moduleNameFirstTag: boolean;
+    /**
+     * extra templates
+     */
     extraTemplates: { name: string; path: string }[];
+    /**
+     * extract request params to data contract (Also combine path params and query params into one object)
+     */
     extractRequestParams: boolean;
+    /**
+     * unwrap the data item from the response
+     */
     unwrapResponseData: boolean;
+    /**
+     * sort data contracts in alphabetical order
+     */
     sortTypes: boolean;
+    /**
+     * sort routes in alphabetical order
+     */
     sortRoutes: boolean;
+    /**
+     * Ability to send HttpClient instance to Api constructor
+     */
     singleHttpClient: boolean;
+    /**
+     * generate separated files for http client, data contracts, and routes
+     */
+    modular?: boolean;
+    /**
+     * prefix string value for type names
+     */
     typePrefix: string;
+    /**
+     * suffix string value for type names
+     */
     typeSuffix: string;
+    /**
+     * prefix string value for enum keys
+     */
     enumKeyPrefix: string;
+    /**
+     * suffix string value for enum keys
+     */
     enumKeySuffix: string;
+    /**
+     * fix up small errors in the swagger source definition
+     */
     patch: boolean;
     cleanOutput: boolean;
     debug: boolean;
+    /**
+     * generate array types as Array<Type> (by default Type[])
+     */
     anotherArrayType: boolean;
+    /**
+     * extract request body type to data contract
+     */
     extractRequestBody: boolean;
+    /**
+     * generated http client type
+     */
     httpClientType: "axios" | "fetch";
+    /**
+     * generate readonly properties (default: false)
+     */
     addReadonly: boolean;
+    /**
+     * extract response body type to data contract
+     */
     extractResponseBody: boolean;
+    /**
+     * extract response error type to data contract
+     */
     extractResponseError: boolean;
+    /**
+     * extract all enums from nested types\interfaces to `enum` construction
+     */
     extractEnums: boolean;
+    /**
+     * extract all enums from inline interface\\type content to typescript enum construction
+     */
     extractResponses: boolean;
+    /**
+     * prefix string value needed to fix invalid type names (default: 'Type')
+     */
     fixInvalidTypeNamePrefix: string;
+    /**
+     * prefix string value needed to fix invalid enum keys (default: 'Value')
+     */
     fixInvalidEnumKeyPrefix: string;
+    /**
+     * default type for empty response schema (default: "void")
+     */
     defaultResponseType: string;
+    /**
+     * generate js api module with declaration file (default: false)
+     */
     toJS: boolean;
     disableThrowOnError: boolean;
+    /**
+     * Output only errors to console (default: false)
+     */
     silent: boolean;
     hooks: Partial<Hooks>;
     enumNamesAsValues: boolean;
     version: string;
+    /**
+     * ts compiler configuration object (for --to-js option)
+     */
     compilerTsConfig: Record<string, unknown>;
     enumKeyResolverName: string;
     typeNameResolverName: string;
     specificArgNameResolverName: string;
+    /**
+     * custom ts->* translator
+     * do not use constructor args, it can break functionality of this property, just send class reference
+     *
+     * @example
+     * ```ts
+     * import { Translator } from "swagger-typescript-api/src/translators/translator";
+     *
+     * class MyTranslator extends Translator {
+     *
+     *     translate({ fileName, fileExtension, fileContent }) {
+     *         this.codeFormatter.format()
+     *         this.config.
+     *
+     *         return [
+     *             {
+     *                 fileName,
+     *                 fileExtension,
+     *                 fileContent,
+     *             }
+     *         ]
+     *     }
+     * }
+     * ```
+     */
     customTranslator?: new () => Translator;
     internalTemplateOptions: {
       addUtilRequiredKeysType: boolean;
@@ -746,9 +627,23 @@ export interface GenerateApiConfiguration {
       objectFieldJsDoc: string;
     };
     routeNameDuplicatesMap: Map<string, string>;
+    /**
+     * name of the main exported class
+     */
     apiClassName: string;
+    /**
+     * configuration for fetching swagger schema requests
+     */
     requestOptions?: RequestInit;
     extractingOptions: ExtractingOptions;
+    /**
+     * path to folder containing templates (default: ./src/templates)
+     */
+    templates?: string;
+    /**
+     * TypeScript code generation customization
+     */
+    Ts?: Partial<CodeGenConstruct>;
   };
   modelTypes: ModelType[];
   hasFormDataRoutes: boolean;
@@ -830,7 +725,7 @@ export interface GenerateApiOutput {
 }
 
 export declare function generateApi(
-  params: GenerateApiParams,
+  config: Partial<GenerateApiConfiguration["config"]>,
 ): Promise<GenerateApiOutput>;
 
 export interface GenerateTemplatesParams {

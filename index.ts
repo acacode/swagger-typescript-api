@@ -8,7 +8,10 @@ import { TemplatesGenConfig } from "./src/commands/generate-templates/configurat
 import { CodeGenConfig } from "./src/configuration.js";
 import { HTTP_CLIENT } from "./src/constants.js";
 import { generateApi, generateTemplates } from "./src/index.js";
-import type { GenerateApiParams, HttpClientType } from "./types/index.js";
+import type {
+  GenerateApiConfiguration,
+  HttpClientType,
+} from "./types/index.js";
 
 const templateGenBaseConfig = new TemplatesGenConfig({});
 
@@ -287,7 +290,9 @@ const generateCommand = defineCommand({
     },
   },
   run: async ({ args }) => {
-    const customConfig = await loadConfig<GenerateApiParams>({
+    const customConfig = await loadConfig<
+      Partial<GenerateApiConfiguration["config"]>
+    >({
       name: "swagger-typescript-api",
       configFile: args["custom-config"],
     });
