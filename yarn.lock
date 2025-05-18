@@ -1432,6 +1432,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"birpc@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "birpc@npm:2.3.0"
+  checksum: 10c0/82489bcfa1c0a669bf4e5a15fa72691e8bda35abeac8860044eeffdcbc05da200b4349711a4beccdb2d0b90c40d752b0c7fcf01462bcfcb38ae9bd2b034ed339
+  languageName: node
+  linkType: hard
+
 "brace-expansion@npm:^2.0.1":
   version: 2.0.1
   resolution: "brace-expansion@npm:2.0.1"
@@ -1658,6 +1665,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"debug@npm:^4.4.1":
+  version: 4.4.1
+  resolution: "debug@npm:4.4.1"
+  dependencies:
+    ms: "npm:^2.1.3"
+  peerDependenciesMeta:
+    supports-color:
+      optional: true
+  checksum: 10c0/d2b44bc1afd912b49bb7ebb0d50a860dc93a4dd7d946e8de94abc957bb63726b7dd5aa48c18c2386c379ec024c46692e15ed3ed97d481729f929201e671fcd55
+  languageName: node
+  linkType: hard
+
 "deep-eql@npm:^5.0.1":
   version: 5.0.2
   resolution: "deep-eql@npm:5.0.2"
@@ -1693,10 +1712,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"diff@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "diff@npm:8.0.0"
-  checksum: 10c0/2e3ffd06423bf4e07ff89b12401b4f5034c3a3ce3732a4763ce32d4fcf903186e2e1788a2403ac7c814cc124fbce47283aad2bfe6cb251c1995012d53fe79df5
+"diff@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "diff@npm:8.0.1"
+  checksum: 10c0/43ebbe63881d34067d77d7b9d16220f1efb8013e04be58c7748ab296d2a9637f49424c69477e36c81a53f2c347b396956966e708e1b5b4dde3620f2b4bb93d02
   languageName: node
   linkType: hard
 
@@ -3272,15 +3291,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rolldown-plugin-dts@npm:^0.12.1":
-  version: 0.12.1
-  resolution: "rolldown-plugin-dts@npm:0.12.1"
+"rolldown-plugin-dts@npm:^0.13.1":
+  version: 0.13.2
+  resolution: "rolldown-plugin-dts@npm:0.13.2"
   dependencies:
     "@babel/generator": "npm:^7.27.1"
     "@babel/parser": "npm:^7.27.2"
     "@babel/types": "npm:^7.27.1"
     ast-kit: "npm:^2.0.0"
-    debug: "npm:^4.4.0"
+    birpc: "npm:^2.3.0"
+    debug: "npm:^4.4.1"
     dts-resolver: "npm:^2.0.1"
     get-tsconfig: "npm:^4.10.0"
   peerDependencies:
@@ -3292,7 +3312,7 @@ __metadata:
       optional: true
     vue-tsc:
       optional: true
-  checksum: 10c0/6cd35e267d31f09deb08aa8906a1daf91d0c8a0688d880d9e7117c3f75b33427f1b11d99c2f9d5b2dcf77044c24dd27b2098344ffad950625ee0510a8813a51b
+  checksum: 10c0/37aaa372ab8e1c95000d918927f7cec840cb07beda50930b71af1df49ee228ae5fc4c250ca970c76315893f134d3943ba47104f286728d858958322ab52976a5
   languageName: node
   linkType: hard
 
@@ -3716,7 +3736,7 @@ __metadata:
     openapi-types: "npm:12.1.3"
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
-    tsdown: "npm:0.11.9"
+    tsdown: "npm:0.11.11"
     typedoc: "npm:0.28.4"
     typescript: "npm:~5.8.3"
     vitest: "npm:3.1.3"
@@ -3847,19 +3867,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:0.11.9":
-  version: 0.11.9
-  resolution: "tsdown@npm:0.11.9"
+"tsdown@npm:0.11.11":
+  version: 0.11.11
+  resolution: "tsdown@npm:0.11.11"
   dependencies:
     ansis: "npm:^4.0.0"
     cac: "npm:^6.7.14"
     chokidar: "npm:^4.0.3"
-    debug: "npm:^4.4.0"
-    diff: "npm:^8.0.0"
+    debug: "npm:^4.4.1"
+    diff: "npm:^8.0.1"
     empathic: "npm:^1.1.0"
     hookable: "npm:^5.5.3"
     rolldown: "npm:1.0.0-beta.8-commit.d95f99e"
-    rolldown-plugin-dts: "npm:^0.12.1"
+    rolldown-plugin-dts: "npm:^0.13.1"
     semver: "npm:^7.7.2"
     tinyexec: "npm:^1.0.1"
     tinyglobby: "npm:^0.2.13"
@@ -3880,7 +3900,7 @@ __metadata:
       optional: true
   bin:
     tsdown: dist/run.js
-  checksum: 10c0/a5330b063a514079c16262f3498228b44ffca7c96d8de67c76feb093e465794c7d3083ba8f4a8111d4097cc3a241e0e1ac0f93287a4d291e1c55a0def0c169f6
+  checksum: 10c0/243e6cf21d6fc63a55b5760812d7c70569b730b53f75569464093ee469ac38baa81353f64b65a53c5eac1ce8fe4db4be1567af71bd606a05b24a831392b59653
   languageName: node
   linkType: hard
 
