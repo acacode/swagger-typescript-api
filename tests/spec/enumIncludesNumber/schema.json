@@ -1,0 +1,13 @@
+{
+  "openapi": "3.0.0",
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "StringEnumWithoutKey": {
+        "type": "string",
+        "enum": ["VAL_1", "VAL_2", "VAL_3", "_1_VAL"]
+      }
+    }
+  }
+}

@@ -32,7 +32,7 @@ export class TypeNameFormatter {
     }
 
     // constant names like LEFT_ARROW, RIGHT_FORWARD, ETC_KEY, _KEY_NUM_
-    if (/^([A-Z_]{1,})$/g.test(name)) {
+    if (/^(?!\d)([A-Z0-9_]{1,})$/g.test(name)) {
       return lodash.compact([typePrefix, name, typeSuffix]).join("_");
     }
 
