@@ -3706,7 +3706,7 @@ __metadata:
     openapi-types: "npm:12.1.3"
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
-    tsdown: "npm:0.12.5"
+    tsdown: "npm:0.12.6"
     typedoc: "npm:0.28.5"
     typescript: "npm:~5.8.3"
     vitest: "npm:3.1.4"
@@ -3847,9 +3847,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:0.12.5":
-  version: 0.12.5
-  resolution: "tsdown@npm:0.12.5"
+"tsdown@npm:0.12.6":
+  version: 0.12.6
+  resolution: "tsdown@npm:0.12.6"
   dependencies:
     ansis: "npm:^4.1.0"
     cac: "npm:^6.7.14"
@@ -3865,11 +3865,14 @@ __metadata:
     tinyglobby: "npm:^0.2.14"
     unconfig: "npm:^7.3.2"
   peerDependencies:
+    "@arethetypeswrong/core": ^0.18.1
     publint: ^0.3.0
     typescript: ^5.0.0
     unplugin-lightningcss: ^0.4.0
     unplugin-unused: ^0.5.0
   peerDependenciesMeta:
+    "@arethetypeswrong/core":
+      optional: true
     publint:
       optional: true
     typescript:
@@ -3880,7 +3883,7 @@ __metadata:
       optional: true
   bin:
     tsdown: dist/run.js
-  checksum: 10c0/d8c3cb95020527ca872fc35de89a372877054cd842d5da83f756843e08914bdc5fea6ea8cfef7de06d695e9618d56c940099f9b2538ef3e520e5877d21e269e3
+  checksum: 10c0/f16cc843bb90ad0bc040c17aad78ed2420ca1bd870745520a5ba04ae44e6cd3456503af793b9b31afa8e1ff509874f51b571ffd5c26d4eb742b67b3d2db431bf
   languageName: node
   linkType: hard
 
