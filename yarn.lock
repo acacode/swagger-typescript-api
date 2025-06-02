@@ -173,8 +173,8 @@ __metadata:
   linkType: hard
 
 "@biomejs/js-api@npm:^0.8.0-beta.2":
-  version: 0.8.0-beta.2
-  resolution: "@biomejs/js-api@npm:0.8.0-beta.2"
+  version: 0.8.0-beta.3
+  resolution: "@biomejs/js-api@npm:0.8.0-beta.3"
   peerDependencies:
     "@biomejs/wasm-bundler": ^1.9.4
     "@biomejs/wasm-nodejs": ^1.9.4
@@ -186,7 +186,7 @@ __metadata:
       optional: true
     "@biomejs/wasm-web":
       optional: true
-  checksum: 10c0/711f0f169e40ad06da501aefd4598a7e81833fe9defb6b913d9103b35ccb07edbe41be7d884a3c5219d83c023047949ac436464d2aaefb35d29f1a91cad8a938
+  checksum: 10c0/f037e2338368170f95c3af2464bd2addee52ee78336275ef1cc730bf56a22689ccafdbc6a6a2c66ad62c1481da05aab7c66053ffb8d9378f7284bfe20d93a823
   languageName: node
   linkType: hard
 
