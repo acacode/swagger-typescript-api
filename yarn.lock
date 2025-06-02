@@ -191,9 +191,9 @@ __metadata:
   linkType: hard
 
 "@biomejs/wasm-nodejs@npm:^2.0.0-beta.4":
-  version: 2.0.0-beta.5
-  resolution: "@biomejs/wasm-nodejs@npm:2.0.0-beta.5"
-  checksum: 10c0/2e127c55dcecf62dd8c78034e2eed7d2e352583caeaa519adbdaedfa0af20acd2b646f7c65da36e323329f91349c64fedfd291252804c0c11e9833ca8a67f129
+  version: 2.0.0-beta.6
+  resolution: "@biomejs/wasm-nodejs@npm:2.0.0-beta.6"
+  checksum: 10c0/cce971dc448c66f9db24a3f55dda7b369fab634eaad3414c55062c451ecb56a6a523b4e27eee6c7ce297032a625eba85077c6a1f138b8b3e949b32309edd014e
   languageName: node
   linkType: hard
 
