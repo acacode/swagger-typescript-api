@@ -1,5 +1,21 @@
 # swagger-typescript-api
 
+## 13.2.0
+
+### Minor Changes
+
+- [#1187](https://github.com/acacode/swagger-typescript-api/pull/1187) [`1039ff1`](https://github.com/acacode/swagger-typescript-api/commit/1039ff1ac1c40c1875e31799ae9405f2f57862fd) Thanks [@gletournel](https://github.com/gletournel)! - Add support for json:api content type.
+
+### Patch Changes
+
+- [#1225](https://github.com/acacode/swagger-typescript-api/pull/1225) [`a013686`](https://github.com/acacode/swagger-typescript-api/commit/a013686d8ce4e82bc16e5159d35a7fd1870497ab) Thanks [@smorimoto](https://github.com/smorimoto)! - Update the internal Biome to latest beta release.
+
+- [#1266](https://github.com/acacode/swagger-typescript-api/pull/1266) [`469ded7`](https://github.com/acacode/swagger-typescript-api/commit/469ded79d412b9fd4b3bed8dd493f63ebf48331f) Thanks [@dependabot](https://github.com/apps/dependabot)! - Update the internal Biome to latest beta release.
+
+- [#1235](https://github.com/acacode/swagger-typescript-api/pull/1235) [`0e251bb`](https://github.com/acacode/swagger-typescript-api/commit/0e251bb042bdec35fd6efa714868486ff882c7e4) Thanks [@smorimoto](https://github.com/smorimoto)! - Fix typos in CLI option description and warning message.
+
+- [#1270](https://github.com/acacode/swagger-typescript-api/pull/1270) [`c79625e`](https://github.com/acacode/swagger-typescript-api/commit/c79625e785b26926f1e1ca20a4ba847952a557da) Thanks [@smorimoto](https://github.com/smorimoto)! - Remove `required` field from command definitions for now.
+
 ## 13.1.3
 
 ### Patch Changes
