@@ -50,7 +50,7 @@
     "@biomejs/js-api": "^0.8.0-beta.3",
     "@biomejs/wasm-nodejs": "^2.0.0-beta.6",
     "@types/swagger-schema-official": "^2.0.25",
-    "c12": "^3.0.3",
+    "c12": "^3.0.4",
     "citty": "^0.1.6",
     "consola": "^3.4.2",
     "eta": "^2.2.0",

@@ -1448,7 +1448,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"c12@npm:^3.0.3":
+"c12@npm:^3.0.4":
   version: 3.0.4
   resolution: "c12@npm:3.0.4"
   dependencies:
@@ -3713,7 +3713,7 @@ __metadata:
     "@types/swagger-schema-official": "npm:^2.0.25"
     "@types/swagger2openapi": "npm:7.0.4"
     axios: "npm:1.9.0"
-    c12: "npm:^3.0.3"
+    c12: "npm:^3.0.4"
     citty: "npm:^0.1.6"
     consola: "npm:^3.4.2"
     eta: "npm:^2.2.0"
