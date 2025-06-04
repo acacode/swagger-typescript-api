@@ -39,11 +39,11 @@ export class CodeFormatter {
   format = async (content: string) => {
     const biome = await Biome.create({ distribution: Distribution.NODE });
     const biomeProject = biome.openProject();
-    biome.applyConfiguration(biomeProject, {
+    biome.applyConfiguration(biomeProject.projectKey, {
       files: { maxSize: Number.MAX_SAFE_INTEGER },
       formatter: { indentStyle: "space" },
     });
-    const formatted = biome.formatContent(biomeProject, content, {
+    const formatted = biome.formatContent(biomeProject.projectKey, content, {
       filePath: path.format({ name: nanoid.nanoid(), ext: "ts" }),
     });
     return formatted.content;
