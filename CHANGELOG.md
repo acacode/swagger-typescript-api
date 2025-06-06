@@ -1,5 +1,13 @@
 # swagger-typescript-api
 
+## 13.2.1
+
+### Patch Changes
+
+- [#1277](https://github.com/acacode/swagger-typescript-api/pull/1277) [`3fd6224`](https://github.com/acacode/swagger-typescript-api/commit/3fd62241a75a2578961069b799b850941cfc4545) Thanks [@smorimoto](https://github.com/smorimoto)! - Revert "Integrate `generateCommand` arguments and run method into main command (#1198)".
+
+- [`8a059bd`](https://github.com/acacode/swagger-typescript-api/commit/8a059bdd005a7af540148bf01c3eeda4a6d7dbdb) Thanks [@smorimoto](https://github.com/smorimoto)! - Update Node.js version requirements.
+
 ## 13.2.0
 
 ### Minor Changes
