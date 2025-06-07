@@ -13,11 +13,14 @@ exports[`basic > use x-enumNames as the key for enum 1`] = `
  * ---------------------------------------------------------------
  */
 
-export enum StringEnumWithoutKey {
+export enum StringEnumIncludesNumbersAndUnderscore {
   VAL_1 = "VAL_1",
   VAL_2 = "VAL_2",
   VAL_3 = "VAL_3",
   _1_VAL = "_1_VAL",
+  A_1_B_2_C_3 = "A_1_B_2_C_3",
+  _A_1_B_2_C_3 = "_A_1_B_2_C_3",
+  _1_A_2_B_3_C = "_1_A_2_B_3_C",
 }
 "
 `;
