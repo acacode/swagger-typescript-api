@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-api",
-  "version": "13.2.0",
+  "version": "13.2.1",
   "description": "Generate the API client for Fetch or Axios from an OpenAPI Specification",
   "homepage": "https://github.com/acacode/swagger-typescript-api",
   "bugs": "https://github.com/acacode/swagger-typescript-api/issues",
