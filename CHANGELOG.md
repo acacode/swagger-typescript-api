@@ -1,5 +1,15 @@
 # swagger-typescript-api
 
+## 13.2.1
+
+### Patch Changes
+
+- [#1260](https://github.com/acacode/swagger-typescript-api/pull/1260) [`31b628f`](https://github.com/acacode/swagger-typescript-api/commit/31b628f3f553e3d5024ff711a46c810151ea6521) Thanks [@parsaghk](https://github.com/parsaghk)! - Fix enum key generation for values like `ENUM_123_VALUE_456`.
+
+- [#1277](https://github.com/acacode/swagger-typescript-api/pull/1277) [`3fd6224`](https://github.com/acacode/swagger-typescript-api/commit/3fd62241a75a2578961069b799b850941cfc4545) Thanks [@smorimoto](https://github.com/smorimoto)! - Revert "Integrate `generateCommand` arguments and run method into main command (#1198)".
+
+- [`8a059bd`](https://github.com/acacode/swagger-typescript-api/commit/8a059bdd005a7af540148bf01c3eeda4a6d7dbdb) Thanks [@smorimoto](https://github.com/smorimoto)! - Update Node.js version requirements.
+
 ## 13.2.0
 
 ### Minor Changes
