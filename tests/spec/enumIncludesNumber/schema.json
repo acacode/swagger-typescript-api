@@ -1,0 +1,21 @@
+{
+  "openapi": "3.0.0",
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "StringEnumIncludesNumbersAndUnderscore": {
+        "type": "string",
+        "enum": [
+          "VAL_1",
+          "VAL_2",
+          "VAL_3",
+          "_1_VAL",
+          "A_1_B_2_C_3",
+          "_A_1_B_2_C_3",
+          "_1_A_2_B_3_C"
+        ]
+      }
+    }
+  }
+}
