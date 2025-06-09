@@ -53,6 +53,8 @@ export class CodeGenConfig {
   generateClient = true;
   /** CLI flag */
   generateUnionEnums = false;
+  /** CLI flag,  */
+  generateErasableSyntaxEnums = false;
   /** CLI flag */
   addReadonly = false;
   enumNamesAsValues = false;

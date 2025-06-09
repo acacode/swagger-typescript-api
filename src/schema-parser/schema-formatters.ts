@@ -27,6 +27,16 @@ export class SchemaFormatters {
             parsedSchema.content.map(({ value }) => value),
           ),
         };
+      } else if (this.config.generateErasableSyntaxEnums) {
+        return {
+          ...parsedSchema,
+          $content: parsedSchema.content,
+          content: this.config.Ts.ObjectWrapper(
+            parsedSchema.content.map(
+              ({ key, value }) => `${this.config.Ts.TypeField({ key, value })}`,
+            ),
+          ),
+        };
       }
 
       return {

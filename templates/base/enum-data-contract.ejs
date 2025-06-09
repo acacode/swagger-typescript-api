@@ -5,6 +5,12 @@ const { name, $content } = contract;
 %>
 <% if (config.generateUnionEnums) { %>
   export type <%~ name %> = <%~ _.map($content, ({ value }) => value).join(" | ") %>
+<% } else if (config.generateErasableSyntaxEnums) { %>
+  export const <%~ name %>: { [key: string]: string } = {
+    <%~ _.map($content, ({key, value}) => `${key}: "${value}"`).join(",\n") %>
+  } as const;
+
+  export type <%~ name %> = typeof <%~ name %>[keyof typeof <%~ name %>];
 <% } else { %>
   export enum <%~ name %> {
     <%~ _.map($content, ({ key, value }) => `${key} = ${value}`).join(",\n") %>

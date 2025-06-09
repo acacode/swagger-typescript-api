@@ -682,6 +682,7 @@ export interface GenerateApiConfiguration {
     generateRouteTypes: boolean;
     generateClient: boolean;
     generateUnionEnums: boolean;
+    generateErasableSyntaxEnums: boolean;
     swaggerSchema: object;
     originalSchema: object;
     componentsMap: Record<string, SchemaComponent>;
