@@ -29,6 +29,21 @@ export class SchemaFormatters {
         };
       }
 
+      if (this.config.generateConstObjectEnums) {
+        const entries = parsedSchema.content
+          .map(({ key, value }) => {
+            return `${key}: ${value}`;
+          })
+          .join(",\n  ");
+        return {
+          ...parsedSchema,
+          $content: parsedSchema.content,
+          typeIdentifier: this.config.Ts.Keyword.Const,
+          content: `{\n  ${entries}\n} as const;\nexport type ${parsedSchema.name} = (typeof ${parsedSchema.name})[keyof typeof ${parsedSchema.name}];`,
+        };
+      }
+
+      // Fallback: classic TypeScript enum
       return {
         ...parsedSchema,
         $content: parsedSchema.content,
