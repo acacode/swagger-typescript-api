@@ -151,7 +151,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/js-api@npm:^0.8.0-beta.3":
+"@biomejs/js-api@npm:0.8.0-beta.3":
   version: 0.8.0-beta.3
   resolution: "@biomejs/js-api@npm:0.8.0-beta.3"
   peerDependencies:
@@ -169,7 +169,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/wasm-nodejs@npm:^2.0.0-beta.6":
+"@biomejs/wasm-nodejs@npm:2.0.0-beta.6":
   version: 2.0.0-beta.6
   resolution: "@biomejs/wasm-nodejs@npm:2.0.0-beta.6"
   checksum: 10c0/cce971dc448c66f9db24a3f55dda7b369fab634eaad3414c55062c451ecb56a6a523b4e27eee6c7ce297032a625eba85077c6a1f138b8b3e949b32309edd014e
@@ -3730,8 +3730,8 @@ __metadata:
   resolution: "swagger-typescript-api@workspace:."
   dependencies:
     "@biomejs/biome": "npm:2.0.0-beta.6"
-    "@biomejs/js-api": "npm:^0.8.0-beta.3"
-    "@biomejs/wasm-nodejs": "npm:^2.0.0-beta.6"
+    "@biomejs/js-api": "npm:0.8.0-beta.3"
+    "@biomejs/wasm-nodejs": "npm:2.0.0-beta.6"
     "@changesets/changelog-github": "npm:0.5.1"
     "@changesets/cli": "npm:2.29.4"
     "@tsconfig/node18": "npm:18.2.4"
