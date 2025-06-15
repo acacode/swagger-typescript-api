@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.2.2
+
+### Patch Changes
+
+- [#1287](https://github.com/acacode/swagger-typescript-api/pull/1287) [`87da340`](https://github.com/acacode/swagger-typescript-api/commit/87da340e5583eef6fd487c15318e396d9908c9f3) Thanks [@smorimoto](https://github.com/smorimoto)! - Pin versions of internal Biome packages.
+
 ## 13.2.1
 
 ### Patch Changes
