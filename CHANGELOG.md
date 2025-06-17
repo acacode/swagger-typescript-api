@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.2.3
+
+### Patch Changes
+
+- [#1293](https://github.com/acacode/swagger-typescript-api/pull/1293) [`a87883b`](https://github.com/acacode/swagger-typescript-api/commit/a87883bdeb3e71330b8aab7d26ae62b68b51e323) Thanks [@smorimoto](https://github.com/smorimoto)! - Bump Biome to 2.0.
+
 ## 13.2.2
 
 ### Patch Changes
