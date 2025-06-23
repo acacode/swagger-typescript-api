@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.2.4
+
+### Patch Changes
+
+- [#1299](https://github.com/acacode/swagger-typescript-api/pull/1299) [`9552c0a`](https://github.com/acacode/swagger-typescript-api/commit/9552c0a3341583be69aaa2cdf2b4e830a1919b01) Thanks [@js2me](https://github.com/js2me)! - added support of x-enum-descriptions property
+
 ## 13.2.3
 
 ### Patch Changes
