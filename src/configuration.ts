@@ -293,9 +293,9 @@ export class CodeGenConfig {
      */
     EnumFieldDescription: (description: any) => {
       if (description) {
-        return `  /** ${description} */`
+        return `  /** ${description} */`;
       } else {
-        return '';
+        return "";
       }
     },
     /**
@@ -309,11 +309,12 @@ export class CodeGenConfig {
     EnumFieldsWrapper: (contents: Record<string, unknown>[]) =>
       lodash
         .map(contents, ({ key, value, description }) => {
-
           return [
             this.Ts.EnumFieldDescription(description),
-            `  ${this.Ts.EnumField(key, value)}`
-          ].filter(Boolean).join('\n')
+            `  ${this.Ts.EnumField(key, value)}`,
+          ]
+            .filter(Boolean)
+            .join("\n");
         })
         .join(",\n"),
     /**
