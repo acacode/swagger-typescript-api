@@ -63,6 +63,8 @@ export class EnumSchemaParser extends MonoSchemaParser {
 
     const keyType = this.schemaUtils.getSchemaType(this.schema);
     const enumNames = this.schemaUtils.getEnumNames(this.schema);
+    const enumDescriptions = this.schemaUtils.getEnumDescriptions(this.schema);
+
     let content = null;
 
     const formatValue = (value) => {
@@ -96,6 +98,7 @@ export class EnumSchemaParser extends MonoSchemaParser {
             key: formattedKey,
             type: this.config.Ts.Keyword.String,
             value: this.config.Ts.StringValue(enumName),
+            description: enumDescriptions?.[index],
           };
         }
 
@@ -103,15 +106,17 @@ export class EnumSchemaParser extends MonoSchemaParser {
           key: formattedKey,
           type: keyType,
           value: formatValue(enumValue),
+          description: enumDescriptions?.[index],
         };
       });
     } else {
-      content = this.schema.enum.map((value) => {
+      content = this.schema.enum.map((value, index) => {
         return {
           // @ts-expect-error TS(2345) FIXME: Argument of type '{ value: any; }' is not assignab... Remove this comment to see the full error message
           key: this.formatEnumKey({ value }),
           type: keyType,
           value: formatValue(value),
+          description: enumDescriptions?.[index],
         };
       });
     }

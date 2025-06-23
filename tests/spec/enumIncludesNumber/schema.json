@@ -14,7 +14,8 @@
           "A_1_B_2_C_3",
           "_A_1_B_2_C_3",
           "_1_A_2_B_3_C"
-        ]
+        ],
+        "x-enum-descriptions": ["Foo", "Bar", "Baz"]
       }
     }
   }

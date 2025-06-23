@@ -44,6 +44,15 @@ export class SchemaUtils {
     );
   };
 
+  getEnumDescriptions = (schema) => {
+    return (
+      schema["x-enumDescriptions"] ||
+      schema.xEnumDescriptions ||
+      schema["x-enumdescriptions"] ||
+      schema["x-enum-descriptions"]
+    );
+  };
+
   getSchemaRefType = (schema) => {
     if (!this.isRefSchema(schema)) return null;
     return this.schemaComponentsMap.get(schema.$ref);

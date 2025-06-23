@@ -289,13 +289,33 @@ export class CodeGenConfig {
      */
     EnumField: (key: unknown, value: unknown) => `${key} = ${value}`,
     /**
+     * /\** description \*\/
+     */
+    EnumFieldDescription: (description: any) => {
+      if (description) {
+        return `  /** ${description} */`;
+      } else {
+        return "";
+      }
+    },
+    /**
+     * /\** $A0.description \*\/
      * $A0.key = $A0.value,
+     * /\** $A1.description \*\/
      * $A1.key = $A1.value,
+     * /\** $AN.description \*\/
      * $AN.key = $AN.value,
      */
     EnumFieldsWrapper: (contents: Record<string, unknown>[]) =>
       lodash
-        .map(contents, ({ key, value }) => `  ${this.Ts.EnumField(key, value)}`)
+        .map(contents, ({ key, value, description }) => {
+          return [
+            this.Ts.EnumFieldDescription(description),
+            `  ${this.Ts.EnumField(key, value)}`,
+          ]
+            .filter(Boolean)
+            .join("\n");
+        })
         .join(",\n"),
     /**
      * {\n $A \n}
