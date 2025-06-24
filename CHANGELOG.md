@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.2.5
+
+### Patch Changes
+
+- [#1302](https://github.com/acacode/swagger-typescript-api/pull/1302) [`790fece`](https://github.com/acacode/swagger-typescript-api/commit/790fecea92920ecc996d90dbad5a984421e16aa8) Thanks [@js2me](https://github.com/js2me)! - added support x-propertyNames, propertyNames for object types
+
 ## 13.2.4
 
 ### Patch Changes
