@@ -1,0 +1,55 @@
+openapi: 3.0.3
+info:
+  title: teesttt
+  version: 0.0.0
+security:
+  - registryCookieAuth: []
+  - cookieAuth: [ ]
+components:
+  schemas:
+    FooBarBazRoot:
+      type: object
+      propertyNames:
+        $ref: '#/components/schemas/KekEnum'
+      additionalProperties:
+        type: number
+    FooBarBazNoAdditionalProperties:
+      type: object
+      propertyNames:
+        $ref: '#/components/schemas/KekEnum'
+    FooBarBazNoAdditionalPropertiesPrimitive:
+      type: object
+      propertyNames:
+        type: number
+    FooBarBazNested:
+      type: object
+      properties:
+        dataCount:
+          type: object
+          propertyNames:
+            $ref: '#/components/schemas/KekEnum'
+          additionalProperties:
+            type: number
+    KekEnum:
+      type: string
+      enum:
+        - creating
+        - created
+        - starting
+        - started
+        - restarting
+        - stopping
+        - stopped
+        - deploy
+        - wait_dependency
+        - updating
+      x-enum-descriptions:
+        - Creating
+        - created
+        - Starting
+        - Kkeke
+        - dsafads
+        - dasfds
+        - dadd
+        - xzxzxz
+        - axzxe

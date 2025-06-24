@@ -82,12 +82,27 @@ export class ObjectSchemaParser extends MonoSchemaParser {
     });
 
     if (additionalProperties) {
+      const propertyNamesSchema =
+        this.schemaUtils.getSchemaPropertyNamesSchema(schema);
+      let interfaceKeysContent: any;
+
+      if (propertyNamesSchema) {
+        interfaceKeysContent = this.schemaParserFabric
+          .createSchemaParser({
+            schema: propertyNamesSchema,
+            schemaPath: this.schemaPath,
+          })
+          .getInlineParseContent();
+      } else {
+        interfaceKeysContent = this.config.Ts.Keyword.String;
+      }
+
       propertiesContent.push({
         $$raw: { additionalProperties },
         description: "",
         isRequired: false,
         field: this.config.Ts.InterfaceDynamicField(
-          this.config.Ts.Keyword.String,
+          interfaceKeysContent,
           this.config.Ts.Keyword.Any,
         ),
       });

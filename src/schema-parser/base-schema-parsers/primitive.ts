@@ -8,18 +8,38 @@ export class PrimitiveSchemaParser extends MonoSchemaParser {
       this.schema || {};
 
     if (type === this.config.Ts.Keyword.Object && additionalProperties) {
-      const fieldType =
-        typeof additionalProperties === "object"
-          ? this.schemaParserFabric
-              .createSchemaParser({
-                schema: additionalProperties,
-                schemaPath: this.schemaPath,
-              })
-              .getInlineParseContent()
-          : this.config.Ts.Keyword.Any;
+      const propertyNamesSchema = this.schemaUtils.getSchemaPropertyNamesSchema(
+        this.schema,
+      );
+
+      let recordKeysContent: any;
+      let recordValuesContent: any;
+
+      if (propertyNamesSchema) {
+        recordKeysContent = this.schemaParserFabric
+          .createSchemaParser({
+            schema: propertyNamesSchema,
+            schemaPath: this.schemaPath,
+          })
+          .getInlineParseContent();
+      } else {
+        recordKeysContent = this.config.Ts.Keyword.String;
+      }
+
+      if (typeof additionalProperties === "object") {
+        recordValuesContent = this.schemaParserFabric
+          .createSchemaParser({
+            schema: additionalProperties,
+            schemaPath: this.schemaPath,
+          })
+          .getInlineParseContent();
+      } else {
+        recordValuesContent = this.config.Ts.Keyword.Any;
+      }
+
       contentType = this.config.Ts.RecordType(
-        this.config.Ts.Keyword.String,
-        fieldType,
+        recordKeysContent,
+        recordValuesContent,
       );
     }
 
