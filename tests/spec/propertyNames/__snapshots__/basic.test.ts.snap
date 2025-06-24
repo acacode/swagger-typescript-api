@@ -1,0 +1,48 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`basic > propertyNames 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export enum KekEnum {
+  /** Creating */
+  Creating = "creating",
+  /** created */
+  Created = "created",
+  /** Starting */
+  Starting = "starting",
+  /** Kkeke */
+  Started = "started",
+  /** dsafads */
+  Restarting = "restarting",
+  /** dasfds */
+  Stopping = "stopping",
+  /** dadd */
+  Stopped = "stopped",
+  /** xzxzxz */
+  Deploy = "deploy",
+  /** axzxe */
+  WaitDependency = "wait_dependency",
+  Updating = "updating",
+}
+
+export type FooBarBazRoot = Record<KekEnum, number>;
+
+export type FooBarBazNoAdditionalProperties = object;
+
+export type FooBarBazNoAdditionalPropertiesPrimitive = object;
+
+export interface FooBarBazNested {
+  dataCount?: Record<KekEnum, number>;
+}
+"
+`;

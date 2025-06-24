@@ -53,6 +53,11 @@ export class SchemaUtils {
     );
   };
 
+  getSchemaPropertyNamesSchema = (schema) => {
+    if (!schema) return null;
+    return schema.propertyNames || schema["x-propertyNames"] || null;
+  };
+
   getSchemaRefType = (schema) => {
     if (!this.isRefSchema(schema)) return null;
     return this.schemaComponentsMap.get(schema.$ref);
