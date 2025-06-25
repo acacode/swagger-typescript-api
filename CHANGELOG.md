@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.2.6
+
+### Patch Changes
+
+- [#1306](https://github.com/acacode/swagger-typescript-api/pull/1306) [`fe125cb`](https://github.com/acacode/swagger-typescript-api/commit/fe125cb6820621447f2cbf35c8bc0604fcc466dd) Thanks [@js2me](https://github.com/js2me)! - better extracting description for request body extacting types
+
 ## 13.2.5
 
 ### Patch Changes
