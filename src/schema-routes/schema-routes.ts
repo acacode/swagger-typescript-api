@@ -206,6 +206,7 @@ export class SchemaRoutes {
     lodash.each(parameters, (parameter) => {
       const refTypeInfo =
         this.schemaParserFabric.schemaUtils.getSchemaRefType(parameter);
+
       let routeParam = null;
 
       if (refTypeInfo?.rawTypeData.in && refTypeInfo.rawTypeData) {
@@ -217,6 +218,10 @@ export class SchemaRoutes {
           ...refTypeInfo.rawTypeData,
           ...(refTypeInfo.rawTypeData.schema || {}),
         };
+
+        if (parameter?.required && !routeParam.required) {
+          routeParam.required = parameter.required;
+        }
       } else {
         if (!parameter.in) return;
 
