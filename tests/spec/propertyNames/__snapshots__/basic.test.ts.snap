@@ -44,5 +44,11 @@ export type FooBarBazNoAdditionalPropertiesPrimitive = object;
 export interface FooBarBazNested {
   dataCount?: Record<KekEnum, number>;
 }
+
+export type ProductId = string;
+
+export interface GetProductsParams {
+  productId: ProductId;
+}
 "
 `;

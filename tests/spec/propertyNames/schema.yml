@@ -5,6 +5,20 @@ info:
 security:
   - registryCookieAuth: []
   - cookieAuth: [ ]
+paths:
+  /api/v1/products:
+    get:
+      operationId: getProducts
+      tags:
+        - Products
+      summary: ASDfdsafdsafdsaf
+      parameters:
+        - in: query
+          required: true
+          $ref: '#/components/parameters/ProductIdQueryParam'
+      responses:
+        '200':
+          description: KO
 components:
   schemas:
     FooBarBazRoot:
@@ -53,3 +67,32 @@ components:
         - dadd
         - xzxzxz
         - axzxe
+    ProductId:
+      type: string
+  parameters:
+    LimitQueryParam:
+      name: limit
+      in: query
+      schema:
+        type: integer
+    OffsetQueryParam:
+      name: offset
+      in: query
+      schema:
+        type: integer
+    ProductIdPathParam:
+      name: productId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/ProductId'
+    ProductIdQueryParam:
+      name: productId
+      in: query
+      schema:
+        $ref: '#/components/schemas/ProductId'
+    SearchQueryParam:
+      name: search
+      in: query
+      schema:
+        type: string

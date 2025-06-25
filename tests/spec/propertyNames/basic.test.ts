@@ -24,7 +24,9 @@ describe("basic", async () => {
       output: tmpdir,
       silent: true,
       generateClient: false,
-      generateRouteTypes: true,
+      generateRouteTypes: false,
+      extractRequestBody: true,
+      extractRequestParams: true,
     });
 
     const content = await fs.readFile(path.join(tmpdir, "schema.ts"), {
