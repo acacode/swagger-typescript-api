@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.2.7
+
+### Patch Changes
+
+- [#1308](https://github.com/acacode/swagger-typescript-api/pull/1308) [`36fc899`](https://github.com/acacode/swagger-typescript-api/commit/36fc899c9078e9df55ef97dfb83cbf654914fd7a) Thanks [@js2me](https://github.com/js2me)! - add missing required state for query param with $ref
+
 ## 13.2.6
 
 ### Patch Changes
