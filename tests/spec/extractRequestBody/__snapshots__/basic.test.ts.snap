@@ -178,8 +178,10 @@ export interface UploadFilePayloadTTT {
   file?: File;
 }
 
+/** List of user object */
 export type CreateUsersWithArrayInputPayloadTTT = UserTTT[];
 
+/** List of user object */
 export type CreateUsersWithListInputPayloadTTT = UserTTT[];
 
 export type QueryParamsType = Record<string | number, any>;
