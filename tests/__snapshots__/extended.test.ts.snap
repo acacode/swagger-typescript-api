@@ -116,6 +116,7 @@ export type AllTriggersData = Trigger[];
 
 export type BatchCreateDataData = DataResponse[];
 
+/** A collection of data records including \`value\` (required) and optionally including: \`lat\`, \`lon\`, \`ele\` (latitude, longitude, and elevation values), and \`created_at\` (a date/time string). */
 export type BatchCreateDataPayload = {
   /** @format dateTime */
   created_at?: string;
@@ -128,6 +129,7 @@ export type BatchCreateDataPayload = {
 
 export type BatchCreateGroupFeedDataData = DataResponse[];
 
+/** A collection of data records including \`value\` (required) and optionally including: \`lat\`, \`lon\`, \`ele\` (latitude, longitude, and elevation values), and \`created_at\` (a date/time string). */
 export type BatchCreateGroupFeedDataPayload = {
   /** @format dateTime */
   created_at?: string;
@@ -225,6 +227,7 @@ export interface CreateDashboardPayload {
 
 export type CreateDataData = Data;
 
+/** Data record including a \`value\` field (required) and optionally including: \`lat\`, \`lon\`, \`ele\` (latitude, longitude, and elevation values), and \`created_at\` (a date/time string). */
 export interface CreateDataPayload {
   /** @format dateTime */
   created_at?: string;
@@ -274,6 +277,7 @@ export type CreateGroupFeedData = Feed;
 
 export type CreateGroupFeedDataData = DataResponse;
 
+/** Data record including a \`value\` field (required) and optionally including: \`lat\`, \`lon\`, \`ele\` (latitude, longitude, and elevation values), and \`created_at\` (a date/time string). */
 export interface CreateGroupFeedDataPayload {
   /** @format dateTime */
   created_at?: string;
@@ -338,6 +342,7 @@ export interface CreateTriggerPayload {
 
 export type CreateWebhookFeedDataData = Data;
 
+/** Webhook payload containing data \`value\` parameter. */
 export interface CreateWebhookFeedDataPayload {
   value?: string;
 }
@@ -621,6 +626,7 @@ export interface ReplaceDashboardPayload {
 
 export type ReplaceDataData = DataResponse;
 
+/** Data record including a \`value\` field (required) and optionally including: \`lat\`, \`lon\`, \`ele\` (latitude, longitude, and elevation values), and \`created_at\` (a date/time string). */
 export interface ReplaceDataPayload {
   /** @format dateTime */
   created_at?: string;
@@ -732,6 +738,7 @@ export interface UpdateDashboardPayload {
 
 export type UpdateDataData = DataResponse;
 
+/** Data record including a \`value\` field (required) and optionally including: \`lat\`, \`lon\`, \`ele\` (latitude, longitude, and elevation values), and \`created_at\` (a date/time string). */
 export interface UpdateDataPayload {
   /** @format dateTime */
   created_at?: string;
@@ -5285,8 +5292,10 @@ export interface Category {
   name?: string;
 }
 
+/** List of user object */
 export type CreateUsersWithArrayInputPayload = User[];
 
+/** List of user object */
 export type CreateUsersWithListInputPayload = User[];
 
 /**
@@ -68537,8 +68546,10 @@ export interface Category {
   name?: string;
 }
 
+/** List of user object */
 export type CreateUsersWithArrayInputPayload = User[];
 
+/** List of user object */
 export type CreateUsersWithListInputPayload = User[];
 
 export type FindPetsByStatusData = Pet[];

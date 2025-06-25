@@ -2,7 +2,7 @@
 const { data, utils } = it;
 const { formatDescription, require, _ } = utils;
 
-const stringify = (value) => _.isObject(value) ? JSON.stringify(value) : _.isString(value) ? `"${value}"` : value
+const stringify = (value) => _.isObject(value) ? JSON.stringify(value) : _.isString(value) ? `"${value}"` : value;
 
 const jsDocLines = _.compact([
     data.title,

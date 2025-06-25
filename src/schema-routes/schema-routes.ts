@@ -611,7 +611,17 @@ export class SchemaRoutes {
       });
     }
 
+    if (
+      schema &&
+      schema.typeData &&
+      !schema.typeData.description &&
+      requestBody?.description
+    ) {
+      schema.typeData.description = requestBody.description;
+    }
+
     return {
+      ...(requestBody || {}),
       paramName: requestBodyName || requestBody?.name || DEFAULT_BODY_ARG_NAME,
       contentTypes,
       contentKind,
@@ -995,6 +1005,7 @@ export class SchemaRoutes {
         : void 0,
       body: requestBodyInfo.type
         ? {
+            ...requestBodyInfo,
             name: nameResolver.resolve([
               requestBodyInfo.paramName,
               ...RESERVED_BODY_ARG_NAMES,
