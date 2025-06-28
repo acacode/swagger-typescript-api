@@ -3753,7 +3753,7 @@ __metadata:
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
     tsdown: "npm:0.12.9"
-    typedoc: "npm:0.28.5"
+    typedoc: "npm:0.28.6"
     typescript: "npm:~5.8.3"
     vitest: "npm:3.2.4"
   bin:
@@ -3930,9 +3930,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:0.28.5":
-  version: 0.28.5
-  resolution: "typedoc@npm:0.28.5"
+"typedoc@npm:0.28.6":
+  version: 0.28.6
+  resolution: "typedoc@npm:0.28.6"
   dependencies:
     "@gerrit0/mini-shiki": "npm:^3.2.2"
     lunr: "npm:^2.3.9"
@@ -3943,7 +3943,7 @@ __metadata:
     typescript: 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x || 5.6.x || 5.7.x || 5.8.x
   bin:
     typedoc: bin/typedoc
-  checksum: 10c0/fc8235dbe8f14da24fdb088467b01887b3f1375b27d5caf0276ae405f03aa1f523e94aea52fe8ce1a3d477ae9e3f4f69fdc28614275445a828a77db88784e6ce
+  checksum: 10c0/f83f4ceef6e7b55c4547798d069f64a284df2e93052f317ea09d7f1d345caf73e9247bd38b04702be5f5c79848873b1216c3dbaf284bf4657bdbf7b144ecc9bb
   languageName: node
   linkType: hard
 
