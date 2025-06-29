@@ -33,6 +33,7 @@ const TsKeyword = {
   Record: "Record",
   Intersection: "&",
   Union: "|",
+  Const: "const",
 };
 
 const TsCodeGenKeyword = {
@@ -53,6 +54,8 @@ export class CodeGenConfig {
   generateClient = true;
   /** CLI flag */
   generateUnionEnums = false;
+  /** CLI flag */
+  generateConstObjectEnums = false;
   /** CLI flag */
   addReadonly = false;
   enumNamesAsValues = false;

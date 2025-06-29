@@ -1,0 +1,52 @@
+{
+  "components": {
+    "examples": {},
+    "headers": {},
+    "parameters": {},
+    "requestBodies": {},
+    "responses": {},
+    "schemas": {
+      "StringEnum": {
+        "enum": ["String1", "String2", "String3", "String4"],
+        "type": "string"
+      },
+      "NumberEnum": {
+        "enum": [1, 2, 3, 4],
+        "type": "number"
+      },
+      "BooleanEnum": {
+        "enum": ["true", "false"],
+        "type": "boolean"
+      },
+      "IntEnumWithNames": {
+        "enum": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        "type": "integer",
+        "description": "FooBar",
+        "format": "int32",
+        "x-enumNames": [
+          "Unknown",
+          "String",
+          "Int32",
+          "Int64",
+          "Double",
+          "DateTime",
+          "Test2",
+          "Test23",
+          "Tess44",
+          "BooFar"
+        ]
+      }
+    },
+    "securitySchemes": {}
+  },
+  "info": {
+    "title": ""
+  },
+  "openapi": "3.0.0",
+  "paths": {},
+  "servers": [
+    {
+      "url": "http://localhost:8080/api/v1"
+    }
+  ]
+}
