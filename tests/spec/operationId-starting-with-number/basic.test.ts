@@ -35,9 +35,9 @@ describe("operationId starting with number", async () => {
     expect(content).toContain('"123GetUser"');
     expect(content).toContain('"456CreatePost"');
     // Should not contain unquoted invalid identifiers
-    expect(content).not.toContain('123GetUser:');
-    expect(content).not.toContain('456CreatePost:');
+    expect(content).not.toContain("123GetUser:");
+    expect(content).not.toContain("456CreatePost:");
     // Should be valid TypeScript (no syntax errors)
     expect(content).toMatchSnapshot();
   });
-}); 
+});
