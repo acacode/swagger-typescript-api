@@ -181,6 +181,12 @@ const generateCommand = defineCommand({
       description: 'generate all "enum" types as union types (T1 | T2 | TN)',
       default: codeGenBaseConfig.generateUnionEnums,
     },
+    "generate-const-object-enums": {
+      type: "boolean",
+      description:
+        'generate all "enum" types as pairs of const objects and types derived from those objects\' keys. Mutually exclusive with, and pre-empted by, generateUnionEnums',
+      default: codeGenBaseConfig.generateConstObjectEnums, // TODO: collapse enum booleans into a single field taking an enum?
+    },
     "http-client": {
       type: "string",
       description: `http client type (possible values: ${Object.values(
@@ -311,6 +317,7 @@ const generateCommand = defineCommand({
       generateResponses: args.responses,
       generateRouteTypes: args["route-types"],
       generateUnionEnums: args["generate-union-enums"],
+      generateConstObjectEnums: args["generate-const-object-enums"],
       httpClientType:
         args["http-client"] || args.axios
           ? HTTP_CLIENT.AXIOS
