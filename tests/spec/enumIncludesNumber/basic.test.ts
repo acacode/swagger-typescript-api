@@ -1,9 +1,7 @@
 import * as fs from "node:fs/promises";
 import * as os from "node:os";
 import * as path from "node:path";
-
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
-
 import { generateApi } from "../../../src/index.js";
 
 describe("basic", async () => {
@@ -30,7 +28,6 @@ describe("basic", async () => {
     const content = await fs.readFile(path.join(tmpdir, "schema.ts"), {
       encoding: "utf8",
     });
-    console.log(path.join(tmpdir, "schema.ts"));
 
     expect(content).toMatchSnapshot();
   });
