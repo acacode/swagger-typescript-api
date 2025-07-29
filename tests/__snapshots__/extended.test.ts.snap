@@ -6376,7 +6376,7 @@ export class Api<
         method: "POST",
         body: data,
         secure: true,
-        type: ContentType.FormData,
+        type: ContentType.UrlEncoded,
         ...params,
       }),
 
@@ -69452,7 +69452,7 @@ export class Api<
         method: "POST",
         body: data,
         secure: true,
-        type: ContentType.FormData,
+        type: ContentType.UrlEncoded,
         ...params,
       }),
 

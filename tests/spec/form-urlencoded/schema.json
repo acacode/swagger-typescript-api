@@ -1,0 +1,34 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Form URL Encoded Test"
+  },
+  "paths": {
+    "/test": {
+      "put": {
+        "summary": "A test endpoint for form-urlencoded",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "param1",
+            "in": "formData",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "param2",
+            "in": "formData",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}
