@@ -50,13 +50,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.28.0, @babel/types@npm:^7.28.1":
+"@babel/types@npm:^7.28.0":
   version: 7.28.1
   resolution: "@babel/types@npm:7.28.1"
   dependencies:
     "@babel/helper-string-parser": "npm:^7.27.1"
     "@babel/helper-validator-identifier": "npm:^7.27.1"
   checksum: 10c0/5e99b346c11ee42ffb0cadc28159fe0b184d865a2cc1593df79b199772a534f6453969b4942aa5e4a55a3081863096e1cc3fc1c724d826926dc787cf229b845d
+  languageName: node
+  linkType: hard
+
+"@babel/types@npm:^7.28.2":
+  version: 7.28.2
+  resolution: "@babel/types@npm:7.28.2"
+  dependencies:
+    "@babel/helper-string-parser": "npm:^7.27.1"
+    "@babel/helper-validator-identifier": "npm:^7.27.1"
+  checksum: 10c0/24b11c9368e7e2c291fe3c1bcd1ed66f6593a3975f479cbb9dd7b8c8d8eab8a962b0d2fca616c043396ce82500ac7d23d594fbbbd013828182c01596370a0b10
   languageName: node
   linkType: hard
 
@@ -3303,13 +3313,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rolldown-plugin-dts@npm:^0.14.0":
-  version: 0.14.1
-  resolution: "rolldown-plugin-dts@npm:0.14.1"
+"rolldown-plugin-dts@npm:^0.14.3":
+  version: 0.14.3
+  resolution: "rolldown-plugin-dts@npm:0.14.3"
   dependencies:
     "@babel/generator": "npm:^7.28.0"
     "@babel/parser": "npm:^7.28.0"
-    "@babel/types": "npm:^7.28.1"
+    "@babel/types": "npm:^7.28.2"
     ast-kit: "npm:^2.1.1"
     birpc: "npm:^2.5.0"
     debug: "npm:^4.4.1"
@@ -3327,11 +3337,11 @@ __metadata:
       optional: true
     vue-tsc:
       optional: true
-  checksum: 10c0/6f0eb34e3a48a088ab713e60993e58dc05437d233adb116643fcca34f0f690df1ac36423d45768b1b6a111d189362e3949431325fe650d04c320bf02bf204579
+  checksum: 10c0/2420a48bedf3beda63c98d3a9dbc1282b87d1aa723a96be33e73b67795f60a2e508dd539183c64264f693d4e74af30e5ee2db90c62d15519b962c22e1716f190
   languageName: node
   linkType: hard
 
-"rolldown@npm:^1.0.0-beta.28":
+"rolldown@npm:^1.0.0-beta.30":
   version: 1.0.0-beta.9-commit.d91dfb5
   resolution: "rolldown@npm:1.0.0-beta.9-commit.d91dfb5"
   dependencies:
@@ -3747,7 +3757,7 @@ __metadata:
     openapi-types: "npm:12.1.3"
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
-    tsdown: "npm:0.13.0"
+    tsdown: "npm:0.13.1"
     typedoc: "npm:0.28.9"
     typescript: "npm:~5.9.2"
     vitest: "npm:3.2.4"
@@ -3878,9 +3888,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:0.13.0":
-  version: 0.13.0
-  resolution: "tsdown@npm:0.13.0"
+"tree-kill@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "tree-kill@npm:1.2.2"
+  bin:
+    tree-kill: cli.js
+  checksum: 10c0/7b1b7c7f17608a8f8d20a162e7957ac1ef6cd1636db1aba92f4e072dc31818c2ff0efac1e3d91064ede67ed5dc57c565420531a8134090a12ac10cf792ab14d2
+  languageName: node
+  linkType: hard
+
+"tsdown@npm:0.13.1":
+  version: 0.13.1
+  resolution: "tsdown@npm:0.13.1"
   dependencies:
     ansis: "npm:^4.1.0"
     cac: "npm:^6.7.14"
@@ -3889,11 +3908,12 @@ __metadata:
     diff: "npm:^8.0.2"
     empathic: "npm:^2.0.0"
     hookable: "npm:^5.5.3"
-    rolldown: "npm:^1.0.0-beta.28"
-    rolldown-plugin-dts: "npm:^0.14.0"
+    rolldown: "npm:^1.0.0-beta.30"
+    rolldown-plugin-dts: "npm:^0.14.3"
     semver: "npm:^7.7.2"
     tinyexec: "npm:^1.0.1"
     tinyglobby: "npm:^0.2.14"
+    tree-kill: "npm:^1.2.2"
     unconfig: "npm:^7.3.2"
   peerDependencies:
     "@arethetypeswrong/core": ^0.18.1
@@ -3914,7 +3934,7 @@ __metadata:
       optional: true
   bin:
     tsdown: dist/run.mjs
-  checksum: 10c0/bcea943c6b9be46209c822a27099f15e464828d6a74cf7d90c38948bd8922632f46cec7cf6b2f9b9bbbec4ac7d736357e299acb6eed5c5dcb52d5eafd755bf63
+  checksum: 10c0/6a240ea58d41273973185b12c1edc60ed21877cf1e363f379ea89bec8e016d8f46909e2df43fe8bd2a2c7cfcaa772c4d227f90ee8f0639609483be5214f397ce
   languageName: node
   linkType: hard
 
