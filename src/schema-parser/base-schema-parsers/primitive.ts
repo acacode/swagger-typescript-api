@@ -4,8 +4,11 @@ import { MonoSchemaParser } from "../mono-schema-parser.js";
 export class PrimitiveSchemaParser extends MonoSchemaParser {
   override parse() {
     let contentType = null;
-    const { additionalProperties, type, description, items } =
+    const { additionalProperties, type, description, items, readOnly } =
       this.schema || {};
+
+    const readonly =
+      (readOnly && this.config.addReadonly) || this.config.makeImmutable;
 
     if (type === this.config.Ts.Keyword.Object && additionalProperties) {
       const propertyNamesSchema = this.schemaUtils.getSchemaPropertyNamesSchema(
@@ -37,10 +40,11 @@ export class PrimitiveSchemaParser extends MonoSchemaParser {
         recordValuesContent = this.config.Ts.Keyword.Any;
       }
 
-      contentType = this.config.Ts.RecordType(
-        recordKeysContent,
-        recordValuesContent,
-      );
+      contentType = this.config.Ts.RecordType({
+        readonly,
+        key: recordKeysContent,
+        value: recordValuesContent,
+      });
     }
 
     if (Array.isArray(type) && type.length) {
@@ -51,13 +55,14 @@ export class PrimitiveSchemaParser extends MonoSchemaParser {
     }
 
     if (Array.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
-      contentType = this.config.Ts.Tuple(
-        items.map((item) =>
+      contentType = this.config.Ts.Tuple({
+        readonly,
+        values: items.map((item) =>
           this.schemaParserFabric
             .createSchemaParser({ schema: item, schemaPath: this.schemaPath })
             .getInlineParseContent(),
         ),
-      );
+      });
     }
 
     return {

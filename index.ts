@@ -86,6 +86,11 @@ const generateCommand = defineCommand({
       description: "generate readonly properties",
       default: codeGenBaseConfig.addReadonly,
     },
+    "make-immutable": {
+      type: "boolean",
+      description: "makes all properties and values readonly",
+      default: codeGenBaseConfig.makeImmutable,
+    },
     "another-array-type": {
       type: "boolean",
       description: "generate array types as Array<Type> (by default Type[])",

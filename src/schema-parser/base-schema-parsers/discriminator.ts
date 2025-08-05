@@ -58,7 +58,7 @@ export class DiscriminatorSchemaParser extends MonoSchemaParser {
       "schemas",
       this.typeName,
     ]);
-    const { discriminator } = this.schema;
+    const { discriminator, readOnly } = this.schema;
     const mappingEntries = lodash.entries(discriminator.mapping);
     const ableToCreateMappingType =
       !skipMappingType &&
@@ -84,6 +84,9 @@ export class DiscriminatorSchemaParser extends MonoSchemaParser {
       const content = ts.IntersectionType([
         ts.ObjectWrapper(
           ts.TypeField({
+            readonly:
+              (readOnly && this.config.addReadonly) ||
+              this.config.makeImmutable,
             key: ts.StringValue(discriminator.propertyName),
             value: "Key",
           }),
@@ -127,6 +130,9 @@ export class DiscriminatorSchemaParser extends MonoSchemaParser {
         ts.IntersectionType([
           ts.ObjectWrapper(
             ts.TypeField({
+              readonly:
+                (mappingSchema.readOnly && this.config.addReadonly) ||
+                this.config.makeImmutable,
               key: discriminator.propertyName,
               value: mappingUsageKey,
             }),
