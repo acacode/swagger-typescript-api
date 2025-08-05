@@ -299,7 +299,6 @@ export class CodeGenConfig {
      */
     InterfaceDynamicField: ({
       readonly,
-
       key,
       value,
     }: Record<string, unknown>) =>
