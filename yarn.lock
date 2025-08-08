@@ -3322,9 +3322,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rolldown-plugin-dts@npm:^0.15.3":
-  version: 0.15.3
-  resolution: "rolldown-plugin-dts@npm:0.15.3"
+"rolldown-plugin-dts@npm:^0.15.6":
+  version: 0.15.6
+  resolution: "rolldown-plugin-dts@npm:0.15.6"
   dependencies:
     "@babel/generator": "npm:^7.28.0"
     "@babel/parser": "npm:^7.28.0"
@@ -3346,7 +3346,7 @@ __metadata:
       optional: true
     vue-tsc:
       optional: true
-  checksum: 10c0/95715df80cd2b83ebd14711d0a42b69a96d0b3ededa5183574df61d706b846839dcb6138e785d2e97aa3b03be500f0f8882b33a3f5725d8151b155a57625cd1a
+  checksum: 10c0/90d9cd30643e4dca206c288cf32c3b7969f8c7c4fe5f6a4ddd5aec791f4c7ddd7333c872370206b70ae65c4940d715b5f650f76ed470bb6a542bb7cf2248c21a
   languageName: node
   linkType: hard
 
@@ -3766,7 +3766,7 @@ __metadata:
     openapi-types: "npm:12.1.3"
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
-    tsdown: "npm:0.13.3"
+    tsdown: "npm:0.13.4"
     typedoc: "npm:0.28.9"
     typescript: "npm:~5.9.2"
     vitest: "npm:3.2.4"
@@ -3906,9 +3906,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:0.13.3":
-  version: 0.13.3
-  resolution: "tsdown@npm:0.13.3"
+"tsdown@npm:0.13.4":
+  version: 0.13.4
+  resolution: "tsdown@npm:0.13.4"
   dependencies:
     ansis: "npm:^4.1.0"
     cac: "npm:^6.7.14"
@@ -3918,7 +3918,7 @@ __metadata:
     empathic: "npm:^2.0.0"
     hookable: "npm:^5.5.3"
     rolldown: "npm:^1.0.0-beta.31"
-    rolldown-plugin-dts: "npm:^0.15.3"
+    rolldown-plugin-dts: "npm:^0.15.6"
     semver: "npm:^7.7.2"
     tinyexec: "npm:^1.0.1"
     tinyglobby: "npm:^0.2.14"
@@ -3943,7 +3943,7 @@ __metadata:
       optional: true
   bin:
     tsdown: dist/run.mjs
-  checksum: 10c0/55d660e16f45c5d33a77d7efa7339b8f3c1265c227fd38841512f5fd123cd80d54879a80ba75fab6a4e4bc689ef393886cb8d5263e66da011faf05b39a07b78e
+  checksum: 10c0/e4cc9387281bcc8cee1a3d6ba997e10e2374b7383ffb8958f3702d4f7bf0ec56ffa86c6c67bedd57f7628650d22beb55b17019dcd4c6c3c2832cbe58e990f6d2
   languageName: node
   linkType: hard
 
