@@ -114,6 +114,7 @@ export class SchemaFormatters {
         lodash
           // @ts-expect-error TS(2339) FIXME: Property '_' does not exist on type 'LoDashStatic'... Remove this comment to see the full error message
           ._(description)
+          .replace(/\//g, "") // Remove all forward slashes
           .split(/\n/g)
           .map((part) => part.trim())
           .compact()
