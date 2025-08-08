@@ -1,5 +1,35 @@
 # swagger-typescript-api
 
+## 13.2.8
+
+### Patch Changes
+
+- [#1326](https://github.com/acacode/swagger-typescript-api/pull/1326) [`99b5f50`](https://github.com/acacode/swagger-typescript-api/commit/99b5f5055bfdf207d9dfe316ef8ff2490d474443) Thanks [@thejhh](https://github.com/thejhh)! - Fix TypeScript generation failure for operationIds starting with numbers
+
+  **What:** Fixed an issue where operationIds starting with numbers (e.g., "123getUser") would cause TypeScript generation to fail due to invalid identifier names.
+
+  **Why:** OperationIds that start with numbers are not valid JavaScript identifiers, causing syntax errors in the generated TypeScript code.
+
+  **How:** Modified the template logic to quote property names for invalid identifiers. OperationIds starting with numbers are now generated as quoted properties (e.g., `"123GetUser": ...`) instead of unquoted invalid identifiers.
+
+  This resolves GitHub issue #952.
+
+- [#1008](https://github.com/acacode/swagger-typescript-api/pull/1008) [`c2d3e6a`](https://github.com/acacode/swagger-typescript-api/commit/c2d3e6aab97d57a8cd7788c8e2adc909bcf26e1f) Thanks [@frazar](https://github.com/frazar)! - Fix handling of FormData inputs in Fetch HTTP client
+
+  Previously, when users passed a `FormData` object directly to the Fetch
+  client's `multipart/form-data` formatter, it would incorrectly attempt to use
+  `Object.keys()` on the FormData instance, which returns an empty array. This
+  caused the FormData to be processed incorrectly.
+
+  The fix adds a type check to return FormData instances unchanged, allowing
+  users to have full control over FormData construction when needed whilst
+  maintaining backwards compatibility for object inputs. This aligns the Fetch
+  client behaviour with the existing Axios client implementation.
+
+  This resolves issues where users needed to send multipart requests with
+  multiple entries for the same key, which is only possible with direct FormData
+  manipulation.
+
 ## 13.2.7
 
 ### Patch Changes
