@@ -1,0 +1,33 @@
+openapi: 3.0.3
+info:
+  title: desc-escape
+  version: 0.0.0
+paths:
+  /v5/servicepoints/file/ALL-SE-FI-DK-NO-{date}.json.gz:
+    get:
+      tags:
+        - Service Points File
+      summary: Get service point file of all Nordic countries (SE,FI,DK,NO).
+      description: |-
+        Get service point file of all Nordic countries (SE,FI,DK,NO) from S3 storage. You can download previous service point file upto 7 days from current date. This is equivalent to **/information** endpoint with parameters `countryCode:SE,FI,DK,NO` and `context:ALL` and header `Accept-Encoding:gzip`.
+
+        Download the file using the URL in reponse.
+      operationId: ServicePointFile
+      parameters:
+        - name: date
+          in: path
+          description: Date of file you want to download. Format should be **YYYY-MM-DD**.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/gzip:
+              schema:
+                type: string
+        '401':
+          description: Authentication token is missing/invalid
