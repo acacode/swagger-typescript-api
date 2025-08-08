@@ -110,15 +110,15 @@ export class SchemaFormatters {
     if (!hasMultipleLines) return description;
 
     if (inline) {
-      return (
-        lodash.chain(
-          description.replace(/\//g, "")
+      return lodash
+        .chain(
+          description
+            .replace(/\//g, "")
             .split(/\n/g)
-            .map((part) => part.trim())
+            .map((part) => part.trim()),
         )
         .compact()
-        .value()
-      );
+        .value();
     }
 
     return description.replace(/\n$/g, "");
