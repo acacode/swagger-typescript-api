@@ -105,23 +105,33 @@ export class SchemaFormatters {
   formatDescription = (description, inline) => {
     if (!description) return "";
 
-    const hasMultipleLines = description.includes("\n");
+    // Sanitize dangerous JSDoc sequences to avoid prematurely closing comments
+    // e.g. "**/information**" contains "*/" which ends a JSDoc block
+    const sanitizeForJsDoc = (text: string) =>
+      text
+        // Break the JSDoc terminator so it doesn't end the comment block
+        .replace(/\*\//g, "*\\/");
 
-    if (!hasMultipleLines) return description;
+    const safeDescription = sanitizeForJsDoc(String(description));
+
+    const hasMultipleLines = safeDescription.includes("\n");
+
+    if (!hasMultipleLines) return safeDescription;
 
     if (inline) {
-      return lodash
-        .chain(
-          description
-            .replace(/\//g, "")
-            .split(/\n/g)
-            .map((part) => part.trim()),
-        )
-        .compact()
-        .value();
+      return (
+        lodash
+          // @ts-expect-error TS(2339) FIXME: Property '_' does not exist on type 'LoDashStatic'... Remove this comment to see the full error message
+          ._(safeDescription)
+          .split(/\n/g)
+          .map((part: string) => part.trim())
+          .compact()
+          .join(" ")
+          .valueOf()
+      );
     }
 
-    return description.replace(/\n$/g, "");
+    return safeDescription.replace(/\n$/g, "");
   };
 
   formatObjectContent = (content) => {
