@@ -35,6 +35,11 @@ interface GenerateApiParamsBase {
   generateUnionEnums?: boolean;
 
   /**
+   * generate all "enum" types as pairs of const objects and types derived from those objects' keys. (default: false, mutually exclusive with, and pre-empted by, generateUnionEnums).
+   */
+  generateConstObjectEnums?: boolean;
+
+  /**
    * generate type definitions for API routes (default: false)
    */
   generateRouteTypes?: boolean;
@@ -682,6 +687,7 @@ export interface GenerateApiConfiguration {
     generateRouteTypes: boolean;
     generateClient: boolean;
     generateUnionEnums: boolean;
+    generateConstObjectEnums: boolean;
     swaggerSchema: object;
     originalSchema: object;
     componentsMap: Record<string, SchemaComponent>;
