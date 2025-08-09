@@ -140,6 +140,10 @@ interface GenerateApiParamsBase {
    * generate readonly properties (default: false)
    */
   addReadonly?: boolean;
+  /**
+   * makes all properties and values readonly even if the schema does not contain `readOnly` property or if `readOnly` is false. Creates immutable types. (default: false)
+   */
+  makeImmutable?: boolean;
 
   primitiveTypeConstructs?: (
     struct: PrimitiveTypeStruct,
@@ -705,6 +709,7 @@ export interface GenerateApiConfiguration {
     extractRequestBody: boolean;
     httpClientType: "axios" | "fetch";
     addReadonly: boolean;
+    makeImmutable: boolean;
     extractResponseBody: boolean;
     extractResponseError: boolean;
     extractEnums: boolean;
