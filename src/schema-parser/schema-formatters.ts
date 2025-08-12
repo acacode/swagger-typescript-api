@@ -82,10 +82,13 @@ export class SchemaFormatters {
             ? this.config.Ts.ObjectWrapper(
                 this.formatObjectContent(parsedSchema.content),
               )
-            : this.config.Ts.RecordType(
-                this.config.Ts.Keyword.String,
-                this.config.Ts.Keyword.Any,
-              ),
+            : this.config.Ts.RecordType({
+                readonly:
+                  (parsedSchema.readOnly && this.config.addReadonly) ||
+                  this.config.makeImmutable,
+                key: this.config.Ts.Keyword.String,
+                value: this.config.Ts.Keyword.Any,
+              }),
         ),
       };
     },
