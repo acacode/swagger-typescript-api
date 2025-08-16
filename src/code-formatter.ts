@@ -44,7 +44,7 @@ export class CodeFormatter {
       formatter: { indentStyle: "space" },
     });
     const formatted = biome.formatContent(biomeProject.projectKey, content, {
-      filePath: path.format({ name: nanoid.nanoid(), ext: "ts" }),
+      filePath: path.format({ name: nanoid.nanoid(), ext: ".ts" }),
     });
     return formatted.content;
   };
