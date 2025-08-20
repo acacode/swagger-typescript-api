@@ -57,6 +57,11 @@
     "@biomejs/cli-win32-arm64" "2.1.4"
     "@biomejs/cli-win32-x64" "2.1.4"
 
+"@biomejs/cli-linux-x64-musl@2.1.4":
+  version "2.1.4"
+  resolved "https://registry.npmjs.org/@biomejs/cli-linux-x64-musl/-/cli-linux-x64-musl-2.1.4.tgz"
+  integrity sha512-lvwvb2SQQHctHUKvBKptR6PLFCM7JfRjpCCrDaTmvB7EeZ5/dQJPhTYBf36BE/B4CRWR2ZiBLRYhK7hhXBCZAg==
+
 "@biomejs/cli-linux-x64@2.1.4":
   version "2.1.4"
   resolved "https://registry.npmjs.org/@biomejs/cli-linux-x64/-/cli-linux-x64-2.1.4.tgz"
@@ -397,6 +402,11 @@
   resolved "https://registry.npmjs.org/@rolldown/binding-linux-x64-gnu/-/binding-linux-x64-gnu-1.0.0-beta.33.tgz"
   integrity sha512-cDndWo3VEYbm7yeujOV6Ie2XHz0K8YX/R/vbNmMo03m1QwtBKKvbYNSyJb3B9+8igltDjd8zNM9mpiNNrq/ekQ==
 
+"@rolldown/binding-linux-x64-musl@1.0.0-beta.33":
+  version "1.0.0-beta.33"
+  resolved "https://registry.npmjs.org/@rolldown/binding-linux-x64-musl/-/binding-linux-x64-musl-1.0.0-beta.33.tgz"
+  integrity sha512-bl7uzi6es/l6LT++NZcBpiX43ldLyKXCPwEZGY1rZJ99HQ7m1g3KxWwYCcGxtKjlb2ExVvDZicF6k+96vxOJKg==
+
 "@rolldown/pluginutils@1.0.0-beta.33":
   version "1.0.0-beta.33"
   resolved "https://registry.npmjs.org/@rolldown/pluginutils/-/pluginutils-1.0.0-beta.33.tgz"
@@ -406,6 +416,11 @@
   version "4.46.4"
   resolved "https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.46.4.tgz"
   integrity sha512-0Xj1vZE3cbr/wda8d/m+UeuSL+TDpuozzdD4QaSzu/xSOMK0Su5RhIkF7KVHFQsobemUNHPLEcYllL7ZTCP/Cg==
+
+"@rollup/rollup-linux-x64-musl@4.46.4":
+  version "4.46.4"
+  resolved "https://registry.npmjs.org/@rollup/rollup-linux-x64-musl/-/rollup-linux-x64-musl-4.46.4.tgz"
+  integrity sha512-kM/orjpolfA5yxsx84kI6bnK47AAZuWxglGKcNmokw2yy9i5eHY5UAjcX45jemTJnfHAWo3/hOoRqEeeTdL5hw==
 
 "@shikijs/engine-oniguruma@^3.11.0":
   version "3.11.0"

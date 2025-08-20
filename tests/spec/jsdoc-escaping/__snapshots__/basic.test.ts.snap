@@ -13,7 +13,7 @@ exports[`jsdoc-escaping > should escape JSDoc comment characters in descriptions
  * ---------------------------------------------------------------
  */
 
-/** Information schema with malicious **\\/ window.location='http://evil.com' \\\\/** content */
+/** Information schema with malicious **\\/ window.location='http://evil.com' \\/** content */
 export interface Information {
   /** The ID of the information record. Contains **\\/ dangerous content \\/** here. */
   id?: number;

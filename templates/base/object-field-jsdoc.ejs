@@ -1,3 +1,4 @@
+
 <%
 const { field, utils } = it;
 const { formatDescription, escapeJSDocContent, require, _ } = utils;
@@ -5,7 +6,7 @@ const { formatDescription, escapeJSDocContent, require, _ } = utils;
 const comments = _.uniq(
     _.compact([
         field.title && escapeJSDocContent(field.title),
-        field.description,
+        field.description && escapeJSDocContent(field.description),
         field.deprecated && ` * @deprecated`,
         !_.isUndefined(field.format) && `@format ${field.format}`,
         !_.isUndefined(field.minimum) && `@min ${field.minimum}`,
