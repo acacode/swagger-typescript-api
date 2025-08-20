@@ -31,15 +31,15 @@ describe("jsdoc-escaping", async () => {
     expect(content).not.toMatch(/\*\/ alert\(/); // No unescaped code injection
     expect(content).not.toMatch(/\*\/ window\./); // No unescaped window manipulation
     expect(content).not.toMatch(/\*\/ dangerous content \*\//); // No unescaped dangerous content
-    
+
     // Check that only necessary escaping is applied
-    expect(content).toMatch(/\*\\\//); // Should contain escaped */ 
+    expect(content).toMatch(/\*\\\//); // Should contain escaped */
     expect(content).not.toMatch(/\\\*\//); // Should NOT contain escaped /* sequences
-    
+
     // Check that alert and window are escaped
     expect(content).toMatch(/alert\('XSS'\)/); // Should still contain the content but safely escaped
     expect(content).toMatch(/window\.location/); // Should still contain but safely escaped
-    
+
     expect(content).toMatchSnapshot();
   });
 });

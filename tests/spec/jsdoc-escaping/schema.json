@@ -36,7 +36,7 @@
             "description": "The ID of the information record. Contains **/ dangerous content /** here."
           },
           "title": {
-            "type": "string", 
+            "type": "string",
             "description": "Title field with */ and /* characters that could break comments"
           },
           "content": {
