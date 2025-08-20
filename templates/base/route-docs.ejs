@@ -9,7 +9,7 @@ const jsDocDescription = raw.description ?
 const jsDocLines = _.compact([
     _.size(raw.tags) && ` * @tags ${raw.tags.join(", ")}`,
     ` * @name ${pascalCase(routeName.usage)}`,
-    raw.summary && ` * @summary ${escapeJSDocContent(raw.summary)}`,
+    raw.summary && ` * @summary ${formatDescription(raw.summary, true)}`,
     ` * @request ${_.upperCase(request.method)}:${raw.route}`,
     raw.deprecated && ` * @deprecated`,
     routeName.duplicate && ` * @originalName ${routeName.original}`,
@@ -18,7 +18,7 @@ const jsDocLines = _.compact([
     ...(config.generateResponses && raw.responsesTypes.length
     ? raw.responsesTypes.map(
         ({ type, status, description, isSuccess }) =>
-            ` * @response \`${status}\` \`${_.replace(_.replace(type, /\/\*/g, "\\*"), /\*\//g, "*\\")}\` ${escapeJSDocContent(description)}`,
+            ` * @response \`${status}\` \`${_.replace(_.replace(type, /\/\*/g, "\\*"), /\*\//g, "*\\")}\` ${formatDescription(description, true)}`,
         )
     : []),
 ]).map(str => str.trimEnd()).join("\n");

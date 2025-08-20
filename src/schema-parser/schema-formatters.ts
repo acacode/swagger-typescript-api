@@ -105,17 +105,16 @@ export class SchemaFormatters {
   escapeJSDocContent = (content) => {
     if (!content) return "";
     // Escape */ sequences to prevent breaking out of JSDoc comments
-    // Escape /* sequences to prevent creating nested comments
+    // Note: /* sequences inside JSDoc comments are harmless and don't need escaping
     return content
-      .replace(/\*\//g, "*\\/")
-      .replace(/\/\*/g, "\\/*");
+      .replace(/\*\//g, "*\\/");
   };
 
   formatDescription = (description, inline) => {
     if (!description) return "";
 
     // Check if content is already escaped - if so, don't escape again
-    const isAlreadyEscaped = description.includes('*\\/') || description.includes('\\/*');
+    const isAlreadyEscaped = description.includes('*\\/');
     
     // Escape JSDoc comment characters only if not already escaped
     const escapedDescription = isAlreadyEscaped ? description : this.escapeJSDocContent(description);

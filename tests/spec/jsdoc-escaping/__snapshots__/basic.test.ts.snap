@@ -13,16 +13,16 @@ exports[`jsdoc-escaping > should escape JSDoc comment characters in descriptions
  * ---------------------------------------------------------------
  */
 
-/** Information schema with malicious **\\/ window.location='http://evil.com' \\/** content */
+/** Information schema with malicious **\\/ window.location='http://evil.com' /** content */
 export interface Information {
-  /** The ID of the information record. Contains **\\/ dangerous content \\/** here. */
+  /** The ID of the information record. Contains **\\/ dangerous content /** here. */
   id?: number;
-  /** Title field with *\\/ and \\/* characters that could break comments */
+  /** Title field with *\\/ and /* characters that could break comments */
   title?: string;
   /**
    * Multi-line description
    * with *\\/ characters
-   * and \\/* other markers
+   * and /* other markers
    * that could break JSDoc comments
    */
   content?: string;
@@ -291,7 +291,7 @@ export class Api<
      * @description Get service point file of all Nordic countries (SE,FI,DK,NO) from S3 storage. You can download previous service point file upto 7 days from current date. This is equivalent to **\\/information** endpoint with parameters \`countryCode:SE,FI,DK,NO\` and \`context:ALL\` and header \`Accept-Encoding:gzip\`.
      *
      * @name InformationList
-     * @summary Get service point file with **\\/ alert('XSS') \\/** injection attempt
+     * @summary Get service point file with **\\/ alert('XSS') /** injection attempt
      * @request GET:/information
      */
     informationList: (params: RequestParams = {}) =>
