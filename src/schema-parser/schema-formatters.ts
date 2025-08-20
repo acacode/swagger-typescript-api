@@ -102,18 +102,30 @@ export class SchemaFormatters {
     return formatterFn?.(parsedSchema) || parsedSchema;
   };
 
+  escapeJSDocContent = (content) => {
+    if (!content) return "";
+    // Escape */ sequences to prevent breaking out of JSDoc comments
+    // Escape /* sequences to prevent creating nested comments
+    return content
+      .replace(/\*\//g, "*\\/")
+      .replace(/\/\*/g, "\\/*");
+  };
+
   formatDescription = (description, inline) => {
     if (!description) return "";
 
-    const hasMultipleLines = description.includes("\n");
+    // First escape JSDoc comment characters
+    const escapedDescription = this.escapeJSDocContent(description);
+    
+    const hasMultipleLines = escapedDescription.includes("\n");
 
-    if (!hasMultipleLines) return description;
+    if (!hasMultipleLines) return escapedDescription;
 
     if (inline) {
       return (
         lodash
           // @ts-expect-error TS(2339) FIXME: Property '_' does not exist on type 'LoDashStatic'... Remove this comment to see the full error message
-          ._(description)
+          ._(escapedDescription)
           .split(/\n/g)
           .map((part) => part.trim())
           .compact()
@@ -122,7 +134,7 @@ export class SchemaFormatters {
       );
     }
 
-    return description.replace(/\n$/g, "");
+    return escapedDescription.replace(/\n$/g, "");
   };
 
   formatObjectContent = (content) => {

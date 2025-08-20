@@ -1,6 +1,6 @@
 <%
 const { config, route, utils } = it;
-const { _, formatDescription, fmtToJSDocLine, pascalCase, require } = utils;
+const { _, formatDescription, escapeJSDocContent, fmtToJSDocLine, pascalCase, require } = utils;
 const { raw, request, routeName } = route;
 
 const jsDocDescription = raw.description ?
@@ -9,7 +9,7 @@ const jsDocDescription = raw.description ?
 const jsDocLines = _.compact([
     _.size(raw.tags) && ` * @tags ${raw.tags.join(", ")}`,
     ` * @name ${pascalCase(routeName.usage)}`,
-    raw.summary && ` * @summary ${raw.summary}`,
+    raw.summary && ` * @summary ${escapeJSDocContent(raw.summary)}`,
     ` * @request ${_.upperCase(request.method)}:${raw.route}`,
     raw.deprecated && ` * @deprecated`,
     routeName.duplicate && ` * @originalName ${routeName.original}`,
@@ -18,7 +18,7 @@ const jsDocLines = _.compact([
     ...(config.generateResponses && raw.responsesTypes.length
     ? raw.responsesTypes.map(
         ({ type, status, description, isSuccess }) =>
-            ` * @response \`${status}\` \`${_.replace(_.replace(type, /\/\*/g, "\\*"), /\*\//g, "*\\")}\` ${description}`,
+            ` * @response \`${status}\` \`${_.replace(_.replace(type, /\/\*/g, "\\*"), /\*\//g, "*\\")}\` ${escapeJSDocContent(description)}`,
         )
     : []),
 ]).map(str => str.trimEnd()).join("\n");

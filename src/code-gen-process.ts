@@ -223,6 +223,8 @@ export class CodeGenProcess {
         Ts: this.config.Ts,
         formatDescription:
           this.schemaParserFabric.schemaFormatters.formatDescription,
+        escapeJSDocContent:
+          this.schemaParserFabric.schemaFormatters.escapeJSDocContent,
         internalCase: internalCase,
         classNameCase: pascalCase,
         pascalCase: pascalCase,

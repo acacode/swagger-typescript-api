@@ -1,0 +1,50 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "JSDoc Escaping Test API",
+    "version": "1.0.0",
+    "description": "Test API for verifying proper escaping of JSDoc comment characters"
+  },
+  "paths": {
+    "/information": {
+      "get": {
+        "summary": "Get service point file with **/ alert('XSS') /** injection attempt",
+        "description": "Get service point file of all Nordic countries (SE,FI,DK,NO) from S3 storage. You can download previous service point file upto 7 days from current date. This is equivalent to **/information** endpoint with parameters `countryCode:SE,FI,DK,NO` and `context:ALL` and header `Accept-Encoding:gzip`.",
+        "responses": {
+          "200": {
+            "description": "Success response with **/ console.log('Code injection') /** attempt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Information"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Information": {
+        "type": "object",
+        "description": "Information schema with malicious **/ window.location='http://evil.com' /** content",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the information record. Contains **/ dangerous content /** here."
+          },
+          "title": {
+            "type": "string", 
+            "description": "Title field with */ and /* characters that could break comments"
+          },
+          "content": {
+            "type": "string",
+            "description": "Multi-line description\nwith */ characters\nand /* other markers\nthat could break JSDoc comments"
+          }
+        }
+      }
+    }
+  }
+}
