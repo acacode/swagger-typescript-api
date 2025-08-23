@@ -112,13 +112,8 @@ export class SchemaFormatters {
   formatDescription = (description, inline) => {
     if (!description) return "";
 
-    // Check if content is already escaped - if so, don't escape again
-    const isAlreadyEscaped = description.includes("*\\/");
-
-    // Escape JSDoc comment characters only if not already escaped
-    const escapedDescription = isAlreadyEscaped
-      ? description
-      : this.escapeJSDocContent(description);
+    // Always escape JSDoc comment characters (function is idempotent)
+    const escapedDescription = this.escapeJSDocContent(description);
 
     const hasMultipleLines = escapedDescription.includes("\n");
 
