@@ -25,6 +25,9 @@ const dataContractTemplates = {
   type: (contract) => {
     return `type ${contract.name}${buildGenerics(contract)} = ${contract.content}`;
   },
+  'const': (contract) => {
+    return `const ${contract.name}${buildGenerics(contract)} = ${contract.content}`;
+  },
 }
 %>
 
