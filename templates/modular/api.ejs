@@ -23,6 +23,6 @@ export class <%= apiClassName %><SecurityDataType = unknown><% if (!config.singl
 <% } %>
 
     <% for (const route of routes) { %>
-        <%~ includeFile('./procedure-call.ejs', { ...it, route }) %>
+        <%~ includeFile('./procedure-call.ejs', { ...it, route, isObjectProperty: false }) %>
     <% } %>
 }

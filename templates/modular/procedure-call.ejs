@@ -1,5 +1,5 @@
 <%
-const { utils, route, config } = it;
+const { utils, route, config, isObjectProperty = route.namespace } = it;
 const { requestBodyInfo, responseBodyInfo, specificArgNameResolver } = route;
 const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef, require } = utils;
 const { parameters, path, method, payload, query, formData, security, requestParams } = route.request;
@@ -90,7 +90,7 @@ const isValidIdentifier = (name) => /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(name);
 <%~ routeDocs.lines %>
 
  */
-<% if (isValidIdentifier(route.routeName.usage)) { %><%~ route.routeName.usage %><%~ route.namespace ? ': ' : ' = ' %><% } else { %>"<%~ route.routeName.usage %>"<%~ route.namespace ? ': ' : ' = ' %><% } %>(<%~ wrapperArgs %>)<%~ config.toJS ? `: ${describeReturnType()}` : "" %> =>
+<% if (isValidIdentifier(route.routeName.usage)) { %><%~ route.routeName.usage %><%~ isObjectProperty ? ': ' : ' = ' %><% } else { %>"<%~ route.routeName.usage %>"<%~ isObjectProperty ? ': ' : ' = ' %><% } %>(<%~ wrapperArgs %>)<%~ config.toJS ? `: ${describeReturnType()}` : "" %> =>
     <%~ config.singleHttpClient ? 'this.http.request' : 'this.request' %><<%~ type %>, <%~ errorType %>>({
         path: `<%~ path %>`,
         method: '<%~ _.upperCase(method) %>',
