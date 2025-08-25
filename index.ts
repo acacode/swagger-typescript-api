@@ -321,7 +321,7 @@ const generateCommand = defineCommand({
           ? HTTP_CLIENT.AXIOS
           : HTTP_CLIENT.FETCH,
       input: path.resolve(process.cwd(), args.path as string),
-      makeImmutable: args['make-immutable'],
+      makeImmutable: args["make-immutable"],
       modular: args.modular,
       moduleNameFirstTag: args["module-name-first-tag"],
       moduleNameIndex: +args["module-name-index"] || 0,
