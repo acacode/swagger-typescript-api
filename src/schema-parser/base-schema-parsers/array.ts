@@ -4,7 +4,10 @@ import { MonoSchemaParser } from "../mono-schema-parser.js";
 export class ArraySchemaParser extends MonoSchemaParser {
   override parse() {
     let contentType;
-    const { type, description, items } = this.schema || {};
+    const { type, description, items, readOnly } = this.schema || {};
+
+    const readonly =
+      (readOnly && this.config.addReadonly) || this.config.makeImmutable;
 
     if (Array.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
       const tupleContent = [];
@@ -15,12 +18,15 @@ export class ArraySchemaParser extends MonoSchemaParser {
             .getInlineParseContent(),
         );
       }
-      contentType = this.config.Ts.Tuple(tupleContent);
+      contentType = this.config.Ts.Tuple({
+        readonly,
+        values: tupleContent,
+      });
     } else {
       const content = this.schemaParserFabric
         .createSchemaParser({ schema: items, schemaPath: this.schemaPath })
         .getInlineParseContent();
-      contentType = this.config.Ts.ArrayType(content);
+      contentType = this.config.Ts.ArrayType({ readonly, content });
     }
 
     return {
