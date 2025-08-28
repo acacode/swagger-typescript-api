@@ -65,7 +65,7 @@
     "@biomejs/biome": "2.2.2",
     "@changesets/changelog-github": "0.5.1",
     "@changesets/cli": "2.29.6",
-    "@tsconfig/node18": "18.2.4",
+    "@tsconfig/node20": "20.1.6",
     "@tsconfig/strictest": "2.0.5",
     "@types/js-yaml": "4.0.9",
     "@types/lodash": "4.17.20",
