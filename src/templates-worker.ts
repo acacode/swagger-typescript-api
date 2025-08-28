@@ -1,3 +1,4 @@
+import * as module from "node:module";
 import * as path from "node:path";
 import * as url from "node:url";
 import { consola } from "consola";
@@ -6,6 +7,8 @@ import lodash from "lodash";
 import type { CodeGenProcess } from "./code-gen-process.js";
 import type { CodeGenConfig } from "./configuration.js";
 import type { FileSystem } from "./util/file-system.js";
+
+const require = module.createRequire(import.meta.url);
 
 export class TemplatesWorker {
   config: CodeGenConfig;
@@ -74,21 +77,21 @@ export class TemplatesWorker {
     );
   };
 
-  requireFnFromTemplate = async (packageOrPath: string) => {
+  requireFnFromTemplate = (packageOrPath: string) => {
     const isPath =
       packageOrPath.startsWith("./") || packageOrPath.startsWith("../");
 
     if (isPath) {
-      return await import(
+      return require(
         path.resolve(
           this.config.templatePaths.custom ||
             this.config.templatePaths.original,
           packageOrPath,
-        )
+        ),
       );
     }
 
-    return await import(packageOrPath);
+    return require(packageOrPath);
   };
 
   getTemplate = (name: string, fileName: string, path?: string) => {
