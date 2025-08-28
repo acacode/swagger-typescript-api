@@ -645,7 +645,11 @@ export class SchemaRoutes {
     extractRequestParams,
     routeName,
   }) => {
-    if (!queryParams || !queryParams.length) return null;
+    if (
+      (!queryParams || !queryParams.length) &&
+      (!pathArgsSchemas || !pathArgsSchemas.length)
+    )
+      return null;
 
     const pathParams = pathArgsSchemas.reduce((acc, pathArgSchema) => {
       if (pathArgSchema.name) {
