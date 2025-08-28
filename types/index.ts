@@ -671,7 +671,7 @@ export interface GenerateApiConfiguration {
     /** configuration for fetching swagger schema requests */
     requestOptions?: Partial<RequestInit>;
     /** extra configuration for extracting type names operations */
-    extractingOptions: ExtractingOptions;
+    extractingOptions: Partial<ExtractingOptions>;
     /** update configuration object during generation */
     update: (update: Partial<GenerateApiConfiguration["config"]>) => void;
   };
