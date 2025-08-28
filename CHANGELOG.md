@@ -1,5 +1,29 @@
 # swagger-typescript-api
 
+## 13.2.9
+
+### Patch Changes
+
+- [#1384](https://github.com/acacode/swagger-typescript-api/pull/1384) [`0caea2c`](https://github.com/acacode/swagger-typescript-api/commit/0caea2c9c1132b2ba5e74ec51d9cb12b73e32f5e) Thanks [@smorimoto](https://github.com/smorimoto)! - Fix enum const parsing for substrings of primitive types.
+
+- [#1381](https://github.com/acacode/swagger-typescript-api/pull/1381) [`ba052f4`](https://github.com/acacode/swagger-typescript-api/commit/ba052f4038b53358381caa0a20d1edc07a59e7bd) Thanks [@smorimoto](https://github.com/smorimoto)! - Support extracting request parameters for routes that only declare path parameters, such as `DELETE` methods.
+
+- [#1382](https://github.com/acacode/swagger-typescript-api/pull/1382) [`792e96c`](https://github.com/acacode/swagger-typescript-api/commit/792e96c44255bd5e2f26a5043959a9e1693df896) Thanks [@smorimoto](https://github.com/smorimoto)! - Fix enum string value quoting when schema type mismatches.
+
+- [#1385](https://github.com/acacode/swagger-typescript-api/pull/1385) [`859fc64`](https://github.com/acacode/swagger-typescript-api/commit/859fc64aa4fd58f024d17d516cb82c916abacfe6) Thanks [@smorimoto](https://github.com/smorimoto)! - Avoid response cloning in fetch HTTP client to prevent memory leaks (#779).
+
+- [#1383](https://github.com/acacode/swagger-typescript-api/pull/1383) [`8191970`](https://github.com/acacode/swagger-typescript-api/commit/8191970c479d24236c80b5068bcab2f5f10597cd) Thanks [@smorimoto](https://github.com/smorimoto)! - Automatically extract enums when using enum names as values.
+
+- [#1376](https://github.com/acacode/swagger-typescript-api/pull/1376) [`bec35e8`](https://github.com/acacode/swagger-typescript-api/commit/bec35e8b885a6b69dceec06487690f1ea81dbea0) Thanks [@smorimoto](https://github.com/smorimoto)! - Merge `GenerateApiParamsBase` into `GenerateApiConfiguration` to remove duplicated type definitions and expose missing configuration fields. Document configuration defaults with JSDoc tags.
+
+- [#1378](https://github.com/acacode/swagger-typescript-api/pull/1378) [`912e521`](https://github.com/acacode/swagger-typescript-api/commit/912e5217868973943197b03dd67b26108e430c6f) Thanks [@smorimoto](https://github.com/smorimoto)! - Allow partial `extractingOptions` in `generateApi` configuration.
+
+- [#1380](https://github.com/acacode/swagger-typescript-api/pull/1380) [`fec0a09`](https://github.com/acacode/swagger-typescript-api/commit/fec0a09774512d7254bbc5bbebee22858812adb8) Thanks [@smorimoto](https://github.com/smorimoto)! - Add test verifying primitive + object `anyOf` unions.
+
+- [#1376](https://github.com/acacode/swagger-typescript-api/pull/1376) [`bec35e8`](https://github.com/acacode/swagger-typescript-api/commit/bec35e8b885a6b69dceec06487690f1ea81dbea0) Thanks [@smorimoto](https://github.com/smorimoto)! - Restore `modular` option typing in `generateApi` parameters.
+
+- [#1379](https://github.com/acacode/swagger-typescript-api/pull/1379) [`339a167`](https://github.com/acacode/swagger-typescript-api/commit/339a167d5dc46e128d8e960490c701fb85aa4cef) Thanks [@smorimoto](https://github.com/smorimoto)! - Support synchronous `require` in templates using Node's `createRequire`.
+
 ## 13.2.8
 
 ### Patch Changes
