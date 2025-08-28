@@ -71,18 +71,35 @@ export class EnumSchemaParser extends MonoSchemaParser {
       if (value === null) {
         return this.config.Ts.NullValue(value);
       }
+
       if (
         keyType.includes(this.schemaUtils.getSchemaType({ type: "number" }))
       ) {
-        return this.config.Ts.NumberValue(value);
+        const maybeNumber = typeof value === "number" ? value : Number(value);
+        if (!Number.isNaN(maybeNumber)) {
+          return this.config.Ts.NumberValue(maybeNumber);
+        }
       }
+
       if (
         keyType.includes(this.schemaUtils.getSchemaType({ type: "boolean" }))
       ) {
-        return this.config.Ts.BooleanValue(value);
+        if (typeof value === "boolean") {
+          return this.config.Ts.BooleanValue(value);
+        }
+        if (value === "true" || value === "false") {
+          return this.config.Ts.BooleanValue(value === "true");
+        }
       }
 
-      return this.config.Ts.StringValue(value);
+      switch (typeof value) {
+        case "number":
+          return this.config.Ts.NumberValue(value);
+        case "boolean":
+          return this.config.Ts.BooleanValue(value);
+        default:
+          return this.config.Ts.StringValue(value);
+      }
     };
 
     if (Array.isArray(enumNames) && lodash.size(enumNames)) {
