@@ -1,0 +1,22 @@
+{
+  "openapi": "3.1.0",
+  "components": {
+    "schemas": {
+      "MySchema": {
+        "type": "object",
+        "properties": {
+          "working": {
+            "type": "string",
+            "enum": ["email_address"],
+            "const": "email_address"
+          },
+          "not_working": {
+            "type": "string",
+            "enum": ["phone_number"],
+            "const": "phone_number"
+          }
+        }
+      }
+    }
+  }
+}

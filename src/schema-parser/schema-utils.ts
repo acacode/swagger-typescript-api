@@ -266,9 +266,9 @@ export class SchemaUtils {
       );
     }
 
-    let resultType;
+    let resultType: string;
 
-    if (this.isConstantSchema(schema)) {
+    if (this.isConstantSchema(schema) && !schema.enum) {
       resultType = this.formatJsValue(schema.const);
     } else {
       const primitiveType = this.getSchemaPrimitiveType(schema);

@@ -158,7 +158,7 @@ export class EnumSchemaParser extends MonoSchemaParser {
   }
 
   formatEnumKey = ({ key, value }) => {
-    let formatted;
+    let formatted: string | undefined;
 
     if (key) {
       formatted = this.typeNameFormatter.format(key, {
