@@ -78,6 +78,36 @@ export interface KeyRevoke2Params {
   pk: string;
 }
 
+export interface GetKeyParams {
+  /** Public Signing Key - Authentiq ID (43 chars) */
+  pk: string;
+}
+
+export interface HeadKeyParams {
+  /** Public Signing Key - Authentiq ID (43 chars) */
+  pk: string;
+}
+
+export interface KeyUpdateParams {
+  /** Public Signing Key - Authentiq ID (43 chars) */
+  pk: string;
+}
+
+export interface KeyBindParams {
+  /** Public Signing Key - Authentiq ID (43 chars) */
+  pk: string;
+}
+
+export interface IKeyDetailParams {
+  /** Public Signing Key - Authentiq ID (43 chars) */
+  iPk: string;
+}
+
+export interface UnderlinesDetailParams {
+  /** Variable with double __ in it. */
+  iUk: string;
+}
+
 export interface PushLoginRequestParams {
   /** URI App will connect to */
   callback: string;
@@ -86,6 +116,31 @@ export interface PushLoginRequestParams {
 export interface SignRequestParams {
   /** test only mode, using test issuer */
   test?: number;
+}
+
+export interface SignDeleteParams {
+  /** Job ID (20 chars) */
+  job: string;
+}
+
+export interface SignRetrieveParams {
+  /** Job ID (20 chars) */
+  job: string;
+}
+
+export interface SignRetrieveHeadParams {
+  /** Job ID (20 chars) */
+  job: string;
+}
+
+export interface SignConfirmParams {
+  /** Job ID (20 chars) */
+  job: string;
+}
+
+export interface SignUpdateParams {
+  /** Job ID (20 chars) */
+  job: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -456,7 +511,7 @@ export class Api<
      * @name GetKey
      * @request GET:/key/{PK}
      */
-    getKey: (pk: string, params: RequestParams = {}) =>
+    getKey: ({ pk, ...query }: GetKeyParams, params: RequestParams = {}) =>
       this.request<
         {
           /** @format date-time */
@@ -480,7 +535,7 @@ export class Api<
      * @name HeadKey
      * @request HEAD:/key/{PK}
      */
-    headKey: (pk: string, params: RequestParams = {}) =>
+    headKey: ({ pk, ...query }: HeadKeyParams, params: RequestParams = {}) =>
       this.request<void, Error>({
         path: \`/key/\${pk}\`,
         method: "HEAD",
@@ -494,7 +549,11 @@ export class Api<
      * @name KeyUpdate
      * @request POST:/key/{PK}
      */
-    keyUpdate: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
+    keyUpdate: (
+      { pk, ...query }: KeyUpdateParams,
+      body: AuthentiqID,
+      params: RequestParams = {},
+    ) =>
       this.request<
         {
           /** confirmed */
@@ -516,7 +575,11 @@ export class Api<
      * @name KeyBind
      * @request PUT:/key/{PK}
      */
-    keyBind: (pk: string, body: AuthentiqID, params: RequestParams = {}) =>
+    keyBind: (
+      { pk, ...query }: KeyBindParams,
+      body: AuthentiqID,
+      params: RequestParams = {},
+    ) =>
       this.request<
         {
           /** confirmed */
@@ -539,7 +602,10 @@ export class Api<
      * @name IKeyDetail
      * @request GET:/i_key/{i_PK}
      */
-    iKeyDetail: (iPk: string, params: RequestParams = {}) =>
+    iKeyDetail: (
+      { iPk, ...query }: IKeyDetailParams,
+      params: RequestParams = {},
+    ) =>
       this.request<
         {
           /** @format date-time */
@@ -563,7 +629,10 @@ export class Api<
      * @name UnderlinesDetail
      * @request GET:/i_key/underlines/{i__UK}
      */
-    underlinesDetail: (iUk: string, params: RequestParams = {}) =>
+    underlinesDetail: (
+      { iUk, ...query }: UnderlinesDetailParams,
+      params: RequestParams = {},
+    ) =>
       this.request<
         {
           /** base64safe encoded public signing key */
@@ -642,7 +711,10 @@ export class Api<
      * @name SignDelete
      * @request DELETE:/scope/{job}
      */
-    signDelete: (job: string, params: RequestParams = {}) =>
+    signDelete: (
+      { job, ...query }: SignDeleteParams,
+      params: RequestParams = {},
+    ) =>
       this.request<
         {
           /** done */
@@ -663,7 +735,10 @@ export class Api<
      * @name SignRetrieve
      * @request GET:/scope/{job}
      */
-    signRetrieve: (job: string, params: RequestParams = {}) =>
+    signRetrieve: (
+      { job, ...query }: SignRetrieveParams,
+      params: RequestParams = {},
+    ) =>
       this.request<
         {
           exp?: number;
@@ -686,7 +761,10 @@ export class Api<
      * @name SignRetrieveHead
      * @request HEAD:/scope/{job}
      */
-    signRetrieveHead: (job: string, params: RequestParams = {}) =>
+    signRetrieveHead: (
+      { job, ...query }: SignRetrieveHeadParams,
+      params: RequestParams = {},
+    ) =>
       this.request<void, Error>({
         path: \`/scope/\${job}\`,
         method: "HEAD",
@@ -700,7 +778,10 @@ export class Api<
      * @name SignConfirm
      * @request POST:/scope/{job}
      */
-    signConfirm: (job: string, params: RequestParams = {}) =>
+    signConfirm: (
+      { job, ...query }: SignConfirmParams,
+      params: RequestParams = {},
+    ) =>
       this.request<
         {
           /** confirmed */
@@ -722,7 +803,10 @@ export class Api<
      * @name SignUpdate
      * @request PUT:/scope/{job}
      */
-    signUpdate: (job: string, params: RequestParams = {}) =>
+    signUpdate: (
+      { job, ...query }: SignUpdateParams,
+      params: RequestParams = {},
+    ) =>
       this.request<
         {
           /** result is JWT or JSON?? */
