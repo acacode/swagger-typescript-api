@@ -2,4 +2,4 @@
 "swagger-typescript-api": patch
 ---
 
-Restore modular option typing in generateApi parameters.
+Restore `modular` option typing in `generateApi` parameters.
