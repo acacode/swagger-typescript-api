@@ -1,0 +1,30 @@
+openapi: 3.0.0
+info:
+  title: Enum allOf
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Digit:
+      type: string
+      enum:
+        - zero
+        - one
+        - two
+        - three
+        - four
+        - five
+        - six
+        - seven
+        - eight
+        - nine
+    Even:
+      allOf:
+        - $ref: '#/components/schemas/Digit'
+        - type: string
+          enum:
+            - zero
+            - two
+            - four
+            - six
+            - eight

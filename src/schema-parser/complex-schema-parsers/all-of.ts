@@ -4,13 +4,19 @@ import { MonoSchemaParser } from "../mono-schema-parser.js";
 export class AllOfSchemaParser extends MonoSchemaParser {
   override parse() {
     const ignoreTypes = [this.config.Ts.Keyword.Any];
-    const combined = this.schema.allOf.map((childSchema) =>
-      this.schemaParserFabric.getInlineParseContent(
+    const combined = this.schema.allOf.map((childSchema) => {
+      const content = this.schemaParserFabric.getInlineParseContent(
         this.schemaUtils.makeAddRequiredToChildSchema(this.schema, childSchema),
         null,
         this.schemaPath,
-      ),
-    );
+      );
+
+      if (content?.includes(this.config.Ts.Keyword.Union)) {
+        return this.config.Ts.ExpressionGroup(content);
+      }
+
+      return content;
+    });
     const filtered = this.schemaUtils.filterSchemaContents(
       combined,
       (content) => !ignoreTypes.includes(content),
