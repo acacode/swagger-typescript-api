@@ -441,5 +441,8 @@ export class CodeGenConfig {
 
   update = (update: Partial<GenerateApiConfiguration["config"]>) => {
     objectAssign(this, update);
+    if (this.enumNamesAsValues) {
+      this.extractEnums = true;
+    }
   };
 }
