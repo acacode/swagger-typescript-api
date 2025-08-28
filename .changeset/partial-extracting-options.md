@@ -3,4 +3,3 @@
 ---
 
 Allow partial `extractingOptions` in `generateApi` configuration.
-
