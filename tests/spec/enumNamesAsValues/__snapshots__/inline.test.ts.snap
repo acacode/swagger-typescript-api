@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`basic > jsonapi-media-type 1`] = `
+exports[`inline enum > --enum-names-as-values with inline enum 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
@@ -14,25 +14,11 @@ exports[`basic > jsonapi-media-type 1`] = `
  */
 
 export interface Pet {
-  /** @format uuid */
-  id?: string;
-  type: PetTypeEnum;
-  attributes: {
-    name: string;
-    status?: PetStatusEnum;
-    photoUrls: string[];
-  };
+  /** pet status in the store */
+  status?: PetStatusEnum;
 }
 
-export interface Error {
-  status?: string;
-  detail?: string;
-}
-
-export enum PetTypeEnum {
-  Pet = "pet",
-}
-
+/** pet status in the store */
 export enum PetStatusEnum {
   Available = "available",
   Pending = "pending",
@@ -92,7 +78,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "https://api.petstore.localhost";
+  public baseUrl: string = "";
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private abortControllers = new Map<CancelToken, AbortController>();
@@ -294,73 +280,11 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title JSON:API Swagger Petstore
- * @version 1.1
- * @baseUrl https://api.petstore.localhost
+ * @title Inline enum example
+ * @version 1.0.0
  */
 export class Api<
   SecurityDataType extends unknown,
-> extends HttpClient<SecurityDataType> {
-  pets = {
-    /**
-     * @description Add a new pet to the store.
-     *
-     * @tags pet
-     * @name AddPet
-     * @summary Add a new pet to the store.
-     * @request POST:/pets
-     */
-    addPet: (
-      data: {
-        data: Pet;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        {
-          data: Pet;
-        },
-        {
-          errors: Error[];
-        }
-      >({
-        path: \`/pets\`,
-        method: "POST",
-        body: data,
-        type: ContentType.JsonApi,
-        ...params,
-      }),
-
-    /**
-     * @description Update an existing pet by Id.
-     *
-     * @tags pet
-     * @name UpdatePet
-     * @summary Update an existing pet.
-     * @request PATCH:/pets/{petId}
-     */
-    updatePet: (
-      petId: string,
-      data: {
-        data: Pet;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        {
-          data: Pet;
-        },
-        {
-          errors: Error[];
-        }
-      >({
-        path: \`/pets/\${petId}\`,
-        method: "PATCH",
-        body: data,
-        type: ContentType.JsonApi,
-        ...params,
-      }),
-  };
-}
+> extends HttpClient<SecurityDataType> {}
 "
 `;
