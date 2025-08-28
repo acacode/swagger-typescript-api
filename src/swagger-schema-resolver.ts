@@ -4,6 +4,7 @@ import lodash from "lodash";
 import type { OpenAPI, OpenAPIV2 } from "openapi-types";
 import * as swagger2openapi from "swagger2openapi";
 import type { CodeGenConfig } from "./configuration.js";
+import { JsonLdSchemaResolver } from "./jsonld-schema-resolver.js";
 import type { FileSystem } from "./util/file-system.js";
 import { Request } from "./util/request.js";
 
@@ -51,6 +52,9 @@ export class SwaggerSchemaResolver {
         },
         result.info,
       );
+
+      // Process JSON-LD schemas
+      this.processJsonLdSchemas(result);
 
       if (!Object.hasOwn(result, "openapi")) {
         result.paths = lodash.merge({}, result.paths);
@@ -164,5 +168,84 @@ export class SwaggerSchemaResolver {
         });
       });
     });
+  }
+
+  /**
+   * Process JSON-LD schemas within the OpenAPI document
+   */
+  processJsonLdSchemas(schema: OpenAPI.Document) {
+    if (!schema.components?.schemas) return;
+
+    const jsonLdResolver = new JsonLdSchemaResolver(this.config, null, null);
+
+    Object.entries(schema.components.schemas).forEach(
+      ([schemaName, schemaDefinition]) => {
+        if (jsonLdResolver.isJsonLdSchema(schemaDefinition)) {
+          consola.info(`Processing JSON-LD schema: ${schemaName}`);
+
+          // Resolve JSON-LD schema to internal format
+          const resolvedSchema =
+            jsonLdResolver.resolveJsonLdSchema(schemaDefinition);
+
+          // Merge resolved schema back
+          Object.assign(schemaDefinition, resolvedSchema);
+
+          // Add JSON-LD utilities if enabled
+          if (this.config.jsonLdOptions.generateUtils) {
+            this.ensureJsonLdUtilities(schema);
+          }
+        }
+      },
+    );
+  }
+
+  /**
+   * Ensure JSON-LD utility types are available
+   */
+  private ensureJsonLdUtilities(schema: OpenAPI.Document) {
+    if (!schema.components) {
+      schema.components = {};
+    }
+    if (!schema.components.schemas) {
+      schema.components.schemas = {};
+    }
+
+    // Add base JSON-LD entity interface if not present
+    if (!schema.components.schemas.JsonLdEntity) {
+      schema.components.schemas.JsonLdEntity = {
+        type: "object",
+        properties: {
+          "@context": {
+            oneOf: [
+              { type: "string" },
+              { type: "object" },
+              {
+                type: "array",
+                items: {
+                  oneOf: [{ type: "string" }, { type: "object" }],
+                },
+              },
+            ],
+            description: "JSON-LD context defining the meaning of terms",
+          },
+          "@type": {
+            oneOf: [
+              { type: "string" },
+              {
+                type: "array",
+                items: { type: "string" },
+              },
+            ],
+            description: "JSON-LD type identifier",
+          },
+          "@id": {
+            type: "string",
+            format: "uri",
+            description: "JSON-LD identifier (IRI)",
+          },
+        },
+        "x-jsonld-base": true,
+      };
+    }
   }
 }

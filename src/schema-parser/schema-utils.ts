@@ -229,6 +229,11 @@ export class SchemaUtils {
   };
 
   getInternalSchemaType = (schema) => {
+    // Check for JSON-LD specific schemas first
+    if (this.isJsonLdSchema(schema)) {
+      return this.getJsonLdSchemaType(schema);
+    }
+
     if (
       !lodash.isEmpty(schema.enum) ||
       !lodash.isEmpty(this.getEnumNames(schema))
@@ -339,5 +344,54 @@ export class SchemaUtils {
         return this.config.Ts.Keyword.Any;
       }
     }
+  };
+
+  /**
+   * Checks if a schema is a JSON-LD schema
+   */
+  isJsonLdSchema = (schema) => {
+    if (!schema || typeof schema !== "object") return false;
+
+    // Check for JSON-LD markers
+    return Boolean(
+      schema["x-jsonld"] ||
+        schema["x-jsonld-context"] ||
+        schema["x-jsonld-type"] ||
+        schema["x-jsonld-id"] ||
+        (schema.properties &&
+          (schema.properties["@context"] ||
+            schema.properties["@type"] ||
+            schema.properties["@id"])),
+    );
+  };
+
+  /**
+   * Determines the specific JSON-LD schema type
+   */
+  getJsonLdSchemaType = (schema) => {
+    // Check for context-specific schema
+    if (
+      schema["x-jsonld-context-mapping"] ||
+      (schema.properties &&
+        Object.keys(schema.properties).some(
+          (key) =>
+            typeof schema.properties[key] === "object" &&
+            schema.properties[key]["x-jsonld-iri"],
+        ))
+    ) {
+      return SCHEMA_TYPES.JSONLD_CONTEXT;
+    }
+
+    // Check for type-specific schema
+    if (
+      schema["x-jsonld-type"] &&
+      (typeof schema["x-jsonld-type"] === "string" ||
+        Array.isArray(schema["x-jsonld-type"]))
+    ) {
+      return SCHEMA_TYPES.JSONLD_TYPE;
+    }
+
+    // Default to entity schema for JSON-LD objects
+    return SCHEMA_TYPES.JSONLD_ENTITY;
   };
 }
