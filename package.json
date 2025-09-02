@@ -74,7 +74,7 @@
     "axios": "1.11.0",
     "openapi-types": "12.1.3",
     "tsdown": "0.14.2",
-    "typedoc": "0.28.11",
+    "typedoc": "0.28.12",
     "vitest": "3.2.4"
   },
   "packageManager": "yarn@4.9.4",
