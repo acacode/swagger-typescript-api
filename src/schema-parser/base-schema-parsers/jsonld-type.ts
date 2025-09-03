@@ -8,7 +8,9 @@ export class JsonLdTypeSchemaParser extends MonoSchemaParser {
     // Handle single type
     if (typeof typeSchema === "string") {
       return {
-        ...(typeof this.schema === "object" ? this.schema : {}),
+        ...(typeof this.schema === "object" && !Array.isArray(this.schema)
+          ? this.schema
+          : {}),
         $schemaPath: this.schemaPath.slice(),
         $parsedSchema: true,
         schemaType: SCHEMA_TYPES.JSONLD_TYPE,
@@ -27,7 +29,9 @@ export class JsonLdTypeSchemaParser extends MonoSchemaParser {
       );
 
       return {
-        ...(typeof this.schema === "object" ? this.schema : {}),
+        ...(typeof this.schema === "object" && !Array.isArray(this.schema)
+          ? this.schema
+          : {}),
         $schemaPath: this.schemaPath.slice(),
         $parsedSchema: true,
         schemaType: SCHEMA_TYPES.JSONLD_TYPE,
@@ -50,7 +54,9 @@ export class JsonLdTypeSchemaParser extends MonoSchemaParser {
       );
 
       return {
-        ...(typeof this.schema === "object" ? this.schema : {}),
+        ...(typeof this.schema === "object" && !Array.isArray(this.schema)
+          ? this.schema
+          : {}),
         $schemaPath: this.schemaPath.slice(),
         $parsedSchema: true,
         schemaType: SCHEMA_TYPES.JSONLD_TYPE,

@@ -20,7 +20,9 @@ export class JsonLdEntitySchemaParser extends MonoSchemaParser {
     entityName = entityName || "JsonLdEntity";
 
     return {
-      ...(typeof this.schema === "object" ? this.schema : {}),
+      ...(typeof this.schema === "object" && !Array.isArray(this.schema)
+        ? this.schema
+        : {}),
       $schemaPath: this.schemaPath.slice(),
       $parsedSchema: true,
       schemaType: SCHEMA_TYPES.JSONLD_ENTITY,
