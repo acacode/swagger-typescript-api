@@ -62,7 +62,7 @@
     "typescript": "~5.9.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.2",
+    "@biomejs/biome": "2.2.3",
     "@changesets/changelog-github": "0.5.1",
     "@changesets/cli": "2.29.6",
     "@tsconfig/node20": "20.1.6",
