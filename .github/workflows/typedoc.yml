@@ -25,27 +25,21 @@ jobs:
     steps:
       - name: Checkout tree
         uses: actions/checkout@v5
-
       - name: Set-up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           check-latest: true
           node-version-file: .nvmrc
-
+          package-manager-cache: false
       - run: corepack enable
-
       - run: yarn install --immutable
-
       - run: yarn typedoc
-
       - name: Set-up Pages
         uses: actions/configure-pages@v5
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
           path: docs
-
       - name: Deploy odoc to GitHub Pages
         uses: actions/deploy-pages@v4
         id: deployment
