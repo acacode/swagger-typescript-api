@@ -18,6 +18,12 @@ export enum ExampleEnum {
   Example2 = "Example2",
 }
 
+export type ExampleObject = BaseExampleObject &
+  (
+    | BaseExampleObjectTypeMapping<ExampleEnum.Example1, DtoExample1>
+    | BaseExampleObjectTypeMapping<ExampleEnum.Example2, DtoExample2>
+  );
+
 export interface DtoExample1 {
   name: string;
   age: number;
@@ -28,12 +34,6 @@ export interface DtoExample2 {
   title: string;
   description: string;
 }
-
-export type ExampleObject = BaseExampleObject &
-  (
-    | BaseExampleObjectTypeMapping<ExampleEnum.Example1, DtoExample1>
-    | BaseExampleObjectTypeMapping<ExampleEnum.Example2, DtoExample2>
-  );
 
 interface BaseExampleObject {
   type?: ExampleEnum;

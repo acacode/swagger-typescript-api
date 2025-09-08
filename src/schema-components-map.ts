@@ -77,4 +77,13 @@ export class SchemaComponentsMap {
       return 0;
     });
   }
+
+  // Ensure discriminators are at the top of components list
+  discriminatorsFirst() {
+    this._data.sort((a, b) => {
+      if (Object.keys(a.rawTypeData || {}).includes("discriminator")) return -1;
+      if (Object.keys(b.rawTypeData || {}).includes("discriminator")) return 1;
+      return 0;
+    });
+  }
 }
