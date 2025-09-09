@@ -18,13 +18,13 @@ export interface JsonLdContext {
 
 export class JsonLdSchemaResolver {
   config: CodeGenConfig;
-  schemaComponentsMap: SchemaComponentsMap;
-  schemaWalker: SchemaWalker;
+  schemaComponentsMap: SchemaComponentsMap | null;
+  schemaWalker: SchemaWalker | null;
 
   constructor(
     config: CodeGenConfig,
-    schemaComponentsMap: SchemaComponentsMap,
-    schemaWalker: SchemaWalker,
+    schemaComponentsMap: SchemaComponentsMap | null,
+    schemaWalker: SchemaWalker | null,
   ) {
     this.config = config;
     this.schemaComponentsMap = schemaComponentsMap;
