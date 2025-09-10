@@ -176,9 +176,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@changesets/apply-release-plan@npm:^7.0.12":
-  version: 7.0.12
-  resolution: "@changesets/apply-release-plan@npm:7.0.12"
+"@changesets/apply-release-plan@npm:^7.0.13":
+  version: 7.0.13
+  resolution: "@changesets/apply-release-plan@npm:7.0.13"
   dependencies:
     "@changesets/config": "npm:^3.1.1"
     "@changesets/get-version-range-type": "npm:^0.4.0"
@@ -193,7 +193,7 @@ __metadata:
     prettier: "npm:^2.7.1"
     resolve-from: "npm:^5.0.0"
     semver: "npm:^7.5.3"
-  checksum: 10c0/3211e6e75fc50275647fa023ca2187a23b6b2406788f7ef39b38c3486ccf1d068a78b026ec488e46a2e3d135084ba8c152323e8df314cdd6ffbe188bf73bd238
+  checksum: 10c0/940f13bc09816f534f912559471af77c29eb31fcfa10a255bdc772573def9fb3ee24e3db710ac1ebbd70a90b03b667d63e535a13c580a150f3730c3798827a01
   languageName: node
   linkType: hard
 
@@ -231,11 +231,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@changesets/cli@npm:2.29.6":
-  version: 2.29.6
-  resolution: "@changesets/cli@npm:2.29.6"
+"@changesets/cli@npm:2.29.7":
+  version: 2.29.7
+  resolution: "@changesets/cli@npm:2.29.7"
   dependencies:
-    "@changesets/apply-release-plan": "npm:^7.0.12"
+    "@changesets/apply-release-plan": "npm:^7.0.13"
     "@changesets/assemble-release-plan": "npm:^6.0.9"
     "@changesets/changelog-git": "npm:^0.2.1"
     "@changesets/config": "npm:^3.1.1"
@@ -265,7 +265,7 @@ __metadata:
     term-size: "npm:^2.1.0"
   bin:
     changeset: bin.js
-  checksum: 10c0/6e09201df1bc83f45526f7ab3d77b1171c2c74e89639993367acf183b9d0809d02845b9d900f34a5febcd1a963cdad7246e2b9c444da2440760d297aad3aff32
+  checksum: 10c0/a868fd39ace25993714f8b80ebb08529e0aba5446266e18edee9e5fd34d529ef6f8fcb7f53fc5831ab99c5721762fe06198aade304799792f1f79b9d37600d04
   languageName: node
   linkType: hard
 
@@ -3719,7 +3719,7 @@ __metadata:
     "@biomejs/js-api": "npm:3.0.0"
     "@biomejs/wasm-nodejs": "npm:2.2.2"
     "@changesets/changelog-github": "npm:0.5.1"
-    "@changesets/cli": "npm:2.29.6"
+    "@changesets/cli": "npm:2.29.7"
     "@tsconfig/node20": "npm:20.1.6"
     "@tsconfig/strictest": "npm:2.0.5"
     "@types/js-yaml": "npm:4.0.9"
