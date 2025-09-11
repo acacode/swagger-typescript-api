@@ -1,0 +1,51 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`basic > immutable 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export interface Pet {
+  /** @format int64 */
+  readonly id: number;
+  readonly name: string;
+  readonly tag?: string;
+  readonly list?: readonly string[];
+  readonly obj?: Readonly<Record<string, any>>;
+  readonly multiple?: string | number;
+}
+"
+`;
+
+exports[`basic > immutable another-array-type 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export interface Pet {
+  /** @format int64 */
+  readonly id: number;
+  readonly name: string;
+  readonly tag?: string;
+  readonly list?: ReadonlyArray<string>;
+  readonly obj?: Readonly<Record<string, any>>;
+  readonly multiple?: string | number;
+}
+"
+`;
