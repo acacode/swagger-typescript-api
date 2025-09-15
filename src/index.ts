@@ -2,6 +2,8 @@ import { consola } from "consola";
 import type { GenerateApiConfiguration } from "../types/index.js";
 import { CodeGenProcess } from "./code-gen-process.js";
 
+export * from "../types/index.js";
+
 export async function generateApi(
   config: Partial<GenerateApiConfiguration["config"]>,
 ) {
