@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.2.10
+
+### Patch Changes
+
+- [`7b7351f`](https://github.com/acacode/swagger-typescript-api/commit/7b7351f90b250f7702cb57976c5c293ede353312) Thanks [@js2me](https://github.com/js2me)! - fix missing exported interfaces and types
+
 ## 13.2.9
 
 ### Patch Changes
