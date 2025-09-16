@@ -65,9 +65,9 @@ export class SchemaComponentsMap {
     );
   }
 
-  get($ref: string) {
+  get = ($ref: string) => {
     return this._data.find((c) => c.$ref === $ref) || null;
-  }
+  };
 
   // Ensure enums are at the top of components list
   enumsFirst() {
