@@ -8,7 +8,7 @@ export class PrimitiveSchemaParser extends MonoSchemaParser {
       this.schema || {};
 
     const readonly =
-      (readOnly && this.config.addReadonly) || this.config.makeImmutable;
+      (readOnly && this.config.addReadonly) || this.config.immutable;
 
     if (type === this.config.Ts.Keyword.Object && additionalProperties) {
       const propertyNamesSchema = this.schemaUtils.getSchemaPropertyNamesSchema(

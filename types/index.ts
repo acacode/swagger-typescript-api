@@ -557,7 +557,7 @@ export interface GenerateApiConfiguration {
     /** customise code generation constructs */
     codeGenConstructs?: (struct: CodeGenConstruct) => Partial<CodeGenConstruct>;
     /** extract response body type to data contract */
-    makeImmutable: boolean;
+    immutable: boolean;
     extractResponseBody: boolean;
     /** extract response error type to data contract */
     extractResponseError: boolean;

@@ -58,7 +58,7 @@ export class CodeGenConfig {
   /** CLI flag */
   addReadonly = false;
   /** CLI flag */
-  makeImmutable = false;
+  immutable = false;
   enumNamesAsValues = false;
   /** parsed swagger schema from getSwaggerObject() */
 

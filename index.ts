@@ -86,10 +86,10 @@ const generateCommand = defineCommand({
       description: "generate readonly properties",
       default: codeGenBaseConfig.addReadonly,
     },
-    "make-immutable": {
+    immutable: {
       type: "boolean",
       description: "makes all properties and values readonly",
-      default: codeGenBaseConfig.makeImmutable,
+      default: codeGenBaseConfig.immutable,
     },
     "another-array-type": {
       type: "boolean",
@@ -321,7 +321,7 @@ const generateCommand = defineCommand({
           ? HTTP_CLIENT.AXIOS
           : HTTP_CLIENT.FETCH,
       input: path.resolve(process.cwd(), args.path as string),
-      makeImmutable: args["make-immutable"],
+      immutable: args["immutable"],
       modular: args.modular,
       moduleNameFirstTag: args["module-name-first-tag"],
       moduleNameIndex: +args["module-name-index"] || 0,

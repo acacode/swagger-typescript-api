@@ -7,7 +7,7 @@ export class ArraySchemaParser extends MonoSchemaParser {
     const { type, description, items, readOnly } = this.schema || {};
 
     const readonly =
-      (readOnly && this.config.addReadonly) || this.config.makeImmutable;
+      (readOnly && this.config.addReadonly) || this.config.immutable;
 
     if (Array.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
       const tupleContent = [];

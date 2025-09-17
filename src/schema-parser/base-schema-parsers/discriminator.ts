@@ -85,8 +85,7 @@ export class DiscriminatorSchemaParser extends MonoSchemaParser {
         ts.ObjectWrapper(
           ts.TypeField({
             readonly:
-              (readOnly && this.config.addReadonly) ||
-              this.config.makeImmutable,
+              (readOnly && this.config.addReadonly) || this.config.immutable,
             key: ts.StringValue(discriminator.propertyName),
             value: "Key",
           }),
@@ -132,7 +131,7 @@ export class DiscriminatorSchemaParser extends MonoSchemaParser {
             ts.TypeField({
               readonly:
                 (mappingSchema.readOnly && this.config.addReadonly) ||
-                this.config.makeImmutable,
+                this.config.immutable,
               key: discriminator.propertyName,
               value: mappingUsageKey,
             }),

@@ -21,7 +21,7 @@ describe("basic", async () => {
       input: path.resolve(import.meta.dirname, "schema.json"),
       output: tmpdir,
       silent: true,
-      makeImmutable: true,
+      immutable: true,
       generateClient: false,
     });
 
@@ -37,7 +37,7 @@ describe("basic", async () => {
       input: path.resolve(import.meta.dirname, "schema.json"),
       output: tmpdir,
       silent: true,
-      makeImmutable: true,
+      immutable: true,
       generateClient: false,
       anotherArrayType: true,
     });

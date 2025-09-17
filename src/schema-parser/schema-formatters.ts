@@ -85,7 +85,7 @@ export class SchemaFormatters {
             : this.config.Ts.RecordType({
                 readonly:
                   (parsedSchema.readOnly && this.config.addReadonly) ||
-                  this.config.makeImmutable,
+                  this.config.immutable,
                 key: this.config.Ts.Keyword.String,
                 value: this.config.Ts.Keyword.Any,
               }),
