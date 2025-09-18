@@ -31,4 +31,22 @@ describe("basic", async () => {
 
     expect(content).toMatchSnapshot();
   });
+
+  test("discriminator with union enums", async () => {
+    await generateApi({
+      fileName: "schema",
+      input: path.resolve(import.meta.dirname, "schema.json"),
+      output: tmpdir,
+      silent: true,
+      addReadonly: true,
+      generateClient: false,
+      generateUnionEnums: true,
+    });
+
+    const content = await fs.readFile(path.join(tmpdir, "schema.ts"), {
+      encoding: "utf8",
+    });
+
+    expect(content).toMatchSnapshot();
+  });
 });
