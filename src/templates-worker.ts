@@ -2,13 +2,17 @@ import * as module from "node:module";
 import * as path from "node:path";
 import * as url from "node:url";
 import { consola } from "consola";
-import * as Eta from "eta";
+import { Eta } from "eta";
 import lodash from "lodash";
 import type { CodeGenProcess } from "./code-gen-process.js";
 import type { CodeGenConfig } from "./configuration.js";
 import type { FileSystem } from "./util/file-system.js";
 
 const require = module.createRequire(import.meta.url);
+
+const eta = new Eta({
+  functionHeader: "const includeFile = options.includeFile;",
+});
 
 export class TemplatesWorker {
   config: CodeGenConfig;
@@ -214,31 +218,20 @@ export class TemplatesWorker {
 
   renderTemplate = (
     template: string,
-    configuration: object,
-    options: object = {},
+    configuration: Record<string, unknown>,
   ) => {
     if (!template) return "";
 
-    return Eta.render(
-      template,
+    return eta.render(
+      eta.compile(template, { async: false }),
       {
         ...this.getRenderTemplateData(),
         ...configuration,
       },
       {
-        async: false,
-        ...options,
-        includeFile: (
-          path: string,
-          configuration: object,
-          options: object = {},
-        ) => {
-          return this.renderTemplate(
-            this.getTemplateContent(path),
-            configuration,
-            options,
-          );
-        },
+        // @ts-expect-error eta's meta options lack includeFile despite runtime support
+        includeFile: (path: string, configuration: Record<string, string>) =>
+          this.renderTemplate(this.getTemplateContent(path), configuration),
       },
     );
   };
