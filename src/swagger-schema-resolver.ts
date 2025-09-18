@@ -1,8 +1,8 @@
 import { consola } from "consola";
-import * as yaml from "js-yaml";
 import lodash from "lodash";
 import type { OpenAPI, OpenAPIV2 } from "openapi-types";
 import * as swagger2openapi from "swagger2openapi";
+import * as YAML from "yaml";
 import type { CodeGenConfig } from "./configuration.js";
 import type { FileSystem } from "./util/file-system.js";
 import { Request } from "./util/request.js";
@@ -114,8 +114,8 @@ export class SwaggerSchemaResolver {
 
     try {
       return JSON.parse(file);
-    } catch (e) {
-      return yaml.load(file);
+    } catch {
+      return YAML.parse(file);
     }
   }
 
