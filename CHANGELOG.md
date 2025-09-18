@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- [#1420](https://github.com/acacode/swagger-typescript-api/pull/1420) [`426433b`](https://github.com/acacode/swagger-typescript-api/commit/426433b3f6144b6f28f0b79614df28dd3dea2012) Thanks [@smorimoto](https://github.com/smorimoto)! - Move `@types/lodash` and `openapi-types` to dependencies
+- [#1420](https://github.com/acacode/swagger-typescript-api/pull/1420) [`426433b`](https://github.com/acacode/swagger-typescript-api/commit/426433b3f6144b6f28f0b79614df28dd3dea2012) Thanks [@smorimoto](https://github.com/smorimoto)! - Move `@types/lodash` and `openapi-types` to dependencies.
 
   These type packages are referenced by the published declarations, so consumers
   require them at install time for correct type resolution. Moving them from
@@ -15,9 +15,9 @@
 
 ### Patch Changes
 
-- [#1390](https://github.com/acacode/swagger-typescript-api/pull/1390) [`5897e4b`](https://github.com/acacode/swagger-typescript-api/commit/5897e4ba1e3d21adf9ccb161bfc6eb0f1dde966c) Thanks [@MatanAvneri](https://github.com/MatanAvneri)! - Fix being able to call getComponentByRef from templates
+- [#1390](https://github.com/acacode/swagger-typescript-api/pull/1390) [`5897e4b`](https://github.com/acacode/swagger-typescript-api/commit/5897e4ba1e3d21adf9ccb161bfc6eb0f1dde966c) Thanks [@MatanAvneri](https://github.com/MatanAvneri)! - Fix being able to call getComponentByRef from templates.
 
-- [#1393](https://github.com/acacode/swagger-typescript-api/pull/1393) [`9a7c788`](https://github.com/acacode/swagger-typescript-api/commit/9a7c788edc8efefbb8412bcc331e909b80ece317) Thanks [@RoCat](https://github.com/RoCat)! - Ensure discriminators are just after enums in components list to avoid cyclic errors
+- [#1393](https://github.com/acacode/swagger-typescript-api/pull/1393) [`9a7c788`](https://github.com/acacode/swagger-typescript-api/commit/9a7c788edc8efefbb8412bcc331e909b80ece317) Thanks [@RoCat](https://github.com/RoCat)! - Ensure discriminators are just after enums in components list to avoid cyclic errors.
 
 - [#1416](https://github.com/acacode/swagger-typescript-api/pull/1416) [`cd127a9`](https://github.com/acacode/swagger-typescript-api/commit/cd127a94e3386ef5eece740ba9335715fb7d13e0) Thanks [@smorimoto](https://github.com/smorimoto)! - Fix fetch client response parsing without re-reading body.
 
@@ -25,7 +25,7 @@
 
 ### Patch Changes
 
-- [`7b7351f`](https://github.com/acacode/swagger-typescript-api/commit/7b7351f90b250f7702cb57976c5c293ede353312) Thanks [@js2me](https://github.com/js2me)! - fix missing exported interfaces and types
+- [`7b7351f`](https://github.com/acacode/swagger-typescript-api/commit/7b7351f90b250f7702cb57976c5c293ede353312) Thanks [@js2me](https://github.com/js2me)! - Fix missing exported interfaces and types.
 
 ## 13.2.9
 
