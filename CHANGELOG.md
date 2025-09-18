@@ -1,5 +1,22 @@
 # swagger-typescript-api
 
+## 13.2.13
+
+### Patch Changes
+
+- [#1424](https://github.com/acacode/swagger-typescript-api/pull/1424) [`aa79764`](https://github.com/acacode/swagger-typescript-api/commit/aa79764bc27fc1787924c46a5905769dccbf385c) Thanks [@smorimoto](https://github.com/smorimoto)! - Ensure discriminator mappings use union enum literals.
+
+  Resolve discriminator mapping generation to use literal values when
+  `generateUnionEnums` is enabled to avoid emitting enum member references.
+  Add regression coverage that snapshots the discriminator output with
+  union enums.
+
+- [#1422](https://github.com/acacode/swagger-typescript-api/pull/1422) [`724b0cd`](https://github.com/acacode/swagger-typescript-api/commit/724b0cd3d37acac1ac24fd547e2ad7af3a74bfd6) Thanks [@smorimoto](https://github.com/smorimoto)! - Replace `js-yaml` with `yaml`.
+
+  Switch YAML parsing from `js-yaml` to `yaml`. Update the resolver to
+  use `YAML.parse` when `JSON.parse` fails. Remove `js-yaml` and its types,
+  add `yaml` as a runtime dependency. No public API changes.
+
 ## 13.2.12
 
 ### Patch Changes
