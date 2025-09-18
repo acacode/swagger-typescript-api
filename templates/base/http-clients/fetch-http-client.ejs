@@ -200,7 +200,8 @@ export class HttpClient<SecurityDataType = unknown> {
             r.data = (null as unknown) as T;
             r.error = (null as unknown) as E;
 
-            const data = !responseFormat ? r : await response[responseFormat]()
+            const responseToParse = responseFormat ? response.clone() : response;
+            const data = !responseFormat ? r : await responseToParse[responseFormat]()
                 .then((data) => {
                     if (r.ok) {
                         r.data = data;
