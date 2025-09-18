@@ -1,5 +1,15 @@
 # swagger-typescript-api
 
+## 13.2.11
+
+### Patch Changes
+
+- [#1390](https://github.com/acacode/swagger-typescript-api/pull/1390) [`5897e4b`](https://github.com/acacode/swagger-typescript-api/commit/5897e4ba1e3d21adf9ccb161bfc6eb0f1dde966c) Thanks [@MatanAvneri](https://github.com/MatanAvneri)! - Fix being able to call getComponentByRef from templates
+
+- [#1393](https://github.com/acacode/swagger-typescript-api/pull/1393) [`9a7c788`](https://github.com/acacode/swagger-typescript-api/commit/9a7c788edc8efefbb8412bcc331e909b80ece317) Thanks [@RoCat](https://github.com/RoCat)! - Ensure discriminators are just after enums in components list to avoid cyclic errors
+
+- [#1416](https://github.com/acacode/swagger-typescript-api/pull/1416) [`cd127a9`](https://github.com/acacode/swagger-typescript-api/commit/cd127a94e3386ef5eece740ba9335715fb7d13e0) Thanks [@smorimoto](https://github.com/smorimoto)! - Fix fetch client response parsing without re-reading body.
+
 ## 13.2.10
 
 ### Patch Changes
