@@ -1,5 +1,16 @@
 # swagger-typescript-api
 
+## 13.2.12
+
+### Patch Changes
+
+- [#1420](https://github.com/acacode/swagger-typescript-api/pull/1420) [`426433b`](https://github.com/acacode/swagger-typescript-api/commit/426433b3f6144b6f28f0b79614df28dd3dea2012) Thanks [@smorimoto](https://github.com/smorimoto)! - Move `@types/lodash` and `openapi-types` to dependencies
+
+  These type packages are referenced by the published declarations, so consumers
+  require them at install time for correct type resolution. Moving them from
+  `devDependencies` prevents downstream TypeScript errors whilst having no
+  runtime impact.
+
 ## 13.2.11
 
 ### Patch Changes
