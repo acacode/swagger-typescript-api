@@ -127,6 +127,9 @@ export class CodeGenProcess {
       }),
     );
 
+    // Set all discriminators at the top
+    this.schemaComponentsMap.discriminatorsFirst();
+    // Put all enums at the top (before discriminators)
     this.schemaComponentsMap.enumsFirst();
 
     const componentsToParse: SchemaComponent[] =
