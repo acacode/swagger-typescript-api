@@ -177,18 +177,22 @@ export class DiscriminatorSchemaParser extends MonoSchemaParser {
       );
     }
 
-    if (
-      mappingPropertySchema?.rawTypeData?.$parsed?.type === SCHEMA_TYPES.ENUM
-    ) {
+    const parsedEnum = mappingPropertySchema?.rawTypeData?.$parsed;
+    if (parsedEnum?.type === SCHEMA_TYPES.ENUM) {
       mappingPropertySchemaEnumKeysMap = lodash.reduce(
-        mappingPropertySchema.rawTypeData.$parsed.enum,
+        parsedEnum.enum,
         (acc, key, index) => {
-          const enumKey =
-            mappingPropertySchema.rawTypeData.$parsed.content[index].key;
-          acc[key] = ts.EnumUsageKey(
-            mappingPropertySchema.rawTypeData.$parsed.typeName,
-            enumKey,
-          );
+          const enumContent = parsedEnum.content?.[index];
+          if (this.config.generateUnionEnums) {
+            const literalValue =
+              enumContent?.value ??
+              (key !== undefined ? ts.StringValue(key) : undefined);
+            if (literalValue !== undefined) {
+              acc[key] = literalValue;
+            }
+          } else if (parsedEnum.typeName && enumContent?.key) {
+            acc[key] = ts.EnumUsageKey(parsedEnum.typeName, enumContent.key);
+          }
           return acc;
         },
         {},
