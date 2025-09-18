@@ -173,9 +173,10 @@ export class HttpClient {
       const r = response;
       r.data = null;
       r.error = null;
+      const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
         ? r
-        : await response[responseFormat]()
+        : await responseToParse[responseFormat]()
             .then((data) => {
               if (r.ok) {
                 r.data = data;
