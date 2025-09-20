@@ -3277,9 +3277,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rolldown-plugin-dts@npm:^0.16.5":
-  version: 0.16.6
-  resolution: "rolldown-plugin-dts@npm:0.16.6"
+"rolldown-plugin-dts@npm:^0.16.7":
+  version: 0.16.7
+  resolution: "rolldown-plugin-dts@npm:0.16.7"
   dependencies:
     "@babel/generator": "npm:^7.28.3"
     "@babel/parser": "npm:^7.28.4"
@@ -3305,7 +3305,7 @@ __metadata:
       optional: true
     vue-tsc:
       optional: true
-  checksum: 10c0/e13005cc3e70f99755ec176ceed5657b20fa8872e66943a9d7284a371d7536adff9513192273910e95ca149bcc6921987e01f0970f85b848b5eb48f29e0c0965
+  checksum: 10c0/01200aea024dbcfda3b776f87d3cb7fad3e7650f3d0f68f3951ff6076c2a05e66de6239d5f87a59e92cc13a8a82eb2879dd085b8dddc393b37b6ff9e79b0eac7
   languageName: node
   linkType: hard
 
@@ -3724,7 +3724,7 @@ __metadata:
     openapi-types: "npm:^12.1.3"
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
-    tsdown: "npm:0.15.2"
+    tsdown: "npm:0.15.4"
     typedoc: "npm:0.28.13"
     typescript: "npm:~5.9.2"
     vitest: "npm:3.2.4"
@@ -3856,9 +3856,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:0.15.2":
-  version: 0.15.2
-  resolution: "tsdown@npm:0.15.2"
+"tsdown@npm:0.15.4":
+  version: 0.15.4
+  resolution: "tsdown@npm:0.15.4"
   dependencies:
     ansis: "npm:^4.1.0"
     cac: "npm:^6.7.14"
@@ -3868,7 +3868,7 @@ __metadata:
     empathic: "npm:^2.0.0"
     hookable: "npm:^5.5.3"
     rolldown: "npm:latest"
-    rolldown-plugin-dts: "npm:^0.16.5"
+    rolldown-plugin-dts: "npm:^0.16.7"
     semver: "npm:^7.7.2"
     tinyexec: "npm:^1.0.1"
     tinyglobby: "npm:^0.2.15"
@@ -3893,7 +3893,7 @@ __metadata:
       optional: true
   bin:
     tsdown: dist/run.mjs
-  checksum: 10c0/bce0343d24a2495003c2dc9849de95c8adbfcb6873ba9ec422bc7f408f6de7f1e6736fcca7044f41c87e588428c53d4d44ec2d7e350e85587b5786e4e1a7b0d1
+  checksum: 10c0/eeca83c9d8205f6d55a010999ce6f946e137e2ed9bb41853f87beccce16f118e50b730baee82dd66876380a244089c0d1944937020d4ed76fa163f0c10dec77b
   languageName: node
   linkType: hard
 
