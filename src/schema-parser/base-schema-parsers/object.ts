@@ -36,6 +36,17 @@ export class ObjectSchemaParser extends MonoSchemaParser {
         "rawTypeData",
         {},
       );
+      // In OpenAPI v3.1 the nullable property was replaced with a "typed
+      // array", that is an array that can either be of type T or null.
+      if (Array.isArray(property.type) && property.type.length == 2) {
+        if (property.type[0] == "null") {
+          property.type = property.type[1];
+          property.nullable = true;
+        } else if (property.type[1] == "null") {
+          property.type = property.type[0];
+          property.nullable = true;
+        }
+      }
       const nullable = !!(rawTypeData.nullable || property.nullable);
       const fieldName = this.typeNameFormatter.isValidName(name)
         ? name
