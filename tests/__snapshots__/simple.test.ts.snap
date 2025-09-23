@@ -298,14 +298,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -2650,14 +2653,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -2932,14 +2938,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -3223,14 +3232,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -3651,14 +3663,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -4422,14 +4437,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -4764,14 +4782,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -5062,14 +5083,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -5372,14 +5396,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -5756,14 +5783,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -6411,14 +6441,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -6726,14 +6759,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -7032,14 +7068,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -7385,14 +7424,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -7700,14 +7742,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -8029,14 +8074,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -8356,14 +8404,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -17328,14 +17379,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -38465,14 +38519,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -39041,14 +39098,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -39716,14 +39776,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -40010,14 +40073,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -40409,14 +40475,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -40697,14 +40766,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -40992,14 +41064,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -41488,14 +41563,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -41986,14 +42064,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -42340,14 +42421,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -42695,14 +42779,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -43086,14 +43173,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -43467,14 +43557,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -43791,14 +43884,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -44207,14 +44303,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -44899,14 +44998,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -45255,14 +45357,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -45575,14 +45680,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -45852,14 +45960,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -46154,14 +46265,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -46579,14 +46693,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -47230,14 +47347,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -48417,14 +48537,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -49210,14 +49333,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -49575,14 +49701,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
@@ -49877,14 +50006,17 @@ export class HttpClient<SecurityDataType = unknown> {
 
       return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
-        formData.append(
-          key,
-          property instanceof Blob
-            ? property
-            : typeof property === "object" && property !== null
-              ? JSON.stringify(property)
-              : \`\${property}\`,
-        );
+        const propertyContent =
+          property instanceof Array ? property : [property];
+
+        for (const formItem of propertyContent) {
+          const isFileType =
+            formItem instanceof Blob || formItem instanceof File;
+          formData.append(
+            key,
+            isFileType ? formItem : JSON.stringify(formItem),
+          );
+        }
         return formData;
       }, new FormData());
     },
