@@ -394,9 +394,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -2746,9 +2766,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -3028,9 +3068,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -3319,9 +3379,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -3747,9 +3827,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -4518,9 +4618,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -4860,9 +4980,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -5158,9 +5298,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -5468,9 +5628,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -5852,9 +6032,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -6507,9 +6707,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -6822,9 +7042,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -7128,9 +7368,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -7481,9 +7741,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -7796,9 +8076,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -8125,9 +8425,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -8452,9 +8772,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -17424,9 +17764,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -38561,9 +38921,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -39137,9 +39517,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -39812,9 +40212,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -40106,9 +40526,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -40505,9 +40945,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -40793,9 +41253,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -41088,9 +41568,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -41584,9 +42084,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -42082,9 +42602,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -42436,9 +42976,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -42791,9 +43351,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -43182,9 +43762,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -43563,9 +44163,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -43887,9 +44507,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -44303,9 +44943,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -44995,9 +45655,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -45351,9 +46031,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -45671,9 +46371,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -45948,9 +46668,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -46250,9 +46990,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -46675,9 +47435,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -47326,9 +48106,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -48513,9 +49313,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -49306,9 +50126,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -49671,9 +50511,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -49973,9 +50833,29 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a wrapper object that doesn't mutate the Response
+      // This ensures compatibility with ESM environments where Response is read-only
+      const r = {
+        data: null as unknown as T,
+        error: null as unknown as E,
+        // Delegate Response properties
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        url: response.url,
+        redirected: response.redirected,
+        type: response.type,
+        body: response.body,
+        bodyUsed: response.bodyUsed,
+        // Delegate Response methods
+        arrayBuffer: () => response.arrayBuffer(),
+        blob: () => response.blob(),
+        clone: () => response.clone(),
+        formData: () => response.formData(),
+        json: () => response.json(),
+        text: () => response.text(),
+      } as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
