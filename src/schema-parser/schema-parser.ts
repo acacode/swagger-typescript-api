@@ -11,6 +11,9 @@ import { ArraySchemaParser } from "./base-schema-parsers/array.js";
 import { ComplexSchemaParser } from "./base-schema-parsers/complex.js";
 import { DiscriminatorSchemaParser } from "./base-schema-parsers/discriminator.js";
 import { EnumSchemaParser } from "./base-schema-parsers/enum.js";
+import { JsonLdContextSchemaParser } from "./base-schema-parsers/jsonld-context.js";
+import { JsonLdEntitySchemaParser } from "./base-schema-parsers/jsonld-entity.js";
+import { JsonLdTypeSchemaParser } from "./base-schema-parsers/jsonld-type.js";
 import { ObjectSchemaParser } from "./base-schema-parsers/object.js";
 import { PrimitiveSchemaParser } from "./base-schema-parsers/primitive.js";
 import { AllOfSchemaParser } from "./complex-schema-parsers/all-of.js";
@@ -155,6 +158,39 @@ export class SchemaParser {
     },
     [SCHEMA_TYPES.ARRAY]: (schema, typeName) => {
       const SchemaParser = this.config.schemaParsers.array || ArraySchemaParser;
+      const schemaParser = new SchemaParser(
+        this,
+        schema,
+        typeName,
+        this.schemaPath,
+      );
+      return schemaParser.parse();
+    },
+    [SCHEMA_TYPES.JSONLD_CONTEXT]: (schema, typeName) => {
+      const SchemaParser =
+        this.config.schemaParsers.jsonldContext || JsonLdContextSchemaParser;
+      const schemaParser = new SchemaParser(
+        this,
+        schema,
+        typeName,
+        this.schemaPath,
+      );
+      return schemaParser.parse();
+    },
+    [SCHEMA_TYPES.JSONLD_ENTITY]: (schema, typeName) => {
+      const SchemaParser =
+        this.config.schemaParsers.jsonldEntity || JsonLdEntitySchemaParser;
+      const schemaParser = new SchemaParser(
+        this,
+        schema,
+        typeName,
+        this.schemaPath,
+      );
+      return schemaParser.parse();
+    },
+    [SCHEMA_TYPES.JSONLD_TYPE]: (schema, typeName) => {
+      const SchemaParser =
+        this.config.schemaParsers.jsonldType || JsonLdTypeSchemaParser;
       const schemaParser = new SchemaParser(
         this,
         schema,
