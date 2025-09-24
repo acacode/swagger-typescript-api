@@ -76,7 +76,7 @@
     "typedoc": "0.28.13",
     "vitest": "3.2.4"
   },
-  "packageManager": "yarn@4.10.2",
+  "packageManager": "yarn@4.10.3",
   "engines": {
     "node": ">=20"
   },
