@@ -84,6 +84,9 @@ export class CodeGenConfig {
     routeTypes: "route-types",
     httpClient: "http-client",
     outOfModuleApi: "Common",
+    jsonldContext: "jsonld-context",
+    jsonldEntity: "jsonld-entity",
+    jsonldUtils: "jsonld-utils",
   };
   routeNameDuplicatesMap = new Map();
   hooks: Hooks = {

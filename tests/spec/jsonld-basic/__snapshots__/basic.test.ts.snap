@@ -21,7 +21,24 @@ exports[`JSON-LD basic test > should generate JSON-LD types correctly 1`] = `
    * x-jsonld-context
    * Property: x-jsonld-context
    */
-    "x-jsonld-context"?: [object Object],[object Object],[object Object],
+    "x-jsonld-context"?: {
+  /**
+   * name
+   * Property: name
+   */
+    name?: string,
+  /**
+   * email
+   * Property: email
+   */
+    email?: string,
+  /**
+   * birthDate
+   * Property: birthDate
+   */
+    birthDate?: ,
+
+},
   /**
    * x-jsonld-type
    * Property: x-jsonld-type
@@ -31,7 +48,39 @@ exports[`JSON-LD basic test > should generate JSON-LD types correctly 1`] = `
    * properties
    * Property: properties
    */
-    properties?: [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],
+    properties?: {
+  /**
+   * @context
+   * JSON-LD context defining the meaning of terms
+   */
+    "@context"?: object,
+  /**
+   * @type
+   * JSON-LD type identifier
+   */
+    "@type": string,
+  /**
+   * @id
+   * JSON-LD identifier (IRI)
+   */
+    "@id"?: string,
+  /**
+   * name
+   * Property: name
+   */
+    name?: Record<string,any>,
+  /**
+   * email
+   * Property: email
+   */
+    email?: Record<string,any>,
+  /**
+   * birthDate
+   * Property: birthDate
+   */
+    birthDate?: Record<string,any>,
+
+},
   /**
    * required
    * Property: required
@@ -65,7 +114,39 @@ exports[`JSON-LD basic test > should generate JSON-LD types correctly 1`] = `
    * properties
    * Property: properties
    */
-    properties?: [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],
+    properties?: {
+  /**
+   * @context
+   * JSON-LD context defining the meaning of terms
+   */
+    "@context"?: object,
+  /**
+   * @type
+   * JSON-LD type identifier
+   */
+    "@type": string,
+  /**
+   * @id
+   * JSON-LD identifier (IRI)
+   */
+    "@id"?: string,
+  /**
+   * name
+   * Property: name
+   */
+    name?: Record<string,any>,
+  /**
+   * url
+   * Property: url
+   */
+    url?: Record<string,any>,
+  /**
+   * employees
+   * Property: employees
+   */
+    employees?: Record<string,any>,
+
+},
   /**
    * required
    * Property: required
@@ -120,7 +201,24 @@ exports[`JSON-LD basic test > should generate JSON-LD types with strict typing 1
    * x-jsonld-context
    * Property: x-jsonld-context
    */
-    "x-jsonld-context"?: [object Object],[object Object],[object Object],
+    "x-jsonld-context"?: {
+  /**
+   * name
+   * Property: name
+   */
+    name?: string,
+  /**
+   * email
+   * Property: email
+   */
+    email?: string,
+  /**
+   * birthDate
+   * Property: birthDate
+   */
+    birthDate?: ,
+
+},
   /**
    * x-jsonld-type
    * Property: x-jsonld-type
@@ -130,7 +228,39 @@ exports[`JSON-LD basic test > should generate JSON-LD types with strict typing 1
    * properties
    * Property: properties
    */
-    properties?: [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],
+    properties?: {
+  /**
+   * @context
+   * JSON-LD context defining the meaning of terms
+   */
+    "@context"?: object,
+  /**
+   * @type
+   * JSON-LD type identifier
+   */
+    "@type": string,
+  /**
+   * @id
+   * JSON-LD identifier (IRI)
+   */
+    "@id"?: string,
+  /**
+   * name
+   * Property: name
+   */
+    name?: Record<string,any>,
+  /**
+   * email
+   * Property: email
+   */
+    email?: Record<string,any>,
+  /**
+   * birthDate
+   * Property: birthDate
+   */
+    birthDate?: Record<string,any>,
+
+},
   /**
    * required
    * Property: required
@@ -164,7 +294,39 @@ exports[`JSON-LD basic test > should generate JSON-LD types with strict typing 1
    * properties
    * Property: properties
    */
-    properties?: [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],
+    properties?: {
+  /**
+   * @context
+   * JSON-LD context defining the meaning of terms
+   */
+    "@context"?: object,
+  /**
+   * @type
+   * JSON-LD type identifier
+   */
+    "@type": string,
+  /**
+   * @id
+   * JSON-LD identifier (IRI)
+   */
+    "@id"?: string,
+  /**
+   * name
+   * Property: name
+   */
+    name?: Record<string,any>,
+  /**
+   * url
+   * Property: url
+   */
+    url?: Record<string,any>,
+  /**
+   * employees
+   * Property: employees
+   */
+    employees?: Record<string,any>,
+
+},
   /**
    * required
    * Property: required
@@ -219,7 +381,24 @@ exports[`JSON-LD basic test > should handle JSON-LD entities with context 1`] = 
    * x-jsonld-context
    * Property: x-jsonld-context
    */
-    "x-jsonld-context"?: [object Object],[object Object],[object Object],
+    "x-jsonld-context"?: {
+  /**
+   * name
+   * Property: name
+   */
+    name?: string,
+  /**
+   * email
+   * Property: email
+   */
+    email?: string,
+  /**
+   * birthDate
+   * Property: birthDate
+   */
+    birthDate?: ,
+
+},
   /**
    * x-jsonld-type
    * Property: x-jsonld-type
@@ -229,7 +408,39 @@ exports[`JSON-LD basic test > should handle JSON-LD entities with context 1`] = 
    * properties
    * Property: properties
    */
-    properties?: [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],
+    properties?: {
+  /**
+   * @context
+   * JSON-LD context defining the meaning of terms
+   */
+    "@context"?: object,
+  /**
+   * @type
+   * JSON-LD type identifier
+   */
+    "@type": string,
+  /**
+   * @id
+   * JSON-LD identifier (IRI)
+   */
+    "@id"?: string,
+  /**
+   * name
+   * Property: name
+   */
+    name?: Record<string,any>,
+  /**
+   * email
+   * Property: email
+   */
+    email?: Record<string,any>,
+  /**
+   * birthDate
+   * Property: birthDate
+   */
+    birthDate?: Record<string,any>,
+
+},
   /**
    * required
    * Property: required
@@ -263,7 +474,39 @@ exports[`JSON-LD basic test > should handle JSON-LD entities with context 1`] = 
    * properties
    * Property: properties
    */
-    properties?: [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],
+    properties?: {
+  /**
+   * @context
+   * JSON-LD context defining the meaning of terms
+   */
+    "@context"?: object,
+  /**
+   * @type
+   * JSON-LD type identifier
+   */
+    "@type": string,
+  /**
+   * @id
+   * JSON-LD identifier (IRI)
+   */
+    "@id"?: string,
+  /**
+   * name
+   * Property: name
+   */
+    name?: Record<string,any>,
+  /**
+   * url
+   * Property: url
+   */
+    url?: Record<string,any>,
+  /**
+   * employees
+   * Property: employees
+   */
+    employees?: Record<string,any>,
+
+},
   /**
    * required
    * Property: required

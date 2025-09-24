@@ -441,6 +441,66 @@ export class CodeGenProcess {
       }
     }
 
+    // Add JSON-LD output files if enabled and schemas are present
+    const jsonldOutputFiles: TranslatorIO[] = [];
+
+    // Check if we have JSON-LD schemas and options enabled
+    const hasJsonLdSchemas = configuration.components?.some?.(
+      (component) =>
+        component.schemaType === "jsonld-context" ||
+        component.schemaType === "jsonld-entity" ||
+        component.schemaType === "jsonld-type",
+    );
+
+    if (hasJsonLdSchemas) {
+      const { jsonLdOptions } = configuration.config;
+
+      // Generate JSON-LD context interfaces if enabled
+      if (
+        jsonLdOptions?.generateContext &&
+        templatesToRender.jsonldContextDataContract
+      ) {
+        jsonldOutputFiles.push(
+          ...(await this.createOutputFileInfo(
+            configuration,
+            fileNames.jsonldContext,
+            this.templatesWorker.renderTemplate(
+              templatesToRender.jsonldContextDataContract,
+              configuration,
+            ),
+          )),
+        );
+      }
+
+      // Generate JSON-LD entity interfaces
+      if (templatesToRender.jsonldEntityDataContract) {
+        jsonldOutputFiles.push(
+          ...(await this.createOutputFileInfo(
+            configuration,
+            fileNames.jsonldEntity,
+            this.templatesWorker.renderTemplate(
+              templatesToRender.jsonldEntityDataContract,
+              configuration,
+            ),
+          )),
+        );
+      }
+
+      // Generate JSON-LD utility types if enabled
+      if (jsonLdOptions?.generateUtils && templatesToRender.jsonldUtils) {
+        jsonldOutputFiles.push(
+          ...(await this.createOutputFileInfo(
+            configuration,
+            fileNames.jsonldUtils,
+            this.templatesWorker.renderTemplate(
+              templatesToRender.jsonldUtils,
+              configuration,
+            ),
+          )),
+        );
+      }
+    }
+
     return [
       ...(await this.createOutputFileInfo(
         configuration,
@@ -460,6 +520,7 @@ export class CodeGenProcess {
             ),
           )
         : []),
+      ...jsonldOutputFiles,
       ...modularApiFileInfos,
     ];
   };
@@ -468,7 +529,16 @@ export class CodeGenProcess {
     templatesToRender,
     configuration,
   ): Promise<TranslatorIO[]> => {
-    const { generateRouteTypes, generateClient } = configuration.config;
+    const { generateRouteTypes, generateClient, jsonLdOptions } =
+      configuration.config;
+
+    // Check if we have JSON-LD schemas
+    const hasJsonLdSchemas = configuration.components?.some?.(
+      (component) =>
+        component.schemaType === "jsonld-context" ||
+        component.schemaType === "jsonld-entity" ||
+        component.schemaType === "jsonld-type",
+    );
 
     return await this.createOutputFileInfo(
       configuration,
@@ -479,6 +549,27 @@ export class CodeGenProcess {
             templatesToRender.dataContracts,
             configuration,
           ),
+          // Include JSON-LD templates in single file output if present
+          hasJsonLdSchemas &&
+            jsonLdOptions?.generateContext &&
+            templatesToRender.jsonldContextDataContract &&
+            this.templatesWorker.renderTemplate(
+              templatesToRender.jsonldContextDataContract,
+              configuration,
+            ),
+          hasJsonLdSchemas &&
+            templatesToRender.jsonldEntityDataContract &&
+            this.templatesWorker.renderTemplate(
+              templatesToRender.jsonldEntityDataContract,
+              configuration,
+            ),
+          hasJsonLdSchemas &&
+            jsonLdOptions?.generateUtils &&
+            templatesToRender.jsonldUtils &&
+            this.templatesWorker.renderTemplate(
+              templatesToRender.jsonldUtils,
+              configuration,
+            ),
           generateRouteTypes &&
             this.templatesWorker.renderTemplate(
               templatesToRender.routeTypes,

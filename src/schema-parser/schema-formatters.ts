@@ -50,6 +50,31 @@ export class SchemaFormatters {
         $content: parsedSchema.content,
       };
     },
+    // JSON-LD schema type formatters
+    [SCHEMA_TYPES.JSONLD_CONTEXT]: (parsedSchema) => {
+      // Format JSON-LD context as an object with proper content formatting
+      return {
+        ...parsedSchema,
+        $content: parsedSchema.content,
+        content: this.formatObjectContent(parsedSchema.content),
+      };
+    },
+    [SCHEMA_TYPES.JSONLD_ENTITY]: (parsedSchema) => {
+      // Format JSON-LD entity as an object with proper content formatting
+      return {
+        ...parsedSchema,
+        $content: parsedSchema.content,
+        content: this.formatObjectContent(parsedSchema.content),
+      };
+    },
+    [SCHEMA_TYPES.JSONLD_TYPE]: (parsedSchema) => {
+      // Format JSON-LD type as an object with proper content formatting
+      return {
+        ...parsedSchema,
+        $content: parsedSchema.content,
+        content: this.formatObjectContent(parsedSchema.content),
+      };
+    },
   };
   inline = {
     [SCHEMA_TYPES.ENUM]: (parsedSchema) => {
@@ -79,6 +104,82 @@ export class SchemaFormatters {
         content: this.schemaUtils.safeAddNullToType(
           parsedSchema,
           parsedSchema.content.length
+            ? this.config.Ts.ObjectWrapper(
+                this.formatObjectContent(parsedSchema.content),
+              )
+            : this.config.Ts.RecordType(
+                this.config.Ts.Keyword.String,
+                this.config.Ts.Keyword.Any,
+              ),
+        ),
+      };
+    },
+    // JSON-LD inline formatters - reuse OBJECT formatter logic
+    [SCHEMA_TYPES.JSONLD_CONTEXT]: (parsedSchema) => {
+      // Handle JSON-LD context inline formatting similar to object
+      if (typeof parsedSchema.content === "string")
+        return {
+          ...parsedSchema,
+          typeIdentifier: this.config.Ts.Keyword.Type,
+          content: this.schemaUtils.safeAddNullToType(parsedSchema.content),
+        };
+
+      return {
+        ...parsedSchema,
+        typeIdentifier: this.config.Ts.Keyword.Type,
+        content: this.schemaUtils.safeAddNullToType(
+          parsedSchema,
+          parsedSchema.content?.length
+            ? this.config.Ts.ObjectWrapper(
+                this.formatObjectContent(parsedSchema.content),
+              )
+            : this.config.Ts.RecordType(
+                this.config.Ts.Keyword.String,
+                this.config.Ts.Keyword.Any,
+              ),
+        ),
+      };
+    },
+    [SCHEMA_TYPES.JSONLD_ENTITY]: (parsedSchema) => {
+      // Handle JSON-LD entity inline formatting similar to object
+      if (typeof parsedSchema.content === "string")
+        return {
+          ...parsedSchema,
+          typeIdentifier: this.config.Ts.Keyword.Type,
+          content: this.schemaUtils.safeAddNullToType(parsedSchema.content),
+        };
+
+      return {
+        ...parsedSchema,
+        typeIdentifier: this.config.Ts.Keyword.Type,
+        content: this.schemaUtils.safeAddNullToType(
+          parsedSchema,
+          parsedSchema.content?.length
+            ? this.config.Ts.ObjectWrapper(
+                this.formatObjectContent(parsedSchema.content),
+              )
+            : this.config.Ts.RecordType(
+                this.config.Ts.Keyword.String,
+                this.config.Ts.Keyword.Any,
+              ),
+        ),
+      };
+    },
+    [SCHEMA_TYPES.JSONLD_TYPE]: (parsedSchema) => {
+      // Handle JSON-LD type inline formatting similar to object
+      if (typeof parsedSchema.content === "string")
+        return {
+          ...parsedSchema,
+          typeIdentifier: this.config.Ts.Keyword.Type,
+          content: this.schemaUtils.safeAddNullToType(parsedSchema.content),
+        };
+
+      return {
+        ...parsedSchema,
+        typeIdentifier: this.config.Ts.Keyword.Type,
+        content: this.schemaUtils.safeAddNullToType(
+          parsedSchema,
+          parsedSchema.content?.length
             ? this.config.Ts.ObjectWrapper(
                 this.formatObjectContent(parsedSchema.content),
               )
