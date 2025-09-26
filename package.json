@@ -13,19 +13,18 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/lib.d.ts",
-        "default": "./dist/lib.js"
-      },
-      "require": {
-        "types": "./dist/lib.d.cts",
-        "default": "./dist/lib.cjs"
-      }
-    }
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./cli": {
+      "import": "./dist/cli.js",
+      "require": "./dist/cli.cjs"
+    },
+    "./package.json": "./package.json"
   },
-  "main": "./dist/lib.cjs",
-  "module": "./dist/lib.js",
-  "types": "./dist/lib.d.cts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.cts",
   "bin": {
     "sta": "./dist/cli.js",
     "swagger-typescript-api": "./dist/cli.js"
