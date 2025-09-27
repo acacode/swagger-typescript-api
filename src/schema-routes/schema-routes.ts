@@ -4,6 +4,7 @@ import type {
   GenerateApiConfiguration,
   ParsedRoute,
 } from "../../types/index.js";
+import type { CodeGenProcess } from "../code-gen-process.js";
 import type { CodeGenConfig } from "../configuration.js";
 import {
   DEFAULT_BODY_ARG_NAME,
@@ -32,6 +33,7 @@ const CONTENT_KIND = {
 
 export class SchemaRoutes {
   config: CodeGenConfig;
+  codegenProcess: CodeGenProcess;
   schemaParserFabric: SchemaParserFabric;
   schemaUtils: SchemaUtils;
   typeNameFormatter: TypeNameFormatter;
@@ -47,12 +49,14 @@ export class SchemaRoutes {
 
   constructor(
     config: CodeGenConfig,
+    codegenProcess: CodeGenProcess,
     schemaParserFabric: SchemaParserFabric,
     schemaComponentsMap: SchemaComponentsMap,
     templatesWorker: TemplatesWorker,
     typeNameFormatter: TypeNameFormatter,
   ) {
     this.config = config;
+    this.codegenProcess = codegenProcess;
     this.schemaParserFabric = schemaParserFabric;
     this.schemaUtils = this.schemaParserFabric.schemaUtils;
     this.typeNameFormatter = typeNameFormatter;
@@ -71,10 +75,21 @@ export class SchemaRoutes {
     return lodash.reduce(
       routeInfoByMethodsMap,
       (acc, requestInfo, method) => {
-        if (
-          method.startsWith("x-") ||
-          ["parameters", "$ref"].includes(method)
-        ) {
+        if (method.startsWith("x-") || ["parameters"].includes(method)) {
+          return acc;
+        }
+
+        if (method === "$ref") {
+          if (this.codegenProcess.swaggerRefs) {
+            try {
+              const resolved = this.codegenProcess.swaggerRefs.get(requestInfo);
+              Object.assign(acc, this.createRequestsMap(resolved));
+              return acc;
+            } catch (e) {
+              consola.error(e);
+              return acc;
+            }
+          }
           return acc;
         }
 
@@ -209,7 +224,11 @@ export class SchemaRoutes {
 
       let routeParam = null;
 
-      if (refTypeInfo?.rawTypeData.in && refTypeInfo.rawTypeData) {
+      if (
+        !!refTypeInfo?.rawTypeData &&
+        typeof refTypeInfo === "object" &&
+        refTypeInfo?.rawTypeData.in
+      ) {
         if (!routeParams[refTypeInfo.rawTypeData.in]) {
           routeParams[refTypeInfo.rawTypeData.in] = [];
         }

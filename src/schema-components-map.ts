@@ -1,11 +1,16 @@
+import consola from "consola";
 import type { SchemaComponent } from "../types/index.js";
+import type { CodeGenProcess } from "./code-gen-process.js";
 import type { CodeGenConfig } from "./configuration.js";
 
 export class SchemaComponentsMap {
   _data: SchemaComponent[] = [];
   config: CodeGenConfig;
 
-  constructor(config: CodeGenConfig) {
+  constructor(
+    config: CodeGenConfig,
+    private codegenProcess: CodeGenProcess,
+  ) {
     this.config = config;
   }
 
@@ -66,7 +71,20 @@ export class SchemaComponentsMap {
   }
 
   get = ($ref: string) => {
-    return this._data.find((c) => c.$ref === $ref) || null;
+    const localFound = this._data.find((c) => c.$ref === $ref) || null;
+
+    if (localFound != null) {
+      return localFound;
+    }
+
+    if (this.codegenProcess.swaggerRefs) {
+      try {
+        return this.codegenProcess.swaggerRefs.get($ref) as Record<string, any>;
+      } catch (e) {
+        consola.error(e);
+        return null;
+      }
+    }
   };
 
   // Ensure enums are at the top of components list

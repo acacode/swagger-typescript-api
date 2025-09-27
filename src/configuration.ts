@@ -13,6 +13,7 @@ import type { MonoSchemaParser } from "./schema-parser/mono-schema-parser.js";
 import type { SchemaParser } from "./schema-parser/schema-parser.js";
 import type { Translator } from "./translators/translator.js";
 import { objectAssign } from "./util/object-assign.js";
+import SwaggerParser from "@apidevtools/swagger-parser";
 
 const TsKeyword = {
   Number: "number",
@@ -167,7 +168,7 @@ export class CodeGenConfig {
   spec: OpenAPI.Document | null = null;
   fileName = "Api.ts";
   authorizationToken: string | undefined;
-  requestOptions = null;
+  requestOptions: Record<string, any> | null = null;
 
   jsPrimitiveTypes: string[] = [];
   jsEmptyTypes: string[] = [];

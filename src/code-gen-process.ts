@@ -1,3 +1,4 @@
+import SwaggerParser, { type resolve } from "@apidevtools/swagger-parser";
 import { consola } from "consola";
 import lodash from "lodash";
 import * as typescript from "typescript";
@@ -46,9 +47,12 @@ export class CodeGenProcess {
   templatesWorker: TemplatesWorker;
   schemaWalker: SchemaWalker;
   javascriptTranslator: JavascriptTranslator;
+  swaggerParser: SwaggerParser;
+  swaggerRefs: Awaited<ReturnType<typeof resolve>> | undefined | null;
 
   constructor(config: Partial<GenerateApiConfiguration["config"]>) {
     this.config = new CodeGenConfig(config);
+    this.swaggerParser = new SwaggerParser();
     this.fileSystem = new FileSystem();
     this.swaggerSchemaResolver = new SwaggerSchemaResolver(
       this.config,
@@ -58,7 +62,7 @@ export class CodeGenProcess {
       this.config,
       this.swaggerSchemaResolver,
     );
-    this.schemaComponentsMap = new SchemaComponentsMap(this.config);
+    this.schemaComponentsMap = new SchemaComponentsMap(this.config, this);
     this.typeNameFormatter = new TypeNameFormatter(this.config);
     this.templatesWorker = new TemplatesWorker(
       this.config,
@@ -75,6 +79,7 @@ export class CodeGenProcess {
     );
     this.schemaRoutes = new SchemaRoutes(
       this.config,
+      this,
       this.schemaParserFabric,
       this.schemaComponentsMap,
       this.templatesWorker,
@@ -97,6 +102,42 @@ export class CodeGenProcess {
     const swagger = await this.swaggerSchemaResolver.create();
 
     this.swaggerSchemaResolver.fixSwaggerSchema(swagger);
+
+    try {
+      this.swaggerRefs = await this.swaggerParser.resolve(
+        this.config.url || this.config.input || (this.config.spec as any),
+        {
+          continueOnError: true,
+          mutateInputSchema: true,
+          validate: {
+            schema: false,
+            spec: false,
+          },
+          resolve: {
+            external: true,
+            http: {
+              ...this.config.requestOptions,
+              headers: Object.assign(
+                {},
+                this.config.authorizationToken
+                  ? {
+                      Authorization: this.config.authorizationToken,
+                    }
+                  : {},
+                this.config.requestOptions?.headers ?? {},
+              ),
+            },
+          },
+        },
+      );
+      this.swaggerRefs.set("fixed-swagger-schema", swagger.usageSchema as any);
+      this.swaggerRefs.set(
+        "original-swagger-schema",
+        swagger.originalSchema as any,
+      );
+    } catch (e) {
+      consola.error(e);
+    }
 
     this.config.update({
       swaggerSchema: swagger.usageSchema,
