@@ -35,22 +35,24 @@ export class ResolvedSwaggerSchema {
           externalUrlOrPath: null,
         });
       } else {
-        const externalUrlOrPath = ref.split("#")[0]!
-        let externalOpenapiFileName = (externalUrlOrPath.split('/').at(-1) || '')
+        const externalUrlOrPath = ref.split("#")[0]!;
+        let externalOpenapiFileName = externalUrlOrPath.split("/").at(-1) || "";
 
-        if (externalOpenapiFileName.endsWith('.json') || externalOpenapiFileName.endsWith('.yaml')) {
+        if (
+          externalOpenapiFileName.endsWith(".json") ||
+          externalOpenapiFileName.endsWith(".yaml")
+        ) {
           externalOpenapiFileName = externalOpenapiFileName.slice(0, -5);
-        } else if (externalOpenapiFileName.endsWith('.yml')) {
+        } else if (externalOpenapiFileName.endsWith(".yml")) {
           externalOpenapiFileName = externalOpenapiFileName.slice(0, -4);
         }
-
 
         this.parsedRefsCache.set(ref, {
           ref,
           isLocal,
           externalUrlOrPath,
           externalOpenapiFileName,
-        }); 
+        });
       }
     }
 
