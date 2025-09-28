@@ -9,6 +9,8 @@ paths:
 
 components:
   schemas:
+    ReportSchema:
+      $ref: './paths/repro.yaml#components/schemas/ReportSchema'
     Weather:
       title: Weather
       type: object

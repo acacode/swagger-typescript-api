@@ -13,6 +13,8 @@ exports[`basic > paths(simplest-1-path) 1`] = `
  * ---------------------------------------------------------------
  */
 
+export type ReportSchema = ReproReportSchema;
+
 /** Weather */
 export interface Weather {
   /**
@@ -39,6 +41,16 @@ export interface Weather {
 }
 
 export type HelloListData = object;
+
+/** ReportSchema */
+export interface ReproReportSchema {
+  /**
+   * Weather condition id
+   * @format int32
+   * @example 803
+   */
+  id?: number;
+}
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;

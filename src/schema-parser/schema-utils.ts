@@ -11,18 +11,15 @@ export class SchemaUtils {
   config: CodeGenConfig;
   schemaComponentsMap: SchemaComponentsMap;
   typeNameFormatter: TypeNameFormatter;
-  schemaWalker: SchemaWalker;
 
   constructor({
     config,
     schemaComponentsMap,
     typeNameFormatter,
-    schemaWalker,
   }) {
     this.config = config;
     this.schemaComponentsMap = schemaComponentsMap;
     this.typeNameFormatter = typeNameFormatter;
-    this.schemaWalker = schemaWalker;
   }
 
   getRequiredProperties = (schema) => {

@@ -61,7 +61,8 @@
     "swagger-schema-official": "2.0.0-bab6bed",
     "swagger2openapi": "^7.0.8",
     "typescript": "~5.9.2",
-    "yaml": "^2.8.1"
+    "yaml": "^2.8.1",
+    "yummies": "5.7.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.4",

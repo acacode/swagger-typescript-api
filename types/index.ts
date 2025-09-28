@@ -1,5 +1,6 @@
 import type { ComponentTypeNameResolver } from "../src/component-type-name-resolver.js";
 import type * as CONSTANTS from "../src/constants.js";
+import type { RefDetails } from "../src/resolved-swagger-schema.js";
 import type { MonoSchemaParser } from "../src/schema-parser/mono-schema-parser.js";
 import type { Translator } from "../src/translators/translator.js";
 
@@ -175,6 +176,15 @@ export interface Hooks {
   onFormatRouteName?: (
     routeInfo: RawRouteInfo,
     templateRouteName: string,
+  ) => string | undefined;
+  onFormatExternalTypeName?: (
+    typeName: string,
+    refInfo: RefDetails,
+  ) => string | undefined;
+  onFixDuplicateExternalTypeName?: (
+    typeName: string,
+    refInfo: RefDetails,
+    existedTypeNames: string[],
   ) => string | undefined;
 }
 

@@ -1,18 +1,13 @@
-import consola from "consola";
+import { typeGuard } from "yummies/type-guard";
+import type { AnyObject, Maybe } from "yummies/utils/types";
 import type { SchemaComponent } from "../types/index.js";
-import type { CodeGenProcess } from "./code-gen-process.js";
 import type { CodeGenConfig } from "./configuration.js";
+import { pascalCase } from "./util/pascal-case.js";
 
 export class SchemaComponentsMap {
   _data: SchemaComponent[] = [];
-  config: CodeGenConfig;
 
-  constructor(
-    config: CodeGenConfig,
-    private codegenProcess: CodeGenProcess,
-  ) {
-    this.config = config;
-  }
+  constructor(public config: CodeGenConfig) {}
 
   clear() {
     this._data = [];
@@ -26,31 +21,52 @@ export class SchemaComponentsMap {
     return ref.split("/");
   };
 
-  createComponent(
+  private createComponentDraft(
     $ref: string,
-    rawTypeData: SchemaComponent["rawTypeData"],
+    rawTypeData: Maybe<AnyObject> | SchemaComponent,
   ): SchemaComponent {
+    if (
+      typeGuard.isObject(rawTypeData) &&
+      rawTypeData.typeName &&
+      rawTypeData.rawTypeData &&
+      rawTypeData.$ref
+    ) {
+      return rawTypeData as SchemaComponent;
+    }
+
     const parsed = this.parseRef($ref);
-    const typeName = parsed[parsed.length - 1]!;
+    const typeName = parsed.at(-1)!;
     const componentName = parsed[
       parsed.length - 2
     ] as SchemaComponent["componentName"];
-    const componentSchema: SchemaComponent = {
+
+    return {
       $ref,
       typeName,
-      rawTypeData,
+      rawTypeData: rawTypeData as SchemaComponent["rawTypeData"],
       componentName,
       /** result from schema parser */
       typeData: null,
     };
+  }
 
+  createComponent(
+    $ref: string,
+    rawTypeData: SchemaComponent["rawTypeData"] | SchemaComponent,
+    addAtStart?: boolean,
+  ): SchemaComponent {
+    const componentSchema = this.createComponentDraft($ref, rawTypeData);
     const usageComponent =
       this.config.hooks.onCreateComponent(componentSchema) || componentSchema;
 
     const refIndex = this._data.findIndex((c) => c.$ref === $ref);
 
     if (refIndex === -1) {
-      this._data.push(usageComponent);
+      if (addAtStart) {
+        this._data.unshift(usageComponent);
+      } else {
+        this._data.push(usageComponent);
+      }
     } else {
       this._data[refIndex] = usageComponent;
     }
@@ -77,14 +93,46 @@ export class SchemaComponentsMap {
       return localFound;
     }
 
-    if (this.codegenProcess.swaggerRefs) {
-      try {
-        return this.codegenProcess.swaggerRefs.get($ref) as Record<string, any>;
-      } catch (e) {
-        consola.error(e);
-        return null;
-      }
+    const { resolvedSwaggerSchema } = this.config;
+
+    if (resolvedSwaggerSchema.isLocalRef($ref)) {
+      return null;
     }
+
+    const foundByRef = resolvedSwaggerSchema.getRef($ref);
+    const refDetails = resolvedSwaggerSchema.getRefDetails($ref);
+
+    if (foundByRef != null) {
+      const componentDraft = this.createComponentDraft(
+        $ref,
+        foundByRef as AnyObject,
+      );
+
+      componentDraft.typeName =
+        this.config.hooks.onFormatExternalTypeName?.(
+          componentDraft.typeName,
+          refDetails,
+        ) || componentDraft.typeName;
+
+      if (
+        // duplicate name
+        this._data.some(
+          (component) => component.typeName === componentDraft.typeName,
+        )
+      ) {
+        componentDraft.typeName =
+          this.config.hooks.onFixDuplicateExternalTypeName?.(
+            componentDraft.typeName,
+            refDetails,
+            this._data.map((it) => it.typeName),
+          ) ??
+          `${pascalCase(refDetails.externalOpenapiFileName || "External")}${componentDraft.typeName}`;
+      }
+
+      return this.createComponent($ref, componentDraft);
+    }
+
+    return null;
   };
 
   // Ensure enums are at the top of components list

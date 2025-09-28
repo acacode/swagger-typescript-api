@@ -6,3 +6,14 @@ hello:
           application/json:
             schema:
               type: object
+components:
+  schemas:
+    ReportSchema:
+      title: ReportSchema
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Weather condition id
+          format: int32
+          example: 803
