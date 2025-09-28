@@ -31,7 +31,11 @@ export class SchemaParserFabric {
     this.schemaComponentsMap = schemaComponentsMap;
     this.typeNameFormatter = typeNameFormatter;
     this.templatesWorker = templatesWorker;
-    this.schemaUtils = new SchemaUtils(this);
+    this.schemaUtils = new SchemaUtils(
+      this.config,
+      this.schemaComponentsMap,
+      this.typeNameFormatter,
+    );
     this.schemaFormatters = new SchemaFormatters(this);
   }
 
