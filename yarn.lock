@@ -1465,7 +1465,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"birpc@npm:^2.5.0":
+"birpc@npm:^2.6.1":
   version: 2.6.1
   resolution: "birpc@npm:2.6.1"
   checksum: 10c0/eda4a9fbf95ac7ac2112d7fc10db588dc9145d9d50ad91bb714f3f36d64dd1a5c5206ac17b5bc5c0d6fbdb48c63e110946b240ad1bb51eeca37ce161efdf2d06
@@ -3275,15 +3275,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rolldown-plugin-dts@npm:^0.16.7":
-  version: 0.16.8
-  resolution: "rolldown-plugin-dts@npm:0.16.8"
+"rolldown-plugin-dts@npm:^0.16.8":
+  version: 0.16.9
+  resolution: "rolldown-plugin-dts@npm:0.16.9"
   dependencies:
     "@babel/generator": "npm:^7.28.3"
     "@babel/parser": "npm:^7.28.4"
     "@babel/types": "npm:^7.28.4"
     ast-kit: "npm:^2.1.2"
-    birpc: "npm:^2.5.0"
+    birpc: "npm:^2.6.1"
     debug: "npm:^4.4.3"
     dts-resolver: "npm:^2.1.2"
     get-tsconfig: "npm:^4.10.1"
@@ -3303,7 +3303,7 @@ __metadata:
       optional: true
     vue-tsc:
       optional: true
-  checksum: 10c0/a6aa276d89ee4f1036e07052700dfb46302ce75abc0381e352885e9a2186adca7343682594f11afe3c6c30650c39985483eb7ba88125a016f3bc30b09fbf9aba
+  checksum: 10c0/53c3d5020b816e82406fde3e1df9e1e05040f31ee9c2df17d06528ef042d5f31c67f8b74a635040abe96f2526914623a50b3dd2680c8d1705c1fe14a6af62b4f
   languageName: node
   linkType: hard
 
@@ -3725,7 +3725,7 @@ __metadata:
     openapi-types: "npm:^12.1.3"
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
-    tsdown: "npm:0.15.4"
+    tsdown: "npm:0.15.5"
     typedoc: "npm:0.28.13"
     typescript: "npm:~5.9.2"
     vitest: "npm:3.2.4"
@@ -3856,9 +3856,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:0.15.4":
-  version: 0.15.4
-  resolution: "tsdown@npm:0.15.4"
+"tsdown@npm:0.15.5":
+  version: 0.15.5
+  resolution: "tsdown@npm:0.15.5"
   dependencies:
     ansis: "npm:^4.1.0"
     cac: "npm:^6.7.14"
@@ -3868,7 +3868,7 @@ __metadata:
     empathic: "npm:^2.0.0"
     hookable: "npm:^5.5.3"
     rolldown: "npm:latest"
-    rolldown-plugin-dts: "npm:^0.16.7"
+    rolldown-plugin-dts: "npm:^0.16.8"
     semver: "npm:^7.7.2"
     tinyexec: "npm:^1.0.1"
     tinyglobby: "npm:^0.2.15"
@@ -3893,7 +3893,7 @@ __metadata:
       optional: true
   bin:
     tsdown: dist/run.mjs
-  checksum: 10c0/eeca83c9d8205f6d55a010999ce6f946e137e2ed9bb41853f87beccce16f118e50b730baee82dd66876380a244089c0d1944937020d4ed76fa163f0c10dec77b
+  checksum: 10c0/eb137cc2d7e8e8e781b9f541d6581198ecc8d9d3fe86ec085609642805c4050c32922ee302769213c0b009a9659af18f57d2faef20fdaaf6ec317e4c9a8a7b88
   languageName: node
   linkType: hard
 
