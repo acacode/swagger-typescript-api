@@ -7,7 +7,6 @@ import type {
 } from "../../types/index.js";
 import type { CodeGenConfig } from "../configuration.js";
 import type { SchemaComponentsMap } from "../schema-components-map.js";
-import type { SchemaWalker } from "../schema-walker.js";
 import type { TemplatesWorker } from "../templates-worker.js";
 import type { TypeNameFormatter } from "../type-name-formatter.js";
 import { SchemaFormatters } from "./schema-formatters.js";
@@ -21,21 +20,22 @@ export class SchemaParserFabric {
   schemaFormatters: SchemaFormatters;
   templatesWorker: TemplatesWorker;
   schemaUtils: SchemaUtils;
-  schemaWalker: SchemaWalker;
 
   constructor(
     config: CodeGenConfig,
     templatesWorker: TemplatesWorker,
     schemaComponentsMap: SchemaComponentsMap,
     typeNameFormatter: TypeNameFormatter,
-    schemaWalker: SchemaWalker,
   ) {
     this.config = config;
     this.schemaComponentsMap = schemaComponentsMap;
     this.typeNameFormatter = typeNameFormatter;
     this.templatesWorker = templatesWorker;
-    this.schemaWalker = schemaWalker;
-    this.schemaUtils = new SchemaUtils(this);
+    this.schemaUtils = new SchemaUtils(
+      this.config,
+      this.schemaComponentsMap,
+      this.typeNameFormatter,
+    );
     this.schemaFormatters = new SchemaFormatters(this);
   }
 

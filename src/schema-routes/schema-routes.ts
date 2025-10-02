@@ -1,9 +1,16 @@
 import { consola } from "consola";
 import lodash from "lodash";
+import { typeGuard } from "yummies/type-guard";
+import type { AnyObject } from "yummies/utils/types";
 import type {
   GenerateApiConfiguration,
   ParsedRoute,
+  ParsedSchema,
+  SchemaTypeEnumContent,
+  SchemaTypeObjectContent,
+  SchemaTypePrimitiveContent,
 } from "../../types/index.js";
+import type { CodeGenProcess } from "../code-gen-process.js";
 import type { CodeGenConfig } from "../configuration.js";
 import {
   DEFAULT_BODY_ARG_NAME,
@@ -12,6 +19,7 @@ import {
   RESERVED_PATH_ARG_NAMES,
   RESERVED_QUERY_ARG_NAMES,
 } from "../constants.js";
+import type { ResolvedSwaggerSchema } from "../resolved-swagger-schema.js";
 import type { SchemaComponentsMap } from "../schema-components-map.js";
 import type { SchemaParserFabric } from "../schema-parser/schema-parser-fabric.js";
 import type { SchemaUtils } from "../schema-parser/schema-utils.js";
@@ -31,13 +39,7 @@ const CONTENT_KIND = {
 };
 
 export class SchemaRoutes {
-  config: CodeGenConfig;
-  schemaParserFabric: SchemaParserFabric;
   schemaUtils: SchemaUtils;
-  typeNameFormatter: TypeNameFormatter;
-  schemaComponentsMap: SchemaComponentsMap;
-  templatesWorker: TemplatesWorker;
-
   FORM_DATA_TYPES: string[] = [];
 
   routes: ParsedRoute[] = [];
@@ -46,18 +48,13 @@ export class SchemaRoutes {
   hasFormDataRoutes = false;
 
   constructor(
-    config: CodeGenConfig,
-    schemaParserFabric: SchemaParserFabric,
-    schemaComponentsMap: SchemaComponentsMap,
-    templatesWorker: TemplatesWorker,
-    typeNameFormatter: TypeNameFormatter,
+    public config: CodeGenConfig,
+    public schemaParserFabric: SchemaParserFabric,
+    public schemaComponentsMap: SchemaComponentsMap,
+    public templatesWorker: TemplatesWorker,
+    public typeNameFormatter: TypeNameFormatter,
   ) {
-    this.config = config;
-    this.schemaParserFabric = schemaParserFabric;
     this.schemaUtils = this.schemaParserFabric.schemaUtils;
-    this.typeNameFormatter = typeNameFormatter;
-    this.schemaComponentsMap = schemaComponentsMap;
-    this.templatesWorker = templatesWorker;
 
     this.FORM_DATA_TYPES = lodash.uniq([
       this.schemaUtils.getSchemaType({ type: "string", format: "file" }),
@@ -65,23 +62,34 @@ export class SchemaRoutes {
     ]);
   }
 
-  createRequestsMap = (routeInfoByMethodsMap) => {
+  createRequestsMap = (
+    resolvedSwaggerSchema: ResolvedSwaggerSchema,
+    routeInfoByMethodsMap: AnyObject,
+  ) => {
     const parameters = lodash.get(routeInfoByMethodsMap, "parameters");
 
     return lodash.reduce(
       routeInfoByMethodsMap,
-      (acc, requestInfo, method) => {
-        if (
-          method.startsWith("x-") ||
-          ["parameters", "$ref"].includes(method)
-        ) {
+      (acc, anything, property) => {
+        if (property.startsWith("x-") || ["parameters"].includes(property)) {
           return acc;
         }
 
-        acc[method] = {
-          ...requestInfo,
+        if (property === "$ref") {
+          const refData = resolvedSwaggerSchema.getRef(anything);
+          if (typeGuard.isObject(refData)) {
+            Object.assign(
+              acc,
+              this.createRequestsMap(resolvedSwaggerSchema, refData),
+            );
+          }
+          return acc;
+        }
+
+        acc[property] = {
+          ...anything,
           parameters: lodash.compact(
-            lodash.concat(parameters, requestInfo.parameters),
+            lodash.concat(parameters, anything.parameters),
           ),
         };
 
@@ -91,7 +99,7 @@ export class SchemaRoutes {
     );
   };
 
-  parseRouteName = (originalRouteName) => {
+  parseRouteName = (originalRouteName: string) => {
     const routeName =
       this.config.hooks.onPreBuildRoutePath(originalRouteName) ||
       originalRouteName;
@@ -209,7 +217,11 @@ export class SchemaRoutes {
 
       let routeParam = null;
 
-      if (refTypeInfo?.rawTypeData.in && refTypeInfo.rawTypeData) {
+      if (
+        !!refTypeInfo?.rawTypeData &&
+        typeof refTypeInfo === "object" &&
+        refTypeInfo?.rawTypeData.in
+      ) {
         if (!routeParams[refTypeInfo.rawTypeData.in]) {
           routeParams[refTypeInfo.rawTypeData.in] = [];
         }
@@ -815,7 +827,7 @@ export class SchemaRoutes {
     );
 
     const routeName =
-      this.config.hooks.onFormatRouteName(
+      this.config.hooks.onFormatRouteName?.(
         rawRouteInfo,
         routeNameFromTemplate,
       ) || routeNameFromTemplate;
@@ -847,7 +859,7 @@ export class SchemaRoutes {
     };
 
     return (
-      this.config.hooks.onCreateRouteName(routeNameInfo, rawRouteInfo) ||
+      this.config.hooks.onCreateRouteName?.(routeNameInfo, rawRouteInfo) ||
       routeNameInfo
     );
   };
@@ -1094,20 +1106,32 @@ export class SchemaRoutes {
     };
   };
 
-  attachSchema = ({ usageSchema, parsedSchemas }) => {
+  attachSchema = (
+    resolvedSwaggerSchema: ResolvedSwaggerSchema,
+    parsedSchemas: ParsedSchema<
+      | SchemaTypeObjectContent
+      | SchemaTypeEnumContent
+      | SchemaTypePrimitiveContent
+    >[],
+  ) => {
     this.config.routeNameDuplicatesMap.clear();
 
-    const pathsEntries = lodash.entries(usageSchema.paths);
+    const pathsEntries = lodash.entries(
+      resolvedSwaggerSchema.usageSchema.paths,
+    );
 
     for (const [rawRouteName, routeInfoByMethodsMap] of pathsEntries) {
-      const routeInfosMap = this.createRequestsMap(routeInfoByMethodsMap);
+      const routeInfosMap = this.createRequestsMap(
+        resolvedSwaggerSchema,
+        routeInfoByMethodsMap,
+      );
 
       for (const [method, routeInfo] of Object.entries(routeInfosMap)) {
         const parsedRouteInfo = this.parseRouteInfo(
           rawRouteName,
           routeInfo,
           method,
-          usageSchema,
+          resolvedSwaggerSchema.usageSchema,
           parsedSchemas,
         );
         const processedRouteInfo =

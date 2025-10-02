@@ -1,0 +1,34 @@
+openapi: 3.0.2
+info:
+  version: 2.0.0
+  title: repro
+
+paths:
+  /hello:
+    $ref: './paths/repro.yaml#/hello'
+
+components:
+  schemas:
+    ReportSchema:
+      $ref: './paths/repro.yaml#components/schemas/ReportSchema'
+    Weather:
+      title: Weather
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Weather condition id
+          format: int32
+          example: 803
+        main:
+          type: string
+          description: Group of weather parameters (Rain, Snow, Extreme etc.)
+          example: Clouds
+        description:
+          type: string
+          description: Weather condition within the group
+          example: broken clouds
+        icon:
+          type: string
+          description: Weather icon id
+          example: 04n

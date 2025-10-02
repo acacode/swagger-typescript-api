@@ -3,7 +3,6 @@ import lodash from "lodash";
 import type { CodeGenConfig } from "../configuration.js";
 import { SCHEMA_TYPES } from "../constants.js";
 import type { SchemaComponentsMap } from "../schema-components-map.js";
-import type { SchemaWalker } from "../schema-walker.js";
 import type { TemplatesWorker } from "../templates-worker.js";
 import type { TypeNameFormatter } from "../type-name-formatter.js";
 import { sortByProperty } from "../util/sort-by-property.js";
@@ -29,7 +28,6 @@ export class SchemaParser {
   schemaFormatters: SchemaFormatters;
   schemaUtils: SchemaUtils;
   templatesWorker: TemplatesWorker;
-  schemaWalker: SchemaWalker;
 
   typeName;
   schema;
@@ -42,7 +40,6 @@ export class SchemaParser {
     this.templatesWorker = schemaParserFabric.templatesWorker;
     this.schemaComponentsMap = schemaParserFabric.schemaComponentsMap;
     this.typeNameFormatter = schemaParserFabric.typeNameFormatter;
-    this.schemaWalker = schemaParserFabric.schemaWalker;
     this.schemaFormatters = schemaParserFabric.schemaFormatters;
     this.schemaUtils = schemaParserFabric.schemaUtils;
 
