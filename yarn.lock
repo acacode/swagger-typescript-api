@@ -2813,7 +2813,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^5.1.5":
+"nanoid@npm:^5.1.6":
   version: 5.1.6
   resolution: "nanoid@npm:5.1.6"
   bin:
@@ -3730,7 +3730,7 @@ __metadata:
     consola: "npm:^3.4.2"
     eta: "npm:^4.0.1"
     lodash: "npm:^4.17.21"
-    nanoid: "npm:^5.1.5"
+    nanoid: "npm:^5.1.6"
     openapi-types: "npm:^12.1.3"
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
