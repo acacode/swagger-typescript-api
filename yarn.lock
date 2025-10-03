@@ -3736,7 +3736,7 @@ __metadata:
     swagger2openapi: "npm:^7.0.8"
     tsdown: "npm:0.15.6"
     typedoc: "npm:0.28.13"
-    typescript: "npm:~5.9.2"
+    typescript: "npm:~5.9.3"
     vitest: "npm:3.2.4"
     yaml: "npm:^2.8.1"
   bin:
@@ -3930,7 +3930,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:~5.9.2":
+"typescript@npm:~5.9.3":
   version: 5.9.3
   resolution: "typescript@npm:5.9.3"
   bin:
@@ -3940,7 +3940,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A~5.9.2#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A~5.9.3#optional!builtin<compat/typescript>":
   version: 5.9.3
   resolution: "typescript@patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"
   bin:
