@@ -1,5 +1,21 @@
 # swagger-typescript-api
 
+## 13.2.14
+
+### Patch Changes
+
+- [#1398](https://github.com/acacode/swagger-typescript-api/pull/1398) [`d987aee`](https://github.com/acacode/swagger-typescript-api/commit/d987aee6a2f7dbf6edba73b58a2df2fceb32a876) Thanks [@k1rd3rf](https://github.com/k1rd3rf)! - Fix modular template to always generate class property syntax.
+
+  The modular template was incorrectly using object method syntax (`:` and
+  `,`) when route.namespace was present, introduced by PR #1326. This
+  caused TypeScript syntax errors in generated code.
+
+  The modular template should always generate class properties with arrow
+  functions (`=` and `;`), regardless of namespace presence.
+
+  This resolves the issue reported in #1366 where version 13.2.8 generated
+  invalid TypeScript code with modular templates.
+
 ## 13.2.13
 
 ### Patch Changes
