@@ -114,16 +114,24 @@ export class JsonLdSchemaResolver {
       };
     }
 
-    // Process other properties
-    Object.entries(schema).forEach(([key, value]) => {
-      if (!key.startsWith("@")) {
-        resolvedSchema.properties[key] = this.resolveProperty(
-          key,
-          value,
-          schema["@context"],
-        );
-      }
-    });
+    // Process properties from the properties object if it exists
+    if (schema.properties && typeof schema.properties === "object") {
+      Object.entries(schema.properties).forEach(([key, value]) => {
+        // Skip @ properties and x-jsonld properties as they're handled elsewhere
+        if (!key.startsWith("@") && !key.startsWith("x-jsonld")) {
+          resolvedSchema.properties[key] = this.resolveProperty(
+            key,
+            value,
+            schema["@context"],
+          );
+        }
+      });
+    }
+
+    // Copy required array if it exists
+    if (Array.isArray(schema.required)) {
+      resolvedSchema.required.push(...schema.required);
+    }
 
     return resolvedSchema;
   }

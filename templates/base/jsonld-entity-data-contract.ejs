@@ -1,7 +1,13 @@
 <%
-const { contract, utils } = it;
+const { modelTypes, utils } = it;
 const { formatDescription, require, _ } = utils;
+
+// Filter for JSON-LD entity types
+const jsonldEntities = modelTypes.filter(contract =>
+  contract.typeData?.schemaType === "jsonld-entity"
+);
 %>
+<% for (const contract of jsonldEntities) { %>
 <% if (contract.description) { %>
 /**
  * <%~ formatDescription(contract.description) %>
@@ -18,3 +24,5 @@ export interface <%~ contract.name %> extends JsonLdEntity {
     <%~ field.name %><%~ field.isRequired ? '' : '?' %>: <%~ field.value %><%~ field.isNullable ? ' | null' : ''%>;
   <% } %>
 }
+
+<% } %>

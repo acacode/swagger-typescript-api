@@ -1,7 +1,13 @@
 <%
-const { contract, utils } = it;
+const { modelTypes, utils } = it;
 const { formatDescription, require, _ } = utils;
+
+// Filter for JSON-LD context types
+const jsonldContexts = modelTypes.filter(contract =>
+  contract.typeData?.schemaType === "jsonld-context"
+);
 %>
+<% for (const contract of jsonldContexts) { %>
 <% if (contract.description) { %>
 /**
  * <%~ formatDescription(contract.description) %>
@@ -13,3 +19,5 @@ export interface <%~ contract.name %> {
     <%~ field.name %><%~ field.isRequired ? '' : '?' %>: <%~ field.value %>;
   <% } %>
 }
+
+<% } %>

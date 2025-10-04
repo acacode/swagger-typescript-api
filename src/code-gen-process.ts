@@ -445,11 +445,11 @@ export class CodeGenProcess {
     const jsonldOutputFiles: TranslatorIO[] = [];
 
     // Check if we have JSON-LD schemas and options enabled
-    const hasJsonLdSchemas = configuration.components?.some?.(
-      (component) =>
-        component.schemaType === "jsonld-context" ||
-        component.schemaType === "jsonld-entity" ||
-        component.schemaType === "jsonld-type",
+    const hasJsonLdSchemas = configuration.modelTypes?.some?.(
+      (modelType) =>
+        modelType.typeData?.schemaType === "jsonld-context" ||
+        modelType.typeData?.schemaType === "jsonld-entity" ||
+        modelType.typeData?.schemaType === "jsonld-type",
     );
 
     if (hasJsonLdSchemas) {
@@ -533,11 +533,11 @@ export class CodeGenProcess {
       configuration.config;
 
     // Check if we have JSON-LD schemas
-    const hasJsonLdSchemas = configuration.components?.some?.(
-      (component) =>
-        component.schemaType === "jsonld-context" ||
-        component.schemaType === "jsonld-entity" ||
-        component.schemaType === "jsonld-type",
+    const hasJsonLdSchemas = configuration.modelTypes?.some?.(
+      (modelType) =>
+        modelType.typeData?.schemaType === "jsonld-context" ||
+        modelType.typeData?.schemaType === "jsonld-entity" ||
+        modelType.typeData?.schemaType === "jsonld-type",
     );
 
     return await this.createOutputFileInfo(
