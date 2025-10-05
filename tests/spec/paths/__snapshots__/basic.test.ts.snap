@@ -42,6 +42,13 @@ export interface Weather {
 
 export type HelloListData = object;
 
+export interface GetRepositoryParams {
+  username: string;
+  slug: string;
+}
+
+export type GetRepositoryData = any;
+
 /** ReportSchema */
 export interface ReproReportSchema {
   /**
@@ -325,6 +332,23 @@ export class Api<
       this.request<HelloListData, any>({
         path: \`/hello\`,
         method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name GetRepository
+     * @request PUT:/hello
+     */
+    getRepository: (
+      { username, slug, ...query }: GetRepositoryParams,
+      params: RequestParams = {},
+    ) =>
+      this.request<GetRepositoryData, any>({
+        path: \`/hello\`,
+        method: "PUT",
         format: "json",
         ...params,
       }),

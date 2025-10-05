@@ -1,0 +1,23 @@
+components:
+  schemas:
+    user:
+      type: object
+      properties:
+        username:
+          type: string
+        uuid:
+          type: string
+    repository:
+      type: object
+      properties:
+        slug:
+          type: string
+        owner:
+          $ref: "#/components/schemas/user"
+  links:
+    RepositoryPullRequests:
+      # returns '#/components/schemas/pullrequest'
+      operationId: getPullRequestsByRepository
+      parameters:
+        username: $response.body#/owner/username
+        slug: $response.body#/slug

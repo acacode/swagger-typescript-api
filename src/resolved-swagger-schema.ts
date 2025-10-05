@@ -1,4 +1,5 @@
 import type { resolve } from "@apidevtools/swagger-parser";
+import SwaggerParser from "@apidevtools/swagger-parser";
 import consola from "consola";
 import type { OpenAPI } from "openapi-types";
 import type { AnyObject, Maybe, Primitive } from "yummies/utils/types";
@@ -14,7 +15,7 @@ export interface RefDetails {
 export class ResolvedSwaggerSchema {
   private parsedRefsCache = new Map<string, RefDetails>();
 
-  constructor(
+  private constructor(
     private config: CodeGenConfig,
     public usageSchema: OpenAPI.Document,
     public originalSchema: OpenAPI.Document,
@@ -103,5 +104,72 @@ export class ResolvedSwaggerSchema {
     }
 
     return null;
+  }
+
+  static async create(
+    config: CodeGenConfig,
+    usageSchema: OpenAPI.Document,
+    originalSchema: OpenAPI.Document,
+  ) {
+    const resolvers: Awaited<ReturnType<typeof resolve>>[] = [];
+
+    const options: SwaggerParser.Options = {
+      continueOnError: true,
+      mutateInputSchema: true,
+      dereference: {},
+      validate: {
+        schema: false,
+        spec: false,
+      },
+      resolve: {
+        external: true,
+        http: {
+          ...config.requestOptions,
+          headers: Object.assign(
+            {},
+            config.authorizationToken
+              ? {
+                  Authorization: config.authorizationToken,
+                }
+              : {},
+            config.requestOptions?.headers ?? {},
+          ),
+        },
+      },
+    };
+
+    try {
+      resolvers.push(
+        await SwaggerParser.resolve(
+          originalSchema,
+          // this.config.url || this.config.input || (this.config.spec as any),
+          options,
+        ),
+      );
+    } catch (e) {
+      consola.debug(e);
+    }
+    try {
+      resolvers.push(await SwaggerParser.resolve(usageSchema, options));
+    } catch (e) {
+      consola.debug(e);
+    }
+    try {
+      resolvers.push(
+        await SwaggerParser.resolve(
+          config.url || config.input || (config.spec as any),
+          options,
+        ),
+      );
+    } catch (e) {
+      consola.debug(e);
+    }
+
+    return new ResolvedSwaggerSchema(
+      config,
+      usageSchema,
+      originalSchema,
+      resolvers,
+    );
   }
 }

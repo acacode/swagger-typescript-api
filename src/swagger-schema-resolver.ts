@@ -1,4 +1,3 @@
-import SwaggerParser, { type resolve } from "@apidevtools/swagger-parser";
 import { consola } from "consola";
 import lodash from "lodash";
 import type { OpenAPI, OpenAPIV2, OpenAPIV3 } from "openapi-types";
@@ -47,115 +46,10 @@ export class SwaggerSchemaResolver {
 
     this.fixSwaggerSchemas(swaggerSchemas);
 
-    const resolvers: Awaited<ReturnType<typeof resolve>>[] = [];
-
-    try {
-      resolvers.push(
-        await SwaggerParser.resolve(
-          swaggerSchemas.originalSchema,
-          // this.config.url || this.config.input || (this.config.spec as any),
-          {
-            continueOnError: true,
-            mutateInputSchema: true,
-            dereference: {},
-            validate: {
-              schema: false,
-              spec: false,
-            },
-            resolve: {
-              external: true,
-              http: {
-                ...this.config.requestOptions,
-                headers: Object.assign(
-                  {},
-                  this.config.authorizationToken
-                    ? {
-                        Authorization: this.config.authorizationToken,
-                      }
-                    : {},
-                  this.config.requestOptions?.headers ?? {},
-                ),
-              },
-            },
-          },
-        ),
-      );
-    } catch (e) {
-      consola.debug(e);
-    }
-    try {
-      resolvers.push(
-        await SwaggerParser.resolve(
-          swaggerSchemas.usageSchema,
-          // this.config.url || this.config.input || (this.config.spec as any),
-          {
-            continueOnError: true,
-            mutateInputSchema: true,
-            dereference: {},
-            validate: {
-              schema: false,
-              spec: false,
-            },
-            resolve: {
-              external: true,
-              http: {
-                ...this.config.requestOptions,
-                headers: Object.assign(
-                  {},
-                  this.config.authorizationToken
-                    ? {
-                        Authorization: this.config.authorizationToken,
-                      }
-                    : {},
-                  this.config.requestOptions?.headers ?? {},
-                ),
-              },
-            },
-          },
-        ),
-      );
-    } catch (e) {
-      consola.debug(e);
-    }
-    try {
-      resolvers.push(
-        await SwaggerParser.resolve(
-          this.config.url || this.config.input || (this.config.spec as any),
-          {
-            continueOnError: true,
-            mutateInputSchema: true,
-            dereference: {},
-            validate: {
-              schema: false,
-              spec: false,
-            },
-            resolve: {
-              external: true,
-              http: {
-                ...this.config.requestOptions,
-                headers: Object.assign(
-                  {},
-                  this.config.authorizationToken
-                    ? {
-                        Authorization: this.config.authorizationToken,
-                      }
-                    : {},
-                  this.config.requestOptions?.headers ?? {},
-                ),
-              },
-            },
-          },
-        ),
-      );
-    } catch (e) {
-      consola.debug(e);
-    }
-
-    const resolvedSwaggerSchema = new ResolvedSwaggerSchema(
+    const resolvedSwaggerSchema = ResolvedSwaggerSchema.create(
       this.config,
       swaggerSchemas.usageSchema,
       swaggerSchemas.originalSchema,
-      resolvers,
     );
 
     return resolvedSwaggerSchema;
