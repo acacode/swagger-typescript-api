@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.2.15
+
+### Patch Changes
+
+- [`afc2448`](https://github.com/acacode/swagger-typescript-api/commit/afc24481bbbe891942264c1dacf1101e521f039a) Thanks [@js2me](https://github.com/js2me)! - added ability to override usageSchema and originalSchema after onInit hook and before all other operations
+
 ## 13.2.14
 
 ### Patch Changes
