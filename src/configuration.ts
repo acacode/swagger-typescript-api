@@ -9,6 +9,7 @@ import type {
 } from "../types/index.js";
 import { ComponentTypeNameResolver } from "./component-type-name-resolver.js";
 import * as CONSTANTS from "./constants.js";
+import type { ResolvedSwaggerSchema } from "./resolved-swagger-schema.js";
 import type { MonoSchemaParser } from "./schema-parser/mono-schema-parser.js";
 import type { SchemaParser } from "./schema-parser/schema-parser.js";
 import type { Translator } from "./translators/translator.js";
@@ -110,6 +111,7 @@ export class CodeGenConfig {
     ) => {},
     onFormatRouteName: (_routeInfo: unknown, _templateRouteName: unknown) => {},
   };
+  resolvedSwaggerSchema!: ResolvedSwaggerSchema;
   defaultResponseType;
   singleHttpClient = false;
   httpClientType = CONSTANTS.HTTP_CLIENT.FETCH;
@@ -167,7 +169,7 @@ export class CodeGenConfig {
   spec: OpenAPI.Document | null = null;
   fileName = "Api.ts";
   authorizationToken: string | undefined;
-  requestOptions = null;
+  requestOptions: Record<string, any> | null = null;
 
   jsPrimitiveTypes: string[] = [];
   jsEmptyTypes: string[] = [];
@@ -439,7 +441,13 @@ export class CodeGenConfig {
     this.componentTypeNameResolver = new ComponentTypeNameResolver(this, []);
   }
 
-  update = (update: Partial<GenerateApiConfiguration["config"]>) => {
+  update = (
+    update: Partial<
+      GenerateApiConfiguration["config"] & {
+        resolvedSwaggerSchema: ResolvedSwaggerSchema;
+      }
+    >,
+  ) => {
     objectAssign(this, update);
     if (this.enumNamesAsValues) {
       this.extractEnums = true;

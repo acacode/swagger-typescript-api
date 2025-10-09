@@ -1,11 +1,17 @@
 import { consola } from "consola";
 import lodash from "lodash";
-import type { OpenAPI, OpenAPIV2 } from "openapi-types";
+import type { OpenAPI, OpenAPIV2, OpenAPIV3 } from "openapi-types";
 import * as swagger2openapi from "swagger2openapi";
 import * as YAML from "yaml";
 import type { CodeGenConfig } from "./configuration.js";
+import { ResolvedSwaggerSchema } from "./resolved-swagger-schema.js";
 import type { FileSystem } from "./util/file-system.js";
 import { Request } from "./util/request.js";
+
+interface SwaggerSchemas {
+  usageSchema: OpenAPI.Document;
+  originalSchema: OpenAPI.Document;
+}
 
 export class SwaggerSchemaResolver {
   config: CodeGenConfig;
@@ -18,30 +24,41 @@ export class SwaggerSchemaResolver {
     this.request = new Request(config);
   }
 
-  async create() {
+  async create(): Promise<ResolvedSwaggerSchema> {
     const { spec, patch, input, url, authorizationToken } = this.config;
+    let swaggerSchemas: SwaggerSchemas;
 
     if (spec) {
-      return await this.convertSwaggerObject(spec, { patch });
+      swaggerSchemas = await this.convertSwaggerObject(spec, { patch });
+    } else {
+      const swaggerSchemaFile = await this.fetchSwaggerSchemaFile(
+        input,
+        url,
+        authorizationToken,
+      );
+      const swaggerSchemaObject =
+        this.processSwaggerSchemaFile(swaggerSchemaFile);
+
+      swaggerSchemas = await this.convertSwaggerObject(swaggerSchemaObject, {
+        patch,
+      });
     }
 
-    const swaggerSchemaFile = await this.fetchSwaggerSchemaFile(
-      input,
-      url,
-      authorizationToken,
+    this.fixSwaggerSchemas(swaggerSchemas);
+
+    const resolvedSwaggerSchema = ResolvedSwaggerSchema.create(
+      this.config,
+      swaggerSchemas.usageSchema,
+      swaggerSchemas.originalSchema,
     );
-    const swaggerSchemaObject =
-      this.processSwaggerSchemaFile(swaggerSchemaFile);
-    return await this.convertSwaggerObject(swaggerSchemaObject, { patch });
+
+    return resolvedSwaggerSchema;
   }
 
   convertSwaggerObject(
     swaggerSchema: OpenAPI.Document,
     converterOptions: { patch?: boolean },
-  ): Promise<{
-    usageSchema: OpenAPI.Document;
-    originalSchema: OpenAPI.Document;
-  }> {
+  ): Promise<SwaggerSchemas> {
     return new Promise((resolve) => {
       const result = structuredClone(swaggerSchema);
       result.info = lodash.merge(
@@ -119,7 +136,7 @@ export class SwaggerSchemaResolver {
     }
   }
 
-  fixSwaggerSchema({ usageSchema, originalSchema }) {
+  private fixSwaggerSchemas({ usageSchema, originalSchema }: SwaggerSchemas) {
     const usagePaths = lodash.get(usageSchema, "paths");
     const originalPaths = lodash.get(originalSchema, "paths");
 
@@ -130,23 +147,30 @@ export class SwaggerSchemaResolver {
       // walk by methods
       lodash.each(usagePathObject, (usageRouteInfo, methodName) => {
         const originalRouteInfo = lodash.get(originalPathObject, methodName);
-        const usageRouteParams = lodash.get(usageRouteInfo, "parameters", []);
+        const usageRouteParams = lodash.get(
+          usageRouteInfo,
+          "parameters",
+          [],
+        ) as OpenAPIV3.ParameterObject[];
         const originalRouteParams = lodash.get(
           originalRouteInfo,
           "parameters",
           [],
         );
 
+        const usageAsOpenapiv2 =
+          usageRouteInfo as unknown as OpenAPIV2.Document;
+
         if (typeof usageRouteInfo === "object") {
-          usageRouteInfo.consumes = lodash.uniq(
+          usageAsOpenapiv2.consumes = lodash.uniq(
             lodash.compact([
-              ...(usageRouteInfo.consumes || []),
+              ...(usageAsOpenapiv2.consumes || []),
               ...(originalRouteInfo.consumes || []),
             ]),
           );
-          usageRouteInfo.produces = lodash.uniq(
+          usageAsOpenapiv2.produces = lodash.uniq(
             lodash.compact([
-              ...(usageRouteInfo.produces || []),
+              ...(usageAsOpenapiv2.produces || []),
               ...(originalRouteInfo.produces || []),
             ]),
           );
@@ -154,7 +178,7 @@ export class SwaggerSchemaResolver {
 
         lodash.each(originalRouteParams, (originalRouteParam) => {
           const existUsageParam = usageRouteParams.find(
-            (param) =>
+            (param: OpenAPIV3.ParameterObject) =>
               originalRouteParam.in === param.in &&
               originalRouteParam.name === param.name,
           );

@@ -2,28 +2,16 @@ import lodash from "lodash";
 import type { CodeGenConfig } from "../configuration.js";
 import { SCHEMA_TYPES } from "../constants.js";
 import type { SchemaComponentsMap } from "../schema-components-map.js";
-import type { SchemaWalker } from "../schema-walker.js";
 import type { TypeNameFormatter } from "../type-name-formatter.js";
 import { internalCase } from "../util/internal-case.js";
 import { pascalCase } from "../util/pascal-case.js";
 
 export class SchemaUtils {
-  config: CodeGenConfig;
-  schemaComponentsMap: SchemaComponentsMap;
-  typeNameFormatter: TypeNameFormatter;
-  schemaWalker: SchemaWalker;
-
-  constructor({
-    config,
-    schemaComponentsMap,
-    typeNameFormatter,
-    schemaWalker,
-  }) {
-    this.config = config;
-    this.schemaComponentsMap = schemaComponentsMap;
-    this.typeNameFormatter = typeNameFormatter;
-    this.schemaWalker = schemaWalker;
-  }
+  constructor(
+    public config: CodeGenConfig,
+    public schemaComponentsMap: SchemaComponentsMap,
+    public typeNameFormatter: TypeNameFormatter,
+  ) {}
 
   getRequiredProperties = (schema) => {
     return lodash.uniq(

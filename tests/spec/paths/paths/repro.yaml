@@ -1,0 +1,42 @@
+hello:
+  get:
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              type: object
+  put:
+      operationId: getRepository
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The repository
+          content:
+            application/json:
+              schema:
+                $ref: "./third.yaml/#/components/schemas/repository"
+          links:
+            repositoryPullRequests:
+              $ref: "./third.yaml/#/components/links/RepositoryPullRequests"
+components:
+  schemas:
+    ReportSchema:
+      title: ReportSchema
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Weather condition id
+          format: int32
+          example: 803
