@@ -72,7 +72,7 @@
     "@types/swagger2openapi": "7.0.4",
     "axios": "1.12.2",
     "tsdown": "0.15.6",
-    "typedoc": "0.28.13",
+    "typedoc": "0.28.14",
     "vitest": "3.2.4"
   },
   "packageManager": "yarn@4.10.3",
