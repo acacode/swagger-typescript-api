@@ -244,9 +244,19 @@ export class JsonLdSchemaResolver {
       };
     }
     if (typeof value === "object" && value !== null) {
+      // Check if this is a JSON-LD schema that needs resolving
       if (this.isJsonLdSchema(value)) {
         return this.resolveJsonLdSchema(value);
       }
+
+      // Check if this is already a valid JSON Schema definition
+      // (has a "type" property or other JSON Schema keywords)
+      if (this.isJsonSchema(value)) {
+        // Preserve the original JSON Schema definition
+        return value;
+      }
+
+      // Otherwise treat as a generic object
       return {
         type: "object",
         additionalProperties: true,
@@ -254,6 +264,50 @@ export class JsonLdSchemaResolver {
     }
 
     return { type: "string" };
+  }
+
+  /**
+   * Checks if an object is a valid JSON Schema definition
+   */
+  private isJsonSchema(obj: any): boolean {
+    if (!obj || typeof obj !== "object") return false;
+
+    // Check for common JSON Schema keywords
+    const schemaKeywords = [
+      "type",
+      "properties",
+      "items",
+      "required",
+      "enum",
+      "const",
+      "pattern",
+      "format",
+      "minimum",
+      "maximum",
+      "minLength",
+      "maxLength",
+      "minItems",
+      "maxItems",
+      "uniqueItems",
+      "multipleOf",
+      "minProperties",
+      "maxProperties",
+      "additionalProperties",
+      "additionalItems",
+      "allOf",
+      "anyOf",
+      "oneOf",
+      "not",
+      "$ref",
+      "definitions",
+      "$schema",
+      "title",
+      "description",
+      "default",
+      "examples",
+    ];
+
+    return Object.keys(obj).some((key) => schemaKeywords.includes(key));
   }
 
   /**

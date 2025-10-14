@@ -7,19 +7,21 @@ exports[`JSON-LD basic test > should generate JSON-LD types correctly 1`] = `
 export interface Person {
   /**
    * name
-   * Property: name
+   * Person's name
    */
-  name: Record<string, any>;
+  name: string;
   /**
    * email
-   * Property: email
+   * Person's email
+   * @format email
    */
-  email?: Record<string, any>;
+  email?: string;
   /**
    * birthDate
-   * Property: birthDate
+   * Person's birth date
+   * @format date
    */
-  birthDate?: Record<string, any>;
+  birthDate?: string;
 }
 
 /** JSON-LD Entity: Organization */
@@ -28,17 +30,18 @@ export interface Organization {
    * name
    * Property: name
    */
-  name: Record<string, any>;
+  name: string;
   /**
    * url
    * Property: url
+   * @format uri
    */
-  url?: Record<string, any>;
+  url?: string;
   /**
    * employees
    * Property: employees
    */
-  employees?: Record<string, any>;
+  employees?: Person[];
 }
 
 /** JSON-LD Entity: JsonLdEntity */
@@ -66,19 +69,21 @@ export interface JsonLdEntity {
 export interface Person extends JsonLdEntity {
   /**
    * name
-   * Property: name
+   * Person's name
    */
-  name: Record<string, any>;
+  name: string;
   /**
    * email
-   * Property: email
+   * Person's email
+   * @format email
    */
-  email?: Record<string, any>;
+  email?: string;
   /**
    * birthDate
-   * Property: birthDate
+   * Person's birth date
+   * @format date
    */
-  birthDate?: Record<string, any>;
+  birthDate?: string;
 }
 
 /**
@@ -89,17 +94,18 @@ export interface Organization extends JsonLdEntity {
    * name
    * Property: name
    */
-  name: Record<string, any>;
+  name: string;
   /**
    * url
    * Property: url
+   * @format uri
    */
-  url?: Record<string, any>;
+  url?: string;
   /**
    * employees
    * Property: employees
    */
-  employees?: Record<string, any>;
+  employees?: Person[];
 }
 
 /**
@@ -217,19 +223,21 @@ exports[`JSON-LD basic test > should generate JSON-LD types with strict typing 1
 export interface Person {
   /**
    * name
-   * Property: name
+   * Person's name
    */
-  name: Record<string, any>;
+  name: string;
   /**
    * email
-   * Property: email
+   * Person's email
+   * @format email
    */
-  email?: Record<string, any>;
+  email?: string;
   /**
    * birthDate
-   * Property: birthDate
+   * Person's birth date
+   * @format date
    */
-  birthDate?: Record<string, any>;
+  birthDate?: string;
 }
 
 /** JSON-LD Entity: Organization */
@@ -238,17 +246,18 @@ export interface Organization {
    * name
    * Property: name
    */
-  name: Record<string, any>;
+  name: string;
   /**
    * url
    * Property: url
+   * @format uri
    */
-  url?: Record<string, any>;
+  url?: string;
   /**
    * employees
    * Property: employees
    */
-  employees?: Record<string, any>;
+  employees?: Person[];
 }
 
 /** JSON-LD Entity: JsonLdEntity */
@@ -276,19 +285,21 @@ export interface JsonLdEntity {
 export interface Person extends JsonLdEntity {
   /**
    * name
-   * Property: name
+   * Person's name
    */
-  name: Record<string, any>;
+  name: string;
   /**
    * email
-   * Property: email
+   * Person's email
+   * @format email
    */
-  email?: Record<string, any>;
+  email?: string;
   /**
    * birthDate
-   * Property: birthDate
+   * Person's birth date
+   * @format date
    */
-  birthDate?: Record<string, any>;
+  birthDate?: string;
 }
 
 /**
@@ -299,17 +310,18 @@ export interface Organization extends JsonLdEntity {
    * name
    * Property: name
    */
-  name: Record<string, any>;
+  name: string;
   /**
    * url
    * Property: url
+   * @format uri
    */
-  url?: Record<string, any>;
+  url?: string;
   /**
    * employees
    * Property: employees
    */
-  employees?: Record<string, any>;
+  employees?: Person[];
 }
 
 /**
@@ -427,19 +439,21 @@ exports[`JSON-LD basic test > should handle JSON-LD entities with context 1`] = 
 export interface Person {
   /**
    * name
-   * Property: name
+   * Person's name
    */
-  name: Record<string, any>;
+  name: string;
   /**
    * email
-   * Property: email
+   * Person's email
+   * @format email
    */
-  email?: Record<string, any>;
+  email?: string;
   /**
    * birthDate
-   * Property: birthDate
+   * Person's birth date
+   * @format date
    */
-  birthDate?: Record<string, any>;
+  birthDate?: string;
 }
 
 /** JSON-LD Entity: Organization */
@@ -448,17 +462,18 @@ export interface Organization {
    * name
    * Property: name
    */
-  name: Record<string, any>;
+  name: string;
   /**
    * url
    * Property: url
+   * @format uri
    */
-  url?: Record<string, any>;
+  url?: string;
   /**
    * employees
    * Property: employees
    */
-  employees?: Record<string, any>;
+  employees?: Person[];
 }
 
 /** JSON-LD Entity: JsonLdEntity */
@@ -486,19 +501,21 @@ export interface JsonLdEntity {
 export interface Person extends JsonLdEntity {
   /**
    * name
-   * Property: name
+   * Person's name
    */
-  name: Record<string, any>;
+  name: string;
   /**
    * email
-   * Property: email
+   * Person's email
+   * @format email
    */
-  email?: Record<string, any>;
+  email?: string;
   /**
    * birthDate
-   * Property: birthDate
+   * Person's birth date
+   * @format date
    */
-  birthDate?: Record<string, any>;
+  birthDate?: string;
 }
 
 /**
@@ -509,17 +526,18 @@ export interface Organization extends JsonLdEntity {
    * name
    * Property: name
    */
-  name: Record<string, any>;
+  name: string;
   /**
    * url
    * Property: url
+   * @format uri
    */
-  url?: Record<string, any>;
+  url?: string;
   /**
    * employees
    * Property: employees
    */
-  employees?: Record<string, any>;
+  employees?: Person[];
 }
 
 /**
