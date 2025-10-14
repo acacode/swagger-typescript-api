@@ -173,11 +173,11 @@ export class HttpClient<SecurityDataType = unknown> {
           property instanceof Array ? property : [property];
 
         for (const formItem of propertyContent) {
-          const isFileType =
-            formItem instanceof Blob || formItem instanceof File;
           formData.append(
             key,
-            isFileType ? formItem : JSON.stringify(formItem),
+            formItem instanceof Blob || typeof formItem === "string"
+              ? formItem
+              : JSON.stringify(formItem),
           );
         }
         return formData;
