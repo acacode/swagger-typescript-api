@@ -2033,10 +2033,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eta@npm:^3.5.0":
-  version: 3.5.0
-  resolution: "eta@npm:3.5.0"
-  checksum: 10c0/28ffc23658e3d77c1ab2660d0158b979688457659fc190d0edca26c186ab34039bec9d6745d975e5f0543981e285cd757bff85b47ea2374ab11444e2b7271dd0
+"eta@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "eta@npm:4.0.1"
+  checksum: 10c0/a7dc8641705a01373393aba6d0998f7571735c4f5444aa9c3375b2574a93ef3be80cfd5c7d1f8d6f0e56a83a14a7db451195ed3ceeab145f23492bb5b41d1ece
   languageName: node
   linkType: hard
 
@@ -3743,7 +3743,7 @@ __metadata:
     c12: "npm:^3.3.0"
     citty: "npm:^0.1.6"
     consola: "npm:^3.4.2"
-    eta: "npm:^3.5.0"
+    eta: "npm:^4.0.1"
     lodash: "npm:^4.17.21"
     nanoid: "npm:^5.1.6"
     openapi-types: "npm:^12.1.3"
