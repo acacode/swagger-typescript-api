@@ -1,5 +1,21 @@
 # swagger-typescript-api
 
+## 13.2.16
+
+### Patch Changes
+
+- [#1459](https://github.com/acacode/swagger-typescript-api/pull/1459) [`6b485dd`](https://github.com/acacode/swagger-typescript-api/commit/6b485dd70228a7e3697c4bd4a9ca5537e456f512) Thanks [@smorimoto](https://github.com/smorimoto)! - Downgrade eta from 4.0.1 to 3.5.0 to fix module resolution error.
+
+  After the upgrade to eta@4.0.1 in version 13.2.11, API generation started
+  failing with `ERR_PACKAGE_PATH_NOT_EXPORTED: No "exports" main defined in
+eta/package.json`. This issue is caused by incorrect package export
+  configuration in eta@4.0.1, which is tracked in the upstream repository.
+
+  Downgrading to eta@3.5.0 resolves the module resolution error whilst
+  maintaining compatibility with the existing template system.
+
+  Fixes #1427.
+
 ## 13.2.15
 
 ### Patch Changes
