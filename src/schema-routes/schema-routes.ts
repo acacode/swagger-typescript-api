@@ -331,6 +331,16 @@ export class SchemaRoutes {
 
     /* content: { "multipart/form-data": { schema: {...} }, "application/json": { schema: {...} } } */
 
+    const contentTypes = Object.keys(content);
+
+    // if there's only one content type, return it
+    if (contentTypes.length === 1 && content[contentTypes[0]]?.schema) {
+      return {
+        ...content[contentTypes[0]].schema,
+        dataType: contentTypes[0],
+      };
+    }
+
     // Check if there are multiple media types with schemas
     const schemasWithDataTypes = [];
     for (const dataType in content) {
@@ -347,8 +357,23 @@ export class SchemaRoutes {
       return schemasWithDataTypes[0];
     }
 
-    // If there are multiple schemas, create a oneOf schema to generate a union type
+    // If there are multiple schemas with different structures, create a oneOf schema to generate a union type
     if (schemasWithDataTypes.length > 1) {
+      // Check if all schemas are structurally the same
+      // If they are, just return the first one
+      const firstSchema = schemasWithDataTypes[0];
+      const allSchemasAreSame = schemasWithDataTypes.every((schema) =>
+        lodash.isEqual(
+          lodash.omit(schema, "dataType"),
+          lodash.omit(firstSchema, "dataType"),
+        ),
+      );
+
+      if (allSchemasAreSame) {
+        return firstSchema;
+      }
+
+      // Otherwise, create a union type
       return {
         oneOf: schemasWithDataTypes,
         dataType: schemasWithDataTypes[0].dataType, // Use the first dataType for compatibility

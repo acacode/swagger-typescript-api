@@ -20642,7 +20642,8 @@ export class Api<
             documentation_url: string;
             message: string;
           }
-        | (ValidationError | ValidationErrorSimple)
+        | ValidationError
+        | ValidationErrorSimple
       >({
         path: \`/orgs/\${org}\`,
         method: "PATCH",
@@ -24462,7 +24463,8 @@ export class Api<
       this.request<
         ProjectCard,
         | BasicError
-        | (ValidationError | ValidationErrorSimple)
+        | ValidationError
+        | ValidationErrorSimple
         | {
             code?: string;
             documentation_url?: string;
@@ -27970,7 +27972,7 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<Commit[], BasicError>({
+      this.request<Commit[], (BasicError | ScimError) | BasicError>({
         path: \`/repos/\${owner}/\${repo}/commits\`,
         method: "GET",
         query: query,
@@ -28365,7 +28367,11 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<ContentTree, BasicError>({
+      this.request<
+        | ContentTree
+        | (ContentDirectory | ContentFile | ContentSymlink | ContentSubmodule),
+        BasicError
+      >({
         path: \`/repos/\${owner}/\${repo}/contents/\${path}\`,
         method: "GET",
         query: query,
@@ -28895,7 +28901,7 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<MinimalRepository[], BasicError>({
+      this.request<MinimalRepository[], BasicError | ScimError>({
         path: \`/repos/\${owner}/\${repo}/forks\`,
         method: "GET",
         query: query,
@@ -28920,7 +28926,10 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<Repository, BasicError | ValidationError>({
+      this.request<
+        Repository,
+        (BasicError | ScimError) | BasicError | ValidationError
+      >({
         path: \`/repos/\${owner}/\${repo}/forks\`,
         method: "POST",
         body: data,
@@ -31601,7 +31610,7 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<void, BasicError | ValidationError>({
+      this.request<void, (BasicError | ScimError) | ValidationError>({
         path: \`/repos/\${owner}/\${repo}/pages\`,
         method: "PUT",
         body: data,
@@ -33275,7 +33284,7 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<SimpleUser[], ValidationError>({
+      this.request<SimpleUser[] | Stargazer[], ValidationError>({
         path: \`/repos/\${owner}/\${repo}/stargazers\`,
         method: "GET",
         query: query,
@@ -37318,7 +37327,10 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<Repository, BasicError | ValidationError>({
+      this.request<
+        Repository,
+        (BasicError | ScimError) | BasicError | ValidationError
+      >({
         path: \`/user/repos\`,
         method: "POST",
         body: data,
@@ -37424,7 +37436,7 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<Repository[], BasicError>({
+      this.request<Repository[] | StarredRepository[], BasicError>({
         path: \`/user/starred\`,
         method: "GET",
         query: query,
@@ -38191,7 +38203,7 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<Repository[], any>({
+      this.request<Repository[] | StarredRepository[], any>({
         path: \`/users/\${username}/starred\`,
         method: "GET",
         query: query,
