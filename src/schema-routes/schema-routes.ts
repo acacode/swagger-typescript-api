@@ -346,7 +346,7 @@ export class SchemaRoutes {
     if (schemasWithDataTypes.length === 1) {
       return schemasWithDataTypes[0];
     }
-    
+
     // If there are multiple schemas, create a oneOf schema to generate a union type
     if (schemasWithDataTypes.length > 1) {
       return {
@@ -374,20 +374,21 @@ export class SchemaRoutes {
       // If we have a oneOf schema (multiple media types), handle it specially
       if (schema.oneOf) {
         // Process each schema in the oneOf array
-        const unionTypes = schema.oneOf.map(subSchema => {
+        const unionTypes = schema.oneOf.map((subSchema) => {
           return this.schemaParserFabric.getInlineParseContent(
             subSchema,
             typeName,
             [operationId],
           );
         });
-        
+
         // Filter out any duplicates or Any types
-        const filteredTypes = this.schemaParserFabric.schemaUtils.filterSchemaContents(
-          unionTypes,
-          (content) => content !== this.config.Ts.Keyword.Any
-        );
-        
+        const filteredTypes =
+          this.schemaParserFabric.schemaUtils.filterSchemaContents(
+            unionTypes,
+            (content) => content !== this.config.Ts.Keyword.Any,
+          );
+
         // Create a union type
         return this.config.Ts.UnionType(filteredTypes);
       } else {

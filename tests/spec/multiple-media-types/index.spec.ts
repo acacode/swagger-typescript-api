@@ -17,7 +17,7 @@ describe("multiple media types in request body", async () => {
 
   test("should generate union type for request body with multiple media types", async () => {
     const fileName = "MultipleMediaTypesApi";
-    
+
     await generateApi({
       fileName,
       input: path.resolve(__dirname, "./schema.json"),
@@ -32,7 +32,7 @@ describe("multiple media types in request body", async () => {
 
     // Save the snapshot for future comparison
     expect(content).toMatchSnapshot();
-    
+
     // Additional specific checks
     expect(content).toContain("Cat | Dog");
     expect(content).toContain("addPet");
