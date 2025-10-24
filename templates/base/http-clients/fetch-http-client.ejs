@@ -203,7 +203,7 @@ export class HttpClient<SecurityDataType = unknown> {
                 get(target, prop) {
                     // Custom properties for our API wrapper
                     if (prop === 'data') {
-                        return target._data !== undefined ? target._data : (null as unknown) as T;
+                        return target._data ?? (null as unknown as T);
                     }
                     if (prop === 'error') {
                         return target._error !== undefined ? target._error : (null as unknown) as E;
