@@ -285,10 +285,9 @@ const generateCommand = defineCommand({
     },
     "default-request-params": {
       type: "string",
-      description:
-        "request parameters for each API request",
+      description: "request parameters for each API request",
       default: codeGenBaseConfig.defaultRequestParams,
-    }
+    },
   },
   run: async ({ args }) => {
     const customConfig = await loadConfig<GenerateApiParams>({

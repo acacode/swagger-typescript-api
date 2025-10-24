@@ -26,13 +26,15 @@ describe("basic", async () => {
 
     const files = await fs.readdir(tmpdir);
 
-    await Promise.all(files.map(async file => {
-      const content = await fs.readFile(path.join(tmpdir, file), {
-        encoding: "utf8",
-      });
+    await Promise.all(
+      files.map(async (file) => {
+        const content = await fs.readFile(path.join(tmpdir, file), {
+          encoding: "utf8",
+        });
 
-      expect(content).toMatchSnapshot(file);
-    }));
+        expect(content).toMatchSnapshot(file);
+      }),
+    );
   });
   test("defaultRequestParams with empty default", async () => {
     await generateApi({
@@ -45,13 +47,15 @@ describe("basic", async () => {
 
     const files = await fs.readdir(tmpdir);
 
-    await Promise.all(files.map(async file => {
-      const content = await fs.readFile(path.join(tmpdir, file), {
-        encoding: "utf8",
-      });
+    await Promise.all(
+      files.map(async (file) => {
+        const content = await fs.readFile(path.join(tmpdir, file), {
+          encoding: "utf8",
+        });
 
-      expect(content).toMatchSnapshot(file);
-    }));
+        expect(content).toMatchSnapshot(file);
+      }),
+    );
   });
   test("defaultRequestParams modular", async () => {
     await generateApi({
@@ -64,12 +68,14 @@ describe("basic", async () => {
     });
 
     const files = await fs.readdir(tmpdir);
-    await Promise.all(files.map(async file => {
-      const content = await fs.readFile(path.join(tmpdir, file), {
-        encoding: "utf8",
-      });
+    await Promise.all(
+      files.map(async (file) => {
+        const content = await fs.readFile(path.join(tmpdir, file), {
+          encoding: "utf8",
+        });
 
-      expect(content).toMatchSnapshot(file);
-    }));
+        expect(content).toMatchSnapshot(file);
+      }),
+    );
   });
 });
