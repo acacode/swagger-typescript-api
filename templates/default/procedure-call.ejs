@@ -16,7 +16,7 @@ const requestConfigParam = {
     name: specificArgNameResolver.resolve(RESERVED_REQ_PARAMS_ARG_NAMES),
     optional: true,
     type: "RequestParams",
-    defaultValue: "{}",
+    defaultValue: config.defaultRequestParams ?? "{}",
 }
 
 const argToTmpl = ({ name, optional, type, defaultValue }) => `${name}${!defaultValue && optional ? '?' : ''}: ${type}${defaultValue ? ` = ${defaultValue}` : ''}`;

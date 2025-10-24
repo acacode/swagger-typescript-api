@@ -283,6 +283,12 @@ const generateCommand = defineCommand({
       description: "unwrap the data item from the response",
       default: codeGenBaseConfig.unwrapResponseData,
     },
+    "default-request-params": {
+      type: "string",
+      description:
+        "request parameters for each API request",
+      default: codeGenBaseConfig.defaultRequestParams,
+    }
   },
   run: async ({ args }) => {
     const customConfig = await loadConfig<GenerateApiParams>({
@@ -298,6 +304,7 @@ const generateCommand = defineCommand({
       debug: args.debug,
       defaultResponseAsSuccess: args["default-as-success"],
       defaultResponseType: args["default-response"],
+      defaultRequestParams: args["default-request-params"],
       disableThrowOnError: args["disable-throw-on-error"],
       enumNamesAsValues: args["enum-names-as-values"],
       extractEnums: args["extract-enums"],
