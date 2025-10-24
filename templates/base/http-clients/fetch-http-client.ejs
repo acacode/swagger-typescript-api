@@ -116,7 +116,12 @@ export class HttpClient<SecurityDataType = unknown> {
                 const propertyContent = property instanceof Array ? property : [property];
 
                 for (const formItem of propertyContent) {
-                    formData.append(key, formItem instanceof Blob || typeof formItem === "string" ? formItem : JSON.stringify(formItem));
+                    formData.append(
+                        key,
+                        formItem instanceof Blob || typeof formItem === "string"
+                            ? formItem
+                            : JSON.stringify(formItem)
+                    );
                 }
                 return formData;
             }, new FormData());
