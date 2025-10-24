@@ -231,7 +231,9 @@ export class HttpClient<SecurityDataType = unknown> {
                     }
 
                     // Prevent mutation of Response properties (ESM safety)
-                    return false;
+                    throw new Error(
+                        `Cannot set property '${String(prop)}' on HttpResponse: only 'data' and 'error' can be set.`
+                    );
                 }
             }) as HttpResponse<T, E>;
 
