@@ -2152,7 +2152,7 @@ export class Api<
      * @request POST:api/v1/pet
      * @secure
      */
-    addPet: (body: Pet, params?: RequestParams) =>
+    addPet: (body: Pet, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/pet\`,
         method: "POST",
@@ -2171,7 +2171,7 @@ export class Api<
      * @request PUT:api/v1/pet
      * @secure
      */
-    updatePet: (body: Pet, params?: RequestParams) =>
+    updatePet: (body: Pet, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/pet\`,
         method: "PUT",
@@ -2195,7 +2195,7 @@ export class Api<
         /** Status values that need to be considered for filter */
         status: ("available" | "pending" | "sold")[];
       },
-      params?: RequestParams,
+      params: RequestParams,
     ) =>
       this.request<Pet[], void>({
         path: \`api/v1/pet/findByStatus\`,
@@ -2221,7 +2221,7 @@ export class Api<
         /** Tags to filter by */
         tags: string[];
       },
-      params?: RequestParams,
+      params: RequestParams,
     ) =>
       this.request<Pet[], void>({
         path: \`api/v1/pet/findByTags\`,
@@ -2241,7 +2241,7 @@ export class Api<
      * @request GET:api/v1/pet/{petId}
      * @secure
      */
-    getPetById: (petId: number, params?: RequestParams) =>
+    getPetById: (petId: number, params: RequestParams) =>
       this.request<Pet, void>({
         path: \`api/v1/pet/\${petId}\`,
         method: "GET",
@@ -2267,7 +2267,7 @@ export class Api<
         /** Updated status of the pet */
         status?: string;
       },
-      params?: RequestParams,
+      params: RequestParams,
     ) =>
       this.request<any, void>({
         path: \`api/v1/pet/\${petId}\`,
@@ -2287,7 +2287,7 @@ export class Api<
      * @request DELETE:api/v1/pet/{petId}
      * @secure
      */
-    deletePet: (petId: number, params?: RequestParams) =>
+    deletePet: (petId: number, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/pet/\${petId}\`,
         method: "DELETE",
@@ -2312,7 +2312,7 @@ export class Api<
         /** file to upload */
         file?: File;
       },
-      params?: RequestParams,
+      params: RequestParams,
     ) =>
       this.request<ApiResponse, any>({
         path: \`api/v1/pet/\${petId}/uploadImage\`,
@@ -2333,7 +2333,7 @@ export class Api<
      * @request GET:api/v1/store/inventory
      * @secure
      */
-    getInventory: (params?: RequestParams) =>
+    getInventory: (params: RequestParams) =>
       this.request<Record<string, number>, any>({
         path: \`api/v1/store/inventory\`,
         method: "GET",
@@ -2350,7 +2350,7 @@ export class Api<
      * @summary Place an order for a pet
      * @request POST:api/v1/store/order
      */
-    placeOrder: (body: Order, params?: RequestParams) =>
+    placeOrder: (body: Order, params: RequestParams) =>
       this.request<Order, void>({
         path: \`api/v1/store/order\`,
         method: "POST",
@@ -2368,7 +2368,7 @@ export class Api<
      * @summary Find purchase order by ID
      * @request GET:api/v1/store/order/{orderId}
      */
-    getOrderById: (orderId: number, params?: RequestParams) =>
+    getOrderById: (orderId: number, params: RequestParams) =>
       this.request<Order, void>({
         path: \`api/v1/store/order/\${orderId}\`,
         method: "GET",
@@ -2384,7 +2384,7 @@ export class Api<
      * @summary Delete purchase order by ID
      * @request DELETE:api/v1/store/order/{orderId}
      */
-    deleteOrder: (orderId: string, params?: RequestParams) =>
+    deleteOrder: (orderId: string, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/store/order/\${orderId}\`,
         method: "DELETE",
@@ -2399,7 +2399,7 @@ export class Api<
      * @summary Create user
      * @request POST:api/v1/user
      */
-    createUser: (body: User, params?: RequestParams) =>
+    createUser: (body: User, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/user\`,
         method: "POST",
@@ -2416,7 +2416,7 @@ export class Api<
      * @summary Creates list of users with given input array
      * @request POST:api/v1/user/createWithArray
      */
-    createUsersWithArrayInput: (body: User[], params?: RequestParams) =>
+    createUsersWithArrayInput: (body: User[], params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/user/createWithArray\`,
         method: "POST",
@@ -2433,7 +2433,7 @@ export class Api<
      * @summary Creates list of users with given input array
      * @request POST:api/v1/user/createWithList
      */
-    createUsersWithListInput: (body: User[], params?: RequestParams) =>
+    createUsersWithListInput: (body: User[], params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/user/createWithList\`,
         method: "POST",
@@ -2457,7 +2457,7 @@ export class Api<
         /** The password for login in clear text */
         password: string;
       },
-      params?: RequestParams,
+      params: RequestParams,
     ) =>
       this.request<Currency, void>({
         path: \`api/v1/user/login\`,
@@ -2475,7 +2475,7 @@ export class Api<
      * @summary Logs out current logged in user session
      * @request GET:api/v1/user/logout
      */
-    logoutUser: (params?: RequestParams) =>
+    logoutUser: (params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/user/logout\`,
         method: "GET",
@@ -2490,7 +2490,7 @@ export class Api<
      * @summary Get user by user name
      * @request GET:api/v1/user/{username}
      */
-    getUserByName: (username: string, params?: RequestParams) =>
+    getUserByName: (username: string, params: RequestParams) =>
       this.request<User, void>({
         path: \`api/v1/user/\${username}\`,
         method: "GET",
@@ -2506,7 +2506,7 @@ export class Api<
      * @summary Updated user
      * @request PUT:api/v1/user/{username}
      */
-    updateUser: (username: string, body: User, params?: RequestParams) =>
+    updateUser: (username: string, body: User, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/user/\${username}\`,
         method: "PUT",
@@ -2523,7 +2523,7 @@ export class Api<
      * @summary Delete user
      * @request DELETE:api/v1/user/{username}
      */
-    deleteUser: (username: string, params?: RequestParams) =>
+    deleteUser: (username: string, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/user/\${username}\`,
         method: "DELETE",
@@ -2540,7 +2540,7 @@ export class Api<
      * @originalName getUserByName
      * @duplicate
      */
-    getUserByName2: (username: string, params?: RequestParams) =>
+    getUserByName2: (username: string, params: RequestParams) =>
       this.request<User, void>({
         path: \`api/v1/\${username}\`,
         method: "GET",
@@ -2558,7 +2558,7 @@ export class Api<
      * @originalName updateUser
      * @duplicate
      */
-    updateUser2: (username: string, body: User, params?: RequestParams) =>
+    updateUser2: (username: string, body: User, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/\${username}\`,
         method: "PUT",
@@ -2577,7 +2577,7 @@ export class Api<
      * @originalName deleteUser
      * @duplicate
      */
-    deleteUser2: (username: string, params?: RequestParams) =>
+    deleteUser2: (username: string, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/\${username}\`,
         method: "DELETE",
@@ -3005,7 +3005,7 @@ export class Api<
      * @request POST:api/v1/pet
      * @secure
      */
-    addPet: (body: Pet, params?: RequestParams) =>
+    addPet: (body: Pet, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/pet\`,
         method: "POST",
@@ -3024,7 +3024,7 @@ export class Api<
      * @request PUT:api/v1/pet
      * @secure
      */
-    updatePet: (body: Pet, params?: RequestParams) =>
+    updatePet: (body: Pet, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/pet\`,
         method: "PUT",
@@ -3048,7 +3048,7 @@ export class Api<
         /** Status values that need to be considered for filter */
         status: ("available" | "pending" | "sold")[];
       },
-      params?: RequestParams,
+      params: RequestParams,
     ) =>
       this.request<Pet[], void>({
         path: \`api/v1/pet/findByStatus\`,
@@ -3074,7 +3074,7 @@ export class Api<
         /** Tags to filter by */
         tags: string[];
       },
-      params?: RequestParams,
+      params: RequestParams,
     ) =>
       this.request<Pet[], void>({
         path: \`api/v1/pet/findByTags\`,
@@ -3094,7 +3094,7 @@ export class Api<
      * @request GET:api/v1/pet/{petId}
      * @secure
      */
-    getPetById: (petId: number, params?: RequestParams) =>
+    getPetById: (petId: number, params: RequestParams) =>
       this.request<Pet, void>({
         path: \`api/v1/pet/\${petId}\`,
         method: "GET",
@@ -3120,7 +3120,7 @@ export class Api<
         /** Updated status of the pet */
         status?: string;
       },
-      params?: RequestParams,
+      params: RequestParams,
     ) =>
       this.request<any, void>({
         path: \`api/v1/pet/\${petId}\`,
@@ -3140,7 +3140,7 @@ export class Api<
      * @request DELETE:api/v1/pet/{petId}
      * @secure
      */
-    deletePet: (petId: number, params?: RequestParams) =>
+    deletePet: (petId: number, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/pet/\${petId}\`,
         method: "DELETE",
@@ -3165,7 +3165,7 @@ export class Api<
         /** file to upload */
         file?: File;
       },
-      params?: RequestParams,
+      params: RequestParams,
     ) =>
       this.request<ApiResponse, any>({
         path: \`api/v1/pet/\${petId}/uploadImage\`,
@@ -3186,7 +3186,7 @@ export class Api<
      * @request GET:api/v1/store/inventory
      * @secure
      */
-    getInventory: (params?: RequestParams) =>
+    getInventory: (params: RequestParams) =>
       this.request<Record<string, number>, any>({
         path: \`api/v1/store/inventory\`,
         method: "GET",
@@ -3203,7 +3203,7 @@ export class Api<
      * @summary Place an order for a pet
      * @request POST:api/v1/store/order
      */
-    placeOrder: (body: Order, params?: RequestParams) =>
+    placeOrder: (body: Order, params: RequestParams) =>
       this.request<Order, void>({
         path: \`api/v1/store/order\`,
         method: "POST",
@@ -3221,7 +3221,7 @@ export class Api<
      * @summary Find purchase order by ID
      * @request GET:api/v1/store/order/{orderId}
      */
-    getOrderById: (orderId: number, params?: RequestParams) =>
+    getOrderById: (orderId: number, params: RequestParams) =>
       this.request<Order, void>({
         path: \`api/v1/store/order/\${orderId}\`,
         method: "GET",
@@ -3237,7 +3237,7 @@ export class Api<
      * @summary Delete purchase order by ID
      * @request DELETE:api/v1/store/order/{orderId}
      */
-    deleteOrder: (orderId: string, params?: RequestParams) =>
+    deleteOrder: (orderId: string, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/store/order/\${orderId}\`,
         method: "DELETE",
@@ -3252,7 +3252,7 @@ export class Api<
      * @summary Create user
      * @request POST:api/v1/user
      */
-    createUser: (body: User, params?: RequestParams) =>
+    createUser: (body: User, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/user\`,
         method: "POST",
@@ -3269,7 +3269,7 @@ export class Api<
      * @summary Creates list of users with given input array
      * @request POST:api/v1/user/createWithArray
      */
-    createUsersWithArrayInput: (body: User[], params?: RequestParams) =>
+    createUsersWithArrayInput: (body: User[], params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/user/createWithArray\`,
         method: "POST",
@@ -3286,7 +3286,7 @@ export class Api<
      * @summary Creates list of users with given input array
      * @request POST:api/v1/user/createWithList
      */
-    createUsersWithListInput: (body: User[], params?: RequestParams) =>
+    createUsersWithListInput: (body: User[], params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/user/createWithList\`,
         method: "POST",
@@ -3310,7 +3310,7 @@ export class Api<
         /** The password for login in clear text */
         password: string;
       },
-      params?: RequestParams,
+      params: RequestParams,
     ) =>
       this.request<Currency, void>({
         path: \`api/v1/user/login\`,
@@ -3328,7 +3328,7 @@ export class Api<
      * @summary Logs out current logged in user session
      * @request GET:api/v1/user/logout
      */
-    logoutUser: (params?: RequestParams) =>
+    logoutUser: (params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/user/logout\`,
         method: "GET",
@@ -3343,7 +3343,7 @@ export class Api<
      * @summary Get user by user name
      * @request GET:api/v1/user/{username}
      */
-    getUserByName: (username: string, params?: RequestParams) =>
+    getUserByName: (username: string, params: RequestParams) =>
       this.request<User, void>({
         path: \`api/v1/user/\${username}\`,
         method: "GET",
@@ -3359,7 +3359,7 @@ export class Api<
      * @summary Updated user
      * @request PUT:api/v1/user/{username}
      */
-    updateUser: (username: string, body: User, params?: RequestParams) =>
+    updateUser: (username: string, body: User, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/user/\${username}\`,
         method: "PUT",
@@ -3376,7 +3376,7 @@ export class Api<
      * @summary Delete user
      * @request DELETE:api/v1/user/{username}
      */
-    deleteUser: (username: string, params?: RequestParams) =>
+    deleteUser: (username: string, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/user/\${username}\`,
         method: "DELETE",
@@ -3393,7 +3393,7 @@ export class Api<
      * @originalName getUserByName
      * @duplicate
      */
-    getUserByName2: (username: string, params?: RequestParams) =>
+    getUserByName2: (username: string, params: RequestParams) =>
       this.request<User, void>({
         path: \`api/v1/\${username}\`,
         method: "GET",
@@ -3411,7 +3411,7 @@ export class Api<
      * @originalName updateUser
      * @duplicate
      */
-    updateUser2: (username: string, body: User, params?: RequestParams) =>
+    updateUser2: (username: string, body: User, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/\${username}\`,
         method: "PUT",
@@ -3430,7 +3430,7 @@ export class Api<
      * @originalName deleteUser
      * @duplicate
      */
-    deleteUser2: (username: string, params?: RequestParams) =>
+    deleteUser2: (username: string, params: RequestParams) =>
       this.request<any, void>({
         path: \`api/v1/\${username}\`,
         method: "DELETE",
