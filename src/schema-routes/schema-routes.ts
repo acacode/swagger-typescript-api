@@ -241,9 +241,7 @@ export class SchemaRoutes {
         routeParam.name = lodash.camelCase(routeParam.name);
       }
 
-      if (routeParam) {
-        routeParams[routeParam.in].push(routeParam);
-      }
+      routeParams[routeParam.in].push(routeParam);
     });
 
     // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
