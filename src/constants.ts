@@ -51,4 +51,7 @@ export const SCHEMA_TYPES = {
   COMPLEX_ALL_OF: "allOf",
   COMPLEX_NOT: "not",
   COMPLEX_UNKNOWN: "__unknown",
+  JSONLD_CONTEXT: "jsonld-context",
+  JSONLD_ENTITY: "jsonld-entity",
+  JSONLD_TYPE: "jsonld-type",
 } as const;
