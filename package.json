@@ -73,7 +73,7 @@
     "axios": "1.13.1",
     "tsdown": "0.15.11",
     "typedoc": "0.28.14",
-    "vitest": "4.0.4"
+    "vitest": "4.0.5"
   },
   "packageManager": "yarn@4.10.3",
   "engines": {
