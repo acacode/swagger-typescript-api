@@ -65,11 +65,11 @@ export class SchemaRoutes {
     ]);
   }
 
-  createRequestsMap = (routeInfoByMethodsMap) => {
-    const parameters = lodash.get(routeInfoByMethodsMap, "parameters");
+  createRequestsMap = (routesByMethod) => {
+    const parameters = lodash.get(routesByMethod, "parameters");
 
     return lodash.reduce(
-      routeInfoByMethodsMap,
+      routesByMethod,
       (acc, requestInfo, method) => {
         if (
           method.startsWith("x-") ||
@@ -91,10 +91,10 @@ export class SchemaRoutes {
     );
   };
 
-  parseRouteName = (originalRouteName) => {
+  parseRouteName = (rawRoute) => {
     const routeName =
-      this.config.hooks.onPreBuildRoutePath(originalRouteName) ||
-      originalRouteName;
+      this.config.hooks.onPreBuildRoutePath(rawRoute) ||
+      rawRoute;
 
     // TODO forbid leading symbols [\]^` in a major release (allowed yet for backwards compatibility)
     const pathParamMatches = (routeName || "").match(
@@ -157,15 +157,13 @@ export class SchemaRoutes {
       );
 
       for (const paramName of paramNames) {
-        // @ts-expect-error TS(2339) FIXME: Property 'includes' does not exist on type 'unknow... Remove this comment to see the full error message
-        if (paramName.includes("-")) {
+        if (typeof paramName === "string" && paramName.includes("-")) {
           consola.warn("wrong query param name", paramName);
         }
 
         queryParams.push({
           $match: paramName,
-          // @ts-expect-error TS(2345) FIXME: Argument of type 'unknown' is not assignable to pa... Remove this comment to see the full error message
-          name: lodash.camelCase(paramName),
+          name: typeof paramName === "string" ? lodash.camelCase(paramName) : lodash.camelCase(String(paramName)),
           required: true,
           type: "string",
           description: "",
@@ -178,7 +176,7 @@ export class SchemaRoutes {
     }
 
     const result = {
-      originalRoute: originalRouteName || "",
+      originalRoute: rawRoute || "",
       route: fixedRoute,
       pathParams,
       queryParams,
@@ -416,8 +414,7 @@ export class SchemaRoutes {
     lodash.reduce(
       requestInfos,
       (acc, requestInfo, status) => {
-        // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
-        const contentTypes = this.getContentTypes([requestInfo]);
+        const contentTypes = this.getContentTypes([requestInfo], operationId);
 
         return [
           ...acc,
