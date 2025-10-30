@@ -93,8 +93,7 @@ export class SchemaRoutes {
 
   parseRouteName = (rawRoute) => {
     const routeName =
-      this.config.hooks.onPreBuildRoutePath(rawRoute) ||
-      rawRoute;
+      this.config.hooks.onPreBuildRoutePath(rawRoute) || rawRoute;
 
     // TODO forbid leading symbols [\]^` in a major release (allowed yet for backwards compatibility)
     const pathParamMatches = (routeName || "").match(
@@ -163,7 +162,10 @@ export class SchemaRoutes {
 
         queryParams.push({
           $match: paramName,
-          name: typeof paramName === "string" ? lodash.camelCase(paramName) : lodash.camelCase(String(paramName)),
+          name:
+            typeof paramName === "string"
+              ? lodash.camelCase(paramName)
+              : lodash.camelCase(String(paramName)),
           required: true,
           type: "string",
           description: "",
