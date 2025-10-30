@@ -67,7 +67,7 @@
     "@changesets/changelog-github": "0.5.1",
     "@changesets/cli": "2.29.7",
     "@tsconfig/node20": "20.1.6",
-    "@tsconfig/strictest": "2.0.6",
+    "@tsconfig/strictest": "2.0.7",
     "@types/node": "24.9.2",
     "@types/swagger2openapi": "7.0.4",
     "axios": "1.13.1",
