@@ -2941,9 +2941,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -4947,9 +4986,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -5229,9 +5307,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -5546,9 +5663,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -6566,9 +6722,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -7384,9 +7579,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -7744,9 +7978,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -8062,9 +8335,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -8428,9 +8740,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -9298,9 +9649,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -9924,9 +10314,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -10241,9 +10670,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -10564,9 +11032,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -10917,9 +11424,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -11271,9 +11817,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -11650,9 +12235,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -11997,9 +12621,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -50405,9 +51068,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -66208,9 +66910,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -67247,9 +67988,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -67745,9 +68525,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -68194,9 +69013,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -68590,9 +69448,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -68904,9 +69801,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -69266,9 +70202,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -69980,9 +70955,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -70565,9 +71579,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -70994,9 +72047,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -71459,9 +72551,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -71988,9 +73119,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -72380,9 +73550,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -72820,9 +74029,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -73757,9 +75005,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -74566,9 +75853,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -74961,9 +76287,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -75274,9 +76639,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -75570,9 +76974,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -75904,9 +77347,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -76647,9 +78129,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -77546,9 +79067,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -79372,9 +80932,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -80153,9 +81752,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -80504,9 +82142,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
@@ -80961,9 +82638,48 @@ export class HttpClient<SecurityDataType = unknown> {
             : payloadFormatter(body),
       },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      // Create a Proxy that wraps the Response without mutating it
+      // This ensures compatibility with ESM environments where Response is read-only
+      // while maintaining all Response properties and methods as live/dynamic values
+      const r = new Proxy(response, {
+        get(target, prop) {
+          // Custom properties for our API wrapper
+          if (prop === "data") {
+            return target._data !== undefined
+              ? target._data
+              : (null as unknown as T);
+          }
+          if (prop === "error") {
+            return target._error !== undefined
+              ? target._error
+              : (null as unknown as E);
+          }
+
+          // Delegate everything else to the actual Response object
+          const value = target[prop];
+
+          // Bind methods to the original response to maintain correct 'this' context
+          if (typeof value === "function") {
+            return value.bind(target);
+          }
+
+          return value;
+        },
+        set(target, prop, value) {
+          // Allow setting data and error properties
+          if (prop === "data") {
+            target._data = value;
+            return true;
+          }
+          if (prop === "error") {
+            target._error = value;
+            return true;
+          }
+
+          // Prevent mutation of Response properties (ESM safety)
+          return false;
+        },
+      }) as HttpResponse<T, E>;
 
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
