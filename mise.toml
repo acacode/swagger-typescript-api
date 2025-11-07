@@ -1,4 +1,3 @@
 [tools]
 node = "25"
-pinact = "latest"
 yarn = "4"
