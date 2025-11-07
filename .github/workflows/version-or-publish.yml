@@ -20,17 +20,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout tree
-        uses: actions/checkout@v5
-      - name: Set-up Node.js
-        uses: actions/setup-node@v6
-        with:
-          check-latest: true
-          node-version-file: .nvmrc
-          package-manager-cache: false
-      - run: corepack enable
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - name: Set-up Mise
+        uses: jdx/mise-action@be3be2260bc02bc3fbf94c5e2fed8b7964baf074 # v3.4.0
       - run: yarn install --immutable
       - name: Create Release Pull Request
-        uses: changesets/action@v1
+        uses: changesets/action@e0145edc7d9d8679003495b11f87bd8ef63c0cba # v1.5.3
         with:
           version: yarn changeset version
           publish: yarn npm publish --tolerate-republish
