@@ -2981,6 +2981,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"obug@npm:^0.1.1":
+  version: 0.1.3
+  resolution: "obug@npm:0.1.3"
+  peerDependencies:
+    ms: ^2.0.0
+  peerDependenciesMeta:
+    ms:
+      optional: true
+  checksum: 10c0/e62fb26a3a43b89bd36d977151d3592d6215be6b2c9568c5d166e01b7a444791a58f9585f421b77aa4203fc0dc2f9b440fdcc244970629db259b272da180dfbe
+  languageName: node
+  linkType: hard
+
 "ohash@npm:^2.0.11":
   version: 2.0.11
   resolution: "ohash@npm:2.0.11"
@@ -3286,19 +3298,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rolldown-plugin-dts@npm:^0.17.5":
-  version: 0.17.5
-  resolution: "rolldown-plugin-dts@npm:0.17.5"
+"rolldown-plugin-dts@npm:^0.17.6":
+  version: 0.17.6
+  resolution: "rolldown-plugin-dts@npm:0.17.6"
   dependencies:
     "@babel/generator": "npm:^7.28.5"
     "@babel/parser": "npm:^7.28.5"
     "@babel/types": "npm:^7.28.5"
     ast-kit: "npm:^2.2.0"
     birpc: "npm:^2.8.0"
-    debug: "npm:^4.4.3"
     dts-resolver: "npm:^2.1.3"
     get-tsconfig: "npm:^4.13.0"
     magic-string: "npm:^0.30.21"
+    obug: "npm:^0.1.1"
   peerDependencies:
     "@ts-macro/tsc": ^0.3.6
     "@typescript/native-preview": ">=7.0.0-dev.20250601.1"
@@ -3314,7 +3326,7 @@ __metadata:
       optional: true
     vue-tsc:
       optional: true
-  checksum: 10c0/5b8a05ce53bc9005d045fc44b97c23372d210e650253fba8a71192dca024fb46ada6960d128323fd33b79ca441953859324fd37d33ea0c096f6f76db8287d8ea
+  checksum: 10c0/0f8e42bdedcdbf1fb23f276522d95ff9cb2ab4e250e61474f8a1498d21614571acde92e4c36b7b34e12877e3d4f600893b11666f73651f1510a0aad80cc07208
   languageName: node
   linkType: hard
 
@@ -3726,7 +3738,7 @@ __metadata:
     openapi-types: "npm:^12.1.3"
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
-    tsdown: "npm:0.16.2"
+    tsdown: "npm:0.16.3"
     typedoc: "npm:0.28.14"
     typescript: "npm:~5.9.3"
     vitest: "npm:4.0.8"
@@ -3850,25 +3862,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:0.16.2":
-  version: 0.16.2
-  resolution: "tsdown@npm:0.16.2"
+"tsdown@npm:0.16.3":
+  version: 0.16.3
+  resolution: "tsdown@npm:0.16.3"
   dependencies:
     ansis: "npm:^4.2.0"
     cac: "npm:^6.7.14"
     chokidar: "npm:^4.0.3"
-    debug: "npm:^4.4.3"
     diff: "npm:^8.0.2"
     empathic: "npm:^2.0.0"
     hookable: "npm:^5.5.3"
+    obug: "npm:^0.1.1"
     rolldown: "npm:1.0.0-beta.49"
-    rolldown-plugin-dts: "npm:^0.17.5"
+    rolldown-plugin-dts: "npm:^0.17.6"
     semver: "npm:^7.7.3"
     tinyexec: "npm:^1.0.2"
     tinyglobby: "npm:^0.2.15"
     tree-kill: "npm:^1.2.2"
     unconfig-core: "npm:^7.4.1"
-    unrun: "npm:^0.2.7"
+    unrun: "npm:^0.2.8"
   peerDependencies:
     "@arethetypeswrong/core": ^0.18.1
     "@vitejs/devtools": ^0.0.0-alpha.17
@@ -3891,7 +3903,7 @@ __metadata:
       optional: true
   bin:
     tsdown: dist/run.mjs
-  checksum: 10c0/7c5abd74672c8b174399ed12faa38846af5bbd4016a1451d01e577bf104f36224a52b22c101fa31c4b66dc5064d16ec74a1b28ab5188882adbb5a34dfc613fd7
+  checksum: 10c0/21e234d462d837c8f6c2af02bad32bb1e0413c95f76fb3748ac6c3e74ec8f496417faaf8dc02449237db3e24a4934d82b930c1bd51b6380f72cac3d3da846236
   languageName: node
   linkType: hard
 
@@ -3988,7 +4000,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unrun@npm:^0.2.7":
+"unrun@npm:^0.2.8":
   version: 0.2.8
   resolution: "unrun@npm:0.2.8"
   dependencies:
