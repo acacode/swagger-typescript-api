@@ -19,6 +19,7 @@ jobs:
       - name: Set-up Mise
         uses: jdx/mise-action@be3be2260bc02bc3fbf94c5e2fed8b7964baf074 # v3.4.0
         with:
+          cache: false
           mise_toml: |
             [tools]
             node = "${{ matrix.node-version }}"
