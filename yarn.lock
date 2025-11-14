@@ -1162,10 +1162,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsconfig/node20@npm:20.1.6":
-  version: 20.1.6
-  resolution: "@tsconfig/node20@npm:20.1.6"
-  checksum: 10c0/736bca8c405222e78f77da068bf705b398e3afb3f2ec3c1d2a8792505283863bef8cca5646358fcbabd3b07c6fbbf0b1acdf09aa182254fe60eb519827737f09
+"@tsconfig/node20@npm:20.1.7":
+  version: 20.1.7
+  resolution: "@tsconfig/node20@npm:20.1.7"
+  checksum: 10c0/789d6ab54f80ea285fcd9b1733584480d4d15f9bde966398d358c002db0780a70465f4837054f10af5d13c4520b46bcdf86cd70735e5ae236d990fb3ba7ccfce
   languageName: node
   linkType: hard
 
@@ -3722,7 +3722,7 @@ __metadata:
     "@biomejs/wasm-nodejs": "npm:2.3.5"
     "@changesets/changelog-github": "npm:0.5.1"
     "@changesets/cli": "npm:2.29.7"
-    "@tsconfig/node20": "npm:20.1.6"
+    "@tsconfig/node20": "npm:20.1.7"
     "@tsconfig/strictest": "npm:2.0.8"
     "@types/lodash": "npm:^4.17.20"
     "@types/node": "npm:24.10.1"
