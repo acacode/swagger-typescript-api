@@ -2993,6 +2993,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"obug@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "obug@npm:2.0.0"
+  peerDependencies:
+    ms: ^2.0.0
+  peerDependenciesMeta:
+    ms:
+      optional: true
+  checksum: 10c0/6508c9e1bdeebfd940e13bd974833c3ed176fb07828b1e7aea5e51fcae3498ce8b4f1f7a7871fd4953a3e5ba445c9cd2824ccdf2488af7ee0f68dbecca29bf75
+  languageName: node
+  linkType: hard
+
 "ohash@npm:^2.0.11":
   version: 2.0.11
   resolution: "ohash@npm:2.0.11"
@@ -3738,7 +3750,7 @@ __metadata:
     openapi-types: "npm:^12.1.3"
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
-    tsdown: "npm:0.16.4"
+    tsdown: "npm:0.16.5"
     typedoc: "npm:0.28.14"
     typescript: "npm:~5.9.3"
     vitest: "npm:4.0.9"
@@ -3862,9 +3874,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:0.16.4":
-  version: 0.16.4
-  resolution: "tsdown@npm:0.16.4"
+"tsdown@npm:0.16.5":
+  version: 0.16.5
+  resolution: "tsdown@npm:0.16.5"
   dependencies:
     ansis: "npm:^4.2.0"
     cac: "npm:^6.7.14"
@@ -3872,7 +3884,7 @@ __metadata:
     diff: "npm:^8.0.2"
     empathic: "npm:^2.0.0"
     hookable: "npm:^5.5.3"
-    obug: "npm:^1.0.0"
+    obug: "npm:^2.0.0"
     rolldown: "npm:1.0.0-beta.50"
     rolldown-plugin-dts: "npm:^0.17.7"
     semver: "npm:^7.7.3"
@@ -3880,7 +3892,7 @@ __metadata:
     tinyglobby: "npm:^0.2.15"
     tree-kill: "npm:^1.2.2"
     unconfig-core: "npm:^7.4.1"
-    unrun: "npm:^0.2.9"
+    unrun: "npm:^0.2.10"
   peerDependencies:
     "@arethetypeswrong/core": ^0.18.1
     "@vitejs/devtools": ^0.0.0-alpha.17
@@ -3903,7 +3915,7 @@ __metadata:
       optional: true
   bin:
     tsdown: dist/run.mjs
-  checksum: 10c0/dcb54e62e0ba7c7d9653e62a8b664e734a1579543b727dc8f56f72d67005c2ee9092bbd6b625e5aa32c9c92d22c951303483ffe21276eae4ea0cc8e8666b5b4e
+  checksum: 10c0/02926fb62789b797063e12d498dc1d949cdc4a72b03a56c8567fedb6b412253539606d986bb09c8e6ee8d361a662a5a83bf670e6d79b0fc5a77d87b82ab5c1b7
   languageName: node
   linkType: hard
 
@@ -4000,9 +4012,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unrun@npm:^0.2.9":
-  version: 0.2.9
-  resolution: "unrun@npm:0.2.9"
+"unrun@npm:^0.2.10":
+  version: 0.2.10
+  resolution: "unrun@npm:0.2.10"
   dependencies:
     "@oxc-project/runtime": "npm:^0.97.0"
     rolldown: "npm:1.0.0-beta.50"
@@ -4013,7 +4025,7 @@ __metadata:
       optional: true
   bin:
     unrun: dist/cli.mjs
-  checksum: 10c0/6a3c175c11067142f3c0c16d30727168f201212cc08d0d418862b50cfb68ade776cab8e3598d664c0072ab8046c5293fdc378764cebc0c8ac2ecaac35e95121a
+  checksum: 10c0/912276eafa56a74af11ca665af59fae42ebdfeeeb0169afca438ff300ce68386d94e1369ac92bb974d5acb136ed0e992fe93ce186c0aed7dce963162772b8234
   languageName: node
   linkType: hard
 
