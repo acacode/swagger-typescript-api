@@ -101,6 +101,11 @@ const generateCommand = defineCommand({
       description: "generate axios http client",
       default: false,
     },
+    ky: {
+      type: "boolean",
+      description: "generate ky http client",
+      default: false,
+    },
     "clean-output": {
       type: "boolean",
       description:
@@ -314,6 +319,8 @@ const generateCommand = defineCommand({
       httpClientType:
         args["http-client"] || args.axios
           ? HTTP_CLIENT.AXIOS
+          : args.ky
+          ? HTTP_CLIENT.KY
           : HTTP_CLIENT.FETCH,
       input: path.resolve(process.cwd(), args.path as string),
       modular: args.modular,

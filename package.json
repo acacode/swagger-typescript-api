@@ -1,7 +1,7 @@
 {
   "name": "swagger-typescript-api",
   "version": "13.2.16",
-  "description": "Generate the API client for Fetch or Axios from an OpenAPI Specification",
+  "description": "Generate the API client for Fetch, Axios, or Ky from an OpenAPI Specification",
   "homepage": "https://github.com/acacode/swagger-typescript-api",
   "bugs": "https://github.com/acacode/swagger-typescript-api/issues",
   "repository": "github:acacode/swagger-typescript-api",
@@ -13,17 +13,17 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
+      "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
     "./cli": {
-      "import": "./dist/cli.js",
+      "import": "./dist/cli.mjs",
       "require": "./dist/cli.cjs"
     },
     "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "bin": {
     "sta": "./dist/cli.js",
@@ -71,6 +71,7 @@
     "@types/node": "24.10.1",
     "@types/swagger2openapi": "7.0.4",
     "axios": "1.13.2",
+    "ky": "1.14.0",
     "tsdown": "0.16.4",
     "typedoc": "0.28.14",
     "vitest": "4.0.9"
