@@ -84,6 +84,9 @@ export class CodeGenConfig {
     routeTypes: "route-types",
     httpClient: "http-client",
     outOfModuleApi: "Common",
+    jsonldContext: "jsonld-context",
+    jsonldEntity: "jsonld-entity",
+    jsonldUtils: "jsonld-utils",
   };
   routeNameDuplicatesMap = new Map();
   hooks: Hooks = {
@@ -141,6 +144,9 @@ export class CodeGenConfig {
     httpClient: "",
     routeTypes: "",
     routeName: "",
+    jsonldContextDataContract: "",
+    jsonldEntityDataContract: "",
+    jsonldUtils: "",
   };
   schemaParsers: Record<string, (...args: unknown[]) => MonoSchemaParser> = {};
   toJS = false;
@@ -179,6 +185,20 @@ export class CodeGenConfig {
   specificArgNameResolverName = "arg";
 
   successResponseStatusRange = [200, 299];
+
+  /** JSON-LD specific configuration options */
+  jsonLdOptions = {
+    /** Generate context interfaces */
+    generateContext: true,
+    /** Enforce strict JSON-LD typing */
+    strictTyping: false,
+    /** Prefix for entity interfaces */
+    entityPrefix: "",
+    /** Suffix for context interfaces */
+    contextSuffix: "Context",
+    /** Generate utility types for JSON-LD */
+    generateUtils: true,
+  };
 
   extractingOptions: Partial<ExtractingOptions> = {
     requestBodySuffix: ["Payload", "Body", "Input"],
@@ -390,6 +410,18 @@ export class CodeGenConfig {
       "relative-json-pointer": () => this.Ts.Keyword.String,
       regex: () => this.Ts.Keyword.String,
     },
+    // JSON-LD specific types
+    "jsonld-iri": () => this.Ts.Keyword.String,
+    "jsonld-literal": (schema) => this.getJsonLdLiteralType(schema),
+    "jsonld-node": () => "JsonLdNode",
+    "jsonld-context": () =>
+      this.Ts.UnionType([
+        this.Ts.Keyword.String,
+        this.Ts.Keyword.Object,
+        this.Ts.ArrayType(
+          this.Ts.UnionType([this.Ts.Keyword.String, this.Ts.Keyword.Object]),
+        ),
+      ]),
   };
 
   templateInfos = [
@@ -403,6 +435,15 @@ export class CodeGenConfig {
     { name: "httpClient", fileName: "http-client" },
     { name: "routeTypes", fileName: "route-types" },
     { name: "routeName", fileName: "route-name" },
+    {
+      name: "jsonldContextDataContract",
+      fileName: "jsonld-context-data-contract",
+    },
+    {
+      name: "jsonldEntityDataContract",
+      fileName: "jsonld-entity-data-contract",
+    },
+    { name: "jsonldUtils", fileName: "jsonld-utils" },
   ];
 
   templateExtensions = [".eta", ".ejs"];
@@ -438,6 +479,51 @@ export class CodeGenConfig {
     this.jsEmptyTypes = [this.Ts.Keyword.Null, this.Ts.Keyword.Undefined];
     this.componentTypeNameResolver = new ComponentTypeNameResolver(this, []);
   }
+
+  /** Helper method to determine JSON-LD literal type */
+  getJsonLdLiteralType = (schema: any): string => {
+    if (schema && typeof schema === "object") {
+      // Check for @type in schema to determine literal type
+      if (schema["@type"]) {
+        const type = schema["@type"];
+        switch (type) {
+          case "xsd:string":
+          case "http://www.w3.org/2001/XMLSchema#string":
+            return this.Ts.Keyword.String;
+          case "xsd:integer":
+          case "xsd:int":
+          case "http://www.w3.org/2001/XMLSchema#integer":
+          case "http://www.w3.org/2001/XMLSchema#int":
+            return this.Ts.Keyword.Number;
+          case "xsd:boolean":
+          case "http://www.w3.org/2001/XMLSchema#boolean":
+            return this.Ts.Keyword.Boolean;
+          case "xsd:dateTime":
+          case "http://www.w3.org/2001/XMLSchema#dateTime":
+            return this.Ts.Keyword.String; // or Date if preferred
+          default:
+            return this.Ts.Keyword.String;
+        }
+      }
+
+      // Fallback to primitive type detection
+      if (schema.type) {
+        switch (schema.type) {
+          case "string":
+            return this.Ts.Keyword.String;
+          case "number":
+          case "integer":
+            return this.Ts.Keyword.Number;
+          case "boolean":
+            return this.Ts.Keyword.Boolean;
+          default:
+            return this.Ts.Keyword.String;
+        }
+      }
+    }
+
+    return this.Ts.Keyword.String;
+  };
 
   update = (update: Partial<GenerateApiConfiguration["config"]>) => {
     objectAssign(this, update);
