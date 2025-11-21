@@ -73,7 +73,8 @@ export class ObjectSchemaParser extends MonoSchemaParser {
         name: fieldName,
         value: fieldValue,
         field: this.config.Ts.TypeField({
-          readonly: readOnly && this.config.addReadonly,
+          readonly:
+            (readOnly && this.config.addReadonly) || this.config.immutable,
           optional: !required,
           key: fieldName,
           value: fieldValue,
@@ -101,10 +102,13 @@ export class ObjectSchemaParser extends MonoSchemaParser {
         $$raw: { additionalProperties },
         description: "",
         isRequired: false,
-        field: this.config.Ts.InterfaceDynamicField(
-          interfaceKeysContent,
-          this.config.Ts.Keyword.Any,
-        ),
+        field: this.config.Ts.InterfaceDynamicField({
+          readonly:
+            (additionalProperties.readOnly && this.config.addReadonly) ||
+            this.config.immutable,
+          key: interfaceKeysContent,
+          value: this.config.Ts.Keyword.Any,
+        }),
       });
     }
 
