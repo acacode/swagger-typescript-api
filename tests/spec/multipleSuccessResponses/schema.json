@@ -1,0 +1,225 @@
+{
+  "swagger": "2.0",
+  "schemes": ["https"],
+  "host": "6-dot-authentiqio.appspot.com",
+  "basePath": "/",
+  "info": {
+    "contact": {
+      "email": "hello@authentiq.com",
+      "name": "Authentiq team",
+      "url": "http://authentiq.io/support"
+    },
+    "description": "Strong authentication, without the passwords.",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "termsOfService": "http://authentiq.com/terms/",
+    "title": "Authentiq",
+    "version": "6",
+    "x-apisguru-categories": ["security"],
+    "x-logo": {
+      "backgroundColor": "#F26641",
+      "url": "https://api.apis.guru/v2/cache/logo/https_www.authentiq.com_theme_images_authentiq-logo-a-inverse.svg"
+    },
+    "x-origin": [
+      {
+        "format": "swagger",
+        "url": "https://raw.githubusercontent.com/AuthentiqID/authentiq-docs/master/docs/swagger/issuer.yaml",
+        "version": "2.0"
+      }
+    ],
+    "x-preferred": true,
+    "x-providerName": "6-dot-authentiqio.appspot.com"
+  },
+  "parameters": {
+    "AuthentiqID": {
+      "description": "Authentiq ID to register",
+      "in": "body",
+      "name": "body",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/AuthentiqID"
+      }
+    },
+    "JobID": {
+      "description": "Job ID (20 chars)",
+      "in": "path",
+      "name": "job",
+      "required": true,
+      "type": "string"
+    },
+    "PK": {
+      "description": "Public Signing Key - Authentiq ID (43 chars)",
+      "in": "path",
+      "name": "PK",
+      "required": true,
+      "type": "string"
+    },
+    "PushToken": {
+      "description": "Push Token.",
+      "in": "body",
+      "name": "body",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/PushToken"
+      }
+    },
+    "Scope": {
+      "description": "Claims of scope",
+      "in": "body",
+      "name": "body",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/Claims"
+      }
+    }
+  },
+  "responses": {
+    "ErrorResponse": {
+      "description": "Error response",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    }
+  },
+  "paths": {
+    "/scope/{job}": {
+      "put": {
+        "consumes": ["application/jwt"],
+        "description": "authority updates a JWT with its signature\nSee: https://github.com/skion/authentiq/wiki/JWT-Examples\n",
+        "operationId": "sign_update",
+        "parameters": [
+          {
+            "$ref": "#/parameters/JobID"
+          }
+        ],
+        "produces": ["application/jwt"],
+        "responses": {
+          "200": {
+            "description": "Successfully updated",
+            "schema": {
+              "properties": {
+                "jwt": {
+                  "description": "result is JWT or JSON??",
+                  "type": "string"
+                },
+                "status": {
+                  "description": "ready",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "204": {
+            "description": "No content"
+          },
+          "404": {
+            "description": "Job not found `unknown-job`",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "409": {
+            "description": "Job not confirmed yet `confirm-first`",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        },
+        "tags": ["scope", "put"]
+      }
+    }
+  },
+  "definitions": {
+    "AuthentiqID": {
+      "description": "Authentiq ID in JWT format, self-signed.\n",
+      "properties": {
+        "devtoken": {
+          "description": "device token for push messages",
+          "type": "string"
+        },
+        "sub": {
+          "description": "UUID and public signing key",
+          "type": "string"
+        }
+      },
+      "required": ["sub"]
+    },
+    "Claims": {
+      "description": "Claim in JWT format, self- or issuer-signed. \n",
+      "properties": {
+        "email": {
+          "description": "",
+          "type": "string"
+        },
+        "phone": {
+          "description": "",
+          "type": "string"
+        },
+        "scope": {
+          "description": "claim scope",
+          "type": "string"
+        },
+        "sub": {
+          "description": "UUID",
+          "type": "string"
+        },
+        "type": {
+          "description": "",
+          "type": "string"
+        }
+      },
+      "required": ["sub", "scope"]
+    },
+    "Error": {
+      "properties": {
+        "detail": {
+          "type": "string"
+        },
+        "error": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "description": "unique uri for this error",
+          "type": "string"
+        }
+      },
+      "required": ["error"]
+    },
+    "PushToken": {
+      "description": "PushToken in JWT format, self-signed. \n",
+      "properties": {
+        "aud": {
+          "description": "audience (URI)",
+          "type": "string"
+        },
+        "exp": {
+          "type": "integer"
+        },
+        "iat": {
+          "type": "integer"
+        },
+        "iss": {
+          "description": "issuer (URI)",
+          "type": "string"
+        },
+        "nbf": {
+          "type": "integer"
+        },
+        "sub": {
+          "description": "UUID and public signing key",
+          "type": "string"
+        }
+      },
+      "required": ["sub", "iss", "aud"]
+    }
+  }
+}
