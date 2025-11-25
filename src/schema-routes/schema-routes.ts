@@ -348,6 +348,7 @@ export class SchemaRoutes {
     operationId,
     defaultType,
     typeName,
+    doNotMatchUnnamedTypesByContent,
   }) => {
     // TODO: make more flexible pick schema without content type
     const schema = this.getSchemaFromRequestType(requestInfo);
@@ -364,9 +365,11 @@ export class SchemaRoutes {
         (parsedSchema) =>
           this.typeNameFormatter.format(parsedSchema.name) === content,
       );
-      const foundSchemaByContent = parsedSchemas.find((parsedSchema) =>
-        lodash.isEqual(parsedSchema.content, content),
-      );
+      const foundSchemaByContent = doNotMatchUnnamedTypesByContent
+        ? null
+        : parsedSchemas.find((parsedSchema) =>
+            lodash.isEqual(parsedSchema.content, content),
+          );
 
       const foundSchema = foundedSchemaByName || foundSchemaByContent;
 
@@ -412,6 +415,7 @@ export class SchemaRoutes {
     parsedSchemas,
     operationId,
     defaultType,
+    doNotMatchUnnamedTypesByContent,
   }) =>
     lodash.reduce(
       requestInfos,
@@ -432,6 +436,7 @@ export class SchemaRoutes {
                 parsedSchemas,
                 operationId,
                 defaultType,
+                doNotMatchUnnamedTypesByContent,
               }),
             ),
             description:
@@ -460,6 +465,8 @@ export class SchemaRoutes {
       parsedSchemas,
       operationId,
       defaultType: this.config.defaultResponseType,
+      doNotMatchUnnamedTypesByContent:
+        this.config.doNotMatchUnnamedTypesByContent,
     });
 
     const successResponse = responseInfos.find(
@@ -538,7 +545,13 @@ export class SchemaRoutes {
     );
   };
 
-  getRequestBodyInfo = (routeInfo, routeParams, parsedSchemas, routeName) => {
+  getRequestBodyInfo = (
+    routeInfo,
+    routeParams,
+    parsedSchemas,
+    routeName,
+    doNotMatchUnnamedTypesByContent,
+  ) => {
     const { requestBody, consumes, requestBodyName, operationId } = routeInfo;
     let schema = null;
     let content = null;
@@ -583,6 +596,7 @@ export class SchemaRoutes {
           parsedSchemas,
           operationId,
           typeName,
+          doNotMatchUnnamedTypesByContent,
         }),
       );
 
@@ -943,6 +957,7 @@ export class SchemaRoutes {
       routeParams,
       parsedSchemas,
       routeName,
+      this.config.doNotMatchUnnamedTypesByContent,
     );
 
     const requestParamsSchema = this.createRequestParamsSchema({
