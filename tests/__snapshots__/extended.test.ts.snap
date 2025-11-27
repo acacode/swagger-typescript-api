@@ -8124,7 +8124,7 @@ export class Api<
      * @request GET:/v2
      */
     getVersionDetailsv2: (params: RequestParams = {}) =>
-      this.request<GetVersionDetailsv2Data, any>({
+      this.request<GetVersionDetailsv2Data | void, any>({
         path: \`/v2\`,
         method: "GET",
         format: "json",
@@ -8490,7 +8490,7 @@ export class Api<
      * @request GET:/v2
      */
     getVersionDetailsv2: (params: RequestParams = {}) =>
-      this.request<GetVersionDetailsv2Data, any>({
+      this.request<GetVersionDetailsv2Data | void, any>({
         path: \`/v2\`,
         method: "GET",
         format: "json",
@@ -9600,7 +9600,7 @@ export class Api<
       { job, ...query }: SignRetrieveParams,
       params: RequestParams = {},
     ) =>
-      this.request<SignRetrieveData, SignRetrieveError>({
+      this.request<SignRetrieveData | void, SignRetrieveError>({
         path: \`/scope/\${job}\`,
         method: "GET",
         format: "json",
@@ -9618,7 +9618,7 @@ export class Api<
       { job, ...query }: SignRetrieveHeadParams,
       params: RequestParams = {},
     ) =>
-      this.request<SignRetrieveHeadData, SignRetrieveHeadError>({
+      this.request<SignRetrieveHeadData | void, SignRetrieveHeadError>({
         path: \`/scope/\${job}\`,
         method: "HEAD",
         ...params,
@@ -11330,7 +11330,7 @@ export class Api<
       parameters: TdeCertificate,
       params: RequestParams = {},
     ) =>
-      this.request<ManagedInstanceTdeCertificatesCreateData, void>({
+      this.request<ManagedInstanceTdeCertificatesCreateData | void, void>({
         path: \`/subscriptions/\${subscriptionId}/resourceGroups/\${resourceGroupName}/providers/Microsoft.Sql/managedInstances/\${managedInstanceName}/tdeCertificates\`,
         method: "POST",
         query: query,
@@ -51037,7 +51037,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<
-        OauthAuthorizationsGetOrCreateAuthorizationForAppData,
+        OauthAuthorizationsGetOrCreateAuthorizationForAppData | Authorization,
         BasicError | ValidationError
       >({
         path: \`/authorizations/clients/\${clientId}\`,
@@ -51067,7 +51067,8 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<
-        OauthAuthorizationsGetOrCreateAuthorizationForAppAndFingerprintData,
+        | OauthAuthorizationsGetOrCreateAuthorizationForAppAndFingerprintData
+        | Authorization,
         ValidationError
       >({
         path: \`/authorizations/clients/\${clientId}/\${fingerprint}\`,
@@ -52857,7 +52858,7 @@ export class Api<
       data: ActivityMarkNotificationsAsReadPayload,
       params: RequestParams = {},
     ) =>
-      this.request<ActivityMarkNotificationsAsReadData, BasicError>({
+      this.request<ActivityMarkNotificationsAsReadData | void, BasicError>({
         path: \`/notifications\`,
         method: "PUT",
         body: data,
@@ -53024,7 +53025,7 @@ export class Api<
       data: ActionsCreateOrUpdateOrgSecretPayload,
       params: RequestParams = {},
     ) =>
-      this.request<ActionsCreateOrUpdateOrgSecretData, any>({
+      this.request<ActionsCreateOrUpdateOrgSecretData | void, any>({
         path: \`/orgs/\${org}/actions/secrets/\${secretName}\`,
         method: "PUT",
         body: data,
@@ -54145,7 +54146,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<
-        OrgsConvertMemberToOutsideCollaboratorData,
+        OrgsConvertMemberToOutsideCollaboratorData | void,
         OrgsConvertMemberToOutsideCollaboratorError
       >({
         path: \`/orgs/\${org}/outside_collaborators/\${username}\`,
@@ -55127,7 +55128,7 @@ export class Api<
       }: TeamsCheckPermissionsForRepoInOrgParams,
       params: RequestParams = {},
     ) =>
-      this.request<TeamsCheckPermissionsForRepoInOrgData, void>({
+      this.request<TeamsCheckPermissionsForRepoInOrgData | void, void>({
         path: \`/orgs/\${org}/teams/\${teamSlug}/repos/\${owner}/\${repo}\`,
         method: "GET",
         format: "json",
@@ -56228,7 +56229,7 @@ export class Api<
       data: ActionsCreateOrUpdateRepoSecretPayload,
       params: RequestParams = {},
     ) =>
-      this.request<ActionsCreateOrUpdateRepoSecretData, any>({
+      this.request<ActionsCreateOrUpdateRepoSecretData | void, any>({
         path: \`/repos/\${owner}/\${repo}/actions/secrets/\${secretName}\`,
         method: "PUT",
         body: data,
@@ -59430,7 +59431,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<
-        ReactionsCreateForCommitCommentData,
+        ReactionsCreateForCommitCommentData | Reaction,
         | {
             documentation_url: string;
             message: string;
@@ -59493,7 +59494,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<
-        ReactionsCreateForIssueCommentData,
+        ReactionsCreateForIssueCommentData | Reaction,
         | {
             documentation_url: string;
             message: string;
@@ -59527,7 +59528,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<
-        ReactionsCreateForPullRequestReviewCommentData,
+        ReactionsCreateForPullRequestReviewCommentData | Reaction,
         | {
             documentation_url: string;
             message: string;
@@ -59786,7 +59787,10 @@ export class Api<
       data: ReposAddCollaboratorPayload,
       params: RequestParams = {},
     ) =>
-      this.request<ReposAddCollaboratorData, BasicError | ValidationError>({
+      this.request<
+        ReposAddCollaboratorData | void,
+        BasicError | ValidationError
+      >({
         path: \`/repos/\${owner}/\${repo}/collaborators/\${username}\`,
         method: "PUT",
         body: data,
@@ -60022,7 +60026,13 @@ export class Api<
       data: ReposCreateDeploymentPayload,
       params: RequestParams = {},
     ) =>
-      this.request<ReposCreateDeploymentData, ReposCreateDeploymentError>({
+      this.request<
+        | ReposCreateDeploymentData
+        | {
+            message?: string;
+          },
+        ReposCreateDeploymentError
+      >({
         path: \`/repos/\${owner}/\${repo}/deployments\`,
         method: "POST",
         body: data,
@@ -60115,7 +60125,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<
-        ReposCreateOrUpdateFileContentsData,
+        ReposCreateOrUpdateFileContentsData | FileCommit,
         BasicError | ValidationError
       >({
         path: \`/repos/\${owner}/\${repo}/contents/\${path}\`,
@@ -61644,7 +61654,7 @@ export class Api<
       { owner, repo, ...query }: ReposListContributorsParams,
       params: RequestParams = {},
     ) =>
-      this.request<ReposListContributorsData, BasicError>({
+      this.request<ReposListContributorsData | void, BasicError>({
         path: \`/repos/\${owner}/\${repo}/contributors\`,
         method: "GET",
         query: query,
@@ -63579,7 +63589,7 @@ export class Api<
       }: TeamsCheckPermissionsForRepoLegacyParams,
       params: RequestParams = {},
     ) =>
-      this.request<TeamsCheckPermissionsForRepoLegacyData, void>({
+      this.request<TeamsCheckPermissionsForRepoLegacyData | void, void>({
         path: \`/teams/\${teamId}/repos/\${owner}/\${repo}\`,
         method: "GET",
         format: "json",
