@@ -1,4 +1,4 @@
-name: Version or Publish
+iname: Version or Publish
 
 on:
   push:
