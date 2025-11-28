@@ -217,7 +217,7 @@ export interface BlockFeed {
   id?: string;
 }
 
-export interface ChartDataData {
+export type ChartDataData = {
   /** The names of the columns returned as data. */
   columns?: string[];
   /** The actual chart data. */
@@ -228,7 +228,7 @@ export interface ChartDataData {
     name?: string;
   };
   parameters?: object;
-}
+};
 
 export interface ChartDataParams {
   /**
@@ -678,12 +678,12 @@ export interface GetBlockParams {
   username: string;
 }
 
-export interface GetCurrentUserThrottleData {
+export type GetCurrentUserThrottleData = {
   /** Actions taken inside the time window. */
   active_data_rate?: number;
   /** Max possible actions inside the time window (usually 1 minute). */
   data_rate_limit?: number;
-}
+};
 
 export interface GetCurrentUserThrottleParams {
   /** a valid username string */
@@ -8732,13 +8732,12 @@ export interface SignRequestParams {
   test?: number;
 }
 
-/** JWT */
-export interface SignRetrieveData {
+export type SignRetrieveData = {
   exp?: number;
   field?: string;
   /** base64safe encoded public signing key */
   sub?: string;
-}
+};
 
 export type SignRetrieveError = Error;
 
@@ -13323,7 +13322,9 @@ export interface ActivityListRepoNotificationsForAuthenticatedUserParams {
   since?: string;
 }
 
-export type ActivityListReposStarredByAuthenticatedUserData = Repository[];
+export type ActivityListReposStarredByAuthenticatedUserData =
+  | Repository[]
+  | StarredRepository[];
 
 export interface ActivityListReposStarredByAuthenticatedUserParams {
   /**
@@ -13366,7 +13367,9 @@ export enum ActivityListReposStarredByAuthenticatedUserParams1SortEnum {
   Updated = "updated",
 }
 
-export type ActivityListReposStarredByUserData = Repository[];
+export type ActivityListReposStarredByUserData =
+  | Repository[]
+  | StarredRepository[];
 
 export interface ActivityListReposStarredByUserParams {
   /**
@@ -13426,7 +13429,7 @@ export interface ActivityListReposWatchedByUserParams {
   username: string;
 }
 
-export type ActivityListStargazersForRepoData = SimpleUser[];
+export type ActivityListStargazersForRepoData = SimpleUser[] | Stargazer[];
 
 export interface ActivityListStargazersForRepoParams {
   owner: string;
@@ -28162,7 +28165,9 @@ export interface ReposGetCommunityProfileMetricsParams {
   repo: string;
 }
 
-export type ReposGetContentData = ContentTree;
+export type ReposGetContentData =
+  | ContentTree
+  | (ContentDirectory | ContentFile | ContentSymlink | ContentSubmodule);
 
 export interface ReposGetContentParams {
   owner: string;
@@ -60092,7 +60097,10 @@ export class Api<
       data: ReposCreateForkPayload,
       params: RequestParams = {},
     ) =>
-      this.request<ReposCreateForkData, BasicError | ValidationError>({
+      this.request<
+        ReposCreateForkData,
+        (BasicError | ScimError) | BasicError | ValidationError
+      >({
         path: \`/repos/\${owner}/\${repo}/forks\`,
         method: "POST",
         body: data,
@@ -61604,13 +61612,15 @@ export class Api<
       { owner, repo, ...query }: ReposListCommitsParams,
       params: RequestParams = {},
     ) =>
-      this.request<ReposListCommitsData, BasicError>({
-        path: \`/repos/\${owner}/\${repo}/commits\`,
-        method: "GET",
-        query: query,
-        format: "json",
-        ...params,
-      }),
+      this.request<ReposListCommitsData, (BasicError | ScimError) | BasicError>(
+        {
+          path: \`/repos/\${owner}/\${repo}/commits\`,
+          method: "GET",
+          query: query,
+          format: "json",
+          ...params,
+        },
+      ),
 
     /**
      * @description Users with pull access in a repository can view commit statuses for a given ref. The ref can be a SHA, a branch name, or a tag name. Statuses are returned in reverse chronological order. The first status in the list will be the latest one. This resource is also available via a legacy route: \`GET /repos/:owner/:repo/statuses/:ref\`.
@@ -61729,7 +61739,7 @@ export class Api<
       { owner, repo, ...query }: ReposListForksParams,
       params: RequestParams = {},
     ) =>
-      this.request<ReposListForksData, BasicError>({
+      this.request<ReposListForksData, BasicError | ScimError>({
         path: \`/repos/\${owner}/\${repo}/forks\`,
         method: "GET",
         query: query,
@@ -62414,7 +62424,7 @@ export class Api<
     ) =>
       this.request<
         ReposUpdateInformationAboutPagesSiteData,
-        BasicError | ValidationError
+        (BasicError | ScimError) | ValidationError
       >({
         path: \`/repos/\${owner}/\${repo}/pages\`,
         method: "PUT",
@@ -64787,7 +64797,7 @@ export class Api<
     ) =>
       this.request<
         ReposCreateForAuthenticatedUserData,
-        BasicError | ValidationError
+        (BasicError | ScimError) | BasicError | ValidationError
       >({
         path: \`/user/repos\`,
         method: "POST",
