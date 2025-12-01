@@ -329,14 +329,53 @@ export class SchemaRoutes {
 
     /* content: { "multipart/form-data": { schema: {...} }, "application/json": { schema: {...} } } */
 
-    /* for example: dataType = "multipart/form-data" */
+    const contentTypes = Object.keys(content);
+
+    // if there's only one content type, return it
+    if (contentTypes.length === 1 && content[contentTypes[0]]?.schema) {
+      return {
+        ...content[contentTypes[0]].schema,
+        dataType: contentTypes[0],
+      };
+    }
+
+    // Check if there are multiple media types with schemas
+    const schemasWithDataTypes = [];
     for (const dataType in content) {
       if (content[dataType]?.schema) {
-        return {
+        schemasWithDataTypes.push({
           ...content[dataType].schema,
           dataType,
-        };
+        });
       }
+    }
+
+    // If there's only one schema, return it directly
+    if (schemasWithDataTypes.length === 1) {
+      return schemasWithDataTypes[0];
+    }
+
+    // If there are multiple schemas with different structures, create a oneOf schema to generate a union type
+    if (schemasWithDataTypes.length > 1) {
+      // Check if all schemas are structurally the same
+      // If they are, just return the first one
+      const firstSchema = schemasWithDataTypes[0];
+      const allSchemasAreSame = schemasWithDataTypes.every((schema) =>
+        lodash.isEqual(
+          lodash.omit(schema, "dataType"),
+          lodash.omit(firstSchema, "dataType"),
+        ),
+      );
+
+      if (allSchemasAreSame) {
+        return firstSchema;
+      }
+
+      // Otherwise, create a union type
+      return {
+        oneOf: schemasWithDataTypes,
+        dataType: schemasWithDataTypes[0].dataType, // Use the first dataType for compatibility
+      };
     }
 
     return null;
@@ -355,24 +394,47 @@ export class SchemaRoutes {
       this.schemaParserFabric.schemaUtils.getSchemaRefType(requestInfo);
 
     if (schema) {
-      const content = this.schemaParserFabric.getInlineParseContent(
-        schema,
-        typeName,
-        [operationId],
-      );
-      const foundedSchemaByName = parsedSchemas.find(
-        (parsedSchema) =>
-          this.typeNameFormatter.format(parsedSchema.name) === content,
-      );
-      const foundSchemaByContent = parsedSchemas.find((parsedSchema) =>
-        lodash.isEqual(parsedSchema.content, content),
-      );
+      // If we have a oneOf schema (multiple media types), handle it specially
+      if (schema.oneOf) {
+        // Process each schema in the oneOf array
+        const unionTypes = schema.oneOf.map((subSchema) => {
+          return this.schemaParserFabric.getInlineParseContent(
+            subSchema,
+            typeName,
+            [operationId],
+          );
+        });
 
-      const foundSchema = foundedSchemaByName || foundSchemaByContent;
+        // Filter out any duplicates or Any types
+        const filteredTypes =
+          this.schemaParserFabric.schemaUtils.filterSchemaContents(
+            unionTypes,
+            (content) => content !== this.config.Ts.Keyword.Any,
+          );
 
-      return foundSchema
-        ? this.typeNameFormatter.format(foundSchema.name)
-        : content;
+        // Create a union type
+        return this.config.Ts.UnionType(filteredTypes);
+      } else {
+        // Handle single schema as before
+        const content = this.schemaParserFabric.getInlineParseContent(
+          schema,
+          typeName,
+          [operationId],
+        );
+        const foundedSchemaByName = parsedSchemas.find(
+          (parsedSchema) =>
+            this.typeNameFormatter.format(parsedSchema.name) === content,
+        );
+        const foundSchemaByContent = parsedSchemas.find((parsedSchema) =>
+          lodash.isEqual(parsedSchema.content, content),
+        );
+
+        const foundSchema = foundedSchemaByName || foundSchemaByContent;
+
+        return foundSchema
+          ? this.typeNameFormatter.format(foundSchema.name)
+          : content;
+      }
     }
 
     if (refTypeInfo) {
