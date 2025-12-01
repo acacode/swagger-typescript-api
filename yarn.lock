@@ -176,7 +176,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@changesets/apply-release-plan@npm:^7.0.13":
+"@changesets/apply-release-plan@npm:^7.0.14":
   version: 7.0.14
   resolution: "@changesets/apply-release-plan@npm:7.0.14"
   dependencies:
@@ -231,25 +231,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@changesets/cli@npm:2.29.7":
-  version: 2.29.7
-  resolution: "@changesets/cli@npm:2.29.7"
+"@changesets/cli@npm:2.29.8":
+  version: 2.29.8
+  resolution: "@changesets/cli@npm:2.29.8"
   dependencies:
-    "@changesets/apply-release-plan": "npm:^7.0.13"
+    "@changesets/apply-release-plan": "npm:^7.0.14"
     "@changesets/assemble-release-plan": "npm:^6.0.9"
     "@changesets/changelog-git": "npm:^0.2.1"
-    "@changesets/config": "npm:^3.1.1"
+    "@changesets/config": "npm:^3.1.2"
     "@changesets/errors": "npm:^0.2.0"
     "@changesets/get-dependents-graph": "npm:^2.1.3"
-    "@changesets/get-release-plan": "npm:^4.0.13"
+    "@changesets/get-release-plan": "npm:^4.0.14"
     "@changesets/git": "npm:^3.0.4"
     "@changesets/logger": "npm:^0.1.1"
     "@changesets/pre": "npm:^2.0.2"
-    "@changesets/read": "npm:^0.6.5"
+    "@changesets/read": "npm:^0.6.6"
     "@changesets/should-skip-package": "npm:^0.1.2"
     "@changesets/types": "npm:^6.1.0"
     "@changesets/write": "npm:^0.4.0"
-    "@inquirer/external-editor": "npm:^1.0.0"
+    "@inquirer/external-editor": "npm:^1.0.2"
     "@manypkg/get-packages": "npm:^1.1.3"
     ansi-colors: "npm:^4.1.3"
     ci-info: "npm:^3.7.0"
@@ -265,11 +265,11 @@ __metadata:
     term-size: "npm:^2.1.0"
   bin:
     changeset: bin.js
-  checksum: 10c0/a868fd39ace25993714f8b80ebb08529e0aba5446266e18edee9e5fd34d529ef6f8fcb7f53fc5831ab99c5721762fe06198aade304799792f1f79b9d37600d04
+  checksum: 10c0/85c32814698403f1634b649d96b8b32f04fa7f2065e455df672c0b39e9a2dc3a05538b82496536ac00aabf7810dfa68ff8049fa4f618e50ed00a29ceb302a7b5
   languageName: node
   linkType: hard
 
-"@changesets/config@npm:^3.1.1, @changesets/config@npm:^3.1.2":
+"@changesets/config@npm:^3.1.2":
   version: 3.1.2
   resolution: "@changesets/config@npm:3.1.2"
   dependencies:
@@ -315,7 +315,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@changesets/get-release-plan@npm:^4.0.13":
+"@changesets/get-release-plan@npm:^4.0.14":
   version: 4.0.14
   resolution: "@changesets/get-release-plan@npm:4.0.14"
   dependencies:
@@ -380,7 +380,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@changesets/read@npm:^0.6.5, @changesets/read@npm:^0.6.6":
+"@changesets/read@npm:^0.6.6":
   version: 0.6.6
   resolution: "@changesets/read@npm:0.6.6"
   dependencies:
@@ -661,7 +661,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@inquirer/external-editor@npm:^1.0.0":
+"@inquirer/external-editor@npm:^1.0.2":
   version: 1.0.3
   resolution: "@inquirer/external-editor@npm:1.0.3"
   dependencies:
@@ -3800,7 +3800,7 @@ __metadata:
     "@biomejs/js-api": "npm:4.0.0"
     "@biomejs/wasm-nodejs": "npm:2.3.7"
     "@changesets/changelog-github": "npm:0.5.1"
-    "@changesets/cli": "npm:2.29.7"
+    "@changesets/cli": "npm:2.29.8"
     "@tsconfig/node20": "npm:20.1.8"
     "@tsconfig/strictest": "npm:2.0.8"
     "@types/lodash": "npm:^4.17.20"
