@@ -6199,7 +6199,7 @@ export class Api<
           field?: string;
           /** base64safe encoded public signing key */
           sub?: string;
-        },
+        } | void,
         Error
       >({
         path: \`/scope/\${job}\`,
@@ -20357,7 +20357,7 @@ export class Api<
       this.request<
         {
           message?: string;
-        },
+        } | void,
         BasicError
       >({
         path: \`/notifications\`,
@@ -24051,7 +24051,7 @@ export class Api<
       repo: string,
       params: RequestParams = {},
     ) =>
-      this.request<TeamRepository, void>({
+      this.request<TeamRepository | void, void>({
         path: \`/orgs/\${org}/teams/\${teamSlug}/repos/\${owner}/\${repo}\`,
         method: "GET",
         format: "json",
@@ -27670,7 +27670,7 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<RepositoryInvitation, BasicError | ValidationError>({
+      this.request<RepositoryInvitation | void, BasicError | ValidationError>({
         path: \`/repos/\${owner}/\${repo}/collaborators/\${username}\`,
         method: "PUT",
         body: data,
@@ -28505,7 +28505,7 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<Contributor[], BasicError>({
+      this.request<Contributor[] | void, BasicError>({
         path: \`/repos/\${owner}/\${repo}/contributors\`,
         method: "GET",
         query: query,
@@ -28621,7 +28621,10 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<
-        Deployment,
+        | Deployment
+        | {
+            message?: string;
+          },
         | {
             /** @example ""https://docs.github.com/rest/reference/repos#create-a-deployment"" */
             documentation_url?: string;
@@ -35792,7 +35795,7 @@ export class Api<
       repo: string,
       params: RequestParams = {},
     ) =>
-      this.request<TeamRepository, void>({
+      this.request<TeamRepository | void, void>({
         path: \`/teams/\${teamId}/repos/\${owner}/\${repo}\`,
         method: "GET",
         format: "json",
