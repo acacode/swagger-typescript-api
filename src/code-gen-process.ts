@@ -112,6 +112,13 @@ export class CodeGenProcess {
       this.config.hooks.onInit(this.config, this) || this.config,
     );
 
+    if (this.config.swaggerSchema) {
+      swagger.usageSchema = this.config.swaggerSchema;
+    }
+    if (this.config.originalSchema) {
+      swagger.originalSchema = this.config.originalSchema;
+    }
+
     this.schemaComponentsMap.clear();
 
     lodash.each(swagger.usageSchema.components, (component, componentName) =>

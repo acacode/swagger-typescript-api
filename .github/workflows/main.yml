@@ -11,18 +11,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [24, 22, 20]
+        node-version: [25, 24, 22, 20]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout tree
-        uses: actions/checkout@v5
-      - name: Set-up Node.js
-        uses: actions/setup-node@v5
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+      - name: Set-up Mise
+        uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
         with:
-          check-latest: true
-          node-version: ${{ matrix.node-version }}
-          package-manager-cache: false
-      - run: corepack enable
+          cache: false
+          mise_toml: |
+            [tools]
+            node = "${{ matrix.node-version }}"
+            yarn = "4"
       - run: yarn install --immutable
       - run: yarn format:check
       - run: yarn build

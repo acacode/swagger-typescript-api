@@ -1,0 +1,582 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`basic > modular > api 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+import { ApiResponse, Currency, Order, Pet, User } from "./data-contracts";
+import { ContentType, HttpClient, RequestParams } from "./http-client";
+
+export class Api<
+  SecurityDataType = unknown,
+> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags pet
+   * @name AddPet
+   * @summary Add a new pet to the store
+   * @request POST:api/v1/pet
+   * @secure
+   */
+  addPet = (body: Pet, params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: \`api/v1/pet\`,
+      method: "POST",
+      body: body,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags pet
+   * @name UpdatePet
+   * @summary Update an existing pet
+   * @request PUT:api/v1/pet
+   * @secure
+   */
+  updatePet = (body: Pet, params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: \`api/v1/pet\`,
+      method: "PUT",
+      body: body,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * @description Multiple status values can be provided with comma separated strings
+   *
+   * @tags pet
+   * @name FindPetsByStatus
+   * @summary Finds Pets by status
+   * @request GET:api/v1/pet/findByStatus
+   * @secure
+   */
+  findPetsByStatus = (
+    query: {
+      /** Status values that need to be considered for filter */
+      status: ("available" | "pending" | "sold")[];
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<Pet[], void>({
+      path: \`api/v1/pet/findByStatus\`,
+      method: "GET",
+      query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+   *
+   * @tags pet
+   * @name FindPetsByTags
+   * @summary Finds Pets by tags
+   * @request GET:api/v1/pet/findByTags
+   * @deprecated
+   * @secure
+   */
+  findPetsByTags = (
+    query: {
+      /** Tags to filter by */
+      tags: string[];
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<Pet[], void>({
+      path: \`api/v1/pet/findByTags\`,
+      method: "GET",
+      query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Returns a single pet
+   *
+   * @tags pet
+   * @name GetPetById
+   * @summary Find pet by ID
+   * @request GET:api/v1/pet/{petId}
+   * @secure
+   */
+  getPetById = (petId: number, params: RequestParams = {}) =>
+    this.request<Pet, void>({
+      path: \`api/v1/pet/\${petId}\`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags pet
+   * @name UpdatePetWithForm
+   * @summary Updates a pet in the store with form data
+   * @request POST:api/v1/pet/{petId}
+   * @secure
+   */
+  updatePetWithForm = (
+    petId: number,
+    data: {
+      /** Updated name of the pet */
+      name?: string;
+      /** Updated status of the pet */
+      status?: string;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<any, void>({
+      path: \`api/v1/pet/\${petId}\`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.FormData,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags pet
+   * @name DeletePet
+   * @summary Deletes a pet
+   * @request DELETE:api/v1/pet/{petId}
+   * @secure
+   */
+  deletePet = (petId: number, params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: \`api/v1/pet/\${petId}\`,
+      method: "DELETE",
+      secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags pet
+   * @name UploadFile
+   * @summary uploads an image
+   * @request POST:api/v1/pet/{petId}/uploadImage
+   * @secure
+   */
+  uploadFile = (
+    petId: number,
+    data: {
+      /** Additional data to pass to server */
+      additionalMetadata?: string;
+      /** file to upload */
+      file?: File;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<ApiResponse, any>({
+      path: \`api/v1/pet/\${petId}/uploadImage\`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.FormData,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Returns a map of status codes to quantities
+   *
+   * @tags store
+   * @name GetInventory
+   * @summary Returns pet inventories by status
+   * @request GET:api/v1/store/inventory
+   * @secure
+   */
+  getInventory = (params: RequestParams = {}) =>
+    this.request<Record<string, number>, any>({
+      path: \`api/v1/store/inventory\`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags store
+   * @name PlaceOrder
+   * @summary Place an order for a pet
+   * @request POST:api/v1/store/order
+   */
+  placeOrder = (body: Order, params: RequestParams = {}) =>
+    this.request<Order, void>({
+      path: \`api/v1/store/order\`,
+      method: "POST",
+      body: body,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+   *
+   * @tags store
+   * @name GetOrderById
+   * @summary Find purchase order by ID
+   * @request GET:api/v1/store/order/{orderId}
+   */
+  getOrderById = (orderId: number, params: RequestParams = {}) =>
+    this.request<Order, void>({
+      path: \`api/v1/store/order/\${orderId}\`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+   *
+   * @tags store
+   * @name DeleteOrder
+   * @summary Delete purchase order by ID
+   * @request DELETE:api/v1/store/order/{orderId}
+   */
+  deleteOrder = (orderId: string, params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: \`api/v1/store/order/\${orderId}\`,
+      method: "DELETE",
+      ...params,
+    });
+  /**
+   * @description This can only be done by the logged in user.
+   *
+   * @tags user
+   * @name CreateUser
+   * @summary Create user
+   * @request POST:api/v1/user
+   */
+  createUser = (body: User, params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: \`api/v1/user\`,
+      method: "POST",
+      body: body,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags user
+   * @name CreateUsersWithArrayInput
+   * @summary Creates list of users with given input array
+   * @request POST:api/v1/user/createWithArray
+   */
+  createUsersWithArrayInput = (body: User[], params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: \`api/v1/user/createWithArray\`,
+      method: "POST",
+      body: body,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags user
+   * @name CreateUsersWithListInput
+   * @summary Creates list of users with given input array
+   * @request POST:api/v1/user/createWithList
+   */
+  createUsersWithListInput = (body: User[], params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: \`api/v1/user/createWithList\`,
+      method: "POST",
+      body: body,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags user
+   * @name LoginUser
+   * @summary Logs user into the system
+   * @request GET:api/v1/user/login
+   */
+  loginUser = (
+    query: {
+      /** The user name for login */
+      username: string;
+      /** The password for login in clear text */
+      password: string;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<Currency, void>({
+      path: \`api/v1/user/login\`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags user
+   * @name LogoutUser
+   * @summary Logs out current logged in user session
+   * @request GET:api/v1/user/logout
+   */
+  logoutUser = (params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: \`api/v1/user/logout\`,
+      method: "GET",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags user
+   * @name GetUserByName
+   * @summary Get user by user name
+   * @request GET:api/v1/user/{username}
+   */
+  getUserByName = (username: string, params: RequestParams = {}) =>
+    this.request<User, void>({
+      path: \`api/v1/user/\${username}\`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description This can only be done by the logged in user.
+   *
+   * @tags user
+   * @name UpdateUser
+   * @summary Updated user
+   * @request PUT:api/v1/user/{username}
+   */
+  updateUser = (username: string, body: User, params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: \`api/v1/user/\${username}\`,
+      method: "PUT",
+      body: body,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * @description This can only be done by the logged in user.
+   *
+   * @tags user
+   * @name DeleteUser
+   * @summary Delete user
+   * @request DELETE:api/v1/user/{username}
+   */
+  deleteUser = (username: string, params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: \`api/v1/user/\${username}\`,
+      method: "DELETE",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags user
+   * @name GetUserByName2
+   * @summary Get user by user name
+   * @request GET:api/v1/{username}
+   * @originalName getUserByName
+   * @duplicate
+   */
+  getUserByName2 = (username: string, params: RequestParams = {}) =>
+    this.request<User, void>({
+      path: \`api/v1/\${username}\`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description This can only be done by the logged in user.
+   *
+   * @tags user
+   * @name UpdateUser2
+   * @summary Updated user
+   * @request PUT:api/v1/{username}
+   * @originalName updateUser
+   * @duplicate
+   */
+  updateUser2 = (username: string, body: User, params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: \`api/v1/\${username}\`,
+      method: "PUT",
+      body: body,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * @description This can only be done by the logged in user.
+   *
+   * @tags user
+   * @name DeleteUser2
+   * @summary Delete user
+   * @request DELETE:api/v1/{username}
+   * @originalName deleteUser
+   * @duplicate
+   */
+  deleteUser2 = (username: string, params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: \`api/v1/\${username}\`,
+      method: "DELETE",
+      ...params,
+    });
+}
+"
+`;
+
+exports[`basic > modular > dataContracts 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export enum PetIds {
+  Value10 = 10,
+  Value20 = 20,
+  Value30 = 30,
+  Value40 = 40,
+}
+
+export enum PetNames {
+  FluffyHero = "Fluffy Hero",
+  PiggyPo = "Piggy Po",
+  SwaggerTypescriptApi = "Swagger Typescript Api",
+}
+
+/**
+ * Pet Order
+ * An order for a pets from the pet store
+ * @example {"petId":6,"quantity":1,"id":0,"shipDate":"2000-01-23T04:56:07.000+00:00","complete":false,"status":"placed"}
+ */
+export interface Order {
+  /** @format int64 */
+  id?: number;
+  /** @format int64 */
+  petId?: number;
+  /** @format int32 */
+  quantity?: number;
+  /** @format date-time */
+  shipDate?: string;
+  /** Order Status */
+  status?: "placed" | "approved" | "delivered";
+  /** @default false */
+  complete?: boolean;
+}
+
+/**
+ * Pet category
+ * A category for a pet
+ * @example {"name":"name","id":6}
+ */
+export interface Category {
+  /** @format int64 */
+  id?: number;
+  name?: string;
+}
+
+/**
+ * a User
+ * A User who is purchasing from the pet store
+ * @example {"firstName":"firstName","lastName":"lastName","password":"password","userStatus":6,"phone":"phone","id":0,"email":"email","username":"username"}
+ */
+export interface User {
+  /** @format int64 */
+  id?: number;
+  username?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
+  /**
+   * User Status
+   * @format int32
+   */
+  userStatus?: number;
+}
+
+/**
+ * Pet Tag
+ * A tag for a pet
+ * @example {"name":"name","id":1}
+ */
+export interface Tag {
+  /** @format int64 */
+  id?: number;
+  name?: string;
+}
+
+/**
+ * a Pet
+ * A pet for sale in the pet store
+ * @example {"photoUrls":["photoUrls","photoUrls"],"name":"doggie","id":0,"category":{"name":"name","id":6},"tags":[{"name":"name","id":1},{"name":"name","id":1}],"status":"available"}
+ */
+export interface Pet {
+  /** @format int64 */
+  id?: number;
+  /** A category for a pet */
+  category?: Category;
+  /** @example "doggie" */
+  name: string;
+  photoUrls: string[];
+  tags?: Tag[];
+  /** pet status in the store */
+  status?: "available" | "pending" | "sold";
+}
+
+/**
+ * An uploaded response
+ * Describes the result of uploading an image resource
+ * @example {"code":0,"type":"type","message":"message"}
+ */
+export interface ApiResponse {
+  /** @format int32 */
+  code?: number;
+  type?: string;
+  message?: string;
+}
+
+/** some description */
+export interface Amount {
+  /**
+   * some description
+   * @format double
+   * @min 0.01
+   * @max 1000000000000000
+   */
+  value: number;
+  /** some description */
+  currency: Currency;
+}
+
+/**
+ * some description
+ * @pattern ^[A-Z]{3,3}$
+ */
+export type Currency = string;
+"
+`;

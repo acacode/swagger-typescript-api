@@ -1,5 +1,43 @@
 # swagger-typescript-api
 
+## 13.2.16
+
+### Patch Changes
+
+- [#1459](https://github.com/acacode/swagger-typescript-api/pull/1459) [`6b485dd`](https://github.com/acacode/swagger-typescript-api/commit/6b485dd70228a7e3697c4bd4a9ca5537e456f512) Thanks [@smorimoto](https://github.com/smorimoto)! - Downgrade eta from 4.0.1 to 3.5.0 to fix module resolution error.
+
+  After the upgrade to eta@4.0.1 in version 13.2.11, API generation started
+  failing with `ERR_PACKAGE_PATH_NOT_EXPORTED: No "exports" main defined in
+eta/package.json`. This issue is caused by incorrect package export
+  configuration in eta@4.0.1, which is tracked in the upstream repository.
+
+  Downgrading to eta@3.5.0 resolves the module resolution error whilst
+  maintaining compatibility with the existing template system.
+
+  Fixes #1427.
+
+## 13.2.15
+
+### Patch Changes
+
+- [`afc2448`](https://github.com/acacode/swagger-typescript-api/commit/afc24481bbbe891942264c1dacf1101e521f039a) Thanks [@js2me](https://github.com/js2me)! - added ability to override usageSchema and originalSchema after onInit hook and before all other operations
+
+## 13.2.14
+
+### Patch Changes
+
+- [#1398](https://github.com/acacode/swagger-typescript-api/pull/1398) [`d987aee`](https://github.com/acacode/swagger-typescript-api/commit/d987aee6a2f7dbf6edba73b58a2df2fceb32a876) Thanks [@k1rd3rf](https://github.com/k1rd3rf)! - Fix modular template to always generate class property syntax.
+
+  The modular template was incorrectly using object method syntax (`:` and
+  `,`) when route.namespace was present, introduced by PR #1326. This
+  caused TypeScript syntax errors in generated code.
+
+  The modular template should always generate class properties with arrow
+  functions (`=` and `;`), regardless of namespace presence.
+
+  This resolves the issue reported in #1366 where version 13.2.8 generated
+  invalid TypeScript code with modular templates.
+
 ## 13.2.13
 
 ### Patch Changes

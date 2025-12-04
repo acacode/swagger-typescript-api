@@ -90,7 +90,7 @@ const isValidIdentifier = (name) => /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(name);
 <%~ routeDocs.lines %>
 
  */
-<% if (isValidIdentifier(route.routeName.usage)) { %><%~ route.routeName.usage %><%~ route.namespace ? ': ' : ' = ' %><% } else { %>"<%~ route.routeName.usage %>"<%~ route.namespace ? ': ' : ' = ' %><% } %>(<%~ wrapperArgs %>)<%~ config.toJS ? `: ${describeReturnType()}` : "" %> =>
+<% if (isValidIdentifier(route.routeName.usage)) { %><%~ route.routeName.usage %><% } else { %>"<%~ route.routeName.usage %>"<% } %> = (<%~ wrapperArgs %>)<%~ config.toJS ? `: ${describeReturnType()}` : "" %> =>
     <%~ config.singleHttpClient ? 'this.http.request' : 'this.request' %><<%~ type %>, <%~ errorType %>>({
         path: `<%~ path %>`,
         method: '<%~ _.upperCase(method) %>',
@@ -100,4 +100,4 @@ const isValidIdentifier = (name) => /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(name);
         <%~ bodyContentKindTmpl ? `type: ${bodyContentKindTmpl},` : '' %>
         <%~ responseFormatTmpl ? `format: ${responseFormatTmpl},` : '' %>
         ...<%~ _.get(requestConfigParam, "name") %>,
-    })<%~ route.namespace ? ',' : '' %>
+    })
