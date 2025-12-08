@@ -30,6 +30,8 @@ const TsKeyword = {
   Enum: "enum",
   Interface: "interface",
   Array: "Array",
+  ReadonlyArray: "ReadonlyArray",
+  Readonly: "Readonly",
   Record: "Record",
   Intersection: "&",
   Union: "|",
@@ -55,6 +57,8 @@ export class CodeGenConfig {
   generateUnionEnums = false;
   /** CLI flag */
   addReadonly = false;
+  /** CLI flag */
+  immutable = false;
   enumNamesAsValues = false;
   /** parsed swagger schema from getSwaggerObject() */
 
@@ -225,12 +229,20 @@ export class CodeGenConfig {
     /**
      * $A[] or Array<$A>
      */
-    ArrayType: (content: unknown) => {
+    ArrayType: ({ readonly, content }: Record<string, unknown>) => {
       if (this.anotherArrayType) {
-        return this.Ts.TypeWithGeneric(this.Ts.Keyword.Array, [content]);
+        return this.Ts.TypeWithGeneric(
+          readonly ? this.Ts.Keyword.ReadonlyArray : this.Ts.Keyword.Array,
+          [content],
+        );
       }
-
-      return `${this.Ts.ExpressionGroup(content)}[]`;
+      return lodash
+        .compact([
+          readonly && "readonly ",
+          this.Ts.ExpressionGroup(content),
+          "[]",
+        ])
+        .join("");
     },
     /**
      * "$A"
@@ -265,8 +277,16 @@ export class CodeGenConfig {
     /**
      * Record<$A1, $A2>
      */
-    RecordType: (key: unknown, value: unknown) =>
-      this.Ts.TypeWithGeneric(this.Ts.Keyword.Record, [key, value]),
+    RecordType: ({ readonly, key, value }: Record<string, unknown>) => {
+      const record = this.Ts.TypeWithGeneric(this.Ts.Keyword.Record, [
+        key,
+        value,
+      ]);
+      if (readonly) {
+        return this.Ts.TypeWithGeneric(this.Ts.Keyword.Readonly, [record]);
+      }
+      return record;
+    },
     /**
      * readonly $key?:$value
      */
@@ -277,8 +297,14 @@ export class CodeGenConfig {
     /**
      * [key: $A1]: $A2
      */
-    InterfaceDynamicField: (key: unknown, value: unknown) =>
-      `[key: ${key}]: ${value}`,
+    InterfaceDynamicField: ({
+      readonly,
+      key,
+      value,
+    }: Record<string, unknown>) =>
+      lodash
+        .compact([readonly && "readonly ", `[key: ${key}]`, `: ${value}`])
+        .join(""),
 
     /**
      * EnumName.EnumKey
@@ -344,8 +370,11 @@ export class CodeGenConfig {
     /**
      * [$A1, $A2, ...$AN]
      */
-    Tuple: (values: unknown[]) => {
-      return `[${values.join(", ")}]`;
+    Tuple: ({
+      readonly,
+      values,
+    }: Record<string, unknown> & { values: unknown[] }) => {
+      return `${readonly ? "readonly " : ""}[${values.join(", ")}]`;
     },
   };
 
