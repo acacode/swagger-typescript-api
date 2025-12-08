@@ -81,6 +81,13 @@ const describeReturnType = () => {
 
 const isValidIdentifier = (name) => /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(name);
 
+const getSuccessResponseTypes = () => {
+  const successResponses = responseBodyInfo.responses.filter(response => response.isSuccess);
+
+  return config.Ts.UnionType(successResponses.map((response) => response.type)) || "any";
+}
+
+
 %>
 /**
 <%~ routeDocs.description %>
@@ -91,7 +98,7 @@ const isValidIdentifier = (name) => /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(name);
 
  */
 <% if (isValidIdentifier(route.routeName.usage)) { %><%~ route.routeName.usage %><%~ route.namespace ? ': ' : ' = ' %><% } else { %>"<%~ route.routeName.usage %>"<%~ route.namespace ? ': ' : ' = ' %><% } %>(<%~ wrapperArgs %>)<%~ config.toJS ? `: ${describeReturnType()}` : "" %> =>
-    <%~ config.singleHttpClient ? 'this.http.request' : 'this.request' %><<%~ type %>, <%~ errorType %>>({
+    <%~ config.singleHttpClient ? 'this.http.request' : 'this.request' %><<%~ `${getSuccessResponseTypes()}` %>, <%~ errorType %>>({
         path: `<%~ path %>`,
         method: '<%~ _.upperCase(method) %>',
         <%~ queryTmpl ? `query: ${queryTmpl},` : '' %>

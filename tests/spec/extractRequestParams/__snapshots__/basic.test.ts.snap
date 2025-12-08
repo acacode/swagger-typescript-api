@@ -746,7 +746,7 @@ export class Api<
           field?: string;
           /** base64safe encoded public signing key */
           sub?: string;
-        },
+        } | void,
         Error
       >({
         path: \`/scope/\${job}\`,
