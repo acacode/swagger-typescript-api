@@ -71,7 +71,7 @@
     "@types/node": "24.10.1",
     "@types/swagger2openapi": "7.0.4",
     "axios": "1.13.2",
-    "tsdown": "0.17.0",
+    "tsdown": "0.17.2",
     "typedoc": "0.28.15",
     "vitest": "4.0.15"
   },
