@@ -41,7 +41,7 @@ export interface HttpResponse<D extends unknown, E extends unknown = unknown> ex
 
 type CancelToken = Symbol | string | number;
 
-export enum ContentType {
+export enum <%~ config.contentTypeEnumName %> {
     Json = "application/json",
     JsonApi = "application/vnd.api+json",
     FormData = "multipart/form-data",
