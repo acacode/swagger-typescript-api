@@ -8,9 +8,7 @@ describe("nullable-parent-with-nullable-children", async () => {
   let tmpdir = "";
 
   beforeAll(async () => {
-    tmpdir = await fs.mkdtemp(
-      path.join(os.tmpdir(), "swagger-typescript-api"),
-    );
+    tmpdir = await fs.mkdtemp(path.join(os.tmpdir(), "swagger-typescript-api"));
   });
 
   afterAll(async () => {
