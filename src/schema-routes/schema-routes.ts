@@ -412,7 +412,7 @@ export class SchemaRoutes {
     parsedSchemas,
     operationId,
     defaultType,
-    contentTypes
+    contentTypes,
   }) =>
     lodash.reduce(
       requestInfos,
