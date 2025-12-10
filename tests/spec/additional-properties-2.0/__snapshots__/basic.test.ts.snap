@@ -33,7 +33,7 @@ export type MyObject4 = Record<
   {
     content?: string;
     filename?: string | null;
-  }
+  } | null
 >;
 "
 `;
