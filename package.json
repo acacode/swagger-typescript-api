@@ -13,21 +13,21 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
+      "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
     "./cli": {
-      "import": "./dist/cli.mjs",
+      "import": "./dist/cli.js",
       "require": "./dist/cli.cjs"
     },
     "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.cts",
   "bin": {
-    "sta": "./dist/cli.mjs",
-    "swagger-typescript-api": "./dist/cli.mjs"
+    "sta": "./dist/cli.js",
+    "swagger-typescript-api": "./dist/cli.js"
   },
   "files": [
     "dist",
