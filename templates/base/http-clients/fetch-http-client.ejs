@@ -11,7 +11,7 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
   /** request path */
   path: string;
   /** content type of request body */
-  type?: ContentType;
+  type?: <%~ config.contentTypeEnumName %>;
   /** query params */
   query?: QueryParamsType;
   /** format of response (i.e. response.json() -> format: "json") */
@@ -102,11 +102,11 @@ export class HttpClient<SecurityDataType = unknown> {
         return queryString ? `?${queryString}` : "";
     }
 
-    private contentFormatters: Record<ContentType, (input: any) => any> = {
-        [ContentType.Json]: (input:any) => input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
-        [ContentType.JsonApi]: (input:any) => input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
-        [ContentType.Text]: (input:any) => input !== null && typeof input !== "string" ? JSON.stringify(input) : input,
-        [ContentType.FormData]: (input: any) => {
+    private contentFormatters: Record<<%~ config.contentTypeEnumName %>, (input: any) => any> = {
+        [<%~ config.contentTypeEnumName %>.Json]: (input:any) => input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
+        [<%~ config.contentTypeEnumName %>.JsonApi]: (input:any) => input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
+        [<%~ config.contentTypeEnumName %>.Text]: (input:any) => input !== null && typeof input !== "string" ? JSON.stringify(input) : input,
+        [<%~ config.contentTypeEnumName %>.FormData]: (input: any) => {
             if (input instanceof FormData) {
                 return input;
             }
@@ -124,7 +124,7 @@ export class HttpClient<SecurityDataType = unknown> {
                 return formData;
             }, new FormData());
         },
-        [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
+        [<%~ config.contentTypeEnumName %>.UrlEncoded]: (input: any) => this.toQueryString(input),
     }
 
     protected mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
@@ -181,7 +181,7 @@ export class HttpClient<SecurityDataType = unknown> {
         const secureParams = ((typeof secure === 'boolean' ? secure : this.baseApiParams.secure) && this.securityWorker && await this.securityWorker(this.securityData)) || {};
         const requestParams = this.mergeRequestParams(params, secureParams);
         const queryString = query && this.toQueryString(query);
-        const payloadFormatter = this.contentFormatters[type || ContentType.Json];
+        const payloadFormatter = this.contentFormatters[type || <%~ config.contentTypeEnumName %>.Json];
         const responseFormat = format || requestParams.format;
 
         return this.customFetch(
@@ -190,7 +190,7 @@ export class HttpClient<SecurityDataType = unknown> {
             ...requestParams,
             headers: {
             ...(requestParams.headers || {}),
-            ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
+            ...(type && type !== <%~ config.contentTypeEnumName %>.FormData ? { "Content-Type": type } : {}),
             },
             signal: (cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal) || null,
             body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),

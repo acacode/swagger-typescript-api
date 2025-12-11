@@ -13,7 +13,7 @@ export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "pa
   /** request path */
   path: string;
   /** content type of request body */
-  type?: ContentType;
+  type?: <%~ config.contentTypeEnumName %>;
   /** query params */
   query?: QueryParamsType;
   /** format of response (i.e. response.json() -> format: "json") */
@@ -30,7 +30,7 @@ export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequest
   format?: ResponseType;
 }
 
-export enum ContentType {
+export enum <%~ config.contentTypeEnumName %> {
   Json = "application/json",
   JsonApi = "application/vnd.api+json",
   FormData = "multipart/form-data",
@@ -116,11 +116,11 @@ export class HttpClient<SecurityDataType = unknown> {
         const requestParams = this.mergeRequestParams(params, secureParams);
         const responseFormat = (format || this.format) || undefined;
 
-        if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
+        if (type === <%~ config.contentTypeEnumName %>.FormData && body && body !== null && typeof body === "object") {
           body = this.createFormData(body as Record<string, unknown>);
         }
 
-        if (type === ContentType.Text && body && body !== null && typeof body !== "string") {
+        if (type === <%~ config.contentTypeEnumName %>.Text && body && body !== null && typeof body !== "string") {
           body = JSON.stringify(body);
         }
 

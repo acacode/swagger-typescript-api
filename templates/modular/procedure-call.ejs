@@ -45,14 +45,17 @@ const wrapperArgs = _
     .map(argToTmpl)
     .join(', ')
 
+const enumName = config.contentTypeEnumName;
+    
 // RequestParams["type"]
 const requestContentKind = {
-    "JSON": "ContentType.Json",
-    "JSON_API": "ContentType.JsonApi",
-    "URL_ENCODED": "ContentType.UrlEncoded",
-    "FORM_DATA": "ContentType.FormData",
-    "TEXT": "ContentType.Text",
-}
+  JSON: `${enumName}.Json`,
+  JSON_API: `${enumName}.JsonApi`,
+  URL_ENCODED: `${enumName}.UrlEncoded`,
+  FORM_DATA: `${enumName}.FormData`,
+  TEXT: `${enumName}.Text`,
+};
+
 // RequestParams["format"]
 const responseContentKind = {
     "JSON": '"json"',
