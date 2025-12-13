@@ -1,0 +1,80 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Nullable Parent with Nullable Children Test",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "UserWithNullableEmail": {
+        "type": "object",
+        "nullable": true,
+        "description": "A nullable user object with nullable email property",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": ["id"]
+      },
+      "Profile": {
+        "type": "object",
+        "nullable": true,
+        "description": "A nullable profile with all nullable properties",
+        "properties": {
+          "bio": {
+            "type": "string",
+            "nullable": true
+          },
+          "avatar": {
+            "type": "string",
+            "nullable": true
+          },
+          "age": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "NestedNullableObject": {
+        "type": "object",
+        "properties": {
+          "outerField": {
+            "type": "string"
+          },
+          "innerObject": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "innerField": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        },
+        "required": ["outerField"]
+      },
+      "Container": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/UserWithNullableEmail"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/Profile"
+          }
+        }
+      }
+    }
+  }
+}
