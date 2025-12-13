@@ -2371,10 +2371,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"import-without-cache@npm:^0.2.2":
-  version: 0.2.2
-  resolution: "import-without-cache@npm:0.2.2"
-  checksum: 10c0/5c3c1ac477f0832aac6762cc64437c985384aae941f077c844dd5586c2dea88a0616592f48f42aa929f1987d2a7662f0927a053e967935c233adfb08cb3a0ad8
+"import-without-cache@npm:^0.2.3":
+  version: 0.2.3
+  resolution: "import-without-cache@npm:0.2.3"
+  checksum: 10c0/29de6707a626647f4fa037a4a730b5105f544cc7da7158ba9735863e6e514d6d48642abd2c0c53e8889cba803343399fc4d5a7a6ba89c30a329ae5b297911663
   languageName: node
   linkType: hard
 
@@ -3647,7 +3647,7 @@ __metadata:
     openapi-types: "npm:^12.1.3"
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
-    tsdown: "npm:0.17.2"
+    tsdown: "npm:0.17.3"
     typedoc: "npm:0.28.15"
     typescript: "npm:~5.9.3"
     vitest: "npm:4.0.15"
@@ -3757,15 +3757,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:0.17.2":
-  version: 0.17.2
-  resolution: "tsdown@npm:0.17.2"
+"tsdown@npm:0.17.3":
+  version: 0.17.3
+  resolution: "tsdown@npm:0.17.3"
   dependencies:
     ansis: "npm:^4.2.0"
     cac: "npm:^6.7.14"
+    defu: "npm:^6.1.4"
     empathic: "npm:^2.0.0"
     hookable: "npm:^5.5.3"
-    import-without-cache: "npm:^0.2.2"
+    import-without-cache: "npm:^0.2.3"
     obug: "npm:^2.1.1"
     rolldown: "npm:1.0.0-beta.53"
     rolldown-plugin-dts: "npm:^0.18.3"
@@ -3797,7 +3798,7 @@ __metadata:
       optional: true
   bin:
     tsdown: dist/run.mjs
-  checksum: 10c0/3f6e3eb62ba2e7fdcefb47d439b2df6bf373a35b4deebef2089151c504c1f1b902d6a0473b8bec42b787c005f001bd166dd53c59df9bcb552edb250632df6a28
+  checksum: 10c0/16ab9f3512f9ed6521ea37087bc828ced0f31053662e91e7d9d83e464f8e925033447054478c994e9bd0f53494312a63f6721c84f81eb9089a22eaeb77d3b3d7
   languageName: node
   linkType: hard
 
