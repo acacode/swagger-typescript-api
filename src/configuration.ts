@@ -79,6 +79,7 @@ export class CodeGenConfig {
   extractResponseError = false;
   extractResponses = false;
   extractEnums = false;
+  doNotMatchUnnamedTypesByContent = false;
   fileNames = {
     dataContracts: "data-contracts",
     routeTypes: "route-types",
