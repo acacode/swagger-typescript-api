@@ -9363,6 +9363,7 @@ export class Api<
       this.request<WrongPathParams1Data, any>({
         path: \`/wrong-path-params1/\${pathParam1}/\${pathParam2}/\${pathParam3}/\${pathParam4}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
   };
@@ -9381,6 +9382,7 @@ export class Api<
       this.request<WrongPathParams2Data, any>({
         path: \`/wrong-path-params2\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
   };
@@ -9621,6 +9623,7 @@ export class Api<
       this.request<SignRetrieveHeadData, SignRetrieveHeadError>({
         path: \`/scope/\${job}\`,
         method: "HEAD",
+        format: "json",
         ...params,
       }),
 
@@ -52055,6 +52058,7 @@ export class Api<
       this.request<GistsCheckIsStarredData, GistsCheckIsStarredError>({
         path: \`/gists/\${gistId}/star\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54093,6 +54097,7 @@ export class Api<
       this.request<OrgsCheckBlockedUserData, OrgsCheckBlockedUserError>({
         path: \`/orgs/\${org}/blocks/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -54150,6 +54155,7 @@ export class Api<
       >({
         path: \`/orgs/\${org}/outside_collaborators/\${username}\`,
         method: "PUT",
+        format: "json",
         ...params,
       }),
 
@@ -54584,6 +54590,7 @@ export class Api<
       >({
         path: \`/orgs/\${org}/outside_collaborators/\${username}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
 
@@ -55055,6 +55062,7 @@ export class Api<
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -55820,6 +55828,7 @@ export class Api<
       this.request<ProjectsDeleteData, ProjectsDeleteError>({
         path: \`/projects/\${projectId}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
 
@@ -55838,6 +55847,7 @@ export class Api<
       this.request<ProjectsDeleteCardData, ProjectsDeleteCardError>({
         path: \`/projects/columns/cards/\${cardId}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
 
@@ -57888,6 +57898,7 @@ export class Api<
       >({
         path: \`/repos/\${owner}/\${repo}/assignees/\${assignee}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -60237,6 +60248,7 @@ export class Api<
       this.request<ReposDeleteData, ReposDeleteError>({
         path: \`/repos/\${owner}/\${repo}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
 
@@ -63439,6 +63451,7 @@ export class Api<
       this.request<TeamsAddMemberLegacyData, TeamsAddMemberLegacyError>({
         path: \`/teams/\${teamId}/members/\${username}\`,
         method: "PUT",
+        format: "json",
         ...params,
       }),
 
@@ -63498,6 +63511,7 @@ export class Api<
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -64187,6 +64201,7 @@ export class Api<
       >({
         path: \`/user/starred/\${owner}/\${repo}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -64935,6 +64950,7 @@ export class Api<
       this.request<UsersCheckBlockedData, UsersCheckBlockedError>({
         path: \`/user/blocks/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -64956,6 +64972,7 @@ export class Api<
       >({
         path: \`/user/following/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -70618,6 +70635,7 @@ export class Api<
       this.request<CreatePetsData, CreatePetsError>({
         path: \`/pets\`,
         method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -71047,6 +71065,7 @@ export class Api<
       this.request<CreatePetsData, CreatePetsError>({
         path: \`/pets\`,
         method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -71533,6 +71552,7 @@ export class Api<
       this.request<DeletePetData, DeletePetError>({
         path: \`/pets/\${id}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
 
@@ -72079,6 +72099,7 @@ export class Api<
       this.request<DeletePetData, DeletePetError>({
         path: \`/pets/\${id}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
 
@@ -72894,6 +72915,7 @@ export class Api<
       this.request<DeletePetData, DeletePetError>({
         path: \`/pets/\${id}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
 
@@ -74641,6 +74663,7 @@ export class Api<
       this.request<DeletePetData, DeletePetError>({
         path: \`/pets/\${id}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
 

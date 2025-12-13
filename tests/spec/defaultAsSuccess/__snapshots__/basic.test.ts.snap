@@ -608,6 +608,7 @@ export class Api<
       this.request<void, Error>({
         path: \`/scope/\${job}\`,
         method: "HEAD",
+        format: "json",
         ...params,
       }),
 

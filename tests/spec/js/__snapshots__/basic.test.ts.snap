@@ -2807,6 +2807,7 @@ export class Api extends HttpClient {
       this.request({
         path: \`/teams/\${teamId}/members/\${username}\`,
         method: "PUT",
+        format: "json",
         ...params,
       }),
     /**

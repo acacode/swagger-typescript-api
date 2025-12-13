@@ -5745,6 +5745,7 @@ export class Api<
       this.request<void, void | OrganizationAsTeamMember>({
         path: \`/teams/\${teamId}/members/\${username}\`,
         method: "PUT",
+        format: "json",
         ...params,
       }),
 

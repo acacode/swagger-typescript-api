@@ -6013,6 +6013,7 @@ export class Api<SecurityDataType extends unknown> {
       this.http.request<void, void | OrganizationAsTeamMember>({
         path: \`/teams/\${teamId}/members/\${username}\`,
         method: "PUT",
+        format: "json",
         ...params,
       }),
 

@@ -5914,6 +5914,7 @@ export class Api<
       this.request<void, any>({
         path: \`/wrong-path-params1/\${pathParam1}/\${pathParam2}/\${pathParam3}/\${pathParam4}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
   };
@@ -5929,6 +5930,7 @@ export class Api<
       this.request<void, any>({
         path: \`/wrong-path-params2\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
   };
@@ -6219,6 +6221,7 @@ export class Api<
       this.request<void, Error>({
         path: \`/scope/\${job}\`,
         method: "HEAD",
+        format: "json",
         ...params,
       }),
 
@@ -19759,6 +19762,7 @@ export class Api<
       this.request<void, BasicError | object>({
         path: \`/gists/\${gistId}/star\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -21609,6 +21613,7 @@ export class Api<
       this.request<void, BasicError>({
         path: \`/orgs/\${org}/blocks/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -22675,6 +22680,7 @@ export class Api<
       >({
         path: \`/orgs/\${org}/outside_collaborators/\${username}\`,
         method: "PUT",
+        format: "json",
         ...params,
       }),
 
@@ -22700,6 +22706,7 @@ export class Api<
       >({
         path: \`/orgs/\${org}/outside_collaborators/\${username}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
 
@@ -23980,6 +23987,7 @@ export class Api<
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -24271,6 +24279,7 @@ export class Api<
       >({
         path: \`/projects/columns/cards/\${cardId}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
 
@@ -24598,6 +24607,7 @@ export class Api<
       >({
         path: \`/projects/\${projectId}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
 
@@ -24963,6 +24973,7 @@ export class Api<
       >({
         path: \`/repos/\${owner}/\${repo}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
 
@@ -25988,6 +25999,7 @@ export class Api<
       this.request<void, BasicError>({
         path: \`/repos/\${owner}/\${repo}/assignees/\${assignee}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -35495,6 +35507,7 @@ export class Api<
       >({
         path: \`/teams/\${teamId}/members/\${username}\`,
         method: "PUT",
+        format: "json",
         ...params,
       }),
 
@@ -35713,6 +35726,7 @@ export class Api<
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -36053,6 +36067,7 @@ export class Api<
       this.request<void, BasicError>({
         path: \`/user/blocks/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -36279,6 +36294,7 @@ export class Api<
       this.request<void, BasicError>({
         path: \`/user/following/\${username}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -37448,6 +37464,7 @@ export class Api<
       this.request<void, BasicError>({
         path: \`/user/starred/\${owner}/\${repo}\`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -42161,6 +42178,7 @@ export class Api<
       this.request<void, Error>({
         path: \`/pets\`,
         method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -42515,6 +42533,7 @@ export class Api<
       this.request<void, Error>({
         path: \`/pets\`,
         method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -42902,6 +42921,7 @@ export class Api<
       this.request<void, Error>({
         path: \`/pets/\${id}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
   };
@@ -43311,6 +43331,7 @@ export class Api<
       this.request<void, Error>({
         path: \`/pets/\${id}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
   };
@@ -43998,6 +44019,7 @@ export class Api<
       this.request<void, ErrorModel>({
         path: \`/pets/\${id}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
   };
@@ -45107,6 +45129,7 @@ export class Api<
       this.request<void, ErrorModel>({
         path: \`/pets/\${id}\`,
         method: "DELETE",
+        format: "json",
         ...params,
       }),
   };
