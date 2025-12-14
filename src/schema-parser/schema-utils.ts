@@ -96,13 +96,12 @@ export class SchemaUtils {
     if (typeof type !== "string") return false;
 
     // Only check for root-level null in union types
-    // Match patterns: "... | null" or "null | ..." at the root level
+    // Match null bounded by pipes and/or start/end of string
     // This avoids false positives from nested nullable properties like { prop: string | null }
     const nullKeyword = this.config.Ts.Keyword.Null;
-    const hasRootLevelNull =
-      type.trim() === nullKeyword ||
-      new RegExp(`\\|\\s*${nullKeyword}\\s*$`).test(type) || // Ends with | null
-      new RegExp(`^\\s*${nullKeyword}\\s*\\|`).test(type); // Starts with null |
+    const hasRootLevelNull = new RegExp(
+      `(^|\\|)\\s*${nullKeyword}\\s*(\\||$)`
+    ).test(type);
 
     return !hasRootLevelNull;
   };
