@@ -1,5 +1,89 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`basic > edge case with prefix and suffix 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+/** Pure lowercase snake_case values that should be transformed to PascalCase */
+export enum LowercaseSnakeCaseEnum {
+  VALLocalOnlyCaSeCamelCase = "local_only",
+  VALPhoneNumberCaSeCamelCase = "phone_number",
+  VALWaitDependencyCaSeCamelCase = "wait_dependency",
+  VALAuthFailedCaSeCamelCase = "auth_failed",
+  VALWaitingToPushCaSeCamelCase = "waiting_to_push",
+}
+
+export enum StringEnumIncludesNumbersAndUnderscore {
+  /** Foo */
+  V_aL_VAL_1_Ca_Se_CamelCase = "VAL_1",
+  /** Bar */
+  V_aL_VAL_2_Ca_Se_CamelCase = "VAL_2",
+  /** Baz */
+  V_aL_VAL_3_Ca_Se_CamelCase = "VAL_3",
+  V_aL__1_VAL_Ca_Se_CamelCase = "_1_VAL",
+  V_aL_A_1_B_2_C_3_Ca_Se_CamelCase = "A_1_B_2_C_3",
+  V_aL__A_1_B_2_C_3_Ca_Se_CamelCase = "_A_1_B_2_C_3",
+  V_aL__1_A_2_B_3_C_Ca_Se_CamelCase = "_1_A_2_B_3_C",
+  V_aL__123ValCamelCase_Ca_Se_CamelCase = "_123ValCamelCase",
+  V_aL_Val_Snake_Case_Ca_Se_CamelCase = "Val_Snake_Case",
+  V_aL_Val_12_CamelCase_Ca_Se_CamelCase = "Val_12_CamelCase",
+  V_aL__Val_12_Snake_Case_Ca_Se_CamelCase = "_Val_12_Snake_Case",
+  V_aL__Val_12_CamelCase_Ca_Se_CamelCase = "_Val_12_CamelCase",
+}
+"
+`;
+
+exports[`basic > transform pure lowercase snake_case to PascalCase 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+/** Pure lowercase snake_case values that should be transformed to PascalCase */
+export enum LowercaseSnakeCaseEnum {
+  LocalOnly = "local_only",
+  PhoneNumber = "phone_number",
+  WaitDependency = "wait_dependency",
+  AuthFailed = "auth_failed",
+  WaitingToPush = "waiting_to_push",
+}
+
+export enum StringEnumIncludesNumbersAndUnderscore {
+  /** Foo */
+  VAL_1 = "VAL_1",
+  /** Bar */
+  VAL_2 = "VAL_2",
+  /** Baz */
+  VAL_3 = "VAL_3",
+  _1_VAL = "_1_VAL",
+  A_1_B_2_C_3 = "A_1_B_2_C_3",
+  _A_1_B_2_C_3 = "_A_1_B_2_C_3",
+  _1_A_2_B_3_C = "_1_A_2_B_3_C",
+  _123ValCamelCase = "_123ValCamelCase",
+  Val_Snake_Case = "Val_Snake_Case",
+  Val_12_CamelCase = "Val_12_CamelCase",
+  _Val_12_Snake_Case = "_Val_12_Snake_Case",
+  _Val_12_CamelCase = "_Val_12_CamelCase",
+}
+"
+`;
+
 exports[`basic > use x-enumNames as the key for enum 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
@@ -13,6 +97,15 @@ exports[`basic > use x-enumNames as the key for enum 1`] = `
  * ---------------------------------------------------------------
  */
 
+/** Pure lowercase snake_case values that should be transformed to PascalCase */
+export enum LowercaseSnakeCaseEnum {
+  LocalOnly = "local_only",
+  PhoneNumber = "phone_number",
+  WaitDependency = "wait_dependency",
+  AuthFailed = "auth_failed",
+  WaitingToPush = "waiting_to_push",
+}
+
 export enum StringEnumIncludesNumbersAndUnderscore {
   /** Foo */
   VAL_1 = "VAL_1",
@@ -24,6 +117,11 @@ export enum StringEnumIncludesNumbersAndUnderscore {
   A_1_B_2_C_3 = "A_1_B_2_C_3",
   _A_1_B_2_C_3 = "_A_1_B_2_C_3",
   _1_A_2_B_3_C = "_1_A_2_B_3_C",
+  _123ValCamelCase = "_123ValCamelCase",
+  Val_Snake_Case = "Val_Snake_Case",
+  Val_12_CamelCase = "Val_12_CamelCase",
+  _Val_12_Snake_Case = "_Val_12_Snake_Case",
+  _Val_12_CamelCase = "_Val_12_CamelCase",
 }
 "
 `;
