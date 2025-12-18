@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@biomejs/js-api": "4.0.0",
-    "@biomejs/wasm-nodejs": "2.3.9",
+    "@biomejs/wasm-nodejs": "2.3.10",
     "@types/lodash": "^4.17.20",
     "@types/swagger-schema-official": "^2.0.25",
     "c12": "^3.3.0",
@@ -63,15 +63,15 @@
     "yaml": "^2.8.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.9",
+    "@biomejs/biome": "2.3.10",
     "@changesets/changelog-github": "0.5.2",
     "@changesets/cli": "2.29.8",
     "@tsconfig/node20": "20.1.8",
     "@tsconfig/strictest": "2.0.8",
-    "@types/node": "25.0.2",
+    "@types/node": "25.0.3",
     "@types/swagger2openapi": "7.0.4",
     "axios": "1.13.2",
-    "tsdown": "0.18.0",
+    "tsdown": "0.18.1",
     "typedoc": "0.28.15",
     "vitest": "4.0.16"
   },
