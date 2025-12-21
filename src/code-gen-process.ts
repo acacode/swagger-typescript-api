@@ -1,5 +1,6 @@
 import { consola } from "consola";
-import lodash from "lodash";
+import { compact, merge } from "es-toolkit";
+import { camelCase } from "es-toolkit/compat";
 import * as typescript from "typescript";
 import type {
   GenerateApiConfiguration,
@@ -17,7 +18,7 @@ import { JavascriptTranslator } from "./translators/javascript.js";
 import type { TranslatorIO } from "./translators/translator.js";
 import { TypeNameFormatter } from "./type-name-formatter.js";
 import { FileSystem } from "./util/file-system.js";
-import { internalCase } from "./util/internal-case.js";
+import { createLodashCompat } from "./util/lodash-compat.js";
 import { NameResolver } from "./util/name-resolver.js";
 import { pascalCase } from "./util/pascal-case.js";
 import { sortByProperty } from "./util/sort-by-property.js";
@@ -121,8 +122,12 @@ export class CodeGenProcess {
 
     this.schemaComponentsMap.clear();
 
-    lodash.each(swagger.usageSchema.components, (component, componentName) =>
-      lodash.each(component, (rawTypeData, typeName) => {
+    for (const [componentName, component] of Object.entries(
+      swagger.usageSchema.components || {},
+    )) {
+      for (const [typeName, rawTypeData] of Object.entries(
+        component as Record<string, unknown>,
+      )) {
         this.schemaComponentsMap.createComponent(
           this.schemaComponentsMap.createRef([
             "components",
@@ -131,8 +136,8 @@ export class CodeGenProcess {
           ]),
           rawTypeData,
         );
-      }),
-    );
+      }
+    }
 
     // Set all discriminators at the top
     this.schemaComponentsMap.discriminatorsFirst();
@@ -141,10 +146,7 @@ export class CodeGenProcess {
 
     const componentsToParse: SchemaComponent[] =
       this.schemaComponentsMap.filter(
-        lodash.compact([
-          "schemas",
-          this.config.extractResponses && "responses",
-        ]),
+        compact(["schemas", this.config.extractResponses && "responses"]),
       );
 
     const parsedSchemas = componentsToParse.map((schemaComponent) => {
@@ -233,7 +235,7 @@ export class CodeGenProcess {
         Ts: this.config.Ts,
         formatDescription:
           this.schemaParserFabric.schemaFormatters.formatDescription,
-        internalCase: internalCase,
+        internalCase: camelCase,
         classNameCase: pascalCase,
         pascalCase: pascalCase,
         getInlineParseContent: this.schemaParserFabric.getInlineParseContent,
@@ -252,7 +254,7 @@ export class CodeGenProcess {
           return ` * ${line}${eol ? "\n" : ""}`;
         },
         NameResolver: NameResolver,
-        _: lodash,
+        _: createLodashCompat(),
         require: this.templatesWorker.requireFnFromTemplate,
       },
       config: this.config,
@@ -263,7 +265,7 @@ export class CodeGenProcess {
     const components = this.schemaComponentsMap.getComponents();
     let modelTypes = [];
 
-    const modelTypeComponents = lodash.compact([
+    const modelTypeComponents = compact([
       "schemas",
       this.config.extractResponses && "responses",
     ]);
@@ -346,7 +348,7 @@ export class CodeGenProcess {
       ? await this.createMultipleFileInfos(templatesToRender, configuration)
       : await this.createSingleFileInfo(templatesToRender, configuration);
 
-    if (!lodash.isEmpty(configuration.extraTemplates)) {
+    if (configuration.extraTemplates?.length) {
       for (const extraTemplate of configuration.extraTemplates) {
         const content = this.templatesWorker.renderTemplate(
           this.fileSystem.getFileContent(extraTemplate.path),
@@ -483,29 +485,27 @@ export class CodeGenProcess {
     return await this.createOutputFileInfo(
       configuration,
       configuration.fileName,
-      lodash
-        .compact([
+      compact([
+        this.templatesWorker.renderTemplate(
+          templatesToRender.dataContracts,
+          configuration,
+        ),
+        generateRouteTypes &&
           this.templatesWorker.renderTemplate(
-            templatesToRender.dataContracts,
+            templatesToRender.routeTypes,
             configuration,
           ),
-          generateRouteTypes &&
-            this.templatesWorker.renderTemplate(
-              templatesToRender.routeTypes,
-              configuration,
-            ),
-          generateClient &&
-            this.templatesWorker.renderTemplate(
-              templatesToRender.httpClient,
-              configuration,
-            ),
-          generateClient &&
-            this.templatesWorker.renderTemplate(
-              templatesToRender.api,
-              configuration,
-            ),
-        ])
-        .join("\n"),
+        generateClient &&
+          this.templatesWorker.renderTemplate(
+            templatesToRender.httpClient,
+            configuration,
+          ),
+        generateClient &&
+          this.templatesWorker.renderTemplate(
+            templatesToRender.api,
+            configuration,
+          ),
+      ]).join("\n"),
     );
   };
 
@@ -557,14 +557,14 @@ export class CodeGenProcess {
       servers: servers || [],
       basePath,
       host,
-      externalDocs: lodash.merge(
+      externalDocs: merge(
         {
           url: "",
           description: "",
         },
-        externalDocs,
+        externalDocs || {},
       ),
-      tags: lodash.compact(tags),
+      tags: compact(tags || []),
       baseUrl: serverUrl,
       title,
       version,

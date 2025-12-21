@@ -1,5 +1,6 @@
 import { consola } from "consola";
-import lodash from "lodash";
+import { compact } from "es-toolkit";
+import { startCase } from "es-toolkit/compat";
 import type { CodeGenConfig } from "./configuration.js";
 
 type FormattingSchemaType = "enum-key" | "type-name";
@@ -33,7 +34,7 @@ export class TypeNameFormatter {
 
     // constant names like LEFT_ARROW, RIGHT_FORWARD, ETC_KEY, _KEY_NUM_
     if (/^(?!\d)([A-Z0-9_]{1,})$/g.test(name)) {
-      return lodash.compact([typePrefix, name, typeSuffix]).join("_");
+      return compact([typePrefix, name, typeSuffix]).join("_");
     }
 
     if (this.formattedModelNamesMap.has(hashKey)) {
@@ -42,9 +43,9 @@ export class TypeNameFormatter {
 
     const fixedModelName = this.fixModelName(name, { type: schemaType });
 
-    const formattedName = lodash
-      .startCase(`${typePrefix}_${fixedModelName}_${typeSuffix}`)
-      .replace(/\s/g, "");
+    const formattedName = startCase(
+      `${typePrefix}_${fixedModelName}_${typeSuffix}`,
+    ).replace(/\s/g, "");
     const formattedResultName =
       this.config.hooks.onFormatTypeName(formattedName, name, schemaType) ||
       formattedName;
@@ -80,7 +81,7 @@ export class TypeNameFormatter {
       }
 
       if (name.includes("-")) {
-        return lodash.startCase(name).replace(/ /g, "");
+        return startCase(name).replace(/ /g, "");
       }
     }
 
