@@ -1,5 +1,6 @@
 import { consola } from "consola";
-import lodash from "lodash";
+import { merge } from "es-toolkit";
+import { get } from "es-toolkit/compat";
 import type { CodeGenConfig } from "../configuration.js";
 import { SCHEMA_TYPES } from "../constants.js";
 import type { SchemaComponentsMap } from "../schema-components-map.js";
@@ -221,13 +222,13 @@ export class SchemaParser {
 
       this.schemaPath.push(this.typeName);
 
-      lodash.merge(
+      merge(
         this.schema,
         this.config.hooks.onPreParseSchema(
           this.schema,
           this.typeName,
           schemaType,
-        ),
+        ) || {},
       );
       parsedSchema = this._baseSchemaParsers[schemaType](
         this.schema,
@@ -273,14 +274,19 @@ export class SchemaParser {
   extractSchemaFromResponseStruct = (responseStruct) => {
     const { content, ...extras } = responseStruct;
 
-    const firstResponse = lodash.first(lodash.values(content));
-    const firstSchema = lodash.get(firstResponse, "schema");
+    const contentValues = Object.values(content || {});
+    const firstResponse = contentValues[0] as
+      | Record<string, unknown>
+      | undefined;
+    const firstSchema = get(firstResponse, "schema");
 
     if (!firstSchema) return;
 
+    const { schema: _, ...restResponse } = firstResponse || {};
+
     return {
       ...extras,
-      ...lodash.omit(firstResponse, "schema"),
+      ...restResponse,
       ...firstSchema,
     };
   };

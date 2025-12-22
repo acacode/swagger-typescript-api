@@ -1,5 +1,6 @@
 import { consola } from "consola";
-import lodash from "lodash";
+import { compact, flattenDeep, isEqual, uniq } from "es-toolkit";
+import { camelCase, get } from "es-toolkit/compat";
 import type {
   GenerateApiConfiguration,
   ParsedRoute,
@@ -59,36 +60,31 @@ export class SchemaRoutes {
     this.schemaComponentsMap = schemaComponentsMap;
     this.templatesWorker = templatesWorker;
 
-    this.FORM_DATA_TYPES = lodash.uniq([
+    this.FORM_DATA_TYPES = uniq([
       this.schemaUtils.getSchemaType({ type: "string", format: "file" }),
       this.schemaUtils.getSchemaType({ type: "string", format: "binary" }),
     ]);
   }
 
   createRequestsMap = (routesByMethod) => {
-    const parameters = lodash.get(routesByMethod, "parameters");
+    const parameters = get(routesByMethod, "parameters");
 
-    return lodash.reduce(
-      routesByMethod,
-      (acc, requestInfo, method) => {
-        if (
-          method.startsWith("x-") ||
-          ["parameters", "$ref"].includes(method)
-        ) {
-          return acc;
-        }
+    const result = {};
+    for (const [method, requestInfo] of Object.entries(routesByMethod)) {
+      if (method.startsWith("x-") || ["parameters", "$ref"].includes(method)) {
+        continue;
+      }
 
-        acc[method] = {
-          ...requestInfo,
-          parameters: lodash.compact(
-            lodash.concat(parameters, requestInfo.parameters),
-          ),
-        };
+      result[method] = {
+        ...(requestInfo as object),
+        parameters: compact([
+          ...(parameters || []),
+          ...((requestInfo as any).parameters || []),
+        ]),
+      };
+    }
 
-        return acc;
-      },
-      {},
-    );
+    return result;
   };
 
   parseRouteName = (rawRoute) => {
@@ -101,33 +97,28 @@ export class SchemaRoutes {
     );
 
     // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
-    const pathParams = lodash.reduce(
-      pathParamMatches,
-      (pathParams, match) => {
-        const paramName = match.replace(/\{|\}|:/g, "");
+    const pathParams: any[] = [];
+    for (const match of pathParamMatches || []) {
+      const paramName = match.replace(/\{|\}|:/g, "");
 
-        if (!paramName) return pathParams;
+      if (!paramName) continue;
 
-        if (paramName.includes("-")) {
-          consola.warn("wrong path param name", paramName);
-        }
+      if (paramName.includes("-")) {
+        consola.warn("wrong path param name", paramName);
+      }
 
-        pathParams.push({
-          $match: match,
-          name: lodash.camelCase(paramName),
-          required: true,
+      pathParams.push({
+        $match: match,
+        name: camelCase(paramName),
+        required: true,
+        type: "string",
+        description: "",
+        schema: {
           type: "string",
-          description: "",
-          schema: {
-            type: "string",
-          },
-          in: "path",
-        });
-
-        return pathParams;
-      },
-      [],
-    );
+        },
+        in: "path",
+      });
+    }
 
     let fixedRoute = pathParams.reduce((fixedRoute, pathParam, i, arr) => {
       const insertion =
@@ -141,14 +132,14 @@ export class SchemaRoutes {
     }, routeName || "");
 
     const queryParamMatches = fixedRoute.match(/(\{\?.*\})/g);
-    const queryParams = [];
+    const queryParams: any[] = [];
 
     if (queryParamMatches?.length) {
       for (const match of queryParamMatches) {
         fixedRoute = fixedRoute.replace(match, "");
       }
 
-      const paramNames = lodash.uniq(
+      const paramNames = uniq(
         queryParamMatches
           .join(",")
           .replace(/(\{\?)|(\})|\s/g, "")
@@ -164,8 +155,8 @@ export class SchemaRoutes {
           $match: paramName,
           name:
             typeof paramName === "string"
-              ? lodash.camelCase(paramName)
-              : lodash.camelCase(String(paramName)),
+              ? camelCase(paramName)
+              : camelCase(String(paramName)),
           required: true,
           type: "string",
           description: "",
@@ -203,7 +194,7 @@ export class SchemaRoutes {
       cookie: [],
     };
 
-    lodash.each(parameters, (parameter) => {
+    for (const parameter of parameters || []) {
       const refTypeInfo =
         this.schemaParserFabric.schemaUtils.getSchemaRefType(parameter);
 
@@ -223,7 +214,7 @@ export class SchemaRoutes {
           routeParam.required = parameter.required;
         }
       } else {
-        if (!parameter.in) return;
+        if (!parameter.in) continue;
 
         if (!routeParams[parameter.in]) {
           routeParams[parameter.in] = [];
@@ -236,13 +227,13 @@ export class SchemaRoutes {
       }
 
       if (routeParam.in === "path") {
-        if (!routeParam.name) return;
+        if (!routeParam.name) continue;
 
-        routeParam.name = lodash.camelCase(routeParam.name);
+        routeParam.name = camelCase(routeParam.name);
       }
 
       routeParams[routeParam.in].push(routeParam);
-    });
+    }
 
     // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
     for (const pathParam of pathParamsFromRouteName) {
@@ -269,19 +260,22 @@ export class SchemaRoutes {
     return routeParams;
   };
 
-  getContentTypes = (requestInfo, extraContentTypes) =>
-    lodash.uniq(
-      lodash.compact([
+  getContentTypes = (requestInfo, extraContentTypes) => {
+    const requestInfoArray = Array.isArray(requestInfo)
+      ? requestInfo
+      : Object.values(requestInfo || {});
+    return uniq(
+      compact([
         ...(extraContentTypes || []),
-        ...lodash.flatten(
-          lodash.map(
-            requestInfo,
+        ...flattenDeep(
+          requestInfoArray.map(
             (requestInfoData) =>
-              requestInfoData && lodash.keys(requestInfoData.content),
+              requestInfoData && Object.keys(requestInfoData?.content || {}),
           ),
         ),
       ]),
     );
+  };
 
   getContentKind = (contentTypes) => {
     if (contentTypes.includes("application/vnd.api+json")) {
@@ -323,7 +317,7 @@ export class SchemaRoutes {
     status === "2xx";
 
   getSchemaFromRequestType = (requestInfo) => {
-    const content = lodash.get(requestInfo, "content");
+    const content = get(requestInfo, "content");
 
     if (!content) return null;
 
@@ -365,7 +359,7 @@ export class SchemaRoutes {
           this.typeNameFormatter.format(parsedSchema.name) === content,
       );
       const foundSchemaByContent = parsedSchemas.find((parsedSchema) =>
-        lodash.isEqual(parsedSchema.content, content),
+        isEqual(parsedSchema.content, content),
       );
 
       const foundSchema = foundedSchemaByName || foundSchemaByContent;
@@ -412,40 +406,35 @@ export class SchemaRoutes {
     parsedSchemas,
     operationId,
     defaultType,
-  }) =>
-    lodash.reduce(
-      requestInfos,
-      (acc, requestInfo, status) => {
-        const contentTypes = this.getContentTypes([requestInfo], operationId);
+  }) => {
+    const result: any[] = [];
+    for (const [status, requestInfo] of Object.entries(requestInfos || {})) {
+      const contentTypes = this.getContentTypes([requestInfo], operationId);
 
-        return [
-          ...acc,
-          {
-            ...(requestInfo || {}),
-            contentTypes: contentTypes,
-            contentKind: this.getContentKind(contentTypes),
-            type: this.schemaParserFabric.schemaUtils.safeAddNullToType(
-              requestInfo,
-              // @ts-expect-error TS(2345) FIXME: Argument of type '{ requestInfo: any; parsedSchema... Remove this comment to see the full error message
-              this.getTypeFromRequestInfo({
-                requestInfo,
-                parsedSchemas,
-                operationId,
-                defaultType,
-              }),
-            ),
-            description:
-              this.schemaParserFabric.schemaFormatters.formatDescription(
-                requestInfo.description || "",
-                true,
-              ),
-            status: Number.isNaN(+status) ? status : +status,
-            isSuccess: this.isSuccessStatus(status),
-          },
-        ];
-      },
-      [],
-    );
+      result.push({
+        ...((requestInfo as object) || {}),
+        contentTypes: contentTypes,
+        contentKind: this.getContentKind(contentTypes),
+        type: this.schemaParserFabric.schemaUtils.safeAddNullToType(
+          requestInfo,
+          // @ts-expect-error TS(2345) FIXME: Argument of type '{ requestInfo: any; parsedSchema... Remove this comment to see the full error message
+          this.getTypeFromRequestInfo({
+            requestInfo,
+            parsedSchemas,
+            operationId,
+            defaultType,
+          }),
+        ),
+        description: this.schemaParserFabric.schemaFormatters.formatDescription(
+          (requestInfo as any).description || "",
+          true,
+        ),
+        status: Number.isNaN(+status) ? status : +status,
+        isSuccess: this.isSuccessStatus(status),
+      });
+    }
+    return result;
+  };
 
   getResponseBodyInfo = (routeInfo, parsedSchemas) => {
     const { produces, operationId, responses } = routeInfo;
@@ -659,20 +648,16 @@ export class SchemaRoutes {
       return acc;
     }, {});
 
-    const fixedQueryParams = lodash.reduce(
-      lodash.get(queryObjectSchema, "properties", {}),
-      (acc, property, name) => {
-        if (name && typeof property === "object") {
-          acc[name] = {
-            ...property,
-            in: "query",
-          };
-        }
-
-        return acc;
-      },
-      {},
-    );
+    const fixedQueryParams = {};
+    const queryObjectProperties = get(queryObjectSchema, "properties") || {};
+    for (const [name, property] of Object.entries(queryObjectProperties)) {
+      if (name && typeof property === "object") {
+        fixedQueryParams[name] = {
+          ...property,
+          in: "query",
+        };
+      }
+    }
 
     const schema = {
       ...queryObjectSchema,
@@ -744,7 +729,7 @@ export class SchemaRoutes {
         });
 
         if (idx > -1) {
-          lodash.assign(responseBodyInfo.responses[idx], {
+          Object.assign(responseBodyInfo.responses[idx], {
             ...successResponse.schema,
             type: successResponse.type,
           });
@@ -764,30 +749,26 @@ export class SchemaRoutes {
         resolver: this.config.extractingOptions.responseErrorNameResolver,
       });
 
-      const errorSchemas = responseBodyInfo.error.schemas
-        .map(this.getSchemaFromRequestType)
-        .filter(Boolean);
+      const errorSchemas = compact(
+        responseBodyInfo.error.schemas.map(this.getSchemaFromRequestType),
+      );
 
       if (!errorSchemas.length) return;
 
       const schema = this.schemaParserFabric.parseSchema(
         {
           oneOf: errorSchemas,
-          title: errorSchemas
-            .map((schema) => schema.title)
-            .filter(Boolean)
-            .join(" "),
-          description: errorSchemas
-            .map((schema) => schema.description)
-            .filter(Boolean)
-            .join("\n"),
+          title: compact(errorSchemas.map((schema) => schema.title)).join(" "),
+          description: compact(
+            errorSchemas.map((schema) => schema.description),
+          ).join("\n"),
         },
         null,
         [routeInfo.operationId],
       );
       const component = this.schemaComponentsMap.createComponent(
         this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
-        { ...schema },
+        schema,
       );
       responseBodyInfo.error.schemas = [component];
       if (component.typeData) {
@@ -883,9 +864,9 @@ export class SchemaRoutes {
     const firstTag = tags && tags.length > 0 ? tags[0] : null;
     const moduleName =
       moduleNameFirstTag && firstTag
-        ? lodash.camelCase(firstTag)
+        ? camelCase(firstTag)
         : // @ts-expect-error TS(2345) FIXME: Argument of type 'unknown' is not assignable to pa... Remove this comment to see the full error message
-          lodash.camelCase(lodash.compact(route.split("/"))[moduleNameIndex]);
+          camelCase(compact(route.split("/"))[moduleNameIndex] || "");
     let hasSecurity = !!globalSecurity?.length;
     if (security) {
       hasSecurity = security.length > 0;
@@ -1094,7 +1075,7 @@ export class SchemaRoutes {
   attachSchema = ({ usageSchema, parsedSchemas }) => {
     this.config.routeNameDuplicatesMap.clear();
 
-    const pathsEntries = lodash.entries(usageSchema.paths);
+    const pathsEntries = Object.entries(usageSchema.paths || {});
 
     for (const [rawRouteName, routeInfoByMethodsMap] of pathsEntries) {
       const routeInfosMap = this.createRequestsMap(routeInfoByMethodsMap);
@@ -1146,57 +1127,57 @@ export class SchemaRoutes {
       { $outOfModule: [] as ParsedRoute[] },
     );
 
-    const routeGroups = lodash.reduce(
-      groupedRoutes,
-      (acc, routesGroup, moduleName) => {
-        if (moduleName === "$outOfModule") {
-          acc.outOfModule = routesGroup;
-        } else {
-          if (!acc.combined) {
-            acc.combined = [];
-          }
-          acc.combined.push({
-            moduleName,
-            routes: routesGroup.map((route) => {
-              const { original: originalName, usage: usageName } =
-                route.routeName;
+    const routeGroups: GenerateApiConfiguration["routes"] = {
+      outOfModule: undefined,
+      combined: undefined,
+    };
 
-              // TODO: https://github.com/acacode/swagger-typescript-api/issues/152
-              // TODO: refactor
-              if (
-                routesGroup.length > 1 &&
-                usageName !== originalName &&
-                !routesGroup.some(
-                  ({ routeName, id }) =>
-                    id !== route.id && originalName === routeName.original,
-                )
-              ) {
-                return {
-                  ...route,
-                  routeName: {
-                    ...route.routeName,
-                    usage: originalName,
-                  },
-                };
-              }
-
-              return route;
-            }),
-          });
+    for (const [moduleName, routesGroup] of Object.entries(groupedRoutes)) {
+      if (moduleName === "$outOfModule") {
+        routeGroups.outOfModule = routesGroup;
+      } else {
+        if (!routeGroups.combined) {
+          routeGroups.combined = [];
         }
-        return acc;
-      },
-      {} as GenerateApiConfiguration["routes"],
-    );
+        routeGroups.combined.push({
+          moduleName,
+          routes: routesGroup.map((route) => {
+            const { original: originalName, usage: usageName } =
+              route.routeName;
+
+            // TODO: https://github.com/acacode/swagger-typescript-api/issues/152
+            // TODO: refactor
+            if (
+              routesGroup.length > 1 &&
+              usageName !== originalName &&
+              !routesGroup.some(
+                ({ routeName, id }) =>
+                  id !== route.id && originalName === routeName.original,
+              )
+            ) {
+              return {
+                ...route,
+                routeName: {
+                  ...route.routeName,
+                  usage: originalName,
+                },
+              };
+            }
+
+            return route;
+          }),
+        });
+      }
+    }
 
     if (this.config.sortRoutes) {
       if (routeGroups.outOfModule) {
         routeGroups.outOfModule = this.sortRoutes(routeGroups.outOfModule);
       }
       if (routeGroups.combined) {
-        lodash.each(routeGroups.combined, (routeGroup) => {
+        for (const routeGroup of routeGroups.combined) {
           routeGroup.routes = this.sortRoutes(routeGroup.routes);
-        });
+        }
       }
     }
 
@@ -1204,8 +1185,8 @@ export class SchemaRoutes {
   };
 
   sortRoutes = (routes: ParsedRoute[]) => {
-    return lodash
-      .slice(routes)
+    return routes
+      .slice()
       .sort((routeA, routeB) =>
         routeA.routeName.usage.localeCompare(routeB.routeName.usage),
       );

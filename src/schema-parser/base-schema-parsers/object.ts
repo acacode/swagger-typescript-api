@@ -1,4 +1,5 @@
-import lodash from "lodash";
+import { compact } from "es-toolkit";
+import { get } from "es-toolkit/compat";
 import { SCHEMA_TYPES } from "../../constants.js";
 import { MonoSchemaParser } from "../mono-schema-parser.js";
 
@@ -25,18 +26,22 @@ export class ObjectSchemaParser extends MonoSchemaParser {
   getObjectSchemaContent = (schema) => {
     const { properties, additionalProperties } = schema || {};
 
-    const propertiesContent = lodash.map(properties, (property, name) => {
+    const propertiesContent: any[] = [];
+
+    for (const [name, property] of Object.entries(properties || {})) {
       const required = this.schemaUtils.isPropertyRequired(
         name,
-        property,
+        property as Record<string, unknown>,
         schema,
       );
-      const rawTypeData = lodash.get(
+      const rawTypeData = get(
         this.schemaUtils.getSchemaRefType(property),
         "rawTypeData",
         {},
       );
-      const nullable = !!(rawTypeData.nullable || property.nullable);
+      const nullable = !!(
+        rawTypeData.nullable || (property as Record<string, unknown>).nullable
+      );
       const fieldName = this.typeNameFormatter.isValidName(name)
         ? name
         : this.config.Ts.StringValue(name);
@@ -46,25 +51,27 @@ export class ObjectSchemaParser extends MonoSchemaParser {
           schemaPath: [...this.schemaPath, name],
         })
         .getInlineParseContent();
-      const readOnly = property.readOnly;
+      const readOnly = (property as Record<string, unknown>).readOnly;
 
-      return {
-        ...property,
+      const complexType = this.schemaUtils.getComplexType(property);
+      const rawDataComplexType = this.schemaUtils.getComplexType(rawTypeData);
+
+      propertiesContent.push({
+        ...(property as object),
         $$raw: property,
-        title: property.title,
+        title: (property as Record<string, unknown>).title,
         description:
-          property.description ||
-          lodash.compact(
-            lodash.map(
-              property[this.schemaUtils.getComplexType(property)],
-              "description",
-            ),
+          (property as Record<string, unknown>).description ||
+          compact(
+            (
+              ((property as Record<string, unknown>)[complexType] as any[]) ||
+              []
+            ).map((item: any) => item?.description),
           )[0] ||
           rawTypeData.description ||
-          lodash.compact(
-            lodash.map(
-              rawTypeData[this.schemaUtils.getComplexType(rawTypeData)],
-              "description",
+          compact(
+            ((rawTypeData[rawDataComplexType] as any[]) || []).map(
+              (item: any) => item?.description,
             ),
           )[0] ||
           "",
@@ -78,8 +85,8 @@ export class ObjectSchemaParser extends MonoSchemaParser {
           key: fieldName,
           value: fieldValue,
         }),
-      };
-    });
+      });
+    }
 
     if (additionalProperties) {
       const propertyNamesSchema =

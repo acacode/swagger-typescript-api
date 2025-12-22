@@ -1,4 +1,5 @@
-import lodash from "lodash";
+import { compact } from "es-toolkit";
+import { get } from "es-toolkit/compat";
 import type { CodeGenConfig } from "../configuration.js";
 import { SCHEMA_TYPES } from "../constants.js";
 import type { TemplatesWorker } from "../templates-worker.js";
@@ -58,7 +59,7 @@ export class SchemaFormatters {
         content: parsedSchema.$ref
           ? parsedSchema.typeName
           : this.config.Ts.UnionType(
-              lodash.compact([
+              compact([
                 ...parsedSchema.content.map(({ value }) => `${value}`),
                 parsedSchema.nullable && this.config.Ts.Keyword.Null,
               ]),
@@ -96,13 +97,13 @@ export class SchemaFormatters {
     formatType: "base" | "inline" = "base",
   ) => {
     const schemaType =
-      lodash.get(parsedSchema, ["schemaType"]) ||
-      lodash.get(parsedSchema, ["$parsed", "schemaType"]);
-    const formatterFn = lodash.get(this, [formatType, schemaType]);
+      get(parsedSchema, ["schemaType"]) ||
+      get(parsedSchema, ["$parsed", "schemaType"]);
+    const formatterFn = get(this, [formatType, schemaType]);
     return formatterFn?.(parsedSchema) || parsedSchema;
   };
 
-  formatDescription = (description, inline) => {
+  formatDescription = (description: string | undefined, inline?: boolean) => {
     if (!description) return "";
 
     const hasMultipleLines = description.includes("\n");
@@ -110,15 +111,8 @@ export class SchemaFormatters {
     if (!hasMultipleLines) return description;
 
     if (inline) {
-      return (
-        lodash
-          // @ts-expect-error TS(2339) FIXME: Property '_' does not exist on type 'LoDashStatic'... Remove this comment to see the full error message
-          ._(description)
-          .split(/\n/g)
-          .map((part) => part.trim())
-          .compact()
-          .join(" ")
-          .valueOf()
+      return compact(description.split(/\n/g).map((part) => part.trim())).join(
+        " ",
       );
     }
 
@@ -126,7 +120,7 @@ export class SchemaFormatters {
   };
 
   formatObjectContent = (content) => {
-    const fields = [];
+    const fields: string[] = [];
 
     for (const part of content) {
       const extraSpace = "  ";
