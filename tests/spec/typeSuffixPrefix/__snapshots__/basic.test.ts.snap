@@ -6256,6 +6256,7 @@ export class Api<
       >({
         path: \`/teams/\${teamId}/members/\${username}\`,
         method: "PUT",
+        format: "json",
         ...params,
       }),
 

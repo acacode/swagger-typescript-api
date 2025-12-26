@@ -412,12 +412,11 @@ export class SchemaRoutes {
     parsedSchemas,
     operationId,
     defaultType,
+    contentTypes,
   }) =>
     lodash.reduce(
       requestInfos,
       (acc, requestInfo, status) => {
-        const contentTypes = this.getContentTypes([requestInfo], operationId);
-
         return [
           ...acc,
           {
@@ -460,6 +459,7 @@ export class SchemaRoutes {
       parsedSchemas,
       operationId,
       defaultType: this.config.defaultResponseType,
+      contentTypes,
     });
 
     const successResponse = responseInfos.find(

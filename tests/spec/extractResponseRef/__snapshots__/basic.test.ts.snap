@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`basic > on-insert-path-param 1`] = `
+exports[`basic > --extract-response-body 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
@@ -12,6 +12,10 @@ exports[`basic > on-insert-path-param 1`] = `
  * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
  * ---------------------------------------------------------------
  */
+
+export interface PetTTT {
+  id?: string;
+}
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -66,7 +70,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "http://petstore.swagger.io/api";
+  public baseUrl: string = "http://petstore.swagger.io/v2";
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private abortControllers = new Map<CancelToken, AbortController>();
@@ -271,69 +275,30 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title Swagger Petstore
  * @version 1.0.0
- * @license MIT
+ * @license Apache-2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
  * @termsOfService http://swagger.io/terms/
- * @baseUrl http://petstore.swagger.io/api
- * @contact Swagger API Team
+ * @baseUrl http://petstore.swagger.io/v2
+ * @externalDocs http://swagger.io
+ * @contact <apiteam@swagger.io>
  *
- * A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
+ * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key \`special-key\` to test the authorization filters.
  */
 export class Api<
   SecurityDataType extends unknown,
 > extends HttpClient<SecurityDataType> {
-  wrongPathParams1 = {
+  pet = {
     /**
-     * @description DDD
+     * No description
      *
-     * @tags key, delete
-     * @name WrongPathParams1
-     * @request DELETE:/wrong-path-params1/{pathParam1}/{path_param2}/{path_param3}/:pathParam4
+     * @tags pet
+     * @name GetPet
+     * @summary dummy get
+     * @request GET:/pet
      */
-    wrongPathParams1: (
-      pathParam1: string,
-      pathParam2: string,
-      pathParam3: string,
-      pathParam4: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<void, any>({
-        path: \`/wrong-path-params1/\${encodeURIComponent(pathParam1)}/\${encodeURIComponent(pathParam2)}/\${encodeURIComponent(pathParam3)}/\${encodeURIComponent(pathParam4)}\`,
-        method: "DELETE",
-        format: "json",
-        ...params,
-      }),
-  };
-  checks = {
-    /**
-     * @description <h1>description</h1>
-     *
-     * @tags check
-     * @name GetChecksCheckGet
-     * @summary Get Checks
-     * @request GET:/checks
-     * @secure
-     */
-    getChecksCheckGet: (
-      query?: {
-        /**
-         * Page
-         * @min 1
-         * @default 1
-         */
-        page?: number;
-        /**
-         * Size
-         * @default 1
-         */
-        size?: number;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<any, any>({
-        path: \`/checks\`,
+    getPet: (params: RequestParams = {}) =>
+      this.request<PetTTT, any>({
+        path: \`/pet\`,
         method: "GET",
-        query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
