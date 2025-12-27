@@ -1,0 +1,44 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`nullable-parent-with-nullable-children > nullable parent object with nullable child properties 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+/** A nullable user object with nullable email property */
+export type UserWithNullableEmail = {
+  id: string;
+  email?: string | null;
+  name?: string | null;
+} | null;
+
+/** A nullable profile with all nullable properties */
+export type Profile = {
+  bio?: string | null;
+  avatar?: string | null;
+  age?: number | null;
+} | null;
+
+export interface NestedNullableObject {
+  outerField: string;
+  innerObject?: {
+    innerField?: string | null;
+  } | null;
+}
+
+export interface Container {
+  /** A nullable user object with nullable email property */
+  user?: UserWithNullableEmail;
+  /** A nullable profile with all nullable properties */
+  profile?: Profile;
+}
+"
+`;

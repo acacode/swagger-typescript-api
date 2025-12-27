@@ -1,0 +1,91 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Nullable Union with Null in Middle Test",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "StringNullOrNumber": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          },
+          {
+            "type": "number"
+          }
+        ],
+        "nullable": true,
+        "description": "A union type where null appears in the middle: string | null | number"
+      },
+      "ObjectNullOrArray": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "null"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "nullable": true,
+        "description": "A union type where null appears between object and array"
+      },
+      "MultipleNullPositions": {
+        "type": "object",
+        "properties": {
+          "nullAtStart": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "nullable": true
+          },
+          "nullInMiddle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "nullable": true
+          },
+          "nullAtEnd": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+}

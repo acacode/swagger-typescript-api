@@ -85,14 +85,25 @@ export class SchemaUtils {
 
   isNullMissingInType = (schema, type) => {
     const { nullable, type: schemaType } = schema || {};
-    return (
-      (nullable ||
-        !!lodash.get(schema, "x-nullable") ||
-        schemaType === this.config.Ts.Keyword.Null) &&
-      typeof type === "string" &&
-      !type.includes(` ${this.config.Ts.Keyword.Null}`) &&
-      !type.includes(`${this.config.Ts.Keyword.Null} `)
-    );
+
+    // Check if schema indicates nullable
+    const isSchemaMarkedNullable =
+      nullable ||
+      !!lodash.get(schema, "x-nullable") ||
+      schemaType === this.config.Ts.Keyword.Null;
+
+    if (!isSchemaMarkedNullable) return false;
+    if (typeof type !== "string") return false;
+
+    // Only check for root-level null in union types
+    // Match null bounded by pipes and/or start/end of string
+    // This avoids false positives from nested nullable properties like { prop: string | null }
+    const nullKeyword = this.config.Ts.Keyword.Null;
+    const hasRootLevelNull = new RegExp(
+      `(^|\\|)\\s*${nullKeyword}\\s*(\\||$)`,
+    ).test(type);
+
+    return !hasRootLevelNull;
   };
 
   safeAddNullToType = (schema, type) => {

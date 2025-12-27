@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`basic > additional properties 2.0 1`] = `
+exports[`nullable-union-middle > nullable unions with null in middle position 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
@@ -13,27 +13,21 @@ exports[`basic > additional properties 2.0 1`] = `
  * ---------------------------------------------------------------
  */
 
-export interface MyObject1 {
-  id?: string;
-  [key: string]: any;
-}
+/** A union type where null appears in the middle: string | null | number */
+export type StringNullOrNumber = string | null | number;
 
-export interface MyObject2 {
-  id?: string;
-  [key: string]: any;
-}
+/** A union type where null appears between object and array */
+export type ObjectNullOrArray =
+  | {
+      id?: string;
+    }
+  | null
+  | string[];
 
-export interface MyObject3 {
-  id?: string;
-  [key: string]: any;
+export interface MultipleNullPositions {
+  nullAtStart?: null | string;
+  nullInMiddle?: string | null | number;
+  nullAtEnd?: string | null;
 }
-
-export type MyObject4 = Record<
-  string,
-  {
-    content?: string;
-    filename?: string | null;
-  } | null
->;
 "
 `;
