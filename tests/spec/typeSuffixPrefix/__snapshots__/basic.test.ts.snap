@@ -4952,7 +4952,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<
-        SwaggerTypeMergesSuccessfulGeneratedDataContract,
+        SwaggerTypeMergesSuccessfulGeneratedDataContract | void,
         void | SwaggerTypeMergesConflictGeneratedDataContract
       >({
         path: \`/repos/\${owner}/\${repo}/merges\`,

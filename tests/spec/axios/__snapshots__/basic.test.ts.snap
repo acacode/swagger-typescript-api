@@ -4741,7 +4741,7 @@ export class Api<
       body: MergesBody,
       params: RequestParams = {},
     ) =>
-      this.request<MergesSuccessful, void | MergesConflict>({
+      this.request<MergesSuccessful | void, void | MergesConflict>({
         path: \`/repos/\${owner}/\${repo}/merges\`,
         method: "POST",
         body: body,

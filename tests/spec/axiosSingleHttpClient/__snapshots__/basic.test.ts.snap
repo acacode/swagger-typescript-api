@@ -4745,7 +4745,7 @@ export class Api<SecurityDataType extends unknown> {
       body: MergesBody,
       params: RequestParams = {},
     ) =>
-      this.http.request<MergesSuccessful, void | MergesConflict>({
+      this.http.request<MergesSuccessful | void, void | MergesConflict>({
         path: \`/repos/\${owner}/\${repo}/merges\`,
         method: "POST",
         body: body,
