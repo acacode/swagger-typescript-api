@@ -1,0 +1,155 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "JSON-LD Test API",
+    "version": "1.0.0"
+  },
+  "components": {
+    "schemas": {
+      "Person": {
+        "type": "object",
+        "x-jsonld": true,
+        "x-jsonld-context": {
+          "name": "https://schema.org/name",
+          "email": "https://schema.org/email",
+          "birthDate": {
+            "@id": "https://schema.org/birthDate",
+            "@type": "xsd:date"
+          }
+        },
+        "x-jsonld-type": "https://schema.org/Person",
+        "properties": {
+          "@context": {
+            "type": "object",
+            "description": "JSON-LD context"
+          },
+          "@type": {
+            "type": "string",
+            "enum": ["Person", "https://schema.org/Person"],
+            "description": "JSON-LD type"
+          },
+          "@id": {
+            "type": "string",
+            "format": "uri",
+            "description": "Person identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "Person's name"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Person's email"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Person's birth date"
+          }
+        },
+        "required": ["@type", "name"]
+      },
+      "Organization": {
+        "type": "object",
+        "x-jsonld": true,
+        "x-jsonld-context": "https://schema.org/",
+        "x-jsonld-type": "Organization",
+        "properties": {
+          "@context": {
+            "type": "string",
+            "const": "https://schema.org/"
+          },
+          "@type": {
+            "type": "string",
+            "const": "Organization"
+          },
+          "@id": {
+            "type": "string",
+            "format": "uri"
+          },
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "employees": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Person"
+            }
+          }
+        },
+        "required": ["@type", "name"]
+      }
+    }
+  },
+  "paths": {
+    "/people": {
+      "get": {
+        "summary": "Get people",
+        "responses": {
+          "200": {
+            "description": "List of people",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Person"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create person",
+        "requestBody": {
+          "content": {
+            "application/ld+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Person"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Person created",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Person"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations": {
+      "get": {
+        "summary": "Get organizations",
+        "responses": {
+          "200": {
+            "description": "List of organizations",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Organization"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
