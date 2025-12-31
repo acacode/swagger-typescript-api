@@ -718,7 +718,7 @@ export interface GenerateApiConfiguration {
     >;
     formatModelName: (name: string) => string;
     fmtToJSDocLine: (line: string, params?: { eol?: boolean }) => string;
-    _: import("lodash").LoDashStatic;
+    _: typeof import("es-toolkit") & typeof import("es-toolkit/compat");
     require: (path: string) => unknown;
   };
 }
