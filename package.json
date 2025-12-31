@@ -46,7 +46,7 @@
     "@biomejs/js-api": "4.0.0",
     "@biomejs/wasm-nodejs": "2.3.10",
     "@types/swagger-schema-official": "^2.0.25",
-    "c12": "^3.3.0",
+    "c12": "^3.3.3",
     "citty": "^0.1.6",
     "consola": "^3.4.2",
     "es-toolkit": "^1.43.0",
@@ -55,7 +55,7 @@
     "swagger-schema-official": "2.0.0-bab6bed",
     "swagger2openapi": "^7.0.8",
     "typescript": "~5.9.3",
-    "yaml": "^2.8.1"
+    "yaml": "^2.8.2"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.10",

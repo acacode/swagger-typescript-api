@@ -1476,7 +1476,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"c12@npm:^3.3.0":
+"c12@npm:^3.3.3":
   version: 3.3.3
   resolution: "c12@npm:3.3.3"
   dependencies:
@@ -3616,7 +3616,7 @@ __metadata:
     "@types/swagger-schema-official": "npm:^2.0.25"
     "@types/swagger2openapi": "npm:7.0.4"
     axios: "npm:1.13.2"
-    c12: "npm:^3.3.0"
+    c12: "npm:^3.3.3"
     citty: "npm:^0.1.6"
     consola: "npm:^3.4.2"
     es-toolkit: "npm:^1.43.0"
@@ -3628,7 +3628,7 @@ __metadata:
     typedoc: "npm:0.28.15"
     typescript: "npm:~5.9.3"
     vitest: "npm:4.0.16"
-    yaml: "npm:^2.8.1"
+    yaml: "npm:^2.8.2"
   bin:
     sta: ./dist/cli.mjs
     swagger-typescript-api: ./dist/cli.mjs
@@ -4093,7 +4093,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.8.1":
+"yaml@npm:^2.8.1, yaml@npm:^2.8.2":
   version: 2.8.2
   resolution: "yaml@npm:2.8.2"
   bin:
