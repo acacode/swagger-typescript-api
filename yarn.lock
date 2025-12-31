@@ -3652,8 +3652,8 @@ __metadata:
     vitest: "npm:4.0.16"
     yaml: "npm:^2.8.1"
   bin:
-    sta: ./dist/cli.js
-    swagger-typescript-api: ./dist/cli.js
+    sta: ./dist/cli.mjs
+    swagger-typescript-api: ./dist/cli.mjs
   languageName: unknown
   linkType: soft
 

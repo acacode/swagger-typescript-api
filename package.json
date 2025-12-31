@@ -13,21 +13,21 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
     },
     "./cli": {
-      "import": "./dist/cli.js",
-      "require": "./dist/cli.cjs"
+      "require": "./dist/cli.cjs",
+      "import": "./dist/cli.mjs"
     },
     "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "bin": {
-    "sta": "./dist/cli.js",
-    "swagger-typescript-api": "./dist/cli.js"
+    "sta": "./dist/cli.mjs",
+    "swagger-typescript-api": "./dist/cli.mjs"
   },
   "files": [
     "dist",
@@ -35,9 +35,6 @@
   ],
   "scripts": {
     "build": "tsdown",
-    "cli:help": "node index.js -h",
-    "cli:json": "node index.js -r -d -p ./swagger-test-cli.json -n swagger-test-cli.ts",
-    "cli:yaml": "node index.js -r -d -p ./swagger-test-cli.yaml -n swagger-test-cli.ts",
     "format": "biome format --write .",
     "format:check": "biome format .",
     "lint": "biome check",
