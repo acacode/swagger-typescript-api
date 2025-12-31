@@ -1,4 +1,4 @@
-import lodash from "lodash";
+import { get } from "es-toolkit/compat";
 import type { OpenAPI } from "openapi-types";
 import type { CodeGenConfig } from "./configuration.js";
 import type { SwaggerSchemaResolver } from "./swagger-schema-resolver.js";
@@ -33,7 +33,7 @@ export class SchemaWalker {
 
   _getRefDataFromSchema = (schema: Record<string, unknown>, ref: string) => {
     const path = ref.replace("#", "").split("/");
-    const refData = lodash.get(schema, path);
+    const refData = get(schema, path);
     if (refData) {
       this.caches.set(ref, refData);
     }

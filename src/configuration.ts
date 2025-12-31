@@ -1,4 +1,4 @@
-import lodash from "lodash";
+import { compact, merge, uniq } from "es-toolkit";
 import type { OpenAPI } from "openapi-types";
 import * as typescript from "typescript";
 import type {
@@ -12,7 +12,6 @@ import * as CONSTANTS from "./constants.js";
 import type { MonoSchemaParser } from "./schema-parser/mono-schema-parser.js";
 import type { SchemaParser } from "./schema-parser/schema-parser.js";
 import type { Translator } from "./translators/translator.js";
-import { objectAssign } from "./util/object-assign.js";
 
 const TsKeyword = {
   Number: "number",
@@ -252,7 +251,7 @@ export class CodeGenConfig {
      * $A1 | $A2
      */
     UnionType: (contents: unknown[]) =>
-      lodash.join(lodash.uniq(contents), ` ${this.Ts.Keyword.Union} `),
+      uniq(contents).join(` ${this.Ts.Keyword.Union} `),
     /**
      * ($A1)
      */
@@ -261,7 +260,7 @@ export class CodeGenConfig {
      * $A1 & $A2
      */
     IntersectionType: (contents: unknown[]) =>
-      lodash.join(lodash.uniq(contents), ` ${this.Ts.Keyword.Intersection} `),
+      uniq(contents).join(` ${this.Ts.Keyword.Intersection} `),
     /**
      * Record<$A1, $A2>
      */
@@ -271,9 +270,13 @@ export class CodeGenConfig {
      * readonly $key?:$value
      */
     TypeField: ({ readonly, key, optional, value }: Record<string, unknown>) =>
-      lodash
-        .compact([readonly && "readonly ", key, optional && "?", ": ", value])
-        .join(""),
+      compact([
+        readonly && "readonly ",
+        key,
+        optional && "?",
+        ": ",
+        value,
+      ]).join(""),
     /**
      * [key: $A1]: $A2
      */
@@ -307,14 +310,12 @@ export class CodeGenConfig {
      * $AN.key = $AN.value,
      */
     EnumFieldsWrapper: (contents: Record<string, unknown>[]) =>
-      lodash
-        .map(contents, ({ key, value, description }) => {
-          return [
+      contents
+        .map(({ key, value, description }) => {
+          return compact([
             this.Ts.EnumFieldDescription(description),
             `  ${this.Ts.EnumField(key, value)}`,
-          ]
-            .filter(Boolean)
-            .join("\n");
+          ]).join("\n");
         })
         .join(",\n"),
     /**
@@ -415,14 +416,14 @@ export class CodeGenConfig {
     hooks,
     ...otherConfig
   }: Partial<GenerateApiConfiguration["config"]>) {
-    objectAssign(this.Ts, codeGenConstructs);
-    objectAssign(this.primitiveTypes, primitiveTypeConstructs);
+    Object.assign(this.Ts, codeGenConstructs);
+    Object.assign(this.primitiveTypes, primitiveTypeConstructs);
 
     this.defaultResponseType = this.Ts.Keyword.Void;
 
     this.update({
       ...otherConfig,
-      hooks: lodash.merge(this.hooks, hooks || {}),
+      hooks: merge(this.hooks, hooks || {}),
       constants: {
         ...CONSTANTS,
         ...constants,
@@ -440,7 +441,7 @@ export class CodeGenConfig {
   }
 
   update = (update: Partial<GenerateApiConfiguration["config"]>) => {
-    objectAssign(this, update);
+    Object.assign(this, update);
     if (this.enumNamesAsValues) {
       this.extractEnums = true;
     }

@@ -1,4 +1,5 @@
-import lodash from "lodash";
+import { compact, omit } from "es-toolkit";
+import { get } from "es-toolkit/compat";
 import { SCHEMA_TYPES } from "../../constants.js";
 import { MonoSchemaParser } from "../mono-schema-parser.js";
 
@@ -29,10 +30,10 @@ export class DiscriminatorSchemaParser extends MonoSchemaParser {
     });
 
     const schemaContent = ts.IntersectionType(
-      [
+      compact([
         abstractSchemaStruct?.content,
         discriminatorSchemaStruct?.content,
-      ].filter(Boolean),
+      ]),
     );
 
     return {
@@ -59,11 +60,11 @@ export class DiscriminatorSchemaParser extends MonoSchemaParser {
       this.typeName,
     ]);
     const { discriminator } = this.schema;
-    const mappingEntries = lodash.entries(discriminator.mapping);
+    const mappingEntries = Object.entries(discriminator.mapping || {});
     const ableToCreateMappingType =
       !skipMappingType &&
       !!(abstractSchemaStruct?.typeName && mappingEntries.length);
-    const mappingContents = [];
+    const mappingContents: string[] = [];
     let mappingTypeName;
 
     /** { mapping_key: SchemaEnum.MappingKey, ... } */
@@ -166,8 +167,8 @@ export class DiscriminatorSchemaParser extends MonoSchemaParser {
   }) => {
     const ts = this.config.Ts;
 
-    let mappingPropertySchemaEnumKeysMap = {};
-    let mappingPropertySchema = lodash.get(
+    const mappingPropertySchemaEnumKeysMap = {};
+    let mappingPropertySchema = get(
       abstractSchemaStruct?.component?.rawTypeData,
       ["properties", discPropertyName],
     );
@@ -179,24 +180,26 @@ export class DiscriminatorSchemaParser extends MonoSchemaParser {
 
     const parsedEnum = mappingPropertySchema?.rawTypeData?.$parsed;
     if (parsedEnum?.type === SCHEMA_TYPES.ENUM) {
-      mappingPropertySchemaEnumKeysMap = lodash.reduce(
-        parsedEnum.enum,
-        (acc, key, index) => {
-          const enumContent = parsedEnum.content?.[index];
-          if (this.config.generateUnionEnums) {
-            const literalValue =
-              enumContent?.value ??
-              (key !== undefined ? ts.StringValue(key) : undefined);
-            if (literalValue !== undefined) {
-              acc[key] = literalValue;
-            }
-          } else if (parsedEnum.typeName && enumContent?.key) {
-            acc[key] = ts.EnumUsageKey(parsedEnum.typeName, enumContent.key);
+      const enumEntries = (parsedEnum.enum || []).map((key, index) => [
+        key,
+        index,
+      ]);
+      for (const [key, index] of enumEntries) {
+        const enumContent = parsedEnum.content?.[index];
+        if (this.config.generateUnionEnums) {
+          const literalValue =
+            enumContent?.value ??
+            (key !== undefined ? ts.StringValue(key) : undefined);
+          if (literalValue !== undefined) {
+            mappingPropertySchemaEnumKeysMap[key] = literalValue;
           }
-          return acc;
-        },
-        {},
-      );
+        } else if (parsedEnum.typeName && enumContent?.key) {
+          mappingPropertySchemaEnumKeysMap[key] = ts.EnumUsageKey(
+            parsedEnum.typeName,
+            enumContent.key,
+          );
+        }
+      }
     }
 
     return mappingPropertySchemaEnumKeysMap;
@@ -209,7 +212,7 @@ export class DiscriminatorSchemaParser extends MonoSchemaParser {
     refPath,
     mappingPropertySchemaEnumKeysMap,
   }) => {
-    const complexSchemaKeys = lodash.keys(
+    const complexSchemaKeys = Object.keys(
       this.schemaParser._complexSchemaParsers,
     );
     // override parent dependencies
@@ -262,17 +265,17 @@ export class DiscriminatorSchemaParser extends MonoSchemaParser {
 
   createAbstractSchemaStruct = () => {
     const { discriminator, ...noDiscriminatorSchema } = this.schema;
-    const complexSchemaKeys = lodash.keys(
+    const complexSchemaKeys = Object.keys(
       this.schemaParser._complexSchemaParsers,
     );
-    const schema = lodash.omit(
+    const schema = omit(
       structuredClone(noDiscriminatorSchema),
       complexSchemaKeys,
     );
     const schemaIsAny =
       this.schemaParserFabric.getInlineParseContent(structuredClone(schema)) ===
       this.config.Ts.Keyword.Any;
-    const schemaIsEmpty = !lodash.keys(schema).length;
+    const schemaIsEmpty = !Object.keys(schema).length;
 
     if (schemaIsEmpty || schemaIsAny) return null;
 
