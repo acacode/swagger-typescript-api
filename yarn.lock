@@ -1599,6 +1599,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"citty@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "citty@npm:0.2.0"
+  checksum: 10c0/da72051262ec0e0390dc9800e16bae72a5c85d61982e4f74e3c502d08a3099428964405eb1b4cdc07a7fd5658f78db97c0111c503cde592a41e75a299ac45fb5
+  languageName: node
+  linkType: hard
+
 "cliui@npm:^8.0.1":
   version: 8.0.1
   resolution: "cliui@npm:8.0.1"
@@ -3626,7 +3633,7 @@ __metadata:
     "@types/swagger2openapi": "npm:7.0.4"
     axios: "npm:1.13.2"
     c12: "npm:^3.3.3"
-    citty: "npm:^0.1.6"
+    citty: "npm:^0.2.0"
     consola: "npm:^3.4.2"
     es-toolkit: "npm:^1.43.0"
     eta: "npm:^3.5.0"
