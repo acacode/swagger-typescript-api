@@ -47,7 +47,7 @@
     "@biomejs/wasm-nodejs": "2.3.11",
     "@types/swagger-schema-official": "^2.0.25",
     "c12": "^3.3.3",
-    "citty": "^0.1.6",
+    "citty": "^0.2.0",
     "consola": "^3.4.2",
     "es-toolkit": "^1.43.0",
     "eta": "^3.5.0",
