@@ -60,18 +60,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/biome@npm:2.3.11":
-  version: 2.3.11
-  resolution: "@biomejs/biome@npm:2.3.11"
+"@biomejs/biome@npm:2.3.12":
+  version: 2.3.12
+  resolution: "@biomejs/biome@npm:2.3.12"
   dependencies:
-    "@biomejs/cli-darwin-arm64": "npm:2.3.11"
-    "@biomejs/cli-darwin-x64": "npm:2.3.11"
-    "@biomejs/cli-linux-arm64": "npm:2.3.11"
-    "@biomejs/cli-linux-arm64-musl": "npm:2.3.11"
-    "@biomejs/cli-linux-x64": "npm:2.3.11"
-    "@biomejs/cli-linux-x64-musl": "npm:2.3.11"
-    "@biomejs/cli-win32-arm64": "npm:2.3.11"
-    "@biomejs/cli-win32-x64": "npm:2.3.11"
+    "@biomejs/cli-darwin-arm64": "npm:2.3.12"
+    "@biomejs/cli-darwin-x64": "npm:2.3.12"
+    "@biomejs/cli-linux-arm64": "npm:2.3.12"
+    "@biomejs/cli-linux-arm64-musl": "npm:2.3.12"
+    "@biomejs/cli-linux-x64": "npm:2.3.12"
+    "@biomejs/cli-linux-x64-musl": "npm:2.3.12"
+    "@biomejs/cli-win32-arm64": "npm:2.3.12"
+    "@biomejs/cli-win32-x64": "npm:2.3.12"
   dependenciesMeta:
     "@biomejs/cli-darwin-arm64":
       optional: true
@@ -91,62 +91,62 @@ __metadata:
       optional: true
   bin:
     biome: bin/biome
-  checksum: 10c0/b9764070c3d1583466a8861d37dc480c18103f7bb52115db0f265a38e6343d69792c9beea094e0b3db0905cb365b9a82ad2a0f3f05b7f04873a8f9b444263140
+  checksum: 10c0/8def8c21ec08cf3739b2f07b0ad2e8234f1673fd0af5abe6d2663944487ac8a8af427c1386cbeff97b2206e237e413c36f1c8003a4f2add83eba10c78a6986d8
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-arm64@npm:2.3.11":
-  version: 2.3.11
-  resolution: "@biomejs/cli-darwin-arm64@npm:2.3.11"
+"@biomejs/cli-darwin-arm64@npm:2.3.12":
+  version: 2.3.12
+  resolution: "@biomejs/cli-darwin-arm64@npm:2.3.12"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-x64@npm:2.3.11":
-  version: 2.3.11
-  resolution: "@biomejs/cli-darwin-x64@npm:2.3.11"
+"@biomejs/cli-darwin-x64@npm:2.3.12":
+  version: 2.3.12
+  resolution: "@biomejs/cli-darwin-x64@npm:2.3.12"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64-musl@npm:2.3.11":
-  version: 2.3.11
-  resolution: "@biomejs/cli-linux-arm64-musl@npm:2.3.11"
+"@biomejs/cli-linux-arm64-musl@npm:2.3.12":
+  version: 2.3.12
+  resolution: "@biomejs/cli-linux-arm64-musl@npm:2.3.12"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64@npm:2.3.11":
-  version: 2.3.11
-  resolution: "@biomejs/cli-linux-arm64@npm:2.3.11"
+"@biomejs/cli-linux-arm64@npm:2.3.12":
+  version: 2.3.12
+  resolution: "@biomejs/cli-linux-arm64@npm:2.3.12"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64-musl@npm:2.3.11":
-  version: 2.3.11
-  resolution: "@biomejs/cli-linux-x64-musl@npm:2.3.11"
+"@biomejs/cli-linux-x64-musl@npm:2.3.12":
+  version: 2.3.12
+  resolution: "@biomejs/cli-linux-x64-musl@npm:2.3.12"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64@npm:2.3.11":
-  version: 2.3.11
-  resolution: "@biomejs/cli-linux-x64@npm:2.3.11"
+"@biomejs/cli-linux-x64@npm:2.3.12":
+  version: 2.3.12
+  resolution: "@biomejs/cli-linux-x64@npm:2.3.12"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-arm64@npm:2.3.11":
-  version: 2.3.11
-  resolution: "@biomejs/cli-win32-arm64@npm:2.3.11"
+"@biomejs/cli-win32-arm64@npm:2.3.12":
+  version: 2.3.12
+  resolution: "@biomejs/cli-win32-arm64@npm:2.3.12"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-x64@npm:2.3.11":
-  version: 2.3.11
-  resolution: "@biomejs/cli-win32-x64@npm:2.3.11"
+"@biomejs/cli-win32-x64@npm:2.3.12":
+  version: 2.3.12
+  resolution: "@biomejs/cli-win32-x64@npm:2.3.12"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -169,10 +169,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/wasm-nodejs@npm:2.3.11":
-  version: 2.3.11
-  resolution: "@biomejs/wasm-nodejs@npm:2.3.11"
-  checksum: 10c0/aa15a46794848187f56901af10a5df1837ad49534169ec6fc22172c6f2053b894f9bc3cfe6c80d1f1e0e94c17b92ea4c388d2c23057b70c6e66684f29beb27ad
+"@biomejs/wasm-nodejs@npm:2.3.12":
+  version: 2.3.12
+  resolution: "@biomejs/wasm-nodejs@npm:2.3.12"
+  checksum: 10c0/6af380ffbc4738fcd308fe6471b6200e73db5430c0624334364906993bee6c7770fe4508d1f7471df0be734b7afb52688754fe341f9f4882d805cd428a21105e
   languageName: node
   linkType: hard
 
@@ -3621,9 +3621,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "swagger-typescript-api@workspace:."
   dependencies:
-    "@biomejs/biome": "npm:2.3.11"
+    "@biomejs/biome": "npm:2.3.12"
     "@biomejs/js-api": "npm:4.0.0"
-    "@biomejs/wasm-nodejs": "npm:2.3.11"
+    "@biomejs/wasm-nodejs": "npm:2.3.12"
     "@changesets/changelog-github": "npm:0.5.2"
     "@changesets/cli": "npm:2.29.8"
     "@tsconfig/node20": "npm:20.1.8"
