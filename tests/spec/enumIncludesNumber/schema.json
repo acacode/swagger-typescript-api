@@ -13,9 +13,25 @@
           "_1_VAL",
           "A_1_B_2_C_3",
           "_A_1_B_2_C_3",
-          "_1_A_2_B_3_C"
+          "_1_A_2_B_3_C",
+          "_123ValCamelCase",
+          "Val_Snake_Case",
+          "Val_12_CamelCase",
+          "_Val_12_Snake_Case",
+          "_Val_12_CamelCase"
         ],
         "x-enum-descriptions": ["Foo", "Bar", "Baz"]
+      },
+      "LowercaseSnakeCaseEnum": {
+        "type": "string",
+        "enum": [
+          "local_only",
+          "phone_number",
+          "wait_dependency",
+          "auth_failed",
+          "waiting_to_push"
+        ],
+        "description": "Pure lowercase snake_case values that should be transformed to PascalCase"
       }
     }
   }
