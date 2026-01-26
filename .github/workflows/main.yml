@@ -17,7 +17,7 @@ jobs:
       - name: Checkout tree
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Set-up Mise
-        uses: jdx/mise-action@c53b9236f0b3370f31520f8b142f141256d839c6 # v3.6.0
+        uses: jdx/mise-action@6d1e696aa24c1aa1bcc1adea0212707c71ab78a8 # v3.6.1
         with:
           cache: false
           mise_toml: |
