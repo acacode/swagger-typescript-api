@@ -1208,12 +1208,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:25.0.10":
-  version: 25.0.10
-  resolution: "@types/node@npm:25.0.10"
+"@types/node@npm:25.1.0":
+  version: 25.1.0
+  resolution: "@types/node@npm:25.1.0"
   dependencies:
     undici-types: "npm:~7.16.0"
-  checksum: 10c0/9edc3c812b487c32c76eebac7c87acae1f69515a0bc3f6b545806d513eb9e918c3217bf751dc93da39f60e06bf1b0caa92258ef3a6dd6457124b2e761e54f61f
+  checksum: 10c0/5f393a127dc9565e2e152514a271455d580c7095afc51302e73ffe8aac3526b64ebacc3c10dd40c93cef81a95436ef2c6a8b522930df567a3f6b189c0eef649a
   languageName: node
   linkType: hard
 
@@ -3628,7 +3628,7 @@ __metadata:
     "@changesets/cli": "npm:2.29.8"
     "@tsconfig/node20": "npm:20.1.8"
     "@tsconfig/strictest": "npm:2.0.8"
-    "@types/node": "npm:25.0.10"
+    "@types/node": "npm:25.1.0"
     "@types/swagger-schema-official": "npm:^2.0.25"
     "@types/swagger2openapi": "npm:7.0.4"
     axios: "npm:1.13.4"
