@@ -19,6 +19,7 @@ export const FILE_PREFIX = `/* eslint-disable */
 export const HTTP_CLIENT = {
   FETCH: "fetch",
   AXIOS: "axios",
+  KY: "ky",
 } as const;
 
 export const PROJECT_VERSION = packageJson.version;
