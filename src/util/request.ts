@@ -1,5 +1,5 @@
 import { consola } from "consola";
-import lodash from "lodash";
+import { merge } from "es-toolkit";
 import type { CodeGenConfig } from "../configuration.js";
 
 export class Request {
@@ -26,7 +26,7 @@ export class Request {
       };
     }
 
-    lodash.merge(requestOptions, options, this.config.requestOptions);
+    merge(merge(requestOptions, options), this.config.requestOptions || {});
 
     try {
       const response = await fetch(url, requestOptions);

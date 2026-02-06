@@ -1,4 +1,4 @@
-import lodash from "lodash";
+import { get } from "es-toolkit/compat";
 import { SCHEMA_TYPES } from "../../constants.js";
 import { MonoSchemaParser } from "../mono-schema-parser.js";
 import { EnumKeyResolver } from "../util/enum-key-resolver.js";
@@ -102,9 +102,9 @@ export class EnumSchemaParser extends MonoSchemaParser {
       }
     };
 
-    if (Array.isArray(enumNames) && lodash.size(enumNames)) {
+    if (Array.isArray(enumNames) && enumNames.length > 0) {
       content = enumNames.map((enumName, index) => {
-        const enumValue = lodash.get(this.schema.enum, index);
+        const enumValue = get(this.schema.enum, index);
         const formattedKey = this.formatEnumKey({
           key: enumName,
           value: enumValue,
