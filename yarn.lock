@@ -2579,10 +2579,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ky@npm:1.14.0":
-  version: 1.14.0
-  resolution: "ky@npm:1.14.0"
-  checksum: 10c0/ae30950feaa863fd95854bc0f528a04a36fa04828c119b098c5a0933a46126ccaee829ec0d6d6fc968faa4d0a23501c3203534d024d60540541d322d9772983d
+"ky@npm:1.14.3":
+  version: 1.14.3
+  resolution: "ky@npm:1.14.3"
+  checksum: 10c0/8e91c9512c8f1501201108ad58ed437eaf3f5b0a0da842bd846d785932426e84a31cf51d0fffce1921d4e70e26465a9b2b89ed2477822975568258a1fa68a740
   languageName: node
   linkType: hard
 
@@ -3724,7 +3724,7 @@ __metadata:
     consola: "npm:^3.4.2"
     es-toolkit: "npm:^1.43.0"
     eta: "npm:^3.5.0"
-    ky: "npm:1.14.0"
+    ky: "npm:1.14.3"
     openapi-types: "npm:^12.1.3"
     swagger-schema-official: "npm:2.0.0-bab6bed"
     swagger2openapi: "npm:^7.0.8"
