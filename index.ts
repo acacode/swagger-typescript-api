@@ -320,8 +320,8 @@ const generateCommand = defineCommand({
         args["http-client"] || args.axios
           ? HTTP_CLIENT.AXIOS
           : args.ky
-          ? HTTP_CLIENT.KY
-          : HTTP_CLIENT.FETCH,
+            ? HTTP_CLIENT.KY
+            : HTTP_CLIENT.FETCH,
       input: path.resolve(process.cwd(), args.path as string),
       modular: args.modular,
       moduleNameFirstTag: args["module-name-first-tag"],
