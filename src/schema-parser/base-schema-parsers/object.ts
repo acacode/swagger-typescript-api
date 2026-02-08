@@ -91,7 +91,7 @@ export class ObjectSchemaParser extends MonoSchemaParser {
     if (additionalProperties) {
       const propertyNamesSchema =
         this.schemaUtils.getSchemaPropertyNamesSchema(schema);
-      let interfaceKeysContent: any;
+      let interfaceKeysContent: string;
 
       if (propertyNamesSchema) {
         interfaceKeysContent = this.schemaParserFabric

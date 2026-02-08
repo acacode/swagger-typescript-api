@@ -32,12 +32,24 @@ export class SchemaParser {
   templatesWorker: TemplatesWorker;
   schemaWalker: SchemaWalker;
 
-  typeName;
-  schema;
-  schemaPath = [];
+  typeName: string | null;
+  // biome-ignore lint/suspicious/noExplicitAny: TODO: narrow to OpenAPI schema type
+  schema: any;
+  schemaPath: string[];
 
-  // @ts-expect-error TS(2525) FIXME: Initializer provides no value for this binding ele... Remove this comment to see the full error message
-  constructor(schemaParserFabric, { typeName, schema, schemaPath } = {}) {
+  constructor(
+    schemaParserFabric: SchemaParserFabric,
+    {
+      typeName,
+      schema,
+      schemaPath,
+    }: {
+      typeName?: string | null;
+      // biome-ignore lint/suspicious/noExplicitAny: TODO: narrow to OpenAPI schema type
+      schema?: any;
+      schemaPath?: string[];
+    } = {},
+  ) {
     this.schemaParserFabric = schemaParserFabric;
     this.config = schemaParserFabric.config;
     this.templatesWorker = schemaParserFabric.templatesWorker;
