@@ -6,8 +6,7 @@ import { EnumKeyResolver } from "../util/enum-key-resolver.js";
 export class EnumSchemaParser extends MonoSchemaParser {
   enumKeyResolver: EnumKeyResolver;
 
-  constructor(...args) {
-    // @ts-expect-error TS(2556) FIXME: A spread argument must either have a tuple type or... Remove this comment to see the full error message
+  constructor(...args: ConstructorParameters<typeof MonoSchemaParser>) {
     super(...args);
     this.enumKeyResolver = new EnumKeyResolver(this.config, []);
   }
@@ -129,7 +128,6 @@ export class EnumSchemaParser extends MonoSchemaParser {
     } else {
       content = this.schema.enum.map((value, index) => {
         return {
-          // @ts-expect-error TS(2345) FIXME: Argument of type '{ value: any; }' is not assignab... Remove this comment to see the full error message
           key: this.formatEnumKey({ value }),
           type: keyType,
           value: formatValue(value),
@@ -157,7 +155,7 @@ export class EnumSchemaParser extends MonoSchemaParser {
     };
   }
 
-  formatEnumKey = ({ key, value }) => {
+  formatEnumKey = ({ key, value }: { key?: string; value: unknown }) => {
     let formatted: string | undefined;
 
     if (key) {

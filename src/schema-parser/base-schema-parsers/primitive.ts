@@ -12,8 +12,8 @@ export class PrimitiveSchemaParser extends MonoSchemaParser {
         this.schema,
       );
 
-      let recordKeysContent: any;
-      let recordValuesContent: any;
+      let recordKeysContent: string;
+      let recordValuesContent: string;
 
       if (propertyNamesSchema) {
         recordKeysContent = this.schemaParserFabric

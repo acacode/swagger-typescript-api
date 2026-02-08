@@ -6,10 +6,18 @@ import type { SchemaParser } from "./schema-parser.js";
 import type { SchemaParserFabric } from "./schema-parser-fabric.js";
 import type { SchemaUtils } from "./schema-utils.js";
 
+export interface SchemaParserConfig {
+  typeName?: string | null;
+  // biome-ignore lint/suspicious/noExplicitAny: TODO: narrow to OpenAPI schema type
+  schema?: any;
+  schemaPath?: string[];
+}
+
 export class MonoSchemaParser {
-  schema;
-  typeName;
-  schemaPath;
+  // biome-ignore lint/suspicious/noExplicitAny: TODO: narrow to OpenAPI schema type
+  schema: any;
+  typeName: string | null;
+  schemaPath: string[];
 
   schemaParser: SchemaParser;
   schemaParserFabric: SchemaParserFabric;
@@ -21,9 +29,9 @@ export class MonoSchemaParser {
 
   constructor(
     schemaParser: SchemaParser,
-    schema,
-    typeName = null,
-    schemaPath = [],
+    schema: unknown,
+    typeName: string | null = null,
+    schemaPath: string[] = [],
   ) {
     this.schemaParser = schemaParser;
     this.schemaParserFabric = schemaParser.schemaParserFabric;
