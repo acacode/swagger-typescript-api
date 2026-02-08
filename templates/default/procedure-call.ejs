@@ -74,7 +74,7 @@ const describeReturnType = () => {
           return `Promise<AxiosResponse<${type}>>`
         }
         default: {
-          return `Promise<HttpResponse<${type}, ${errorType}>`
+          return `Promise<HttpResponse<${type}, ${errorType}>>`
         }
     }
 }
