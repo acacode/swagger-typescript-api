@@ -1,0 +1,84 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Issue 1321 */ title",
+    "version": "1.0.0 */ version",
+    "description": "API description */ close marker\nwith multiline */ line",
+    "termsOfService": "https://example.com/terms*/v1",
+    "contact": {
+      "name": "contact */ name",
+      "email": "security*/team@example.com",
+      "url": "https://contact.example.com/*/profile"
+    },
+    "license": {
+      "name": "MIT */ license",
+      "url": "https://license.example.com/*/mit"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.example.com/reference*/openapi"
+  },
+  "servers": [
+    {
+      "url": "https://api.example.com/*/v1"
+    }
+  ],
+  "paths": {
+    "/information*/feed": {
+      "get": {
+        "tags": ["tag*/one", "tag/*two"],
+        "summary": "summary */ break",
+        "description": "description */ break",
+        "responses": {
+          "200": {
+            "description": "response */ close",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Item"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Item": {
+        "title": "Item */ title",
+        "description": "Item */ description\nsecond line */ end",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "name */ description",
+            "pattern": "^[a-z]*/suffix$",
+            "example": "value */ sample"
+          },
+          "payload": {
+            "type": "object",
+            "description": "payload */ description",
+            "example": {
+              "message": "object */ example",
+              "url": "https://example.com/*/path"
+            }
+          },
+          "formatted": {
+            "type": "string",
+            "description": "formatted */ description",
+            "format": "custom*/fmt",
+            "default": "default*/value"
+          }
+        }
+      },
+      "Status": {
+        "type": "string",
+        "description": "Status */ enum description",
+        "enum": ["active*/on", "inactive*/off"],
+        "x-enum-descriptions": ["Active */ status", "Inactive */ status"]
+      }
+    }
+  }
+}

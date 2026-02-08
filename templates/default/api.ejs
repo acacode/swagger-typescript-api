@@ -1,24 +1,24 @@
 <%
 const { apiConfig, routes, utils, config } = it;
 const { info, servers, externalDocs } = apiConfig;
-const { _, require, formatDescription } = utils;
+const { _, require, formatDescription, escapeJSDocContent } = utils;
 
 const server = (servers && servers[0]) || { url: "" };
 
 const descriptionLines = _.compact([
-  `@title ${info.title || "No title"}`,
-  info.version && `@version ${info.version}`,
+  `@title ${escapeJSDocContent(info.title || "No title")}`,
+  info.version && `@version ${escapeJSDocContent(info.version)}`,
   info.license && `@license ${_.compact([
-    info.license.name,
-    info.license.url && `(${info.license.url})`,
+    info.license.name && escapeJSDocContent(info.license.name),
+    info.license.url && `(${escapeJSDocContent(info.license.url)})`,
   ]).join(" ")}`,
-  info.termsOfService && `@termsOfService ${info.termsOfService}`,
-  server.url && `@baseUrl ${server.url}`,
-  externalDocs.url && `@externalDocs ${externalDocs.url}`,
+  info.termsOfService && `@termsOfService ${escapeJSDocContent(info.termsOfService)}`,
+  server.url && `@baseUrl ${escapeJSDocContent(server.url)}`,
+  externalDocs.url && `@externalDocs ${escapeJSDocContent(externalDocs.url)}`,
   info.contact && `@contact ${_.compact([
-    info.contact.name,
-    info.contact.email && `<${info.contact.email}>`,
-    info.contact.url && `(${info.contact.url})`,
+    info.contact.name && escapeJSDocContent(info.contact.name),
+    info.contact.email && `<${escapeJSDocContent(info.contact.email)}>`,
+    info.contact.url && `(${escapeJSDocContent(info.contact.url)})`,
   ]).join(" ")}`,
   info.description && " ",
   info.description && _.replace(formatDescription(info.description), /\n/g, "\n * "),

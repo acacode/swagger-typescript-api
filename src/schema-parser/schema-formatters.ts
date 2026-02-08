@@ -30,10 +30,17 @@ export class SchemaFormatters {
         };
       }
 
+      const escapedContent = parsedSchema.content.map((item) => ({
+        ...item,
+        description: item.description
+          ? this.escapeJSDocContent(item.description)
+          : "",
+      }));
+
       return {
         ...parsedSchema,
         $content: parsedSchema.content,
-        content: this.config.Ts.EnumFieldsWrapper(parsedSchema.content),
+        content: this.config.Ts.EnumFieldsWrapper(escapedContent),
       };
     },
     [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
@@ -103,20 +110,34 @@ export class SchemaFormatters {
     return formatterFn?.(parsedSchema) || parsedSchema;
   };
 
-  formatDescription = (description: string | undefined, inline?: boolean) => {
+  // OpenAPI fields are untrusted input that may contain `*/` which would
+  // prematurely close JSDoc block comments in generated TypeScript output.
+  // Note: only `undefined` maps to empty string; `null` is preserved as "null"
+  // because `@default null` is a valid JSDoc annotation for nullable fields.
+  escapeJSDocContent = (content: unknown): string => {
+    if (content === undefined) return "";
+    const str = typeof content === "string" ? content : String(content);
+    return str.replace(/\*\//g, "*\\/");
+  };
+
+  formatDescription = (
+    description: string | undefined,
+    inline?: boolean,
+  ): string => {
     if (!description) return "";
 
-    const hasMultipleLines = description.includes("\n");
+    const escapedDescription = this.escapeJSDocContent(description);
+    const hasMultipleLines = escapedDescription.includes("\n");
 
-    if (!hasMultipleLines) return description;
+    if (!hasMultipleLines) return escapedDescription;
 
     if (inline) {
-      return compact(description.split(/\n/g).map((part) => part.trim())).join(
-        " ",
-      );
+      return compact(
+        escapedDescription.split(/\n/g).map((part) => part.trim()),
+      ).join(" ");
     }
 
-    return description.replace(/\n$/g, "");
+    return escapedDescription.replace(/\n$/g, "");
   };
 
   formatObjectContent = (content) => {
