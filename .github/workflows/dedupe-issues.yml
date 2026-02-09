@@ -1,0 +1,51 @@
+name: Issue Dedupe
+
+on:
+  issues:
+    types:
+      - opened
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: Issue number to check for duplicates
+        required: true
+        type: number
+
+permissions:
+  contents: read
+  issues: write
+  models: read
+
+jobs:
+  dedupe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout tree
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: AI duplicate detection
+        uses: actions/ai-inference@a380166897b5408b8fb7dddd148142794cb5624a # v2.0.6
+        id: ai
+        with:
+          prompt-file: .github/prompts/dedupe.prompt.yml
+          input: |
+            issue_number: ${{ github.event.issue.number || inputs.issue_number }}
+          enable-github-mcp: true
+
+      - name: Post comment if duplicates found
+        run: |
+          DUPLICATES=$(echo "$AI_RESPONSE" | jq -r '.duplicates | map(tostring) | join(" ")')
+
+          if [ -z "$DUPLICATES" ] || [ "$DUPLICATES" = "null" ]; then
+            echo "No duplicates found"
+            exit 0
+          fi
+
+          echo "Duplicates found: $DUPLICATES"
+          ./scripts/comment-on-duplicates.sh --base-issue "$ISSUE_NUMBER" --potential-duplicates $DUPLICATES
+        env:
+          AI_RESPONSE: ${{ steps.ai.outputs.response }}
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
