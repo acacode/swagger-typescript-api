@@ -12,7 +12,7 @@ messages:
       3. Search for duplicates of this issue using diverse keywords and search approaches based on the summary. Try at least 5 different search queries to maximize coverage.
       4. Filter out false positives that are likely not actually duplicates of the original issue. If there are no duplicates remaining, return an empty duplicates array.
       5. Return the remaining duplicate issue numbers (up to 3), ranked by confidence (highest first).
-model: openai/gpt-5-mini
+model: openai/gpt-4.1
 responseFormat: json_schema
 jsonSchema: |-
   {

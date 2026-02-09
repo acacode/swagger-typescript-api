@@ -32,7 +32,7 @@ jobs:
           prompt-file: .github/prompts/dedupe.prompt.yml
           input: |
             issue_number: ${{ github.event.issue.number || inputs.issue_number }}
-          max-tokens: 100000
+          max-tokens: 32768
           enable-github-mcp: true
           github-mcp-toolsets: issues
 
