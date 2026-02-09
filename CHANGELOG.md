@@ -1,5 +1,13 @@
 # swagger-typescript-api
 
+## 13.2.17
+
+### Patch Changes
+
+- [#1603](https://github.com/acacode/swagger-typescript-api/pull/1603) [`19a4d29`](https://github.com/acacode/swagger-typescript-api/commit/19a4d29b2cecf1ce950a02c542dc4eca4067b2d3) Thanks [@clicktodev](https://github.com/clicktodev)! - Fix missing closing angle bracket in `describeReturnType` function's default case, which produced malformed return type syntax `Promise<HttpResponse<T, E>` instead of `Promise<HttpResponse<T, E>>`.
+
+- [#1606](https://github.com/acacode/swagger-typescript-api/pull/1606) [`0528831`](https://github.com/acacode/swagger-typescript-api/commit/05288312df0a803f7982d954d724634fbdcfbdf2) Thanks [@smorimoto](https://github.com/smorimoto)! - Replace Yarn with Bun as the package manager.
+
 ## 13.2.16
 
 ### Patch Changes

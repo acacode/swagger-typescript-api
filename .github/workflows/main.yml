@@ -22,9 +22,9 @@ jobs:
           cache: false
           mise_toml: |
             [tools]
+            bun = "latest"
             node = "${{ matrix.node-version }}"
-            yarn = "4"
-      - run: yarn install --immutable
-      - run: yarn format:check
-      - run: yarn build
-      - run: yarn test
+      - run: bun install --frozen-lockfile
+      - run: bun run format:check
+      - run: bun run build
+      - run: bun run test

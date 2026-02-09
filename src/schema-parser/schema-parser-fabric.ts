@@ -10,6 +10,7 @@ import type { SchemaComponentsMap } from "../schema-components-map.js";
 import type { SchemaWalker } from "../schema-walker.js";
 import type { TemplatesWorker } from "../templates-worker.js";
 import type { TypeNameFormatter } from "../type-name-formatter.js";
+import type { SchemaParserConfig } from "./mono-schema-parser.js";
 import { SchemaFormatters } from "./schema-formatters.js";
 import { SchemaParser } from "./schema-parser.js";
 import { SchemaUtils } from "./schema-utils.js";
@@ -39,7 +40,11 @@ export class SchemaParserFabric {
     this.schemaFormatters = new SchemaFormatters(this);
   }
 
-  createSchemaParser = ({ schema, typeName, schemaPath }) => {
+  createSchemaParser = ({
+    schema,
+    typeName,
+    schemaPath,
+  }: SchemaParserConfig) => {
     return new SchemaParser(this, { schema, typeName, schemaPath });
   };
 
@@ -49,8 +54,13 @@ export class SchemaParserFabric {
     linkedComponent,
     schemaPath,
     ...otherSchemaProps
+  }: {
+    content: unknown;
+    linkedSchema?: Record<string, unknown>;
+    linkedComponent?: SchemaComponent;
+    schemaPath?: string[];
+    [key: string]: unknown;
   }) => {
-    // @ts-expect-error TS(2345) FIXME: Argument of type '{ schema: any; schemaPath: any; ... Remove this comment to see the full error message
     const parser = this.createSchemaParser({
       schema: linkedComponent || linkedSchema,
       schemaPath,
@@ -68,7 +78,7 @@ export class SchemaParserFabric {
     typeName,
     schema,
     schemaPath,
-  }): SchemaComponent => {
+  }: Required<SchemaParserConfig> & { typeName: string }): SchemaComponent => {
     const schemaCopy = structuredClone(schema);
     const customComponent = this.schemaComponentsMap.createComponent(
       this.schemaComponentsMap.createRef(["components", "schemas", typeName]),
@@ -83,7 +93,7 @@ export class SchemaParserFabric {
   };
 
   parseSchema = (
-    schema: string,
+    schema: SchemaParserConfig["schema"],
     typeName: string | null = null,
     schemaPath: string[] = [],
   ): ParsedSchema<
@@ -98,19 +108,21 @@ export class SchemaParserFabric {
   };
 
   getInlineParseContent = (
-    schema: string,
+    schema: SchemaParserConfig["schema"],
     typeName: string | null,
     schemaPath: string[],
-  ): Record<string, any> => {
+  ): // biome-ignore lint/suspicious/noExplicitAny: TODO: narrow return type
+  Record<string, any> => {
     const parser = this.createSchemaParser({ schema, typeName, schemaPath });
     return parser.getInlineParseContent();
   };
 
   getParseContent = (
-    schema: string,
+    schema: SchemaParserConfig["schema"],
     typeName: string | null,
     schemaPath: string[],
-  ): Record<string, any> => {
+  ): // biome-ignore lint/suspicious/noExplicitAny: TODO: narrow return type
+  Record<string, any> => {
     const parser = this.createSchemaParser({ schema, typeName, schemaPath });
     return parser.getParseContent();
   };

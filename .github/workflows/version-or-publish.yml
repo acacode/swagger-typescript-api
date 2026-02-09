@@ -25,11 +25,11 @@ jobs:
         uses: jdx/mise-action@6d1e696aa24c1aa1bcc1adea0212707c71ab78a8 # v3.6.1
         with:
           cache: false
-      - run: yarn install --immutable
+      - run: bun install --frozen-lockfile
       - name: Create Release Pull Request
         uses: changesets/action@c48e67d110a68bc90ccf1098e9646092baacaa87 # v1.6.0
         with:
-          version: yarn changeset version
-          publish: yarn npm publish --tolerate-republish
+          version: bun changeset version
+          publish: bunx changeset publish
         env:
           GITHUB_TOKEN: ${{ github.token }}
