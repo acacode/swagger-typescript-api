@@ -1,0 +1,192 @@
+<%
+const { apiConfig, generateResponses, config } = it;
+%>
+
+import ky, { type Options as KyOptions, type KyResponse } from "ky";
+
+export type QueryParamsType = Record<string | number, any>;
+
+export interface FullRequestParams extends Omit<KyOptions, "json" | "method" | "searchParams"> {
+  /** set parameter to `true` for call `securityWorker` for this request */
+  secure?: boolean;
+  /** request path */
+  path: string;
+  /** content type of request body */
+  type?: ContentType;
+  /** query params */
+  query?: QueryParamsType;
+  /** request body */
+  body?: unknown;
+  /** base url */
+  baseUrl?: string;
+}
+
+export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">
+
+export interface ApiConfig<SecurityDataType = unknown> extends Omit<KyOptions, "json"> {
+  baseUrl?: string;
+  baseApiParams?: Omit<RequestParams, "baseUrl">;
+  securityWorker?: (securityData: SecurityDataType | null) => Promise<RequestParams | void> | RequestParams | void;
+}
+
+export enum ContentType {
+  Json = "application/json",
+  JsonApi = "application/vnd.api+json",
+  FormData = "multipart/form-data",
+  UrlEncoded = "application/x-www-form-urlencoded",
+  Text = "text/plain",
+}
+
+export class HttpClient<SecurityDataType = unknown> {
+  public instance: typeof ky;
+  private securityData: SecurityDataType | null = null;
+  private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
+  private baseUrl: string;
+
+  private baseApiParams: Omit<RequestParams, "baseUrl"> = {
+    credentials: 'same-origin',
+    headers: {},
+    redirect: 'follow',
+  }
+
+  constructor({ baseUrl, baseApiParams, securityWorker, ...kyConfig }: ApiConfig<SecurityDataType> = {}) {
+    this.baseUrl = baseUrl || "<%~ apiConfig.baseUrl %>";
+    this.baseApiParams = { ...this.baseApiParams, ...baseApiParams };
+    this.securityWorker = securityWorker;
+    
+    this.instance = ky.extend({
+      prefixUrl: this.baseUrl,
+      ...kyConfig,
+    });
+  }
+
+  public setSecurityData = (data: SecurityDataType | null) => {
+    this.securityData = data;
+  }
+
+  protected encodeQueryParam(key: string, value: any) {
+    const encodedKey = encodeURIComponent(key);
+    return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
+  }
+
+  protected addQueryParam(query: QueryParamsType, key: string) {
+    return this.encodeQueryParam(key, query[key]);
+  }
+
+  protected addArrayQueryParam(query: QueryParamsType, key: string) {
+    const value = query[key];
+    return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
+  }
+
+  protected toQueryString(rawQuery?: QueryParamsType): string {
+    const query = rawQuery || {};
+    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
+    return keys
+      .map((key) =>
+        Array.isArray(query[key])
+          ? this.addArrayQueryParam(query, key)
+          : this.addQueryParam(query, key),
+      )
+      .join("&");
+  }
+
+  protected addQueryParams(rawQuery?: QueryParamsType): string {
+    const queryString = this.toQueryString(rawQuery);
+    return queryString ? `?${queryString}` : "";
+  }
+
+  private contentFormatters: Record<ContentType, (input: any) => any> = {
+    [ContentType.Json]: (input: any) =>
+      input !== null && (typeof input === "object" || typeof input === "string") ? input : {},
+    [ContentType.JsonApi]: (input: any) =>
+      input !== null && (typeof input === "object" || typeof input === "string") ? input : {},
+    [ContentType.Text]: (input: any) => input !== null && typeof input !== "string" ? JSON.stringify(input) : input,
+    [ContentType.FormData]: (input: any) => Object.keys(input || {}).reduce((formData, key) => {
+      const property = input[key];
+      formData.append(
+        key,
+        property instanceof Blob || property instanceof File ? property : typeof property === "object" ? JSON.stringify(property) : `${property}`
+      );
+      return formData;
+    }, new FormData()),
+    [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
+  };
+
+  protected mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
+    return {
+      ...this.baseApiParams,
+      ...params1,
+      ...(params2 || {}),
+      headers: {
+        ...(this.baseApiParams.headers || {}),
+        ...(params1.headers || {}),
+        ...((params2 && params2.headers) || {}),
+      },
+    };
+  }
+
+  public request = async <T = any, E = any>({
+    secure,
+    path,
+    type,
+    query,
+    body,
+    baseUrl,
+    ...params
+<% if (config.unwrapResponseData) { %>
+  }: FullRequestParams): Promise<KyResponse<T>> => {
+<% } else { %>
+  }: FullRequestParams): Promise<KyResponse<T>> => {
+<% } %>
+    const secureParams = ((typeof secure === 'boolean' ? secure : false) && this.securityWorker && (await this.securityWorker(this.securityData))) || {};
+    const requestParams = this.mergeRequestParams(params, secureParams);
+    
+    let requestBody = body;
+    let requestHeaders = requestParams.headers || {};
+
+    // Process body based on content type
+    if (type) {
+      if (type === ContentType.Json) {
+        requestBody = this.contentFormatters[ContentType.Json](body);
+      } else if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
+        requestBody = this.contentFormatters[ContentType.FormData](body);
+        // Remove Content-Type header to let ky set it with proper boundary
+        delete requestHeaders["Content-Type"];
+      } else if (type === ContentType.UrlEncoded) {
+        requestBody = this.contentFormatters[ContentType.UrlEncoded](body);
+        requestHeaders = { ...requestHeaders, "Content-Type": type };
+      } else if (type === ContentType.Text) {
+        requestBody = this.contentFormatters[ContentType.Text](body);
+        requestHeaders = { ...requestHeaders, "Content-Type": type };
+      } else {
+        requestHeaders = { ...requestHeaders, "Content-Type": type };
+      }
+    }
+
+    // Build request options
+    const kyOptions: KyOptions = {
+      ...requestParams,
+      headers: requestHeaders,
+      searchParams: query,
+      method: params.method || 'GET',
+    };
+
+    // Add body based on content type
+    if (requestBody !== undefined) {
+      if (type === ContentType.Json) {
+        kyOptions.json = requestBody;
+      } else {
+        kyOptions.body = requestBody;
+      }
+    }
+
+    // Prepare request URL
+    // When using prefixUrl (set in constructor), paths must not start with slash
+    // When using custom baseUrl, use full URL construction
+    const requestUrl = baseUrl 
+      ? new URL(path, baseUrl).toString() 
+      : (path.startsWith('/') ? path.slice(1) : path);
+
+      return await this.instance<T>(requestUrl, kyOptions);
+  };
+}

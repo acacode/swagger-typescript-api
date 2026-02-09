@@ -1,7 +1,7 @@
 {
   "name": "swagger-typescript-api",
   "version": "13.2.17",
-  "description": "Generate the API client for Fetch or Axios from an OpenAPI Specification",
+  "description": "Generate the API client for Fetch, Axios, or Ky from an OpenAPI Specification",
   "homepage": "https://github.com/acacode/swagger-typescript-api",
   "bugs": "https://github.com/acacode/swagger-typescript-api/issues",
   "repository": "github:acacode/swagger-typescript-api",
@@ -67,6 +67,7 @@
     "@types/node": "25.2.2",
     "@types/swagger2openapi": "7.0.4",
     "axios": "1.13.4",
+    "ky": "1.14.3",
     "tsdown": "0.20.3",
     "typedoc": "0.28.16",
     "vitest": "4.0.18"
