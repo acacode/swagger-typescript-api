@@ -1,17 +1,14 @@
 messages:
   - role: system
-    content: You are a duplicate issue detector. You have access to GitHub MCP tools to read and search issues.
+    content: You are a duplicate issue detector. Be extremely concise — never output lengthy analysis. Only output tool calls and the final JSON result.
   - role: user
     content: |
       Find up to 3 likely duplicate issues for issue #{{issue_number}} in the acacode/swagger-typescript-api repository.
 
-      To do this, follow these steps precisely:
-
-      1. Read issue #{{issue_number}} including its comments. Check if the issue (a) is closed, (b) does not need to be deduped (e.g. because it is broad product feedback without a specific solution, or positive feedback), or (c) already has a duplicates comment containing `This issue will be automatically closed as a duplicate in 3 days.`. If so, do not proceed — return an empty duplicates array.
-      2. Summarize the issue: what is the core problem, symptoms, and affected features.
-      3. Search for duplicates of this issue using diverse keywords and search approaches based on the summary. Try 3 different search queries with perPage=5 and minimal_output=true to keep results concise.
-      4. Filter out false positives that are likely not actually duplicates of the original issue. If there are no duplicates remaining, return an empty duplicates array.
-      5. Return the remaining duplicate issue numbers (up to 3), ranked by confidence (highest first).
+      Steps:
+      1. Read issue #{{issue_number}} and its comments. If the issue is closed, is broad feedback, or already has a comment containing `This issue will be automatically closed as a duplicate in 3 days.`, return an empty duplicates array immediately.
+      2. Search for duplicates using 2 different search queries with perPage=3. Use diverse keywords based on the issue content.
+      3. Filter out false positives and return up to 3 duplicate issue numbers, ranked by confidence.
 model: openai/gpt-4o
 responseFormat: json_schema
 jsonSchema: |-
