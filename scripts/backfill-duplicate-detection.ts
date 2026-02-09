@@ -29,10 +29,10 @@ async function hasDuplicateDetectionComment(
 ): Promise<boolean> {
   const comments = await getIssueComments(issueNumber);
 
-  return comments.some(
-    (comment) =>
-      comment.user?.login === "github-actions[bot]" &&
-      comment.body.includes("<!-- ai-duplicate-check -->"),
+  return comments.some((comment) =>
+    comment.body.includes(
+      "This issue will be automatically closed as a duplicate in 3 days.",
+    ),
   );
 }
 

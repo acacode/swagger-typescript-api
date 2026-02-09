@@ -107,10 +107,10 @@ async function main(): Promise<void> {
 
     const comments = await getIssueComments(issue.number);
 
-    const botComment = comments.find(
-      (comment) =>
-        comment.user?.login === "github-actions[bot]" &&
-        comment.body.includes("<!-- ai-duplicate-check -->"),
+    const botComment = comments.find((comment) =>
+      comment.body.includes(
+        "This issue will be automatically closed as a duplicate in 3 days.",
+      ),
     );
 
     if (!botComment) {
