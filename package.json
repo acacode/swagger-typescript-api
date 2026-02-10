@@ -66,7 +66,7 @@
     "@tsconfig/strictest": "2.0.8",
     "@types/node": "25.2.2",
     "@types/swagger2openapi": "7.0.4",
-    "axios": "1.13.4",
+    "axios": "1.13.5",
     "tsdown": "0.20.3",
     "typedoc": "0.28.16",
     "vitest": "4.0.18"
