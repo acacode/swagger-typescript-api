@@ -68,7 +68,7 @@
     "@types/swagger2openapi": "7.0.4",
     "axios": "1.13.5",
     "tsdown": "0.20.3",
-    "typedoc": "0.28.16",
+    "typedoc": "0.28.17",
     "vitest": "4.0.18"
   },
   "engines": {
