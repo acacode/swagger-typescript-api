@@ -4,9 +4,11 @@ type Updater = (target: unknown) => unknown;
 
 export const objectAssign = (target: object, updater: Updater | unknown) => {
   if (!updater) return;
-  const update = (
-    typeof updater === "function" ? updater(target) : updater
-  ) as Record<string, unknown>;
+  const update = (typeof updater === "function" ? updater(target) : updater) as
+    | Record<string, unknown>
+    | null
+    | undefined;
+  if (!update) return;
   const undefinedKeys = Object.entries(update)
     .filter(([, value]) => value === undefined)
     .map(([key]) => key);
