@@ -39,11 +39,27 @@ const rawWrapperArgs = config.extractRequestParams ?
         requestConfigParam,
     ])
 
-const wrapperArgs = _
-    // Sort by optionality
-    .sortBy(rawWrapperArgs, [o => o.optional])
-    .map(argToTmpl)
-    .join(', ')
+
+const requiredArgs = rawWrapperArgs.filter((o) => !o.optional)
+const optionalArgs = rawWrapperArgs.filter((o) => o.optional)
+
+// sort by params index of params in path
+if (config.sortRouteParams) {
+  requiredArgs.sort(({name}) => {
+    const idx = path.indexOf(`{${name}}`)
+    if (idx === -1) {
+      return Infinity
+    }
+    return idx
+  })
+}
+
+const sortedRawWrapperArgs = [
+  ...requiredArgs,
+  ...optionalArgs
+]
+
+const wrapperArgs = sortedRawWrapperArgs.map(argToTmpl).join(', ')
 
 // RequestParams["type"]
 const requestContentKind = {
