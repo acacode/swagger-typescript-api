@@ -2,6 +2,7 @@ import type { ComponentTypeNameResolver } from "../src/component-type-name-resol
 import type * as CONSTANTS from "../src/constants.js";
 import type { MonoSchemaParser } from "../src/schema-parser/mono-schema-parser.js";
 import type { Translator } from "../src/translators/translator.js";
+import type { PartialDeep } from "type-fest";
 
 export type HttpClientType =
   (typeof CONSTANTS.HTTP_CLIENT)[keyof typeof CONSTANTS.HTTP_CLIENT];
@@ -551,11 +552,13 @@ export interface GenerateApiConfiguration {
     /** generate readonly properties */
     addReadonly: boolean;
     /** customise primitive type mappings */
-    primitiveTypeConstructs?: (
-      struct: PrimitiveTypeStruct,
-    ) => Partial<PrimitiveTypeStruct>;
+    primitiveTypeConstructs?:
+      | ((struct: PrimitiveTypeStruct) => PartialDeep<PrimitiveTypeStruct>)
+      | PartialDeep<PrimitiveTypeStruct>;
     /** customise code generation constructs */
-    codeGenConstructs?: (struct: CodeGenConstruct) => Partial<CodeGenConstruct>;
+    codeGenConstructs?:
+      | ((struct: CodeGenConstruct) => PartialDeep<CodeGenConstruct>)
+      | PartialDeep<CodeGenConstruct>;
     /** extract response body type to data contract */
     extractResponseBody: boolean;
     /** extract response error type to data contract */
