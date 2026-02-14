@@ -3,6 +3,7 @@ import type {
   HttpClientType,
 } from "../../../types/index.js";
 import { HTTP_CLIENT, PROJECT_VERSION } from "../../constants.js";
+import { objectAssign } from "../../util/object-assign.js";
 
 export class TemplatesGenConfig {
   cleanOutput = false;
@@ -19,6 +20,6 @@ export class TemplatesGenConfig {
   }
 
   update = (update: Partial<GenerateTemplatesParams>) => {
-    Object.assign(this, update);
+    objectAssign(this, update);
   };
 }

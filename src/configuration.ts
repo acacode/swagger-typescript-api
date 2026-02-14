@@ -12,6 +12,7 @@ import * as CONSTANTS from "./constants.js";
 import type { MonoSchemaParser } from "./schema-parser/mono-schema-parser.js";
 import type { SchemaParser } from "./schema-parser/schema-parser.js";
 import type { Translator } from "./translators/translator.js";
+import { objectAssign } from "./util/object-assign.js";
 
 const TsKeyword = {
   Number: "number",
@@ -416,8 +417,8 @@ export class CodeGenConfig {
     hooks,
     ...otherConfig
   }: Partial<GenerateApiConfiguration["config"]>) {
-    Object.assign(this.Ts, codeGenConstructs);
-    Object.assign(this.primitiveTypes, primitiveTypeConstructs);
+    objectAssign(this.Ts, codeGenConstructs);
+    objectAssign(this.primitiveTypes, primitiveTypeConstructs);
 
     this.defaultResponseType = this.Ts.Keyword.Void;
 
@@ -441,7 +442,7 @@ export class CodeGenConfig {
   }
 
   update = (update: Partial<GenerateApiConfiguration["config"]>) => {
-    Object.assign(this, update);
+    objectAssign(this, update);
     if (this.enumNamesAsValues) {
       this.extractEnums = true;
     }

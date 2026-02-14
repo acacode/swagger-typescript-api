@@ -551,11 +551,13 @@ export interface GenerateApiConfiguration {
     /** generate readonly properties */
     addReadonly: boolean;
     /** customise primitive type mappings */
-    primitiveTypeConstructs?: (
-      struct: PrimitiveTypeStruct,
-    ) => Partial<PrimitiveTypeStruct>;
+    primitiveTypeConstructs?:
+      | ((struct: PrimitiveTypeStruct) => Partial<PrimitiveTypeStruct>)
+      | Partial<PrimitiveTypeStruct>;
     /** customise code generation constructs */
-    codeGenConstructs?: (struct: CodeGenConstruct) => Partial<CodeGenConstruct>;
+    codeGenConstructs?:
+      | ((struct: CodeGenConstruct) => Partial<CodeGenConstruct>)
+      | Partial<CodeGenConstruct>;
     /** extract response body type to data contract */
     extractResponseBody: boolean;
     /** extract response error type to data contract */
