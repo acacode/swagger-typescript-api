@@ -579,9 +579,15 @@ export class SchemaRoutes {
       // It needed for cases when swagger schema is not declared request body type as form data
       // but request body data type contains form data types like File
       if (
-        this.FORM_DATA_TYPES.some((dataType) =>
-          content.includes(`: ${dataType}`),
-        )
+        this.FORM_DATA_TYPES.some((dataType) => {
+          // Match e.g. ": File" followed by word boundary, array brackets, or union/nullable syntax
+          // This prevents false positives like ": FileType" or ": SomeFile"
+          // Escape special regex characters (getSchemaType can theoretically return complex types like "File | null" or "UtilRequiredKeys<File, ...>")
+          const escapedType = dataType.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          return new RegExp(`:\\s*${escapedType}(?:\\[\\]|\\s*\\||\\b|$)`).test(
+            content,
+          );
+        })
       ) {
         contentKind = CONTENT_KIND.FORM_DATA;
       }
