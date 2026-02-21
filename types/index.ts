@@ -677,6 +677,10 @@ export interface GenerateApiConfiguration {
     extractingOptions: Partial<ExtractingOptions>;
     /** update configuration object during generation */
     update: (update: Partial<GenerateApiConfiguration["config"]>) => void;
+    /** name for the generated ContentType enum
+     * @default ContentType
+     */
+    contentTypeEnumName: string;
   };
   modelTypes: ModelType[];
   hasFormDataRoutes: boolean;
