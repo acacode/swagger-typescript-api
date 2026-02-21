@@ -108,4 +108,3 @@ export class SchemaComponentsMap {
     );
   }
 }
-
