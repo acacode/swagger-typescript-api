@@ -37,6 +37,17 @@ export class TypeNameFormatter {
       return compact([typePrefix, name, typeSuffix]).join("_");
     }
 
+    // for enum keys, preserve mixed case names with underscores like Val_Snake_Case, _Val_12_CamelCase
+    // but transform pure lowercase snake_case like local_only to PascalCase
+    if (
+      schemaType === "enum-key" &&
+      /^(?!\d)([A-Za-z0-9_]{1,})$/g.test(name) &&
+      name.includes("_") &&
+      /[A-Z]/.test(name)
+    ) {
+      return lodash.compact([typePrefix, name, typeSuffix]).join("_");
+    }
+
     if (this.formattedModelNamesMap.has(hashKey)) {
       return this.formattedModelNamesMap.get(hashKey);
     }
