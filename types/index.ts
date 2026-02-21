@@ -496,6 +496,8 @@ export interface GenerateApiConfiguration {
      * some swagger schemas treat "default" as a successful response.
      */
     defaultResponseAsSuccess: boolean;
+    /** request parameters for each API request */
+    defaultRequestParams: string;
     /** generate type definitions for API routes */
     generateRouteTypes: boolean;
     /** generate an API client */

@@ -111,6 +111,7 @@ export class CodeGenConfig {
     onFormatRouteName: (_routeInfo: unknown, _templateRouteName: unknown) => {},
   };
   defaultResponseType;
+  defaultRequestParams = "{}";
   singleHttpClient = false;
   httpClientType = CONSTANTS.HTTP_CLIENT.FETCH;
   unwrapResponseData = false;
