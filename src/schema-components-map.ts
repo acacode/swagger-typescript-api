@@ -69,21 +69,42 @@ export class SchemaComponentsMap {
     return this._data.find((c) => c.$ref === $ref) || null;
   };
 
-  // Ensure enums are at the top of components list
-  enumsFirst() {
-    this._data.sort((a, b) => {
-      if (Object.keys(a.rawTypeData || {}).includes("enum")) return -1;
-      if (Object.keys(b.rawTypeData || {}).includes("enum")) return 1;
-      return 0;
-    });
+  /**
+   * Partition-based stable reorder that moves items matching `predicate` to the
+   * front of `_data` while preserving the relative order of all other items.
+   *
+   * Unlike `Array.prototype.sort`, this never changes the relative order of
+   * components that don't match the predicate, so the spec-defined order of
+   * non-promoted types is retained (fixes issue #151).
+   */
+  private _stablePromoteToFront(
+    predicate: (component: SchemaComponent) => boolean,
+  ) {
+    const promoted: SchemaComponent[] = [];
+    const rest: SchemaComponent[] = [];
+    for (const component of this._data) {
+      if (predicate(component)) {
+        promoted.push(component);
+      } else {
+        rest.push(component);
+      }
+    }
+    this._data = [...promoted, ...rest];
   }
 
-  // Ensure discriminators are at the top of components list
+  // Ensure enums are at the top of components list while preserving the
+  // relative order of all remaining components (stable reorder, not a sort).
+  enumsFirst() {
+    this._stablePromoteToFront((c) =>
+      Object.keys(c.rawTypeData || {}).includes("enum"),
+    );
+  }
+
+  // Ensure discriminators are at the top of components list while preserving
+  // the relative order of all remaining components (stable reorder, not a sort).
   discriminatorsFirst() {
-    this._data.sort((a, b) => {
-      if (Object.keys(a.rawTypeData || {}).includes("discriminator")) return -1;
-      if (Object.keys(b.rawTypeData || {}).includes("discriminator")) return 1;
-      return 0;
-    });
+    this._stablePromoteToFront((c) =>
+      Object.keys(c.rawTypeData || {}).includes("discriminator"),
+    );
   }
 }
