@@ -547,7 +547,17 @@ export class SchemaRoutes {
       });
     }
 
-    if (routeParams.formData.length) {
+    if (
+      contentKind === CONTENT_KIND.URL_ENCODED &&
+      routeParams.formData.length
+    ) {
+      schema = this.convertRouteParamsIntoObject(routeParams.formData);
+      content = this.schemaParserFabric.getInlineParseContent(
+        schema,
+        typeName,
+        [operationId],
+      );
+    } else if (routeParams.formData.length) {
       contentKind = CONTENT_KIND.FORM_DATA;
       schema = this.convertRouteParamsIntoObject(routeParams.formData);
       content = this.schemaParserFabric.getInlineParseContent(
@@ -555,12 +565,29 @@ export class SchemaRoutes {
         typeName,
         [operationId],
       );
+    } else if (contentKind === CONTENT_KIND.URL_ENCODED) {
+      schema = this.getSchemaFromRequestType(requestBody);
+      content = this.schemaParserFabric.schemaUtils.safeAddNullToType(
+        requestBody,
+        this.getTypeFromRequestInfo({
+          requestInfo: requestBody,
+          parsedSchemas,
+          operationId,
+          defaultType: "any",
+          typeName,
+        }),
+      );
     } else if (contentKind === CONTENT_KIND.FORM_DATA) {
       schema = this.getSchemaFromRequestType(requestBody);
-      content = this.schemaParserFabric.getInlineParseContent(
-        schema,
-        typeName,
-        [operationId],
+      content = this.schemaParserFabric.schemaUtils.safeAddNullToType(
+        requestBody,
+        this.getTypeFromRequestInfo({
+          requestInfo: requestBody,
+          parsedSchemas,
+          operationId,
+          defaultType: "any",
+          typeName,
+        }),
       );
     } else if (requestBody) {
       schema = this.getSchemaFromRequestType(requestBody);
@@ -1056,6 +1083,12 @@ export class SchemaRoutes {
         security: hasSecurity,
         method: method,
         requestParams: requestParamsSchema,
+        type:
+          requestBodyInfo.contentKind === CONTENT_KIND.FORM_DATA
+            ? "multipart/form-data"
+            : requestBodyInfo.contentKind === CONTENT_KIND.URL_ENCODED
+              ? "application/x-www-form-urlencoded"
+              : undefined,
 
         payload: specificArgs.body,
         query: specificArgs.query,
