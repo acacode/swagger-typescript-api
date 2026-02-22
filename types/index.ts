@@ -524,6 +524,8 @@ export interface GenerateApiConfiguration {
     sortTypes: boolean;
     /** sort routes in alphabetical order */
     sortRoutes: boolean;
+    /** sort route params from path order */
+    sortRouteParams: boolean;
     /** ability to send HttpClient instance to Api constructor */
     singleHttpClient: boolean;
     /** prefix string value for type names */

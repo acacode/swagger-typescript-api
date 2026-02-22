@@ -33,6 +33,7 @@ describe("extended", async () => {
       generateClient: true,
       generateRouteTypes: true,
       sortRoutes: true,
+      sortRouteParams: true,
       sortTypes: true,
     });
 
