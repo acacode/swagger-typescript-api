@@ -4,7 +4,7 @@ updates:
     directory: /
     schedule:
       interval: weekly
-  - package-ecosystem: npm
+  - package-ecosystem: bun
     directory: /
     schedule:
       interval: daily

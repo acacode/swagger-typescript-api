@@ -1,5 +1,21 @@
 # swagger-typescript-api
 
+## 13.2.18
+
+### Patch Changes
+
+- [#1620](https://github.com/acacode/swagger-typescript-api/pull/1620) [`def2833`](https://github.com/acacode/swagger-typescript-api/commit/def283386db36aa118bce30121a594774c0856e2) Thanks [@smorimoto](https://github.com/smorimoto)! - Restore `objectAssign` utility with es-toolkit to fix `codeGenConstructs` and `primitiveTypeConstructs` options. The lodash-to-es-toolkit migration (#1562) replaced `objectAssign` with `Object.assign`, which broke function-form arguments and deep merging. This restores both behaviors: functions are called with the current struct before merging, and nested properties are preserved via deep merge.
+
+- [#1611](https://github.com/acacode/swagger-typescript-api/pull/1611) [`92a2d46`](https://github.com/acacode/swagger-typescript-api/commit/92a2d4601adf57f422f6995d734ef82ac6b104b2) Thanks [@smorimoto](https://github.com/smorimoto)! - Escape `*/` sequences in generated JSDoc content to prevent comment injection from OpenAPI fields.
+
+## 13.2.17
+
+### Patch Changes
+
+- [#1603](https://github.com/acacode/swagger-typescript-api/pull/1603) [`19a4d29`](https://github.com/acacode/swagger-typescript-api/commit/19a4d29b2cecf1ce950a02c542dc4eca4067b2d3) Thanks [@clicktodev](https://github.com/clicktodev)! - Fix missing closing angle bracket in `describeReturnType` function's default case, which produced malformed return type syntax `Promise<HttpResponse<T, E>` instead of `Promise<HttpResponse<T, E>>`.
+
+- [#1606](https://github.com/acacode/swagger-typescript-api/pull/1606) [`0528831`](https://github.com/acacode/swagger-typescript-api/commit/05288312df0a803f7982d954d724634fbdcfbdf2) Thanks [@smorimoto](https://github.com/smorimoto)! - Replace Yarn with Bun as the package manager.
+
 ## 13.2.16
 
 ### Patch Changes

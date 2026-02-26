@@ -329,7 +329,7 @@ export class Api<
  * @name KeyRevokeNosecret
  * @request DELETE:/key
  * @response \`200\` \`{
-  \\** pending or done *\\
+  /** pending or done *\\/
     status?: string,
 
 }\` Successfully deleted
@@ -370,9 +370,9 @@ export class Api<
  * @name KeyRegister
  * @request POST:/key
  * @response \`201\` \`{
-  \\** revoke key *\\
+  /** revoke key *\\/
     secret?: string,
-  \\** registered *\\
+  /** registered *\\/
     status?: string,
 
 }\` Successfully registered
@@ -403,7 +403,7 @@ export class Api<
  * @name KeyRevoke
  * @request DELETE:/key/{PK}
  * @response \`200\` \`{
-  \\** done *\\
+  /** done *\\/
     status?: string,
 
 }\` Successful response
@@ -440,10 +440,10 @@ export class Api<
  * @name GetKey
  * @request GET:/key/{PK}
  * @response \`200\` \`{
-  \\** @format date-time *\\
+  /** @format date-time *\\/
     since?: string,
     status?: string,
-  \\** base64safe encoded public signing key *\\
+  /** base64safe encoded public signing key *\\/
     sub?: string,
 
 }\` Successfully retrieved
@@ -493,7 +493,7 @@ export class Api<
  * @name KeyUpdate
  * @request POST:/key/{PK}
  * @response \`200\` \`{
-  \\** confirmed *\\
+  /** confirmed *\\/
     status?: string,
 
 }\` Successfully updated
@@ -522,7 +522,7 @@ export class Api<
  * @name KeyBind
  * @request PUT:/key/{PK}
  * @response \`200\` \`{
-  \\** confirmed *\\
+  /** confirmed *\\/
     status?: string,
 
 }\` Successfully updated
@@ -553,7 +553,7 @@ export class Api<
  * @name PushLoginRequest
  * @request POST:/login
  * @response \`200\` \`{
-  \\** sent *\\
+  /** sent *\\/
     status?: string,
 
 }\` Successful response
@@ -591,9 +591,9 @@ export class Api<
  * @name SignRequest
  * @request POST:/scope
  * @response \`201\` \`{
-  \\** 20-character ID *\\
+  /** 20-character ID *\\/
     job?: string,
-  \\** waiting *\\
+  /** waiting *\\/
     status?: string,
 
 }\` Successful response
@@ -632,7 +632,7 @@ export class Api<
  * @name SignDelete
  * @request DELETE:/scope/{job}
  * @response \`200\` \`{
-  \\** done *\\
+  /** done *\\/
     status?: string,
 
 }\` Successfully deleted
@@ -662,7 +662,7 @@ export class Api<
  * @response \`200\` \`{
     exp?: number,
     field?: string,
-  \\** base64safe encoded public signing key *\\
+  /** base64safe encoded public signing key *\\/
     sub?: string,
 
 }\` Successful response (JWT)
@@ -711,7 +711,7 @@ export class Api<
  * @name SignConfirm
  * @request POST:/scope/{job}
  * @response \`202\` \`{
-  \\** confirmed *\\
+  /** confirmed *\\/
     status?: string,
 
 }\` Successfully confirmed
@@ -742,9 +742,9 @@ export class Api<
  * @name SignUpdate
  * @request PUT:/scope/{job}
  * @response \`200\` \`{
-  \\** result is JWT or JSON?? *\\
+  /** result is JWT or JSON?? *\\/
     jwt?: string,
-  \\** ready *\\
+  /** ready *\\/
     status?: string,
 
 }\` Successfully updated
