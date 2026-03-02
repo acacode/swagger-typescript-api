@@ -99,14 +99,17 @@ export class ResolvedSwaggerSchema {
       const resolvedByNormalizedRef = this.tryToResolveRef(normalizedRef);
 
       if (resolvedByNormalizedRef) {
-        return resolvedByNormalizedRef;
+        return this.normalizeResolvedExternalSchemaRef(
+          normalizedRef,
+          resolvedByNormalizedRef,
+        );
       }
     }
 
     const resolvedByOrigRef = this.tryToResolveRef(ref);
 
     if (resolvedByOrigRef) {
-      return resolvedByOrigRef;
+      return this.normalizeResolvedExternalSchemaRef(ref, resolvedByOrigRef);
     }
 
     // const ref.match(/\#[a-z]/)
@@ -116,7 +119,14 @@ export class ResolvedSwaggerSchema {
         return `${hashtag}/${char}`;
       });
 
-      return this.tryToResolveRef(fixedRef);
+      const resolvedByFixedRef = this.tryToResolveRef(fixedRef);
+
+      if (resolvedByFixedRef) {
+        return this.normalizeResolvedExternalSchemaRef(
+          fixedRef,
+          resolvedByFixedRef,
+        );
+      }
     }
 
     return this.tryToResolveRefFromFile(normalizedRef);
@@ -204,6 +214,58 @@ export class ResolvedSwaggerSchema {
     return current ?? null;
   }
 
+  private absolutizeLocalRefs(
+    value: Maybe<AnyObject | Primitive>,
+    externalPath: string,
+  ): Maybe<AnyObject | Primitive> {
+    if (value == null || typeof value !== "object") {
+      return value;
+    }
+
+    const cloneValue = structuredClone(value) as any;
+    const walk = (node: any) => {
+      if (node == null || typeof node !== "object") {
+        return;
+      }
+
+      if (Array.isArray(node)) {
+        for (const item of node) {
+          walk(item);
+        }
+        return;
+      }
+
+      if (typeof node.$ref === "string" && node.$ref.startsWith("#")) {
+        node.$ref = `${externalPath}${this.normalizeRef(node.$ref)}`;
+      }
+
+      for (const nested of Object.values(node)) {
+        walk(nested);
+      }
+    };
+
+    walk(cloneValue);
+
+    return cloneValue;
+  }
+
+  private normalizeResolvedExternalSchemaRef(
+    ref: string,
+    resolved: Maybe<AnyObject | Primitive>,
+  ): Maybe<AnyObject | Primitive> {
+    const normalizedRef = this.normalizeRef(ref);
+    if (normalizedRef.startsWith("#")) {
+      return resolved;
+    }
+
+    const externalPath = normalizedRef.split("#")[0] || "";
+    if (!externalPath) {
+      return resolved;
+    }
+
+    return this.absolutizeLocalRefs(resolved, externalPath);
+  }
+
   private collectExternalRefCandidates(externalPath: string): string[] {
     const candidates = new Set<string>();
     const isRemote = /^https?:\/\//i.test(externalPath);
@@ -264,7 +326,7 @@ export class ResolvedSwaggerSchema {
       const schema = this.readExternalSchema(candidate);
       const resolved = this.resolveJsonPointer(schema, pointer);
       if (resolved != null) {
-        return resolved;
+        return this.absolutizeLocalRefs(resolved, externalPath);
       }
     }
 

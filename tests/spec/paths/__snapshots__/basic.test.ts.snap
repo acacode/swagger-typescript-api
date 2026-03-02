@@ -44,7 +44,7 @@ export type HelloListData = object;
 
 export interface Repository {
   slug?: string;
-  owner?: any;
+  owner?: User;
 }
 
 export interface GetRepositoryParams {
@@ -62,6 +62,11 @@ export interface ReproReportSchema {
    * @example 803
    */
   id?: number;
+}
+
+export interface User {
+  username?: string;
+  uuid?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
