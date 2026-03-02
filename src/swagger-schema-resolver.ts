@@ -136,7 +136,39 @@ export class SwaggerSchemaResolver {
     }
   }
 
+  private normalizeRefValue(ref: string): string {
+    return ref
+      .replace(/\/#(?=\/)/g, "#")
+      .replace(/#(?!\/)/, "#/");
+  }
+
+  private normalizeRefsInSchema(schema: unknown): void {
+    if (!schema || typeof schema !== "object") {
+      return;
+    }
+
+    if (Array.isArray(schema)) {
+      for (const value of schema) {
+        this.normalizeRefsInSchema(value);
+      }
+      return;
+    }
+
+    const objectSchema = schema as Record<string, unknown>;
+
+    if (typeof objectSchema.$ref === "string") {
+      objectSchema.$ref = this.normalizeRefValue(objectSchema.$ref);
+    }
+
+    for (const value of Object.values(objectSchema)) {
+      this.normalizeRefsInSchema(value);
+    }
+  }
+
   private fixSwaggerSchemas({ usageSchema, originalSchema }: SwaggerSchemas) {
+    this.normalizeRefsInSchema(usageSchema);
+    this.normalizeRefsInSchema(originalSchema);
+
     const usagePaths = lodash.get(usageSchema, "paths");
     const originalPaths = lodash.get(originalSchema, "paths");
 

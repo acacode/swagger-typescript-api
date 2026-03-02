@@ -42,12 +42,17 @@ export interface Weather {
 
 export type HelloListData = object;
 
+export interface Repository {
+  slug?: string;
+  owner?: any;
+}
+
 export interface GetRepositoryParams {
   username: string;
   slug: string;
 }
 
-export type GetRepositoryData = any;
+export type GetRepositoryData = Repository;
 
 /** ReportSchema */
 export interface ReproReportSchema {
