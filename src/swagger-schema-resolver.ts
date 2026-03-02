@@ -135,9 +135,7 @@ export class SwaggerSchemaResolver {
   }
 
   private normalizeRefValue(ref: string): string {
-    return ref
-      .replace(/\/#(?=\/)/g, "#")
-      .replace(/#(?!\/)/, "#/");
+    return ref.replace(/\/#(?=\/)/g, "#").replace(/#(?!\/)/, "#/");
   }
 
   private normalizeRefsInSchema(schema: unknown): void {

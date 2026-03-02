@@ -63,7 +63,10 @@ export class SchemaRoutes {
     ]);
   }
 
-  createRequestsMap = (resolvedSwaggerSchema: ResolvedSwaggerSchema, routesByMethod) => {
+  createRequestsMap = (
+    resolvedSwaggerSchema: ResolvedSwaggerSchema,
+    routesByMethod,
+  ) => {
     const parameters = get(routesByMethod, "parameters");
 
     const result = {};
@@ -455,7 +458,7 @@ export class SchemaRoutes {
     }
 
     return result;
-  }
+  };
 
   getRouteLinksFromResponse = (
     resolvedSwaggerSchema: ResolvedSwaggerSchema,
@@ -499,9 +502,7 @@ export class SchemaRoutes {
         }
 
         const parameters = typeGuard.isObject(normalizedLinkInfo.parameters)
-          ? mapValues(normalizedLinkInfo.parameters, (value) =>
-              String(value),
-            )
+          ? mapValues(normalizedLinkInfo.parameters, (value) => String(value))
           : undefined;
 
         acc.push({
@@ -533,7 +534,9 @@ export class SchemaRoutes {
       defaultType: this.config.defaultResponseType,
       resolvedSwaggerSchema,
     });
-    const links = responseInfos.flatMap((responseInfo) => responseInfo.links || []);
+    const links = responseInfos.flatMap(
+      (responseInfo) => responseInfo.links || [],
+    );
 
     const successResponse = responseInfos.find(
       (response) => response.isSuccess,
@@ -1172,7 +1175,9 @@ export class SchemaRoutes {
   ) => {
     this.config.routeNameDuplicatesMap.clear();
 
-    const pathsEntries = Object.entries(resolvedSwaggerSchema.usageSchema.paths || {});
+    const pathsEntries = Object.entries(
+      resolvedSwaggerSchema.usageSchema.paths || {},
+    );
 
     for (const [rawRouteName, routeInfoByMethodsMap] of pathsEntries) {
       const routeInfosMap = this.createRequestsMap(

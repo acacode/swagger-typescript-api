@@ -294,7 +294,9 @@ export class ResolvedSwaggerSchema {
           if (/^https?:\/\//i.test(resolverPath)) {
             continue;
           }
-          candidates.add(path.resolve(path.dirname(resolverPath), externalPath));
+          candidates.add(
+            path.resolve(path.dirname(resolverPath), externalPath),
+          );
         }
       } catch (e) {
         consola.debug(e);
