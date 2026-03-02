@@ -1,5 +1,5 @@
 import { typeGuard } from "yummies/type-guard";
-import type { AnyObject, Maybe } from "yummies/utils/types";
+import type { AnyObject, Maybe } from "yummies/types";
 import type { SchemaComponent } from "../types/index.js";
 import type { CodeGenConfig } from "./configuration.js";
 import { pascalCase } from "./util/pascal-case.js";

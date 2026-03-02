@@ -1,6 +1,6 @@
 import { consola } from "consola";
 import { typeGuard } from "yummies/type-guard";
-import type { AnyObject } from "yummies/utils/types";
+import type { AnyObject } from "yummies/types";
 import { compact, flattenDeep, isEqual, mapValues, uniq } from "es-toolkit";
 import { camelCase, get, reduce } from "es-toolkit/compat";
 import type {

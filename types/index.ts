@@ -1,9 +1,9 @@
+import type { PartialDeep } from "type-fest";
 import type { ComponentTypeNameResolver } from "../src/component-type-name-resolver.js";
 import type * as CONSTANTS from "../src/constants.js";
 import type { RefDetails } from "../src/resolved-swagger-schema.js";
 import type { MonoSchemaParser } from "../src/schema-parser/mono-schema-parser.js";
 import type { Translator } from "../src/translators/translator.js";
-import type { PartialDeep } from "type-fest";
 
 export type HttpClientType =
   (typeof CONSTANTS.HTTP_CLIENT)[keyof typeof CONSTANTS.HTTP_CLIENT];

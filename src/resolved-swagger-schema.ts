@@ -5,7 +5,7 @@ import * as fs from "node:fs";
 import path from "node:path";
 import type { OpenAPI } from "openapi-types";
 import * as YAML from "yaml";
-import type { AnyObject, Maybe, Primitive } from "yummies/utils/types";
+import type { AnyObject, Maybe, Primitive } from "yummies/types";
 import type { CodeGenConfig } from "./configuration.js";
 
 export interface RefDetails {
