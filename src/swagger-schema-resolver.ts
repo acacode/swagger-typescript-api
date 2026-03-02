@@ -1,5 +1,6 @@
 import { consola } from "consola";
-import lodash from "lodash";
+import { compact, merge, uniq } from "es-toolkit";
+import { get } from "es-toolkit/compat";
 import type { OpenAPI, OpenAPIV2, OpenAPIV3 } from "openapi-types";
 import * as swagger2openapi from "swagger2openapi";
 import * as YAML from "yaml";
@@ -61,16 +62,16 @@ export class SwaggerSchemaResolver {
   ): Promise<SwaggerSchemas> {
     return new Promise((resolve) => {
       const result = structuredClone(swaggerSchema);
-      result.info = lodash.merge(
+      result.info = merge(
         {
           title: "No title",
           version: "",
         },
-        result.info,
+        result.info || {},
       );
 
       if (!Object.hasOwn(result, "openapi")) {
-        result.paths = lodash.merge({}, result.paths);
+        result.paths = merge({}, result.paths || {});
 
         swagger2openapi.convertObj(
           result as OpenAPIV2.Document,
@@ -82,11 +83,8 @@ export class SwaggerSchemaResolver {
             rbname: "requestBodyName",
           },
           (err, options) => {
-            const parsedSwaggerSchema = lodash.get(
-              err,
-              "options.openapi",
-              lodash.get(options, "openapi"),
-            );
+            const parsedSwaggerSchema =
+              get(err, "options.openapi") ?? get(options, "openapi");
             if (!parsedSwaggerSchema && err) {
               throw err;
             }
@@ -169,46 +167,40 @@ export class SwaggerSchemaResolver {
     this.normalizeRefsInSchema(usageSchema);
     this.normalizeRefsInSchema(originalSchema);
 
-    const usagePaths = lodash.get(usageSchema, "paths");
-    const originalPaths = lodash.get(originalSchema, "paths");
+    const usagePaths = get(usageSchema, "paths") || {};
+    const originalPaths = get(originalSchema, "paths") || {};
 
     // walk by routes
-    lodash.each(usagePaths, (usagePathObject, route) => {
-      const originalPathObject = lodash.get(originalPaths, route);
+    for (const [route, usagePathObject] of Object.entries(usagePaths)) {
+      const originalPathObject = get(originalPaths, route) || {};
 
       // walk by methods
-      lodash.each(usagePathObject, (usageRouteInfo, methodName) => {
-        const originalRouteInfo = lodash.get(originalPathObject, methodName);
-        const usageRouteParams = lodash.get(
-          usageRouteInfo,
-          "parameters",
-          [],
-        ) as OpenAPIV3.ParameterObject[];
-        const originalRouteParams = lodash.get(
-          originalRouteInfo,
-          "parameters",
-          [],
-        );
+      for (const [methodName, usageRouteInfo] of Object.entries(
+        usagePathObject as Record<string, any>,
+      )) {
+        const originalRouteInfo = get(originalPathObject, methodName) || {};
+        const usageRouteParams = get(usageRouteInfo, "parameters") || [];
+        const originalRouteParams = get(originalRouteInfo, "parameters") || [];
 
         const usageAsOpenapiv2 =
           usageRouteInfo as unknown as OpenAPIV2.Document;
 
         if (typeof usageRouteInfo === "object") {
-          usageAsOpenapiv2.consumes = lodash.uniq(
-            lodash.compact([
+          usageAsOpenapiv2.consumes = uniq(
+            compact([
               ...(usageAsOpenapiv2.consumes || []),
               ...(originalRouteInfo.consumes || []),
             ]),
           );
-          usageAsOpenapiv2.produces = lodash.uniq(
-            lodash.compact([
+          usageAsOpenapiv2.produces = uniq(
+            compact([
               ...(usageAsOpenapiv2.produces || []),
               ...(originalRouteInfo.produces || []),
             ]),
           );
         }
 
-        lodash.each(originalRouteParams, (originalRouteParam) => {
+        for (const originalRouteParam of originalRouteParams) {
           const existUsageParam = usageRouteParams.find(
             (param: OpenAPIV3.ParameterObject) =>
               originalRouteParam.in === param.in &&
@@ -217,8 +209,8 @@ export class SwaggerSchemaResolver {
           if (!existUsageParam) {
             usageRouteParams.push(originalRouteParam);
           }
-        });
-      });
-    });
+        }
+      }
+    }
   }
 }

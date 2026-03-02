@@ -1,5 +1,43 @@
 # swagger-typescript-api
 
+## 13.2.18
+
+### Patch Changes
+
+- [#1620](https://github.com/acacode/swagger-typescript-api/pull/1620) [`def2833`](https://github.com/acacode/swagger-typescript-api/commit/def283386db36aa118bce30121a594774c0856e2) Thanks [@smorimoto](https://github.com/smorimoto)! - Restore `objectAssign` utility with es-toolkit to fix `codeGenConstructs` and `primitiveTypeConstructs` options. The lodash-to-es-toolkit migration (#1562) replaced `objectAssign` with `Object.assign`, which broke function-form arguments and deep merging. This restores both behaviors: functions are called with the current struct before merging, and nested properties are preserved via deep merge.
+
+- [#1611](https://github.com/acacode/swagger-typescript-api/pull/1611) [`92a2d46`](https://github.com/acacode/swagger-typescript-api/commit/92a2d4601adf57f422f6995d734ef82ac6b104b2) Thanks [@smorimoto](https://github.com/smorimoto)! - Escape `*/` sequences in generated JSDoc content to prevent comment injection from OpenAPI fields.
+
+## 13.2.17
+
+### Patch Changes
+
+- [#1603](https://github.com/acacode/swagger-typescript-api/pull/1603) [`19a4d29`](https://github.com/acacode/swagger-typescript-api/commit/19a4d29b2cecf1ce950a02c542dc4eca4067b2d3) Thanks [@clicktodev](https://github.com/clicktodev)! - Fix missing closing angle bracket in `describeReturnType` function's default case, which produced malformed return type syntax `Promise<HttpResponse<T, E>` instead of `Promise<HttpResponse<T, E>>`.
+
+- [#1606](https://github.com/acacode/swagger-typescript-api/pull/1606) [`0528831`](https://github.com/acacode/swagger-typescript-api/commit/05288312df0a803f7982d954d724634fbdcfbdf2) Thanks [@smorimoto](https://github.com/smorimoto)! - Replace Yarn with Bun as the package manager.
+
+## 13.2.16
+
+### Patch Changes
+
+- [#1459](https://github.com/acacode/swagger-typescript-api/pull/1459) [`6b485dd`](https://github.com/acacode/swagger-typescript-api/commit/6b485dd70228a7e3697c4bd4a9ca5537e456f512) Thanks [@smorimoto](https://github.com/smorimoto)! - Downgrade eta from 4.0.1 to 3.5.0 to fix module resolution error.
+
+  After the upgrade to eta@4.0.1 in version 13.2.11, API generation started
+  failing with `ERR_PACKAGE_PATH_NOT_EXPORTED: No "exports" main defined in
+eta/package.json`. This issue is caused by incorrect package export
+  configuration in eta@4.0.1, which is tracked in the upstream repository.
+
+  Downgrading to eta@3.5.0 resolves the module resolution error whilst
+  maintaining compatibility with the existing template system.
+
+  Fixes #1427.
+
+## 13.2.15
+
+### Patch Changes
+
+- [`afc2448`](https://github.com/acacode/swagger-typescript-api/commit/afc24481bbbe891942264c1dacf1101e521f039a) Thanks [@js2me](https://github.com/js2me)! - added ability to override usageSchema and originalSchema after onInit hook and before all other operations
+
 ## 13.2.14
 
 ### Patch Changes

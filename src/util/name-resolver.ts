@@ -1,5 +1,5 @@
 import { consola } from "consola";
-import lodash from "lodash";
+import { compact, uniq } from "es-toolkit";
 import type { CodeGenConfig } from "../configuration.js";
 
 type Resolver = (reserved: string[], extras?: string[]) => string;
@@ -21,7 +21,7 @@ export class NameResolver {
   }
 
   reserve(names: string[]) {
-    const fixedNames = lodash.uniq(lodash.compact(names));
+    const fixedNames = uniq(compact(names));
     for (const name of fixedNames) {
       if (this.reservedNames.indexOf(name) === -1) {
         this.reservedNames.push(name);
@@ -68,7 +68,7 @@ export class NameResolver {
 
     if (Array.isArray(variants)) {
       let usageName: string | null = null;
-      const uniqVariants = lodash.uniq(lodash.compact(variants));
+      const uniqVariants = uniq(compact(variants));
 
       for (const variant of uniqVariants) {
         if (!usageName && (!shouldReserve || !this.isReserved(variant))) {

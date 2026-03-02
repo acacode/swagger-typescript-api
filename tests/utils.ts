@@ -21,5 +21,6 @@ export async function collectAllSchemas() {
       schemas.push({ name, filePath });
     }
   }
-  return schemas;
+  // Sort by filePath to ensure consistent order across different file systems
+  return schemas.sort((a, b) => a.filePath.localeCompare(b.filePath));
 }
