@@ -290,6 +290,15 @@ export interface RequestResponseInfo {
   description: string;
   status: string | number;
   isSuccess: boolean;
+  links?: RouteLinkInfo[];
+}
+
+export interface RouteLinkInfo {
+  status: string | number;
+  name: string;
+  operationId?: string;
+  operationRef?: string;
+  parameters?: Record<string, string>;
 }
 
 export type RawRouteInfo = {
@@ -298,6 +307,7 @@ export type RawRouteInfo = {
   route: string;
   moduleName: string;
   responsesTypes: RequestResponseInfo[];
+  links?: RouteLinkInfo[];
   description?: string;
   tags?: string[];
   summary?: string;
@@ -356,6 +366,7 @@ export interface ParsedRoute {
     contentTypes: any[];
     // biome-ignore lint/suspicious/noExplicitAny: TODO
     responses: any[];
+    links?: RouteLinkInfo[];
     // biome-ignore lint/suspicious/noExplicitAny: TODO
     success?: Record<string, any>;
     // biome-ignore lint/suspicious/noExplicitAny: TODO

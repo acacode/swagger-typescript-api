@@ -3,21 +3,21 @@ import lodash from "lodash";
 import { typeGuard } from "yummies/type-guard";
 import type { AnyObject } from "yummies/utils/types";
 import type {
-  GenerateApiConfiguration,
-  ParsedRoute,
-  ParsedSchema,
-  SchemaTypeEnumContent,
-  SchemaTypeObjectContent,
-  SchemaTypePrimitiveContent,
+    GenerateApiConfiguration,
+    ParsedRoute,
+    ParsedSchema,
+    RouteLinkInfo,
+    SchemaTypeEnumContent,
+    SchemaTypeObjectContent,
+    SchemaTypePrimitiveContent,
 } from "../../types/index.js";
-import type { CodeGenProcess } from "../code-gen-process.js";
 import type { CodeGenConfig } from "../configuration.js";
 import {
-  DEFAULT_BODY_ARG_NAME,
-  RESERVED_BODY_ARG_NAMES,
-  RESERVED_HEADER_ARG_NAMES,
-  RESERVED_PATH_ARG_NAMES,
-  RESERVED_QUERY_ARG_NAMES,
+    DEFAULT_BODY_ARG_NAME,
+    RESERVED_BODY_ARG_NAMES,
+    RESERVED_HEADER_ARG_NAMES,
+    RESERVED_PATH_ARG_NAMES,
+    RESERVED_QUERY_ARG_NAMES,
 } from "../constants.js";
 import type { ResolvedSwaggerSchema } from "../resolved-swagger-schema.js";
 import type { SchemaComponentsMap } from "../schema-components-map.js";
@@ -426,12 +426,18 @@ export class SchemaRoutes {
     parsedSchemas,
     operationId,
     defaultType,
+    resolvedSwaggerSchema,
   }) =>
     lodash.reduce(
       requestInfos,
       (acc, requestInfo, status) => {
         // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
         const contentTypes = this.getContentTypes([requestInfo]);
+        const links = this.getRouteLinksFromResponse(
+          resolvedSwaggerSchema,
+          requestInfo,
+          status,
+        );
 
         return [
           ...acc,
@@ -454,6 +460,7 @@ export class SchemaRoutes {
                 requestInfo.description || "",
                 true,
               ),
+            links,
             status: Number.isNaN(+status) ? status : +status,
             isSuccess: this.isSuccessStatus(status),
           },
@@ -462,7 +469,68 @@ export class SchemaRoutes {
       [],
     );
 
-  getResponseBodyInfo = (routeInfo, parsedSchemas) => {
+  getRouteLinksFromResponse = (
+    resolvedSwaggerSchema: ResolvedSwaggerSchema,
+    responseInfo: AnyObject,
+    status: string,
+  ): RouteLinkInfo[] => {
+    const links = lodash.get(responseInfo, "links");
+    if (!typeGuard.isObject(links)) {
+      return [];
+    }
+
+    return lodash.reduce(
+      links,
+      (acc, linkInfo, linkName) => {
+        if (!typeGuard.isObject(linkInfo)) {
+          return acc;
+        }
+
+        let normalizedLinkInfo = linkInfo;
+
+        if (typeof linkInfo.$ref === "string") {
+          const refData = resolvedSwaggerSchema.getRef(linkInfo.$ref);
+          if (typeGuard.isObject(refData)) {
+            normalizedLinkInfo = refData;
+          }
+        }
+
+        const operationId =
+          typeof normalizedLinkInfo.operationId === "string"
+            ? normalizedLinkInfo.operationId
+            : undefined;
+        const operationRef =
+          typeof normalizedLinkInfo.operationRef === "string"
+            ? normalizedLinkInfo.operationRef
+            : typeof linkInfo.$ref === "string"
+              ? linkInfo.$ref
+              : undefined;
+
+        if (!operationId && !operationRef) {
+          return acc;
+        }
+
+        const parameters = typeGuard.isObject(normalizedLinkInfo.parameters)
+          ? lodash.mapValues(normalizedLinkInfo.parameters, (value) =>
+              String(value),
+            )
+          : undefined;
+
+        acc.push({
+          status: Number.isNaN(+status) ? status : +status,
+          name: String(linkName),
+          operationId,
+          operationRef,
+          parameters,
+        });
+
+        return acc;
+      },
+      [] as RouteLinkInfo[],
+    );
+  };
+
+  getResponseBodyInfo = (routeInfo, parsedSchemas, resolvedSwaggerSchema) => {
     const { produces, operationId, responses } = routeInfo;
 
     const contentTypes = this.getContentTypes(responses, [
@@ -475,7 +543,9 @@ export class SchemaRoutes {
       parsedSchemas,
       operationId,
       defaultType: this.config.defaultResponseType,
+      resolvedSwaggerSchema,
     });
+    const links = responseInfos.flatMap((responseInfo) => responseInfo.links || []);
 
     const successResponse = responseInfos.find(
       (response) => response.isSuccess,
@@ -503,6 +573,7 @@ export class SchemaRoutes {
     return {
       contentTypes,
       responses: responseInfos,
+      links,
       success: {
         schema: successResponse,
         type: successResponse?.type || this.config.Ts.Keyword.Any,
@@ -868,10 +939,10 @@ export class SchemaRoutes {
     rawRouteName,
     routeInfo,
     method,
-    usageSchema,
+    resolvedSwaggerSchema: ResolvedSwaggerSchema,
     parsedSchemas,
   ): ParsedRoute => {
-    const { security: globalSecurity } = usageSchema;
+    const { security: globalSecurity } = resolvedSwaggerSchema.usageSchema;
     const { moduleNameIndex, moduleNameFirstTag, extractRequestParams } =
       this.config;
     const {
@@ -921,7 +992,11 @@ export class SchemaRoutes {
     }));
     const pathArgsNames = pathArgs.map((arg) => arg.name);
 
-    const responseBodyInfo = this.getResponseBodyInfo(routeInfo, parsedSchemas);
+    const responseBodyInfo = this.getResponseBodyInfo(
+      routeInfo,
+      parsedSchemas,
+      resolvedSwaggerSchema,
+    );
 
     const rawRouteInfo = {
       ...otherInfo,
@@ -931,6 +1006,7 @@ export class SchemaRoutes {
       route: rawRouteName,
       moduleName,
       responsesTypes: responseBodyInfo.responses,
+      links: responseBodyInfo.links,
       description,
       tags,
       summary,
@@ -1131,7 +1207,7 @@ export class SchemaRoutes {
           rawRouteName,
           routeInfo,
           method,
-          resolvedSwaggerSchema.usageSchema,
+          resolvedSwaggerSchema,
           parsedSchemas,
         );
         const processedRouteInfo =

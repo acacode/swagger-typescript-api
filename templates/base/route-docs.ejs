@@ -21,6 +21,12 @@ const jsDocLines = _.compact([
             ` * @response \`${status}\` \`${_.replace(_.replace(type, /\/\*/g, "\\*"), /\*\//g, "*\\")}\` ${description}`,
         )
     : []),
+    ...(raw.links?.length
+    ? raw.links.map(
+        ({ status, name, operationId, operationRef }) =>
+            ` * @link \`${status}.${name}\` ${operationId ? `operationId:${operationId}` : `operationRef:${operationRef}`}`,
+      )
+    : []),
 ]).map(str => str.trimEnd()).join("\n");
 
 return {

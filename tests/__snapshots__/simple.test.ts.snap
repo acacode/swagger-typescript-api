@@ -40150,6 +40150,7 @@ export class Api<
      *
      * @name GetUserByName
      * @request GET:/2.0/users/{username}
+     * @link \`200.userRepositories\` operationId:getRepositoriesByOwner
      */
     getUserByName: (username: string, params: RequestParams = {}) =>
       this.request<User, any>({
@@ -40164,6 +40165,7 @@ export class Api<
      *
      * @name GetRepositoriesByOwner
      * @request GET:/2.0/repositories/{username}
+     * @link \`200.userRepository\` operationId:getRepository
      */
     getRepositoriesByOwner: (username: string, params: RequestParams = {}) =>
       this.request<Repository[], any>({
@@ -40178,6 +40180,7 @@ export class Api<
      *
      * @name GetRepository
      * @request GET:/2.0/repositories/{username}/{slug}
+     * @link \`200.repositoryPullRequests\` operationId:getPullRequestsByRepository
      */
     getRepository: (
       username: string,
@@ -40218,6 +40221,7 @@ export class Api<
      *
      * @name GetPullRequestsById
      * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
+     * @link \`200.pullRequestMerge\` operationId:mergePullRequest
      */
     getPullRequestsById: (
       username: string,
@@ -50017,6 +50021,7 @@ export class Api<
      *
      * @name GetUserByName
      * @request GET:/2.0/users/{username}
+     * @link \`200.userRepositories\` operationId:getRepositoriesByOwner
      */
     getUserByName: (username: string, params: RequestParams = {}) =>
       this.request<any, any>({
@@ -50031,6 +50036,7 @@ export class Api<
      *
      * @name GetRepositoriesByOwner
      * @request GET:/2.0/repositories/{username}
+     * @link \`200.userRepository\` operationId:getRepository
      */
     getRepositoriesByOwner: (username: string, params: RequestParams = {}) =>
       this.request<any[], any>({
@@ -50045,6 +50051,7 @@ export class Api<
      *
      * @name GetRepository
      * @request GET:/2.0/repositories/{username}/{slug}
+     * @link \`200.repositoryPullRequests\` operationId:getPullRequestsByRepository
      */
     getRepository: (
       username: string,
@@ -50085,6 +50092,7 @@ export class Api<
      *
      * @name GetPullRequestsById
      * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
+     * @link \`200.pullRequestMerge\` operationId:mergePullRequest
      */
     getPullRequestsById: (
       username: string,

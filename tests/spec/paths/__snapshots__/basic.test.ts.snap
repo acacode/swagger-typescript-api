@@ -351,6 +351,7 @@ export class Api<
      *
      * @name GetRepository
      * @request PUT:/hello
+     * @link \`200.repositoryPullRequests\` operationId:getPullRequestsByRepository
      */
     getRepository: (
       { username, slug, ...query }: GetRepositoryParams,

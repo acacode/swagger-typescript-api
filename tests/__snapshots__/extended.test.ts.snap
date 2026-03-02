@@ -67875,6 +67875,7 @@ export namespace V20 {
    * No description
    * @name GetPullRequestsById
    * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
+   * @link \`200.pullRequestMerge\` operationId:mergePullRequest
    */
   export namespace GetPullRequestsById {
     export type RequestParams = {
@@ -67910,6 +67911,7 @@ export namespace V20 {
    * No description
    * @name GetRepositoriesByOwner
    * @request GET:/2.0/repositories/{username}
+   * @link \`200.userRepository\` operationId:getRepository
    */
   export namespace GetRepositoriesByOwner {
     export type RequestParams = {
@@ -67925,6 +67927,7 @@ export namespace V20 {
    * No description
    * @name GetRepository
    * @request GET:/2.0/repositories/{username}/{slug}
+   * @link \`200.repositoryPullRequests\` operationId:getPullRequestsByRepository
    */
   export namespace GetRepository {
     export type RequestParams = {
@@ -67941,6 +67944,7 @@ export namespace V20 {
    * No description
    * @name GetUserByName
    * @request GET:/2.0/users/{username}
+   * @link \`200.userRepositories\` operationId:getRepositoriesByOwner
    */
   export namespace GetUserByName {
     export type RequestParams = {
@@ -68238,6 +68242,7 @@ export class Api<
      *
      * @name GetPullRequestsById
      * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
+     * @link \`200.pullRequestMerge\` operationId:mergePullRequest
      */
     getPullRequestsById: (
       { username, slug, pid, ...query }: GetPullRequestsByIdParams,
@@ -68273,6 +68278,7 @@ export class Api<
      *
      * @name GetRepositoriesByOwner
      * @request GET:/2.0/repositories/{username}
+     * @link \`200.userRepository\` operationId:getRepository
      */
     getRepositoriesByOwner: (
       { username, ...query }: GetRepositoriesByOwnerParams,
@@ -68290,6 +68296,7 @@ export class Api<
      *
      * @name GetRepository
      * @request GET:/2.0/repositories/{username}/{slug}
+     * @link \`200.repositoryPullRequests\` operationId:getPullRequestsByRepository
      */
     getRepository: (
       { username, slug, ...query }: GetRepositoryParams,
@@ -68307,6 +68314,7 @@ export class Api<
      *
      * @name GetUserByName
      * @request GET:/2.0/users/{username}
+     * @link \`200.userRepositories\` operationId:getRepositoriesByOwner
      */
     getUserByName: (
       { username, ...query }: GetUserByNameParams,
@@ -80642,6 +80650,7 @@ export namespace V20 {
    * No description
    * @name GetPullRequestsById
    * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
+   * @link \`200.pullRequestMerge\` operationId:mergePullRequest
    */
   export namespace GetPullRequestsById {
     export type RequestParams = {
@@ -80677,6 +80686,7 @@ export namespace V20 {
    * No description
    * @name GetRepositoriesByOwner
    * @request GET:/2.0/repositories/{username}
+   * @link \`200.userRepository\` operationId:getRepository
    */
   export namespace GetRepositoriesByOwner {
     export type RequestParams = {
@@ -80692,6 +80702,7 @@ export namespace V20 {
    * No description
    * @name GetRepository
    * @request GET:/2.0/repositories/{username}/{slug}
+   * @link \`200.repositoryPullRequests\` operationId:getPullRequestsByRepository
    */
   export namespace GetRepository {
     export type RequestParams = {
@@ -80708,6 +80719,7 @@ export namespace V20 {
    * No description
    * @name GetUserByName
    * @request GET:/2.0/users/{username}
+   * @link \`200.userRepositories\` operationId:getRepositoriesByOwner
    */
   export namespace GetUserByName {
     export type RequestParams = {
@@ -81005,6 +81017,7 @@ export class Api<
      *
      * @name GetPullRequestsById
      * @request GET:/2.0/repositories/{username}/{slug}/pullrequests/{pid}
+     * @link \`200.pullRequestMerge\` operationId:mergePullRequest
      */
     getPullRequestsById: (
       { username, slug, pid, ...query }: GetPullRequestsByIdParams,
@@ -81040,6 +81053,7 @@ export class Api<
      *
      * @name GetRepositoriesByOwner
      * @request GET:/2.0/repositories/{username}
+     * @link \`200.userRepository\` operationId:getRepository
      */
     getRepositoriesByOwner: (
       { username, ...query }: GetRepositoriesByOwnerParams,
@@ -81057,6 +81071,7 @@ export class Api<
      *
      * @name GetRepository
      * @request GET:/2.0/repositories/{username}/{slug}
+     * @link \`200.repositoryPullRequests\` operationId:getPullRequestsByRepository
      */
     getRepository: (
       { username, slug, ...query }: GetRepositoryParams,
@@ -81074,6 +81089,7 @@ export class Api<
      *
      * @name GetUserByName
      * @request GET:/2.0/users/{username}
+     * @link \`200.userRepositories\` operationId:getRepositoriesByOwner
      */
     getUserByName: (
       { username, ...query }: GetUserByNameParams,
