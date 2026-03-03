@@ -1,12 +1,18 @@
 import { consola } from "consola";
 import { compact, merge, uniq } from "es-toolkit";
 import { get } from "es-toolkit/compat";
-import type { OpenAPI, OpenAPIV2 } from "openapi-types";
+import type { OpenAPI, OpenAPIV2, OpenAPIV3 } from "openapi-types";
 import * as swagger2openapi from "swagger2openapi";
 import * as YAML from "yaml";
 import type { CodeGenConfig } from "./configuration.js";
+import { ResolvedSwaggerSchema } from "./resolved-swagger-schema.js";
 import type { FileSystem } from "./util/file-system.js";
 import { Request } from "./util/request.js";
+
+interface SwaggerSchemas {
+  usageSchema: OpenAPI.Document;
+  originalSchema: OpenAPI.Document;
+}
 
 export class SwaggerSchemaResolver {
   config: CodeGenConfig;
@@ -19,30 +25,41 @@ export class SwaggerSchemaResolver {
     this.request = new Request(config);
   }
 
-  async create() {
+  async create(): Promise<ResolvedSwaggerSchema> {
     const { spec, patch, input, url, authorizationToken } = this.config;
+    let swaggerSchemas: SwaggerSchemas;
 
     if (spec) {
-      return await this.convertSwaggerObject(spec, { patch });
+      swaggerSchemas = await this.convertSwaggerObject(spec, { patch });
+    } else {
+      const swaggerSchemaFile = await this.fetchSwaggerSchemaFile(
+        input,
+        url,
+        authorizationToken,
+      );
+      const swaggerSchemaObject =
+        this.processSwaggerSchemaFile(swaggerSchemaFile);
+
+      swaggerSchemas = await this.convertSwaggerObject(swaggerSchemaObject, {
+        patch,
+      });
     }
 
-    const swaggerSchemaFile = await this.fetchSwaggerSchemaFile(
-      input,
-      url,
-      authorizationToken,
+    this.fixSwaggerSchemas(swaggerSchemas);
+
+    const resolvedSwaggerSchema = ResolvedSwaggerSchema.create(
+      this.config,
+      swaggerSchemas.usageSchema,
+      swaggerSchemas.originalSchema,
     );
-    const swaggerSchemaObject =
-      this.processSwaggerSchemaFile(swaggerSchemaFile);
-    return await this.convertSwaggerObject(swaggerSchemaObject, { patch });
+
+    return resolvedSwaggerSchema;
   }
 
   convertSwaggerObject(
     swaggerSchema: OpenAPI.Document,
     converterOptions: { patch?: boolean },
-  ): Promise<{
-    usageSchema: OpenAPI.Document;
-    originalSchema: OpenAPI.Document;
-  }> {
+  ): Promise<SwaggerSchemas> {
     return new Promise((resolve) => {
       const result = structuredClone(swaggerSchema);
       result.info = merge(
@@ -117,7 +134,48 @@ export class SwaggerSchemaResolver {
     }
   }
 
-  fixSwaggerSchema({ usageSchema, originalSchema }) {
+  private normalizeRefValue(ref: string): string {
+    const refWithoutSlashBeforeHash = ref.split("/#/").join("#/");
+    const hashIndex = refWithoutSlashBeforeHash.indexOf("#");
+
+    if (hashIndex === -1) {
+      return refWithoutSlashBeforeHash;
+    }
+
+    if (refWithoutSlashBeforeHash[hashIndex + 1] === "/") {
+      return refWithoutSlashBeforeHash;
+    }
+
+    return `${refWithoutSlashBeforeHash.slice(0, hashIndex + 1)}/${refWithoutSlashBeforeHash.slice(hashIndex + 1)}`;
+  }
+
+  private normalizeRefsInSchema(schema: unknown): void {
+    if (!schema || typeof schema !== "object") {
+      return;
+    }
+
+    if (Array.isArray(schema)) {
+      for (const value of schema) {
+        this.normalizeRefsInSchema(value);
+      }
+      return;
+    }
+
+    const objectSchema = schema as Record<string, unknown>;
+
+    if (typeof objectSchema.$ref === "string") {
+      objectSchema.$ref = this.normalizeRefValue(objectSchema.$ref);
+    }
+
+    for (const value of Object.values(objectSchema)) {
+      this.normalizeRefsInSchema(value);
+    }
+  }
+
+  private fixSwaggerSchemas({ usageSchema, originalSchema }: SwaggerSchemas) {
+    this.normalizeRefsInSchema(usageSchema);
+    this.normalizeRefsInSchema(originalSchema);
+
     const usagePaths = get(usageSchema, "paths") || {};
     const originalPaths = get(originalSchema, "paths") || {};
 
@@ -133,16 +191,19 @@ export class SwaggerSchemaResolver {
         const usageRouteParams = get(usageRouteInfo, "parameters") || [];
         const originalRouteParams = get(originalRouteInfo, "parameters") || [];
 
+        const usageAsOpenapiv2 =
+          usageRouteInfo as unknown as OpenAPIV2.Document;
+
         if (typeof usageRouteInfo === "object") {
-          usageRouteInfo.consumes = uniq(
+          usageAsOpenapiv2.consumes = uniq(
             compact([
-              ...(usageRouteInfo.consumes || []),
+              ...(usageAsOpenapiv2.consumes || []),
               ...(originalRouteInfo.consumes || []),
             ]),
           );
-          usageRouteInfo.produces = uniq(
+          usageAsOpenapiv2.produces = uniq(
             compact([
-              ...(usageRouteInfo.produces || []),
+              ...(usageAsOpenapiv2.produces || []),
               ...(originalRouteInfo.produces || []),
             ]),
           );
@@ -150,7 +211,7 @@ export class SwaggerSchemaResolver {
 
         for (const originalRouteParam of originalRouteParams) {
           const existUsageParam = usageRouteParams.find(
-            (param) =>
+            (param: OpenAPIV3.ParameterObject) =>
               originalRouteParam.in === param.in &&
               originalRouteParam.name === param.name,
           );

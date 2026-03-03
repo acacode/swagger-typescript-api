@@ -40,9 +40,11 @@
     "lint": "biome check",
     "prepack": "tsdown",
     "test": "vitest run",
+    "test:update": "vitest run --update",
     "typedoc": "typedoc"
   },
   "dependencies": {
+    "@apidevtools/swagger-parser": "12.1.0",
     "@biomejs/js-api": "4.0.0",
     "@biomejs/wasm-nodejs": "2.4.5",
     "@types/swagger-schema-official": "^2.0.25",
@@ -57,7 +59,8 @@
     "swagger2openapi": "^7.0.8",
     "type-fest": "^5.4.4",
     "typescript": "~5.9.3",
-    "yaml": "^2.8.2"
+    "yaml": "^2.8.2",
+    "yummies": "7.9.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.5",

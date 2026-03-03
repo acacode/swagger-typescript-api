@@ -1,3 +1,4 @@
+import type { resolve } from "@apidevtools/swagger-parser";
 import { consola } from "consola";
 import { compact, merge } from "es-toolkit";
 import { camelCase } from "es-toolkit/compat";
@@ -11,7 +12,6 @@ import { CodeGenConfig } from "./configuration.js";
 import { SchemaComponentsMap } from "./schema-components-map.js";
 import { SchemaParserFabric } from "./schema-parser/schema-parser-fabric.js";
 import { SchemaRoutes } from "./schema-routes/schema-routes.js";
-import { SchemaWalker } from "./schema-walker.js";
 import { SwaggerSchemaResolver } from "./swagger-schema-resolver.js";
 import { TemplatesWorker } from "./templates-worker.js";
 import { JavascriptTranslator } from "./translators/javascript.js";
@@ -45,8 +45,8 @@ export class CodeGenProcess {
   fileSystem: FileSystem;
   codeFormatter: CodeFormatter;
   templatesWorker: TemplatesWorker;
-  schemaWalker: SchemaWalker;
   javascriptTranslator: JavascriptTranslator;
+  swaggerRefs: Awaited<ReturnType<typeof resolve>> | undefined | null;
 
   constructor(config: Partial<GenerateApiConfiguration["config"]>) {
     this.config = new CodeGenConfig(config);
@@ -54,10 +54,6 @@ export class CodeGenProcess {
     this.swaggerSchemaResolver = new SwaggerSchemaResolver(
       this.config,
       this.fileSystem,
-    );
-    this.schemaWalker = new SchemaWalker(
-      this.config,
-      this.swaggerSchemaResolver,
     );
     this.schemaComponentsMap = new SchemaComponentsMap(this.config);
     this.typeNameFormatter = new TypeNameFormatter(this.config);
@@ -72,7 +68,6 @@ export class CodeGenProcess {
       this.templatesWorker,
       this.schemaComponentsMap,
       this.typeNameFormatter,
-      this.schemaWalker,
     );
     this.schemaRoutes = new SchemaRoutes(
       this.config,
@@ -95,35 +90,31 @@ export class CodeGenProcess {
       templatesToRender: this.templatesWorker.getTemplates(this.config),
     });
 
-    const swagger = await this.swaggerSchemaResolver.create();
-
-    this.swaggerSchemaResolver.fixSwaggerSchema(swagger);
+    const resolvedSwaggerSchema = await this.swaggerSchemaResolver.create();
 
     this.config.update({
-      swaggerSchema: swagger.usageSchema,
-      originalSchema: swagger.originalSchema,
+      resolvedSwaggerSchema: resolvedSwaggerSchema,
+      swaggerSchema: resolvedSwaggerSchema.usageSchema,
+      originalSchema: resolvedSwaggerSchema.originalSchema,
     });
-
-    this.schemaWalker.addSchema("$usage", swagger.usageSchema);
-    this.schemaWalker.addSchema("$original", swagger.originalSchema);
 
     consola.info("start generating your typescript api");
 
     this.config.update(
-      this.config.hooks.onInit(this.config, this) || this.config,
+      this.config.hooks.onInit?.(this.config, this) || this.config,
     );
 
     if (this.config.swaggerSchema) {
-      swagger.usageSchema = this.config.swaggerSchema;
+      resolvedSwaggerSchema.usageSchema = this.config.swaggerSchema;
     }
     if (this.config.originalSchema) {
-      swagger.originalSchema = this.config.originalSchema;
+      resolvedSwaggerSchema.originalSchema = this.config.originalSchema;
     }
 
     this.schemaComponentsMap.clear();
 
     for (const [componentName, component] of Object.entries(
-      swagger.usageSchema.components || {},
+      resolvedSwaggerSchema.usageSchema.components || {},
     )) {
       for (const [typeName, rawTypeData] of Object.entries(
         component as Record<string, unknown>,
@@ -158,13 +149,10 @@ export class CodeGenProcess {
       return parsed;
     });
 
-    this.schemaRoutes.attachSchema({
-      usageSchema: swagger.usageSchema,
-      parsedSchemas,
-    });
+    this.schemaRoutes.attachSchema(resolvedSwaggerSchema, parsedSchemas);
 
     const rawConfiguration = {
-      apiConfig: this.createApiConfig(swagger.usageSchema),
+      apiConfig: this.createApiConfig(resolvedSwaggerSchema.usageSchema),
       config: this.config,
       modelTypes: this.collectModelTypes(),
       hasSecurityRoutes: this.schemaRoutes.hasSecurityRoutes,
@@ -182,7 +170,7 @@ export class CodeGenProcess {
     };
 
     const configuration =
-      this.config.hooks.onPrepareConfig(rawConfiguration) || rawConfiguration;
+      this.config.hooks.onPrepareConfig?.(rawConfiguration) || rawConfiguration;
 
     if (this.fileSystem.pathIsExist(this.config.output)) {
       if (this.config.cleanOutput) {

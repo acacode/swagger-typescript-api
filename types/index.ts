@@ -1,8 +1,9 @@
+import type { PartialDeep } from "type-fest";
 import type { ComponentTypeNameResolver } from "../src/component-type-name-resolver.js";
 import type * as CONSTANTS from "../src/constants.js";
+import type { RefDetails } from "../src/resolved-swagger-schema.js";
 import type { MonoSchemaParser } from "../src/schema-parser/mono-schema-parser.js";
 import type { Translator } from "../src/translators/translator.js";
-import type { PartialDeep } from "type-fest";
 
 export type HttpClientType =
   (typeof CONSTANTS.HTTP_CLIENT)[keyof typeof CONSTANTS.HTTP_CLIENT];
@@ -177,6 +178,15 @@ export interface Hooks {
     routeInfo: RawRouteInfo,
     templateRouteName: string,
   ) => string | undefined;
+  onFormatExternalTypeName?: (
+    typeName: string,
+    refInfo: RefDetails,
+  ) => string | undefined;
+  onFixDuplicateExternalTypeName?: (
+    typeName: string,
+    refInfo: RefDetails,
+    existedTypeNames: string[],
+  ) => string | undefined;
 }
 
 export type RouteNameRouteInfo = Record<string, unknown>;
@@ -281,6 +291,15 @@ export interface RequestResponseInfo {
   description: string;
   status: string | number;
   isSuccess: boolean;
+  links?: RouteLinkInfo[];
+}
+
+export interface RouteLinkInfo {
+  status: string | number;
+  name: string;
+  operationId?: string;
+  operationRef?: string;
+  parameters?: Record<string, string>;
 }
 
 export type RawRouteInfo = {
@@ -289,6 +308,7 @@ export type RawRouteInfo = {
   route: string;
   moduleName: string;
   responsesTypes: RequestResponseInfo[];
+  links?: RouteLinkInfo[];
   description?: string;
   tags?: string[];
   summary?: string;
@@ -347,6 +367,7 @@ export interface ParsedRoute {
     contentTypes: any[];
     // biome-ignore lint/suspicious/noExplicitAny: TODO
     responses: any[];
+    links?: RouteLinkInfo[];
     // biome-ignore lint/suspicious/noExplicitAny: TODO
     success?: Record<string, any>;
     // biome-ignore lint/suspicious/noExplicitAny: TODO

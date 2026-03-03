@@ -1,9 +1,16 @@
 import { consola } from "consola";
-import { compact, flattenDeep, isEqual, uniq } from "es-toolkit";
-import { camelCase, get } from "es-toolkit/compat";
+import { typeGuard } from "yummies/type-guard";
+import type { AnyObject } from "yummies/types";
+import { compact, flattenDeep, isEqual, mapValues, uniq } from "es-toolkit";
+import { camelCase, get, reduce } from "es-toolkit/compat";
 import type {
   GenerateApiConfiguration,
   ParsedRoute,
+  ParsedSchema,
+  RouteLinkInfo,
+  SchemaTypeEnumContent,
+  SchemaTypeObjectContent,
+  SchemaTypePrimitiveContent,
 } from "../../types/index.js";
 import type { CodeGenConfig } from "../configuration.js";
 import {
@@ -13,6 +20,7 @@ import {
   RESERVED_PATH_ARG_NAMES,
   RESERVED_QUERY_ARG_NAMES,
 } from "../constants.js";
+import type { ResolvedSwaggerSchema } from "../resolved-swagger-schema.js";
 import type { SchemaComponentsMap } from "../schema-components-map.js";
 import type { SchemaParserFabric } from "../schema-parser/schema-parser-fabric.js";
 import type { SchemaUtils } from "../schema-parser/schema-utils.js";
@@ -32,13 +40,7 @@ const CONTENT_KIND = {
 };
 
 export class SchemaRoutes {
-  config: CodeGenConfig;
-  schemaParserFabric: SchemaParserFabric;
   schemaUtils: SchemaUtils;
-  typeNameFormatter: TypeNameFormatter;
-  schemaComponentsMap: SchemaComponentsMap;
-  templatesWorker: TemplatesWorker;
-
   FORM_DATA_TYPES: string[] = [];
 
   routes: ParsedRoute[] = [];
@@ -47,18 +49,13 @@ export class SchemaRoutes {
   hasFormDataRoutes = false;
 
   constructor(
-    config: CodeGenConfig,
-    schemaParserFabric: SchemaParserFabric,
-    schemaComponentsMap: SchemaComponentsMap,
-    templatesWorker: TemplatesWorker,
-    typeNameFormatter: TypeNameFormatter,
+    public config: CodeGenConfig,
+    public schemaParserFabric: SchemaParserFabric,
+    public schemaComponentsMap: SchemaComponentsMap,
+    public templatesWorker: TemplatesWorker,
+    public typeNameFormatter: TypeNameFormatter,
   ) {
-    this.config = config;
-    this.schemaParserFabric = schemaParserFabric;
     this.schemaUtils = this.schemaParserFabric.schemaUtils;
-    this.typeNameFormatter = typeNameFormatter;
-    this.schemaComponentsMap = schemaComponentsMap;
-    this.templatesWorker = templatesWorker;
 
     this.FORM_DATA_TYPES = uniq([
       this.schemaUtils.getSchemaType({ type: "string", format: "file" }),
@@ -66,12 +63,26 @@ export class SchemaRoutes {
     ]);
   }
 
-  createRequestsMap = (routesByMethod) => {
+  createRequestsMap = (
+    resolvedSwaggerSchema: ResolvedSwaggerSchema,
+    routesByMethod,
+  ) => {
     const parameters = get(routesByMethod, "parameters");
 
     const result = {};
     for (const [method, requestInfo] of Object.entries(routesByMethod)) {
-      if (method.startsWith("x-") || ["parameters", "$ref"].includes(method)) {
+      if (method.startsWith("x-") || ["parameters"].includes(method)) {
+        continue;
+      }
+
+      if (method === "$ref") {
+        const refData = resolvedSwaggerSchema.getRef(requestInfo);
+        if (typeGuard.isObject(refData)) {
+          Object.assign(
+            result,
+            this.createRequestsMap(resolvedSwaggerSchema, refData),
+          );
+        }
         continue;
       }
 
@@ -200,7 +211,11 @@ export class SchemaRoutes {
 
       let routeParam = null;
 
-      if (refTypeInfo?.rawTypeData.in && refTypeInfo.rawTypeData) {
+      if (
+        !!refTypeInfo?.rawTypeData &&
+        typeof refTypeInfo === "object" &&
+        refTypeInfo?.rawTypeData.in
+      ) {
         if (!routeParams[refTypeInfo.rawTypeData.in]) {
           routeParams[refTypeInfo.rawTypeData.in] = [];
         }
@@ -406,10 +421,17 @@ export class SchemaRoutes {
     parsedSchemas,
     operationId,
     defaultType,
+    resolvedSwaggerSchema,
   }) => {
     const result: any[] = [];
+
     for (const [status, requestInfo] of Object.entries(requestInfos || {})) {
       const contentTypes = this.getContentTypes([requestInfo], operationId);
+      const links = this.getRouteLinksFromResponse(
+        resolvedSwaggerSchema,
+        requestInfo,
+        status,
+      );
 
       result.push({
         ...((requestInfo as object) || {}),
@@ -429,14 +451,75 @@ export class SchemaRoutes {
           (requestInfo as any).description || "",
           true,
         ),
+        links,
         status: Number.isNaN(+status) ? status : +status,
         isSuccess: this.isSuccessStatus(status),
       });
     }
+
     return result;
   };
 
-  getResponseBodyInfo = (routeInfo, parsedSchemas) => {
+  getRouteLinksFromResponse = (
+    resolvedSwaggerSchema: ResolvedSwaggerSchema,
+    responseInfo: AnyObject,
+    status: string,
+  ): RouteLinkInfo[] => {
+    const links = get(responseInfo, "links");
+    if (!typeGuard.isObject(links)) {
+      return [];
+    }
+
+    return reduce(
+      links,
+      (acc, linkInfo, linkName) => {
+        if (!typeGuard.isObject(linkInfo)) {
+          return acc;
+        }
+
+        let normalizedLinkInfo = linkInfo;
+
+        if (typeof linkInfo.$ref === "string") {
+          const refData = resolvedSwaggerSchema.getRef(linkInfo.$ref);
+          if (typeGuard.isObject(refData)) {
+            normalizedLinkInfo = refData;
+          }
+        }
+
+        const operationId =
+          typeof normalizedLinkInfo.operationId === "string"
+            ? normalizedLinkInfo.operationId
+            : undefined;
+        const operationRef =
+          typeof normalizedLinkInfo.operationRef === "string"
+            ? normalizedLinkInfo.operationRef
+            : typeof linkInfo.$ref === "string"
+              ? linkInfo.$ref
+              : undefined;
+
+        if (!operationId && !operationRef) {
+          return acc;
+        }
+
+        const parameters = typeGuard.isObject(normalizedLinkInfo.parameters)
+          ? mapValues(normalizedLinkInfo.parameters, (value) => String(value))
+          : undefined;
+
+        acc.push({
+          status: Number.isNaN(+status) ? status : +status,
+          name: String(linkName),
+          operationId,
+          operationRef,
+          parameters,
+        });
+
+        return acc;
+      },
+      [] as RouteLinkInfo[],
+    );
+  };
+
+  getResponseBodyInfo = (routeInfo, parsedSchemas, resolvedSwaggerSchema) => {
     const { produces, operationId, responses } = routeInfo;
 
     const contentTypes = this.getContentTypes(responses, [
@@ -449,7 +532,11 @@ export class SchemaRoutes {
       parsedSchemas,
       operationId,
       defaultType: this.config.defaultResponseType,
+      resolvedSwaggerSchema,
     });
+    const links = responseInfos.flatMap(
+      (responseInfo) => responseInfo.links || [],
+    );
 
     const successResponse = responseInfos.find(
       (response) => response.isSuccess,
@@ -477,6 +564,7 @@ export class SchemaRoutes {
     return {
       contentTypes,
       responses: responseInfos,
+      links,
       success: {
         schema: successResponse,
         type: successResponse?.type || this.config.Ts.Keyword.Any,
@@ -793,7 +881,7 @@ export class SchemaRoutes {
     );
 
     const routeName =
-      this.config.hooks.onFormatRouteName(
+      this.config.hooks.onFormatRouteName?.(
         rawRouteInfo,
         routeNameFromTemplate,
       ) || routeNameFromTemplate;
@@ -825,7 +913,7 @@ export class SchemaRoutes {
     };
 
     return (
-      this.config.hooks.onCreateRouteName(routeNameInfo, rawRouteInfo) ||
+      this.config.hooks.onCreateRouteName?.(routeNameInfo, rawRouteInfo) ||
       routeNameInfo
     );
   };
@@ -834,10 +922,10 @@ export class SchemaRoutes {
     rawRouteName,
     routeInfo,
     method,
-    usageSchema,
+    resolvedSwaggerSchema: ResolvedSwaggerSchema,
     parsedSchemas,
   ): ParsedRoute => {
-    const { security: globalSecurity } = usageSchema;
+    const { security: globalSecurity } = resolvedSwaggerSchema.usageSchema;
     const { moduleNameIndex, moduleNameFirstTag, extractRequestParams } =
       this.config;
     const {
@@ -887,7 +975,11 @@ export class SchemaRoutes {
     }));
     const pathArgsNames = pathArgs.map((arg) => arg.name);
 
-    const responseBodyInfo = this.getResponseBodyInfo(routeInfo, parsedSchemas);
+    const responseBodyInfo = this.getResponseBodyInfo(
+      routeInfo,
+      parsedSchemas,
+      resolvedSwaggerSchema,
+    );
 
     const rawRouteInfo = {
       ...otherInfo,
@@ -897,6 +989,7 @@ export class SchemaRoutes {
       route: rawRouteName,
       moduleName,
       responsesTypes: responseBodyInfo.responses,
+      links: responseBodyInfo.links,
       description,
       tags,
       summary,
@@ -1072,20 +1165,32 @@ export class SchemaRoutes {
     };
   };
 
-  attachSchema = ({ usageSchema, parsedSchemas }) => {
+  attachSchema = (
+    resolvedSwaggerSchema: ResolvedSwaggerSchema,
+    parsedSchemas: ParsedSchema<
+      | SchemaTypeObjectContent
+      | SchemaTypeEnumContent
+      | SchemaTypePrimitiveContent
+    >[],
+  ) => {
     this.config.routeNameDuplicatesMap.clear();
 
-    const pathsEntries = Object.entries(usageSchema.paths || {});
+    const pathsEntries = Object.entries(
+      resolvedSwaggerSchema.usageSchema.paths || {},
+    );
 
     for (const [rawRouteName, routeInfoByMethodsMap] of pathsEntries) {
-      const routeInfosMap = this.createRequestsMap(routeInfoByMethodsMap);
+      const routeInfosMap = this.createRequestsMap(
+        resolvedSwaggerSchema,
+        routeInfoByMethodsMap,
+      );
 
       for (const [method, routeInfo] of Object.entries(routeInfosMap)) {
         const parsedRouteInfo = this.parseRouteInfo(
           rawRouteName,
           routeInfo,
           method,
-          usageSchema,
+          resolvedSwaggerSchema,
           parsedSchemas,
         );
         const processedRouteInfo =
