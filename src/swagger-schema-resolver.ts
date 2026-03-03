@@ -135,7 +135,18 @@ export class SwaggerSchemaResolver {
   }
 
   private normalizeRefValue(ref: string): string {
-    return ref.replace(/\/#(?=\/)/g, "#").replace(/#(?!\/)/, "#/");
+    const refWithoutSlashBeforeHash = ref.split("/#/").join("#/");
+    const hashIndex = refWithoutSlashBeforeHash.indexOf("#");
+
+    if (hashIndex === -1) {
+      return refWithoutSlashBeforeHash;
+    }
+
+    if (refWithoutSlashBeforeHash[hashIndex + 1] === "/") {
+      return refWithoutSlashBeforeHash;
+    }
+
+    return `${refWithoutSlashBeforeHash.slice(0, hashIndex + 1)}/${refWithoutSlashBeforeHash.slice(hashIndex + 1)}`;
   }
 
   private normalizeRefsInSchema(schema: unknown): void {
