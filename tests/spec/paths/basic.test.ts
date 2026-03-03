@@ -46,8 +46,12 @@ describe("basic", async () => {
 
     expect(content).toContain("export type GetRepositoryData = Repository;");
     expect(content).toContain("export type GetExternalUserData = User;");
-    expect(content).toContain("export type GetExternalContainerData = CrossFileMixed;");
-    expect(content).toContain("export type GetExternalBridgeData = CrossBridge;");
+    expect(content).toContain(
+      "export type GetExternalContainerData = CrossFileMixed;",
+    );
+    expect(content).toContain(
+      "export type GetExternalBridgeData = CrossBridge;",
+    );
     expect(content).toContain("export type CrossFileRepositoryViaRepro =");
     expect(content).toContain("export type CrossFileUserViaRepro =");
     expect(content).toContain("export type CrossFileNestedViaRepro =");
