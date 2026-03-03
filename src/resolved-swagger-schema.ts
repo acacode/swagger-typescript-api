@@ -18,6 +18,17 @@ export interface RefDetails {
 export class ResolvedSwaggerSchema {
   private parsedRefsCache = new Map<string, RefDetails>();
   private externalSchemaCache = new Map<string, AnyObject>();
+  private httpMethodSegments = new Set([
+    "get",
+    "put",
+    "post",
+    "delete",
+    "patch",
+    "options",
+    "head",
+    "trace",
+    "parameters",
+  ]);
 
   private normalizeRef(ref: string): string {
     let normalizedRef = ref;
@@ -30,6 +41,37 @@ export class ResolvedSwaggerSchema {
     normalizedRef = normalizedRef.replace(/#(?!\/)/, "#/");
 
     return normalizedRef;
+  }
+
+  private createEscapedPathsRefVariant(ref: string): string | null {
+    const normalizedRef = this.normalizeRef(ref);
+    const [prefix = "", rawPointer = ""] = normalizedRef.split("#");
+    const pointer = rawPointer.startsWith("/") ? rawPointer : `/${rawPointer}`;
+
+    if (!pointer.startsWith("/paths/") || pointer.startsWith("/paths/~1")) {
+      return null;
+    }
+
+    const rest = pointer.slice("/paths/".length);
+    if (!rest) {
+      return null;
+    }
+
+    const parts = rest.split("/");
+    const last = parts.at(-1)?.toLowerCase() || "";
+
+    const hasTailSegment = this.httpMethodSegments.has(last);
+    const pathParts = hasTailSegment ? parts.slice(0, -1) : parts;
+    const tail = hasTailSegment ? `/${parts.at(-1)}` : "";
+
+    if (!pathParts.length) {
+      return null;
+    }
+
+    const rawPathKey = pathParts.join("/");
+    const escapedPathKey = `~1${rawPathKey.replace(/\//g, "~1")}`;
+
+    return `${prefix}#/paths/${escapedPathKey}${tail}`;
   }
 
   private constructor(
@@ -55,7 +97,7 @@ export class ResolvedSwaggerSchema {
           externalUrlOrPath: null,
         });
       } else {
-        const externalUrlOrPath = normalizedRef.split("#")[0]!;
+        const externalUrlOrPath = normalizedRef.split("#")[0] || "";
         const externalPathWithoutTrailingSlash = externalUrlOrPath.replace(
           /\/$/,
           "",
@@ -81,7 +123,25 @@ export class ResolvedSwaggerSchema {
       }
     }
 
-    return this.parsedRefsCache.get(ref)!;
+    const cachedRef = this.parsedRefsCache.get(ref);
+    if (cachedRef) {
+      return cachedRef;
+    }
+
+    if (normalizedRef.startsWith("#")) {
+      return {
+        ref: normalizedRef,
+        isLocal: true,
+        externalUrlOrPath: null,
+      };
+    }
+
+    return {
+      ref: normalizedRef,
+      isLocal: false,
+      externalUrlOrPath: normalizedRef.split("#")[0] || null,
+      externalOpenapiFileName: "",
+    };
   }
 
   isLocalRef(ref: string): boolean {
@@ -94,6 +154,7 @@ export class ResolvedSwaggerSchema {
     }
 
     const normalizedRef = this.normalizeRef(ref);
+    const escapedPathsRefVariant = this.createEscapedPathsRefVariant(ref);
 
     if (normalizedRef !== ref) {
       const resolvedByNormalizedRef = this.tryToResolveRef(normalizedRef);
@@ -102,6 +163,19 @@ export class ResolvedSwaggerSchema {
         return this.normalizeResolvedExternalSchemaRef(
           normalizedRef,
           resolvedByNormalizedRef,
+        );
+      }
+    }
+
+    if (escapedPathsRefVariant) {
+      const resolvedByEscapedPathsRef = this.tryToResolveRef(
+        escapedPathsRefVariant,
+      );
+
+      if (resolvedByEscapedPathsRef) {
+        return this.normalizeResolvedExternalSchemaRef(
+          escapedPathsRefVariant,
+          resolvedByEscapedPathsRef,
         );
       }
     }
@@ -202,16 +276,16 @@ export class ResolvedSwaggerSchema {
         decodeURIComponent(part.replace(/~1/g, "/").replace(/~0/g, "~")),
       );
 
-    let current: any = source;
+    let current: unknown = source;
 
     for (const token of tokens) {
-      if (current == null || typeof current !== "object") {
+      if (!current || typeof current !== "object") {
         return null;
       }
-      current = current[token];
+      current = (current as Record<string, unknown>)[token];
     }
 
-    return current ?? null;
+    return (current as Maybe<AnyObject | Primitive>) ?? null;
   }
 
   private absolutizeLocalRefs(
@@ -222,9 +296,9 @@ export class ResolvedSwaggerSchema {
       return value;
     }
 
-    const cloneValue = structuredClone(value) as any;
-    const walk = (node: any) => {
-      if (node == null || typeof node !== "object") {
+    const cloneValue = structuredClone(value) as Maybe<AnyObject | Primitive>;
+    const walk = (node: unknown) => {
+      if (!node || typeof node !== "object") {
         return;
       }
 
@@ -235,11 +309,16 @@ export class ResolvedSwaggerSchema {
         return;
       }
 
-      if (typeof node.$ref === "string" && node.$ref.startsWith("#")) {
-        node.$ref = `${externalPath}${this.normalizeRef(node.$ref)}`;
+      const recordNode = node as Record<string, unknown>;
+
+      if (
+        typeof recordNode.$ref === "string" &&
+        recordNode.$ref.startsWith("#")
+      ) {
+        recordNode.$ref = `${externalPath}${this.normalizeRef(recordNode.$ref)}`;
       }
 
-      for (const nested of Object.values(node)) {
+      for (const nested of Object.values(recordNode)) {
         walk(nested);
       }
     };
@@ -386,7 +465,7 @@ export class ResolvedSwaggerSchema {
     try {
       resolvers.push(
         await SwaggerParser.resolve(
-          config.url || config.input || (config.spec as any),
+          config.url || config.input || (config.spec as OpenAPI.Document),
           options,
         ),
       );

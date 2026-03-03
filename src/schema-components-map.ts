@@ -35,10 +35,17 @@ export class SchemaComponentsMap {
     }
 
     const parsed = this.parseRef($ref);
-    const typeName = parsed.at(-1)!;
-    const componentName = parsed[
-      parsed.length - 2
-    ] as SchemaComponent["componentName"];
+    const [, rawPointer = ""] = $ref.split("#");
+    const pointer = rawPointer.startsWith("/") ? rawPointer : `/${rawPointer}`;
+    const pointerParts = pointer.split("/").filter(Boolean);
+
+    const typeName = pointerParts.at(-1) || parsed.at(-1) || "Unknown";
+    const rawComponentName =
+      pointerParts.at(-2) || parsed[parsed.length - 2] || "schemas";
+    const componentName =
+      rawComponentName === "definitions"
+        ? "schemas"
+        : (rawComponentName as SchemaComponent["componentName"]);
 
     return {
       $ref,

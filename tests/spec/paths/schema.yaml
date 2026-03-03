@@ -6,9 +6,21 @@ info:
 paths:
   /hello:
     $ref: './paths/repro.yaml#/hello'
+  /pets:
+    $ref: 'https://raw.githubusercontent.com/acacode/swagger-typescript-api/refs/heads/main/tests/spec/defaultResponse/schema.json#/paths/pets'
 
 components:
   schemas:
+    ObjectTypesTest1:
+      $ref: 'https://raw.githubusercontent.com/acacode/swagger-typescript-api/refs/heads/main/tests/spec/object-types/schema.json#/definitions/Test1'
+    ObjectTypesContainerWithPrimitiveAnyOf:
+      $ref: 'https://raw.githubusercontent.com/acacode/swagger-typescript-api/refs/heads/main/tests/spec/object-types/schema.json#/definitions/ContainerWithPrimitiveAnyOf'
+    ObjectTypesABCOptionalWithRequiredId:
+      $ref: 'https://raw.githubusercontent.com/acacode/swagger-typescript-api/refs/heads/main/tests/spec/object-types/schema.json#/definitions/ABCOptionalWithRequiredId'
+    ObjectTypesNestedObjectWithRequiredId:
+      $ref: 'https://raw.githubusercontent.com/acacode/swagger-typescript-api/refs/heads/main/tests/spec/object-types/schema.json#/definitions/NestedObjectWithRequiredId'
+    ObjectTypesAdditionalIntProperties:
+      $ref: 'https://raw.githubusercontent.com/acacode/swagger-typescript-api/refs/heads/main/tests/spec/object-types/schema.json#/definitions/AdditionalIntProperties'
     CyclicFromRoot:
       $ref: './paths/repro.yaml#components/schemas/CyclicRef'
     CrossFileRepositoryViaRepro:
