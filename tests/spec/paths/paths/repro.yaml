@@ -6,6 +6,33 @@ hello:
           application/json:
             schema:
               type: object
+  patch:
+      operationId: getExternalUser
+      responses:
+        "200":
+          description: External user
+          content:
+            application/json:
+              schema:
+                $ref: "./third.yaml#components/schemas/user"
+  delete:
+      operationId: getExternalContainer
+      responses:
+        "200":
+          description: External cross-file container
+          content:
+            application/json:
+              schema:
+                $ref: "./third.yaml/#/components/schemas/CrossFileMixed"
+  post:
+      operationId: getExternalBridge
+      responses:
+        "200":
+          description: External bridge schema
+          content:
+            application/json:
+              schema:
+                $ref: "./third.yaml#/components/schemas/CrossBridge"
   put:
       operationId: getRepository
       parameters:
@@ -49,6 +76,74 @@ components:
           description: Weather condition id
           format: int32
           example: 803
+    ExternalRepositoryAlias:
+      $ref: "./third.yaml#/components/schemas/repository"
+    ExternalUserAlias:
+      $ref: "./third.yaml/#/components/schemas/user"
+    NestedExternalContainer:
+      title: NestedExternalContainerTitle
+      type: object
+      properties:
+        repositoryAlias:
+          $ref: "./third.yaml/#/components/schemas/repository"
+        userAlias:
+          $ref: "./third.yaml#/components/schemas/user"
+    ExternalMixedFromThird:
+      $ref: "./third.yaml#components/schemas/CrossFileMixed"
+    ThirdBridgeAlias:
+      $ref: "./third.yaml/#/components/schemas/CrossBridge"
+    ThirdBundleAlias:
+      $ref: "./third.yaml#/components/schemas/ReproBundle"
+    ExternalGraphNode:
+      title: ExternalGraphNodeTitle
+      type: object
+      properties:
+        nodeId:
+          type: string
+        repository:
+          $ref: "./third.yaml/#/components/schemas/repository"
+        bridge:
+          $ref: "./third.yaml#/components/schemas/CrossBridge"
+        users:
+          type: array
+          items:
+            $ref: "./third.yaml/#/components/schemas/user"
+    MultiFileEnvelope:
+      title: MultiFileEnvelopeTitle
+      type: object
+      properties:
+        node:
+          $ref: "#/components/schemas/ExternalGraphNode"
+        nested:
+          $ref: "#/components/schemas/NestedExternalContainer"
+        bridgeAlias:
+          $ref: "./third.yaml/#/components/schemas/CrossBridge"
+        bundleAlias:
+          $ref: "./third.yaml#/components/schemas/ReproBundle"
+    UnionFromThird:
+      $ref: "./third.yaml#/components/schemas/ExternalUnionBridge"
+    AllOfFromThird:
+      $ref: "./third.yaml/#/components/schemas/ExternalAllOfRepository"
+    AnyOfFromThird:
+      $ref: "./third.yaml#/components/schemas/ExternalAnyOfBridge"
+    ReproCrossComplex:
+      title: ReproCrossComplexTitle
+      allOf:
+        - $ref: "#/components/schemas/MultiFileEnvelope"
+        - type: object
+          properties:
+            unionAlias:
+              $ref: "./third.yaml#/components/schemas/ExternalUnionBridge"
+            allOfAlias:
+              $ref: "./third.yaml/#/components/schemas/ExternalAllOfRepository"
+            anyOfAlias:
+              $ref: "./third.yaml#/components/schemas/ExternalAnyOfBridge"
+    ReproCrossUnion:
+      title: ReproCrossUnionTitle
+      oneOf:
+        - $ref: "#/components/schemas/ReproCrossComplex"
+        - $ref: "./third.yaml#/components/schemas/ReproBundle"
+        - $ref: "./third.yaml/#/components/schemas/CrossBridge"
     CyclicRef:
       title: CyclicRefTitle
       type: object

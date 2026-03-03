@@ -11,6 +11,44 @@ components:
   schemas:
     CyclicFromRoot:
       $ref: './paths/repro.yaml#components/schemas/CyclicRef'
+    CrossFileRepositoryViaRepro:
+      $ref: './paths/repro.yaml#/components/schemas/ExternalRepositoryAlias'
+    CrossFileUserViaRepro:
+      $ref: './paths/repro.yaml/#/components/schemas/ExternalUserAlias'
+    CrossFileNestedViaRepro:
+      $ref: './paths/repro.yaml#/components/schemas/NestedExternalContainer'
+    CrossFileMixedViaThird:
+      $ref: './paths/third.yaml#/components/schemas/CrossFileMixed'
+    CrossBridgeViaThird:
+      $ref: './paths/third.yaml/#/components/schemas/CrossBridge'
+    ReproBundleViaThird:
+      $ref: './paths/third.yaml#/components/schemas/ReproBundle'
+    ExternalGraphNodeViaRepro:
+      $ref: './paths/repro.yaml/#/components/schemas/ExternalGraphNode'
+    MultiFileEnvelopeViaRepro:
+      $ref: './paths/repro.yaml#/components/schemas/MultiFileEnvelope'
+    ThirdBridgeViaRepro:
+      $ref: './paths/repro.yaml/#/components/schemas/ThirdBridgeAlias'
+    ThirdBundleViaRepro:
+      $ref: './paths/repro.yaml#components/schemas/ThirdBundleAlias'
+    UnionFromThirdViaRepro:
+      $ref: './paths/repro.yaml#/components/schemas/UnionFromThird'
+    AllOfFromThirdViaRepro:
+      $ref: './paths/repro.yaml/#/components/schemas/AllOfFromThird'
+    AnyOfFromThirdViaRepro:
+      $ref: './paths/repro.yaml#/components/schemas/AnyOfFromThird'
+    ReproCrossComplexRoot:
+      $ref: './paths/repro.yaml/#/components/schemas/ReproCrossComplex'
+    ReproCrossUnionRoot:
+      $ref: './paths/repro.yaml#/components/schemas/ReproCrossUnion'
+    ThirdUnionRoot:
+      $ref: './paths/third.yaml#/components/schemas/ExternalUnionBridge'
+    ThirdAllOfRoot:
+      $ref: './paths/third.yaml/#/components/schemas/ExternalAllOfRepository'
+    ThirdAnyOfRoot:
+      $ref: './paths/third.yaml#/components/schemas/ExternalAnyOfBridge'
+    DirectThirdUser:
+      $ref: './paths/third.yaml/#/components/schemas/user'
     ReportSchema:
       $ref: './paths/repro.yaml#components/schemas/ReportSchema'
     Weather:

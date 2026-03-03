@@ -15,6 +15,44 @@ exports[`basic > paths(simplest-1-path) 1`] = `
 
 export type CyclicFromRoot = CyclicRef;
 
+export type CrossFileRepositoryViaRepro = ExternalRepositoryAlias;
+
+export type CrossFileUserViaRepro = ExternalUserAlias;
+
+export type CrossFileNestedViaRepro = NestedExternalContainer;
+
+export type CrossFileMixedViaThird = ThirdCrossFileMixed;
+
+export type CrossBridgeViaThird = ThirdCrossBridge;
+
+export type ReproBundleViaThird = ReproBundle;
+
+export type ExternalGraphNodeViaRepro = ExternalGraphNode;
+
+export type MultiFileEnvelopeViaRepro = MultiFileEnvelope;
+
+export type ThirdBridgeViaRepro = ThirdBridgeAlias;
+
+export type ThirdBundleViaRepro = ThirdBundleAlias;
+
+export type UnionFromThirdViaRepro = UnionFromThird;
+
+export type AllOfFromThirdViaRepro = AllOfFromThird;
+
+export type AnyOfFromThirdViaRepro = AnyOfFromThird;
+
+export type ReproCrossComplexRoot = ReproCrossComplex;
+
+export type ReproCrossUnionRoot = ReproCrossUnion;
+
+export type ThirdUnionRoot = ExternalUnionBridge;
+
+export type ThirdAllOfRoot = ExternalAllOfRepository;
+
+export type ThirdAnyOfRoot = ExternalAnyOfBridge;
+
+export type DirectThirdUser = Thirduser;
+
 export type ReportSchema = ReproReportSchema;
 
 /** Weather */
@@ -44,9 +82,36 @@ export interface Weather {
 
 export type HelloListData = object;
 
+export interface User {
+  username?: string;
+  uuid?: string;
+}
+
+export type GetExternalUserData = User;
+
+/** CrossFileMixedTitle */
+export interface CrossFileMixed {
+  report?: ReproReportSchema;
+  weather?: ReproWeather;
+  user?: Thirduser;
+  externalRepositoryAlias?: ReproExternalRepositoryAlias;
+}
+
+export type GetExternalContainerData = CrossFileMixed;
+
+/** CrossBridgeTitle */
+export interface CrossBridge {
+  reportAlias?: ReproReportSchema;
+  weatherAlias?: ReproWeather;
+  nestedFromRepro?: ReproNestedExternalContainer;
+  localRepository?: Thirdrepository;
+}
+
+export type GetExternalBridgeData = CrossBridge;
+
 export interface Repository {
   slug?: string;
-  owner?: User;
+  owner?: Thirduser;
   weather?: ReproWeather;
 }
 
@@ -62,6 +127,114 @@ export interface CyclicRef {
   cyclics?: ThirdCyclicRef;
 }
 
+export interface ExternalRepositoryAlias {
+  slug?: string;
+  owner?: any;
+  weather?: ReproWeather;
+}
+
+export type ExternalUserAlias = Thirduser;
+
+/** NestedExternalContainerTitle */
+export interface NestedExternalContainer {
+  repositoryAlias?: Repository;
+  userAlias?: Thirduser;
+}
+
+/** CrossFileMixedTitle */
+export interface ThirdCrossFileMixed {
+  report?: ReproReportSchema;
+  weather?: ReproWeather;
+  user?: Thirduser;
+  externalRepositoryAlias?: ReproExternalRepositoryAlias;
+}
+
+/** CrossBridgeTitle */
+export interface ThirdCrossBridge {
+  reportAlias?: ReproReportSchema;
+  weatherAlias?: ReproWeather;
+  nestedFromRepro?: ReproNestedExternalContainer;
+  localRepository?: Thirdrepository;
+}
+
+/** ReproBundleTitle */
+export interface ReproBundle {
+  graph?: ReproExternalGraphNode;
+  chain?: ReproNestedExternalContainer[];
+  cyclic?: ReproCyclicRef;
+}
+
+/** ExternalGraphNodeTitle */
+export interface ExternalGraphNode {
+  nodeId?: string;
+  repository?: Repository;
+  bridge?: CrossBridge;
+  users?: Thirduser[];
+}
+
+/** MultiFileEnvelopeTitle */
+export interface MultiFileEnvelope {
+  node?: ExternalGraphNode;
+  nested?: NestedExternalContainer;
+  bridgeAlias?: ThirdCrossBridge;
+  bundleAlias?: ThirdReproBundle;
+}
+
+export type ThirdBridgeAlias = ThirdCrossBridge;
+
+/** ReproBundleTitle */
+export interface ThirdBundleAlias {
+  graph?: ReproExternalGraphNode;
+  chain?: ReproNestedExternalContainer[];
+  cyclic?: ReproCyclicRef;
+}
+
+/** ExternalUnionBridgeTitle */
+export type UnionFromThird =
+  | ReproExternalGraphNode
+  | ReproNestedExternalContainer;
+
+export type AllOfFromThird = ThirdExternalAllOfRepository;
+
+/** ExternalAnyOfBridgeTitle */
+export type AnyOfFromThird = ReproThirdBridgeAlias | ReproThirdBundleAlias;
+
+/** ReproCrossComplexTitle */
+export type ReproCrossComplex = MultiFileEnvelope & {
+  unionAlias?: ThirdExternalUnionBridge;
+  allOfAlias?: ThirdExternalAllOfRepository;
+  anyOfAlias?: ThirdExternalAnyOfBridge;
+};
+
+/** ReproCrossUnionTitle */
+export type ReproCrossUnion =
+  | ReproCrossComplex
+  | ThirdReproBundle
+  | ThirdCrossBridge;
+
+/** ExternalUnionBridgeTitle */
+export type ExternalUnionBridge =
+  | ReproExternalGraphNode
+  | ReproNestedExternalContainer
+  | Thirduser;
+
+/** ExternalAllOfRepositoryTitle */
+export type ExternalAllOfRepository = Thirdrepository & {
+  envelope?: ReproMultiFileEnvelope;
+  reportAlias?: ReproReportSchema;
+};
+
+/** ExternalAnyOfBridgeTitle */
+export type ExternalAnyOfBridge =
+  | ReproThirdBridgeAlias
+  | ReproThirdBundleAlias
+  | ThirdCrossBridge;
+
+export interface Thirduser {
+  username?: string;
+  uuid?: string;
+}
+
 /** ReportSchema */
 export interface ReproReportSchema {
   /**
@@ -72,9 +245,43 @@ export interface ReproReportSchema {
   id?: number;
 }
 
-export interface User {
+/** ReportSchema */
+export interface ReproReportSchema {
+  /**
+   * Weather condition id
+   * @format int32
+   * @example 803
+   */
+  id?: number;
+}
+
+/** WeatherSchema */
+export interface ReproWeather {
+  /**
+   * Weather condition id
+   * @format int32
+   * @example 803
+   */
+  id?: number;
+}
+
+export interface Thirduser {
   username?: string;
   uuid?: string;
+}
+
+export type ReproExternalRepositoryAlias = Thirdrepository;
+
+/** NestedExternalContainerTitle */
+export interface ReproNestedExternalContainer {
+  repositoryAlias?: Repository;
+  userAlias?: Thirduser;
+}
+
+export interface Thirdrepository {
+  slug?: string;
+  owner?: Thirduser;
+  weather?: ReproWeather;
 }
 
 /** WeatherSchema */
@@ -92,9 +299,103 @@ export interface ThirdCyclicRef {
   bar?: ReproCyclicRef;
 }
 
+export interface Thirduser {
+  username?: string;
+  uuid?: string;
+}
+
+export interface Thirdrepository {
+  slug?: string;
+  owner?: Thirduser;
+  weather?: ReproWeather;
+}
+
+/** ExternalGraphNodeTitle */
+export interface ReproExternalGraphNode {
+  nodeId?: string;
+  repository?: Repository;
+  bridge?: CrossBridge;
+  users?: Thirduser[];
+}
+
+/** NestedExternalContainerTitle */
+export interface ReproNestedExternalContainer {
+  repositoryAlias?: Repository;
+  userAlias?: Thirduser;
+}
+
 /** CyclicRefTitle */
 export interface ReproCyclicRef {
   cyclics?: ThirdCyclicRef;
+}
+
+/** CrossBridgeTitle */
+export interface ThirdCrossBridge {
+  reportAlias?: ReproReportSchema;
+  weatherAlias?: ReproWeather;
+  nestedFromRepro?: ReproNestedExternalContainer;
+  localRepository?: Thirdrepository;
+}
+
+/** ReproBundleTitle */
+export interface ThirdReproBundle {
+  graph?: ReproExternalGraphNode;
+  chain?: ReproNestedExternalContainer[];
+  cyclic?: ReproCyclicRef;
+}
+
+/** ExternalAllOfRepositoryTitle */
+export type ThirdExternalAllOfRepository = Thirdrepository & {
+  envelope?: ReproMultiFileEnvelope;
+  reportAlias?: ReproReportSchema;
+};
+
+export type ReproThirdBridgeAlias = ThirdCrossBridge;
+
+export type ReproThirdBundleAlias = ThirdReproBundle;
+
+/** ExternalUnionBridgeTitle */
+export type ThirdExternalUnionBridge =
+  | ReproExternalGraphNode
+  | ReproNestedExternalContainer
+  | Thirduser;
+
+/** ExternalAnyOfBridgeTitle */
+export type ThirdExternalAnyOfBridge =
+  | ReproThirdBridgeAlias
+  | ReproThirdBundleAlias
+  | CrossBridge;
+
+/** MultiFileEnvelopeTitle */
+export interface ReproMultiFileEnvelope {
+  node?: ReproExternalGraphNode;
+  nested?: ReproNestedExternalContainer;
+  bridgeAlias?: ThirdCrossBridge;
+  bundleAlias?: ThirdReproBundle;
+}
+
+/** ReportSchema */
+export interface ReproReportSchema {
+  /**
+   * Weather condition id
+   * @format int32
+   * @example 803
+   */
+  id?: number;
+}
+
+/** ExternalGraphNodeTitle */
+export interface ReproExternalGraphNode {
+  nodeId?: string;
+  repository?: Repository;
+  bridge?: CrossBridge;
+  users?: Thirduser[];
+}
+
+/** NestedExternalContainerTitle */
+export interface ReproNestedExternalContainer {
+  repositoryAlias?: Repository;
+  userAlias?: Thirduser;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -370,6 +671,48 @@ export class Api<
       this.request<HelloListData, any>({
         path: \`/hello\`,
         method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name GetExternalUser
+     * @request PATCH:/hello
+     */
+    getExternalUser: (params: RequestParams = {}) =>
+      this.request<GetExternalUserData, any>({
+        path: \`/hello\`,
+        method: "PATCH",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name GetExternalContainer
+     * @request DELETE:/hello
+     */
+    getExternalContainer: (params: RequestParams = {}) =>
+      this.request<GetExternalContainerData, any>({
+        path: \`/hello\`,
+        method: "DELETE",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name GetExternalBridge
+     * @request POST:/hello
+     */
+    getExternalBridge: (params: RequestParams = {}) =>
+      this.request<GetExternalBridgeData, any>({
+        path: \`/hello\`,
+        method: "POST",
         format: "json",
         ...params,
       }),

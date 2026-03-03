@@ -16,6 +16,68 @@ components:
           $ref: "#/components/schemas/user"
         weather:
           $ref: './repro.yaml/#/components/schemas/Weather'
+    ReproReportAlias:
+      $ref: "./repro.yaml#components/schemas/ReportSchema"
+    ReproWeatherAlias:
+      $ref: "./repro.yaml/#/components/schemas/Weather"
+    CrossFileMixed:
+      title: CrossFileMixedTitle
+      type: object
+      properties:
+        report:
+          $ref: "./repro.yaml/#/components/schemas/ReportSchema"
+        weather:
+          $ref: "./repro.yaml#components/schemas/Weather"
+        user:
+          $ref: "#/components/schemas/user"
+        externalRepositoryAlias:
+          $ref: "./repro.yaml/#/components/schemas/ExternalRepositoryAlias"
+    CrossBridge:
+      title: CrossBridgeTitle
+      type: object
+      properties:
+        reportAlias:
+          $ref: "./repro.yaml/#/components/schemas/ReportSchema"
+        weatherAlias:
+          $ref: "./repro.yaml#components/schemas/Weather"
+        nestedFromRepro:
+          $ref: "./repro.yaml/#/components/schemas/NestedExternalContainer"
+        localRepository:
+          $ref: "#/components/schemas/repository"
+    ReproBundle:
+      title: ReproBundleTitle
+      type: object
+      properties:
+        graph:
+          $ref: "./repro.yaml/#/components/schemas/ExternalGraphNode"
+        chain:
+          type: array
+          items:
+            $ref: "./repro.yaml#components/schemas/NestedExternalContainer"
+        cyclic:
+          $ref: "./repro.yaml/#/components/schemas/CyclicRef"
+    ExternalUnionBridge:
+      title: ExternalUnionBridgeTitle
+      oneOf:
+        - $ref: "./repro.yaml/#/components/schemas/ExternalGraphNode"
+        - $ref: "./repro.yaml#components/schemas/NestedExternalContainer"
+        - $ref: "#/components/schemas/user"
+    ExternalAllOfRepository:
+      title: ExternalAllOfRepositoryTitle
+      allOf:
+        - $ref: "#/components/schemas/repository"
+        - type: object
+          properties:
+            envelope:
+              $ref: "./repro.yaml/#/components/schemas/MultiFileEnvelope"
+            reportAlias:
+              $ref: "./repro.yaml#components/schemas/ReportSchema"
+    ExternalAnyOfBridge:
+      title: ExternalAnyOfBridgeTitle
+      anyOf:
+        - $ref: "./repro.yaml/#/components/schemas/ThirdBridgeAlias"
+        - $ref: "./repro.yaml#components/schemas/ThirdBundleAlias"
+        - $ref: "#/components/schemas/CrossBridge"
     CyclicRef:
       title: CyclicRefTitle
       type: object
