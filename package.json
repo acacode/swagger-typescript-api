@@ -46,7 +46,7 @@
   "dependencies": {
     "@apidevtools/swagger-parser": "12.1.0",
     "@biomejs/js-api": "4.0.0",
-    "@biomejs/wasm-nodejs": "2.4.4",
+    "@biomejs/wasm-nodejs": "2.4.5",
     "@types/swagger-schema-official": "^2.0.25",
     "c12": "^3.3.3",
     "citty": "^0.2.1",
@@ -63,14 +63,14 @@
     "yummies": "7.9.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.4",
+    "@biomejs/biome": "2.4.5",
     "@changesets/changelog-github": "0.5.2",
     "@changesets/cli": "2.29.8",
     "@tsconfig/node20": "20.1.9",
     "@tsconfig/strictest": "2.0.8",
-    "@types/node": "25.3.2",
+    "@types/node": "25.3.3",
     "@types/swagger2openapi": "7.0.4",
-    "axios": "1.13.5",
+    "axios": "1.13.6",
     "tsdown": "0.20.3",
     "typedoc": "0.28.17",
     "vitest": "4.0.18"
