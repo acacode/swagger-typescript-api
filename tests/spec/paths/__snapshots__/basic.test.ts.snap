@@ -13,6 +13,8 @@ exports[`basic > paths(simplest-1-path) 1`] = `
  * ---------------------------------------------------------------
  */
 
+export type CyclicFromRoot = CyclicRef;
+
 export type ReportSchema = ReproReportSchema;
 
 /** Weather */
@@ -45,6 +47,7 @@ export type HelloListData = object;
 export interface Repository {
   slug?: string;
   owner?: User;
+  weather?: ReproWeather;
 }
 
 export interface GetRepositoryParams {
@@ -53,6 +56,11 @@ export interface GetRepositoryParams {
 }
 
 export type GetRepositoryData = Repository;
+
+/** CyclicRefTitle */
+export interface CyclicRef {
+  cyclics?: ThirdCyclicRef;
+}
 
 /** ReportSchema */
 export interface ReproReportSchema {
@@ -67,6 +75,26 @@ export interface ReproReportSchema {
 export interface User {
   username?: string;
   uuid?: string;
+}
+
+/** WeatherSchema */
+export interface ReproWeather {
+  /**
+   * Weather condition id
+   * @format int32
+   * @example 803
+   */
+  id?: number;
+}
+
+/** CyclicRefTitle */
+export interface ThirdCyclicRef {
+  bar?: ReproCyclicRef;
+}
+
+/** CyclicRefTitle */
+export interface ReproCyclicRef {
+  cyclics?: ThirdCyclicRef;
 }
 
 export type QueryParamsType = Record<string | number, any>;

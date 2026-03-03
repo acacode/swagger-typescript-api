@@ -40,3 +40,18 @@ components:
           description: Weather condition id
           format: int32
           example: 803
+    Weather:
+      title: WeatherSchema
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Weather condition id
+          format: int32
+          example: 803
+    CyclicRef:
+      title: CyclicRefTitle
+      type: object
+      properties:
+        cyclics:
+          $ref: "./third.yaml/#/components/schemas/CyclicRef"

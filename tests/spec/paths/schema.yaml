@@ -9,6 +9,8 @@ paths:
 
 components:
   schemas:
+    CyclicFromRoot:
+      $ref: './paths/repro.yaml#components/schemas/CyclicRef'
     ReportSchema:
       $ref: './paths/repro.yaml#components/schemas/ReportSchema'
     Weather:

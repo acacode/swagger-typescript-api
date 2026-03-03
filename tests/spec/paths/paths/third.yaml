@@ -14,6 +14,14 @@ components:
           type: string
         owner:
           $ref: "#/components/schemas/user"
+        weather:
+          $ref: './repro.yaml/#/components/schemas/Weather'
+    CyclicRef:
+      title: CyclicRefTitle
+      type: object
+      properties:
+        bar:
+          $ref: "./repro.yaml/#/components/schemas/CyclicRef"
   links:
     RepositoryPullRequests:
       # returns '#/components/schemas/pullrequest'
