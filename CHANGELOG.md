@@ -1,5 +1,13 @@
 # swagger-typescript-api
 
+## 13.3.0
+
+### Minor Changes
+
+- [#1434](https://github.com/acacode/swagger-typescript-api/pull/1434) [`6d977dd`](https://github.com/acacode/swagger-typescript-api/commit/6d977dda02e08818bb0cf3a8edeab7e126995f6f) Thanks [@js2me](https://github.com/js2me)! - partial support external paths by ref (#447)
+
+- [#1434](https://github.com/acacode/swagger-typescript-api/pull/1434) [`6d977dd`](https://github.com/acacode/swagger-typescript-api/commit/6d977dda02e08818bb0cf3a8edeab7e126995f6f) Thanks [@js2me](https://github.com/js2me)! - added partial support links property (jsdoc ref only)
+
 ## 13.2.18
 
 ### Patch Changes
