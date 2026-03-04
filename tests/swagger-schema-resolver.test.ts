@@ -120,7 +120,9 @@ describe("SwaggerSchemaResolver URL loading", () => {
         const host = req.headers.host || "127.0.0.1";
         const requestUrl = new URL(req.url || "/", `http://${host}`);
         const requestedPath = decodeURIComponent(requestUrl.pathname);
-        const filePath = path.resolve(path.join(fixturesRoot, `.${requestedPath}`));
+        const filePath = path.resolve(
+          path.join(fixturesRoot, `.${requestedPath}`),
+        );
         const file = await fs.readFile(filePath, { encoding: "utf8" });
         res.statusCode = 200;
         res.end(file);

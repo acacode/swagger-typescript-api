@@ -13,7 +13,9 @@ describe("paths-by-url", async () => {
   let server: ReturnType<typeof createServer> | null = null;
 
   beforeAll(async () => {
-    tmpRoot = await fs.mkdtemp(path.join(os.tmpdir(), "swagger-typescript-api"));
+    tmpRoot = await fs.mkdtemp(
+      path.join(os.tmpdir(), "swagger-typescript-api"),
+    );
     fixturesRoot = path.join(tmpRoot, "fixtures");
     outputRoot = path.join(tmpRoot, "output");
 

@@ -1,8 +1,8 @@
+import * as fs from "node:fs";
+import path from "node:path";
 import type { resolve } from "@apidevtools/swagger-parser";
 import SwaggerParser from "@apidevtools/swagger-parser";
 import consola from "consola";
-import * as fs from "node:fs";
-import path from "node:path";
 import type { OpenAPI } from "openapi-types";
 import * as YAML from "yaml";
 import type { AnyObject, Maybe, Primitive } from "yummies/types";
@@ -86,8 +86,9 @@ export class ResolvedSwaggerSchema {
             Authorization: this.config.authorizationToken,
           }
         : {},
-      (this.config.requestOptions?.headers as Record<string, string> | undefined) ||
-        {},
+      (this.config.requestOptions?.headers as
+        | Record<string, string>
+        | undefined) || {},
     );
   }
 
@@ -124,7 +125,9 @@ export class ResolvedSwaggerSchema {
     return [...refs];
   }
 
-  private async fetchRemoteSchemaDocument(url: string): Promise<Maybe<AnyObject>> {
+  private async fetchRemoteSchemaDocument(
+    url: string,
+  ): Promise<Maybe<AnyObject>> {
     try {
       const response = await fetch(url, {
         headers: this.getRemoteRequestHeaders(),
@@ -155,7 +158,10 @@ export class ResolvedSwaggerSchema {
   }
 
   private async warmUpRemoteSchemasCache() {
-    if (typeof this.config.url !== "string" || !this.isHttpUrl(this.config.url)) {
+    if (
+      typeof this.config.url !== "string" ||
+      !this.isHttpUrl(this.config.url)
+    ) {
       return;
     }
 
@@ -212,7 +218,8 @@ export class ResolvedSwaggerSchema {
       return [];
     }
 
-    const [relativePath = "", rawPointer = ""] = this.normalizeRef(ref).split("#");
+    const [relativePath = "", rawPointer = ""] =
+      this.normalizeRef(ref).split("#");
     if (!relativePath) {
       return [];
     }
@@ -225,7 +232,10 @@ export class ResolvedSwaggerSchema {
 
     const bases = new Set<string>();
 
-    if (typeof this.config.url === "string" && this.isHttpUrl(this.config.url)) {
+    if (
+      typeof this.config.url === "string" &&
+      this.isHttpUrl(this.config.url)
+    ) {
       bases.add(this.config.url);
     }
 
@@ -240,7 +250,10 @@ export class ResolvedSwaggerSchema {
         const resolverPaths =
           typeof resolver.paths === "function" ? resolver.paths() : [];
         for (const resolverPath of resolverPaths) {
-          if (typeof resolverPath === "string" && this.isHttpUrl(resolverPath)) {
+          if (
+            typeof resolverPath === "string" &&
+            this.isHttpUrl(resolverPath)
+          ) {
             bases.add(resolverPath);
           }
         }
@@ -398,7 +411,8 @@ export class ResolvedSwaggerSchema {
       }
     }
 
-    const remoteAbsoluteCandidates = this.collectRemoteAbsoluteRefCandidates(ref);
+    const remoteAbsoluteCandidates =
+      this.collectRemoteAbsoluteRefCandidates(ref);
     for (const remoteAbsoluteRef of remoteAbsoluteCandidates) {
       const resolvedFromRemoteCache =
         this.resolveFromRemoteSchemaCache(remoteAbsoluteRef);
@@ -406,7 +420,8 @@ export class ResolvedSwaggerSchema {
         return resolvedFromRemoteCache;
       }
 
-      const resolvedByRemoteAbsoluteRef = this.tryToResolveRef(remoteAbsoluteRef);
+      const resolvedByRemoteAbsoluteRef =
+        this.tryToResolveRef(remoteAbsoluteRef);
       if (resolvedByRemoteAbsoluteRef) {
         return this.normalizeResolvedExternalSchemaRef(
           remoteAbsoluteRef,
