@@ -1,8 +1,8 @@
+import * as fs from "node:fs";
+import path from "node:path";
 import type { resolve } from "@apidevtools/swagger-parser";
 import SwaggerParser from "@apidevtools/swagger-parser";
 import consola from "consola";
-import * as fs from "node:fs";
-import path from "node:path";
 import type { OpenAPI } from "openapi-types";
 import * as YAML from "yaml";
 import type { AnyObject, Maybe, Primitive } from "yummies/types";
@@ -72,6 +72,237 @@ export class ResolvedSwaggerSchema {
     const escapedPathKey = `~1${rawPathKey.replace(/\//g, "~1")}`;
 
     return `${prefix}#/paths/${escapedPathKey}${tail}`;
+  }
+
+  private isHttpUrl(value: string): boolean {
+    return /^https?:\/\//i.test(value);
+  }
+
+  private getRemoteRequestHeaders(): Record<string, string> {
+    return Object.assign(
+      {},
+      this.config.authorizationToken
+        ? {
+            Authorization: this.config.authorizationToken,
+          }
+        : {},
+      (this.config.requestOptions?.headers as
+        | Record<string, string>
+        | undefined) || {},
+    );
+  }
+
+  private stripHash(urlOrPath: string): string {
+    return urlOrPath.split("#")[0] || urlOrPath;
+  }
+
+  private extractRefsFromSchema(schema: unknown): string[] {
+    const refs = new Set<string>();
+
+    const walk = (node: unknown) => {
+      if (!node || typeof node !== "object") {
+        return;
+      }
+
+      if (Array.isArray(node)) {
+        for (const item of node) {
+          walk(item);
+        }
+        return;
+      }
+
+      const recordNode = node as Record<string, unknown>;
+      if (typeof recordNode.$ref === "string") {
+        refs.add(recordNode.$ref);
+      }
+
+      for (const value of Object.values(recordNode)) {
+        walk(value);
+      }
+    };
+
+    walk(schema);
+    return [...refs];
+  }
+
+  private async fetchRemoteSchemaDocument(
+    url: string,
+  ): Promise<Maybe<AnyObject>> {
+    try {
+      const response = await fetch(url, {
+        headers: this.getRemoteRequestHeaders(),
+      });
+
+      if (!response.ok) {
+        return null;
+      }
+
+      const content = await response.text();
+
+      try {
+        const parsed = JSON.parse(content);
+        if (parsed && typeof parsed === "object") {
+          return parsed as AnyObject;
+        }
+      } catch {
+        const parsed = YAML.parse(content);
+        if (parsed && typeof parsed === "object") {
+          return parsed as AnyObject;
+        }
+      }
+    } catch (e) {
+      consola.debug(e);
+    }
+
+    return null;
+  }
+
+  private async warmUpRemoteSchemasCache() {
+    if (
+      typeof this.config.url !== "string" ||
+      !this.isHttpUrl(this.config.url)
+    ) {
+      return;
+    }
+
+    const visited = new Set<string>();
+    const queue = [this.stripHash(this.config.url)];
+
+    while (queue.length > 0) {
+      const currentUrl = queue.shift();
+      if (!currentUrl || visited.has(currentUrl)) {
+        continue;
+      }
+      visited.add(currentUrl);
+
+      if (this.externalSchemaCache.has(currentUrl)) {
+        continue;
+      }
+
+      const schema = await this.fetchRemoteSchemaDocument(currentUrl);
+      if (!schema) {
+        continue;
+      }
+
+      this.externalSchemaCache.set(currentUrl, schema);
+
+      for (const ref of this.extractRefsFromSchema(schema)) {
+        const normalizedRef = this.normalizeRef(ref);
+        if (normalizedRef.startsWith("#")) {
+          continue;
+        }
+
+        const [externalPath = ""] = normalizedRef.split("#");
+        if (!externalPath) {
+          continue;
+        }
+
+        let absoluteUrl = "";
+        try {
+          absoluteUrl = this.isHttpUrl(externalPath)
+            ? this.stripHash(externalPath)
+            : this.stripHash(new URL(externalPath, currentUrl).toString());
+        } catch (e) {
+          consola.debug(e);
+        }
+
+        if (absoluteUrl && !visited.has(absoluteUrl)) {
+          queue.push(absoluteUrl);
+        }
+      }
+    }
+  }
+
+  private collectRemoteAbsoluteRefCandidates(ref: string): string[] {
+    if (!ref || this.isHttpUrl(ref) || ref.startsWith("#")) {
+      return [];
+    }
+
+    const [relativePath = "", rawPointer = ""] =
+      this.normalizeRef(ref).split("#");
+    if (!relativePath) {
+      return [];
+    }
+
+    const pointer = rawPointer
+      ? rawPointer.startsWith("/")
+        ? rawPointer
+        : `/${rawPointer}`
+      : "";
+
+    const bases = new Set<string>();
+
+    if (
+      typeof this.config.url === "string" &&
+      this.isHttpUrl(this.config.url)
+    ) {
+      bases.add(this.config.url);
+    }
+
+    for (const cachedUrl of this.externalSchemaCache.keys()) {
+      if (this.isHttpUrl(cachedUrl)) {
+        bases.add(cachedUrl);
+      }
+    }
+
+    for (const resolver of this.resolvers) {
+      try {
+        const resolverPaths =
+          typeof resolver.paths === "function" ? resolver.paths() : [];
+        for (const resolverPath of resolverPaths) {
+          if (
+            typeof resolverPath === "string" &&
+            this.isHttpUrl(resolverPath)
+          ) {
+            bases.add(resolverPath);
+          }
+        }
+      } catch (e) {
+        consola.debug(e);
+      }
+    }
+
+    const results = new Set<string>();
+
+    for (const base of bases) {
+      try {
+        const absolutePath = new URL(relativePath, base).toString();
+        results.add(pointer ? `${absolutePath}#${pointer}` : absolutePath);
+      } catch (e) {
+        consola.debug(e);
+      }
+    }
+
+    return [...results];
+  }
+
+  private resolveFromRemoteSchemaCache(
+    absoluteRef: string,
+  ): Maybe<AnyObject | Primitive> {
+    const normalizedRef = this.normalizeRef(absoluteRef);
+    const [externalPath = "", rawPointer = ""] = normalizedRef.split("#");
+
+    if (!externalPath || !this.isHttpUrl(externalPath)) {
+      return null;
+    }
+
+    const schema = this.externalSchemaCache.get(this.stripHash(externalPath));
+    if (!schema) {
+      return null;
+    }
+
+    const pointer = rawPointer
+      ? rawPointer.startsWith("/")
+        ? rawPointer
+        : `/${rawPointer}`
+      : "/";
+
+    const resolved = this.resolveJsonPointer(schema, pointer);
+    if (resolved == null) {
+      return null;
+    }
+
+    return this.absolutizeLocalRefs(resolved, this.stripHash(externalPath));
   }
 
   private constructor(
@@ -176,6 +407,25 @@ export class ResolvedSwaggerSchema {
         return this.normalizeResolvedExternalSchemaRef(
           escapedPathsRefVariant,
           resolvedByEscapedPathsRef,
+        );
+      }
+    }
+
+    const remoteAbsoluteCandidates =
+      this.collectRemoteAbsoluteRefCandidates(ref);
+    for (const remoteAbsoluteRef of remoteAbsoluteCandidates) {
+      const resolvedFromRemoteCache =
+        this.resolveFromRemoteSchemaCache(remoteAbsoluteRef);
+      if (resolvedFromRemoteCache) {
+        return resolvedFromRemoteCache;
+      }
+
+      const resolvedByRemoteAbsoluteRef =
+        this.tryToResolveRef(remoteAbsoluteRef);
+      if (resolvedByRemoteAbsoluteRef) {
+        return this.normalizeResolvedExternalSchemaRef(
+          remoteAbsoluteRef,
+          resolvedByRemoteAbsoluteRef,
         );
       }
     }
@@ -473,11 +723,15 @@ export class ResolvedSwaggerSchema {
       consola.debug(e);
     }
 
-    return new ResolvedSwaggerSchema(
+    const resolvedSwaggerSchema = new ResolvedSwaggerSchema(
       config,
       usageSchema,
       originalSchema,
       resolvers,
     );
+
+    await resolvedSwaggerSchema.warmUpRemoteSchemasCache();
+
+    return resolvedSwaggerSchema;
   }
 }

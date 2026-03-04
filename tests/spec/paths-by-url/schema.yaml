@@ -1,0 +1,13 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0
+  title: paths-by-url
+
+paths:
+  /hello:
+    $ref: "./parts/repro.yaml#/hello"
+
+components:
+  schemas:
+    RootRepository:
+      $ref: "./parts/third.yaml#/components/schemas/repository"
