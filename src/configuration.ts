@@ -182,6 +182,8 @@ export class CodeGenConfig {
 
   successResponseStatusRange = [200, 299];
 
+  contentTypeEnumName = "ContentType";
+
   extractingOptions: Partial<ExtractingOptions> = {
     requestBodySuffix: ["Payload", "Body", "Input"],
     requestParamsSuffix: ["Params"],
