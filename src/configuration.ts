@@ -113,6 +113,7 @@ export class CodeGenConfig {
   };
   resolvedSwaggerSchema!: ResolvedSwaggerSchema;
   defaultResponseType;
+  defaultRequestParams = "{}";
   singleHttpClient = false;
   httpClientType = CONSTANTS.HTTP_CLIENT.FETCH;
   unwrapResponseData = false;
