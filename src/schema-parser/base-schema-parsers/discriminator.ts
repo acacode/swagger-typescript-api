@@ -128,7 +128,7 @@ export class DiscriminatorSchemaParser extends MonoSchemaParser {
         ts.IntersectionType([
           ts.ObjectWrapper(
             ts.TypeField({
-              key: discriminator.propertyName,
+              key: ts.StringValue(discriminator.propertyName),
               value: mappingUsageKey,
             }),
           ),

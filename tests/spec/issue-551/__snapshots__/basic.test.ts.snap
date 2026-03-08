@@ -1,0 +1,41 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`issue-551 > discriminator with propertyName @type generates valid TypeScript 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export type BaseArbeitserlaubnisType =
+  | ({
+      "@type": "ARBEITSERLAUBNIS_VORHANDEN";
+    } & ArbeitserlaubnisVorhanden)
+  | ({
+      "@type": "ARBEITSERLAUBNIS_NICHT_VORHANDEN";
+    } & ArbeitserlaubnisNichtVorhanden);
+
+export interface ArbeitserlaubnisVorhanden {
+  "@type": ArbeitserlaubnisVorhandenTypeEnum;
+  value?: string;
+}
+
+export interface ArbeitserlaubnisNichtVorhanden {
+  "@type": ArbeitserlaubnisNichtVorhandenTypeEnum;
+}
+
+export enum ArbeitserlaubnisVorhandenTypeEnum {
+  ARBEITSERLAUBNIS_VORHANDEN = "ARBEITSERLAUBNIS_VORHANDEN",
+}
+
+export enum ArbeitserlaubnisNichtVorhandenTypeEnum {
+  ARBEITSERLAUBNIS_NICHT_VORHANDEN = "ARBEITSERLAUBNIS_NICHT_VORHANDEN",
+}
+"
+`;
