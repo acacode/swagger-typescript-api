@@ -1,0 +1,48 @@
+{
+  "swagger": "2.0",
+  "info": { "title": "Issue 394", "version": "1.0.0" },
+  "paths": {
+    "/entity": {
+      "get": {
+        "operationId": "getEntity",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/BaseEntity" }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "BaseEntityWithoutId": {
+      "required": [],
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "description": "The creation date of the object."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "The last update date of the object."
+        },
+        "version": {
+          "type": "integer",
+          "description": "The current version of the object."
+        }
+      }
+    },
+    "BaseEntity": {
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The auto-generated object id."
+        }
+      },
+      "allOf": [
+        { "$ref": "#/definitions/BaseEntityWithoutId" }
+      ]
+    }
+  }
+}
