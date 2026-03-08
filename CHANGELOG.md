@@ -1,5 +1,15 @@
 # swagger-typescript-api
 
+## 13.3.1
+
+### Patch Changes
+
+- [`96f5b8d`](https://github.com/acacode/swagger-typescript-api/commit/96f5b8d823bf0b8db0c825de2107c5db2419bafc) Thanks [@js2me](https://github.com/js2me)! - fixes [#551](https://github.com/acacode/swagger-typescript-api/issues/551) issue (@type property in interfaces)
+
+- [`f032ff1`](https://github.com/acacode/swagger-typescript-api/commit/f032ff1ac6d140f4cbfb16b8392d61fafcd8e2b8) Thanks [@js2me](https://github.com/js2me)! - fixed [#893](https://github.com/acacode/swagger-typescript-api/issues/893) issue
+
+- [`639c3ae`](https://github.com/acacode/swagger-typescript-api/commit/639c3aec2405dfe26903c2a57f922239c3dff29a) Thanks [@js2me](https://github.com/js2me)! - fixed [#1536](https://github.com/acacode/swagger-typescript-api/issues/1536) issue
+
 ## 13.3.0
 
 ### Minor Changes
