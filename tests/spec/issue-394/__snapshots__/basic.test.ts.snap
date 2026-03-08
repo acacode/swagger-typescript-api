@@ -1,0 +1,30 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`issue-394 > allOf with required properties does not produce duplicate type intersection 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export interface BaseEntityWithoutId {
+  /** The creation date of the object. */
+  createdAt?: string;
+  /** The last update date of the object. */
+  updatedAt?: string;
+  /** The current version of the object. */
+  version?: number;
+}
+
+export type BaseEntity = BaseEntityWithoutId & {
+  /** The auto-generated object id. */
+  id: number;
+};
+"
+`;
