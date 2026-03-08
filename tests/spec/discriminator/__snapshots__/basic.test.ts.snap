@@ -13,17 +13,63 @@ exports[`basic > discriminator 1`] = `
  * ---------------------------------------------------------------
  */
 
+export enum BlockDTOEnum {
+  Csv = "csv",
+  File = "file",
+  Kek = "kek",
+}
+
 export enum PetEnum {
   Dog = "dog",
   Lizard = "lizard",
   Cat = "cat",
 }
 
-export enum BlockDTOEnum {
-  Csv = "csv",
-  File = "file",
-  Kek = "kek",
-}
+export type SimpleDiscriminator = SimpleObject | ComplexObject;
+
+export type BlockDTOWithEnum = BaseBlockDtoWithEnum &
+  (
+    | BaseBlockDtoWithEnumTypeMapping<BlockDTOEnum.Csv, CsvBlockWithEnumDTO>
+    | BaseBlockDtoWithEnumTypeMapping<BlockDTOEnum.File, FileBlockWithEnumDTO>
+  );
+
+export type BlockDTO = BaseBlockDto &
+  (
+    | BaseBlockDtoTypeMapping<"csv", CsvBlockDTO>
+    | BaseBlockDtoTypeMapping<"file", FileBlockDTO>
+  );
+
+export type Pet = BasePet &
+  (
+    | BasePetPetTypeMapping<"dog", Dog>
+    | BasePetPetTypeMapping<"cat", Cat>
+    | BasePetPetTypeMapping<"lizard", Lizard>
+  );
+
+export type PetOnlyDiscriminator =
+  | ({
+      pet_type: "dog";
+    } & Dog)
+  | ({
+      pet_type: "cat";
+    } & Cat)
+  | ({
+      pet_type: "lizard";
+    } & Lizard);
+
+export type PetWithEnum = BasePetWithEnum &
+  (
+    | BasePetWithEnumPetTypeMapping<PetEnum.Dog, DogWithEnum>
+    | BasePetWithEnumPetTypeMapping<PetEnum.Cat, CatWithEnum>
+    | BasePetWithEnumPetTypeMapping<PetEnum.Lizard, LizardWithEnum>
+  );
+
+export type InvalidDiscriminatorPropertyName =
+  BaseInvalidDiscriminatorPropertyName &
+    (
+      | BaseInvalidDiscriminatorPropertyNameTypeMapping<"num", number>
+      | BaseInvalidDiscriminatorPropertyNameTypeMapping<"str", string>
+    );
 
 /** kek pek */
 export type Variant =
@@ -48,52 +94,6 @@ export type Variant =
   | ({
       type: "gateway";
     } & VariantGateway);
-
-export type InvalidDiscriminatorPropertyName =
-  BaseInvalidDiscriminatorPropertyName &
-    (
-      | BaseInvalidDiscriminatorPropertyNameTypeMapping<"num", number>
-      | BaseInvalidDiscriminatorPropertyNameTypeMapping<"str", string>
-    );
-
-export type PetWithEnum = BasePetWithEnum &
-  (
-    | BasePetWithEnumPetTypeMapping<PetEnum.Dog, DogWithEnum>
-    | BasePetWithEnumPetTypeMapping<PetEnum.Cat, CatWithEnum>
-    | BasePetWithEnumPetTypeMapping<PetEnum.Lizard, LizardWithEnum>
-  );
-
-export type PetOnlyDiscriminator =
-  | ({
-      pet_type: "dog";
-    } & Dog)
-  | ({
-      pet_type: "cat";
-    } & Cat)
-  | ({
-      pet_type: "lizard";
-    } & Lizard);
-
-export type Pet = BasePet &
-  (
-    | BasePetPetTypeMapping<"dog", Dog>
-    | BasePetPetTypeMapping<"cat", Cat>
-    | BasePetPetTypeMapping<"lizard", Lizard>
-  );
-
-export type BlockDTO = BaseBlockDto &
-  (
-    | BaseBlockDtoTypeMapping<"csv", CsvBlockDTO>
-    | BaseBlockDtoTypeMapping<"file", FileBlockDTO>
-  );
-
-export type BlockDTOWithEnum = BaseBlockDtoWithEnum &
-  (
-    | BaseBlockDtoWithEnumTypeMapping<BlockDTOEnum.Csv, CsvBlockWithEnumDTO>
-    | BaseBlockDtoWithEnumTypeMapping<BlockDTOEnum.File, FileBlockWithEnumDTO>
-  );
-
-export type SimpleDiscriminator = SimpleObject | ComplexObject;
 
 export interface SimpleObject {
   objectType: string;
@@ -196,26 +196,13 @@ export interface VariantRollback {
 /** asdasdasdasdasdn */
 export type VariantUndo = object;
 
-type BaseInvalidDiscriminatorPropertyName = object;
-
-type BaseInvalidDiscriminatorPropertyNameTypeMapping<Key, Type> = {
-  "@type": Key;
-} & Type;
-
-interface BasePetWithEnum {
-  pet_type: PetEnum;
+interface BaseBlockDtoWithEnum {
+  title: string;
+  type: BlockDTOEnum;
 }
 
-type BasePetWithEnumPetTypeMapping<Key, Type> = {
-  pet_type: Key;
-} & Type;
-
-interface BasePet {
-  pet_type: string;
-}
-
-type BasePetPetTypeMapping<Key, Type> = {
-  pet_type: Key;
+type BaseBlockDtoWithEnumTypeMapping<Key, Type> = {
+  type: Key;
 } & Type;
 
 interface BaseBlockDto {
@@ -226,13 +213,26 @@ type BaseBlockDtoTypeMapping<Key, Type> = {
   type: Key;
 } & Type;
 
-interface BaseBlockDtoWithEnum {
-  title: string;
-  type: BlockDTOEnum;
+interface BasePet {
+  pet_type: string;
 }
 
-type BaseBlockDtoWithEnumTypeMapping<Key, Type> = {
-  type: Key;
+type BasePetPetTypeMapping<Key, Type> = {
+  pet_type: Key;
+} & Type;
+
+interface BasePetWithEnum {
+  pet_type: PetEnum;
+}
+
+type BasePetWithEnumPetTypeMapping<Key, Type> = {
+  pet_type: Key;
+} & Type;
+
+type BaseInvalidDiscriminatorPropertyName = object;
+
+type BaseInvalidDiscriminatorPropertyNameTypeMapping<Key, Type> = {
+  "@type": Key;
 } & Type;
 "
 `;
@@ -250,9 +250,55 @@ exports[`basic > discriminator with union enums 1`] = `
  * ---------------------------------------------------------------
  */
 
+export type BlockDTOEnum = "csv" | "file" | "kek";
+
 export type PetEnum = "dog" | "lizard" | "cat";
 
-export type BlockDTOEnum = "csv" | "file" | "kek";
+export type SimpleDiscriminator = SimpleObject | ComplexObject;
+
+export type BlockDTOWithEnum = BaseBlockDtoWithEnum &
+  (
+    | BaseBlockDtoWithEnumTypeMapping<"csv", CsvBlockWithEnumDTO>
+    | BaseBlockDtoWithEnumTypeMapping<"file", FileBlockWithEnumDTO>
+  );
+
+export type BlockDTO = BaseBlockDto &
+  (
+    | BaseBlockDtoTypeMapping<"csv", CsvBlockDTO>
+    | BaseBlockDtoTypeMapping<"file", FileBlockDTO>
+  );
+
+export type Pet = BasePet &
+  (
+    | BasePetPetTypeMapping<"dog", Dog>
+    | BasePetPetTypeMapping<"cat", Cat>
+    | BasePetPetTypeMapping<"lizard", Lizard>
+  );
+
+export type PetOnlyDiscriminator =
+  | ({
+      pet_type: "dog";
+    } & Dog)
+  | ({
+      pet_type: "cat";
+    } & Cat)
+  | ({
+      pet_type: "lizard";
+    } & Lizard);
+
+export type PetWithEnum = BasePetWithEnum &
+  (
+    | BasePetWithEnumPetTypeMapping<"dog", DogWithEnum>
+    | BasePetWithEnumPetTypeMapping<"cat", CatWithEnum>
+    | BasePetWithEnumPetTypeMapping<"lizard", LizardWithEnum>
+  );
+
+export type InvalidDiscriminatorPropertyName =
+  BaseInvalidDiscriminatorPropertyName &
+    (
+      | BaseInvalidDiscriminatorPropertyNameTypeMapping<"num", number>
+      | BaseInvalidDiscriminatorPropertyNameTypeMapping<"str", string>
+    );
 
 /** kek pek */
 export type Variant =
@@ -277,52 +323,6 @@ export type Variant =
   | ({
       type: "gateway";
     } & VariantGateway);
-
-export type InvalidDiscriminatorPropertyName =
-  BaseInvalidDiscriminatorPropertyName &
-    (
-      | BaseInvalidDiscriminatorPropertyNameTypeMapping<"num", number>
-      | BaseInvalidDiscriminatorPropertyNameTypeMapping<"str", string>
-    );
-
-export type PetWithEnum = BasePetWithEnum &
-  (
-    | BasePetWithEnumPetTypeMapping<"dog", DogWithEnum>
-    | BasePetWithEnumPetTypeMapping<"cat", CatWithEnum>
-    | BasePetWithEnumPetTypeMapping<"lizard", LizardWithEnum>
-  );
-
-export type PetOnlyDiscriminator =
-  | ({
-      pet_type: "dog";
-    } & Dog)
-  | ({
-      pet_type: "cat";
-    } & Cat)
-  | ({
-      pet_type: "lizard";
-    } & Lizard);
-
-export type Pet = BasePet &
-  (
-    | BasePetPetTypeMapping<"dog", Dog>
-    | BasePetPetTypeMapping<"cat", Cat>
-    | BasePetPetTypeMapping<"lizard", Lizard>
-  );
-
-export type BlockDTO = BaseBlockDto &
-  (
-    | BaseBlockDtoTypeMapping<"csv", CsvBlockDTO>
-    | BaseBlockDtoTypeMapping<"file", FileBlockDTO>
-  );
-
-export type BlockDTOWithEnum = BaseBlockDtoWithEnum &
-  (
-    | BaseBlockDtoWithEnumTypeMapping<"csv", CsvBlockWithEnumDTO>
-    | BaseBlockDtoWithEnumTypeMapping<"file", FileBlockWithEnumDTO>
-  );
-
-export type SimpleDiscriminator = SimpleObject | ComplexObject;
 
 export interface SimpleObject {
   objectType: string;
@@ -425,26 +425,13 @@ export interface VariantRollback {
 /** asdasdasdasdasdn */
 export type VariantUndo = object;
 
-type BaseInvalidDiscriminatorPropertyName = object;
-
-type BaseInvalidDiscriminatorPropertyNameTypeMapping<Key, Type> = {
-  "@type": Key;
-} & Type;
-
-interface BasePetWithEnum {
-  pet_type: PetEnum;
+interface BaseBlockDtoWithEnum {
+  title: string;
+  type: BlockDTOEnum;
 }
 
-type BasePetWithEnumPetTypeMapping<Key, Type> = {
-  pet_type: Key;
-} & Type;
-
-interface BasePet {
-  pet_type: string;
-}
-
-type BasePetPetTypeMapping<Key, Type> = {
-  pet_type: Key;
+type BaseBlockDtoWithEnumTypeMapping<Key, Type> = {
+  type: Key;
 } & Type;
 
 interface BaseBlockDto {
@@ -455,13 +442,26 @@ type BaseBlockDtoTypeMapping<Key, Type> = {
   type: Key;
 } & Type;
 
-interface BaseBlockDtoWithEnum {
-  title: string;
-  type: BlockDTOEnum;
+interface BasePet {
+  pet_type: string;
 }
 
-type BaseBlockDtoWithEnumTypeMapping<Key, Type> = {
-  type: Key;
+type BasePetPetTypeMapping<Key, Type> = {
+  pet_type: Key;
+} & Type;
+
+interface BasePetWithEnum {
+  pet_type: PetEnum;
+}
+
+type BasePetWithEnumPetTypeMapping<Key, Type> = {
+  pet_type: Key;
+} & Type;
+
+type BaseInvalidDiscriminatorPropertyName = object;
+
+type BaseInvalidDiscriminatorPropertyNameTypeMapping<Key, Type> = {
+  "@type": Key;
 } & Type;
 "
 `;
