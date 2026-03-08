@@ -21,7 +21,7 @@ describe("issue-1321", async () => {
       input: path.resolve(import.meta.dirname, "schema.yaml"),
       output: tmpdir,
       silent: true,
-      extractRequestParams: true
+      extractRequestParams: true,
     });
 
     const content = await fs.readFile(path.join(tmpdir, "schema.ts"), {
@@ -30,5 +30,4 @@ describe("issue-1321", async () => {
 
     expect(content).toMatchSnapshot();
   });
-
 });

@@ -38,7 +38,9 @@ describe("issue-394", async () => {
 
     // Bug #394: BaseEntity was generated as { id: number } & { id: number }
     expect(content).toContain("BaseEntityWithoutId");
-    expect(content).not.toMatch(/\{\s*id:\s*number\s*\}\s*&\s*\{\s*id:\s*number\s*\}/);
+    expect(content).not.toMatch(
+      /\{\s*id:\s*number\s*\}\s*&\s*\{\s*id:\s*number\s*\}/,
+    );
     expect(content).toMatchSnapshot();
   });
 });

@@ -40,9 +40,7 @@
           "description": "The auto-generated object id."
         }
       },
-      "allOf": [
-        { "$ref": "#/definitions/BaseEntityWithoutId" }
-      ]
+      "allOf": [{ "$ref": "#/definitions/BaseEntityWithoutId" }]
     }
   }
 }

@@ -45,9 +45,9 @@ describe("issue-463", async () => {
 
     expect(httpClientClassIndex).toBeGreaterThanOrEqual(0);
     expect(bffClassIndex).toBeGreaterThanOrEqual(0);
-    expect(
-      content.slice(bffClassIndex, bffClassIndex + 80),
-    ).toMatch(/extends HttpClient/);
+    expect(content.slice(bffClassIndex, bffClassIndex + 80)).toMatch(
+      /extends HttpClient/,
+    );
 
     // HttpClient must appear before BFF so that BFF extends HttpClient correctly
     expect(httpClientClassIndex).toBeLessThan(bffClassIndex);
