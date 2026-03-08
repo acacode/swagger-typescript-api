@@ -35,14 +35,14 @@ export enum KekEnum {
   Updating = "updating",
 }
 
-export type FooBarBazRoot = Record<KekEnum, number>;
+export type FooBarBazRoot = Partial<Record<KekEnum, number>>;
 
 export type FooBarBazNoAdditionalProperties = object;
 
 export type FooBarBazNoAdditionalPropertiesPrimitive = object;
 
 export interface FooBarBazNested {
-  dataCount?: Record<KekEnum, number>;
+  dataCount?: Partial<Record<KekEnum, number>>;
 }
 
 export type ProductId = string;

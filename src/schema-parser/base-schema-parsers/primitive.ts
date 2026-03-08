@@ -37,10 +37,14 @@ export class PrimitiveSchemaParser extends MonoSchemaParser {
         recordValuesContent = this.config.Ts.Keyword.Any;
       }
 
-      contentType = this.config.Ts.RecordType(
+      const recordType = this.config.Ts.RecordType(
         recordKeysContent,
         recordValuesContent,
       );
+
+      contentType = propertyNamesSchema
+        ? this.config.Ts.TypeWithGeneric("Partial", [recordType])
+        : recordType;
     }
 
     if (Array.isArray(type) && type.length) {
