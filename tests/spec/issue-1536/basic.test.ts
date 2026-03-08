@@ -88,9 +88,7 @@ describe("issue-1536", async () => {
     );
 
     // ["null", "array"] with items -> null | string[]
-    expect(content).toMatch(
-      /export type NullableArray = null \| (string\[\]|any\[\]);/,
-    );
+    expect(content).toMatch(/export type NullableArray = null \| string\[\];/);
 
     // ["null", "object"] without additionalProperties -> null | object
     expect(content).toMatch(/export type ObjectOrNull = null \| object;/);

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`issue-1536 > to match snapshot 1`] = `
+exports[`issue-893 > type [array] with items enum generates typed array not any[] 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
@@ -13,22 +13,12 @@ exports[`issue-1536 > to match snapshot 1`] = `
  * ---------------------------------------------------------------
  */
 
-export type Test = null | Record<string, string>;
+export type WithTypeArrayOnly = ("DEBUG" | "EDIT")[];
 
-export type NullableString = null | string;
+export type WithTypeArrayAndNull = ("DEBUG" | "EDIT")[] | null;
 
-export type NullableNumber = null | number;
-
-export type NullableInteger = null | number;
-
-export type NullableBoolean = null | boolean;
-
-export type StringOrNumber = string | number;
-
-export type NullableArray = null | string[];
-
-export type ObjectOrNull = null | object;
-
-export type ObjectWithAdditionalPropsOrNull = null | Record<string, number>;
+export type WithTypeArrayObjectItems = {
+  id?: string;
+}[];
 "
 `;

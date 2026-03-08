@@ -48,17 +48,8 @@ export class PrimitiveSchemaParser extends MonoSchemaParser {
         ...(typeof this.schema === "object" ? this.schema : {}),
         oneOf: type.map((t) => {
           const branch: Record<string, unknown> = { type: t };
-          if (t === SCHEMA_TYPES.OBJECT) {
-            if (this.schema.additionalProperties !== undefined) {
-              branch.additionalProperties = this.schema.additionalProperties;
-            }
-            if (this.schema.properties !== undefined) {
-              branch.properties = this.schema.properties;
-            }
-            if (this.schema.propertyNames !== undefined) {
-              branch.propertyNames = this.schema.propertyNames;
-            }
-          }
+          Object.assign(branch, this.schema);
+          branch.type = t;
           return branch;
         }),
       });
