@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.5.0
+
+### Minor Changes
+
+- [`1ed598b`](https://github.com/acacode/swagger-typescript-api/commit/1ed598beb1a07d4ed67460e8f1b09fd1a21907ab) Thanks [@js2me](https://github.com/js2me)! - add missing `string->byte` convertaion (`Blob`)
+
 ## 13.4.0
 
 ### Minor Changes
