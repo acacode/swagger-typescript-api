@@ -1,0 +1,97 @@
+{
+  "swagger": "2.0",
+  "basePath": "/api/",
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "info": {
+    "title": "Api",
+    "version": "0.1"
+  },
+  "schemes": ["https", "http"],
+  "definitions": {
+    "ReportData": {
+      "properties": {
+        "data": {
+          "format": "byte",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ErrorResponse": {
+      "properties": {
+        "code": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "details": {
+          "items": {
+            "$ref": "#/definitions/GenericObject"
+          },
+          "type": "array"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "GenericObject": {
+      "additionalProperties": {},
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "paths": {
+    "/v1/reports/export": {
+      "get": {
+        "operationId": "getReportExport",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "period",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "collectionFormat": "multi",
+            "in": "query",
+            "items": {
+              "type": "string"
+            },
+            "name": "excludeIds",
+            "type": "array"
+          },
+          {
+            "in": "query",
+            "name": "user",
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ReportData"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "summary": "Export report",
+        "tags": ["reports"]
+      }
+    }
+  }
+}

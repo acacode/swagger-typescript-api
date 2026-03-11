@@ -377,6 +377,7 @@ export class CodeGenConfig {
 
       /** formats */
       binary: () => this.Ts.Keyword.File,
+      byte: () => this.Ts.Keyword.Blob,
       file: () => this.Ts.Keyword.File,
       "date-time": () => this.Ts.Keyword.String,
       time: () => this.Ts.Keyword.String,
