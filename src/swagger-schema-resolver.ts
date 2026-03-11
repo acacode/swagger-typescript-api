@@ -2,6 +2,7 @@ import { consola } from "consola";
 import { compact, merge, uniq } from "es-toolkit";
 import { get } from "es-toolkit/compat";
 import type { OpenAPI, OpenAPIV2, OpenAPIV3 } from "openapi-types";
+import type { AnyObject } from "yummies/types";
 import * as swagger2openapi from "swagger2openapi";
 import * as YAML from "yaml";
 import type { CodeGenConfig } from "./configuration.js";
@@ -12,6 +13,8 @@ import { Request } from "./util/request.js";
 interface SwaggerSchemas {
   usageSchema: OpenAPI.Document;
   originalSchema: OpenAPI.Document;
+  /** Unmutated copy of the schema before Swagger 2→3 conversion; used to read operation-level produces. */
+  originalSchemaForProduces?: OpenAPI.Document;
 }
 
 export class SwaggerSchemaResolver {
@@ -45,12 +48,13 @@ export class SwaggerSchemaResolver {
       });
     }
 
-    this.fixSwaggerSchemas(swaggerSchemas);
+    const originalProducesByRoute = this.fixSwaggerSchemas(swaggerSchemas);
 
-    const resolvedSwaggerSchema = ResolvedSwaggerSchema.create(
+    const resolvedSwaggerSchema = await ResolvedSwaggerSchema.create(
       this.config,
       swaggerSchemas.usageSchema,
       swaggerSchemas.originalSchema,
+      originalProducesByRoute,
     );
 
     return resolvedSwaggerSchema;
@@ -62,6 +66,7 @@ export class SwaggerSchemaResolver {
   ): Promise<SwaggerSchemas> {
     return new Promise((resolve) => {
       const result = structuredClone(swaggerSchema);
+      const originalSchemaForProduces = structuredClone(swaggerSchema);
       result.info = merge(
         {
           title: "No title",
@@ -92,6 +97,7 @@ export class SwaggerSchemaResolver {
             resolve({
               usageSchema: parsedSwaggerSchema,
               originalSchema: result,
+              originalSchemaForProduces,
             });
           },
         );
@@ -99,6 +105,7 @@ export class SwaggerSchemaResolver {
         resolve({
           usageSchema: result,
           originalSchema: structuredClone(result),
+          originalSchemaForProduces,
         });
       }
     });
@@ -172,16 +179,41 @@ export class SwaggerSchemaResolver {
     }
   }
 
-  private fixSwaggerSchemas({ usageSchema, originalSchema }: SwaggerSchemas) {
+  private fixSwaggerSchemas({
+    usageSchema,
+    originalSchema,
+    originalSchemaForProduces,
+  }: SwaggerSchemas): Record<string, Record<string, string[]>> {
     this.normalizeRefsInSchema(usageSchema);
     this.normalizeRefsInSchema(originalSchema);
 
     const usagePaths = get(usageSchema, "paths") || {};
-    const originalPaths = get(originalSchema, "paths") || {};
+    const schemaForProduces = originalSchemaForProduces ?? originalSchema;
+    const originalPaths = get(schemaForProduces, "paths") || {};
+    const basePath =
+      (schemaForProduces as OpenAPIV2.Document).basePath?.replace(/\/$/, "") ||
+      "";
+
+    const originalProducesByRoute: Record<
+      string,
+      Record<string, string[]>
+    > = Object.create(null);
 
     // walk by routes
     for (const [route, usagePathObject] of Object.entries(usagePaths)) {
-      const originalPathObject = get(originalPaths, route) || {};
+      const routeWithoutBase =
+        basePath && route.startsWith(basePath)
+          ? route.slice(basePath.length) || "/"
+          : route;
+      const originalPathObject =
+        get(originalPaths, route) ||
+        get(
+          originalPaths,
+          routeWithoutBase.startsWith("/")
+            ? routeWithoutBase
+            : `/${routeWithoutBase}`,
+        ) ||
+        {};
 
       // walk by methods
       for (const [methodName, usageRouteInfo] of Object.entries(
@@ -201,12 +233,24 @@ export class SwaggerSchemaResolver {
               ...(originalRouteInfo.consumes || []),
             ]),
           );
-          usageAsOpenapiv2.produces = uniq(
+          let mergedProduces = uniq(
             compact([
               ...(usageAsOpenapiv2.produces || []),
               ...(originalRouteInfo.produces || []),
             ]),
           );
+          if (mergedProduces.length === 0) {
+            mergedProduces = uniq(
+              compact(get(schemaForProduces, "produces") || []),
+            );
+          }
+          usageAsOpenapiv2.produces = mergedProduces;
+          if (mergedProduces.length > 0) {
+            if (!originalProducesByRoute[route]) {
+              originalProducesByRoute[route] = Object.create(null);
+            }
+            originalProducesByRoute[route][methodName] = mergedProduces;
+          }
         }
 
         for (const originalRouteParam of originalRouteParams) {
@@ -221,5 +265,6 @@ export class SwaggerSchemaResolver {
         }
       }
     }
+    return originalProducesByRoute;
   }
 }

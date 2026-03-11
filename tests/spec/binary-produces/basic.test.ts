@@ -4,7 +4,7 @@ import * as path from "node:path";
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
 import { generateApi } from "../../../src/index.js";
 
-describe("string-byte", async () => {
+describe("binary-produces", async () => {
   let tmpdir = "";
 
   beforeAll(async () => {
@@ -15,7 +15,7 @@ describe("string-byte", async () => {
     await fs.rm(tmpdir, { recursive: true });
   });
 
-  test("getReportExport endpoint generates correct types and client", async () => {
+  test("all binary produces variants generate Blob response type", async () => {
     await generateApi({
       fileName: "schema",
       input: path.resolve(import.meta.dirname, "schema.json"),

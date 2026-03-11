@@ -1,0 +1,325 @@
+{
+  "swagger": "2.0",
+  "basePath": "/api/",
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "info": {
+    "title": "Api",
+    "version": "0.1"
+  },
+  "schemes": ["https", "http"],
+  "definitions": {
+    "ReportData": {
+      "properties": {
+        "data": {
+          "format": "byte",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ErrorResponse": {
+      "properties": {
+        "code": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "details": {
+          "items": {
+            "$ref": "#/definitions/GenericObject"
+          },
+          "type": "array"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "GenericObject": {
+      "additionalProperties": {},
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "paths": {
+    "/v1/reports/export": {
+      "get": {
+        "operationId": "getReportExport",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "period",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "collectionFormat": "multi",
+            "in": "query",
+            "items": { "type": "string" },
+            "name": "excludeIds",
+            "type": "array"
+          },
+          { "in": "query", "name": "user", "type": "string" }
+        ],
+        "produces": [
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "summary": "Export report",
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/pdf": {
+      "get": {
+        "operationId": "getPdfExport",
+        "produces": ["application/pdf"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/octet": {
+      "get": {
+        "operationId": "getOctetExport",
+        "produces": ["application/octet-stream"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/png": {
+      "get": {
+        "operationId": "getPngExport",
+        "produces": ["image/png"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/zip": {
+      "get": {
+        "operationId": "getZipExport",
+        "produces": ["application/zip"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/ms-excel": {
+      "get": {
+        "operationId": "getMsExcelExport",
+        "produces": ["application/vnd.ms-excel"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/odt": {
+      "get": {
+        "operationId": "getOdtExport",
+        "produces": ["application/vnd.oasis.opendocument.text"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/ppt": {
+      "get": {
+        "operationId": "getPptExport",
+        "produces": ["application/vnd.ms-powerpoint"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/rar": {
+      "get": {
+        "operationId": "getRarExport",
+        "produces": ["application/vnd.rar"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/gzip": {
+      "get": {
+        "operationId": "getGzipExport",
+        "produces": ["application/gzip"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/tar": {
+      "get": {
+        "operationId": "getTarExport",
+        "produces": ["application/x-tar"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/jar": {
+      "get": {
+        "operationId": "getJarExport",
+        "produces": ["application/java-archive"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/epub": {
+      "get": {
+        "operationId": "getEpubExport",
+        "produces": ["application/epub+zip"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/doc": {
+      "get": {
+        "operationId": "getDocExport",
+        "produces": ["application/msword"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/rtf": {
+      "get": {
+        "operationId": "getRtfExport",
+        "produces": ["application/rtf"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    }
+  }
+}

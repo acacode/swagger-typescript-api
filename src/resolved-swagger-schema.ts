@@ -305,14 +305,25 @@ export class ResolvedSwaggerSchema {
     return this.absolutizeLocalRefs(resolved, this.stripHash(externalPath));
   }
 
+  private originalProducesByRoute: Record<string, Record<string, string[]>> =
+    Object.create(null);
+
   private constructor(
     private config: CodeGenConfig,
     public usageSchema: OpenAPI.Document,
     public originalSchema: OpenAPI.Document,
     private resolvers: Awaited<ReturnType<typeof resolve>>[],
+    originalProducesByRoute?: Record<string, Record<string, string[]>>,
   ) {
     this.usageSchema = usageSchema;
     this.originalSchema = originalSchema;
+    if (originalProducesByRoute) {
+      this.originalProducesByRoute = originalProducesByRoute;
+    }
+  }
+
+  getOriginalProduces(pathName: string, method: string): string[] | undefined {
+    return this.originalProducesByRoute[pathName]?.[method];
   }
 
   getRefDetails(ref: string): RefDetails {
@@ -668,6 +679,7 @@ export class ResolvedSwaggerSchema {
     config: CodeGenConfig,
     usageSchema: OpenAPI.Document,
     originalSchema: OpenAPI.Document,
+    originalProducesByRoute?: Record<string, Record<string, string[]>>,
   ) {
     const resolvers: Awaited<ReturnType<typeof resolve>>[] = [];
 
@@ -728,6 +740,7 @@ export class ResolvedSwaggerSchema {
       usageSchema,
       originalSchema,
       resolvers,
+      originalProducesByRoute,
     );
 
     await resolvedSwaggerSchema.warmUpRemoteSchemasCache();

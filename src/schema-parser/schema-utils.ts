@@ -13,7 +13,7 @@ export class SchemaUtils {
     public typeNameFormatter: TypeNameFormatter,
   ) {}
 
-  isBinaryLikeContentMediaType = (contentMediaType: unknown) => {
+  isBinaryLikeMimeType = (contentMediaType: unknown) => {
     if (typeof contentMediaType !== "string" || !contentMediaType) return false;
 
     const mediaType = contentMediaType.split(";")[0]?.trim().toLowerCase();
@@ -27,6 +27,25 @@ export class SchemaUtils {
      */
     if (mediaType.startsWith("text/")) return false;
     if (mediaType.includes("json") || mediaType.includes("+json")) return false;
+
+    /** application/vnd.* binary types first: names like "openxmlformats" / "spreadsheetml" contain "xml" but are binary. */
+    if (mediaType.startsWith("application/vnd.")) {
+      return (
+        mediaType.endsWith(".blob") ||
+        mediaType.includes("spreadsheetml.sheet") ||
+        mediaType.startsWith("application/vnd.ms-excel") ||
+        mediaType.startsWith(
+          "application/vnd.openxmlformats-officedocument.",
+        ) ||
+        mediaType === "application/vnd.rar" ||
+        mediaType.startsWith("application/vnd.oasis.opendocument.") ||
+        mediaType.startsWith("application/vnd.ms-powerpoint") ||
+        mediaType.startsWith("application/vnd.ms-fontobject") ||
+        mediaType === "application/vnd.visio" ||
+        mediaType === "application/vnd.amazon.ebook"
+      );
+    }
+
     if (mediaType.includes("xml") || mediaType.includes("+xml")) return false;
     if (mediaType === "application/x-www-form-urlencoded") return false;
     if (
@@ -34,19 +53,41 @@ export class SchemaUtils {
       mediaType === "application/ecmascript" ||
       mediaType === "application/graphql" ||
       mediaType === "application/yaml" ||
-      mediaType === "application/x-yaml"
+      mediaType === "application/x-yaml" ||
+      mediaType === "application/jwt"
     ) {
       return false;
     }
 
+    if (mediaType.startsWith("application/")) {
+      return (
+        mediaType === "application/octet-stream" ||
+        mediaType.startsWith("application/pdf") ||
+        mediaType === "application/zip" ||
+        mediaType.startsWith("application/x-zip") ||
+        mediaType === "application/gzip" ||
+        mediaType.startsWith("application/x-gzip") ||
+        mediaType.startsWith("application/x-bzip") ||
+        mediaType === "application/x-bzip2" ||
+        mediaType.startsWith("application/x-tar") ||
+        mediaType.startsWith("application/x-rar") ||
+        mediaType.startsWith("application/x-7z") ||
+        mediaType === "application/x-binary" ||
+        mediaType === "application/java-archive" ||
+        mediaType === "application/epub+zip" ||
+        mediaType === "application/msword" ||
+        mediaType === "application/rtf" ||
+        mediaType === "application/x-abiword" ||
+        mediaType === "application/x-freearc"
+      );
+    }
+
     return (
-      mediaType === "application/octet-stream" ||
       mediaType.startsWith("image/") ||
       mediaType.startsWith("audio/") ||
       mediaType.startsWith("video/") ||
       mediaType.startsWith("font/") ||
-      mediaType.startsWith("model/") ||
-      mediaType.startsWith("application/")
+      mediaType.startsWith("model/")
     );
   };
 
@@ -305,7 +346,7 @@ export class SchemaUtils {
       if (
         primitiveType === this.config.Ts.Keyword.String &&
         !schema.format &&
-        this.isBinaryLikeContentMediaType(schema.contentMediaType)
+        this.isBinaryLikeMimeType(schema.contentMediaType)
       ) {
         resultType = this.config.Ts.UnionType([
           this.config.Ts.Keyword.File,

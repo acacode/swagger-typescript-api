@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`string-byte > getReportExport endpoint generates correct types and client 1`] = `
+exports[`binary-produces > all binary produces variants generate Blob response type 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
@@ -310,10 +310,207 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<ReportData, ErrorResponse>({
+      this.request<Blob, ErrorResponse>({
         path: \`/v1/reports/export\`,
         method: "GET",
         query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags reports
+     * @name GetPdfExport
+     * @request GET:/v1/export/pdf
+     */
+    getPdfExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/v1/export/pdf\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags reports
+     * @name GetOctetExport
+     * @request GET:/v1/export/octet
+     */
+    getOctetExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/v1/export/octet\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags reports
+     * @name GetPngExport
+     * @request GET:/v1/export/png
+     */
+    getPngExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/v1/export/png\`,
+        method: "GET",
+        format: "blob",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags reports
+     * @name GetZipExport
+     * @request GET:/v1/export/zip
+     */
+    getZipExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/v1/export/zip\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags reports
+     * @name GetMsExcelExport
+     * @request GET:/v1/export/ms-excel
+     */
+    getMsExcelExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/v1/export/ms-excel\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags reports
+     * @name GetOdtExport
+     * @request GET:/v1/export/odt
+     */
+    getOdtExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/v1/export/odt\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags reports
+     * @name GetPptExport
+     * @request GET:/v1/export/ppt
+     */
+    getPptExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/v1/export/ppt\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags reports
+     * @name GetRarExport
+     * @request GET:/v1/export/rar
+     */
+    getRarExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/v1/export/rar\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags reports
+     * @name GetGzipExport
+     * @request GET:/v1/export/gzip
+     */
+    getGzipExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/v1/export/gzip\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags reports
+     * @name GetTarExport
+     * @request GET:/v1/export/tar
+     */
+    getTarExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/v1/export/tar\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags reports
+     * @name GetJarExport
+     * @request GET:/v1/export/jar
+     */
+    getJarExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/v1/export/jar\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags reports
+     * @name GetEpubExport
+     * @request GET:/v1/export/epub
+     */
+    getEpubExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/v1/export/epub\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags reports
+     * @name GetDocExport
+     * @request GET:/v1/export/doc
+     */
+    getDocExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/v1/export/doc\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags reports
+     * @name GetRtfExport
+     * @request GET:/v1/export/rtf
+     */
+    getRtfExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/v1/export/rtf\`,
+        method: "GET",
         ...params,
       }),
   };

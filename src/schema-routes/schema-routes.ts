@@ -325,6 +325,11 @@ export class SchemaRoutes {
     return CONTENT_KIND.OTHER;
   };
 
+  /** True when response produces only binary media types (e.g. file download). */
+  isBinaryOnlyContentTypes = (contentTypes: string[]) =>
+    !!contentTypes?.length &&
+    contentTypes.every((ct) => this.schemaUtils.isBinaryLikeMimeType(ct));
+
   isSuccessStatus = (status) =>
     (this.config.defaultResponseAsSuccess && status === "default") ||
     (+status >= this.config.successResponseStatusRange[0] &&
@@ -519,13 +524,41 @@ export class SchemaRoutes {
     );
   };
 
-  getResponseBodyInfo = (routeInfo, parsedSchemas, resolvedSwaggerSchema) => {
+  getResponseBodyInfo = (
+    routeInfo,
+    parsedSchemas,
+    resolvedSwaggerSchema,
+    pathName?: string,
+    method?: string,
+  ) => {
     const { produces, operationId, responses } = routeInfo;
 
     const contentTypes = this.getContentTypes(responses, [
       ...(produces || []),
       routeInfo["x-accepts"],
     ]);
+
+    const successStatus = Object.keys(responses || {}).find((s) =>
+      this.isSuccessStatus(s),
+    );
+    const successResponseContent =
+      successStatus && (responses as AnyObject)?.[successStatus];
+    const successContentTypes =
+      successResponseContent?.content &&
+      typeof successResponseContent.content === "object"
+        ? Object.keys(successResponseContent.content)
+        : null;
+
+    const originalProduces =
+      pathName && method
+        ? (resolvedSwaggerSchema.getOriginalProduces(pathName, method) ??
+          get(resolvedSwaggerSchema.originalSchema, [
+            "paths",
+            pathName,
+            method,
+            "produces",
+          ]))
+        : undefined;
 
     const responseInfos = this.getRequestInfoTypes({
       requestInfos: responses,
@@ -561,13 +594,25 @@ export class SchemaRoutes {
       return r;
     };
 
+    /* Prefer operation-level produces for binary check. After Swagger 2→OAS3 conversion, response content is often filled from global produces (e.g. application/json), so use original schema's produces when available. */
+    const typesToCheck =
+      (Array.isArray(originalProduces) && originalProduces.length > 0
+        ? originalProduces
+        : null) ??
+      (produces?.length ? produces : null) ??
+      (successContentTypes?.length ? successContentTypes : null) ??
+      contentTypes;
+    const successType = this.isBinaryOnlyContentTypes(typesToCheck)
+      ? this.config.Ts.Keyword.Blob
+      : successResponse?.type || this.config.Ts.Keyword.Any;
+
     return {
       contentTypes,
       responses: responseInfos,
       links,
       success: {
         schema: successResponse,
-        type: successResponse?.type || this.config.Ts.Keyword.Any,
+        type: successType,
       },
       error: {
         schemas: errorResponses,
@@ -979,6 +1024,8 @@ export class SchemaRoutes {
       routeInfo,
       parsedSchemas,
       resolvedSwaggerSchema,
+      rawRouteName,
+      method,
     );
 
     const rawRouteInfo = {
