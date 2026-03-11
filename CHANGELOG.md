@@ -1,5 +1,13 @@
 # swagger-typescript-api
 
+## 13.4.0
+
+### Minor Changes
+
+- [`f2f27aa`](https://github.com/acacode/swagger-typescript-api/commit/f2f27aac9d485b729c73d21fc42b87c2ba1b94cb) Thanks [@js2me](https://github.com/js2me)! - support `contentMediaType` property
+
+- [#1643](https://github.com/acacode/swagger-typescript-api/pull/1643) [`7f76066`](https://github.com/acacode/swagger-typescript-api/commit/7f760665538ffd75e682f1fc800f591da0a54428) Thanks [@nolannbiron](https://github.com/nolannbiron)! - Wrap Record types in Partial for propertyNames
+
 ## 13.3.1
 
 ### Patch Changes
