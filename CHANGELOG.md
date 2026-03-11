@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.6.0
+
+### Minor Changes
+
+- [`c4b02db`](https://github.com/acacode/swagger-typescript-api/commit/c4b02db37b0eeeb93f50df9a881e4763d091b5a5) Thanks [@js2me](https://github.com/js2me)! - paths with `"produces"` with binary mime types only should return only binary type - `Blob`
+
 ## 13.5.0
 
 ### Minor Changes
