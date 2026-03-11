@@ -13,6 +13,43 @@ export class SchemaUtils {
     public typeNameFormatter: TypeNameFormatter,
   ) {}
 
+  isBinaryLikeContentMediaType = (contentMediaType: unknown) => {
+    if (typeof contentMediaType !== "string" || !contentMediaType) return false;
+
+    const mediaType = contentMediaType.split(";")[0]?.trim().toLowerCase();
+
+    if (!mediaType) return false;
+
+    /**
+     * `contentMediaType` comes from JSON Schema. In practice it is often used to
+     * signal "this string is a file/blob", but it may also be used for textual
+     * payloads (json/xml/etc). We treat only binary-ish media types as `File`.
+     */
+    if (mediaType.startsWith("text/")) return false;
+    if (mediaType.includes("json") || mediaType.includes("+json")) return false;
+    if (mediaType.includes("xml") || mediaType.includes("+xml")) return false;
+    if (mediaType === "application/x-www-form-urlencoded") return false;
+    if (
+      mediaType === "application/javascript" ||
+      mediaType === "application/ecmascript" ||
+      mediaType === "application/graphql" ||
+      mediaType === "application/yaml" ||
+      mediaType === "application/x-yaml"
+    ) {
+      return false;
+    }
+
+    return (
+      mediaType === "application/octet-stream" ||
+      mediaType.startsWith("image/") ||
+      mediaType.startsWith("audio/") ||
+      mediaType.startsWith("video/") ||
+      mediaType.startsWith("font/") ||
+      mediaType.startsWith("model/") ||
+      mediaType.startsWith("application/")
+    );
+  };
+
   getRequiredProperties = (schema) => {
     return uniq(
       (schema && Array.isArray(schema.required) && schema.required) || [],
@@ -265,15 +302,26 @@ export class SchemaUtils {
         return this.config.Ts.Keyword.Any;
       }
 
-      const typeAlias =
-        get(this.config.primitiveTypes, [primitiveType, schema.format]) ||
-        get(this.config.primitiveTypes, [primitiveType, "$default"]) ||
-        this.config.primitiveTypes[primitiveType];
-
-      if (typeof typeAlias === "function") {
-        resultType = typeAlias(schema, this);
+      if (
+        primitiveType === this.config.Ts.Keyword.String &&
+        !schema.format &&
+        this.isBinaryLikeContentMediaType(schema.contentMediaType)
+      ) {
+        resultType = this.config.Ts.UnionType([
+          this.config.Ts.Keyword.File,
+          this.config.Ts.Keyword.Blob,
+        ]);
       } else {
-        resultType = typeAlias || primitiveType;
+        const typeAlias =
+          get(this.config.primitiveTypes, [primitiveType, schema.format]) ||
+          get(this.config.primitiveTypes, [primitiveType, "$default"]) ||
+          this.config.primitiveTypes[primitiveType];
+
+        if (typeof typeAlias === "function") {
+          resultType = typeAlias(schema, this);
+        } else {
+          resultType = typeAlias || primitiveType;
+        }
       }
     }
 

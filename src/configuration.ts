@@ -26,6 +26,7 @@ const TsKeyword = {
   Undefined: "undefined",
   Object: "object",
   File: "File",
+  Blob: "Blob",
   Date: "Date",
   Type: "type",
   Enum: "enum",
