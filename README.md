@@ -48,6 +48,7 @@ For more detailed configuration options, please consult the documentation.
 - [Why Swagger schemes are needed in frontend development ?](https://dev.to/js2me/why-swagger-schemes-are-needed-in-frontend-development-2cb4)
 - [Migration en douceur vers TypeScript (French)](https://www.premieroctet.com/blog/migration-typescript/)
 - [swagger-typescript-api usage (Japanese)](https://zenn.dev/watahaya/articles/2f4a716c47903b)
+- [Working with REST APIs using swagger-typescript-api (Russian)](https://habr.com/ru/articles/799853/)
 
 ## License
 
