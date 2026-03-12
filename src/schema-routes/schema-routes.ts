@@ -602,7 +602,9 @@ export class SchemaRoutes {
       (produces?.length ? produces : null) ??
       (successContentTypes?.length ? successContentTypes : null) ??
       contentTypes;
-    const successType = this.isBinaryOnlyContentTypes(typesToCheck)
+    const isBinarySuccessType = this.isBinaryOnlyContentTypes(typesToCheck);
+
+    const successType = isBinarySuccessType
       ? this.config.Ts.Keyword.Blob
       : successResponse?.type || this.config.Ts.Keyword.Any;
 
@@ -610,7 +612,9 @@ export class SchemaRoutes {
       contentTypes,
       responses: responseInfos,
       links,
+      typesToCheck,
       success: {
+        isBinary: isBinarySuccessType,
         schema: successResponse,
         type: successType,
       },
