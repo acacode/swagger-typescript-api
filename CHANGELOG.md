@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.6.2
+
+### Patch Changes
+
+- [`1f1ba56`](https://github.com/acacode/swagger-typescript-api/commit/1f1ba56ef331d64c0c3fef146902ec1c4edc64eb) Thanks [@js2me](https://github.com/js2me)! - add internal pass data for binary checks responses
+
 ## 13.6.1
 
 ### Patch Changes
