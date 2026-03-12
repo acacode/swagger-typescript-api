@@ -205,6 +205,10 @@ export class SwaggerSchemaResolver {
         basePath && route.startsWith(basePath)
           ? route.slice(basePath.length) || "/"
           : route;
+      const routeWithBase =
+        basePath && !route.startsWith(basePath)
+          ? `${basePath}${route.startsWith("/") ? route : `/${route}`}`
+          : route;
       const originalPathObject =
         get(originalPaths, route) ||
         get(
@@ -213,6 +217,7 @@ export class SwaggerSchemaResolver {
             ? routeWithoutBase
             : `/${routeWithoutBase}`,
         ) ||
+        get(originalPaths, routeWithBase) ||
         {};
 
       // walk by methods

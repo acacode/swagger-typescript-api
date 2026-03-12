@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`binary-produces > all binary produces variants generate Blob response type 1`] = `
+exports[`binary-produces-base-path > binary export with path including basePath generates Blob response type 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
@@ -13,7 +13,7 @@ exports[`binary-produces > all binary produces variants generate Blob response t
  * ---------------------------------------------------------------
  */
 
-export interface ReportData {
+export interface BinaryResponse {
   /** @format byte */
   data?: Blob;
 }
@@ -21,13 +21,7 @@ export interface ReportData {
 export interface ErrorResponse {
   /** @format int32 */
   code?: number;
-  details?: GenericObject[];
   message?: string;
-}
-
-export interface GenericObject {
-  "@type"?: string;
-  [key: string]: any;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -83,7 +77,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "/api/";
+  public baseUrl: string = "/base/";
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private abortControllers = new Map<CancelToken, AbortController>();
@@ -288,30 +282,29 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title Api
  * @version 0.1
- * @baseUrl /api/
+ * @baseUrl /base/
  */
 export class Api<
   SecurityDataType extends unknown,
 > extends HttpClient<SecurityDataType> {
-  v1 = {
+  base = {
     /**
      * No description
      *
-     * @tags reports
-     * @name GetReportExport
-     * @summary Export report
-     * @request GET:/v1/reports/export
+     * @tags exports
+     * @name GetBinaryExport
+     * @summary Get binary export
+     * @request GET:/base/v1/export
      */
-    getReportExport: (
+    getBinaryExport: (
       query: {
         period: string;
-        excludeIds?: string[];
         user?: string;
       },
       params: RequestParams = {},
     ) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/reports/export\`,
+        path: \`/base/v1/export\`,
         method: "GET",
         query: query,
         ...params,
@@ -320,13 +313,13 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
+     * @tags exports
      * @name GetPdfExport
-     * @request GET:/v1/export/pdf
+     * @request GET:/base/v1/export/pdf
      */
     getPdfExport: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/pdf\`,
+        path: \`/base/v1/export/pdf\`,
         method: "GET",
         ...params,
       }),
@@ -334,13 +327,13 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
+     * @tags exports
      * @name GetOctetExport
-     * @request GET:/v1/export/octet
+     * @request GET:/base/v1/export/octet
      */
     getOctetExport: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/octet\`,
+        path: \`/base/v1/export/octet\`,
         method: "GET",
         ...params,
       }),
@@ -348,13 +341,13 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
+     * @tags exports
      * @name GetPngExport
-     * @request GET:/v1/export/png
+     * @request GET:/base/v1/export/png
      */
     getPngExport: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/png\`,
+        path: \`/base/v1/export/png\`,
         method: "GET",
         format: "blob",
         ...params,
@@ -363,13 +356,13 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
+     * @tags exports
      * @name GetZipExport
-     * @request GET:/v1/export/zip
+     * @request GET:/base/v1/export/zip
      */
     getZipExport: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/zip\`,
+        path: \`/base/v1/export/zip\`,
         method: "GET",
         ...params,
       }),
@@ -377,153 +370,13 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
-     * @name GetMsExcelExport
-     * @request GET:/v1/export/ms-excel
-     */
-    getMsExcelExport: (params: RequestParams = {}) =>
-      this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/ms-excel\`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags reports
-     * @name GetOdtExport
-     * @request GET:/v1/export/odt
-     */
-    getOdtExport: (params: RequestParams = {}) =>
-      this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/odt\`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags reports
-     * @name GetPptExport
-     * @request GET:/v1/export/ppt
-     */
-    getPptExport: (params: RequestParams = {}) =>
-      this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/ppt\`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags reports
-     * @name GetRarExport
-     * @request GET:/v1/export/rar
-     */
-    getRarExport: (params: RequestParams = {}) =>
-      this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/rar\`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags reports
-     * @name GetGzipExport
-     * @request GET:/v1/export/gzip
-     */
-    getGzipExport: (params: RequestParams = {}) =>
-      this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/gzip\`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags reports
-     * @name GetTarExport
-     * @request GET:/v1/export/tar
-     */
-    getTarExport: (params: RequestParams = {}) =>
-      this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/tar\`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags reports
-     * @name GetJarExport
-     * @request GET:/v1/export/jar
-     */
-    getJarExport: (params: RequestParams = {}) =>
-      this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/jar\`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags reports
-     * @name GetEpubExport
-     * @request GET:/v1/export/epub
-     */
-    getEpubExport: (params: RequestParams = {}) =>
-      this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/epub\`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags reports
-     * @name GetDocExport
-     * @request GET:/v1/export/doc
-     */
-    getDocExport: (params: RequestParams = {}) =>
-      this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/doc\`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags reports
-     * @name GetRtfExport
-     * @request GET:/v1/export/rtf
-     */
-    getRtfExport: (params: RequestParams = {}) =>
-      this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/rtf\`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags reports
+     * @tags exports
      * @name GetXZipExport
-     * @request GET:/v1/export/x-zip
+     * @request GET:/base/v1/export/x-zip
      */
     getXZipExport: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/x-zip\`,
+        path: \`/base/v1/export/x-zip\`,
         method: "GET",
         ...params,
       }),
@@ -531,13 +384,27 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
+     * @tags exports
+     * @name GetGzipExport
+     * @request GET:/base/v1/export/gzip
+     */
+    getGzipExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/base/v1/export/gzip\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags exports
      * @name GetXGzipExport
-     * @request GET:/v1/export/x-gzip
+     * @request GET:/base/v1/export/x-gzip
      */
     getXGzipExport: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/x-gzip\`,
+        path: \`/base/v1/export/x-gzip\`,
         method: "GET",
         ...params,
       }),
@@ -545,13 +412,13 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
+     * @tags exports
      * @name GetXBzipExport
-     * @request GET:/v1/export/x-bzip
+     * @request GET:/base/v1/export/x-bzip
      */
     getXBzipExport: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/x-bzip\`,
+        path: \`/base/v1/export/x-bzip\`,
         method: "GET",
         ...params,
       }),
@@ -559,13 +426,13 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
+     * @tags exports
      * @name GetXBzip2Export
-     * @request GET:/v1/export/x-bzip2
+     * @request GET:/base/v1/export/x-bzip2
      */
     getXBzip2Export: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/x-bzip2\`,
+        path: \`/base/v1/export/x-bzip2\`,
         method: "GET",
         ...params,
       }),
@@ -573,13 +440,27 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
+     * @tags exports
+     * @name GetTarExport
+     * @request GET:/base/v1/export/tar
+     */
+    getTarExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/base/v1/export/tar\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags exports
      * @name GetX7ZExport
-     * @request GET:/v1/export/x-7z
+     * @request GET:/base/v1/export/x-7z
      */
     getX7ZExport: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/x-7z\`,
+        path: \`/base/v1/export/x-7z\`,
         method: "GET",
         ...params,
       }),
@@ -587,13 +468,13 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
+     * @tags exports
      * @name GetXRarExport
-     * @request GET:/v1/export/x-rar
+     * @request GET:/base/v1/export/x-rar
      */
     getXRarExport: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/x-rar\`,
+        path: \`/base/v1/export/x-rar\`,
         method: "GET",
         ...params,
       }),
@@ -601,13 +482,83 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
+     * @tags exports
+     * @name GetRarExport
+     * @request GET:/base/v1/export/rar
+     */
+    getRarExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/base/v1/export/rar\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags exports
+     * @name GetJarExport
+     * @request GET:/base/v1/export/jar
+     */
+    getJarExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/base/v1/export/jar\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags exports
+     * @name GetEpubExport
+     * @request GET:/base/v1/export/epub
+     */
+    getEpubExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/base/v1/export/epub\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags exports
+     * @name GetDocExport
+     * @request GET:/base/v1/export/doc
+     */
+    getDocExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/base/v1/export/doc\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags exports
+     * @name GetRtfExport
+     * @request GET:/base/v1/export/rtf
+     */
+    getRtfExport: (params: RequestParams = {}) =>
+      this.request<Blob, ErrorResponse>({
+        path: \`/base/v1/export/rtf\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags exports
      * @name GetXBinaryExport
-     * @request GET:/v1/export/x-binary
+     * @request GET:/base/v1/export/x-binary
      */
     getXBinaryExport: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/x-binary\`,
+        path: \`/base/v1/export/x-binary\`,
         method: "GET",
         ...params,
       }),
@@ -615,13 +566,13 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
+     * @tags exports
      * @name GetAbiwordExport
-     * @request GET:/v1/export/x-abiword
+     * @request GET:/base/v1/export/x-abiword
      */
     getAbiwordExport: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/x-abiword\`,
+        path: \`/base/v1/export/x-abiword\`,
         method: "GET",
         ...params,
       }),
@@ -629,13 +580,13 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
+     * @tags exports
      * @name GetFreearcExport
-     * @request GET:/v1/export/x-freearc
+     * @request GET:/base/v1/export/x-freearc
      */
     getFreearcExport: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/x-freearc\`,
+        path: \`/base/v1/export/x-freearc\`,
         method: "GET",
         ...params,
       }),
@@ -643,13 +594,13 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
+     * @tags exports
      * @name GetDocxExport
-     * @request GET:/v1/export/vnd-docx
+     * @request GET:/base/v1/export/vnd-docx
      */
     getDocxExport: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/vnd-docx\`,
+        path: \`/base/v1/export/vnd-docx\`,
         method: "GET",
         ...params,
       }),
@@ -657,13 +608,13 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
+     * @tags exports
      * @name GetOdsExport
-     * @request GET:/v1/export/vnd-ods
+     * @request GET:/base/v1/export/vnd-ods
      */
     getOdsExport: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/vnd-ods\`,
+        path: \`/base/v1/export/vnd-ods\`,
         method: "GET",
         ...params,
       }),
@@ -671,13 +622,13 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
+     * @tags exports
      * @name GetMsFontObjectExport
-     * @request GET:/v1/export/vnd-font
+     * @request GET:/base/v1/export/vnd-font
      */
     getMsFontObjectExport: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/vnd-font\`,
+        path: \`/base/v1/export/vnd-font\`,
         method: "GET",
         ...params,
       }),
@@ -685,13 +636,13 @@ export class Api<
     /**
      * No description
      *
-     * @tags reports
+     * @tags exports
      * @name GetVisioExport
-     * @request GET:/v1/export/vnd-visio
+     * @request GET:/base/v1/export/vnd-visio
      */
     getVisioExport: (params: RequestParams = {}) =>
       this.request<Blob, ErrorResponse>({
-        path: \`/v1/export/vnd-visio\`,
+        path: \`/base/v1/export/vnd-visio\`,
         method: "GET",
         ...params,
       }),

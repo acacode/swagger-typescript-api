@@ -320,6 +320,229 @@
         },
         "tags": ["reports"]
       }
+    },
+    "/v1/export/x-zip": {
+      "get": {
+        "operationId": "getXZipExport",
+        "produces": ["application/x-zip-compressed"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/x-gzip": {
+      "get": {
+        "operationId": "getXGzipExport",
+        "produces": ["application/x-gzip"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/x-bzip": {
+      "get": {
+        "operationId": "getXBzipExport",
+        "produces": ["application/x-bzip"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/x-bzip2": {
+      "get": {
+        "operationId": "getXBzip2Export",
+        "produces": ["application/x-bzip2"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/x-7z": {
+      "get": {
+        "operationId": "getX7zExport",
+        "produces": ["application/x-7z-compressed"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/x-rar": {
+      "get": {
+        "operationId": "getXRarExport",
+        "produces": ["application/x-rar-compressed"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/x-binary": {
+      "get": {
+        "operationId": "getXBinaryExport",
+        "produces": ["application/x-binary"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/x-abiword": {
+      "get": {
+        "operationId": "getAbiwordExport",
+        "produces": ["application/x-abiword"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/x-freearc": {
+      "get": {
+        "operationId": "getFreearcExport",
+        "produces": ["application/x-freearc"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/vnd-docx": {
+      "get": {
+        "operationId": "getDocxExport",
+        "produces": [
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/vnd-ods": {
+      "get": {
+        "operationId": "getOdsExport",
+        "produces": ["application/vnd.oasis.opendocument.spreadsheet"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/vnd-font": {
+      "get": {
+        "operationId": "getMsFontObjectExport",
+        "produces": ["application/vnd.ms-fontobject"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
+    },
+    "/v1/export/vnd-visio": {
+      "get": {
+        "operationId": "getVisioExport",
+        "produces": ["application/vnd.visio"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ReportData" }
+          },
+          "default": {
+            "description": "Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        },
+        "tags": ["reports"]
+      }
     }
   }
 }
