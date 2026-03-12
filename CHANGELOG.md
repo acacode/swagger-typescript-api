@@ -1,5 +1,13 @@
 # swagger-typescript-api
 
+## 13.6.3
+
+### Patch Changes
+
+- [`41bdc18`](https://github.com/acacode/swagger-typescript-api/commit/41bdc18c3a975992188af17b9d88f452dc9cc708) Thanks [@js2me](https://github.com/js2me)! - fixed convertation format: json\blob for responses with extractResponseBody flag
+
+- [`41bdc18`](https://github.com/acacode/swagger-typescript-api/commit/41bdc18c3a975992188af17b9d88f452dc9cc708) Thanks [@js2me](https://github.com/js2me)! - fix `contentTypes` internal field for route
+
 ## 13.6.2
 
 ### Patch Changes
