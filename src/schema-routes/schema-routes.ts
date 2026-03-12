@@ -1,8 +1,8 @@
 import { consola } from "consola";
-import { typeGuard } from "yummies/type-guard";
-import type { AnyObject } from "yummies/types";
 import { compact, flattenDeep, isEqual, mapValues, uniq } from "es-toolkit";
 import { camelCase, get, reduce } from "es-toolkit/compat";
+import { typeGuard } from "yummies/type-guard";
+import type { AnyObject } from "yummies/types";
 import type {
   GenerateApiConfiguration,
   ParsedRoute,
@@ -431,7 +431,8 @@ export class SchemaRoutes {
     const result: any[] = [];
 
     for (const [status, requestInfo] of Object.entries(requestInfos || {})) {
-      const contentTypes = this.getContentTypes([requestInfo], operationId);
+      // content types are derived from response `content` keys; never mix in operationId
+      const contentTypes = this.getContentTypes([requestInfo]);
       const links = this.getRouteLinksFromResponse(
         resolvedSwaggerSchema,
         requestInfo,
@@ -848,10 +849,80 @@ export class SchemaRoutes {
       );
 
       const successResponse = responseBodyInfo.success;
+      const contentKind = successResponse.schema?.contentKind;
+      const actualSchema = this.getSchemaFromRequestType(
+        successResponse.schema,
+      );
 
-      if (successResponse.schema && !successResponse.schema.$ref) {
-        const contentKind = successResponse.schema.contentKind;
-        const schema = this.getSchemaFromRequestType(successResponse.schema);
+      if (actualSchema && !actualSchema.$ref) {
+        successResponse.schema = this.schemaParserFabric.createParsedComponent({
+          schema: actualSchema,
+          typeName,
+          schemaPath: [routeInfo.operationId],
+        });
+        successResponse.schema.contentKind = contentKind;
+        if (successResponse.schema.typeData) {
+          successResponse.schema.typeData.isExtractedResponseBody = true;
+        }
+        successResponse.type = this.schemaParserFabric.getInlineParseContent({
+          $ref: successResponse.schema.$ref,
+        });
+
+        if (idx > -1) {
+          Object.assign(responseBodyInfo.responses[idx], {
+            ...successResponse.schema,
+            type: successResponse.type,
+          });
+        }
+      } else if (responseBodyInfo.success.isBinary) {
+        /* Binary response with $ref or OAS3 content: emit type alias GetXxxData = Blob and use Blob in route (same as isBinarySuccessType in getResponseBodyInfo). */
+        const blobSchema = { type: "string", format: "byte" };
+        successResponse.schema = this.schemaParserFabric.createParsedComponent({
+          schema: blobSchema,
+          typeName,
+          schemaPath: [routeInfo.operationId],
+        });
+        successResponse.schema.contentKind = contentKind;
+        if (successResponse.schema.typeData) {
+          successResponse.schema.typeData.isExtractedResponseBody = true;
+        }
+        successResponse.type = this.config.Ts.Keyword.Blob;
+
+        if (idx > -1) {
+          Object.assign(responseBodyInfo.responses[idx], {
+            ...successResponse.schema,
+            type: successResponse.type,
+          });
+        }
+      } else if (actualSchema?.$ref) {
+        /* Non-binary response with $ref: emit type alias GetXxxData = RefType (e.g. GetPetByIdData = Pet). */
+        successResponse.schema = this.schemaParserFabric.createParsedComponent({
+          schema: actualSchema,
+          typeName,
+          schemaPath: [routeInfo.operationId],
+        });
+        successResponse.schema.contentKind = contentKind;
+        if (successResponse.schema.typeData) {
+          successResponse.schema.typeData.isExtractedResponseBody = true;
+        }
+        successResponse.type = this.schemaParserFabric.getInlineParseContent({
+          $ref: successResponse.schema.$ref,
+        });
+
+        if (idx > -1) {
+          Object.assign(responseBodyInfo.responses[idx], {
+            ...successResponse.schema,
+            type: successResponse.type,
+          });
+        }
+      } else if (
+        successResponse.schema &&
+        actualSchema === null &&
+        (responseBodyInfo.success.type === this.config.Ts.Keyword.Any ||
+          responseBodyInfo.success.type === this.config.defaultResponseType)
+      ) {
+        /* Response with no content schema and type Any/void (e.g. form-url-encoded): preserve legacy extracted type alias (= any). When actualSchema is null but type is a real type (e.g. $ref to components/responses), skip so route keeps the correct type from getResponseBodyInfo. */
+        const schema = {};
         successResponse.schema = this.schemaParserFabric.createParsedComponent({
           schema,
           typeName,
