@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.6.1
+
+### Patch Changes
+
+- [`dc6f2db`](https://github.com/acacode/swagger-typescript-api/commit/dc6f2db48bf6198482599221af999fdad0738792) Thanks [@js2me](https://github.com/js2me)! - fixes `produces` should generate `Blob` response for all binary values
+
 ## 13.6.0
 
 ### Minor Changes
