@@ -21,7 +21,7 @@
         "type-fest": "^5.4.4",
         "typescript": "~5.9.3",
         "yaml": "^2.8.2",
-        "yummies": "7.10.0",
+        "yummies": "7.11.0",
       },
       "devDependencies": {
         "@biomejs/biome": "2.4.6",
@@ -413,7 +413,7 @@
 
     "dataloader": ["dataloader@1.4.0", "", {}, "sha512-68s5jYdlvasItOJnCuI2Q9s4q98g0pCyL3HrcKJu8KNugUl8ahgmZYg38ysLTgQjjXX3H8CJLkAvWrclWfcalw=="],
 
-    "dayjs": ["dayjs@1.11.19", "", {}, "sha512-t5EcLVS6QPBNqM2z8fakk/NKel+Xzshgt8FFKAn+qwlD1pzZWxh0nVCrvFK7ZDb6XucZeF9z8C7CBWTRIVApAw=="],
+    "dayjs": ["dayjs@1.11.20", "", {}, "sha512-YbwwqR/uYpeoP4pu043q+LTDLFBLApUP6VxRihdfNTqu4ubqMlGDLd6ErXhEgsyvY0K6nCs7nggYumAN+9uEuQ=="],
 
     "defu": ["defu@6.1.4", "", {}, "sha512-mEQCMmwJu317oSz8CwdIOdwf3xMif1ttiM8LTufzc3g6kR+9Pe236twL8j3IYT1F7GfRgGcW6MWxzZjLIkuHIg=="],
 
@@ -425,7 +425,7 @@
 
     "dir-glob": ["dir-glob@3.0.1", "", { "dependencies": { "path-type": "^4.0.0" } }, "sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA=="],
 
-    "dompurify": ["dompurify@3.3.1", "", { "optionalDependencies": { "@types/trusted-types": "^2.0.7" } }, "sha512-qkdCKzLNtrgPFP1Vo+98FRzJnBRGe4ffyCea9IwHB1fyxPOeNTHpLKYGd4Uk9xvNoH0ZoOjwZxNptyMwqrId1Q=="],
+    "dompurify": ["dompurify@3.3.3", "", { "optionalDependencies": { "@types/trusted-types": "^2.0.7" } }, "sha512-Oj6pzI2+RqBfFG+qOaOLbFXLQ90ARpcGG6UePL82bJLtdsa6CYJD7nmiU8MW9nQNOtCHV3lZ/Bzq1X0QYbBZCA=="],
 
     "dotenv": ["dotenv@8.6.0", "", {}, "sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g=="],
 
@@ -791,7 +791,7 @@
 
     "yargs-parser": ["yargs-parser@21.1.1", "", {}, "sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw=="],
 
-    "yummies": ["yummies@7.10.0", "", { "dependencies": { "class-variance-authority": "^0.7.1", "clsx": "^2.1.1", "dayjs": "^1.11.13", "dompurify": "^3.2.6", "nanoid": "^5.1.5", "tailwind-merge": "^3.3.1" }, "peerDependencies": { "mobx": "^6.12.4", "react": "^18 || ^19" }, "optionalPeers": ["mobx", "react"] }, "sha512-BXMmEYzFr/DtSvr1VMvctPVxQ/BZnx35oY2AGs6clkqgWnflsjqfuVle+8rH2uiMenmEf4I3OH9bRRW86yYyyg=="],
+    "yummies": ["yummies@7.11.0", "", { "dependencies": { "class-variance-authority": "^0.7.1", "clsx": "^2.1.1", "dayjs": "^1.11.20", "dompurify": "^3.3.3", "nanoid": "^5.1.6", "tailwind-merge": "^3.5.0" }, "peerDependencies": { "mobx": "^6.12.4", "react": "^18 || ^19" }, "optionalPeers": ["mobx", "react"] }, "sha512-JuDP4NdO5bPfYCTv4QkGHmJPKjMyJ1KcsxnSLOmge4qPxQFfZuCnP4hvpX1WWvF/xI/v3bytdgGV2i4ZmhDt2Q=="],
 
     "@manypkg/find-root/@types/node": ["@types/node@12.20.55", "", {}, "sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ=="],
 
