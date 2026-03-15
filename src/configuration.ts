@@ -120,6 +120,7 @@ export class CodeGenConfig {
   disableThrowOnError = false;
   sortTypes = false;
   sortRoutes = false;
+  sortRouteParams = false;
   templatePaths = {
     /** `templates/base` */
     base: "",
