@@ -18,14 +18,14 @@ paths:
           required: true
           schema:
             type: string
+      description: "This is a multine\
+      description"
       responses:
         204:
           description: "Accepted"
   /call2:
     get:
       operationId: "call2"
-      description: "This is a multiline
-        description"
       parameters:
         - in: path
           name: pathParam
@@ -35,3 +35,22 @@ paths:
       responses:
         204:
           description: "Accepted"
+  /call3:
+    post:
+      operationId: "call3"
+      requestBody:
+        description: "Die benötigten Daten für die Benutzernamen Änderung: Verschlü\
+        sselte Daten des ersten Aufrufs und der neue Benutzername"
+        required: true
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: "#/components/schemas/Test"
+      responses:
+        204:
+          description: "Accepted"
+
+components:
+  schemas:
+    Test:
+      type: "object"

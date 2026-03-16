@@ -4,9 +4,9 @@ import type { resolve } from "@apidevtools/swagger-parser";
 import SwaggerParser from "@apidevtools/swagger-parser";
 import consola from "consola";
 import type { OpenAPI } from "openapi-types";
-import * as YAML from "yaml";
 import type { AnyObject, Maybe, Primitive } from "yummies/types";
 import type { CodeGenConfig } from "./configuration.js";
+import { parseSchemaContent } from "./util/parse-schema-content.js";
 
 export interface RefDetails {
   ref: string;
@@ -140,15 +140,12 @@ export class ResolvedSwaggerSchema {
       const content = await response.text();
 
       try {
-        const parsed = JSON.parse(content);
+        const parsed = parseSchemaContent(content);
         if (parsed && typeof parsed === "object") {
           return parsed as AnyObject;
         }
       } catch {
-        const parsed = YAML.parse(content);
-        if (parsed && typeof parsed === "object") {
-          return parsed as AnyObject;
-        }
+        return null;
       }
     } catch (e) {
       consola.debug(e);
@@ -498,20 +495,11 @@ export class ResolvedSwaggerSchema {
 
     try {
       const content = fs.readFileSync(filePath, "utf8");
-      const parsed = JSON.parse(content);
+      const parsed = parseSchemaContent(content);
       this.externalSchemaCache.set(filePath, parsed);
       return parsed;
     } catch {
-      try {
-        const content = fs.readFileSync(filePath, "utf8");
-        const parsed = YAML.parse(content);
-        if (parsed && typeof parsed === "object") {
-          this.externalSchemaCache.set(filePath, parsed as AnyObject);
-          return parsed as AnyObject;
-        }
-      } catch (e) {
-        consola.debug(e);
-      }
+      consola.debug("Failed to parse external schema", filePath);
     }
 
     return null;

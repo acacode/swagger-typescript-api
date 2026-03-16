@@ -2,11 +2,10 @@ import { consola } from "consola";
 import { compact, merge, uniq } from "es-toolkit";
 import { get } from "es-toolkit/compat";
 import type { OpenAPI, OpenAPIV2, OpenAPIV3 } from "openapi-types";
-import type { AnyObject } from "yummies/types";
 import * as swagger2openapi from "swagger2openapi";
-import * as YAML from "yaml";
 import type { CodeGenConfig } from "./configuration.js";
 import { ResolvedSwaggerSchema } from "./resolved-swagger-schema.js";
+import { parseSchemaContent } from "./util/parse-schema-content.js";
 import type { FileSystem } from "./util/file-system.js";
 import { Request } from "./util/request.js";
 
@@ -133,12 +132,7 @@ export class SwaggerSchemaResolver {
 
   processSwaggerSchemaFile(file: string) {
     if (typeof file !== "string") return file;
-
-    try {
-      return JSON.parse(file);
-    } catch {
-      return YAML.parse(file);
-    }
+    return parseSchemaContent(file);
   }
 
   private normalizeRefValue(ref: string): string {

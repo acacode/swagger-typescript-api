@@ -13,6 +13,8 @@ exports[`issue-1321 > to match snapshot 1`] = `
  * ---------------------------------------------------------------
  */
 
+export type Test = object;
+
 export interface Call1Params {
   pathParam1: string;
   pathParam2: string;
@@ -286,7 +288,7 @@ export class Api<
 > extends HttpClient<SecurityDataType> {
   call1 = {
     /**
-     * No description
+     * @description This is a multinedescription
      *
      * @name Call1
      * @request GET:/call1
@@ -303,7 +305,7 @@ export class Api<
   };
   call2 = {
     /**
-     * @description This is a multiline description
+     * No description
      *
      * @name Call2
      * @request GET:/call2
@@ -312,6 +314,22 @@ export class Api<
       this.request<void, any>({
         path: \`/call2\`,
         method: "GET",
+        ...params,
+      }),
+  };
+  call3 = {
+    /**
+     * No description
+     *
+     * @name Call3
+     * @request POST:/call3
+     */
+    call3: (data: Test, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: \`/call3\`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
   };
