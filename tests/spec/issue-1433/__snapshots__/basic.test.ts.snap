@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`issue-1321 > to match snapshot 1`] = `
+exports[`issue-1433 > to match snapshot 1`] = `
 "/* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
@@ -13,15 +13,8 @@ exports[`issue-1321 > to match snapshot 1`] = `
  * ---------------------------------------------------------------
  */
 
-export type Test = object;
-
-export interface Call1Params {
-  pathParam1: string;
-  pathParam2: string;
-}
-
-export interface Call2Params {
-  pathParam: string;
+export interface GetFormularParams {
+  myProp: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -286,50 +279,17 @@ export class HttpClient<SecurityDataType = unknown> {
 export class Api<
   SecurityDataType extends unknown,
 > extends HttpClient<SecurityDataType> {
-  call1 = {
-    /**
-     * @description This is a multinedescription
-     *
-     * @name Call1
-     * @request GET:/call1
-     */
-    call1: (
-      { pathParam1, pathParam2, ...query }: Call1Params,
-      params: RequestParams = {},
-    ) =>
-      this.request<void, any>({
-        path: \`/call1\`,
-        method: "GET",
-        ...params,
-      }),
-  };
-  call2 = {
+  formular = {
     /**
      * No description
      *
-     * @name Call2
-     * @request GET:/call2
+     * @name GetFormular
+     * @request GET:/formular/{myProp}
      */
-    call2: ({ pathParam, ...query }: Call2Params, params: RequestParams = {}) =>
+    getFormular: ({ myProp }: GetFormularParams, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: \`/call2\`,
+        path: \`/formular/\${myProp}\`,
         method: "GET",
-        ...params,
-      }),
-  };
-  call3 = {
-    /**
-     * No description
-     *
-     * @name Call3
-     * @request POST:/call3
-     */
-    call3: (data: Test, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: \`/call3\`,
-        method: "POST",
-        body: data,
-        type: ContentType.Json,
         ...params,
       }),
   };

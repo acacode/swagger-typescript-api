@@ -4,7 +4,7 @@ import * as path from "node:path";
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
 import { generateApi } from "../../../src/index.js";
 
-describe("issue-1321", async () => {
+describe("issue-1433", async () => {
   let tmpdir = "";
 
   beforeAll(async () => {
