@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.6.5
+
+### Patch Changes
+
+- [`bd68761`](https://github.com/acacode/swagger-typescript-api/commit/bd687619430890668466b948cf281fc412824bd4) Thanks [@js2me](https://github.com/js2me)! - fixed bug linked with unused query param (bug [#1433](https://github.com/acacode/swagger-typescript-api/issues/1433) , 1 point)
+
 ## 13.6.4
 
 ### Patch Changes
