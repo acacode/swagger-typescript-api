@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.6.4
+
+### Patch Changes
+
+- [`df7147e`](https://github.com/acacode/swagger-typescript-api/commit/df7147e6d5cafc68d0c1ea7d58f8c1f8376fe460) Thanks [@js2me](https://github.com/js2me)! - fixed bug [#1433](https://github.com/acacode/swagger-typescript-api/issues/1433) (multiline descriptions bug)
+
 ## 13.6.3
 
 ### Patch Changes
