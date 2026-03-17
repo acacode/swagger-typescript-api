@@ -71,7 +71,7 @@ paths: {}
         '  title: "App NG"',
         '  version: "1.0.0"',
         '  description: "First line\\',
-        "    second line\"",
+        '    second line"',
         "paths: {}",
         "",
       ].join("\r\n"),

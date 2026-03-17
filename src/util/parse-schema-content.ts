@@ -33,10 +33,7 @@ function normalizeYamlEscapedLineBreaks(content: string): string {
           index += 1;
         }
 
-        while (
-          content[index + 1] === " " ||
-          content[index + 1] === "\t"
-        ) {
+        while (content[index + 1] === " " || content[index + 1] === "\t") {
           index += 1;
         }
 
