@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.6.6
+
+### Patch Changes
+
+- [`d57ecdc`](https://github.com/acacode/swagger-typescript-api/commit/d57ecdcc81124e266fb117fd3d2bb4d62b038c4f) Thanks [@js2me](https://github.com/js2me)! - fix bug [#1433](https://github.com/acacode/swagger-typescript-api/issues/1433) (incorrect yaml multiline files)
+
 ## 13.6.5
 
 ### Patch Changes
