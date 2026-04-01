@@ -15,16 +15,57 @@ describe("issue-1433", async () => {
     await fs.rm(tmpdir, { recursive: true });
   });
 
-  test("to match snapshot", async () => {
+  test("path-only route with extractRequestParams matches snapshot", async () => {
     await generateApi({
       fileName: "schema",
       input: path.resolve(import.meta.dirname, "schema.yaml"),
       output: tmpdir,
       silent: true,
       extractRequestParams: true,
+      extractRequestBody: true,
+      extractResponseBody: true,
+      extractResponses: true,
     });
 
     const content = await fs.readFile(path.join(tmpdir, "schema.ts"), {
+      encoding: "utf8",
+    });
+
+    expect(content).toMatchSnapshot();
+  });
+
+  test("contract.yaml matches codegen snapshot", async () => {
+    await generateApi({
+      fileName: "contract",
+      input: path.resolve(import.meta.dirname, "contract.yaml"),
+      output: tmpdir,
+      silent: true,
+      extractRequestParams: true,
+      extractRequestBody: true,
+      extractResponseBody: true,
+      extractResponses: true,
+    });
+
+    const content = await fs.readFile(path.join(tmpdir, "contract.ts"), {
+      encoding: "utf8",
+    });
+
+    expect(content).toMatchSnapshot();
+  });
+
+  test("contract-valid.yaml (derived from upstream) matches codegen snapshot", async () => {
+    await generateApi({
+      fileName: "contract-valid",
+      input: path.resolve(import.meta.dirname, "contract-valid.yaml"),
+      output: tmpdir,
+      silent: true,
+      extractRequestParams: true,
+      extractRequestBody: true,
+      extractResponseBody: true,
+      extractResponses: true,
+    });
+
+    const content = await fs.readFile(path.join(tmpdir, "contract-valid.ts"), {
       encoding: "utf8",
     });
 

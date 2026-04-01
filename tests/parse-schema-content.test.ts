@@ -83,4 +83,27 @@ paths: {}
       },
     });
   });
+
+  test("repairs YAML double-quoted strings broken by raw newlines (issue #1433)", () => {
+    const schema = parseSchemaContent(`
+openapi: "3.0.3"
+info:
+  title: "App NG"
+paths:
+  /x:
+    get:
+      description: "This is a multine
+      description"
+`);
+
+    expect(schema).toMatchObject({
+      paths: {
+        "/x": {
+          get: {
+            description: "This is a multine\ndescription",
+          },
+        },
+      },
+    });
+  });
 });
