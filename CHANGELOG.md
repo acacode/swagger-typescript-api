@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.6.7
+
+### Patch Changes
+
+- [`4603a7e`](https://github.com/acacode/swagger-typescript-api/commit/4603a7e99a9193e20389f07bed815ef3219ed7d0) Thanks [@js2me](https://github.com/js2me)! - fixed bug [#1668](https://github.com/acacode/swagger-typescript-api/issues/1668) (random of type names)
+
 ## 13.6.6
 
 ### Patch Changes
