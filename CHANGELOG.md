@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.6.8
+
+### Patch Changes
+
+- [`8414b3c`](https://github.com/acacode/swagger-typescript-api/commit/8414b3c719d2c2ed3d0799dcae319d14574716c3) Thanks [@js2me](https://github.com/js2me)! - Fix extracted response/error type names colliding with existing schemas. Add tests.
+
 ## 13.6.7
 
 ### Patch Changes
