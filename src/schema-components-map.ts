@@ -81,9 +81,9 @@ export class SchemaComponentsMap {
     return usageComponent;
   }
 
-  getComponents() {
+  getComponents = () => {
     return this._data;
-  }
+  };
 
   filter(...componentNames: (string[] | string)[]) {
     return this._data.filter((it) =>

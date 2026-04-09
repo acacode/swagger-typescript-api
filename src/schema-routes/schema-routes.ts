@@ -1,6 +1,7 @@
 import { consola } from "consola";
 import { compact, flattenDeep, isEqual, mapValues, uniq } from "es-toolkit";
 import { camelCase, get, reduce } from "es-toolkit/compat";
+import { callFunction } from "yummies/common";
 import { typeGuard } from "yummies/type-guard";
 import type { AnyObject } from "yummies/types";
 import type {
@@ -39,6 +40,12 @@ const CONTENT_KIND = {
   TEXT: "TEXT",
 };
 
+/**
+ * When a colliding extract name is repeatedly resolved, cap iterations so a resolver
+ * bug cannot loop forever. In practice 1–2 attempts are enough (suffix list is short).
+ */
+const MAX_EXTRACT_SCHEMA_KEY_COLLISION_ATTEMPTS = 32;
+
 export class SchemaRoutes {
   schemaUtils: SchemaUtils;
   FORM_DATA_TYPES: string[] = [];
@@ -62,6 +69,45 @@ export class SchemaRoutes {
       this.schemaUtils.getSchemaType({ type: "string", format: "binary" }),
     ]);
   }
+
+  /**
+   * `extractResponseBody` / `extractResponseError` call `createParsedComponent`, which
+   * registers `#/components/schemas/<typeName>`. If that key already exists (e.g.
+   * `MergeFluffyData` in definitions), the map entry would be overwritten unless we
+   * pick another name via `resolveTypeName` after reserving the colliding one.
+   *
+   * `getComponents` may be missing in narrow unit tests that pass a stub map.
+   *
+   * `resolveTypeName` ends in `NameResolver.resolve`, which **reserves** the chosen
+   * string when `shouldReserve` is true (default). So after a colliding first pick,
+   * the next `resolveTypeName` skips that variant. The extra `reserve([typeName])`
+   * is still needed when callers pass `shouldReserve: false` — then the first pick
+   * is not auto-reserved and we must block it before retrying.
+   */
+  extractTypeNameWithoutSchemaKeyCollision = (
+    routeNameUsage: string,
+    // Mirrors `SchemaUtils.resolveTypeName` options (loosely typed in this file).
+    options: any,
+  ) => {
+    const refFor = (name: string) =>
+      this.schemaComponentsMap.createRef(["components", "schemas", name]);
+    const existingComponents =
+      callFunction(this.schemaComponentsMap.getComponents) ?? [];
+    const collides = (name: string | null) =>
+      !!name && existingComponents.some((c) => c.$ref === refFor(name));
+
+    let typeName = this.schemaUtils.resolveTypeName(routeNameUsage, options);
+    for (
+      let attempt = 0;
+      attempt < MAX_EXTRACT_SCHEMA_KEY_COLLISION_ATTEMPTS;
+      attempt++
+    ) {
+      if (!collides(typeName)) break;
+      this.config.componentTypeNameResolver.reserve([typeName as string]);
+      typeName = this.schemaUtils.resolveTypeName(routeNameUsage, options);
+    }
+    return typeName;
+  };
 
   createRequestsMap = (
     resolvedSwaggerSchema: ResolvedSwaggerSchema,
@@ -839,10 +885,13 @@ export class SchemaRoutes {
       responseBodyInfo.success &&
       responseBodyInfo.success.schema
     ) {
-      const typeName = this.schemaUtils.resolveTypeName(routeName.usage, {
-        suffixes: this.config.extractingOptions.responseBodySuffix,
-        resolver: this.config.extractingOptions.responseBodyNameResolver,
-      });
+      const typeName = this.extractTypeNameWithoutSchemaKeyCollision(
+        routeName.usage,
+        {
+          suffixes: this.config.extractingOptions.responseBodySuffix,
+          resolver: this.config.extractingOptions.responseBodyNameResolver,
+        },
+      );
 
       const idx = responseBodyInfo.responses.indexOf(
         responseBodyInfo.success.schema,
@@ -952,10 +1001,13 @@ export class SchemaRoutes {
       responseBodyInfo.error.schemas &&
       responseBodyInfo.error.schemas.length
     ) {
-      const typeName = this.schemaUtils.resolveTypeName(routeName.usage, {
-        suffixes: this.config.extractingOptions.responseErrorSuffix,
-        resolver: this.config.extractingOptions.responseErrorNameResolver,
-      });
+      const typeName = this.extractTypeNameWithoutSchemaKeyCollision(
+        routeName.usage,
+        {
+          suffixes: this.config.extractingOptions.responseErrorSuffix,
+          resolver: this.config.extractingOptions.responseErrorNameResolver,
+        },
+      );
 
       const errorSchemas = compact(
         responseBodyInfo.error.schemas.map(this.getSchemaFromRequestType),
