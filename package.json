@@ -60,7 +60,7 @@
     "type-fest": "^5.4.4",
     "typescript": "~6.0.2",
     "yaml": "^2.8.2",
-    "yummies": "7.17.0"
+    "yummies": "7.18.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.11",
