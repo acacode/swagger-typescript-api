@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.6.10
+
+### Patch Changes
+
+- [`08026ef`](https://github.com/acacode/swagger-typescript-api/commit/08026ef36597a3b79098b454b173817a36e36f84) Thanks [@js2me](https://github.com/js2me)! - add servers field to route info raw
+
 ## 13.6.9
 
 ### Patch Changes
