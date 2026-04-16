@@ -1156,7 +1156,7 @@ export class SchemaRoutes {
     );
 
     const rawRouteInfo = {
-      ...otherInfo,
+      ...routeInfo,
       pathArgs,
       operationId,
       method,

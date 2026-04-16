@@ -302,7 +302,7 @@ export interface RouteLinkInfo {
   parameters?: Record<string, string>;
 }
 
-export type RawRouteInfo = {
+export type RawRouteInfo = import("swagger-schema-official").Operation & {
   operationId: string;
   method: string;
   route: string;
@@ -312,7 +312,7 @@ export type RawRouteInfo = {
   description?: string;
   tags?: string[];
   summary?: string;
-  responses?: import("swagger-schema-official").Spec["responses"];
+  responses?: import("swagger-schema-official").Operation["responses"];
   produces?: string[];
   requestBody?: object;
   consumes?: string[];
