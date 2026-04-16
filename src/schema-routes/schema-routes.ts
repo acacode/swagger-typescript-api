@@ -1096,6 +1096,7 @@ export class SchemaRoutes {
     method,
     resolvedSwaggerSchema: ResolvedSwaggerSchema,
     parsedSchemas,
+    routeServers,
   ): ParsedRoute => {
     const { security: globalSecurity } = resolvedSwaggerSchema.usageSchema;
     const { moduleNameIndex, moduleNameFirstTag, extractRequestParams } =
@@ -1112,8 +1113,10 @@ export class SchemaRoutes {
       requestBodyName,
       produces,
       consumes,
-      ...otherInfo
     } = routeInfo;
+
+    routeInfo.servers = routeInfo.servers ?? routeServers;
+
     const {
       route,
       pathParams: pathParamsFromRouteName,
@@ -1354,18 +1357,25 @@ export class SchemaRoutes {
     );
 
     for (const [rawRouteName, routeInfoByMethodsMap] of pathsEntries) {
-      const routeInfosMap = this.createRequestsMap(
+      const routeInfosMap: AnyObject = this.createRequestsMap(
         resolvedSwaggerSchema,
         routeInfoByMethodsMap,
       );
 
+      const routeServers = routeInfosMap["servers"];
+
       for (const [method, routeInfo] of Object.entries(routeInfosMap)) {
+        if (method === "servers") {
+          continue;
+        }
+
         const parsedRouteInfo = this.parseRouteInfo(
           rawRouteName,
           routeInfo,
           method,
           resolvedSwaggerSchema,
           parsedSchemas,
+          routeServers,
         );
         const processedRouteInfo =
           this.config.hooks.onCreateRoute(parsedRouteInfo);
