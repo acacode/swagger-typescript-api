@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.6.9
+
+### Patch Changes
+
+- [`756f5aa`](https://github.com/acacode/swagger-typescript-api/commit/756f5aa7cf6176d5f3cab5946165a6ed932b51df) Thanks [@js2me](https://github.com/js2me)! - rich typings and data for parsed route raw data
+
 ## 13.6.8
 
 ### Patch Changes
