@@ -610,6 +610,8 @@ export interface GenerateApiConfiguration {
     toJS: boolean;
     /** disable throwing on a non-successful response */
     disableThrowOnError: boolean;
+    /** disable formatting and normalization of generated type names */
+    disableFormatTypeNames: boolean;
     /**
      * output only errors to console
      * @default false

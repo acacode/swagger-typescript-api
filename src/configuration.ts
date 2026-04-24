@@ -118,6 +118,7 @@ export class CodeGenConfig {
   httpClientType = CONSTANTS.HTTP_CLIENT.FETCH;
   unwrapResponseData = false;
   disableThrowOnError = false;
+  disableFormatTypeNames = false;
   sortTypes = false;
   sortRoutes = false;
   templatePaths = {

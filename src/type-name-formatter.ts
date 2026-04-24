@@ -27,28 +27,36 @@ export class TypeNameFormatter {
 
     const hashKey = `${typePrefix}_${name}_${typeSuffix}`;
 
+    if (this.formattedModelNamesMap.has(hashKey)) {
+      return this.formattedModelNamesMap.get(hashKey);
+    }
+
     if (typeof name !== "string") {
       consola.warn("wrong model name", name);
       return name;
     }
 
-    // constant names like LEFT_ARROW, RIGHT_FORWARD, ETC_KEY, _KEY_NUM_
-    if (/^(?!\d)([A-Z0-9_]{1,})$/g.test(name)) {
-      return compact([typePrefix, name, typeSuffix]).join("_");
+    let resultName = name;
+
+    if (this.config.disableFormatTypeNames) {
+      resultName = compact([typePrefix, resultName, typeSuffix]).join("_");
+    } else {
+      // https://github.com/acacode/swagger-typescript-api/issues/1260
+      if (/^(?!\d)([A-Z0-9_]{1,})$/g.test(resultName)) {
+        resultName = compact([typePrefix, resultName, typeSuffix]).join("_");
+      } else {
+        const fixedModelName = this.fixModelName(resultName, {
+          type: schemaType,
+        });
+        resultName = startCase(
+          compact([typePrefix, fixedModelName, typeSuffix]).join("_"),
+        ).replace(/\s/g, "");
+      }
     }
 
-    if (this.formattedModelNamesMap.has(hashKey)) {
-      return this.formattedModelNamesMap.get(hashKey);
-    }
-
-    const fixedModelName = this.fixModelName(name, { type: schemaType });
-
-    const formattedName = startCase(
-      `${typePrefix}_${fixedModelName}_${typeSuffix}`,
-    ).replace(/\s/g, "");
     const formattedResultName =
-      this.config.hooks.onFormatTypeName?.(formattedName, name, schemaType) ||
-      formattedName;
+      this.config.hooks.onFormatTypeName?.(resultName, name, schemaType) ||
+      resultName;
 
     this.formattedModelNamesMap.set(hashKey, formattedResultName);
 
@@ -81,7 +89,9 @@ export class TypeNameFormatter {
       }
 
       if (name.includes("-")) {
-        return startCase(name).replace(/ /g, "");
+        return this.config.disableFormatTypeNames
+          ? name.replace(/-/g, "_")
+          : startCase(name).replace(/ /g, "");
       }
     }
 
