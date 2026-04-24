@@ -1,5 +1,54 @@
 # swagger-typescript-api
 
+## 13.7.0
+
+### Minor Changes
+
+- [`beccbaa`](https://github.com/acacode/swagger-typescript-api/commit/beccbaab02aaa09aea1ec65b71581071ef8cc024) Thanks [@js2me](https://github.com/js2me)! - Add `typeNameSeparator` config option for joining `typePrefix`, type name,
+  and `typeSuffix` in `TypeNameFormatter`.
+
+  This separator is primarily effective with `disableFormatTypeNames: true`,
+  or when custom `hooks.onFormatTypeName` preserves separators without
+  normalization.
+
+- [`162739a`](https://github.com/acacode/swagger-typescript-api/commit/162739a04d13bc49e073ee85a8c79ff8cd79d4ca) Thanks [@js2me](https://github.com/js2me)! - Add `disableFormatTypeNames` option to disable type name formatting
+  and normalization in the generator.
+
+  When enabled, generated names keep raw separators (for example,
+  `Foo_Bar` stays `Foo_Bar`), which prevents collisions caused by
+  `startCase`-based normalization (such as `Foo_Bar` and `FooBar`
+  both becoming `FooBar`).
+
+  The option is available in config and via CLI as
+  `--disable-format-type-names`, and is covered by a dedicated
+  spec test in `tests/spec/disableFormatTypeNames`.
+
+### Patch Changes
+
+- [#1726](https://github.com/acacode/swagger-typescript-api/pull/1726) [`1b60264`](https://github.com/acacode/swagger-typescript-api/commit/1b602645a1019bc5d190a6c7514a660fd51c65cb) Thanks [@mlewando-cp](https://github.com/mlewando-cp)! - Dedupe colliding TypeScript identifiers produced by the `TypeNameFormatter`.
+
+  Two OpenAPI schema keys that differ only in separator placement — e.g.
+  `Foo_Bar` and `FooBar` — used to collapse to the same identifier via
+  `startCase` + whitespace-strip and emit two `export interface FooBar`
+  declarations (TS2717 whenever the shapes differed).
+
+  `TypeNameFormatter` now exposes a `precommit(rawNames)` method the generator
+  calls once after loading schema components and before schema parsing. It
+  resolves every raw name in two passes — canonical names (raw === formatted
+  output) claim their slot first, then non-canonical names suffix-until-free —
+  so user-declared identifiers like `FooBar1` are preserved regardless of
+  source order, and collisions deterministically produce `FooBar`, `FooBar1`,
+  `FooBar2`, … References to each schema (including inline generics in route
+  handlers) stay consistent with the emitted `export interface` declarations.
+
+  `format()` is now a pure cache lookup with a fallback for names discovered
+  after precommit (enum keys, `extractEnums`/`extractResponses` results). All
+  formatting logic is concentrated in a single private `computeFormattedName`
+  helper, so the new behavior composes cleanly with `disableFormatTypeNames`
+  and `typeNameSeparator`.
+
+  Fixes [#1724](https://github.com/acacode/swagger-typescript-api/issues/1724).
+
 ## 13.6.11
 
 ### Patch Changes
