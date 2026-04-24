@@ -149,18 +149,6 @@ export class SchemaUtils {
     return isRequired;
   };
 
-  // isNullMissingInType = (schema, type) => {
-  //   const { nullable, type: schemaType } = schema || {};
-  //   return (
-  //     (nullable ||
-  //       !!get(schema, "x-nullable") ||
-  //       schemaType === this.config.Ts.Keyword.Null) &&
-  //     typeof type === "string" &&
-  //     !type.includes(` ${this.config.Ts.Keyword.Null}`) &&
-  //     !type.includes(`${this.config.Ts.Keyword.Null} `)
-  //   );
-  // };
-
   isNullMissingInType = (schema, type) => {
     const { nullable, type: schemaType } = schema || {};
     if (
