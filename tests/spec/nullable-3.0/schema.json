@@ -77,6 +77,38 @@
                 "type": "null"
               }
             ]
+          },
+          "objectMaybeNullAllOf": {
+            "nullable": true,
+            "allOf": [{ "$ref": "#/components/schemas/OtherObject" }]
+          },
+          "inlineObjectMaybeNullAllOf": {
+            "nullable": true,
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "value": { "type": "string" }
+                }
+              }
+            ]
+          },
+          "intersectionMaybeNullAllOf": {
+            "nullable": true,
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "a": { "type": "string", "nullable": true }
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "b": { "type": "string" }
+                }
+              }
+            ]
           }
         },
         "required": [
@@ -85,7 +117,10 @@
           "otherObjectMaybeNullA",
           "otherObjectMaybeNullB",
           "otherObjectMaybeNullC",
-          "otherObjectMaybeNullD"
+          "otherObjectMaybeNullD",
+          "objectMaybeNullAllOf",
+          "inlineObjectMaybeNullAllOf",
+          "intersectionMaybeNullAllOf"
         ]
       },
       "OtherObject": {
