@@ -151,6 +151,7 @@ export class CodeGenConfig {
   silent = false;
   typePrefix = "";
   typeSuffix = "";
+  typeNameSeparator = "_";
   enumKeyPrefix = "";
   enumKeySuffix = "";
   patch = false;

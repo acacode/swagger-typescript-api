@@ -16,14 +16,18 @@ export class TypeNameFormatter {
   format = (name: string, options: { type?: FormattingSchemaType } = {}) => {
     const schemaType = options.type ?? "type-name";
 
-    const typePrefix =
-      schemaType === "enum-key"
-        ? this.config.enumKeyPrefix
-        : this.config.typePrefix;
-    const typeSuffix =
-      schemaType === "enum-key"
-        ? this.config.enumKeySuffix
-        : this.config.typeSuffix;
+    let typePrefix: string;
+    let typeSuffix: string;
+
+    if (schemaType === "enum-key") {
+      typePrefix = this.config.enumKeyPrefix;
+      typeSuffix = this.config.enumKeySuffix;
+    } else {
+      typePrefix = this.config.typePrefix;
+      typeSuffix = this.config.typeSuffix;
+    }
+
+    const typeNameSeparator = this.config.typeNameSeparator;
 
     const hashKey = `${typePrefix}_${name}_${typeSuffix}`;
 
@@ -39,17 +43,23 @@ export class TypeNameFormatter {
     let resultName = name;
 
     if (this.config.disableFormatTypeNames) {
-      resultName = compact([typePrefix, resultName, typeSuffix]).join("_");
+      resultName = compact([typePrefix, resultName, typeSuffix]).join(
+        typeNameSeparator,
+      );
     } else {
       // https://github.com/acacode/swagger-typescript-api/issues/1260
       if (/^(?!\d)([A-Z0-9_]{1,})$/g.test(resultName)) {
-        resultName = compact([typePrefix, resultName, typeSuffix]).join("_");
+        resultName = compact([typePrefix, resultName, typeSuffix]).join(
+          typeNameSeparator,
+        );
       } else {
         const fixedModelName = this.fixModelName(resultName, {
           type: schemaType,
         });
         resultName = startCase(
-          compact([typePrefix, fixedModelName, typeSuffix]).join("_"),
+          compact([typePrefix, fixedModelName, typeSuffix]).join(
+            typeNameSeparator,
+          ),
         ).replace(/\s/g, "");
       }
     }

@@ -551,6 +551,13 @@ export interface GenerateApiConfiguration {
     typePrefix: string;
     /** suffix string value for type names */
     typeSuffix: string;
+    /**
+     * separator between prefix/name/suffix for formatted type names.
+     * In practice this is most visible with `disableFormatTypeNames: true`
+     * or when a custom `hooks.onFormatTypeName` keeps separators unchanged.
+     * By default name formatting may normalize/remove separators (for example `_`).
+     */
+    typeNameSeparator: string;
     /** prefix string value for enum keys */
     enumKeyPrefix: string;
     /** suffix string value for enum keys */
