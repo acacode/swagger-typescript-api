@@ -31,4 +31,41 @@ describe("basic", async () => {
 
     expect(content).toMatchSnapshot();
   });
+
+  test("edge case with prefix and suffix", async () => {
+    await generateApi({
+      fileName: "schema",
+      input: path.resolve(import.meta.dirname, "schema.json"),
+      output: tmpdir,
+      silent: true,
+      enumNamesAsValues: false,
+      generateClient: false,
+      enumKeyPrefix: "V_aL",
+      enumKeySuffix: "Ca_Se_CamelCase",
+    });
+
+    const content = await fs.readFile(path.join(tmpdir, "schema.ts"), {
+      encoding: "utf8",
+    });
+
+    expect(content).toMatchSnapshot();
+  });
+
+  test("transform pure lowercase snake_case to PascalCase", async () => {
+    await generateApi({
+      fileName: "schema",
+      input: path.resolve(import.meta.dirname, "schema.json"),
+      output: tmpdir,
+      silent: true,
+      enumNamesAsValues: false,
+      generateClient: false,
+    });
+
+    const content = await fs.readFile(path.join(tmpdir, "schema.ts"), {
+      encoding: "utf8",
+    });
+
+    // Check that pure lowercase snake_case values are transformed to PascalCase
+    expect(content).toMatchSnapshot();
+  });
 });
