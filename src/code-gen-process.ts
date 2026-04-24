@@ -140,6 +140,13 @@ export class CodeGenProcess {
         compact(["schemas", this.config.extractResponses && "responses"]),
       );
 
+    // Resolve the TypeScript identifier for every schema component upfront,
+    // before the parser starts calling `format()`. This lets `format()` stay
+    // a pure cache lookup and keeps collision handling concentrated in one
+    // place so results are source-order independent and inline type strings
+    // captured during schema parsing can't go stale. See #1724.
+    this.typeNameFormatter.precommit(componentsToParse.map((c) => c.typeName));
+
     const parsedSchemas = componentsToParse.map((schemaComponent) => {
       const parsed = this.schemaParserFabric.parseSchema(
         schemaComponent.rawTypeData,
