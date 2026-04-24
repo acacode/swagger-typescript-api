@@ -1,0 +1,63 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "name-collision same-raw-name reused",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/a": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Dog" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/b": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Dog" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/c": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Dog" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Dog": {
+        "type": "object",
+        "required": ["name"],
+        "properties": { "name": { "type": "string" } }
+      }
+    }
+  }
+}
