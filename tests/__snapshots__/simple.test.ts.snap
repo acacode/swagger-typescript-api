@@ -9534,17 +9534,19 @@ export type CodeScanningAlertDismissedReason =
 /** Identifies the variable values associated with the environment in which the analysis that generated this alert instance was performed, such as the language that was analyzed. */
 export type CodeScanningAlertEnvironment = string;
 
-export type CodeScanningAlertInstances = {
-  /** Identifies the configuration under which the analysis was executed. For example, in GitHub Actions this includes the workflow filename and job name. */
-  analysis_key?: CodeScanningAnalysisAnalysisKey;
-  /** Identifies the variable values associated with the environment in which the analysis that generated this alert instance was performed, such as the language that was analyzed. */
-  environment?: CodeScanningAlertEnvironment;
-  matrix_vars?: string | null;
-  /** The full Git reference, formatted as \`refs/heads/<branch name>\`. */
-  ref?: CodeScanningAlertRef;
-  /** State of a code scanning alert. */
-  state?: CodeScanningAlertState;
-}[];
+export type CodeScanningAlertInstances =
+  | {
+      /** Identifies the configuration under which the analysis was executed. For example, in GitHub Actions this includes the workflow filename and job name. */
+      analysis_key?: CodeScanningAnalysisAnalysisKey;
+      /** Identifies the variable values associated with the environment in which the analysis that generated this alert instance was performed, such as the language that was analyzed. */
+      environment?: CodeScanningAlertEnvironment;
+      matrix_vars?: string | null;
+      /** The full Git reference, formatted as \`refs/heads/<branch name>\`. */
+      ref?: CodeScanningAlertRef;
+      /** State of a code scanning alert. */
+      state?: CodeScanningAlertState;
+    }[]
+  | null;
 
 /** The full Git reference, formatted as \`refs/heads/<branch name>\`. */
 export type CodeScanningAlertRef = string;
@@ -12595,7 +12597,7 @@ export interface MarketplacePurchase {
     /** Marketplace Listing Plan */
     plan?: MarketplaceListingPlan;
     unit_count?: number | null;
-  };
+  } | null;
   marketplace_purchase: {
     billing_cycle?: string;
     free_trial_ends_on?: string | null;
@@ -14084,7 +14086,7 @@ export interface PullRequest {
         spdx_id: string | null;
         /** @format uri */
         url: string | null;
-      };
+      } | null;
       master_branch?: string;
       /** @format uri */
       merges_url: string;
@@ -16031,7 +16033,7 @@ export type SimpleUser = {
    * @example "https://api.github.com/users/octocat"
    */
   url: string;
-};
+} | null;
 
 /**
  * Stargazer
@@ -16739,7 +16741,7 @@ export type TeamSimple = {
    * @example "https://api.github.com/organizations/1/team/1"
    */
   url: string;
-};
+} | null;
 
 /**
  * Thread
@@ -19479,26 +19481,28 @@ export class Api<
      */
     gistsUpdate: (
       gistId: string,
-      data: null & {
-        /**
-         * Description of the gist
-         * @example "Example Ruby script"
-         */
-        description?: string;
-        /**
-         * Names of files to be updated
-         * @example {"hello.rb":{"content":"blah","filename":"goodbye.rb"}}
-         */
-        files?: Record<
-          string,
-          (object | null) & {
-            /** The new content of the file */
-            content?: string;
-            /** The new filename for the file */
-            filename?: string | null;
-          }
-        >;
-      },
+      data: null &
+        ({
+          /**
+           * Description of the gist
+           * @example "Example Ruby script"
+           */
+          description?: string;
+          /**
+           * Names of files to be updated
+           * @example {"hello.rb":{"content":"blah","filename":"goodbye.rb"}}
+           */
+          files?: Record<
+            string,
+            (object | null) &
+              ({
+                /** The new content of the file */
+                content?: string;
+                /** The new filename for the file */
+                filename?: string | null;
+              } | null)
+          >;
+        } | null),
       params: RequestParams = {},
     ) =>
       this.request<GistSimple, BasicError | ValidationError>({
