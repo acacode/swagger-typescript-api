@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.6.11
+
+### Patch Changes
+
+- [#1722](https://github.com/acacode/swagger-typescript-api/pull/1722) [`586d60b`](https://github.com/acacode/swagger-typescript-api/commit/586d60b38071eaa4da78748388bf0c94ecdd4e86) Thanks [@tenenger7125](https://github.com/tenenger7125)! - Add: null to allOf intersection types with nullable(true)
+
 ## 13.6.10
 
 ### Patch Changes
