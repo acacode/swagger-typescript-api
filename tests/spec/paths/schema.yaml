@@ -49,6 +49,12 @@ components:
       $ref: './paths/repro.yaml/#/components/schemas/AllOfFromThird'
     AnyOfFromThirdViaRepro:
       $ref: './paths/repro.yaml#/components/schemas/AnyOfFromThird'
+    ThirdRootPathUserViaRepro:
+      $ref: './paths/repro.yaml#/components/schemas/ThirdRootPathUserAlias'
+    ThirdRootPathRepositoryViaRepro:
+      $ref: './paths/repro.yaml#/components/schemas/ThirdRootPathRepositoryAlias'
+    ThirdRootPathBridgeViaRepro:
+      $ref: './paths/repro.yaml#/components/schemas/ThirdRootPathBridgeAlias'
     ReproCrossComplexRoot:
       $ref: './paths/repro.yaml/#/components/schemas/ReproCrossComplex'
     ReproCrossUnionRoot:

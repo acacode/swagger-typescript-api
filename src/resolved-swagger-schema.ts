@@ -597,6 +597,10 @@ export class ResolvedSwaggerSchema {
   private collectExternalRefCandidates(externalPath: string): string[] {
     const candidates = new Set<string>();
     const isRemote = /^https?:\/\//i.test(externalPath);
+    const isRootRelativePath = externalPath.startsWith("/");
+    const normalizedExternalPath = isRootRelativePath
+      ? externalPath.replace(/^\/+/, "")
+      : externalPath;
 
     if (isRemote) {
       return [];
@@ -608,7 +612,9 @@ export class ResolvedSwaggerSchema {
 
     const inputPath = this.config.input;
     if (typeof inputPath === "string" && inputPath) {
-      candidates.add(path.resolve(path.dirname(inputPath), externalPath));
+      candidates.add(
+        path.resolve(path.dirname(inputPath), normalizedExternalPath),
+      );
     }
 
     for (const resolver of this.resolvers) {
@@ -623,7 +629,7 @@ export class ResolvedSwaggerSchema {
             continue;
           }
           candidates.add(
-            path.resolve(path.dirname(resolverPath), externalPath),
+            path.resolve(path.dirname(resolverPath), normalizedExternalPath),
           );
         }
       } catch (e) {

@@ -54,6 +54,12 @@ export type AllOfFromThirdViaRepro = AllOfFromThird;
 
 export type AnyOfFromThirdViaRepro = AnyOfFromThird;
 
+export type ThirdRootPathUserViaRepro = ThirdRootPathUserAlias;
+
+export type ThirdRootPathRepositoryViaRepro = ThirdRootPathRepositoryAlias;
+
+export type ThirdRootPathBridgeViaRepro = ThirdRootPathBridgeAlias;
+
 export type ReproCrossComplexRoot = ReproCrossComplex;
 
 export type ReproCrossUnionRoot = ReproCrossUnion;
@@ -274,6 +280,19 @@ export type AllOfFromThird = ThirdExternalAllOfRepository;
 /** ExternalAnyOfBridgeTitle */
 export type AnyOfFromThird = ReproThirdBridgeAlias | ReproThirdBundleAlias;
 
+export interface ThirdRootPathUserAlias {
+  username?: string;
+  uuid?: string;
+}
+
+export interface ThirdRootPathRepositoryAlias {
+  slug?: string;
+  owner?: any;
+  weather?: ReproWeather;
+}
+
+export type ThirdRootPathBridgeAlias = ExternalRootBridge;
+
 /** ReproCrossComplexTitle */
 export type ReproCrossComplex = MultiFileEnvelope & {
   unionAlias?: ThirdExternalUnionBridge;
@@ -442,6 +461,8 @@ export type ReproThirdBridgeAlias = ThirdCrossBridge;
 
 export type ReproThirdBundleAlias = ThirdReproBundle;
 
+export type ExternalRootBridge = ThirdCrossBridge;
+
 /** ExternalUnionBridgeTitle */
 export type ThirdExternalUnionBridge =
   | ReproExternalGraphNode
@@ -472,6 +493,14 @@ export interface ReproReportSchema {
   id?: number;
 }
 
+/** CrossBridgeTitle */
+export interface ThirdCrossBridge {
+  reportAlias?: ReproReportSchema;
+  weatherAlias?: ReproWeather;
+  nestedFromRepro?: ReproNestedExternalContainer;
+  localRepository?: Thirdrepository;
+}
+
 /** ExternalGraphNodeTitle */
 export interface ReproExternalGraphNode {
   nodeId?: string;
@@ -484,6 +513,17 @@ export interface ReproExternalGraphNode {
 export interface ReproNestedExternalContainer {
   repositoryAlias?: Repository;
   userAlias?: Thirduser;
+}
+
+export interface Thirdrepository {
+  slug?: string;
+  owner?: Thirduser;
+  weather?: ReproWeather;
+}
+
+export interface Thirduser {
+  username?: string;
+  uuid?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;

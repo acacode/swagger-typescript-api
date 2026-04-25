@@ -91,3 +91,11 @@ components:
       parameters:
         username: $response.body#/owner/username
         slug: $response.body#/slug
+some-other-path:
+  schemas:
+    external-root-user:
+      $ref: "#/components/schemas/user"
+    external-root-repository:
+      $ref: "#/components/schemas/repository"
+    external-root-bridge:
+      $ref: "#/components/schemas/CrossBridge"

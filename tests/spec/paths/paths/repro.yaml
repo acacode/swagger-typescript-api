@@ -94,6 +94,12 @@ components:
       $ref: "./third.yaml/#/components/schemas/CrossBridge"
     ThirdBundleAlias:
       $ref: "./third.yaml#/components/schemas/ReproBundle"
+    ThirdRootPathUserAlias:
+      $ref: "./third.yaml#/some-other-path/schemas/external-root-user"
+    ThirdRootPathRepositoryAlias:
+      $ref: "./third.yaml#/some-other-path/schemas/external-root-repository"
+    ThirdRootPathBridgeAlias:
+      $ref: "/third.yaml#/some-other-path/schemas/external-root-bridge"
     ExternalGraphNode:
       title: ExternalGraphNodeTitle
       type: object

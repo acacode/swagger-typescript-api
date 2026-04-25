@@ -65,6 +65,16 @@ describe("basic", async () => {
     expect(content).toContain("export type UnionFromThirdViaRepro =");
     expect(content).toContain("export type AllOfFromThirdViaRepro =");
     expect(content).toContain("export type AnyOfFromThirdViaRepro =");
+    expect(content).toContain(
+      "export type ThirdRootPathUserViaRepro = ThirdRootPathUserAlias;",
+    );
+    expect(content).toContain(
+      "export type ThirdRootPathRepositoryViaRepro = ThirdRootPathRepositoryAlias;",
+    );
+    expect(content).toContain(
+      "export type ThirdRootPathBridgeViaRepro = ThirdRootPathBridgeAlias;",
+    );
+    expect(content).not.toContain("export type ThirdRootPathBridgeAlias = any;");
     expect(content).toContain("export type ReproCrossComplexRoot =");
     expect(content).toContain("export type ReproCrossUnionRoot =");
     expect(content).toContain("export type ThirdUnionRoot =");
