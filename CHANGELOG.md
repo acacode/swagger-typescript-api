@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.7.1
+
+### Patch Changes
+
+- [`189ad98`](https://github.com/acacode/swagger-typescript-api/commit/189ad98a509c21b5904aa7d4867e3c32a391a386) Thanks [@js2me](https://github.com/js2me)! - fixed normalization external refs in swagger schema
+
 ## 13.7.0
 
 ### Minor Changes
