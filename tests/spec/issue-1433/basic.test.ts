@@ -71,4 +71,15 @@ describe("issue-1433", async () => {
 
     expect(content).toMatchSnapshot();
   });
+
+  test("contract-upstream.yaml parses with minimal extractRequestParams config", async () => {
+    const output = await generateApi({
+      input: path.resolve(import.meta.dirname, "contract-upstream.yaml"),
+      output: tmpdir,
+      extractRequestParams: true,
+      silent: true,
+    });
+
+    expect(output.files[0]?.fileContent).toMatchSnapshot();
+  });
 });

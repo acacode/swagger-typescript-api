@@ -50,19 +50,19 @@ function tryRepairSplitDoubleQuotedMapValue(
     return null;
   }
 
-  const closing = matchSingleWordThenClosingQuote(nextLine);
+  const closing = matchClosingQuoteLine(nextLine);
   if (!closing) {
     return null;
   }
 
   const { keyPrefixAndQuote, valueBeforeBreak } = unterminated;
-  const { closingWord } = closing;
+  const { lineBeforeClosingQuote } = closing;
 
   if (valueBeforeBreak.endsWith("\\")) {
     return null;
   }
 
-  return `${keyPrefixAndQuote}${valueBeforeBreak}\\n${closingWord}"`;
+  return `${keyPrefixAndQuote}${valueBeforeBreak}\\n${lineBeforeClosingQuote}"`;
 }
 
 /** `  foo: "text` with no `"` before end of line (value may be empty). */
@@ -80,15 +80,18 @@ function matchMapKeyOpeningDoubleQuotedScalar(line: string): {
   };
 }
 
-/** `      word"` — only indentation, one identifier, closing quote. */
-function matchSingleWordThenClosingQuote(line: string): {
-  closingWord: string;
+/** `      any text here"` — indented continuation that closes the quote. */
+function matchClosingQuoteLine(line: string): {
+  lineBeforeClosingQuote: string;
 } | null {
-  const match = /^(\s*)([A-Za-z_][\w-]*)"\s*$/.exec(line);
+  const match = /^(\s+)([^"]+?)"\s*$/.exec(line);
   if (!match?.[2]) {
     return null;
   }
-  return { closingWord: match[2] };
+
+  return {
+    lineBeforeClosingQuote: match[2].trim(),
+  };
 }
 
 function normalizeYamlEscapedLineBreaks(content: string): string {
