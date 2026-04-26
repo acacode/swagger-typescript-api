@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.7.2
+
+### Patch Changes
+
+- [`5f6b28a`](https://github.com/acacode/swagger-typescript-api/commit/5f6b28ac064bb82ffef62ed24e85395e4958e798) Thanks [@js2me](https://github.com/js2me)! - yet another fix of the issue [#1433](https://github.com/acacode/swagger-typescript-api/issues/1433) (incorrect yaml multiline parsing)
+
 ## 13.7.1
 
 ### Patch Changes
