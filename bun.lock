@@ -21,7 +21,7 @@
         "type-fest": "^5.4.4",
         "typescript": "~6.0.2",
         "yaml": "^2.8.2",
-        "yummies": "7.19.2",
+        "yummies": "7.19.3",
       },
       "devDependencies": {
         "@biomejs/biome": "2.4.13",
@@ -427,7 +427,7 @@
 
     "dir-glob": ["dir-glob@3.0.1", "", { "dependencies": { "path-type": "^4.0.0" } }, "sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA=="],
 
-    "dompurify": ["dompurify@3.3.3", "", { "optionalDependencies": { "@types/trusted-types": "^2.0.7" } }, "sha512-Oj6pzI2+RqBfFG+qOaOLbFXLQ90ARpcGG6UePL82bJLtdsa6CYJD7nmiU8MW9nQNOtCHV3lZ/Bzq1X0QYbBZCA=="],
+    "dompurify": ["dompurify@3.4.1", "", { "optionalDependencies": { "@types/trusted-types": "^2.0.7" } }, "sha512-JahakDAIg1gyOm7dlgWSDjV4n7Ip2PKR55NIT6jrMfIgLFgWo81vdr1/QGqWtFNRqXP9UV71oVePtjqS2ebnPw=="],
 
     "dotenv": ["dotenv@8.6.0", "", {}, "sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g=="],
 
@@ -789,7 +789,7 @@
 
     "yargs-parser": ["yargs-parser@21.1.1", "", {}, "sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw=="],
 
-    "yummies": ["yummies@7.19.2", "", { "dependencies": { "class-variance-authority": "^0.7.1", "clsx": "^2.1.1", "dayjs": "^1.11.20", "dompurify": "^3.3.3", "nanoid": "^5.1.7", "tailwind-merge": "^3.5.0" }, "peerDependencies": { "mobx": "^6.12.4", "react": "^18 || ^19" }, "optionalPeers": ["mobx", "react"] }, "sha512-3a8C0lsYP3c1sMsnQiPffS/X6hj1T0oIWOV/P6515ytGY5scAtcgaIg4mv8pe3856vyoTjagllvixdMxnitNUg=="],
+    "yummies": ["yummies@7.19.3", "", { "dependencies": { "class-variance-authority": "^0.7.1", "clsx": "^2.1.1", "dayjs": "^1.11.20", "dompurify": "^3.4.1", "nanoid": "^5.1.7", "tailwind-merge": "^3.5.0" }, "peerDependencies": { "mobx": "^6.12.4", "react": "^18 || ^19" }, "optionalPeers": ["mobx", "react"] }, "sha512-XDcnhbE7v651b3PTRCyzRsIJTBlJ5cR0FNI2xoHpZcHZNe4ikat0FX1AXYWX7G56XB3TpKgL/n9h2/At7S6J9g=="],
 
     "@manypkg/find-root/@types/node": ["@types/node@12.20.55", "", {}, "sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ=="],
 
