@@ -263,6 +263,11 @@ const generateCommand = defineCommand({
       description: "sort routes in alphabetical order",
       default: codeGenBaseConfig.sortRoutes,
     },
+    "sort-route-params": {
+      type: "boolean",
+      description: "sort route params from path order",
+      default: codeGenBaseConfig.sortRouteParams,
+    },
     "sort-types": {
       type: "boolean",
       description: "sort fields and types",
@@ -330,6 +335,7 @@ const generateCommand = defineCommand({
       silent: args.silent,
       singleHttpClient: args["single-http-client"],
       sortRoutes: args["sort-routes"],
+      sortRouteParams: args["sort-route-params"],
       sortTypes: args["sort-types"],
       templates: args.templates,
       toJS: args.js,
