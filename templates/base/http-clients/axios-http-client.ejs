@@ -99,6 +99,22 @@ export class HttpClient<SecurityDataType = unknown> {
       }, new FormData());
     }
 
+    protected createUrlEncoded(input: Record<string, unknown>): URLSearchParams {
+      if (input instanceof URLSearchParams) {
+        return input;
+      }
+      return Object.keys(input || {}).reduce((searchParams, key) => {
+        const property = input[key];
+        const propertyContent: any[] = (property instanceof Array) ? property : [property]
+
+        for (const formItem of propertyContent) {
+          searchParams.append(key, this.stringifyFormItem(formItem));
+        }
+
+        return searchParams;
+      }, new URLSearchParams());
+    }
+
     public request = async <T = any, _E = any>({
         secure,
         path,
@@ -118,6 +134,10 @@ export class HttpClient<SecurityDataType = unknown> {
 
         if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
           body = this.createFormData(body as Record<string, unknown>);
+        }
+
+        if (type === ContentType.UrlEncoded && body && body !== null && typeof body === "object") {
+          body = this.createUrlEncoded(body as Record<string, unknown>);
         }
 
         if (type === ContentType.Text && body && body !== null && typeof body !== "string") {

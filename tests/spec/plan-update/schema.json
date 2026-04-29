@@ -1,0 +1,42 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Plan Update Test"
+  },
+  "paths": {
+    "/plans/{plan_id}": {
+      "put": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Updates the name of a plan. Requires member role for the plan's owner organization.",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "tags": ["plans"],
+        "summary": "Update plan name",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Plan ID",
+            "name": "plan_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "New plan name",
+            "name": "name",
+            "in": "formData",
+            "required": true
+          }
+        ]
+      }
+    }
+  }
+}
