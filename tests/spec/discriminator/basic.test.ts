@@ -1,9 +1,7 @@
 import * as fs from "node:fs/promises";
 import * as os from "node:os";
 import * as path from "node:path";
-
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
-
 import { generateApi } from "../../../src/index.js";
 
 describe("basic", async () => {
@@ -25,6 +23,24 @@ describe("basic", async () => {
       silent: true,
       addReadonly: true,
       generateClient: false,
+    });
+
+    const content = await fs.readFile(path.join(tmpdir, "schema.ts"), {
+      encoding: "utf8",
+    });
+
+    expect(content).toMatchSnapshot();
+  });
+
+  test("discriminator with union enums", async () => {
+    await generateApi({
+      fileName: "schema",
+      input: path.resolve(import.meta.dirname, "schema.json"),
+      output: tmpdir,
+      silent: true,
+      addReadonly: true,
+      generateClient: false,
+      generateUnionEnums: true,
     });
 
     const content = await fs.readFile(path.join(tmpdir, "schema.ts"), {

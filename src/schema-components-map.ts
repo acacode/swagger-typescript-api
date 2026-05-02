@@ -1,13 +1,13 @@
+import { typeGuard } from "yummies/type-guard";
+import type { AnyObject, Maybe } from "yummies/types";
 import type { SchemaComponent } from "../types/index.js";
 import type { CodeGenConfig } from "./configuration.js";
+import { pascalCase } from "./util/pascal-case.js";
 
 export class SchemaComponentsMap {
   _data: SchemaComponent[] = [];
-  config: CodeGenConfig;
 
-  constructor(config: CodeGenConfig) {
-    this.config = config;
-  }
+  constructor(public config: CodeGenConfig) {}
 
   clear() {
     this._data = [];
@@ -30,31 +30,59 @@ export class SchemaComponentsMap {
     return ref.split("/");
   };
 
-  createComponent(
+  private createComponentDraft(
     $ref: string,
-    rawTypeData: SchemaComponent["rawTypeData"],
+    rawTypeData: Maybe<AnyObject> | SchemaComponent,
   ): SchemaComponent {
+    if (
+      typeGuard.isObject(rawTypeData) &&
+      rawTypeData.typeName &&
+      rawTypeData.rawTypeData &&
+      rawTypeData.$ref
+    ) {
+      return rawTypeData as SchemaComponent;
+    }
+
     const parsed = this.parseRef($ref);
-    const typeName = parsed[parsed.length - 1]!;
-    const componentName = parsed[
-      parsed.length - 2
-    ] as SchemaComponent["componentName"];
-    const componentSchema: SchemaComponent = {
+    const [, rawPointer = ""] = $ref.split("#");
+    const pointer = rawPointer.startsWith("/") ? rawPointer : `/${rawPointer}`;
+    const pointerParts = pointer.split("/").filter(Boolean);
+
+    const typeName = pointerParts.at(-1) || parsed.at(-1) || "Unknown";
+    const rawComponentName =
+      pointerParts.at(-2) || parsed[parsed.length - 2] || "schemas";
+    const componentName =
+      rawComponentName === "definitions"
+        ? "schemas"
+        : (rawComponentName as SchemaComponent["componentName"]);
+
+    return {
       $ref,
       typeName,
-      rawTypeData,
+      rawTypeData: rawTypeData as SchemaComponent["rawTypeData"],
       componentName,
       /** result from schema parser */
       typeData: null,
     };
+  }
 
+  createComponent(
+    $ref: string,
+    rawTypeData: SchemaComponent["rawTypeData"] | SchemaComponent,
+    addAtStart?: boolean,
+  ): SchemaComponent {
+    const componentSchema = this.createComponentDraft($ref, rawTypeData);
     const usageComponent =
       this.config.hooks.onCreateComponent(componentSchema) || componentSchema;
 
     const refIndex = this._data.findIndex((c) => c.$ref === $ref);
 
     if (refIndex === -1) {
-      this._data.push(usageComponent);
+      if (addAtStart) {
+        this._data.unshift(usageComponent);
+      } else {
+        this._data.push(usageComponent);
+      }
     } else {
       this._data[refIndex] = usageComponent;
     }
@@ -62,9 +90,9 @@ export class SchemaComponentsMap {
     return usageComponent;
   }
 
-  getComponents() {
+  getComponents = () => {
     return this._data;
-  }
+  };
 
   filter(...componentNames: (string[] | string)[]) {
     return this._data.filter((it) =>
@@ -74,15 +102,69 @@ export class SchemaComponentsMap {
     );
   }
 
-  get($ref: string) {
-    return this._data.find((c) => c.$ref === $ref) || null;
-  }
+  get = ($ref: string) => {
+    const localFound = this._data.find((c) => c.$ref === $ref) || null;
+
+    if (localFound != null) {
+      return localFound;
+    }
+
+    const { resolvedSwaggerSchema } = this.config;
+
+    if (resolvedSwaggerSchema.isLocalRef($ref)) {
+      return null;
+    }
+
+    const foundByRef = resolvedSwaggerSchema.getRef($ref);
+    const refDetails = resolvedSwaggerSchema.getRefDetails($ref);
+
+    if (foundByRef != null) {
+      const componentDraft = this.createComponentDraft(
+        $ref,
+        foundByRef as AnyObject,
+      );
+
+      componentDraft.typeName =
+        this.config.hooks.onFormatExternalTypeName?.(
+          componentDraft.typeName,
+          refDetails,
+        ) || componentDraft.typeName;
+
+      if (
+        // duplicate name
+        this._data.some(
+          (component) => component.typeName === componentDraft.typeName,
+        )
+      ) {
+        componentDraft.typeName =
+          this.config.hooks.onFixDuplicateExternalTypeName?.(
+            componentDraft.typeName,
+            refDetails,
+            this._data.map((it) => it.typeName),
+          ) ??
+          `${pascalCase(refDetails.externalOpenapiFileName || "External")}${componentDraft.typeName}`;
+      }
+
+      return this.createComponent($ref, componentDraft);
+    }
+
+    return null;
+  };
 
   // Ensure enums are at the top of components list
   enumsFirst() {
     this._data.sort((a, b) => {
       if (Object.keys(a.rawTypeData || {}).includes("enum")) return -1;
       if (Object.keys(b.rawTypeData || {}).includes("enum")) return 1;
+      return 0;
+    });
+  }
+
+  // Ensure discriminators are at the top of components list
+  discriminatorsFirst() {
+    this._data.sort((a, b) => {
+      if (Object.keys(a.rawTypeData || {}).includes("discriminator")) return -1;
+      if (Object.keys(b.rawTypeData || {}).includes("discriminator")) return 1;
       return 0;
     });
   }

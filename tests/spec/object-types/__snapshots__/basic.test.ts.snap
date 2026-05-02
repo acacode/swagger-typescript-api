@@ -60,6 +60,14 @@ export type Test1 = {
   multiple: string | number;
 } | null;
 
+export interface AddressCreationRequest {
+  city?: string;
+}
+
+export interface ContainerWithPrimitiveAnyOf {
+  origin?: string | AddressCreationRequest;
+}
+
 export interface AdditionalObjectProperties {
   id?: string;
   [key: string]: any;

@@ -3,11 +3,11 @@
 - Support for OpenAPI 3.0, 2.0, JSON and YAML
 - Generate the API Client for Fetch or Axios from an OpenAPI Specification
 
-Any questions you can ask [**here**](https://github.com/acacode/swagger-typescript-api/discussions)
+Any questions you can ask here: <https://github.com/acacode/swagger-typescript-api/discussions>
 
 ## Examples
 
-All examples you can find [**here**](https://github.com/acacode/swagger-typescript-api/tree/main/tests)
+All examples you can find here: <https://github.com/acacode/swagger-typescript-api/tree/main/tests>
 
 ## Usage
 
@@ -48,6 +48,8 @@ For more detailed configuration options, please consult the documentation.
 - [Why Swagger schemes are needed in frontend development ?](https://dev.to/js2me/why-swagger-schemes-are-needed-in-frontend-development-2cb4)
 - [Migration en douceur vers TypeScript (French)](https://www.premieroctet.com/blog/migration-typescript/)
 - [swagger-typescript-api usage (Japanese)](https://zenn.dev/watahaya/articles/2f4a716c47903b)
+- [Working with REST APIs using swagger-typescript-api (Russian)](https://habr.com/ru/articles/799853/)
+- [Using custom templates and configs for swagger-typescript-api (Russian)](https://habr.com/ru/articles/802097/)
 
 ## License
 

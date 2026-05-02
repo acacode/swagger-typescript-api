@@ -7,6 +7,12 @@ const { name, $content } = contract;
   export type <%~ name %> = <%~ _.map($content, ({ value }) => value).join(" | ") %>
 <% } else { %>
   export enum <%~ name %> {
-    <%~ _.map($content, ({ key, value }) => `${key} = ${value}`).join(",\n") %>
+    <%~ _.map($content, ({ key, value, description }) => {
+      let formattedDescription = description && formatDescription(description, true);
+      return [
+        formattedDescription && `/** ${formattedDescription} */`,
+        `${key} = ${value}`
+      ].filter(Boolean).join("\n");
+    }).join(",\n") %>
   }
 <% } %>

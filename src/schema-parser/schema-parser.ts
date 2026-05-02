@@ -1,9 +1,9 @@
 import { consola } from "consola";
-import lodash from "lodash";
+import { merge } from "es-toolkit";
+import { get } from "es-toolkit/compat";
 import type { CodeGenConfig } from "../configuration.js";
 import { SCHEMA_TYPES } from "../constants.js";
 import type { SchemaComponentsMap } from "../schema-components-map.js";
-import type { SchemaWalker } from "../schema-walker.js";
 import type { TemplatesWorker } from "../templates-worker.js";
 import type { TypeNameFormatter } from "../type-name-formatter.js";
 import { sortByProperty } from "../util/sort-by-property.js";
@@ -29,20 +29,30 @@ export class SchemaParser {
   schemaFormatters: SchemaFormatters;
   schemaUtils: SchemaUtils;
   templatesWorker: TemplatesWorker;
-  schemaWalker: SchemaWalker;
 
-  typeName;
-  schema;
-  schemaPath = [];
+  typeName: string | null;
+  // biome-ignore lint/suspicious/noExplicitAny: TODO: narrow to OpenAPI schema type
+  schema: any;
+  schemaPath: string[];
 
-  // @ts-expect-error TS(2525) FIXME: Initializer provides no value for this binding ele... Remove this comment to see the full error message
-  constructor(schemaParserFabric, { typeName, schema, schemaPath } = {}) {
+  constructor(
+    schemaParserFabric: SchemaParserFabric,
+    {
+      typeName,
+      schema,
+      schemaPath,
+    }: {
+      typeName?: string | null;
+      // biome-ignore lint/suspicious/noExplicitAny: TODO: narrow to OpenAPI schema type
+      schema?: any;
+      schemaPath?: string[];
+    } = {},
+  ) {
     this.schemaParserFabric = schemaParserFabric;
     this.config = schemaParserFabric.config;
     this.templatesWorker = schemaParserFabric.templatesWorker;
     this.schemaComponentsMap = schemaParserFabric.schemaComponentsMap;
     this.typeNameFormatter = schemaParserFabric.typeNameFormatter;
-    this.schemaWalker = schemaParserFabric.schemaWalker;
     this.schemaFormatters = schemaParserFabric.schemaFormatters;
     this.schemaUtils = schemaParserFabric.schemaUtils;
 
@@ -221,13 +231,13 @@ export class SchemaParser {
 
       this.schemaPath.push(this.typeName);
 
-      lodash.merge(
+      merge(
         this.schema,
         this.config.hooks.onPreParseSchema(
           this.schema,
           this.typeName,
           schemaType,
-        ),
+        ) || {},
       );
       parsedSchema = this._baseSchemaParsers[schemaType](
         this.schema,
@@ -273,14 +283,19 @@ export class SchemaParser {
   extractSchemaFromResponseStruct = (responseStruct) => {
     const { content, ...extras } = responseStruct;
 
-    const firstResponse = lodash.first(lodash.values(content));
-    const firstSchema = lodash.get(firstResponse, "schema");
+    const contentValues = Object.values(content || {});
+    const firstResponse = contentValues[0] as
+      | Record<string, unknown>
+      | undefined;
+    const firstSchema = get(firstResponse, "schema");
 
     if (!firstSchema) return;
 
+    const { schema: _, ...restResponse } = firstResponse || {};
+
     return {
       ...extras,
-      ...lodash.omit(firstResponse, "schema"),
+      ...restResponse,
       ...firstSchema,
     };
   };

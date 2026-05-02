@@ -1,4 +1,4 @@
-import lodash from "lodash";
+import { get } from "es-toolkit/compat";
 import { SCHEMA_TYPES } from "../../constants.js";
 import { MonoSchemaParser } from "../mono-schema-parser.js";
 import { EnumKeyResolver } from "../util/enum-key-resolver.js";
@@ -6,8 +6,7 @@ import { EnumKeyResolver } from "../util/enum-key-resolver.js";
 export class EnumSchemaParser extends MonoSchemaParser {
   enumKeyResolver: EnumKeyResolver;
 
-  constructor(...args) {
-    // @ts-expect-error TS(2556) FIXME: A spread argument must either have a tuple type or... Remove this comment to see the full error message
+  constructor(...args: ConstructorParameters<typeof MonoSchemaParser>) {
     super(...args);
     this.enumKeyResolver = new EnumKeyResolver(this.config, []);
   }
@@ -63,29 +62,48 @@ export class EnumSchemaParser extends MonoSchemaParser {
 
     const keyType = this.schemaUtils.getSchemaType(this.schema);
     const enumNames = this.schemaUtils.getEnumNames(this.schema);
+    const enumDescriptions = this.schemaUtils.getEnumDescriptions(this.schema);
+
     let content = null;
 
     const formatValue = (value) => {
       if (value === null) {
         return this.config.Ts.NullValue(value);
       }
+
       if (
         keyType.includes(this.schemaUtils.getSchemaType({ type: "number" }))
       ) {
-        return this.config.Ts.NumberValue(value);
+        const maybeNumber = typeof value === "number" ? value : Number(value);
+        if (!Number.isNaN(maybeNumber)) {
+          return this.config.Ts.NumberValue(maybeNumber);
+        }
       }
+
       if (
         keyType.includes(this.schemaUtils.getSchemaType({ type: "boolean" }))
       ) {
-        return this.config.Ts.BooleanValue(value);
+        if (typeof value === "boolean") {
+          return this.config.Ts.BooleanValue(value);
+        }
+        if (value === "true" || value === "false") {
+          return this.config.Ts.BooleanValue(value === "true");
+        }
       }
 
-      return this.config.Ts.StringValue(value);
+      switch (typeof value) {
+        case "number":
+          return this.config.Ts.NumberValue(value);
+        case "boolean":
+          return this.config.Ts.BooleanValue(value);
+        default:
+          return this.config.Ts.StringValue(value);
+      }
     };
 
-    if (Array.isArray(enumNames) && lodash.size(enumNames)) {
+    if (Array.isArray(enumNames) && enumNames.length > 0) {
       content = enumNames.map((enumName, index) => {
-        const enumValue = lodash.get(this.schema.enum, index);
+        const enumValue = get(this.schema.enum, index);
         const formattedKey = this.formatEnumKey({
           key: enumName,
           value: enumValue,
@@ -96,6 +114,7 @@ export class EnumSchemaParser extends MonoSchemaParser {
             key: formattedKey,
             type: this.config.Ts.Keyword.String,
             value: this.config.Ts.StringValue(enumName),
+            description: enumDescriptions?.[index],
           };
         }
 
@@ -103,15 +122,16 @@ export class EnumSchemaParser extends MonoSchemaParser {
           key: formattedKey,
           type: keyType,
           value: formatValue(enumValue),
+          description: enumDescriptions?.[index],
         };
       });
     } else {
-      content = this.schema.enum.map((value) => {
+      content = this.schema.enum.map((value, index) => {
         return {
-          // @ts-expect-error TS(2345) FIXME: Argument of type '{ value: any; }' is not assignab... Remove this comment to see the full error message
           key: this.formatEnumKey({ value }),
           type: keyType,
           value: formatValue(value),
+          description: enumDescriptions?.[index],
         };
       });
     }
@@ -135,8 +155,8 @@ export class EnumSchemaParser extends MonoSchemaParser {
     };
   }
 
-  formatEnumKey = ({ key, value }) => {
-    let formatted;
+  formatEnumKey = ({ key, value }: { key?: string; value: unknown }) => {
+    let formatted: string | undefined;
 
     if (key) {
       formatted = this.typeNameFormatter.format(key, {

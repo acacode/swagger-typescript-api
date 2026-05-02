@@ -57,6 +57,9 @@
         "multiple": {
           "type": ["string", "number"],
           "readOnly": true
+        },
+        "notReadonly": {
+          "type": "string"
         }
       }
     }

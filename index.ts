@@ -47,7 +47,6 @@ const generateTemplatesCommand = defineCommand({
       alias: "o",
       description: "output path of generated templates",
       default: templateGenBaseConfig.output,
-      required: true,
     },
     rewrite: {
       type: "boolean",
@@ -138,6 +137,11 @@ const generateCommand = defineCommand({
       type: "boolean",
       description: "Do not throw an error when response.ok is not true",
       default: codeGenBaseConfig.disableThrowOnError,
+    },
+    "disable-format-type-names": {
+      type: "boolean",
+      description: "disable formatting and normalization of type names",
+      default: codeGenBaseConfig.disableFormatTypeNames,
     },
     "enum-names-as-values": {
       type: "boolean",
@@ -230,8 +234,7 @@ const generateCommand = defineCommand({
     path: {
       type: "string",
       alias: "p",
-      description: "path/url to swagger scheme",
-      required: true,
+      description: "path/url to swagger schema",
     },
     responses: {
       type: "boolean",
@@ -288,6 +291,7 @@ const generateCommand = defineCommand({
   },
   run: async ({ args }) => {
     const customConfig = await loadConfig<GenerateApiParams>({
+      name: "swagger-typescript-api",
       configFile: args["custom-config"],
     });
 
@@ -299,6 +303,7 @@ const generateCommand = defineCommand({
       debug: args.debug,
       defaultResponseAsSuccess: args["default-as-success"],
       defaultResponseType: args["default-response"],
+      disableFormatTypeNames: args["disable-format-type-names"],
       disableThrowOnError: args["disable-throw-on-error"],
       enumNamesAsValues: args["enum-names-as-values"],
       extractEnums: args["extract-enums"],

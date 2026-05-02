@@ -83,6 +83,29 @@
         }
       }
     },
+    "AddressCreationRequest": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string"
+        }
+      }
+    },
+    "ContainerWithPrimitiveAnyOf": {
+      "type": "object",
+      "properties": {
+        "origin": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/definitions/AddressCreationRequest"
+            }
+          ]
+        }
+      }
+    },
     "AdditionalObjectProperties": {
       "type": "object",
       "properties": {

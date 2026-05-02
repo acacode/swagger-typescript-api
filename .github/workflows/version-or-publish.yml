@@ -14,28 +14,22 @@ jobs:
     if: ${{ github.repository_owner == 'acacode' }}
     permissions:
       contents: write # to create release
-      id-token: write # to generate provenance
+      id-token: write # to generate provenance and oidc token
       issues: write # to post issue comments
       pull-requests: write # to create pull request
     runs-on: ubuntu-latest
     steps:
       - name: Checkout tree
-        uses: actions/checkout@v4
-
-      - name: Set-up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Set-up Mise
+        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1.6.4.0.1
         with:
-          check-latest: true
-          node-version-file: .nvmrc
-
-      - run: corepack enable
-      - run: yarn install --immutable
-
+          cache: false
+      - run: bun install --frozen-lockfile
       - name: Create Release Pull Request
-        uses: changesets/action@v1
+        uses: changesets/action@6a0a831ff30acef54f2c6aa1cbbc1096b066edaf # v1.7.0
         with:
-          version: yarn changeset version
-          publish: yarn npm publish --tolerate-republish
+          version: bun changeset version
+          publish: bunx changeset publish
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

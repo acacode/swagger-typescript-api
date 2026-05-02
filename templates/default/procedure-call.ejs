@@ -21,10 +21,16 @@ const requestConfigParam = {
 
 const argToTmpl = ({ name, optional, type, defaultValue }) => `${name}${!defaultValue && optional ? '?' : ''}: ${type}${defaultValue ? ` = ${defaultValue}` : ''}`;
 
+const extractedRequestParamsName = pathParams.length
+    ? query
+        ? `{ ${_.join(pathParamsNames, ", ")}, ...${queryName} }`
+        : `{ ${_.join(pathParamsNames, ", ")} }`
+    : queryName;
+
 const rawWrapperArgs = config.extractRequestParams ?
     _.compact([
         requestParams && {
-          name: pathParams.length ? `{ ${_.join(pathParamsNames, ", ")}, ...${queryName} }` : queryName,
+          name: extractedRequestParamsName,
           optional: false,
           type: getInlineParseContent(requestParams),
         },
@@ -48,6 +54,7 @@ const wrapperArgs = _
 // RequestParams["type"]
 const requestContentKind = {
     "JSON": "ContentType.Json",
+    "JSON_API": "ContentType.JsonApi",
     "URL_ENCODED": "ContentType.UrlEncoded",
     "FORM_DATA": "ContentType.FormData",
     "TEXT": "ContentType.Text",
@@ -73,10 +80,12 @@ const describeReturnType = () => {
           return `Promise<AxiosResponse<${type}>>`
         }
         default: {
-          return `Promise<HttpResponse<${type}, ${errorType}>`
+          return `Promise<HttpResponse<${type}, ${errorType}>>`
         }
     }
 }
+
+const isValidIdentifier = (name) => /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(name);
 
 %>
 /**
@@ -87,7 +96,7 @@ const describeReturnType = () => {
 <%~ routeDocs.lines %>
 
  */
-<%~ route.routeName.usage %><%~ route.namespace ? ': ' : ' = ' %>(<%~ wrapperArgs %>)<%~ config.toJS ? `: ${describeReturnType()}` : "" %> =>
+<% if (isValidIdentifier(route.routeName.usage)) { %><%~ route.routeName.usage %><%~ route.namespace ? ': ' : ' = ' %><% } else { %>"<%~ route.routeName.usage %>"<%~ route.namespace ? ': ' : ' = ' %><% } %>(<%~ wrapperArgs %>)<%~ config.toJS ? `: ${describeReturnType()}` : "" %> =>
     <%~ config.singleHttpClient ? 'this.http.request' : 'this.request' %><<%~ type %>, <%~ errorType %>>({
         path: `<%~ path %>`,
         method: '<%~ _.upperCase(method) %>',

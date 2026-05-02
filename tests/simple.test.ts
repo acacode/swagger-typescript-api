@@ -1,9 +1,7 @@
 import * as fs from "node:fs/promises";
 import * as os from "node:os";
 import * as path from "node:path";
-
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
-
 import { generateApi } from "../src/index.js";
 import { collectAllSchemas } from "./utils.js";
 

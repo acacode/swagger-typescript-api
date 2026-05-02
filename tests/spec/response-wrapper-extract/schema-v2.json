@@ -1,0 +1,77 @@
+{
+  "swagger": "2.0",
+  "info": { "title": "response-wrapper-extract", "version": "1" },
+  "paths": {
+    "/fluffies": {
+      "get": {
+        "operationId": "getFluffiesToMerge",
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/GetFluffiesToMergeResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "mergeFluffy",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MergeFluffyData"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/MergeFluffyResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "GetFluffiesToMergeData": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" }
+      }
+    },
+    "GetFluffiesToMergeResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetFluffiesToMergeData"
+          }
+        }
+      }
+    },
+    "MergeFluffyData": {
+      "type": "object",
+      "properties": {
+        "fluffies": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "MergeFluffyResponse": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

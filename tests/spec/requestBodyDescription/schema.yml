@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: teesttt
+  version: 0.0.0
+security:
+  - registryCookieAuth: []
+  - cookieAuth: [ ]
+paths:
+  /api/v333/keks:
+    post:
+      operationId: createKeks
+      requestBody:
+        description: FODSFDSF DSF DSF 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: OK.
+          content:
+            'application/json':
+              schema:
+                type: object

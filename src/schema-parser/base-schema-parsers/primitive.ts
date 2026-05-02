@@ -8,25 +8,54 @@ export class PrimitiveSchemaParser extends MonoSchemaParser {
       this.schema || {};
 
     if (type === this.config.Ts.Keyword.Object && additionalProperties) {
-      const fieldType =
-        typeof additionalProperties === "object"
-          ? this.schemaParserFabric
-              .createSchemaParser({
-                schema: additionalProperties,
-                schemaPath: this.schemaPath,
-              })
-              .getInlineParseContent()
-          : this.config.Ts.Keyword.Any;
-      contentType = this.config.Ts.RecordType(
-        this.config.Ts.Keyword.String,
-        fieldType,
+      const propertyNamesSchema = this.schemaUtils.getSchemaPropertyNamesSchema(
+        this.schema,
       );
+
+      let recordKeysContent: string;
+      let recordValuesContent: string;
+
+      if (propertyNamesSchema) {
+        recordKeysContent = this.schemaParserFabric
+          .createSchemaParser({
+            schema: propertyNamesSchema,
+            schemaPath: this.schemaPath,
+          })
+          .getInlineParseContent();
+      } else {
+        recordKeysContent = this.config.Ts.Keyword.String;
+      }
+
+      if (typeof additionalProperties === "object") {
+        recordValuesContent = this.schemaParserFabric
+          .createSchemaParser({
+            schema: additionalProperties,
+            schemaPath: this.schemaPath,
+          })
+          .getInlineParseContent();
+      } else {
+        recordValuesContent = this.config.Ts.Keyword.Any;
+      }
+
+      const recordType = this.config.Ts.RecordType(
+        recordKeysContent,
+        recordValuesContent,
+      );
+
+      contentType = propertyNamesSchema
+        ? this.config.Ts.TypeWithGeneric("Partial", [recordType])
+        : recordType;
     }
 
     if (Array.isArray(type) && type.length) {
       contentType = this.schemaParser._complexSchemaParsers.oneOf({
         ...(typeof this.schema === "object" ? this.schema : {}),
-        oneOf: type.map((type) => ({ type })),
+        oneOf: type.map((t) => {
+          const branch: Record<string, unknown> = { type: t };
+          Object.assign(branch, this.schema);
+          branch.type = t;
+          return branch;
+        }),
       });
     }
 

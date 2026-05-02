@@ -4,6 +4,7 @@ const { _, pascalCase, require } = utils;
 const { query, payload, pathParams, headers } = route.request;
 
 const routeDocs = includeFile("@base/route-docs", { config, route, utils });
+const isValidIdentifier = (name) => /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(name);
 const routeNamespace = pascalCase(route.routeName.usage);
 
 %>
@@ -14,7 +15,7 @@ const routeNamespace = pascalCase(route.routeName.usage);
 <%~ routeDocs.lines %>
 
 */
-export namespace <%~ routeNamespace %> {
+export namespace <% if (isValidIdentifier(routeNamespace)) { %><%~ routeNamespace %><% } else { %>"<%~ routeNamespace %>"<% } %> {
   export type RequestParams = <%~ (pathParams && pathParams.type) || '{}' %>;
   export type RequestQuery = <%~ (query && query.type) || '{}' %>;
   export type RequestBody = <%~ (payload && payload.type) || 'never' %>;

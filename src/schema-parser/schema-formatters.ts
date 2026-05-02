@@ -1,9 +1,10 @@
-import lodash from "lodash";
+import { compact } from "es-toolkit";
+import { get } from "es-toolkit/compat";
 import type { CodeGenConfig } from "../configuration.js";
 import { SCHEMA_TYPES } from "../constants.js";
 import type { TemplatesWorker } from "../templates-worker.js";
-import type { SchemaParserFabric } from "./schema-parser-fabric.js";
 import type { SchemaParser } from "./schema-parser.js";
+import type { SchemaParserFabric } from "./schema-parser-fabric.js";
 import type { SchemaUtils } from "./schema-utils.js";
 
 export class SchemaFormatters {
@@ -29,10 +30,17 @@ export class SchemaFormatters {
         };
       }
 
+      const escapedContent = parsedSchema.content.map((item) => ({
+        ...item,
+        description: item.description
+          ? this.escapeJSDocContent(item.description)
+          : "",
+      }));
+
       return {
         ...parsedSchema,
         $content: parsedSchema.content,
-        content: this.config.Ts.EnumFieldsWrapper(parsedSchema.content),
+        content: this.config.Ts.EnumFieldsWrapper(escapedContent),
       };
     },
     [SCHEMA_TYPES.OBJECT]: (parsedSchema) => {
@@ -58,7 +66,7 @@ export class SchemaFormatters {
         content: parsedSchema.$ref
           ? parsedSchema.typeName
           : this.config.Ts.UnionType(
-              lodash.compact([
+              compact([
                 ...parsedSchema.content.map(({ value }) => `${value}`),
                 parsedSchema.nullable && this.config.Ts.Keyword.Null,
               ]),
@@ -96,37 +104,44 @@ export class SchemaFormatters {
     formatType: "base" | "inline" = "base",
   ) => {
     const schemaType =
-      lodash.get(parsedSchema, ["schemaType"]) ||
-      lodash.get(parsedSchema, ["$parsed", "schemaType"]);
-    const formatterFn = lodash.get(this, [formatType, schemaType]);
+      get(parsedSchema, ["schemaType"]) ||
+      get(parsedSchema, ["$parsed", "schemaType"]);
+    const formatterFn = get(this, [formatType, schemaType]);
     return formatterFn?.(parsedSchema) || parsedSchema;
   };
 
-  formatDescription = (description, inline) => {
+  // OpenAPI fields are untrusted input that may contain `*/` which would
+  // prematurely close JSDoc block comments in generated TypeScript output.
+  // Note: only `undefined` maps to empty string; `null` is preserved as "null"
+  // because `@default null` is a valid JSDoc annotation for nullable fields.
+  escapeJSDocContent = (content: unknown): string => {
+    if (content === undefined) return "";
+    const str = typeof content === "string" ? content : String(content);
+    return str.replace(/\*\//g, "*\\/");
+  };
+
+  formatDescription = (
+    description: string | undefined,
+    inline?: boolean,
+  ): string => {
     if (!description) return "";
 
-    const hasMultipleLines = description.includes("\n");
+    const escapedDescription = this.escapeJSDocContent(description);
+    const hasMultipleLines = escapedDescription.includes("\n");
 
-    if (!hasMultipleLines) return description;
+    if (!hasMultipleLines) return escapedDescription;
 
     if (inline) {
-      return (
-        lodash
-          // @ts-expect-error TS(2339) FIXME: Property '_' does not exist on type 'LoDashStatic'... Remove this comment to see the full error message
-          ._(description)
-          .split(/\n/g)
-          .map((part) => part.trim())
-          .compact()
-          .join(" ")
-          .valueOf()
-      );
+      return compact(
+        escapedDescription.split(/\n/g).map((part) => part.trim()),
+      ).join(" ");
     }
 
-    return description.replace(/\n$/g, "");
+    return escapedDescription.replace(/\n$/g, "");
   };
 
   formatObjectContent = (content) => {
-    const fields = [];
+    const fields: string[] = [];
 
     for (const part of content) {
       const extraSpace = "  ";

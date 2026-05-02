@@ -1,11 +1,18 @@
+import * as module from "node:module";
 import * as path from "node:path";
 import * as url from "node:url";
 import { consola } from "consola";
-import * as Eta from "eta";
-import lodash from "lodash";
+import { get } from "es-toolkit/compat";
+import { Eta } from "eta";
 import type { CodeGenProcess } from "./code-gen-process.js";
 import type { CodeGenConfig } from "./configuration.js";
 import type { FileSystem } from "./util/file-system.js";
+
+const require = module.createRequire(import.meta.url);
+
+const eta = new Eta({
+  functionHeader: "const includeFile = options.includeFile;",
+});
 
 export class TemplatesWorker {
   config: CodeGenConfig;
@@ -74,21 +81,21 @@ export class TemplatesWorker {
     );
   };
 
-  requireFnFromTemplate = async (packageOrPath: string) => {
+  requireFnFromTemplate = (packageOrPath: string) => {
     const isPath =
       packageOrPath.startsWith("./") || packageOrPath.startsWith("../");
 
     if (isPath) {
-      return await import(
+      return require(
         path.resolve(
           this.config.templatePaths.custom ||
             this.config.templatePaths.original,
           packageOrPath,
-        )
+        ),
       );
     }
 
-    return await import(packageOrPath);
+    return require(packageOrPath);
   };
 
   getTemplate = (name: string, fileName: string, path?: string) => {
@@ -151,8 +158,7 @@ export class TemplatesWorker {
       );
     }
 
-    return lodash.reduce(
-      this.config.templateInfos,
+    return this.config.templateInfos.reduce(
       (acc, { name, fileName }) => ({
         ...acc,
         [name]: this.getTemplate(name, fileName),
@@ -170,15 +176,15 @@ export class TemplatesWorker {
   };
 
   getTemplateContent = (path_: string) => {
-    const foundTemplatePathKey = lodash
-      .keys(this.config.templatePaths)
-      .find((key) => path_.startsWith(`@${key}`));
+    const foundTemplatePathKey = Object.keys(this.config.templatePaths).find(
+      (key) => path_.startsWith(`@${key}`),
+    );
 
     if (foundTemplatePathKey) {
       const rawPath = path.resolve(
         path_.replace(
           `@${foundTemplatePathKey}`,
-          lodash.get(this.config.templatePaths, foundTemplatePathKey),
+          get(this.config.templatePaths, foundTemplatePathKey),
         ),
       );
       const fixedPath = this.findTemplateWithExt(rawPath);
@@ -211,31 +217,20 @@ export class TemplatesWorker {
 
   renderTemplate = (
     template: string,
-    configuration: object,
-    options: object = {},
+    configuration: Record<string, unknown>,
   ) => {
     if (!template) return "";
 
-    return Eta.render(
-      template,
+    return eta.render(
+      eta.compile(template, { async: false }),
       {
         ...this.getRenderTemplateData(),
         ...configuration,
       },
       {
-        async: false,
-        ...options,
-        includeFile: (
-          path: string,
-          configuration: object,
-          options: object = {},
-        ) => {
-          return this.renderTemplate(
-            this.getTemplateContent(path),
-            configuration,
-            options,
-          );
-        },
+        // @ts-expect-error eta's meta options lack includeFile despite runtime support
+        includeFile: (path: string, configuration: Record<string, string>) =>
+          this.renderTemplate(this.getTemplateContent(path), configuration),
       },
     );
   };
