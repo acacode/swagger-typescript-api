@@ -96,6 +96,74 @@ export class ResolvedSwaggerSchema {
     return urlOrPath.split("#")[0] || urlOrPath;
   }
 
+  /**
+   * GitLab REST "get raw file from repository" URLs encode the whole repo-relative
+   * file path as a single path segment, so resolving `./other.yaml` must rebuild
+   * that segment instead of relying on URL resolution rules.
+   *
+   * We only apply this when the base URL matches GitLab's documented API shape
+   * (`/api/v…/projects/…/repository/files/…/raw`), not for arbitrary hosts that
+   * happen to contain similar path fragments.
+   *
+   * @see https://docs.gitlab.com/ee/api/repository_files.html#get-raw-file-from-repository
+   */
+  private createGitlabRepositoryFileUrl(
+    relativePath: string,
+    baseUrl: string,
+  ): string | null {
+    if (
+      !relativePath ||
+      this.isHttpUrl(relativePath) ||
+      relativePath.startsWith("/")
+    ) {
+      return null;
+    }
+
+    try {
+      const parsedBaseUrl = new URL(baseUrl);
+      const match = parsedBaseUrl.pathname.match(
+        /^(.*?)(\/api\/v\d+\/projects\/[^/]+\/repository\/files\/)(.+)(\/raw)$/,
+      );
+
+      const [, beforeApi, apiRepoFilesPrefix, encodedFilePath, suffix] =
+        match || [];
+      if (!apiRepoFilesPrefix || !encodedFilePath || !suffix) {
+        return null;
+      }
+
+      const prefix = `${beforeApi ?? ""}${apiRepoFilesPrefix}`;
+      const currentFilePath = decodeURIComponent(encodedFilePath);
+      const nextFilePath = path.posix.normalize(
+        path.posix.join(path.posix.dirname(currentFilePath), relativePath),
+      );
+
+      parsedBaseUrl.pathname = `${prefix}${encodeURIComponent(nextFilePath)}${suffix}`;
+      parsedBaseUrl.hash = "";
+
+      return parsedBaseUrl.toString();
+    } catch (e) {
+      consola.debug(e);
+      return null;
+    }
+  }
+
+  private resolveAbsoluteUrl(pathOrUrl: string, baseUrl: string): string {
+    try {
+      if (this.isHttpUrl(pathOrUrl)) {
+        return this.stripHash(pathOrUrl);
+      }
+
+      const gitlabUrl = this.createGitlabRepositoryFileUrl(pathOrUrl, baseUrl);
+
+      return this.stripHash(
+        gitlabUrl ?? new URL(pathOrUrl, baseUrl).toString(),
+      );
+    } catch (e) {
+      consola.debug("failed to resolve absolute url", e);
+      return pathOrUrl;
+    }
+  }
+
   private extractRefsFromSchema(schema: unknown): string[] {
     const refs = new Set<string>();
 
@@ -194,15 +262,7 @@ export class ResolvedSwaggerSchema {
           continue;
         }
 
-        let absoluteUrl = "";
-        try {
-          absoluteUrl = this.isHttpUrl(externalPath)
-            ? this.stripHash(externalPath)
-            : this.stripHash(new URL(externalPath, currentUrl).toString());
-        } catch (e) {
-          consola.debug(e);
-        }
-
+        const absoluteUrl = this.resolveAbsoluteUrl(externalPath, currentUrl);
         if (absoluteUrl && !visited.has(absoluteUrl)) {
           queue.push(absoluteUrl);
         }
@@ -262,11 +322,9 @@ export class ResolvedSwaggerSchema {
     const results = new Set<string>();
 
     for (const base of bases) {
-      try {
-        const absolutePath = new URL(relativePath, base).toString();
+      const absolutePath = this.resolveAbsoluteUrl(relativePath, base);
+      if (absolutePath) {
         results.add(pointer ? `${absolutePath}#${pointer}` : absolutePath);
-      } catch (e) {
-        consola.debug(e);
       }
     }
 

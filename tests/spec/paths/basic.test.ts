@@ -6,6 +6,7 @@ import { generateApi } from "../../../src/index.js";
 
 describe("basic", async () => {
   let tmpdir = "";
+  const remoteRefTestTimeout = 120_000;
 
   const generateAndReadOutput = async () => {
     await generateApi({
@@ -35,52 +36,60 @@ describe("basic", async () => {
     await fs.rm(tmpdir, { recursive: true });
   });
 
-  test("paths(simplest-1-path)", async () => {
-    const content = await generateAndReadOutput();
+  test(
+    "paths(simplest-1-path)",
+    async () => {
+      const content = await generateAndReadOutput();
 
-    expect(content).toMatchSnapshot();
-  });
+      expect(content).toMatchSnapshot();
+    },
+    remoteRefTestTimeout,
+  );
 
-  test("paths(cross-file-ref-variants)", async () => {
-    const content = await generateAndReadOutput();
+  test(
+    "paths(cross-file-ref-variants)",
+    async () => {
+      const content = await generateAndReadOutput();
 
-    expect(content).toContain("export type GetRepositoryData = Repository;");
-    expect(content).toContain("export type GetExternalUserData = User;");
-    expect(content).toContain(
-      "export type GetExternalContainerData = CrossFileMixed;",
-    );
-    expect(content).toContain(
-      "export type GetExternalBridgeData = CrossBridge;",
-    );
-    expect(content).toContain("export type CrossFileRepositoryViaRepro =");
-    expect(content).toContain("export type CrossFileUserViaRepro =");
-    expect(content).toContain("export type CrossFileNestedViaRepro =");
-    expect(content).toContain("export type CrossFileMixedViaThird =");
-    expect(content).toContain("export type CrossBridgeViaThird =");
-    expect(content).toContain("export type ReproBundleViaThird =");
-    expect(content).toContain("export type ExternalGraphNodeViaRepro =");
-    expect(content).toContain("export type MultiFileEnvelopeViaRepro =");
-    expect(content).toContain("export type ThirdBridgeViaRepro =");
-    expect(content).toContain("export type ThirdBundleViaRepro =");
-    expect(content).toContain("export type UnionFromThirdViaRepro =");
-    expect(content).toContain("export type AllOfFromThirdViaRepro =");
-    expect(content).toContain("export type AnyOfFromThirdViaRepro =");
-    expect(content).toContain(
-      "export type ThirdRootPathUserViaRepro = ThirdRootPathUserAlias;",
-    );
-    expect(content).toContain(
-      "export type ThirdRootPathRepositoryViaRepro = ThirdRootPathRepositoryAlias;",
-    );
-    expect(content).toContain(
-      "export type ThirdRootPathBridgeViaRepro = ThirdRootPathBridgeAlias;",
-    );
-    expect(content).not.toContain(
-      "export type ThirdRootPathBridgeAlias = any;",
-    );
-    expect(content).toContain("export type ReproCrossComplexRoot =");
-    expect(content).toContain("export type ReproCrossUnionRoot =");
-    expect(content).toContain("export type ThirdUnionRoot =");
-    expect(content).toContain("export type ThirdAllOfRoot =");
-    expect(content).toContain("export type ThirdAnyOfRoot =");
-  });
+      expect(content).toContain("export type GetRepositoryData = Repository;");
+      expect(content).toContain("export type GetExternalUserData = User;");
+      expect(content).toContain(
+        "export type GetExternalContainerData = CrossFileMixed;",
+      );
+      expect(content).toContain(
+        "export type GetExternalBridgeData = CrossBridge;",
+      );
+      expect(content).toContain("export type CrossFileRepositoryViaRepro =");
+      expect(content).toContain("export type CrossFileUserViaRepro =");
+      expect(content).toContain("export type CrossFileNestedViaRepro =");
+      expect(content).toContain("export type CrossFileMixedViaThird =");
+      expect(content).toContain("export type CrossBridgeViaThird =");
+      expect(content).toContain("export type ReproBundleViaThird =");
+      expect(content).toContain("export type ExternalGraphNodeViaRepro =");
+      expect(content).toContain("export type MultiFileEnvelopeViaRepro =");
+      expect(content).toContain("export type ThirdBridgeViaRepro =");
+      expect(content).toContain("export type ThirdBundleViaRepro =");
+      expect(content).toContain("export type UnionFromThirdViaRepro =");
+      expect(content).toContain("export type AllOfFromThirdViaRepro =");
+      expect(content).toContain("export type AnyOfFromThirdViaRepro =");
+      expect(content).toContain(
+        "export type ThirdRootPathUserViaRepro = ThirdRootPathUserAlias;",
+      );
+      expect(content).toContain(
+        "export type ThirdRootPathRepositoryViaRepro = ThirdRootPathRepositoryAlias;",
+      );
+      expect(content).toContain(
+        "export type ThirdRootPathBridgeViaRepro = ThirdRootPathBridgeAlias;",
+      );
+      expect(content).not.toContain(
+        "export type ThirdRootPathBridgeAlias = any;",
+      );
+      expect(content).toContain("export type ReproCrossComplexRoot =");
+      expect(content).toContain("export type ReproCrossUnionRoot =");
+      expect(content).toContain("export type ThirdUnionRoot =");
+      expect(content).toContain("export type ThirdAllOfRoot =");
+      expect(content).toContain("export type ThirdAnyOfRoot =");
+    },
+    remoteRefTestTimeout,
+  );
 });

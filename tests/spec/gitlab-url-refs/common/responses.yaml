@@ -1,0 +1,15 @@
+components:
+  schemas:
+    TestFooError:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: SERVICE_NOT_FOUND
+        message:
+          type: string
+        traceId:
+          type: string
