@@ -1,5 +1,13 @@
 # swagger-typescript-api
 
+## 13.8.0
+
+### Minor Changes
+
+- [`1a1f5b6`](https://github.com/acacode/swagger-typescript-api/commit/1a1f5b68299530be3618f7d63bfc1cf5e3781ab8) Thanks [@js2me](https://github.com/js2me)! - support gitlab repository files external refs
+
+- [`74d16fb`](https://github.com/acacode/swagger-typescript-api/commit/74d16fb32b9a30dae423d038d80be451aba33757) Thanks [@js2me](https://github.com/js2me)! - support github repository files external refs
+
 ## 13.7.2
 
 ### Patch Changes
