@@ -147,6 +147,179 @@ export class ResolvedSwaggerSchema {
     }
   }
 
+  private splitGithubRefAndFilePath(rest: string): Maybe<{
+    ref: string;
+    pathSegments: string[];
+  }> {
+    const segments = rest.split("/").filter(Boolean);
+    if (segments.length < 2) {
+      return null;
+    }
+
+    if (
+      segments[0] === "refs" &&
+      segments[1] === "heads" &&
+      segments.length >= 4
+    ) {
+      return {
+        ref: `${segments[0]}/${segments[1]}/${segments[2]}`,
+        pathSegments: segments.slice(3),
+      };
+    }
+
+    if (
+      segments[0] === "refs" &&
+      segments[1] === "tags" &&
+      segments.length >= 4
+    ) {
+      return {
+        ref: `${segments[0]}/${segments[1]}/${segments[2]}`,
+        pathSegments: segments.slice(3),
+      };
+    }
+
+    const first = segments[0];
+    if (!first) {
+      return null;
+    }
+
+    if (first && first.length === 40 && /^[0-9a-f]+$/i.test(first)) {
+      return {
+        ref: first,
+        pathSegments: segments.slice(1),
+      };
+    }
+
+    return {
+      ref: first,
+      pathSegments: segments.slice(1),
+    };
+  }
+
+  private buildRawGithubusercontentUrl({
+    owner,
+    repo,
+    ref,
+    repoRelativeFilePath,
+  }: {
+    owner: string;
+    repo: string;
+    ref: string;
+    repoRelativeFilePath: string;
+  }): string {
+    const refSegments = ref.split("/").filter(Boolean);
+    const fileSegments = repoRelativeFilePath.split("/").filter(Boolean);
+    const pathname = ["", owner, repo, ...refSegments, ...fileSegments].join(
+      "/",
+    );
+
+    return `https://raw.githubusercontent.com${pathname}`;
+  }
+
+  private resolveGithubRepositoryRelativeFilePath(
+    relativePath: string,
+    tail: string,
+  ): Maybe<{
+    ref: string;
+    repoRelativeFilePath: string;
+  }> {
+    const split = this.splitGithubRefAndFilePath(tail);
+    if (!split || split.pathSegments.length === 0) {
+      return null;
+    }
+
+    const currentFilePath = split.pathSegments.join("/");
+    const nextFilePath = path.posix.normalize(
+      path.posix.join(path.posix.dirname(currentFilePath), relativePath),
+    );
+
+    if (nextFilePath.startsWith("..")) {
+      return null;
+    }
+
+    return {
+      ref: split.ref,
+      repoRelativeFilePath: nextFilePath,
+    };
+  }
+
+  private createGithubRepositoryFileUrl(
+    relativePath: string,
+    baseUrl: string,
+  ): string | null {
+    if (
+      !relativePath ||
+      this.isHttpUrl(relativePath) ||
+      relativePath.startsWith("/")
+    ) {
+      return null;
+    }
+
+    try {
+      const parsed = new URL(baseUrl);
+      const host = parsed.hostname.toLowerCase();
+
+      if (host === "raw.githubusercontent.com") {
+        const match = parsed.pathname.match(/^\/([^/]+)\/([^/]+)\/(.+)$/);
+        const [, owner, repo, tail] = match || [];
+        if (!owner || !repo || !tail) {
+          return null;
+        }
+
+        const resolved = this.resolveGithubRepositoryRelativeFilePath(
+          relativePath,
+          tail,
+        );
+        if (!resolved) {
+          return null;
+        }
+
+        const out = new URL(
+          this.buildRawGithubusercontentUrl({
+            owner,
+            repo,
+            ref: resolved.ref,
+            repoRelativeFilePath: resolved.repoRelativeFilePath,
+          }),
+        );
+        out.search = parsed.search;
+        out.hash = "";
+
+        return out.toString();
+      }
+
+      if (host === "github.com" || host === "www.github.com") {
+        const blob = parsed.pathname.match(/^\/([^/]+)\/([^/]+)\/blob\/(.+)$/);
+        const raw = parsed.pathname.match(/^\/([^/]+)\/([^/]+)\/raw\/(.+)$/);
+        const match = blob || raw;
+        const [, owner, repo, tail] = match || [];
+        if (!owner || !repo || !tail) {
+          return null;
+        }
+
+        const resolved = this.resolveGithubRepositoryRelativeFilePath(
+          relativePath,
+          tail,
+        );
+        if (!resolved) {
+          return null;
+        }
+
+        return this.buildRawGithubusercontentUrl({
+          owner,
+          repo,
+          ref: resolved.ref,
+          repoRelativeFilePath: resolved.repoRelativeFilePath,
+        });
+      }
+
+      return null;
+    } catch (e) {
+      consola.debug(e);
+      return null;
+    }
+  }
+
   private resolveAbsoluteUrl(pathOrUrl: string, baseUrl: string): string {
     try {
       if (this.isHttpUrl(pathOrUrl)) {
@@ -154,9 +327,10 @@ export class ResolvedSwaggerSchema {
       }
 
       const gitlabUrl = this.createGitlabRepositoryFileUrl(pathOrUrl, baseUrl);
+      const githubUrl = this.createGithubRepositoryFileUrl(pathOrUrl, baseUrl);
 
       return this.stripHash(
-        gitlabUrl ?? new URL(pathOrUrl, baseUrl).toString(),
+        gitlabUrl ?? githubUrl ?? new URL(pathOrUrl, baseUrl).toString(),
       );
     } catch (e) {
       consola.debug("failed to resolve absolute url", e);
