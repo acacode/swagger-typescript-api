@@ -98,6 +98,7 @@ export class CodeGenConfig {
       _typeName: unknown,
       _schemaType: unknown,
     ) => void 0,
+
     onParseSchema: (_originalSchema: unknown, parsedSchema: unknown) =>
       parsedSchema,
     onCreateRoute: (routeData: unknown) => routeData,

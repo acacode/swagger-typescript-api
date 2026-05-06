@@ -32,9 +32,12 @@ describe("responses-refs-test single-file output", async () => {
       sortTypes: true,
     });
 
-    const content = await fs.readFile(path.join(tmpdir, "responses-refs-test.ts"), {
-      encoding: "utf8",
-    });
+    const content = await fs.readFile(
+      path.join(tmpdir, "responses-refs-test.ts"),
+      {
+        encoding: "utf8",
+      },
+    );
 
     expect(content).toMatchSnapshot();
   });
