@@ -161,7 +161,7 @@ export class SchemaUtils {
 
     const nullKeyword = this.config.Ts.Keyword.Null;
     const hasRootLevelNull = new RegExp(
-      `(^|\\|)\\s*${nullKeyword}\\s*(\\||$)`,
+      `(^|\\||\\()\\s*${nullKeyword}\\s*(\\||\\)|$)`,
     ).test(type);
 
     return !hasRootLevelNull;
