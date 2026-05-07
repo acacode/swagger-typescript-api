@@ -1,5 +1,202 @@
 # swagger-typescript-api
 
+## 13.9.0
+
+### Minor Changes
+
+- [`58c6818`](https://github.com/acacode/swagger-typescript-api/commit/58c68180e4a73e4c2cc5381acb0527e76d804c38) Thanks [@js2me](https://github.com/js2me)! - local fragment ref partial support (`#..`)
+
+## 13.8.0
+
+### Minor Changes
+
+- [`1a1f5b6`](https://github.com/acacode/swagger-typescript-api/commit/1a1f5b68299530be3618f7d63bfc1cf5e3781ab8) Thanks [@js2me](https://github.com/js2me)! - support gitlab repository files external refs
+
+- [`74d16fb`](https://github.com/acacode/swagger-typescript-api/commit/74d16fb32b9a30dae423d038d80be451aba33757) Thanks [@js2me](https://github.com/js2me)! - support github repository files external refs
+
+## 13.7.2
+
+### Patch Changes
+
+- [`5f6b28a`](https://github.com/acacode/swagger-typescript-api/commit/5f6b28ac064bb82ffef62ed24e85395e4958e798) Thanks [@js2me](https://github.com/js2me)! - yet another fix of the issue [#1433](https://github.com/acacode/swagger-typescript-api/issues/1433) (incorrect yaml multiline parsing)
+
+## 13.7.1
+
+### Patch Changes
+
+- [`189ad98`](https://github.com/acacode/swagger-typescript-api/commit/189ad98a509c21b5904aa7d4867e3c32a391a386) Thanks [@js2me](https://github.com/js2me)! - fixed normalization external refs in swagger schema
+
+## 13.7.0
+
+### Minor Changes
+
+- [`beccbaa`](https://github.com/acacode/swagger-typescript-api/commit/beccbaab02aaa09aea1ec65b71581071ef8cc024) Thanks [@js2me](https://github.com/js2me)! - Add `typeNameSeparator` config option for joining `typePrefix`, type name,
+  and `typeSuffix` in `TypeNameFormatter`.
+
+  This separator is primarily effective with `disableFormatTypeNames: true`,
+  or when custom `hooks.onFormatTypeName` preserves separators without
+  normalization.
+
+- [`162739a`](https://github.com/acacode/swagger-typescript-api/commit/162739a04d13bc49e073ee85a8c79ff8cd79d4ca) Thanks [@js2me](https://github.com/js2me)! - Add `disableFormatTypeNames` option to disable type name formatting
+  and normalization in the generator.
+
+  When enabled, generated names keep raw separators (for example,
+  `Foo_Bar` stays `Foo_Bar`), which prevents collisions caused by
+  `startCase`-based normalization (such as `Foo_Bar` and `FooBar`
+  both becoming `FooBar`).
+
+  The option is available in config and via CLI as
+  `--disable-format-type-names`, and is covered by a dedicated
+  spec test in `tests/spec/disableFormatTypeNames`.
+
+### Patch Changes
+
+- [#1726](https://github.com/acacode/swagger-typescript-api/pull/1726) [`1b60264`](https://github.com/acacode/swagger-typescript-api/commit/1b602645a1019bc5d190a6c7514a660fd51c65cb) Thanks [@mlewando-cp](https://github.com/mlewando-cp)! - Dedupe colliding TypeScript identifiers produced by the `TypeNameFormatter`.
+
+  Two OpenAPI schema keys that differ only in separator placement — e.g.
+  `Foo_Bar` and `FooBar` — used to collapse to the same identifier via
+  `startCase` + whitespace-strip and emit two `export interface FooBar`
+  declarations (TS2717 whenever the shapes differed).
+
+  `TypeNameFormatter` now exposes a `precommit(rawNames)` method the generator
+  calls once after loading schema components and before schema parsing. It
+  resolves every raw name in two passes — canonical names (raw === formatted
+  output) claim their slot first, then non-canonical names suffix-until-free —
+  so user-declared identifiers like `FooBar1` are preserved regardless of
+  source order, and collisions deterministically produce `FooBar`, `FooBar1`,
+  `FooBar2`, … References to each schema (including inline generics in route
+  handlers) stay consistent with the emitted `export interface` declarations.
+
+  `format()` is now a pure cache lookup with a fallback for names discovered
+  after precommit (enum keys, `extractEnums`/`extractResponses` results). All
+  formatting logic is concentrated in a single private `computeFormattedName`
+  helper, so the new behavior composes cleanly with `disableFormatTypeNames`
+  and `typeNameSeparator`.
+
+  Fixes [#1724](https://github.com/acacode/swagger-typescript-api/issues/1724).
+
+## 13.6.11
+
+### Patch Changes
+
+- [#1722](https://github.com/acacode/swagger-typescript-api/pull/1722) [`586d60b`](https://github.com/acacode/swagger-typescript-api/commit/586d60b38071eaa4da78748388bf0c94ecdd4e86) Thanks [@tenenger7125](https://github.com/tenenger7125)! - Add: null to allOf intersection types with nullable(true)
+
+## 13.6.10
+
+### Patch Changes
+
+- [`08026ef`](https://github.com/acacode/swagger-typescript-api/commit/08026ef36597a3b79098b454b173817a36e36f84) Thanks [@js2me](https://github.com/js2me)! - add servers field to route info raw
+
+## 13.6.9
+
+### Patch Changes
+
+- [`756f5aa`](https://github.com/acacode/swagger-typescript-api/commit/756f5aa7cf6176d5f3cab5946165a6ed932b51df) Thanks [@js2me](https://github.com/js2me)! - rich typings and data for parsed route raw data
+
+## 13.6.8
+
+### Patch Changes
+
+- [`8414b3c`](https://github.com/acacode/swagger-typescript-api/commit/8414b3c719d2c2ed3d0799dcae319d14574716c3) Thanks [@js2me](https://github.com/js2me)! - Fix extracted response/error type names colliding with existing schemas. Add tests.
+
+## 13.6.7
+
+### Patch Changes
+
+- [`4603a7e`](https://github.com/acacode/swagger-typescript-api/commit/4603a7e99a9193e20389f07bed815ef3219ed7d0) Thanks [@js2me](https://github.com/js2me)! - fixed bug [#1668](https://github.com/acacode/swagger-typescript-api/issues/1668) (random of type names)
+
+## 13.6.6
+
+### Patch Changes
+
+- [`d57ecdc`](https://github.com/acacode/swagger-typescript-api/commit/d57ecdcc81124e266fb117fd3d2bb4d62b038c4f) Thanks [@js2me](https://github.com/js2me)! - fix bug [#1433](https://github.com/acacode/swagger-typescript-api/issues/1433) (incorrect yaml multiline files)
+
+## 13.6.5
+
+### Patch Changes
+
+- [`bd68761`](https://github.com/acacode/swagger-typescript-api/commit/bd687619430890668466b948cf281fc412824bd4) Thanks [@js2me](https://github.com/js2me)! - fixed bug linked with unused query param (bug [#1433](https://github.com/acacode/swagger-typescript-api/issues/1433) , 1 point)
+
+## 13.6.4
+
+### Patch Changes
+
+- [`df7147e`](https://github.com/acacode/swagger-typescript-api/commit/df7147e6d5cafc68d0c1ea7d58f8c1f8376fe460) Thanks [@js2me](https://github.com/js2me)! - fixed bug [#1433](https://github.com/acacode/swagger-typescript-api/issues/1433) (multiline descriptions bug)
+
+## 13.6.3
+
+### Patch Changes
+
+- [`41bdc18`](https://github.com/acacode/swagger-typescript-api/commit/41bdc18c3a975992188af17b9d88f452dc9cc708) Thanks [@js2me](https://github.com/js2me)! - fixed convertation format: json\blob for responses with extractResponseBody flag
+
+- [`41bdc18`](https://github.com/acacode/swagger-typescript-api/commit/41bdc18c3a975992188af17b9d88f452dc9cc708) Thanks [@js2me](https://github.com/js2me)! - fix `contentTypes` internal field for route
+
+## 13.6.2
+
+### Patch Changes
+
+- [`1f1ba56`](https://github.com/acacode/swagger-typescript-api/commit/1f1ba56ef331d64c0c3fef146902ec1c4edc64eb) Thanks [@js2me](https://github.com/js2me)! - add internal pass data for binary checks responses
+
+## 13.6.1
+
+### Patch Changes
+
+- [`dc6f2db`](https://github.com/acacode/swagger-typescript-api/commit/dc6f2db48bf6198482599221af999fdad0738792) Thanks [@js2me](https://github.com/js2me)! - fixes `produces` should generate `Blob` response for all binary values
+
+## 13.6.0
+
+### Minor Changes
+
+- [`c4b02db`](https://github.com/acacode/swagger-typescript-api/commit/c4b02db37b0eeeb93f50df9a881e4763d091b5a5) Thanks [@js2me](https://github.com/js2me)! - paths with `"produces"` with binary mime types only should return only binary type - `Blob`
+
+## 13.5.0
+
+### Minor Changes
+
+- [`1ed598b`](https://github.com/acacode/swagger-typescript-api/commit/1ed598beb1a07d4ed67460e8f1b09fd1a21907ab) Thanks [@js2me](https://github.com/js2me)! - add missing `string->byte` convertaion (`Blob`)
+
+## 13.4.0
+
+### Minor Changes
+
+- [`f2f27aa`](https://github.com/acacode/swagger-typescript-api/commit/f2f27aac9d485b729c73d21fc42b87c2ba1b94cb) Thanks [@js2me](https://github.com/js2me)! - support `contentMediaType` property
+
+- [#1643](https://github.com/acacode/swagger-typescript-api/pull/1643) [`7f76066`](https://github.com/acacode/swagger-typescript-api/commit/7f760665538ffd75e682f1fc800f591da0a54428) Thanks [@nolannbiron](https://github.com/nolannbiron)! - Wrap Record types in Partial for propertyNames
+
+## 13.3.1
+
+### Patch Changes
+
+- [`96f5b8d`](https://github.com/acacode/swagger-typescript-api/commit/96f5b8d823bf0b8db0c825de2107c5db2419bafc) Thanks [@js2me](https://github.com/js2me)! - fixes [#551](https://github.com/acacode/swagger-typescript-api/issues/551) issue (@type property in interfaces)
+
+- [`f032ff1`](https://github.com/acacode/swagger-typescript-api/commit/f032ff1ac6d140f4cbfb16b8392d61fafcd8e2b8) Thanks [@js2me](https://github.com/js2me)! - fixed [#893](https://github.com/acacode/swagger-typescript-api/issues/893) issue
+
+- [`639c3ae`](https://github.com/acacode/swagger-typescript-api/commit/639c3aec2405dfe26903c2a57f922239c3dff29a) Thanks [@js2me](https://github.com/js2me)! - fixed [#1536](https://github.com/acacode/swagger-typescript-api/issues/1536) issue
+
+## 13.3.0
+
+### Minor Changes
+
+- [#1434](https://github.com/acacode/swagger-typescript-api/pull/1434) [`6d977dd`](https://github.com/acacode/swagger-typescript-api/commit/6d977dda02e08818bb0cf3a8edeab7e126995f6f) Thanks [@js2me](https://github.com/js2me)! - partial support external paths by ref (#447)
+
+- [#1434](https://github.com/acacode/swagger-typescript-api/pull/1434) [`6d977dd`](https://github.com/acacode/swagger-typescript-api/commit/6d977dda02e08818bb0cf3a8edeab7e126995f6f) Thanks [@js2me](https://github.com/js2me)! - added partial support links property (jsdoc ref only)
+
+## 13.2.18
+
+### Patch Changes
+
+- [#1620](https://github.com/acacode/swagger-typescript-api/pull/1620) [`def2833`](https://github.com/acacode/swagger-typescript-api/commit/def283386db36aa118bce30121a594774c0856e2) Thanks [@smorimoto](https://github.com/smorimoto)! - Restore `objectAssign` utility with es-toolkit to fix `codeGenConstructs` and `primitiveTypeConstructs` options. The lodash-to-es-toolkit migration (#1562) replaced `objectAssign` with `Object.assign`, which broke function-form arguments and deep merging. This restores both behaviors: functions are called with the current struct before merging, and nested properties are preserved via deep merge.
+
+- [#1611](https://github.com/acacode/swagger-typescript-api/pull/1611) [`92a2d46`](https://github.com/acacode/swagger-typescript-api/commit/92a2d4601adf57f422f6995d734ef82ac6b104b2) Thanks [@smorimoto](https://github.com/smorimoto)! - Escape `*/` sequences in generated JSDoc content to prevent comment injection from OpenAPI fields.
+
+## 13.2.17
+
+### Patch Changes
+
+- [#1603](https://github.com/acacode/swagger-typescript-api/pull/1603) [`19a4d29`](https://github.com/acacode/swagger-typescript-api/commit/19a4d29b2cecf1ce950a02c542dc4eca4067b2d3) Thanks [@clicktodev](https://github.com/clicktodev)! - Fix missing closing angle bracket in `describeReturnType` function's default case, which produced malformed return type syntax `Promise<HttpResponse<T, E>` instead of `Promise<HttpResponse<T, E>>`.
+
+- [#1606](https://github.com/acacode/swagger-typescript-api/pull/1606) [`0528831`](https://github.com/acacode/swagger-typescript-api/commit/05288312df0a803f7982d954d724634fbdcfbdf2) Thanks [@smorimoto](https://github.com/smorimoto)! - Replace Yarn with Bun as the package manager.
+
 ## 13.2.16
 
 ### Patch Changes

@@ -1,4 +1,4 @@
-import lodash from "lodash";
+import { compact, merge, uniq } from "es-toolkit";
 import type { OpenAPI } from "openapi-types";
 import * as typescript from "typescript";
 import type {
@@ -9,6 +9,7 @@ import type {
 } from "../types/index.js";
 import { ComponentTypeNameResolver } from "./component-type-name-resolver.js";
 import * as CONSTANTS from "./constants.js";
+import type { ResolvedSwaggerSchema } from "./resolved-swagger-schema.js";
 import type { MonoSchemaParser } from "./schema-parser/mono-schema-parser.js";
 import type { SchemaParser } from "./schema-parser/schema-parser.js";
 import type { Translator } from "./translators/translator.js";
@@ -25,6 +26,7 @@ const TsKeyword = {
   Undefined: "undefined",
   Object: "object",
   File: "File",
+  Blob: "Blob",
   Date: "Date",
   Type: "type",
   Enum: "enum",
@@ -96,6 +98,7 @@ export class CodeGenConfig {
       _typeName: unknown,
       _schemaType: unknown,
     ) => void 0,
+
     onParseSchema: (_originalSchema: unknown, parsedSchema: unknown) =>
       parsedSchema,
     onCreateRoute: (routeData: unknown) => routeData,
@@ -110,11 +113,13 @@ export class CodeGenConfig {
     ) => {},
     onFormatRouteName: (_routeInfo: unknown, _templateRouteName: unknown) => {},
   };
+  resolvedSwaggerSchema!: ResolvedSwaggerSchema;
   defaultResponseType;
   singleHttpClient = false;
   httpClientType = CONSTANTS.HTTP_CLIENT.FETCH;
   unwrapResponseData = false;
   disableThrowOnError = false;
+  disableFormatTypeNames = false;
   sortTypes = false;
   sortRoutes = false;
   templatePaths = {
@@ -147,6 +152,7 @@ export class CodeGenConfig {
   silent = false;
   typePrefix = "";
   typeSuffix = "";
+  typeNameSeparator = "_";
   enumKeyPrefix = "";
   enumKeySuffix = "";
   patch = false;
@@ -167,7 +173,7 @@ export class CodeGenConfig {
   spec: OpenAPI.Document | null = null;
   fileName = "Api.ts";
   authorizationToken: string | undefined;
-  requestOptions = null;
+  requestOptions: Record<string, any> | null = null;
 
   jsPrimitiveTypes: string[] = [];
   jsEmptyTypes: string[] = [];
@@ -252,7 +258,7 @@ export class CodeGenConfig {
      * $A1 | $A2
      */
     UnionType: (contents: unknown[]) =>
-      lodash.join(lodash.uniq(contents), ` ${this.Ts.Keyword.Union} `),
+      uniq(contents).join(` ${this.Ts.Keyword.Union} `),
     /**
      * ($A1)
      */
@@ -261,7 +267,7 @@ export class CodeGenConfig {
      * $A1 & $A2
      */
     IntersectionType: (contents: unknown[]) =>
-      lodash.join(lodash.uniq(contents), ` ${this.Ts.Keyword.Intersection} `),
+      uniq(contents).join(` ${this.Ts.Keyword.Intersection} `),
     /**
      * Record<$A1, $A2>
      */
@@ -271,9 +277,13 @@ export class CodeGenConfig {
      * readonly $key?:$value
      */
     TypeField: ({ readonly, key, optional, value }: Record<string, unknown>) =>
-      lodash
-        .compact([readonly && "readonly ", key, optional && "?", ": ", value])
-        .join(""),
+      compact([
+        readonly && "readonly ",
+        key,
+        optional && "?",
+        ": ",
+        value,
+      ]).join(""),
     /**
      * [key: $A1]: $A2
      */
@@ -307,14 +317,12 @@ export class CodeGenConfig {
      * $AN.key = $AN.value,
      */
     EnumFieldsWrapper: (contents: Record<string, unknown>[]) =>
-      lodash
-        .map(contents, ({ key, value, description }) => {
-          return [
+      contents
+        .map(({ key, value, description }) => {
+          return compact([
             this.Ts.EnumFieldDescription(description),
             `  ${this.Ts.EnumField(key, value)}`,
-          ]
-            .filter(Boolean)
-            .join("\n");
+          ]).join("\n");
         })
         .join(",\n"),
     /**
@@ -372,6 +380,7 @@ export class CodeGenConfig {
 
       /** formats */
       binary: () => this.Ts.Keyword.File,
+      byte: () => this.Ts.Keyword.Blob,
       file: () => this.Ts.Keyword.File,
       "date-time": () => this.Ts.Keyword.String,
       time: () => this.Ts.Keyword.String,
@@ -422,7 +431,7 @@ export class CodeGenConfig {
 
     this.update({
       ...otherConfig,
-      hooks: lodash.merge(this.hooks, hooks || {}),
+      hooks: merge(this.hooks, hooks || {}),
       constants: {
         ...CONSTANTS,
         ...constants,
@@ -439,7 +448,13 @@ export class CodeGenConfig {
     this.componentTypeNameResolver = new ComponentTypeNameResolver(this, []);
   }
 
-  update = (update: Partial<GenerateApiConfiguration["config"]>) => {
+  update = (
+    update: Partial<
+      GenerateApiConfiguration["config"] & {
+        resolvedSwaggerSchema: ResolvedSwaggerSchema;
+      }
+    >,
+  ) => {
     objectAssign(this, update);
     if (this.enumNamesAsValues) {
       this.extractEnums = true;

@@ -1,11 +1,20 @@
 import { consola } from "consola";
-import lodash from "lodash";
-import type { OpenAPI, OpenAPIV2 } from "openapi-types";
+import { compact, merge, uniq } from "es-toolkit";
+import { get } from "es-toolkit/compat";
+import type { OpenAPI, OpenAPIV2, OpenAPIV3 } from "openapi-types";
 import * as swagger2openapi from "swagger2openapi";
-import * as YAML from "yaml";
 import type { CodeGenConfig } from "./configuration.js";
+import { ResolvedSwaggerSchema } from "./resolved-swagger-schema.js";
+import { parseSchemaContent } from "./util/parse-schema-content.js";
 import type { FileSystem } from "./util/file-system.js";
 import { Request } from "./util/request.js";
+
+interface SwaggerSchemas {
+  usageSchema: OpenAPI.Document;
+  originalSchema: OpenAPI.Document;
+  /** Unmutated copy of the schema before Swagger 2→3 conversion; used to read operation-level produces. */
+  originalSchemaForProduces?: OpenAPI.Document;
+}
 
 export class SwaggerSchemaResolver {
   config: CodeGenConfig;
@@ -18,42 +27,55 @@ export class SwaggerSchemaResolver {
     this.request = new Request(config);
   }
 
-  async create() {
+  async create(): Promise<ResolvedSwaggerSchema> {
     const { spec, patch, input, url, authorizationToken } = this.config;
+    let swaggerSchemas: SwaggerSchemas;
 
     if (spec) {
-      return await this.convertSwaggerObject(spec, { patch });
+      swaggerSchemas = await this.convertSwaggerObject(spec, { patch });
+    } else {
+      const swaggerSchemaFile = await this.fetchSwaggerSchemaFile(
+        input,
+        url,
+        authorizationToken,
+      );
+      const swaggerSchemaObject =
+        this.processSwaggerSchemaFile(swaggerSchemaFile);
+
+      swaggerSchemas = await this.convertSwaggerObject(swaggerSchemaObject, {
+        patch,
+      });
     }
 
-    const swaggerSchemaFile = await this.fetchSwaggerSchemaFile(
-      input,
-      url,
-      authorizationToken,
+    const originalProducesByRoute = this.fixSwaggerSchemas(swaggerSchemas);
+
+    const resolvedSwaggerSchema = await ResolvedSwaggerSchema.create(
+      this.config,
+      swaggerSchemas.usageSchema,
+      swaggerSchemas.originalSchema,
+      originalProducesByRoute,
     );
-    const swaggerSchemaObject =
-      this.processSwaggerSchemaFile(swaggerSchemaFile);
-    return await this.convertSwaggerObject(swaggerSchemaObject, { patch });
+
+    return resolvedSwaggerSchema;
   }
 
   convertSwaggerObject(
     swaggerSchema: OpenAPI.Document,
     converterOptions: { patch?: boolean },
-  ): Promise<{
-    usageSchema: OpenAPI.Document;
-    originalSchema: OpenAPI.Document;
-  }> {
+  ): Promise<SwaggerSchemas> {
     return new Promise((resolve) => {
       const result = structuredClone(swaggerSchema);
-      result.info = lodash.merge(
+      const originalSchemaForProduces = structuredClone(swaggerSchema);
+      result.info = merge(
         {
           title: "No title",
           version: "",
         },
-        result.info,
+        result.info || {},
       );
 
       if (!Object.hasOwn(result, "openapi")) {
-        result.paths = lodash.merge({}, result.paths);
+        result.paths = merge({}, result.paths || {});
 
         swagger2openapi.convertObj(
           result as OpenAPIV2.Document,
@@ -65,11 +87,8 @@ export class SwaggerSchemaResolver {
             rbname: "requestBodyName",
           },
           (err, options) => {
-            const parsedSwaggerSchema = lodash.get(
-              err,
-              "options.openapi",
-              lodash.get(options, "openapi"),
-            );
+            const parsedSwaggerSchema =
+              get(err, "options.openapi") ?? get(options, "openapi");
             if (!parsedSwaggerSchema && err) {
               throw err;
             }
@@ -77,6 +96,7 @@ export class SwaggerSchemaResolver {
             resolve({
               usageSchema: parsedSwaggerSchema,
               originalSchema: result,
+              originalSchemaForProduces,
             });
           },
         );
@@ -84,6 +104,7 @@ export class SwaggerSchemaResolver {
         resolve({
           usageSchema: result,
           originalSchema: structuredClone(result),
+          originalSchemaForProduces,
         });
       }
     });
@@ -111,58 +132,138 @@ export class SwaggerSchemaResolver {
 
   processSwaggerSchemaFile(file: string) {
     if (typeof file !== "string") return file;
+    return parseSchemaContent(file);
+  }
 
-    try {
-      return JSON.parse(file);
-    } catch {
-      return YAML.parse(file);
+  private normalizeRefValue(ref: string): string {
+    const refWithoutSlashBeforeHash = ref.split("/#/").join("#/");
+    const hashIndex = refWithoutSlashBeforeHash.indexOf("#");
+
+    if (hashIndex === -1) {
+      return refWithoutSlashBeforeHash;
+    }
+
+    if (refWithoutSlashBeforeHash[hashIndex + 1] === "/") {
+      return refWithoutSlashBeforeHash;
+    }
+
+    return `${refWithoutSlashBeforeHash.slice(0, hashIndex + 1)}/${refWithoutSlashBeforeHash.slice(hashIndex + 1)}`;
+  }
+
+  private normalizeRefsInSchema(schema: unknown): void {
+    if (!schema || typeof schema !== "object") {
+      return;
+    }
+
+    if (Array.isArray(schema)) {
+      for (const value of schema) {
+        this.normalizeRefsInSchema(value);
+      }
+      return;
+    }
+
+    const objectSchema = schema as Record<string, unknown>;
+
+    if (typeof objectSchema.$ref === "string") {
+      objectSchema.$ref = this.normalizeRefValue(objectSchema.$ref);
+    }
+
+    for (const value of Object.values(objectSchema)) {
+      this.normalizeRefsInSchema(value);
     }
   }
 
-  fixSwaggerSchema({ usageSchema, originalSchema }) {
-    const usagePaths = lodash.get(usageSchema, "paths");
-    const originalPaths = lodash.get(originalSchema, "paths");
+  private fixSwaggerSchemas({
+    usageSchema,
+    originalSchema,
+    originalSchemaForProduces,
+  }: SwaggerSchemas): Record<string, Record<string, string[]>> {
+    this.normalizeRefsInSchema(usageSchema);
+    this.normalizeRefsInSchema(originalSchema);
+
+    const usagePaths = get(usageSchema, "paths") || {};
+    const schemaForProduces = originalSchemaForProduces ?? originalSchema;
+    const originalPaths = get(schemaForProduces, "paths") || {};
+    const basePath =
+      (schemaForProduces as OpenAPIV2.Document).basePath?.replace(/\/$/, "") ||
+      "";
+
+    const originalProducesByRoute: Record<
+      string,
+      Record<string, string[]>
+    > = Object.create(null);
 
     // walk by routes
-    lodash.each(usagePaths, (usagePathObject, route) => {
-      const originalPathObject = lodash.get(originalPaths, route);
+    for (const [route, usagePathObject] of Object.entries(usagePaths)) {
+      const routeWithoutBase =
+        basePath && route.startsWith(basePath)
+          ? route.slice(basePath.length) || "/"
+          : route;
+      const routeWithBase =
+        basePath && !route.startsWith(basePath)
+          ? `${basePath}${route.startsWith("/") ? route : `/${route}`}`
+          : route;
+      const originalPathObject =
+        get(originalPaths, route) ||
+        get(
+          originalPaths,
+          routeWithoutBase.startsWith("/")
+            ? routeWithoutBase
+            : `/${routeWithoutBase}`,
+        ) ||
+        get(originalPaths, routeWithBase) ||
+        {};
 
       // walk by methods
-      lodash.each(usagePathObject, (usageRouteInfo, methodName) => {
-        const originalRouteInfo = lodash.get(originalPathObject, methodName);
-        const usageRouteParams = lodash.get(usageRouteInfo, "parameters", []);
-        const originalRouteParams = lodash.get(
-          originalRouteInfo,
-          "parameters",
-          [],
-        );
+      for (const [methodName, usageRouteInfo] of Object.entries(
+        usagePathObject as Record<string, any>,
+      )) {
+        const originalRouteInfo = get(originalPathObject, methodName) || {};
+        const usageRouteParams = get(usageRouteInfo, "parameters") || [];
+        const originalRouteParams = get(originalRouteInfo, "parameters") || [];
+
+        const usageAsOpenapiv2 =
+          usageRouteInfo as unknown as OpenAPIV2.Document;
 
         if (typeof usageRouteInfo === "object") {
-          usageRouteInfo.consumes = lodash.uniq(
-            lodash.compact([
-              ...(usageRouteInfo.consumes || []),
+          usageAsOpenapiv2.consumes = uniq(
+            compact([
+              ...(usageAsOpenapiv2.consumes || []),
               ...(originalRouteInfo.consumes || []),
             ]),
           );
-          usageRouteInfo.produces = lodash.uniq(
-            lodash.compact([
-              ...(usageRouteInfo.produces || []),
+          let mergedProduces = uniq(
+            compact([
+              ...(usageAsOpenapiv2.produces || []),
               ...(originalRouteInfo.produces || []),
             ]),
           );
+          if (mergedProduces.length === 0) {
+            mergedProduces = uniq(
+              compact(get(schemaForProduces, "produces") || []),
+            );
+          }
+          usageAsOpenapiv2.produces = mergedProduces;
+          if (mergedProduces.length > 0) {
+            if (!originalProducesByRoute[route]) {
+              originalProducesByRoute[route] = Object.create(null);
+            }
+            originalProducesByRoute[route][methodName] = mergedProduces;
+          }
         }
 
-        lodash.each(originalRouteParams, (originalRouteParam) => {
+        for (const originalRouteParam of originalRouteParams) {
           const existUsageParam = usageRouteParams.find(
-            (param) =>
+            (param: OpenAPIV3.ParameterObject) =>
               originalRouteParam.in === param.in &&
               originalRouteParam.name === param.name,
           );
           if (!existUsageParam) {
             usageRouteParams.push(originalRouteParam);
           }
-        });
-      });
-    });
+        }
+      }
+    }
+    return originalProducesByRoute;
   }
 }

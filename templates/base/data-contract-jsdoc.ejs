@@ -1,27 +1,27 @@
 <%
 const { data, utils } = it;
-const { formatDescription, require, _ } = utils;
+const { formatDescription, escapeJSDocContent, require, _ } = utils;
 
 const stringify = (value) => _.isObject(value) ? JSON.stringify(value) : _.isString(value) ? `"${value}"` : value;
 
 const jsDocLines = _.compact([
-    data.title,
+    data.title && formatDescription(data.title),
     data.description && formatDescription(data.description),
     !_.isUndefined(data.deprecated) && data.deprecated && '@deprecated',
-    !_.isUndefined(data.format) && `@format ${data.format}`,
-    !_.isUndefined(data.minimum) && `@min ${data.minimum}`,
-    !_.isUndefined(data.multipleOf) && `@multipleOf ${data.multipleOf}`,
-    !_.isUndefined(data.exclusiveMinimum) && `@exclusiveMin ${data.exclusiveMinimum}`,
-    !_.isUndefined(data.maximum) && `@max ${data.maximum}`,
-    !_.isUndefined(data.minLength) && `@minLength ${data.minLength}`,
-    !_.isUndefined(data.maxLength) && `@maxLength ${data.maxLength}`,
-    !_.isUndefined(data.exclusiveMaximum) && `@exclusiveMax ${data.exclusiveMaximum}`,
-    !_.isUndefined(data.maxItems) && `@maxItems ${data.maxItems}`,
-    !_.isUndefined(data.minItems) && `@minItems ${data.minItems}`,
-    !_.isUndefined(data.uniqueItems) && `@uniqueItems ${data.uniqueItems}`,
-    !_.isUndefined(data.default) && `@default ${stringify(data.default)}`,
-    !_.isUndefined(data.pattern) && `@pattern ${data.pattern}`,
-    !_.isUndefined(data.example) && `@example ${stringify(data.example)}`
+    !_.isUndefined(data.format) && `@format ${escapeJSDocContent(data.format)}`,
+    !_.isUndefined(data.minimum) && `@min ${escapeJSDocContent(data.minimum)}`,
+    !_.isUndefined(data.multipleOf) && `@multipleOf ${escapeJSDocContent(data.multipleOf)}`,
+    !_.isUndefined(data.exclusiveMinimum) && `@exclusiveMin ${escapeJSDocContent(data.exclusiveMinimum)}`,
+    !_.isUndefined(data.maximum) && `@max ${escapeJSDocContent(data.maximum)}`,
+    !_.isUndefined(data.minLength) && `@minLength ${escapeJSDocContent(data.minLength)}`,
+    !_.isUndefined(data.maxLength) && `@maxLength ${escapeJSDocContent(data.maxLength)}`,
+    !_.isUndefined(data.exclusiveMaximum) && `@exclusiveMax ${escapeJSDocContent(data.exclusiveMaximum)}`,
+    !_.isUndefined(data.maxItems) && `@maxItems ${escapeJSDocContent(data.maxItems)}`,
+    !_.isUndefined(data.minItems) && `@minItems ${escapeJSDocContent(data.minItems)}`,
+    !_.isUndefined(data.uniqueItems) && `@uniqueItems ${escapeJSDocContent(data.uniqueItems)}`,
+    !_.isUndefined(data.default) && `@default ${escapeJSDocContent(stringify(data.default))}`,
+    !_.isUndefined(data.pattern) && `@pattern ${escapeJSDocContent(data.pattern)}`,
+    !_.isUndefined(data.example) && `@example ${escapeJSDocContent(stringify(data.example))}`
 ]).join('\n').split('\n');
 %>
 <% if (jsDocLines.every(_.isEmpty)) { %>

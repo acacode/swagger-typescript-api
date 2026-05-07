@@ -1,5 +1,7 @@
+import type { PartialDeep } from "type-fest";
 import type { ComponentTypeNameResolver } from "../src/component-type-name-resolver.js";
 import type * as CONSTANTS from "../src/constants.js";
+import type { RefDetails } from "../src/resolved-swagger-schema.js";
 import type { MonoSchemaParser } from "../src/schema-parser/mono-schema-parser.js";
 import type { Translator } from "../src/translators/translator.js";
 
@@ -176,6 +178,15 @@ export interface Hooks {
     routeInfo: RawRouteInfo,
     templateRouteName: string,
   ) => string | undefined;
+  onFormatExternalTypeName?: (
+    typeName: string,
+    refInfo: RefDetails,
+  ) => string | undefined;
+  onFixDuplicateExternalTypeName?: (
+    typeName: string,
+    refInfo: RefDetails,
+    existedTypeNames: string[],
+  ) => string | undefined;
 }
 
 export type RouteNameRouteInfo = Record<string, unknown>;
@@ -280,18 +291,28 @@ export interface RequestResponseInfo {
   description: string;
   status: string | number;
   isSuccess: boolean;
+  links?: RouteLinkInfo[];
 }
 
-export type RawRouteInfo = {
+export interface RouteLinkInfo {
+  status: string | number;
+  name: string;
+  operationId?: string;
+  operationRef?: string;
+  parameters?: Record<string, string>;
+}
+
+export type RawRouteInfo = import("swagger-schema-official").Operation & {
   operationId: string;
   method: string;
   route: string;
   moduleName: string;
   responsesTypes: RequestResponseInfo[];
+  links?: RouteLinkInfo[];
   description?: string;
   tags?: string[];
   summary?: string;
-  responses?: import("swagger-schema-official").Spec["responses"];
+  responses?: import("swagger-schema-official").Operation["responses"];
   produces?: string[];
   requestBody?: object;
   consumes?: string[];
@@ -346,6 +367,7 @@ export interface ParsedRoute {
     contentTypes: any[];
     // biome-ignore lint/suspicious/noExplicitAny: TODO
     responses: any[];
+    links?: RouteLinkInfo[];
     // biome-ignore lint/suspicious/noExplicitAny: TODO
     success?: Record<string, any>;
     // biome-ignore lint/suspicious/noExplicitAny: TODO
@@ -529,6 +551,13 @@ export interface GenerateApiConfiguration {
     typePrefix: string;
     /** suffix string value for type names */
     typeSuffix: string;
+    /**
+     * separator between prefix/name/suffix for formatted type names.
+     * In practice this is most visible with `disableFormatTypeNames: true`
+     * or when a custom `hooks.onFormatTypeName` keeps separators unchanged.
+     * By default name formatting may normalize/remove separators (for example `_`).
+     */
+    typeNameSeparator: string;
     /** prefix string value for enum keys */
     enumKeyPrefix: string;
     /** suffix string value for enum keys */
@@ -551,11 +580,13 @@ export interface GenerateApiConfiguration {
     /** generate readonly properties */
     addReadonly: boolean;
     /** customise primitive type mappings */
-    primitiveTypeConstructs?: (
-      struct: PrimitiveTypeStruct,
-    ) => Partial<PrimitiveTypeStruct>;
+    primitiveTypeConstructs?:
+      | ((struct: PrimitiveTypeStruct) => PartialDeep<PrimitiveTypeStruct>)
+      | PartialDeep<PrimitiveTypeStruct>;
     /** customise code generation constructs */
-    codeGenConstructs?: (struct: CodeGenConstruct) => Partial<CodeGenConstruct>;
+    codeGenConstructs?:
+      | ((struct: CodeGenConstruct) => PartialDeep<CodeGenConstruct>)
+      | PartialDeep<CodeGenConstruct>;
     /** extract response body type to data contract */
     extractResponseBody: boolean;
     /** extract response error type to data contract */
@@ -586,6 +617,8 @@ export interface GenerateApiConfiguration {
     toJS: boolean;
     /** disable throwing on a non-successful response */
     disableThrowOnError: boolean;
+    /** disable formatting and normalization of generated type names */
+    disableFormatTypeNames: boolean;
     /**
      * output only errors to console
      * @default false
@@ -718,7 +751,7 @@ export interface GenerateApiConfiguration {
     >;
     formatModelName: (name: string) => string;
     fmtToJSDocLine: (line: string, params?: { eol?: boolean }) => string;
-    _: import("lodash").LoDashStatic;
+    _: typeof import("es-toolkit") & typeof import("es-toolkit/compat");
     require: (path: string) => unknown;
   };
 }

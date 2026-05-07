@@ -1,0 +1,153 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`basic > local-fragment-ref 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export interface ValsGroup {
+  name?: string;
+  description?: string;
+  props?: (BaseNull &
+    (
+      | BaseNullPropTypeMapping<"str", SomeString>
+      | BaseNullPropTypeMapping<"strArr", SomeStringArr>
+      | BaseNullPropTypeMapping<"intArr", SomeIntArr>
+      | BaseNullPropTypeMapping<"dec", SomeDec>
+      | BaseNullPropTypeMapping<"int", SomeInt>
+      | BaseNullPropTypeMapping<"bool", SomeBool>
+    ))[];
+}
+
+export interface SomeString {
+  propType: string;
+  slack: string;
+  name: string;
+  description?: string;
+  value: string;
+}
+
+export interface SomeStringArr {
+  propType: string;
+  slack: string;
+  name: string;
+  description?: string;
+  value: string[];
+}
+
+export interface SomeIntArr {
+  propType: string;
+  slack: string;
+  name: string;
+  description?: string;
+  value: number[];
+}
+
+export interface SomeDec {
+  propType: string;
+  slack: string;
+  name: string;
+  description?: string;
+  value: number;
+}
+
+export interface SomeInt {
+  propType: string;
+  slack: string;
+  name: string;
+  description?: string;
+  /** @format int32 */
+  value: number | null;
+}
+
+export interface SomeBool {
+  propType: string;
+  slack: string;
+  name: string;
+  description?: string;
+  value: boolean;
+}
+
+interface BaseNull {
+  slack: string;
+  name: string;
+}
+
+type BaseNullPropTypeMapping<Key, Type> = {
+  propType: Key;
+} & Type;
+"
+`;
+
+exports[`basic > local-fragment-ref response components 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+/** Inline success response */
+export interface InlineSuccess {
+  ok: boolean;
+}
+
+export type SuccessAlias = InlineSuccess;
+"
+`;
+
+exports[`basic > local-fragment-ref swagger 2 definitions 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export interface LegacyAttributeGroup {
+  attributes?: (BaseNull &
+    (
+      | BaseNullAttributeTypeMapping<"string", LegacyStringAttribute>
+      | BaseNullAttributeTypeMapping<"number", LegacyNumberAttribute>
+    ))[];
+}
+
+export interface LegacyStringAttribute {
+  attributeType: string;
+  slug: string;
+  value: string;
+}
+
+export interface LegacyNumberAttribute {
+  attributeType: string;
+  slug: string;
+  value: number;
+}
+
+interface BaseNull {
+  slug: string;
+}
+
+type BaseNullAttributeTypeMapping<Key, Type> = {
+  attributeType: Key;
+} & Type;
+"
+`;

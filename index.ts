@@ -138,6 +138,11 @@ const generateCommand = defineCommand({
       description: "Do not throw an error when response.ok is not true",
       default: codeGenBaseConfig.disableThrowOnError,
     },
+    "disable-format-type-names": {
+      type: "boolean",
+      description: "disable formatting and normalization of type names",
+      default: codeGenBaseConfig.disableFormatTypeNames,
+    },
     "enum-names-as-values": {
       type: "boolean",
       description:
@@ -298,6 +303,7 @@ const generateCommand = defineCommand({
       debug: args.debug,
       defaultResponseAsSuccess: args["default-as-success"],
       defaultResponseType: args["default-response"],
+      disableFormatTypeNames: args["disable-format-type-names"],
       disableThrowOnError: args["disable-throw-on-error"],
       enumNamesAsValues: args["enum-names-as-values"],
       extractEnums: args["extract-enums"],

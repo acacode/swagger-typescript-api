@@ -1,0 +1,883 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`basic > paths(simplest-1-path) 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+type UtilRequiredKeys<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
+
+export type ObjectTypesTest1 = Test1;
+
+export type ObjectTypesContainerWithPrimitiveAnyOf =
+  ContainerWithPrimitiveAnyOf;
+
+export type ObjectTypesABCOptionalWithRequiredId = ABCOptionalWithRequiredId;
+
+export type ObjectTypesNestedObjectWithRequiredId = NestedObjectWithRequiredId;
+
+export type ObjectTypesAdditionalIntProperties = AdditionalIntProperties;
+
+export type CyclicFromRoot = CyclicRef;
+
+export type CrossFileRepositoryViaRepro = ExternalRepositoryAlias;
+
+export type CrossFileUserViaRepro = ExternalUserAlias;
+
+export type CrossFileNestedViaRepro = NestedExternalContainer;
+
+export type CrossFileMixedViaThird = ThirdCrossFileMixed;
+
+export type CrossBridgeViaThird = ThirdCrossBridge;
+
+export type ReproBundleViaThird = ReproBundle;
+
+export type ExternalGraphNodeViaRepro = ExternalGraphNode;
+
+export type MultiFileEnvelopeViaRepro = MultiFileEnvelope;
+
+export type ThirdBridgeViaRepro = ThirdBridgeAlias;
+
+export type ThirdBundleViaRepro = ThirdBundleAlias;
+
+export type UnionFromThirdViaRepro = UnionFromThird;
+
+export type AllOfFromThirdViaRepro = AllOfFromThird;
+
+export type AnyOfFromThirdViaRepro = AnyOfFromThird;
+
+export type ThirdRootPathUserViaRepro = ThirdRootPathUserAlias;
+
+export type ThirdRootPathRepositoryViaRepro = ThirdRootPathRepositoryAlias;
+
+export type ThirdRootPathBridgeViaRepro = ThirdRootPathBridgeAlias;
+
+export type ReproCrossComplexRoot = ReproCrossComplex;
+
+export type ReproCrossUnionRoot = ReproCrossUnion;
+
+export type ThirdUnionRoot = ExternalUnionBridge;
+
+export type ThirdAllOfRoot = ExternalAllOfRepository;
+
+export type ThirdAnyOfRoot = ExternalAnyOfBridge;
+
+export type DirectThirdUser = Thirduser;
+
+export type ReportSchema = ReproReportSchema;
+
+/** Weather */
+export interface Weather {
+  /**
+   * Weather condition id
+   * @format int32
+   * @example 803
+   */
+  id?: number;
+  /**
+   * Group of weather parameters (Rain, Snow, Extreme etc.)
+   * @example "Clouds"
+   */
+  main?: string;
+  /**
+   * Weather condition within the group
+   * @example "broken clouds"
+   */
+  description?: string;
+  /**
+   * Weather icon id
+   * @example "04n"
+   */
+  icon?: string;
+}
+
+export type HelloListData = object;
+
+export interface User {
+  username?: string;
+  uuid?: string;
+}
+
+export type GetExternalUserData = User;
+
+/** CrossFileMixedTitle */
+export interface CrossFileMixed {
+  report?: ReproReportSchema;
+  weather?: ReproWeather;
+  user?: Thirduser;
+  externalRepositoryAlias?: ReproExternalRepositoryAlias;
+}
+
+export type GetExternalContainerData = CrossFileMixed;
+
+/** CrossBridgeTitle */
+export interface CrossBridge {
+  reportAlias?: ReproReportSchema;
+  weatherAlias?: ReproWeather;
+  nestedFromRepro?: ReproNestedExternalContainer;
+  localRepository?: Thirdrepository;
+}
+
+export type GetExternalBridgeData = CrossBridge;
+
+export interface Repository {
+  slug?: string;
+  owner?: Thirduser;
+  weather?: ReproWeather;
+}
+
+export interface GetRepositoryParams {
+  username: string;
+  slug: string;
+}
+
+export type GetRepositoryData = Repository;
+
+export interface FindPetsParams {
+  /** tags to filter by */
+  tags?: string[];
+  /**
+   * maximum number of results to return
+   * @format int32
+   */
+  limit?: number;
+}
+
+export type FindPetsData = any;
+
+/**
+ * It is a Pet title
+ * It is a Pet description
+ */
+export type Test1 = {
+  /**
+   * It is an id title
+   * It is an id description
+   */
+  id: number;
+  /**
+   * It is a name title
+   * It is a name description
+   */
+  name: string;
+  /**
+   * It is a tag title
+   * It is a tag description
+   * @deprecated
+   */
+  tag: string;
+  /**
+   * It is a multiple title
+   * It is a multiple description
+   */
+  multiple: string | number;
+} | null;
+
+export interface ContainerWithPrimitiveAnyOf {
+  origin?: string | AddressCreationRequest;
+}
+
+export type ABCOptionalWithRequiredId = UtilRequiredKeys<ABCOptional, "b"> & {
+  /** id */
+  id: number;
+};
+
+export type NestedObjectWithRequiredId = {
+  /** id */
+  id: number;
+} & {
+  /** id */
+  id1?: number;
+};
+
+export interface AdditionalIntProperties {
+  id?: string;
+  [key: string]: any;
+}
+
+/** CyclicRefTitle */
+export interface CyclicRef {
+  cyclics?: ThirdCyclicRef;
+}
+
+export interface ExternalRepositoryAlias {
+  slug?: string;
+  owner?: any;
+  weather?: ReproWeather;
+}
+
+export type ExternalUserAlias = Thirduser;
+
+/** NestedExternalContainerTitle */
+export interface NestedExternalContainer {
+  repositoryAlias?: Repository;
+  userAlias?: Thirduser;
+}
+
+/** CrossFileMixedTitle */
+export interface ThirdCrossFileMixed {
+  report?: ReproReportSchema;
+  weather?: ReproWeather;
+  user?: Thirduser;
+  externalRepositoryAlias?: ReproExternalRepositoryAlias;
+}
+
+/** CrossBridgeTitle */
+export interface ThirdCrossBridge {
+  reportAlias?: ReproReportSchema;
+  weatherAlias?: ReproWeather;
+  nestedFromRepro?: ReproNestedExternalContainer;
+  localRepository?: Thirdrepository;
+}
+
+/** ReproBundleTitle */
+export interface ReproBundle {
+  graph?: ReproExternalGraphNode;
+  chain?: ReproNestedExternalContainer[];
+  cyclic?: ReproCyclicRef;
+}
+
+/** ExternalGraphNodeTitle */
+export interface ExternalGraphNode {
+  nodeId?: string;
+  repository?: Repository;
+  bridge?: CrossBridge;
+  users?: Thirduser[];
+}
+
+/** MultiFileEnvelopeTitle */
+export interface MultiFileEnvelope {
+  node?: ExternalGraphNode;
+  nested?: NestedExternalContainer;
+  bridgeAlias?: ThirdCrossBridge;
+  bundleAlias?: ThirdReproBundle;
+}
+
+export type ThirdBridgeAlias = ThirdCrossBridge;
+
+/** ReproBundleTitle */
+export interface ThirdBundleAlias {
+  graph?: ReproExternalGraphNode;
+  chain?: ReproNestedExternalContainer[];
+  cyclic?: ReproCyclicRef;
+}
+
+/** ExternalUnionBridgeTitle */
+export type UnionFromThird =
+  | ReproExternalGraphNode
+  | ReproNestedExternalContainer;
+
+export type AllOfFromThird = ThirdExternalAllOfRepository;
+
+/** ExternalAnyOfBridgeTitle */
+export type AnyOfFromThird = ReproThirdBridgeAlias | ReproThirdBundleAlias;
+
+export interface ThirdRootPathUserAlias {
+  username?: string;
+  uuid?: string;
+}
+
+export interface ThirdRootPathRepositoryAlias {
+  slug?: string;
+  owner?: any;
+  weather?: ReproWeather;
+}
+
+export type ThirdRootPathBridgeAlias = ExternalRootBridge;
+
+/** ReproCrossComplexTitle */
+export type ReproCrossComplex = MultiFileEnvelope & {
+  unionAlias?: ThirdExternalUnionBridge;
+  allOfAlias?: ThirdExternalAllOfRepository;
+  anyOfAlias?: ThirdExternalAnyOfBridge;
+};
+
+/** ReproCrossUnionTitle */
+export type ReproCrossUnion =
+  | ReproCrossComplex
+  | ThirdReproBundle
+  | ThirdCrossBridge;
+
+/** ExternalUnionBridgeTitle */
+export type ExternalUnionBridge =
+  | ReproExternalGraphNode
+  | ReproNestedExternalContainer
+  | Thirduser;
+
+/** ExternalAllOfRepositoryTitle */
+export type ExternalAllOfRepository = Thirdrepository & {
+  envelope?: ReproMultiFileEnvelope;
+  reportAlias?: ReproReportSchema;
+};
+
+/** ExternalAnyOfBridgeTitle */
+export type ExternalAnyOfBridge =
+  | ReproThirdBridgeAlias
+  | ReproThirdBundleAlias
+  | ThirdCrossBridge;
+
+export interface Thirduser {
+  username?: string;
+  uuid?: string;
+}
+
+/** ReportSchema */
+export interface ReproReportSchema {
+  /**
+   * Weather condition id
+   * @format int32
+   * @example 803
+   */
+  id?: number;
+}
+
+/** ReportSchema */
+export interface ReproReportSchema {
+  /**
+   * Weather condition id
+   * @format int32
+   * @example 803
+   */
+  id?: number;
+}
+
+/** WeatherSchema */
+export interface ReproWeather {
+  /**
+   * Weather condition id
+   * @format int32
+   * @example 803
+   */
+  id?: number;
+}
+
+export interface Thirduser {
+  username?: string;
+  uuid?: string;
+}
+
+export type ReproExternalRepositoryAlias = Thirdrepository;
+
+/** NestedExternalContainerTitle */
+export interface ReproNestedExternalContainer {
+  repositoryAlias?: Repository;
+  userAlias?: Thirduser;
+}
+
+export interface Thirdrepository {
+  slug?: string;
+  owner?: Thirduser;
+  weather?: ReproWeather;
+}
+
+/** WeatherSchema */
+export interface ReproWeather {
+  /**
+   * Weather condition id
+   * @format int32
+   * @example 803
+   */
+  id?: number;
+}
+
+export interface AddressCreationRequest {
+  city?: string;
+}
+
+export interface ABCOptional {
+  /** a */
+  a?: string;
+  /** b */
+  b?: string;
+  /** c */
+  c?: number;
+}
+
+/** CyclicRefTitle */
+export interface ThirdCyclicRef {
+  bar?: ReproCyclicRef;
+}
+
+export interface Thirduser {
+  username?: string;
+  uuid?: string;
+}
+
+export interface Thirdrepository {
+  slug?: string;
+  owner?: Thirduser;
+  weather?: ReproWeather;
+}
+
+/** ExternalGraphNodeTitle */
+export interface ReproExternalGraphNode {
+  nodeId?: string;
+  repository?: Repository;
+  bridge?: CrossBridge;
+  users?: Thirduser[];
+}
+
+/** NestedExternalContainerTitle */
+export interface ReproNestedExternalContainer {
+  repositoryAlias?: Repository;
+  userAlias?: Thirduser;
+}
+
+/** CyclicRefTitle */
+export interface ReproCyclicRef {
+  cyclics?: ThirdCyclicRef;
+}
+
+/** CrossBridgeTitle */
+export interface ThirdCrossBridge {
+  reportAlias?: ReproReportSchema;
+  weatherAlias?: ReproWeather;
+  nestedFromRepro?: ReproNestedExternalContainer;
+  localRepository?: Thirdrepository;
+}
+
+/** ReproBundleTitle */
+export interface ThirdReproBundle {
+  graph?: ReproExternalGraphNode;
+  chain?: ReproNestedExternalContainer[];
+  cyclic?: ReproCyclicRef;
+}
+
+/** ExternalAllOfRepositoryTitle */
+export type ThirdExternalAllOfRepository = Thirdrepository & {
+  envelope?: ReproMultiFileEnvelope;
+  reportAlias?: ReproReportSchema;
+};
+
+export type ReproThirdBridgeAlias = ThirdCrossBridge;
+
+export type ReproThirdBundleAlias = ThirdReproBundle;
+
+export type ExternalRootBridge = ThirdCrossBridge;
+
+/** ExternalUnionBridgeTitle */
+export type ThirdExternalUnionBridge =
+  | ReproExternalGraphNode
+  | ReproNestedExternalContainer
+  | Thirduser;
+
+/** ExternalAnyOfBridgeTitle */
+export type ThirdExternalAnyOfBridge =
+  | ReproThirdBridgeAlias
+  | ReproThirdBundleAlias
+  | CrossBridge;
+
+/** MultiFileEnvelopeTitle */
+export interface ReproMultiFileEnvelope {
+  node?: ReproExternalGraphNode;
+  nested?: ReproNestedExternalContainer;
+  bridgeAlias?: ThirdCrossBridge;
+  bundleAlias?: ThirdReproBundle;
+}
+
+/** ReportSchema */
+export interface ReproReportSchema {
+  /**
+   * Weather condition id
+   * @format int32
+   * @example 803
+   */
+  id?: number;
+}
+
+/** CrossBridgeTitle */
+export interface ThirdCrossBridge {
+  reportAlias?: ReproReportSchema;
+  weatherAlias?: ReproWeather;
+  nestedFromRepro?: ReproNestedExternalContainer;
+  localRepository?: Thirdrepository;
+}
+
+/** ExternalGraphNodeTitle */
+export interface ReproExternalGraphNode {
+  nodeId?: string;
+  repository?: Repository;
+  bridge?: CrossBridge;
+  users?: Thirduser[];
+}
+
+/** NestedExternalContainerTitle */
+export interface ReproNestedExternalContainer {
+  repositoryAlias?: Repository;
+  userAlias?: Thirduser;
+}
+
+export interface Thirdrepository {
+  slug?: string;
+  owner?: Thirduser;
+  weather?: ReproWeather;
+}
+
+export interface Thirduser {
+  username?: string;
+  uuid?: string;
+}
+
+export type QueryParamsType = Record<string | number, any>;
+export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
+
+export interface FullRequestParams extends Omit<RequestInit, "body"> {
+  /** set parameter to \`true\` for call \`securityWorker\` for this request */
+  secure?: boolean;
+  /** request path */
+  path: string;
+  /** content type of request body */
+  type?: ContentType;
+  /** query params */
+  query?: QueryParamsType;
+  /** format of response (i.e. response.json() -> format: "json") */
+  format?: ResponseFormat;
+  /** request body */
+  body?: unknown;
+  /** base url */
+  baseUrl?: string;
+  /** request cancellation token */
+  cancelToken?: CancelToken;
+}
+
+export type RequestParams = Omit<
+  FullRequestParams,
+  "body" | "method" | "query" | "path"
+>;
+
+export interface ApiConfig<SecurityDataType = unknown> {
+  baseUrl?: string;
+  baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
+  securityWorker?: (
+    securityData: SecurityDataType | null,
+  ) => Promise<RequestParams | void> | RequestParams | void;
+  customFetch?: typeof fetch;
+}
+
+export interface HttpResponse<D extends unknown, E extends unknown = unknown>
+  extends Response {
+  data: D;
+  error: E;
+}
+
+type CancelToken = Symbol | string | number;
+
+export enum ContentType {
+  Json = "application/json",
+  JsonApi = "application/vnd.api+json",
+  FormData = "multipart/form-data",
+  UrlEncoded = "application/x-www-form-urlencoded",
+  Text = "text/plain",
+}
+
+export class HttpClient<SecurityDataType = unknown> {
+  public baseUrl: string = "";
+  private securityData: SecurityDataType | null = null;
+  private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
+  private abortControllers = new Map<CancelToken, AbortController>();
+  private customFetch = (...fetchParams: Parameters<typeof fetch>) =>
+    fetch(...fetchParams);
+
+  private baseApiParams: RequestParams = {
+    credentials: "same-origin",
+    headers: {},
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  };
+
+  constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
+    Object.assign(this, apiConfig);
+  }
+
+  public setSecurityData = (data: SecurityDataType | null) => {
+    this.securityData = data;
+  };
+
+  protected encodeQueryParam(key: string, value: any) {
+    const encodedKey = encodeURIComponent(key);
+    return \`\${encodedKey}=\${encodeURIComponent(typeof value === "number" ? value : \`\${value}\`)}\`;
+  }
+
+  protected addQueryParam(query: QueryParamsType, key: string) {
+    return this.encodeQueryParam(key, query[key]);
+  }
+
+  protected addArrayQueryParam(query: QueryParamsType, key: string) {
+    const value = query[key];
+    return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
+  }
+
+  protected toQueryString(rawQuery?: QueryParamsType): string {
+    const query = rawQuery || {};
+    const keys = Object.keys(query).filter(
+      (key) => "undefined" !== typeof query[key],
+    );
+    return keys
+      .map((key) =>
+        Array.isArray(query[key])
+          ? this.addArrayQueryParam(query, key)
+          : this.addQueryParam(query, key),
+      )
+      .join("&");
+  }
+
+  protected addQueryParams(rawQuery?: QueryParamsType): string {
+    const queryString = this.toQueryString(rawQuery);
+    return queryString ? \`?\${queryString}\` : "";
+  }
+
+  private contentFormatters: Record<ContentType, (input: any) => any> = {
+    [ContentType.Json]: (input: any) =>
+      input !== null && (typeof input === "object" || typeof input === "string")
+        ? JSON.stringify(input)
+        : input,
+    [ContentType.JsonApi]: (input: any) =>
+      input !== null && (typeof input === "object" || typeof input === "string")
+        ? JSON.stringify(input)
+        : input,
+    [ContentType.Text]: (input: any) =>
+      input !== null && typeof input !== "string"
+        ? JSON.stringify(input)
+        : input,
+    [ContentType.FormData]: (input: any) => {
+      if (input instanceof FormData) {
+        return input;
+      }
+
+      return Object.keys(input || {}).reduce((formData, key) => {
+        const property = input[key];
+        formData.append(
+          key,
+          property instanceof Blob
+            ? property
+            : typeof property === "object" && property !== null
+              ? JSON.stringify(property)
+              : \`\${property}\`,
+        );
+        return formData;
+      }, new FormData());
+    },
+    [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
+  };
+
+  protected mergeRequestParams(
+    params1: RequestParams,
+    params2?: RequestParams,
+  ): RequestParams {
+    return {
+      ...this.baseApiParams,
+      ...params1,
+      ...(params2 || {}),
+      headers: {
+        ...(this.baseApiParams.headers || {}),
+        ...(params1.headers || {}),
+        ...((params2 && params2.headers) || {}),
+      },
+    };
+  }
+
+  protected createAbortSignal = (
+    cancelToken: CancelToken,
+  ): AbortSignal | undefined => {
+    if (this.abortControllers.has(cancelToken)) {
+      const abortController = this.abortControllers.get(cancelToken);
+      if (abortController) {
+        return abortController.signal;
+      }
+      return void 0;
+    }
+
+    const abortController = new AbortController();
+    this.abortControllers.set(cancelToken, abortController);
+    return abortController.signal;
+  };
+
+  public abortRequest = (cancelToken: CancelToken) => {
+    const abortController = this.abortControllers.get(cancelToken);
+
+    if (abortController) {
+      abortController.abort();
+      this.abortControllers.delete(cancelToken);
+    }
+  };
+
+  public request = async <T = any, E = any>({
+    body,
+    secure,
+    path,
+    type,
+    query,
+    format,
+    baseUrl,
+    cancelToken,
+    ...params
+  }: FullRequestParams): Promise<HttpResponse<T, E>> => {
+    const secureParams =
+      ((typeof secure === "boolean" ? secure : this.baseApiParams.secure) &&
+        this.securityWorker &&
+        (await this.securityWorker(this.securityData))) ||
+      {};
+    const requestParams = this.mergeRequestParams(params, secureParams);
+    const queryString = query && this.toQueryString(query);
+    const payloadFormatter = this.contentFormatters[type || ContentType.Json];
+    const responseFormat = format || requestParams.format;
+
+    return this.customFetch(
+      \`\${baseUrl || this.baseUrl || ""}\${path}\${queryString ? \`?\${queryString}\` : ""}\`,
+      {
+        ...requestParams,
+        headers: {
+          ...(requestParams.headers || {}),
+          ...(type && type !== ContentType.FormData
+            ? { "Content-Type": type }
+            : {}),
+        },
+        signal:
+          (cancelToken
+            ? this.createAbortSignal(cancelToken)
+            : requestParams.signal) || null,
+        body:
+          typeof body === "undefined" || body === null
+            ? null
+            : payloadFormatter(body),
+      },
+    ).then(async (response) => {
+      const r = response as HttpResponse<T, E>;
+      r.data = null as unknown as T;
+      r.error = null as unknown as E;
+
+      const responseToParse = responseFormat ? response.clone() : response;
+      const data = !responseFormat
+        ? r
+        : await responseToParse[responseFormat]()
+            .then((data) => {
+              if (r.ok) {
+                r.data = data;
+              } else {
+                r.error = data;
+              }
+              return r;
+            })
+            .catch((e) => {
+              r.error = e;
+              return r;
+            });
+
+      if (cancelToken) {
+        this.abortControllers.delete(cancelToken);
+      }
+
+      if (!response.ok) throw data;
+      return data;
+    });
+  };
+}
+
+/**
+ * @title repro
+ * @version 2.0.0
+ */
+export class Api<
+  SecurityDataType extends unknown,
+> extends HttpClient<SecurityDataType> {
+  hello = {
+    /**
+     * No description
+     *
+     * @name HelloList
+     * @request GET:/hello
+     */
+    helloList: (params: RequestParams = {}) =>
+      this.request<HelloListData, any>({
+        path: \`/hello\`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name GetExternalUser
+     * @request PATCH:/hello
+     */
+    getExternalUser: (params: RequestParams = {}) =>
+      this.request<GetExternalUserData, any>({
+        path: \`/hello\`,
+        method: "PATCH",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name GetExternalContainer
+     * @request DELETE:/hello
+     */
+    getExternalContainer: (params: RequestParams = {}) =>
+      this.request<GetExternalContainerData, any>({
+        path: \`/hello\`,
+        method: "DELETE",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name GetExternalBridge
+     * @request POST:/hello
+     */
+    getExternalBridge: (params: RequestParams = {}) =>
+      this.request<GetExternalBridgeData, any>({
+        path: \`/hello\`,
+        method: "POST",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name GetRepository
+     * @request PUT:/hello
+     * @link \`200.repositoryPullRequests\` operationId:getPullRequestsByRepository
+     */
+    getRepository: (
+      { username, slug }: GetRepositoryParams,
+      params: RequestParams = {},
+    ) =>
+      this.request<GetRepositoryData, any>({
+        path: \`/hello\`,
+        method: "PUT",
+        format: "json",
+        ...params,
+      }),
+  };
+  pets = {
+    /**
+     * @description Returns all pets from the system that the user has access to Nam sed condimentum est. Maecenas tempor sagittis sapien, nec rhoncus sem sagittis sit amet. Aenean at gravida augue, ac iaculis sem. Curabitur odio lorem, ornare eget elementum nec, cursus id lectus. Duis mi turpis, pulvinar ac eros ac, tincidunt varius justo. In hac habitasse platea dictumst. Integer at adipiscing ante, a sagittis ligula. Aenean pharetra tempor ante molestie imperdiet. Vivamus id aliquam diam. Cras quis velit non tortor eleifend sagittis. Praesent at enim pharetra urna volutpat venenatis eget eget mauris. In eleifend fermentum facilisis. Praesent enim enim, gravida ac sodales sed, placerat id erat. Suspendisse lacus dolor, consectetur non augue vel, vehicula interdum libero. Morbi euismod sagittis libero sed lacinia. Sed tempus felis lobortis leo pulvinar rutrum. Nam mattis velit nisl, eu condimentum ligula luctus nec. Phasellus semper velit eget aliquet faucibus. In a mattis elit. Phasellus vel urna viverra, condimentum lorem id, rhoncus nibh. Ut pellentesque posuere elementum. Sed a varius odio. Morbi rhoncus ligula libero, vel eleifend nunc tristique vitae. Fusce et sem dui. Aenean nec scelerisque tortor. Fusce malesuada accumsan magna vel tempus. Quisque mollis felis eu dolor tristique, sit amet auctor felis gravida. Sed libero lorem, molestie sed nisl in, accumsan tempor nisi. Fusce sollicitudin massa ut lacinia mattis. Sed vel eleifend lorem. Pellentesque vitae felis pretium, pulvinar elit eu, euismod sapien.
+     *
+     * @name FindPets
+     * @request GET:/pets
+     */
+    findPets: (query: FindPetsParams, params: RequestParams = {}) =>
+      this.request<FindPetsData, void>({
+        path: \`/pets\`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+  };
+}
+"
+`;
