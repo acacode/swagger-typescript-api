@@ -1,0 +1,33 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`nullable-union-middle > nullable unions with null in middle position 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+/** A union type where null appears in the middle: string | null | number */
+export type StringNullOrNumber = string | null | number;
+
+/** A union type where null appears between object and array */
+export type ObjectNullOrArray =
+  | {
+      id?: string;
+    }
+  | null
+  | string[];
+
+export interface MultipleNullPositions {
+  nullAtStart?: null | string;
+  nullInMiddle?: string | null | number;
+  nullAtEnd?: string | null;
+}
+"
+`;
