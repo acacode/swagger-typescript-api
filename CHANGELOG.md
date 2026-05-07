@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.9.0
+
+### Minor Changes
+
+- [`58c6818`](https://github.com/acacode/swagger-typescript-api/commit/58c68180e4a73e4c2cc5381acb0527e76d804c38) Thanks [@js2me](https://github.com/js2me)! - local fragment ref partial support (`#..`)
+
 ## 13.8.0
 
 ### Minor Changes
