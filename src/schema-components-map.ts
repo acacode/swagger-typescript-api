@@ -21,6 +21,44 @@ export class SchemaComponentsMap {
     return ref.split("/");
   };
 
+  private getByLocalFragmentRef($ref: string): Maybe<SchemaComponent> {
+    if (!$ref.startsWith("#")) {
+      return null;
+    }
+
+    const [, rawFragment = ""] = $ref.split("#");
+    const fragment = rawFragment.startsWith("/")
+      ? rawFragment.slice(1)
+      : rawFragment;
+
+    if (!fragment || fragment.includes("/")) {
+      return null;
+    }
+
+    let fragmentName = fragment;
+    try {
+      fragmentName = decodeURIComponent(fragment);
+    } catch {
+      // Keep the raw fragment if it is not URI-encoded.
+    }
+
+    const matchingComponents = this._data.filter((component) => {
+      if (!component.$ref.startsWith("#")) return false;
+
+      const [, rawPointer = ""] = component.$ref.split("#");
+      const pointer = rawPointer.startsWith("/")
+        ? rawPointer.slice(1)
+        : rawPointer;
+      const componentName = pointer.split("/").filter(Boolean).at(-1);
+
+      return (
+        component.typeName === fragmentName || componentName === fragmentName
+      );
+    });
+
+    return matchingComponents.length === 1 ? matchingComponents[0] : null;
+  }
+
   private createComponentDraft(
     $ref: string,
     rawTypeData: Maybe<AnyObject> | SchemaComponent,
@@ -94,7 +132,10 @@ export class SchemaComponentsMap {
   }
 
   get = ($ref: string) => {
-    const localFound = this._data.find((c) => c.$ref === $ref) || null;
+    const localFound =
+      this._data.find((c) => c.$ref === $ref) ||
+      this.getByLocalFragmentRef($ref) ||
+      null;
 
     if (localFound != null) {
       return localFound;
