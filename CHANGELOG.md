@@ -1,5 +1,15 @@
 # swagger-typescript-api
 
+## 13.9.1
+
+### Patch Changes
+
+- [#1466](https://github.com/acacode/swagger-typescript-api/pull/1466) [`e109c9a`](https://github.com/acacode/swagger-typescript-api/commit/e109c9aeea759c3e5d23d1840842b52d007d981e) Thanks [@k1rd3rf](https://github.com/k1rd3rf)! - Add possibility to change default request params
+
+  Useful when overriding the http client, and you want to make sure the request params are set.
+
+  Can be set to `""` in order to not make it optional.
+
 ## 13.9.0
 
 ### Minor Changes
