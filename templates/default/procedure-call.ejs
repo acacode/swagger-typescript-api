@@ -14,9 +14,9 @@ const isFetchTemplate = config.httpClientType === HTTP_CLIENT.FETCH;
 
 const requestConfigParam = {
     name: specificArgNameResolver.resolve(RESERVED_REQ_PARAMS_ARG_NAMES),
-    optional: true,
+    optional: !!config.defaultRequestParams,
     type: "RequestParams",
-    defaultValue: "{}",
+    defaultValue: config.defaultRequestParams ?? "{}",
 }
 
 const argToTmpl = ({ name, optional, type, defaultValue }) => `${name}${!defaultValue && optional ? '?' : ''}: ${type}${defaultValue ? ` = ${defaultValue}` : ''}`;
