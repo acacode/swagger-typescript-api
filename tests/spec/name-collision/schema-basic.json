@@ -1,0 +1,54 @@
+{
+  "openapi": "3.0.0",
+  "info": { "title": "name-collision basic", "version": "1.0.0" },
+  "paths": {
+    "/a": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Foo_Bar" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/b": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/FooBar" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Foo_Bar": {
+        "type": "object",
+        "required": ["kind", "legacyField"],
+        "properties": {
+          "kind": { "type": "string", "enum": ["legacy"] },
+          "legacyField": { "type": "string" }
+        }
+      },
+      "FooBar": {
+        "type": "object",
+        "required": ["kind", "newField"],
+        "properties": {
+          "kind": { "type": "string", "enum": ["modern"] },
+          "newField": { "type": "number" }
+        }
+      }
+    }
+  }
+}

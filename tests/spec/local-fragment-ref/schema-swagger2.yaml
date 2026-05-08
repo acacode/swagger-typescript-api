@@ -1,0 +1,55 @@
+---
+swagger: "2.0"
+info:
+  title: Attribute group with Swagger 2 definitions
+  version: 1.0.0
+paths: {}
+definitions:
+  LegacyAttributeGroup:
+    type: object
+    properties:
+      attributes:
+        type: array
+        items:
+          oneOf:
+            - $ref: '#/definitions/LegacyStringAttribute'
+            - $ref: '#/definitions/LegacyNumberAttribute'
+          discriminator:
+            propertyName: attributeType
+            mapping:
+              string: '#LegacyStringAttribute'
+              number: '#LegacyNumberAttribute'
+          properties:
+            slug:
+              type: string
+          required:
+            - attributeType
+            - slug
+
+  LegacyStringAttribute:
+    type: object
+    properties:
+      attributeType:
+        type: string
+      slug:
+        type: string
+      value:
+        type: string
+    required:
+      - attributeType
+      - slug
+      - value
+
+  LegacyNumberAttribute:
+    type: object
+    properties:
+      attributeType:
+        type: string
+      slug:
+        type: string
+      value:
+        type: number
+    required:
+      - attributeType
+      - slug
+      - value

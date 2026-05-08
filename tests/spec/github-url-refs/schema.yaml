@@ -1,0 +1,47 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0
+  title: anonymized-github-platform-api
+
+paths:
+  /v1/projects/path:
+    get:
+      tags:
+        - projects
+      summary: Get path for project
+      operationId: getProjectPath
+      parameters:
+        - name: id
+          in: query
+          description: Id of project to be fetched.
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful operation. Project info provided.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProjectPathResponse"
+        "404":
+          description: No project with provided id.
+          content:
+            application/json:
+              schema:
+                $ref: "./common/responses.yaml#/components/schemas/GithubTestError"
+
+components:
+  schemas:
+    ProjectPathResponse:
+      type: object
+      required:
+        - projectId
+        - path
+      properties:
+        projectId:
+          type: integer
+        path:
+          type: string

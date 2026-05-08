@@ -1,0 +1,73 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "typeNameSeparator",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/legacy": {
+      "get": {
+        "operationId": "getLegacy",
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Foo_Bar"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/modern": {
+      "get": {
+        "operationId": "getModern",
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FooBar"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Foo_Bar": {
+        "type": "object",
+        "required": ["kind", "legacyField"],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": ["legacy"]
+          },
+          "legacyField": {
+            "type": "string"
+          }
+        }
+      },
+      "FooBar": {
+        "type": "object",
+        "required": ["kind", "newField"],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": ["modern"]
+          },
+          "newField": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

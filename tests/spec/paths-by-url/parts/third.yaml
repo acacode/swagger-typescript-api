@@ -1,0 +1,14 @@
+components:
+  schemas:
+    user:
+      type: object
+      properties:
+        username:
+          type: string
+    repository:
+      type: object
+      properties:
+        slug:
+          type: string
+        owner:
+          $ref: "#/components/schemas/user"

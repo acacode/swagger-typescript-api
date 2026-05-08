@@ -1,0 +1,87 @@
+{
+  "openapi": "3.0.3",
+  "info": { "title": "response-wrapper-extract", "version": "1" },
+  "paths": {
+    "/fluffies": {
+      "get": {
+        "operationId": "getFluffiesToMerge",
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFluffiesToMergeResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "mergeFluffy",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MergeFluffyData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MergeFluffyResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetFluffiesToMergeData": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" }
+        }
+      },
+      "GetFluffiesToMergeResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetFluffiesToMergeData"
+            }
+          }
+        }
+      },
+      "MergeFluffyData": {
+        "type": "object",
+        "properties": {
+          "fluffies": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      },
+      "MergeFluffyResponse": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

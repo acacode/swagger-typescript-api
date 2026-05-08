@@ -1,0 +1,8605 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`responses-refs-test single-file output > generates data contracts and HTTP client in one file 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export type Op0001Data = any;
+
+export interface Op0001Params {
+  /** Neutral documentation text. */
+  arg0001: string;
+}
+
+export interface Op0001Payload {
+  fld_0001: string;
+  fld_0002: string[];
+  /** @default false */
+  fld_0003: boolean;
+  fld_0004: string;
+}
+
+export type Op0002Data = Sch0133[];
+
+export interface Op0002Params {
+  /** Neutral documentation text. */
+  arg0012: string;
+}
+
+export type Op0003Data = string[];
+
+export interface Op0003Params {
+  /**
+   * Neutral documentation text.
+   * @default false
+   */
+  q_0022?: boolean;
+}
+
+export type Op0004Data = Sch0132[];
+
+export interface Op0004Params {
+  /** Neutral documentation text. */
+  arg0012: string;
+}
+
+export type Op0005Data = Sch0122;
+
+export interface Op0005Params {
+  /** @example "sample" */
+  arg0012: string;
+  /**
+   * @default false
+   * @example true
+   */
+  q_0143?: boolean;
+}
+
+export type Op0006Data = Sch0132[];
+
+export interface Op0006Params {
+  /** Neutral documentation text. */
+  arg0002: string;
+  /** Neutral documentation text. */
+  arg0012: string;
+  /** Neutral documentation text. */
+  q_0023?: string[];
+}
+
+export type Op0007Data = Sch0163[];
+
+export interface Op0007Payload {
+  fld_0001: string;
+  /**
+   * @maxItems 200
+   * @minItems 1
+   */
+  fld_0002: string[];
+}
+
+export type Op0008Data = Sch0006;
+
+export interface Op0008Params {
+  arg0012: string;
+  q_0024: string;
+  q_0025: string;
+  q_0026: boolean;
+  q_0027: boolean;
+  q_0028?: string;
+  q_0029: number;
+}
+
+export interface Op0009Params {
+  q_0030: string;
+  q_0031: string;
+}
+
+/** Neutral documentation text. */
+export interface Op0010Data {
+  /** Neutral documentation text. */
+  fld_0001: string;
+}
+
+export interface Op0010Params {
+  /** Neutral documentation text. */
+  q_0032: string;
+}
+
+export type Op0011Data = any;
+
+export interface Op0011Payload {
+  fld_0001?: string;
+}
+
+export type Op0012Data = any;
+
+export interface Op0012Payload {
+  fld_0001?: string;
+}
+
+export interface Op0013Params {
+  q_0034: string;
+  q_0035: string;
+}
+
+export type Op0014Data = Sch0012[];
+
+export interface Op0014Params {
+  /**
+   * Neutral documentation text.
+   * @example 1022
+   */
+  arg0017: number;
+}
+
+export type Op0015Data = Sch0012;
+
+export type Op0016Data = Sch0097;
+
+export type Op0017Data = Sch0012;
+
+export interface Op0017Params {
+  /** @example 42 */
+  arg0003: number;
+}
+
+export type Op0018Data = {
+  /** Neutral documentation text. */
+  fld_0001?: boolean;
+  /** Neutral documentation text. */
+  fld_0002?: boolean;
+  fld_0003?: number;
+  fld_0004?: string;
+}[];
+
+export type Op0019Data = Res0023;
+
+export interface Op0019Params {
+  /** Neutral documentation text. */
+  arg0014?: number;
+}
+
+export type Op0020Data = Res0004;
+
+export interface Op0021Data {
+  fld_0001?: boolean;
+  fld_0002?: string;
+  fld_0003?: string;
+}
+
+export interface Op0021Params {
+  /** Neutral documentation text. */
+  arg0004: number;
+  q_0144?: string;
+}
+
+export type Op0022Data = Res0024;
+
+export interface Op0022Params {
+  /** Neutral documentation text. */
+  arg0014?: number;
+  /**
+   * Neutral documentation text.
+   * @default true
+   */
+  q_0036?: boolean;
+}
+
+export type Op0023Data = Res0022;
+
+export interface Op0023Params {
+  /** Neutral documentation text. */
+  arg0005: number;
+}
+
+export type Op0024Data = Res0022;
+
+export interface Op0024Params {
+  /** Neutral documentation text. */
+  arg0005: number;
+}
+
+export interface Op0024Payload {
+  /** Neutral documentation text. */
+  fld_0001?: {
+    /** Neutral documentation text. */
+    fld_0001?: boolean;
+    /** Neutral documentation text. */
+    fld_0002?: boolean;
+    /** Neutral documentation text. */
+    fld_0003?: string[];
+    /** Neutral documentation text. */
+    fld_0004?: string;
+    /** Neutral documentation text. */
+    fld_0005?: string;
+    /** Neutral documentation text. */
+    fld_0006?: Record<string, any>;
+    /** Neutral documentation text. */
+    fld_0007?: boolean;
+    /** Neutral documentation text. */
+    fld_0008?: number;
+    /** Neutral documentation text. */
+    fld_0009?: Record<string, string>;
+    /** Neutral documentation text. */
+    fld_0010?: string;
+    /** Neutral documentation text. */
+    fld_0011?: string;
+    /** Neutral documentation text. */
+    fld_0012?: number;
+    /** Neutral documentation text. */
+    fld_0013?: Record<string, any>;
+    /** Neutral documentation text. */
+    fld_0014?: string;
+    /** Neutral documentation text. */
+    fld_0015?: string;
+    /** Neutral documentation text. */
+    fld_0016?: boolean;
+  };
+  /** Neutral documentation text. */
+  fld_0002?: number | null;
+}
+
+export type Op0025Data = Res0012;
+
+export interface Op0025Params {
+  /** Neutral documentation text. */
+  arg0005: number;
+}
+
+export type Op0026Data = object;
+
+export interface Op0026Params {
+  /** Neutral documentation text. */
+  arg0005: number;
+}
+
+export type Op0027Data = object;
+
+export interface Op0027Params {
+  /** Neutral documentation text. */
+  arg0005: number;
+}
+
+export interface Op0028Data {
+  /** Neutral documentation text. */
+  fld_0001?: number;
+  /** Neutral documentation text. */
+  fld_0002?: string;
+  /** Neutral documentation text. */
+  fld_0003?: string;
+}
+
+export interface Op0028Params {
+  /** Neutral documentation text. */
+  arg0005: number;
+}
+
+export interface Op0028Payload {
+  /** Neutral documentation text. */
+  fld_0001?: string[];
+  /** Neutral documentation text. */
+  fld_0002?: string;
+  /** Neutral documentation text. */
+  fld_0003?: string;
+  /** Neutral documentation text. */
+  fld_0004?: Record<string, any>;
+  /** Neutral documentation text. */
+  fld_0005?: boolean;
+  /** Neutral documentation text. */
+  fld_0006?: number;
+  /** Neutral documentation text. */
+  fld_0007?: Record<string, string>;
+  /** Neutral documentation text. */
+  fld_0008?: string;
+  /** Neutral documentation text. */
+  fld_0009?: string;
+  /** Neutral documentation text. */
+  fld_0010?: number;
+  /** Neutral documentation text. */
+  fld_0011?: Record<string, any>;
+  /** Neutral documentation text. */
+  fld_0012?: string;
+  /** Neutral documentation text. */
+  fld_0013?: string;
+  /** Neutral documentation text. */
+  fld_0014?: boolean;
+}
+
+export interface Op0029Data {
+  /** Neutral documentation text. */
+  fld_0001?: number;
+  /** Neutral documentation text. */
+  fld_0002?: string;
+  /** Neutral documentation text. */
+  fld_0003?: string;
+}
+
+export interface Op0029Params {
+  /** Neutral documentation text. */
+  arg0005: number;
+  /** Neutral documentation text. */
+  arg0018?: string;
+  /** Neutral documentation text. */
+  q_0037: string;
+}
+
+export type Op0030Data = Sch0017[];
+
+export interface Op0031Data {
+  fld_0001: Record<string, any>;
+  fld_0002?: {
+    fld_0001?: number;
+    fld_0002?: string;
+    fld_0003?: string;
+  }[];
+  fld_0003: string[];
+}
+
+export interface Op0031Params {
+  /** Neutral documentation text. */
+  arg0012?: string;
+  /** Neutral documentation text. */
+  q_0038: string;
+  /** Neutral documentation text. */
+  q_0039?: string[];
+}
+
+export interface Op0032Data {
+  fld_0001: Record<string, any>;
+  fld_0002?: {
+    fld_0001?: number;
+    fld_0002?: string;
+    fld_0003?: string;
+  }[];
+  fld_0003: string[];
+}
+
+export interface Op0032Params {
+  /** Neutral documentation text. */
+  arg0012?: string;
+  /** Neutral documentation text. */
+  q_0040: string;
+  /** Neutral documentation text. */
+  q_0041?: string[];
+}
+
+export type Op0032Payload = Record<string, any>;
+
+export type Op0033Data = Sch0016;
+
+export type Op0034Data = any;
+
+export interface Op0034Params {
+  arg0012: string;
+  q_0042: string;
+  q_0043: string;
+}
+
+export type Op0035Data = any;
+
+export type Op0036Data = any;
+
+export interface Op0036Params {
+  /** Neutral documentation text. */
+  arg0006: string;
+}
+
+export interface Op0036Payload {
+  fld_0001: string;
+  fld_0002: string[];
+  /** @default false */
+  fld_0003: boolean;
+  fld_0004: string;
+}
+
+export type Op0037Data = Sch0022[];
+
+export type Op0038Data = Sch0022;
+
+export interface Op0038Payload {
+  fld_0001: string;
+}
+
+export type Op0039Data = any;
+
+export interface Op0039Params {
+  q_0044: string;
+}
+
+export type Op0040Data = Sch0023[];
+
+export interface Op0040Params {
+  q_0045?: string[];
+}
+
+export type Op0041Data = any;
+
+export type Op0042Data = Res0014[];
+
+export interface Op0042Params {
+  /** Neutral documentation text. */
+  arg0017?: number;
+}
+
+export type Op0043Data = Res0016;
+
+export type Op0044Data = Res0015[];
+
+export interface Op0044Params {
+  arg0004: number;
+  /** Neutral documentation text. */
+  q_0046?: boolean;
+}
+
+export type Op0045Data = Sch0054[];
+
+export interface Op0045Params {
+  arg0012: string;
+  arg0018: string;
+  q_0047: string;
+}
+
+export type Op0046Data = any;
+
+export interface Op0047Data {
+  fld_0001: string;
+  fld_0002: string;
+}
+
+export interface Op0047Params {
+  q_0048: Q0048Enum;
+}
+
+export enum Op0047Params1Q0048Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+}
+
+export interface Op0048Data {
+  fld_0001: string;
+  fld_0002: string;
+}
+
+export type Op0049Data = Res0014;
+
+export interface Op0049Params {
+  arg0007: number;
+}
+
+export type Op0050Data = Res0014;
+
+export interface Op0050Params {
+  arg0007: number;
+}
+
+export type Op0051Data = any;
+
+export interface Op0051Params {
+  arg0007: number;
+}
+
+export type Op0052Data = any;
+
+export interface Op0052Params {
+  /** Neutral documentation text. */
+  arg0007: number;
+  /** Neutral documentation text. */
+  arg0008: number;
+}
+
+export type Op0053Data = Sch0056[];
+
+export type Op0054Data = {
+  /** Neutral documentation text. */
+  fld_0001?: number;
+  fld_0002: string[];
+  fld_0003: string;
+  fld_0004: string;
+  fld_0005?: number;
+}[];
+
+export type Op0055Data = Sch0072;
+
+export interface Op0055Params {
+  /** Neutral documentation text. */
+  q_0049: string;
+  q_0050: string;
+}
+
+export type Op0056Data = Sch0035;
+
+export interface Op0056Params {
+  /** Neutral documentation text. */
+  arg0009: string;
+  q_0051: string;
+  q_0052: Q0052Enum;
+}
+
+export enum Op0056Params1Q0052Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+}
+
+export type Op0057Data = Sch0037;
+
+export interface Op0057Params {
+  /** Neutral documentation text. */
+  arg0009: string;
+  arg0012?: string;
+  q_0053?: string[];
+  q_0054: Q0054Enum;
+}
+
+export enum Op0057Params1Q0054Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+}
+
+export type Op0058Data = string;
+
+export interface Op0058Params {
+  /** Neutral documentation text. */
+  arg0018?: string;
+  /** Neutral documentation text. */
+  q_0055?: number;
+}
+
+export type Op0059Data = string;
+
+export interface Op0059Params {
+  /** Neutral documentation text. */
+  arg0010: string;
+}
+
+export type Op0060Data = any;
+
+export interface Op0060Params {
+  /** Neutral documentation text. */
+  arg0010: string;
+}
+
+export type Op0060Payload = string;
+
+export type Op0061Data = string;
+
+export interface Op0061Params {
+  /** Neutral documentation text. */
+  arg0010: string;
+}
+
+export type Op0062Data = any;
+
+export interface Op0062Params {
+  /** Neutral documentation text. */
+  arg0010: string;
+}
+
+export type Op0062Payload = string;
+
+export type Op0063Data = Sch0073[];
+
+export interface Op0063Params {
+  q_0056: string;
+}
+
+export type Op0064Data = Sch0073;
+
+export interface Op0064Params {
+  arg0011: string;
+  q_0057: string;
+}
+
+export type Op0065Data = any;
+
+export interface Op0065Params {
+  arg0011: string;
+  q_0058: string;
+}
+
+export type Op0066Data = any;
+
+export interface Op0066Params {
+  arg0011: string;
+  q_0059: string;
+}
+
+export type Op0067Data = any;
+
+export interface Op0067Params {
+  arg0011: string;
+  q_0060: string;
+}
+
+export type Op0068Data = string[];
+
+export interface Op0068Params {
+  /**
+   * Neutral documentation text.
+   * @default false
+   */
+  q_0061?: boolean;
+}
+
+export type Op0069Data = Sch0121[];
+
+export interface Op0069Params {
+  arg0012: string;
+}
+
+export type Op0070Data = string;
+
+export interface Op0070Params {
+  /** Neutral documentation text. */
+  arg0012: string;
+  /** Neutral documentation text. */
+  q_0062: string;
+  /** Neutral documentation text. */
+  q_0063?: boolean;
+  /** Neutral documentation text. */
+  q_0064?: boolean;
+}
+
+export type Op0071Data = string;
+
+export interface Op0071Params {
+  /** Neutral documentation text. */
+  arg0012: string;
+  /** Neutral documentation text. */
+  q_0065: string;
+  /** Neutral documentation text. */
+  q_0066?: boolean;
+}
+
+export type Op0071Payload = string;
+
+export type Op0072Data = string;
+
+export interface Op0072Params {
+  /** Neutral documentation text. */
+  arg0012: string;
+  /** Neutral documentation text. */
+  q_0067: string;
+  /** Neutral documentation text. */
+  q_0068?: boolean;
+}
+
+export type Op0073Data = Sch0090[];
+
+/** Neutral documentation text. */
+export type Op0074Data = string;
+
+export type Op0075Data = Sch0090[];
+
+/** Neutral documentation text. */
+export type Op0075Payload = string;
+
+export type Op0076Data = Sch0092[];
+
+export interface Op0076Params {
+  /**
+   * Neutral documentation text.
+   * @format int32
+   */
+  q_0069?: number;
+  /** Neutral documentation text. */
+  q_0070?: boolean;
+}
+
+export type Op0077Data = Sch0092;
+
+export interface Op0077Params {
+  arg0013: number;
+}
+
+export type Op0078Data = Sch0081[];
+
+export interface Op0078Params {
+  /** @default "default" */
+  q_0071: Q0071Enum;
+}
+
+/** @default "default" */
+export enum Op0078Params1Q0071Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export type Op0079Data = Sch0081;
+
+export type Op0080Data = Sch0094;
+
+export type Op0081Data = Sch0081;
+
+export interface Op0081Params {
+  /** Neutral documentation text. */
+  arg0014: number;
+}
+
+export type Op0082Data = Sch0081;
+
+export interface Op0082Params {
+  /** Neutral documentation text. */
+  arg0014: number;
+}
+
+export type Op0083Data = any;
+
+export interface Op0083Params {
+  /** Neutral documentation text. */
+  arg0014: number;
+}
+
+export type Op0084Data = {
+  fld_0001: string;
+  fld_0002: string;
+}[];
+
+export interface Op0084Params {
+  /**
+   * Neutral documentation text.
+   * @format int32
+   */
+  arg0004: number;
+}
+
+export type Op0085Data = Sch0096[];
+
+export interface Op0085Params {
+  arg0015: string;
+}
+
+export type Op0086Data = Sch0096;
+
+export interface Op0086Params {
+  arg0015: string;
+}
+
+export type Op0087Data = Sch0096;
+
+export interface Op0087Params {
+  arg0015: string;
+  arg0016: number;
+}
+
+export type Op0088Data = Sch0096;
+
+export interface Op0088Params {
+  arg0015: string;
+  arg0016: number;
+}
+
+export type Op0089Data = any;
+
+export interface Op0089Params {
+  arg0015: string;
+  arg0016: number;
+}
+
+export type Op0090Data = Sch0097[];
+
+export interface Op0090Params {
+  /**
+   * Neutral documentation text.
+   * @minLength 1
+   * @maxLength 1000
+   * @example "sample"
+   */
+  search?: string;
+}
+
+export type Op0091Data = Sch0109[];
+
+export type Op0092Data = Sch0101;
+
+export interface Op0092Params {
+  /**
+   * Neutral documentation text.
+   * @example 8
+   */
+  q_0072?: number;
+}
+
+export type Op0093Data = Sch0014;
+
+export interface Op0093Params {
+  /**
+   * Neutral documentation text.
+   * @example 1022
+   */
+  arg0017: number;
+  /** @default "default" */
+  q0073: Q0073Enum;
+}
+
+/** @default "default" */
+export enum Op0093Params1Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+/** @default "default" */
+export enum Op0093Params1Q0073Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+export type Op0094Data = Sch0102;
+
+export interface Op0094Params {
+  /** @example 42 */
+  arg0017: number;
+}
+
+export type Op0095Data = Sch0103;
+
+export interface Op0095Params {
+  /** @example 42 */
+  arg0017: number;
+  /** @default "default" */
+  q0074: Q0074Enum;
+}
+
+/** @default "default" */
+export enum Op0095Params1Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+/** @default "default" */
+export enum Op0095Params1Q0074Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+export type Op0096Data = Sch0103;
+
+export interface Op0096Params {
+  /** @example 42 */
+  arg0017: number;
+}
+
+export interface Op0096Payload {
+  fld_0001: Sch0139;
+  fld_0002: Sch0076;
+  fld_0003: Sch0140;
+  fld_0004: Sch0143[];
+  fld_0005: Sch0164;
+}
+
+export type Op0097Data = Sch0078;
+
+export interface Op0097Params {
+  /** @example "sample" */
+  arg0002: string;
+  /** Neutral documentation text. */
+  arg0012: string;
+  /** @example 42 */
+  arg0017: number;
+  q_0145?: string[];
+}
+
+export type Op0098Data = Sch0105;
+
+export interface Op0098Params {
+  /** @example 42 */
+  arg0017: number;
+}
+
+export type Op0099Data = Sch0107;
+
+export interface Op0099Params {
+  /** @example 42 */
+  arg0017: number;
+}
+
+export type Op0100Data = Res0007;
+
+export interface Op0100Params {
+  /** Neutral documentation text. */
+  arg0008: number;
+}
+
+/** @example "sample" */
+export type Op0101Data = string;
+
+/** @example "sample" */
+export type Op0102Data = string;
+
+export type Op0103Data = {
+  /** Neutral documentation text. */
+  fld_0001?: number;
+  /** Neutral documentation text. */
+  fld_0002: string;
+  /** Neutral documentation text. */
+  fld_0003: string;
+  /** Neutral documentation text. */
+  fld_0004: string;
+  /** Neutral documentation text. */
+  fld_0005?: number;
+  /** Neutral documentation text. */
+  fld_0006: string;
+}[];
+
+export type Op0104Data = {
+  /** Neutral documentation text. */
+  fld_0001?: number;
+  /** Neutral documentation text. */
+  fld_0002: string;
+  /** Neutral documentation text. */
+  fld_0003: string;
+  /** Neutral documentation text. */
+  fld_0004: string;
+  /** Neutral documentation text. */
+  fld_0005?: number;
+  /** Neutral documentation text. */
+  fld_0006: string;
+}[];
+
+export type Op0105Data = Sch0110;
+
+export interface Op0105Params {
+  /** @example "sample" */
+  arg0012: string;
+  /**
+   * @default false
+   * @example true
+   */
+  q_0146?: boolean;
+}
+
+export type Op0106Data = Sch0126;
+
+export type Op0107Data = Sch0111;
+
+export type Op0108Data = Sch0111;
+
+export type Op0109Data = Sch0111;
+
+export type Op0110Data = Sch0153[];
+
+export interface Op0110Params {
+  /** Neutral documentation text. */
+  arg0012: string;
+  /** Neutral documentation text. */
+  q_0075: string;
+  /** Neutral documentation text. */
+  q_0076?: string[];
+}
+
+export type Op0111Data = Sch0159[];
+
+export interface Op0111Params {
+  /** Neutral documentation text. */
+  arg0012: string;
+  /** Neutral documentation text. */
+  q_0077: string;
+}
+
+export type Op0112Data = Sch0018;
+
+export type Op0113Data = Sch0132[];
+
+export interface Op0113Params {
+  /** Neutral documentation text. */
+  arg0002: string;
+  /** Neutral documentation text. */
+  arg0012: string;
+  /** Neutral documentation text. */
+  q_0078?: string[];
+}
+
+export type Op0114Data = Sch0130;
+
+export interface Op0114Params {
+  /** Neutral documentation text. */
+  arg0002: string;
+  /** Neutral documentation text. */
+  arg0012: string;
+  /** Neutral documentation text. */
+  q_0079?: string;
+}
+
+export type Op0115Data = Sch0112[];
+
+export interface Op0115Params {
+  /** Neutral documentation text. */
+  arg0002: string;
+  arg0012: string;
+  q_0080?: string[];
+}
+
+export type Op0116Data = Sch0131[];
+
+export interface Op0116Params {
+  /** Neutral documentation text. */
+  arg0002: string;
+  /** Neutral documentation text. */
+  arg0012: string;
+}
+
+export type Op0117Data = Sch0120;
+
+export interface Op0117Params {
+  /** Neutral documentation text. */
+  arg0002: string;
+  arg0012: string;
+  q_0081: string;
+}
+
+export type Op0118Data = {
+  fld_0001: string;
+  fld_0002: string;
+}[];
+
+export interface Op0118Params {
+  /** Neutral documentation text. */
+  arg0002: string;
+  /** Neutral documentation text. */
+  arg0012: string;
+  /** Neutral documentation text. */
+  q_0082: string[];
+}
+
+export type Op0119Data = Sch0137;
+
+export interface Op0119Params {
+  /** Neutral documentation text. */
+  arg0002: string;
+  /** Neutral documentation text. */
+  arg0012: string;
+  q_0083: string;
+}
+
+export type Op0120Data = any;
+
+export interface Op0120Params {
+  /** Neutral documentation text. */
+  arg0002: string;
+}
+
+export interface Op0120Payload {
+  fld_0001: string;
+  fld_0002: string[];
+  /** @default false */
+  fld_0003: boolean;
+  fld_0004: string;
+}
+
+/** @format binary */
+export type Op0121Data = File;
+
+export type Op0122Data = Sch0149;
+
+export interface Op0122Params {
+  /**
+   * Neutral documentation text.
+   * @default "default"
+   */
+  arg0012: string;
+  /**
+   * Neutral documentation text.
+   * @default "default"
+   */
+  q_0084: string;
+  /**
+   * Neutral documentation text.
+   * @default "default"
+   */
+  q_0085: string;
+  /**
+   * Neutral documentation text.
+   * @default "default"
+   */
+  q_0086: string;
+  /**
+   * Neutral documentation text.
+   * @default 0
+   */
+  q_0087?: number;
+}
+
+export type Op0123Data = Sch0069[];
+
+export interface Op0123Params {
+  /** Neutral documentation text. */
+  arg0012: string;
+  q_0088: string;
+  /** Neutral documentation text. */
+  q_0089: string;
+  /** Neutral documentation text. */
+  q_0090: string;
+}
+
+export type Op0124Data = Sch0162;
+
+export interface Op0124Params {
+  /** Neutral documentation text. */
+  q_0091: string;
+}
+
+export interface Op0125Data {
+  fld_0001: Op0125Fld0001Enum;
+}
+
+export enum Op0125Fld0001Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+export type Op0126Data = Sch0162[];
+
+export interface Op0126Params {
+  /** Neutral documentation text. */
+  arg0017: number;
+}
+
+export type Op0127Data = any;
+
+export type Op0128Data = Sch0150;
+
+export interface Op0129Data {
+  fld_0001: number;
+}
+
+export interface Op0129Params {
+  /**
+   * Neutral documentation text.
+   * @example 1022
+   */
+  arg0017?: number;
+}
+
+export type Op0130Data = Sch0024;
+
+export interface Op0130Params {
+  /** Neutral documentation text. */
+  q_0092: number;
+}
+
+export type Op0131Data = Sch0024;
+
+export interface Op0131Params {
+  /** Neutral documentation text. */
+  q_0093: number;
+}
+
+export type Op0132Data = any;
+
+export interface Op0132Params {
+  /** Neutral documentation text. */
+  q_0094: number;
+  /** Neutral documentation text. */
+  q_0095?: boolean;
+}
+
+export type Op0133Data = Sch0024[];
+
+export interface Op0133Params {
+  /** Neutral documentation text. */
+  q_0096: string;
+}
+
+export type Op0134Data = any;
+
+export type Op0135Data = any;
+
+export interface Op0135Params {
+  /** Neutral documentation text. */
+  q_0097: string;
+}
+
+export type Op0136Data = Sch0150;
+
+export interface Op0136Params {
+  /** Neutral documentation text. */
+  arg0012?: string;
+  /** Neutral documentation text. */
+  arg0018: string;
+  q_0098?: string[];
+}
+
+export type Op0137Data = any;
+
+export interface Op0137Params {
+  arg0012: string;
+  /** Neutral documentation text. */
+  arg0018: string;
+  /** Neutral documentation text. */
+  arg0019: string;
+  q_0099: string;
+}
+
+export type Op0138Data = Sch0024[];
+
+export interface Op0138Params {
+  /** Neutral documentation text. */
+  arg0018: string;
+  /** Neutral documentation text. */
+  q_0100?: string;
+}
+
+export type Op0139Data = Sch0024[];
+
+export interface Op0139Params {
+  /** Neutral documentation text. */
+  arg0018: string;
+}
+
+export type Op0140Data = Sch0157;
+
+export interface Op0140Params {
+  arg0012: string;
+  /** Neutral documentation text. */
+  arg0018: string;
+  q_0101: string;
+}
+
+export type Op0141Data = Sch0158;
+
+export interface Op0141Params {
+  arg0012: string;
+  /** Neutral documentation text. */
+  arg0018: string;
+  /** Neutral documentation text. */
+  arg0020: string;
+  q_0102: string;
+}
+
+export type Op0142Data = any;
+
+export interface Op0142Params {
+  arg0012: string;
+  /** Neutral documentation text. */
+  arg0018: string;
+  q_0103: string;
+}
+
+export type Op0143Data = Sch0160[];
+
+export interface Op0143Params {
+  arg0012: string;
+  /** Neutral documentation text. */
+  arg0018: string;
+  q_0104: string;
+  /**
+   * Neutral documentation text.
+   * @default 100
+   */
+  q_0105?: number;
+}
+
+export type Op0144Data = any;
+
+export interface Op0144Params {
+  /** Neutral documentation text. */
+  arg0018: string;
+}
+
+export interface Op0144Payload {
+  fld_0001: string[];
+  /** @default false */
+  fld_0002: boolean;
+  fld_0003: string;
+  fld_0004: number;
+}
+
+export type Op0145Data = any;
+
+export interface Op0145Params {
+  /** Neutral documentation text. */
+  arg0018: string;
+}
+
+export interface Op0145Payload {
+  fld_0001: string[];
+  /** @default false */
+  fld_0002: boolean;
+  fld_0003: string;
+}
+
+export type Op0146Data = any;
+
+export interface Op0146Params {
+  /** Neutral documentation text. */
+  arg0018: string;
+}
+
+export interface Op0146Payload {
+  fld_0001: string;
+  fld_0002: string[];
+  /** @default false */
+  fld_0003: boolean;
+  fld_0004: string;
+}
+
+export type Op0147Data = any;
+
+export interface Op0147Params {
+  /** Neutral documentation text. */
+  arg0018: string;
+}
+
+export interface Op0147Payload {
+  fld_0001: string[];
+  /** @default false */
+  fld_0002: boolean;
+  fld_0003: string;
+}
+
+export type Op0148Data = any;
+
+export interface Op0148Params {
+  /** Neutral documentation text. */
+  arg0018: string;
+}
+
+export interface Op0148Payload {
+  fld_0001: string[];
+  /** @default false */
+  fld_0002: boolean;
+  fld_0003: string;
+}
+
+export type Op0149Data = any;
+
+export interface Op0149Params {
+  /** Neutral documentation text. */
+  arg0018: string;
+}
+
+export interface Op0149Payload {
+  fld_0001: string[];
+  /** @default false */
+  fld_0002: boolean;
+  fld_0003: string;
+  fld_0004: string;
+  /** Neutral documentation text. */
+  fld_0005?: Sch0058;
+}
+
+export type Op0150Data = any;
+
+export interface Op0150Params {
+  /** Neutral documentation text. */
+  arg0018: string;
+}
+
+export interface Op0150Payload {
+  fld_0001: string[];
+  /** @default false */
+  fld_0002: boolean;
+  fld_0003: string;
+  /** @default false */
+  fld_0004: boolean;
+}
+
+export type Op0151Data = Sch0168;
+
+export interface Op0151Params {
+  /** Neutral documentation text. */
+  q_0106?: string[];
+  /** Neutral documentation text. */
+  q_0107: string;
+}
+
+export type Op0152Data = Sch0168[];
+
+export interface Op0152Params {
+  /**
+   * Neutral documentation text.
+   * @example "sample"
+   */
+  arg0012?: string;
+  /**
+   * Neutral documentation text.
+   * @example 1022
+   */
+  arg0017?: number;
+  /** Neutral documentation text. */
+  q_0108?: string[];
+}
+
+export type Op0153Data = any;
+
+export type Op0154Data = any;
+
+export interface Op0154Params {
+  arg0012: string;
+  /** Neutral documentation text. */
+  arg0021: string;
+  q_0109: string;
+  q_0110: string;
+  q_0111?: string;
+}
+
+export type Op0155Data = any;
+
+export interface Op0155Params {
+  arg0012: string;
+  /** Neutral documentation text. */
+  arg0021: string;
+  q_0112: string;
+  q_0113?: string;
+  q_0114: string;
+}
+
+export type Op0156Data = any;
+
+export interface Op0156Params {
+  /** Neutral documentation text. */
+  arg0021: string;
+}
+
+export interface Op0156Payload {
+  fld_0001: string;
+  fld_0002: string[];
+  /** @default false */
+  fld_0003: boolean;
+  fld_0004: string;
+}
+
+export type Op0157Data = Sch0178;
+
+export type Op0158Data = Sch0179;
+
+export type Op0159Data = Sch0185[];
+
+export interface Op0159Params {
+  /** Neutral documentation text. */
+  q_0115: string;
+}
+
+export interface Op0160Data {
+  fld_0001: string;
+  fld_0002: string;
+}
+
+export interface Op0161Data {
+  fld_0001: string;
+}
+
+export interface Op0161Params {
+  /** Neutral documentation text. */
+  q_0116: string;
+  /** Neutral documentation text. */
+  q_0117: string;
+  /** Neutral documentation text. */
+  q_0118: string;
+}
+
+export type Op0162Data = Sch0004;
+
+export type Op0163Data = Sch0009;
+
+export interface Op0163Params {
+  arg0012: string;
+  /** Neutral documentation text. */
+  q_0119: string;
+  q_0120: string;
+  /** @default false */
+  q_0121?: boolean;
+  /** @default false */
+  q_0122?: boolean;
+  /**
+   * @min 1
+   * @max 100
+   * @default 20
+   */
+  q_0123?: number;
+  /**
+   * @min 0
+   * @default 0
+   */
+  q_0124?: number;
+  q_0125?: Q0125Enum;
+  /** @default "default" */
+  q_0126?: Q0126Enum;
+  q_0127?: Q0127Enum;
+  q_0128?: number;
+  q_0129?: Q0129Enum;
+  q_0130?: string;
+  q_0131?: Q0131Enum;
+  q_0132?: string;
+  q_0133?: Q0133Enum;
+  q_0134?: string;
+}
+
+export enum Op0163Params1Q0125Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+}
+
+/** @default "default" */
+export enum Op0163Params1Q0126Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export enum Op0163Params1Q0127Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+  Enum5 = "enum_5",
+}
+
+export enum Op0163Params1Q0129Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+  Enum5 = "enum_5",
+  Enum6 = "enum_6",
+  Enum7 = "enum_7",
+}
+
+export enum Op0163Params1Q0131Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+  Enum5 = "enum_5",
+  Enum6 = "enum_6",
+  Enum7 = "enum_7",
+}
+
+export enum Op0163Params1Q0133Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+  Enum5 = "enum_5",
+  Enum6 = "enum_6",
+  Enum7 = "enum_7",
+}
+
+export type Op0164Data = Res0023;
+
+export interface Op0164Params {
+  /** Neutral documentation text. */
+  arg0014?: number;
+}
+
+export type Op0165Data = Res0004;
+
+export type Op0166Data = Res0025;
+
+export interface Op0166Params {
+  /** Neutral documentation text. */
+  arg0004: number;
+}
+
+export type Op0167Data = Res0022;
+
+export interface Op0167Params {
+  /** Neutral documentation text. */
+  arg0005: number;
+}
+
+export interface Op0167Payload {
+  /** Neutral documentation text. */
+  fld_0001?: boolean;
+  /** Neutral documentation text. */
+  fld_0002?: boolean;
+  /** Neutral documentation text. */
+  fld_0003?: boolean;
+  /** Neutral documentation text. */
+  fld_0004?: number;
+  /** Neutral documentation text. */
+  fld_0005?: {
+    /** Neutral documentation text. */
+    fld_0001?: string[];
+    /** Neutral documentation text. */
+    fld_0002?: string;
+    /** Neutral documentation text. */
+    fld_0003?: string;
+    /** Neutral documentation text. */
+    fld_0004?: Record<string, any>;
+    /** Neutral documentation text. */
+    fld_0005?: Record<string, string>;
+    /** Neutral documentation text. */
+    fld_0006?: string;
+    /** Neutral documentation text. */
+    fld_0007?: string;
+    /** Neutral documentation text. */
+    fld_0008?: number;
+    /** Neutral documentation text. */
+    fld_0009?: Record<string, any>;
+  }[];
+  /** Neutral documentation text. */
+  fld_0006?: number | null;
+  /** Neutral documentation text. */
+  fld_0007?: string;
+  /** Neutral documentation text. */
+  fld_0008?: string;
+  /** Neutral documentation text. */
+  fld_0009?: boolean;
+}
+
+export type Op0168Data = Res0017;
+
+export interface Op0169Data {
+  fld_0001?: string;
+  /** Neutral documentation text. */
+  fld_0002?: boolean;
+}
+
+export interface Op0169Params {
+  arg0007: number;
+}
+
+export interface Op0170Data {
+  fld_0001?: string;
+  /** Neutral documentation text. */
+  fld_0002?: boolean;
+}
+
+export interface Op0170Params {
+  arg0007: number;
+}
+
+export interface Op0171Data {
+  fld_0001?: string;
+  /** Neutral documentation text. */
+  fld_0002?: boolean;
+}
+
+export interface Op0171Params {
+  arg0007: number;
+}
+
+export type Op0172Data = Sch0038[];
+
+export interface Op0172Params {
+  q_0135: string;
+}
+
+export type Op0173Data = Sch0038;
+
+export interface Op0173Params {
+  arg0011: string;
+  q_0136: string;
+  q_0137: Q0137Enum;
+}
+
+export enum Op0173Params1Q0137Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+}
+
+export type Op0174Data = Sch0151[];
+
+export interface Op0174Params {
+  /** Neutral documentation text. */
+  arg0012: string;
+  /** Neutral documentation text. */
+  q_0138: string[];
+  /** Neutral documentation text. */
+  q_0139?: string[];
+}
+
+export type Op0175Data = Sch0052;
+
+export interface Op0175Params {
+  /** Neutral documentation text. */
+  arg0012: string;
+  /** Neutral documentation text. */
+  q_0140?: string[];
+  /** Neutral documentation text. */
+  q_0141: string;
+  q_0142: Q0142Enum;
+}
+
+export enum Op0175Params1Q0142Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+}
+
+export type Op0176Data = Sch0180;
+
+export type Op0177Data = Res0025;
+
+export interface Op0177Params {
+  /** Neutral documentation text. */
+  arg0004: number;
+}
+
+export enum Q0048Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+}
+
+export enum Q0052Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+}
+
+export enum Q0054Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+}
+
+/** @default "default" */
+export enum Q0071Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+/** @default "default" */
+export enum Q0073Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+/** @default "default" */
+export enum Q0074Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+export enum Q0125Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+}
+
+/** @default "default" */
+export enum Q0126Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export enum Q0127Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+  Enum5 = "enum_5",
+}
+
+export enum Q0129Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+  Enum5 = "enum_5",
+  Enum6 = "enum_6",
+  Enum7 = "enum_7",
+}
+
+export enum Q0131Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+  Enum5 = "enum_5",
+  Enum6 = "enum_6",
+  Enum7 = "enum_7",
+}
+
+export enum Q0133Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+  Enum5 = "enum_5",
+  Enum6 = "enum_6",
+  Enum7 = "enum_7",
+}
+
+export enum Q0137Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+}
+
+export enum Q0142Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+}
+
+export interface Res0001 {
+  /**
+   * Neutral documentation text.
+   * @format date-time
+   */
+  fld_0001: string;
+  /** Neutral documentation text. */
+  fld_0002: string;
+  /**
+   * Neutral documentation text.
+   * @format date-time
+   */
+  fld_0003?: string | null;
+  /** Neutral documentation text. */
+  fld_0004: number;
+  /** Neutral documentation text. */
+  fld_0005: number;
+  /** Neutral documentation text. */
+  fld_0006: string;
+  /** Neutral documentation text. */
+  fld_0007: string;
+  /** Neutral documentation text. */
+  fld_0008: string[];
+  /** Neutral documentation text. */
+  fld_0009: Res0001Fld0009Enum;
+}
+
+/** Neutral documentation text. */
+export enum Res0001Fld0009Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export interface Res0002 {
+  fld_0001?: string;
+  fld_0002: string;
+  fld_0003: string;
+}
+
+export interface Res0003 {
+  /** Neutral documentation text. */
+  fld_0001?: Res0003Fld0001Enum;
+  /** Neutral documentation text. */
+  fld_0002: number;
+  /** Neutral documentation text. */
+  fld_0003: number;
+}
+
+/** Neutral documentation text. */
+export enum Res0003Fld0001Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export interface Res0004 {
+  /** Neutral documentation text. */
+  fld_0001: number;
+  /** Neutral documentation text. */
+  fld_0002: number;
+  fld_0003: Res0004Fld0003Enum;
+  /** Neutral documentation text. */
+  fld_0004?: string;
+  /** Neutral documentation text. */
+  fld_0005: string;
+  /** Neutral documentation text. */
+  fld_0006: boolean;
+}
+
+export enum Res0004Fld0003Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export interface Res0005 {
+  /** Neutral documentation text. */
+  fld_0001: string;
+  /** Neutral documentation text. */
+  fld_0002: number;
+}
+
+export interface Res0006 {
+  /** Neutral documentation text. */
+  fld_0001: number;
+}
+
+export interface Res0007 {
+  fld_0001: string;
+}
+
+export interface Res0008 {
+  /** @format date-time */
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: number;
+  fld_0004: string;
+  fld_0005: number;
+  fld_0006: Res0008Fld0006Enum;
+  /** @format date-time */
+  fld_0007: string;
+}
+
+export enum Res0008Fld0006Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export interface Res0009 {
+  fld_0001: string;
+  fld_0002: Res0009Fld0002Enum;
+}
+
+export enum Res0009Fld0002Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export interface Res0010 {
+  fld_0001: string;
+  fld_0002: number;
+  fld_0003: Res0010Fld0003Enum;
+}
+
+export enum Res0010Fld0003Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export interface Res0011 {
+  /** Neutral documentation text. */
+  fld_0001: string;
+}
+
+export interface Res0012 {
+  /** Neutral documentation text. */
+  fld_0001: number;
+  /** Neutral documentation text. */
+  fld_0002?: string;
+  /** Neutral documentation text. */
+  fld_0003: boolean;
+}
+
+/** Neutral documentation text. */
+export type Res0013 = Sch0028;
+
+/** Neutral documentation text. */
+export interface Res0014 {
+  /** Neutral documentation text. */
+  fld_0001?: Res0014Fld0001Enum | null;
+  /**
+   * Neutral documentation text.
+   * @min 1
+   */
+  fld_0002: number;
+  /** Neutral documentation text. */
+  fld_0003?: Res0014Fld0003Enum | null;
+  /** Neutral documentation text. */
+  fld_0004?: string | null;
+  /** Neutral documentation text. */
+  fld_0005?: Res0014Fld0005Enum | null;
+  /**
+   * Neutral documentation text.
+   * @min 1
+   */
+  fld_0006: number;
+  /** Neutral documentation text. */
+  fld_0007?: Res0014Fld0007Enum | null;
+  /**
+   * Neutral documentation text.
+   * @min 1
+   */
+  fld_0008: number;
+  /**
+   * Neutral documentation text.
+   * @format date-time
+   */
+  fld_0009: string;
+  /** Neutral documentation text. */
+  fld_0010: string;
+  /**
+   * Neutral documentation text.
+   * @default false
+   */
+  fld_0011: boolean;
+  /** Neutral documentation text. */
+  fld_0012?: string | null;
+  /** Neutral documentation text. */
+  fld_0013?: string | null;
+  fld_0014?: string;
+  fld_0015?: string;
+  /** Neutral documentation text. */
+  fld_0016?: number[];
+  /** Neutral documentation text. */
+  fld_0017: number;
+  /** Neutral documentation text. */
+  fld_0018?: string | null;
+  /** Neutral documentation text. */
+  fld_0019?: string | null;
+  /** Neutral documentation text. */
+  fld_0020?: string | null;
+  /** Neutral documentation text. */
+  fld_0021?: number | null;
+  /**
+   * Neutral documentation text.
+   * @default "default"
+   */
+  fld_0022?: string;
+  /**
+   * Neutral documentation text.
+   * @min 1
+   */
+  fld_0023: number;
+  /**
+   * Neutral documentation text.
+   * @min 1
+   */
+  fld_0024: number;
+  /** Neutral documentation text. */
+  fld_0025?: Record<string, any> | null;
+  /** Neutral documentation text. */
+  fld_0026?: string | null;
+  /** Neutral documentation text. */
+  fld_0027?: string | null;
+  /**
+   * Neutral documentation text.
+   * @min 1
+   */
+  fld_0028: number;
+  /**
+   * Neutral documentation text.
+   * @default false
+   */
+  fld_0029?: boolean;
+  /** Neutral documentation text. */
+  fld_0030?: string | null;
+  /** Neutral documentation text. */
+  fld_0031: string[];
+  /** Neutral documentation text. */
+  fld_0032?: Record<string, string>;
+  /** Neutral documentation text. */
+  fld_0033: string;
+  /** Neutral documentation text. */
+  fld_0034: number;
+  /** Neutral documentation text. */
+  fld_0035: Res0014Fld0035Enum;
+  /** Neutral documentation text. */
+  fld_0036: Res0014Fld0036Enum;
+  /** Neutral documentation text. */
+  fld_0037?: string | null;
+  /** Neutral documentation text. */
+  fld_0038: Res0014Fld0038Enum;
+  /** Neutral documentation text. */
+  fld_0039?: string | null;
+  /** Neutral documentation text. */
+  fld_0040: string[];
+  /**
+   * Neutral documentation text.
+   * @format date-time
+   */
+  fld_0041: string;
+  /** Neutral documentation text. */
+  fld_0042?: Record<string, string> | null;
+}
+
+/** Neutral documentation text. */
+export enum Res0014Fld0001Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+/** Neutral documentation text. */
+export enum Res0014Fld0003Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+/** Neutral documentation text. */
+export enum Res0014Fld0005Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+/** Neutral documentation text. */
+export enum Res0014Fld0007Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+/** Neutral documentation text. */
+export enum Res0014Fld0035Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+/** Neutral documentation text. */
+export enum Res0014Fld0036Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+/** Neutral documentation text. */
+export enum Res0014Fld0038Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+  Enum5 = "enum_5",
+  Enum6 = "enum_6",
+  Enum7 = "enum_7",
+  Enum8 = "enum_8",
+  Enum9 = "enum_9",
+}
+
+/** Neutral documentation text. */
+export interface Res0015 {
+  fld_0001: string;
+  fld_0002: boolean;
+  fld_0003: string;
+  fld_0004: boolean;
+  fld_0005: string[];
+}
+
+export interface Res0016 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+}
+
+export interface Res0017 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: number;
+  fld_0004: string;
+}
+
+export interface Res0018 {
+  fld_0001?: {
+    /** Neutral documentation text. */
+    fld_0001?: string;
+    /** Neutral documentation text. */
+    fld_0002?: string;
+    /** Neutral documentation text. */
+    fld_0003?: string;
+    /** Neutral documentation text. */
+    fld_0004?: string;
+    fld_0005?: {
+      /**
+       * Neutral documentation text.
+       * Neutral documentation text.
+       */
+      fld_0001?: string;
+    };
+    fld_0006?: string[];
+    /** Neutral documentation text. */
+    fld_0007?: string;
+    /** Neutral documentation text. */
+    fld_0008?: number;
+    fld_0009?: {
+      /**
+       * Neutral documentation text.
+       * @default 0
+       */
+      fld_0001?: number;
+      /**
+       * Neutral documentation text.
+       * @default 1
+       */
+      fld_0002?: number;
+      fld_0003?: {
+        /** Neutral documentation text. */
+        fld_0001?: number;
+        /** Neutral documentation text. */
+        fld_0002?: number;
+      };
+      /**
+       * Neutral documentation text.
+       * @default 0
+       */
+      fld_0004?: number;
+    };
+    /** Neutral documentation text. */
+    fld_0010?: Res0018Fld0010Enum;
+    fld_0011?: {
+      fld_0001?: {
+        /**
+         * Neutral documentation text.
+         * Neutral documentation text.
+         */
+        fld_0001?: string;
+        /**
+         * Neutral documentation text.
+         * Neutral documentation text.
+         */
+        fld_0002?: string;
+      };
+      /**
+       * Neutral documentation text.
+       * Neutral documentation text.
+       */
+      fld_0002?: string;
+      fld_0003?: {
+        fld_0001?: {
+          /**
+           * Neutral documentation text.
+           * Neutral documentation text.
+           */
+          fld_0001?: Res0018Fld0003Enum;
+          /**
+           * Neutral documentation text.
+           * Neutral documentation text.
+           * @default 0
+           */
+          fld_0002?: number;
+          /**
+           * Neutral documentation text.
+           * Neutral documentation text.
+           */
+          fld_0003?: Res0018Fld0003Enum1;
+        };
+        fld_0002?: {
+          /**
+           * Neutral documentation text.
+           * Neutral documentation text.
+           */
+          fld_0001?: Res0018Fld0002Enum;
+          /**
+           * Neutral documentation text.
+           * Neutral documentation text.
+           * @default 0
+           */
+          fld_0002?: number;
+          /**
+           * Neutral documentation text.
+           * Neutral documentation text.
+           */
+          fld_0003?: Res0018Fld0002Enum1;
+        };
+      };
+    };
+    /** Neutral documentation text. */
+    fld_0012?: string[];
+  };
+  /** Neutral documentation text. */
+  fld_0002?: Res0018Fld0002Enum2;
+}
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export enum Res0018Fld0002Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export enum Res0018Fld0002Enum1 {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+/** Neutral documentation text. */
+export enum Res0018Fld0002Enum2 {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export enum Res0018Fld0003Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export enum Res0018Fld0003Enum1 {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+/** Neutral documentation text. */
+export enum Res0018Fld0010Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export interface Res0019 {
+  fld_0001?: {
+    /** Neutral documentation text. */
+    fld_0001?: string;
+    /**
+     * Neutral documentation text.
+     * @default false
+     */
+    fld_0002?: boolean;
+    /** Neutral documentation text. */
+    fld_0003?: string;
+    /** Neutral documentation text. */
+    fld_0004?: string;
+    /**
+     * Neutral documentation text.
+     * Neutral documentation text.
+     * @default false
+     */
+    fld_0005?: boolean;
+    fld_0006?: {
+      /**
+       * Neutral documentation text.
+       * Neutral documentation text.
+       */
+      fld_0001?: string;
+    };
+    fld_0007?: string[];
+    /** Neutral documentation text. */
+    fld_0008?: string;
+    /** Neutral documentation text. */
+    fld_0009?: number;
+    fld_0010?: {
+      /**
+       * Neutral documentation text.
+       * @default 0
+       */
+      fld_0001?: number;
+      /**
+       * Neutral documentation text.
+       * @default 1
+       */
+      fld_0002?: number;
+      fld_0003?: {
+        /** Neutral documentation text. */
+        fld_0001?: number;
+        /** Neutral documentation text. */
+        fld_0002?: number;
+      };
+      /**
+       * Neutral documentation text.
+       * @default 0
+       */
+      fld_0004?: number;
+    };
+    /** Neutral documentation text. */
+    fld_0011?: Res0019Fld0011Enum;
+    fld_0012?: {
+      fld_0001?: {
+        /**
+         * Neutral documentation text.
+         * Neutral documentation text.
+         */
+        fld_0001?: string;
+        /**
+         * Neutral documentation text.
+         * Neutral documentation text.
+         */
+        fld_0002?: string;
+      };
+      /**
+       * Neutral documentation text.
+       * Neutral documentation text.
+       */
+      fld_0002?: string;
+      fld_0003?: {
+        fld_0001?: {
+          /**
+           * Neutral documentation text.
+           * Neutral documentation text.
+           */
+          fld_0001?: Res0019Fld0003Enum;
+          /**
+           * Neutral documentation text.
+           * Neutral documentation text.
+           * @default 0
+           */
+          fld_0002?: number;
+          /**
+           * Neutral documentation text.
+           * Neutral documentation text.
+           */
+          fld_0003?: Res0019Fld0003Enum1;
+        };
+        fld_0002?: {
+          /**
+           * Neutral documentation text.
+           * Neutral documentation text.
+           */
+          fld_0001?: Res0019Fld0002Enum;
+          /**
+           * Neutral documentation text.
+           * Neutral documentation text.
+           * @default 0
+           */
+          fld_0002?: number;
+          /**
+           * Neutral documentation text.
+           * Neutral documentation text.
+           */
+          fld_0003?: Res0019Fld0002Enum1;
+        };
+      };
+    };
+    /** Neutral documentation text. */
+    fld_0013?: string[];
+  };
+  /** Neutral documentation text. */
+  fld_0002?: Res0019Fld0002Enum2;
+}
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export enum Res0019Fld0002Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export enum Res0019Fld0002Enum1 {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+/** Neutral documentation text. */
+export enum Res0019Fld0002Enum2 {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export enum Res0019Fld0003Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export enum Res0019Fld0003Enum1 {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+/** Neutral documentation text. */
+export enum Res0019Fld0011Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export interface Res0020 {
+  /** Neutral documentation text. */
+  fld_0001?: number;
+  /** Neutral documentation text. */
+  fld_0002?: string;
+  /** Neutral documentation text. */
+  fld_0003?: number;
+  /** Neutral documentation text. */
+  fld_0004?: number;
+  /** Neutral documentation text. */
+  fld_0005?: number;
+  /** Neutral documentation text. */
+  fld_0006?: number;
+  /** Neutral documentation text. */
+  fld_0007?: number;
+  /** Neutral documentation text. */
+  fld_0008?: string;
+  /** Neutral documentation text. */
+  fld_0009?: number;
+  /**
+   * Neutral documentation text.
+   * Neutral documentation text.
+   * @default false
+   */
+  fld_0010?: boolean;
+  /** Neutral documentation text. */
+  fld_0011?: Res0020Fld0011Enum;
+  /** Neutral documentation text. */
+  fld_0012?: string[];
+}
+
+/** Neutral documentation text. */
+export enum Res0020Fld0011Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export type Res0021 = any;
+
+export interface Res0022 {
+  /** Neutral documentation text. */
+  fld_0001?: number;
+  /**
+   * Neutral documentation text.
+   * @format date-time
+   */
+  fld_0002: string;
+  /** Neutral documentation text. */
+  fld_0003: string;
+  /**
+   * Neutral documentation text.
+   * @format date-time
+   */
+  fld_0004?: string | null;
+  /** Neutral documentation text. */
+  fld_0005: number;
+  /** Neutral documentation text. */
+  fld_0006: number;
+  /** Neutral documentation text. */
+  fld_0007?: boolean;
+  /** Neutral documentation text. */
+  fld_0008: Res0022Fld0008Enum;
+  /** Neutral documentation text. */
+  fld_0009: string;
+  /** Neutral documentation text. */
+  fld_0010?: number | null;
+  /** Neutral documentation text. */
+  fld_0011: string;
+  /** Neutral documentation text. */
+  fld_0012: string;
+  fld_0013?: {
+    fld_0001?: number;
+    fld_0002?: number;
+    fld_0003?: string;
+  };
+  /** Neutral documentation text. */
+  fld_0014: number;
+  fld_0015: {
+    fld_0001?: number;
+    fld_0002?: string;
+  }[];
+  /** Neutral documentation text. */
+  fld_0016?: string | null;
+  /**
+   * Neutral documentation text.
+   * @format date-time
+   */
+  fld_0017: string;
+  /** Neutral documentation text. */
+  fld_0018: string;
+  /** Neutral documentation text. */
+  fld_0019: string;
+}
+
+/** Neutral documentation text. */
+export enum Res0022Fld0008Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export interface Res0023 {
+  /** Neutral documentation text. */
+  fld_0001: Res0022[];
+}
+
+export interface Res0024 {
+  /** Neutral documentation text. */
+  fld_0001: Res0025[];
+}
+
+export type Res0025 = Res0022 & {
+  /** Neutral documentation text. */
+  fld_0001?: Res0025[];
+};
+
+export interface Sch0001 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: string[];
+  fld_0005: string;
+  fld_0006: string;
+}
+
+/** Neutral documentation text. */
+export enum Sch0002 {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+  Enum5 = "enum_5",
+  Enum6 = "enum_6",
+}
+
+export interface Sch0003 {
+  fld_0001?: string;
+  fld_0002?: boolean;
+  fld_0003: string;
+  fld_0004?: number;
+}
+
+export interface Sch0004 {
+  fld_0001: Record<string, Sch0034>;
+  fld_0002: boolean;
+}
+
+/** Neutral documentation text. */
+export interface Sch0005 {
+  fld_0001: Sch0184[];
+}
+
+export interface Sch0006 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: Sch0007[];
+}
+
+export interface Sch0007 {
+  fld_0001: string;
+  fld_0002: string | null;
+  fld_0003: string;
+  fld_0004: string;
+  fld_0005: string;
+  fld_0006: string;
+  fld_0007: number;
+  fld_0008: string;
+  fld_0009: string;
+}
+
+export interface Sch0008 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: number;
+  fld_0004: string;
+}
+
+export interface Sch0009 {
+  fld_0001: Sch0008[];
+  fld_0002: number;
+  fld_0003: number;
+  fld_0004: number;
+}
+
+/** Neutral documentation text. */
+export interface Sch0010 {
+  fld_0001: boolean;
+}
+
+/** Neutral documentation text. */
+export interface Sch0011 {
+  /** @format base64 */
+  fld_0001: string;
+}
+
+export interface Sch0012 {
+  /** @example 600000 */
+  fld_0001?: number;
+  /** @example 400000 */
+  fld_0002?: number;
+  fld_0003?: boolean;
+  /** @example 1 */
+  fld_0004: number;
+  /** @example "sample" */
+  fld_0005: string;
+  /** @example 1000000 */
+  fld_0006: number;
+}
+
+/** Neutral documentation text. */
+export interface Sch0013 {
+  fld_0001: number;
+  fld_0002: number;
+}
+
+export interface Sch0014 {
+  fld_0001?: {
+    fld_0001: number;
+    fld_0002: number;
+    /** @example 1 */
+    fld_0003: number;
+    /** @example "sample" */
+    fld_0004: string;
+    fld_0005: {
+      fld_0001: number;
+      fld_0002: string;
+      fld_0003: Sch0143[];
+      fld_0004: number;
+      fld_0005: Sch0143[];
+    }[];
+    fld_0006: number;
+  }[];
+  fld_0002: {
+    fld_0001: number;
+    fld_0002: number;
+    fld_0003: Sch0143[];
+    fld_0004: Sch0143[];
+    fld_0005: number;
+  };
+}
+
+/** Neutral documentation text. */
+export interface Sch0015 {
+  fld_0001: Sch0139;
+  fld_0002: string;
+  fld_0003: number;
+  fld_0004: number;
+}
+
+export interface Sch0016 {
+  fld_0001?: string;
+}
+
+export interface Sch0017 {
+  fld_0001: string;
+  fld_0002: {
+    fld_0001: string;
+    fld_0002: string;
+    fld_0003: string;
+    fld_0004: string;
+  }[];
+}
+
+export interface Sch0018 {
+  fld_0001?: Sch0134;
+  fld_0002?: Sch0135;
+}
+
+/** Neutral documentation text. */
+export interface Sch0019 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+}
+
+export interface Sch0020 {
+  fld_0001: Sch0074;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: Sch0074;
+  fld_0005: string;
+  fld_0006: string;
+  fld_0007: string;
+  fld_0008: Sch0074;
+  fld_0009: Sch0074;
+}
+
+export type Sch0021 = object;
+
+export interface Sch0022 {
+  fld_0001: number;
+  fld_0002: string;
+}
+
+/** Neutral documentation text. */
+export interface Sch0023 {
+  fld_0001?: Sch0053[];
+  fld_0002: string;
+  fld_0003: Sch0138;
+  fld_0004: Sch0138;
+  fld_0005: Sch0138;
+  fld_0006: Sch0138;
+}
+
+export interface Sch0024 {
+  fld_0001: number;
+  fld_0002: string;
+  fld_0003: boolean;
+  fld_0004?: string;
+  fld_0005: string;
+  fld_0006?: number;
+  fld_0007: Sch0024Fld0007Enum;
+  /** @format uint */
+  fld_0008?: number;
+  fld_0009: string;
+}
+
+export enum Sch0024Fld0007Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+export interface Sch0025 {
+  fld_0001: string[];
+  fld_0002: string;
+  fld_0003: Sch0025Fld0003Enum;
+  fld_0004?: boolean;
+  /** @format uint */
+  fld_0005?: number;
+  fld_0006: string;
+}
+
+export enum Sch0025Fld0003Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+export interface Sch0026 {
+  fld_0001?: boolean;
+  /** @format uint */
+  fld_0002: number;
+}
+
+/** Neutral documentation text. */
+export interface Sch0027 {
+  /** @format double */
+  fld_0001: number;
+}
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export interface Sch0028 {
+  /** Neutral documentation text. */
+  fld_0001: Sch0032 | Sch0030 | Sch0031 | Sch0033 | Sch0029;
+  /**
+   * Neutral documentation text.
+   * @example "sample"
+   */
+  fld_0002: string;
+  fld_0003?: {
+    fld_0001: string;
+    fld_0002: number;
+  };
+  /** Neutral documentation text. */
+  fld_0004?: Sch0167;
+  /** Neutral documentation text. */
+  fld_0005?: Sch0174;
+}
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export type Sch0029 = object;
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export interface Sch0030 {
+  /** Neutral documentation text. */
+  fld_0001: Sch0002;
+  /** Neutral documentation text. */
+  fld_0002: Sch0173;
+}
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export type Sch0031 = object;
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export type Sch0032 = object;
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export interface Sch0033 {
+  /**
+   * Neutral documentation text.
+   * @example "sample"
+   */
+  fld_0001: string;
+}
+
+export interface Sch0034 {
+  fld_0001: string;
+  fld_0002: string;
+  /** @format int64 */
+  fld_0003: number;
+  fld_0004: boolean;
+  fld_0005: string;
+  fld_0006: string;
+}
+
+export interface Sch0035 {
+  fld_0001: Sch0061;
+  fld_0002: number;
+  fld_0003: {
+    fld_0001: string;
+    fld_0002?: number;
+    fld_0003: string;
+    fld_0004?: number;
+  }[];
+  fld_0004: number;
+  fld_0005: Record<string, Sch0003>;
+  fld_0006: Sch0036;
+  fld_0007: string;
+  fld_0008: string;
+  fld_0009?: string;
+  fld_0010: number;
+  fld_0011?: string;
+  fld_0012?: string;
+  fld_0013: string;
+  fld_0014: Record<string, string>;
+  fld_0015: number;
+  fld_0016: Sch0055[];
+  fld_0017?: boolean;
+  fld_0018: string;
+  fld_0019: string;
+  fld_0020: string;
+  fld_0021: string;
+  fld_0022: string;
+  fld_0023: Sch0064;
+  fld_0024: number;
+  fld_0025?: string;
+  fld_0026: Sch0069[];
+  fld_0027: string;
+  fld_0028: string;
+  fld_0029?: string[];
+  fld_0030: string;
+  fld_0031: string;
+  fld_0032: Record<string, string>;
+  fld_0033: number;
+  fld_0034: string;
+  fld_0035?: Sch0048;
+  fld_0036?: string;
+  fld_0037: string;
+  fld_0038: string;
+  fld_0039?: Sch0047;
+  fld_0040: {
+    fld_0001: number;
+    fld_0002: number;
+    fld_0003: number;
+    fld_0004: number;
+  };
+  fld_0041: string;
+  fld_0042: string;
+  fld_0043: string;
+  fld_0044?: Sch0166;
+  fld_0045: Sch0166[];
+  fld_0046: string;
+  fld_0047: number;
+  fld_0048?: number[];
+  fld_0049: string;
+  fld_0050: string;
+  fld_0051: Record<string, string>;
+  fld_0052: Sch0036;
+  fld_0053: Sch0036;
+  fld_0054: string;
+  fld_0055?: Sch0188[];
+}
+
+export interface Sch0036 {
+  fld_0001?: number;
+  fld_0002?: number;
+  fld_0003?: number;
+  fld_0004?: number;
+  fld_0005?: number;
+  fld_0006?: number;
+  fld_0007?: number;
+  fld_0008?: number;
+  fld_0009?: number;
+  fld_0010?: number;
+  fld_0011?: number;
+  fld_0012?: number;
+}
+
+export interface Sch0037 {
+  fld_0001: Sch0035[];
+  fld_0002: string[];
+}
+
+export interface Sch0038 {
+  fld_0001: Record<string, string>;
+  fld_0002: Sch0040;
+  fld_0003?: number;
+  fld_0004?: number;
+  fld_0005: Sch0041[];
+  fld_0006?: number;
+  fld_0007: string;
+  fld_0008?: string;
+  fld_0009?: string;
+  fld_0010: Sch0042[];
+  fld_0011: Sch0055[];
+  fld_0012?: string;
+  fld_0013?: Sch0069[];
+  fld_0014: string;
+  fld_0015?: number;
+  fld_0016: Record<string, Sch0047>;
+  fld_0017?: string;
+  fld_0018?: number;
+  fld_0019: string;
+  fld_0020: Sch0038Fld0020Enum;
+  fld_0021?: string;
+  fld_0022: Sch0050[];
+  fld_0023: Sch0047;
+  fld_0024: Sch0047[];
+  fld_0025: string;
+  fld_0026: Sch0188[];
+  fld_0027?: number;
+}
+
+export enum Sch0038Fld0020Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+  Enum5 = "enum_5",
+  Enum6 = "enum_6",
+  Enum7 = "enum_7",
+  Enum8 = "enum_8",
+}
+
+export interface Sch0039 {
+  fld_0001: string;
+  fld_0002?: number;
+  fld_0003: string;
+  fld_0004?: number;
+}
+
+export interface Sch0040 {
+  fld_0001?: string;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: string;
+  fld_0005: string;
+  fld_0006: string;
+  fld_0007: string;
+  fld_0008: string;
+  fld_0009: string;
+  fld_0010: string;
+  fld_0011: string;
+  fld_0012: string;
+  fld_0013: string;
+  fld_0014: string;
+  fld_0015?: string;
+  fld_0016: string;
+  fld_0017?: string;
+  fld_0018?: string;
+  fld_0019?: string;
+  fld_0020: string;
+  fld_0021: string;
+  fld_0022: string;
+  fld_0023: string;
+  fld_0024: string;
+  fld_0025: string;
+  fld_0026?: string;
+  fld_0027: string;
+  fld_0028: string;
+  fld_0029: string;
+  fld_0030: string;
+}
+
+export interface Sch0041 {
+  fld_0001?: number;
+  fld_0002?: Sch0039[];
+  fld_0003: number;
+  fld_0004: Sch0047;
+  fld_0005?: string;
+  fld_0006?: string;
+  fld_0007?: number;
+  fld_0008?: string;
+  fld_0009?: number;
+  fld_0010?: Sch0055[];
+  fld_0011?: string;
+  fld_0012?: string;
+  fld_0013?: string;
+  fld_0014?: string;
+  fld_0015?: string;
+  fld_0016?: Sch0044;
+  fld_0017?: number;
+  fld_0018?: string;
+  fld_0019?: string;
+  fld_0020: string;
+  fld_0021: string;
+  fld_0022: Record<string, string>;
+  fld_0023?: number;
+  fld_0024?: string;
+  fld_0025?: Sch0047;
+  fld_0026: string;
+  fld_0027?: string;
+  fld_0028: Sch0049;
+  fld_0029?: string;
+  fld_0030: string;
+  fld_0031?: string;
+  fld_0032?: Sch0166;
+  fld_0033?: Sch0166[];
+  fld_0034?: string;
+  fld_0035?: number;
+  fld_0036?: number[];
+  fld_0037?: string;
+  fld_0038: string;
+  fld_0039?: Record<string, string>;
+  fld_0040: Sch0047;
+  fld_0041: Sch0047;
+  fld_0042?: string;
+  fld_0043?: Sch0188[];
+}
+
+export interface Sch0042 {
+  fld_0001?: Record<string, string>;
+  fld_0002?: Sch0043;
+  fld_0003?: Sch0043;
+  fld_0004: string;
+  fld_0005: string;
+  fld_0006: string;
+  fld_0007: string;
+  fld_0008?: Sch0043;
+  fld_0009: string;
+  fld_0010?: Sch0188[];
+}
+
+export interface Sch0043 {
+  fld_0001?: number;
+  fld_0002?: number;
+}
+
+export interface Sch0044 {
+  fld_0001?: string;
+  fld_0002?: Sch0059;
+  fld_0003: number;
+  fld_0004?: Sch0059;
+  fld_0005?: Sch0059;
+  fld_0006: number;
+  fld_0007: boolean;
+}
+
+export interface Sch0045 {
+  fld_0001: string;
+  fld_0002?: boolean;
+  fld_0003?: string;
+  fld_0004?: Sch0046;
+  fld_0005?: Record<string, string>;
+  fld_0006?: number;
+}
+
+export interface Sch0046 {
+  fld_0001?: string;
+  fld_0002?: string;
+  fld_0003?: string;
+}
+
+export interface Sch0047 {
+  fld_0001?: number;
+  fld_0002?: number;
+  fld_0003?: number;
+  fld_0004?: number;
+  fld_0005?: number;
+  fld_0006?: number;
+  fld_0007?: number;
+  fld_0008?: number;
+  fld_0009?: number;
+  fld_0010?: number;
+  fld_0011?: number;
+  fld_0012?: number;
+  fld_0013?: number;
+  fld_0014?: number;
+  fld_0015?: number;
+  fld_0016?: number;
+  fld_0017?: number;
+  fld_0018?: number;
+  fld_0019?: number;
+  fld_0020?: number;
+  fld_0021?: number;
+  fld_0022?: number;
+  fld_0023?: number;
+  fld_0024?: number;
+  fld_0025?: number;
+  fld_0026?: number;
+  fld_0027?: number;
+  fld_0028?: number;
+  fld_0029?: number;
+  fld_0030?: number;
+  fld_0031?: number;
+  fld_0032?: number;
+}
+
+export interface Sch0048 {
+  fld_0001?: string;
+  fld_0002?: string;
+  fld_0003?: string;
+  fld_0004?: string;
+}
+
+export interface Sch0049 {
+  fld_0001?: number;
+  fld_0002?: number;
+  fld_0003?: number;
+  fld_0004?: number;
+}
+
+export interface Sch0050 {
+  fld_0001: string;
+  fld_0002?: string;
+  fld_0003: string;
+  fld_0004: string;
+  fld_0005: string;
+  fld_0006: string;
+  fld_0007: string[];
+  fld_0008: string;
+  fld_0009: string;
+  fld_0010: number;
+  fld_0011: boolean;
+  fld_0012?: Sch0048;
+  fld_0013?: Sch0045;
+  fld_0014: string;
+  fld_0015?: Sch0047;
+  fld_0016: Record<string, Sch0047>;
+  fld_0017: number;
+  fld_0018: number;
+  fld_0019: boolean;
+  fld_0020: string;
+  fld_0021: string;
+  fld_0022: string;
+  fld_0023: Sch0188[];
+}
+
+export interface Sch0051 {
+  fld_0001: Record<string, Sch0003>;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: string;
+  fld_0005: string;
+  fld_0006: Sch0035[];
+  fld_0007: Sch0069[];
+  fld_0008: string[];
+  fld_0009: string;
+  fld_0010: string;
+  fld_0011: Sch0048;
+  fld_0012: number;
+  fld_0013: string;
+  fld_0014: Record<string, Sch0047>;
+  fld_0015: number;
+  fld_0016: number;
+  fld_0017: number;
+  fld_0018: string;
+  fld_0019: string;
+  fld_0020: string;
+  fld_0021: number;
+  fld_0022: string;
+  fld_0023: Record<string, Sch0188>;
+  fld_0024: string[];
+}
+
+export interface Sch0052 {
+  fld_0001: Sch0051[];
+  fld_0002: string[];
+}
+
+export interface Sch0053 {
+  fld_0001: string;
+  fld_0002: number;
+  fld_0003: string;
+}
+
+export interface Sch0054 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: string;
+}
+
+export interface Sch0055 {
+  fld_0001?: number;
+  fld_0002?: number;
+  fld_0003?: number;
+  fld_0004?: number;
+  fld_0005?: string;
+  fld_0006?: Sch0040;
+  fld_0007: string;
+  fld_0008: string;
+  fld_0009?: string[];
+  fld_0010: string;
+  fld_0011: string;
+  fld_0012: string;
+}
+
+export interface Sch0056 {
+  fld_0001: string;
+  fld_0002: number;
+}
+
+export interface Sch0057 {
+  fld_0001: string[];
+  fld_0002: string;
+}
+
+/** Neutral documentation text. */
+export interface Sch0058 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+}
+
+export interface Sch0059 {
+  fld_0001?: number;
+  fld_0002?: string;
+  fld_0003: string;
+  fld_0004: number;
+  fld_0005: number;
+  fld_0006: string;
+}
+
+export interface Sch0060 {
+  fld_0001?: {
+    fld_0001: string;
+    fld_0002: string;
+  }[];
+  fld_0002: string;
+  fld_0003?: string;
+  fld_0004: string;
+  fld_0005: string;
+  fld_0006: Sch0064;
+  fld_0007: string;
+  /** Neutral documentation text. */
+  fld_0008?: Sch0065;
+  fld_0009: string;
+  fld_0010: string;
+  fld_0011: string;
+  fld_0012: string;
+  fld_0013: string;
+  fld_0014: number;
+  fld_0015: string;
+  fld_0016: Sch0066;
+  fld_0017: Sch0066;
+  fld_0018: string;
+  fld_0019?: Sch0067[];
+}
+
+export interface Sch0061 {
+  fld_0001: Sch0062[];
+  fld_0002: Sch0062[];
+}
+
+export interface Sch0062 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: string[];
+  fld_0005: string;
+  fld_0006: string;
+}
+
+export interface Sch0063 {
+  fld_0001?: string;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: string;
+  fld_0005: string;
+  fld_0006: string;
+  fld_0007: string;
+  fld_0008: string;
+  fld_0009: string;
+  fld_0010: string;
+  fld_0011: string;
+  fld_0012: string;
+  fld_0013: string;
+  fld_0014: string;
+  fld_0015?: string;
+  fld_0016: string;
+  fld_0017?: string;
+  fld_0018?: string;
+  fld_0019?: string;
+  fld_0020: string;
+  fld_0021: string;
+  fld_0022: string;
+  fld_0023: string;
+  fld_0024: string;
+  fld_0025: string;
+  fld_0026?: string;
+  fld_0027: string;
+  fld_0028: string;
+  fld_0029: string;
+  fld_0030: string;
+}
+
+export interface Sch0064 {
+  fld_0001: string;
+  fld_0002: Sch0059;
+  fld_0003: number;
+  fld_0004: Sch0059;
+  fld_0005: Sch0059;
+  fld_0006: number;
+  fld_0007: boolean;
+}
+
+/** Neutral documentation text. */
+export interface Sch0065 {
+  fld_0001?: boolean;
+  fld_0002: Sch0142[];
+}
+
+export interface Sch0066 {
+  fld_0001?: number;
+  fld_0002?: number;
+  fld_0003?: number;
+  fld_0004?: number;
+  fld_0005?: number;
+}
+
+export interface Sch0067 {
+  fld_0001?: string;
+  fld_0002?: string;
+  fld_0003: {
+    fld_0001: number;
+  };
+  fld_0004?: string;
+  fld_0005?: string;
+  fld_0006: {
+    fld_0001: number;
+  };
+  fld_0007: string;
+  fld_0008: string;
+}
+
+/** Neutral documentation text. */
+export interface Sch0068 {
+  fld_0001: number;
+}
+
+export interface Sch0069 {
+  fld_0001: string;
+  fld_0002: string;
+}
+
+/** Neutral documentation text. */
+export interface Sch0070 {
+  fld_0001: string[];
+  fld_0002: string;
+  fld_0003?: string;
+  fld_0004: string;
+  fld_0005: Sch0070Fld0005Enum;
+  fld_0006: number;
+  /** Neutral documentation text. */
+  fld_0007: string;
+  /** @format uint */
+  fld_0008?: number;
+  fld_0009?: string;
+}
+
+export enum Sch0070Fld0005Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+}
+
+export interface Sch0071 {
+  fld_0001: string;
+  fld_0002: string;
+}
+
+export interface Sch0072 {
+  fld_0001: string;
+  fld_0002: Sch0071[];
+}
+
+export interface Sch0073 {
+  fld_0001: Record<string, string>;
+  fld_0002: Sch0074;
+  fld_0003: Sch0074;
+  fld_0004: number;
+  fld_0005?: string;
+  fld_0006: Sch0020[];
+  fld_0007: number;
+  /** @example "sample" */
+  fld_0008: string;
+  fld_0009: string;
+  fld_0010: string;
+  fld_0011: string;
+  fld_0012: string;
+  fld_0013: string;
+  fld_0014: string;
+  fld_0015?: string;
+  fld_0016: string;
+  fld_0017: Sch0074;
+  fld_0018: number;
+  fld_0019: string;
+  fld_0020: string;
+  fld_0021: string;
+  fld_0022: Sch0074;
+  fld_0023: string;
+  fld_0024: string;
+  fld_0025: string;
+  fld_0026?: string;
+  /** @example "sample" */
+  fld_0027: string;
+  fld_0028: string;
+  fld_0029?: number;
+  fld_0030?: string;
+  fld_0031?: string;
+  fld_0032?: string;
+  fld_0033: string;
+  fld_0034: string;
+  fld_0035: string;
+  fld_0036: string;
+  fld_0037: string;
+  fld_0038: string;
+  fld_0039: Sch0074;
+  fld_0040: string;
+  fld_0041?: string;
+  fld_0042?: string;
+  fld_0043: string;
+  fld_0044: string;
+  fld_0045: number;
+  fld_0046: string;
+  fld_0047: Sch0073Fld0047Enum;
+  fld_0048: Sch0075[];
+  fld_0049: string;
+  fld_0050: Sch0074;
+  fld_0051: string;
+  fld_0052: number;
+  fld_0053: string;
+}
+
+export enum Sch0073Fld0047Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+  Enum5 = "enum_5",
+  Enum6 = "enum_6",
+  Enum7 = "enum_7",
+  Enum8 = "enum_8",
+}
+
+export interface Sch0074 {
+  /** @format double */
+  fld_0001: number;
+  /** @format int64 */
+  fld_0002: number;
+  /** @format double */
+  fld_0003: number;
+  /** @format double */
+  fld_0004: number;
+  /** @format double */
+  fld_0005: number;
+  /** @format double */
+  fld_0006: number;
+  /** @format double */
+  fld_0007: number;
+  /** @format double */
+  fld_0008: number;
+  /** @format double */
+  fld_0009: number;
+  /** @format double */
+  fld_0010: number;
+  /** @format double */
+  fld_0011: number;
+  /** @format double */
+  fld_0012: number;
+  /** @format double */
+  fld_0013: number;
+  /** @format double */
+  fld_0014: number;
+  /** @format double */
+  fld_0015: number;
+  /** @format double */
+  fld_0016: number;
+  /** @format double */
+  fld_0017: number;
+  /** @format double */
+  fld_0018: number;
+  /** @format double */
+  fld_0019: number;
+}
+
+export interface Sch0075 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: Sch0074;
+  fld_0005: string;
+  fld_0006: string;
+  fld_0007: string;
+  fld_0008: string;
+}
+
+/**
+ * @min 1
+ * @max 12
+ */
+export type Sch0076 = number;
+
+export interface Sch0077 {
+  fld_0001: {
+    fld_0001: number;
+    fld_0002?: Sch0143[];
+    fld_0003: Sch0143[];
+    fld_0004: number;
+  };
+  fld_0002: Sch0076;
+  fld_0003: Sch0164;
+}
+
+export interface Sch0078 {
+  fld_0001: Sch0143[];
+  fld_0002: Sch0143[];
+}
+
+/** Neutral documentation text. */
+export interface Sch0079 {
+  fld_0001: string;
+  fld_0002?: {
+    fld_0001: string;
+    fld_0002: string;
+  }[];
+}
+
+/** Neutral documentation text. */
+export interface Sch0080 {
+  fld_0001: string[];
+  /** @default false */
+  fld_0002: boolean;
+  fld_0003: string;
+  fld_0004: string;
+}
+
+export interface Sch0081 {
+  /** @format date-time */
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: number;
+  fld_0004?: number;
+  fld_0005: string;
+  fld_0006: Sch0084[];
+  /** @format date-time */
+  fld_0007: string;
+}
+
+export interface Sch0082 {
+  fld_0001: number;
+  /** Neutral documentation text. */
+  fld_0002: Record<string, string>;
+  /** Neutral documentation text. */
+  fld_0003: Record<string, string>;
+  /** Neutral documentation text. */
+  fld_0004: Record<string, string>;
+}
+
+export interface Sch0083 {
+  fld_0001: string;
+  fld_0002: string;
+}
+
+export interface Sch0084 {
+  fld_0001: string;
+  fld_0002: number;
+  fld_0003: string;
+  fld_0004: Sch0088[];
+  fld_0005: Sch0088[];
+  fld_0006: Sch0088[];
+}
+
+export interface Sch0085 {
+  fld_0001?: number;
+  fld_0002: string;
+  fld_0003: Sch0082[];
+}
+
+export interface Sch0086 {
+  fld_0001: string[];
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004?: Sch0087[];
+  fld_0005?: string;
+  fld_0006: boolean;
+  fld_0007: string;
+  fld_0008: Sch0086Fld0008Enum;
+}
+
+export enum Sch0086Fld0008Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+}
+
+export interface Sch0087 {
+  fld_0001: string;
+  fld_0002: string;
+}
+
+export interface Sch0088 {
+  fld_0001: string[];
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004?: Sch0087[];
+  fld_0005?: string;
+  fld_0006: boolean;
+  fld_0007: string;
+  fld_0008: Sch0088Fld0008Enum;
+  fld_0009: string;
+}
+
+export enum Sch0088Fld0008Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+}
+
+export interface Sch0089 {
+  fld_0001?: number;
+  fld_0002: string;
+  fld_0003: Sch0082[];
+}
+
+export interface Sch0090 {
+  fld_0001: string;
+  fld_0002: number;
+  fld_0003: string;
+  fld_0004: Sch0086[];
+  fld_0005: Sch0086[];
+  fld_0006: Sch0086[];
+  fld_0007: string[];
+}
+
+export interface Sch0091 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: Sch0086[];
+  fld_0004: Sch0086[];
+  fld_0005: Sch0086[];
+  fld_0006: string[];
+}
+
+export interface Sch0092 {
+  fld_0001: string;
+  fld_0002: number;
+  fld_0003: string;
+  fld_0004: Sch0090[];
+}
+
+export interface Sch0093 {
+  fld_0001: string;
+  fld_0002: string;
+}
+
+export interface Sch0094 {
+  fld_0001: boolean;
+}
+
+/** Neutral documentation text. */
+export type Sch0095 = number[];
+
+export interface Sch0096 {
+  fld_0001: number;
+  fld_0002: string;
+  fld_0003: string;
+}
+
+export interface Sch0097 {
+  fld_0001?: number;
+  fld_0002?: Sch0022[];
+  /** @default false */
+  fld_0003: boolean;
+  fld_0004: number;
+  fld_0005: boolean;
+  fld_0006: string;
+}
+
+export interface Sch0098 {
+  fld_0001: number;
+  fld_0002: string;
+}
+
+export interface Sch0099 {
+  fld_0001?: string[];
+  fld_0002: string;
+}
+
+export interface Sch0100 {
+  fld_0001: string;
+  fld_0002?: Sch0099[];
+}
+
+export interface Sch0101 {
+  /** Neutral documentation text. */
+  fld_0001?: Sch0097[];
+  fld_0002: Sch0098[];
+  fld_0003: Sch0097;
+}
+
+export type Sch0102 = Sch0100[];
+
+export interface Sch0103 {
+  fld_0001: Sch0012;
+  fld_0002?: {
+    fld_0001: string[];
+    fld_0002: string;
+    fld_0003?: Sch0141;
+  }[];
+}
+
+export interface Sch0104 {
+  fld_0001?: string[];
+  fld_0002: string;
+  fld_0003: string;
+}
+
+export interface Sch0105 {
+  fld_0001: Sch0104[];
+}
+
+export interface Sch0106 {
+  fld_0001?: string[];
+  fld_0002: string;
+  fld_0003: string;
+}
+
+export interface Sch0107 {
+  fld_0001: Sch0106[];
+}
+
+export interface Sch0108 {
+  fld_0001: Sch0182[];
+  fld_0002: Sch0183;
+}
+
+export interface Sch0109 {
+  fld_0001: number;
+  fld_0002: string[];
+  fld_0003: string;
+  fld_0004: {
+    fld_0001: string;
+    fld_0002: string;
+  }[];
+}
+
+export interface Sch0110 {
+  /** Neutral documentation text. */
+  fld_0001?: Sch0110[];
+  /** Neutral documentation text. */
+  fld_0002?: string[];
+  fld_0003: string;
+  fld_0004?: number;
+}
+
+export interface Sch0111 {
+  fld_0001?: string[];
+  fld_0002: string;
+  fld_0003: string;
+}
+
+export interface Sch0112 {
+  fld_0001: string;
+  fld_0002: {
+    fld_0001: Sch0001[];
+    fld_0002: string;
+    fld_0003: string;
+    fld_0004: Sch0001[];
+  }[];
+  fld_0003: number;
+  fld_0004: string | null;
+}
+
+export interface Sch0113 {
+  fld_0001: {
+    fld_0001: string;
+    fld_0002: string[];
+  }[];
+  fld_0002: boolean;
+  fld_0003: string;
+}
+
+export interface Sch0114 {
+  fld_0001: string;
+  fld_0002: number;
+  fld_0003?: Sch0113[];
+}
+
+export interface Sch0115 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: number;
+}
+
+/** Neutral documentation text. */
+export interface Sch0116 {
+  fld_0001: string;
+  fld_0002: string;
+}
+
+/** Neutral documentation text. */
+export interface Sch0117 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+}
+
+export interface Sch0118 {
+  fld_0001?: {
+    fld_0001: number;
+    fld_0002: string;
+    fld_0003: string;
+  }[];
+  fld_0002?: number;
+  fld_0003?: number;
+  fld_0004?: number;
+  fld_0005?: number;
+  fld_0006?: number;
+  fld_0007?: number;
+  fld_0008?: number;
+  fld_0009?: number;
+  fld_0010?: number;
+  fld_0011?: number;
+  fld_0012?: number;
+  fld_0013?: number;
+  fld_0014?: number;
+  fld_0015?: number;
+}
+
+export interface Sch0119 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+}
+
+export interface Sch0120 {
+  fld_0001: Sch0119[];
+  fld_0002: Sch0119[];
+}
+
+export interface Sch0121 {
+  fld_0001: Record<
+    string,
+    Record<
+      string,
+      {
+        fld_0001: string[];
+      }
+    >
+  >;
+  fld_0002: string;
+}
+
+export interface Sch0122 {
+  fld_0001?: {
+    fld_0001: number;
+    fld_0002: string[];
+  };
+  /** Neutral documentation text. */
+  fld_0002?: Sch0122[];
+  fld_0003: Sch0121;
+}
+
+export interface Sch0123 {
+  fld_0001?: Sch0125;
+  fld_0002?: Sch0125;
+  fld_0003?: Sch0125;
+  fld_0004?: Sch0125;
+}
+
+export interface Sch0124 {
+  fld_0001?: Sch0118;
+  fld_0002?: Sch0118;
+  fld_0003?: Sch0125;
+  fld_0004?: Sch0125;
+}
+
+export interface Sch0125 {
+  fld_0001?: {
+    fld_0001: number;
+    fld_0002: string;
+    fld_0003: string;
+  }[];
+  fld_0002?: number;
+  fld_0003?: number;
+  fld_0004?: number;
+  fld_0005?: number;
+  fld_0006?: number;
+  fld_0007?: number;
+  fld_0008?: number;
+  fld_0009?: number;
+  fld_0010?: number;
+  fld_0011?: number;
+  fld_0012?: number;
+  fld_0013?: number;
+  fld_0014?: number;
+  fld_0015?: number;
+}
+
+export interface Sch0126 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: string;
+  fld_0005: string;
+}
+
+export type Sch0127 = {
+  fld_0001: number;
+  fld_0002: string;
+  fld_0003: string;
+}[];
+
+export interface Sch0128 {
+  fld_0001: string;
+  fld_0002?: Sch0127;
+  fld_0003: string;
+  fld_0004?: number;
+  fld_0005: string;
+  fld_0006?: Sch0129;
+  fld_0007?: boolean;
+}
+
+export interface Sch0129 {
+  fld_0001?: string;
+  fld_0002?: string;
+  fld_0003?: string;
+  fld_0004?: string;
+  fld_0005?: string;
+  fld_0006?: string;
+  fld_0007?: string;
+  fld_0008?: string;
+}
+
+export interface Sch0130 {
+  fld_0001: {
+    fld_0001?: string;
+    fld_0002?: string;
+    fld_0003: number;
+    fld_0004: string;
+    fld_0005: string;
+    fld_0006: string;
+    fld_0007?: number;
+  };
+  fld_0002: string;
+  fld_0003: string;
+}
+
+export interface Sch0131 {
+  fld_0001: {
+    fld_0001: string;
+    fld_0002: {
+      fld_0001: string;
+      fld_0002: string;
+      fld_0003: string;
+      fld_0004: string;
+      fld_0005: string;
+      fld_0006: string;
+      fld_0007: string;
+      fld_0008: string;
+    };
+    fld_0003: string;
+    fld_0004: string;
+    fld_0005: string;
+    fld_0006: number;
+  }[];
+  fld_0002: string;
+  fld_0003: {
+    fld_0001: string;
+    fld_0002: string;
+    fld_0003: string;
+    fld_0004: string;
+    fld_0005: string;
+    fld_0006: string;
+    fld_0007: string;
+    fld_0008: string;
+  };
+}
+
+export interface Sch0132 {
+  fld_0001: number;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: number;
+  fld_0005?: Record<string, number>;
+  fld_0006?: Record<string, number>;
+  fld_0007: string;
+  fld_0008: string;
+  fld_0009: boolean;
+  fld_0010?: Sch0123;
+  fld_0011: number;
+  fld_0012: number;
+  fld_0013?: {
+    fld_0001: number;
+    fld_0002: string;
+    fld_0003: number;
+    fld_0004: string;
+    fld_0005: string;
+    fld_0006: boolean;
+    fld_0007?: Sch0123;
+    fld_0008: number;
+    fld_0009: number;
+    fld_0010: Sch0132Fld0010Enum;
+  }[];
+  fld_0014: Sch0132Fld0014Enum;
+}
+
+export enum Sch0132Fld0010Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export enum Sch0132Fld0014Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export interface Sch0133 {
+  fld_0001: number;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: number;
+  fld_0005: string;
+  fld_0006: boolean;
+  fld_0007?: Sch0124;
+  fld_0008: number;
+  fld_0009: number;
+  fld_0010?: {
+    fld_0001: number;
+    fld_0002: string;
+    fld_0003: number;
+    fld_0004: string;
+    fld_0005: boolean;
+    fld_0006?: Sch0124;
+    fld_0007: number;
+    fld_0008: number;
+    fld_0009: Sch0133Fld0009Enum;
+  }[];
+  fld_0011: Sch0133Fld0011Enum;
+}
+
+export enum Sch0133Fld0009Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export enum Sch0133Fld0011Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export type Sch0134 = {
+  fld_0001: number;
+  fld_0002: string;
+  fld_0003: string;
+}[];
+
+export interface Sch0135 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: string;
+  fld_0005: string;
+  fld_0006: string;
+  fld_0007: string;
+  fld_0008: string;
+}
+
+export interface Sch0136 {
+  fld_0001: number;
+  fld_0002: number;
+  fld_0003: string;
+}
+
+export interface Sch0137 {
+  fld_0001: Sch0136;
+  fld_0002: Sch0136;
+  fld_0003: Sch0136;
+  fld_0004: Sch0136;
+  fld_0005: Sch0136;
+  fld_0006: Sch0136;
+  fld_0007: Sch0136;
+  fld_0008: Sch0136;
+}
+
+export interface Sch0138 {
+  fld_0001: number;
+  fld_0002: number;
+  fld_0003?: string;
+}
+
+export interface Sch0139 {
+  /** @default "default" */
+  fld_0001: Sch0139Fld0001Enum;
+}
+
+/** @default "default" */
+export enum Sch0139Fld0001Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+export enum Sch0140 {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export interface Sch0141 {
+  fld_0001: {
+    fld_0001: number;
+    fld_0002?: Sch0143[];
+    fld_0003: Sch0143[];
+    fld_0004: number;
+  };
+  fld_0002: {
+    fld_0001: number;
+    fld_0002: number;
+  };
+  fld_0003: Sch0077[];
+}
+
+/** Neutral documentation text. */
+export interface Sch0142 {
+  fld_0001: Sch0145;
+  fld_0002: Sch0095[];
+}
+
+export interface Sch0143 {
+  fld_0001: Sch0145;
+  fld_0002: number;
+}
+
+export interface Sch0144 {
+  fld_0001: number;
+  fld_0002: Sch0145;
+  fld_0003: number;
+}
+
+export enum Sch0145 {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+  Enum5 = "enum_5",
+  Enum6 = "enum_6",
+  Enum7 = "enum_7",
+  Enum8 = "enum_8",
+  Enum9 = "enum_9",
+  Enum10 = "enum_10",
+  Enum11 = "enum_11",
+  Enum12 = "enum_12",
+  Enum13 = "enum_13",
+  Enum14 = "enum_14",
+  Enum15 = "enum_15",
+  Enum16 = "enum_16",
+  Enum17 = "enum_17",
+  Enum18 = "enum_18",
+  Enum19 = "enum_19",
+  Enum20 = "enum_20",
+  Enum21 = "enum_21",
+  Enum22 = "enum_22",
+  Enum23 = "enum_23",
+  Enum24 = "enum_24",
+  Enum25 = "enum_25",
+  Enum26 = "enum_26",
+  Enum27 = "enum_27",
+  Enum28 = "enum_28",
+  Enum29 = "enum_29",
+  Enum30 = "enum_30",
+}
+
+export interface Sch0146 {
+  fld_0001: string;
+  fld_0002: string;
+}
+
+export interface Sch0147 {
+  fld_0001: Sch0181;
+  fld_0002: Sch0181;
+}
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export interface Sch0148 {
+  /** Neutral documentation text. */
+  fld_0001: string[];
+  /**
+   * Neutral documentation text.
+   * @example "sample"
+   */
+  fld_0002: string;
+  /**
+   * Neutral documentation text.
+   * @example "sample"
+   */
+  fld_0003: string;
+  /** Neutral documentation text. */
+  fld_0004: string;
+  /**
+   * Neutral documentation text.
+   * @example "sample"
+   */
+  fld_0005: string;
+}
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export interface Sch0149 {
+  fld_0001: Sch0148[];
+  /**
+   * Neutral documentation text.
+   * @example true
+   */
+  fld_0002: boolean;
+  fld_0003: Sch0148[];
+  /**
+   * Neutral documentation text.
+   * @example 0
+   */
+  fld_0004: number;
+  /**
+   * Neutral documentation text.
+   * @example 10
+   */
+  fld_0005: number;
+}
+
+export interface Sch0150 {
+  fld_0001: Record<
+    string,
+    {
+      fld_0001: string;
+      fld_0002: number;
+      fld_0003: Sch0150Fld0003Enum;
+    }
+  >;
+  fld_0002?: {
+    fld_0001: number;
+    fld_0002: string;
+    fld_0003: string[];
+  };
+  fld_0003: Sch0155[];
+  fld_0004: {
+    fld_0001: string;
+    fld_0002: string;
+    fld_0003: string;
+  }[];
+  /** Neutral documentation text. */
+  fld_0005?: Sch0161;
+  fld_0006: string;
+  fld_0007: string;
+  fld_0008: string;
+  fld_0009: Sch0168[];
+  fld_0010: string;
+}
+
+export enum Sch0150Fld0003Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+}
+
+export interface Sch0151 {
+  fld_0001: Sch0152[];
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: string;
+  fld_0005?: Sch0151Fld0005Enum;
+  fld_0006: string;
+}
+
+export enum Sch0151Fld0005Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export interface Sch0152 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: string;
+}
+
+export interface Sch0153 {
+  fld_0001: Sch0152[];
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: string;
+  fld_0005: string;
+}
+
+/** Neutral documentation text. */
+export interface Sch0154 {
+  /** @default false */
+  fld_0001: boolean;
+  fld_0002: string;
+  fld_0003: Sch0079;
+  /** Neutral documentation text. */
+  fld_0004?: Sch0058;
+  fld_0005: Sch0164;
+}
+
+export interface Sch0155 {
+  /** @format uint64 */
+  fld_0001: number;
+  fld_0002: Record<string, string>;
+  fld_0003: string;
+  fld_0004: number;
+  fld_0005?: Sch0060[];
+  fld_0006: number;
+  fld_0007: string;
+  fld_0008: Sch0147;
+  fld_0009: string;
+  fld_0010: string;
+  fld_0011: number;
+  fld_0012: string;
+  fld_0013: number;
+  fld_0014: string;
+  fld_0015: string[];
+  fld_0016: number;
+}
+
+export interface Sch0156 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+}
+
+export interface Sch0157 {
+  fld_0001: Sch0156[];
+  fld_0002: Sch0156[];
+}
+
+export interface Sch0158 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: string;
+}
+
+export interface Sch0159 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: number;
+  /** Neutral documentation text. */
+  fld_0005?: Sch0161;
+  fld_0006: string;
+  fld_0007: string;
+  fld_0008: string;
+  fld_0009: string;
+}
+
+/** Neutral documentation text. */
+export interface Sch0160 {
+  fld_0001: string;
+  fld_0002: number;
+  fld_0003: string;
+  fld_0004: string;
+}
+
+/** Neutral documentation text. */
+export interface Sch0161 {
+  fld_0001?: boolean;
+  fld_0002: Sch0142[];
+}
+
+export interface Sch0162 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: number;
+}
+
+export interface Sch0163 {
+  fld_0001?: {
+    /** @example "sample" */
+    fld_0001?: string;
+    /** @example "sample" */
+    fld_0002?: string;
+    /** @example "sample" */
+    fld_0003?: string;
+  };
+  fld_0002?: number;
+  fld_0003: string;
+}
+
+export enum Sch0164 {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+/** Neutral documentation text. */
+export interface Sch0165 {
+  /** @default false */
+  fld_0001: boolean;
+  fld_0002: string;
+  fld_0003: Sch0079;
+  /** Neutral documentation text. */
+  fld_0004?: Sch0058;
+  fld_0005: Sch0164;
+}
+
+export interface Sch0166 {
+  fld_0001: string;
+  fld_0002?: Record<string, any>;
+  fld_0003: string;
+  fld_0004: string;
+  fld_0005: string;
+  fld_0006: string;
+  fld_0007: string;
+  fld_0008: number;
+  fld_0009: boolean;
+  fld_0010?: Sch0048;
+  fld_0011: string;
+  fld_0012?: Sch0047;
+  fld_0013: number;
+  fld_0014: string;
+  fld_0015: string;
+  fld_0016: string;
+}
+
+/**
+ * Neutral documentation text.
+ * @pattern [[:xdigit:]]{16}
+ * @example "sample"
+ */
+export type Sch0167 = string;
+
+export interface Sch0168 {
+  fld_0001: Sch0169[];
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: string;
+  fld_0005: boolean;
+  fld_0006: string;
+  fld_0007: string;
+}
+
+export interface Sch0169 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: Sch0170[];
+  fld_0004: {
+    fld_0001?: string;
+    fld_0002?: string;
+    fld_0003?: string;
+    fld_0004?: string;
+  };
+  fld_0005: number;
+  fld_0006: string;
+  fld_0007: {
+    fld_0001: string;
+    fld_0002: {
+      fld_0001: string;
+      fld_0002: string;
+      fld_0003: string;
+      fld_0004: string;
+    };
+    fld_0003: string;
+    fld_0004: string;
+    fld_0005: string;
+  }[];
+  fld_0008: string[];
+}
+
+export interface Sch0170 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: string;
+  fld_0005: string;
+  fld_0006: string;
+  fld_0007: string;
+  fld_0008: string;
+  fld_0009: Sch0171[];
+}
+
+export interface Sch0171 {
+  fld_0001: number;
+  fld_0002: number;
+  fld_0003: string;
+  fld_0004: string;
+  fld_0005: string;
+  fld_0006: string;
+  fld_0007: string;
+  fld_0008: string;
+  fld_0009: number;
+}
+
+/** Neutral documentation text. */
+export interface Sch0172 {
+  fld_0001: string;
+}
+
+/** Neutral documentation text. */
+export enum Sch0173 {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+  Enum4 = "enum_4",
+  Enum5 = "enum_5",
+}
+
+/**
+ * Neutral documentation text.
+ * @pattern [[:xdigit:]]{32}
+ * @example "sample"
+ */
+export type Sch0174 = string;
+
+export interface Sch0175 {
+  fld_0001: string;
+  fld_0002: string;
+  fld_0003: string;
+  fld_0004: string;
+}
+
+export interface Sch0176 {
+  fld_0001: string;
+  fld_0002: Sch0176Fld0002Enum;
+  fld_0003: string;
+}
+
+export enum Sch0176Fld0002Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+  Enum2 = "enum_2",
+  Enum3 = "enum_3",
+}
+
+export type Sch0177 = object;
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export interface Sch0178 {
+  fld_0001?: string;
+  /**
+   * Neutral documentation text.
+   * @example "sample"
+   */
+  fld_0002: string;
+  /**
+   * Neutral documentation text.
+   * @example 42
+   */
+  fld_0003: number;
+  /**
+   * Neutral documentation text.
+   * @format uri
+   */
+  fld_0004?: string;
+  /**
+   * Neutral documentation text.
+   * @example "sample"
+   */
+  fld_0005: string;
+  fld_0006?: Sch0179;
+  /** Neutral documentation text. */
+  fld_0007: string;
+}
+
+export interface Sch0179 {
+  fld_0001?: {
+    fld_0001: string;
+    fld_0002: string[];
+  }[];
+  fld_0002?: {
+    fld_0001: number;
+    fld_0002: string;
+    fld_0003: string[];
+  }[];
+  fld_0003?: {
+    fld_0001: Record<
+      string,
+      Record<
+        string,
+        {
+          fld_0001: string[];
+        }
+      >
+    >;
+    fld_0002: string;
+    fld_0003: string;
+  }[];
+}
+
+/**
+ * Neutral documentation text.
+ * Neutral documentation text.
+ */
+export interface Sch0180 {
+  fld_0001?: string;
+  /**
+   * Neutral documentation text.
+   * @example "sample"
+   */
+  fld_0002: string;
+  /**
+   * Neutral documentation text.
+   * @example 42
+   */
+  fld_0003: number;
+  /**
+   * Neutral documentation text.
+   * @format uri
+   */
+  fld_0004?: string;
+  /**
+   * Neutral documentation text.
+   * @example "sample"
+   */
+  fld_0005: string;
+  /** Neutral documentation text. */
+  fld_0006: string;
+}
+
+export interface Sch0181 {
+  fld_0001: number;
+  fld_0002: number;
+  fld_0003: number;
+  fld_0004: number;
+  fld_0005: number;
+  fld_0006: number;
+  fld_0007: number;
+}
+
+export interface Sch0182 {
+  fld_0001: number;
+  fld_0002: string;
+  fld_0003: number;
+  fld_0004: Sch0144[];
+  fld_0005: Sch0144[];
+  fld_0006: Sch0182Fld0006Enum;
+  fld_0007: number;
+}
+
+export enum Sch0182Fld0006Enum {
+  Enum0 = "enum_0",
+  Enum1 = "enum_1",
+}
+
+export interface Sch0183 {
+  fld_0001: number;
+  fld_0002: number;
+  fld_0003: Sch0144[];
+  fld_0004: Sch0144[];
+  fld_0005: number;
+}
+
+/** Neutral documentation text. */
+export type Sch0184 =
+  | ({
+      discriminator_kind: "array";
+    } & any)
+  | ({
+      discriminator_kind: "bool";
+    } & any)
+  | ({
+      discriminator_kind: "bytes";
+    } & any)
+  | ({
+      discriminator_kind: "double";
+    } & any)
+  | ({
+      discriminator_kind: "int";
+    } & any)
+  | ({
+      discriminator_kind: "string";
+    } & any);
+
+export interface Sch0185 {
+  fld_0001?: string;
+  fld_0002?: string;
+  fld_0003?: string;
+  fld_0004?: string;
+  fld_0005?: string;
+  fld_0006?: string;
+  fld_0007?: string;
+}
+
+export interface Sch0186 {
+  /**
+   * @min 1
+   * @max 64
+   * @default 8
+   */
+  fld_0001?: number;
+  /**
+   * @min 10
+   * @max 8192
+   * @default 500
+   */
+  fld_0002?: number;
+  fld_0003?: string;
+  fld_0004?: string;
+  fld_0005?: string;
+  fld_0006?: string;
+  fld_0007?: string;
+  /** @pattern ssh-rsa AAAA[0-9A-Za-z+/]{200,1000}=*( ([^@]+@[^@]+))? */
+  fld_0008?: string;
+  /**
+   * @min 1
+   * @max 512
+   * @default 60
+   */
+  fld_0009?: number;
+  /** @default false */
+  fld_0010?: boolean;
+  fld_0011?: string;
+  fld_0012?: string;
+}
+
+export interface Sch0187 {
+  /**
+   * @min 1
+   * @max 64
+   * @default 8
+   */
+  fld_0001: number;
+  /**
+   * @min 1
+   * @max 512
+   * @default 60
+   */
+  fld_0002: number;
+}
+
+export interface Sch0188 {
+  fld_0001?: Record<string, Sch0003>;
+  fld_0002?: Sch0047;
+  fld_0003?: Sch0047;
+  fld_0004?: number;
+  fld_0005?: string[];
+  fld_0006?: string[];
+  fld_0007?: string;
+  fld_0008?: string;
+  fld_0009?: string;
+  fld_0010?: string;
+  fld_0011?: string;
+  fld_0012?: number;
+  fld_0013?: string;
+  fld_0014?: string;
+  fld_0015?: boolean;
+  fld_0016?: string;
+  fld_0017?: string;
+  fld_0018?: string;
+  fld_0019?: number;
+  fld_0020?: string;
+  fld_0021?: string;
+  fld_0022?: number;
+  fld_0023?: number;
+  fld_0024?: string;
+  fld_0025: string;
+  fld_0026?: Sch0047;
+  fld_0027?: string;
+  fld_0028?: string;
+}
+
+export type QueryParamsType = Record<string | number, any>;
+export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
+
+export interface FullRequestParams extends Omit<RequestInit, "body"> {
+  /** set parameter to \`true\` for call \`securityWorker\` for this request */
+  secure?: boolean;
+  /** request path */
+  path: string;
+  /** content type of request body */
+  type?: ContentType;
+  /** query params */
+  query?: QueryParamsType;
+  /** format of response (i.e. response.json() -> format: "json") */
+  format?: ResponseFormat;
+  /** request body */
+  body?: unknown;
+  /** base url */
+  baseUrl?: string;
+  /** request cancellation token */
+  cancelToken?: CancelToken;
+}
+
+export type RequestParams = Omit<
+  FullRequestParams,
+  "body" | "method" | "query" | "path"
+>;
+
+export interface ApiConfig<SecurityDataType = unknown> {
+  baseUrl?: string;
+  baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
+  securityWorker?: (
+    securityData: SecurityDataType | null,
+  ) => Promise<RequestParams | void> | RequestParams | void;
+  customFetch?: typeof fetch;
+}
+
+export interface HttpResponse<D extends unknown, E extends unknown = unknown>
+  extends Response {
+  data: D;
+  error: E;
+}
+
+type CancelToken = Symbol | string | number;
+
+export enum ContentType {
+  Json = "application/json",
+  JsonApi = "application/vnd.api+json",
+  FormData = "multipart/form-data",
+  UrlEncoded = "application/x-www-form-urlencoded",
+  Text = "text/plain",
+}
+
+export class HttpClient<SecurityDataType = unknown> {
+  public baseUrl: string = "";
+  private securityData: SecurityDataType | null = null;
+  private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
+  private abortControllers = new Map<CancelToken, AbortController>();
+  private customFetch = (...fetchParams: Parameters<typeof fetch>) =>
+    fetch(...fetchParams);
+
+  private baseApiParams: RequestParams = {
+    credentials: "same-origin",
+    headers: {},
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  };
+
+  constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
+    Object.assign(this, apiConfig);
+  }
+
+  public setSecurityData = (data: SecurityDataType | null) => {
+    this.securityData = data;
+  };
+
+  protected encodeQueryParam(key: string, value: any) {
+    const encodedKey = encodeURIComponent(key);
+    return \`\${encodedKey}=\${encodeURIComponent(typeof value === "number" ? value : \`\${value}\`)}\`;
+  }
+
+  protected addQueryParam(query: QueryParamsType, key: string) {
+    return this.encodeQueryParam(key, query[key]);
+  }
+
+  protected addArrayQueryParam(query: QueryParamsType, key: string) {
+    const value = query[key];
+    return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
+  }
+
+  protected toQueryString(rawQuery?: QueryParamsType): string {
+    const query = rawQuery || {};
+    const keys = Object.keys(query).filter(
+      (key) => "undefined" !== typeof query[key],
+    );
+    return keys
+      .map((key) =>
+        Array.isArray(query[key])
+          ? this.addArrayQueryParam(query, key)
+          : this.addQueryParam(query, key),
+      )
+      .join("&");
+  }
+
+  protected addQueryParams(rawQuery?: QueryParamsType): string {
+    const queryString = this.toQueryString(rawQuery);
+    return queryString ? \`?\${queryString}\` : "";
+  }
+
+  private contentFormatters: Record<ContentType, (input: any) => any> = {
+    [ContentType.Json]: (input: any) =>
+      input !== null && (typeof input === "object" || typeof input === "string")
+        ? JSON.stringify(input)
+        : input,
+    [ContentType.JsonApi]: (input: any) =>
+      input !== null && (typeof input === "object" || typeof input === "string")
+        ? JSON.stringify(input)
+        : input,
+    [ContentType.Text]: (input: any) =>
+      input !== null && typeof input !== "string"
+        ? JSON.stringify(input)
+        : input,
+    [ContentType.FormData]: (input: any) => {
+      if (input instanceof FormData) {
+        return input;
+      }
+
+      return Object.keys(input || {}).reduce((formData, key) => {
+        const property = input[key];
+        formData.append(
+          key,
+          property instanceof Blob
+            ? property
+            : typeof property === "object" && property !== null
+              ? JSON.stringify(property)
+              : \`\${property}\`,
+        );
+        return formData;
+      }, new FormData());
+    },
+    [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
+  };
+
+  protected mergeRequestParams(
+    params1: RequestParams,
+    params2?: RequestParams,
+  ): RequestParams {
+    return {
+      ...this.baseApiParams,
+      ...params1,
+      ...(params2 || {}),
+      headers: {
+        ...(this.baseApiParams.headers || {}),
+        ...(params1.headers || {}),
+        ...((params2 && params2.headers) || {}),
+      },
+    };
+  }
+
+  protected createAbortSignal = (
+    cancelToken: CancelToken,
+  ): AbortSignal | undefined => {
+    if (this.abortControllers.has(cancelToken)) {
+      const abortController = this.abortControllers.get(cancelToken);
+      if (abortController) {
+        return abortController.signal;
+      }
+      return void 0;
+    }
+
+    const abortController = new AbortController();
+    this.abortControllers.set(cancelToken, abortController);
+    return abortController.signal;
+  };
+
+  public abortRequest = (cancelToken: CancelToken) => {
+    const abortController = this.abortControllers.get(cancelToken);
+
+    if (abortController) {
+      abortController.abort();
+      this.abortControllers.delete(cancelToken);
+    }
+  };
+
+  public request = async <T = any, E = any>({
+    body,
+    secure,
+    path,
+    type,
+    query,
+    format,
+    baseUrl,
+    cancelToken,
+    ...params
+  }: FullRequestParams): Promise<HttpResponse<T, E>> => {
+    const secureParams =
+      ((typeof secure === "boolean" ? secure : this.baseApiParams.secure) &&
+        this.securityWorker &&
+        (await this.securityWorker(this.securityData))) ||
+      {};
+    const requestParams = this.mergeRequestParams(params, secureParams);
+    const queryString = query && this.toQueryString(query);
+    const payloadFormatter = this.contentFormatters[type || ContentType.Json];
+    const responseFormat = format || requestParams.format;
+
+    return this.customFetch(
+      \`\${baseUrl || this.baseUrl || ""}\${path}\${queryString ? \`?\${queryString}\` : ""}\`,
+      {
+        ...requestParams,
+        headers: {
+          ...(requestParams.headers || {}),
+          ...(type && type !== ContentType.FormData
+            ? { "Content-Type": type }
+            : {}),
+        },
+        signal:
+          (cancelToken
+            ? this.createAbortSignal(cancelToken)
+            : requestParams.signal) || null,
+        body:
+          typeof body === "undefined" || body === null
+            ? null
+            : payloadFormatter(body),
+      },
+    ).then(async (response) => {
+      const r = response as HttpResponse<T, E>;
+      r.data = null as unknown as T;
+      r.error = null as unknown as E;
+
+      const responseToParse = responseFormat ? response.clone() : response;
+      const data = !responseFormat
+        ? r
+        : await responseToParse[responseFormat]()
+            .then((data) => {
+              if (r.ok) {
+                r.data = data;
+              } else {
+                r.error = data;
+              }
+              return r;
+            })
+            .catch((e) => {
+              r.error = e;
+              return r;
+            });
+
+      if (cancelToken) {
+        this.abortControllers.delete(cancelToken);
+      }
+
+      if (!response.ok) throw data;
+      return data;
+    });
+  };
+}
+
+/**
+ * @title Neutral documentation text.
+ * @version 0.0.0
+ * @license Neutral
+ * @termsOfService Neutral documentation text.
+ * @contact Neutral <neutral@example.invalid> (https://example.invalid)
+ *
+ * Neutral documentation text.
+ */
+export class Api<
+  SecurityDataType extends unknown,
+> extends HttpClient<SecurityDataType> {
+  fixture = {
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0021
+     * @name Op0001
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0001/{arg0001}
+     * @secure
+     */
+    op0001: (
+      { arg0001 }: Op0001Params,
+      data: Op0001Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0001Data, Sch0028>({
+        path: \`/fixture/r0001/\${arg0001}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0002
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0002
+     */
+    op0002: (query: Op0002Params, params: RequestParams = {}) =>
+      this.request<Op0002Data, Sch0028>({
+        path: \`/fixture/r0002\`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0022
+     * @name Op0003
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0003
+     */
+    op0003: (query: Op0003Params, params: RequestParams = {}) =>
+      this.request<Op0003Data, Sch0028>({
+        path: \`/fixture/r0003\`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0004
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0004
+     */
+    op0004: (query: Op0004Params, params: RequestParams = {}) =>
+      this.request<Op0004Data, Sch0028>({
+        path: \`/fixture/r0004\`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0005
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0005
+     */
+    op0005: (query: Op0005Params, params: RequestParams = {}) =>
+      this.request<Op0005Data, Sch0028>({
+        path: \`/fixture/r0005\`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0006
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0006/{arg0002}
+     */
+    op0006: ({ arg0002, ...query }: Op0006Params, params: RequestParams = {}) =>
+      this.request<Op0006Data, Sch0028>({
+        path: \`/fixture/r0006/\${arg0002}\`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0022
+     * @name Op0007
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0007
+     */
+    op0007: (data: Op0007Payload, params: RequestParams = {}) =>
+      this.request<Op0007Data, Sch0028>({
+        path: \`/fixture/r0007\`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0003
+     * @name Op0008
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0008
+     * @secure
+     */
+    op0008: (query: Op0008Params, params: RequestParams = {}) =>
+      this.request<Op0008Data, Sch0028>({
+        path: \`/fixture/r0008\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0001
+     * @name Op0009
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0009
+     */
+    op0009: (query: Op0009Params, params: RequestParams = {}) =>
+      this.request<any, void | Sch0028>({
+        path: \`/fixture/r0009\`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0001
+     * @name Op0010
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0010
+     */
+    op0010: (query: Op0010Params, params: RequestParams = {}) =>
+      this.request<Op0010Data, Sch0028>({
+        path: \`/fixture/r0010\`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0001
+     * @name Op0011
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0011
+     * @secure
+     */
+    op0011: (data: Op0011Payload, params: RequestParams = {}) =>
+      this.request<Op0011Data, Sch0028>({
+        path: \`/fixture/r0011\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0001
+     * @name Op0012
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0012
+     * @secure
+     */
+    op0012: (data: Op0012Payload, params: RequestParams = {}) =>
+      this.request<Op0012Data, Sch0028>({
+        path: \`/fixture/r0012\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0001
+     * @name Op0013
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0013
+     */
+    op0013: (query: Op0013Params, params: RequestParams = {}) =>
+      this.request<any, void | Sch0028>({
+        path: \`/fixture/r0013\`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0023
+     * @name Op0014
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0014
+     * @secure
+     */
+    op0014: (query: Op0014Params, params: RequestParams = {}) =>
+      this.request<Op0014Data, Sch0028>({
+        path: \`/fixture/r0014\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0023
+     * @name Op0015
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0014
+     * @secure
+     */
+    op0015: (data: Sch0015, params: RequestParams = {}) =>
+      this.request<Op0015Data, Sch0028>({
+        path: \`/fixture/r0014\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0023
+     * @name Op0016
+     * @summary Neutral documentation text.
+     * @request PATCH:/fixture/r0015
+     * @secure
+     */
+    op0016: (data: Sch0013, params: RequestParams = {}) =>
+      this.request<Op0016Data, Sch0028>({
+        path: \`/fixture/r0015\`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0023
+     * @name Op0017
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0016/{arg0003}
+     * @secure
+     */
+    op0017: ({ arg0003 }: Op0017Params, params: RequestParams = {}) =>
+      this.request<Op0017Data, Sch0028>({
+        path: \`/fixture/r0016/\${arg0003}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0019
+     * @name Op0018
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0017
+     * @secure
+     */
+    op0018: (params: RequestParams = {}) =>
+      this.request<Op0018Data, Sch0028>({
+        path: \`/fixture/r0017\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0019
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0018
+     * @secure
+     */
+    op0019: (query: Op0019Params, params: RequestParams = {}) =>
+      this.request<Op0019Data, Sch0028>({
+        path: \`/fixture/r0018\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0020
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0018
+     * @secure
+     */
+    op0020: (data: Res0003, params: RequestParams = {}) =>
+      this.request<Op0020Data, Sch0028>({
+        path: \`/fixture/r0018\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0021
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0019/{arg0004}
+     * @secure
+     */
+    op0021: ({ arg0004, ...query }: Op0021Params, params: RequestParams = {}) =>
+      this.request<Op0021Data, void | Sch0028>({
+        path: \`/fixture/r0019/\${arg0004}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0022
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0020
+     * @secure
+     */
+    op0022: (query: Op0022Params, params: RequestParams = {}) =>
+      this.request<Op0022Data, Sch0028>({
+        path: \`/fixture/r0020\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0025
+     * @summary Neutral documentation text.
+     * @request DELETE:/fixture/r0021/{arg0005}
+     * @secure
+     */
+    op0025: ({ arg0005 }: Op0025Params, params: RequestParams = {}) =>
+      this.request<Op0025Data, void | Sch0028>({
+        path: \`/fixture/r0021/\${arg0005}\`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0023
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0021/{arg0005}
+     * @secure
+     */
+    op0023: ({ arg0005 }: Op0023Params, params: RequestParams = {}) =>
+      this.request<Op0023Data, void | Sch0028>({
+        path: \`/fixture/r0021/\${arg0005}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0024
+     * @summary Neutral documentation text.
+     * @request PATCH:/fixture/r0021/{arg0005}
+     * @secure
+     */
+    op0024: (
+      { arg0005 }: Op0024Params,
+      data: Op0024Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0024Data, void | Sch0028>({
+        path: \`/fixture/r0021/\${arg0005}\`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0027
+     * @summary Neutral documentation text.
+     * @request DELETE:/fixture/r0022/{arg0005}
+     * @secure
+     */
+    op0027: (
+      { arg0005 }: Op0027Params,
+      data: Res0011,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0027Data, void | Sch0028>({
+        path: \`/fixture/r0022/\${arg0005}\`,
+        method: "DELETE",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0026
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0022/{arg0005}
+     * @secure
+     */
+    op0026: (
+      { arg0005 }: Op0026Params,
+      data: Res0002,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0026Data, void | Sch0028>({
+        path: \`/fixture/r0022/\${arg0005}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0029
+     * @summary Neutral documentation text.
+     * @request DELETE:/fixture/r0023/{arg0005}
+     * @secure
+     */
+    op0029: ({ arg0005, ...query }: Op0029Params, params: RequestParams = {}) =>
+      this.request<Op0029Data, void | Sch0028>({
+        path: \`/fixture/r0023/\${arg0005}\`,
+        method: "DELETE",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0028
+     * @summary Neutral documentation text.
+     * @request PUT:/fixture/r0023/{arg0005}
+     * @secure
+     */
+    op0028: (
+      { arg0005 }: Op0028Params,
+      data: Op0028Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0028Data, void | Sch0028>({
+        path: \`/fixture/r0023/\${arg0005}\`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0007
+     * @name Op0030
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0024
+     * @secure
+     */
+    op0030: (params: RequestParams = {}) =>
+      this.request<Op0030Data, Sch0028>({
+        path: \`/fixture/r0024\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @name Op0031
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0025
+     * @secure
+     */
+    op0031: (query: Op0031Params, params: RequestParams = {}) =>
+      this.request<Op0031Data, Sch0028>({
+        path: \`/fixture/r0025\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @name Op0032
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0025
+     * @secure
+     */
+    op0032: (
+      query: Op0032Params,
+      data: Op0032Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0032Data, Sch0028>({
+        path: \`/fixture/r0025\`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0024
+     * @name Op0033
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0026
+     * @secure
+     */
+    op0033: (params: RequestParams = {}) =>
+      this.request<Op0033Data, Sch0028>({
+        path: \`/fixture/r0026\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0025
+     * @name Op0034
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0027
+     * @secure
+     */
+    op0034: (query: Op0034Params, params: RequestParams = {}) =>
+      this.request<Op0034Data, Sch0028>({
+        path: \`/fixture/r0027\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0025
+     * @name Op0035
+     * @summary Neutral documentation text.
+     * @request PUT:/fixture/r0027
+     * @secure
+     */
+    op0035: (data: Sch0019, params: RequestParams = {}) =>
+      this.request<Op0035Data, Sch0028>({
+        path: \`/fixture/r0027\`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0025
+     * @name Op0036
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0028/{arg0006}
+     * @secure
+     */
+    op0036: (
+      { arg0006 }: Op0036Params,
+      data: Op0036Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0036Data, Sch0028>({
+        path: \`/fixture/r0028/\${arg0006}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0007
+     * @name Op0039
+     * @summary Neutral documentation text.
+     * @request DELETE:/fixture/r0029
+     * @secure
+     */
+    op0039: (query: Op0039Params, params: RequestParams = {}) =>
+      this.request<Op0039Data, Sch0028>({
+        path: \`/fixture/r0029\`,
+        method: "DELETE",
+        query: query,
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0007
+     * @name Op0037
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0029
+     * @secure
+     */
+    op0037: (params: RequestParams = {}) =>
+      this.request<Op0037Data, Sch0028>({
+        path: \`/fixture/r0029\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0007
+     * @name Op0038
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0029
+     * @secure
+     */
+    op0038: (data: Op0038Payload, params: RequestParams = {}) =>
+      this.request<Op0038Data, Sch0028>({
+        path: \`/fixture/r0029\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0010
+     * @name Op0040
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0030
+     * @secure
+     */
+    op0040: (query: Op0040Params, params: RequestParams = {}) =>
+      this.request<Op0040Data, Sch0028>({
+        path: \`/fixture/r0030\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @name Op0041
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0031
+     * @secure
+     */
+    op0041: (params: RequestParams = {}) =>
+      this.request<Op0041Data, Sch0028>({
+        path: \`/fixture/r0031\`,
+        method: "GET",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0017
+     * @name Op0042
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0032
+     * @secure
+     */
+    op0042: (query: Op0042Params, params: RequestParams = {}) =>
+      this.request<Op0042Data, Sch0028>({
+        path: \`/fixture/r0032\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0017
+     * @name Op0043
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0032
+     * @secure
+     */
+    op0043: (data: Res0018, params: RequestParams = {}) =>
+      this.request<Op0043Data, Sch0028>({
+        path: \`/fixture/r0032\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0017
+     * @name Op0044
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0033/{arg0004}
+     * @secure
+     */
+    op0044: ({ arg0004, ...query }: Op0044Params, params: RequestParams = {}) =>
+      this.request<Op0044Data, Sch0028>({
+        path: \`/fixture/r0033/\${arg0004}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0017
+     * @name Op0045
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0034
+     * @secure
+     */
+    op0045: (query: Op0045Params, params: RequestParams = {}) =>
+      this.request<Op0045Data, Sch0028>({
+        path: \`/fixture/r0034\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0017
+     * @name Op0046
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0034
+     * @secure
+     */
+    op0046: (data: Sch0175, params: RequestParams = {}) =>
+      this.request<Op0046Data, Sch0028>({
+        path: \`/fixture/r0034\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0017
+     * @name Op0047
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0035
+     * @secure
+     */
+    op0047: (query: Op0047Params, params: RequestParams = {}) =>
+      this.request<Op0047Data, Sch0028>({
+        path: \`/fixture/r0035\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0017
+     * @name Op0048
+     * @summary Neutral documentation text.
+     * @request PUT:/fixture/r0035
+     * @secure
+     */
+    op0048: (data: Sch0176, params: RequestParams = {}) =>
+      this.request<Op0048Data, Sch0028>({
+        path: \`/fixture/r0035\`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0017
+     * @name Op0051
+     * @summary Neutral documentation text.
+     * @request DELETE:/fixture/r0036/{arg0007}
+     * @secure
+     */
+    op0051: ({ arg0007 }: Op0051Params, params: RequestParams = {}) =>
+      this.request<Op0051Data, void | Sch0028>({
+        path: \`/fixture/r0036/\${arg0007}\`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0017
+     * @name Op0049
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0036/{arg0007}
+     * @secure
+     */
+    op0049: ({ arg0007 }: Op0049Params, params: RequestParams = {}) =>
+      this.request<Op0049Data, Sch0028>({
+        path: \`/fixture/r0036/\${arg0007}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0017
+     * @name Op0050
+     * @summary Neutral documentation text.
+     * @request PATCH:/fixture/r0036/{arg0007}
+     * @secure
+     */
+    op0050: (
+      { arg0007 }: Op0050Params,
+      data: Res0020,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0050Data, void | Sch0028>({
+        path: \`/fixture/r0036/\${arg0007}\`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0017
+     * @name Op0052
+     * @summary Neutral documentation text.
+     * @request DELETE:/fixture/r0037/{arg0007}/{arg0008}
+     * @secure
+     */
+    op0052: ({ arg0007, arg0008 }: Op0052Params, params: RequestParams = {}) =>
+      this.request<Op0052Data, Sch0028>({
+        path: \`/fixture/r0037/\${arg0007}/\${arg0008}\`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @name Op0053
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0038
+     */
+    op0053: (data: Sch0057, params: RequestParams = {}) =>
+      this.request<Op0053Data, Sch0028>({
+        path: \`/fixture/r0038\`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0054
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0039
+     */
+    op0054: (params: RequestParams = {}) =>
+      this.request<Op0054Data, Sch0028>({
+        path: \`/fixture/r0039\`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0026
+     * @name Op0055
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0040
+     * @secure
+     */
+    op0055: (query: Op0055Params, params: RequestParams = {}) =>
+      this.request<Op0055Data, Sch0028>({
+        path: \`/fixture/r0040\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0026
+     * @name Op0056
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0041/{arg0009}
+     * @secure
+     */
+    op0056: ({ arg0009, ...query }: Op0056Params, params: RequestParams = {}) =>
+      this.request<Op0056Data, Sch0028>({
+        path: \`/fixture/r0041/\${arg0009}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0026
+     * @name Op0057
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0042/{arg0009}
+     * @secure
+     */
+    op0057: ({ arg0009, ...query }: Op0057Params, params: RequestParams = {}) =>
+      this.request<Op0057Data, Sch0028>({
+        path: \`/fixture/r0042/\${arg0009}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0027
+     * @name Op0058
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0043
+     * @secure
+     */
+    op0058: (query: Op0058Params, params: RequestParams = {}) =>
+      this.request<Op0058Data, Sch0028>({
+        path: \`/fixture/r0043\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0027
+     * @name Op0059
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0044/{arg0010}
+     * @secure
+     */
+    op0059: ({ arg0010 }: Op0059Params, params: RequestParams = {}) =>
+      this.request<Op0059Data, Sch0028>({
+        path: \`/fixture/r0044/\${arg0010}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0027
+     * @name Op0060
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0044/{arg0010}
+     * @secure
+     */
+    op0060: (
+      { arg0010 }: Op0060Params,
+      data: Op0060Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0060Data, Sch0028>({
+        path: \`/fixture/r0044/\${arg0010}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0027
+     * @name Op0061
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0045/{arg0010}
+     * @secure
+     */
+    op0061: ({ arg0010 }: Op0061Params, params: RequestParams = {}) =>
+      this.request<Op0061Data, Sch0028>({
+        path: \`/fixture/r0045/\${arg0010}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0027
+     * @name Op0062
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0045/{arg0010}
+     * @secure
+     */
+    op0062: (
+      { arg0010 }: Op0062Params,
+      data: Op0062Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0062Data, Sch0028>({
+        path: \`/fixture/r0045/\${arg0010}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0008
+     * @name Op0063
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0046
+     * @secure
+     */
+    op0063: (query: Op0063Params, params: RequestParams = {}) =>
+      this.request<Op0063Data, Sch0028>({
+        path: \`/fixture/r0046\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0008
+     * @name Op0064
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0047/{arg0011}
+     * @secure
+     */
+    op0064: ({ arg0011, ...query }: Op0064Params, params: RequestParams = {}) =>
+      this.request<Op0064Data, Sch0028>({
+        path: \`/fixture/r0047/\${arg0011}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0008
+     * @name Op0065
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0048/{arg0011}
+     * @secure
+     */
+    op0065: ({ arg0011, ...query }: Op0065Params, params: RequestParams = {}) =>
+      this.request<Op0065Data, Sch0028>({
+        path: \`/fixture/r0048/\${arg0011}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0008
+     * @name Op0066
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0049/{arg0011}
+     * @secure
+     */
+    op0066: ({ arg0011, ...query }: Op0066Params, params: RequestParams = {}) =>
+      this.request<Op0066Data, Sch0028>({
+        path: \`/fixture/r0049/\${arg0011}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0008
+     * @name Op0067
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0050/{arg0011}
+     * @secure
+     */
+    op0067: ({ arg0011, ...query }: Op0067Params, params: RequestParams = {}) =>
+      this.request<Op0067Data, Sch0028>({
+        path: \`/fixture/r0050/\${arg0011}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0022
+     * @name Op0068
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0051
+     * @secure
+     */
+    op0068: (query: Op0068Params, params: RequestParams = {}) =>
+      this.request<Op0068Data, Sch0028>({
+        path: \`/fixture/r0051\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0028, topic_0006
+     * @name Op0069
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0052/{arg0012}
+     * @secure
+     */
+    op0069: ({ arg0012 }: Op0069Params, params: RequestParams = {}) =>
+      this.request<Op0069Data, Sch0028>({
+        path: \`/fixture/r0052/\${arg0012}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @name Op0072
+     * @summary Neutral documentation text.
+     * @request DELETE:/fixture/r0053
+     * @secure
+     */
+    op0072: (query: Op0072Params, params: RequestParams = {}) =>
+      this.request<Op0072Data, Sch0028>({
+        path: \`/fixture/r0053\`,
+        method: "DELETE",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @name Op0070
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0053
+     * @secure
+     */
+    op0070: (query: Op0070Params, params: RequestParams = {}) =>
+      this.request<Op0070Data, Sch0028>({
+        path: \`/fixture/r0053\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @name Op0071
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0053
+     * @secure
+     */
+    op0071: (
+      query: Op0071Params,
+      data: Op0071Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0071Data, Sch0028>({
+        path: \`/fixture/r0053\`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0019
+     * @name Op0073
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0054
+     * @secure
+     */
+    op0073: (params: RequestParams = {}) =>
+      this.request<Op0073Data, Sch0028>({
+        path: \`/fixture/r0054\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0019
+     * @name Op0074
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0055
+     * @secure
+     */
+    op0074: (params: RequestParams = {}) =>
+      this.request<Op0074Data, Sch0028>({
+        path: \`/fixture/r0055\`,
+        method: "GET",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0019
+     * @name Op0075
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0055
+     * @secure
+     */
+    op0075: (data: Op0075Payload, params: RequestParams = {}) =>
+      this.request<Op0075Data, Sch0028>({
+        path: \`/fixture/r0055\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Text,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0019
+     * @name Op0076
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0056
+     * @secure
+     */
+    op0076: (query: Op0076Params, params: RequestParams = {}) =>
+      this.request<Op0076Data, Sch0028>({
+        path: \`/fixture/r0056\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0019
+     * @name Op0077
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0057/{arg0013}
+     * @secure
+     */
+    op0077: ({ arg0013 }: Op0077Params, params: RequestParams = {}) =>
+      this.request<Op0077Data, Sch0028>({
+        path: \`/fixture/r0057/\${arg0013}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0019
+     * @name Op0078
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0058
+     * @secure
+     */
+    op0078: (query: Op0078Params, params: RequestParams = {}) =>
+      this.request<Op0078Data, Sch0028>({
+        path: \`/fixture/r0058\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0019
+     * @name Op0079
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0058
+     * @secure
+     */
+    op0079: (data: Sch0085, params: RequestParams = {}) =>
+      this.request<Op0079Data, Sch0028>({
+        path: \`/fixture/r0058\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0019
+     * @name Op0080
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0059
+     * @secure
+     */
+    op0080: (data: Sch0085, params: RequestParams = {}) =>
+      this.request<Op0080Data, Sch0028>({
+        path: \`/fixture/r0059\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0019
+     * @name Op0083
+     * @summary Neutral documentation text.
+     * @request DELETE:/fixture/r0060/{arg0014}
+     * @secure
+     */
+    op0083: ({ arg0014 }: Op0083Params, params: RequestParams = {}) =>
+      this.request<Op0083Data, void | Sch0028>({
+        path: \`/fixture/r0060/\${arg0014}\`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0019
+     * @name Op0081
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0060/{arg0014}
+     * @secure
+     */
+    op0081: ({ arg0014 }: Op0081Params, params: RequestParams = {}) =>
+      this.request<Op0081Data, void | Sch0028>({
+        path: \`/fixture/r0060/\${arg0014}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0019
+     * @name Op0082
+     * @summary Neutral documentation text.
+     * @request PATCH:/fixture/r0060/{arg0014}
+     * @secure
+     */
+    op0082: (
+      { arg0014 }: Op0082Params,
+      data: Sch0089,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0082Data, void | Sch0028>({
+        path: \`/fixture/r0060/\${arg0014}\`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0084
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0061/{arg0004}
+     * @secure
+     */
+    op0084: ({ arg0004 }: Op0084Params, params: RequestParams = {}) =>
+      this.request<Op0084Data, Sch0028>({
+        path: \`/fixture/r0061/\${arg0004}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0015
+     * @name Op0085
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0062/{arg0015}
+     * @secure
+     */
+    op0085: ({ arg0015 }: Op0085Params, params: RequestParams = {}) =>
+      this.request<Op0085Data, Sch0028>({
+        path: \`/fixture/r0062/\${arg0015}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0015
+     * @name Op0086
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0062/{arg0015}
+     * @secure
+     */
+    op0086: (
+      { arg0015 }: Op0086Params,
+      data: Sch0146,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0086Data, Sch0028>({
+        path: \`/fixture/r0062/\${arg0015}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0015
+     * @name Op0089
+     * @summary Neutral documentation text.
+     * @request DELETE:/fixture/r0063/{arg0015}/{arg0016}
+     * @secure
+     */
+    op0089: ({ arg0016, arg0015 }: Op0089Params, params: RequestParams = {}) =>
+      this.request<Op0089Data, Sch0028>({
+        path: \`/fixture/r0063/\${arg0015}/\${arg0016}\`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0015
+     * @name Op0087
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0063/{arg0015}/{arg0016}
+     * @secure
+     */
+    op0087: ({ arg0016, arg0015 }: Op0087Params, params: RequestParams = {}) =>
+      this.request<Op0087Data, Sch0028>({
+        path: \`/fixture/r0063/\${arg0015}/\${arg0016}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0015
+     * @name Op0088
+     * @summary Neutral documentation text.
+     * @request PATCH:/fixture/r0063/{arg0015}/{arg0016}
+     * @secure
+     */
+    op0088: (
+      { arg0016, arg0015 }: Op0088Params,
+      data: Sch0146,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0088Data, Sch0028>({
+        path: \`/fixture/r0063/\${arg0015}/\${arg0016}\`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0005
+     * @name Op0090
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0064
+     * @secure
+     */
+    op0090: (query: Op0090Params, params: RequestParams = {}) =>
+      this.request<Op0090Data, Sch0028>({
+        path: \`/fixture/r0064\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0005
+     * @name Op0091
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0065
+     * @secure
+     */
+    op0091: (params: RequestParams = {}) =>
+      this.request<Op0091Data, Sch0028>({
+        path: \`/fixture/r0065\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0005
+     * @name Op0092
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0066
+     * @secure
+     */
+    op0092: (query: Op0092Params, params: RequestParams = {}) =>
+      this.request<Op0092Data, Sch0028>({
+        path: \`/fixture/r0066\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0005
+     * @name Op0093
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0067/{arg0017}
+     * @secure
+     */
+    op0093: ({ arg0017, q0073 }: Op0093Params, params: RequestParams = {}) =>
+      this.request<Op0093Data, Sch0028>({
+        path: \`/fixture/r0067/\${arg0017}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0005, topic_0006
+     * @name Op0094
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0068/{arg0017}
+     * @secure
+     */
+    op0094: ({ arg0017 }: Op0094Params, params: RequestParams = {}) =>
+      this.request<Op0094Data, Sch0028>({
+        path: \`/fixture/r0068/\${arg0017}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0005
+     * @name Op0095
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0069/{arg0017}
+     * @secure
+     */
+    op0095: ({ arg0017, q0074 }: Op0095Params, params: RequestParams = {}) =>
+      this.request<Op0095Data, Sch0028>({
+        path: \`/fixture/r0069/\${arg0017}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0005
+     * @name Op0096
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0069/{arg0017}
+     * @secure
+     */
+    op0096: (
+      { arg0017 }: Op0096Params,
+      data: Op0096Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0096Data, Sch0028>({
+        path: \`/fixture/r0069/\${arg0017}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0005
+     * @name Op0097
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0070/{arg0017}
+     * @secure
+     */
+    op0097: ({ arg0017, ...query }: Op0097Params, params: RequestParams = {}) =>
+      this.request<Op0097Data, Sch0028>({
+        path: \`/fixture/r0070/\${arg0017}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0005, topic_0003
+     * @name Op0098
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0071/{arg0017}
+     * @secure
+     */
+    op0098: ({ arg0017 }: Op0098Params, params: RequestParams = {}) =>
+      this.request<Op0098Data, Sch0028>({
+        path: \`/fixture/r0071/\${arg0017}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0005, topic_0004
+     * @name Op0099
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0072/{arg0017}
+     * @secure
+     */
+    op0099: ({ arg0017 }: Op0099Params, params: RequestParams = {}) =>
+      this.request<Op0099Data, Sch0028>({
+        path: \`/fixture/r0072/\${arg0017}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0017
+     * @name Op0100
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0073/{arg0008}
+     * @secure
+     */
+    op0100: (
+      { arg0008 }: Op0100Params,
+      data: Res0006,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0100Data, Sch0028>({
+        path: \`/fixture/r0073/\${arg0008}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @name Op0101
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0074
+     */
+    op0101: (params: RequestParams = {}) =>
+      this.request<Op0101Data, Sch0028>({
+        path: \`/fixture/r0074\`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @name Op0102
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0075
+     */
+    op0102: (params: RequestParams = {}) =>
+      this.request<Op0102Data, Sch0028>({
+        path: \`/fixture/r0075\`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0103
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0076
+     */
+    op0103: (params: RequestParams = {}) =>
+      this.request<Op0103Data, Sch0028>({
+        path: \`/fixture/r0076\`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0104
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0077
+     */
+    op0104: (params: RequestParams = {}) =>
+      this.request<Op0104Data, Sch0028>({
+        path: \`/fixture/r0077\`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0105
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0078
+     */
+    op0105: (query: Op0105Params, params: RequestParams = {}) =>
+      this.request<Op0105Data, Sch0028>({
+        path: \`/fixture/r0078\`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0106
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0079
+     * @secure
+     */
+    op0106: (data: Sch0116, params: RequestParams = {}) =>
+      this.request<Op0106Data, Sch0028>({
+        path: \`/fixture/r0079\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0107
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0080
+     * @secure
+     */
+    op0107: (data: Sch0115, params: RequestParams = {}) =>
+      this.request<Op0107Data, Sch0028>({
+        path: \`/fixture/r0080\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0108
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0081
+     * @secure
+     */
+    op0108: (data: Sch0117, params: RequestParams = {}) =>
+      this.request<Op0108Data, Sch0028>({
+        path: \`/fixture/r0081\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0109
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0082
+     * @secure
+     */
+    op0109: (data: Sch0115, params: RequestParams = {}) =>
+      this.request<Op0109Data, Sch0028>({
+        path: \`/fixture/r0082\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0022
+     * @name Op0110
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0083
+     * @secure
+     */
+    op0110: (query: Op0110Params, params: RequestParams = {}) =>
+      this.request<Op0110Data, Sch0028>({
+        path: \`/fixture/r0083\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0022
+     * @name Op0111
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0084
+     * @secure
+     */
+    op0111: (query: Op0111Params, params: RequestParams = {}) =>
+      this.request<Op0111Data, Sch0028>({
+        path: \`/fixture/r0084\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0112
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0085
+     * @secure
+     */
+    op0112: (data: Sch0128, params: RequestParams = {}) =>
+      this.request<Op0112Data, Sch0028>({
+        path: \`/fixture/r0085\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0113
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0086/{arg0002}
+     * @secure
+     */
+    op0113: ({ arg0002, ...query }: Op0113Params, params: RequestParams = {}) =>
+      this.request<Op0113Data, Sch0028>({
+        path: \`/fixture/r0086/\${arg0002}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0114
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0087/{arg0002}
+     * @secure
+     */
+    op0114: ({ arg0002, ...query }: Op0114Params, params: RequestParams = {}) =>
+      this.request<Op0114Data, Sch0028>({
+        path: \`/fixture/r0087/\${arg0002}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0115
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0088/{arg0002}
+     * @secure
+     */
+    op0115: ({ arg0002, ...query }: Op0115Params, params: RequestParams = {}) =>
+      this.request<Op0115Data, Sch0028>({
+        path: \`/fixture/r0088/\${arg0002}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0116
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0089/{arg0002}
+     * @secure
+     */
+    op0116: ({ arg0002, ...query }: Op0116Params, params: RequestParams = {}) =>
+      this.request<Op0116Data, Sch0028>({
+        path: \`/fixture/r0089/\${arg0002}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0117
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0090/{arg0002}
+     * @secure
+     */
+    op0117: ({ arg0002, ...query }: Op0117Params, params: RequestParams = {}) =>
+      this.request<Op0117Data, Sch0028>({
+        path: \`/fixture/r0090/\${arg0002}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0118
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0091/{arg0002}
+     * @secure
+     */
+    op0118: ({ arg0002, ...query }: Op0118Params, params: RequestParams = {}) =>
+      this.request<Op0118Data, Sch0028>({
+        path: \`/fixture/r0091/\${arg0002}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0119
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0092/{arg0002}
+     * @secure
+     */
+    op0119: ({ arg0002, ...query }: Op0119Params, params: RequestParams = {}) =>
+      this.request<Op0119Data, Sch0028>({
+        path: \`/fixture/r0092/\${arg0002}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0120
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0093/{arg0002}
+     * @secure
+     */
+    op0120: (
+      { arg0002 }: Op0120Params,
+      data: Op0120Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0120Data, Sch0028>({
+        path: \`/fixture/r0093/\${arg0002}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0011
+     * @name Op0121
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0094
+     * @secure
+     */
+    op0121: (params: RequestParams = {}) =>
+      this.request<Op0121Data, Sch0028>({
+        path: \`/fixture/r0094\`,
+        method: "GET",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0029
+     * @name Op0122
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0095
+     * @secure
+     */
+    op0122: (query: Op0122Params, params: RequestParams = {}) =>
+      this.request<Op0122Data, Sch0028>({
+        path: \`/fixture/r0095\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @name Op0123
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0096
+     * @secure
+     */
+    op0123: (query: Op0123Params, params: RequestParams = {}) =>
+      this.request<Op0123Data, Sch0028>({
+        path: \`/fixture/r0096\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0022
+     * @name Op0124
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0097
+     * @secure
+     */
+    op0124: (query: Op0124Params, params: RequestParams = {}) =>
+      this.request<Op0124Data, Sch0028>({
+        path: \`/fixture/r0097\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0022
+     * @name Op0125
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0097
+     * @secure
+     */
+    op0125: (data: Sch0162, params: RequestParams = {}) =>
+      this.request<Op0125Data, Sch0028>({
+        path: \`/fixture/r0097\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0022
+     * @name Op0126
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0098
+     * @secure
+     */
+    op0126: (query: Op0126Params, params: RequestParams = {}) =>
+      this.request<Op0126Data, Sch0028>({
+        path: \`/fixture/r0098\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0003
+     * @name Op0127
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0099
+     * @secure
+     */
+    op0127: (data: Sch0154, params: RequestParams = {}) =>
+      this.request<Op0127Data, Sch0028>({
+        path: \`/fixture/r0099\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0003
+     * @name Op0128
+     * @summary Neutral documentation text.
+     * @request PUT:/fixture/r0099
+     * @secure
+     */
+    op0128: (data: Sch0165, params: RequestParams = {}) =>
+      this.request<Op0128Data, Sch0028>({
+        path: \`/fixture/r0099\`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0022
+     * @name Op0129
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0100
+     * @secure
+     */
+    op0129: (query: Op0129Params, params: RequestParams = {}) =>
+      this.request<Op0129Data, Sch0028>({
+        path: \`/fixture/r0100\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0012
+     * @name Op0132
+     * @summary Neutral documentation text.
+     * @request DELETE:/fixture/r0101
+     * @secure
+     */
+    op0132: (query: Op0132Params, params: RequestParams = {}) =>
+      this.request<Op0132Data, Sch0028>({
+        path: \`/fixture/r0101\`,
+        method: "DELETE",
+        query: query,
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0012
+     * @name Op0130
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0101
+     * @secure
+     */
+    op0130: (query: Op0130Params, params: RequestParams = {}) =>
+      this.request<Op0130Data, Sch0028>({
+        path: \`/fixture/r0101\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0012
+     * @name Op0131
+     * @summary Neutral documentation text.
+     * @request PATCH:/fixture/r0101
+     * @secure
+     */
+    op0131: (query: Op0131Params, data: Sch0026, params: RequestParams = {}) =>
+      this.request<Op0131Data, Sch0028>({
+        path: \`/fixture/r0101\`,
+        method: "PATCH",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0013
+     * @name Op0135
+     * @summary Neutral documentation text.
+     * @request DELETE:/fixture/r0102
+     * @secure
+     */
+    op0135: (query: Op0135Params, params: RequestParams = {}) =>
+      this.request<Op0135Data, Sch0028>({
+        path: \`/fixture/r0102\`,
+        method: "DELETE",
+        query: query,
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0013
+     * @name Op0133
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0102
+     * @secure
+     */
+    op0133: (query: Op0133Params, params: RequestParams = {}) =>
+      this.request<Op0133Data, Sch0028>({
+        path: \`/fixture/r0102\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0013
+     * @name Op0134
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0102
+     * @secure
+     */
+    op0134: (data: Sch0070, params: RequestParams = {}) =>
+      this.request<Op0134Data, Sch0028>({
+        path: \`/fixture/r0102\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0003
+     * @name Op0136
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0103/{arg0018}
+     * @secure
+     */
+    op0136: ({ arg0018, ...query }: Op0136Params, params: RequestParams = {}) =>
+      this.request<Op0136Data, Sch0028>({
+        path: \`/fixture/r0103/\${arg0018}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0003
+     * @name Op0137
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0104/{arg0018}/{arg0019}
+     * @secure
+     */
+    op0137: (
+      { arg0018, arg0019, ...query }: Op0137Params,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0137Data, Sch0028>({
+        path: \`/fixture/r0104/\${arg0018}/\${arg0019}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0012
+     * @name Op0138
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0105/{arg0018}
+     * @secure
+     */
+    op0138: ({ arg0018, ...query }: Op0138Params, params: RequestParams = {}) =>
+      this.request<Op0138Data, Sch0028>({
+        path: \`/fixture/r0105/\${arg0018}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0012
+     * @name Op0139
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0105/{arg0018}
+     * @secure
+     */
+    op0139: (
+      { arg0018 }: Op0139Params,
+      data: Sch0025,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0139Data, Sch0028>({
+        path: \`/fixture/r0105/\${arg0018}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0006
+     * @name Op0140
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0106/{arg0018}
+     * @secure
+     */
+    op0140: ({ arg0018, ...query }: Op0140Params, params: RequestParams = {}) =>
+      this.request<Op0140Data, Sch0028>({
+        path: \`/fixture/r0106/\${arg0018}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0003
+     * @name Op0141
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0107/{arg0018}/{arg0020}
+     * @secure
+     */
+    op0141: (
+      { arg0018, arg0020, ...query }: Op0141Params,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0141Data, Sch0028>({
+        path: \`/fixture/r0107/\${arg0018}/\${arg0020}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0003
+     * @name Op0142
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0108/{arg0018}
+     * @secure
+     */
+    op0142: ({ arg0018, ...query }: Op0142Params, params: RequestParams = {}) =>
+      this.request<Op0142Data, Sch0028>({
+        path: \`/fixture/r0108/\${arg0018}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0003
+     * @name Op0143
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0109/{arg0018}
+     * @secure
+     */
+    op0143: ({ arg0018, ...query }: Op0143Params, params: RequestParams = {}) =>
+      this.request<Op0143Data, Sch0028>({
+        path: \`/fixture/r0109/\${arg0018}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0003
+     * @name Op0144
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0110/{arg0018}
+     * @secure
+     */
+    op0144: (
+      { arg0018 }: Op0144Params,
+      data: Op0144Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0144Data, Sch0028>({
+        path: \`/fixture/r0110/\${arg0018}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0003
+     * @name Op0145
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0111/{arg0018}
+     * @secure
+     */
+    op0145: (
+      { arg0018 }: Op0145Params,
+      data: Op0145Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0145Data, Sch0028>({
+        path: \`/fixture/r0111/\${arg0018}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0003
+     * @name Op0146
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0112/{arg0018}
+     * @secure
+     */
+    op0146: (
+      { arg0018 }: Op0146Params,
+      data: Op0146Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0146Data, Sch0028>({
+        path: \`/fixture/r0112/\${arg0018}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0003
+     * @name Op0147
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0113/{arg0018}
+     * @secure
+     */
+    op0147: (
+      { arg0018 }: Op0147Params,
+      data: Op0147Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0147Data, Sch0028>({
+        path: \`/fixture/r0113/\${arg0018}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0003
+     * @name Op0148
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0114/{arg0018}
+     * @secure
+     */
+    op0148: (
+      { arg0018 }: Op0148Params,
+      data: Op0148Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0148Data, Sch0028>({
+        path: \`/fixture/r0114/\${arg0018}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0003
+     * @name Op0149
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0115/{arg0018}
+     * @secure
+     */
+    op0149: (
+      { arg0018 }: Op0149Params,
+      data: Op0149Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0149Data, Sch0028>({
+        path: \`/fixture/r0115/\${arg0018}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0003
+     * @name Op0150
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0116/{arg0018}
+     * @secure
+     */
+    op0150: (
+      { arg0018 }: Op0150Params,
+      data: Op0150Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0150Data, Sch0028>({
+        path: \`/fixture/r0116/\${arg0018}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0004
+     * @name Op0151
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0117
+     * @secure
+     */
+    op0151: (query: Op0151Params, params: RequestParams = {}) =>
+      this.request<Op0151Data, Sch0028>({
+        path: \`/fixture/r0117\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0004
+     * @name Op0152
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0118
+     * @secure
+     */
+    op0152: (query: Op0152Params, params: RequestParams = {}) =>
+      this.request<Op0152Data, Sch0028>({
+        path: \`/fixture/r0118\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0004
+     * @name Op0153
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0118
+     * @secure
+     */
+    op0153: (data: Sch0080, params: RequestParams = {}) =>
+      this.request<Op0153Data, Sch0028>({
+        path: \`/fixture/r0118\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0004
+     * @name Op0154
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0119/{arg0021}
+     * @secure
+     */
+    op0154: ({ arg0021, ...query }: Op0154Params, params: RequestParams = {}) =>
+      this.request<Op0154Data, Sch0028>({
+        path: \`/fixture/r0119/\${arg0021}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0004
+     * @name Op0155
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0120/{arg0021}
+     * @secure
+     */
+    op0155: ({ arg0021, ...query }: Op0155Params, params: RequestParams = {}) =>
+      this.request<Op0155Data, Sch0028>({
+        path: \`/fixture/r0120/\${arg0021}\`,
+        method: "POST",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0004
+     * @name Op0156
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0121/{arg0021}
+     * @secure
+     */
+    op0156: (
+      { arg0021 }: Op0156Params,
+      data: Op0156Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0156Data, Sch0028>({
+        path: \`/fixture/r0121/\${arg0021}\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0002
+     * @name Op0157
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0122
+     * @secure
+     */
+    op0157: (params: RequestParams = {}) =>
+      this.request<Op0157Data, Sch0028>({
+        path: \`/fixture/r0122\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0002
+     * @name Op0158
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0123
+     * @secure
+     */
+    op0158: (params: RequestParams = {}) =>
+      this.request<Op0158Data, Sch0028>({
+        path: \`/fixture/r0123\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0016
+     * @name Op0159
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0124
+     * @secure
+     */
+    op0159: (query: Op0159Params, params: RequestParams = {}) =>
+      this.request<Op0159Data, Sch0028>({
+        path: \`/fixture/r0124\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0016
+     * @name Op0161
+     * @summary Neutral documentation text.
+     * @request PATCH:/fixture/r0124
+     * @secure
+     */
+    op0161: (query: Op0161Params, data: Sch0187, params: RequestParams = {}) =>
+      this.request<Op0161Data, Sch0028>({
+        path: \`/fixture/r0124\`,
+        method: "PATCH",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0016
+     * @name Op0160
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0124
+     * @secure
+     */
+    op0160: (data: Sch0186, params: RequestParams = {}) =>
+      this.request<Op0160Data, Sch0028>({
+        path: \`/fixture/r0124\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0009
+     * @name Op0162
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0125
+     * @secure
+     */
+    op0162: (params: RequestParams = {}) =>
+      this.request<Op0162Data, Sch0028>({
+        path: \`/fixture/r0125\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @name Op0163
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0126
+     * @secure
+     */
+    op0163: (query: Op0163Params, params: RequestParams = {}) =>
+      this.request<Op0163Data, Sch0028>({
+        path: \`/fixture/r0126\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0164
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0127
+     * @secure
+     */
+    op0164: (query: Op0164Params, params: RequestParams = {}) =>
+      this.request<Op0164Data, Sch0028>({
+        path: \`/fixture/r0127\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0165
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0127
+     * @secure
+     */
+    op0165: (data: Res0005, params: RequestParams = {}) =>
+      this.request<Op0165Data, Sch0028>({
+        path: \`/fixture/r0127\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0166
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0128/{arg0004}
+     * @secure
+     */
+    op0166: ({ arg0004 }: Op0166Params, params: RequestParams = {}) =>
+      this.request<Op0166Data, void | Sch0028>({
+        path: \`/fixture/r0128/\${arg0004}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0167
+     * @summary Neutral documentation text.
+     * @request PATCH:/fixture/r0129/{arg0005}
+     * @secure
+     */
+    op0167: (
+      { arg0005 }: Op0167Params,
+      data: Op0167Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0167Data, void | Sch0028>({
+        path: \`/fixture/r0129/\${arg0005}\`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0017
+     * @name Op0168
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0130
+     * @secure
+     */
+    op0168: (data: Res0019, params: RequestParams = {}) =>
+      this.request<Op0168Data, Sch0028>({
+        path: \`/fixture/r0130\`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0017
+     * @name Op0169
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0131/{arg0007}
+     * @secure
+     */
+    op0169: ({ arg0007 }: Op0169Params, params: RequestParams = {}) =>
+      this.request<Op0169Data, Sch0028>({
+        path: \`/fixture/r0131/\${arg0007}\`,
+        method: "POST",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0017
+     * @name Op0170
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0132/{arg0007}
+     * @secure
+     */
+    op0170: ({ arg0007 }: Op0170Params, params: RequestParams = {}) =>
+      this.request<Op0170Data, Sch0028>({
+        path: \`/fixture/r0132/\${arg0007}\`,
+        method: "POST",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0017
+     * @name Op0171
+     * @summary Neutral documentation text.
+     * @request POST:/fixture/r0133/{arg0007}
+     * @secure
+     */
+    op0171: ({ arg0007 }: Op0171Params, params: RequestParams = {}) =>
+      this.request<Op0171Data, Sch0028>({
+        path: \`/fixture/r0133/\${arg0007}\`,
+        method: "POST",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0008
+     * @name Op0172
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0134
+     * @secure
+     */
+    op0172: (query: Op0172Params, params: RequestParams = {}) =>
+      this.request<Op0172Data, Sch0028>({
+        path: \`/fixture/r0134\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0008
+     * @name Op0173
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0135/{arg0011}
+     * @secure
+     */
+    op0173: ({ arg0011, ...query }: Op0173Params, params: RequestParams = {}) =>
+      this.request<Op0173Data, Sch0028>({
+        path: \`/fixture/r0135/\${arg0011}\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0022, topic_0030
+     * @name Op0174
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0136
+     * @secure
+     */
+    op0174: (query: Op0174Params, params: RequestParams = {}) =>
+      this.request<Op0174Data, Sch0028>({
+        path: \`/fixture/r0136\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0004
+     * @name Op0175
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0137
+     * @secure
+     */
+    op0175: (query: Op0175Params, params: RequestParams = {}) =>
+      this.request<Op0175Data, Sch0028>({
+        path: \`/fixture/r0137\`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0002
+     * @name Op0176
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0138
+     * @secure
+     */
+    op0176: (params: RequestParams = {}) =>
+      this.request<Op0176Data, Sch0028>({
+        path: \`/fixture/r0138\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Neutral documentation text.
+     *
+     * @tags topic_0018
+     * @name Op0177
+     * @summary Neutral documentation text.
+     * @request GET:/fixture/r0139/{arg0004}
+     * @secure
+     */
+    op0177: ({ arg0004 }: Op0177Params, params: RequestParams = {}) =>
+      this.request<Op0177Data, void | Sch0028>({
+        path: \`/fixture/r0139/\${arg0004}\`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
+}
+"
+`;

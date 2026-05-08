@@ -1,15 +1,19 @@
-import lodash from "lodash";
+import { merge } from "es-toolkit";
 
 type Updater = (target: unknown) => unknown;
 
 export const objectAssign = (target: object, updater: Updater | unknown) => {
   if (!updater) return;
-  const update = typeof updater === "function" ? updater(target) : updater;
-  const undefinedKeys = lodash
-    .map(update, (value, key) => value === undefined && key)
-    .filter((key) => typeof key === "string");
-  Object.assign(target, lodash.merge(target, update));
+  const update = (typeof updater === "function" ? updater(target) : updater) as
+    | Record<string, unknown>
+    | null
+    | undefined;
+  if (!update) return;
+  const undefinedKeys = Object.entries(update)
+    .filter(([, value]) => value === undefined)
+    .map(([key]) => key);
+  merge(target, update);
   for (const key of undefinedKeys) {
-    target[key] = undefined;
+    (target as Record<string, unknown>)[key] = undefined;
   }
 };

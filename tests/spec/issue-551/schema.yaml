@@ -1,0 +1,40 @@
+openapi: "3.0.3"
+info:
+  title: Issue 551 discriminator @type
+  version: 1.0.0
+
+paths: {}
+
+components:
+  schemas:
+    # Parent schema with discriminator propertyName "@type" and oneOf only
+    # (no allOf/properties), so createAbstractSchemaStruct returns null
+    # and createMappingContent uses key: discriminator.propertyName without
+    # StringValue, producing invalid "@type: Key" in generated TypeScript.
+    BaseArbeitserlaubnisType:
+      oneOf:
+        - $ref: "#/components/schemas/ArbeitserlaubnisVorhanden"
+        - $ref: "#/components/schemas/ArbeitserlaubnisNichtVorhanden"
+      discriminator:
+        propertyName: "@type"
+        mapping:
+          ARBEITSERLAUBNIS_VORHANDEN: "#/components/schemas/ArbeitserlaubnisVorhanden"
+          ARBEITSERLAUBNIS_NICHT_VORHANDEN: "#/components/schemas/ArbeitserlaubnisNichtVorhanden"
+
+    ArbeitserlaubnisVorhanden:
+      type: object
+      required: ["@type"]
+      properties:
+        "@type":
+          type: string
+          enum: ["ARBEITSERLAUBNIS_VORHANDEN"]
+        value:
+          type: string
+
+    ArbeitserlaubnisNichtVorhanden:
+      type: object
+      required: ["@type"]
+      properties:
+        "@type":
+          type: string
+          enum: ["ARBEITSERLAUBNIS_NICHT_VORHANDEN"]

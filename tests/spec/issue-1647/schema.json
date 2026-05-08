@@ -1,0 +1,39 @@
+{
+  "openapi": "3.0.3",
+  "info": { "title": "Issue 1647", "version": "1.0.0" },
+  "paths": {
+    "/api/config": {
+      "post": {
+        "operationId": "updateConfig",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "config": {
+                    "$ref": "#/components/schemas/DynamicConfig"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DynamicConfig": {
+        "type": "object",
+        "propertyNames": {
+          "pattern": "^[a-z_]+$"
+        },
+        "additionalProperties": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

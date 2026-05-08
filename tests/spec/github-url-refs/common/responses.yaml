@@ -1,0 +1,15 @@
+components:
+  schemas:
+    GithubTestError:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: PROJECT_NOT_FOUND
+        message:
+          type: string
+        requestId:
+          type: string

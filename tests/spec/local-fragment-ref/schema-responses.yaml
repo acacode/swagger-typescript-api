@@ -1,0 +1,22 @@
+---
+openapi: 3.0.3
+info:
+  title: Response component with short local fragment ref
+  version: 1.0.0
+paths: {}
+components:
+  responses:
+    InlineSuccess:
+      description: Inline success response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+            required:
+              - ok
+
+    SuccessAlias:
+      $ref: '#InlineSuccess'

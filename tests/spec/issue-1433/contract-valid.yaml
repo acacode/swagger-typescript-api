@@ -1,0 +1,60 @@
+# Derived from https://raw.githubusercontent.com/EinfachHans/swagger-ts-api-bug/refs/heads/main/contract.yaml
+# Fixes: (1) unclosed double-quoted description on GET /call1 — invalid YAML in upstream
+#        (2) path templates must include {pathParam*} per OpenAPI 3
+openapi: "3.0.3"
+info:
+  version: "3.0.0"
+  title: "App NG"
+
+paths:
+  /call1/{pathParam1}/{pathParam2}:
+    get:
+      operationId: "call1"
+      parameters:
+        - in: path
+          name: pathParam1
+          required: true
+          schema:
+            type: string
+        - name: pathParam2
+          in: path
+          required: true
+          schema:
+            type: string
+      description: |-
+        This is a multine
+        description
+      responses:
+        204:
+          description: "Accepted"
+  /call2/{pathParam}:
+    get:
+      operationId: "call2"
+      parameters:
+        - in: path
+          name: pathParam
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: "Accepted"
+  /call3:
+    post:
+      operationId: "call3"
+      requestBody:
+        description: "Die benötigten Daten für die Benutzernamen Änderung: Verschlü\
+        sselte Daten des ersten Aufrufs und der neue Benutzername"
+        required: true
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: "#/components/schemas/Test"
+      responses:
+        204:
+          description: "Accepted"
+
+components:
+  schemas:
+    Test:
+      type: "object"

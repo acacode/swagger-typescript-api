@@ -1,0 +1,18 @@
+openapi: "3.0.3"
+info:
+  version: "3.0.0"
+  title: "App NG"
+
+paths:
+  /formular/{myProp}:
+    get:
+      operationId: "getFormular"
+      parameters:
+        - in: path
+          name: myProp
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "Accepted"

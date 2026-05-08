@@ -1,5 +1,3 @@
-import * as nanoid from "nanoid";
+import * as crypto from "node:crypto";
 
-const ALPHABET = "abcdefghijklmnopqrstuvwxyz0123456789";
-
-export const generateId = nanoid.customAlphabet(ALPHABET, 12);
+export const generateId = () => crypto.randomUUID();

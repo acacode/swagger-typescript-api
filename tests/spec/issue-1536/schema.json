@@ -1,0 +1,39 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Issue 1536", "version": "1.0.0" },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "Test": {
+        "type": ["null", "object"],
+        "additionalProperties": { "type": "string" }
+      },
+      "NullableString": {
+        "type": ["null", "string"]
+      },
+      "NullableNumber": {
+        "type": ["null", "number"]
+      },
+      "NullableInteger": {
+        "type": ["null", "integer"]
+      },
+      "NullableBoolean": {
+        "type": ["null", "boolean"]
+      },
+      "StringOrNumber": {
+        "type": ["string", "number"]
+      },
+      "NullableArray": {
+        "type": ["null", "array"],
+        "items": { "type": "string" }
+      },
+      "ObjectOrNull": {
+        "type": ["null", "object"]
+      },
+      "ObjectWithAdditionalPropsOrNull": {
+        "type": ["null", "object"],
+        "additionalProperties": { "type": "number" }
+      }
+    }
+  }
+}

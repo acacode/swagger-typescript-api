@@ -1,0 +1,90 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "contentMediaType test",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/files/ingest": {
+      "post": {
+        "operationId": "files_ingest",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/IngestFileForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": { "type": "boolean" }
+                  },
+                  "required": ["ok"]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "IngestFileForm": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream"
+          },
+          "pdf": {
+            "type": "string",
+            "contentMediaType": "application/pdf"
+          },
+          "image": {
+            "type": "string",
+            "contentMediaType": "image/png"
+          },
+          "archive": {
+            "type": "string",
+            "contentMediaType": "application/zip"
+          },
+          "vendorBinary": {
+            "type": "string",
+            "contentMediaType": "application/vnd.my-company.blob"
+          },
+          "plainText": {
+            "type": "string",
+            "contentMediaType": "text/plain; charset=utf-8"
+          },
+          "jsonText": {
+            "type": "string",
+            "contentMediaType": "application/json"
+          },
+          "xmlText": {
+            "type": "string",
+            "contentMediaType": "application/xml"
+          },
+          "formUrlEncoded": {
+            "type": "string",
+            "contentMediaType": "application/x-www-form-urlencoded"
+          },
+          "yamlText": {
+            "type": "string",
+            "contentMediaType": "application/yaml"
+          }
+        },
+        "required": ["file"]
+      }
+    }
+  }
+}

@@ -2,8 +2,8 @@ import * as module from "node:module";
 import * as path from "node:path";
 import * as url from "node:url";
 import { consola } from "consola";
+import { get } from "es-toolkit/compat";
 import { Eta } from "eta";
-import lodash from "lodash";
 import type { CodeGenProcess } from "./code-gen-process.js";
 import type { CodeGenConfig } from "./configuration.js";
 import type { FileSystem } from "./util/file-system.js";
@@ -158,8 +158,7 @@ export class TemplatesWorker {
       );
     }
 
-    return lodash.reduce(
-      this.config.templateInfos,
+    return this.config.templateInfos.reduce(
       (acc, { name, fileName }) => ({
         ...acc,
         [name]: this.getTemplate(name, fileName),
@@ -177,15 +176,15 @@ export class TemplatesWorker {
   };
 
   getTemplateContent = (path_: string) => {
-    const foundTemplatePathKey = lodash
-      .keys(this.config.templatePaths)
-      .find((key) => path_.startsWith(`@${key}`));
+    const foundTemplatePathKey = Object.keys(this.config.templatePaths).find(
+      (key) => path_.startsWith(`@${key}`),
+    );
 
     if (foundTemplatePathKey) {
       const rawPath = path.resolve(
         path_.replace(
           `@${foundTemplatePathKey}`,
-          lodash.get(this.config.templatePaths, foundTemplatePathKey),
+          get(this.config.templatePaths, foundTemplatePathKey),
         ),
       );
       const fixedPath = this.findTemplateWithExt(rawPath);

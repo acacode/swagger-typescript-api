@@ -21,10 +21,16 @@ const requestConfigParam = {
 
 const argToTmpl = ({ name, optional, type, defaultValue }) => `${name}${!defaultValue && optional ? '?' : ''}: ${type}${defaultValue ? ` = ${defaultValue}` : ''}`;
 
+const extractedRequestParamsName = pathParams.length
+    ? query
+        ? `{ ${_.join(pathParamsNames, ", ")}, ...${queryName} }`
+        : `{ ${_.join(pathParamsNames, ", ")} }`
+    : queryName;
+
 const rawWrapperArgs = config.extractRequestParams ?
     _.compact([
         requestParams && {
-          name: pathParams.length ? `{ ${_.join(pathParamsNames, ", ")}, ...${queryName} }` : queryName,
+          name: extractedRequestParamsName,
           optional: false,
           type: getInlineParseContent(requestParams),
         },
@@ -74,7 +80,7 @@ const describeReturnType = () => {
           return `Promise<AxiosResponse<${type}>>`
         }
         default: {
-          return `Promise<HttpResponse<${type}, ${errorType}>`
+          return `Promise<HttpResponse<${type}, ${errorType}>>`
         }
     }
 }

@@ -512,7 +512,7 @@ export class Api<
      * @name GetKey
      * @request GET:/key/{PK}
      */
-    getKey: ({ pk, ...query }: GetKeyParams, params: RequestParams = {}) =>
+    getKey: ({ pk }: GetKeyParams, params: RequestParams = {}) =>
       this.request<
         {
           /** @format date-time */
@@ -536,7 +536,7 @@ export class Api<
      * @name HeadKey
      * @request HEAD:/key/{PK}
      */
-    headKey: ({ pk, ...query }: HeadKeyParams, params: RequestParams = {}) =>
+    headKey: ({ pk }: HeadKeyParams, params: RequestParams = {}) =>
       this.request<void, Error>({
         path: \`/key/\${pk}\`,
         method: "HEAD",
@@ -551,7 +551,7 @@ export class Api<
      * @request POST:/key/{PK}
      */
     keyUpdate: (
-      { pk, ...query }: KeyUpdateParams,
+      { pk }: KeyUpdateParams,
       body: AuthentiqID,
       params: RequestParams = {},
     ) =>
@@ -577,7 +577,7 @@ export class Api<
      * @request PUT:/key/{PK}
      */
     keyBind: (
-      { pk, ...query }: KeyBindParams,
+      { pk }: KeyBindParams,
       body: AuthentiqID,
       params: RequestParams = {},
     ) =>
@@ -603,10 +603,7 @@ export class Api<
      * @name IKeyDetail
      * @request GET:/i_key/{i_PK}
      */
-    iKeyDetail: (
-      { iPk, ...query }: IKeyDetailParams,
-      params: RequestParams = {},
-    ) =>
+    iKeyDetail: ({ iPk }: IKeyDetailParams, params: RequestParams = {}) =>
       this.request<
         {
           /** @format date-time */
@@ -631,7 +628,7 @@ export class Api<
      * @request GET:/i_key/underlines/{i__UK}
      */
     underlinesDetail: (
-      { iUk, ...query }: UnderlinesDetailParams,
+      { iUk }: UnderlinesDetailParams,
       params: RequestParams = {},
     ) =>
       this.request<
@@ -712,10 +709,7 @@ export class Api<
      * @name SignDelete
      * @request DELETE:/scope/{job}
      */
-    signDelete: (
-      { job, ...query }: SignDeleteParams,
-      params: RequestParams = {},
-    ) =>
+    signDelete: ({ job }: SignDeleteParams, params: RequestParams = {}) =>
       this.request<
         {
           /** done */
@@ -736,10 +730,7 @@ export class Api<
      * @name SignRetrieve
      * @request GET:/scope/{job}
      */
-    signRetrieve: (
-      { job, ...query }: SignRetrieveParams,
-      params: RequestParams = {},
-    ) =>
+    signRetrieve: ({ job }: SignRetrieveParams, params: RequestParams = {}) =>
       this.request<
         {
           exp?: number;
@@ -763,7 +754,7 @@ export class Api<
      * @request HEAD:/scope/{job}
      */
     signRetrieveHead: (
-      { job, ...query }: SignRetrieveHeadParams,
+      { job }: SignRetrieveHeadParams,
       params: RequestParams = {},
     ) =>
       this.request<void, Error>({
@@ -779,10 +770,7 @@ export class Api<
      * @name SignConfirm
      * @request POST:/scope/{job}
      */
-    signConfirm: (
-      { job, ...query }: SignConfirmParams,
-      params: RequestParams = {},
-    ) =>
+    signConfirm: ({ job }: SignConfirmParams, params: RequestParams = {}) =>
       this.request<
         {
           /** confirmed */
@@ -804,10 +792,7 @@ export class Api<
      * @name SignUpdate
      * @request PUT:/scope/{job}
      */
-    signUpdate: (
-      { job, ...query }: SignUpdateParams,
-      params: RequestParams = {},
-    ) =>
+    signUpdate: ({ job }: SignUpdateParams, params: RequestParams = {}) =>
       this.request<
         {
           /** result is JWT or JSON?? */
