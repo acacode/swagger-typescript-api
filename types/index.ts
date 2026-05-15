@@ -1,9 +1,13 @@
 import type { PartialDeep } from "type-fest";
 import type { ComponentTypeNameResolver } from "../src/component-type-name-resolver.js";
 import type * as CONSTANTS from "../src/constants.js";
-import type { RefDetails } from "../src/resolved-swagger-schema.js";
+import type {
+  RefDetails,
+  ResolvedSwaggerSchema,
+} from "../src/resolved-swagger-schema.js";
 import type { MonoSchemaParser } from "../src/schema-parser/mono-schema-parser.js";
 import type { Translator } from "../src/translators/translator.js";
+import type { OpenAPI } from "openapi-types";
 
 export type HttpClientType =
   (typeof CONSTANTS.HTTP_CLIENT)[keyof typeof CONSTANTS.HTTP_CLIENT];
@@ -526,9 +530,11 @@ export interface GenerateApiConfiguration {
     /** generate all "enum" types as union types (T1 | T2 | TN) */
     generateUnionEnums: boolean;
     /** parsed swagger schema */
-    swaggerSchema: object;
+    swaggerSchema: OpenAPI.Document;
     /** original swagger schema */
-    originalSchema: object;
+    originalSchema: OpenAPI.Document;
+    /** original class container for current schema use */
+    resolvedSwaggerSchema?: ResolvedSwaggerSchema;
     /** map of schema component references */
     componentsMap: Record<string, SchemaComponent>;
     /** flag indicating the schema was converted from Swagger 2.0 */
