@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.9.2
+
+### Patch Changes
+
+- [`81d8dab`](https://github.com/acacode/swagger-typescript-api/commit/81d8dab4fa715a91509e952dfeacdeb16f77b4f1) Thanks [@js2me](https://github.com/js2me)! - better typings for swaggerSchema, originalSchema and resolvedSwaggerSchema
+
 ## 13.9.1
 
 ### Patch Changes
