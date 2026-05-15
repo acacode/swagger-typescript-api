@@ -68,7 +68,7 @@
     "@changesets/cli": "2.31.0",
     "@tsconfig/node20": "20.1.9",
     "@tsconfig/strictest": "2.0.8",
-    "@types/node": "25.7.0",
+    "@types/node": "25.8.0",
     "@types/swagger2openapi": "7.0.4",
     "axios": "1.16.1",
     "tsdown": "0.21.10",
