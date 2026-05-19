@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.9.3
+
+### Patch Changes
+
+- [`ef8114d`](https://github.com/acacode/swagger-typescript-api/commit/ef8114d7d085c5c8da26d7c240c965683c3f8bfe) Thanks [@js2me](https://github.com/js2me)! - correct processing parse swagger 2.0 schema as async task
+
 ## 13.9.2
 
 ### Patch Changes
