@@ -151,24 +151,20 @@ export class SchemaUtils {
 
   isNullMissingInType = (schema, type) => {
     const { nullable, type: schemaType } = schema || {};
-    if (
-      !(
-        nullable ||
-        !!get(schema, "x-nullable") ||
-        schemaType === this.config.Ts.Keyword.Null
-      ) ||
-      typeof type !== "string"
-    ) {
-      return false;
-    }
+    const isSchemaMarkedNullable =
+      nullable ||
+      !!get(schema, "x-nullable") ||
+      schemaType === this.config.Ts.Keyword.Null;
+
+    if (!isSchemaMarkedNullable) return false;
+    if (typeof type !== "string") return false;
 
     const nullKeyword = this.config.Ts.Keyword.Null;
-    const lastLine = type.trimEnd().split("\n").pop() ?? type;
+    const hasRootLevelNull = new RegExp(
+      `(^|\\||\\()\\s*${nullKeyword}\\s*(\\||\\)|$)`,
+    ).test(type);
 
-    return (
-      !lastLine.includes(` ${nullKeyword}`) &&
-      !lastLine.includes(`${nullKeyword} `)
-    );
+    return !hasRootLevelNull;
   };
 
   safeAddNullToType = (schema, type) => {
