@@ -527,7 +527,9 @@ export interface GenerateApiConfiguration {
     generateRouteTypes: boolean;
     /** generate an API client */
     generateClient: boolean;
-    /** generate all "enum" types as union types (T1 | T2 | TN) */
+    /** enum output style: "enum" (default), "union" (T1 | T2 | TN), or "const" (as const object + type alias) */
+    enumStyle: "enum" | "union" | "const";
+    /** @deprecated Use enumStyle: "union" instead */
     generateUnionEnums: boolean;
     /** parsed swagger schema */
     swaggerSchema: OpenAPI.Document;

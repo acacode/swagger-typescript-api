@@ -1,3 +1,4 @@
+import { consola } from "consola";
 import { compact, merge, uniq } from "es-toolkit";
 import type { OpenAPI } from "openapi-types";
 import * as typescript from "typescript";
@@ -30,6 +31,7 @@ const TsKeyword = {
   Date: "Date",
   Type: "type",
   Enum: "enum",
+  Const: "const",
   Interface: "interface",
   Array: "Array",
   Record: "Record",
@@ -53,7 +55,9 @@ export class CodeGenConfig {
   generateRouteTypes = false;
   /** CLI flag */
   generateClient = true;
-  /** CLI flag */
+  /** CLI flag. Controls enum output format: "enum" (default), "union" (T1 | T2 | TN), or "const" (as const object + type alias). */
+  enumStyle: "enum" | "union" | "const" = "enum";
+  /** @deprecated Use enumStyle: "union" instead */
   generateUnionEnums = false;
   /** CLI flag */
   addReadonly = false;
@@ -459,6 +463,12 @@ export class CodeGenConfig {
     objectAssign(this, update);
     if (this.enumNamesAsValues) {
       this.extractEnums = true;
+    }
+    if (this.generateUnionEnums) {
+      consola.warn('`generateUnionEnums` is deprecated. Use `enumStyle: "union"` instead.');
+      if (this.enumStyle === "enum") {
+        this.enumStyle = "union";
+      }
     }
   };
 }

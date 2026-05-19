@@ -25,6 +25,15 @@ const dataContractTemplates = {
   type: (contract) => {
     return `type ${contract.name}${buildGenerics(contract)} = ${contract.content}`;
   },
+  const: (contract) => {
+    const entries = contract.$content
+      .map(({ key, value }) => `  ${key}: ${value}`)
+      .join(',\n');
+    return (
+      `const ${contract.name} = {\n${entries},\n} as const\n` +
+      `export type ${contract.name} = (typeof ${contract.name})[keyof typeof ${contract.name}]`
+    );
+  },
 }
 %>
 

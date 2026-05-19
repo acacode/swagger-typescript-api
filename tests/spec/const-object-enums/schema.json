@@ -1,0 +1,76 @@
+{
+  "openapi": "3.0.0",
+  "info": { "title": "Test", "version": "1.0.0" },
+  "paths": {
+    "/pets": {
+      "get": {
+        "operationId": "listPets",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "schema": { "$ref": "#/components/schemas/PetStatus" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Pet" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createPet",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Pet" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Pet" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PetStatus": {
+        "type": "string",
+        "enum": ["available", "pending", "sold"],
+        "x-enumNames": ["Available", "Pending", "Sold"]
+      },
+      "PetKind": {
+        "type": "integer",
+        "enum": [0, 1, 2],
+        "x-enumNames": ["Cat", "Dog", "Bird"]
+      },
+      "Pet": {
+        "type": "object",
+        "required": ["name", "status"],
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" },
+          "status": { "$ref": "#/components/schemas/PetStatus" },
+          "kind": { "$ref": "#/components/schemas/PetKind" }
+        }
+      }
+    }
+  }
+}
