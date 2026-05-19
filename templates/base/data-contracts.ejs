@@ -29,9 +29,10 @@ const dataContractTemplates = {
     const entries = contract.$content
       .map(({ key, value }) => `  ${key}: ${value}`)
       .join(',\n');
+    const typeExport = contract.internal ? '' : 'export ';
     return (
       `const ${contract.name} = {\n${entries},\n} as const\n` +
-      `export type ${contract.name} = (typeof ${contract.name})[keyof typeof ${contract.name}]`
+      `${typeExport}type ${contract.name} = (typeof ${contract.name})[keyof typeof ${contract.name}]`
     );
   },
 }
