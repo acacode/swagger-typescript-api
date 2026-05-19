@@ -123,6 +123,7 @@ export class CodeGenConfig {
   disableFormatTypeNames = false;
   sortTypes = false;
   sortRoutes = false;
+  sortRouteParams = false;
   templatePaths = {
     /** `templates/base` */
     base: "",
