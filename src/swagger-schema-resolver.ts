@@ -63,7 +63,7 @@ export class SwaggerSchemaResolver {
     swaggerSchema: OpenAPI.Document,
     converterOptions: { patch?: boolean },
   ): Promise<SwaggerSchemas> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const result = structuredClone(swaggerSchema);
       const originalSchemaForProduces = structuredClone(swaggerSchema);
       result.info = merge(
@@ -89,10 +89,14 @@ export class SwaggerSchemaResolver {
           (err, options) => {
             const parsedSwaggerSchema =
               get(err, "options.openapi") ?? get(options, "openapi");
+
             if (!parsedSwaggerSchema && err) {
-              throw err;
+              reject(err);
+              return;
             }
+
             this.config.update({ convertedFromSwagger2: true });
+
             resolve({
               usageSchema: parsedSwaggerSchema,
               originalSchema: result,
