@@ -183,12 +183,14 @@ const generateCommand = defineCommand({
     },
     "generate-union-enums": {
       type: "boolean",
-      description: '(deprecated) generate all "enum" types as union types — use --enum-style=union instead',
+      description:
+        '(deprecated) generate all "enum" types as union types — use --enum-style=union instead',
       default: codeGenBaseConfig.generateUnionEnums,
     },
     "enum-style": {
       type: "string",
-      description: 'enum output style: "enum" (default), "union" (T1 | T2 | TN), or "const" (as const object + type alias)',
+      description:
+        'enum output style: "enum" (default), "union" (T1 | T2 | TN), or "const" (as const object + type alias)',
       default: codeGenBaseConfig.enumStyle,
     },
     "http-client": {

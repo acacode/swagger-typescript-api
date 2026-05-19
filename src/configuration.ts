@@ -465,7 +465,9 @@ export class CodeGenConfig {
       this.extractEnums = true;
     }
     if (this.generateUnionEnums) {
-      consola.warn('`generateUnionEnums` is deprecated. Use `enumStyle: "union"` instead.');
+      consola.warn(
+        '`generateUnionEnums` is deprecated. Use `enumStyle: "union"` instead.',
+      );
       if (this.enumStyle === "enum") {
         this.enumStyle = "union";
       }
