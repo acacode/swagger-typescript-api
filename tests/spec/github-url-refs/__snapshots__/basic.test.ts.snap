@@ -305,7 +305,10 @@ export class Api<
      * @summary Get path for project
      * @request GET:/v1/projects/path
      */
-    getProjectPath: (query: GetProjectPathParams, params: RequestParams = {}) =>
+    getProjectPath: (
+      query: GetProjectPathParams = {},
+      params: RequestParams = {},
+    ) =>
       this.request<GetProjectPathData, GetProjectPathError>({
         path: \`/v1/projects/path\`,
         method: "GET",

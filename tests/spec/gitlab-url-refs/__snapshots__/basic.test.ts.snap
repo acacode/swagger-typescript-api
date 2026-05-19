@@ -305,7 +305,7 @@ export class Api<
      * @summary Get path for memory
      * @request GET:/v1/memories/path
      */
-    getMemory: (query: GetMemoryParams, params: RequestParams = {}) =>
+    getMemory: (query: GetMemoryParams = {}, params: RequestParams = {}) =>
       this.request<GetMemoryData, GetMemoryError>({
         path: \`/v1/memories/path\`,
         method: "GET",

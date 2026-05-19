@@ -319,7 +319,7 @@ export class Api<SecurityDataType extends unknown> {
      * @summary List finding exports
      * @request GET:/findings/exports
      */
-    exportsList: (query: ExportsListParams, params: RequestParams = {}) =>
+    exportsList: (query: ExportsListParams = {}, params: RequestParams = {}) =>
       this.http.request<ExportsListData, any>({
         path: \`/findings/exports\`,
         method: "GET",
@@ -337,7 +337,7 @@ export class Api<SecurityDataType extends unknown> {
      * @summary List asset exports
      * @request GET:/assets/exports
      */
-    exportsList: (query: ExportsListParams2, params: RequestParams = {}) =>
+    exportsList: (query: ExportsListParams2 = {}, params: RequestParams = {}) =>
       this.http.request<ExportsListResult, any>({
         path: \`/assets/exports\`,
         method: "GET",
@@ -355,7 +355,7 @@ export class Api<SecurityDataType extends unknown> {
      * @summary List remediation exports
      * @request GET:/remediation/exports
      */
-    exportsList: (query: ExportsListParams4, params: RequestParams = {}) =>
+    exportsList: (query: ExportsListParams4 = {}, params: RequestParams = {}) =>
       this.http.request<ExportsListOutput, any>({
         path: \`/remediation/exports\`,
         method: "GET",
@@ -373,7 +373,7 @@ export class Api<SecurityDataType extends unknown> {
      * @summary List all exports
      * @request GET:/exports
      */
-    exportsList: (query: ExportsListParams6, params: RequestParams = {}) =>
+    exportsList: (query: ExportsListParams6 = {}, params: RequestParams = {}) =>
       this.http.request<ExportsListData1, any>({
         path: \`/exports\`,
         method: "GET",
