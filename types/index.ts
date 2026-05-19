@@ -338,6 +338,7 @@ export interface ParsedRouteRequest {
   payload?: { name: string | null; optional?: boolean; type: string };
   query?: Record<string, unknown>;
   requestParams?: Record<string, unknown> | null;
+  requestParamsOptional?: boolean;
   security?: boolean;
 }
 

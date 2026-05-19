@@ -9545,8 +9545,8 @@ export class Api<
      * @request POST:/scope
      */
     signRequest: (
-      query: SignRequestParams,
       body: Claims,
+      query: SignRequestParams = {},
       params: RequestParams = {},
     ) =>
       this.request<SignRequestData, SignRequestError>({
@@ -11682,7 +11682,7 @@ export class Api<
      * @name Gets
      * @request GET:/something/
      */
-    gets: (query: GetsParams, params: RequestParams = {}) =>
+    gets: (query: GetsParams = {}, params: RequestParams = {}) =>
       this.request<any, any>({
         path: \`/something/\`,
         method: "GET",
@@ -50549,7 +50549,7 @@ export class Api<
      * @request GET:/app/installations
      */
     appsListInstallations: (
-      query: AppsListInstallationsParams,
+      query: AppsListInstallationsParams = {},
       params: RequestParams = {},
     ) =>
       this.request<AppsListInstallationsData, any>({
@@ -50876,7 +50876,7 @@ export class Api<
      * @deprecated
      */
     oauthAuthorizationsListGrants: (
-      query: OauthAuthorizationsListGrantsParams,
+      query: OauthAuthorizationsListGrantsParams = {},
       params: RequestParams = {},
     ) =>
       this.request<OauthAuthorizationsListGrantsData, BasicError>({
@@ -51044,7 +51044,7 @@ export class Api<
      * @deprecated
      */
     oauthAuthorizationsListAuthorizations: (
-      query: OauthAuthorizationsListAuthorizationsParams,
+      query: OauthAuthorizationsListAuthorizationsParams = {},
       params: RequestParams = {},
     ) =>
       this.request<OauthAuthorizationsListAuthorizationsData, BasicError>({
@@ -51924,7 +51924,7 @@ export class Api<
      * @request GET:/events
      */
     activityListPublicEvents: (
-      query: ActivityListPublicEventsParams,
+      query: ActivityListPublicEventsParams = {},
       params: RequestParams = {},
     ) =>
       this.request<
@@ -52154,7 +52154,7 @@ export class Api<
      * @summary List gists for the authenticated user
      * @request GET:/gists
      */
-    gistsList: (query: GistsListParams, params: RequestParams = {}) =>
+    gistsList: (query: GistsListParams = {}, params: RequestParams = {}) =>
       this.request<GistsListData, BasicError>({
         path: \`/gists\`,
         method: "GET",
@@ -52232,7 +52232,7 @@ export class Api<
      * @request GET:/gists/public
      */
     gistsListPublic: (
-      query: GistsListPublicParams,
+      query: GistsListPublicParams = {},
       params: RequestParams = {},
     ) =>
       this.request<GistsListPublicData, BasicError | ValidationError>({
@@ -52252,7 +52252,7 @@ export class Api<
      * @request GET:/gists/starred
      */
     gistsListStarred: (
-      query: GistsListStarredParams,
+      query: GistsListStarredParams = {},
       params: RequestParams = {},
     ) =>
       this.request<GistsListStarredData, BasicError>({
@@ -52383,7 +52383,7 @@ export class Api<
      * @request GET:/installation/repositories
      */
     appsListReposAccessibleToInstallation: (
-      query: AppsListReposAccessibleToInstallationParams,
+      query: AppsListReposAccessibleToInstallationParams = {},
       params: RequestParams = {},
     ) =>
       this.request<AppsListReposAccessibleToInstallationData, BasicError>({
@@ -52418,7 +52418,7 @@ export class Api<
      * @summary List issues assigned to the authenticated user
      * @request GET:/issues
      */
-    issuesList: (query: IssuesListParams, params: RequestParams = {}) =>
+    issuesList: (query: IssuesListParams = {}, params: RequestParams = {}) =>
       this.request<IssuesListData, BasicError | ValidationError>({
         path: \`/issues\`,
         method: "GET",
@@ -52453,7 +52453,7 @@ export class Api<
      * @request GET:/licenses
      */
     licensesGetAllCommonlyUsed: (
-      query: LicensesGetAllCommonlyUsedParams,
+      query: LicensesGetAllCommonlyUsedParams = {},
       params: RequestParams = {},
     ) =>
       this.request<LicensesGetAllCommonlyUsedData, any>({
@@ -52595,7 +52595,10 @@ export class Api<
      * @summary List plans
      * @request GET:/marketplace_listing/plans
      */
-    appsListPlans: (query: AppsListPlansParams, params: RequestParams = {}) =>
+    appsListPlans: (
+      query: AppsListPlansParams = {},
+      params: RequestParams = {},
+    ) =>
       this.request<AppsListPlansData, BasicError>({
         path: \`/marketplace_listing/plans\`,
         method: "GET",
@@ -52613,7 +52616,7 @@ export class Api<
      * @request GET:/marketplace_listing/stubbed/plans
      */
     appsListPlansStubbed: (
-      query: AppsListPlansStubbedParams,
+      query: AppsListPlansStubbedParams = {},
       params: RequestParams = {},
     ) =>
       this.request<AppsListPlansStubbedData, BasicError>({
@@ -52731,7 +52734,7 @@ export class Api<
      * @request GET:/notifications
      */
     activityListNotificationsForAuthenticatedUser: (
-      query: ActivityListNotificationsForAuthenticatedUserParams,
+      query: ActivityListNotificationsForAuthenticatedUserParams = {},
       params: RequestParams = {},
     ) =>
       this.request<
@@ -52815,7 +52818,10 @@ export class Api<
      * @summary Get Octocat
      * @request GET:/octocat
      */
-    metaGetOctocat: (query: MetaGetOctocatParams, params: RequestParams = {}) =>
+    metaGetOctocat: (
+      query: MetaGetOctocatParams = {},
+      params: RequestParams = {},
+    ) =>
       this.request<MetaGetOctocatData, any>({
         path: \`/octocat\`,
         method: "GET",
@@ -52832,7 +52838,7 @@ export class Api<
      * @summary List organizations
      * @request GET:/organizations
      */
-    orgsList: (query: OrgsListParams, params: RequestParams = {}) =>
+    orgsList: (query: OrgsListParams = {}, params: RequestParams = {}) =>
       this.request<OrgsListData, any>({
         path: \`/organizations\`,
         method: "GET",
@@ -62356,7 +62362,7 @@ export class Api<
      * @request GET:/repositories
      */
     reposListPublic: (
-      query: ReposListPublicParams,
+      query: ReposListPublicParams = {},
       params: RequestParams = {},
     ) =>
       this.request<ReposListPublicData, ValidationError>({
@@ -63798,7 +63804,7 @@ export class Api<
      * @request GET:/user/starred
      */
     activityListReposStarredByAuthenticatedUser: (
-      query: ActivityListReposStarredByAuthenticatedUserParams,
+      query: ActivityListReposStarredByAuthenticatedUserParams = {},
       params: RequestParams = {},
     ) =>
       this.request<ActivityListReposStarredByAuthenticatedUserData, BasicError>(
@@ -63820,7 +63826,7 @@ export class Api<
      * @request GET:/user/subscriptions
      */
     activityListWatchedReposForAuthenticatedUser: (
-      query: ActivityListWatchedReposForAuthenticatedUserParams,
+      query: ActivityListWatchedReposForAuthenticatedUserParams = {},
       params: RequestParams = {},
     ) =>
       this.request<
@@ -63923,7 +63929,7 @@ export class Api<
      * @request GET:/user/installations
      */
     appsListInstallationsForAuthenticatedUser: (
-      query: AppsListInstallationsForAuthenticatedUserParams,
+      query: AppsListInstallationsForAuthenticatedUserParams = {},
       params: RequestParams = {},
     ) =>
       this.request<
@@ -63950,7 +63956,7 @@ export class Api<
      * @request GET:/user/marketplace_purchases
      */
     appsListSubscriptionsForAuthenticatedUser: (
-      query: AppsListSubscriptionsForAuthenticatedUserParams,
+      query: AppsListSubscriptionsForAuthenticatedUserParams = {},
       params: RequestParams = {},
     ) =>
       this.request<AppsListSubscriptionsForAuthenticatedUserData, BasicError>({
@@ -63970,7 +63976,7 @@ export class Api<
      * @request GET:/user/marketplace_purchases/stubbed
      */
     appsListSubscriptionsForAuthenticatedUserStubbed: (
-      query: AppsListSubscriptionsForAuthenticatedUserStubbedParams,
+      query: AppsListSubscriptionsForAuthenticatedUserStubbedParams = {},
       params: RequestParams = {},
     ) =>
       this.request<
@@ -64072,7 +64078,7 @@ export class Api<
      * @request GET:/user/issues
      */
     issuesListForAuthenticatedUser: (
-      query: IssuesListForAuthenticatedUserParams,
+      query: IssuesListForAuthenticatedUserParams = {},
       params: RequestParams = {},
     ) =>
       this.request<IssuesListForAuthenticatedUserData, BasicError>({
@@ -64150,7 +64156,7 @@ export class Api<
      * @request GET:/user/migrations
      */
     migrationsListForAuthenticatedUser: (
-      query: MigrationsListForAuthenticatedUserParams,
+      query: MigrationsListForAuthenticatedUserParams = {},
       params: RequestParams = {},
     ) =>
       this.request<MigrationsListForAuthenticatedUserData, BasicError>({
@@ -64251,7 +64257,7 @@ export class Api<
      * @request GET:/user/orgs
      */
     orgsListForAuthenticatedUser: (
-      query: OrgsListForAuthenticatedUserParams,
+      query: OrgsListForAuthenticatedUserParams = {},
       params: RequestParams = {},
     ) =>
       this.request<OrgsListForAuthenticatedUserData, BasicError>({
@@ -64271,7 +64277,7 @@ export class Api<
      * @request GET:/user/memberships/orgs
      */
     orgsListMembershipsForAuthenticatedUser: (
-      query: OrgsListMembershipsForAuthenticatedUserParams,
+      query: OrgsListMembershipsForAuthenticatedUserParams = {},
       params: RequestParams = {},
     ) =>
       this.request<
@@ -64408,7 +64414,7 @@ export class Api<
      * @request GET:/user/repos
      */
     reposListForAuthenticatedUser: (
-      query: ReposListForAuthenticatedUserParams,
+      query: ReposListForAuthenticatedUserParams = {},
       params: RequestParams = {},
     ) =>
       this.request<
@@ -64431,7 +64437,7 @@ export class Api<
      * @request GET:/user/repository_invitations
      */
     reposListInvitationsForAuthenticatedUser: (
-      query: ReposListInvitationsForAuthenticatedUserParams,
+      query: ReposListInvitationsForAuthenticatedUserParams = {},
       params: RequestParams = {},
     ) =>
       this.request<ReposListInvitationsForAuthenticatedUserData, BasicError>({
@@ -64451,7 +64457,7 @@ export class Api<
      * @request GET:/user/teams
      */
     teamsListForAuthenticatedUser: (
-      query: TeamsListForAuthenticatedUserParams,
+      query: TeamsListForAuthenticatedUserParams = {},
       params: RequestParams = {},
     ) =>
       this.request<TeamsListForAuthenticatedUserData, BasicError>({
@@ -64754,7 +64760,7 @@ export class Api<
      * @request GET:/user/emails
      */
     usersListEmailsForAuthenticated: (
-      query: UsersListEmailsForAuthenticatedParams,
+      query: UsersListEmailsForAuthenticatedParams = {},
       params: RequestParams = {},
     ) =>
       this.request<UsersListEmailsForAuthenticatedData, BasicError>({
@@ -64774,7 +64780,7 @@ export class Api<
      * @request GET:/user/following
      */
     usersListFollowedByAuthenticated: (
-      query: UsersListFollowedByAuthenticatedParams,
+      query: UsersListFollowedByAuthenticatedParams = {},
       params: RequestParams = {},
     ) =>
       this.request<UsersListFollowedByAuthenticatedData, BasicError>({
@@ -64794,7 +64800,7 @@ export class Api<
      * @request GET:/user/followers
      */
     usersListFollowersForAuthenticatedUser: (
-      query: UsersListFollowersForAuthenticatedUserParams,
+      query: UsersListFollowersForAuthenticatedUserParams = {},
       params: RequestParams = {},
     ) =>
       this.request<UsersListFollowersForAuthenticatedUserData, BasicError>({
@@ -64814,7 +64820,7 @@ export class Api<
      * @request GET:/user/gpg_keys
      */
     usersListGpgKeysForAuthenticated: (
-      query: UsersListGpgKeysForAuthenticatedParams,
+      query: UsersListGpgKeysForAuthenticatedParams = {},
       params: RequestParams = {},
     ) =>
       this.request<UsersListGpgKeysForAuthenticatedData, BasicError>({
@@ -64834,7 +64840,7 @@ export class Api<
      * @request GET:/user/public_emails
      */
     usersListPublicEmailsForAuthenticated: (
-      query: UsersListPublicEmailsForAuthenticatedParams,
+      query: UsersListPublicEmailsForAuthenticatedParams = {},
       params: RequestParams = {},
     ) =>
       this.request<UsersListPublicEmailsForAuthenticatedData, BasicError>({
@@ -64854,7 +64860,7 @@ export class Api<
      * @request GET:/user/keys
      */
     usersListPublicSshKeysForAuthenticated: (
-      query: UsersListPublicSshKeysForAuthenticatedParams,
+      query: UsersListPublicSshKeysForAuthenticatedParams = {},
       params: RequestParams = {},
     ) =>
       this.request<UsersListPublicSshKeysForAuthenticatedData, BasicError>({
@@ -65319,7 +65325,7 @@ export class Api<
      * @summary List users
      * @request GET:/users
      */
-    usersList: (query: UsersListParams, params: RequestParams = {}) =>
+    usersList: (query: UsersListParams = {}, params: RequestParams = {}) =>
       this.request<UsersListData, any>({
         path: \`/users\`,
         method: "GET",
@@ -66897,7 +66903,7 @@ export class Api<
      * @request GET:/gifs
      * @secure
      */
-    getGifsById: (query: GetGifsByIdParams, params: RequestParams = {}) =>
+    getGifsById: (query: GetGifsByIdParams = {}, params: RequestParams = {}) =>
       this.request<GetGifsByIdData, any>({
         path: \`/gifs\`,
         method: "GET",
@@ -66916,7 +66922,7 @@ export class Api<
      * @request GET:/gifs/random
      * @secure
      */
-    randomGif: (query: RandomGifParams, params: RequestParams = {}) =>
+    randomGif: (query: RandomGifParams = {}, params: RequestParams = {}) =>
       this.request<RandomGifData, any>({
         path: \`/gifs/random\`,
         method: "GET",
@@ -66973,7 +66979,10 @@ export class Api<
      * @request GET:/gifs/trending
      * @secure
      */
-    trendingGifs: (query: TrendingGifsParams, params: RequestParams = {}) =>
+    trendingGifs: (
+      query: TrendingGifsParams = {},
+      params: RequestParams = {},
+    ) =>
       this.request<TrendingGifsData, any>({
         path: \`/gifs/trending\`,
         method: "GET",
@@ -66993,7 +67002,10 @@ export class Api<
      * @request GET:/stickers/random
      * @secure
      */
-    randomSticker: (query: RandomStickerParams, params: RequestParams = {}) =>
+    randomSticker: (
+      query: RandomStickerParams = {},
+      params: RequestParams = {},
+    ) =>
       this.request<RandomStickerData, any>({
         path: \`/stickers/random\`,
         method: "GET",
@@ -67054,7 +67066,7 @@ export class Api<
      * @secure
      */
     trendingStickers: (
-      query: TrendingStickersParams,
+      query: TrendingStickersParams = {},
       params: RequestParams = {},
     ) =>
       this.request<TrendingStickersData, any>({
@@ -70204,7 +70216,7 @@ export class Api<
      * @summary List all pets
      * @request GET:/pets
      */
-    listPets: (query: ListPetsParams, params: RequestParams = {}) =>
+    listPets: (query: ListPetsParams = {}, params: RequestParams = {}) =>
       this.request<ListPetsData, ListPetsError>({
         path: \`/pets\`,
         method: "GET",
@@ -70632,7 +70644,7 @@ export class Api<
      * @summary List all pets
      * @request GET:/pets
      */
-    listPets: (query: ListPetsParams, params: RequestParams = {}) =>
+    listPets: (query: ListPetsParams = {}, params: RequestParams = {}) =>
       this.request<ListPetsData, ListPetsError>({
         path: \`/pets\`,
         method: "GET",
@@ -71188,7 +71200,7 @@ export class Api<
      * @name FindPets
      * @request GET:/pets
      */
-    findPets: (query: FindPetsParams, params: RequestParams = {}) =>
+    findPets: (query: FindPetsParams = {}, params: RequestParams = {}) =>
       this.request<FindPetsData, FindPetsError>({
         path: \`/pets\`,
         method: "GET",
@@ -71664,7 +71676,7 @@ export class Api<
      * @name FindPets
      * @request GET:/pets
      */
-    findPets: (query: FindPetsParams, params: RequestParams = {}) =>
+    findPets: (query: FindPetsParams = {}, params: RequestParams = {}) =>
       this.request<FindPetsData, FindPetsError>({
         path: \`/pets\`,
         method: "GET",
@@ -72473,7 +72485,7 @@ export class Api<
      * @name FindPets
      * @request GET:/pets
      */
-    findPets: (query: FindPetsParams, params: RequestParams = {}) =>
+    findPets: (query: FindPetsParams = {}, params: RequestParams = {}) =>
       this.request<FindPetsData, FindPetsError>({
         path: \`/pets\`,
         method: "GET",
@@ -74202,7 +74214,7 @@ export class Api<
      * @name FindPets
      * @request GET:/pets
      */
-    findPets: (query: FindPetsParams, params: RequestParams = {}) =>
+    findPets: (query: FindPetsParams = {}, params: RequestParams = {}) =>
       this.request<FindPetsData, FindPetsError>({
         path: \`/pets\`,
         method: "GET",
@@ -74546,7 +74558,7 @@ export class Api<
      * @request GET:/foobarbaz/{query}
      */
     listPets: (
-      { query, ...queryParams }: ListPetsParams,
+      { query, ...queryParams }: ListPetsParams = {},
       params: RequestParams = {},
     ) =>
       this.request<ListPetsData, any>({
@@ -77197,7 +77209,7 @@ export class Api<
      * @summary User Activity
      * @request GET:/history
      */
-    historyList: (query: HistoryListParams, params: RequestParams = {}) =>
+    historyList: (query: HistoryListParams = {}, params: RequestParams = {}) =>
       this.request<HistoryListData, HistoryListError>({
         path: \`/history\`,
         method: "GET",
@@ -78977,7 +78989,10 @@ export class Api<
      * @request GET:/accounts
      * @secure
      */
-    accountsList: (query: AccountsListParams, params: RequestParams = {}) =>
+    accountsList: (
+      query: AccountsListParams = {},
+      params: RequestParams = {},
+    ) =>
       this.request<AccountsListData, any>({
         path: \`/accounts\`,
         method: "GET",
@@ -79040,7 +79055,10 @@ export class Api<
      * @request GET:/categories
      * @secure
      */
-    categoriesList: (query: CategoriesListParams, params: RequestParams = {}) =>
+    categoriesList: (
+      query: CategoriesListParams = {},
+      params: RequestParams = {},
+    ) =>
       this.request<CategoriesListData, any>({
         path: \`/categories\`,
         method: "GET",
@@ -79079,7 +79097,7 @@ export class Api<
      * @request GET:/tags
      * @secure
      */
-    tagsList: (query: TagsListParams, params: RequestParams = {}) =>
+    tagsList: (query: TagsListParams = {}, params: RequestParams = {}) =>
       this.request<TagsListData, any>({
         path: \`/tags\`,
         method: "GET",
@@ -79167,7 +79185,7 @@ export class Api<
      * @secure
      */
     transactionsList: (
-      query: TransactionsListParams,
+      query: TransactionsListParams = {},
       params: RequestParams = {},
     ) =>
       this.request<TransactionsListData, any>({
@@ -79290,7 +79308,10 @@ export class Api<
      * @request GET:/webhooks
      * @secure
      */
-    webhooksList: (query: WebhooksListParams, params: RequestParams = {}) =>
+    webhooksList: (
+      query: WebhooksListParams = {},
+      params: RequestParams = {},
+    ) =>
       this.request<WebhooksListData, any>({
         path: \`/webhooks\`,
         method: "GET",

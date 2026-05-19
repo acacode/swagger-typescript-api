@@ -1326,6 +1326,8 @@ export class SchemaRoutes {
         security: hasSecurity,
         method: method,
         requestParams: requestParamsSchema,
+        requestParamsOptional:
+          requestParamsSchema?.typeData?.allFieldsAreOptional ?? false,
 
         payload: specificArgs.body,
         query: specificArgs.query,
