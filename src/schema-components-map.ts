@@ -14,10 +14,19 @@ export class SchemaComponentsMap {
   }
 
   createRef = (paths: string[]) => {
+    if (!Array.isArray(paths)) {
+      throw new Error(`Expected an array, but received: ${typeof paths}`);
+    }
+    if (paths.length === 0) {
+      throw new Error("Paths array cannot be empty.");
+    }
     return ["#", ...paths].join("/");
   };
 
   parseRef = (ref: string) => {
+    if (!ref.startsWith("#/")) {
+      throw new Error(`Invalid ref format: ${ref}. It should start with "#/"`);
+    }
     return ref.split("/");
   };
 
