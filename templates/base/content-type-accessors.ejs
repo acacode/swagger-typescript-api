@@ -1,0 +1,18 @@
+<%
+const { config } = it;
+const isUnion = config.enumStyle === "union";
+
+// camelCase keys (Json, FormData, …) are used by http-client templates as CT.Json, CT.FormData, …
+// They mirror the ContentType property names so the access pattern is identical regardless of enumStyle.
+const v = {
+  Json:       isUnion ? '"application/json"'                  : "ContentType.Json",
+  JsonApi:    isUnion ? '"application/vnd.api+json"'          : "ContentType.JsonApi",
+  FormData:   isUnion ? '"multipart/form-data"'               : "ContentType.FormData",
+  UrlEncoded: isUnion ? '"application/x-www-form-urlencoded"' : "ContentType.UrlEncoded",
+  Text:       isUnion ? '"text/plain"'                        : "ContentType.Text",
+};
+
+// UPPER_SNAKE aliases (JSON, FORM_DATA, …) are used by procedure-call templates as
+// requestContentKind["JSON"], matching the CONTENT_KIND constants produced by schema-routes.ts.
+return { ...v, JSON: v.Json, JSON_API: v.JsonApi, FORM_DATA: v.FormData, URL_ENCODED: v.UrlEncoded, TEXT: v.Text };
+%>
