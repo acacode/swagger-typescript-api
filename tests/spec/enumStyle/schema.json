@@ -51,6 +51,19 @@
   },
   "components": {
     "schemas": {
+      "SchBustlingTypeface38": {
+        "type": "string",
+        "description": "Fixture field.",
+        "enum": [
+            "ev0",
+            "ev1",
+            "ev2",
+            "ev3",
+            "ev4",
+            "ev5",
+            "ev6"
+        ]
+      },
       "PetStatus": {
         "type": "string",
         "enum": ["available", "pending", "sold"],

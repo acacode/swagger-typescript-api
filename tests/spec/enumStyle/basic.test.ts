@@ -22,6 +22,21 @@ describe("basic", async () => {
       output: tmpdir,
       silent: true,
       enumStyle: "const",
+      cleanOutput: false,
+      modular: false,
+      patch: true,
+      typeSuffix: "_TYPE_SUFFIX",
+      singleHttpClient: true,
+      extractRequestBody: true,
+      extractRequestParams: false,
+      extractResponseBody: true,
+      extractResponseError: true,
+      extractResponses: true,
+      generateResponses: true,
+      generateClient: false,
+      addReadonly: true,
+      moduleNameFirstTag: true,
+      sortTypes: true,
     });
 
     const content = await fs.readFile(path.join(tmpdir, "schema.ts"), {

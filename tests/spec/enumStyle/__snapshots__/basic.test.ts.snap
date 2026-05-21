@@ -1,0 +1,56 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`basic > const-object-enums 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export type CreatePetDataTYPESUFFIX = PetTYPESUFFIX;
+
+export type ListPetsDataTYPESUFFIX = PetTYPESUFFIX[];
+
+export const PetKindTYPESUFFIX = {
+  Cat: 0,
+  Dog: 1,
+  Bird: 2,
+} as const;
+export type PetKindTYPESUFFIX =
+  (typeof PetKindTYPESUFFIX)[keyof typeof PetKindTYPESUFFIX];
+
+export const PetStatusTYPESUFFIX = {
+  Available: "available",
+  Pending: "pending",
+  Sold: "sold",
+} as const;
+export type PetStatusTYPESUFFIX =
+  (typeof PetStatusTYPESUFFIX)[keyof typeof PetStatusTYPESUFFIX];
+
+export interface PetTYPESUFFIX {
+  id?: number;
+  kind?: PetKindTYPESUFFIX;
+  name: string;
+  status: PetStatusTYPESUFFIX;
+}
+
+/** Fixture field. */
+export const SchBustlingTypeface38TYPESUFFIX = {
+  Ev0: "ev0",
+  Ev1: "ev1",
+  Ev2: "ev2",
+  Ev3: "ev3",
+  Ev4: "ev4",
+  Ev5: "ev5",
+  Ev6: "ev6",
+} as const;
+export type SchBustlingTypeface38TYPESUFFIX =
+  (typeof SchBustlingTypeface38TYPESUFFIX)[keyof typeof SchBustlingTypeface38TYPESUFFIX];
+"
+`;
