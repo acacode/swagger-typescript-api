@@ -31,8 +31,9 @@ const rawWrapperArgs = config.extractRequestParams ?
     _.compact([
         requestParams && {
           name: extractedRequestParamsName,
-          optional: false,
+          optional: route.request.requestParamsOptional,
           type: getInlineParseContent(requestParams),
+          defaultValue: route.request.requestParamsOptional ? '{}' : undefined,
         },
         ...(!requestParams ? pathParams : []),
         payload,

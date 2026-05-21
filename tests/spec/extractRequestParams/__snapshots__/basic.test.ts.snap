@@ -143,6 +143,11 @@ export interface SignUpdateParams {
   job: string;
 }
 
+export interface GetWithOptionalQueryParams {
+  filter?: string;
+  limit?: number;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -681,8 +686,8 @@ export class Api<
      * @request POST:/scope
      */
     signRequest: (
-      query: SignRequestParams,
       body: Claims,
+      query: SignRequestParams = {},
       params: RequestParams = {},
     ) =>
       this.request<
@@ -804,6 +809,25 @@ export class Api<
       >({
         path: \`/scope/\${job}\`,
         method: "PUT",
+        ...params,
+      }),
+  };
+  optionalQuery = {
+    /**
+     * @description Route with only optional query params — params object should be optional
+     *
+     * @tags optional
+     * @name GetWithOptionalQuery
+     * @request GET:/optional-query
+     */
+    getWithOptionalQuery: (
+      query: GetWithOptionalQueryParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: \`/optional-query\`,
+        method: "GET",
+        query: query,
         ...params,
       }),
   };

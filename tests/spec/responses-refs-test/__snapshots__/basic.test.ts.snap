@@ -5232,7 +5232,7 @@ export class Api<
      * @summary Neutral documentation text.
      * @request GET:/fixture/r0003
      */
-    op0003: (query: Op0003Params, params: RequestParams = {}) =>
+    op0003: (query: Op0003Params = {}, params: RequestParams = {}) =>
       this.request<Op0003Data, Sch0028>({
         path: \`/fixture/r0003\`,
         method: "GET",
@@ -5520,7 +5520,7 @@ export class Api<
      * @request GET:/fixture/r0018
      * @secure
      */
-    op0019: (query: Op0019Params, params: RequestParams = {}) =>
+    op0019: (query: Op0019Params = {}, params: RequestParams = {}) =>
       this.request<Op0019Data, Sch0028>({
         path: \`/fixture/r0018\`,
         method: "GET",
@@ -5578,7 +5578,7 @@ export class Api<
      * @request GET:/fixture/r0020
      * @secure
      */
-    op0022: (query: Op0022Params, params: RequestParams = {}) =>
+    op0022: (query: Op0022Params = {}, params: RequestParams = {}) =>
       this.request<Op0022Data, Sch0028>({
         path: \`/fixture/r0020\`,
         method: "GET",
@@ -5943,7 +5943,7 @@ export class Api<
      * @request GET:/fixture/r0030
      * @secure
      */
-    op0040: (query: Op0040Params, params: RequestParams = {}) =>
+    op0040: (query: Op0040Params = {}, params: RequestParams = {}) =>
       this.request<Op0040Data, Sch0028>({
         path: \`/fixture/r0030\`,
         method: "GET",
@@ -5978,7 +5978,7 @@ export class Api<
      * @request GET:/fixture/r0032
      * @secure
      */
-    op0042: (query: Op0042Params, params: RequestParams = {}) =>
+    op0042: (query: Op0042Params = {}, params: RequestParams = {}) =>
       this.request<Op0042Data, Sch0028>({
         path: \`/fixture/r0032\`,
         method: "GET",
@@ -6279,7 +6279,7 @@ export class Api<
      * @request GET:/fixture/r0043
      * @secure
      */
-    op0058: (query: Op0058Params, params: RequestParams = {}) =>
+    op0058: (query: Op0058Params = {}, params: RequestParams = {}) =>
       this.request<Op0058Data, Sch0028>({
         path: \`/fixture/r0043\`,
         method: "GET",
@@ -6472,7 +6472,7 @@ export class Api<
      * @request GET:/fixture/r0051
      * @secure
      */
-    op0068: (query: Op0068Params, params: RequestParams = {}) =>
+    op0068: (query: Op0068Params = {}, params: RequestParams = {}) =>
       this.request<Op0068Data, Sch0028>({
         path: \`/fixture/r0051\`,
         method: "GET",
@@ -6624,7 +6624,7 @@ export class Api<
      * @request GET:/fixture/r0056
      * @secure
      */
-    op0076: (query: Op0076Params, params: RequestParams = {}) =>
+    op0076: (query: Op0076Params = {}, params: RequestParams = {}) =>
       this.request<Op0076Data, Sch0028>({
         path: \`/fixture/r0056\`,
         method: "GET",
@@ -6898,7 +6898,7 @@ export class Api<
      * @request GET:/fixture/r0064
      * @secure
      */
-    op0090: (query: Op0090Params, params: RequestParams = {}) =>
+    op0090: (query: Op0090Params = {}, params: RequestParams = {}) =>
       this.request<Op0090Data, Sch0028>({
         path: \`/fixture/r0064\`,
         method: "GET",
@@ -6935,7 +6935,7 @@ export class Api<
      * @request GET:/fixture/r0066
      * @secure
      */
-    op0092: (query: Op0092Params, params: RequestParams = {}) =>
+    op0092: (query: Op0092Params = {}, params: RequestParams = {}) =>
       this.request<Op0092Data, Sch0028>({
         path: \`/fixture/r0066\`,
         method: "GET",
@@ -7635,7 +7635,7 @@ export class Api<
      * @request GET:/fixture/r0100
      * @secure
      */
-    op0129: (query: Op0129Params, params: RequestParams = {}) =>
+    op0129: (query: Op0129Params = {}, params: RequestParams = {}) =>
       this.request<Op0129Data, Sch0028>({
         path: \`/fixture/r0100\`,
         method: "GET",
@@ -8111,7 +8111,7 @@ export class Api<
      * @request GET:/fixture/r0118
      * @secure
      */
-    op0152: (query: Op0152Params, params: RequestParams = {}) =>
+    op0152: (query: Op0152Params = {}, params: RequestParams = {}) =>
       this.request<Op0152Data, Sch0028>({
         path: \`/fixture/r0118\`,
         method: "GET",
@@ -8342,7 +8342,7 @@ export class Api<
      * @request GET:/fixture/r0127
      * @secure
      */
-    op0164: (query: Op0164Params, params: RequestParams = {}) =>
+    op0164: (query: Op0164Params = {}, params: RequestParams = {}) =>
       this.request<Op0164Data, Sch0028>({
         path: \`/fixture/r0127\`,
         method: "GET",

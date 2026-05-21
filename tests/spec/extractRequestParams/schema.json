@@ -808,6 +808,32 @@
         },
         "tags": ["scope", "put"]
       }
+    },
+    "/optional-query": {
+      "get": {
+        "description": "Route with only optional query params — params object should be optional",
+        "operationId": "getWithOptionalQuery",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": ["optional"]
+      }
     }
   },
   "definitions": {

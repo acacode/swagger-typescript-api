@@ -870,7 +870,7 @@ export class Api<
      * @name FindPets
      * @request GET:/pets
      */
-    findPets: (query: FindPetsParams, params: RequestParams = {}) =>
+    findPets: (query: FindPetsParams = {}, params: RequestParams = {}) =>
       this.request<FindPetsData, void>({
         path: \`/pets\`,
         method: "GET",
