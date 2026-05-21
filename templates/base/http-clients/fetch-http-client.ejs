@@ -1,5 +1,6 @@
 <%
 const { apiConfig, generateResponses, config } = it;
+const CT = includeFile("@base/content-type-accessors", { config });
 %>
 
 export type QueryParamsType = Record<string | number, any>;
@@ -50,6 +51,8 @@ export const ContentType = {
     Text: "text/plain",
 } as const;
 export type ContentType = (typeof ContentType)[keyof typeof ContentType];
+<% } else if (config.enumStyle === "union") { %>
+export type ContentType = "application/json" | "application/vnd.api+json" | "multipart/form-data" | "application/x-www-form-urlencoded" | "text/plain";
 <% } else { %>
 export enum ContentType {
     Json = "application/json",
@@ -114,10 +117,10 @@ export class HttpClient<SecurityDataType = unknown> {
     }
 
     private contentFormatters: Record<ContentType, (input: any) => any> = {
-        [ContentType.Json]: (input:any) => input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
-        [ContentType.JsonApi]: (input:any) => input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
-        [ContentType.Text]: (input:any) => input !== null && typeof input !== "string" ? JSON.stringify(input) : input,
-        [ContentType.FormData]: (input: any) => {
+        [<%~ CT.Json %>]: (input:any) => input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
+        [<%~ CT.JsonApi %>]: (input:any) => input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
+        [<%~ CT.Text %>]: (input:any) => input !== null && typeof input !== "string" ? JSON.stringify(input) : input,
+        [<%~ CT.FormData %>]: (input: any) => {
             if (input instanceof FormData) {
                 return input;
             }
@@ -135,7 +138,7 @@ export class HttpClient<SecurityDataType = unknown> {
                 return formData;
             }, new FormData());
         },
-        [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
+        [<%~ CT.UrlEncoded %>]: (input: any) => this.toQueryString(input),
     }
 
     protected mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
@@ -192,7 +195,7 @@ export class HttpClient<SecurityDataType = unknown> {
         const secureParams = ((typeof secure === 'boolean' ? secure : this.baseApiParams.secure) && this.securityWorker && await this.securityWorker(this.securityData)) || {};
         const requestParams = this.mergeRequestParams(params, secureParams);
         const queryString = query && this.toQueryString(query);
-        const payloadFormatter = this.contentFormatters[type || ContentType.Json];
+        const payloadFormatter = this.contentFormatters[type || <%~ CT.Json %>];
         const responseFormat = format || requestParams.format;
 
         return this.customFetch(
@@ -201,7 +204,7 @@ export class HttpClient<SecurityDataType = unknown> {
             ...requestParams,
             headers: {
             ...(requestParams.headers || {}),
-            ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
+            ...(type && type !== <%~ CT.FormData %> ? { "Content-Type": type } : {}),
             },
             signal: (cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal) || null,
             body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),

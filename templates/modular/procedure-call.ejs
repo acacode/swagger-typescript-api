@@ -53,13 +53,7 @@ const wrapperArgs = _
     .join(', ')
 
 // RequestParams["type"]
-const requestContentKind = {
-    "JSON": "ContentType.Json",
-    "JSON_API": "ContentType.JsonApi",
-    "URL_ENCODED": "ContentType.UrlEncoded",
-    "FORM_DATA": "ContentType.FormData",
-    "TEXT": "ContentType.Text",
-}
+const requestContentKind = includeFile("@base/content-type-accessors", { config });
 // RequestParams["format"]
 const responseContentKind = {
     "JSON": '"json"',

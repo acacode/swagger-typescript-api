@@ -45,4 +45,22 @@ describe("basic", async () => {
 
     expect(content).toMatchSnapshot();
   });
+
+  test("union-enums-http-client", async () => {
+    await generateApi({
+      fileName: "schema-union",
+      input: path.resolve(import.meta.dirname, "schema.json"),
+      output: tmpdir,
+      silent: true,
+      enumStyle: "union",
+      cleanOutput: false,
+      modular: false,
+    });
+
+    const content = await fs.readFile(path.join(tmpdir, "schema-union.ts"), {
+      encoding: "utf8",
+    });
+
+    expect(content).toMatchSnapshot();
+  });
 });
