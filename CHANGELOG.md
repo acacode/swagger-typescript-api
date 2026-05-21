@@ -1,5 +1,15 @@
 # swagger-typescript-api
 
+## 13.10.0
+
+### Minor Changes
+
+- [#1754](https://github.com/acacode/swagger-typescript-api/pull/1754) [`9d493e8`](https://github.com/acacode/swagger-typescript-api/commit/9d493e8f64f133c403335d85cf6aaa15e125343b) Thanks [@Upgrade220](https://github.com/Upgrade220)! - Add `enumStyle` option ("enum" | "union" | "const") to control enum output format. `"const"` generates `as const` objects with a companion type alias, including the built-in `ContentType` in the http-client. `generateUnionEnums` is deprecated in favor of `enumStyle: "union"`.
+
+### Patch Changes
+
+- [#1756](https://github.com/acacode/swagger-typescript-api/pull/1756) [`fed24c6`](https://github.com/acacode/swagger-typescript-api/commit/fed24c65791b503723ffe1d0cf247620978f16d3) Thanks [@Upgrade220](https://github.com/Upgrade220)! - Fix: combined query params object now correctly gets a default value of `{}` when all its fields are optional and no path params are present (extractRequestParams mode)
+
 ## 13.9.3
 
 ### Patch Changes
