@@ -30,6 +30,16 @@ export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequest
   format?: ResponseType;
 }
 
+<% if (config.enumStyle === "const") { %>
+export const ContentType = {
+  Json: "application/json",
+  JsonApi: "application/vnd.api+json",
+  FormData: "multipart/form-data",
+  UrlEncoded: "application/x-www-form-urlencoded",
+  Text: "text/plain",
+} as const;
+export type ContentType = (typeof ContentType)[keyof typeof ContentType];
+<% } else { %>
 export enum ContentType {
   Json = "application/json",
   JsonApi = "application/vnd.api+json",
@@ -37,6 +47,7 @@ export enum ContentType {
   UrlEncoded = "application/x-www-form-urlencoded",
   Text = "text/plain",
 }
+<% } %>
 
 export class HttpClient<SecurityDataType = unknown> {
     public instance: AxiosInstance;

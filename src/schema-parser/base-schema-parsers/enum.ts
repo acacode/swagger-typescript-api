@@ -144,9 +144,12 @@ export class EnumSchemaParser extends MonoSchemaParser {
       schemaType: SCHEMA_TYPES.ENUM,
       type: SCHEMA_TYPES.ENUM,
       keyType: keyType,
-      typeIdentifier: this.config.generateUnionEnums
-        ? this.config.Ts.Keyword.Type
-        : this.config.Ts.Keyword.Enum,
+      typeIdentifier:
+        this.config.enumStyle === "const"
+          ? this.config.Ts.Keyword.Const
+          : this.config.enumStyle === "union"
+            ? this.config.Ts.Keyword.Type
+            : this.config.Ts.Keyword.Enum,
       name: this.typeName,
       description: this.schemaFormatters.formatDescription(
         this.schema.description,
