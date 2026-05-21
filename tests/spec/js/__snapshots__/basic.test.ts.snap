@@ -78,6 +78,19 @@ export class HttpClient {
       return formData;
     }, new FormData());
   }
+  createUrlEncoded(input) {
+    if (input instanceof URLSearchParams) {
+      return input;
+    }
+    return Object.keys(input || {}).reduce((searchParams, key) => {
+      const property = input[key];
+      const propertyContent = property instanceof Array ? property : [property];
+      for (const formItem of propertyContent) {
+        searchParams.append(key, this.stringifyFormItem(formItem));
+      }
+      return searchParams;
+    }, new URLSearchParams());
+  }
   request = async ({ secure, path, type, query, format, body, ...params }) => {
     const secureParams =
       ((typeof secure === "boolean" ? secure : this.secure) &&
@@ -93,6 +106,14 @@ export class HttpClient {
       typeof body === "object"
     ) {
       body = this.createFormData(body);
+    }
+    if (
+      type === ContentType.UrlEncoded &&
+      body &&
+      body !== null &&
+      typeof body === "object"
+    ) {
+      body = this.createUrlEncoded(body);
     }
     if (
       type === ContentType.Text &&
