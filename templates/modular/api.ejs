@@ -8,7 +8,11 @@ const dataContracts = _.map(modelTypes, "name");
 
 <% if (config.httpClientType === config.constants.HTTP_CLIENT.AXIOS) { %> import type { AxiosRequestConfig, AxiosResponse } from "axios"; <% } %>
 
+<% if (config.enumStyle === "union") { %>
+import { HttpClient, RequestParams, type ContentType, HttpResponse } from "./<%~ config.fileNames.httpClient %>";
+<% } else { %>
 import { HttpClient, RequestParams, ContentType, HttpResponse } from "./<%~ config.fileNames.httpClient %>";
+<% } %>
 <% if (dataContracts.length) { %>
 import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataContracts %>"
 <% } %>

@@ -69,13 +69,12 @@ export interface HttpResponse<D extends unknown, E extends unknown = unknown>
 
 type CancelToken = Symbol | string | number;
 
-export enum ContentType {
-  Json = "application/json",
-  JsonApi = "application/vnd.api+json",
-  FormData = "multipart/form-data",
-  UrlEncoded = "application/x-www-form-urlencoded",
-  Text = "text/plain",
-}
+export type ContentType =
+  | "application/json"
+  | "application/vnd.api+json"
+  | "multipart/form-data"
+  | "application/x-www-form-urlencoded"
+  | "text/plain";
 
 export class HttpClient<SecurityDataType = unknown> {
   public baseUrl: string = "http://localhost:8080/api/v1";
@@ -134,19 +133,19 @@ export class HttpClient<SecurityDataType = unknown> {
   }
 
   private contentFormatters: Record<ContentType, (input: any) => any> = {
-    [ContentType.Json]: (input: any) =>
+    ["application/json"]: (input: any) =>
       input !== null && (typeof input === "object" || typeof input === "string")
         ? JSON.stringify(input)
         : input,
-    [ContentType.JsonApi]: (input: any) =>
+    ["application/vnd.api+json"]: (input: any) =>
       input !== null && (typeof input === "object" || typeof input === "string")
         ? JSON.stringify(input)
         : input,
-    [ContentType.Text]: (input: any) =>
+    ["text/plain"]: (input: any) =>
       input !== null && typeof input !== "string"
         ? JSON.stringify(input)
         : input,
-    [ContentType.FormData]: (input: any) => {
+    ["multipart/form-data"]: (input: any) => {
       if (input instanceof FormData) {
         return input;
       }
@@ -164,7 +163,8 @@ export class HttpClient<SecurityDataType = unknown> {
         return formData;
       }, new FormData());
     },
-    [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
+    ["application/x-www-form-urlencoded"]: (input: any) =>
+      this.toQueryString(input),
   };
 
   protected mergeRequestParams(
@@ -226,7 +226,7 @@ export class HttpClient<SecurityDataType = unknown> {
       {};
     const requestParams = this.mergeRequestParams(params, secureParams);
     const queryString = query && this.toQueryString(query);
-    const payloadFormatter = this.contentFormatters[type || ContentType.Json];
+    const payloadFormatter = this.contentFormatters[type || "application/json"];
     const responseFormat = format || requestParams.format;
 
     return this.customFetch(
@@ -235,7 +235,7 @@ export class HttpClient<SecurityDataType = unknown> {
         ...requestParams,
         headers: {
           ...(requestParams.headers || {}),
-          ...(type && type !== ContentType.FormData
+          ...(type && type !== "multipart/form-data"
             ? { "Content-Type": type }
             : {}),
         },

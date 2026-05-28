@@ -1,5 +1,6 @@
 <%
 const { apiConfig, generateResponses, config } = it;
+const CT = includeFile("@base/content-type-accessors", { config });
 %>
 
 import type { AxiosInstance, AxiosRequestConfig, HeadersDefaults, ResponseType, AxiosResponse } from "axios";
@@ -39,6 +40,8 @@ export const ContentType = {
   Text: "text/plain",
 } as const;
 export type ContentType = (typeof ContentType)[keyof typeof ContentType];
+<% } else if (config.enumStyle === "union") { %>
+export type ContentType = "application/json" | "application/vnd.api+json" | "multipart/form-data" | "application/x-www-form-urlencoded" | "text/plain";
 <% } else { %>
 export enum ContentType {
   Json = "application/json",
@@ -127,11 +130,11 @@ export class HttpClient<SecurityDataType = unknown> {
         const requestParams = this.mergeRequestParams(params, secureParams);
         const responseFormat = (format || this.format) || undefined;
 
-        if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
+        if (type === <%~ CT.FormData %> && body && body !== null && typeof body === "object") {
           body = this.createFormData(body as Record<string, unknown>);
         }
 
-        if (type === ContentType.Text && body && body !== null && typeof body !== "string") {
+        if (type === <%~ CT.Text %> && body && body !== null && typeof body !== "string") {
           body = JSON.stringify(body);
         }
 
