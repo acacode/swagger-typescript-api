@@ -62,20 +62,30 @@ describe("paths-2-prefer-existing-schema-names", async () => {
     expect(content).toContain("r = {");
 
     expect(content).not.toMatch(/SchUnwillingFort36SchUnwillingFort36(?![\w])/);
-    expect(content).not.toMatch(/SchFavorableReservation40SchFavorableReservation40(?![\w])/);
-    expect(content).not.toMatch(/SchAssuredMobility63SchAssuredMobility63(?![\w])/);
+    expect(content).not.toMatch(
+      /SchFavorableReservation40SchFavorableReservation40(?![\w])/,
+    );
+    expect(content).not.toMatch(
+      /SchAssuredMobility63SchAssuredMobility63(?![\w])/,
+    );
     expect(content).not.toMatch(/SchEmptyPants75SchEmptyPants75(?![\w])/);
     expect(content).not.toMatch(/SidecarConfigYaml(?![\w])/);
 
     const countOccurrences = (haystack: string, needle: string) =>
       haystack.split(needle).length - 1;
 
-    expect(countOccurrences(content, "export interface SchUnwillingFort36 ")).toBe(
+    expect(
+      countOccurrences(content, "export interface SchUnwillingFort36 "),
+    ).toBe(1);
+    expect(
+      countOccurrences(content, "export interface SchFavorableReservation40 "),
+    ).toBe(1);
+    expect(
+      countOccurrences(content, "export interface SchAssuredMobility63 "),
+    ).toBe(1);
+    expect(countOccurrences(content, "export interface SchEmptyPants75 ")).toBe(
       1,
     );
-    expect(countOccurrences(content, "export interface SchFavorableReservation40 ")).toBe(1);
-    expect(countOccurrences(content, "export interface SchAssuredMobility63 ")).toBe(1);
-    expect(countOccurrences(content, "export interface SchEmptyPants75 ")).toBe(1);
 
     expect(content).toMatchSnapshot();
   });

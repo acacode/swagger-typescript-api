@@ -105,7 +105,9 @@ describe("paths-2", async () => {
     });
 
     expect(content).toContain("export class Api");
-    expect(content).toContain("export interface SchUnwillingFort36SchUnwillingFort36");
+    expect(content).toContain(
+      "export interface SchUnwillingFort36SchUnwillingFort36",
+    );
     expect(content).toContain("export interface SchPowerfulCase310");
     expect(content).toContain("Record<string, SchPowerfulCase310>");
     expect(content).toContain("r = {");
