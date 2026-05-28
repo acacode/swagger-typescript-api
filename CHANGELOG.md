@@ -1,5 +1,35 @@
 # swagger-typescript-api
 
+## 13.11.0
+
+### Minor Changes
+
+- [`f5cb2da`](https://github.com/acacode/swagger-typescript-api/commit/f5cb2dabd3d3fdae48fef3cda604e3389e9a1fc8) Thanks [@js2me](https://github.com/js2me)! - Fix external file `$ref` resolution and add cleaner schema naming for split OpenAPI specs.
+
+  ### Bug fixes
+
+  - Resolve external schema file refs (e.g. `./SidecarConfig.yaml`, `./models/sidecar-config.yaml`) without producing ghost types such as `SidecarConfigYaml` that were referenced in generated output but never exported.
+  - Treat path segments like `models`, `definitions`, and `.` as schema components instead of misclassifying them as OpenAPI component sections.
+  - Normalize type names derived from external filenames by stripping `.yaml`, `.yml`, and `.json` extensions.
+  - Unwrap file-only refs to external documents that contain a single entry under `components.schemas`.
+  - Deduplicate externally resolved components that share the same disambiguated type name, preventing repeated `export interface` declarations (e.g. multiple `NovaEntityNovaEntity`) and TypeScript merge conflicts.
+  - Recognize OpenAPI 3.1 `pathItems` as a valid `components` section when resolving JSON pointer segments.
+
+  ### New option
+
+  - Add `preferExistingSchemaNamesForExternalRefs` (CLI: `--prefer-existing-schema-names-for-external-refs`).
+    When enabled, if an external schema file name matches an existing local component name (e.g. `./Specification.yaml` → `Specification`), the generator reuses the local schema name instead of emitting redundant names like `SpecificationSpecification` or `NovaEntityNovaEntity`.
+    Local `$ref`-only components are eagerly resolved before parsing.
+
+  ### Tests
+
+  - Add `paths-2` regression tests for remote OpenAPI specs with relative cross-file refs (CICD Spec Manager fixture).
+  - Add `paths-2-prefer-existing-schema-names` tests for the new naming option, including strict TypeScript checks of generated snapshot output via `tsc`.
+
+### Patch Changes
+
+- [#1762](https://github.com/acacode/swagger-typescript-api/pull/1762) [`6d00192`](https://github.com/acacode/swagger-typescript-api/commit/6d00192dbe0616c1785461960f0abff42bf78b42) Thanks [@Upgrade220](https://github.com/Upgrade220)! - Fix `ContentType` in http-client not respecting `enumStyle: "union"`. It now generates a plain type alias instead of an enum, and all call sites emit string literals instead of `ContentType.Json` etc.
+
 ## 13.10.0
 
 ### Minor Changes
