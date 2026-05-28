@@ -1,0 +1,1017 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`paths-2 > generates data contracts and http client from remote openapi url 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export type SchUnwillingFort36 = SchUnwillingFort36SchUnwillingFort36;
+
+export type SchEvilOctave14 = SchEvilOctave14SchEvilOctave14;
+
+export type SchFavorableReservation40 =
+  SchFavorableReservation40SchFavorableReservation40;
+
+export type SchAptIndependence78 = SchAptIndependence78SchAptIndependence78;
+
+export type SchUnlawfulConsistency14 =
+  SchUnlawfulConsistency14SchUnlawfulConsistency14;
+
+export type SchBonyEditor45 = SchBonyEditor45SchBonyEditor45;
+
+export type SchAssuredMobility63 = SchAssuredMobility63SchAssuredMobility63;
+
+export type SchEmptyPants75 = SchEmptyPants75SchEmptyPants75;
+
+export type SchCrazyJet13 = SchCrazyJet13SchCrazyJet13;
+
+export type OpenapiSchAptIndependence78 =
+  SchAptIndependence78SchAptIndependence78;
+
+export type OpenapiSchBonyEditor45 = SchBonyEditor45SchBonyEditor45;
+
+export interface Op0007Params {
+  /**
+   * Infit celebrer succurro cultura arguo vomer.
+   * @format int64
+   */
+  dampLyre166: number;
+}
+
+export type Op0007Data = OpenapiSchAptIndependence78;
+
+export type Op0007Error = OpenapiSchBonyEditor45;
+
+export type OpenapiSchUnwillingFort36 = SchUnwillingFort36SchUnwillingFort36;
+
+export type Op0003Data = OpenapiSchAptIndependence78;
+
+export type Op0003Error = OpenapiSchBonyEditor45;
+
+export interface Op0005Params {
+  /**
+   * Valens absconditus cado crustulum censura anser causa curia cimentarius villa.
+   * @format int64
+   */
+  suburbanFinger443: number;
+}
+
+export type Op0005Data = OpenapiSchAptIndependence78;
+
+export type Op0005Error = OpenapiSchBonyEditor45;
+
+export type OpenapiSchUnlawfulConsistency14 =
+  SchUnlawfulConsistency14SchUnlawfulConsistency14;
+
+export interface Op0008Payload {
+  /** Alveus calamitas corporis thesis adaugeo spectaculum degero aiunt colligo. */
+  gracious_awareness_535: OpenapiSchUnlawfulConsistency14[];
+}
+
+export interface Op0008Params {
+  /**
+   * Valens absconditus cado crustulum censura anser causa curia cimentarius villa.
+   * @format int64
+   */
+  suburbanFinger443: number;
+}
+
+export type Op0008Data = OpenapiSchUnwillingFort36;
+
+export type Op0008Error = OpenapiSchBonyEditor45;
+
+export type OpenapiSchEvilOctave14 = SchEvilOctave14SchEvilOctave14;
+
+export interface Op0009Params {
+  /**
+   * Valens absconditus cado crustulum censura anser causa curia cimentarius villa.
+   * @format int64
+   */
+  suburbanFinger443: number;
+}
+
+export type Op0009Data = any;
+
+export type Op0009Error = OpenapiSchBonyEditor45;
+
+export type OpenapiSchCrazyJet13 = SchCrazyJet13SchCrazyJet13;
+
+export interface Op0002Params {
+  /**
+   * Valens absconditus cado crustulum censura anser causa curia cimentarius villa.
+   * @format int64
+   */
+  suburbanFinger443: number;
+}
+
+export type Op0002Data = OpenapiSchCrazyJet13;
+
+export type Op0002Error = OpenapiSchBonyEditor45;
+
+/**
+ * Comburo curvo ago adinventitias crapula ullam.
+ * @format binary
+ */
+export type Op0006Payload = File;
+
+export interface Op0006Params {
+  /** Apostolus autus adaugeo tandem recusandae demonstro. */
+  acidic_outset_265: AcidicOutset265Enum;
+  /**
+   * Valens absconditus cado crustulum censura anser causa curia cimentarius villa.
+   * @format int64
+   */
+  suburbanFinger443: number;
+}
+
+/** Apostolus autus adaugeo tandem recusandae demonstro. */
+export enum AcidicOutset265Enum {
+  Ev0 = "ev0",
+  Ev1 = "ev1",
+}
+
+export interface Op0006Data {
+  /**
+   * Rem defleo universe tardus harum tempora tempore sordeo abscido.
+   * @format int64
+   */
+  political_toaster_538: number;
+}
+
+export type Op0006Error = OpenapiSchBonyEditor45;
+
+/** Apostolus autus adaugeo tandem recusandae demonstro. */
+export enum Op0006Params1AcidicOutset265Enum {
+  Ev0 = "ev0",
+  Ev1 = "ev1",
+}
+
+export interface Op0001Params {
+  /**
+   * Valens absconditus cado crustulum censura anser causa curia cimentarius villa.
+   * @format int64
+   */
+  suburbanFinger443: number;
+}
+
+export type Op0001Data = string;
+
+export type Op0001Error = OpenapiSchBonyEditor45;
+
+export interface Op0004Params {
+  /**
+   * Ventito peior cura delicate eveniet cedo aggredior atrocitas.
+   * @format int64
+   */
+  adolescent_cinder_156?: number;
+  /**
+   * Nam acervus coniecto sequi deleo triduana admoneo tactus verumtamen.
+   * @format int64
+   */
+  happygolucky_grandson_166?: number;
+  /** Aequus demitto cubo thymbra ad cribro astrum compello. */
+  orderly_pine_220?: string;
+  /** Vapulus expedita conicio comparo comedo ara audeo amaritudo. */
+  which_collaboration_491?: string;
+}
+
+export interface Op0004Data {
+  /**
+   * Sursum totam adicio ventus contabesco.
+   * @format int64
+   */
+  suburban_finger_443: number | null;
+}
+
+export type Op0004Error = OpenapiSchBonyEditor45;
+
+/** Argentum vinculum usitas defungo aufero demoror. */
+export interface SchUnwillingFort36SchUnwillingFort36 {
+  /** Demens inflammatio tergum apud depulso varietas virga ceno curtus. */
+  content: SchEvilOctave14SchEvilOctave14;
+  /** Subiungo earum amissio corona adeptio. */
+  parallel_synergy_47: SchFavorableReservation40SchFavorableReservation40;
+}
+
+/** Demens inflammatio tergum apud depulso varietas virga ceno curtus. */
+export interface SchEvilOctave14SchEvilOctave14 {
+  /** Ara amet supellex. */
+  confused_petticoat_741?: Record<
+    string,
+    {
+      /** Viriliter caterva validus civitas utique. */
+      type: SchEvilOctave14SchEvilOctave14TypeEnum;
+      /** Avarus reiciendis adamo degusto. */
+      educated_discourse_995: string;
+    }
+  >;
+  /** Basium quaerat carmen calcar cunctatio ventus quasi. */
+  haunting_habit_468?: {
+    /** Color dicta toties. */
+    name?: string;
+    /** Tantum cibo accusator trado cimentarius comburo trucido suffoco ipsam. */
+    waterlogged_amendment_650?: string;
+    /**
+     * Utrimque valetudo vinum tondeo.
+     * @example "tergo amiculum ut trado"
+     */
+    ill_pantyhose_71?: string;
+    /** Cicuta creo bellum adfero anser tabernus sollers. */
+    splendid_cannon_109?: string;
+  };
+  /** Vulgivagus advenio laboriosam rerum abscido adflicto solio. */
+  rough_lox_857?: {
+    /** Totam clibanus bibo cum. */
+    unselfish_chiffonier_821?: string[];
+    /** Arceo caput soleo. */
+    posh_armoire_314?: number;
+    /** Talio atavus culpo comis natus bonus sui cum torrens. */
+    selfreliant_forgery_596?: number;
+    /**
+     * Cupiditate corona teres sublime speculum uberrime crux.
+     * @pattern ^[1-9][0-9]*(M|G)$
+     * @example "maiores concido"
+     */
+    elegant_solution_97?: string;
+    /**
+     * Vulgus stips universe cibo.
+     * @pattern ^[1-9][0-9]*(M|G)$
+     * @example "crastinus concido torrens aegrus aliquid"
+     */
+    pitiful_habit_200?: string;
+    /**
+     * Venia ipsum perferendis admiratio ter valde quo.
+     * @pattern ^[1-9][0-9]*(M|G)$
+     * @example "depopulo tristis"
+     */
+    gigantic_sticker_783?: string;
+  };
+  /** Argentum aestas claudeo quibusdam. */
+  scared_crest_373?: {
+    /**
+     * Sodalitas aufero usus valetudo velum ter.
+     * @example "alter cotidie sufficio"
+     */
+    name?: string;
+    /**
+     * Tabesco arto canonicus coruscus cedo ventus turba vel cotidie.
+     * @example "contigo varius annus audax"
+     */
+    remorseful_skeleton_504?: string;
+    /**
+     * Creptio decet callide cribro textilis laudantium aetas stips curto.
+     * @example "atrox spoliatio absum sodalitas"
+     */
+    uniform_piglet_383?: string;
+    /**
+     * Supplanto vigilo pax utrimque capitulus deficio.
+     * @example "voro denego denique"
+     */
+    wee_roundabout_451?: string;
+  };
+  /** Advenio comptus auctor aggero substantia. */
+  inexperienced_chops_556?: (
+    | SchAssuredMobility63SchAssuredMobility63
+    | SchEmptyPants75SchEmptyPants75
+  )[];
+  /** Iusto umquam magnam conspergo vis cohibeo. */
+  troubled_editor_611?: {
+    /** Cupiditas commemoro coerceo coniecto strenuus tutis barba tenus debeo cupressus. */
+    right_reporter_954?: Record<string, SchPowerfulCase310>;
+    /** Architecto termes absconditus crudelis. */
+    shiny_flint_619?: string[];
+  };
+}
+
+/** Subiungo earum amissio corona adeptio. */
+export interface SchFavorableReservation40SchFavorableReservation40 {
+  /**
+   * Accendo tactus vulgaris vulariter desparatus.
+   * @format int64
+   */
+  adolescent_cinder_156?: number;
+  /**
+   * Utrimque vulticulus tollo solitudo cado contigo aspernatur uterque.
+   * @format int64
+   */
+  happygolucky_grandson_166?: number;
+  /** Quos paulatim tactus templum aestas cogito summisse careo totam armarium. */
+  jaunty_gerbil_802?: string;
+  /** Amitto defungo quod magni corrumpo depereo conitor tibi. */
+  which_collaboration_491?: string;
+}
+
+/** Tondeo alii ulciscor ante. */
+export type SchAptIndependence78SchAptIndependence78 = {
+  content: SchEvilOctave14SchEvilOctave14 | null;
+  /** Subiungo earum amissio corona adeptio. */
+  parallel_synergy_47: SchFavorableReservation40SchFavorableReservation40;
+  /**
+   * Earum adhuc inventore subito asporto acer succurro.
+   * @format int64
+   */
+  frightened_partridge_888: number | null;
+  /**
+   * Libero vetus itaque vita alius.
+   * @format date-time
+   * @example "2026-05-28T01:16:59.469Z"
+   */
+  victorious_appliance_743?: string;
+}[];
+
+/** Pauci cibo ambulo. */
+export interface SchUnlawfulConsistency14SchUnlawfulConsistency14 {
+  /** Uxor strues considero. */
+  worthwhile_tarragon_43: SchUnlawfulConsistency14SchUnlawfulConsistency14WorthwhileTarragon43Enum;
+  /**
+   * Varius animadverto depono accommodo facilis.
+   * @example "cum tripudio beatus"
+   */
+  woeful_following_984: string;
+  /** Theologus strues canonicus calculus. */
+  educated_discourse_995?: any;
+  /**
+   * Velum deduco spiculum crapula.
+   * @example "earum vestrum caries adficio tum"
+   */
+  noteworthy_brook_154?: string;
+}
+
+/** Illo vigor est. */
+export interface SchBonyEditor45SchBonyEditor45 {
+  /** Tamisium ait venia. */
+  private_mentor_765: string;
+  /** Aestas error vulgus. */
+  official_chops_77: string;
+}
+
+export interface SchAssuredMobility63SchAssuredMobility63 {
+  /** Demergo abeo calamitas. */
+  spotless_equal_503?: number;
+  /** Deserunt contego damno confero atqui facere studio vix decor. */
+  secondhand_copout_862?: SchAssuredMobility63SchAssuredMobility63SecondhandCopout862Enum;
+  /** Eveniet coma angustus taedium antepono adipisci. */
+  strange_peony_226?: SchAssuredMobility63SchAssuredMobility63StrangePeony226Enum;
+  /** Corrupti amor asperiores consequatur vulgo sursum tergo acquiro clibanus. */
+  welldocumented_repeat_694?: boolean;
+}
+
+export interface SchEmptyPants75SchEmptyPants75 {
+  /** Illo sonitus desolo utpote cauda arguo alveus. */
+  orange_intent_574?: number;
+  /** Derideo sed creptio facere agnosco terminatio pecus tenuis. */
+  noxious_nucleotidase_45?: number;
+  /** Crudelis clam amiculum vis demum corrupti valeo ubi ventus cicuta. */
+  secondhand_copout_862?: SchEmptyPants75SchEmptyPants75SecondhandCopout862Enum;
+  /** Taceo tersus bellicus sto celo. */
+  strange_peony_226?: SchEmptyPants75SchEmptyPants75StrangePeony226Enum;
+  /** Paens vilitas sto capillus. */
+  welldocumented_repeat_694?: boolean;
+}
+
+/** Dens damno stultus crapula. */
+export interface SchCrazyJet13SchCrazyJet13 {
+  content?: OpenapiSchEvilOctave14;
+  /**
+   * Tibi velum odio solus caries ante tres titulus chirographum acer.
+   * @format date-time
+   */
+  rectangular_kielbasa_799?: string;
+}
+
+/** Viriliter caterva validus civitas utique. */
+export enum SchEvilOctave14SchEvilOctave14TypeEnum {
+  Ev0 = "ev0",
+  Ev1 = "ev1",
+}
+
+/** Debitis suus ad cimentarius stabilis aspicio cito attero. */
+export interface SchPowerfulCase310 {
+  /**
+   * Tripudio vobis vergo.
+   * @example "suus tergo amiculum ut trado"
+   */
+  name: string;
+  /** Aspernatur arguo audacia dolorum defaeco. */
+  bony_editor_447?: {
+    /**
+     * Cinis amplus curso.
+     * @example "maiores concido"
+     */
+    confused_petticoat_741?: string;
+    /**
+     * Infit celebrer succurro cultura arguo vomer.
+     * @example "crastinus concido torrens aegrus aliquid"
+     */
+    flustered_viability_554?: string;
+  };
+  /** Comedo comburo vesco verumtamen sto triumphus argumentum. */
+  unlawful_consistency_141?: {
+    /** Ratione quis vulgo trepide suscipio. */
+    name?: string;
+    /** Crur vulnero hic desino admoveo adinventitias umerus uterque. */
+    unselfish_chiffonier_821?: string;
+    /** Accedo paulatim aduro demergo delicate tamen. */
+    damp_sushi_821?: string;
+  };
+  /**
+   * Deporto celer crustulum itaque spargo carcer audacia demo molestiae strenuus.
+   * @example ["depopulo tristis","alter cotidie sufficio","contigo varius annus audax"]
+   */
+  favorable_reservation_403?: string[];
+  /**
+   * Ducimus ubi crustulum clementia desparatus culpo alter bestia.
+   * @example {"KEY":"atrox spoliatio absum sodalitas"}
+   */
+  unwilling_fort_355?: Record<string, string>;
+  /**
+   * Denique conturbo thorax.
+   * @example "voro denego denique"
+   */
+  crazy_jet_122?: SchPowerfulCase310CrazyJet122Enum;
+  /**
+   * Testimonium tandem celo conatus varius voluptate sed audentia aegrus.
+   * @example "cum tripudio beatus"
+   */
+  evil_octave_133?: SchPowerfulCase310EvilOctave133Enum;
+  /**
+   * Pel doloremque capio vilicus cultura comparo talio.
+   * @example "earum vestrum caries adficio tum"
+   */
+  apt_independence_779?: SchPowerfulCase310AptIndependence779Enum;
+  /** Victoria thesaurus ut alii corrumpo canis calculus amor toties caput. */
+  content_husband_233?: SchContentHusband233[];
+  /** Titulus tenuis tribuo. */
+  orderly_pine_220?: {
+    /**
+     * Templum adficio votum condico depulso creptio subseco.
+     * @example "depopulo substantia thesis"
+     */
+    empty_pants_749?: string;
+    /**
+     * Vinum maiores corpus supplanto suus aggredior summisse cotidie terminatio vitiosus.
+     * @example "corporis conicio theatrum"
+     */
+    gracious_awareness_535?: string;
+    /**
+     * Tempus cunabula abundans verumtamen templum demoror acer.
+     * @example "tunc synagoga cito debitis"
+     */
+    right_reporter_954?: string;
+  };
+  /**
+   * Capitulus alo adulescens.
+   * @example {"/data":"spes urbanus"}
+   */
+  serpentine_nudge_691?: Record<string, string>;
+  /** Derideo tenus super nemo damno casso auxilium. */
+  assured_mobility_636?: boolean;
+}
+
+/** Uxor strues considero. */
+export enum SchUnlawfulConsistency14SchUnlawfulConsistency14WorthwhileTarragon43Enum {
+  Ev0 = "ev0",
+  Ev1 = "ev1",
+  Ev2 = "ev2",
+  Ev3 = "ev3",
+  Ev4 = "ev4",
+  Ev5 = "ev5",
+}
+
+/** Deserunt contego damno confero atqui facere studio vix decor. */
+export enum SchAssuredMobility63SchAssuredMobility63SecondhandCopout862Enum {
+  Ev0 = "ev0",
+  Ev1 = "ev1",
+}
+
+/** Eveniet coma angustus taedium antepono adipisci. */
+export enum SchAssuredMobility63SchAssuredMobility63StrangePeony226Enum {
+  Ev0 = "ev0",
+  Ev1 = "ev1",
+}
+
+/** Crudelis clam amiculum vis demum corrupti valeo ubi ventus cicuta. */
+export enum SchEmptyPants75SchEmptyPants75SecondhandCopout862Enum {
+  Ev0 = "ev0",
+  Ev1 = "ev1",
+}
+
+/** Taceo tersus bellicus sto celo. */
+export enum SchEmptyPants75SchEmptyPants75StrangePeony226Enum {
+  Ev0 = "ev0",
+  Ev1 = "ev1",
+}
+
+/**
+ * Denique conturbo thorax.
+ * @example "voro denego denique"
+ */
+export enum SchPowerfulCase310CrazyJet122Enum {
+  Ev0 = "ev0",
+  Ev1 = "ev1",
+}
+
+/**
+ * Testimonium tandem celo conatus varius voluptate sed audentia aegrus.
+ * @example "cum tripudio beatus"
+ */
+export enum SchPowerfulCase310EvilOctave133Enum {
+  Ev0 = "ev0",
+  Ev1 = "ev1",
+}
+
+/**
+ * Pel doloremque capio vilicus cultura comparo talio.
+ * @example "earum vestrum caries adficio tum"
+ */
+export enum SchPowerfulCase310AptIndependence779Enum {
+  Ev0 = "ev0",
+  Ev1 = "ev1",
+  Ev2 = "ev2",
+}
+
+/** Debitis suus ad cimentarius stabilis aspicio cito attero. */
+export interface SchContentHusband233 {
+  /**
+   * Tripudio vobis vergo.
+   * @example 38470
+   */
+  bony_editor_447?: number;
+  /**
+   * Aspernatur arguo audacia dolorum defaeco.
+   * @example "tergo amiculum ut trado"
+   */
+  crazy_jet_122?: SchContentHusband233CrazyJet122Enum;
+  /**
+   * Cinis amplus curso.
+   * @example "maiores concido"
+   */
+  apt_independence_779?: SchContentHusband233AptIndependence779Enum;
+  /**
+   * Infit celebrer succurro cultura arguo vomer.
+   * @example false
+   */
+  favorable_reservation_403?: boolean;
+}
+
+/**
+ * Aspernatur arguo audacia dolorum defaeco.
+ * @example "tergo amiculum ut trado"
+ */
+export enum SchContentHusband233CrazyJet122Enum {
+  Ev0 = "ev0",
+  Ev1 = "ev1",
+}
+
+/**
+ * Cinis amplus curso.
+ * @example "maiores concido"
+ */
+export enum SchContentHusband233AptIndependence779Enum {
+  Ev0 = "ev0",
+  Ev1 = "ev1",
+}
+
+export type QueryParamsType = Record<string | number, any>;
+export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
+
+export interface FullRequestParams extends Omit<RequestInit, "body"> {
+  /** set parameter to \`true\` for call \`securityWorker\` for this request */
+  secure?: boolean;
+  /** request path */
+  path: string;
+  /** content type of request body */
+  type?: ContentType;
+  /** query params */
+  query?: QueryParamsType;
+  /** format of response (i.e. response.json() -> format: "json") */
+  format?: ResponseFormat;
+  /** request body */
+  body?: unknown;
+  /** base url */
+  baseUrl?: string;
+  /** request cancellation token */
+  cancelToken?: CancelToken;
+}
+
+export type RequestParams = Omit<
+  FullRequestParams,
+  "body" | "method" | "query" | "path"
+>;
+
+export interface ApiConfig<SecurityDataType = unknown> {
+  baseUrl?: string;
+  baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
+  securityWorker?: (
+    securityData: SecurityDataType | null,
+  ) => Promise<RequestParams | void> | RequestParams | void;
+  customFetch?: typeof fetch;
+}
+
+export interface HttpResponse<D extends unknown, E extends unknown = unknown>
+  extends Response {
+  data: D;
+  error: E;
+}
+
+type CancelToken = Symbol | string | number;
+
+export enum ContentType {
+  Json = "application/json",
+  JsonApi = "application/vnd.api+json",
+  FormData = "multipart/form-data",
+  UrlEncoded = "application/x-www-form-urlencoded",
+  Text = "text/plain",
+}
+
+export class HttpClient<SecurityDataType = unknown> {
+  public baseUrl: string = "http://localhost:8080/api/v1";
+  private securityData: SecurityDataType | null = null;
+  private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
+  private abortControllers = new Map<CancelToken, AbortController>();
+  private customFetch = (...fetchParams: Parameters<typeof fetch>) =>
+    fetch(...fetchParams);
+
+  private baseApiParams: RequestParams = {
+    credentials: "same-origin",
+    headers: {},
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  };
+
+  constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
+    Object.assign(this, apiConfig);
+  }
+
+  public setSecurityData = (data: SecurityDataType | null) => {
+    this.securityData = data;
+  };
+
+  protected encodeQueryParam(key: string, value: any) {
+    const encodedKey = encodeURIComponent(key);
+    return \`\${encodedKey}=\${encodeURIComponent(typeof value === "number" ? value : \`\${value}\`)}\`;
+  }
+
+  protected addQueryParam(query: QueryParamsType, key: string) {
+    return this.encodeQueryParam(key, query[key]);
+  }
+
+  protected addArrayQueryParam(query: QueryParamsType, key: string) {
+    const value = query[key];
+    return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
+  }
+
+  protected toQueryString(rawQuery?: QueryParamsType): string {
+    const query = rawQuery || {};
+    const keys = Object.keys(query).filter(
+      (key) => "undefined" !== typeof query[key],
+    );
+    return keys
+      .map((key) =>
+        Array.isArray(query[key])
+          ? this.addArrayQueryParam(query, key)
+          : this.addQueryParam(query, key),
+      )
+      .join("&");
+  }
+
+  protected addQueryParams(rawQuery?: QueryParamsType): string {
+    const queryString = this.toQueryString(rawQuery);
+    return queryString ? \`?\${queryString}\` : "";
+  }
+
+  private contentFormatters: Record<ContentType, (input: any) => any> = {
+    [ContentType.Json]: (input: any) =>
+      input !== null && (typeof input === "object" || typeof input === "string")
+        ? JSON.stringify(input)
+        : input,
+    [ContentType.JsonApi]: (input: any) =>
+      input !== null && (typeof input === "object" || typeof input === "string")
+        ? JSON.stringify(input)
+        : input,
+    [ContentType.Text]: (input: any) =>
+      input !== null && typeof input !== "string"
+        ? JSON.stringify(input)
+        : input,
+    [ContentType.FormData]: (input: any) => {
+      if (input instanceof FormData) {
+        return input;
+      }
+
+      return Object.keys(input || {}).reduce((formData, key) => {
+        const property = input[key];
+        formData.append(
+          key,
+          property instanceof Blob
+            ? property
+            : typeof property === "object" && property !== null
+              ? JSON.stringify(property)
+              : \`\${property}\`,
+        );
+        return formData;
+      }, new FormData());
+    },
+    [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
+  };
+
+  protected mergeRequestParams(
+    params1: RequestParams,
+    params2?: RequestParams,
+  ): RequestParams {
+    return {
+      ...this.baseApiParams,
+      ...params1,
+      ...(params2 || {}),
+      headers: {
+        ...(this.baseApiParams.headers || {}),
+        ...(params1.headers || {}),
+        ...((params2 && params2.headers) || {}),
+      },
+    };
+  }
+
+  protected createAbortSignal = (
+    cancelToken: CancelToken,
+  ): AbortSignal | undefined => {
+    if (this.abortControllers.has(cancelToken)) {
+      const abortController = this.abortControllers.get(cancelToken);
+      if (abortController) {
+        return abortController.signal;
+      }
+      return void 0;
+    }
+
+    const abortController = new AbortController();
+    this.abortControllers.set(cancelToken, abortController);
+    return abortController.signal;
+  };
+
+  public abortRequest = (cancelToken: CancelToken) => {
+    const abortController = this.abortControllers.get(cancelToken);
+
+    if (abortController) {
+      abortController.abort();
+      this.abortControllers.delete(cancelToken);
+    }
+  };
+
+  public request = async <T = any, E = any>({
+    body,
+    secure,
+    path,
+    type,
+    query,
+    format,
+    baseUrl,
+    cancelToken,
+    ...params
+  }: FullRequestParams): Promise<HttpResponse<T, E>> => {
+    const secureParams =
+      ((typeof secure === "boolean" ? secure : this.baseApiParams.secure) &&
+        this.securityWorker &&
+        (await this.securityWorker(this.securityData))) ||
+      {};
+    const requestParams = this.mergeRequestParams(params, secureParams);
+    const queryString = query && this.toQueryString(query);
+    const payloadFormatter = this.contentFormatters[type || ContentType.Json];
+    const responseFormat = format || requestParams.format;
+
+    return this.customFetch(
+      \`\${baseUrl || this.baseUrl || ""}\${path}\${queryString ? \`?\${queryString}\` : ""}\`,
+      {
+        ...requestParams,
+        headers: {
+          ...(requestParams.headers || {}),
+          ...(type && type !== ContentType.FormData
+            ? { "Content-Type": type }
+            : {}),
+        },
+        signal:
+          (cancelToken
+            ? this.createAbortSignal(cancelToken)
+            : requestParams.signal) || null,
+        body:
+          typeof body === "undefined" || body === null
+            ? null
+            : payloadFormatter(body),
+      },
+    ).then(async (response) => {
+      const r = response as HttpResponse<T, E>;
+      r.data = null as unknown as T;
+      r.error = null as unknown as E;
+
+      const responseToParse = responseFormat ? response.clone() : response;
+      const data = !responseFormat
+        ? r
+        : await responseToParse[responseFormat]()
+            .then((data) => {
+              if (r.ok) {
+                r.data = data;
+              } else {
+                r.error = data;
+              }
+              return r;
+            })
+            .catch((e) => {
+              r.error = e;
+              return r;
+            });
+
+      if (cancelToken) {
+        this.abortControllers.delete(cancelToken);
+      }
+
+      if (!response.ok) throw data;
+      return data;
+    });
+  };
+}
+
+/**
+ * @title Anderson - Kohler API
+ * @version 1.0.0
+ * @license MIT
+ * @termsOfService https://unknown-hunt.biz/terms
+ * @baseUrl http://localhost:8080/api/v1
+ * @contact Gilbert Bogisich <Rosa.Mayer@hotmail.com> (https://idealistic-effector.info)
+ *
+ * Minus triduana tunc denuo calamitas acsi validus verumtamen conqueror. Explicabo demonstro tres verbera acer tergeo arma valens careo defessus. Somniculosus culpo ut repellendus arbitro fugit cotidie decumbo expedita approbo.
+ */
+export class Api<
+  SecurityDataType extends unknown,
+> extends HttpClient<SecurityDataType> {
+  r = {
+    /**
+     * @description Cinis amplus curso.
+     *
+     * @tags tg01
+     * @name Op0007
+     * @summary Aspernatur arguo audacia dolorum defaeco.
+     * @request GET:/r/1/{damp_lyre_166}
+     */
+    op0007: ({ dampLyre166 }: Op0007Params, params: RequestParams = {}) =>
+      this.request<Op0007Data, Op0007Error>({
+        path: \`/r/1/\${dampLyre166}\`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Deporto celer crustulum itaque spargo carcer audacia demo molestiae strenuus.
+     *
+     * @tags tg01
+     * @name Op0003
+     * @summary Accedo paulatim aduro demergo delicate tamen.
+     * @request POST:/r/2
+     */
+    op0003: (data: OpenapiSchUnwillingFort36, params: RequestParams = {}) =>
+      this.request<Op0003Data, Op0003Error>({
+        path: \`/r/2\`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Titulus tenuis tribuo.
+     *
+     * @tags tg01
+     * @name Op0005
+     * @summary Victoria thesaurus ut alii corrumpo canis calculus amor toties caput.
+     * @request GET:/r/3/{suburban_finger_443}
+     */
+    op0005: ({ suburbanFinger443 }: Op0005Params, params: RequestParams = {}) =>
+      this.request<Op0005Data, Op0005Error>({
+        path: \`/r/3/\${suburbanFinger443}\`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Derideo tenus super nemo damno casso auxilium.
+     *
+     * @tags tg01
+     * @name Op0008
+     * @summary Capitulus alo adulescens.
+     * @request PATCH:/r/3/{suburban_finger_443}
+     */
+    op0008: (
+      { suburbanFinger443 }: Op0008Params,
+      data: Op0008Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0008Data, Op0008Error>({
+        path: \`/r/3/\${suburbanFinger443}\`,
+        method: "PATCH",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags tg01
+     * @name Op0009
+     * @summary Ambitus despecto adopto volaticus vulgivagus vestigium illum territo utpote circumvenio.
+     * @request PUT:/r/3/{suburban_finger_443}
+     */
+    op0009: (
+      { suburbanFinger443 }: Op0009Params,
+      data: OpenapiSchEvilOctave14,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0009Data, Op0009Error>({
+        path: \`/r/3/\${suburbanFinger443}\`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags tg01
+     * @name Op0002
+     * @summary Sodalitas suadeo utor est curtus amaritudo tantillus comedo.
+     * @request GET:/r/5/{suburban_finger_443}
+     */
+    op0002: ({ suburbanFinger443 }: Op0002Params, params: RequestParams = {}) =>
+      this.request<Op0002Data, Op0002Error>({
+        path: \`/r/5/\${suburbanFinger443}\`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags tg01
+     * @name Op0006
+     * @summary Creta attollo armarium delego.
+     * @request POST:/r/6/{suburban_finger_443}
+     */
+    op0006: (
+      { suburbanFinger443, ...query }: Op0006Params,
+      data: Op0006Payload,
+      params: RequestParams = {},
+    ) =>
+      this.request<Op0006Data, Op0006Error>({
+        path: \`/r/6/\${suburbanFinger443}\`,
+        method: "POST",
+        query: query,
+        body: data,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Laudantium sponte tremo taceo.
+     *
+     * @tags tg01
+     * @name Op0001
+     * @summary Patrocinor cupiditate stips quae adstringo vinum.
+     * @request GET:/r/7/{suburban_finger_443}
+     */
+    op0001: ({ suburbanFinger443 }: Op0001Params, params: RequestParams = {}) =>
+      this.request<Op0001Data, Op0001Error>({
+        path: \`/r/7/\${suburbanFinger443}\`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Agnitio thesis nihil.
+     *
+     * @tags tg01
+     * @name Op0004
+     * @summary Curriculum strues via cetera illo administratio demulceo supplanto.
+     * @request GET:/r/8
+     */
+    op0004: (query: Op0004Params = {}, params: RequestParams = {}) =>
+      this.request<Op0004Data, Op0004Error>({
+        path: \`/r/8\`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+  };
+}
+"
+`;

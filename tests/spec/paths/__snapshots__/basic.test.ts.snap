@@ -339,16 +339,6 @@ export interface ReproReportSchema {
   id?: number;
 }
 
-/** ReportSchema */
-export interface ReproReportSchema {
-  /**
-   * Weather condition id
-   * @format int32
-   * @example 803
-   */
-  id?: number;
-}
-
 /** WeatherSchema */
 export interface ReproWeather {
   /**
@@ -357,11 +347,6 @@ export interface ReproWeather {
    * @example 803
    */
   id?: number;
-}
-
-export interface Thirduser {
-  username?: string;
-  uuid?: string;
 }
 
 export type ReproExternalRepositoryAlias = Thirdrepository;
@@ -376,16 +361,6 @@ export interface Thirdrepository {
   slug?: string;
   owner?: Thirduser;
   weather?: ReproWeather;
-}
-
-/** WeatherSchema */
-export interface ReproWeather {
-  /**
-   * Weather condition id
-   * @format int32
-   * @example 803
-   */
-  id?: number;
 }
 
 export interface AddressCreationRequest {
@@ -406,17 +381,6 @@ export interface ThirdCyclicRef {
   bar?: ReproCyclicRef;
 }
 
-export interface Thirduser {
-  username?: string;
-  uuid?: string;
-}
-
-export interface Thirdrepository {
-  slug?: string;
-  owner?: Thirduser;
-  weather?: ReproWeather;
-}
-
 /** ExternalGraphNodeTitle */
 export interface ReproExternalGraphNode {
   nodeId?: string;
@@ -425,23 +389,9 @@ export interface ReproExternalGraphNode {
   users?: Thirduser[];
 }
 
-/** NestedExternalContainerTitle */
-export interface ReproNestedExternalContainer {
-  repositoryAlias?: Repository;
-  userAlias?: Thirduser;
-}
-
 /** CyclicRefTitle */
 export interface ReproCyclicRef {
   cyclics?: ThirdCyclicRef;
-}
-
-/** CrossBridgeTitle */
-export interface ThirdCrossBridge {
-  reportAlias?: ReproReportSchema;
-  weatherAlias?: ReproWeather;
-  nestedFromRepro?: ReproNestedExternalContainer;
-  localRepository?: Thirdrepository;
 }
 
 /** ReproBundleTitle */
@@ -481,49 +431,6 @@ export interface ReproMultiFileEnvelope {
   nested?: ReproNestedExternalContainer;
   bridgeAlias?: ThirdCrossBridge;
   bundleAlias?: ThirdReproBundle;
-}
-
-/** ReportSchema */
-export interface ReproReportSchema {
-  /**
-   * Weather condition id
-   * @format int32
-   * @example 803
-   */
-  id?: number;
-}
-
-/** CrossBridgeTitle */
-export interface ThirdCrossBridge {
-  reportAlias?: ReproReportSchema;
-  weatherAlias?: ReproWeather;
-  nestedFromRepro?: ReproNestedExternalContainer;
-  localRepository?: Thirdrepository;
-}
-
-/** ExternalGraphNodeTitle */
-export interface ReproExternalGraphNode {
-  nodeId?: string;
-  repository?: Repository;
-  bridge?: CrossBridge;
-  users?: Thirduser[];
-}
-
-/** NestedExternalContainerTitle */
-export interface ReproNestedExternalContainer {
-  repositoryAlias?: Repository;
-  userAlias?: Thirduser;
-}
-
-export interface Thirdrepository {
-  slug?: string;
-  owner?: Thirduser;
-  weather?: ReproWeather;
-}
-
-export interface Thirduser {
-  username?: string;
-  uuid?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;

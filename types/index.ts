@@ -631,6 +631,13 @@ export interface GenerateApiConfiguration {
     /** disable formatting and normalization of generated type names */
     disableFormatTypeNames: boolean;
     /**
+     * When an external schema file name matches the schema type name (e.g.
+     * `./Specification.yaml` → `Specification`), reuse the existing local
+     * component name instead of generating `SpecificationSpecification`.
+     * @default false
+     */
+    preferExistingSchemaNamesForExternalRefs: boolean;
+    /**
      * output only errors to console
      * @default false
      */

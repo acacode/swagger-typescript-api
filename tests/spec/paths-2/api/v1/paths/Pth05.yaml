@@ -1,0 +1,27 @@
+# Anonymized OpenAPI (no prod names).
+get:
+    summary: "Sodalitas suadeo utor est curtus amaritudo tantillus comedo."
+    operationId: "op0002"
+    tags:
+        - "tg01"
+    parameters:
+        - $ref: "../openapi.yaml#/components/parameters/ParFlusteredViability55"
+    responses:
+        "200":
+            description: "Capillus debilito stips."
+            content:
+                application/json:
+                    schema:
+                        $ref: "../openapi.yaml#/components/schemas/SchCrazyJet13"
+        "404":
+            description: "Triumphus depromo subseco custodia auditor cognomen ademptio verto."
+            content:
+                application/json:
+                    schema:
+                        $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"
+        "500":
+            description: "Vero odit denego pauper sodalitas socius quis stillicidium."
+            content:
+                application/json:
+                    schema:
+                        $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"

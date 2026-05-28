@@ -1,0 +1,40 @@
+# Anonymized OpenAPI (no prod names).
+type: "object"
+description: "Debitis suus ad cimentarius stabilis aspicio cito attero."
+properties:
+    bony_editor_447:
+        description: "Tripudio vobis vergo."
+        type: "integer"
+        example: 38470
+    crazy_jet_122:
+        description: "Aspernatur arguo audacia dolorum defaeco."
+        type: "string"
+        enum:
+            - "ev0"
+            - "ev1"
+        example: "tergo amiculum ut trado"
+    apt_independence_779:
+        description: "Cinis amplus curso."
+        type: "string"
+        enum:
+            - "ev0"
+            - "ev1"
+        example: "maiores concido"
+    favorable_reservation_403:
+        description: "Infit celebrer succurro cultura arguo vomer."
+        type: "boolean"
+        example: false
+info:
+    version: "0.0.0"
+    license:
+        name: "MIT"
+    contact:
+        name: "Gilbert Bogisich"
+        email: "Rosa.Mayer@hotmail.com"
+        url: "https://idealistic-effector.info"
+    termsOfService: "https://unknown-hunt.biz/terms"
+    title: "Anderson - Kohler API"
+    description: "Minus triduana tunc denuo calamitas acsi validus verumtamen conqueror. Explicabo demonstro tres verbera
+        acer tergeo arma valens careo defessus. Somniculosus culpo ut repellendus arbitro fugit cotidie decumbo expedita
+        approbo."
+components: {}

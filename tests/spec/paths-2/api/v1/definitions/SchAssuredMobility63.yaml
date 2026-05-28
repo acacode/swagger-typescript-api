@@ -1,0 +1,21 @@
+# Anonymized OpenAPI (no prod names).
+type: "object"
+properties:
+    spotless_equal_503:
+        description: "Demergo abeo calamitas."
+        type: "integer"
+    secondhand_copout_862:
+        description: "Deserunt contego damno confero atqui facere studio vix decor."
+        type: "string"
+        enum:
+            - "ev0"
+            - "ev1"
+    strange_peony_226:
+        description: "Eveniet coma angustus taedium antepono adipisci."
+        type: "string"
+        enum:
+            - "ev0"
+            - "ev1"
+    welldocumented_repeat_694:
+        description: "Corrupti amor asperiores consequatur vulgo sursum tergo acquiro clibanus."
+        type: "boolean"

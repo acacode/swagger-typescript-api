@@ -2,7 +2,21 @@ import { typeGuard } from "yummies/type-guard";
 import type { AnyObject, Maybe } from "yummies/types";
 import type { SchemaComponent } from "../types/index.js";
 import type { CodeGenConfig } from "./configuration.js";
+import type { RefDetails } from "./resolved-swagger-schema.js";
 import { pascalCase } from "./util/pascal-case.js";
+
+const OPENAPI_COMPONENT_NAMES = new Set<string>([
+  "schemas",
+  "responses",
+  "requestBodies",
+  "parameters",
+  "headers",
+  "securitySchemes",
+  "links",
+  "callbacks",
+  "examples",
+  "pathItems",
+]);
 
 export class SchemaComponentsMap {
   _data: SchemaComponent[] = [];
@@ -59,6 +73,84 @@ export class SchemaComponentsMap {
     return matchingComponents.length === 1 ? matchingComponents[0] : null;
   }
 
+  private normalizeTypeNameFromFile(typeName: string): string {
+    return typeName.replace(/\.(yaml|yml|json)$/i, "");
+  }
+
+  private resolveComponentName(
+    rawComponentName: string,
+  ): SchemaComponent["componentName"] {
+    const normalizedComponentName =
+      rawComponentName === "definitions" ? "schemas" : rawComponentName;
+
+    return OPENAPI_COMPONENT_NAMES.has(
+      normalizedComponentName as SchemaComponent["componentName"],
+    )
+      ? (normalizedComponentName as SchemaComponent["componentName"])
+      : "schemas";
+  }
+
+  private isFileOnlyRef(ref: string): boolean {
+    const [, rawPointer = ""] = ref.split("#");
+    return !rawPointer.replace(/^\/+/, "");
+  }
+
+  private unwrapExternalComponentsDocument(
+    ref: string,
+    resolved: AnyObject,
+  ): { ref: string; resolved: AnyObject } | null {
+    if (!this.isFileOnlyRef(ref)) {
+      return null;
+    }
+
+    const schemas = resolved.components?.schemas;
+    if (!schemas || typeof schemas !== "object") {
+      return null;
+    }
+
+    const schemaEntries = Object.entries(schemas).filter(
+      ([, schemaData]) => schemaData != null && typeof schemaData === "object",
+    );
+
+    if (schemaEntries.length !== 1) {
+      return null;
+    }
+
+    const [schemaName, schemaData] = schemaEntries[0];
+
+    return {
+      ref: `${ref}#/components/schemas/${schemaName}`,
+      resolved: schemaData as AnyObject,
+    };
+  }
+
+  private isRefOnlyRawTypeData(
+    rawTypeData: SchemaComponent["rawTypeData"],
+  ): boolean {
+    if (!rawTypeData || typeof rawTypeData !== "object") {
+      return false;
+    }
+
+    return (
+      Object.keys(rawTypeData).length === 1 &&
+      typeof rawTypeData.$ref === "string"
+    );
+  }
+
+  private preferExistingSchemaNameForExternalRef(
+    typeName: string,
+    refDetails: RefDetails,
+  ): boolean {
+    if (!this.config.preferExistingSchemaNamesForExternalRefs) {
+      return false;
+    }
+
+    const filePrefix = pascalCase(
+      refDetails.externalOpenapiFileName || "External",
+    );
+    return filePrefix === typeName;
+  }
+
   private createComponentDraft(
     $ref: string,
     rawTypeData: Maybe<AnyObject> | SchemaComponent,
@@ -77,13 +169,12 @@ export class SchemaComponentsMap {
     const pointer = rawPointer.startsWith("/") ? rawPointer : `/${rawPointer}`;
     const pointerParts = pointer.split("/").filter(Boolean);
 
-    const typeName = pointerParts.at(-1) || parsed.at(-1) || "Unknown";
+    const typeName = this.normalizeTypeNameFromFile(
+      pointerParts.at(-1) || parsed.at(-1) || "Unknown",
+    );
     const rawComponentName =
       pointerParts.at(-2) || parsed[parsed.length - 2] || "schemas";
-    const componentName =
-      rawComponentName === "definitions"
-        ? "schemas"
-        : (rawComponentName as SchemaComponent["componentName"]);
+    const componentName = this.resolveComponentName(rawComponentName);
 
     return {
       $ref,
@@ -131,6 +222,34 @@ export class SchemaComponentsMap {
     );
   }
 
+  resolveRefOnlyComponents() {
+    if (!this.config.preferExistingSchemaNamesForExternalRefs) {
+      return;
+    }
+
+    const { resolvedSwaggerSchema } = this.config;
+
+    for (const component of this._data) {
+      if (!this.isRefOnlyRawTypeData(component.rawTypeData)) {
+        continue;
+      }
+
+      const ref = component.rawTypeData?.$ref;
+      if (typeof ref !== "string") {
+        continue;
+      }
+
+      const resolved = resolvedSwaggerSchema.getRef(ref);
+      if (resolved == null || typeof resolved !== "object") {
+        continue;
+      }
+
+      component.rawTypeData = resolved as AnyObject;
+      component.typeData = null;
+      delete component.$prepared;
+    }
+  }
+
   get = ($ref: string) => {
     const localFound =
       this._data.find((c) => c.$ref === $ref) ||
@@ -151,9 +270,21 @@ export class SchemaComponentsMap {
     const refDetails = resolvedSwaggerSchema.getRefDetails($ref);
 
     if (foundByRef != null) {
-      const componentDraft = this.createComponentDraft(
+      let resolvedRef = $ref;
+      let resolvedTypeData = foundByRef as AnyObject;
+
+      const unwrappedComponentsDocument = this.unwrapExternalComponentsDocument(
         $ref,
-        foundByRef as AnyObject,
+        resolvedTypeData,
+      );
+      if (unwrappedComponentsDocument) {
+        resolvedRef = unwrappedComponentsDocument.ref;
+        resolvedTypeData = unwrappedComponentsDocument.resolved;
+      }
+
+      const componentDraft = this.createComponentDraft(
+        resolvedRef,
+        resolvedTypeData,
       );
 
       componentDraft.typeName =
@@ -168,6 +299,20 @@ export class SchemaComponentsMap {
           (component) => component.typeName === componentDraft.typeName,
         )
       ) {
+        if (
+          this.preferExistingSchemaNameForExternalRef(
+            componentDraft.typeName,
+            refDetails,
+          )
+        ) {
+          const existingComponent = this._data.find(
+            (component) => component.typeName === componentDraft.typeName,
+          );
+          if (existingComponent) {
+            return existingComponent;
+          }
+        }
+
         componentDraft.typeName =
           this.config.hooks.onFixDuplicateExternalTypeName?.(
             componentDraft.typeName,
@@ -175,6 +320,15 @@ export class SchemaComponentsMap {
             this._data.map((it) => it.typeName),
           ) ??
           `${pascalCase(refDetails.externalOpenapiFileName || "External")}${componentDraft.typeName}`;
+      }
+
+      const existingComponent = this._data.find(
+        (component) =>
+          component.componentName === componentDraft.componentName &&
+          component.typeName === componentDraft.typeName,
+      );
+      if (existingComponent) {
+        return existingComponent;
       }
 
       return this.createComponent($ref, componentDraft);

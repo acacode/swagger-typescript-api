@@ -1,0 +1,51 @@
+# Anonymized OpenAPI (no prod names).
+post:
+    summary: "Creta attollo armarium delego."
+    operationId: "op0006"
+    tags:
+        - "tg01"
+    parameters:
+        - $ref: "../openapi.yaml#/components/parameters/ParFlusteredViability55"
+        - name: "acidic_outset_265"
+          in: "query"
+          description: "Apostolus autus adaugeo tandem recusandae demonstro."
+          required: true
+          schema:
+              type: "string"
+              enum:
+                  - "ev0"
+                  - "ev1"
+    requestBody:
+        required: true
+        content:
+            application/yaml:
+                schema:
+                    type: "string"
+                    format: "binary"
+                    description: "Comburo curvo ago adinventitias crapula ullam."
+    responses:
+        "200":
+            description: "Terebro tribuo nostrum cubitum excepturi creo."
+            content:
+                application/json:
+                    schema:
+                        type: "object"
+                        required:
+                            - "political_toaster_538"
+                        properties:
+                            political_toaster_538:
+                                type: "integer"
+                                format: "int64"
+                                description: "Rem defleo universe tardus harum tempora tempore sordeo abscido."
+        "400":
+            description: "Acerbitas admoveo sufficio chirographum ascisco tempore."
+            content:
+                application/json:
+                    schema:
+                        $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"
+        "500":
+            description: "Teres sortitus assumenda calcar voluptas nostrum calamitas conscendo derideo cruentus."
+            content:
+                application/json:
+                    schema:
+                        $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"

@@ -1,0 +1,27 @@
+# Anonymized OpenAPI (no prod names).
+type: "object"
+description: "Pauci cibo ambulo."
+required:
+    - "worthwhile_tarragon_43"
+    - "woeful_following_984"
+properties:
+    worthwhile_tarragon_43:
+        description: "Uxor strues considero."
+        type: "string"
+        enum:
+            - "ev0"
+            - "ev1"
+            - "ev2"
+            - "ev3"
+            - "ev4"
+            - "ev5"
+    woeful_following_984:
+        description: "Varius animadverto depono accommodo facilis."
+        type: "string"
+        example: "cum tripudio beatus"
+    educated_discourse_995:
+        description: "Theologus strues canonicus calculus."
+    noteworthy_brook_154:
+        description: "Velum deduco spiculum crapula."
+        type: "string"
+        example: "earum vestrum caries adficio tum"

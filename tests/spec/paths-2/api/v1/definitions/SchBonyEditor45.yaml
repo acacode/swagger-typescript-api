@@ -1,0 +1,13 @@
+# Anonymized OpenAPI (no prod names).
+type: "object"
+description: "Illo vigor est."
+properties:
+    private_mentor_765:
+        type: "string"
+        description: "Tamisium ait venia."
+    official_chops_77:
+        type: "string"
+        description: "Aestas error vulgus."
+required:
+    - "private_mentor_765"
+    - "official_chops_77"

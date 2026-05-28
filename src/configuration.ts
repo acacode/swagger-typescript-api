@@ -161,6 +161,7 @@ export class CodeGenConfig {
   enumKeyPrefix = "";
   enumKeySuffix = "";
   patch = false;
+  preferExistingSchemaNamesForExternalRefs = false;
   componentTypeNameResolver: ComponentTypeNameResolver;
   /** name of the main exported class */
   apiClassName = "Api";

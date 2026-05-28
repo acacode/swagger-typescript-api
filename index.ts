@@ -238,6 +238,12 @@ const generateCommand = defineCommand({
       description: "fix up small errors in the swagger source definition",
       default: codeGenBaseConfig.patch,
     },
+    "prefer-existing-schema-names-for-external-refs": {
+      type: "boolean",
+      description:
+        "reuse existing local schema names for external file refs when the file name matches the schema name (avoids names like SpecificationSpecification)",
+      default: codeGenBaseConfig.preferExistingSchemaNamesForExternalRefs,
+    },
     path: {
       type: "string",
       alias: "p",
@@ -341,6 +347,8 @@ const generateCommand = defineCommand({
       moduleNameIndex: +args["module-name-index"] || 0,
       output: path.resolve(process.cwd(), (args.output as string) || "."),
       patch: args.patch,
+      preferExistingSchemaNamesForExternalRefs:
+        args["prefer-existing-schema-names-for-external-refs"],
       silent: args.silent,
       singleHttpClient: args["single-http-client"],
       sortRoutes: args["sort-routes"],

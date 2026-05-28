@@ -135,6 +135,8 @@ export class CodeGenProcess {
     // Put all enums at the top (before discriminators)
     this.schemaComponentsMap.enumsFirst();
 
+    this.schemaComponentsMap.resolveRefOnlyComponents();
+
     const componentsToParse: SchemaComponent[] =
       this.schemaComponentsMap.filter(
         compact(["schemas", this.config.extractResponses && "responses"]),
@@ -276,10 +278,16 @@ export class CodeGenProcess {
     while (processedCount < schemaComponentsCount) {
       modelTypes = [];
       processedCount = 0;
+      const seenExportNames = new Set<string>();
       for (const component of components) {
         if (modelTypeComponents.includes(component.componentName)) {
           const modelType = this.prepareModelType(component);
           if (modelType) {
+            if (seenExportNames.has(modelType.name)) {
+              processedCount++;
+              continue;
+            }
+            seenExportNames.add(modelType.name);
             modelTypes.push(modelType);
           }
           processedCount++;
