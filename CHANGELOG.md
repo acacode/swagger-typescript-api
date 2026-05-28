@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.11.1
+
+### Patch Changes
+
+- [`bfad977`](https://github.com/acacode/swagger-typescript-api/commit/bfad9774bfcdae6a39f35682d921769e9c7a7cdb) Thanks [@js2me](https://github.com/js2me)! - fixed preferExistingSchemaNamesForExternalRefs parameter
+
 ## 13.11.0
 
 ### Minor Changes
