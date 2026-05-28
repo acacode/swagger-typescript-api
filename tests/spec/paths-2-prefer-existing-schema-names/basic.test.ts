@@ -71,6 +71,11 @@ describe("paths-2-prefer-existing-schema-names", async () => {
     expect(content).not.toMatch(/SchEmptyPants75SchEmptyPants75(?![\w])/);
     expect(content).not.toMatch(/SidecarConfigYaml(?![\w])/);
 
+    expect(content).toContain("export interface SchCrazyJet13");
+    expect(content).toContain("content?: SchEvilOctave14");
+    expect(content).not.toMatch(/OpenapiSchEvilOctave14(?![\w])/);
+    expect(content).not.toMatch(/export type OpenapiSch(?![\w])/);
+
     const countOccurrences = (haystack: string, needle: string) =>
       haystack.split(needle).length - 1;
 

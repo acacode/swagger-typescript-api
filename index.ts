@@ -241,7 +241,7 @@ const generateCommand = defineCommand({
     "prefer-existing-schema-names-for-external-refs": {
       type: "boolean",
       description:
-        "reuse existing local schema names for external file refs when the file name matches the schema name (avoids names like SpecificationSpecification)",
+        "reuse existing local schema names for external refs when the file name matches the schema name or the ref targets an existing component schema fragment (avoids names like OpenapiFoo or SpecificationSpecification)",
       default: codeGenBaseConfig.preferExistingSchemaNamesForExternalRefs,
     },
     path: {

@@ -137,6 +137,53 @@ export class SchemaComponentsMap {
     );
   }
 
+  private extractComponentSchemaNameFromRef(ref: string): string | null {
+    const [, rawPointer = ""] = ref.split("#");
+    if (!rawPointer) {
+      return null;
+    }
+
+    const pointer = rawPointer.startsWith("/")
+      ? rawPointer.slice(1)
+      : rawPointer;
+    const pointerParts = pointer.split("/").filter(Boolean);
+
+    if (pointerParts.length < 2) {
+      return null;
+    }
+
+    const collection = pointerParts.at(-2);
+    if (collection !== "schemas" && collection !== "definitions") {
+      return null;
+    }
+
+    return this.normalizeTypeNameFromFile(pointerParts.at(-1) || "");
+  }
+
+  private findExistingComponentBySchemaFragment(
+    ref: string,
+    typeName: string,
+  ): Maybe<SchemaComponent> {
+    const fragmentSchemaName = this.extractComponentSchemaNameFromRef(ref);
+    if (!fragmentSchemaName || fragmentSchemaName !== typeName) {
+      return null;
+    }
+
+    const localRef = this.createRef(["components", "schemas", typeName]);
+    const byLocalRef = this._data.find(
+      (component) => component.$ref === localRef,
+    );
+    if (byLocalRef) {
+      return byLocalRef;
+    }
+
+    const matching = this._data.filter(
+      (component) => component.typeName === typeName,
+    );
+
+    return matching.length === 1 ? matching[0] : null;
+  }
+
   private preferExistingSchemaNameForExternalRef(
     typeName: string,
     refDetails: RefDetails,
@@ -148,7 +195,14 @@ export class SchemaComponentsMap {
     const filePrefix = pascalCase(
       refDetails.externalOpenapiFileName || "External",
     );
-    return filePrefix === typeName;
+    if (filePrefix === typeName) {
+      return true;
+    }
+
+    return (
+      this.findExistingComponentBySchemaFragment(refDetails.ref, typeName) !=
+      null
+    );
   }
 
   private createComponentDraft(
@@ -293,6 +347,16 @@ export class SchemaComponentsMap {
           refDetails,
         ) || componentDraft.typeName;
 
+      if (this.config.preferExistingSchemaNamesForExternalRefs) {
+        const existingByFragment = this.findExistingComponentBySchemaFragment(
+          refDetails.ref,
+          componentDraft.typeName,
+        );
+        if (existingByFragment) {
+          return existingByFragment;
+        }
+      }
+
       if (
         // duplicate name
         this._data.some(
@@ -305,9 +369,14 @@ export class SchemaComponentsMap {
             refDetails,
           )
         ) {
-          const existingComponent = this._data.find(
-            (component) => component.typeName === componentDraft.typeName,
-          );
+          const existingComponent =
+            this.findExistingComponentBySchemaFragment(
+              refDetails.ref,
+              componentDraft.typeName,
+            ) ??
+            this._data.find(
+              (component) => component.typeName === componentDraft.typeName,
+            );
           if (existingComponent) {
             return existingComponent;
           }

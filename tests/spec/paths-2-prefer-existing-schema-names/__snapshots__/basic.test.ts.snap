@@ -196,17 +196,14 @@ export interface SchEmptyPants75 {
 
 /** Dens damno stultus crapula. */
 export interface SchCrazyJet13 {
-  content?: OpenapiSchEvilOctave14;
+  /** Demens inflammatio tergum apud depulso varietas virga ceno curtus. */
+  content?: SchEvilOctave14;
   /**
    * Tibi velum odio solus caries ante tres titulus chirographum acer.
    * @format date-time
    */
   rectangular_kielbasa_799?: string;
 }
-
-export type OpenapiSchAptIndependence78 = SchAptIndependence78;
-
-export type OpenapiSchBonyEditor45 = SchBonyEditor45;
 
 export interface Op0007Params {
   /**
@@ -216,15 +213,13 @@ export interface Op0007Params {
   dampLyre166: number;
 }
 
-export type Op0007Data = OpenapiSchAptIndependence78;
+export type Op0007Data = SchAptIndependence78;
 
-export type Op0007Error = OpenapiSchBonyEditor45;
+export type Op0007Error = SchBonyEditor45;
 
-export type OpenapiSchUnwillingFort36 = SchUnwillingFort36;
+export type Op0003Data = SchAptIndependence78;
 
-export type Op0003Data = OpenapiSchAptIndependence78;
-
-export type Op0003Error = OpenapiSchBonyEditor45;
+export type Op0003Error = SchBonyEditor45;
 
 export interface Op0005Params {
   /**
@@ -234,15 +229,13 @@ export interface Op0005Params {
   suburbanFinger443: number;
 }
 
-export type Op0005Data = OpenapiSchAptIndependence78;
+export type Op0005Data = SchAptIndependence78;
 
-export type Op0005Error = OpenapiSchBonyEditor45;
-
-export type OpenapiSchUnlawfulConsistency14 = SchUnlawfulConsistency14;
+export type Op0005Error = SchBonyEditor45;
 
 export interface Op0008Payload {
   /** Alveus calamitas corporis thesis adaugeo spectaculum degero aiunt colligo. */
-  gracious_awareness_535: OpenapiSchUnlawfulConsistency14[];
+  gracious_awareness_535: SchUnlawfulConsistency14[];
 }
 
 export interface Op0008Params {
@@ -253,11 +246,9 @@ export interface Op0008Params {
   suburbanFinger443: number;
 }
 
-export type Op0008Data = OpenapiSchUnwillingFort36;
+export type Op0008Data = SchUnwillingFort36;
 
-export type Op0008Error = OpenapiSchBonyEditor45;
-
-export type OpenapiSchEvilOctave14 = SchEvilOctave14;
+export type Op0008Error = SchBonyEditor45;
 
 export interface Op0009Params {
   /**
@@ -269,9 +260,7 @@ export interface Op0009Params {
 
 export type Op0009Data = any;
 
-export type Op0009Error = OpenapiSchBonyEditor45;
-
-export type OpenapiSchCrazyJet13 = SchCrazyJet13;
+export type Op0009Error = SchBonyEditor45;
 
 export interface Op0002Params {
   /**
@@ -281,9 +270,9 @@ export interface Op0002Params {
   suburbanFinger443: number;
 }
 
-export type Op0002Data = OpenapiSchCrazyJet13;
+export type Op0002Data = SchCrazyJet13;
 
-export type Op0002Error = OpenapiSchBonyEditor45;
+export type Op0002Error = SchBonyEditor45;
 
 /**
  * Comburo curvo ago adinventitias crapula ullam.
@@ -315,7 +304,7 @@ export interface Op0006Data {
   political_toaster_538: number;
 }
 
-export type Op0006Error = OpenapiSchBonyEditor45;
+export type Op0006Error = SchBonyEditor45;
 
 /** Apostolus autus adaugeo tandem recusandae demonstro. */
 export enum Op0006Params1AcidicOutset265Enum {
@@ -333,7 +322,7 @@ export interface Op0001Params {
 
 export type Op0001Data = string;
 
-export type Op0001Error = OpenapiSchBonyEditor45;
+export type Op0001Error = SchBonyEditor45;
 
 export interface Op0004Params {
   /**
@@ -360,7 +349,7 @@ export interface Op0004Data {
   suburban_finger_443: number | null;
 }
 
-export type Op0004Error = OpenapiSchBonyEditor45;
+export type Op0004Error = SchBonyEditor45;
 
 /** Viriliter caterva validus civitas utique. */
 export enum SchEvilOctave14TypeEnum {
@@ -848,7 +837,7 @@ export class Api<
      * @summary Accedo paulatim aduro demergo delicate tamen.
      * @request POST:/r/2
      */
-    op0003: (data: OpenapiSchUnwillingFort36, params: RequestParams = {}) =>
+    op0003: (data: SchUnwillingFort36, params: RequestParams = {}) =>
       this.request<Op0003Data, Op0003Error>({
         path: \`/r/2\`,
         method: "POST",
@@ -906,7 +895,7 @@ export class Api<
      */
     op0009: (
       { suburbanFinger443 }: Op0009Params,
-      data: OpenapiSchEvilOctave14,
+      data: SchEvilOctave14,
       params: RequestParams = {},
     ) =>
       this.request<Op0009Data, Op0009Error>({

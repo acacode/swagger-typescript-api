@@ -631,9 +631,13 @@ export interface GenerateApiConfiguration {
     /** disable formatting and normalization of generated type names */
     disableFormatTypeNames: boolean;
     /**
-     * When an external schema file name matches the schema type name (e.g.
-     * `./Specification.yaml` → `Specification`), reuse the existing local
-     * component name instead of generating `SpecificationSpecification`.
+     * Reuse existing local component type names for external `$ref`s instead of
+     * prefixing with the external file name (e.g. `OpenapiFoo`).
+     *
+     * Applies when the external file name matches the schema type name (e.g.
+     * `./Specification.yaml` → `Specification`) and when the ref targets an
+     * existing component schema fragment (`#/components/schemas/Foo` or
+     * `#/definitions/Foo` in Swagger 2).
      * @default false
      */
     preferExistingSchemaNamesForExternalRefs: boolean;
