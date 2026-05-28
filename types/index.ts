@@ -277,6 +277,8 @@ export interface SchemaComponent {
   typeData: ParsedSchema<
     SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent
   > | null;
+  /** Cache populated by {@link CodeGenProcess.prepareModelType} */
+  $prepared?: ModelType | null;
 }
 
 export enum RequestContentKind {

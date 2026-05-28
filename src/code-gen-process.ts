@@ -160,6 +160,24 @@ export class CodeGenProcess {
 
     this.schemaRoutes.attachSchema(resolvedSwaggerSchema, parsedSchemas);
 
+    if (!this.config.preferExistingSchemaNamesForExternalRefs) {
+      this.typeNameFormatter.precommit(
+        this.schemaComponentsMap
+          .getComponents()
+          .map((component) => component.typeName),
+      );
+
+      for (const component of componentsToParse) {
+        component.typeData = null;
+        delete component.$prepared;
+        const reparsed = this.schemaParserFabric.parseSchema(
+          component.rawTypeData,
+          component.typeName,
+        );
+        component.typeData = reparsed;
+      }
+    }
+
     const rawConfiguration = {
       apiConfig: this.createApiConfig(resolvedSwaggerSchema.usageSchema),
       config: this.config,
