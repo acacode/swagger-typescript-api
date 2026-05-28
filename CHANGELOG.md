@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.12.0
+
+### Minor Changes
+
+- [`691559a`](https://github.com/acacode/swagger-typescript-api/commit/691559ae70c71b8bdb33b2e78b145ca7db6331b5) Thanks [@js2me](https://github.com/js2me)! - Add `enumStyle: "const-enum"` to generate TypeScript `const enum` declarations for schema enums and the built-in `ContentType`.
+
 ## 13.11.2
 
 ### Patch Changes
