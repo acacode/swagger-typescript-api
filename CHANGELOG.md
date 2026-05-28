@@ -1,5 +1,13 @@
 # swagger-typescript-api
 
+## 13.11.2
+
+### Patch Changes
+
+- [`691d07d`](https://github.com/acacode/swagger-typescript-api/commit/691d07d805c17a02da3f0062ef1c0457ec0e2543) Thanks [@js2me](https://github.com/js2me)! - Fix schema type name resolution when preferExistingSchemaNamesForExternalRefs is false
+
+  When `preferExistingSchemaNamesForExternalRefs` is disabled, schema components with external refs were not re-parsed with the correct type name formatter, leading to incorrect type names in generated output. Now the formatter is precommitted with existing component names and affected schemas are re-parsed.
+
 ## 13.11.1
 
 ### Patch Changes
