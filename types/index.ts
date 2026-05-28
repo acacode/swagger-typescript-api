@@ -530,8 +530,8 @@ export interface GenerateApiConfiguration {
     generateRouteTypes: boolean;
     /** generate an API client */
     generateClient: boolean;
-    /** enum output style: "enum" (default), "union" (T1 | T2 | TN), or "const" (as const object + type alias) */
-    enumStyle: "enum" | "union" | "const";
+    /** enum output style: "enum" (default), "union" (T1 | T2 | TN), "const" (as const object + type alias), or "const-enum" (const enum) */
+    enumStyle: "enum" | "union" | "const" | "const-enum";
     /** @deprecated Use enumStyle: "union" instead */
     generateUnionEnums: boolean;
     /** parsed swagger schema */

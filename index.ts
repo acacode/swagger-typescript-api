@@ -190,7 +190,7 @@ const generateCommand = defineCommand({
     "enum-style": {
       type: "string",
       description:
-        'enum output style: "enum" (default), "union" (T1 | T2 | TN), or "const" (as const object + type alias)',
+        'enum output style: "enum" (default), "union" (T1 | T2 | TN), "const" (as const object + type alias), or "const-enum" (const enum)',
       default: codeGenBaseConfig.enumStyle,
     },
     "http-client": {
@@ -336,7 +336,12 @@ const generateCommand = defineCommand({
       generateResponses: args.responses,
       generateRouteTypes: args["route-types"],
       generateUnionEnums: args["generate-union-enums"],
-      enumStyle: args["enum-style"] as "enum" | "union" | "const" | undefined,
+      enumStyle: args["enum-style"] as
+        | "enum"
+        | "union"
+        | "const"
+        | "const-enum"
+        | undefined,
       httpClientType:
         args["http-client"] || args.axios
           ? HTTP_CLIENT.AXIOS

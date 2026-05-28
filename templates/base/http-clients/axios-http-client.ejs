@@ -42,6 +42,14 @@ export const ContentType = {
 export type ContentType = (typeof ContentType)[keyof typeof ContentType];
 <% } else if (config.enumStyle === "union") { %>
 export type ContentType = "application/json" | "application/vnd.api+json" | "multipart/form-data" | "application/x-www-form-urlencoded" | "text/plain";
+<% } else if (config.enumStyle === "const-enum") { %>
+export const enum ContentType {
+  Json = "application/json",
+  JsonApi = "application/vnd.api+json",
+  FormData = "multipart/form-data",
+  UrlEncoded = "application/x-www-form-urlencoded",
+  Text = "text/plain",
+}
 <% } else { %>
 export enum ContentType {
   Json = "application/json",

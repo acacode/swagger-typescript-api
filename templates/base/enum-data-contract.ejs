@@ -8,6 +8,16 @@ const { name, $content } = contract;
     <%~ _.map($content, ({ key, value }) => `${key}: ${value}`).join(",\n    ") %>
   } as const;
   export type <%~ name %> = (typeof <%~ name %>)[keyof typeof <%~ name %>];
+<% } else if (config.enumStyle === "const-enum") { %>
+  export const enum <%~ name %> {
+    <%~ _.map($content, ({ key, value, description }) => {
+      let formattedDescription = description && formatDescription(description, true);
+      return [
+        formattedDescription && `/** ${formattedDescription} */`,
+        `${key} = ${value}`
+      ].filter(Boolean).join("\n");
+    }).join(",\n") %>
+  }
 <% } else if (config.enumStyle === "union") { %>
   export type <%~ name %> = <%~ _.map($content, ({ value }) => value).join(" | ") %>
 <% } else { %>

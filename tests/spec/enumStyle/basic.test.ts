@@ -63,4 +63,25 @@ describe("basic", async () => {
 
     expect(content).toMatchSnapshot();
   });
+
+  test("const-enums-http-client", async () => {
+    await generateApi({
+      fileName: "schema-const-enum",
+      input: path.resolve(import.meta.dirname, "schema.json"),
+      output: tmpdir,
+      silent: true,
+      enumStyle: "const-enum",
+      cleanOutput: false,
+      modular: false,
+    });
+
+    const content = await fs.readFile(
+      path.join(tmpdir, "schema-const-enum.ts"),
+      {
+        encoding: "utf8",
+      },
+    );
+
+    expect(content).toMatchSnapshot();
+  });
 });

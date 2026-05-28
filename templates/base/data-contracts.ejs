@@ -19,6 +19,9 @@ const dataContractTemplates = {
   enum: (contract) => {
     return `enum ${contract.name} {\r\n${contract.content} \r\n }`;
   },
+  'const enum': (contract) => {
+    return `const enum ${contract.name} {\r\n${contract.content} \r\n }`;
+  },
   interface: (contract) => {
     return `interface ${contract.name}${buildGenerics(contract)} {\r\n${contract.content}}`;
   },

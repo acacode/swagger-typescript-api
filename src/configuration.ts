@@ -55,8 +55,8 @@ export class CodeGenConfig {
   generateRouteTypes = false;
   /** CLI flag */
   generateClient = true;
-  /** CLI flag. Controls enum output format: "enum" (default), "union" (T1 | T2 | TN), or "const" (as const object + type alias). */
-  enumStyle: "enum" | "union" | "const" = "enum";
+  /** CLI flag. Controls enum output format: "enum" (default), "union" (T1 | T2 | TN), "const" (as const object + type alias), or "const-enum" (const enum). */
+  enumStyle: "enum" | "union" | "const" | "const-enum" = "enum";
   /** @deprecated Use enumStyle: "union" instead */
   generateUnionEnums = false;
   /** CLI flag */

@@ -147,9 +147,11 @@ export class EnumSchemaParser extends MonoSchemaParser {
       typeIdentifier:
         this.config.enumStyle === "const"
           ? this.config.Ts.Keyword.Const
-          : this.config.enumStyle === "union"
-            ? this.config.Ts.Keyword.Type
-            : this.config.Ts.Keyword.Enum,
+          : this.config.enumStyle === "const-enum"
+            ? `${this.config.Ts.Keyword.Const} ${this.config.Ts.Keyword.Enum}`
+            : this.config.enumStyle === "union"
+              ? this.config.Ts.Keyword.Type
+              : this.config.Ts.Keyword.Enum,
       name: this.typeName,
       description: this.schemaFormatters.formatDescription(
         this.schema.description,
