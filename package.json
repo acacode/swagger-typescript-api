@@ -73,6 +73,7 @@
     "axios": "1.17.0",
     "tsdown": "0.22.2",
     "typedoc": "0.28.19",
+    "unrun": "^0.3.0",
     "vitest": "4.1.8"
   },
   "engines": {
