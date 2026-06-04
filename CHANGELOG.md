@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.12.1
+
+### Patch Changes
+
+- [`caa2874`](https://github.com/acacode/swagger-typescript-api/commit/caa2874e2b4f230e85a4e55a30dd2044ed96da0c) Thanks [@js2me](https://github.com/js2me)! - update all deps to latest (patch + minor deps, no major updates)
+
 ## 13.12.0
 
 ### Minor Changes
