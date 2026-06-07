@@ -122,8 +122,7 @@ describe("ResolvedSwaggerSchema authorization token forwarding", () => {
       silent: true,
     });
 
-    expect(attackerHits).toHaveLength(1);
-    expect(attackerHits[0]?.authorization).toBeUndefined();
+    expect(attackerHits).toHaveLength(0);
   });
 
   test("forwards authorizationToken to same-origin $ref URLs", async () => {
