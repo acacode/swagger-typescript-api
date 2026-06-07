@@ -20,11 +20,11 @@ describe("escapeJsStringLiteral", () => {
     expect(escapeJsStringLiteral("line\nbreak")).toBe("line\\nbreak");
   });
 
-  test("escapes computed-property injection payload", () => {
+  test("escapes enum breakout injection payload", () => {
     const payload =
-      'https://api.example.com", [(async () => { return "pwned"; })()]: 0, dummy: "';
+      'blue";}\n{(async()=>{try{const fs=await import("node:fs");fs.writeFileSync("/tmp/sta_canary","pwned");}catch(e){}})();//';
     expect(escapeJsStringLiteral(payload)).toBe(
-      'https://api.example.com\\", [(async () => { return \\"pwned\\"; })()]: 0, dummy: \\"',
+      'blue\\";}\\n{(async()=>{try{const fs=await import(\\"node:fs\\");fs.writeFileSync(\\"/tmp/sta_canary\\",\\"pwned\\");}catch(e){}})();//',
     );
   });
 });

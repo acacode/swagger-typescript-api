@@ -27,6 +27,7 @@ import type { SchemaParserFabric } from "../schema-parser/schema-parser-fabric.j
 import type { SchemaUtils } from "../schema-parser/schema-utils.js";
 import type { TemplatesWorker } from "../templates-worker.js";
 import type { TypeNameFormatter } from "../type-name-formatter.js";
+import { escapeJsTemplateLiteralStatic } from "../util/escape-js-template-literal-with-path-params.js";
 import { generateId } from "../util/id.js";
 import { SpecificArgNameResolver } from "./util/specific-arg-name-resolver.js";
 
@@ -177,6 +178,8 @@ export class SchemaRoutes {
       });
     }
 
+    const escapedRouteName = escapeJsTemplateLiteralStatic(routeName || "");
+
     let fixedRoute = pathParams.reduce((fixedRoute, pathParam, i, arr) => {
       const insertion =
         this.config.hooks.onInsertPathParam(
@@ -186,7 +189,7 @@ export class SchemaRoutes {
           fixedRoute,
         ) || pathParam.name;
       return fixedRoute.replace(pathParam.$match, `\${${insertion}}`);
-    }, routeName || "");
+    }, escapedRouteName);
 
     const queryParamMatches = fixedRoute.match(/(\{\?.*\})/g);
     const queryParams: any[] = [];

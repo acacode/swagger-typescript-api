@@ -14,6 +14,7 @@ import type { ResolvedSwaggerSchema } from "./resolved-swagger-schema.js";
 import type { MonoSchemaParser } from "./schema-parser/mono-schema-parser.js";
 import type { SchemaParser } from "./schema-parser/schema-parser.js";
 import type { Translator } from "./translators/translator.js";
+import { escapeJsStringLiteral } from "./util/escape-js-string-literal.js";
 import { objectAssign } from "./util/object-assign.js";
 
 const TsKeyword = {
@@ -247,7 +248,8 @@ export class CodeGenConfig {
     /**
      * "$A"
      */
-    StringValue: (content: unknown) => `"${content}"`,
+    StringValue: (content: unknown) =>
+      `"${escapeJsStringLiteral(String(content))}"`,
     /**
      * $A
      */
