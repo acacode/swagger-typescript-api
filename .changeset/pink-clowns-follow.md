@@ -13,3 +13,5 @@ Remote schema fetches now enforce a defense-in-depth policy:
 - Allow the explicit `--url` spec source even on loopback (local development)
 - Follow redirects manually (max 5) and re-validate each hop
 - Forward `authorizationToken` only to same-origin remote URLs, not cross-origin `$ref` targets
+
+Reported by [@thegr1ffyn](https://github.com/thegr1ffyn): [GHSA-h754-fxp7-88wx](https://github.com/advisories/GHSA-h754-fxp7-88wx), [GHSA-x36r-4347-pm5x](https://github.com/advisories/GHSA-x36r-4347-pm5x).
