@@ -78,14 +78,34 @@ export class ResolvedSwaggerSchema {
     return /^https?:\/\//i.test(value);
   }
 
-  private getRemoteRequestHeaders(): Record<string, string> {
+  private isSameOrigin(a: string, b: string | undefined): boolean {
+    if (typeof b !== "string") {
+      return false;
+    }
+
+    try {
+      const urlA = new URL(a);
+      const urlB = new URL(b);
+      return urlA.protocol === urlB.protocol && urlA.host === urlB.host;
+    } catch {
+      return false;
+    }
+  }
+
+  private getRemoteRequestHeaders(targetUrl?: string): Record<string, string> {
+    const headers: Record<string, string> = {};
+
+    if (
+      this.config.authorizationToken &&
+      targetUrl &&
+      typeof this.config.url === "string" &&
+      this.isSameOrigin(targetUrl, this.config.url)
+    ) {
+      headers.Authorization = this.config.authorizationToken;
+    }
+
     return Object.assign(
-      {},
-      this.config.authorizationToken
-        ? {
-            Authorization: this.config.authorizationToken,
-          }
-        : {},
+      headers,
       (this.config.requestOptions?.headers as
         | Record<string, string>
         | undefined) || {},
@@ -372,7 +392,7 @@ export class ResolvedSwaggerSchema {
   ): Promise<Maybe<AnyObject>> {
     try {
       const response = await fetch(url, {
-        headers: this.getRemoteRequestHeaders(),
+        headers: this.getRemoteRequestHeaders(url),
       });
 
       if (!response.ok) {
@@ -921,15 +941,7 @@ export class ResolvedSwaggerSchema {
         external: true,
         http: {
           ...config.requestOptions,
-          headers: Object.assign(
-            {},
-            config.authorizationToken
-              ? {
-                  Authorization: config.authorizationToken,
-                }
-              : {},
-            config.requestOptions?.headers ?? {},
-          ),
+          headers: config.requestOptions?.headers ?? {},
         },
       },
     };
