@@ -47,6 +47,18 @@ export function isPrivateIpv6(ip: string): boolean {
     return isPrivateIpv4(ipv4Mapped[1]);
   }
 
+  // URL.hostname normalizes IPv4-mapped IPv6 to hex hextets
+  // (e.g. ::ffff:192.168.1.1 becomes ::ffff:c0a8:101).
+  const ipv4MappedHex = normalized.match(
+    /^::ffff:([0-9a-f]{1,4}):([0-9a-f]{1,4})$/,
+  );
+  if (ipv4MappedHex?.[1] && ipv4MappedHex?.[2]) {
+    const h1 = Number.parseInt(ipv4MappedHex[1], 16);
+    const h2 = Number.parseInt(ipv4MappedHex[2], 16);
+    const ipv4 = `${(h1 >> 8) & 0xff}.${h1 & 0xff}.${(h2 >> 8) & 0xff}.${h2 & 0xff}`;
+    return isPrivateIpv4(ipv4);
+  }
+
   return false;
 }
 
@@ -88,7 +100,12 @@ export async function isPublicRemoteHost(urlString: string): Promise<boolean> {
     return false;
   }
 
-  const hostname = parsed.hostname;
+  // URL.hostname includes brackets for IPv6 literals (e.g. "[::1]"),
+  // which break net.isIP() and dns.lookup(). Strip them.
+  const hostname =
+    parsed.hostname.startsWith("[") && parsed.hostname.endsWith("]")
+      ? parsed.hostname.slice(1, -1)
+      : parsed.hostname;
 
   if (isBlockedHostname(hostname)) {
     return false;

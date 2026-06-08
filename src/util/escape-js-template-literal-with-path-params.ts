@@ -15,29 +15,41 @@ export function escapeJsTemplateLiteralStatic(value: string): string {
 /**
  * Escapes a fully-built route path for template-literal insertion while
  * preserving known `${paramName}` interpolations for declared path params.
+ *
+ * Uses a single-pass approach: split on known interpolations, escape only
+ * the static segments between them, and reassemble. This avoids placeholder
+ * tokens that could collide with user path content.
  */
 export function escapeJsTemplateLiteralWithPathParams(
   path: string,
   pathParamNames: readonly string[],
 ): string {
-  const PATH_PARAM_PLACEHOLDER_PREFIX = "__STA_PATH_PARAM_";
-  let sanitized = path;
+  if (pathParamNames.length === 0) {
+    return escapeJsTemplateLiteralStatic(path);
+  }
 
-  pathParamNames.forEach((paramName, index) => {
-    sanitized = sanitized.replaceAll(
-      `\${${paramName}}`,
-      `${PATH_PARAM_PLACEHOLDER_PREFIX}${index}__`,
-    );
-  });
+  const paramPattern = new RegExp(
+    pathParamNames
+      .map((p) => `\\$\\{${escapeRegExp(p)}\\}`)
+      .join("|"),
+    "g",
+  );
 
-  sanitized = escapeJsTemplateLiteralStatic(sanitized);
+  let result = "";
+  let lastIndex = 0;
 
-  pathParamNames.forEach((paramName, index) => {
-    sanitized = sanitized.replaceAll(
-      `${PATH_PARAM_PLACEHOLDER_PREFIX}${index}__`,
-      `\${${paramName}}`,
-    );
-  });
+  for (const match of path.matchAll(paramPattern)) {
+    if (match.index === undefined) continue;
+    result += escapeJsTemplateLiteralStatic(path.slice(lastIndex, match.index));
+    result += match[0];
+    lastIndex = match.index + match[0].length;
+  }
 
-  return sanitized;
+  result += escapeJsTemplateLiteralStatic(path.slice(lastIndex));
+
+  return result;
+}
+
+function escapeRegExp(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }

@@ -81,4 +81,22 @@ describe("remote-schema-fetch origin policy", () => {
       isPublicRemoteHost("http://localhost:3000/data.json"),
     ).resolves.toBe(false);
   });
+
+  test("blocks IPv6 loopback literal in URL brackets", async () => {
+    await expect(
+      isPublicRemoteHost("https://[::1]/schema.json"),
+    ).resolves.toBe(false);
+  });
+
+  test("blocks IPv4-mapped IPv6 private literal in URL brackets", async () => {
+    await expect(
+      isPublicRemoteHost("https://[::ffff:192.168.1.1]/schema.json"),
+    ).resolves.toBe(false);
+  });
+
+  test("allows public IPv6 literal in URL brackets", async () => {
+    await expect(
+      isPublicRemoteHost("https://[2606:4700:4700::1111]/schema.json"),
+    ).resolves.toBe(true);
+  });
 });

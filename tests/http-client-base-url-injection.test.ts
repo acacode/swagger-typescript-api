@@ -67,7 +67,12 @@ describe("http-client baseUrl injection (GHSA-38c3-wv3c-v3xj)", () => {
     );
 
     // Payload must remain a plain string literal value, not executable syntax.
-    expect(content).toContain(MALICIOUS_SERVER_URL);
+    // The URL may appear with " escaped as \" (double-quoted output) or raw
+    // (single-quoted output after formatter quote conversion). Both are safe.
+    expect(
+      content.includes(MALICIOUS_SERVER_URL) ||
+        content.includes(MALICIOUS_SERVER_URL.replace(/"/g, '\\"')),
+    ).toBe(true);
   });
 
   test("axios client preserves benign server URLs", async () => {

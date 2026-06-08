@@ -52,4 +52,22 @@ describe("escapeJsTemplateLiteralWithPathParams", () => {
       escapeJsTemplateLiteralWithPathParams("/api/weird`path\\segment", []),
     ).toBe("/api/weird\\`path\\\\segment");
   });
+
+  test("does not corrupt path content that resembles placeholder tokens", () => {
+    expect(
+      escapeJsTemplateLiteralWithPathParams(
+        "/api/__STA_PATH_PARAM_0__/items",
+        [],
+      ),
+    ).toBe("/api/__STA_PATH_PARAM_0__/items");
+  });
+
+  test("preserves params alongside content resembling placeholder tokens", () => {
+    expect(
+      escapeJsTemplateLiteralWithPathParams(
+        "/api/__STA_PATH_PARAM_0__/${id}/items",
+        ["id"],
+      ),
+    ).toBe("/api/__STA_PATH_PARAM_0__/${id}/items");
+  });
 });
