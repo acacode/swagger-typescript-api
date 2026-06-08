@@ -1,9 +1,6 @@
 /**
- * Escapes static segments for safe insertion into a generated JavaScript
- * template literal (without the surrounding backticks).
- *
- * Call this on untrusted OpenAPI path strings **before** deliberate
- * `${paramName}` interpolations are inserted by `parseRouteName`.
+ * Escapes `\`, backticks, and `${` for insertion into a JS template literal
+ * (without surrounding backticks).
  */
 export function escapeJsTemplateLiteralStatic(value: string): string {
   return value
@@ -13,12 +10,8 @@ export function escapeJsTemplateLiteralStatic(value: string): string {
 }
 
 /**
- * Escapes a fully-built route path for template-literal insertion while
- * preserving known `${paramName}` interpolations for declared path params.
- *
- * Uses a single-pass approach: split on known interpolations, escape only
- * the static segments between them, and reassemble. This avoids placeholder
- * tokens that could collide with user path content.
+ * Escapes a route path for template-literal insertion while preserving known
+ * `${paramName}` interpolations for declared path params.
  */
 export function escapeJsTemplateLiteralWithPathParams(
   path: string,
@@ -29,9 +22,7 @@ export function escapeJsTemplateLiteralWithPathParams(
   }
 
   const paramPattern = new RegExp(
-    pathParamNames
-      .map((p) => `\\$\\{${escapeRegExp(p)}\\}`)
-      .join("|"),
+    pathParamNames.map((p) => `\\$\\{${escapeRegExp(p)}\\}`).join("|"),
     "g",
   );
 

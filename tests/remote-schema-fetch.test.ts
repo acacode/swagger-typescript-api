@@ -83,9 +83,9 @@ describe("remote-schema-fetch origin policy", () => {
   });
 
   test("blocks IPv6 loopback literal in URL brackets", async () => {
-    await expect(
-      isPublicRemoteHost("https://[::1]/schema.json"),
-    ).resolves.toBe(false);
+    await expect(isPublicRemoteHost("https://[::1]/schema.json")).resolves.toBe(
+      false,
+    );
   });
 
   test("blocks IPv4-mapped IPv6 private literal in URL brackets", async () => {
