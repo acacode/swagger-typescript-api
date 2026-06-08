@@ -1,5 +1,41 @@
 # swagger-typescript-api
 
+## 13.12.2
+
+### Patch Changes
+
+- [#1779](https://github.com/acacode/swagger-typescript-api/pull/1779) [`306d59a`](https://github.com/acacode/swagger-typescript-api/commit/306d59acb8ffbb00f953f807b97234b21f51d9de) Thanks [@js2me](https://github.com/js2me)! - Fix code injection via unescaped enum string values in generated TypeScript enums
+
+  Malicious OpenAPI specs could embed arbitrary JavaScript in `components.schemas.*.enum` string values. `Ts.StringValue` wrapped values in double quotes without escaping, allowing attackers to break out of generated enum declarations and inject code that executes at module load when consumers import the generated client. Enum string values are now properly escaped.
+
+  Reported by [@thegr1ffyn](https://github.com/thegr1ffyn): [GHSA-5f94-x226-ccpm](https://github.com/advisories/GHSA-5f94-x226-ccpm).
+
+- [#1779](https://github.com/acacode/swagger-typescript-api/pull/1779) [`306d59a`](https://github.com/acacode/swagger-typescript-api/commit/306d59acb8ffbb00f953f807b97234b21f51d9de) Thanks [@js2me](https://github.com/js2me)! - Fix code injection via unescaped `servers[0].url` in generated axios and fetch HTTP clients
+
+  Malicious OpenAPI specs could embed arbitrary JavaScript in `servers[0].url`. The value was interpolated raw into string literals in generated client constructors, allowing computed-property-key injection and arbitrary code execution when consumers instantiated `HttpClient` or `Api` (axios) or imported the generated module (fetch). `apiConfig.baseUrl` is now escaped once at the source before template rendering.
+
+  Reported by [@thegr1ffyn](https://github.com/thegr1ffyn): [GHSA-38c3-wv3c-v3xj](https://github.com/advisories/GHSA-38c3-wv3c-v3xj) (axios), [GHSA-hqj5-cw9f-rx67](https://github.com/advisories/GHSA-hqj5-cw9f-rx67) (fetch).
+
+- [#1779](https://github.com/acacode/swagger-typescript-api/pull/1779) [`306d59a`](https://github.com/acacode/swagger-typescript-api/commit/306d59acb8ffbb00f953f807b97234b21f51d9de) Thanks [@js2me](https://github.com/js2me)! - Fix code injection via unescaped OpenAPI path strings in generated method bodies
+
+  Malicious OpenAPI specs could embed arbitrary JavaScript in path keys. Values were interpolated raw into template literals in generated API methods, so `${…}` expressions ran with full process privileges on every call to the affected method. Route paths are now escaped for template-literal insertion while preserving deliberate `${paramName}` interpolations for declared path parameters.
+
+  Reported by [@thegr1ffyn](https://github.com/thegr1ffyn): [GHSA-w284-33mx-6g9v](https://github.com/advisories/GHSA-w284-33mx-6g9v).
+
+- [#1779](https://github.com/acacode/swagger-typescript-api/pull/1779) [`306d59a`](https://github.com/acacode/swagger-typescript-api/commit/306d59acb8ffbb00f953f807b97234b21f51d9de) Thanks [@js2me](https://github.com/js2me)! - Fix authorization-token exfiltration and SSRF via spec `$ref` during remote schema resolution
+
+  When generating from a remote OpenAPI spec, the generator walked every external `$ref` and fetched any `http(s)://` URL without validating the target. A malicious spec could force HTTP requests to loopback, RFC-1918, link-local (including cloud metadata at 169.254.169.254), or internal hostnames reachable from the generator process. Redirect chains were also followed without re-validation.
+
+  Remote schema fetches now enforce a defense-in-depth policy:
+
+  - Block private, link-local, and loopback addresses (IPv4 and IPv6), including `localhost`
+  - Allow cross-origin fetches only to public hosts; same-origin `$ref` targets remain allowed
+  - Allow the explicit `--url` spec source even on loopback (local development)
+  - Follow redirects manually (max 5) and re-validate each hop
+  - Forward `authorizationToken` only to same-origin remote URLs, not cross-origin `$ref` targets
+
+  Reported by [@thegr1ffyn](https://github.com/thegr1ffyn): [GHSA-h754-fxp7-88wx](https://github.com/advisories/GHSA-h754-fxp7-88wx), [GHSA-x36r-4347-pm5x](https://github.com/advisories/GHSA-x36r-4347-pm5x).
+
 ## 13.12.1
 
 ### Patch Changes
