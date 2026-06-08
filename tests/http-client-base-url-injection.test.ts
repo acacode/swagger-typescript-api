@@ -67,7 +67,7 @@ describe("http-client baseUrl injection (GHSA-38c3-wv3c-v3xj)", () => {
     );
 
     // Payload must remain a plain string literal value, not executable syntax.
-    const escapedUrl = MALICIOUS_SERVER_URL.replace(/"/g, '\\"');
+    const escapedUrl = JSON.stringify(MALICIOUS_SERVER_URL).slice(1, -1);
     expect(
       content.includes(MALICIOUS_SERVER_URL) || content.includes(escapedUrl),
     ).toBe(true);
