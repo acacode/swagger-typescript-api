@@ -7,6 +7,11 @@ import type { OpenAPI } from "openapi-types";
 import type { AnyObject, Maybe, Primitive } from "yummies/types";
 import type { CodeGenConfig } from "./configuration.js";
 import { parseSchemaContent } from "./util/parse-schema-content.js";
+import {
+  fetchRemoteSchemaResponse,
+  isRemoteSchemaFetchAllowed,
+  isSameHttpOrigin,
+} from "./util/remote-schema-fetch.js";
 
 export interface RefDetails {
   ref: string;
@@ -78,14 +83,27 @@ export class ResolvedSwaggerSchema {
     return /^https?:\/\//i.test(value);
   }
 
-  private getRemoteRequestHeaders(): Record<string, string> {
+  private isExplicitSpecUrl(url: string): boolean {
+    return (
+      typeof this.config.url === "string" &&
+      this.stripHash(url) === this.stripHash(this.config.url)
+    );
+  }
+
+  private getRemoteRequestHeaders(targetUrl?: string): Record<string, string> {
+    const headers: Record<string, string> = {};
+
+    if (
+      this.config.authorizationToken &&
+      targetUrl &&
+      typeof this.config.url === "string" &&
+      isSameHttpOrigin(targetUrl, this.config.url)
+    ) {
+      headers.Authorization = this.config.authorizationToken;
+    }
+
     return Object.assign(
-      {},
-      this.config.authorizationToken
-        ? {
-            Authorization: this.config.authorizationToken,
-          }
-        : {},
+      headers,
       (this.config.requestOptions?.headers as
         | Record<string, string>
         | undefined) || {},
@@ -371,11 +389,19 @@ export class ResolvedSwaggerSchema {
     url: string,
   ): Promise<Maybe<AnyObject>> {
     try {
-      const response = await fetch(url, {
-        headers: this.getRemoteRequestHeaders(),
-      });
+      const response = await fetchRemoteSchemaResponse(
+        url,
+        {
+          headers: this.getRemoteRequestHeaders(url),
+        },
+        {
+          specSourceUrl:
+            typeof this.config.url === "string" ? this.config.url : undefined,
+          allowExplicitSpecUrl: this.isExplicitSpecUrl(url),
+        },
+      );
 
-      if (!response.ok) {
+      if (!response?.ok) {
         return null;
       }
 
@@ -437,7 +463,13 @@ export class ResolvedSwaggerSchema {
         }
 
         const absoluteUrl = this.resolveAbsoluteUrl(externalPath, currentUrl);
-        if (absoluteUrl && !visited.has(absoluteUrl)) {
+        if (
+          absoluteUrl &&
+          !visited.has(absoluteUrl) &&
+          (await isRemoteSchemaFetchAllowed(absoluteUrl, {
+            specSourceUrl: this.config.url,
+          }))
+        ) {
           queue.push(absoluteUrl);
         }
       }
@@ -921,15 +953,7 @@ export class ResolvedSwaggerSchema {
         external: true,
         http: {
           ...config.requestOptions,
-          headers: Object.assign(
-            {},
-            config.authorizationToken
-              ? {
-                  Authorization: config.authorizationToken,
-                }
-              : {},
-            config.requestOptions?.headers ?? {},
-          ),
+          headers: config.requestOptions?.headers ?? {},
         },
       },
     };

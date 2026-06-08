@@ -17,6 +17,7 @@ import { TemplatesWorker } from "./templates-worker.js";
 import { JavascriptTranslator } from "./translators/javascript.js";
 import type { TranslatorIO } from "./translators/translator.js";
 import { TypeNameFormatter } from "./type-name-formatter.js";
+import { escapeJsStringLiteral } from "./util/escape-js-string-literal.js";
 import { FileSystem } from "./util/file-system.js";
 import { createLodashCompat } from "./util/lodash-compat.js";
 import { NameResolver } from "./util/name-resolver.js";
@@ -588,7 +589,7 @@ export class CodeGenProcess {
         externalDocs || {},
       ),
       tags: compact(tags || []),
-      baseUrl: serverUrl,
+      baseUrl: escapeJsStringLiteral(serverUrl ?? ""),
       title,
       version,
     };
