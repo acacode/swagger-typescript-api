@@ -46,9 +46,21 @@ const rawWrapperArgs = config.extractRequestParams ?
         requestConfigParam,
     ])
 
+// Before sorting, promote any optional arg that has a defaultValue and is
+// followed by a required arg to "positionally required". The sort still pushes
+// truly-optional (`?:`) args to the end, but defaultable args ahead of a
+// required arg stay in declaration order, so callers' positional arguments
+// don't silently shift when a previously-required query becomes optional.
+const positionedWrapperArgs = rawWrapperArgs.map((arg, i) => {
+    if (arg.optional && arg.defaultValue && rawWrapperArgs.slice(i + 1).some(a => !a.optional)) {
+        return { ...arg, optional: false };
+    }
+    return arg;
+})
+
 const wrapperArgs = _
     // Sort by optionality
-    .sortBy(rawWrapperArgs, [o => o.optional])
+    .sortBy(positionedWrapperArgs, [o => o.optional])
     .map(argToTmpl)
     .join(', ')
 
