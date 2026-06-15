@@ -70,7 +70,7 @@
     "@tsconfig/strictest": "2.0.8",
     "@types/node": "25.9.3",
     "@types/swagger2openapi": "7.0.4",
-    "axios": "1.17.0",
+    "axios": "1.18.0",
     "tsdown": "0.22.2",
     "typedoc": "0.28.19",
     "unrun": "^0.3.0",
