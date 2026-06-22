@@ -1,3 +1,4 @@
+import { consola } from "consola";
 import { compact, merge, uniq } from "es-toolkit";
 import type { OpenAPI } from "openapi-types";
 import * as typescript from "typescript";
@@ -9,9 +10,11 @@ import type {
 } from "../types/index.js";
 import { ComponentTypeNameResolver } from "./component-type-name-resolver.js";
 import * as CONSTANTS from "./constants.js";
+import type { ResolvedSwaggerSchema } from "./resolved-swagger-schema.js";
 import type { MonoSchemaParser } from "./schema-parser/mono-schema-parser.js";
 import type { SchemaParser } from "./schema-parser/schema-parser.js";
 import type { Translator } from "./translators/translator.js";
+import { escapeJsStringLiteral } from "./util/escape-js-string-literal.js";
 import { objectAssign } from "./util/object-assign.js";
 
 const TsKeyword = {
@@ -25,9 +28,11 @@ const TsKeyword = {
   Undefined: "undefined",
   Object: "object",
   File: "File",
+  Blob: "Blob",
   Date: "Date",
   Type: "type",
   Enum: "enum",
+  Const: "const",
   Interface: "interface",
   Array: "Array",
   Record: "Record",
@@ -51,7 +56,9 @@ export class CodeGenConfig {
   generateRouteTypes = false;
   /** CLI flag */
   generateClient = true;
-  /** CLI flag */
+  /** CLI flag. Controls enum output format: "enum" (default), "union" (T1 | T2 | TN), "const" (as const object + type alias), or "const-enum" (const enum). */
+  enumStyle: "enum" | "union" | "const" | "const-enum" = "enum";
+  /** @deprecated Use enumStyle: "union" instead */
   generateUnionEnums = false;
   /** CLI flag */
   addReadonly = false;
@@ -96,6 +103,7 @@ export class CodeGenConfig {
       _typeName: unknown,
       _schemaType: unknown,
     ) => void 0,
+
     onParseSchema: (_originalSchema: unknown, parsedSchema: unknown) =>
       parsedSchema,
     onCreateRoute: (routeData: unknown) => routeData,
@@ -110,11 +118,14 @@ export class CodeGenConfig {
     ) => {},
     onFormatRouteName: (_routeInfo: unknown, _templateRouteName: unknown) => {},
   };
+  resolvedSwaggerSchema!: ResolvedSwaggerSchema;
   defaultResponseType;
+  defaultRequestParams = "{}";
   singleHttpClient = false;
   httpClientType = CONSTANTS.HTTP_CLIENT.FETCH;
   unwrapResponseData = false;
   disableThrowOnError = false;
+  disableFormatTypeNames = false;
   sortTypes = false;
   sortRoutes = false;
   templatePaths = {
@@ -147,9 +158,11 @@ export class CodeGenConfig {
   silent = false;
   typePrefix = "";
   typeSuffix = "";
+  typeNameSeparator = "_";
   enumKeyPrefix = "";
   enumKeySuffix = "";
   patch = false;
+  preferExistingSchemaNamesForExternalRefs = false;
   componentTypeNameResolver: ComponentTypeNameResolver;
   /** name of the main exported class */
   apiClassName = "Api";
@@ -167,7 +180,7 @@ export class CodeGenConfig {
   spec: OpenAPI.Document | null = null;
   fileName = "Api.ts";
   authorizationToken: string | undefined;
-  requestOptions = null;
+  requestOptions: Record<string, any> | null = null;
 
   jsPrimitiveTypes: string[] = [];
   jsEmptyTypes: string[] = [];
@@ -235,7 +248,8 @@ export class CodeGenConfig {
     /**
      * "$A"
      */
-    StringValue: (content: unknown) => `"${content}"`,
+    StringValue: (content: unknown) =>
+      `"${escapeJsStringLiteral(String(content))}"`,
     /**
      * $A
      */
@@ -374,6 +388,7 @@ export class CodeGenConfig {
 
       /** formats */
       binary: () => this.Ts.Keyword.File,
+      byte: () => this.Ts.Keyword.Blob,
       file: () => this.Ts.Keyword.File,
       "date-time": () => this.Ts.Keyword.String,
       time: () => this.Ts.Keyword.String,
@@ -441,10 +456,24 @@ export class CodeGenConfig {
     this.componentTypeNameResolver = new ComponentTypeNameResolver(this, []);
   }
 
-  update = (update: Partial<GenerateApiConfiguration["config"]>) => {
+  update = (
+    update: Partial<
+      GenerateApiConfiguration["config"] & {
+        resolvedSwaggerSchema: ResolvedSwaggerSchema;
+      }
+    >,
+  ) => {
     objectAssign(this, update);
     if (this.enumNamesAsValues) {
       this.extractEnums = true;
+    }
+    if (this.generateUnionEnums) {
+      consola.warn(
+        '`generateUnionEnums` is deprecated. Use `enumStyle: "union"` instead.',
+      );
+      if (this.enumStyle === "enum") {
+        this.enumStyle = "union";
+      }
     }
   };
 }

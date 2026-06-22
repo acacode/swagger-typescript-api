@@ -1,0 +1,24 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`issue-893 > type [array] with items enum generates typed array not any[] 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export type WithTypeArrayOnly = ("DEBUG" | "EDIT")[];
+
+export type WithTypeArrayAndNull = ("DEBUG" | "EDIT")[] | null;
+
+export type WithTypeArrayObjectItems = {
+  id?: string;
+}[];
+"
+`;

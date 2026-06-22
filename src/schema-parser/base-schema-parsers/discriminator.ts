@@ -128,7 +128,7 @@ export class DiscriminatorSchemaParser extends MonoSchemaParser {
         ts.IntersectionType([
           ts.ObjectWrapper(
             ts.TypeField({
-              key: discriminator.propertyName,
+              key: ts.StringValue(discriminator.propertyName),
               value: mappingUsageKey,
             }),
           ),
@@ -186,7 +186,10 @@ export class DiscriminatorSchemaParser extends MonoSchemaParser {
       ]);
       for (const [key, index] of enumEntries) {
         const enumContent = parsedEnum.content?.[index];
-        if (this.config.generateUnionEnums) {
+        if (
+          this.config.enumStyle === "union" ||
+          this.config.enumStyle === "const"
+        ) {
           const literalValue =
             enumContent?.value ??
             (key !== undefined ? ts.StringValue(key) : undefined);

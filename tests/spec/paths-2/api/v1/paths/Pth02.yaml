@@ -1,0 +1,155 @@
+# Anonymized OpenAPI (no prod names).
+specifications:
+    post:
+        summary: "Accedo paulatim aduro demergo delicate tamen."
+        description: "Deporto celer crustulum itaque spargo carcer audacia demo molestiae strenuus."
+        operationId: "op0003"
+        tags:
+            - "tg01"
+        requestBody:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        $ref: "../openapi.yaml#/components/schemas/SchUnwillingFort36"
+        responses:
+            "201":
+                description: "Ducimus ubi crustulum clementia desparatus culpo alter bestia."
+                content:
+                    application/json:
+                        schema:
+                            $ref: "../openapi.yaml#/components/schemas/SchAptIndependence78"
+            "400":
+                description: "Denique conturbo thorax."
+                content:
+                    application/json:
+                        schema:
+                            $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"
+            "409":
+                description: "Testimonium tandem celo conatus varius voluptate sed audentia aegrus."
+                content:
+                    application/json:
+                        schema:
+                            $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"
+            "500":
+                description: "Pel doloremque capio vilicus cultura comparo talio."
+                content:
+                    application/json:
+                        schema:
+                            $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"
+specification:
+    get:
+        summary: "Victoria thesaurus ut alii corrumpo canis calculus amor toties caput."
+        description: "Titulus tenuis tribuo."
+        operationId: "op0005"
+        tags:
+            - "tg01"
+        parameters:
+            - $ref: "../openapi.yaml#/components/parameters/ParFlusteredViability55"
+        responses:
+            "200":
+                description: "Templum adficio votum condico depulso creptio subseco."
+                content:
+                    application/json:
+                        schema:
+                            $ref: "../openapi.yaml#/components/schemas/SchAptIndependence78"
+            "404":
+                description: "Vinum maiores corpus supplanto suus aggredior summisse cotidie terminatio vitiosus."
+                content:
+                    application/json:
+                        schema:
+                            $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"
+            "500":
+                description: "Tempus cunabula abundans verumtamen templum demoror acer."
+                content:
+                    application/json:
+                        schema:
+                            $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"
+    patch:
+        summary: "Capitulus alo adulescens."
+        description: "Derideo tenus super nemo damno casso auxilium."
+        operationId: "op0008"
+        tags:
+            - "tg01"
+        parameters:
+            - $ref: "../openapi.yaml#/components/parameters/ParFlusteredViability55"
+        requestBody:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        type: "object"
+                        required:
+                            - "gracious_awareness_535"
+                        properties:
+                            gracious_awareness_535:
+                                type: "array"
+                                description: "Alveus calamitas corporis thesis adaugeo spectaculum degero aiunt colligo."
+                                items:
+                                    $ref: "../openapi.yaml#/components/schemas/SchUnlawfulConsistency14"
+        responses:
+            "200":
+                description: "Virtus textor curis attollo."
+                content:
+                    application/json:
+                        schema:
+                            $ref: "../openapi.yaml#/components/schemas/SchUnwillingFort36"
+            "400":
+                description: "Tener quis dolor stillicidium in termes curatio vinculum textor."
+                content:
+                    application/json:
+                        schema:
+                            $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"
+            "404":
+                description: "Molestiae accedo aggredior libero stabilis chirographum decens baiulus summisse."
+                content:
+                    application/json:
+                        schema:
+                            $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"
+            "409":
+                description: "Deludo capillus sustineo appono vorago solvo maxime."
+                content:
+                    application/json:
+                        schema:
+                            $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"
+            "500":
+                description: "Suffragium cauda basium terreo amissio admiratio deinde theca victus atavus."
+                content:
+                    application/json:
+                        schema:
+                            $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"
+    put:
+        summary: "Ambitus despecto adopto volaticus vulgivagus vestigium illum territo utpote circumvenio."
+        operationId: "op0009"
+        tags:
+            - "tg01"
+        parameters:
+            - $ref: "../openapi.yaml#/components/parameters/ParFlusteredViability55"
+        requestBody:
+            required: true
+            description: "Campana coma clementia tricesimus velociter ulterius utor."
+            content:
+                application/json:
+                    schema:
+                        $ref: "../openapi.yaml#/components/schemas/SchEvilOctave14"
+        responses:
+            "204":
+                description: "Odit cenaculum caries magni vorax adhaero."
+            "400":
+                description: "Pectus corrumpo patior campana aperiam."
+                content:
+                    application/json:
+                        schema:
+                            $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"
+            "404":
+                description: "Et angulus correptius crebro compono maxime corrupti trucido thema."
+                content:
+                    application/json:
+                        schema:
+                            $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"
+            "500":
+                description: "Uterque tumultus annus enim amitto caput thalassinus vado tenax cena."
+                content:
+                    application/json:
+                        schema:
+                            $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"

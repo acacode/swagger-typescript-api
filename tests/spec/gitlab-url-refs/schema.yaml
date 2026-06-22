@@ -1,0 +1,47 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0
+  title: anonymized-platform-api
+
+paths:
+  /v1/memories/path:
+    get:
+      tags:
+        - memories
+      summary: Get path for memory
+      operationId: getMemory
+      parameters:
+        - name: id
+          in: query
+          description: Id of memory to be fetched.
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful operation. Memory info provided.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MemorySegmentResponse"
+        "404":
+          description: No memory with provided id.
+          content:
+            application/json:
+              schema:
+                $ref: "./common/responses.yaml#/components/schemas/TestFooError"
+
+components:
+  schemas:
+    MemorySegmentResponse:
+      type: object
+      required:
+        - memoryId
+        - segment
+      properties:
+        memoryId:
+          type: integer
+        segment:
+          type: string

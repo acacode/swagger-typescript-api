@@ -1,0 +1,24 @@
+# Anonymized OpenAPI (no prod names).
+type: "object"
+properties:
+    orange_intent_574:
+        description: "Illo sonitus desolo utpote cauda arguo alveus."
+        type: "integer"
+    noxious_nucleotidase_45:
+        description: "Derideo sed creptio facere agnosco terminatio pecus tenuis."
+        type: "integer"
+    secondhand_copout_862:
+        description: "Crudelis clam amiculum vis demum corrupti valeo ubi ventus cicuta."
+        type: "string"
+        enum:
+            - "ev0"
+            - "ev1"
+    strange_peony_226:
+        description: "Taceo tersus bellicus sto celo."
+        type: "string"
+        enum:
+            - "ev0"
+            - "ev1"
+    welldocumented_repeat_694:
+        description: "Paens vilitas sto capillus."
+        type: "boolean"

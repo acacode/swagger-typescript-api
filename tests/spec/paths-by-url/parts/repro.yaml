@@ -1,0 +1,14 @@
+hello:
+  get:
+    responses:
+      "200":
+        description: repository response
+        content:
+          application/json:
+            schema:
+              $ref: "./third.yaml#/components/schemas/repository"
+
+components:
+  schemas:
+    LocalRepositoryAlias:
+      $ref: "./third.yaml#/components/schemas/repository"

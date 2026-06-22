@@ -20,7 +20,17 @@ export class SchemaFormatters {
 
   base = {
     [SCHEMA_TYPES.ENUM]: (parsedSchema) => {
-      if (this.config.generateUnionEnums) {
+      if (this.config.enumStyle === "const") {
+        return {
+          ...parsedSchema,
+          $content: parsedSchema.content,
+          content: parsedSchema.content
+            .map(({ key, value }) => `  ${key}: ${value}`)
+            .join(",\n"),
+        };
+      }
+
+      if (this.config.enumStyle === "union") {
         return {
           ...parsedSchema,
           $content: parsedSchema.content,

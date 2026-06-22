@@ -1,0 +1,89 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "name-collision cascading eviction",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/foobar": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/FooBar" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/foo-bar": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Foo_Bar" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/foobar1": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/FooBar1" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/foobar2": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/FooBar2" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FooBar": {
+        "type": "object",
+        "required": ["fromFooBar"],
+        "properties": { "fromFooBar": { "type": "string" } }
+      },
+      "Foo_Bar": {
+        "type": "object",
+        "required": ["fromFooUnderscoreBar"],
+        "properties": { "fromFooUnderscoreBar": { "type": "string" } }
+      },
+      "FooBar1": {
+        "type": "object",
+        "required": ["fromFooBar1"],
+        "properties": { "fromFooBar1": { "type": "string" } }
+      },
+      "FooBar2": {
+        "type": "object",
+        "required": ["fromFooBar2"],
+        "properties": { "fromFooBar2": { "type": "string" } }
+      }
+    }
+  }
+}

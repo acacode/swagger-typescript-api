@@ -28,6 +28,17 @@ export interface TestObject {
   otherObjectMaybeNullB: OtherObject | null;
   otherObjectMaybeNullC: OtherObject | null;
   otherObjectMaybeNullD: OtherObject | null;
+  objectMaybeNullAllOf: OtherObject | null;
+  inlineObjectMaybeNullAllOf: {
+    value?: string;
+  } | null;
+  intersectionMaybeNullAllOf:
+    | ({
+        a?: string | null;
+      } & {
+        b?: string;
+      })
+    | null;
 }
 
 export type OtherObject = object;

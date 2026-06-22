@@ -1,0 +1,34 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`issue-1536 > to match snapshot 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export type Test = null | Record<string, string>;
+
+export type NullableString = null | string;
+
+export type NullableNumber = null | number;
+
+export type NullableInteger = null | number;
+
+export type NullableBoolean = null | boolean;
+
+export type StringOrNumber = string | number;
+
+export type NullableArray = null | string[];
+
+export type ObjectOrNull = null | object;
+
+export type ObjectWithAdditionalPropsOrNull = null | Record<string, number>;
+"
+`;

@@ -1,0 +1,164 @@
+---
+openapi: 3.0.3
+info:
+  title: Attribute group with array items oneOf discriminator
+  version: 1.0.0
+components:
+  schemas:
+
+    ValsGroup:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        props:
+          type: array
+          nullable: false
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/SomeString'
+              - $ref: '#/components/schemas/SomeStringArr'
+              - $ref: '#/components/schemas/SomeIntArr'
+              - $ref: '#/components/schemas/SomeDec'
+              - $ref: '#/components/schemas/SomeInt'
+              - $ref: '#/components/schemas/SomeBool'
+            discriminator:
+              propertyName: propType
+              mapping:
+                str: '#SomeString'
+                strArr: '#SomeStringArr'
+                intArr: '#SomeIntArr'
+                dec: '#SomeDec'
+                int: '#SomeInt'
+                bool: '#SomeBool'
+            properties:
+              slack:
+                type: string
+              name:
+                type: string
+            required:
+              - propType
+              - slack
+              - name
+
+    SomeString:
+      type: object
+      properties:
+        propType:
+          type: string
+        slack:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        value:
+          type: string
+      required:
+        - propType
+        - slack
+        - name
+        - value
+
+    SomeStringArr:
+      type: object
+      properties:
+        propType:
+          type: string
+        slack:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        value:
+          type: array
+          items:
+            type: string
+      required:
+        - propType
+        - slack
+        - name
+        - value
+
+    SomeIntArr:
+      type: object
+      properties:
+        propType:
+          type: string
+        slack:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        value:
+          type: array
+          items:
+            type: integer
+      required:
+        - propType
+        - slack
+        - name
+        - value
+
+    SomeDec:
+      type: object
+      properties:
+        propType:
+          type: string
+        slack:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        value:
+          type: number
+      required:
+        - propType
+        - slack
+        - name
+        - value
+
+    SomeInt:
+      type: object
+      properties:
+        propType:
+          type: string
+        slack:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        value:
+          type: integer
+          format: int32
+          nullable: true
+      required:
+        - propType
+        - slack
+        - name
+        - value
+
+    SomeBool:
+      type: object
+      properties:
+        propType:
+          type: string
+        slack:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        value:
+          type: boolean
+      required:
+        - propType
+        - slack
+        - name
+        - value

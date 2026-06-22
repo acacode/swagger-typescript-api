@@ -1,0 +1,70 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "name-collision with pre-existing suffix",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/a": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Foo_Bar" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/b": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/FooBar" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/c": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/FooBar1" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Foo_Bar": {
+        "type": "object",
+        "required": ["a"],
+        "properties": { "a": { "type": "string" } }
+      },
+      "FooBar": {
+        "type": "object",
+        "required": ["b"],
+        "properties": { "b": { "type": "string" } }
+      },
+      "FooBar1": {
+        "type": "object",
+        "required": ["c"],
+        "properties": { "c": { "type": "string" } }
+      }
+    }
+  }
+}

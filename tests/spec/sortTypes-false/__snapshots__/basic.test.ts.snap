@@ -1568,9 +1568,9 @@ export interface SearchCode {
 export interface SearchIssues {
   total_count?: number;
   items?: {
-    closed_at?: any;
+    closed_at?: any | null;
     body?: string;
-    assignee?: any;
+    assignee?: any | null;
     comments?: number;
     comments_url?: string;
     created_at?: string;
@@ -1583,12 +1583,12 @@ export interface SearchIssues {
       url?: string;
     }[];
     labels_url?: string;
-    milestone?: any;
+    milestone?: any | null;
     number?: number;
     pull_request?: {
-      diff_url?: any;
-      html_url?: any;
-      patch_url?: any;
+      diff_url?: any | null;
+      html_url?: any | null;
+      patch_url?: any | null;
     };
     score?: number;
     state?: string;

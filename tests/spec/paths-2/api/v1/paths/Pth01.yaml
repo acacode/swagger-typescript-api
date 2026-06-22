@@ -1,0 +1,34 @@
+# Anonymized OpenAPI (no prod names).
+get:
+    summary: "Aspernatur arguo audacia dolorum defaeco."
+    description: "Cinis amplus curso."
+    operationId: "op0007"
+    tags:
+        - "tg01"
+    parameters:
+        - name: "damp_lyre_166"
+          in: "path"
+          description: "Infit celebrer succurro cultura arguo vomer."
+          required: true
+          schema:
+              type: "integer"
+              format: "int64"
+    responses:
+        "200":
+            description: "Comedo comburo vesco verumtamen sto triumphus argumentum."
+            content:
+                application/json:
+                    schema:
+                        $ref: "../openapi.yaml#/components/schemas/SchAptIndependence78"
+        "400":
+            description: "Ratione quis vulgo trepide suscipio."
+            content:
+                application/json:
+                    schema:
+                        $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"
+        "500":
+            description: "Crur vulnero hic desino admoveo adinventitias umerus uterque."
+            content:
+                application/json:
+                    schema:
+                        $ref: "../openapi.yaml#/components/schemas/SchBonyEditor45"

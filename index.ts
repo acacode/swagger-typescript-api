@@ -138,6 +138,11 @@ const generateCommand = defineCommand({
       description: "Do not throw an error when response.ok is not true",
       default: codeGenBaseConfig.disableThrowOnError,
     },
+    "disable-format-type-names": {
+      type: "boolean",
+      description: "disable formatting and normalization of type names",
+      default: codeGenBaseConfig.disableFormatTypeNames,
+    },
     "enum-names-as-values": {
       type: "boolean",
       description:
@@ -178,8 +183,15 @@ const generateCommand = defineCommand({
     },
     "generate-union-enums": {
       type: "boolean",
-      description: 'generate all "enum" types as union types (T1 | T2 | TN)',
+      description:
+        '(deprecated) generate all "enum" types as union types — use --enum-style=union instead',
       default: codeGenBaseConfig.generateUnionEnums,
+    },
+    "enum-style": {
+      type: "string",
+      description:
+        'enum output style: "enum" (default), "union" (T1 | T2 | TN), "const" (as const object + type alias), or "const-enum" (const enum)',
+      default: codeGenBaseConfig.enumStyle,
     },
     "http-client": {
       type: "string",
@@ -225,6 +237,12 @@ const generateCommand = defineCommand({
       type: "boolean",
       description: "fix up small errors in the swagger source definition",
       default: codeGenBaseConfig.patch,
+    },
+    "prefer-existing-schema-names-for-external-refs": {
+      type: "boolean",
+      description:
+        "reuse existing local schema names for external refs when the file name matches the schema name or the ref targets an existing component schema fragment (avoids names like OpenapiFoo or SpecificationSpecification)",
+      default: codeGenBaseConfig.preferExistingSchemaNamesForExternalRefs,
     },
     path: {
       type: "string",
@@ -283,6 +301,11 @@ const generateCommand = defineCommand({
       description: "unwrap the data item from the response",
       default: codeGenBaseConfig.unwrapResponseData,
     },
+    "default-request-params": {
+      type: "string",
+      description: "request parameters for each API request",
+      default: codeGenBaseConfig.defaultRequestParams,
+    },
   },
   run: async ({ args }) => {
     const customConfig = await loadConfig<GenerateApiParams>({
@@ -298,6 +321,8 @@ const generateCommand = defineCommand({
       debug: args.debug,
       defaultResponseAsSuccess: args["default-as-success"],
       defaultResponseType: args["default-response"],
+      defaultRequestParams: args["default-request-params"],
+      disableFormatTypeNames: args["disable-format-type-names"],
       disableThrowOnError: args["disable-throw-on-error"],
       enumNamesAsValues: args["enum-names-as-values"],
       extractEnums: args["extract-enums"],
@@ -311,6 +336,12 @@ const generateCommand = defineCommand({
       generateResponses: args.responses,
       generateRouteTypes: args["route-types"],
       generateUnionEnums: args["generate-union-enums"],
+      enumStyle: args["enum-style"] as
+        | "enum"
+        | "union"
+        | "const"
+        | "const-enum"
+        | undefined,
       httpClientType:
         args["http-client"] || args.axios
           ? HTTP_CLIENT.AXIOS
@@ -321,6 +352,8 @@ const generateCommand = defineCommand({
       moduleNameIndex: +args["module-name-index"] || 0,
       output: path.resolve(process.cwd(), (args.output as string) || "."),
       patch: args.patch,
+      preferExistingSchemaNamesForExternalRefs:
+        args["prefer-existing-schema-names-for-external-refs"],
       silent: args.silent,
       singleHttpClient: args["single-http-client"],
       sortRoutes: args["sort-routes"],

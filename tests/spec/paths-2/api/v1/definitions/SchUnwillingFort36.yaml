@@ -1,0 +1,11 @@
+# Anonymized OpenAPI (no prod names).
+type: "object"
+description: "Argentum vinculum usitas defungo aufero demoror."
+required:
+    - "parallel_synergy_47"
+    - "content"
+properties:
+    content:
+        $ref: "./SchEvilOctave14.yaml"
+    parallel_synergy_47:
+        $ref: "./SchFavorableReservation40.yaml"

@@ -19,11 +19,24 @@ const dataContractTemplates = {
   enum: (contract) => {
     return `enum ${contract.name} {\r\n${contract.content} \r\n }`;
   },
+  'const enum': (contract) => {
+    return `const enum ${contract.name} {\r\n${contract.content} \r\n }`;
+  },
   interface: (contract) => {
     return `interface ${contract.name}${buildGenerics(contract)} {\r\n${contract.content}}`;
   },
   type: (contract) => {
     return `type ${contract.name}${buildGenerics(contract)} = ${contract.content}`;
+  },
+  const: (contract) => {
+    const entries = contract.$content
+      .map(({ key, value }) => `  ${key}: ${value}`)
+      .join(',\n');
+    const typeExport = contract.internal ? '' : 'export ';
+    return (
+      `const ${contract.name} = {\n${entries},\n} as const\n` +
+      `${typeExport}type ${contract.name} = (typeof ${contract.name})[keyof typeof ${contract.name}]`
+    );
   },
 }
 %>

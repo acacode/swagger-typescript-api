@@ -1,0 +1,48 @@
+{
+  "openapi": "3.0.0",
+  "info": { "title": "name-collision hook interaction", "version": "1.0.0" },
+  "paths": {
+    "/a": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Alpha" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/b": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Beta" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Alpha": {
+        "type": "object",
+        "required": ["a"],
+        "properties": { "a": { "type": "string" } }
+      },
+      "Beta": {
+        "type": "object",
+        "required": ["b"],
+        "properties": { "b": { "type": "number" } }
+      }
+    }
+  }
+}

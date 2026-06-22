@@ -1,8 +1,13 @@
+import type { PartialDeep } from "type-fest";
 import type { ComponentTypeNameResolver } from "../src/component-type-name-resolver.js";
 import type * as CONSTANTS from "../src/constants.js";
+import type {
+  RefDetails,
+  ResolvedSwaggerSchema,
+} from "../src/resolved-swagger-schema.js";
 import type { MonoSchemaParser } from "../src/schema-parser/mono-schema-parser.js";
 import type { Translator } from "../src/translators/translator.js";
-import type { PartialDeep } from "type-fest";
+import type { OpenAPI } from "openapi-types";
 
 export type HttpClientType =
   (typeof CONSTANTS.HTTP_CLIENT)[keyof typeof CONSTANTS.HTTP_CLIENT];
@@ -177,6 +182,15 @@ export interface Hooks {
     routeInfo: RawRouteInfo,
     templateRouteName: string,
   ) => string | undefined;
+  onFormatExternalTypeName?: (
+    typeName: string,
+    refInfo: RefDetails,
+  ) => string | undefined;
+  onFixDuplicateExternalTypeName?: (
+    typeName: string,
+    refInfo: RefDetails,
+    existedTypeNames: string[],
+  ) => string | undefined;
 }
 
 export type RouteNameRouteInfo = Record<string, unknown>;
@@ -263,6 +277,8 @@ export interface SchemaComponent {
   typeData: ParsedSchema<
     SchemaTypeObjectContent | SchemaTypeEnumContent | SchemaTypePrimitiveContent
   > | null;
+  /** Cache populated by {@link CodeGenProcess.prepareModelType} */
+  $prepared?: ModelType | null;
 }
 
 export enum RequestContentKind {
@@ -281,18 +297,28 @@ export interface RequestResponseInfo {
   description: string;
   status: string | number;
   isSuccess: boolean;
+  links?: RouteLinkInfo[];
 }
 
-export type RawRouteInfo = {
+export interface RouteLinkInfo {
+  status: string | number;
+  name: string;
+  operationId?: string;
+  operationRef?: string;
+  parameters?: Record<string, string>;
+}
+
+export type RawRouteInfo = import("swagger-schema-official").Operation & {
   operationId: string;
   method: string;
   route: string;
   moduleName: string;
   responsesTypes: RequestResponseInfo[];
+  links?: RouteLinkInfo[];
   description?: string;
   tags?: string[];
   summary?: string;
-  responses?: import("swagger-schema-official").Spec["responses"];
+  responses?: import("swagger-schema-official").Operation["responses"];
   produces?: string[];
   requestBody?: object;
   consumes?: string[];
@@ -314,6 +340,7 @@ export interface ParsedRouteRequest {
   payload?: { name: string | null; optional?: boolean; type: string };
   query?: Record<string, unknown>;
   requestParams?: Record<string, unknown> | null;
+  requestParamsOptional?: boolean;
   security?: boolean;
 }
 
@@ -347,6 +374,7 @@ export interface ParsedRoute {
     contentTypes: any[];
     // biome-ignore lint/suspicious/noExplicitAny: TODO
     responses: any[];
+    links?: RouteLinkInfo[];
     // biome-ignore lint/suspicious/noExplicitAny: TODO
     success?: Record<string, any>;
     // biome-ignore lint/suspicious/noExplicitAny: TODO
@@ -496,16 +524,22 @@ export interface GenerateApiConfiguration {
      * some swagger schemas treat "default" as a successful response.
      */
     defaultResponseAsSuccess: boolean;
+    /** request parameters for each API request */
+    defaultRequestParams: string;
     /** generate type definitions for API routes */
     generateRouteTypes: boolean;
     /** generate an API client */
     generateClient: boolean;
-    /** generate all "enum" types as union types (T1 | T2 | TN) */
+    /** enum output style: "enum" (default), "union" (T1 | T2 | TN), "const" (as const object + type alias), or "const-enum" (const enum) */
+    enumStyle: "enum" | "union" | "const" | "const-enum";
+    /** @deprecated Use enumStyle: "union" instead */
     generateUnionEnums: boolean;
     /** parsed swagger schema */
-    swaggerSchema: object;
+    swaggerSchema: OpenAPI.Document;
     /** original swagger schema */
-    originalSchema: object;
+    originalSchema: OpenAPI.Document;
+    /** original class container for current schema use */
+    resolvedSwaggerSchema?: ResolvedSwaggerSchema;
     /** map of schema component references */
     componentsMap: Record<string, SchemaComponent>;
     /** flag indicating the schema was converted from Swagger 2.0 */
@@ -530,6 +564,13 @@ export interface GenerateApiConfiguration {
     typePrefix: string;
     /** suffix string value for type names */
     typeSuffix: string;
+    /**
+     * separator between prefix/name/suffix for formatted type names.
+     * In practice this is most visible with `disableFormatTypeNames: true`
+     * or when a custom `hooks.onFormatTypeName` keeps separators unchanged.
+     * By default name formatting may normalize/remove separators (for example `_`).
+     */
+    typeNameSeparator: string;
     /** prefix string value for enum keys */
     enumKeyPrefix: string;
     /** suffix string value for enum keys */
@@ -589,6 +630,19 @@ export interface GenerateApiConfiguration {
     toJS: boolean;
     /** disable throwing on a non-successful response */
     disableThrowOnError: boolean;
+    /** disable formatting and normalization of generated type names */
+    disableFormatTypeNames: boolean;
+    /**
+     * Reuse existing local component type names for external `$ref`s instead of
+     * prefixing with the external file name (e.g. `OpenapiFoo`).
+     *
+     * Applies when the external file name matches the schema type name (e.g.
+     * `./Specification.yaml` → `Specification`) and when the ref targets an
+     * existing component schema fragment (`#/components/schemas/Foo` or
+     * `#/definitions/Foo` in Swagger 2).
+     * @default false
+     */
+    preferExistingSchemaNamesForExternalRefs: boolean;
     /**
      * output only errors to console
      * @default false

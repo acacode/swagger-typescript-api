@@ -21,6 +21,12 @@ const jsDocLines = _.compact([
             ` * @response \`${escapeJSDocContent(status)}\` \`${escapeJSDocContent(type)}\` ${formatDescription(description, true)}`,
         )
     : []),
+    ...(raw.links?.length
+    ? raw.links.map(
+        ({ status, name, operationId, operationRef }) =>
+            ` * @link \`${status}.${name}\` ${operationId ? `operationId:${operationId}` : `operationRef:${operationRef}`}`,
+      )
+    : []),
 ]).map(str => str.trimEnd()).join("\n");
 
 return {

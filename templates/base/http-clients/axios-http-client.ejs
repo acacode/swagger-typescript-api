@@ -1,5 +1,6 @@
 <%
 const { apiConfig, generateResponses, config } = it;
+const CT = includeFile("@base/content-type-accessors", { config });
 %>
 
 import type { AxiosInstance, AxiosRequestConfig, HeadersDefaults, ResponseType, AxiosResponse } from "axios";
@@ -30,6 +31,26 @@ export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequest
   format?: ResponseType;
 }
 
+<% if (config.enumStyle === "const") { %>
+export const ContentType = {
+  Json: "application/json",
+  JsonApi: "application/vnd.api+json",
+  FormData: "multipart/form-data",
+  UrlEncoded: "application/x-www-form-urlencoded",
+  Text: "text/plain",
+} as const;
+export type ContentType = (typeof ContentType)[keyof typeof ContentType];
+<% } else if (config.enumStyle === "union") { %>
+export type ContentType = "application/json" | "application/vnd.api+json" | "multipart/form-data" | "application/x-www-form-urlencoded" | "text/plain";
+<% } else if (config.enumStyle === "const-enum") { %>
+export const enum ContentType {
+  Json = "application/json",
+  JsonApi = "application/vnd.api+json",
+  FormData = "multipart/form-data",
+  UrlEncoded = "application/x-www-form-urlencoded",
+  Text = "text/plain",
+}
+<% } else { %>
 export enum ContentType {
   Json = "application/json",
   JsonApi = "application/vnd.api+json",
@@ -37,6 +58,7 @@ export enum ContentType {
   UrlEncoded = "application/x-www-form-urlencoded",
   Text = "text/plain",
 }
+<% } %>
 
 export class HttpClient<SecurityDataType = unknown> {
     public instance: AxiosInstance;
@@ -116,11 +138,11 @@ export class HttpClient<SecurityDataType = unknown> {
         const requestParams = this.mergeRequestParams(params, secureParams);
         const responseFormat = (format || this.format) || undefined;
 
-        if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
+        if (type === <%~ CT.FormData %> && body && body !== null && typeof body === "object") {
           body = this.createFormData(body as Record<string, unknown>);
         }
 
-        if (type === ContentType.Text && body && body !== null && typeof body !== "string") {
+        if (type === <%~ CT.Text %> && body && body !== null && typeof body !== "string") {
           body = JSON.stringify(body);
         }
 

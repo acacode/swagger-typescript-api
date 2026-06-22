@@ -45,12 +45,15 @@ export class ObjectSchemaParser extends MonoSchemaParser {
       const fieldName = this.typeNameFormatter.isValidName(name)
         ? name
         : this.config.Ts.StringValue(name);
-      const fieldValue = this.schemaParserFabric
+      const rawFieldValue = this.schemaParserFabric
         .createSchemaParser({
           schema: property,
           schemaPath: [...this.schemaPath, name],
         })
         .getInlineParseContent();
+      const fieldValue = nullable
+        ? this.schemaUtils.safeAddNullToType(property, rawFieldValue)
+        : rawFieldValue;
       const readOnly = (property as Record<string, unknown>).readOnly;
 
       const complexType = this.schemaUtils.getComplexType(property);

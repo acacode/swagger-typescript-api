@@ -1,3 +1,4 @@
+import type { resolve } from "@apidevtools/swagger-parser";
 import { consola } from "consola";
 import { compact, merge } from "es-toolkit";
 import { camelCase } from "es-toolkit/compat";
@@ -11,12 +12,12 @@ import { CodeGenConfig } from "./configuration.js";
 import { SchemaComponentsMap } from "./schema-components-map.js";
 import { SchemaParserFabric } from "./schema-parser/schema-parser-fabric.js";
 import { SchemaRoutes } from "./schema-routes/schema-routes.js";
-import { SchemaWalker } from "./schema-walker.js";
 import { SwaggerSchemaResolver } from "./swagger-schema-resolver.js";
 import { TemplatesWorker } from "./templates-worker.js";
 import { JavascriptTranslator } from "./translators/javascript.js";
 import type { TranslatorIO } from "./translators/translator.js";
 import { TypeNameFormatter } from "./type-name-formatter.js";
+import { escapeJsStringLiteral } from "./util/escape-js-string-literal.js";
 import { FileSystem } from "./util/file-system.js";
 import { createLodashCompat } from "./util/lodash-compat.js";
 import { NameResolver } from "./util/name-resolver.js";
@@ -45,8 +46,8 @@ export class CodeGenProcess {
   fileSystem: FileSystem;
   codeFormatter: CodeFormatter;
   templatesWorker: TemplatesWorker;
-  schemaWalker: SchemaWalker;
   javascriptTranslator: JavascriptTranslator;
+  swaggerRefs: Awaited<ReturnType<typeof resolve>> | undefined | null;
 
   constructor(config: Partial<GenerateApiConfiguration["config"]>) {
     this.config = new CodeGenConfig(config);
@@ -54,10 +55,6 @@ export class CodeGenProcess {
     this.swaggerSchemaResolver = new SwaggerSchemaResolver(
       this.config,
       this.fileSystem,
-    );
-    this.schemaWalker = new SchemaWalker(
-      this.config,
-      this.swaggerSchemaResolver,
     );
     this.schemaComponentsMap = new SchemaComponentsMap(this.config);
     this.typeNameFormatter = new TypeNameFormatter(this.config);
@@ -72,7 +69,6 @@ export class CodeGenProcess {
       this.templatesWorker,
       this.schemaComponentsMap,
       this.typeNameFormatter,
-      this.schemaWalker,
     );
     this.schemaRoutes = new SchemaRoutes(
       this.config,
@@ -95,35 +91,31 @@ export class CodeGenProcess {
       templatesToRender: this.templatesWorker.getTemplates(this.config),
     });
 
-    const swagger = await this.swaggerSchemaResolver.create();
-
-    this.swaggerSchemaResolver.fixSwaggerSchema(swagger);
+    const resolvedSwaggerSchema = await this.swaggerSchemaResolver.create();
 
     this.config.update({
-      swaggerSchema: swagger.usageSchema,
-      originalSchema: swagger.originalSchema,
+      resolvedSwaggerSchema: resolvedSwaggerSchema,
+      swaggerSchema: resolvedSwaggerSchema.usageSchema,
+      originalSchema: resolvedSwaggerSchema.originalSchema,
     });
-
-    this.schemaWalker.addSchema("$usage", swagger.usageSchema);
-    this.schemaWalker.addSchema("$original", swagger.originalSchema);
 
     consola.info("start generating your typescript api");
 
     this.config.update(
-      this.config.hooks.onInit(this.config, this) || this.config,
+      this.config.hooks.onInit?.(this.config, this) || this.config,
     );
 
     if (this.config.swaggerSchema) {
-      swagger.usageSchema = this.config.swaggerSchema;
+      resolvedSwaggerSchema.usageSchema = this.config.swaggerSchema;
     }
     if (this.config.originalSchema) {
-      swagger.originalSchema = this.config.originalSchema;
+      resolvedSwaggerSchema.originalSchema = this.config.originalSchema;
     }
 
     this.schemaComponentsMap.clear();
 
     for (const [componentName, component] of Object.entries(
-      swagger.usageSchema.components || {},
+      resolvedSwaggerSchema.usageSchema.components || {},
     )) {
       for (const [typeName, rawTypeData] of Object.entries(
         component as Record<string, unknown>,
@@ -144,10 +136,19 @@ export class CodeGenProcess {
     // Put all enums at the top (before discriminators)
     this.schemaComponentsMap.enumsFirst();
 
+    this.schemaComponentsMap.resolveRefOnlyComponents();
+
     const componentsToParse: SchemaComponent[] =
       this.schemaComponentsMap.filter(
         compact(["schemas", this.config.extractResponses && "responses"]),
       );
+
+    // Resolve the TypeScript identifier for every schema component upfront,
+    // before the parser starts calling `format()`. This lets `format()` stay
+    // a pure cache lookup and keeps collision handling concentrated in one
+    // place so results are source-order independent and inline type strings
+    // captured during schema parsing can't go stale. See #1724.
+    this.typeNameFormatter.precommit(componentsToParse.map((c) => c.typeName));
 
     const parsedSchemas = componentsToParse.map((schemaComponent) => {
       const parsed = this.schemaParserFabric.parseSchema(
@@ -158,13 +159,28 @@ export class CodeGenProcess {
       return parsed;
     });
 
-    this.schemaRoutes.attachSchema({
-      usageSchema: swagger.usageSchema,
-      parsedSchemas,
-    });
+    this.schemaRoutes.attachSchema(resolvedSwaggerSchema, parsedSchemas);
+
+    if (!this.config.preferExistingSchemaNamesForExternalRefs) {
+      this.typeNameFormatter.precommit(
+        this.schemaComponentsMap
+          .getComponents()
+          .map((component) => component.typeName),
+      );
+
+      for (const component of componentsToParse) {
+        component.typeData = null;
+        delete component.$prepared;
+        const reparsed = this.schemaParserFabric.parseSchema(
+          component.rawTypeData,
+          component.typeName,
+        );
+        component.typeData = reparsed;
+      }
+    }
 
     const rawConfiguration = {
-      apiConfig: this.createApiConfig(swagger.usageSchema),
+      apiConfig: this.createApiConfig(resolvedSwaggerSchema.usageSchema),
       config: this.config,
       modelTypes: this.collectModelTypes(),
       hasSecurityRoutes: this.schemaRoutes.hasSecurityRoutes,
@@ -182,7 +198,7 @@ export class CodeGenProcess {
     };
 
     const configuration =
-      this.config.hooks.onPrepareConfig(rawConfiguration) || rawConfiguration;
+      this.config.hooks.onPrepareConfig?.(rawConfiguration) || rawConfiguration;
 
     if (this.fileSystem.pathIsExist(this.config.output)) {
       if (this.config.cleanOutput) {
@@ -281,10 +297,16 @@ export class CodeGenProcess {
     while (processedCount < schemaComponentsCount) {
       modelTypes = [];
       processedCount = 0;
+      const seenExportNames = new Set<string>();
       for (const component of components) {
         if (modelTypeComponents.includes(component.componentName)) {
           const modelType = this.prepareModelType(component);
           if (modelType) {
+            if (seenExportNames.has(modelType.name)) {
+              processedCount++;
+              continue;
+            }
+            seenExportNames.add(modelType.name);
             modelTypes.push(modelType);
           }
           processedCount++;
@@ -567,7 +589,7 @@ export class CodeGenProcess {
         externalDocs || {},
       ),
       tags: compact(tags || []),
-      baseUrl: serverUrl,
+      baseUrl: escapeJsStringLiteral(serverUrl ?? ""),
       title,
       version,
     };

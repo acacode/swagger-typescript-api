@@ -37,16 +37,25 @@ export class PrimitiveSchemaParser extends MonoSchemaParser {
         recordValuesContent = this.config.Ts.Keyword.Any;
       }
 
-      contentType = this.config.Ts.RecordType(
+      const recordType = this.config.Ts.RecordType(
         recordKeysContent,
         recordValuesContent,
       );
+
+      contentType = propertyNamesSchema
+        ? this.config.Ts.TypeWithGeneric("Partial", [recordType])
+        : recordType;
     }
 
     if (Array.isArray(type) && type.length) {
       contentType = this.schemaParser._complexSchemaParsers.oneOf({
         ...(typeof this.schema === "object" ? this.schema : {}),
-        oneOf: type.map((type) => ({ type })),
+        oneOf: type.map((t) => {
+          const branch: Record<string, unknown> = { type: t };
+          Object.assign(branch, this.schema);
+          branch.type = t;
+          return branch;
+        }),
       });
     }
 

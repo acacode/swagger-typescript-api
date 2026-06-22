@@ -1,0 +1,10 @@
+# Anonymized OpenAPI (no prod names).
+type: "object"
+description: "Dens damno stultus crapula."
+properties:
+    content:
+        $ref: "../openapi.yaml#/components/schemas/SchEvilOctave14"
+    rectangular_kielbasa_799:
+        description: "Tibi velum odio solus caries ante tres titulus chirographum acer."
+        type: "string"
+        format: "date-time"

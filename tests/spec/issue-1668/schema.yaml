@@ -1,0 +1,69 @@
+openapi: 3.0.3
+info:
+  title: swagger-typescript-api non-deterministic suffix repro
+  version: "1.0"
+paths:
+  /findings/exports:
+    get:
+      tags: [Findings]
+      summary: List finding exports
+      parameters:
+        - { name: offset, in: query, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListExportsResponse"
+  /assets/exports:
+    get:
+      tags: [Assets]
+      summary: List asset exports
+      parameters:
+        - { name: offset, in: query, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListExportsResponse"
+  /remediation/exports:
+    get:
+      tags: [Remediation]
+      summary: List remediation exports
+      parameters:
+        - { name: offset, in: query, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListExportsResponse"
+  /exports:
+    get:
+      tags: [Exports]
+      summary: List all exports
+      parameters:
+        - { name: offset, in: query, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListExportsResponse"
+components:
+  schemas:
+    ListExportsResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              id: { type: string }
+              status: { type: string }
