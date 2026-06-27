@@ -589,7 +589,7 @@ export interface GenerateApiConfiguration {
     /** extract request body type to data contract */
     extractRequestBody: boolean;
     /** generated http client type */
-    httpClientType: "axios" | "fetch" | "ky";
+    httpClientType: HttpClientType;
     /** generate readonly properties */
     addReadonly: boolean;
     /** customise primitive type mappings */

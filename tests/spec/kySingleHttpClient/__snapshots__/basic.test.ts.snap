@@ -102,10 +102,14 @@ export class HttpClient<SecurityDataType = unknown> {
   constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
     Object.assign(this, apiConfig);
     // ky wraps fetch; use the caller-supplied fetch if provided, otherwise the global.
-    // throwHttpErrors is always false so we handle errors ourselves (matching fetch behavior).
+    // throwHttpErrors: false — we handle non-2xx ourselves to match fetch behavior.
+    // timeout: false — fetch has no built-in timeout; disable ky's default 10 s limit.
+    // retry: 0 — fetch does not retry; disable ky's default retry behavior.
     this.instance = ky.create({
       fetch: this.customFetch ?? fetch,
       throwHttpErrors: false,
+      timeout: false,
+      retry: 0,
     });
   }
 
@@ -261,35 +265,37 @@ export class HttpClient<SecurityDataType = unknown> {
             ? null
             : payloadFormatter(body),
       },
-    ).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+    )
+      .then(async (response) => {
+        const r = response as HttpResponse<T, E>;
+        r.data = null as unknown as T;
+        r.error = null as unknown as E;
 
-      const responseToParse = responseFormat ? response.clone() : response;
-      const data = !responseFormat
-        ? r
-        : await responseToParse[responseFormat]()
-            .then((data) => {
-              if (r.ok) {
-                r.data = data;
-              } else {
-                r.error = data;
-              }
-              return r;
-            })
-            .catch((e) => {
-              r.error = e;
-              return r;
-            });
+        const responseToParse = responseFormat ? response.clone() : response;
+        const data = !responseFormat
+          ? r
+          : await responseToParse[responseFormat]()
+              .then((data) => {
+                if (r.ok) {
+                  r.data = data;
+                } else {
+                  r.error = data;
+                }
+                return r;
+              })
+              .catch((e) => {
+                r.error = e;
+                return r;
+              });
 
-      if (cancelToken) {
-        this.abortControllers.delete(cancelToken);
-      }
-
-      if (!response.ok) throw data;
-      return data;
-    });
+        if (!response.ok) throw data;
+        return data;
+      })
+      .finally(() => {
+        if (cancelToken) {
+          this.abortControllers.delete(cancelToken);
+        }
+      });
   };
 }
 
