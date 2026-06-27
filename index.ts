@@ -345,7 +345,13 @@ const generateCommand = defineCommand({
       httpClientType: (() => {
         const raw = args["http-client"] as string | undefined;
         const validValues = Object.values(HTTP_CLIENT) as string[];
-        if (raw && validValues.includes(raw)) return raw as HttpClientType;
+        if (raw) {
+          if (!validValues.includes(raw))
+            throw new Error(
+              `Invalid --http-client value "${raw}". Valid values: ${validValues.join(", ")}`,
+            );
+          return raw as HttpClientType;
+        }
         if (args.axios) return HTTP_CLIENT.AXIOS;
         return HTTP_CLIENT.FETCH;
       })(),
