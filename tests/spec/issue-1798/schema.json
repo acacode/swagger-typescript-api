@@ -1,0 +1,81 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "issue 1798",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "RelatedProductVariant": {
+        "type": "object",
+        "properties": {
+          "variantId": {
+            "type": "integer"
+          },
+          "variantReferenceKey": {
+            "type": "string"
+          },
+          "isMainVariant": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProductVariant": {
+        "type": "object",
+        "properties": {
+          "relatedVariants": {
+            "oneOf": [
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/RelatedProductVariant"
+                    },
+                    {
+                      "type": "object",
+                      "required": ["variantId", "isMainVariant"],
+                      "properties": {
+                        "variantId": {
+                          "type": "integer"
+                        },
+                        "variantReferenceKey": {
+                          "not": {}
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/RelatedProductVariant"
+                    },
+                    {
+                      "type": "object",
+                      "required": ["variantReferenceKey", "isMainVariant"],
+                      "properties": {
+                        "variantReferenceKey": {
+                          "type": "string"
+                        },
+                        "variantId": {
+                          "not": {}
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

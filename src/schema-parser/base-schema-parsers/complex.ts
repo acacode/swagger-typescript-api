@@ -5,6 +5,11 @@ import { MonoSchemaParser } from "../mono-schema-parser.js";
 export class ComplexSchemaParser extends MonoSchemaParser {
   override parse() {
     const complexType = this.schemaUtils.getComplexType(this.schema);
+    const complexSchemaItems: Array<Record<string, unknown>> = Array.isArray(
+      this.schema[complexType],
+    )
+      ? this.schema[complexType]
+      : [];
     const simpleSchema = omit(
       this.schema,
       Object.keys(this.schemaParser._complexSchemaParsers),
@@ -23,11 +28,7 @@ export class ComplexSchemaParser extends MonoSchemaParser {
       name: this.typeName,
       description: this.schemaFormatters.formatDescription(
         this.schema.description ||
-          compact(
-            (this.schema[complexType] || []).map(
-              (item: any) => item?.description,
-            ),
-          )[0] ||
+          compact(complexSchemaItems.map((item) => item.description))[0] ||
           "",
       ),
       content:
