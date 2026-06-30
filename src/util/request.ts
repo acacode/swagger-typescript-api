@@ -1,6 +1,7 @@
 import { consola } from "consola";
 import { merge } from "es-toolkit";
 import type { CodeGenConfig } from "../configuration.js";
+import { isRemoteSchemaFetchAllowed } from "./remote-schema-fetch.js";
 
 export class Request {
   config: CodeGenConfig;
@@ -18,6 +19,12 @@ export class Request {
     authToken?: string;
     options?: Partial<RequestInit>;
   }) {
+    if (!isRemoteSchemaFetchAllowed(url)) {
+      const message = `URL "${url}" is not allowed for fetching`;
+      consola.error(message);
+      return message;
+    }
+
     const requestOptions: Partial<RequestInit> = {};
 
     if (authToken) {
