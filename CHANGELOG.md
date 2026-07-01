@@ -1,5 +1,13 @@
 # swagger-typescript-api
 
+## 13.12.4
+
+### Patch Changes
+
+- [`5a327e9`](https://github.com/acacode/swagger-typescript-api/commit/5a327e99c93fee7e8f5826605e1742e2fe793aeb) Thanks [@js2me](https://github.com/js2me)! - Security: Potential SSRF via URL input in Request.download()
+
+- [#1803](https://github.com/acacode/swagger-typescript-api/pull/1803) [`7bd2b17`](https://github.com/acacode/swagger-typescript-api/commit/7bd2b178c7d47956fd8ab484a78840b56ccfc31c) Thanks [@morgan-coded](https://github.com/morgan-coded)! - Handle object-shaped not schemas without crashing
+
 ## 13.12.3
 
 ### Patch Changes
