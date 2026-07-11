@@ -22,6 +22,7 @@ const TsKeyword = {
   String: "string",
   Boolean: "boolean",
   Any: "any",
+  Never: "never",
   Void: "void",
   Unknown: "unknown",
   Null: "null",

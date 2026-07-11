@@ -176,6 +176,17 @@ export class SchemaParser {
   };
 
   parseSchema = () => {
+    if (typeof this.schema === "boolean") {
+      return this._baseSchemaParsers[SCHEMA_TYPES.PRIMITIVE](
+        {
+          type: this.schema
+            ? this.config.Ts.Keyword.Any
+            : this.config.Ts.Keyword.Never,
+        },
+        this.typeName,
+      );
+    }
+
     if (!this.schema)
       return this._baseSchemaParsers[SCHEMA_TYPES.PRIMITIVE](
         null,
