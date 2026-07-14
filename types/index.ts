@@ -18,6 +18,7 @@ type CodeGenConstruct = {
     String: string;
     Boolean: string;
     Any: string;
+    Never: string;
     Void: string;
     Unknown: string;
     Null: string;

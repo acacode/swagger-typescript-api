@@ -1,0 +1,17 @@
+openapi: 3.1.0
+info:
+  title: Boolean schemas
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    AnyValue: true
+    NoValue: false
+    NestedValues:
+      type: object
+      properties:
+        anyValue: true
+        noValue: false
+    ArrayOfNoValues:
+      type: array
+      items: false
