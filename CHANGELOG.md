@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.12.5
+
+### Patch Changes
+
+- [#1811](https://github.com/acacode/swagger-typescript-api/pull/1811) [`b87b255`](https://github.com/acacode/swagger-typescript-api/commit/b87b2557508a29734b4100caf33f08091db80987) Thanks [@morgan-coded](https://github.com/morgan-coded)! - Handle boolean JSON schemas without crashing.
+
 ## 13.12.4
 
 ### Patch Changes
