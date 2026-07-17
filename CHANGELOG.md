@@ -1,5 +1,11 @@
 # swagger-typescript-api
 
+## 13.12.6
+
+### Patch Changes
+
+- [#1813](https://github.com/acacode/swagger-typescript-api/pull/1813) [`9ac801b`](https://github.com/acacode/swagger-typescript-api/commit/9ac801bfd85b5c35a62675ea0eff45ff12844eb8) Thanks [@freddie-volant](https://github.com/freddie-volant)! - Add support for generating tuple types from prefixItems array schemas
+
 ## 13.12.5
 
 ### Patch Changes
