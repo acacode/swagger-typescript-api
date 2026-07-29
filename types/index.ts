@@ -695,6 +695,23 @@ export interface GenerateApiConfiguration {
       primitive?: MonoSchemaParser;
       discriminator?: MonoSchemaParser;
       array?: MonoSchemaParser;
+      jsonldEntity?: MonoSchemaParser;
+      jsonldType?: MonoSchemaParser;
+    };
+    /**
+     * JSON-LD specific configuration options.
+     *
+     * Disabled by default. When enabled, schemas declaring the `x-jsonld`
+     * extension (or one of `x-jsonld-context` / `x-jsonld-type` /
+     * `x-jsonld-id`) are emitted as JSON-LD entities/contexts in addition to
+     * the regular data contracts. Schemas without the extension are
+     * unaffected.
+     */
+    jsonLdOptions: {
+      /** Enable JSON-LD support (default: `false`). */
+      enabled?: boolean;
+      /** Emit shared utility types (`JsonLdEntity`, `JsonLdGraph`, ...) (default: `true`). */
+      generateUtils?: boolean;
     };
     /** internal options for templates */
     internalTemplateOptions: {
@@ -708,6 +725,8 @@ export interface GenerateApiConfiguration {
       routeTypes: string;
       httpClient: string;
       outOfModuleApi: string;
+      jsonldEntity: string;
+      jsonldUtils: string;
     };
     /** Record<templateName, templateContent> */
     templatesToRender: {
@@ -721,6 +740,8 @@ export interface GenerateApiConfiguration {
       typeDataContract: string;
       enumDataContract: string;
       objectFieldJsDoc: string;
+      jsonldEntityDataContract: string;
+      jsonldUtils: string;
     };
     /** map of duplicate route names */
     routeNameDuplicatesMap: Map<string, string>;

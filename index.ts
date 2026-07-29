@@ -204,6 +204,12 @@ const generateCommand = defineCommand({
       description: "generate js api module with declaration file",
       default: codeGenBaseConfig.toJS,
     },
+    jsonld: {
+      type: "boolean",
+      description:
+        "enable JSON-LD support; schemas declaring the `x-jsonld` extension produce additional context/entity/utility types",
+      default: codeGenBaseConfig.jsonLdOptions.enabled,
+    },
     modular: {
       type: "boolean",
       description:
@@ -347,6 +353,7 @@ const generateCommand = defineCommand({
           ? HTTP_CLIENT.AXIOS
           : HTTP_CLIENT.FETCH,
       input: path.resolve(process.cwd(), args.path as string),
+      jsonLdOptions: { enabled: args.jsonld },
       modular: args.modular,
       moduleNameFirstTag: args["module-name-first-tag"],
       moduleNameIndex: +args["module-name-index"] || 0,
