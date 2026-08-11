@@ -1,0 +1,32 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Additional properties without an explicit type",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "Widget": {
+        "type": "object",
+        "required": ["values"],
+        "properties": {
+          "values": {
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "open": {
+            "additionalProperties": true
+          },
+          "closed": {
+            "additionalProperties": false
+          }
+        }
+      }
+    }
+  }
+}
