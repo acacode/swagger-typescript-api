@@ -634,6 +634,12 @@ export interface GenerateApiConfiguration {
     /** disable formatting and normalization of generated type names */
     disableFormatTypeNames: boolean;
     /**
+     * Do not resolve and generate schemas referenced from external OpenAPI files.
+     * External `$ref`s are generated as `any`.
+     * @default false
+     */
+    disableExternalSchemas: boolean;
+    /**
      * Reuse existing local component type names for external `$ref`s instead of
      * prefixing with the external file name (e.g. `OpenapiFoo`).
      *

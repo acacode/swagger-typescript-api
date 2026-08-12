@@ -163,6 +163,7 @@ export class CodeGenConfig {
   enumKeyPrefix = "";
   enumKeySuffix = "";
   patch = false;
+  disableExternalSchemas = false;
   preferExistingSchemaNamesForExternalRefs = false;
   componentTypeNameResolver: ComponentTypeNameResolver;
   /** name of the main exported class */
