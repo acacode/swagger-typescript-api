@@ -1,7 +1,7 @@
 # Swagger TypeScript API
 
 - Support for OpenAPI 3.0, 2.0, JSON and YAML
-- Generate the API Client for Fetch or Axios from an OpenAPI Specification
+- Generate the API Client for Fetch, Axios, or ky from an OpenAPI Specification
 
 Any questions you can ask here: <https://github.com/acacode/swagger-typescript-api/discussions>
 
@@ -17,6 +17,12 @@ You can use this package in two ways:
 
 ```bash
 npx swagger-typescript-api generate --path ./swagger.json
+```
+
+To generate a `ky`-based client (install `ky` in your project first):
+
+```bash
+npx swagger-typescript-api generate --path ./swagger.json --http-client ky
 ```
 
 Or install locally in your project:
@@ -38,7 +44,15 @@ import * as process from "node:process";
 import { generateApi } from "swagger-typescript-api";
 
 await generateApi({ input: path.resolve(process.cwd(), "./swagger.json") });
+
+// Use ky as the HTTP client (install ky in your project first)
+await generateApi({
+  input: path.resolve(process.cwd(), "./swagger.json"),
+  httpClientType: "ky",
+});
 ```
+
+The `httpClientType` option accepts `"fetch"` (default), `"axios"`, or `"ky"`. When using `"axios"` or `"ky"`, add the corresponding package as a dependency of the generated client's project.
 
 For more detailed configuration options, please consult the documentation.
 

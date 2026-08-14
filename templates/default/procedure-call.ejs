@@ -58,7 +58,7 @@ const requestContentKind = includeFile("@base/content-type-accessors", { config 
 const responseContentKind = {
     "JSON": '"json"',
     "IMAGE": '"blob"',
-    "FORM_DATA": isFetchTemplate ? '"formData"' : '"document"'
+    "FORM_DATA": config.httpClientType !== HTTP_CLIENT.AXIOS ? '"formData"' : '"document"'
 }
 
 const bodyTmpl = _.get(payload, "name") || null;

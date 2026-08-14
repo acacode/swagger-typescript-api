@@ -349,10 +349,19 @@ const generateCommand = defineCommand({
         | "const"
         | "const-enum"
         | undefined,
-      httpClientType:
-        args["http-client"] || args.axios
-          ? HTTP_CLIENT.AXIOS
-          : HTTP_CLIENT.FETCH,
+      httpClientType: (() => {
+        const raw = args["http-client"] as string | undefined;
+        const validValues = Object.values(HTTP_CLIENT) as string[];
+        if (raw) {
+          if (!validValues.includes(raw))
+            throw new Error(
+              `Invalid --http-client value "${raw}". Valid values: ${validValues.join(", ")}`,
+            );
+          return raw as HttpClientType;
+        }
+        if (args.axios) return HTTP_CLIENT.AXIOS;
+        return HTTP_CLIENT.FETCH;
+      })(),
       input: path.resolve(process.cwd(), args.path as string),
       modular: args.modular,
       moduleNameFirstTag: args["module-name-first-tag"],
