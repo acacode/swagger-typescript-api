@@ -13,27 +13,6 @@ exports[`basic > --enum-names-as-values 1`] = `
  * ---------------------------------------------------------------
  */
 
-export enum JobKind {
-  COMPANY = "COMPANY",
-  PERSONAL = "PERSONAL",
-  FREELANCE = "FREELANCE",
-  OPEN_SOURCE = "OPEN_SOURCE",
-}
-
-export enum PetIdsWithWrongEnum {
-  Value10 = 10,
-  Value20 = 20,
-  Value30 = 30,
-  Value40 = 40,
-}
-
-export enum PetIds {
-  Value10 = 10,
-  Value20 = 20,
-  Value30 = 30,
-  Value40 = 40,
-}
-
 /**
  * FooBar
  * @format int32
@@ -49,6 +28,27 @@ export enum IntEnumWithNames {
   Test23 = "Test23",
   Tess44 = "Tess44",
   BooFar = "BooFar",
+}
+
+export enum PetIds {
+  Value10 = 10,
+  Value20 = 20,
+  Value30 = 30,
+  Value40 = 40,
+}
+
+export enum PetIdsWithWrongEnum {
+  Value10 = 10,
+  Value20 = 20,
+  Value30 = 30,
+  Value40 = 40,
+}
+
+export enum JobKind {
+  COMPANY = "COMPANY",
+  PERSONAL = "PERSONAL",
+  FREELANCE = "FREELANCE",
+  OPEN_SOURCE = "OPEN_SOURCE",
 }
 
 export type TestAllOfDc = (FooBarBaz & FooBar) & {
