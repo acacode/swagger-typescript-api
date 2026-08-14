@@ -1,0 +1,463 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`basic > implicit FormData detection workaround 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export interface FileMetadata {
+  /** Name of the file (just metadata, not the actual file) */
+  fileName?: string;
+  /** Size of the file in bytes */
+  fileSize?: number;
+  /** File description */
+  description?: string;
+}
+
+export interface UploadFilePayload {
+  /**
+   * File to upload
+   * @format file
+   */
+  file?: File;
+  /** File description */
+  description?: string;
+}
+
+export interface UploadBinaryPayload {
+  /**
+   * Binary data to upload
+   * @format binary
+   */
+  data?: File;
+  /** Additional metadata */
+  metadata?: string;
+}
+
+export interface CreateDocumentPayload {
+  /**
+   * Document type (custom format, not a file upload)
+   * @format FileType
+   */
+  type?: string;
+  /** Document name */
+  name?: string;
+  /** Document content */
+  content?: string;
+}
+
+export interface CreateWithCustomFileFormatPayload {
+  /**
+   * Document type enum (custom format mapped to FileType type, but not actually a file upload)
+   * @format file-type-enum
+   */
+  type?: FileType;
+  /** Document name */
+  name?: string;
+}
+
+export interface CreateWithFileFormatPayload {
+  /**
+   * File using custom format that maps to File type
+   * @format custom-file
+   */
+  file?: File;
+  /** Document name */
+  name?: string;
+}
+
+export type QueryParamsType = Record<string | number, any>;
+export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
+
+export interface FullRequestParams extends Omit<RequestInit, "body"> {
+  /** set parameter to \`true\` for call \`securityWorker\` for this request */
+  secure?: boolean;
+  /** request path */
+  path: string;
+  /** content type of request body */
+  type?: ContentType;
+  /** query params */
+  query?: QueryParamsType;
+  /** format of response (i.e. response.json() -> format: "json") */
+  format?: ResponseFormat;
+  /** request body */
+  body?: unknown;
+  /** base url */
+  baseUrl?: string;
+  /** request cancellation token */
+  cancelToken?: CancelToken;
+}
+
+export type RequestParams = Omit<
+  FullRequestParams,
+  "body" | "method" | "query" | "path"
+>;
+
+export interface ApiConfig<SecurityDataType = unknown> {
+  baseUrl?: string;
+  baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
+  securityWorker?: (
+    securityData: SecurityDataType | null,
+  ) => Promise<RequestParams | void> | RequestParams | void;
+  customFetch?: typeof fetch;
+}
+
+export interface HttpResponse<D extends unknown, E extends unknown = unknown>
+  extends Response {
+  data: D;
+  error: E;
+}
+
+type CancelToken = Symbol | string | number;
+
+export enum ContentType {
+  Json = "application/json",
+  JsonApi = "application/vnd.api+json",
+  FormData = "multipart/form-data",
+  UrlEncoded = "application/x-www-form-urlencoded",
+  Text = "text/plain",
+}
+
+export class HttpClient<SecurityDataType = unknown> {
+  public baseUrl: string = "";
+  private securityData: SecurityDataType | null = null;
+  private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
+  private abortControllers = new Map<CancelToken, AbortController>();
+  private customFetch = (...fetchParams: Parameters<typeof fetch>) =>
+    fetch(...fetchParams);
+
+  private baseApiParams: RequestParams = {
+    credentials: "same-origin",
+    headers: {},
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  };
+
+  constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
+    Object.assign(this, apiConfig);
+  }
+
+  public setSecurityData = (data: SecurityDataType | null) => {
+    this.securityData = data;
+  };
+
+  protected encodeQueryParam(key: string, value: any) {
+    const encodedKey = encodeURIComponent(key);
+    return \`\${encodedKey}=\${encodeURIComponent(typeof value === "number" ? value : \`\${value}\`)}\`;
+  }
+
+  protected addQueryParam(query: QueryParamsType, key: string) {
+    return this.encodeQueryParam(key, query[key]);
+  }
+
+  protected addArrayQueryParam(query: QueryParamsType, key: string) {
+    const value = query[key];
+    return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
+  }
+
+  protected toQueryString(rawQuery?: QueryParamsType): string {
+    const query = rawQuery || {};
+    const keys = Object.keys(query).filter(
+      (key) => "undefined" !== typeof query[key],
+    );
+    return keys
+      .map((key) =>
+        Array.isArray(query[key])
+          ? this.addArrayQueryParam(query, key)
+          : this.addQueryParam(query, key),
+      )
+      .join("&");
+  }
+
+  protected addQueryParams(rawQuery?: QueryParamsType): string {
+    const queryString = this.toQueryString(rawQuery);
+    return queryString ? \`?\${queryString}\` : "";
+  }
+
+  private contentFormatters: Record<ContentType, (input: any) => any> = {
+    [ContentType.Json]: (input: any) =>
+      input !== null && (typeof input === "object" || typeof input === "string")
+        ? JSON.stringify(input)
+        : input,
+    [ContentType.JsonApi]: (input: any) =>
+      input !== null && (typeof input === "object" || typeof input === "string")
+        ? JSON.stringify(input)
+        : input,
+    [ContentType.Text]: (input: any) =>
+      input !== null && typeof input !== "string"
+        ? JSON.stringify(input)
+        : input,
+    [ContentType.FormData]: (input: any) => {
+      if (input instanceof FormData) {
+        return input;
+      }
+
+      return Object.keys(input || {}).reduce((formData, key) => {
+        const property = input[key];
+        formData.append(
+          key,
+          property instanceof Blob
+            ? property
+            : typeof property === "object" && property !== null
+              ? JSON.stringify(property)
+              : \`\${property}\`,
+        );
+        return formData;
+      }, new FormData());
+    },
+    [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
+  };
+
+  protected mergeRequestParams(
+    params1: RequestParams,
+    params2?: RequestParams,
+  ): RequestParams {
+    return {
+      ...this.baseApiParams,
+      ...params1,
+      ...(params2 || {}),
+      headers: {
+        ...(this.baseApiParams.headers || {}),
+        ...(params1.headers || {}),
+        ...((params2 && params2.headers) || {}),
+      },
+    };
+  }
+
+  protected createAbortSignal = (
+    cancelToken: CancelToken,
+  ): AbortSignal | undefined => {
+    if (this.abortControllers.has(cancelToken)) {
+      const abortController = this.abortControllers.get(cancelToken);
+      if (abortController) {
+        return abortController.signal;
+      }
+      return void 0;
+    }
+
+    const abortController = new AbortController();
+    this.abortControllers.set(cancelToken, abortController);
+    return abortController.signal;
+  };
+
+  public abortRequest = (cancelToken: CancelToken) => {
+    const abortController = this.abortControllers.get(cancelToken);
+
+    if (abortController) {
+      abortController.abort();
+      this.abortControllers.delete(cancelToken);
+    }
+  };
+
+  public request = async <T = any, E = any>({
+    body,
+    secure,
+    path,
+    type,
+    query,
+    format,
+    baseUrl,
+    cancelToken,
+    ...params
+  }: FullRequestParams): Promise<HttpResponse<T, E>> => {
+    const secureParams =
+      ((typeof secure === "boolean" ? secure : this.baseApiParams.secure) &&
+        this.securityWorker &&
+        (await this.securityWorker(this.securityData))) ||
+      {};
+    const requestParams = this.mergeRequestParams(params, secureParams);
+    const queryString = query && this.toQueryString(query);
+    const payloadFormatter = this.contentFormatters[type || ContentType.Json];
+    const responseFormat = format || requestParams.format;
+
+    return this.customFetch(
+      \`\${baseUrl || this.baseUrl || ""}\${path}\${queryString ? \`?\${queryString}\` : ""}\`,
+      {
+        ...requestParams,
+        headers: {
+          ...(requestParams.headers || {}),
+          ...(type && type !== ContentType.FormData
+            ? { "Content-Type": type }
+            : {}),
+        },
+        signal:
+          (cancelToken
+            ? this.createAbortSignal(cancelToken)
+            : requestParams.signal) || null,
+        body:
+          typeof body === "undefined" || body === null
+            ? null
+            : payloadFormatter(body),
+      },
+    ).then(async (response) => {
+      const r = response as HttpResponse<T, E>;
+      r.data = null as unknown as T;
+      r.error = null as unknown as E;
+
+      const responseToParse = responseFormat ? response.clone() : response;
+      const data = !responseFormat
+        ? r
+        : await responseToParse[responseFormat]()
+            .then((data) => {
+              if (r.ok) {
+                r.data = data;
+              } else {
+                r.error = data;
+              }
+              return r;
+            })
+            .catch((e) => {
+              r.error = e;
+              return r;
+            });
+
+      if (cancelToken) {
+        this.abortControllers.delete(cancelToken);
+      }
+
+      if (!response.ok) throw data;
+      return data;
+    });
+  };
+}
+
+/**
+ * @title Implicit FormData Test
+ * @version 1.0.0
+ *
+ * Test case for workaround that detects FormData when request body contains file/binary types but doesn't explicitly declare multipart/form-data
+ */
+export class Api<
+  SecurityDataType extends unknown,
+> extends HttpClient<SecurityDataType> {
+  upload = {
+    /**
+     * @description This endpoint has a request body with file type but uses application/json content type (not multipart/form-data). The workaround should detect this and set contentKind to FORM_DATA.
+     *
+     * @name UploadFile
+     * @summary Upload a file
+     * @request POST:/upload
+     */
+    uploadFile: (data: UploadFilePayload, params: RequestParams = {}) =>
+      this.request<
+        {
+          success?: boolean;
+        },
+        any
+      >({
+        path: \`/upload\`,
+        method: "POST",
+        body: data,
+        type: ContentType.FormData,
+        format: "json",
+        ...params,
+      }),
+  };
+  uploadBinary = {
+    /**
+     * @description This endpoint has a request body with binary format but uses application/json content type. The workaround should detect this.
+     *
+     * @name UploadBinary
+     * @summary Upload binary data
+     * @request POST:/upload-binary
+     */
+    uploadBinary: (data: UploadBinaryPayload, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: \`/upload-binary\`,
+        method: "POST",
+        body: data,
+        type: ContentType.FormData,
+        ...params,
+      }),
+  };
+  createDocument = {
+    /**
+     * @description This endpoint has a request body with a property 'type' that uses a custom format 'FileType' (not file or binary). The content type is application/json. This should remain JSON, not FormData.
+     *
+     * @name CreateDocument
+     * @summary Create a document
+     * @request POST:/create-document
+     */
+    createDocument: (data: CreateDocumentPayload, params: RequestParams = {}) =>
+      this.request<
+        {
+          id?: string;
+        },
+        any
+      >({
+        path: \`/create-document\`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+  };
+  updateFileMetadata = {
+    /**
+     * @description This endpoint has a request body that references a component schema 'FileMetadata' (which contains 'File' in the name but is NOT a file upload). The content type is application/json. The workaround should NOT apply, but it currently does because the type name contains 'File'.
+     *
+     * @name UpdateFileMetadata
+     * @summary Update file metadata
+     * @request POST:/update-file-metadata
+     */
+    updateFileMetadata: (data: FileMetadata, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: \`/update-file-metadata\`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+  };
+  createWithCustomFileFormat = {
+    /**
+     * @description This endpoint has a request body with a property using custom format 'file-type-enum' that maps to 'FileType' type via primitiveTypeConstructs. The content type is application/json. The workaround should NOT apply - this should remain JSON, not FormData.
+     *
+     * @name CreateWithCustomFileFormat
+     * @summary Create with custom file format
+     * @request POST:/create-with-custom-file-format
+     */
+    createWithCustomFileFormat: (
+      data: CreateWithCustomFileFormatPayload,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: \`/create-with-custom-file-format\`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+  };
+  createWithFileFormat = {
+    /**
+     * @description This endpoint has a request body with a property using custom format 'custom-file' that maps to 'File' type via primitiveTypeConstructs. Even though it's a custom format, since it maps to File, the workaround SHOULD apply and it should be FormData.
+     *
+     * @name CreateWithFileFormat
+     * @summary Create with file format
+     * @request POST:/create-with-file-format
+     */
+    createWithFileFormat: (
+      data: CreateWithFileFormatPayload,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: \`/create-with-file-format\`,
+        method: "POST",
+        body: data,
+        type: ContentType.FormData,
+        ...params,
+      }),
+  };
+}
+"
+`;
