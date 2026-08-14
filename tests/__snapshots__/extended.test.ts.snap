@@ -9545,8 +9545,8 @@ export class Api<
      * @request POST:/scope
      */
     signRequest: (
-      body: Claims,
       query: SignRequestParams = {},
+      body: Claims,
       params: RequestParams = {},
     ) =>
       this.request<SignRequestData, SignRequestError>({
