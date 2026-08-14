@@ -45,7 +45,27 @@ const dataContractTemplates = {
 type <%~ config.Ts.CodeGenKeyword.UtilRequiredKeys %><T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>
 <% } %>
 
+<%
+/* Only entities are relocated to their own module — `jsonld-type` aliases are
+   ordinary type aliases and stay here alongside the rest of the contracts. */
+const isJsonLdEnabled = config.jsonLdOptions && config.jsonLdOptions.enabled;
+const isJsonLdEntity = (contract) =>
+  (contract.typeData && contract.typeData.schemaType) === 'jsonld-entity';
+const hasJsonLdEntities = isJsonLdEnabled && modelTypes.some(isJsonLdEntity);
+%>
+<%
+/* In modular output the JSON-LD types live in their own files, but route
+   modules only ever import from `data-contracts`. Re-export them so those
+   imports keep resolving. */
+%>
+<% if (hasJsonLdEntities && config.modular) { %>
+export * from "./<%~ config.fileNames.jsonldEntity %>";
+<% if (config.jsonLdOptions.generateUtils) { %>
+export * from "./<%~ config.fileNames.jsonldUtils %>";
+<% } %>
+<% } %>
 <% for (const contract of modelTypes) { %>
+<% if (isJsonLdEnabled && isJsonLdEntity(contract)) { continue; } %>
   <%~ includeFile('@base/data-contract-jsdoc.ejs', { ...it, data: { ...contract, ...contract.typeData } }) %>
   <%~ contract.internal ? '' : 'export'%> <%~ (dataContractTemplates[contract.typeIdentifier] || dataContractTemplates.type)(contract) %>
 
