@@ -61,6 +61,10 @@ export class CodeGenConfig {
   enumStyle: "enum" | "union" | "const" | "const-enum" = "enum";
   /** @deprecated Use enumStyle: "union" instead */
   generateUnionEnums = false;
+  /** CLI flag. Extension appended to generated relative imports: "" (default), ".js", or ".ts". */
+  importFileExtension: "" | ".js" | ".ts" = "";
+  /** CLI flag. Emit `import type` / inline `type` for type-only imports. */
+  typeOnlyImports = false;
   /** CLI flag */
   addReadonly = false;
   enumNamesAsValues = false;
