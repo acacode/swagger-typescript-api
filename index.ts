@@ -199,6 +199,18 @@ const generateCommand = defineCommand({
         'enum output style: "enum" (default), "union" (T1 | T2 | TN), "const" (as const object + type alias), or "const-enum" (const enum)',
       default: codeGenBaseConfig.enumStyle,
     },
+    "import-file-extension": {
+      type: "string",
+      description:
+        'extension appended to generated relative imports: "" (default), ".js" (moduleResolution node16/nodenext), or ".ts" (allowImportingTsExtensions)',
+      default: codeGenBaseConfig.importFileExtension,
+    },
+    "type-only-imports": {
+      type: "boolean",
+      description:
+        "emit `import type` / inline `type` for type-only imports (verbatimModuleSyntax / isolatedModules)",
+      default: codeGenBaseConfig.typeOnlyImports,
+    },
     "http-client": {
       type: "string",
       description: `http client type (possible values: ${Object.values(
@@ -349,6 +361,12 @@ const generateCommand = defineCommand({
         | "const"
         | "const-enum"
         | undefined,
+      importFileExtension: args["import-file-extension"] as
+        | ""
+        | ".js"
+        | ".ts"
+        | undefined,
+      typeOnlyImports: args["type-only-imports"],
       httpClientType:
         args["http-client"] || args.axios
           ? HTTP_CLIENT.AXIOS

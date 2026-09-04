@@ -61,6 +61,10 @@ export class CodeGenConfig {
   enumStyle: "enum" | "union" | "const" | "const-enum" = "enum";
   /** @deprecated Use enumStyle: "union" instead */
   generateUnionEnums = false;
+  /** CLI flag. Extension appended to generated relative imports: "" (default), ".js", or ".ts". */
+  importFileExtension: "" | ".js" | ".ts" = "";
+  /** CLI flag. Emit `import type` / inline `type` for type-only imports. */
+  typeOnlyImports = false;
   /** CLI flag */
   addReadonly = false;
   enumNamesAsValues = false;
@@ -466,6 +470,12 @@ export class CodeGenConfig {
     >,
   ) => {
     objectAssign(this, update);
+    this.importFileExtension ??= "";
+    if (!["", ".js", ".ts"].includes(this.importFileExtension)) {
+      throw new Error(
+        `Invalid \`importFileExtension\` value "${this.importFileExtension}". Expected "", ".js", or ".ts".`,
+      );
+    }
     if (this.enumNamesAsValues) {
       this.extractEnums = true;
     }
