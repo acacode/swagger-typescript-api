@@ -470,6 +470,12 @@ export class CodeGenConfig {
     >,
   ) => {
     objectAssign(this, update);
+    this.importFileExtension ??= "";
+    if (!["", ".js", ".ts"].includes(this.importFileExtension)) {
+      throw new Error(
+        `Invalid \`importFileExtension\` value "${this.importFileExtension}". Expected "", ".js", or ".ts".`,
+      );
+    }
     if (this.enumNamesAsValues) {
       this.extractEnums = true;
     }

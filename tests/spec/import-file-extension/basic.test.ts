@@ -31,6 +31,24 @@ describe("import-file-extension", async () => {
     return fs.readFile(path.join(tmpdir, "Api.ts"), { encoding: "utf8" });
   };
 
+  const generateRouteTypes = async (
+    fileName: string,
+    options: Partial<Parameters<typeof generateApi>[0]>,
+  ) => {
+    await generateApi({
+      fileName,
+      input: path.resolve(import.meta.dirname, "schema.json"),
+      output: tmpdir,
+      silent: true,
+      modular: true,
+      cleanOutput: false,
+      generateRouteTypes: true,
+      generateClient: false,
+      ...options,
+    });
+    return fs.readFile(path.join(tmpdir, "ApiRoute.ts"), { encoding: "utf8" });
+  };
+
   test('appends ".js" to relative imports', async () => {
     const api = await generate("js-ext", { importFileExtension: ".js" });
 
@@ -110,5 +128,46 @@ describe("import-file-extension", async () => {
 
     expect(api).toMatch(/import type \{[^}]*\} from "\.\/data-contracts\.js"/);
     expect(api).toContain('from "./http-client.js"');
+  });
+
+  test("rejects an unsupported importFileExtension value", async () => {
+    await expect(
+      generateApi({
+        fileName: "invalid-ext",
+        input: path.resolve(import.meta.dirname, "schema.json"),
+        output: tmpdir,
+        silent: true,
+        cleanOutput: false,
+        importFileExtension: ".mjs" as ".js",
+      }),
+    ).rejects.toThrow(/importFileExtension/);
+  });
+
+  test("treats an explicit undefined importFileExtension as no extension", async () => {
+    const api = await generate("undef-ext", {
+      importFileExtension: undefined,
+    });
+
+    expect(api).toContain('from "./data-contracts"');
+    expect(api).not.toContain("data-contracts.js");
+  });
+
+  test("appends extension to route-type imports", async () => {
+    const routeTypes = await generateRouteTypes("route-types-ext", {
+      importFileExtension: ".js",
+    });
+
+    expect(routeTypes).toContain('from "./data-contracts.js"');
+  });
+
+  test("emits type-only route-type imports when typeOnlyImports", async () => {
+    const routeTypes = await generateRouteTypes("route-types-type-only", {
+      importFileExtension: ".js",
+      typeOnlyImports: true,
+    });
+
+    expect(routeTypes).toMatch(
+      /import type \{[^}]*\} from "\.\/data-contracts\.js"/,
+    );
   });
 });
