@@ -18,6 +18,14 @@ export class ComplexSchemaParser extends MonoSchemaParser {
       complexType
     ](this.schema);
 
+    // A $ref alongside `not`, `allOf` and friends is a sibling in OpenAPI 3.1: the
+    // keywords apply on top of the referenced schema. Parsing the reference too keeps
+    // the type, which would otherwise be lost with the complex keyword that cannot be
+    // expressed in TypeScript.
+    const shouldParseSimpleSchema =
+      this.schemaUtils.getInternalSchemaType(simpleSchema) ===
+        SCHEMA_TYPES.OBJECT || this.schemaUtils.isRefSchema(simpleSchema);
+
     return {
       ...(typeof this.schema === "object" ? this.schema : {}),
       $schemaPath: this.schemaPath.slice(),
@@ -33,19 +41,21 @@ export class ComplexSchemaParser extends MonoSchemaParser {
       ),
       content:
         this.config.Ts.IntersectionType(
-          compact([
-            this.config.Ts.ExpressionGroup(complexSchemaContent),
-            this.schemaUtils.getInternalSchemaType(simpleSchema) ===
-              SCHEMA_TYPES.OBJECT &&
-              this.config.Ts.ExpressionGroup(
-                this.schemaParserFabric
-                  .createSchemaParser({
-                    schema: simpleSchema,
-                    schemaPath: this.schemaPath,
-                  })
-                  .getInlineParseContent(),
-              ),
-          ]),
+          this.schemaUtils
+            .filterSchemaContents(
+              compact([
+                complexSchemaContent,
+                shouldParseSimpleSchema &&
+                  this.schemaParserFabric
+                    .createSchemaParser({
+                      schema: simpleSchema,
+                      schemaPath: this.schemaPath,
+                    })
+                    .getInlineParseContent(),
+              ]),
+              (content) => content !== this.config.Ts.Keyword.Any,
+            )
+            .map((content) => this.config.Ts.ExpressionGroup(content)),
         ) || this.config.Ts.Keyword.Any,
     };
   }
