@@ -1,0 +1,246 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Implicit FormData Test",
+    "version": "1.0.0",
+    "description": "Test case for workaround that detects FormData when request body contains file/binary types but doesn't explicitly declare multipart/form-data"
+  },
+  "paths": {
+    "/upload": {
+      "post": {
+        "operationId": "uploadFile",
+        "summary": "Upload a file",
+        "description": "This endpoint has a request body with file type but uses application/json content type (not multipart/form-data). The workaround should detect this and set contentKind to FORM_DATA.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "file",
+                    "description": "File to upload"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "File description"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/upload-binary": {
+      "post": {
+        "operationId": "uploadBinary",
+        "summary": "Upload binary data",
+        "description": "This endpoint has a request body with binary format but uses application/json content type. The workaround should detect this.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Binary data to upload"
+                  },
+                  "metadata": {
+                    "type": "string",
+                    "description": "Additional metadata"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/create-document": {
+      "post": {
+        "operationId": "createDocument",
+        "summary": "Create a document",
+        "description": "This endpoint has a request body with a property 'type' that uses a custom format 'FileType' (not file or binary). The content type is application/json. This should remain JSON, not FormData.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "format": "FileType",
+                    "description": "Document type (custom format, not a file upload)"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Document name"
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "Document content"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/update-file-metadata": {
+      "post": {
+        "operationId": "updateFileMetadata",
+        "summary": "Update file metadata",
+        "description": "This endpoint has a request body that references a component schema 'FileMetadata' (which contains 'File' in the name but is NOT a file upload). The content type is application/json. The workaround should NOT apply, but it currently does because the type name contains 'File'.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FileMetadata"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/create-with-custom-file-format": {
+      "post": {
+        "operationId": "createWithCustomFileFormat",
+        "summary": "Create with custom file format",
+        "description": "This endpoint has a request body with a property using custom format 'file-type-enum' that maps to 'FileType' type via primitiveTypeConstructs. The content type is application/json. The workaround should NOT apply - this should remain JSON, not FormData.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "format": "file-type-enum",
+                    "description": "Document type enum (custom format mapped to FileType type, but not actually a file upload)"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Document name"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/create-with-file-format": {
+      "post": {
+        "operationId": "createWithFileFormat",
+        "summary": "Create with file format",
+        "description": "This endpoint has a request body with a property using custom format 'custom-file' that maps to 'File' type via primitiveTypeConstructs. Even though it's a custom format, since it maps to File, the workaround SHOULD apply and it should be FormData.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "custom-file",
+                    "description": "File using custom format that maps to File type"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Document name"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FileMetadata": {
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "description": "Name of the file (just metadata, not the actual file)"
+          },
+          "fileSize": {
+            "type": "number",
+            "description": "Size of the file in bytes"
+          },
+          "description": {
+            "type": "string",
+            "description": "File description"
+          }
+        }
+      }
+    }
+  }
+}
