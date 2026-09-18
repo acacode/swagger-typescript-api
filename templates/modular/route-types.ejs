@@ -6,7 +6,7 @@ const dataContracts = config.modular ? _.map(modelTypes, "name") : [];
 
 %>
 <% if (dataContracts.length) { %>
-import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataContracts %>"
+import <%~ config.typeOnlyImports ? "type " : "" %>{ <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataContracts %><%~ config.importFileExtension %>"
 <% } %>
 
 export namespace <%~ pascalCase(moduleName) %> {
