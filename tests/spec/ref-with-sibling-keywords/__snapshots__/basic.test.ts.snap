@@ -1,0 +1,36 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`basic > ref-with-sibling-keywords 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export enum Status {
+  STATUS_UNSPECIFIED = "STATUS_UNSPECIFIED",
+  ACTIVE = "ACTIVE",
+  PAUSED = "PAUSED",
+}
+
+export interface Account {
+  plainRef?: Status;
+  /**
+   * annotatedRef
+   * a reference carrying annotations
+   */
+  annotatedRef?: Status;
+  /**
+   * constrainedRef
+   * a reference the value must match, minus one member
+   */
+  constrainedRef?: Status;
+}
+"
+`;
