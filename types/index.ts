@@ -535,6 +535,16 @@ export interface GenerateApiConfiguration {
     enumStyle: "enum" | "union" | "const" | "const-enum";
     /** @deprecated Use enumStyle: "union" instead */
     generateUnionEnums: boolean;
+    /**
+     * file extension appended to generated relative imports (e.g. `./data-contracts` -> `./data-contracts.js`).
+     * Use ".js" for `moduleResolution: node16/nodenext`, ".ts" for `allowImportingTsExtensions`, or "" (default) for none.
+     */
+    importFileExtension: "" | ".js" | ".ts";
+    /**
+     * emit `import type` (and inline `type` on mixed imports) for type-only imports.
+     * Useful for `verbatimModuleSyntax` / `isolatedModules`.
+     */
+    typeOnlyImports: boolean;
     /** parsed swagger schema */
     swaggerSchema: OpenAPI.Document;
     /** original swagger schema */
