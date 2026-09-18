@@ -320,6 +320,10 @@ export class SchemaComponentsMap {
       return null;
     }
 
+    if (this.config.disableExternalSchemas) {
+      return null;
+    }
+
     const foundByRef = resolvedSwaggerSchema.getRef($ref);
     const refDetails = resolvedSwaggerSchema.getRefDetails($ref);
 

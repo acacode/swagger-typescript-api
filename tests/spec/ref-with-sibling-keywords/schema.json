@@ -1,0 +1,37 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Ref with sibling keywords",
+    "version": "1.0.0"
+  },
+  "components": {
+    "schemas": {
+      "Status": {
+        "type": "string",
+        "enum": ["STATUS_UNSPECIFIED", "ACTIVE", "PAUSED"]
+      },
+      "Account": {
+        "type": "object",
+        "properties": {
+          "plainRef": {
+            "$ref": "#/components/schemas/Status"
+          },
+          "annotatedRef": {
+            "$ref": "#/components/schemas/Status",
+            "title": "annotatedRef",
+            "description": "a reference carrying annotations"
+          },
+          "constrainedRef": {
+            "$ref": "#/components/schemas/Status",
+            "title": "constrainedRef",
+            "description": "a reference the value must match, minus one member",
+            "not": {
+              "enum": ["STATUS_UNSPECIFIED"]
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {}
+}

@@ -106,4 +106,25 @@ describe("paths-by-url", async () => {
     expect(content).toContain("export type HelloListData = Repository;");
     expect(content).toContain("helloList:");
   });
+
+  test("does not generate schemas referenced from external files when disabled", async () => {
+    await generateApi({
+      fileName: "schema-disabled",
+      url: `${baseUrl}/schema.yaml`,
+      output: outputRoot,
+      silent: true,
+      disableExternalSchemas: true,
+    });
+
+    const content = await fs.readFile(
+      path.join(outputRoot, "schema-disabled.ts"),
+      {
+        encoding: "utf8",
+      },
+    );
+
+    expect(content).not.toContain("export interface Repository");
+    expect(content).toContain("export type RootRepository = any;");
+    expect(content).toContain("this.request<RootRepository, any>");
+  });
 });
