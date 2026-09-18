@@ -215,6 +215,9 @@ export class SchemaParser {
       ) {
         this.schema.type = SCHEMA_TYPES.ARRAY;
       }
+      if (this.schema.additionalProperties && !this.schema.type) {
+        this.schema.type = SCHEMA_TYPES.OBJECT;
+      }
       // schema is enum with one null value
       if (
         Array.isArray(this.schema.enum) &&
