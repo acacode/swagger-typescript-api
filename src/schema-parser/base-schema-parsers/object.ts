@@ -58,6 +58,16 @@ export class ObjectSchemaParser extends MonoSchemaParser {
 
       const complexType = this.schemaUtils.getComplexType(property);
       const rawDataComplexType = this.schemaUtils.getComplexType(rawTypeData);
+      const propertyComplexSchemaItems: Array<Record<string, unknown>> =
+        Array.isArray((property as Record<string, unknown>)[complexType])
+          ? ((property as Record<string, unknown>)[complexType] as Array<
+              Record<string, unknown>
+            >)
+          : [];
+      const rawDataComplexSchemaItems: Array<Record<string, unknown>> =
+        Array.isArray(rawTypeData[rawDataComplexType])
+          ? (rawTypeData[rawDataComplexType] as Array<Record<string, unknown>>)
+          : [];
 
       propertiesContent.push({
         ...(property as object),
@@ -66,16 +76,11 @@ export class ObjectSchemaParser extends MonoSchemaParser {
         description:
           (property as Record<string, unknown>).description ||
           compact(
-            (
-              ((property as Record<string, unknown>)[complexType] as any[]) ||
-              []
-            ).map((item: any) => item?.description),
+            propertyComplexSchemaItems.map((item) => item?.description),
           )[0] ||
           rawTypeData.description ||
           compact(
-            ((rawTypeData[rawDataComplexType] as any[]) || []).map(
-              (item: any) => item?.description,
-            ),
+            rawDataComplexSchemaItems.map((item) => item?.description),
           )[0] ||
           "",
         isRequired: required,

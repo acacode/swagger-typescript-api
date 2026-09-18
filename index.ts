@@ -143,6 +143,12 @@ const generateCommand = defineCommand({
       description: "disable formatting and normalization of type names",
       default: codeGenBaseConfig.disableFormatTypeNames,
     },
+    "disable-external-schemas": {
+      type: "boolean",
+      description:
+        "do not resolve and generate schemas referenced from external OpenAPI files",
+      default: codeGenBaseConfig.disableExternalSchemas,
+    },
     "enum-names-as-values": {
       type: "boolean",
       description:
@@ -323,6 +329,7 @@ const generateCommand = defineCommand({
       defaultResponseType: args["default-response"],
       defaultRequestParams: args["default-request-params"],
       disableFormatTypeNames: args["disable-format-type-names"],
+      disableExternalSchemas: args["disable-external-schemas"],
       disableThrowOnError: args["disable-throw-on-error"],
       enumNamesAsValues: args["enum-names-as-values"],
       extractEnums: args["extract-enums"],

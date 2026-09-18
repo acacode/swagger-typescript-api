@@ -1,6 +1,10 @@
 import { consola } from "consola";
 import { merge } from "es-toolkit";
 import type { CodeGenConfig } from "../configuration.js";
+import {
+  fetchRemoteSchemaResponse,
+  isSameHttpOrigin,
+} from "./remote-schema-fetch.js";
 
 export class Request {
   config: CodeGenConfig;
@@ -20,7 +24,7 @@ export class Request {
   }) {
     const requestOptions: Partial<RequestInit> = {};
 
-    if (authToken) {
+    if (authToken && isSameHttpOrigin(url, this.config.url)) {
       requestOptions.headers = {
         Authorization: authToken,
       };
@@ -28,13 +32,27 @@ export class Request {
 
     merge(merge(requestOptions, options), this.config.requestOptions || {});
 
+    const response = await fetchRemoteSchemaResponse(
+      url,
+      requestOptions as RequestInit,
+      {
+        specSourceUrl: this.config.url || undefined,
+        allowExplicitSpecUrl: true,
+      },
+    );
+
+    if (!response) {
+      const message = `URL "${url}" is not allowed for fetching`;
+      consola.error(message);
+      throw new Error(message);
+    }
+
     try {
-      const response = await fetch(url, requestOptions);
       return await response.text();
     } catch (error) {
       const message = `error while fetching data from URL "${url}"`;
       consola.error(message, error);
-      return message;
+      throw new Error(message);
     }
   }
 }

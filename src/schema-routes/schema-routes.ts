@@ -72,10 +72,12 @@ export class SchemaRoutes {
   }
 
   /**
-   * `extractResponseBody` / `extractResponseError` call `createParsedComponent`, which
-   * registers `#/components/schemas/<typeName>`. If that key already exists (e.g.
-   * `MergeFluffyData` in definitions), the map entry would be overwritten unless we
-   * pick another name via `resolveTypeName` after reserving the colliding one.
+   * `extractResponseBody` / `extractResponseError` / `extractRequestParams` call
+   * `createParsedComponent`, which registers `#/components/schemas/<typeName>`. If that
+   * key already exists (e.g. `MergeFluffyData` in definitions, or a request-body model
+   * named `GetOrderParams` next to a `getOrder` operation), the map entry would be
+   * overwritten unless we pick another name via `resolveTypeName` after reserving the
+   * colliding one.
    *
    * `getComponents` may be missing in narrow unit tests that pass a stub map.
    *
@@ -859,7 +861,7 @@ export class SchemaRoutes {
     if (fixedSchema) return fixedSchema;
 
     if (extractRequestParams) {
-      const generatedTypeName = this.schemaUtils.resolveTypeName(
+      const generatedTypeName = this.extractTypeNameWithoutSchemaKeyCollision(
         routeName.usage,
         {
           suffixes: this.config.extractingOptions.requestParamsSuffix,

@@ -4,11 +4,17 @@ import { MonoSchemaParser } from "../mono-schema-parser.js";
 export class ArraySchemaParser extends MonoSchemaParser {
   override parse() {
     let contentType;
-    const { type, description, items } = this.schema || {};
+    const { type, description, items, prefixItems } = this.schema || {};
 
-    if (Array.isArray(items) && type === SCHEMA_TYPES.ARRAY) {
+    const tupleItems = Array.isArray(prefixItems)
+      ? prefixItems
+      : Array.isArray(items)
+        ? items
+        : null;
+
+    if (tupleItems && type === SCHEMA_TYPES.ARRAY) {
       const tupleContent = [];
-      for (const item of items) {
+      for (const item of tupleItems) {
         tupleContent.push(
           this.schemaParserFabric
             .createSchemaParser({ schema: item, schemaPath: this.schemaPath })

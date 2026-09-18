@@ -1,5 +1,31 @@
 # swagger-typescript-api
 
+## 13.12.6
+
+### Patch Changes
+
+- [#1813](https://github.com/acacode/swagger-typescript-api/pull/1813) [`9ac801b`](https://github.com/acacode/swagger-typescript-api/commit/9ac801bfd85b5c35a62675ea0eff45ff12844eb8) Thanks [@freddie-volant](https://github.com/freddie-volant)! - Add support for generating tuple types from prefixItems array schemas
+
+## 13.12.5
+
+### Patch Changes
+
+- [#1811](https://github.com/acacode/swagger-typescript-api/pull/1811) [`b87b255`](https://github.com/acacode/swagger-typescript-api/commit/b87b2557508a29734b4100caf33f08091db80987) Thanks [@morgan-coded](https://github.com/morgan-coded)! - Handle boolean JSON schemas without crashing.
+
+## 13.12.4
+
+### Patch Changes
+
+- [`5a327e9`](https://github.com/acacode/swagger-typescript-api/commit/5a327e99c93fee7e8f5826605e1742e2fe793aeb) Thanks [@js2me](https://github.com/js2me)! - Security: Potential SSRF via URL input in Request.download()
+
+- [#1803](https://github.com/acacode/swagger-typescript-api/pull/1803) [`7bd2b17`](https://github.com/acacode/swagger-typescript-api/commit/7bd2b178c7d47956fd8ab484a78840b56ccfc31c) Thanks [@morgan-coded](https://github.com/morgan-coded)! - Handle object-shaped not schemas without crashing
+
+## 13.12.3
+
+### Patch Changes
+
+- [`77a5bbc`](https://github.com/acacode/swagger-typescript-api/commit/77a5bbc11af7ae51c9aaa316379efc544284ebc6) Thanks [@js2me](https://github.com/js2me)! - update deps to latest
+
 ## 13.12.2
 
 ### Patch Changes

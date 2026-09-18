@@ -22,6 +22,7 @@ const TsKeyword = {
   String: "string",
   Boolean: "boolean",
   Any: "any",
+  Never: "never",
   Void: "void",
   Unknown: "unknown",
   Null: "null",
@@ -162,6 +163,7 @@ export class CodeGenConfig {
   enumKeyPrefix = "";
   enumKeySuffix = "";
   patch = false;
+  disableExternalSchemas = false;
   preferExistingSchemaNamesForExternalRefs = false;
   componentTypeNameResolver: ComponentTypeNameResolver;
   /** name of the main exported class */
