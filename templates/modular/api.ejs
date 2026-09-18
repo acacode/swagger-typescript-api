@@ -4,17 +4,18 @@ const { _, pascalCase, require } = utils;
 const apiClassName = pascalCase(route.moduleName);
 const routes = route.routes;
 const dataContracts = _.map(modelTypes, "name");
+const importExt = config.importFileExtension;
+const typeModifier = config.typeOnlyImports ? "type " : "";
+// ContentType is a pure type only for the "union" style; otherwise it is a runtime value.
+const contentTypeSpecifier = config.enumStyle === "union" ? "type ContentType" : "ContentType";
+const httpClientSpecifiers = ["HttpClient", `${typeModifier}RequestParams`, contentTypeSpecifier, `${typeModifier}HttpResponse`].join(", ");
 %>
 
 <% if (config.httpClientType === config.constants.HTTP_CLIENT.AXIOS) { %> import type { AxiosRequestConfig, AxiosResponse } from "axios"; <% } %>
 
-<% if (config.enumStyle === "union") { %>
-import { HttpClient, RequestParams, type ContentType, HttpResponse } from "./<%~ config.fileNames.httpClient %>";
-<% } else { %>
-import { HttpClient, RequestParams, ContentType, HttpResponse } from "./<%~ config.fileNames.httpClient %>";
-<% } %>
+import { <%~ httpClientSpecifiers %> } from "./<%~ config.fileNames.httpClient %><%~ importExt %>";
 <% if (dataContracts.length) { %>
-import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataContracts %>"
+import <%~ typeModifier %>{ <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataContracts %><%~ importExt %>"
 <% } %>
 
 export class <%= apiClassName %><SecurityDataType = unknown><% if (!config.singleHttpClient) { %> extends HttpClient<SecurityDataType> <% } %> {
