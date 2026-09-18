@@ -1,0 +1,93 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Extract request params schema name collision",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/stores/{storeId}/orders/preview": {
+      "post": {
+        "operationId": "getOrder",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/GetOrderParams" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Order" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/{orderId}": {
+      "get": {
+        "operationId": "getOrderById",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "boolean" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Order" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetOrderParams": {
+        "type": "object",
+        "required": ["items", "currency"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "currency": { "type": "string" },
+          "couponCode": { "type": "string" }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "required": ["id", "total"],
+        "properties": {
+          "id": { "type": "string" },
+          "total": { "type": "number" }
+        }
+      }
+    }
+  }
+}
