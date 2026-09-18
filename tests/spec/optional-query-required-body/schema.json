@@ -1,0 +1,37 @@
+{
+  "openapi": "3.0.0",
+  "info": { "title": "optional-query-required-body", "version": "1.0.0" },
+  "paths": {
+    "/check-impact": {
+      "post": {
+        "operationId": "checkImpact",
+        "summary": "Reproduces issue #1755 follow-up: optional query + required body must keep (query, body) argument order in the generated wrapper.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cadence",
+            "schema": { "type": "string", "enum": ["weekly", "biweekly"] }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["staff_id", "action"],
+                "properties": {
+                  "staff_id": { "type": "integer" },
+                  "action": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "OK" }
+        }
+      }
+    }
+  }
+}
