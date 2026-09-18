@@ -1,5 +1,33 @@
 # swagger-typescript-api
 
+## 13.13.0
+
+### Minor Changes
+
+- [#1830](https://github.com/acacode/swagger-typescript-api/pull/1830) [`e7b418d`](https://github.com/acacode/swagger-typescript-api/commit/e7b418dae818d02ae22cb64085ab12530b2f233d) Thanks [@Upgrade220](https://github.com/Upgrade220)! - Add `importFileExtension` and `typeOnlyImports` options
+
+  `importFileExtension` (`""` | `".js"` | `".ts"`) appends a file extension to
+  generated relative imports, for projects using `moduleResolution: node16`/`nodenext`
+  (`.js`) or `allowImportingTsExtensions` (`.ts`).
+
+  `typeOnlyImports` emits `import type` for type-only imports (and inline `type` on
+  mixed imports such as the http-client import, where `HttpClient` stays a value
+  import) for projects using `verbatimModuleSyntax` / `isolatedModules`. `ContentType`
+  is only marked `type` for `enumStyle: "union"`, where it is a pure type.
+
+### Patch Changes
+
+- [#1835](https://github.com/acacode/swagger-typescript-api/pull/1835) [`18023ad`](https://github.com/acacode/swagger-typescript-api/commit/18023adb7570114708c80eea01b7c8a843a064a7) Thanks [@ryanb93](https://github.com/ryanb93)! - Fix `extractRequestParams` overwriting a component schema whose name matches `<operationId>Params`.
+
+  Since path-only routes started producing an extracted params type (13.2.9), a spec with an operation
+  `getOrder` and a component schema `GetOrderParams` (for example the operation's request body) would have
+  the model silently replaced by the route's path/query params, so the generated method typed its `data`
+  argument as the path params instead of the body.
+
+  `createRequestParamsSchema` now goes through the same schema-key collision guard already used by
+  `extractResponseBody` and `extractResponseError`, so the existing model keeps its name and the route
+  params fall back to the next free name (`GetOrderParams1`).
+
 ## 13.12.6
 
 ### Patch Changes
