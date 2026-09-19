@@ -13,11 +13,11 @@ exports[`basic > --extract-response-body 1`] = `
  * ---------------------------------------------------------------
  */
 
-export enum PetIdsWithWrongEnumTTT {
-  Value10 = 10,
-  Value20 = 20,
-  Value30 = 30,
-  Value40 = 40,
+export enum PetNamesTTT {
+  FluffyHero = "Fluffy Hero",
+  PiggyPo = "Piggy Po",
+  SwaggerTypescriptApi = "Swagger Typescript Api",
+  UPPER_CASE = "UPPER_CASE",
 }
 
 export enum PetIdsTTT {
@@ -27,11 +27,11 @@ export enum PetIdsTTT {
   Value40 = 40,
 }
 
-export enum PetNamesTTT {
-  FluffyHero = "Fluffy Hero",
-  PiggyPo = "Piggy Po",
-  SwaggerTypescriptApi = "Swagger Typescript Api",
-  UPPER_CASE = "UPPER_CASE",
+export enum PetIdsWithWrongEnumTTT {
+  Value10 = 10,
+  Value20 = 20,
+  Value30 = 30,
+  Value40 = 40,
 }
 
 /**
