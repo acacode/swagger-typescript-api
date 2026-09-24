@@ -305,6 +305,11 @@ export class SchemaUtils {
   };
 
   getInternalSchemaType = (schema) => {
+    // Check for JSON-LD specific schemas first
+    if (this.isJsonLdSchema(schema)) {
+      return this.getJsonLdSchemaType(schema);
+    }
+
     if (
       (schema.enum && schema.enum.length > 0) ||
       (this.getEnumNames(schema) && this.getEnumNames(schema).length > 0)
@@ -419,5 +424,39 @@ export class SchemaUtils {
         return this.config.Ts.Keyword.Any;
       }
     }
+  };
+
+  /**
+   * Checks if a schema opts in to JSON-LD handling. Detection is explicit:
+   * the schema must declare `x-jsonld: true` (or one of the `x-jsonld-*`
+   * metadata extensions) and the user must enable `jsonLdOptions.enabled`.
+   */
+  isJsonLdSchema = (schema) => {
+    if (!this.config.jsonLdOptions?.enabled) return false;
+    if (!schema || typeof schema !== "object") return false;
+
+    return Boolean(
+      schema["x-jsonld"] ||
+        schema["x-jsonld-context"] ||
+        schema["x-jsonld-type"] ||
+        schema["x-jsonld-id"],
+    );
+  };
+
+  /**
+   * Determines the specific JSON-LD schema type. Only called after
+   * `isJsonLdSchema` returns true.
+   */
+  getJsonLdSchemaType = (schema) => {
+    if (
+      schema["x-jsonld-type"] &&
+      !schema.properties &&
+      (typeof schema["x-jsonld-type"] === "string" ||
+        Array.isArray(schema["x-jsonld-type"]))
+    ) {
+      return SCHEMA_TYPES.JSONLD_TYPE;
+    }
+
+    return SCHEMA_TYPES.JSONLD_ENTITY;
   };
 }

@@ -9,6 +9,7 @@ import type {
 } from "../types/index.js";
 import { CodeFormatter } from "./code-formatter.js";
 import { CodeGenConfig } from "./configuration.js";
+import { SCHEMA_TYPES } from "./constants.js";
 import { SchemaComponentsMap } from "./schema-components-map.js";
 import { SchemaParserFabric } from "./schema-parser/schema-parser-fabric.js";
 import { SchemaRoutes } from "./schema-routes/schema-routes.js";
@@ -477,6 +478,39 @@ export class CodeGenProcess {
       }
     }
 
+    const jsonldOutputFiles: TranslatorIO[] = [];
+
+    const { jsonLdOptions } = configuration.config;
+    const hasJsonLdSchemas = this.hasJsonLdEntities(configuration);
+
+    if (hasJsonLdSchemas) {
+      if (templatesToRender.jsonldEntityDataContract) {
+        jsonldOutputFiles.push(
+          ...(await this.createOutputFileInfo(
+            configuration,
+            fileNames.jsonldEntity,
+            this.templatesWorker.renderTemplate(
+              templatesToRender.jsonldEntityDataContract,
+              configuration,
+            ),
+          )),
+        );
+      }
+
+      if (jsonLdOptions.generateUtils && templatesToRender.jsonldUtils) {
+        jsonldOutputFiles.push(
+          ...(await this.createOutputFileInfo(
+            configuration,
+            fileNames.jsonldUtils,
+            this.templatesWorker.renderTemplate(
+              templatesToRender.jsonldUtils,
+              configuration,
+            ),
+          )),
+        );
+      }
+    }
+
     return [
       ...(await this.createOutputFileInfo(
         configuration,
@@ -496,6 +530,7 @@ export class CodeGenProcess {
             ),
           )
         : []),
+      ...jsonldOutputFiles,
       ...modularApiFileInfos,
     ];
   };
@@ -504,7 +539,10 @@ export class CodeGenProcess {
     templatesToRender,
     configuration,
   ): Promise<TranslatorIO[]> => {
-    const { generateRouteTypes, generateClient } = configuration.config;
+    const { generateRouteTypes, generateClient, jsonLdOptions } =
+      configuration.config;
+
+    const hasJsonLdSchemas = this.hasJsonLdEntities(configuration);
 
     return await this.createOutputFileInfo(
       configuration,
@@ -514,6 +552,19 @@ export class CodeGenProcess {
           templatesToRender.dataContracts,
           configuration,
         ),
+        hasJsonLdSchemas &&
+          templatesToRender.jsonldEntityDataContract &&
+          this.templatesWorker.renderTemplate(
+            templatesToRender.jsonldEntityDataContract,
+            configuration,
+          ),
+        hasJsonLdSchemas &&
+          jsonLdOptions?.generateUtils &&
+          templatesToRender.jsonldUtils &&
+          this.templatesWorker.renderTemplate(
+            templatesToRender.jsonldUtils,
+            configuration,
+          ),
         generateRouteTypes &&
           this.templatesWorker.renderTemplate(
             templatesToRender.routeTypes,
@@ -532,6 +583,19 @@ export class CodeGenProcess {
       ]).join("\n"),
     );
   };
+
+  /**
+   * `jsonld-type` schemas stay in `data-contracts`; only entities are moved
+   * into their own module, and the utility types exist to support them.
+   */
+  hasJsonLdEntities = (configuration): boolean =>
+    Boolean(
+      configuration.config.jsonLdOptions?.enabled &&
+        configuration.modelTypes?.some?.(
+          (modelType) =>
+            modelType.typeData?.schemaType === SCHEMA_TYPES.JSONLD_ENTITY,
+        ),
+    );
 
   createOutputFileInfo = async (
     configuration,
