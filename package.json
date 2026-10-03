@@ -25,10 +25,6 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
-  "bin": {
-    "sta": "./dist/cli.mjs",
-    "swagger-typescript-api": "./dist/cli.mjs"
-  },
   "files": [
     "dist",
     "templates"

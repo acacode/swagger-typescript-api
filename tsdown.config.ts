@@ -8,5 +8,10 @@ export default defineConfig({
   dts: true,
   format: ["esm", "cjs"],
   sourcemap: true,
-  exports: true,
+  exports: {
+    bin: {
+      sta: "./index.ts",
+      "swagger-typescript-api": "./index.ts",
+    },
+  },
 });
