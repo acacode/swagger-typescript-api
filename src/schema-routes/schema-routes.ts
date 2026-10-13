@@ -152,8 +152,10 @@ export class SchemaRoutes {
       this.config.hooks.onPreBuildRoutePath(rawRoute) || rawRoute;
 
     // TODO forbid leading symbols [\]^` in a major release (allowed yet for backwards compatibility)
+    // `:paramName` is an Express-style param only at the start of a path segment;
+    // a mid-segment colon (e.g. AIP-136 `/v1/items:search`) is a literal suffix.
     const pathParamMatches = (routeName || "").match(
-      /({[\w[\\\]^`][-_.\w]*})|(:[\w[\\\]^`][-_.\w]*:?)/g,
+      /({[\w[\\\]^`][-_.\w]*})|((?<=\/):[\w[\\\]^`][-_.\w]*:?)/g,
     );
 
     // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")

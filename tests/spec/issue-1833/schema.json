@@ -1,0 +1,32 @@
+{
+  "openapi": "3.0.3",
+  "info": { "title": "Issue 1833", "version": "1.0.0" },
+  "paths": {
+    "/v1/items:search": {
+      "post": {
+        "operationId": "searchItems",
+        "responses": { "200": { "description": "ok" } }
+      }
+    },
+    "/v1/items/{itemId}:archive": {
+      "post": {
+        "operationId": "archiveItem",
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "ok" } }
+      }
+    },
+    "/users/:userId/posts/:postId": {
+      "get": {
+        "operationId": "getPost",
+        "responses": { "200": { "description": "ok" } }
+      }
+    }
+  }
+}
