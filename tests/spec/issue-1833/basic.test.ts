@@ -28,7 +28,44 @@ describe("issue-1833", async () => {
   test("colon suffix inside a path segment is not a path param", async () => {
     await generateApi({
       fileName: "schema",
-      input: path.resolve(import.meta.dirname, "schema.json"),
+      spec: {
+        openapi: "3.0.3",
+        info: { title: "Issue 1833", version: "1.0.0" },
+        paths: {
+          "/v1/items:search": {
+            post: {
+              operationId: "searchItems",
+              responses: { "200": { description: "ok" } },
+            },
+          },
+          "/v1/items/{itemId}:archive": {
+            post: {
+              operationId: "archiveItem",
+              parameters: [
+                {
+                  name: "itemId",
+                  in: "path",
+                  required: true,
+                  schema: { type: "string" },
+                },
+              ],
+              responses: { "200": { description: "ok" } },
+            },
+          },
+          "/v1/items:search/:search/:itemId:archive": {
+            get: {
+              operationId: "getArchivedSearch",
+              responses: { "200": { description: "ok" } },
+            },
+          },
+          "/users/:userId/posts/:postId": {
+            get: {
+              operationId: "getPost",
+              responses: { "200": { description: "ok" } },
+            },
+          },
+        },
+      },
       output: tmpdir,
       silent: true,
       generateClient: true,
@@ -47,6 +84,10 @@ describe("issue-1833", async () => {
       "archiveItem: (itemId: string, params: RequestParams = {}) =>",
     );
     expect(content).toContain("path: `/v1/items/${itemId}:archive`");
+
+    expect(content).toContain(
+      "path: `/v1/items:search/${search}/${itemId}:archive`",
+    );
 
     // Express-style `:param` at the start of a segment still works
     expect(content).toContain(

@@ -155,7 +155,7 @@ export class SchemaRoutes {
     // `:paramName` is an Express-style param only at the start of a path segment;
     // a mid-segment colon (e.g. AIP-136 `/v1/items:search`) is a literal suffix.
     const pathParamMatches = (routeName || "").match(
-      /({[\w[\\\]^`][-_.\w]*})|((?<=\/):[\w[\\\]^`][-_.\w]*:?)/g,
+      /({[\w[\\\]^`][-_.\w]*})|((?<=\/):[\w[\\\]^`][-_.\w]*(?::(?=\/|$))?)/g,
     );
 
     // used in case when path parameters is not declared in requestInfo.parameters ("in": "path")
@@ -192,7 +192,11 @@ export class SchemaRoutes {
           arr,
           fixedRoute,
         ) || pathParam.name;
-      return fixedRoute.replace(pathParam.$match, `\${${insertion}}`);
+      const prefix = pathParam.$match.startsWith(":") ? "/" : "";
+      return fixedRoute.replace(
+        `${prefix}${pathParam.$match}`,
+        `${prefix}\${${insertion}}`,
+      );
     }, escapedRouteName);
 
     const queryParamMatches = fixedRoute.match(/(\{\?.*\})/g);
