@@ -96,6 +96,49 @@ describe("issue-1833", async () => {
     expect(content).toContain("path: `/users/${userId}/posts/${postId}`");
   });
 
+  test("legacy trailing-colon param stays consumed before a slash or route end", async () => {
+    await generateApi({
+      fileName: "trailing-colon",
+      spec: {
+        openapi: "3.0.3",
+        info: { title: "Issue 1833", version: "1.0.0" },
+        paths: {
+          "/users/:id:": {
+            get: {
+              operationId: "getUser",
+              responses: { "200": { description: "ok" } },
+            },
+          },
+          "/api/:id:/x": {
+            get: {
+              operationId: "getThing",
+              responses: { "200": { description: "ok" } },
+            },
+          },
+        },
+      },
+      output: tmpdir,
+      silent: true,
+      generateClient: true,
+    });
+
+    const content = await fs.readFile(path.join(tmpdir, "trailing-colon.ts"), {
+      encoding: "utf8",
+    });
+
+    // `/users/:id:` substitutes `${id}` and drops the delimiter colon
+    expect(content).toContain(
+      "getUser: (id: string, params: RequestParams = {}) =>",
+    );
+    expect(content).toContain("path: `/users/${id}`");
+
+    // `/api/:id:/x` treats a trailing colon before `/` the same way
+    expect(content).toContain(
+      "getThing: (id: string, params: RequestParams = {}) =>",
+    );
+    expect(content).toContain("path: `/api/${id}/x`");
+  });
+
   test("colon param at the start of a route without a leading slash", async () => {
     await generateApi({
       fileName: "no-leading-slash",
