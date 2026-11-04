@@ -569,6 +569,8 @@ export interface GenerateApiConfiguration {
     sortTypes: boolean;
     /** sort routes in alphabetical order */
     sortRoutes: boolean;
+    /** generate `never` instead of `any` for `not: {}` and `not: true` */
+    emptyNotAsNever: boolean;
     /** ability to send HttpClient instance to Api constructor */
     singleHttpClient: boolean;
     /** prefix string value for type names */

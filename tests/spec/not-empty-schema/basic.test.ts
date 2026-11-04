@@ -15,22 +15,34 @@ describe("not-empty-schema", async () => {
     await fs.rm(tmpdir, { recursive: true });
   });
 
-  test("generates never when not negates a schema that accepts everything", async () => {
+  const generate = async (emptyNotAsNever?: boolean) => {
     await generateApi({
       fileName: "schema",
       input: path.resolve(import.meta.dirname, "schema.json"),
       output: tmpdir,
       silent: true,
       generateClient: false,
+      emptyNotAsNever,
     });
 
-    const content = await fs.readFile(path.join(tmpdir, "schema.ts"), {
-      encoding: "utf8",
-    });
+    return fs.readFile(path.join(tmpdir, "schema.ts"), { encoding: "utf8" });
+  };
+
+  test("generates never when emptyNotAsNever is on", async () => {
+    const content = await generate(true);
 
     expect(content).toContain("externalId?: never;");
     expect(content).toContain("internalId?: never;");
     expect(content).toContain("removed?: never;");
+    expect(content).toContain("status?: any;");
+  });
+
+  test("keeps generating any by default", async () => {
+    const content = await generate();
+
+    expect(content).toContain("externalId?: any;");
+    expect(content).toContain("internalId?: any;");
+    expect(content).toContain("removed?: any;");
     expect(content).toContain("status?: any;");
   });
 });
