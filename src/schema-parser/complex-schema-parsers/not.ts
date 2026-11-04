@@ -1,7 +1,15 @@
+import { isEqual } from "es-toolkit";
 import { MonoSchemaParser } from "../mono-schema-parser.js";
 
 export class NotSchemaParser extends MonoSchemaParser {
   override parse() {
-    return this.config.Ts.Keyword.Any;
+    // `{}` and `true` accept every value, so negating them leaves no valid value.
+    const allowsNothing =
+      this.config.emptyNotAsNever &&
+      (this.schema.not === true || isEqual(this.schema.not, {}));
+
+    return allowsNothing
+      ? this.config.Ts.Keyword.Never
+      : this.config.Ts.Keyword.Any;
   }
 }

@@ -299,6 +299,11 @@ const generateCommand = defineCommand({
       description: "sort fields and types",
       default: codeGenBaseConfig.sortTypes,
     },
+    "empty-not-as-never": {
+      type: "boolean",
+      description: "generate never instead of any for not: {} and not: true",
+      default: codeGenBaseConfig.emptyNotAsNever,
+    },
     templates: {
       type: "string",
       alias: "t",
@@ -383,6 +388,7 @@ const generateCommand = defineCommand({
       singleHttpClient: args["single-http-client"],
       sortRoutes: args["sort-routes"],
       sortTypes: args["sort-types"],
+      emptyNotAsNever: args["empty-not-as-never"],
       templates: args.templates,
       toJS: args.js,
       typePrefix: args["type-prefix"],

@@ -1,0 +1,46 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "not with a schema that accepts everything",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "Identifier": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["internalId"],
+            "properties": {
+              "internalId": { "type": "string" },
+              "externalId": { "not": {} }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["externalId"],
+            "properties": {
+              "internalId": { "not": {} },
+              "externalId": { "type": "string" }
+            }
+          }
+        ]
+      },
+      "BooleanNot": {
+        "type": "object",
+        "properties": {
+          "removed": { "not": true }
+        }
+      },
+      "ConstrainedNot": {
+        "type": "object",
+        "properties": {
+          "status": { "not": { "enum": ["UNKNOWN"] } }
+        }
+      }
+    }
+  }
+}
