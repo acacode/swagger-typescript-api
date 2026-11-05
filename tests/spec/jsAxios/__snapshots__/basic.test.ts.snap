@@ -184,7 +184,6 @@ export class HttpClient {
       r.data = null;
       r.error = null;
       const responseToParse = responseFormat ? response.clone() : response;
-      let bodyReadFailed = false;
       const data = !responseFormat
         ? r
         : await this.parseResponseBody(responseToParse, responseFormat)
@@ -197,14 +196,13 @@ export class HttpClient {
               return r;
             })
             .catch((e) => {
-              bodyReadFailed = true;
               r.error = e;
               return r;
             });
       if (cancelToken) {
         this.abortControllers.delete(cancelToken);
       }
-      if (!response.ok || bodyReadFailed) throw data;
+      if (!response.ok || r.error !== null) throw data;
       return data;
     });
   };

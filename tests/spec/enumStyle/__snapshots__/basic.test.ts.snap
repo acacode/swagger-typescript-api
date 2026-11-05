@@ -286,7 +286,6 @@ export class HttpClient<SecurityDataType = unknown> {
       r.error = null as unknown as E;
 
       const responseToParse = responseFormat ? response.clone() : response;
-      let bodyReadFailed = false;
       const data = !responseFormat
         ? r
         : await this.parseResponseBody(responseToParse, responseFormat)
@@ -299,7 +298,6 @@ export class HttpClient<SecurityDataType = unknown> {
               return r;
             })
             .catch((e) => {
-              bodyReadFailed = true;
               r.error = e;
               return r;
             });
@@ -308,7 +306,7 @@ export class HttpClient<SecurityDataType = unknown> {
         this.abortControllers.delete(cancelToken);
       }
 
-      if (!response.ok || bodyReadFailed) throw data;
+      if (!response.ok || r.error !== null) throw data;
       return data;
     });
   };
@@ -694,7 +692,6 @@ export class HttpClient<SecurityDataType = unknown> {
       r.error = null as unknown as E;
 
       const responseToParse = responseFormat ? response.clone() : response;
-      let bodyReadFailed = false;
       const data = !responseFormat
         ? r
         : await this.parseResponseBody(responseToParse, responseFormat)
@@ -707,7 +704,6 @@ export class HttpClient<SecurityDataType = unknown> {
               return r;
             })
             .catch((e) => {
-              bodyReadFailed = true;
               r.error = e;
               return r;
             });
@@ -716,7 +712,7 @@ export class HttpClient<SecurityDataType = unknown> {
         this.abortControllers.delete(cancelToken);
       }
 
-      if (!response.ok || bodyReadFailed) throw data;
+      if (!response.ok || r.error !== null) throw data;
       return data;
     });
   };

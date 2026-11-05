@@ -1,5 +1,5 @@
 ---
-"swagger-typescript-api": minor
+"swagger-typescript-api": major
 ---
 
 Reject Fetch client requests when a 2xx response body cannot be read in the declared format.

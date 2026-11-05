@@ -138,15 +138,14 @@ describe("fetch http client response parsing (issue 1838)", () => {
     expect(res.error).toBeNull();
   });
 
-  test("treats 204 No Content as no data, not an error", async () => {
-    const client = clientFor(
-      defaults,
-      () => new Response(null, { status: 204 }),
-    );
+  test.each([
+    204, 205,
+  ])("treats a %i response as no data, not an error", async (status) => {
+    const client = clientFor(defaults, () => new Response(null, { status }));
 
     const res = await client.request(getJson);
 
-    expect(res.status).toBe(204);
+    expect(res.status).toBe(status);
     expect(res.data).toBeNull();
     expect(res.error).toBeNull();
   });

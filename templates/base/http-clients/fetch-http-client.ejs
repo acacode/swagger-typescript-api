@@ -234,7 +234,6 @@ export class HttpClient<SecurityDataType = unknown> {
             r.error = (null as unknown) as E;
 
             const responseToParse = responseFormat ? response.clone() : response;
-            let bodyReadFailed = false;
             const data = !responseFormat ? r : await this.parseResponseBody(responseToParse, responseFormat)
                 .then((data) => {
                     if (r.ok) {
@@ -245,7 +244,6 @@ export class HttpClient<SecurityDataType = unknown> {
                     return r;
                 })
                 .catch((e) => {
-                    bodyReadFailed = true;
                     r.error = e;
                     return r;
                 });
@@ -255,7 +253,7 @@ export class HttpClient<SecurityDataType = unknown> {
             }
 
 <% if (!config.disableThrowOnError) { %>
-            if (!response.ok || bodyReadFailed) throw data;
+            if (!response.ok || r.error !== null) throw data;
 <% } %>
 <% if (config.unwrapResponseData) { %>
             return data.data;
