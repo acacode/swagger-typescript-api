@@ -1,5 +1,22 @@
 # swagger-typescript-api
 
+## 13.14.0
+
+### Minor Changes
+
+- [#1844](https://github.com/acacode/swagger-typescript-api/pull/1844) [`ad7b7ef`](https://github.com/acacode/swagger-typescript-api/commit/ad7b7ef35d71b1f6ffabb26165b55b340bb74209) Thanks [@TheeCoderAhmed](https://github.com/TheeCoderAhmed)! - Add `emptyNotAsNever` (`--empty-not-as-never`) to generate `never` instead of `any` for `not: {}` and `not: true`, which no value can satisfy. It is off by default, so generated output does not change unless you enable it.
+
+### Patch Changes
+
+- [#1839](https://github.com/acacode/swagger-typescript-api/pull/1839) [`e67c3a7`](https://github.com/acacode/swagger-typescript-api/commit/e67c3a738cefcacfca85a9ede4dae12b91d1d2ac) Thanks [@cpruijsen](https://github.com/cpruijsen)! - Stop treating a colon inside a path segment as an Express-style path parameter.
+
+  Routes using AIP-136 custom methods, such as `/v1/items:search` or `/v1/items/{itemId}:archive`,
+  generated a bogus required `string` argument for the `:suffix` and dropped it from the request URL.
+  The generated method could only produce the correct path if the caller passed the literal `":search"`.
+
+  `:paramName` is now recognized only at the start of a path segment, so `/users/:userId` keeps working
+  while mid-segment colons stay part of the literal path.
+
 ## 13.13.0
 
 ### Minor Changes
