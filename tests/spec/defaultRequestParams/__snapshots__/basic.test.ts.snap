@@ -321,6 +321,20 @@ export class HttpClient<SecurityDataType = unknown> {
     }
   };
 
+  protected parseResponseBody = async (
+    response: Response,
+    format: ResponseFormat,
+  ): Promise<unknown> => {
+    if (response.status === 204 || response.status === 205) {
+      return null;
+    }
+    if (format !== "json") {
+      return response[format]();
+    }
+    const text = await response.text();
+    return text.trim() === "" ? null : JSON.parse(text);
+  };
+
   public request = async <T = any, E = any>({
     body,
     secure,
@@ -369,12 +383,12 @@ export class HttpClient<SecurityDataType = unknown> {
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
         ? r
-        : await responseToParse[responseFormat]()
+        : await this.parseResponseBody(responseToParse, responseFormat)
             .then((data) => {
               if (r.ok) {
-                r.data = data;
+                r.data = data as T;
               } else {
-                r.error = data;
+                r.error = data as E;
               }
               return r;
             })
@@ -387,7 +401,7 @@ export class HttpClient<SecurityDataType = unknown> {
         this.abortControllers.delete(cancelToken);
       }
 
-      if (!response.ok) throw data;
+      if (!response.ok || r.error !== null) throw data;
       return data;
     });
   };
@@ -1661,6 +1675,20 @@ export class HttpClient<SecurityDataType = unknown> {
     }
   };
 
+  protected parseResponseBody = async (
+    response: Response,
+    format: ResponseFormat,
+  ): Promise<unknown> => {
+    if (response.status === 204 || response.status === 205) {
+      return null;
+    }
+    if (format !== "json") {
+      return response[format]();
+    }
+    const text = await response.text();
+    return text.trim() === "" ? null : JSON.parse(text);
+  };
+
   public request = async <T = any, E = any>({
     body,
     secure,
@@ -1709,12 +1737,12 @@ export class HttpClient<SecurityDataType = unknown> {
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
         ? r
-        : await responseToParse[responseFormat]()
+        : await this.parseResponseBody(responseToParse, responseFormat)
             .then((data) => {
               if (r.ok) {
-                r.data = data;
+                r.data = data as T;
               } else {
-                r.error = data;
+                r.error = data as E;
               }
               return r;
             })
@@ -1727,7 +1755,7 @@ export class HttpClient<SecurityDataType = unknown> {
         this.abortControllers.delete(cancelToken);
       }
 
-      if (!response.ok) throw data;
+      if (!response.ok || r.error !== null) throw data;
       return data;
     });
   };
@@ -2056,6 +2084,20 @@ export class HttpClient<SecurityDataType = unknown> {
     }
   };
 
+  protected parseResponseBody = async (
+    response: Response,
+    format: ResponseFormat,
+  ): Promise<unknown> => {
+    if (response.status === 204 || response.status === 205) {
+      return null;
+    }
+    if (format !== "json") {
+      return response[format]();
+    }
+    const text = await response.text();
+    return text.trim() === "" ? null : JSON.parse(text);
+  };
+
   public request = async <T = any, E = any>({
     body,
     secure,
@@ -2104,12 +2146,12 @@ export class HttpClient<SecurityDataType = unknown> {
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
         ? r
-        : await responseToParse[responseFormat]()
+        : await this.parseResponseBody(responseToParse, responseFormat)
             .then((data) => {
               if (r.ok) {
-                r.data = data;
+                r.data = data as T;
               } else {
-                r.error = data;
+                r.error = data as E;
               }
               return r;
             })
@@ -2122,7 +2164,7 @@ export class HttpClient<SecurityDataType = unknown> {
         this.abortControllers.delete(cancelToken);
       }
 
-      if (!response.ok) throw data;
+      if (!response.ok || r.error !== null) throw data;
       return data;
     });
   };
@@ -2909,6 +2951,20 @@ export class HttpClient<SecurityDataType = unknown> {
     }
   };
 
+  protected parseResponseBody = async (
+    response: Response,
+    format: ResponseFormat,
+  ): Promise<unknown> => {
+    if (response.status === 204 || response.status === 205) {
+      return null;
+    }
+    if (format !== "json") {
+      return response[format]();
+    }
+    const text = await response.text();
+    return text.trim() === "" ? null : JSON.parse(text);
+  };
+
   public request = async <T = any, E = any>({
     body,
     secure,
@@ -2957,12 +3013,12 @@ export class HttpClient<SecurityDataType = unknown> {
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
         ? r
-        : await responseToParse[responseFormat]()
+        : await this.parseResponseBody(responseToParse, responseFormat)
             .then((data) => {
               if (r.ok) {
-                r.data = data;
+                r.data = data as T;
               } else {
-                r.error = data;
+                r.error = data as E;
               }
               return r;
             })
@@ -2975,7 +3031,7 @@ export class HttpClient<SecurityDataType = unknown> {
         this.abortControllers.delete(cancelToken);
       }
 
-      if (!response.ok) throw data;
+      if (!response.ok || r.error !== null) throw data;
       return data;
     });
   };
