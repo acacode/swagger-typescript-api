@@ -54,6 +54,7 @@ export interface Thing {
   colorByName?: Record<string, Color | null>;
   pair?: ["a", "b"] | ["c", "d"] | null;
   later?: Later | null;
+  mode?: Mode | null;
 }
 "
 `;
@@ -134,6 +135,7 @@ export interface Thing {
   colorByName?: Record<string, Color | null>;
   pair?: ["a", "b"] | ["c", "d"] | null;
   later?: Later | null;
+  mode?: Mode | null;
 }
 "
 `;
@@ -198,6 +200,7 @@ export interface Thing {
   colorByName?: Record<string, Color>;
   pair?: ["a", "b"] | ["c", "d"] | null;
   later?: Later;
+  mode?: Mode;
 }
 "
 `;

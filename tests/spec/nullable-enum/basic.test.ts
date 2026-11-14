@@ -74,7 +74,9 @@ describe("nullable-enum", async () => {
     expect(content).toContain("colors?: (Color | null)[];");
     expect(content).toContain("colorOrCount?: Color | null | number;");
     expect(content).toContain("colorByName?: Record<string, Color | null>;");
-    // Later is declared after Thing, so it is not parsed yet when Thing is.
+    // Mode lists null only in `enum`, and enums are parsed (and reparsed)
+    // before objects. Later is declared after Thing.
+    expect(content).toContain("mode?: Mode | null;");
     expect(content).toContain("later?: Later | null;");
 
     const content30 = await generate(enumStyle, "schema-3-0");
@@ -91,6 +93,7 @@ describe("nullable-enum", async () => {
     expect(content).toContain('export type Shape = "circle" | "square";');
     expect(content).toContain("color?: Color;");
     expect(content).toContain("colors?: Color[];");
+    expect(content).toContain("mode?: Mode;");
 
     const content30 = await generate("union", "schema-3-0");
     expect(content30).toContain('export type Color = "red" | "green" | null;');

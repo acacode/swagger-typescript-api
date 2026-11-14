@@ -71,6 +71,9 @@
           },
           "later": {
             "$ref": "#/components/schemas/Later"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/Mode"
           }
         }
       },
