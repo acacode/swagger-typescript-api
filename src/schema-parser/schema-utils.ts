@@ -149,6 +149,14 @@ export class SchemaUtils {
     return isRequired;
   };
 
+  hasNullTypeOrValue = (schema) => {
+    const { type, enum: values } = schema || {};
+    return (
+      (Array.isArray(type) && type.includes(this.config.Ts.Keyword.Null)) ||
+      (Array.isArray(values) && values.includes(null))
+    );
+  };
+
   isNullMissingInType = (schema, type) => {
     const { nullable, type: schemaType } = schema || {};
     if (

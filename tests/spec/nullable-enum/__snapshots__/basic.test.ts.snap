@@ -1,0 +1,141 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`nullable-enum > to match snapshot (enumStyle: const) 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export const Color30 = {
+  Red: "red",
+  Green: "green",
+} as const;
+export type Color30 = (typeof Color30)[keyof typeof Color30];
+
+export const Shape = {
+  Circle: "circle",
+  Square: "square",
+} as const;
+export type Shape = (typeof Shape)[keyof typeof Shape];
+
+export const Mode = {
+  On: "on",
+  Off: "off",
+} as const;
+export type Mode = (typeof Mode)[keyof typeof Mode];
+
+export const Size = {
+  Small: "small",
+  Large: "large",
+} as const;
+export type Size = (typeof Size)[keyof typeof Size];
+
+export const Color = {
+  Red: "red",
+  Green: "green",
+} as const;
+export type Color = (typeof Color)[keyof typeof Color];
+
+export interface Thing {
+  color?: Color | null;
+  shape?: Shape;
+  status?: "active" | "pending" | null;
+  level?: 1 | 2 | null;
+  kind?: "a" | "b";
+  color30?: Color30 | null;
+  status30?: "active" | "pending" | null;
+}
+"
+`;
+
+exports[`nullable-enum > to match snapshot (enumStyle: enum) 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export enum Color30 {
+  Red = "red",
+  Green = "green",
+}
+
+export enum Shape {
+  Circle = "circle",
+  Square = "square",
+}
+
+export enum Mode {
+  On = "on",
+  Off = "off",
+}
+
+export enum Size {
+  Small = "small",
+  Large = "large",
+}
+
+export enum Color {
+  Red = "red",
+  Green = "green",
+}
+
+export interface Thing {
+  color?: Color | null;
+  shape?: Shape;
+  status?: "active" | "pending" | null;
+  level?: 1 | 2 | null;
+  kind?: "a" | "b";
+  color30?: Color30 | null;
+  status30?: "active" | "pending" | null;
+}
+"
+`;
+
+exports[`nullable-enum > to match snapshot (enumStyle: union) 1`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export type Color30 = "red" | "green" | null;
+
+export type Shape = "circle" | "square";
+
+export type Mode = "on" | "off" | null;
+
+export type Size = "small" | "large" | null;
+
+export type Color = "red" | "green" | null;
+
+export interface Thing {
+  color?: Color;
+  shape?: Shape;
+  status?: "active" | "pending" | null;
+  level?: 1 | 2 | null;
+  kind?: "a" | "b";
+  color30?: Color30;
+  status30?: "active" | "pending" | null;
+}
+"
+`;

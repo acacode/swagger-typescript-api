@@ -23,6 +23,17 @@ export class ObjectSchemaParser extends MonoSchemaParser {
     };
   }
 
+  // A TypeScript enum or const object cannot hold null, so a property that
+  // references a nullable enum adds it; a union-style enum type already has it.
+  isNullableEnumRef = (property: unknown) => {
+    if (this.config.enumStyle === "union") return false;
+    const typeData = get(
+      this.schemaUtils.getSchemaRefType(property),
+      "typeData",
+    );
+    return !!(typeData?.schemaType === SCHEMA_TYPES.ENUM && typeData.nullable);
+  };
+
   getObjectSchemaContent = (schema) => {
     const { properties, additionalProperties } = schema || {};
 
@@ -51,9 +62,11 @@ export class ObjectSchemaParser extends MonoSchemaParser {
           schemaPath: [...this.schemaPath, name],
         })
         .getInlineParseContent();
-      const fieldValue = nullable
-        ? this.schemaUtils.safeAddNullToType(property, rawFieldValue)
-        : rawFieldValue;
+      const fieldValue = this.isNullableEnumRef(property)
+        ? this.config.Ts.UnionType([rawFieldValue, this.config.Ts.Keyword.Null])
+        : nullable
+          ? this.schemaUtils.safeAddNullToType(property, rawFieldValue)
+          : rawFieldValue;
       const readOnly = (property as Record<string, unknown>).readOnly;
 
       const complexType = this.schemaUtils.getComplexType(property);

@@ -1,0 +1,63 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Nullable enums",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "Color": {
+        "type": ["string", "null"],
+        "enum": ["red", "green", null]
+      },
+      "Size": {
+        "type": ["string", "null"],
+        "enum": ["small", "large"]
+      },
+      "Mode": {
+        "enum": ["on", "off", null]
+      },
+      "Shape": {
+        "type": "string",
+        "enum": ["circle", "square"]
+      },
+      "Thing": {
+        "type": "object",
+        "properties": {
+          "color": {
+            "$ref": "#/components/schemas/Color"
+          },
+          "shape": {
+            "$ref": "#/components/schemas/Shape"
+          },
+          "status": {
+            "type": ["string", "null"],
+            "enum": ["active", "pending", null]
+          },
+          "level": {
+            "type": ["integer", "null"],
+            "enum": [1, 2, null]
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["a", "b"]
+          },
+          "color30": {
+            "$ref": "#/components/schemas/Color30"
+          },
+          "status30": {
+            "type": "string",
+            "nullable": true,
+            "enum": ["active", "pending"]
+          }
+        }
+      },
+      "Color30": {
+        "type": "string",
+        "nullable": true,
+        "enum": ["red", "green"]
+      }
+    }
+  }
+}

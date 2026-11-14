@@ -39,6 +39,11 @@ export class EnumSchemaParser extends MonoSchemaParser {
     const refType = this.schemaUtils.getSchemaRefType(this.schema);
     const $ref = refType?.$ref || null;
 
+    // OpenAPI 3.1 dropped `nullable`: a nullable enum lists null in `type` or `enum`.
+    const nullable =
+      !!this.schema.nullable ||
+      this.schemaUtils.hasNullTypeOrValue(this.schema);
+
     // fix schema when enum has length 1+ but value is []
     if (Array.isArray(this.schema.enum)) {
       this.schema.enum = this.schema.enum.filter((key) => key != null);
@@ -141,6 +146,7 @@ export class EnumSchemaParser extends MonoSchemaParser {
       $ref: $ref,
       typeName: this.typeName || ($ref && refType.typeName) || null,
       $parsedSchema: true,
+      nullable,
       schemaType: SCHEMA_TYPES.ENUM,
       type: SCHEMA_TYPES.ENUM,
       keyType: keyType,
