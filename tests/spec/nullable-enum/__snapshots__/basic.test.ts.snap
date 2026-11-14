@@ -13,11 +13,11 @@ exports[`nullable-enum > to match snapshot (enumStyle: const) 1`] = `
  * ---------------------------------------------------------------
  */
 
-export const Color30 = {
-  Red: "red",
-  Green: "green",
+export const Later = {
+  X: "x",
+  Y: "y",
 } as const;
-export type Color30 = (typeof Color30)[keyof typeof Color30];
+export type Later = (typeof Later)[keyof typeof Later];
 
 export const Shape = {
   Circle: "circle",
@@ -49,8 +49,38 @@ export interface Thing {
   status?: "active" | "pending" | null;
   level?: 1 | 2 | null;
   kind?: "a" | "b";
-  color30?: Color30 | null;
-  status30?: "active" | "pending" | null;
+  colors?: (Color | null)[];
+  colorOrCount?: Color | null | number;
+  colorByName?: Record<string, Color | null>;
+  pair?: ["a", "b"] | ["c", "d"] | null;
+  later?: Later | null;
+}
+"
+`;
+
+exports[`nullable-enum > to match snapshot (enumStyle: const) 2`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export const Color = {
+  Red: "red",
+  Green: "green",
+} as const;
+export type Color = (typeof Color)[keyof typeof Color];
+
+export interface Thing {
+  color?: Color | null;
+  colors?: (Color | null)[];
+  status?: "active" | "pending" | null;
 }
 "
 `;
@@ -68,9 +98,9 @@ exports[`nullable-enum > to match snapshot (enumStyle: enum) 1`] = `
  * ---------------------------------------------------------------
  */
 
-export enum Color30 {
-  Red = "red",
-  Green = "green",
+export enum Later {
+  X = "x",
+  Y = "y",
 }
 
 export enum Shape {
@@ -99,8 +129,37 @@ export interface Thing {
   status?: "active" | "pending" | null;
   level?: 1 | 2 | null;
   kind?: "a" | "b";
-  color30?: Color30 | null;
-  status30?: "active" | "pending" | null;
+  colors?: (Color | null)[];
+  colorOrCount?: Color | null | number;
+  colorByName?: Record<string, Color | null>;
+  pair?: ["a", "b"] | ["c", "d"] | null;
+  later?: Later | null;
+}
+"
+`;
+
+exports[`nullable-enum > to match snapshot (enumStyle: enum) 2`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export enum Color {
+  Red = "red",
+  Green = "green",
+}
+
+export interface Thing {
+  color?: Color | null;
+  colors?: (Color | null)[];
+  status?: "active" | "pending" | null;
 }
 "
 `;
@@ -118,7 +177,7 @@ exports[`nullable-enum > to match snapshot (enumStyle: union) 1`] = `
  * ---------------------------------------------------------------
  */
 
-export type Color30 = "red" | "green" | null;
+export type Later = "x" | "y" | null;
 
 export type Shape = "circle" | "square";
 
@@ -134,8 +193,34 @@ export interface Thing {
   status?: "active" | "pending" | null;
   level?: 1 | 2 | null;
   kind?: "a" | "b";
-  color30?: Color30;
-  status30?: "active" | "pending" | null;
+  colors?: Color[];
+  colorOrCount?: Color | number;
+  colorByName?: Record<string, Color>;
+  pair?: ["a", "b"] | ["c", "d"] | null;
+  later?: Later;
+}
+"
+`;
+
+exports[`nullable-enum > to match snapshot (enumStyle: union) 2`] = `
+"/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export type Color = "red" | "green" | null;
+
+export interface Thing {
+  color?: Color;
+  colors?: Color[];
+  status?: "active" | "pending" | null;
 }
 "
 `;

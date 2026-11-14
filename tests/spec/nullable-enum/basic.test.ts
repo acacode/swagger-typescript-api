@@ -20,17 +20,20 @@ describe("nullable-enum", async () => {
     await fs.rm(tmpdir, { recursive: true });
   });
 
-  const generate = async (enumStyle: "enum" | "union" | "const") => {
+  const generate = async (
+    enumStyle: "enum" | "union" | "const",
+    schema = "schema",
+  ) => {
     await generateApi({
-      fileName: `schema-${enumStyle}`,
-      input: path.resolve(import.meta.dirname, "schema.json"),
+      fileName: `${schema}-${enumStyle}`,
+      input: path.resolve(import.meta.dirname, `${schema}.json`),
       output: tmpdir,
       silent: true,
       generateClient: false,
       enumStyle,
     });
 
-    return fs.readFile(path.join(tmpdir, `schema-${enumStyle}.ts`), {
+    return fs.readFile(path.join(tmpdir, `${schema}-${enumStyle}.ts`), {
       encoding: "utf8",
     });
   };
@@ -41,6 +44,7 @@ describe("nullable-enum", async () => {
     "const",
   ] as const)("to match snapshot (enumStyle: %s)", async (enumStyle) => {
     expect(await generate(enumStyle)).toMatchSnapshot();
+    expect(await generate(enumStyle, "schema-3-0")).toMatchSnapshot();
   });
 
   test.each([
@@ -52,8 +56,11 @@ describe("nullable-enum", async () => {
 
     expect(content).toContain('status?: "active" | "pending" | null;');
     expect(content).toContain("level?: 1 | 2 | null;");
-    expect(content).toContain('status30?: "active" | "pending" | null;');
     expect(content).toContain('kind?: "a" | "b";');
+    expect(content).toContain('pair?: ["a", "b"] | ["c", "d"] | null;');
+    expect(await generate(enumStyle, "schema-3-0")).toContain(
+      'status?: "active" | "pending" | null;',
+    );
   });
 
   test.each([
@@ -63,8 +70,16 @@ describe("nullable-enum", async () => {
     const content = await generate(enumStyle);
 
     expect(content).toContain("color?: Color | null;");
-    expect(content).toContain("color30?: Color30 | null;");
     expect(content).toContain("shape?: Shape;");
+    expect(content).toContain("colors?: (Color | null)[];");
+    expect(content).toContain("colorOrCount?: Color | null | number;");
+    expect(content).toContain("colorByName?: Record<string, Color | null>;");
+    // Later is declared after Thing, so it is not parsed yet when Thing is.
+    expect(content).toContain("later?: Later | null;");
+
+    const content30 = await generate(enumStyle, "schema-3-0");
+    expect(content30).toContain("color?: Color | null;");
+    expect(content30).toContain("colors?: (Color | null)[];");
   });
 
   test("union-style nullable enums include null in the type", async () => {
@@ -73,8 +88,12 @@ describe("nullable-enum", async () => {
     expect(content).toContain('export type Color = "red" | "green" | null;');
     expect(content).toContain('export type Size = "small" | "large" | null;');
     expect(content).toContain('export type Mode = "on" | "off" | null;');
-    expect(content).toContain('export type Color30 = "red" | "green" | null;');
     expect(content).toContain('export type Shape = "circle" | "square";');
     expect(content).toContain("color?: Color;");
+    expect(content).toContain("colors?: Color[];");
+
+    const content30 = await generate("union", "schema-3-0");
+    expect(content30).toContain('export type Color = "red" | "green" | null;');
+    expect(content30).toContain("color?: Color;");
   });
 });

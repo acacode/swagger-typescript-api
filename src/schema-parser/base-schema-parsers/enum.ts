@@ -52,13 +52,16 @@ export class EnumSchemaParser extends MonoSchemaParser {
     if (Array.isArray(this.schema.enum) && Array.isArray(this.schema.enum[0])) {
       return this.schemaParserFabric.parseSchema(
         {
-          oneOf: this.schema.enum.map((enumNames) => ({
-            type: "array",
-            items: enumNames.map((enumName) => ({
-              type: "string",
-              enum: [enumName],
+          oneOf: [
+            ...this.schema.enum.map((enumNames) => ({
+              type: "array",
+              items: enumNames.map((enumName) => ({
+                type: "string",
+                enum: [enumName],
+              })),
             })),
-          })),
+            ...(nullable ? [{ type: this.config.Ts.Keyword.Null }] : []),
+          ],
         },
         this.typeName,
         this.schemaPath,

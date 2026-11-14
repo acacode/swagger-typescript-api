@@ -43,20 +43,39 @@
             "type": "string",
             "enum": ["a", "b"]
           },
-          "color30": {
-            "$ref": "#/components/schemas/Color30"
+          "colors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Color"
+            }
           },
-          "status30": {
-            "type": "string",
-            "nullable": true,
-            "enum": ["active", "pending"]
+          "colorOrCount": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Color"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "colorByName": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Color"
+            }
+          },
+          "pair": {
+            "type": ["array", "null"],
+            "enum": [["a", "b"], ["c", "d"], null]
+          },
+          "later": {
+            "$ref": "#/components/schemas/Later"
           }
         }
       },
-      "Color30": {
-        "type": "string",
-        "nullable": true,
-        "enum": ["red", "green"]
+      "Later": {
+        "enum": ["x", "y", null]
       }
     }
   }
