@@ -35,7 +35,10 @@ export class SchemaFormatters {
           ...parsedSchema,
           $content: parsedSchema.content,
           content: this.config.Ts.UnionType(
-            parsedSchema.content.map(({ value }) => value),
+            compact([
+              ...parsedSchema.content.map(({ value }) => value),
+              parsedSchema.nullable && this.config.Ts.Keyword.Null,
+            ]),
           ),
         };
       }

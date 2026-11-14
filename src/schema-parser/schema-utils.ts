@@ -149,6 +149,39 @@ export class SchemaUtils {
     return isRequired;
   };
 
+  hasNullTypeOrValue = (schema) => {
+    const { type, enum: values } = schema || {};
+    return (
+      (Array.isArray(type) && type.includes(this.config.Ts.Keyword.Null)) ||
+      (Array.isArray(values) && values.includes(null))
+    );
+  };
+
+  // A TypeScript enum or const object cannot hold null, so a $ref to a
+  // nullable enum needs `| null` where it is used. A union-style enum type
+  // already includes null.
+  isNullableEnumRef = (schema) => {
+    if (this.config.enumStyle === "union") return false;
+    const refType = this.getSchemaRefType(schema);
+    if (!refType) return false;
+    // A parsed enum knows if it is nullable; its raw schema has lost the
+    // null value by then. A component that is not parsed yet (it comes later
+    // in the spec or from an external file) still has the raw null.
+    if (refType.typeData) {
+      return (
+        refType.typeData.schemaType === SCHEMA_TYPES.ENUM &&
+        !!refType.typeData.nullable
+      );
+    }
+    const raw = refType.rawTypeData;
+    return (
+      !!raw &&
+      typeof raw === "object" &&
+      this.getInternalSchemaType(raw) === SCHEMA_TYPES.ENUM &&
+      !!(raw.nullable || this.hasNullTypeOrValue(raw))
+    );
+  };
+
   isNullMissingInType = (schema, type) => {
     const { nullable, type: schemaType } = schema || {};
     if (

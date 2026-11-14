@@ -2,6 +2,13 @@ import { SCHEMA_TYPES } from "../../constants.js";
 import { MonoSchemaParser } from "../mono-schema-parser.js";
 
 export class PrimitiveSchemaParser extends MonoSchemaParser {
+  getRefOrPrimitiveType() {
+    const type = this.schemaUtils.getSchemaType(this.schema);
+    return this.schemaUtils.isNullableEnumRef(this.schema)
+      ? this.schemaUtils.safeAddNullToType({ nullable: true }, type)
+      : type;
+  }
+
   override parse() {
     let contentType = null;
     const { additionalProperties, type, description, items } =
@@ -82,7 +89,7 @@ export class PrimitiveSchemaParser extends MonoSchemaParser {
       content:
         type === this.config.Ts.Keyword.Null
           ? type
-          : contentType || this.schemaUtils.getSchemaType(this.schema),
+          : contentType || this.getRefOrPrimitiveType(),
     };
   }
 }
