@@ -1,0 +1,36 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Nullable enums (OpenAPI 3.0)",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "Thing": {
+        "type": "object",
+        "properties": {
+          "color": {
+            "$ref": "#/components/schemas/Color"
+          },
+          "colors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Color"
+            }
+          },
+          "status": {
+            "type": "string",
+            "nullable": true,
+            "enum": ["active", "pending"]
+          }
+        }
+      },
+      "Color": {
+        "type": "string",
+        "nullable": true,
+        "enum": ["red", "green"]
+      }
+    }
+  }
+}

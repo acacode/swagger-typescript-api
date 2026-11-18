@@ -1,0 +1,85 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Nullable enums",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "Color": {
+        "type": ["string", "null"],
+        "enum": ["red", "green", null]
+      },
+      "Size": {
+        "type": ["string", "null"],
+        "enum": ["small", "large"]
+      },
+      "Mode": {
+        "enum": ["on", "off", null]
+      },
+      "Shape": {
+        "type": "string",
+        "enum": ["circle", "square"]
+      },
+      "Thing": {
+        "type": "object",
+        "properties": {
+          "color": {
+            "$ref": "#/components/schemas/Color"
+          },
+          "shape": {
+            "$ref": "#/components/schemas/Shape"
+          },
+          "status": {
+            "type": ["string", "null"],
+            "enum": ["active", "pending", null]
+          },
+          "level": {
+            "type": ["integer", "null"],
+            "enum": [1, 2, null]
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["a", "b"]
+          },
+          "colors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Color"
+            }
+          },
+          "colorOrCount": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Color"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "colorByName": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Color"
+            }
+          },
+          "pair": {
+            "type": ["array", "null"],
+            "enum": [["a", "b"], ["c", "d"], null]
+          },
+          "later": {
+            "$ref": "#/components/schemas/Later"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/Mode"
+          }
+        }
+      },
+      "Later": {
+        "enum": ["x", "y", null]
+      }
+    }
+  }
+}
