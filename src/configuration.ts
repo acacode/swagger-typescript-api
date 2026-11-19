@@ -96,6 +96,8 @@ export class CodeGenConfig {
     routeTypes: "route-types",
     httpClient: "http-client",
     outOfModuleApi: "Common",
+    jsonldEntity: "jsonld-entity",
+    jsonldUtils: "jsonld-utils",
   };
   routeNameDuplicatesMap = new Map();
   hooks: Hooks = {
@@ -158,6 +160,8 @@ export class CodeGenConfig {
     httpClient: "",
     routeTypes: "",
     routeName: "",
+    jsonldEntityDataContract: "",
+    jsonldUtils: "",
   };
   schemaParsers: Record<string, (...args: unknown[]) => MonoSchemaParser> = {};
   toJS = false;
@@ -199,6 +203,14 @@ export class CodeGenConfig {
   specificArgNameResolverName = "arg";
 
   successResponseStatusRange = [200, 299];
+
+  /** JSON-LD specific configuration options */
+  jsonLdOptions = {
+    /** Enable JSON-LD support. Schemas are detected via the `x-jsonld` extension. */
+    enabled: false,
+    /** Generate the shared `jsonld-utils` file with base interfaces (JsonLdEntity, JsonLdGraph, ...) */
+    generateUtils: true,
+  };
 
   extractingOptions: Partial<ExtractingOptions> = {
     requestBodySuffix: ["Payload", "Body", "Input"],
@@ -427,6 +439,11 @@ export class CodeGenConfig {
     { name: "httpClient", fileName: "http-client" },
     { name: "routeTypes", fileName: "route-types" },
     { name: "routeName", fileName: "route-name" },
+    {
+      name: "jsonldEntityDataContract",
+      fileName: "jsonld-entity-data-contract",
+    },
+    { name: "jsonldUtils", fileName: "jsonld-utils" },
   ];
 
   templateExtensions = [".eta", ".ejs"];

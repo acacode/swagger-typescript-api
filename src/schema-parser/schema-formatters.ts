@@ -68,6 +68,12 @@ export class SchemaFormatters {
         $content: parsedSchema.content,
       };
     },
+    [SCHEMA_TYPES.JSONLD_ENTITY]: (parsedSchema) =>
+      this.base[SCHEMA_TYPES.OBJECT](parsedSchema),
+    [SCHEMA_TYPES.JSONLD_TYPE]: (parsedSchema) => ({
+      ...parsedSchema,
+      $content: parsedSchema.content,
+    }),
   };
   inline = {
     [SCHEMA_TYPES.ENUM]: (parsedSchema) => {
@@ -107,6 +113,16 @@ export class SchemaFormatters {
         ),
       };
     },
+    [SCHEMA_TYPES.JSONLD_ENTITY]: (parsedSchema) =>
+      this.inline[SCHEMA_TYPES.OBJECT](parsedSchema),
+    [SCHEMA_TYPES.JSONLD_TYPE]: (parsedSchema) => ({
+      ...parsedSchema,
+      typeIdentifier: this.config.Ts.Keyword.Type,
+      content: this.schemaUtils.safeAddNullToType(
+        parsedSchema,
+        parsedSchema.content,
+      ),
+    }),
   };
 
   formatSchema = (

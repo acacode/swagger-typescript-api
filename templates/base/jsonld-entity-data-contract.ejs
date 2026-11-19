@@ -1,0 +1,26 @@
+<%
+const { modelTypes, utils, config } = it;
+const { formatDescription } = utils;
+
+const jsonldEntities = modelTypes.filter(contract =>
+  contract.typeData?.schemaType === "jsonld-entity"
+);
+
+/* `JsonLdEntity` is declared by the jsonld-utils template. Without it there is
+   nothing to extend, so entities are emitted as standalone interfaces. */
+const withUtils = config.jsonLdOptions.generateUtils;
+const extendsClause = withUtils ? ' extends JsonLdEntity' : '';
+%>
+<% if (withUtils && config.modular) { %>
+import type { JsonLdContext, JsonLdEntity } from "./<%~ config.fileNames.jsonldUtils %>";
+<% } %>
+<% for (const contract of jsonldEntities) { %>
+/** <%~ formatDescription(contract.description || `JSON-LD Entity: ${contract.name}`) %> */
+export interface <%~ contract.name %><%~ extendsClause %> {
+  <% for (const field of contract.$content) { %>
+    <%~ includeFile('@base/object-field-jsdoc.ejs', { ...it, field }) %>
+    <%~ field.name %><%~ field.isRequired ? '' : '?' %>: <%~ field.value %><%~ field.isNullable ? ' | null' : ''%>;
+  <% } %>
+}
+
+<% } %>
