@@ -820,7 +820,7 @@ export class SchemaRoutes {
       type: content,
       required:
         requestBody &&
-        (typeof requestBody.required === "undefined" || !!requestBody.required),
+        !!requestBody.required,
     };
   };
 
