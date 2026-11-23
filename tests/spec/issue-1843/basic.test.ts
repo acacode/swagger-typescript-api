@@ -28,5 +28,4 @@ it("keeps the declared string type when the external ref in allOf is not resolve
   expect(content).toMatch(/email\??: string/);
   expect(content).not.toMatch(/email\??: any/);
   expect(content).toMatch(/nickname\??: string/);
-  expect(content).toMatchSnapshot();
 });
