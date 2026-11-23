@@ -130,6 +130,16 @@ export class HttpClient {
       this.abortControllers.delete(cancelToken);
     }
   };
+  parseResponseBody = async (response, format) => {
+    if (response.status === 204 || response.status === 205) {
+      return null;
+    }
+    if (format !== "json") {
+      return response[format]();
+    }
+    const text = await response.text();
+    return text.trim() === "" ? null : JSON.parse(text);
+  };
   request = async ({
     body,
     secure,
@@ -176,7 +186,7 @@ export class HttpClient {
       const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
         ? r
-        : await responseToParse[responseFormat]()
+        : await this.parseResponseBody(responseToParse, responseFormat)
             .then((data) => {
               if (r.ok) {
                 r.data = data;
@@ -192,7 +202,7 @@ export class HttpClient {
       if (cancelToken) {
         this.abortControllers.delete(cancelToken);
       }
-      if (!response.ok) throw data;
+      if (!response.ok || r.error !== null) throw data;
       return data;
     });
   };
