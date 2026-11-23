@@ -149,6 +149,11 @@ const generateCommand = defineCommand({
         "do not resolve and generate schemas referenced from external OpenAPI files",
       default: codeGenBaseConfig.disableExternalSchemas,
     },
+    "disable-formatting": {
+      type: "boolean",
+      description: "skip formatting of the generated code with Biome",
+      default: codeGenBaseConfig.disableFormatting,
+    },
     "enum-names-as-values": {
       type: "boolean",
       description:
@@ -347,6 +352,7 @@ const generateCommand = defineCommand({
       defaultRequestParams: args["default-request-params"],
       disableFormatTypeNames: args["disable-format-type-names"],
       disableExternalSchemas: args["disable-external-schemas"],
+      disableFormatting: args["disable-formatting"],
       disableThrowOnError: args["disable-throw-on-error"],
       enumNamesAsValues: args["enum-names-as-values"],
       extractEnums: args["extract-enums"],
