@@ -51,7 +51,10 @@ export class CodeFormatter {
 
   formatCode = async (
     code: string,
-    { removeUnusedImports = true, format = !this.config.disableFormatting } = {},
+    {
+      removeUnusedImports = true,
+      format = !this.config.disableFormatting,
+    } = {},
   ) => {
     if (removeUnusedImports) {
       code = this.removeUnusedImports(code);
