@@ -652,11 +652,11 @@ export interface GenerateApiConfiguration {
      */
     disableExternalSchemas: boolean;
     /**
-    * Skip formatting of the generated code with Biome.
+     * Skip formatting of the generated code with Biome.
      * Unused imports are still removed.
      * @default false
      */
-     disableFormatting: boolean;
+    disableFormatting: boolean;
     /**
      * Reuse existing local component type names for external `$ref`s instead of
      * prefixing with the external file name (e.g. `OpenapiFoo`).
