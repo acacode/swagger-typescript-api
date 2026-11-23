@@ -818,9 +818,7 @@ export class SchemaRoutes {
       contentKind,
       schema,
       type: content,
-      required:
-        requestBody &&
-        !!requestBody.required,
+      required: requestBody && !!requestBody.required,
     };
   };
 
