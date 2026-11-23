@@ -1,5 +1,15 @@
 # swagger-typescript-api
 
+## 13.15.0
+
+### Minor Changes
+
+- [#1852](https://github.com/acacode/swagger-typescript-api/pull/1852) [`0c4151e`](https://github.com/acacode/swagger-typescript-api/commit/0c4151e0dce94efc0a44f7a0896485acd46d0428) Thanks [@TariQMah](https://github.com/TariQMah)! - Add `disableFormatting` option to skip Biome formatting of generated code
+
+### Patch Changes
+
+- [#1851](https://github.com/acacode/swagger-typescript-api/pull/1851) [`305979e`](https://github.com/acacode/swagger-typescript-api/commit/305979e028462941088116f1eb442d3112878070) Thanks [@TariQMah](https://github.com/TariQMah)! - Keep the schema's own type when every allOf member resolves to any
+
 ## 13.14.0
 
 ### Minor Changes
